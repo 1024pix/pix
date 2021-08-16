@@ -26,8 +26,7 @@ describe('Integration | Services | schooling-registrations-csv-service', () => {
         birthProvinceCode: '2A',
         MEFCode: 'MEF1',
         status: 'AP',
-        nationalApprenticeId: '4581234567F',
-        nationalStudentId: undefined,
+        nationalStudentId: '4581234567F',
         division: 'Division 2',
         sex: null,
       }, {
@@ -43,7 +42,6 @@ describe('Integration | Services | schooling-registrations-csv-service', () => {
         birthProvinceCode: '99',
         MEFCode: 'MEF1',
         status: 'ST',
-        nationalApprenticeId: undefined,
         nationalStudentId: '4581234567G',
         division: 'Division 1',
         sex: null,

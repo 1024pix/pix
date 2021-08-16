@@ -4,7 +4,6 @@ const bluebird = require('bluebird');
 const {
   NotFoundError,
   SameNationalStudentIdInOrganizationError,
-  SameNationalApprenticeIdInOrganizationError,
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
@@ -23,8 +22,6 @@ const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistrat
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
-
-const STATUS = SchoolingRegistration.STATUS;
 
 function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
   const rawUserWithSchoolingRegistration = BookshelfSchoolingRegistration.toJSON();
@@ -142,64 +139,6 @@ module.exports = {
       .update({ isDisabled: true, updatedAt: trx.raw('CURRENT_TIMESTAMP') });
   },
 
-  async addOrUpdateOrganizationAgriSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
-    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
-      ...schoolingRegistrationData,
-      organizationId,
-    }));
-    const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
-
-    const [schoolingRegistrationStudent, schoolingRegistrationApprentice] = _.partition(schoolingRegistrationsFromFile, (schoolingRegistration) => {
-      return schoolingRegistration.status === STATUS.STUDENT;
-    });
-
-    const [schoolingRegistrationsStudentToUpdate, schoolingRegistrationsStudentToCreate] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations);
-    const [schoolingRegistrationsApprenticeToUpdate, schoolingRegistrationsApprenticeToCreate] = this._getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations);
-
-    const schoolingRegistrationsToUpdate = _.concat(schoolingRegistrationsStudentToUpdate, schoolingRegistrationsApprenticeToUpdate);
-    const schoolingRegistrationsToCreate = _.concat(schoolingRegistrationsStudentToCreate, schoolingRegistrationsApprenticeToCreate);
-
-    const trx = await Bookshelf.knex.transaction();
-    try {
-      await this.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId });
-
-      await Promise.all([
-        bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
-          const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
-          const whereConditions = {
-            'organizationId': organizationId,
-          };
-
-          if (schoolingRegistrationToUpdate.status === STATUS.STUDENT) {
-            whereConditions['nationalStudentId'] = schoolingRegistrationToUpdate.nationalStudentId;
-          } else if (schoolingRegistrationToUpdate.status === STATUS.APPRENTICE) {
-            whereConditions['nationalApprenticeId'] = schoolingRegistrationToUpdate.nationalApprenticeId;
-          }
-
-          await trx('schooling-registrations')
-            .where(whereConditions)
-            .update({
-              ...attributesToUpdate,
-              isDisabled: false,
-              updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP'),
-            });
-        }),
-        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
-      ]);
-      await trx.commit();
-    } catch (err) {
-      await trx.rollback();
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        if (err.detail.includes('nationalApprenticeId')) {
-          throw new SameNationalApprenticeIdInOrganizationError(err.detail);
-        } else {
-          throw new SameNationalStudentIdInOrganizationError(err.detail);
-        }
-      }
-      throw new SchoolingRegistrationsCouldNotBeSavedError();
-    }
-  },
-
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
       ...schoolingRegistrationData,
@@ -239,17 +178,6 @@ module.exports = {
       }
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
-  },
-
-  _getApprenticesListToUpdateOrCreate(schoolingRegistrationApprentice, currentSchoolingRegistrations) {
-    return _.partition(schoolingRegistrationApprentice, (schoolingRegistration) => {
-
-      const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalApprenticeId === schoolingRegistration.nationalApprenticeId;
-      });
-
-      return !!currentSchoolingRegistration;
-    });
   },
 
   async _getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations) {
