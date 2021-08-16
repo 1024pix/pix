@@ -119,49 +119,37 @@ describe('Unit | Service | Certification Result Service', function() {
       isV2Certification: true,
     };
 
-    const competenceWithMarks_1_1 = {
-      index: '1.1',
+    const competenceWithMarks_1_1 = domainBuilder.buildCompetenceMark({
+      level: UNCERTIFIED_LEVEL,
+      score: 0,
       area_code: '1',
-      id: 'competence_1',
-      name: 'Mener une recherche',
-      obtainedLevel: UNCERTIFIED_LEVEL,
-      positionedLevel: 1,
-      positionedScore: 10,
-      obtainedScore: 0,
-    };
+      competence_code: '1.1',
+      competenceId: 'competence_1',
+    });
 
-    const competenceWithMarks_2_2 = {
-      index: '2.2',
+    const competenceWithMarks_2_2 = domainBuilder.buildCompetenceMark({
+      level: UNCERTIFIED_LEVEL,
+      score: 0,
       area_code: '2',
-      id: 'competence_2',
-      name: 'Partager',
-      obtainedLevel: UNCERTIFIED_LEVEL,
-      positionedLevel: 2,
-      positionedScore: 20,
-      obtainedScore: 0,
-    };
+      competence_code: '2.2',
+      competenceId: 'competence_2',
+    });
 
-    const competenceWithMarks_3_3 = {
-      index: '3.3',
+    const competenceWithMarks_3_3 = domainBuilder.buildCompetenceMark({
+      level: UNCERTIFIED_LEVEL,
+      score: 0,
       area_code: '3',
-      id: 'competence_3',
-      name: 'Adapter',
-      obtainedLevel: UNCERTIFIED_LEVEL,
-      positionedLevel: 3,
-      positionedScore: 30,
-      obtainedScore: 0,
-    };
+      competence_code: '3.3',
+      competenceId: 'competence_3',
+    });
 
-    const competenceWithMarks_4_4 = {
-      index: '4.4',
+    const competenceWithMarks_4_4 = domainBuilder.buildCompetenceMark({
+      level: UNCERTIFIED_LEVEL,
+      score: 0,
       area_code: '4',
-      id: 'competence_4',
-      name: 'Résoudre',
-      obtainedLevel: UNCERTIFIED_LEVEL,
-      positionedLevel: 4,
-      positionedScore: 40,
-      obtainedScore: 0,
-    };
+      competence_code: '4.4',
+      competenceId: 'competence_4',
+    });
 
     const expectedCertifiedCompetences = [
       competenceWithMarks_1_1,
@@ -366,23 +354,26 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return list of competences with all certifiedLevel equal to estimatedLevel', async () => {
           // given
           const expectedCertifiedCompetences = [
-            {
+            domainBuilder.buildCompetenceMark({
               ...competenceWithMarks_1_1,
-              obtainedLevel: 1,
-              obtainedScore: pixForCompetence1,
-            }, {
+              level: 1,
+              score: pixForCompetence1,
+            }),
+            domainBuilder.buildCompetenceMark({
               ...competenceWithMarks_2_2,
-              obtainedLevel: 2,
-              obtainedScore: pixForCompetence2,
-            }, {
+              level: 2,
+              score: pixForCompetence2,
+            }),
+            domainBuilder.buildCompetenceMark({
               ...competenceWithMarks_3_3,
-              obtainedLevel: 3,
-              obtainedScore: pixForCompetence3,
-            }, {
+              level: 3,
+              score: pixForCompetence3,
+            }),
+            domainBuilder.buildCompetenceMark({
               ...competenceWithMarks_4_4,
-              obtainedLevel: 4,
-              obtainedScore: pixForCompetence4,
-            },
+              level: 4,
+              score: pixForCompetence4,
+            }),
           ];
 
           // when
@@ -395,21 +386,25 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
-          const expectedCertifiedCompetences = [{
-            ...competenceWithMarks_1_1,
-            obtainedLevel: 1,
-            obtainedScore: pixForCompetence1,
-          }, {
-            ...competenceWithMarks_2_2,
-            obtainedLevel: 2,
-            obtainedScore: pixForCompetence2,
-          }, {
-            ...competenceWithMarks_3_3,
-            obtainedLevel: 3,
-            obtainedScore: pixForCompetence3,
-          }, {
-            ...competenceWithMarks_4_4,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_1_1,
+              level: 1,
+              score: pixForCompetence1,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_2_2,
+              level: 2,
+              score: pixForCompetence2,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_3_3,
+              level: 3,
+              score: pixForCompetence3,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_4_4,
+            })];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -428,44 +423,24 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async () => {
           // given
           const malusForFalseAnswer = 8;
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: 0,
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: pixForCompetence1 - malusForFalseAnswer,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: 2,
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: pixForCompetence2,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedScore: 0,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: 3,
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: pixForCompetence4 - malusForFalseAnswer,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_1_1,
+              level: 0,
+              score: pixForCompetence1 - malusForFalseAnswer,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_2_2,
+              level: 2,
+              score: pixForCompetence2,
+            }),
+            competenceWithMarks_3_3,
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_4_4,
+              level: 3,
+              score: pixForCompetence4 - malusForFalseAnswer,
+            }),
+          ];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -524,8 +499,8 @@ describe('Unit | Service | Certification Result Service', function() {
               const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
               // Then
-              expect(result.competencesWithMark[0].obtainedLevel).to.deep.equal(positionedLevel - 1);
-              expect(result.competencesWithMark[0].obtainedScore).to.deep.equal(positionedScore - 8);
+              expect(result.competencesWithMark[0].level).to.deep.equal(positionedLevel - 1);
+              expect(result.competencesWithMark[0].score).to.deep.equal(positionedScore - 8);
             });
           });
         });
@@ -551,49 +526,6 @@ describe('Unit | Service | Certification Result Service', function() {
       context('when reproducibility rate is < 50%', () => {
 
         it('should return list of competences with all certifiedLevel at -1', async () => {
-          // given
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: 0,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: 0,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedScore: 0,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: 0,
-          }];
-
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
 
@@ -611,43 +543,26 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return list of competences with all certifiedLevel equal to estimatedLevel', async () => {
           // given
           const expectedCertifiedCompetences = [
-            {
-              index: '1.1',
-              area_code: '1',
-              id: 'competence_1',
-              name: 'Mener une recherche',
-              obtainedLevel: 1,
-              positionedLevel: 1,
-              positionedScore: 10,
-              obtainedScore: pixForCompetence1,
-            }, {
-              index: '2.2',
-              area_code: '2',
-              id: 'competence_2',
-              name: 'Partager',
-              obtainedLevel: 2,
-              positionedLevel: 2,
-              positionedScore: 20,
-              obtainedScore: pixForCompetence2,
-            }, {
-              index: '3.3',
-              area_code: '3',
-              id: 'competence_3',
-              name: 'Adapter',
-              obtainedLevel: 3,
-              positionedLevel: 3,
-              positionedScore: 30,
-              obtainedScore: pixForCompetence3,
-            }, {
-              index: '4.4',
-              area_code: '4',
-              id: 'competence_4',
-              name: 'Résoudre',
-              obtainedLevel: 4,
-              positionedLevel: 4,
-              positionedScore: 40,
-              obtainedScore: pixForCompetence4,
-            },
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_1_1,
+              level: 1,
+              score: pixForCompetence1,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_2_2,
+              level: 2,
+              score: pixForCompetence2,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_3_3,
+              level: 3,
+              score: pixForCompetence3,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_4_4,
+              level: 4,
+              score: pixForCompetence4,
+            }),
           ];
 
           // when
@@ -660,43 +575,24 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', async () => {
           // given
           certificationAssessment.certificationAnswersByDate = answersToHaveOnlyTheLastCompetenceFailed();
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: 1,
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: pixForCompetence1,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: 2,
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: pixForCompetence2,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: 3,
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedScore: pixForCompetence3,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: 0,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_1_1,
+              level: 1,
+              score: pixForCompetence1,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_2_2,
+              level: 2,
+              score: pixForCompetence2,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_3_3,
+              level: 3,
+              score: pixForCompetence3,
+            }),
+            competenceWithMarks_4_4,
+          ];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -715,43 +611,24 @@ describe('Unit | Service | Certification Result Service', function() {
         it('should return list of competences with certifiedLevel less or equal to estimatedLevel', async () => {
           // given
           const malusForFalseAnswer = 8;
-          const expectedCertifiedCompetences = [{
-            index: '1.1',
-            area_code: '1',
-            id: 'competence_1',
-            name: 'Mener une recherche',
-            obtainedLevel: 0,
-            positionedLevel: 1,
-            positionedScore: 10,
-            obtainedScore: pixForCompetence1 - malusForFalseAnswer,
-          }, {
-            index: '2.2',
-            area_code: '2',
-            id: 'competence_2',
-            name: 'Partager',
-            obtainedLevel: 2,
-            positionedLevel: 2,
-            positionedScore: 20,
-            obtainedScore: pixForCompetence2,
-          }, {
-            index: '3.3',
-            area_code: '3',
-            id: 'competence_3',
-            name: 'Adapter',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 3,
-            positionedScore: 30,
-            obtainedScore: 0,
-          }, {
-            index: '4.4',
-            area_code: '4',
-            id: 'competence_4',
-            name: 'Résoudre',
-            obtainedLevel: 3,
-            positionedLevel: 4,
-            positionedScore: 40,
-            obtainedScore: pixForCompetence4 - malusForFalseAnswer,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_1_1,
+              level: 0,
+              score: pixForCompetence1 - malusForFalseAnswer,
+            }),
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_2_2,
+              level: 2,
+              score: pixForCompetence2,
+            }),
+            competenceWithMarks_3_3,
+            domainBuilder.buildCompetenceMark({
+              ...competenceWithMarks_4_4,
+              level: 3,
+              score: pixForCompetence4 - malusForFalseAnswer,
+            }),
+          ];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -769,13 +646,28 @@ describe('Unit | Service | Certification Result Service', function() {
             _buildUserCompetence(competence_5, 50, 5),
             _buildUserCompetence(competence_6, 36, 3),
           ];
-          const challenges = _.map([
-            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeA_5' },
-            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6' },
-            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6' },
-            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6' },
+          certificationAssessment.certificationChallenges = _.map([
+            {
+              challengeId: 'challenge_A_for_competence_5',
+              competenceId: 'competence_5',
+              associatedSkillName: '@skillChallengeA_5',
+            },
+            {
+              challengeId: 'challenge_A_for_competence_6',
+              competenceId: 'competence_6',
+              associatedSkillName: '@skillChallengeA_6',
+            },
+            {
+              challengeId: 'challenge_B_for_competence_6',
+              competenceId: 'competence_6',
+              associatedSkillName: '@skillChallengeB_6',
+            },
+            {
+              challengeId: 'challenge_C_for_competence_6',
+              competenceId: 'competence_6',
+              associatedSkillName: '@skillChallengeC_6',
+            },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.certificationChallenges = challenges;
 
           placementProfileService.getPlacementProfile.restore();
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
@@ -784,33 +676,29 @@ describe('Unit | Service | Certification Result Service', function() {
             isV2Certification: certificationAssessment.isV2Certification,
           }).resolves({ userCompetences });
 
-          const answers = _.map([
+          certificationAssessment.certificationAnswersByDate = _.map([
             ({ challengeId: 'challenge_A_for_competence_5', result: 'ok' }),
             ({ challengeId: 'challenge_A_for_competence_6', result: 'ko' }),
             ({ challengeId: 'challenge_B_for_competence_6', result: 'ok' }),
             ({ challengeId: 'challenge_C_for_competence_6', result: 'ko' }),
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswersByDate = answers;
 
-          const expectedCertifiedCompetences = [{
-            index: '5.5',
-            area_code: '5',
-            id: 'competence_5',
-            name: 'Chercher',
-            obtainedLevel: 5 - 1,
-            positionedLevel: 5,
-            positionedScore: 50,
-            obtainedScore: 50 - 8,
-          }, {
-            index: '6.6',
-            area_code: '6',
-            id: 'competence_6',
-            name: 'Trouver',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 3,
-            positionedScore: 36,
-            obtainedScore: 0,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              competence_code: '5.5',
+              area_code: '5',
+              competenceId: 'competence_5',
+              level: 4,
+              score: 40,
+            }),
+            domainBuilder.buildCompetenceMark({
+              competence_code: '6.6',
+              area_code: '6',
+              competenceId: 'competence_6',
+              level: UNCERTIFIED_LEVEL,
+              score: 0,
+            }),
+          ];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -828,14 +716,38 @@ describe('Unit | Service | Certification Result Service', function() {
             _buildUserCompetence(competence_6, 36, 3),
           ];
 
-          const challenges = _.map([
-            { challengeId: 'challenge_A_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeA_5', type: 'QCM' },
-            { challengeId: 'challenge_B_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeB_5', type: 'QROCM-dep' },
-            { challengeId: 'challenge_A_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeA_6', type: 'QCM' },
-            { challengeId: 'challenge_B_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeB_6', type: 'QCM' },
-            { challengeId: 'challenge_C_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeC_6', type: 'QCM' },
+          certificationAssessment.certificationChallenges = _.map([
+            {
+              challengeId: 'challenge_A_for_competence_5',
+              competenceId: 'competence_5',
+              associatedSkillName: '@skillChallengeA_5',
+              type: 'QCM',
+            },
+            {
+              challengeId: 'challenge_B_for_competence_5',
+              competenceId: 'competence_5',
+              associatedSkillName: '@skillChallengeB_5',
+              type: 'QROCM-dep',
+            },
+            {
+              challengeId: 'challenge_A_for_competence_6',
+              competenceId: 'competence_6',
+              associatedSkillName: '@skillChallengeA_6',
+              type: 'QCM',
+            },
+            {
+              challengeId: 'challenge_B_for_competence_6',
+              competenceId: 'competence_6',
+              associatedSkillName: '@skillChallengeB_6',
+              type: 'QCM',
+            },
+            {
+              challengeId: 'challenge_C_for_competence_6',
+              competenceId: 'competence_6',
+              associatedSkillName: '@skillChallengeC_6',
+              type: 'QCM',
+            },
           ], domainBuilder.buildCertificationChallengeWithType);
-          certificationAssessment.certificationChallenges = challenges;
 
           placementProfileService.getPlacementProfile.restore();
           sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
@@ -848,34 +760,30 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should compute the result as if QROCM-dep was two OK challenges', async () => {
           // given
-          const answers = _.map([
+          certificationAssessment.certificationAnswersByDate = _.map([
             ({ challengeId: 'challenge_A_for_competence_5', result: 'ok' }),
             ({ challengeId: 'challenge_B_for_competence_5', result: 'ok' }),
             ({ challengeId: 'challenge_A_for_competence_6', result: 'ko' }),
             ({ challengeId: 'challenge_B_for_competence_6', result: 'ok' }),
             ({ challengeId: 'challenge_C_for_competence_6', result: 'ko' }),
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswersByDate = answers;
 
-          const expectedCertifiedCompetences = [{
-            index: '5.5',
-            area_code: '5',
-            id: 'competence_5',
-            name: 'Chercher',
-            obtainedLevel: 5,
-            positionedLevel: 5,
-            positionedScore: 50,
-            obtainedScore: 50,
-          }, {
-            index: '6.6',
-            area_code: '6',
-            id: 'competence_6',
-            name: 'Trouver',
-            obtainedLevel: UNCERTIFIED_LEVEL,
-            positionedLevel: 3,
-            positionedScore: 36,
-            obtainedScore: 0,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              competence_code: '5.5',
+              area_code: '5',
+              competenceId: 'competence_5',
+              level: 5,
+              score: 40,
+            }),
+            domainBuilder.buildCompetenceMark({
+              competence_code: '6.6',
+              area_code: '6',
+              competenceId: 'competence_6',
+              level: UNCERTIFIED_LEVEL,
+              score: 0,
+            }),
+          ];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -886,34 +794,30 @@ describe('Unit | Service | Certification Result Service', function() {
 
         it('should compute the result of QROCM-dep as only one OK because result is partially right', async () => {
           // given
-          const answers = _.map([
+          certificationAssessment.certificationAnswersByDate = _.map([
             { challengeId: 'challenge_A_for_competence_5', result: 'ok' },
             { challengeId: 'challenge_B_for_competence_5', result: 'partially' },
             { challengeId: 'challenge_A_for_competence_6', result: 'ko' },
             { challengeId: 'challenge_B_for_competence_6', result: 'ok' },
             { challengeId: 'challenge_C_for_competence_6', result: 'ok' },
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswersByDate = answers;
 
-          const expectedCertifiedCompetences = [{
-            index: '5.5',
-            area_code: '5',
-            id: 'competence_5',
-            name: 'Chercher',
-            obtainedLevel: 4,
-            positionedLevel: 5,
-            positionedScore: 50,
-            obtainedScore: 42,
-          }, {
-            index: '6.6',
-            area_code: '6',
-            id: 'competence_6',
-            name: 'Trouver',
-            obtainedLevel: 2,
-            positionedLevel: 3,
-            positionedScore: 36,
-            obtainedScore: 28,
-          }];
+          const expectedCertifiedCompetences = [
+            domainBuilder.buildCompetenceMark({
+              competence_code: '5.5',
+              area_code: '5',
+              competenceId: 'competence_5',
+              level: 4,
+              score: 40,
+            }),
+            domainBuilder.buildCompetenceMark({
+              competence_code: '6.6',
+              area_code: '6',
+              competenceId: 'competence_6',
+              level: 2,
+              score: 28,
+            }),
+          ];
 
           // when
           const result = await certificationResultService.computeResult({ certificationAssessment, continueOnError });
@@ -929,19 +833,17 @@ describe('Unit | Service | Certification Result Service', function() {
         beforeEach(() => {
           challenges = _.map([
             { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1' },
-
             { challengeId: 'challenge_M_for_competence_5', competenceId: 'competence_5', associatedSkillName: '@skillChallengeM_5' },
             { challengeId: 'challenge_N_for_competence_6', competenceId: 'competence_6', associatedSkillName: '@skillChallengeN_6' },
           ], domainBuilder.buildCertificationChallengeWithType);
           certificationAssessment.certificationChallenges = challenges;
 
-          const answers = _.map([
+          certificationAssessment.certificationAnswersByDate = _.map([
             { challengeId: 'challenge_A_for_competence_1', result: 'ko' },
 
             { challengeId: 'challenge_M_for_competence_5', result: 'ok' },
             { challengeId: 'challenge_N_for_competence_6', result: 'ok' },
           ], domainBuilder.buildAnswer);
-          certificationAssessment.certificationAnswersByDate = answers;
         });
 
         it('should not include the extra challenges when computing reproducibility', async () => {
