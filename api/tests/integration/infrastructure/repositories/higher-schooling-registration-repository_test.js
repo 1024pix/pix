@@ -68,6 +68,21 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
+    context('When there is no active registered schooling registrations', () => {
+      beforeEach(async () => {
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate, isDisabled: true });
+        await databaseBuilder.commit();
+      });
+
+      it('should return null', async () => {
+        // when
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate });
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+
     context('When there is no schooling registrations for the organization', () => {
       beforeEach(async () => {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
