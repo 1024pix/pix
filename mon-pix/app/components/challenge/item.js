@@ -7,14 +7,19 @@ import ENV from 'mon-pix/config/environment';
 export default class Item extends Component {
 
   @service currentUser;
-  @tracked hasFocusedOutOfWindow = false || this.args.assessment.hasFocusedOutChallenge;
+  @service focus;
   @tracked hasFocusedOutOfChallenge = false;
 
   constructor() {
     super(...arguments);
     if (this.isFocusedChallenge) {
-      this._setOnBlurEventToWindow();
+      this.focus.start(this.args.assessment.hasFocusedOutChallenge);
     }
+  }
+
+  willDestroy() {
+    this.focus.stop();
+    super.willDestroy(...arguments);
   }
 
   @action
@@ -39,19 +44,11 @@ export default class Item extends Component {
     this.args.onTooltipClose();
   }
 
-  _setOnBlurEventToWindow() {
-    window.onblur = () => {
-      this.hasFocusedOutOfWindow = true;
-      this.args.onFocusOutOfWindow();
-      this._clearOnBlurMethod();
-    };
-  }
-
-  _clearOnBlurMethod() {
-    window.onblur = null;
-  }
-
   get isFocusedChallenge() {
     return ENV.APP.FT_FOCUS_CHALLENGE_ENABLED && this.args.challenge.focused;
+  }
+
+  get hasFocusedOutOfWindow() {
+    return !this.focus.currentWindowHasFocus;
   }
 }

@@ -12,13 +12,12 @@ import isInteger from 'lodash/isInteger';
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
   @service intl;
-  @service store;
+  @service focus;
   @service currentUser;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
-  @tracked hasFocusedOutOfWindow = false;
   @tracked hasUserConfirmedWarning = false;
 
   get showLevelup() {
@@ -39,6 +38,10 @@ export default class ChallengeController extends Controller {
       return focusedOutPageTitle;
     }
     return focusedPageTitle;
+  }
+
+  get hasFocusedOutOfWindow() {
+    return !this.focus.currentWindowHasFocus;
   }
 
   get isFocusedChallengeAndUserHasFocusedOutOfChallenge() {
@@ -71,12 +74,6 @@ export default class ChallengeController extends Controller {
   @action
   setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
-  }
-
-  @action
-  async focusedOutOfWindow() {
-    this.hasFocusedOutOfWindow = true;
-    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
   }
 
   @action

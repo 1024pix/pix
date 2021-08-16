@@ -2,10 +2,12 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { getPageTitle } from 'ember-page-title/test-support';
+import Service from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { expect } from 'chai';
-import { click, find, triggerEvent } from '@ember/test-helpers';
+import { click, find, settled, triggerEvent } from '@ember/test-helpers';
 
 describe('Acceptance | Displaying a challenge of any type', () => {
   setupApplicationTest();
@@ -20,6 +22,19 @@ describe('Acceptance | Displaying a challenge of any type', () => {
     { challengeType: 'QCU' },
   ].forEach(function(data) {
     describe(`when ${data.challengeType} challenge is focused`, function() {
+
+      class FocusServiceMock extends Service {
+        start(initialValue = false) { this.currentWindowHasFocus = !initialValue; }
+        stop() {}
+
+        @tracked
+        currentWindowHasFocus = true;
+      }
+
+      beforeEach(function() {
+        // given
+        this.owner.register('service:focus', FocusServiceMock);
+      });
 
       it('should display a specific page title', async function() {
         // given
@@ -90,8 +105,12 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             });
 
             it('should display a warning alert', async function() {
+              // given
+              const serviceFocus = this.owner.lookup('service:focus');
+
               // when
-              await triggerEvent(window, 'blur');
+              serviceFocus.currentWindowHasFocus = false;
+              await settled();
 
               // then
               expect(find('[data-test="alert-message-focused-out-of-window"]')).to.exist;
@@ -110,6 +129,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             it('should display only the warning alert when it has been triggered', async function() {
               // given
+              const serviceFocus = this.owner.lookup('service:focus');
               const challengeItem = find('.challenge-item');
               await triggerEvent(challengeItem, 'mouseleave');
 
@@ -118,7 +138,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               expect(find('.challenge__focused-out-overlay')).to.exist;
 
               // when
-              await triggerEvent(window, 'blur');
+              serviceFocus.currentWindowHasFocus = false;
+              await settled();
 
               // then
               expect(find('.challenge__info-alert--could-show')).to.not.exist;
@@ -205,11 +226,12 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               lastName: 'Bravo',
             });
             assessment = certificationCourse.assessment;
-
-            await visit(`/assessments/${assessment.id}/challenges/0`);
+            const serviceFocus = this.owner.lookup('service:focus');
 
             // when
-            await triggerEvent(window, 'blur');
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+            serviceFocus.currentWindowHasFocus = false;
+            await settled();
           });
 
           it('should display the certification warning alert', async function() {
@@ -228,13 +250,15 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           beforeEach(async function() {
             // given
+            const serviceFocus = this.owner.lookup('service:focus');
             assessment = server.create('assessment', 'ofCompetenceEvaluationType');
             server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
             await visit(`/assessments/${assessment.id}/challenges/0`);
 
             // when
-            await triggerEvent(window, 'blur');
+            serviceFocus.currentWindowHasFocus = false;
+            await settled();
           });
 
           it('should display the default warning alert', async function() {
@@ -416,8 +440,13 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           });
 
           it('should not display a warning alert', async function() {
-          // when
-            await triggerEvent(window, 'blur');
+            // given
+            const serviceFocus = this.owner.lookup('service:focus');
+
+            // when
+            serviceFocus.currentWindowHasFocus = false;
+            await settled();
+
             // then
             expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
           });
