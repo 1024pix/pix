@@ -11,7 +11,6 @@
         <th>Date de finalisation</th>
         <th>Date de publication</th>
         <th>Date de diffusion au prescripteur</th>
-        <th>Qui ?</th>
       </tr>
       <tr>
         <th>
@@ -59,7 +58,6 @@
             {{/each}}
           </select>
         </th>
-        <th></th>
       </tr>
     </thead>
 
@@ -80,13 +78,6 @@
           <td>{{format-date session.finalizedAt}}</td>
           <td>{{format-date session.publishedAt}}</td>
           <td>{{format-date session.resultsSentToPrescriberAt}}</td>
-          <td class="session-list__item--align-center">
-            {{#if session.assignedCertificationOfficer}}
-              {{session.assignedCertificationOfficer.fullName}}
-            {{else}}
-              -
-            {{/if}}
-          </td>
         </tr>
       {{/each}}
       </tbody>
