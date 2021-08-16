@@ -31,14 +31,10 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', () => {
       expect(error.meta).to.deep.equal({ fileExtension: '.html' });
     });
 
-    it('should return true if file is valid', async () => {
-      // when
-      const result = await checkCsvExtensionFile(validFilePath);
-
+    it('should not throw if file is valid', async () => {
       // then
-      expect(result).to.be.true;
+      expect(await checkCsvExtensionFile(validFilePath)).to.not.throw;
     });
-
   });
 
   describe('#parseCsv', async () => {
