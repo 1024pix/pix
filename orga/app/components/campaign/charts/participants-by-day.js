@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 import moment from 'moment';
 import { TOOLTIP_CONFIG, LEGEND_CONFIG } from '../../ui/chart';
 import locales from 'date-fns/locale';
+import maxBy from 'lodash/maxBy';
+import minBy from 'lodash/minBy';
 
 export default class ParticipantsByDay extends Component {
   @service store;
@@ -28,11 +30,24 @@ export default class ParticipantsByDay extends Component {
         this.days = moment(startedParticipations[startedParticipations.length - 1].day).diff(moment(startedParticipations[0].day), 'days');
       }
 
-      this.sharedDatasets = sharedParticipations;
-      this.startedDatasets = startedParticipations;
+      const { startedDatasets, sharedDatasets } = this._normalizeDatasets(startedParticipations, sharedParticipations);
 
+      this.startedDatasets = startedDatasets;
+      this.sharedDatasets = sharedDatasets;
       this.loading = false;
     });
+  }
+
+  _normalizeDatasets(startedParticipations, sharedParticipations) {
+    const startedDatasets = [...startedParticipations];
+    const sharedDatasets = [...sharedParticipations];
+
+    if (startedDatasets.length > 0 && sharedDatasets.length > 0) {
+      _setMinBoundary(startedDatasets, sharedDatasets);
+      _setMaxBoundary(startedDatasets, sharedDatasets);
+    }
+
+    return { startedDatasets, sharedDatasets };
   }
 
   get labels() {
@@ -49,6 +64,7 @@ export default class ParticipantsByDay extends Component {
           backgroundColor: '#3d68ff',
           tension: 0.2,
           pointStyle: 'circle',
+          order: 2,
         },
         {
           label: this.intl.t(this.labels.shared.legend),
@@ -57,6 +73,7 @@ export default class ParticipantsByDay extends Component {
           backgroundColor: '#038a25',
           tension: 0.2,
           pointStyle: 'rect',
+          order: 1,
         },
       ],
     };
@@ -151,3 +168,24 @@ const LABELS_PROFILE_COLLECTIONS = {
     a11y: 'charts.participants-by-day.labels-a11y.shared-profile',
   },
 };
+
+function _setMinBoundary(startedDatasets, sharedDatasets) {
+  const firstStarted = minBy(startedDatasets, 'day');
+  const firstShared = minBy(sharedDatasets, 'day');
+
+  if (new Date(firstShared.day) > new Date(firstStarted.day)) {
+    sharedDatasets.unshift({ day: firstStarted.day, count: '0' });
+  }
+}
+
+function _setMaxBoundary(startedDatasets, sharedDatasets) {
+  const lastStarted = maxBy(startedDatasets, 'day');
+  const lastShared = maxBy(sharedDatasets, 'day');
+
+  if (new Date(lastShared.day) > new Date(lastStarted.day)) {
+    startedDatasets.push({ day: lastShared.day, count: lastStarted.count });
+  }
+  if (new Date(lastShared.day) < new Date(lastStarted.day)) {
+    sharedDatasets.push({ day: lastStarted.day, count: lastShared.count });
+  }
+}
