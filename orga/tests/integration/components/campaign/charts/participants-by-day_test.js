@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Charts::ParticipantsByDay', function(hooks) {
+module('Integration | Component | Campaign::Charts::ParticipantsByDay', function(hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
   let dataFetcher;
@@ -30,7 +30,7 @@ module('Integration | Component | Charts::ParticipantsByDay', function(hooks) {
     });
 
     // when
-    await render(hbs`<Charts::ParticipantsByDay @campaignId={{campaignId}} @isTypeAssessment={{true}} />`);
+    await render(hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{campaignId}} @isTypeAssessment={{true}} />`);
 
     assert.contains('Date');
     assert.contains('Total des participants');
@@ -49,7 +49,7 @@ module('Integration | Component | Charts::ParticipantsByDay', function(hooks) {
     });
 
     // when
-    await render(hbs`<Charts::ParticipantsByDay @campaignId={{campaignId}} @isTypeAssessment={{false}} />`);
+    await render(hbs`<Campaign::Charts::ParticipantsByDay @campaignId={{campaignId}} @isTypeAssessment={{false}} />`);
 
     assert.contains('Date');
     assert.contains('Total des participants');

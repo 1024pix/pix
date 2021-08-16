@@ -1,6 +1,6 @@
-<Charts::Card @title={{t 'charts.participants-by-stage.title'}} ...attributes>
+<Ui::ChartCard @title={{t 'charts.participants-by-stage.title'}} ...attributes>
   {{#if this.loading}}
-    <Charts::ParticipantsByStageLoader />
+    <Campaign::Charts::ParticipantsByStageLoader />
   {{else}}
     {{#each this.data as |stage|}}
       <div class="participants-by-stage">
@@ -22,18 +22,18 @@
             @isLight={{true}}
             class="participants-by-stage__container"
             >
-              <Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
+              <Campaign::Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
                 {{t 'charts.participants-by-stage.percentage' percentage=stage.percentage}}
-              </Charts::ParticipantsByStageBar>
+              </Campaign::Charts::ParticipantsByStageBar>
           </PixTooltip>
         {{else}}
           <div class="participants-by-stage__container">
-            <Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
+            <Campaign::Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
               {{t 'charts.participants-by-stage.percentage' percentage=stage.percentage}}
-            </Charts::ParticipantsByStageBar>
+            </Campaign::Charts::ParticipantsByStageBar>
           </div>
         {{/if}}
       </div>
     {{/each}}
   {{/if}}
-</Charts::Card>
+</Ui::ChartCard>

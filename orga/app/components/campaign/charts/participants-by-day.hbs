@@ -1,8 +1,8 @@
-<Charts::Card @title={{t 'charts.participants-by-day.title'}} ...attributes>
+<Ui::ChartCard @title={{t 'charts.participants-by-day.title'}} ...attributes>
   {{#if this.loading}}
-    <Charts::ParticipantsByDayLoader />
+    <Campaign::Charts::ParticipantsByDayLoader />
   {{else}}
-    <Charts::Chart
+    <Ui::Chart
       @type="line"
       @options={{this.options}}
       @data={{this.data}}
@@ -29,4 +29,4 @@
       </table>
     {{/each}}
   {{/if}}
-</Charts::Card>
+</Ui::ChartCard>

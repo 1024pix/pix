@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
-import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Charts::ParticipantsByStage', function(hooks) {
+module('Integration | Component | Campaign::Charts::ParticipantsByStage', function(hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
   let onSelectStage, dataFetcher;
@@ -31,7 +31,7 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
     });
 
     // when
-    await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+    await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
   });
 
   test('it should display stage stars', async function(assert) {
@@ -80,7 +80,7 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
         });
 
         // when
-        await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+        await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
 
         // then
         assert.dom('[role="tooltip"]').exists();
@@ -105,7 +105,7 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
         });
 
         // when
-        await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+        await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
 
         // then
         assert.dom('[role="tooltip"]').exists();
@@ -127,7 +127,7 @@ module('Integration | Component | Charts::ParticipantsByStage', function(hooks) 
         });
 
         // when
-        await render(hbs`<Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+        await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
 
         // then
         assert.dom('[role="tooltip"]').exists();

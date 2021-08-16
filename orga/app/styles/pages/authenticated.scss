@@ -2,94 +2,23 @@
   display: flex;
   height: 100%;
   overflow: hidden;
-
-  &__sidebar {
-    width: 280px;
-    min-width: 100px;
-  }
-
-  &__main-content {
-    width: 100%;
-  }
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  background: $pix-orga-old-gradient;
-
-  &--padding-left {
-    padding-left: 25px;
-  }
-
-  &--item-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 8px;
-    width: 8%;
-
-    > img {
-      width: 100%; //useful for IE
-    }
-  }
-}
-
-.logo {
-  padding-top: 20px;
-  padding-bottom: 30px;
-
-  &__image {
-    height: 60px;
-  }
 }
 
 .main-content {
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
   background-color: $grey-10;
   overflow: auto;
-
-  &__topbar {
-    background-color: $white;
-    min-height: 60px;
-  }
 
   &__body {
     height: 100%;
   }
 }
 
-.topbar {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-
-  &__user-logged-menu {
-    padding: 0 30px;
-    border-left: 1px solid $grey-20;
-  }
-
-  &__organization-credit-info {
-    padding: 0 30px;
-  }
-}
-
-
 @include device-is('mobile') {
   .app {
     flex-direction: column;
-  
-    &__sidebar {
-      width: 100%;
-    }
-  }
-
-  .topbar {
-    &__user-logged-menu {
-      padding: 0 16px;
-      border-left-width: 0px;
-    }
   }
 }

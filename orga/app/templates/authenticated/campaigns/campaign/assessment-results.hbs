@@ -8,7 +8,7 @@
   />
 
   {{#if @model.campaign.hasStages}}
-    <Charts::ParticipantsByStage
+    <Campaign::Charts::ParticipantsByStage
       @campaignId={{@model.campaign.id}}
       @onSelectStage={{this.filterByStage}}
       class="assessment-results__participants-by-stage hide-on-mobile"

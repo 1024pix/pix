@@ -1,0 +1,25 @@
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: $white;
+  min-height: 60px;
+
+  &__user-logged-menu {
+    padding: 0 30px;
+    border-left: 1px solid $grey-20;
+  }
+
+  &__organization-credit-info {
+    padding: 0 30px;
+  }
+}
+
+@include device-is('mobile') {
+  .topbar {
+    &__user-logged-menu {
+      padding: 0 16px;
+      border-left-width: 0px;
+    }
+  }
+}
