@@ -18,7 +18,7 @@ async function handleCertificationRescoring({
   assessmentResultRepository,
   certificationAssessmentRepository,
   competenceMarkRepository,
-  scoringCertificationService,
+  certificationResultService,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -27,7 +27,7 @@ async function handleCertificationRescoring({
     certificationAssessment,
     assessmentResultRepository,
     competenceMarkRepository,
-    scoringCertificationService,
+    certificationResultService,
     juryId: event.juryId,
   });
 }
@@ -36,11 +36,11 @@ async function _calculateCertificationScore({
   certificationAssessment,
   assessmentResultRepository,
   competenceMarkRepository,
-  scoringCertificationService,
+  certificationResultService,
   juryId,
 }) {
   try {
-    const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
+    const certificationAssessmentScore = await certificationResultService.computeResult({
       certificationAssessment,
       continueOnError: false,
     });

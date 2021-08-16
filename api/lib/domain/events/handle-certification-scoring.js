@@ -18,7 +18,7 @@ async function handleCertificationScoring({
   certificationAssessmentRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  scoringCertificationService,
+  certificationResultService,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -29,7 +29,7 @@ async function handleCertificationScoring({
       assessmentResultRepository,
       certificationCourseRepository,
       competenceMarkRepository,
-      scoringCertificationService,
+      certificationResultService,
       badgeAcquisitionRepository,
     });
   }
@@ -42,10 +42,10 @@ async function _calculateCertificationScore({
   assessmentResultRepository,
   certificationCourseRepository,
   competenceMarkRepository,
-  scoringCertificationService,
+  certificationResultService,
 }) {
   try {
-    const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
+    const certificationAssessmentScore = await certificationResultService.computeResult({
       certificationAssessment,
       continueOnError: false,
     });

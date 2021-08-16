@@ -1,7 +1,7 @@
 const { knex } = require('../db/knex-database-connection');
 const ASSESSMENT_COUNT = parseInt(process.env.ASSESSMENT_COUNT) || 100;
 const bluebird = require('bluebird');
-const scoringCertificationService = require('../lib/domain/services/scoring/scoring-certification-service');
+const certificationResultService = require('../lib/domain/services/certification-result-service');
 const certificationAssessmentRepository = require('../lib/infrastructure/repositories/certification-assessment-repository');
 
 async function _retrieveLastScoredAssessmentIds() {
@@ -19,7 +19,7 @@ async function _computeScore(assessmentIds) {
   const scores = await bluebird.map(assessmentIds, async (assessmentId) => {
     try {
       const certificationAssessment = await certificationAssessmentRepository.get(assessmentId);
-      const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore(certificationAssessment);
+      const certificationAssessmentScore = await certificationResultService.computeResult(certificationAssessment);
       return certificationAssessmentScore;
     } catch (err) {
       const message = `Erreur de génération pour l'assessment : ${assessmentId}`;

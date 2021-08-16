@@ -12,7 +12,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
     const competenceMarkRepository = { save: sinon.stub() };
-    const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+    const certificationResultService = { computeResult: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
@@ -41,7 +41,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       competenceMarks: [competenceMarkData1, competenceMarkData2],
       percentageCorrectAnswers: 80,
     };
-    scoringCertificationService.calculateCertificationAssessmentScore
+    certificationResultService.computeResult
       .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
 
@@ -59,17 +59,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       .withArgs(assessmentResultToBeSaved)
       .resolves(savedAssessmentResult);
 
-    const dependendencies = {
+    const dependencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
       competenceMarkRepository,
-      scoringCertificationService,
+      certificationResultService,
     };
 
     // when
     await handleCertificationRescoring(
       {
-        ...dependendencies,
+        ...dependencies,
         event,
       });
 
@@ -86,7 +86,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
     const competenceMarkRepository = { save: sinon.stub() };
-    const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+    const certificationResultService = { computeResult: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -99,21 +99,21 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       competenceMarks: [],
       percentageCorrectAnswers: 80,
     };
-    scoringCertificationService.calculateCertificationAssessmentScore
+    certificationResultService.computeResult
       .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
     assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
 
-    const dependendencies = {
+    const dependencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
       competenceMarkRepository,
-      scoringCertificationService,
+      certificationResultService,
     };
 
     // when
     const returnedEvent = await handleCertificationRescoring({
-      ...dependendencies,
+      ...dependencies,
       event,
     });
 
@@ -131,7 +131,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
     const competenceMarkRepository = { save: sinon.stub() };
-    const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+    const certificationResultService = { computeResult: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
@@ -150,7 +150,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     });
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
-    scoringCertificationService.calculateCertificationAssessmentScore
+    certificationResultService.computeResult
       .withArgs({ certificationAssessment, continueOnError: false })
       .rejects(new CertificationComputeError('Oopsie'));
 
@@ -168,17 +168,17 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       .withArgs(assessmentResultToBeSaved)
       .resolves(savedAssessmentResult);
 
-    const dependendencies = {
+    const dependencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
       competenceMarkRepository,
-      scoringCertificationService,
+      certificationResultService,
     };
 
     // when
     await handleCertificationRescoring(
       {
-        ...dependendencies,
+        ...dependencies,
         event,
       });
 

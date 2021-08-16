@@ -95,7 +95,6 @@ const dependencies = {
   schoolingRegistrationsXmlService: require('../../domain/services/schooling-registrations-xml-service'),
   scoCertificationCandidateRepository: require('../../infrastructure/repositories/sco-certification-candidate-repository'),
   scorecardService: require('../../domain/services/scorecard-service'),
-  scoringCertificationService: require('../../domain/services/scoring/scoring-certification-service'),
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
   sessionPublicationService: require('../../domain/services/session-publication-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),

@@ -5,7 +5,7 @@ module.exports = async function getCertificationDetails({
   competenceMarkRepository,
   certificationAssessmentRepository,
   placementProfileService,
-  scoringCertificationService,
+  certificationResultService,
 }) {
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
   if (certificationAssessment.isCompleted()) {
@@ -20,13 +20,13 @@ module.exports = async function getCertificationDetails({
       certificationCourseId,
       certificationAssessment,
       placementProfileService,
-      scoringCertificationService,
+      certificationResultService,
     );
   }
 };
 
-async function _computeCertificationDetailsOnTheFly(certificationCourseId, certificationAssessment, placementProfileService, scoringCertificationService) {
-  const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
+async function _computeCertificationDetailsOnTheFly(certificationCourseId, certificationAssessment, placementProfileService, certificationResultService) {
+  const certificationAssessmentScore = await certificationResultService.computeResult({
     certificationAssessment,
     continueOnError: true,
   });

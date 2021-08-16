@@ -8,7 +8,7 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', () => {
-  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
+  const certificationResultService = { computeResult: _.noop };
   const certificationAssessmentRepository = { get: _.noop };
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = {
@@ -25,7 +25,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     assessmentResultRepository,
     certificationCourseRepository,
     competenceMarkRepository,
-    scoringCertificationService,
+    certificationResultService,
     certificationAssessmentRepository,
   };
 
@@ -73,7 +73,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
     context('when an error different from a compute error happens', () => {
       const otherError = new Error();
       beforeEach(() => {
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(otherError);
+        sinon.stub(certificationResultService, 'computeResult').rejects(otherError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult');
         sinon.stub(assessmentResultRepository, 'save');
         sinon.stub(certificationCourseRepository, 'get');
@@ -101,7 +101,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         completedAt: null,
       });
       beforeEach(() => {
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').rejects(computeError);
+        sinon.stub(certificationResultService, 'computeResult').rejects(computeError);
         sinon.stub(AssessmentResult, 'buildAlgoErrorResult').returns(errorAssessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves();
         sinon.stub(certificationCourseRepository, 'get').withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
@@ -116,7 +116,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         });
 
         // then
-        expect(scoringCertificationService.calculateCertificationAssessmentScore).to.have.been.calledWithExactly({
+        expect(certificationResultService.computeResult).to.have.been.calledWithExactly({
           certificationAssessment,
           continueOnError: false,
         });
@@ -171,7 +171,7 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
         sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
         sinon.stub(assessmentResultRepository, 'save').resolves(savedAssessmentResult);
         sinon.stub(competenceMarkRepository, 'save').resolves();
-        sinon.stub(scoringCertificationService, 'calculateCertificationAssessmentScore').resolves(certificationAssessmentScore);
+        sinon.stub(certificationResultService, 'computeResult').resolves(certificationAssessmentScore);
         sinon.stub(certificationCourseRepository, 'get').withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
         sinon.stub(certificationCourseRepository, 'update').resolves(certificationCourse);
       });
