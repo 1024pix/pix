@@ -2,7 +2,7 @@ const moment = require('moment');
 const User = require('../models/User');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
-const { InvalidExternalAPIResponseError } = require('../errors');
+const { InvalidExternalAPIResponseError, AuthenticationKeyForPoleEmploiTokenExpired } = require('../errors');
 const logger = require('../../infrastructure/logger');
 
 module.exports = async function createUserFromPoleEmploi({
@@ -13,6 +13,9 @@ module.exports = async function createUserFromPoleEmploi({
   authenticationService,
 }) {
   const poleEmploiTokens = await poleEmploiTokensRepository.getByKey(authenticationKey);
+  if (!poleEmploiTokens) {
+    throw new AuthenticationKeyForPoleEmploiTokenExpired();
+  }
   const userInfo = await authenticationService.getPoleEmploiUserInfo(poleEmploiTokens.idToken);
 
   if (!userInfo.firstName || !userInfo.lastName || !userInfo.externalIdentityId) {

@@ -8,7 +8,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const User = require('../../../../lib/domain/models/User');
 
-const { InvalidExternalAPIResponseError } = require('../../../../lib/domain/errors');
+const { InvalidExternalAPIResponseError, AuthenticationKeyForPoleEmploiTokenExpired } = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const createUserFromPoleEmploi = require('../../../../lib/domain/usecases/create-user-from-pole-emploi');
@@ -49,6 +49,27 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
 
   afterEach(() => {
     clock.restore();
+  });
+
+  it('should throw an AuthenticationKeyForPoleEmploiTokenExpired if key expired', async () => {
+    // given
+    const authenticationKey = 'authenticationKey';
+    poleEmploiTokensRepository.getByKey
+      .withArgs(authenticationKey)
+      .resolves(null);
+
+    // when
+    const error = await catchErr(createUserFromPoleEmploi)({
+      authenticationKey,
+      authenticationMethodRepository,
+      poleEmploiTokensRepository,
+      userRepository,
+      authenticationService,
+    });
+
+    // then
+    expect(error).to.be.instanceOf(AuthenticationKeyForPoleEmploiTokenExpired);
+    expect(error.message).to.be.equal('This authentication key for pole emploi token has expired.');
   });
 
   context('When there is no user with Pole Emploi authentication method', () => {
