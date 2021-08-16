@@ -36,18 +36,4 @@ module.exports = {
       .where({ sessionId })
       .save({ isPublished: false }, { method: 'update' });
   },
-
-  async hasVerificationCode(id) {
-    const certification = await CertificationCourseBookshelf
-      .where({ id })
-      .fetch({ require: false, columns: 'verificationCode' });
-
-    return Boolean(certification.attributes.verificationCode);
-  },
-
-  async saveVerificationCode(id, verificationCode) {
-    return CertificationCourseBookshelf
-      .where({ id })
-      .save({ verificationCode }, { method: 'update' });
-  },
 };
