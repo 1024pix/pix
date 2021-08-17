@@ -69,11 +69,6 @@ function _getCompetenceMarksWithFailedLevel(listCompetences) {
 }
 
 function _getResult(answers, certificationChallenges, testedCompetences, continueOnError) {
-
-  if (!continueOnError) {
-    CertificationContract.assertThatWeHaveEnoughAnswers(answers, certificationChallenges);
-  }
-
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges: certificationChallenges });
 
   const globalScoring = CertificationGlobalScoring.from({ answerCollectionForScoring: answerCollection, testedCompetences });

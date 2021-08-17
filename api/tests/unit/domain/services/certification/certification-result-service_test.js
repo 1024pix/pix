@@ -198,44 +198,6 @@ describe('Unit | Service | Certification Result Service', function() {
       });
     });
 
-    context('When there are more challenges than answers ', () => {
-
-      it('should throw', async () => {
-        // given
-        const certificationAnswersByDate = _.map([
-          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
-          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
-          { challengeId: 'challenge_C_for_competence_1', result: 'ok' },
-          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
-          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
-          { challengeId: 'challenge_F_for_competence_2', result: 'ok' },
-          { challengeId: 'challenge_G_for_competence_3', result: 'ok' },
-          { challengeId: 'challenge_H_for_competence_3', result: 'ok' },
-          { challengeId: 'challenge_I_for_competence_3', result: 'ok' },
-          { challengeId: 'challenge_J_for_competence_4', result: 'ok' },
-          { challengeId: 'challenge_K_for_competence_4', result: 'ok' },
-        ], domainBuilder.buildAnswer);
-
-        const certificationAssessment = {
-          certificationAnswersByDate,
-          certificationChallenges: challenges,
-        };
-
-        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
-          userId: certificationAssessment.userId,
-          limitDate: certificationAssessment.createdAt,
-          isV2Certification: certificationAssessment.isV2Certification,
-        }).resolves({ userCompetences });
-
-        // when
-        const error = await catchErr(certificationResultService.computeResult)({ certificationAssessment, continueOnError: false });
-
-        // then
-        expect(error).to.be.instanceOf(CertificationComputeError);
-        expect(error.message).to.equal('L’utilisateur n’a pas répondu à toutes les questions');
-      });
-    });
-
     context('When there is no challenge for a competence ', () => {
 
       it('should throw', async () => {
