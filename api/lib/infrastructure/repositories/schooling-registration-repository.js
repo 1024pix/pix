@@ -214,13 +214,17 @@ module.exports = {
   },
 
   async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .where({ id: schoolingRegistrationId })
-      .save({ userId }, {
-        patch: true,
-      });
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+    try {
+      const schoolingRegistration = await BookshelfSchoolingRegistration
+        .where({ id: schoolingRegistrationId })
+        .where('isDisabled', false)
+        .save({ userId }, {
+          patch: true,
+        });
+      return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
+    } catch (error) {
+      throw new UserCouldNotBeReconciledError();
+    }
   },
 
   async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {

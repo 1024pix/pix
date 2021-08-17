@@ -1009,7 +1009,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
     });
   });
 
-  describe('#reconcileSchoolingRegistration', () => {
+  describe('#reconcileUserToSchoolingRegistration', () => {
 
     afterEach(() => {
       return knex('schooling-registrations').delete();
@@ -1048,7 +1048,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const error = await catchErr(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration)({ userId: user.id, schoolingRegistrationId: fakeStudentId });
 
       // then
-      expect(error.message).to.be.equal('No Rows Updated');
+      expect(error).to.be.instanceOf(UserCouldNotBeReconciledError);
     });
 
     it('should return an error when the userId to link don’t match a user', async () => {
@@ -1062,7 +1062,25 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
 
       // then
-      expect(error.detail).to.be.equal(`Key (userId)=(${fakeUserId}) is not present in table "users".`);
+      expect(error).to.be.instanceOf(UserCouldNotBeReconciledError);
+    });
+
+    it('should return an error when the schooling registration is disabled', async () => {
+      // given
+      const disabledSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        userId: null,
+        isDisabled: true,
+      });
+
+      // when
+      const error = await catchErr(schoolingRegistrationRepository.reconcileUserToSchoolingRegistration)({
+        userId: user.id,
+        schoolingRegistrationId: disabledSchoolingRegistration.id,
+      });
+
+      // then
+      expect(error).to.be.instanceOf(UserCouldNotBeReconciledError);
     });
   });
 
