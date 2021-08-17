@@ -1772,4 +1772,80 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(error).to.be.an.instanceOf(SchoolingRegistrationNotFound);
     });
   });
+
+  describe('#isActive', function() {
+
+    it('returns true when there is no schooling registration', async function() {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+      await databaseBuilder.commit();
+
+      const isActive = await schoolingRegistrationRepository.isActive({ userId, campaignId });
+
+      expect(isActive).to.be.true;
+    });
+
+    it('returns true when the schooling registration is active', async function() {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: false });
+      await databaseBuilder.commit();
+
+      const isActive = await schoolingRegistrationRepository.isActive({ userId, campaignId });
+
+      expect(isActive).to.be.true;
+    });
+
+    it('returns false when the schooling registration is disabled', async function() {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+      await databaseBuilder.commit();
+
+      const isActive = await schoolingRegistrationRepository.isActive({ userId, campaignId });
+
+      expect(isActive).to.be.false;
+    });
+
+    it('takes into account only schooling registration for the given userId', async function() {
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+
+      const otherUserId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId: otherUserId, campaignId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId: otherUserId, organizationId, isDisabled: false });
+      await databaseBuilder.commit();
+
+      const isActive = await schoolingRegistrationRepository.isActive({ userId: otherUserId, campaignId });
+
+      expect(isActive).to.be.true;
+    });
+
+    it('takes into account only schooling registration for the given campaignId', async function() {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+
+      const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+      const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId: otherOrganizationId }).id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: otherCampaignId });
+      databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: otherOrganizationId, isDisabled: false });
+      await databaseBuilder.commit();
+
+      const isActive = await schoolingRegistrationRepository.isActive({ userId, campaignId: otherCampaignId });
+
+      expect(isActive).to.be.true;
+    });
+  });
+
 });
