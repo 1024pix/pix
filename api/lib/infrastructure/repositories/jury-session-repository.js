@@ -6,35 +6,36 @@ const { statuses } = require('../../domain/models/JurySession');
 const CertificationOfficer = require('../../domain/models/CertificationOfficer');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
+const COLUMNS = Object.freeze(['sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName']);
+
 module.exports = {
 
   async get(id) {
-    const results = await knex
-      .select('sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName')
+    const jurySessionDTO = await knex
+      .select(COLUMNS)
       .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
       .where('sessions.id', '=', id)
-      .limit(1);
-    if (!results[0]) {
+      .first();
+    if (!jurySessionDTO) {
       throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
     }
-    return _toDomain(results[0]);
+    return _toDomain(jurySessionDTO);
   },
 
   async findPaginatedFiltered({ filters, page }) {
-    const query = knex.from('sessions');
-
-    _setupFilters(query, filters);
-    query.orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
-      .orderByRaw('?? ASC', 'finalizedAt')
-      .orderBy('id')
-      .select('sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName')
+    const query = knex
+      .select(COLUMNS)
+      .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId');
+      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+      .modify(_setupFilters, filters)
+      .orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
+      .orderByRaw('?? ASC', 'finalizedAt')
+      .orderBy('id');
 
     const { results, pagination } = await fetchPage(query, page);
-
     const jurySessions = results.map(_toDomain);
 
     return {
