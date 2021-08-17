@@ -67,15 +67,6 @@ export default class Url extends Service {
     return `https://pix.${this.currentDomain.getExtension()}/aide-accessibilite`;
   }
 
-  get helpCenterUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-
-    if (currentLanguage === 'en') {
-      return `https://pix.${this.currentDomain.getExtension()}/help`;
-    }
-    return `https://pix.${this.currentDomain.getExtension()}/aide`;
-  }
-
   get supportHomeUrl() {
     const currentLanguage = this.intl.t('current-lang');
 
