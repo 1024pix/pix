@@ -32,12 +32,12 @@ describe('Acceptance | Footer', function() {
       expect(find('.footer')).to.not.exist;
     });
 
-    it('should contain link to pix.fr/aide', async function() {
+    it('should contain link to support.pix.org', async function() {
       // when
       await visit('/');
 
       // then
-      expect(find('.footer-container-content__navigation ul li:nth-child(1) a').getAttribute('href')).to.contains('/aide');
+      expect(find('.footer-container-content__navigation ul li:nth-child(1) a').getAttribute('href')).to.contains('support.pix.org');
     });
 
     it('should contain link to pix.fr/accessibilite', async function() {
