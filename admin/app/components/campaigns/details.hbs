@@ -48,6 +48,9 @@
     </ul>
 
   <br>
-  <button type="button" class="btn btn-outline-default" {{on "click" @toggleEditMode}}>Editer</button>
+
+  <PixButton @triggerAction={{@toggleEditMode}} @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="small">
+    Editer
+  </PixButton>
 
 </section>
