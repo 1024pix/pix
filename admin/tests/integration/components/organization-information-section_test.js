@@ -3,6 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { click, render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | organization-information-section', function(hooks) {
 
@@ -199,10 +200,10 @@ module('Integration | Component | organization-information-section', function(ho
     test('it should toggle display mode on click to cancel button', async function(assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
-      await click('button[aria-label=\'Editer\']');
+      await clickByLabel('Editer');
 
       // when
-      await click('button[aria-label=\'Annuler\']');
+      await clickByLabel('Annuler');
 
       // then
       assert.dom('.organization__data').exists();
@@ -212,15 +213,15 @@ module('Integration | Component | organization-information-section', function(ho
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
-      await click('button[aria-label=\'Editer\']');
+      await clickByLabel('Editer');
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', 'new provinceCode');
-      await click('input#isManagingStudents');
-      await click('input#canCollectProfiles');
+      await clickByLabel('Gestion d’élèves/étudiants');
+      await clickByLabel('Collecte de profils');
 
       // when
-      await click('button[aria-label=\'Annuler\']');
+      await clickByLabel('Annuler');
 
       // then
       assert.contains(organization.name);
@@ -234,17 +235,17 @@ module('Integration | Component | organization-information-section', function(ho
       // given
       this.set('onSubmit', () => {});
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`);
-      await click('button[aria-label=\'Editer\']');
+      await clickByLabel('Editer');
 
       await fillIn('input#name', 'new name');
       await fillIn('input#externalId', 'new externalId');
       await fillIn('input#provinceCode', '  ');
       await fillIn('input#credit', 50);
-      await click('input#isManagingStudents');
-      await click('input#canCollectProfiles');
+      await clickByLabel('Gestion d’élèves/étudiants');
+      await clickByLabel('Collecte de profils');
 
       // when
-      await click('button[aria-label=\'Enregistrer\']');
+      await clickByLabel('Ajouter');
 
       // then
       assert.dom('.organization__name').hasText('new name');

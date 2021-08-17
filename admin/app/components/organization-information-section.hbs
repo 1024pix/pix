@@ -109,9 +109,13 @@
                  class={{if (v-get this.form 'canCollectProfiles' 'isInvalid') "form-control is-invalid" "form-control"}}
                  @checked={{this.form.canCollectProfiles}} />
         </div>
-        <div>
-          <button class="btn btn-outline-default" aria-label="Annuler" type="button" {{on "click" this.cancel}}>Annuler</button>
-          <button class="btn btn-success" aria-label="Enregistrer" type="submit">Enregistrer</button>
+        <div class="organization-edit-form__action-buttons">
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancel}}>Annuler</PixButton>
+          <PixButton @type="submit" @size="small" @backgroundColor="green">Ajouter</PixButton>
         </div>
       </form>
     </div>
@@ -147,7 +151,12 @@
             Collecte de profils : <span class="organization__canCollectProfiles">{{if @organization.canCollectProfiles 'Oui' 'Non'}}</span><br>
             Crédits : <span>{{@organization.credit}}</span>
           </p>
-          <button type="button" class="btn btn-outline-default" aria-label="Editer" {{on "click" this.toggleEditMode}}>Editer</button>
+          <PixButton
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @size="small"
+            @triggerAction={{this.toggleEditMode}}
+            aria-label="Editer">Editer</PixButton>
         </div>
         <div>
           <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank" rel="noopener noreferrer">
