@@ -10,8 +10,16 @@
   {{/if}}
 
     <div class="terms-of-service-form__actions">
-      <LinkTo @route="logout" @id="terms-of-service-cancel-button" class="button button--no-color button--big button--link">{{t "common.actions.cancel"}}</LinkTo>
-      <button type="submit" class="button button--extra-big terms-of-service-form__submit" {{on 'click' this.submit}}>{{t "pages.terms-of-service.accept"}}</button>
+      <PixButtonLink
+        id="terms-of-service-cancel-button"
+        @route="logout"
+        @backgroundColor="transparent-light"
+      >
+        {{t "common.actions.cancel"}}
+      </PixButtonLink>
+      <PixButton @type="submit" @triggerAction={{this.submit}}>
+        {{t "pages.terms-of-service.accept"}}
+      </PixButton>
     </div>
   </div>
 </div>
