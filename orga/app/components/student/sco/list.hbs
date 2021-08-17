@@ -25,7 +25,13 @@
           @triggerFiltering={{@onFilter}}
         />
         <Table::Header/>
-        <Table::Header/>
+        <Table::HeaderFilterInput
+          @field="division"
+          @value={{@divisionFilter}}
+          @placeholder={{t "pages.students-sco.table.filter.division.label"}}
+          @ariaLabel={{t "pages.students-sco.table.filter.division.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
         <Table::HeaderFilterSelect
           @field="connexionType"
           @options={{@connectionTypesOptions}}

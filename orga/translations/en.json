@@ -604,6 +604,10 @@
         },
         "empty": "No students.",
         "filter": {
+          "division": {
+            "aria-label": "Enter a class",
+            "label": "Search by class"
+          },
           "first-name": {
             "aria-label": "Enter a first name",
             "label": "Search by first name"
