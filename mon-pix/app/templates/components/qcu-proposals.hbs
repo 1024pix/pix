@@ -9,7 +9,8 @@
          id="radio_{{inc index}}"
          checked={{labeledRadio.[1]}}
          {{on 'click' (fn this.radioClicked index)}}
-         disabled={{if @answer true}} />
+         data-test="challenge-response-proposal-selector"
+         disabled={{@isAnswerFieldDisabled}} />
 
   <label for="radio_{{inc index}}"
           class="qcu-proposals__label">

@@ -6,7 +6,9 @@
       <QcuProposals @answer={{@answer}}
                     @answerValue={{@answer.value}}
                     @proposals={{@challenge.proposals}}
-                    @answerChanged={{this.answerChanged}} />
+                    @answerChanged={{this.answerChanged}}
+                    @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
+      />
     </div>
 
     {{#if @answer}}
@@ -43,6 +45,7 @@
                       @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
                       @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
                       @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-                      @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
+                      @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+                      @isDisabled={{this.isAnswerFieldDisabled}}/>
   {{/if}}
 </form>

@@ -4,7 +4,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { expect } from 'chai';
-import { click, find, triggerEvent } from '@ember/test-helpers';
+import { click, find, findAll, triggerEvent } from '@ember/test-helpers';
 
 describe('Acceptance | Displaying a challenge of any type', () => {
   setupApplicationTest();
@@ -14,6 +14,9 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
   [
     { challengeType: 'QROC' },
+    { challengeType: 'QROCM' },
+    { challengeType: 'QCM' },
+    { challengeType: 'QCU' },
   ].forEach(function(data) {
     describe(`when ${data.challengeType} challenge is focused`, () => {
 
@@ -49,7 +52,10 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           // then
           expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
           expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
-          expect(find('.challenge-response__proposal').getAttribute('disabled')).to.exist;
+
+          const responseFields = findAll('[data-test="challenge-response-proposal-selector"]');
+          expect(responseFields).to.have.lengthOf.at.least(1);
+          responseFields.forEach((input) => expect(input.disabled).to.equal(true));
         });
 
         it('should not display an info alert with dashed border and overlay', async function() {
@@ -89,7 +95,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             // then
             expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
             expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-            expect(find('.challenge-response__proposal').getAttribute('disabled')).to.not.exist;
+            expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
           });
 
           it('should display a warning alert', async function() {
@@ -155,7 +161,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           // then
           expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
           expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
-          expect(find('.challenge-response__proposal').getAttribute('disabled')).to.not.exist;
+          expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
         });
       });
     });
