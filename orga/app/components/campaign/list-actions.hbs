@@ -19,9 +19,10 @@
   >
     {{t 'pages.campaigns-list.action.archived.label'}}
   </button>
-  <div role="tabpanel" class="campaign-list-actions__create-campaign-button">
-    <LinkTo @route="authenticated.campaigns.new" class="button button--link">
+
+  <div class="campaign-list-actions__create-campaign-button">
+    <PixButtonLink @route="authenticated.campaigns.new">
       {{t 'pages.campaigns-list.action.create'}}
-    </LinkTo>
+    </PixButtonLink>
   </div>
 </div>

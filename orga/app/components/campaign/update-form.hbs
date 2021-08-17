@@ -1,4 +1,4 @@
-<form>
+<form {{on 'submit' @onSubmit}}>
   <div class="form__field">
     <label for="campaign-name" class="label">{{ t 'pages.campaign-modification.campaign-name' }}</label>
     <Input
@@ -31,10 +31,13 @@
   </div>
 
   <div class="form__validation">
-    <PixButton @triggerAction={{fn @onCancel @campaign.id}} class="button button--no-color">
+    <PixButton 
+      @triggerAction={{fn @onCancel @campaign.id}}
+      @backgroundColor="transparent-light"
+    >
       {{ t 'common.actions.cancel' }}
     </PixButton>
-    <PixButton @type="submit" @triggerAction={{@onSubmit}} class="button">
+    <PixButton @type="submit">
       {{t 'pages.campaign-modification.actions.edit'}}
     </PixButton>
   </div>

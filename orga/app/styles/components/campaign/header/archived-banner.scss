@@ -3,15 +3,23 @@
   font-weight: 600;
   background: $blue-zodiac;
   display: flex;
-  padding: 8px 8px 8px 24px;
+  padding: 8px 10px;
   margin-bottom: 24px;
   border-radius: 6px;
   color: $white;
   flex-flow: row nowrap;
   align-items: center;
+  justify-content: space-between;
+
+  &__text {
+    display: flex;
+    font-size: 1rem;
+    align-items: center;
+  }
 
   &__icon {
     margin-right: 24px;
+    margin-left: 16px;
     font-size: 1.6rem;
   }
 

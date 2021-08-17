@@ -1,15 +1,15 @@
 {{#if @campaign.isArchived}}
   <div class="campaign-archived-banner">
-    <div class="campaign-archived-banner__icon">
-      <FaIcon @icon='archive'></FaIcon>
+    <div class="campaign-archived-banner__text">
+      <FaIcon class="campaign-archived-banner__icon" @icon='archive'></FaIcon>
+      <span>{{t 'pages.campaign.archived'}}</span>
     </div>
-    <div class="campaign-archived-banner__text">{{t 'pages.campaign.archived'}}</div>
-    <button
-      type="button"
-      class="button button--link campaign-archived-banner__unarchive-button"
-      {{on 'click' this.unarchiveCampaign}}
+    <PixButton
+      @triggerAction={{this.unarchiveCampaign}}
+      @backgroundColor="transparent-dark"
+      @isBorderVisible={{true}}
     >
       {{t 'pages.campaign.actions.unarchive'}}
-    </button>
+    </PixButton>
   </div>
 {{/if}}

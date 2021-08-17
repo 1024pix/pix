@@ -117,8 +117,15 @@
   </div>
 
   <div class="form__validation">
-    <button class="button button--no-color" type="button" {{on 'click' @onCancel}}>{{t 'common.actions.cancel'}}</button>
-    <button class="button" type="submit">{{t 'pages.campaign-creation.actions.create'}}</button>
+    <PixButton
+      @triggerAction={{@onCancel}}
+      @backgroundColor="transparent-light"
+    >
+      {{t 'common.actions.cancel'}}
+    </PixButton>
+    <PixButton @type="submit">
+      {{t 'pages.campaign-creation.actions.create'}}
+    </PixButton>
   </div>
 
  {{#if this.wantIdPix}}
