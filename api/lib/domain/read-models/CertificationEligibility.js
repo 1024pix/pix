@@ -1,5 +1,6 @@
 const { keys } = require('../models/Badge');
 const cleaBadgeKey = keys.PIX_EMPLOI_CLEA;
+const cleaBadgeKeyV2 = keys.PIX_EMPLOI_CLEA_V2;
 const pixPlusDroitMaitreBadgeKey = keys.PIX_DROIT_MAITRE_CERTIF;
 const pixPlusDroitExpertBadgeKey = keys.PIX_DROIT_EXPERT_CERTIF;
 
@@ -20,6 +21,7 @@ class CertificationEligibility {
 }
 
 CertificationEligibility.cleaBadgeKey = cleaBadgeKey;
+CertificationEligibility.cleaBadgeKeyV2 = cleaBadgeKeyV2;
 CertificationEligibility.pixPlusDroitMaitreBadgeKey = pixPlusDroitMaitreBadgeKey;
 CertificationEligibility.pixPlusDroitExpertBadgeKey = pixPlusDroitExpertBadgeKey;
 module.exports = CertificationEligibility;

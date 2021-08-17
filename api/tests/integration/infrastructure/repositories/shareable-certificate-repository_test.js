@@ -3,7 +3,7 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
-const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
+const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
@@ -354,7 +354,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(shareableCertificate).to.deep.equal(expectedShareableCertificate);
     });
 
-    it('should get the clea certification result if taken', async () => {
+    it('should get the clea certification result if taken with badge V1', async () => {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -377,7 +377,44 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
       };
 
-      const { certificateId } = await _buildValidShareableCertificateWithClea(shareableCertificateData);
+      const { certificateId } = await _buildValidShareableCertificateWithCleaV1(shareableCertificateData);
+
+      // when
+      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
+
+      // then
+      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
+        id: certificateId,
+        ...shareableCertificateData,
+      });
+      expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
+      expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedShareableCertificate, ['resultCompetenceTree']));
+    });
+
+    it('should get the clea certification result if taken with badge V2', async () => {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+
+      const userId = databaseBuilder.factory.buildUser().id;
+      const shareableCertificateData = {
+        id: 123,
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'P-SOMECODE',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: 51,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+      };
+
+      const { certificateId } = await _buildValidShareableCertificateWithCleaV2(shareableCertificateData);
 
       // when
       const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -516,7 +553,7 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
   return { certificateId, assessmentResultId };
 }
 
-async function _buildValidShareableCertificateWithClea(shareableCertificateData) {
+async function _buildValidShareableCertificationWithClea(shareableCertificateData, badgeKey) {
   const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
   const sessionId = databaseBuilder.factory.buildSession({
     id: shareableCertificateData.sessionId,
@@ -546,8 +583,8 @@ async function _buildValidShareableCertificateWithClea(shareableCertificateData)
     createdAt: new Date('2020-01-02'),
   }).id;
 
-  databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKey, acquired: true });
+  databaseBuilder.factory.buildBadge({ key: badgeKey });
+  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: badgeKey, acquired: true });
 
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
@@ -556,6 +593,14 @@ async function _buildValidShareableCertificateWithClea(shareableCertificateData)
   await databaseBuilder.commit();
 
   return { certificateId };
+}
+
+async function _buildValidShareableCertificateWithCleaV1(shareableCertificateData) {
+  return _buildValidShareableCertificationWithClea(shareableCertificateData, cleaBadgeKeyV1);
+}
+
+async function _buildValidShareableCertificateWithCleaV2(shareableCertificateData) {
+  return _buildValidShareableCertificationWithClea(shareableCertificateData, cleaBadgeKeyV2);
 }
 
 async function _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges(shareableCertificateData) {

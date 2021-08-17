@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
     beforeEach(() => {
       validArguments = {
         certificationCourseId: 123,
-        partnerKey: 'partnerKey',
+        cleaBadgeKey: 'partnerKey',
         hasAcquiredBadge: true,
         reproducibilityRate: 80,
         cleaCompetenceMarks: [1],
@@ -52,6 +52,17 @@ describe('Unit | Domain | Models | CleaCertificationScoring', () => {
         ...validArguments,
         maxReachablePixByCompetenceForClea: null,
       })).to.throw(ObjectValidationError);
+    });
+  });
+
+  context('#static buildNotEligible', () => {
+
+    it('should build a not eligible CleaCertificationScoring', async () => {
+      // when
+      const notEligibleCleaCertificationScoring = CleaCertificationScoring.buildNotEligible({ certificationCourseId: 123 });
+
+      // then
+      expect(notEligibleCleaCertificationScoring.isEligible()).to.be.false;
     });
   });
 
@@ -311,5 +322,6 @@ function _buildCleaCertificationScoring({
     reproducibilityRate,
     cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea,
+    cleaBadgeKey: 'pix_clea_badge_key',
   });
 }

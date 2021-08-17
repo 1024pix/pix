@@ -2,7 +2,7 @@ const { expect, databaseBuilder, domainBuilder, catchErr, learningContentBuilder
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const privateCertificateRepository = require('../../../../lib/infrastructure/repositories/private-certificate-repository');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
-const { badgeKey: cleaBadgeKey } = require('../../../../lib/domain/models/CleaCertificationResult');
+const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const _ = require('lodash');
@@ -243,7 +243,63 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should get the clea certification result if taken', async () => {
+    it('should get the clea certification result if taken with badge V1', async () => {
+      // given
+      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
+      mockLearningContent(learningContentObjects);
+      const userId = databaseBuilder.factory.buildUser().id;
+      const privateCertificateData = {
+        firstName: 'Sarah Michelle',
+        lastName: 'Gellar',
+        birthdate: '1977-04-14',
+        birthplace: 'Saint-Ouen',
+        isPublished: true,
+        userId,
+        date: new Date('2020-01-01'),
+        verificationCode: 'ABCDE-F',
+        maxReachableLevelOnCertificationDate: 5,
+        deliveredAt: new Date('2021-05-05'),
+        certificationCenter: 'Centre des poules bien dodues',
+        pixScore: null,
+        commentForCandidate: null,
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+      };
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      const sessionId = databaseBuilder.factory.buildSession({
+        publishedAt: privateCertificateData.deliveredAt,
+        certificationCenter: privateCertificateData.certificationCenter,
+        certificationCenterId,
+      }).id;
+      const certificateId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: privateCertificateData.firstName,
+        lastName: privateCertificateData.lastName,
+        birthdate: privateCertificateData.birthdate,
+        birthplace: privateCertificateData.birthplace,
+        isPublished: privateCertificateData.isPublished,
+        isCancelled: false,
+        createdAt: privateCertificateData.date,
+        verificationCode: privateCertificateData.verificationCode,
+        maxReachableLevelOnCertificationDate: privateCertificateData.maxReachableLevelOnCertificationDate,
+        sessionId,
+        userId,
+      }).id;
+      databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
+      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV1 });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKeyV1, acquired: true });
+      await databaseBuilder.commit();
+
+      // when
+      const privateCertificate = await privateCertificateRepository.get(certificateId);
+
+      // then
+      const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started({
+        id: certificateId,
+        ...privateCertificateData,
+      });
+      expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
+    });
+
+    it('should get the clea certification result if taken with badge V2', async () => {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -267,8 +323,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
 
       const { certificateId } = await _buildValidPrivateCertificate(privateCertificateData);
 
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKey, acquired: true });
+      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV2 });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKeyV2, acquired: true });
       await databaseBuilder.commit();
 
       // when
@@ -670,8 +726,8 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         userId,
       }).id;
       databaseBuilder.factory.buildAssessment({ certificationCourseId: certificateId });
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKey, acquired: true });
+      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV1 });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: cleaBadgeKeyV1, acquired: true });
       await databaseBuilder.commit();
 
       // when

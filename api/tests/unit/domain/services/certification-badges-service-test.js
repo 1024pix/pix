@@ -5,7 +5,7 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const badgeCriteriaService = require('../../../../lib/domain/services/badge-criteria-service');
-const { PIX_EMPLOI_CLEA } = require('../../../../lib/domain/models/Badge').keys;
+const { PIX_EMPLOI_CLEA, PIX_EMPLOI_CLEA_V2 } = require('../../../../lib/domain/models/Badge').keys;
 
 describe('Unit | Service | Certification Badges Service', () => {
 
@@ -162,7 +162,7 @@ describe('Unit | Service | Certification Badges Service', () => {
       });
     });
 
-    context('when user has acquired CleA badge', () => {
+    context('when user has acquired CleA badge V1', () => {
 
       it('should return the result computed by the calculation of the criteria', async () => {
         // given
@@ -172,6 +172,33 @@ describe('Unit | Service | Certification Badges Service', () => {
         const badge = domainBuilder.buildBadge({ key: PIX_EMPLOI_CLEA, targetProfileId: 456 });
         badgeRepository.getByKey
           .withArgs(PIX_EMPLOI_CLEA)
+          .resolves(badge);
+        const targetProfile = domainBuilder.buildTargetProfile({ id: 456 });
+        targetProfileRepository.get.withArgs(456).resolves(targetProfile);
+        const knowledgeElement = domainBuilder.buildKnowledgeElement({ userId: 123 });
+        knowledgeElementRepository.findUniqByUserId.withArgs({ userId: 123 }).resolves([knowledgeElement]);
+        badgeCriteriaService.areBadgeCriteriaFulfilled
+          .withArgs({ knowledgeElements: [knowledgeElement], targetProfile, badge })
+          .resolves('The boolean result');
+
+        // when
+        const hasAcquiredBadge = await certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId: 123 });
+
+        // then
+        expect(hasAcquiredBadge).to.equal('The boolean result');
+      });
+    });
+
+    context('when user has acquired CleA badge V2', () => {
+
+      it('should return the result computed by the calculation of the criteria', async () => {
+        // given
+        badgeAcquisitionRepository.hasAcquiredBadge
+          .withArgs({ badgeKey: PIX_EMPLOI_CLEA_V2, userId: 123 })
+          .resolves(true);
+        const badge = domainBuilder.buildBadge({ key: PIX_EMPLOI_CLEA_V2, targetProfileId: 456 });
+        badgeRepository.getByKey
+          .withArgs(PIX_EMPLOI_CLEA_V2)
           .resolves(badge);
         const targetProfile = domainBuilder.buildTargetProfile({ id: 456 });
         targetProfileRepository.get.withArgs(456).resolves(targetProfile);
