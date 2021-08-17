@@ -20,9 +20,11 @@
               <li>
                 <p class="add-issue-report-modal-content__category-label">
                   {{issueReport.categoryCode}}&nbsp;{{issueReport.categoryLabel}}
-                <button type="button" aria-label="Supprimer le signalement" class="button--showed-as-link" {{on 'click' (fn this.handleClickOnDeleteButton issueReport)}}>
-                  <FaIcon @icon="trash"/>
-                </button>
+                  <PixIconButton
+                    @icon="trash"
+                    aria-label="Supprimer le signalement"
+                    @triggerAction={{fn this.handleClickOnDeleteButton issueReport}}
+                  />
                 </p>
                 {{#if issueReport.subcategoryLabel}}
                 <p class="add-issue-report-modal-content__subcategory-label">{{issueReport.subcategoryCode}}&nbsp;{{issueReport.subcategoryLabel}}</p>
