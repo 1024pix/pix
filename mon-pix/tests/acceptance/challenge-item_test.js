@@ -37,7 +37,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           await visit(`/assessments/${assessment.id}/challenges/0`);
 
           // then
-          expect(find('.assessment-challenge__focused-overlay')).to.exist;
+          expect(find('.challenge__focused-overlay')).to.exist;
           expect(find('.tooltip-tag__information')).to.exist;
         });
 
@@ -69,9 +69,9 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           await triggerEvent(challengeItem, 'mouseleave');
 
           // then
-          expect(find('.challenge-item__info-alert')).to.not.exist;
+          expect(find('.challenge__info-alert')).to.not.exist;
           expect(find('.challenge-item__container--focused')).to.not.exist;
-          expect(find('.assessment-challenge__focused-out-overlay')).to.not.exist;
+          expect(find('.challenge__focused-out-overlay')).to.not.exist;
         });
 
         describe('when user closes tooltip', () => {
@@ -87,7 +87,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should hide an overlay and tooltip', async () => {
             // then
-            expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
+            expect(find('.challenge__focused-overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 
@@ -112,9 +112,9 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
-            expect(find('.challenge-item__info-alert')).to.exist;
+            expect(find('.challenge__info-alert')).to.exist;
             expect(find('.challenge-item__container--focused')).to.exist;
-            expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+            expect(find('.challenge__focused-out-overlay')).to.exist;
           });
 
           it('should display only the warning alert when it has been triggered', async function() {
@@ -122,18 +122,18 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             const challengeItem = find('.challenge-item');
             await triggerEvent(challengeItem, 'mouseleave');
 
-            expect(find('.challenge-item__info-alert')).to.exist;
+            expect(find('.challenge__info-alert')).to.exist;
             expect(find('.challenge-item__container--focused')).to.exist;
-            expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+            expect(find('.challenge__focused-out-overlay')).to.exist;
 
             // when
             await triggerEvent(window, 'blur');
 
             // then
-            expect(find('.challenge-item__info-alert')).to.not.exist;
+            expect(find('.challenge__info-alert')).to.not.exist;
             expect(find('.challenge-actions__focused-out-of-window')).to.exist;
             expect(find('.challenge-item__container--focused')).to.exist;
-            expect(find('.assessment-challenge__focused-out-overlay')).to.exist;
+            expect(find('.challenge__focused-out-overlay')).to.exist;
           });
         });
       });
@@ -153,7 +153,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
         it('should hide the overlay and tooltip', async () => {
           // then
-          expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
+          expect(find('.challenge__focused-overlay')).to.not.exist;
           expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
         });
 
@@ -176,7 +176,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // then
-        expect(find('.assessment-challenge__focused-overlay')).to.not.exist;
+        expect(find('.challenge__focused-overlay')).to.not.exist;
         expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
       });
 
