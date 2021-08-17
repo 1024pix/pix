@@ -58,10 +58,9 @@
             <span>{{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.label'}}</span>
             <FaIcon @icon="check-circle" @prefix="far" class="grey-icon" />
           </div>
-          <button aria-label="{{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.button'}}" type="button" class="button"
-                  {{on 'click' this.generateUsernameWithTemporaryPassword}}>
-              {{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.button'}}
-          </button>
+          <PixButton @triggerAction={{this.generateUsernameWithTemporaryPassword}}>
+            {{t 'pages.students-sco.manage-authentication-method-modal.section.add-username.button'}}
+          </PixButton>
         {{else}}
           {{#if @student.hasUsername}}
             <div class="manage-authentication-window__subTitle">
@@ -143,7 +142,9 @@
           </div>
         {{else}}
           <div>
-            <button id="generate-password" type="button" class="button" {{on 'click' this.resetPassword}}>{{t 'pages.students-sco.manage-authentication-method-modal.section.reset-password.button'}}</button>
+            <PixButton id="generate-password" @triggerAction={{this.resetPassword}}>
+              {{t 'pages.students-sco.manage-authentication-method-modal.section.reset-password.button'}}
+            </PixButton>
 
             <div class="manage-authentication-window__warning">
               <FaIcon @icon="exclamation-triangle" class="icon--warning" />
