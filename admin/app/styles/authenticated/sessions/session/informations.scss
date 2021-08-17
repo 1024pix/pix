@@ -1,6 +1,10 @@
 .session-info {
   padding: 20px;
 
+  .pix-button svg {
+    margin-right: 6px;
+  }
+
   .row--btn {
     margin: inherit;
     margin-right: -20px;
