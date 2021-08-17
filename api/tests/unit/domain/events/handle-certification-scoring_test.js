@@ -158,14 +158,10 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
       const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
       const competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
       const savedAssessmentResult = { id: assessmentResultId };
-      const nbPix = Symbol('nbPix');
-      const status = Symbol('status');
-      const certificationAssessmentScore = {
-        nbPix,
-        status,
+      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
         competenceMarks: [competenceMarkData1, competenceMarkData2],
         percentageCorrectAnswers: 80,
-      };
+      });
 
       beforeEach(() => {
         sinon.stub(AssessmentResult, 'buildStandardAssessmentResult').returns(assessmentResult);
@@ -221,6 +217,53 @@ describe('Unit | Domain | Events | handle-certification-scoring', () => {
 
         // then
         expect(competenceMarkRepository.save.callCount).to.equal(certificationAssessmentScore.competenceMarks.length);
+      });
+
+      context('when the certification assessment score has no certification marks', () => {
+
+        it('should cancel the certification course', async () => {
+          // given
+          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({ competenceMarks: [], percentageCorrectAnswers: 0 });
+          certificationResultService.computeResult.resolves(certificationAssessmentScore);
+          const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+            ...certificationCourse.toDTO(),
+            isCancelled: true,
+            completedAt: now,
+          });
+
+          // when
+          await handleCertificationScoring({
+            event, ...dependencies,
+          });
+
+          // then
+          expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+        });
+      });
+
+      context('when the certification assessment score has certification marks', () => {
+
+        it('should uncancel the certification course', async () => {
+          // given
+          const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+            competenceMarks: [domainBuilder.buildCompetenceMark()],
+            percentageCorrectAnswers: 10,
+          });
+          certificationResultService.computeResult.resolves(certificationAssessmentScore);
+          const expectedCertificationCourse = domainBuilder.buildCertificationCourse({
+            ...certificationCourse.toDTO(),
+            isCancelled: false,
+            completedAt: now,
+          });
+
+          // when
+          await handleCertificationScoring({
+            event, ...dependencies,
+          });
+
+          // then
+          expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedCertificationCourse);
+        });
       });
     });
   });

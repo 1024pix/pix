@@ -92,8 +92,15 @@ async function _saveResult({
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
+
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
   certificationCourse.complete({ now: new Date() });
+
+  if (certificationAssessmentScore.hasNoCompetenceMarks()) {
+    certificationCourse.cancel();
+  } else {
+    certificationCourse.uncancel();
+  }
   return certificationCourseRepository.update(certificationCourse);
 }
 
