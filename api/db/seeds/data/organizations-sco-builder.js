@@ -4,7 +4,6 @@ const { DEFAULT_PASSWORD } = require('./users-builder');
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
 const SCO_AGRI_ID = 7;
-const SCO_AGRI_CFA_ID = 8;
 const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
@@ -284,33 +283,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
-  /* CFA AGRICULTURE */
-  databaseBuilder.factory.buildOrganization({
-    id: 8,
-    type: 'SCO',
-    name: 'CFA Agricole',
-    isManagingStudents: true,
-    canCollectProfiles: true,
-    email: 'sco4.generic.account@example.net',
-    externalId: '1237457D',
-    provinceCode: '12',
-  });
-
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_CFA_ID, tagId: 1 });
-  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_CFA_ID, tagId: 5 });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser1.id,
-    organizationId: SCO_AGRI_CFA_ID,
-    organizationRole: Membership.roles.ADMIN,
-  });
-
-  databaseBuilder.factory.buildMembership({
-    userId: scoUser2.id,
-    organizationId: SCO_AGRI_CFA_ID,
-    organizationRole: Membership.roles.MEMBER,
-  });
-
   /* AEFE */
   databaseBuilder.factory.buildOrganization({
     id: SCO_AEFE_ID,
@@ -369,7 +341,6 @@ module.exports = {
   SCO_MIDDLE_SCHOOL_ID,
   SCO_HIGH_SCHOOL_ID,
   SCO_AGRI_ID,
-  SCO_AGRI_CFA_ID,
   SCO_AEFE_ID,
   SCO_STUDENT_ID,
   SCO_FOREIGNER_USER_ID,

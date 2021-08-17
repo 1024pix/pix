@@ -12,7 +12,6 @@ export default class CurrentUserService extends Service {
   @tracked isSCOManagingStudents;
   @tracked isSUPManagingStudents;
   @tracked isAgriculture;
-  @tracked isCFA;
   @tracked isAEFE;
   @tracked isMLF;
   @tracked isMediationNumerique;
@@ -58,7 +57,6 @@ export default class CurrentUserService extends Service {
     this.isSUPManagingStudents = isSUPManagingStudents;
 
     this.isAgriculture = organization.isAgriculture;
-    this.isCFA = organization.isCFA;
     this.isAEFE = organization.isAEFE;
     this.isMLF = organization.isMLF;
     this.isMediationNumerique = organization.isMediationNumerique;

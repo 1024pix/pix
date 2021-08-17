@@ -1364,34 +1364,6 @@ describe('Acceptance | Application | organization-controller', () => {
       });
     });
 
-    context('when it‘s a SCO AGRICULTURE organization', () => {
-      beforeEach(async () => {
-        organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        const tag = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
-        databaseBuilder.factory.buildOrganizationTag({ organizationId: organization.id, tagId: tag.id });
-        databaseBuilder.factory.buildMembership({
-          userId,
-          organizationId: organization.id,
-          organizationRole: Membership.roles.ADMIN,
-        });
-        await databaseBuilder.commit();
-      });
-
-      it('should return csv file with statusCode 200', async () => {
-        // given
-        const options = {
-          method: 'GET',
-          url: `/api/organizations/${organization.id}/schooling-registrations/csv-template?accessToken=${accessToken}`,
-        };
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200, response.payload);
-      });
-    });
-
     context('when it‘s not a valid organization', () => {
       beforeEach(async () => {
         organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });

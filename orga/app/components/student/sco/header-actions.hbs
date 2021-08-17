@@ -2,23 +2,6 @@
   <h1 class="page__title page-title">{{t "pages.students-sco.title"}}</h1>
   {{#if this.currentUser.isAdminInOrganization}}
     <div class="list-students-page__import-students-button hide-on-mobile">
-      {{#if this.displayLearnMoreAndLinkTemplate }}
-        <PixTooltip
-          @text={{t "pages.students-sco.agri-tooltip" htmlSafe=true}}
-          @position='bottom-left'
-          @isLight={{true}}
-          @isWide={{true}}
-          class="list-students-page__tooltip">
-            <span class="list-students-page__tooltip-title">
-              <span>{{t "pages.students-sco.know-more"}}</span>
-              <FaIcon @icon="info-circle" class="info-icon"/>
-            </span>
-        </PixTooltip>
-        <a class="button button--link button--no-color"
-          href="{{this.urlToDownloadCsvTemplate}}" target="_blank" rel="noopener noreferrer" download>
-          {{t "pages.students-sco.actions.download-template"}}
-        </a>
-      {{/if}}
       <FileUpload @name="file-upload" @for="students-file-upload" @accept={{this.acceptedFileType}} @multiple={{false}} @onfileadd={{@onImportStudents}}>
         <span class="button" role="button" tabindex="0">
           {{this.importButtonLabel}}
