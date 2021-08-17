@@ -67,21 +67,12 @@ export default class Url extends Service {
     return `https://pix.${this.currentDomain.getExtension()}/aide-accessibilite`;
   }
 
-  get helpCenterUrl() {
-    const currentLanguage = this.intl.t('current-lang');
-
-    if (currentLanguage === 'en') {
-      return `https://pix.${this.currentDomain.getExtension()}/en-gb/faq-pix`;
-    }
-    return `https://pix.${this.currentDomain.getExtension()}/aide`;
-  }
-
   get supportHomeUrl() {
     const currentLanguage = this.intl.t('current-lang');
 
     if (currentLanguage === 'en') {
-      return 'https://support.pix.fr/en/support/home';
+      return 'https://support.pix.org/en/support/home';
     }
-    return 'https://support.pix.fr/fr/support/home';
+    return 'https://support.pix.org/fr/support/home';
   }
 }

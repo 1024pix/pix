@@ -27,7 +27,7 @@ export default class Footer extends Component {
     return this.url.accessibilityUrl;
   }
 
-  get helpCenterUrl() {
-    return this.url.helpCenterUrl;
+  get supportHomeUrl() {
+    return this.url.supportHomeUrl;
   }
 }
