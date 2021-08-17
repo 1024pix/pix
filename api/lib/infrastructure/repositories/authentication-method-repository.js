@@ -223,24 +223,15 @@ module.exports = {
     return _toDomain(authenticationMethodDTO);
   },
 
-  updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
-    return BookshelfAuthenticationMethod
-      .where({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
-      })
-      .save(
-        {
-          authenticationComplement: Bookshelf.knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword),
-        },
-        { patch: true, method: 'update' },
-      )
-      .then(_toDomainEntity)
-      .catch((err) => {
-        if (err instanceof BookshelfAuthenticationMethod.NoRowsUpdatedError) {
-          throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
-        }
-        throw err;
-      });
+  async updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
+    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+      .where({ userId, identityProvider: AuthenticationMethod.identityProviders.PIX })
+      .update({ authenticationComplement: Bookshelf.knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword) })
+      .returning(COLUMNS);
+
+    if (!authenticationMethodDTO) {
+      throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
+    }
+    return _toDomain(authenticationMethodDTO);
   },
 };
