@@ -117,13 +117,16 @@ module.exports = {
   },
 
   async hasIdentityProviderPIX({ userId }) {
-    const foundAuthenticationMethod = await BookshelfAuthenticationMethod
+    const authenticationMethodDTO = await Bookshelf.knex
+      .select(COLUMNS)
+      .from('authentication-methods')
       .where({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .fetch({ require: false });
-    return Boolean(foundAuthenticationMethod);
+      .first();
+
+    return Boolean(authenticationMethodDTO);
   },
 
   async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
