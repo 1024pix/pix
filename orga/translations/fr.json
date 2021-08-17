@@ -603,6 +603,10 @@
         },
         "empty": "Aucun élève.",
         "filter": {
+          "division": {
+            "aria-label": "Entrer une classe",
+            "label": "Rechercher par classe"
+          },
           "first-name": {
             "aria-label": "Entrer un prénom",
             "label": "Rechercher par prénom"
