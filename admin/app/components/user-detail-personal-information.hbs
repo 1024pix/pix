@@ -64,9 +64,13 @@
                  @value={{this.form.username}} />
         </div>
       {{/if}}
-      <div class="col-md-4">
-        <button type="button" class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
-        <button type="submit" class="btn btn-success" aria-label="Editer">Editer</button>
+      <div class="col-md-4 user-detail-personal-information-section__buttons">
+        <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
+        <PixButton @type="submit" @size="small" @backgroundColor="green">Editer</PixButton>
       </div>
     </form>
   {{else}}
@@ -113,22 +117,23 @@
           </div>
         </div>
       </section>
-      <div class="col-md-4">
-          <button
-            type="button"
-            class="btn btn-outline-default"
-            {{on "click" this.changeEditionMode}}
+      <div class="col-md-4 user-detail-personal-information-section__buttons">
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.changeEditionMode}}
           >
             Modifier
-          </button>
+          </PixButton>
         {{#if this.canAdministratorAnonymizeUser}}
-          <button
-            type="button"
-            class="btn btn-danger"
-            {{on "click" this.toggleDisplayAnonymizeModal}}
+          <PixButton
+            @size="small"
+            @backgroundColor="red"
+            @triggerAction={{this.toggleDisplayAnonymizeModal}}
           >
             Anonymiser cet utilisateur
-          </button>
+          </PixButton>
         {{/if}}
       </div>
     </form>
