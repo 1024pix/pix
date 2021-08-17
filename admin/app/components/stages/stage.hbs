@@ -23,7 +23,9 @@
         Description pour le prescripteur : {{@model.prescriberDescription}}<br>
       </div>
       <br>
-      <button type="button" class="btn btn-outline-default" {{on "click" @toggleEditMode}}>Editer</button>
+      <PixButton @size="small" @backgroundColor="transparent-light" @isBorderVisible={{true}} @triggerAction={{@toggleEditMode}}>
+        Editer
+      </PixButton>
     </section>
   {{/if}}
 </main>
