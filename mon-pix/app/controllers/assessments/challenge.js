@@ -16,7 +16,8 @@ export default class ChallengeController extends Controller {
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
-  @tracked hasFocusedOut = false;
+  @tracked hasFocusedOutOfChallenge = false;
+  @tracked hasFocusedOutOfWindow = false;
   @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
   @tracked hasUserConfirmedWarning = false;
 
@@ -31,8 +32,12 @@ export default class ChallengeController extends Controller {
     return this.intl.t(this.challengeTitle, { stepNumber, totalChallengeNumber });
   }
 
-  get isFocusedChallengeAndUserHasFocusedOut() {
-    return this.model.challenge.focused && this.hasFocusedOut;
+  get isFocusedChallengeAndUserHasFocusedOutOfChallenge() {
+    return this.model.challenge.focused && this.hasFocusedOutOfChallenge;
+  }
+
+  get shouldDisplayInfoAlert() {
+    return this.hasFocusedOutOfChallenge && !this.hasFocusedOutOfWindow;
   }
 
   get isFocusedChallengeAndTooltipIsDisplayed() {
@@ -51,13 +56,13 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  focusedIn() {
-    this.hasFocusedOut = false;
+  setFocusedOutOfChallenge(value) {
+    this.hasFocusedOutOfChallenge = value;
   }
 
   @action
-  focusedOut() {
-    this.hasFocusedOut = true;
+  focusedOutOfWindow() {
+    this.hasFocusedOutOfWindow = true;
   }
 
   @action

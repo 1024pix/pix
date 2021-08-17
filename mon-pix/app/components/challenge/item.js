@@ -11,14 +11,10 @@ export default class Item extends Component {
   @tracked hasFocusedOutOfChallenge = false;
   @tracked isTooltipClosed = false;
 
-  get hasFocusedOutOfChallengeButNotWindow() {
-    return this.hasFocusedOutOfChallenge && !this.hasFocusedOutOfWindow;
-  }
-
   @action
   hideOutOfFocusBorder() {
     if (this.isFocusedChallenge && this.isTooltipClosed) {
-      this.args.focusedIn();
+      this.args.onFocusIntoChallenge();
       this.hasFocusedOutOfChallenge = false;
     }
   }
@@ -26,7 +22,7 @@ export default class Item extends Component {
   @action
   showOutOfFocusBorder() {
     if (this.isFocusedChallenge && this.isTooltipClosed) {
-      this.args.focusedOut();
+      this.args.onFocusOutOfChallenge();
       this.hasFocusedOutOfChallenge = true;
     }
   }
@@ -41,6 +37,7 @@ export default class Item extends Component {
   _setOnBlurEventToWindow() {
     window.onblur = () => {
       this.hasFocusedOutOfWindow = true;
+      this.args.onFocusOutOfWindow();
       this._clearOnBlurMethod();
     };
   }
