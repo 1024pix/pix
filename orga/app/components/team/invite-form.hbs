@@ -15,18 +15,15 @@
   </div>
 
   <div class="form__validation">
-    <button type="button" class="button button--no-color" {{on 'click' @onCancel}}>
+    <PixButton
+      @triggerAction={{@onCancel}}
+      @backgroundColor="transparent-light"
+    >
       {{t 'common.actions.cancel'}}
-    </button>
-    {{#if @isLoading}}
-      <button type="button" disabled class="button button--regular">
-        <span class="loader-in-button">&nbsp;</span>
-      </button>
-    {{else}}
-      <button type="submit" class="button button--regular">
-        {{t 'pages.team-new-item.invite-button'}}
-      </button>
-    {{/if}}
+    </PixButton>
+    <PixButton @type="submit" @isLoading={{@isLoading}}>
+      {{t 'pages.team-new-item.invite-button'}}
+    </PixButton>
   </div>
 
 </form>

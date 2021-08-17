@@ -40,9 +40,13 @@
     </td>
     <td>
       <div class="zone-save-cancel-role">
-        <button id='save-organization-role' type="button" class="button button--thin" {{on 'click' (fn this.updateRoleOfMember @membership)}}>
+        <PixButton
+          id="save-organization-role"
+          @triggerAction={{fn this.updateRoleOfMember @membership}}
+          @size="small"
+        >
           {{t 'pages.team-members.actions.save'}}
-        </button>
+        </PixButton>
         <PixIconButton
           @icon="times"
           id='cancel-update-organization-role'
