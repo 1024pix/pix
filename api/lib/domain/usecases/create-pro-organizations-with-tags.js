@@ -62,7 +62,6 @@ module.exports = async function createProOrganizationsWithTags({
 };
 
 function _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations) {
-
   if (!organizations) {
     throw new ObjectValidationError('Les organisations ne sont pas renseignées.');
   }
@@ -74,7 +73,6 @@ function _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations) {
 }
 
 async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository) {
-
   const organizationIds = await organizationRepository.findByExternalIdsFetchingIdsOnly(map(organizations, 'externalId'));
   if (!isEmpty(organizationIds)) {
     throw new OrganizationAlreadyExistError();
