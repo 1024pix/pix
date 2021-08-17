@@ -49,9 +49,7 @@
   </div>
   <div class="row">
     <div class="col certification-details__actions">
-      <button class="btn btn-primary btn-sm" type="submit" {{on 'click' this.onStoreMarks}}>
-        Enregistrer
-      </button>
+      <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
     </div>
   </div>
 </div>
