@@ -2,13 +2,12 @@ const js2xmlparser = require('js2xmlparser');
 const faker = require('faker');
 const fs = require('fs');
 
+const DEFAULT_USER_COUNT = 5;
+const DEFAULT_ORGANIZATION_UAJ = '1237457A';
+
 const run = function() {
-
-  const DEFAULT_USER_COUNT = 5;
   const userCount = process.argv[2] || DEFAULT_USER_COUNT;
-
-  const DEFAULT_ORGANIZATION_UAJ = '1237457A';
-  const organizationUAJ =  process.argv[3] || DEFAULT_ORGANIZATION_UAJ;
+  const organizationUAJ = process.argv[3] || DEFAULT_ORGANIZATION_UAJ;
 
   console.log(`Generating SIECLE file on organization ${organizationUAJ} for ${userCount} users`);
 
@@ -24,9 +23,9 @@ const run = function() {
   const STRUCTURES = generateSTRUCTURES(ELEVES);
 
   const DONNEES = {
-    ELEVES: { ELEVE: ELEVES } ,
+    ELEVES: { ELEVE: ELEVES },
     OPTIONS: {},
-    STRUCTURES: { STRUCTURES_ELEVE : STRUCTURES },
+    STRUCTURES: { STRUCTURES_ELEVE: STRUCTURES },
     BOURSES: {},
     ADRESSES: {},
   };
@@ -40,15 +39,13 @@ const run = function() {
   const SIECLEFileContent = js2xmlparser.parse(rootXMLNode, BEE_ELEVES);
   const fileName = `SIECLE-organization-${organizationUAJ}-${userCount}-users.xml`;
 
-  fs.writeFile(fileName , SIECLEFileContent, function(err) {
+  fs.writeFile(fileName, SIECLEFileContent, function(err) {
     if (err) throw err;
     console.log(`SIECLE file for ${userCount} users in file ${fileName}`);
   });
-
 };
 
 const generateELEVES = function(userCount) {
-
   const ELEVES = [];
 
   const identifier = function(base, length) {
@@ -57,19 +54,18 @@ const generateELEVES = function(userCount) {
   };
 
   for (let i = 0; i < userCount; i++) {
-
     const ELEVE = {
       '@': {
-        ELEVE_ID: identifier(i,7), // 7  '1223189',
-        ELENOET:  identifier(i,4),    //  4 '6202'
+        ELEVE_ID: identifier(i, 7), // 7  '1223189',
+        ELENOET: identifier(i, 4), //  4 '6202'
       },
-      ID_NATIONAL: identifier(i,12), // 12: '123456789AB',
-      INE_BEA:     identifier(i,11), // 11: '1234567890A',
-      INE_RNIE:    identifier(i,12), //  12:'123456789AB',
-      ELENOET:     identifier(i,4), // See @
-      ID_ELEVE_ETAB: identifier(i,11), // '12345678901'
+      ID_NATIONAL: identifier(i, 12), // 12: '123456789AB',
+      INE_BEA: identifier(i, 11), // 11: '1234567890A',
+      INE_RNIE: identifier(i, 12), //  12:'123456789AB',
+      ELENOET: identifier(i, 4), // See @
+      ID_ELEVE_ETAB: identifier(i, 11), // '12345678901'
       NOM_DE_FAMILLE: faker.name.lastName(),
-      PRENOM:  faker.name.firstName(),
+      PRENOM: faker.name.firstName(),
       PRENOM2: faker.name.firstName(),
       PRENOM3: faker.name.firstName(),
       DATE_NAISS: '01/03/2001',
@@ -83,13 +79,13 @@ const generateELEVES = function(userCount) {
       CODE_SEXE: '2',
       CODE_PAYS_NAT: '100',
       CODE_STATUT: 'ST',
-      CODE_MEF: identifier(i,11), // 11 '12345678901',
+      CODE_MEF: identifier(i, 11), // 11 '12345678901',
       CODE_DEPARTEMENT_NAISS: '041',
       CODE_COMMUNE_INSEE_NAISS: '41018',
       ADHESION_TRANSPORT: '0',
       CODE_PROVENANCE: '1',
       SCOLARITE_AN_DERNIER: {
-        CODE_MEF: identifier(i,11), //11 '12345678901',
+        CODE_MEF: identifier(i, 11), //11 '12345678901',
         CODE_STRUCTURE: '3E 4',
         CODE_RNE: '0180777X',
         CODE_NATURE: '340',
@@ -112,7 +108,6 @@ const generateELEVES = function(userCount) {
 };
 
 const generateSTRUCTURES = function(ELEVES) {
-
   const STRUCTURES = [];
 
   ELEVES.forEach((eleve) => {
