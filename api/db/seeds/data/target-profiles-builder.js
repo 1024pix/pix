@@ -26,13 +26,15 @@ const skillIdsForBadgePartnerCompetence2 = [
 ];
 
 const skillIdsForBadgePartnerCompetence3 = [
-  'recZnnTU4WUP6KwwX', 'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO',
-  'recXDYAkqqIDCDePc', 'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC',
-  'rec0tk8dZWOzSQbaQ', 'recmoanUlDOyXexPF', 'recKbNbM8G7mKaloD', 'recfktfO0ROu1OifX',
-  'rec7WOXWi5ClE8BxH', 'recHo6D1spbDR9C2N', 'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx',
-  'rec7EvARki1b9t574', 'rec6IWrDOSaoX4aLn', 'recI4zS51by3N7Ryi', 'recrV8JAEsieJOAch',
-  'recHBMRraNImyqmDF', 'recaTPKUCD6uAS0li', 'recicaqEeoJUtXT6j', 'recDotNI5r7ApHfwa',
+  'rececWx6MmPhufxXk', 'recAFoEonOOChXe9t', 'recaMBgjv3EZnAlWO', 'recXDYAkqqIDCDePc',
+  'recwOLZ8bzMQK9NF9', 'recR1SlS7sWoquhoC', 'recPGDVdX0LSOWQQC', 'rec0tk8dZWOzSQbaQ',
+  'recmoanUlDOyXexPF', 'recKbNbM8G7mKaloD', 'recfktfO0ROu1OifX', 'rec7WOXWi5ClE8BxH',
+  'recHo6D1spbDR9C2N', 'recpdpemRXuzV9r10', 'recWXtN5cNP1JQUVx', 'rec7EvARki1b9t574',
+  'recI4zS51by3N7Ryi', 'recrV8JAEsieJOAch', 'recHBMRraNImyqmDF', 'recaTPKUCD6uAS0li',
+  'recicaqEeoJUtXT6j', 'recDotNI5r7ApHfwa',
 ];
+const skillIdsForBadgePartnerCompetence3_V1_only = ['rec6IWrDOSaoX4aLn', 'recZnnTU4WUP6KwwX'];
+const skillIdsForBadgePartnerCompetence3_V2_only = ['recqSPZiRJYzfCDaS', 'recRAXPXVL2cMh5b5'];
 
 const skillIdsForBadgePartnerCompetence4 = [
   'recTIddrkopID28Ep', 'recBrDIfDDW2IPpZV', 'recixKw4lXIiHue01', 'recLYUZrWeizc4G5d',
@@ -42,15 +44,28 @@ const skillIdsForBadgePartnerCompetence4 = [
   'reci70rsZPmL12z5b', 'recX6aP7OkjU9PVWE', 'recUdMS2pRSF4sgnk', 'recVgnoo6RjCxjCQp',
   'recLsem0KbElkpjvp', 'recSByLc0DNQ8F0D1', 'recEAJG3c7SNoiUcj', 'reclCMZpPDx3eQ46q',
   'recQdr7rbPZ3Kh6Ef', 'recLhYgOVFwOmQSLn', 'recfuk3QLAOzBQzSU', 'recXZWPaaJ6jlcmtq',
-  'rec2Kg1bqEZVI8fBh', 'recx7WnZJCXVgCvN4', 'recAzV1ljhCdjrasn', 'rec9IR04aOpn5aSCP',
-  'recJGN6S3MmTZVa5O', 'recUCuU7EMEHAysmp', 'rec2DvazCDkBnqOmK',
+  'rec2Kg1bqEZVI8fBh', 'rec9IR04aOpn5aSCP', 'recJGN6S3MmTZVa5O', 'recUCuU7EMEHAysmp',
+  'rec2DvazCDkBnqOmK',
 ];
+const skillIdsForBadgePartnerCompetence4_V1_only = ['recAzV1ljhCdjrasn', 'recx7WnZJCXVgCvN4'];
+const skillIdsForBadgePartnerCompetence4_V2_only = ['rec1XTXVEkhBVKPLW', 'rec2gXP40kiwxd0Kc'];
 
-const skillIdsForBadgePartnerCompetences = [
+const skillIdsForBadgePartnerCompetencesV1 = [
   skillIdsForBadgePartnerCompetence1,
   skillIdsForBadgePartnerCompetence2,
   skillIdsForBadgePartnerCompetence3,
+  skillIdsForBadgePartnerCompetence3_V1_only,
   skillIdsForBadgePartnerCompetence4,
+  skillIdsForBadgePartnerCompetence4_V1_only,
+];
+
+const skillIdsForBadgePartnerCompetencesV2 = [
+  skillIdsForBadgePartnerCompetence1,
+  skillIdsForBadgePartnerCompetence2,
+  skillIdsForBadgePartnerCompetence3,
+  skillIdsForBadgePartnerCompetence3_V2_only,
+  skillIdsForBadgePartnerCompetence4,
+  skillIdsForBadgePartnerCompetence4_V2_only,
 ];
 
 const TARGET_PROFILE_PIC_DIAG_INITIAL_ID = 1;
@@ -59,6 +74,7 @@ const TARGET_PROFILE_STAGES_BADGES_ID = 3;
 const TARGET_PROFILE_SIMPLIFIED_ACCESS_ID = 4;
 const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID = 5;
 const TARGET_PROFILE_PIX_DROIT_ID = 6;
+const TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2 = 7;
 
 function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfilePICDiagnosticInitial(databaseBuilder);
@@ -66,6 +82,7 @@ function targetProfilesBuilder({ databaseBuilder }) {
   _buildTargetProfileWithStagesAndBadges(databaseBuilder);
   _buildTargetProfileWithSimplifiedAccess(databaseBuilder);
   _buildTargetProfilePixEmploiClea(databaseBuilder);
+  _buildTargetProfilePixEmploiCleaV2(databaseBuilder);
   _buildTargetProfilePixDroit(databaseBuilder);
 }
 
@@ -165,9 +182,30 @@ function _buildTargetProfilePixEmploiClea(databaseBuilder) {
   [...skillIdsForBadgePartnerCompetence1,
     ...skillIdsForBadgePartnerCompetence2,
     ...skillIdsForBadgePartnerCompetence3,
+    ...skillIdsForBadgePartnerCompetence3_V1_only,
     ...skillIdsForBadgePartnerCompetence4,
+    ...skillIdsForBadgePartnerCompetence4_V1_only,
   ].forEach((skillId) => {
     databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID, skillId });
+  });
+}
+
+function _buildTargetProfilePixEmploiCleaV2(databaseBuilder) {
+  databaseBuilder.factory.buildTargetProfile({
+    id: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
+    name: 'Parcours complet CléA numérique (2021)',
+    isPublic: false,
+    ownerOrganizationId: PRO_POLE_EMPLOI_ID,
+  });
+
+  [...skillIdsForBadgePartnerCompetence1,
+    ...skillIdsForBadgePartnerCompetence2,
+    ...skillIdsForBadgePartnerCompetence3,
+    ...skillIdsForBadgePartnerCompetence3_V2_only,
+    ...skillIdsForBadgePartnerCompetence4,
+    ...skillIdsForBadgePartnerCompetence4_V2_only,
+  ].forEach((skillId) => {
+    databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2, skillId });
   });
 }
 
@@ -237,6 +275,8 @@ module.exports = {
   TARGET_PROFILE_STAGES_BADGES_ID,
   TARGET_PROFILE_SIMPLIFIED_ACCESS_ID,
   TARGET_PROFILE_PIX_EMPLOI_CLEA_ID,
+  TARGET_PROFILE_PIX_EMPLOI_CLEA_ID_V2,
   TARGET_PROFILE_PIX_DROIT_ID,
-  skillIdsForBadgePartnerCompetences,
+  skillIdsForBadgePartnerCompetencesV1,
+  skillIdsForBadgePartnerCompetencesV2,
 };

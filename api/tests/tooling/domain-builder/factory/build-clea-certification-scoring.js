@@ -8,6 +8,7 @@ module.exports = function buildCleaCertificationScoring({
   reproducibilityRate = 50,
   cleaCompetenceMarks = [buildCompetenceMark()],
   maxReachablePixByCompetenceForClea = { competence1: 51 },
+  cleaBadgeKey = 'some-clea_key',
 } = {}) {
 
   return new CleaCertificationScoring({
@@ -17,5 +18,6 @@ module.exports = function buildCleaCertificationScoring({
     reproducibilityRate,
     cleaCompetenceMarks,
     maxReachablePixByCompetenceForClea,
+    cleaBadgeKey,
   });
 };

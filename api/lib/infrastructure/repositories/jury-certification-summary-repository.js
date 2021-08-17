@@ -77,7 +77,8 @@ function _toDomain(juryCertificationSummaryDTO) {
 
 function _getPartnerCertificationsResult(partnerCertificationsJSON) {
   const partnerCertifications = JSON.parse(partnerCertificationsJSON) || [];
-  const cleaCertificationCertification = _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKey });
+  const cleaCertificationCertification =
+    _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV1 }) || _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV2 });
   const pixPlusDroitMaitreCertification = _.find(partnerCertifications, { partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey });
   const pixPlusDroitExpertCertification = _.find(partnerCertifications, { partnerKey: PixPlusDroitExpertCertificationResult.badgeKey });
 

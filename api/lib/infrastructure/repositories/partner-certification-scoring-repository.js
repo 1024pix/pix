@@ -15,21 +15,25 @@ module.exports = {
     domainTransaction = DomainTransaction.emptyTransaction(),
     skillRepository,
   }) {
-    const hasAcquiredBadge = await _hasAcquiredBadge(userId, domainTransaction);
-    const cleaSkills = await _getCleaSkills(skillRepository);
+    const cleaBadgeKey = await _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction);
+    const hasAcquiredBadge = Boolean(cleaBadgeKey);
+    if (!hasAcquiredBadge) {
+      return CleaCertificationScoring.buildNotEligible({ certificationCourseId });
+    }
+    const cleaSkills = await _getCleaSkills(cleaBadgeKey, skillRepository);
     const maxReachablePixByCompetenceForClea = _getMaxReachablePixByCompetenceForClea(cleaSkills);
     const cleaCompetenceMarks = await _getCleaCompetenceMarks({
       certificationCourseId,
       cleaCompetenceIds: Object.keys(maxReachablePixByCompetenceForClea),
       domainTransaction,
     });
-
     return new CleaCertificationScoring({
       certificationCourseId,
       hasAcquiredBadge,
       cleaCompetenceMarks,
       maxReachablePixByCompetenceForClea,
       reproducibilityRate,
+      cleaBadgeKey,
     });
   },
 
@@ -65,16 +69,21 @@ function _adaptModelToDB({ certificationCourseId, partnerKey, acquired }) {
   return { certificationCourseId, partnerKey, acquired };
 }
 
-async function _hasAcquiredBadge(userId, domainTransaction) {
+async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTransaction) {
   const badgeAcquisitionQuery = knex('badge-acquisitions')
+    .pluck('badges.key')
     .innerJoin('badges', 'badges.id', 'badgeId')
-    .where({ userId, key: Badge.keys.PIX_EMPLOI_CLEA })
-    .first();
+    .innerJoin('certification-courses', 'certification-courses.userId', 'badge-acquisitions.userId')
+    .where('badge-acquisitions.userId', userId)
+    .whereIn('badges.key', [ Badge.keys.PIX_EMPLOI_CLEA, Badge.keys.PIX_EMPLOI_CLEA_V2 ])
+    .where('certification-courses.id', certificationCourseId)
+    .where('badge-acquisitions.createdAt', '<', knex.ref('certification-courses.createdAt'))
+    .orderBy('badge-acquisitions.createdAt', 'DESC');
   if (domainTransaction.knexTransaction) {
     badgeAcquisitionQuery.transacting(domainTransaction.knexTransaction);
   }
-  const badgeAcquisition = await badgeAcquisitionQuery;
-  return Boolean(badgeAcquisition);
+  const [ acquiredBadgeKey ] = await badgeAcquisitionQuery;
+  return acquiredBadgeKey;
 }
 
 async function _getCleaCompetenceMarks({ certificationCourseId, cleaCompetenceIds, domainTransaction }) {
@@ -104,11 +113,11 @@ async function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBui
     .limit(1);
 }
 
-async function _getCleaSkills(skillRepository) {
+async function _getCleaSkills(cleaBadgeKey, skillRepository) {
   const skillIdPacks = await knex('badge-partner-competences')
     .select('skillIds')
     .join('badges', 'badges.id', 'badge-partner-competences.badgeId')
-    .where('badges.key', '=', Badge.keys.PIX_EMPLOI_CLEA);
+    .where('badges.key', '=', cleaBadgeKey);
 
   const cleaSkillIds = _.flatMap(skillIdPacks, 'skillIds');
   return skillRepository.findOperativeByIds(cleaSkillIds);
