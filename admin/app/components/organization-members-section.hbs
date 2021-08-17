@@ -9,7 +9,6 @@
           class="form-field__text form-control"
           placeholder="Adresse email de l'utilisateur à ajouter" />
         <PixButton
-          type="button"
           @size="small"
           @triggerAction={{@addMembership}}>
             Valider
@@ -33,7 +32,6 @@
           aria-label="Choisir la langue de l’email d’invitation"/>
 
         <PixButton
-          type="button"
           @size="small"
           @triggerAction={{fn @createOrganizationInvitation this.organizationInvitationLang}}>
             Inviter

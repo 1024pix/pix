@@ -87,7 +87,7 @@
                                @border="squircle-small"
                                aria-label="Supprimer palier"
                                @triggerAction={{fn this.removeNewStage stage}}>
-                      <FaIcon @icon="minus"></FaIcon>
+                      <FaIcon @icon="minus" />
                     </PixButton>
                   {{else}}
                    <LinkTo @route="authenticated.stages.stage" @model={{stage}} class="btn btn-outline-default btn-thin">
@@ -109,7 +109,7 @@
                @border="squircle-small"
                data-test="Nouveau palier"
                @triggerAction={{this.addStage}}>
-      <FaIcon @icon="plus"></FaIcon>&nbsp;Nouveau palier
+      <FaIcon @icon="plus" />&nbsp;Nouveau palier
     </PixButton>
 
     {{#if this.hasNewStage}}
