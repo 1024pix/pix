@@ -39,6 +39,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
       id: '1',
       sharedAt: new Date('2020-01-01'),
       campaignAllowsRetry: true,
+      isRegistrationActive: true,
       scorecards: expectedScorecards,
     });
 
