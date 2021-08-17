@@ -1,18 +1,15 @@
-const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
+const { fetchPage } = require('../utils/knex-utils');
 const { NotFoundError } = require('../../domain/errors');
 const JurySession = require('../../domain/models/JurySession');
 const { statuses } = require('../../domain/models/JurySession');
 const CertificationOfficer = require('../../domain/models/CertificationOfficer');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
-const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_PAGE_NUMBER = 1;
-
 module.exports = {
 
   async get(id) {
-    const results = await Bookshelf.knex
+    const results = await knex
       .select('sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName')
       .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
@@ -26,43 +23,29 @@ module.exports = {
   },
 
   async findPaginatedFiltered({ filters, page }) {
-    const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
-    const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const offset = (pageNumber - 1) * pageSize;
-    const query = Bookshelf.knex.from('sessions');
+    const query = knex.from('sessions');
 
     _setupFilters(query, filters);
     query.orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
       .orderByRaw('?? ASC', 'finalizedAt')
       .orderBy('id')
       .select('sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName')
-      .select(Bookshelf.knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
-      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
-      .limit(pageSize).offset(offset);
+      .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId');
 
-    const results = await query;
+    const { results, pagination } = await fetchPage(query, page);
 
-    let rowCount = 0;
-    const jurySessions = _.map(results, (result) => {
-      rowCount = result.rowCount;
-      return _toDomain(result);
-    });
+    const jurySessions = results.map(_toDomain);
 
     return {
       jurySessions,
-      pagination: {
-        page: pageNumber,
-        pageSize: pageSize,
-        rowCount,
-        pageCount: Math.ceil(rowCount / pageSize),
-      },
+      pagination,
     };
   },
 
   async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
     try {
-      await Bookshelf.knex('sessions')
+      await knex('sessions')
         .where({ id })
         .update({ assignedCertificationOfficerId })
         .returning('*');
