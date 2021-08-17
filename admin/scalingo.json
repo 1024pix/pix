@@ -1,0 +1,18 @@
+{
+  "name": "Pix Review App",
+  "env": {
+    "REVIEW_APP": {
+      "description": "Indicates that the application is a review app",
+      "value": "true"
+    },
+  },
+  "scripts": {
+    "first-deploy": "./scripts/scalingo-post-ra-creation.sh"
+  },
+  "formation": {
+    "web": {
+      "amount": 1,
+      "size": "S"
+    }
+  }
+}
