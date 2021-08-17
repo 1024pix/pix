@@ -321,13 +321,30 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       });
     });
 
-    context('when the knowledge element is invalidated and has bee created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', function() {
+    context('when participation is shared', function() {
+      it('returns false', function() {
+        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-01') });
+        const participationResults = {
+          knowledgeElements: [ke],
+          acquiredBadgeIds: [],
+          assessmentCreatedAt,
+          sharedAt: new Date(),
+        };
+        const targetProfile = { competences: [], stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+
+        expect(assessmentResult.canImprove).to.be.false;
+      });
+    });
+
+    context('when participation is not shared and the knowledge element is invalidated and created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', function() {
       it('returns true', function() {
         const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-01') });
         const participationResults = {
           knowledgeElements: [ke],
           acquiredBadgeIds: [],
           assessmentCreatedAt,
+          sharedAt: null,
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
         const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);

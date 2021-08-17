@@ -40,11 +40,12 @@ class AssessmentResult {
   }
 
   _computeCanImprove(knowledgeElements, assessmentCreatedAt) {
-    return knowledgeElements.filter((knowledgeElement) => {
+    const isImprovementPossible = knowledgeElements.filter((knowledgeElement) => {
       const isOldEnoughToBeImproved = moment(assessmentCreatedAt)
         .diff(knowledgeElement.createdAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
       return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
     }).length > 0;
+    return isImprovementPossible && !this.isShared;
   }
 
   _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive) {

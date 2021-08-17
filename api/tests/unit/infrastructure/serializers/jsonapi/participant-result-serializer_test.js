@@ -77,7 +77,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
             'validated-skills-count': 1,
             'stage-count': 3,
             'can-retry': true,
-            'can-improve': true,
+            'can-improve': false,
             'participant-external-id': 'greg@lafleche.fr',
           },
           id: '1',
