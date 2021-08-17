@@ -218,7 +218,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
-          sharedAt: new Date('2020-01-03'),
+          sharedAt: new Date('2020-01-01T04:06:07Z'),
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
 
@@ -256,7 +256,24 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
-          sharedAt: new Date('2020-01-01'),
+          sharedAt: new Date('2019-12-12'),
+        };
+        const targetProfile = { competences, stages: [], badges: [] };
+        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
+
+        expect(assessmentResult.canRetry).to.be.true;
+      });
+    });
+
+    context('when the campaign allow multiple sendings, the mastery percentage is under 100%, the participant is active and the participation has been shared exactly MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
+      it('returns true', function() {
+        const isCampaignMultipleSendings = true;
+        const isRegistrationActive = true;
+        const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
+        const participationResults = {
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          sharedAt: new Date('2020-01-01T05:06:07Z'),
         };
         const targetProfile = { competences, stages: [], badges: [] };
         const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);

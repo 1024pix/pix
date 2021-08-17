@@ -57,7 +57,7 @@ class AssessmentResult {
 
   _timeBeforeRetryingPassed(sharedAt) {
     if (!this.isShared) return false;
-    return sharedAt && moment().diff(sharedAt, 'days') >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
+    return sharedAt && moment().diff(sharedAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
 
