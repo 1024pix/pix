@@ -8,6 +8,7 @@
                      @proposals={{@challenge.proposals}}
                      @answersValue={{this.answersValue}}
                      @answerChanged={{this.answerChanged}}
+                     @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
       />
     </div>
 
@@ -45,6 +46,7 @@
                       @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
                       @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
                       @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
-                      @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
+                      @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+                      @isDisabled={{this.isAnswerFieldDisabled}}/>
   {{/if}}
 </form>

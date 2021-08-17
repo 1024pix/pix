@@ -26,7 +26,7 @@
                     @emptyOptionLabel={{block.placeholder}}
                     @selectedOption={{this.userAnswer}}
                     @emptyOptionNotSelectable={{true}}
-                    disabled={{@answer}}
+                    disabled={{this.isAnswerFieldDisabled}}
                     @options={{block.options}}
                     data-uid="qroc-proposal-uid"
                     @onChange={{this.answerChanged}}
@@ -34,6 +34,7 @@
                 </div>
             {{else if (eq @challenge.format 'paragraphe')}}
               <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
+                        data-test="challenge-response-proposal-selector"
                         rows="5"
                         id="qroc_input"
                 {{on 'keyup' this.answerChanged}}
@@ -46,6 +47,7 @@
               </textarea>
             {{else if (eq @challenge.format 'phrase')}}
               <input class="challenge-response__proposal challenge-response__proposal--sentence"
+                     data-test="challenge-response-proposal-selector"
                      type="text"
                      id="qroc_input"
                 {{on 'keyup' this.answerChanged}}
@@ -57,6 +59,7 @@
                      disabled={{this.isAnswerFieldDisabled}}>
             {{else if (eq @challenge.format 'nombre')}}
               <input class="challenge-response__proposal challenge-response__proposal--number"
+                     data-test="challenge-response-proposal-selector"
                      type="number"
                      id="qroc_input"
                 {{on 'keyup' this.answerChanged}}
@@ -68,6 +71,7 @@
                      disabled={{this.isAnswerFieldDisabled}}>
             {{else}}
               <input class="challenge-response__proposal"
+                     data-test="challenge-response-proposal-selector"
                      size="{{get-qroc-input-size @challenge.format}}"
                      type="text"
                      id="qroc_input"
