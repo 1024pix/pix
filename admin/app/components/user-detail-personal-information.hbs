@@ -150,11 +150,10 @@
     </div>
     {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'EMAIL'}}
-              data-test-remove-email>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'EMAIL'}}
+        data-test-remove-email>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -169,11 +168,10 @@
     </div>
     {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'USERNAME'}}
-              data-test-remove-username>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'USERNAME'}}
+        data-test-remove-username>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -188,11 +186,11 @@
     </div>
     {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
-              data-test-remove-pole-emploi>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @type="button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
+        data-test-remove-pole-emploi>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -207,11 +205,11 @@
     </div>
     {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
-              data-test-remove-mediacentre>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @type="button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
+        data-test-remove-mediacentre>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -252,10 +250,10 @@
           <td>{{format-date schoolingRegistration.updatedAt}}</td>
           <td>
             <PixButton
-                    @triggerAction={{fn this.toggleDisplayDissociateModal schoolingRegistration}}
-                    @border="squircle-small"
-                    class="btn btn-danger"
-                    data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
+              @triggerAction={{fn this.toggleDisplayDissociateModal schoolingRegistration}}
+              @border="squircle-small"
+              class="btn btn-danger"
+              data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
             >
               Dissocier
             </PixButton>

@@ -2,8 +2,6 @@
 <div class="certification-informations">
   <div class="buttons-row">
     <PixButton
-      class="form-action"
-      @isLink="true"
       @route="authenticated.users.get"
       @size="small"
       @model={{this.certification.userId}}
@@ -11,14 +9,14 @@
       Voir les détails de l'utilisateur
     </PixButton>
     <PixButton
-      class="form-action"
       @backgroundColor="red"
       @isDisabled={{this.isCertificationCancelled}}
       @size="small"
       @triggerAction={{this.onCancelCourseButtonClick}}
-      data-test-id="Annuler la certification">
+      data-test-id="Annuler la certification"
+    >
       Annuler la certification
-      </PixButton>
+    </PixButton>
   </div>
   <div class="row">
     <div class="col">
@@ -207,7 +205,7 @@
           </PixButton>
           <PixButton
             @size="small"
-            {{on 'click' this.onCandidateResultsSaveConfirm}}
+            @triggerAction={{this.onCandidateResultsSaveConfirm}}
             aria-label="Enregistrer les résultats du candidat"
           >
             Enregistrer

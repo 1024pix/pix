@@ -36,10 +36,11 @@
 
       <PixButton
         @triggerAction={{this.addCertificationCenterMembership}}
-        @backgroundColor="transparent"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
         @loading-color="grey"
         @isDisabled={{this.isDisabled}}
-        class="btn btn-outline-default"
+        @size="small"
         data-test-add-membership
       >
         Valider
