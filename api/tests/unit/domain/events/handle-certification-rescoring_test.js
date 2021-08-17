@@ -13,6 +13,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
     const competenceMarkRepository = { save: sinon.stub() };
     const certificationResultService = { computeResult: sinon.stub() };
+    const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
@@ -33,14 +34,10 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
 
     const competenceMarkData2 = domainBuilder.buildCompetenceMark();
     const competenceMarkData1 = domainBuilder.buildCompetenceMark();
-    const nbPix = Symbol('nbPix');
-    const status = Symbol('status');
-    const certificationAssessmentScore = {
-      nbPix,
-      status,
+    const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
       competenceMarks: [competenceMarkData1, competenceMarkData2],
       percentageCorrectAnswers: 80,
-    };
+    });
     certificationResultService.computeResult
       .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
@@ -49,8 +46,8 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       id: undefined,
       commentForJury: 'Computed',
       emitter: 'PIX-ALGO-NEUTRALIZATION',
-      pixScore: nbPix,
-      status: status,
+      pixScore: certificationAssessmentScore.nbPix,
+      status: certificationAssessmentScore.status,
       assessmentId: 123,
       juryId: 7,
     });
@@ -59,11 +56,15 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
       .withArgs(assessmentResultToBeSaved)
       .resolves(savedAssessmentResult);
 
+    const certificationCourse = domainBuilder.buildCertificationCourse({ id: certificationAssessment.certificationCourseId, isCancelled: false });
+    certificationCourseRepository.get.withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
+
     const dependencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
       competenceMarkRepository,
       certificationResultService,
+      certificationCourseRepository,
     };
 
     // when
@@ -87,6 +88,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
     const competenceMarkRepository = { save: sinon.stub() };
     const certificationResultService = { computeResult: sinon.stub() };
+    const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
 
     const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -95,20 +97,24 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     });
     certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
 
-    const certificationAssessmentScore = {
+    const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
       competenceMarks: [],
       percentageCorrectAnswers: 80,
-    };
+    });
     certificationResultService.computeResult
       .withArgs({ certificationAssessment, continueOnError: false })
       .resolves(certificationAssessmentScore);
     assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
+
+    const certificationCourse = domainBuilder.buildCertificationCourse({ id: certificationAssessment.certificationCourseId, isCancelled: false });
+    certificationCourseRepository.get.withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
 
     const dependencies = {
       assessmentResultRepository,
       certificationAssessmentRepository,
       competenceMarkRepository,
       certificationResultService,
+      certificationCourseRepository,
     };
 
     // when
@@ -184,5 +190,109 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
 
     // then
     expect(assessmentResultRepository.save).to.have.been.calledWith(assessmentResultToBeSaved);
+  });
+
+  context('when certification assessment score has no competence marks', () => {
+
+    it('should cancel the certification course', async () => {
+      // given
+      const assessmentResultRepository = { save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+      const competenceMarkRepository = { save: sinon.stub() };
+      const certificationResultService = { computeResult: sinon.stub() };
+      const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
+
+      const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        userId: 123,
+        certificationCourseId: 1,
+      });
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
+
+      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+        competenceMarks: [],
+        percentageCorrectAnswers: 80,
+      });
+      certificationResultService.computeResult
+        .withArgs({ certificationAssessment, continueOnError: false })
+        .resolves(certificationAssessmentScore);
+      assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
+
+      const certificationCourse = domainBuilder.buildCertificationCourse({ id: certificationAssessment.certificationCourseId, isCancelled: false });
+      certificationCourseRepository.get.withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
+
+      const dependencies = {
+        assessmentResultRepository,
+        certificationAssessmentRepository,
+        competenceMarkRepository,
+        certificationResultService,
+        certificationCourseRepository,
+      };
+
+      // when
+      await handleCertificationRescoring({
+        ...dependencies,
+        event,
+      });
+
+      // then
+      const expectedCertificationCourseToUpdate = domainBuilder.buildCertificationCourse({
+        ...certificationCourse.toDTO(),
+        isCancelled: true,
+      });
+      expect(certificationCourseRepository.update).to.have.been.calledWith(expectedCertificationCourseToUpdate);
+    });
+  });
+
+  context('when certification assessment score has competence marks', () => {
+
+    it('should uncancel the certification course', async () => {
+      // given
+      const assessmentResultRepository = { save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+      const competenceMarkRepository = { save: sinon.stub() };
+      const certificationResultService = { computeResult: sinon.stub() };
+      const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
+
+      const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        userId: 123,
+        certificationCourseId: 1,
+      });
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: 1 }).resolves(certificationAssessment);
+
+      const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
+        competenceMarks: [domainBuilder.buildCompetenceMark()],
+        percentageCorrectAnswers: 80,
+      });
+      certificationResultService.computeResult
+        .withArgs({ certificationAssessment, continueOnError: false })
+        .resolves(certificationAssessmentScore);
+      assessmentResultRepository.save.resolves(domainBuilder.buildAssessmentResult());
+
+      const certificationCourse = domainBuilder.buildCertificationCourse({ id: certificationAssessment.certificationCourseId, isCancelled: true });
+      certificationCourseRepository.get.withArgs(certificationAssessment.certificationCourseId).resolves(certificationCourse);
+
+      const dependencies = {
+        assessmentResultRepository,
+        certificationAssessmentRepository,
+        competenceMarkRepository,
+        certificationResultService,
+        certificationCourseRepository,
+      };
+
+      // when
+      await handleCertificationRescoring({
+        ...dependencies,
+        event,
+      });
+
+      // then
+      const expectedCertificationCourseToUpdate = domainBuilder.buildCertificationCourse({
+        ...certificationCourse.toDTO(),
+        isCancelled: false,
+      });
+      expect(certificationCourseRepository.update).to.have.been.calledWith(expectedCertificationCourseToUpdate);
+    });
   });
 });

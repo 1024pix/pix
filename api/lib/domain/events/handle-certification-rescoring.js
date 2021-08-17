@@ -19,6 +19,7 @@ async function handleCertificationRescoring({
   certificationAssessmentRepository,
   competenceMarkRepository,
   certificationResultService,
+  certificationCourseRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -28,6 +29,7 @@ async function handleCertificationRescoring({
     assessmentResultRepository,
     competenceMarkRepository,
     certificationResultService,
+    certificationCourseRepository,
     juryId: event.juryId,
   });
 }
@@ -37,6 +39,7 @@ async function _calculateCertificationScore({
   assessmentResultRepository,
   competenceMarkRepository,
   certificationResultService,
+  certificationCourseRepository,
   juryId,
 }) {
   try {
@@ -49,6 +52,7 @@ async function _calculateCertificationScore({
       certificationAssessment,
       assessmentResultRepository,
       competenceMarkRepository,
+      certificationCourseRepository,
       juryId,
     });
     return new CertificationRescoringCompleted({
@@ -74,6 +78,7 @@ async function _saveResult({
   certificationAssessmentScore,
   assessmentResultRepository,
   competenceMarkRepository,
+  certificationCourseRepository,
   juryId,
 }) {
   const assessmentResult = await _createAssessmentResult({
@@ -87,6 +92,14 @@ async function _saveResult({
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId: assessmentResult.id });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
+
+  const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
+  if (certificationAssessmentScore.hasNoCompetenceMarks()) {
+    certificationCourse.cancel();
+  } else {
+    certificationCourse.uncancel();
+  }
+  await certificationCourseRepository.update(certificationCourse);
 }
 
 function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, juryId }) {
