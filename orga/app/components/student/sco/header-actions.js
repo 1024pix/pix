@@ -20,10 +20,6 @@ export default class ScoHeaderActions extends Component {
     return this.intl.t('pages.students-sco.actions.import-file.label', { types });
   }
 
-  get displayLearnMoreAndLinkTemplate() {
-    return this.currentUser.isAgriculture && this.currentUser.isCFA;
-  }
-
   get urlToDownloadCsvTemplate() {
     return `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/csv-template?accessToken=${this.session.data.authenticated.access_token}&lang=${this.currentUser.prescriber.lang}`;
   }

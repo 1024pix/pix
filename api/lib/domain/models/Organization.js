@@ -63,10 +63,6 @@ class Organization {
     return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AGRICULTURE));
   }
 
-  get isCFA() {
-    return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.CFA));
-  }
-
   get isAEFE() {
     return Boolean(this.tags.find((tag) => this.isSco && tag.name === Tag.AEFE));
   }
