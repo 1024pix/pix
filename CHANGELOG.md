@@ -1,5 +1,21 @@
 # Pix Changelog
 
+## v3.87.0 (17/08/2021)
+
+- [#3334](https://github.com/1024pix/pix/pull/3334) [FEATURE] Supprimer le modèle d'import et l'explication des imports pour les orga AGRI SCO (PIX-2952).
+- [#3304](https://github.com/1024pix/pix/pull/3304) [FEATURE] Rendre la certification CléA fonctionnelle avec le nouveau RT prévu pour la rentrée (PIX-2956)
+- [#3324](https://github.com/1024pix/pix/pull/3324) [FEATURE] Rattacher les organisations d'un profil cible existant depuis Pix Admin (PIX-2976).
+- [#3326](https://github.com/1024pix/pix/pull/3326) [FEATURE] Adapter les courbes des participations pour qu'elles aillent jusqu'à la date de fin (PIX-2978)
+- [#3328](https://github.com/1024pix/pix/pull/3328) [FEATURE] Modifications du nom de fichier du PDF des attestations de certif (PIX-3003)
+- [#3325](https://github.com/1024pix/pix/pull/3325) [FEATURE] Voir le commentaire du jury sur une certif dans le fichier des résultats (PIX-996)
+- [#3323](https://github.com/1024pix/pix/pull/3323) [FEATURE] Ne plus gérer spécifiquement le statut AP lors de l'import d'une liste d'élève (PIX-2951)
+- [#3327](https://github.com/1024pix/pix/pull/3327) [BUGFIX] Empêcher l'erreur 500 quand la clé des jetons Pôle-emploi expire (PIX-2990).
+- [#3335](https://github.com/1024pix/pix/pull/3335) [TECH] Mettre à jour les dépendances des tests de charge (PIX-3037).
+- [#3330](https://github.com/1024pix/pix/pull/3330) [TECH] Retirer la génération lazy de code de vérification lors de la récupération du certificat utilisateur (PIX-3008)
+- [#3301](https://github.com/1024pix/pix/pull/3301) [TECH] Créer un script pour calculer les résultats des participations (PIX-2896).
+- [#3315](https://github.com/1024pix/pix/pull/3315) [TECH] Grouper les composants d'affichage spécifique dans Pix Orga (PIX-2993)
+- [#3210](https://github.com/1024pix/pix/pull/3210) [DOC] Formater les templates Ember (hbs).
+
 ## v3.86.0 (13/08/2021)
 
 - [#3319](https://github.com/1024pix/pix/pull/3319) [FEATURE] Retravailler le visuel du message quand on sort d'une épreuve focus (PIX-2875).
