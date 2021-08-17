@@ -1,4 +1,5 @@
 {{page-title (t 'pages.certifications.title')}}
+
 <div class="certifications-page">
   <h1 class="page__title page-title">{{t 'pages.certifications.title'}}</h1>
   <p class="certifications-page__text">
@@ -17,13 +18,13 @@
       required={{true}}
       autocomplete="off"
     />
-    <button class="button" type="submit" id="download_results">
+    <PixButton @type="submit" id="download_results">
       {{t 'pages.certifications.download-button'}}
-    </button>
+    </PixButton>
     {{#if this.isCertificationAttestationDownloadEnabled}}
-      <button class="button" type="button" id="download_attestations" {{on "click" (fn this.downloadAttestation)}}>
+      <PixButton @triggerAction={{this.downloadAttestation}} id="download_attestations">
         {{t 'pages.certifications.download-attestations-button'}}
-      </button>
+      </PixButton>
     {{/if}}
   </form>
 
