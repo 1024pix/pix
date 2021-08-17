@@ -790,8 +790,9 @@ describe('Integration | Repository | AuthenticationMethod', function() {
     let userId;
 
     beforeEach(async function() {
-      userId = databaseBuilder.factory.buildUser().id;
+      userId = databaseBuilder.factory.buildUser({ id: 456 }).id;
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
         hashedPassword,
         shouldChangePassword: true,
         userId,
@@ -802,11 +803,26 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
     context('when authentication method exists', function() {
 
-      it('should update authentication complement by userId with shouldChangePassword false', async function() {
-        // given
-        const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
-          password: hashedPassword,
+      it('should update the shouldChangePassword value of the authentication complement in the database and leave the password untouched', async function() {
+        // when
+        await authenticationMethodRepository.updateOnlyShouldChangePassword({
           shouldChangePassword: false,
+          userId,
+        });
+
+        // then
+        const [ authenticationComplement ] = await knex('authentication-methods').pluck('authenticationComplement').where({ id: 123 });
+        expect(authenticationComplement.shouldChangePassword).to.be.false;
+        expect(authenticationComplement.password).to.equal(hashedPassword);
+      });
+
+      it('should return the updated AuthenticationMethod', async function() {
+        // given
+        const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+          id: 123,
+          hashedPassword,
+          shouldChangePassword: false,
+          userId,
         });
 
         // when
@@ -817,20 +833,17 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
         // then
         expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-        expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
+        expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
       });
     });
 
     context('when authentication method does not exist', function() {
 
       it('should throw AuthenticationMethodNotFoundError', async function() {
-        // given
-        userId = 1;
-
         // when
         const error = await catchErr(authenticationMethodRepository.updateOnlyShouldChangePassword)({
+          userId: 1,
           shouldChangePassword: false,
-          userId,
         });
 
         // then
