@@ -15,6 +15,7 @@ export default class Student extends Model {
   @attr('string') username;
   @attr('string') email;
   @attr('string') studentNumber;
+  @attr('string') division;
   @attr('boolean') isAuthenticatedFromGar;
   @belongsTo('organization') organization;
 

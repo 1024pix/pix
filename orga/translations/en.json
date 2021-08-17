@@ -597,6 +597,7 @@
       "table": {
         "column": {
           "date-of-birth": "Date of birth",
+          "division": "Class",
           "first-name": "First name",
           "last-name": "Last name",
           "login-method": "Log in method(s)"
