@@ -880,18 +880,34 @@ describe('Integration | Repository | AuthenticationMethod', function() {
     it('should return the user\'s authentication methods', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod({
+      const secondAuthenticationMethod = domainBuilder.buildAuthenticationMethod({
+        id: 456,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
         externalIdentifier: 'externalIdentifier',
-        userId });
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId });
+        userId,
+      });
+      secondAuthenticationMethod.authenticationComplement = undefined;
+      databaseBuilder.factory.buildAuthenticationMethod(secondAuthenticationMethod);
+      const firstAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+        id: 123,
+        userId,
+        hashedPassword: 'Hello',
+      });
+      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+        ...firstAuthenticationMethod,
+        hashedPassword: 'Hello',
+      });
       await databaseBuilder.commit();
 
       // when
-      const result = await authenticationMethodRepository.findByUserId({ userId });
+      const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
 
       // then
-      expect(result.length).to.equal(2);
+      expect(authenticationMethods).to.have.length(2);
+      expect(authenticationMethods[0]).to.be.instanceOf(AuthenticationMethod);
+      expect(authenticationMethods[1]).to.be.instanceOf(AuthenticationMethod);
+      expect(authenticationMethods[0]).to.deep.equal(firstAuthenticationMethod);
+      expect(authenticationMethods[1]).to.deep.equal(secondAuthenticationMethod);
     });
 
     it('should return an empty array if user has no authentication methods', async function() {
@@ -900,10 +916,10 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       await databaseBuilder.commit();
 
       // when
-      const result = await authenticationMethodRepository.findByUserId({ userId });
+      const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
 
       // then
-      expect(result.length).to.equal(0);
+      expect(authenticationMethods.length).to.equal(0);
     });
   });
 });

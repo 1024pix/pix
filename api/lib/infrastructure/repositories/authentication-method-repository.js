@@ -111,6 +111,7 @@ module.exports = {
   async findByUserId({ userId }) {
     const bookshelfAuthenticationMethods = await BookshelfAuthenticationMethod
       .where({ userId })
+      .orderBy('id', 'ASC')
       .fetchAll();
 
     return bookshelfAuthenticationMethods.map((bookshelfAuthenticationMethod) => _toDomainEntity(bookshelfAuthenticationMethod));
