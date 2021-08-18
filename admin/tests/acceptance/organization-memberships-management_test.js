@@ -28,7 +28,7 @@ module('Acceptance | organization memberships management', function(hooks) {
   });
 
   module('listing members', function(hooks) {
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(async function() {
       server.createList('membership', 12);
     });
 
