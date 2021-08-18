@@ -1,15 +1,15 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | chai-custom-helpers | deepEqualInstance', () => {
+describe('Unit | chai-custom-helpers | deepEqualArray', () => {
 
   it('should fail assertion when compared objects are not arrays', () => {
     try {
-      expect([]).to.deepEqualOrderedInstances('coucou');
+      expect([]).to.deepEqualArray('coucou');
     } catch (err) {
       expect(err.message).to.equal('expected \'String\' to equal \'Array\'');
     }
     try {
-      expect('coucou').to.deepEqualOrderedInstances([]);
+      expect('coucou').to.deepEqualArray([]);
     } catch (err) {
       expect(err.message).to.equal('expected \'String\' to equal \'Array\'');
     }
@@ -17,7 +17,7 @@ describe('Unit | chai-custom-helpers | deepEqualInstance', () => {
 
   it('should fail assertion when compared arrays have not the same length', () => {
     try {
-      expect([1, 2, 3]).to.deepEqualOrderedInstances([1, 2]);
+      expect([1, 2, 3]).to.deepEqualArray([1, 2]);
     } catch (err) {
       expect(err.message).to.equal('expected 3 to equal 2');
     }
@@ -25,7 +25,7 @@ describe('Unit | chai-custom-helpers | deepEqualInstance', () => {
 
   it('should fail assertion when compared values of array are not of the same instance', () => {
     try {
-      expect([1]).to.deepEqualOrderedInstances(['coucou']);
+      expect([1]).to.deepEqualArray(['coucou']);
     } catch (err) {
       expect(err.message).to.equal('expected \'Number\' to equal \'String\'');
     }
@@ -33,7 +33,7 @@ describe('Unit | chai-custom-helpers | deepEqualInstance', () => {
 
   it('should fail assertion when compared values of array have not the same content', () => {
     try {
-      expect([1]).to.deepEqualOrderedInstances([3]);
+      expect([1]).to.deepEqualArray([3]);
     } catch (err) {
       expect(err.message).to.equal('expected 1 to deeply equal 3');
     }
@@ -60,6 +60,6 @@ describe('Unit | chai-custom-helpers | deepEqualInstance', () => {
     const campaign = domainBuilder.buildCampaign();
 
     // then
-    expect([badgePartnerCompetence, campaign]).to.deepEqualOrderedInstances([sameBadgePartnerCompetence, campaign]);
+    expect([badgePartnerCompetence, campaign]).to.deepEqualArray([sameBadgePartnerCompetence, campaign]);
   });
 });

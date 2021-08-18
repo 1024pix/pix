@@ -97,7 +97,7 @@ describe('Integration | Repository | answerRepository', () => {
         const foundAnswers = await answerRepository.findByIds([1, 2]);
 
         // then
-        expect(foundAnswers).to.deepEqualOrderedInstances([firstAnswer, secondAnswer]);
+        expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
       });
     });
   });
@@ -278,7 +278,7 @@ describe('Integration | Repository | answerRepository', () => {
         const foundAnswers = await answerRepository.findByAssessment(123);
 
         // then
-        expect(foundAnswers).to.deepEqualOrderedInstances([firstAnswer, secondAnswer]);
+        expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
       });
     });
   });
@@ -392,7 +392,7 @@ describe('Integration | Repository | answerRepository', () => {
         const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([123, 123]);
 
         // then
-        expect(challengeIds).to.deepEqualOrderedInstances(['recABC']);
+        expect(challengeIds).to.deepEqualArray(['recABC']);
       });
     });
 
@@ -408,7 +408,7 @@ describe('Integration | Repository | answerRepository', () => {
       const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([456, 123, 789, 159]);
 
       // then
-      expect(challengeIds).to.deepEqualOrderedInstances(['recABC', 'recDEF', 'recGHI']);
+      expect(challengeIds).to.deepEqualArray(['recABC', 'recDEF', 'recGHI']);
     });
   });
 
