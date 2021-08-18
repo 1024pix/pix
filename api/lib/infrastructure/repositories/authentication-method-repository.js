@@ -135,7 +135,7 @@ module.exports = {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .update({ authenticationComplement })
+      .update({ authenticationComplement, updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
@@ -160,7 +160,7 @@ module.exports = {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .update({ authenticationComplement })
+      .update({ authenticationComplement, updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
@@ -180,7 +180,7 @@ module.exports = {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .update({ authenticationComplement })
+      .update({ authenticationComplement, updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
@@ -192,7 +192,7 @@ module.exports = {
   async updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider }) {
     const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({ userId, identityProvider })
-      .update({ externalIdentifier })
+      .update({ externalIdentifier, updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
@@ -204,7 +204,7 @@ module.exports = {
   async updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId }) {
     const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
-      .update({ authenticationComplement })
+      .update({ authenticationComplement, updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
@@ -216,7 +216,7 @@ module.exports = {
   async updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
     const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({ userId, identityProvider: AuthenticationMethod.identityProviders.PIX })
-      .update({ authenticationComplement: knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword) })
+      .update({ authenticationComplement: knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword), updatedAt: new Date() })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
