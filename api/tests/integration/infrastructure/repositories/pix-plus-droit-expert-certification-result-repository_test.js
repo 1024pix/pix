@@ -18,8 +18,7 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
-        expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitExpertCertificationResult);
-        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(pixPlusCertificationResult).to.deepEqualInstance(expectedPixPlusCertificationResult);
       });
     });
 
@@ -37,8 +36,7 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
-        expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitExpertCertificationResult);
-        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(pixPlusCertificationResult).to.deepEqualInstance(expectedPixPlusCertificationResult);
       });
     });
 
@@ -56,8 +54,7 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-expert-ce
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
-        expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitExpertCertificationResult);
-        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(pixPlusCertificationResult).to.deepEqualInstance(expectedPixPlusCertificationResult);
       });
     });
   });

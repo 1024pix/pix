@@ -18,8 +18,7 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-        expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitMaitreCertificationResult);
-        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(pixPlusCertificationResult).to.deepEqualInstance(expectedPixPlusCertificationResult);
       });
     });
 
@@ -37,8 +36,7 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
-        expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitMaitreCertificationResult);
-        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(pixPlusCertificationResult).to.deepEqualInstance(expectedPixPlusCertificationResult);
       });
     });
 
@@ -56,8 +54,7 @@ describe('Integration | Infrastructure | Repositories | pix-plus-droit-maitre-ce
 
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-        expect(pixPlusCertificationResult).to.be.instanceOf(PixPlusDroitMaitreCertificationResult);
-        expect(pixPlusCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(pixPlusCertificationResult).to.deepEqualInstance(expectedPixPlusCertificationResult);
       });
     });
   });
