@@ -916,6 +916,7 @@ describe('Acceptance | Application | organization-controller', () => {
                 'email': user.email,
                 'is-authenticated-from-gar': true,
                 'student-number': schoolingRegistration.studentNumber,
+                'division': schoolingRegistration.division,
               },
               'id': schoolingRegistration.id.toString(),
               'type': 'students',
