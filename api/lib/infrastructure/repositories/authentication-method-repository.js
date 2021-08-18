@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
 const {
@@ -37,7 +37,7 @@ module.exports = {
     domainTransaction = DomainTransaction.emptyTransaction(),
   }) {
     try {
-      const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+      const knexConn = domainTransaction.knexTransaction || knex;
       const authenticationMethodForDB = _.pick(authenticationMethod, ['identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId']);
       const [authenticationMethodDTO] = await knexConn('authentication-methods').insert(authenticationMethodForDB).returning(COLUMNS);
       return _toDomain(authenticationMethodDTO);
@@ -64,7 +64,7 @@ module.exports = {
         userId,
       });
       const authenticationMethodForDB = _.pick(authenticationMethod, ['identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId']);
-      const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+      const knexConn = domainTransaction.knexTransaction || knex;
       const [authenticationMethodDTO] = await knexConn('authentication-methods').insert(authenticationMethodForDB).returning(COLUMNS);
       return _toDomain(authenticationMethodDTO);
     } catch (err) {
@@ -75,7 +75,7 @@ module.exports = {
   },
 
   async findOneByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    const authenticationMethodDTO = await Bookshelf.knex
+    const authenticationMethodDTO = await knex
       .select(COLUMNS)
       .from('authentication-methods')
       .where({ userId, identityProvider })
@@ -85,7 +85,7 @@ module.exports = {
   },
 
   async findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider }) {
-    const authenticationMethodDTO = await Bookshelf.knex
+    const authenticationMethodDTO = await knex
       .select(COLUMNS)
       .from('authentication-methods')
       .where({ externalIdentifier, identityProvider })
@@ -95,7 +95,7 @@ module.exports = {
   },
 
   async findByUserId({ userId }) {
-    const authenticationMethodDTOs = await Bookshelf.knex
+    const authenticationMethodDTOs = await knex
       .select(COLUMNS)
       .from('authentication-methods')
       .where({ userId })
@@ -105,7 +105,7 @@ module.exports = {
   },
 
   async hasIdentityProviderPIX({ userId }) {
-    const authenticationMethodDTO = await Bookshelf.knex
+    const authenticationMethodDTO = await knex
       .select(COLUMNS)
       .from('authentication-methods')
       .where({
@@ -118,7 +118,7 @@ module.exports = {
   },
 
   async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    return Bookshelf.knex('authentication-methods')
+    return knex('authentication-methods')
       .where({ userId, identityProvider })
       .del();
   },
@@ -129,7 +129,7 @@ module.exports = {
       shouldChangePassword: false,
     });
 
-    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+    const knexConn = domainTransaction.knexTransaction || knex;
     const [authenticationMethodDTO] = await knexConn('authentication-methods')
       .where({
         userId,
@@ -154,7 +154,7 @@ module.exports = {
       shouldChangePassword: true,
     });
 
-    const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
+    const knexConn = domainTransaction.knexTransaction || knex;
     const [authenticationMethodDTO] = await knexConn('authentication-methods')
       .where({
         userId,
@@ -175,7 +175,7 @@ module.exports = {
       shouldChangePassword: false,
     });
 
-    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+    const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
@@ -190,7 +190,7 @@ module.exports = {
   },
 
   async updateExternalIdentifierByUserIdAndIdentityProvider({ externalIdentifier, userId, identityProvider }) {
-    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+    const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({ userId, identityProvider })
       .update({ externalIdentifier })
       .returning(COLUMNS);
@@ -202,7 +202,7 @@ module.exports = {
   },
 
   async updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId }) {
-    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+    const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
       .update({ authenticationComplement })
       .returning(COLUMNS);
@@ -214,9 +214,9 @@ module.exports = {
   },
 
   async updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
-    const [authenticationMethodDTO] = await Bookshelf.knex('authentication-methods')
+    const [authenticationMethodDTO] = await knex('authentication-methods')
       .where({ userId, identityProvider: AuthenticationMethod.identityProviders.PIX })
-      .update({ authenticationComplement: Bookshelf.knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword) })
+      .update({ authenticationComplement: knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword) })
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
