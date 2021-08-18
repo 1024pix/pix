@@ -130,7 +130,9 @@ module.exports = {
   },
 
   async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
+    return Bookshelf.knex('authentication-methods')
+      .where({ userId, identityProvider })
+      .del();
   },
 
   async updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
