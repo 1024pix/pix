@@ -4,38 +4,6 @@ const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-const consoleReporters =
-  isProduction ?
-    [
-      {
-        module: require('@hapi/good-squeeze').SafeJson,
-        args: [],
-      },
-    ]
-    :
-    [
-      {
-        module: require('@hapi/good-squeeze').Squeeze,
-        args: [{
-          response: '*',
-          log: '*',
-        }],
-      },
-      {
-        module: require('@hapi/good-console'),
-        args: [{
-          color: settings.logging.colorEnabled,
-        }],
-      },
-    ]
-    ;
-
-if (settings.logging.enabled) {
-  consoleReporters.push('stdout');
-}
-
 const plugins = [
   Inert,
   Vision,
@@ -53,11 +21,10 @@ const plugins = [
     },
   },
   {
-    plugin: require('@hapi/good'),
+    plugin: require('hapi-pino'),
     options: {
-      reporters: {
-        console: consoleReporters,
-      },
+      instance: require('./infrastructure/logger'),
+      logQueryParams: true,
     },
   },
   ...(settings.sentry.enabled ? [

@@ -1,18 +1,18 @@
-const bunyan = require('bunyan');
+const pino = require('pino');
 const settings = require('../config');
 
-const logger = bunyan.createLogger({ name: 'pix-api', streams: [] });
+const isProduction = 'production' === process.env.NODE_ENV;
 
-if (settings.logging.enabled) {
+const nullDestination = { write() {} };
 
-  logger.addStream({
-    name: 'standard-output',
-    stream: process.stdout,
-    level: settings.logging.logLevel,
-  });
+const logger = pino({
+  level: settings.logging.logLevel,
+  redact: ['req.headers.authorization'],
+  prettyPrint: !isProduction,
+},
+(settings.logging.enabled) ? pino.destination() : nullDestination);
 
-  logger.debug('DEBUG logs enabled');
-  logger.trace('TRACE logs enabled');
-}
+logger.debug('DEBUG logs enabled');
+logger.trace('TRACE logs enabled');
 
 module.exports = logger;
