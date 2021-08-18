@@ -212,16 +212,4 @@ module.exports = {
     }
     return _toDomain(authenticationMethodDTO);
   },
-
-  async updateOnlyShouldChangePassword({ userId, shouldChangePassword }) {
-    const [authenticationMethodDTO] = await knex('authentication-methods')
-      .where({ userId, identityProvider: AuthenticationMethod.identityProviders.PIX })
-      .update({ authenticationComplement: knex.raw('jsonb_set("authenticationComplement", \'{shouldChangePassword}\', ?)', shouldChangePassword), updatedAt: new Date() })
-      .returning(COLUMNS);
-
-    if (!authenticationMethodDTO) {
-      throw new AuthenticationMethodNotFoundError(`Authentication method PIX for User ID ${userId} not found.`);
-    }
-    return _toDomain(authenticationMethodDTO);
-  },
 };
