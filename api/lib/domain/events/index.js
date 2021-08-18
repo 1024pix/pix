@@ -42,6 +42,7 @@ dependencies.partnerCertificationScoringRepository = partnerCertificationScoring
 const handlersToBeInjected = {
   handleAutoJury: require('./handle-auto-jury'),
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
+  handleCertificationAutoCancelCheck: require('./handle-certification-auto-cancel-check'),
   handleCertificationScoring: require('./handle-certification-scoring'),
   handleCertificationRescoring: require('./handle-certification-rescoring'),
   handleCleaCertificationScoring: require('./handle-clea-certification-scoring'),
