@@ -6,7 +6,7 @@ const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../.
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
-describe('Integration | Infrastructure | Repository | Shareable Certificate', () => {
+describe('Integration | Infrastructure | Repository | Shareable Certificate', function() {
 
   const minimalLearningContent = [{
     id: 'recArea0',
@@ -18,9 +18,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
     }],
   }];
 
-  describe('#getByVerificationCode', () => {
+  describe('#getByVerificationCode', function() {
 
-    it('should throw a NotFoundError when shareable certificate does not exist', async () => {
+    it('should throw a NotFoundError when shareable certificate does not exist', async function() {
       // when
       const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
@@ -29,7 +29,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate has no assessment-result', async () => {
+    it('should throw a NotFoundError when certificate has no assessment-result', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -76,7 +76,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate is cancelled', async () => {
+    it('should throw a NotFoundError when certificate is cancelled', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -128,7 +128,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate is not published', async () => {
+    it('should throw a NotFoundError when certificate is not published', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -180,7 +180,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate is rejected', async () => {
+    it('should throw a NotFoundError when certificate is rejected', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -232,7 +232,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should return a ShareableCertificate', async () => {
+    it('should return a ShareableCertificate', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -317,7 +317,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
     });
 
-    it('should get the clea certification result if taken with badge V1', async () => {
+    it('should get the clea certification result if taken with badge V1', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -353,7 +353,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
     });
 
-    it('should get the clea certification result if taken with badge V2', async () => {
+    it('should get the clea certification result if taken with badge V2', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -389,9 +389,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
     });
 
-    context('acquired certifiable badges', () => {
+    context('acquired certifiable badges', function() {
 
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async () => {
+      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -430,7 +430,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
       });
 
-      it('should only take into account acquired ones', async () => {
+      it('should only take into account acquired ones', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
