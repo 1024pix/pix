@@ -3,40 +3,33 @@ const { expect, domainBuilder } = require('../../../test-helper');
 describe('Unit | chai-custom-helpers | deepEqualArray', () => {
 
   it('should fail assertion when compared objects are not arrays', () => {
-    try {
+    global.chaiErr(function() {
       expect([]).to.deepEqualArray('coucou');
-    } catch (err) {
-      expect(err.message).to.equal('expected \'String\' to equal \'Array\'');
-    }
-    try {
+    }, 'expected \'String\' to equal \'Array\'');
+    global.chaiErr(function() {
       expect('coucou').to.deepEqualArray([]);
-    } catch (err) {
-      expect(err.message).to.equal('expected \'String\' to equal \'Array\'');
-    }
+    }, 'expected \'String\' to equal \'Array\'');
   });
 
   it('should fail assertion when compared arrays have not the same length', () => {
-    try {
+    global.chaiErr(function() {
       expect([1, 2, 3]).to.deepEqualArray([1, 2]);
-    } catch (err) {
-      expect(err.message).to.equal('expected 3 to equal 2');
-    }
+    }, 'expected 3 to equal 2');
   });
 
   it('should fail assertion when compared values of array are not of the same instance', () => {
-    try {
+    global.chaiErr(function() {
       expect([1]).to.deepEqualArray(['coucou']);
-    } catch (err) {
-      expect(err.message).to.equal('expected \'Number\' to equal \'String\'');
-    }
+    }, 'expected \'Number\' to equal \'String\'');
+    global.chaiErr(function() {
+      expect([domainBuilder.buildAnswer()]).to.deepEqualArray([domainBuilder.buildUser()]);
+    }, 'expected \'Answer\' to equal \'User\'');
   });
 
   it('should fail assertion when compared values of array have not the same content', () => {
-    try {
+    global.chaiErr(function() {
       expect([1]).to.deepEqualArray([3]);
-    } catch (err) {
-      expect(err.message).to.equal('expected 1 to deeply equal 3');
-    }
+    }, 'expected 1 to deeply equal 3');
   });
 
   it('should succeed assertion when compared arrays have the same values in order', () => {
