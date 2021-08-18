@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, domainBuilder, catchErr, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const _ = require('lodash');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
 const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
 const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
@@ -235,43 +234,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
 
     it('should return a ShareableCertificate', async () => {
       // given
-      const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
-      mockLearningContent(learningContentObjects);
-
-      const userId = databaseBuilder.factory.buildUser().id;
-      const shareableCertificateData = {
-        id: 123,
-        firstName: 'Sarah Michelle',
-        lastName: 'Gellar',
-        birthdate: '1977-04-14',
-        birthplace: 'Saint-Ouen',
-        isPublished: true,
-        userId,
-        date: new Date('2020-01-01'),
-        verificationCode: 'P-SOMECODE',
-        maxReachableLevelOnCertificationDate: 5,
-        deliveredAt: new Date('2021-05-05'),
-        certificationCenter: 'Centre des poules bien dodues',
-        pixScore: 51,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-      };
-
-      const { certificateId } = await _buildValidShareableCertificate(shareableCertificateData);
-
-      // when
-      const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
-
-      // then
-      const expectedShareableCertificate = domainBuilder.buildShareableCertificate({
-        id: certificateId,
-        ...shareableCertificateData,
-      });
-      expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
-      expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedShareableCertificate, ['resultCompetenceTree']));
-    });
-
-    it('should return a ShareableCertificate with resultCompetenceTree', async () => {
-      // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
         id: 123,
@@ -352,6 +314,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
       });
       expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
       expect(shareableCertificate).to.deep.equal(expectedShareableCertificate);
+      expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
     });
 
     it('should get the clea certification result if taken with badge V1', async () => {
@@ -387,8 +350,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         id: certificateId,
         ...shareableCertificateData,
       });
-      expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
-      expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedShareableCertificate, ['resultCompetenceTree']));
+      expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
     });
 
     it('should get the clea certification result if taken with badge V2', async () => {
@@ -424,8 +386,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
         id: certificateId,
         ...shareableCertificateData,
       });
-      expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
-      expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedShareableCertificate, ['resultCompetenceTree']));
+      expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
     });
 
     context('acquired certifiable badges', () => {
@@ -466,8 +427,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           id: certificateId,
           ...shareableCertificateData,
         });
-        expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
-        expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedShareableCertificate, ['resultCompetenceTree']));
+        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
       });
 
       it('should only take into account acquired ones', async () => {
@@ -505,8 +465,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', ()
           id: certificateId,
           ...shareableCertificateData,
         });
-        expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
-        expect(_.omit(shareableCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedShareableCertificate, ['resultCompetenceTree']));
+        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
       });
     });
   });
