@@ -2,12 +2,12 @@
   <div class="page-size">
     <div class="page-size__label">Voir</div>
     <div class="page-size__choice">
-      <select id="pageSize" class="select content-text content-text--small" {{on 'change' this.changePageSize}}>
-        <option value="10" selected="{{if (eq @pagination.pageSize 10) true}}">10</option>
-        <option value="25" selected="{{if (eq @pagination.pageSize 25) true}}">25</option>
-        <option value="50" selected="{{if (eq @pagination.pageSize 50) true}}">50</option>
-        <option value="100" selected="{{if (eq @pagination.pageSize 100) true}}">100</option>
-      </select>
+      <PixSelect
+        id="pageSize"
+        @options={{this.options}}
+        @onChange={{this.changePageSize}}
+        @selectedOption={{@pagination.pageSize}}
+      />
     </div>
   </div>
   <div class="page-navigation">
