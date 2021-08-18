@@ -100,6 +100,7 @@
   }
 
   &__clipboard {
+    align-items: center;
     display: flex;
     flex-direction: row;
   }
@@ -109,12 +110,7 @@
   }
 
   &__clipboard-button {
-    margin-top: -10px;
     margin-left: 6px;
-  }
-
-  &__tooltip-text {
-    margin-bottom: 6px;
   }
 }
 
