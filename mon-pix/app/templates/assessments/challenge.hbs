@@ -17,7 +17,7 @@
   </div>
 
   <main class="challenge__content rounded-panel--over-background-banner">
-    <ProgressBar @assessment={{@model.assessment}} @answerId={{@model.answer.id}}/>
+    <ProgressBar @assessment={{@model.assessment}} @currentChallengeNumber={{@model.currentChallengeNumber}}/>
 
     {{#if this.displayTimedChallengeInstructions}}
       <TimedChallengeInstructions @hasUserConfirmedWarning={{this.setUserConfirmation}} @time={{@model.challenge.timer}} />

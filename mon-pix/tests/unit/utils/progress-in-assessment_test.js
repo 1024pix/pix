@@ -12,41 +12,27 @@ describe('Unit | Utility | progress-in-assessment', function() {
     beforeEach(function() {
       ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS = 5;
       assessment = EmberObject.create({
-        answers: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
         hasCheckpoints: true,
-        hasMany(relationship) {
-          return { ids: () => { return this[relationship].mapBy('id'); } };
-        },
       });
     });
 
     it('should return the current step index modulus maxStepsNumber', function() {
       // given
-      const answerId = null;
+      const currentChallengeNumber = 6;
       // when
-      const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, answerId);
+      const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
       expect(currentStepIndex).to.equal(1);
     });
 
-    it('should return the current step index for already answered challenge', function() {
-      // given
-      const answerId = 3;
-
-      // when
-      const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, answerId);
-
-      // then
-      expect(currentStepIndex).to.equal(2);
-    });
-
-    it('should return O when the assessment is a preview', function() {
+    it('should return 0 when the assessment is a preview', function() {
       // given
       assessment.isPreview = true;
+      const currentChallengeNumber = 0;
 
       // when
-      const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment);
+      const currentStepIndex = progressInAssessment.getCurrentStepIndex(assessment, currentChallengeNumber);
 
       // then
       expect(currentStepIndex).to.equal(0);
@@ -108,34 +94,19 @@ describe('Unit | Utility | progress-in-assessment', function() {
     beforeEach(function() {
       ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS = 5;
       assessment = EmberObject.create({
-        answers: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }],
         hasCheckpoints: true,
-        hasMany(relationship) {
-          return { ids: () => { return this[relationship].mapBy('id'); } };
-        },
       });
     });
 
     it('should return the current step number modulus maxStepsNumber', async function() {
       // given
-      const answerId = null;
+      const currentChallengeNumber = 8;
 
       // when
-      const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, answerId);
+      const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, currentChallengeNumber);
 
       // then
-      expect(currentStepIndex).to.equal(2);
-    });
-
-    it('should return the current step number for already answered challenge', async function() {
-      // given
-      const answerId = 3;
-
-      // when
-      const currentStepIndex = progressInAssessment.getCurrentStepNumber(assessment, answerId);
-
-      // then
-      expect(currentStepIndex).to.equal(3);
+      expect(currentStepIndex).to.equal(4);
     });
   });
 });
