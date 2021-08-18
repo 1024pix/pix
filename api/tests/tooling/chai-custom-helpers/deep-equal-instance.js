@@ -2,12 +2,17 @@ module.exports = function(chai, _utils) {
   chai.Assertion.addMethod('deepEqualInstance', function(referenceInstance) {
     const assertedInstance = this._obj;
 
-    // Assert type
-    const assertedInstanceName = assertedInstance.constructor.name;
-    const referenceInstanceName = referenceInstance.constructor.name;
-    new chai.Assertion(assertedInstanceName).to.equal(referenceInstanceName);
-
-    // Assert content
-    new chai.Assertion(assertedInstance).to.deep.equal(referenceInstance);
+    _assertAreSameType(chai, assertedInstance, referenceInstance);
+    _assertHaveSameContent(chai, assertedInstance, referenceInstance);
   });
 };
+
+function _assertAreSameType(chai, value1, value2) {
+  const instanceClassName1 = value1.constructor.name;
+  const instanceClassName2 = value2.constructor.name;
+  new chai.Assertion(instanceClassName1).to.equal(instanceClassName2);
+}
+
+function _assertHaveSameContent(chai, value1, value2) {
+  new chai.Assertion(value1).to.deep.equal(value2);
+}

@@ -1,23 +1,28 @@
 module.exports = function(chai, _utils) {
-  chai.Assertion.addMethod('deepEqualArray', function(referenceInstances) {
-    const assertedInstances = this._obj;
+  chai.Assertion.addMethod('deepEqualArray', function(referenceArray) {
+    const assertedArray = this._obj;
 
-    // Assert that both provided values are arrays
-    const assertedInstancesName = assertedInstances.constructor.name;
-    const referenceInstancesName = referenceInstances.constructor.name;
-    new chai.Assertion(assertedInstancesName).to.equal('Array');
-    new chai.Assertion(referenceInstancesName).to.equal('Array');
+    _assertIsArray(chai, assertedArray);
+    _assertIsArray(chai, referenceArray);
+    _assertArraysHaveSameLength(chai, assertedArray, referenceArray);
 
-    // Assert that both have the same length
-    const assertedInstancesLength = assertedInstances.length;
-    const referenceInstancesLength = referenceInstances.length;
-    new chai.Assertion(assertedInstancesLength).to.equal(referenceInstancesLength);
-
-    // Assert deepEqualInstance for each pair
-    for (let i = 0; i < assertedInstances.length; ++i) {
-      const assertedInstance = assertedInstances[i];
-      const referenceInstance = referenceInstances[i];
-      new chai.Assertion(assertedInstance).to.deepEqualInstance(referenceInstance);
+    for (let i = 0; i < assertedArray.length; ++i) {
+      _assertDeepEqualInstance(chai, assertedArray[i], referenceArray[i]);
     }
   });
 };
+
+function _assertIsArray(chai, value) {
+  const instanceClassName = value.constructor.name;
+  new chai.Assertion(instanceClassName).to.equal('Array');
+}
+
+function _assertArraysHaveSameLength(chai, array1, array2) {
+  const array1Length = array1.length;
+  const array2Length = array2.length;
+  new chai.Assertion(array1Length).to.equal(array2Length);
+}
+
+function _assertDeepEqualInstance(chai, instance1, instance2) {
+  new chai.Assertion(instance1).to.deepEqualInstance(instance2);
+}
