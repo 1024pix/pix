@@ -164,6 +164,30 @@ function mockLearningContent(learningContent) {
     .reply(200, { content: learningContent });
 }
 
+// Inspired by what is done within chai project itself to test assertions
+// https://github.com/chaijs/chai/blob/main/test/bootstrap/index.js
+global.chaiErr = function globalErr(fn, val) {
+  if (chai.util.type(fn) !== 'function')
+    throw new chai.AssertionError('Invalid fn');
+
+  try {
+    fn();
+  } catch (err) {
+    switch (chai.util.type(val).toLowerCase()) {
+      case 'undefined': return;
+      case 'string': return chai.expect(err.message).to.equal(val);
+      case 'regexp': return chai.expect(err.message).to.match(val);
+      case 'object': return Object.keys(val).forEach(function(key) {
+        chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
+      });
+    }
+
+    throw new chai.AssertionError('Invalid val');
+  }
+
+  throw new chai.AssertionError('Expected an error');
+};
+
 module.exports = {
   EMPTY_BLANK_AND_NULL,
   expect,
