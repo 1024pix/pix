@@ -35,28 +35,37 @@
                  class="table-admin-input" />
         </th>
         <th>
-          <select id="certificationCenterType" name="certificationCenterType" {{on 'change' this.selectCertificationCenterType}}>
-            {{#each this.certificationCenterTypeOptions as |item|}}
-              <option value={{item.value}} selected="{{if (eq @certificationCenterType item.value) true}}">{{item.label}}</option>
-            {{/each}}
-          </select>
+          <PixSelect
+            id="certificationCenterType"
+            name="certificationCenterType"
+            class="sessions-list-items__select"
+            @options={{this.certificationCenterTypeOptions}}
+            @onChange={{this.selectCertificationCenterType}}
+            @selectedOption={{@certificationCenterType}}
+          />
         </th>
         <th></th>
         <th>
-          <select class="session-status-selector" id="status" name="status" {{on 'change' this.selectSessionStatus}}>
-            {{#each this.sessionStatusOptions as |item|}}
-              <option value={{item.value}} selected="{{if (eq @status item.value) true}}">{{item.label}}</option>
-            {{/each}}
-          </select>
+          <PixSelect
+            id="status"
+            name="status"
+            class="sessions-list-items__select"
+            @options={{this.sessionStatusOptions}}
+            @onChange={{this.selectSessionStatus}}
+            @selectedOption={{@status}}
+          />
         </th>
         <th></th>
         <th></th>
         <th>
-          <select class="results-status-selector" id="resultsSentToPrescriberAt" name="resultsSentToPrescriberAt" {{on 'change' this.selectSessionResultsSentToPrescriber}}>
-            {{#each this.sessionResultsSentToPrescriberOptions as |item|}}
-              <option value={{item.value}} selected="{{if (eq @resultsSentToPrescriberAt item.value) true}}">{{item.label}}</option>
-            {{/each}}
-          </select>
+          <PixSelect
+            id="resultsSentToPrescriberAt"
+            name="resultsSentToPrescriberAt"
+            class="sessions-list-items__select"
+            @options={{this.sessionResultsSentToPrescriberOptions}}
+            @onChange={{this.selectSessionResultsSentToPrescriber}}
+            @selectedOption={{@resultsSentToPrescriberAt}}
+          />
         </th>
       </tr>
     </thead>

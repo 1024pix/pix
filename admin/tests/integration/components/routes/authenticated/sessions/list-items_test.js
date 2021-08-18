@@ -127,7 +127,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const elementOptions = this.element.querySelectorAll('.session-status-selector > option');
+      const elementOptions = this.element.querySelectorAll('#status > option');
       assert.equal(elementOptions.length, 5);
       elementOptions.forEach((elementOption, index) => {
         const expectedOption = expectedOptions[index];
@@ -143,7 +143,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await render(hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}}/>`);
 
       // when
-      await fillIn('.session-status-selector', 'created');
+      await fillIn('#status', 'created');
 
       // then
       assert.equal(this.status, 'created');
@@ -164,7 +164,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await render(hbs`<Sessions::ListItems />`);
 
       // then
-      const elementOptions = this.element.querySelectorAll('.results-status-selector > option');
+      const elementOptions = this.element.querySelectorAll('#resultsSentToPrescriberAt > option');
       assert.equal(elementOptions.length, 3);
       elementOptions.forEach((elementOption, index) => {
         const expectedOption = expectedOptions[index];
@@ -180,7 +180,7 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       await render(hbs`<Sessions::ListItems @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}} @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}/>`);
 
       // when
-      await fillIn('.results-status-selector', 'false');
+      await fillIn('#resultsSentToPrescriberAt', 'false');
 
       // then
       assert.equal(this.resultsSentToPrescriberAt, 'false');
