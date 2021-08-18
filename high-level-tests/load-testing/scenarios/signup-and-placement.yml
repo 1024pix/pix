@@ -2,11 +2,15 @@ config:
   phases:
     - duration: 60
       arrivalRate: 5
+      name: Warm up
     - duration: 120
       arrivalRate: 5
       rampTo: 50
+      name: Ramp up load
     - duration: 600
       arrivalRate: 50
+      name: Sustained load
+
 scenarios:
   - name: 'Inscription et positionnement'
     flow:
@@ -32,16 +36,14 @@ scenarios:
 
       # Authenticate user
       - post:
-          url: "/api/authentications"
-          json:
-            data:
-              attributes:
-                password: "{{ password }}"
-                email: "{{ email }}"
+          url: "/api/token"
+          headers:
+            content-type: "application/x-www-form-urlencoded"
+          body: "grant_type=password&scope=mon-pix&username={{ email }}&password={{ password }}"
           capture:
-            - json: "$.data.attributes.token"
+            - json: "$.access_token"
               as: "accessToken"
-            - json: "$.data.id"
+            - json: "$.user_id"
               as: "userId"
 
       # Get user profile
@@ -96,7 +98,7 @@ scenarios:
           headers:
             Authorization: "Bearer {{ accessToken }}"
 
-          # Fetch assessment next challenge
+      # Fetch assessment next challenge
       - get:
           url: "/api/assessments/{{ assessmentId }}/next"
           headers:
