@@ -305,6 +305,7 @@ module.exports = {
           'schooling-registrations.firstName',
           'schooling-registrations.lastName',
           'schooling-registrations.birthdate',
+          'schooling-registrations.division',
           'schooling-registrations.studentNumber',
           'schooling-registrations.userId',
           'schooling-registrations.organizationId',

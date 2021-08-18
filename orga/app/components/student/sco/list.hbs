@@ -5,6 +5,7 @@
         <Table::Header>{{t "pages.students-sco.table.column.last-name"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.first-name"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.date-of-birth"}}</Table::Header>
+        <Table::Header>{{t "pages.students-sco.table.column.division"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
         <Table::Header @size="small" class="hide-on-mobile"/>
       </tr>
@@ -23,6 +24,7 @@
           @ariaLabel={{t "pages.students-sco.table.filter.first-name.aria-label"}}
           @triggerFiltering={{@onFilter}}
         />
+        <Table::Header/>
         <Table::Header/>
         <Table::HeaderFilterSelect
           @field="connexionType"
@@ -43,6 +45,7 @@
           <td>{{student.lastName}}</td>
           <td>{{student.firstName}}</td>
           <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
+          <td>{{student.division}}</td>
           <td class="list-students-page__authentication-methods">
             {{#each student.authenticationMethods as |authenticationMethod|}}
               <p>{{t authenticationMethod}}</p>

@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
         email: 'john.doe@example.net',
         isAuthenticatedFromGAR: false,
         studentNumber: '123456789',
+        division: '3A',
       });
 
       const expectedSerializedUserWithSchoolingRegistration = {
@@ -33,6 +34,7 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
             'email': userWithSchoolingRegistration.email,
             'is-authenticated-from-gar': false,
             'student-number': userWithSchoolingRegistration.studentNumber,
+            'division': userWithSchoolingRegistration.division,
           },
         },
       };
