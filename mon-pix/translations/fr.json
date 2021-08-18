@@ -1240,7 +1240,7 @@
         },
         "page1": {
           "title": "... sauf pour certaines questions",
-          "explanation": "Si cette information est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels.",
+          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels.",
           "icon": "icn-focus.svg"
         },
         "page2": {

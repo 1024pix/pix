@@ -1239,9 +1239,9 @@
           "icon": "icn-recherche.svg"
         },
         "page1": {
-          "title": "... ",
-          "explanation": "",
-          "icon": "icn-temps.svg"
+          "title": "... with the exception of specific questions",
+          "explanation": "If you see this picture, only use your own knowledge! \nDon’t search the internet or use your other equipments.\n",
+          "icon": "icn-focus.svg"
         },
         "page2": {
           "title": "There’s no time limit!",
