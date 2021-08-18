@@ -7,20 +7,6 @@ const {
   AuthenticationMethodNotFoundError,
 } = require('../../domain/errors');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
-const BookshelfAuthenticationMethod = require('../orm-models/AuthenticationMethod');
-
-function _toDomainEntity(bookshelfAuthenticationMethod) {
-  const attributes = bookshelfAuthenticationMethod.toJSON();
-  return new AuthenticationMethod({
-    id: attributes.id,
-    userId: attributes.userId,
-    identityProvider: attributes.identityProvider,
-    authenticationComplement: _toAuthenticationComplement(attributes.identityProvider, attributes.authenticationComplement),
-    externalIdentifier: (attributes.identityProvider === AuthenticationMethod.identityProviders.GAR || attributes.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) ? attributes.externalIdentifier : undefined,
-    createdAt: attributes.createdAt,
-    updatedAt: attributes.updatedAt,
-  });
-}
 
 function _toDomain(authenticationMethodDTO) {
   return new AuthenticationMethod({
@@ -109,12 +95,13 @@ module.exports = {
   },
 
   async findByUserId({ userId }) {
-    const bookshelfAuthenticationMethods = await BookshelfAuthenticationMethod
+    const authenticationMethodDTOs = await Bookshelf.knex
+      .select(COLUMNS)
+      .from('authentication-methods')
       .where({ userId })
-      .orderBy('id', 'ASC')
-      .fetchAll();
+      .orderBy('id', 'ASC');
 
-    return bookshelfAuthenticationMethods.map((bookshelfAuthenticationMethod) => _toDomainEntity(bookshelfAuthenticationMethod));
+    return authenticationMethodDTOs.map(_toDomain);
   },
 
   async hasIdentityProviderPIX({ userId }) {
