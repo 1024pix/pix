@@ -25,7 +25,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
 
   module('When user is logged in', function(hooks) {
 
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(async function() {
       // given
       const { id: userId } = server.create('user');
       await createAuthenticateSession({ userId });
