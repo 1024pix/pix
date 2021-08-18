@@ -149,7 +149,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       delete authenticationMethod.id;
 
       // when
-      await catchErr(async () => {
+      await catchErr(async function() {
         await DomainTransaction.execute(async (domainTransaction) => {
           await authenticationMethodRepository.create({ authenticationMethod, domainTransaction });
           throw new Error('Error occurs in transaction');
@@ -259,7 +259,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       await databaseBuilder.commit();
 
       // when
-      await catchErr(async () => {
+      await catchErr(async function() {
         await DomainTransaction.execute(async (domainTransaction) => {
           await authenticationMethodRepository.updateChangedPassword({ userId, hashedPassword: 'coucou' }, domainTransaction);
           throw new Error('Error occurs in transaction');
@@ -503,7 +503,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       await databaseBuilder.commit();
 
       // when
-      await catchErr(async () => {
+      await catchErr(async function() {
         await DomainTransaction.execute(async (domainTransaction) => {
           await authenticationMethodRepository.updatePasswordThatShouldBeChanged({
             userId,
@@ -596,7 +596,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
     it('should be DomainTransaction compliant', async function() {
       // when
-      await catchErr(async () => {
+      await catchErr(async function() {
         await DomainTransaction.execute(async (domainTransaction) => {
           await authenticationMethodRepository.createPasswordThatShouldBeChanged({
             userId,
