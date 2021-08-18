@@ -1,9 +1,11 @@
 import { module, test } from 'qunit';
-import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
+import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | organization memberships management', function(hooks) {
   setupApplicationTest(hooks);
@@ -71,8 +73,8 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('#userEmailToAdd', 'user@example.com');
-      await click('[aria-label="Ajouter un membre"] button');
+      await fillInByLabel('Ajouter un membre', 'user@example.com');
+      await clickByLabel('Valider');
 
       // then
       assert.contains('John');
@@ -88,8 +90,8 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('#userEmailToAdd', 'denise@example.com');
-      await click('[aria-label="Ajouter un membre"] button');
+      await fillInByLabel('Ajouter un membre', 'denise@example.com');
+      await clickByLabel('Ajouter un membre');
 
       // then
       assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
@@ -104,8 +106,8 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('#userEmailToAdd', 'unexisting@example.com');
-      await click('[aria-label="Ajouter un membre"] button');
+      await fillInByLabel('Ajouter un membre', 'unexisting@example.com');
+      await clickByLabel('Ajouter un membre');
 
       // then
       assert.equal(this.element.querySelectorAll('div[data-test-id="member-list"] table > tbody > tr').length, 1);
@@ -119,10 +121,10 @@ module('Acceptance | organization memberships management', function(hooks) {
     test('should create an organization-invitation', async function(assert) {
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('#userEmailToInvite', 'user@example.com');
+      await fillInByLabel('Inviter un membre', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
-      await click('[aria-label="Inviter un membre"] button');
+      await click('button[data-test-id-invitation-button]');
 
       // then
       assert.contains('Un email a bien a été envoyé à l\'adresse user@example.com.');
@@ -135,10 +137,10 @@ module('Acceptance | organization memberships management', function(hooks) {
 
       // when
       await visit(`/organizations/${organization.id}`);
-      await fillIn('#userEmailToInvite', 'user@example.com');
+      await fillInByLabel('Inviter un membre', 'user@example.com');
       this.element.querySelectorAll('.c-notification').forEach((element) => element.remove());
 
-      await click('[aria-label="Inviter un membre"] button');
+      await click('button[data-test-id-invitation-button]');
 
       // then
       assert.contains('Une erreur s’est produite, veuillez réessayer.');
@@ -155,11 +157,11 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
 
     test('should update member\'s role', async function(assert) {
+      // given / when
       await visit(`/organizations/${organization.id}/members`);
-      await click('button[aria-label="Modifier le rôle"]');
-
+      await clickByLabel('Modifier le rôle');
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
-      await click('button[aria-label="Enregistrer"]');
+      await clickByLabel('Enregistrer');
 
       // then
       assert.equal(membership.organizationRole, 'MEMBER');
@@ -175,9 +177,9 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
 
     test('should deactivate a member', async function(assert) {
+      // given / when
       await visit(`/organizations/${organization.id}/members`);
-      await click('button[aria-label="Désactiver"]');
-
+      await clickByLabel('Désactiver');
       await click('.modal-footer > button.btn-primary');
 
       // then

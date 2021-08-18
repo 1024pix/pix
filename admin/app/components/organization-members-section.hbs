@@ -6,12 +6,14 @@
         <Input
           id="userEmailToAdd"
           @value={{@userEmailToAdd}}
-          class="form-field__text form-control"
+          class="form-field__text form-control organization-members-section__input"
           placeholder="Adresse email de l'utilisateur à ajouter" />
         <PixButton
           @size="small"
-          @triggerAction={{@addMembership}}>
-            Valider
+          @triggerAction={{@addMembership}}
+          class="organization-members-section__button"
+        >
+          Valider
         </PixButton>
       </div>
     </form>
@@ -22,19 +24,23 @@
         <Input
           id="userEmailToInvite"
           @value={{@userEmailToInvite}}
-          class="form-control {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
+          class="form-control organization-members-section__input {{if @userEmailToInviteError "organization-sub-form__input__error"}}"
           placeholder="Adresse email de l'utilisateur à inviter" />
 
         <PixSelect
           @options={{this.languagesOptions}}
           @selectedOption={{this.organizationInvitationLang}}
           @onChange={{this.changeOrganizationInvitationLang}}
-          aria-label="Choisir la langue de l’email d’invitation"/>
+          aria-label="Choisir la langue de l’email d’invitation"
+          class="organization-members-section__select" />
 
         <PixButton
           @size="small"
-          @triggerAction={{fn @createOrganizationInvitation this.organizationInvitationLang}}>
-            Inviter
+          @triggerAction={{fn @createOrganizationInvitation this.organizationInvitationLang}}
+          class="organization-members-section__button"
+          data-test-id-invitation-button
+        >
+          Inviter
         </PixButton>
       </div>
       {{#if @userEmailToInviteError}}

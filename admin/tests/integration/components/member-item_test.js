@@ -5,6 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 import EmberObject from '@ember/object';
 import sinon from 'sinon';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | member-item', function(hooks) {
   setupRenderingTest(hooks);
@@ -36,10 +37,10 @@ module('Integration | Component | member-item', function(hooks) {
 
       // when
       await render(hbs`<MemberItem @membership={{this.membership}} @updateMembership={{this.updateMembership}} />`);
-      await click('button[aria-label="Modifier le rôle"]');
+      await clickByLabel('Modifier le rôle');
     });
 
-    test('it should display save and cancel button', function(assert) {
+    test('it should display save and cancel button', async function(assert) {
       // then
       assert.contains('Enregistrer');
       assert.dom('button[aria-label="Annuler"]');
@@ -57,7 +58,7 @@ module('Integration | Component | member-item', function(hooks) {
     test('it should update role on save', async function(assert) {
       // when
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
-      await click('button[aria-label="Enregistrer"]');
+      await clickByLabel('Enregistrer');
 
       // then
       assert.notContains('Enregistrer');
@@ -68,7 +69,7 @@ module('Integration | Component | member-item', function(hooks) {
     test('it should not update role on cancel', async function(assert) {
       // when
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
-      await click('button[aria-label="Annuler"]');
+      await clickByLabel('Annuler');
 
       // then
       assert.contains('Administrateur');
@@ -84,7 +85,7 @@ module('Integration | Component | member-item', function(hooks) {
       this.disableMembership = sinon.spy();
       // when
       await render(hbs`<MemberItem @membership={{this.membership}} @disableMembership={{this.disableMembership}} />`);
-      await click('button[aria-label="Désactiver"]');
+      await clickByLabel('Désactiver');
     });
 
     test('should open confirm modal', function(assert) {
