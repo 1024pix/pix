@@ -13,6 +13,7 @@ module.exports = {
         'certificationCenterName',
         'certificationCenterType',
         'certificationCenterId',
+        'certificationCenterExternalId',
         'address',
         'room',
         'examiner',

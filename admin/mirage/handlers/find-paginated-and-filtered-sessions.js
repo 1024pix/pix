@@ -39,6 +39,10 @@ function _getFiltersFromQueryParams(queryParams) {
   const certificationCenterNameFilter = queryParams
     ? (queryParams['filter[certificationCenterName]'] ? queryParams['filter[certificationCenterName]'].trim() || null : null)
     : null;
+
+  const certificationCenterExternalIdFilter = queryParams
+    ? (queryParams['filter[certificationCenterExternalId]'] ? queryParams['filter[certificationCenterExternalId]'].trim() || null : null)
+    : null;
   const statusFilter = queryParams
     ? (queryParams['filter[status]'] ? queryParams['filter[status]'].trim() || null : null)
     : null;
@@ -48,6 +52,7 @@ function _getFiltersFromQueryParams(queryParams) {
   return {
     idFilter,
     certificationCenterNameFilter,
+    certificationCenterExternalIdFilter,
     statusFilter,
     resultsSentToPrescriberAtFilter,
   };
@@ -69,7 +74,7 @@ function _areFiltersValid({ idFilter }) {
   return true;
 }
 
-function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, statusFilter, resultsSentToPrescriberAtFilter }) {
+function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, certificationCenterExternalIdFilter, statusFilter, resultsSentToPrescriberAtFilter }) {
   let filteredSessions = sessions;
   if (idFilter) {
     filteredSessions = filter(filteredSessions, (session) => {
@@ -80,6 +85,13 @@ function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, stat
     const filterName = certificationCenterNameFilter.toLowerCase();
     filteredSessions = filter(filteredSessions, (session) => {
       const currentName = session.certificationCenterName.toLowerCase();
+      return currentName.search(filterName) !== -1;
+    });
+  }
+  if (certificationCenterExternalIdFilter) {
+    const filterName = certificationCenterExternalIdFilter.toLowerCase();
+    filteredSessions = filter(filteredSessions, (session) => {
+      const currentName = session.certificationCenterExternalId.toLowerCase();
       return currentName.search(filterName) !== -1;
     });
   }

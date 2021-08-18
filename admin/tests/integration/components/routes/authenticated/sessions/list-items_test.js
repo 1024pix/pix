@@ -15,12 +15,11 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     const resultsSentToPrescriberAt = new Date('2020-08-15T00:00:00Z');
     const displayStatus = 'SomeStatus';
     const sessions = [
-      { id: 1, certificationCenterName: 'Centre A', certificationCenterType: 'SUP', date, time: '14:00:00',
+      { id: 1, certificationCenterName: 'Centre A', certificationCenterExternalId: 'EXTIDA', certificationCenterType: 'SUP', date, time: '14:00:00',
         displayStatus, finalizedAt: '', publishedAt: '', resultsSentToPrescriberAt: '',
       },
-      { id: 2, certificationCenterName: 'Centre B', certificationCenterType: null, date, time: '14:00:00',
+      { id: 2, certificationCenterName: 'Centre B', certificationCenterExternalId: 'EXTIDB', certificationCenterType: null, date, time: '14:00:00',
         displayStatus, finalizedAt, publishedAt, resultsSentToPrescriberAt,
-        assignedCertificationOfficer: { fullName: 'Harry Patter ' },
       },
     ];
     const displayedDate = date.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
@@ -39,18 +38,16 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     for (let i = 0; i < sessions.length; ++i) {
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:first-child`).hasText(sessions[i].id.toString());
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(2)`).hasText(sessions[i].certificationCenterName);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(4)`).hasText(displayedDate + ' à ' + sessions[i].time);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(5)`).hasText(sessions[i].displayStatus);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(6)`).hasText(sessions[i].finalizedAt ? displayedFinalizedAt : sessions[i].finalizedAt);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(7)`).hasText(sessions[i].publishedAt ? displayedPublishedAt : sessions[i].publishedAt);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`).hasText(sessions[i].resultsSentToPrescriberAt ? displayedResultsSentToPrescriberAt : sessions[i].resultsSentToPrescriberAt);
+      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(5)`).hasText(displayedDate + ' à ' + sessions[i].time);
+      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(6)`).hasText(sessions[i].displayStatus);
+      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(7)`).hasText(sessions[i].finalizedAt ? displayedFinalizedAt : sessions[i].finalizedAt);
+      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`).hasText(sessions[i].publishedAt ? displayedPublishedAt : sessions[i].publishedAt);
+      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(9)`).hasText(sessions[i].resultsSentToPrescriberAt ? displayedResultsSentToPrescriberAt : sessions[i].resultsSentToPrescriberAt);
     }
     // Colonne : Centre de certification
-    assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterType);
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(3)').hasText('-');
-    // Colonne : Qui ?
-    assert.dom('table tbody tr:nth-child(1) td:nth-child(9)').hasText('-');
-    assert.dom('table tbody tr:nth-child(2) td:nth-child(9)').hasText(sessions[1].assignedCertificationOfficer.fullName);
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterExternalId);
+    assert.dom('table tbody tr:nth-child(1) td:nth-child(4)').hasText(sessions[0].certificationCenterType);
+    assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('-');
   });
 
   module('Input field for id filtering', function() {

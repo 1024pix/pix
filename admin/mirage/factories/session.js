@@ -9,6 +9,10 @@ export default Factory.extend({
     return faker.company.companyName();
   },
 
+  certificationCenterExternalId() {
+    return faker.company.companyName();
+  },
+
   certificationCenterType() {
     return 'SCO';
   },
