@@ -23,15 +23,15 @@
     <div class="session-details-content session-details-content--multiple">
       <h4 class="label-text session-details-content__label">Code d'accès</h4>
       <div class="session-details-content__clipboard">
-        <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
-
+        <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>e
         {{#if (is-clipboard-supported)}}
-            <div class="tooltip">
-                <span class="tooltip__text tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
-                <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
-                  <FaIcon @icon='copy' prefix='far' />
-                </CopyButton>
-            </div>
+          <PixTooltip
+            @text={{this.tooltipText}}
+          >
+            <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
+              <FaIcon @icon='copy' prefix='far' />
+            </CopyButton>
+          </PixTooltip>
         {{/if}}
       </div>
     </div>
