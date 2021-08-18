@@ -2,7 +2,6 @@
 
 import Model, { belongsTo, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
-import capitalize from 'lodash/capitalize';
 
 export const ACQUIRED = 'acquired';
 
@@ -42,7 +41,7 @@ export default class Certification extends Model {
 
   @computed('firstName', 'lastName')
   get fullName() {
-    return capitalize(this.firstName) + ' ' + capitalize(this.lastName);
+    return this.firstName + ' ' + this.lastName;
   }
 
   get maxReachablePixCountOnCertificationDate() {
