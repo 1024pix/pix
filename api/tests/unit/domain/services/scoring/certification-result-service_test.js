@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const { expect, sinon, domainBuilder, catchErr } = require('../../../../test-helper');
-const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
+const certificationResultService = require('../../../../../lib/domain/services/scoring/certification-result-service');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 const placementProfileService = require('../../../../../lib/domain/services/placement-profile-service');
 const UserCompetence = require('../../../../../lib/domain/models/UserCompetence');
