@@ -5,6 +5,7 @@ const {
   domainBuilder,
   expect,
   knex,
+  sinon,
 } = require('../../../test-helper');
 const {
   AlreadyExistingEntityError,
@@ -14,12 +15,19 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-// TODO updatedAt
-
 describe('Integration | Repository | AuthenticationMethod', function() {
 
   const hashedPassword = 'ABCDEF1234';
   const newHashedPassword = '1234ABCDEF';
+  let clock;
+  afterEach(function() {
+    clock.restore();
+  });
+
+  beforeEach(function() {
+    const now = new Date('2020-01-02');
+    clock = sinon.useFakeTimers(now);
+  });
 
   describe('#create', function() {
 
@@ -203,9 +211,10 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         id: 123,
         userId,
         hashedPassword: newHashedPassword,
+        updatedAt: new Date(),
       });
       expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
+      expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
     });
 
     it('should disable changing password', async function() {
@@ -388,7 +397,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
         // then
         authenticationMethod.externalIdentifier = 'new_value';
-        expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(authenticationMethod, ['updatedAt']));
+        expect(updatedAuthenticationMethod).to.deep.equal({ ...authenticationMethod, updatedAt: new Date() });
       });
     });
 
@@ -463,9 +472,10 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         userId,
         hashedPassword: newHashedPassword,
         shouldChangePassword: true,
+        updatedAt: new Date(),
       });
       expect(updatedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
-      expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
+      expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id not found', async function() {
@@ -638,6 +648,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         userId,
         hashedPassword: newHashedPassword,
         shouldChangePassword: false,
+        updatedAt: new Date(),
       });
 
       // when
@@ -648,7 +659,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
       // then
       expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
+      expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id is not found', async function() {
@@ -726,8 +737,9 @@ describe('Integration | Repository | AuthenticationMethod', function() {
           refreshToken: 'new_refresh_token',
           expiredDate,
           userId,
+          updatedAt: new Date(),
         });
-        expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
+        expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
       });
     });
 
@@ -823,6 +835,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
           hashedPassword,
           shouldChangePassword: false,
           userId,
+          updatedAt: new Date(),
         });
 
         // when
@@ -833,7 +846,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
         // then
         expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-        expect(_.omit(updatedAuthenticationMethod, ['updatedAt'])).to.deep.equal(_.omit(expectedAuthenticationMethod, ['updatedAt']));
+        expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
       });
     });
 
