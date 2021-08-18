@@ -1,4 +1,9 @@
-extends: '../../.eslintrc.yaml'
+plugins:
+  - yaml
+
+extends:
+  - '../../.eslintrc.yaml'
+  - 'plugin:yaml/recommended'
 
 globals:
   include: true
