@@ -13,12 +13,12 @@ describe('Integration | UseCase | ', () => {
       const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: false }).id;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
-      const targetProfileId = databaseBuilder.factory.buildTargetProfile({organizationId}).id;
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
       const campaignId = databaseBuilder.factory.buildCampaign({
         type: 'ASSESSMENT',
         creatorId: userId,
         organizationId,
-        targetProfileId
+        targetProfileId,
       }).id;
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 

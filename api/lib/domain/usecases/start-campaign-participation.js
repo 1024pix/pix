@@ -36,7 +36,7 @@ async function startCampaignParticipation({
     event: new CampaignParticipationStarted({ campaignParticipationId: createdCampaignParticipation.id }),
     campaignParticipation: createdCampaignParticipation,
   };
-};
+}
 
 async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepositoryTrx) {
   const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
@@ -47,4 +47,4 @@ async function _saveCampaignParticipation(campaignParticipation, userId, campaig
 module.exports = {
   perform: startCampaignParticipation,
   useTransaction: true,
-}
+};

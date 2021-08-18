@@ -8,7 +8,7 @@ class AssessmentRepository {
   async save({ assessment }) {
     const attributes = _.omit(assessment, ['answers', 'campaignParticipation', 'course', 'targetProfile', 'title', 'createdAt']);
     const [id] = await this.queryBuilder('assessments').insert(attributes).returning('id');
-    assessment.id = id
+    assessment.id = id;
   }
 }
 module.exports = AssessmentRepository;

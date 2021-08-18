@@ -27,9 +27,9 @@ async function authenticateAnonymousUser({
 
   const accessToken = tokenService.createAccessTokenFromUser(newUser.id, 'pix');
   return accessToken;
-};
+}
 
 module.exports = {
   perform: authenticateAnonymousUser,
-  useTransaction: false
-}
+  useTransaction: false,
+};

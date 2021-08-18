@@ -13,19 +13,19 @@ function _instantiateDependencies(defaults, queryBuilder) {
 
 function injectDefaults(defaults, useCase) {
   return (args) => {
-    if(useCase.useTransaction) {
+    if (useCase.useTransaction) {
       return knex.transaction((trx) => {
         const dependencies = _instantiateDependencies(defaults, trx);
         return useCase.perform(Object.assign(Object.create(dependencies), args));
       });
-    } else if(useCase.perform) {
+    } else if (useCase.perform) {
       const dependencies = _instantiateDependencies(defaults, knex);
       return useCase.perform(Object.assign(Object.create(dependencies), args));
     } else {
       const dependencies = _instantiateDependencies(defaults, knex);
       return useCase(Object.assign(Object.create(dependencies), args));
     }
-  }
+  };
 }
 
 function injectDependencies(toBeInjected, dependencies) {
