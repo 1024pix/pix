@@ -8,14 +8,14 @@ async function startCampaignParticipation({
   userId,
   campaignParticipationRepositoryTrx,
   assessmentRepositoryTrx,
-  campaignToJoinRepositoryTrx,
+  campaignToJoinRepository,
 }) {
-  const campaignToJoin = await campaignToJoinRepositoryTrx.get(campaignParticipation.campaignId);
+  const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId);
 
   if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId)
     throw new EntityValidationError('Un identifiant externe est requis pour accèder à la campagne.');
 
-  await campaignToJoinRepositoryTrx.checkCampaignIsJoinableByUser(campaignToJoin, userId);
+  await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId);
   let createdCampaignParticipation;
 
   if (await campaignParticipationRepositoryTrx.hasAlreadyParticipated(campaignToJoin.id, userId)) {

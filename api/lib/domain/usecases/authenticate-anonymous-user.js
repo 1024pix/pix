@@ -1,7 +1,7 @@
 const User = require('../models/User');
 const { UserCantBeCreatedError } = require('../errors');
 
-module.exports = async function authenticateAnonymousUser({
+async function authenticateAnonymousUser({
   campaignCode,
   lang = 'fr',
   campaignToJoinRepository,
@@ -28,3 +28,8 @@ module.exports = async function authenticateAnonymousUser({
   const accessToken = tokenService.createAccessTokenFromUser(newUser.id, 'pix');
   return accessToken;
 };
+
+module.exports = {
+  perform: authenticateAnonymousUser,
+  useTransaction: false
+}

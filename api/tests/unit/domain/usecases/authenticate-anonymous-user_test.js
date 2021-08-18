@@ -2,7 +2,7 @@ const { catchErr, expect, sinon } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 const { UserCantBeCreatedError } = require('../../../../lib/domain/errors');
 
-const authenticateAnonymousUser = require('../../../../lib/domain/usecases/authenticate-anonymous-user');
+const { perform: authenticateAnonymousUser } = require('../../../../lib/domain/usecases/authenticate-anonymous-user');
 
 describe('Unit | UseCase | authenticate-anonymous-user', () => {
   let campaignCode;

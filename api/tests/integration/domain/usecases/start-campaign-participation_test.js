@@ -2,13 +2,13 @@ const { expect, databaseBuilder, domainBuilder, knex, catchErr } = require('../.
 const { perform: startCampaignParticipation } = require('../../../../lib/domain/usecases/start-campaign-participation');
 const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository-trx');
 const CampaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository-trx');
-const CampaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository-trx');
+const CampaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Integration | UseCases | start-campaign-participation', function() {
   let assessmentRepositoryTrx;
   let campaignParticipationRepositoryTrx;
-  let campaignToJoinRepositoryTrx;
+  let campaignToJoinRepository;
 
   let userId;
   let organizationId;
@@ -37,7 +37,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
 
       assessmentRepositoryTrx = new AssessmentRepository(knexTrx);
       campaignParticipationRepositoryTrx = new CampaignParticipationRepository(knexTrx);
-      campaignToJoinRepositoryTrx = new CampaignToJoinRepository(knexTrx);
+      campaignToJoinRepository = new CampaignToJoinRepository(knexTrx);
     });
 
     it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async function() {
@@ -47,7 +47,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
       // when
-      await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepositoryTrx });
+      await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepository });
       await knexTrx.commit();
 
       // then
@@ -64,7 +64,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
       // when
-      await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepositoryTrx });
+      await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepository });
       await knexTrx.commit();
       // then
       const campaignParticipations = await knex('campaign-participations');
@@ -80,8 +80,8 @@ describe('Integration | UseCases | start-campaign-participation', function() {
         const knexTrx = knex.transacting(trx);
         assessmentRepositoryTrx = new AssessmentRepository(knexTrx);
         campaignParticipationRepositoryTrx = new CampaignParticipationRepository(knexTrx);
-        campaignToJoinRepositoryTrx = new CampaignToJoinRepository(knexTrx);
-        await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepositoryTrx });
+        campaignToJoinRepository = new CampaignToJoinRepository(knexTrx);
+        await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepository });
         throw Error();
       });
     };
@@ -109,9 +109,9 @@ describe('Integration | UseCases | start-campaign-participation', function() {
       const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
       assessmentRepositoryTrx = new AssessmentRepository(knex);
       campaignParticipationRepositoryTrx = new CampaignParticipationRepository(knex);
-      campaignToJoinRepositoryTrx = new CampaignToJoinRepository(knex);
+      campaignToJoinRepository = new CampaignToJoinRepository(knex);
       // when
-      const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepositoryTrx });
+      const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepositoryTrx, assessmentRepositoryTrx, campaignToJoinRepository });
 
       // then
       const campaignParticipations = await knex('campaign-participations');
