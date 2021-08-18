@@ -9,7 +9,6 @@ const campaignAssessmentParticipationResultSerializer = require('../../infrastru
 const campaignProfileSerializer = require('../../infrastructure/serializers/jsonapi/campaign-profile-serializer');
 const campaignAssessmentResultMinimalSerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
-const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
@@ -21,9 +20,8 @@ module.exports = {
     const {
       event,
       campaignParticipation: campaignParticipationCreated,
-    } = await DomainTransaction.execute((domainTransaction) => {
-      return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
-    });
+    } = await usecases.startCampaignParticipationTrx({ campaignParticipation, userId });
+
     await events.eventDispatcher.dispatch(event);
 
     return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
