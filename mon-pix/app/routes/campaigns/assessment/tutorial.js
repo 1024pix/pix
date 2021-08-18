@@ -12,7 +12,7 @@ export default Route.extend(SecuredRouteMixin, {
 
   campaignCode: null,
   tutorialPageId: 0,
-  tutorialPageCount: 4,
+  tutorialPageCount: 5,
 
   _setupPaging(numberOfPages, currentTutorialPageId) {
     const classOfTutorialPages = new Array(numberOfPages);

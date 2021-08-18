@@ -248,10 +248,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
             await click('.button');
-            await click('.campaign-tutorial__next-page-tutorial');
-            await click('.campaign-tutorial__next-page-tutorial');
-            await click('.campaign-tutorial__next-page-tutorial');
-            await click('.campaign-tutorial__start-campaign-button');
+            await click('.campaign-tutorial__ignore-button');
 
             // then
             expect(currentURL()).to.contains(/assessments/);
@@ -284,10 +281,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           it('should start the assessment when the user has seen tutorial', async function() {
             // when
-            await click('.campaign-tutorial__next-page-tutorial');
-            await click('.campaign-tutorial__next-page-tutorial');
-            await click('.campaign-tutorial__next-page-tutorial');
-            await click('.campaign-tutorial__start-campaign-button');
+            await click('.campaign-tutorial__ignore-button');
 
             // then
             expect(currentURL()).to.contains(/assessments/);
