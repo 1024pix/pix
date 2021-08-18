@@ -5,8 +5,8 @@ const sinon = require('sinon');
 chai.use(require('chai-as-promised'));
 chai.use(require('chai-sorted'));
 chai.use(require('sinon-chai'));
-chai.use(require('./tooling/chai-custom-helpers/deep-equal-instance.js'));
-chai.use(require('./tooling/chai-custom-helpers/deep-equal-ordered-instances'));
+const customChaiHelpers = require('./tooling/chai-custom-helpers/index');
+_.each(customChaiHelpers, chai.use);
 const cache = require('../lib/infrastructure/caches/learning-content-cache');
 const { graviteeRegisterApplicationsCredentials, jwtConfig } = require('../lib/config');
 
