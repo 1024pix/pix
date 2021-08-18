@@ -1,5 +1,4 @@
 const { expect, knex, domainBuilder, databaseBuilder, catchErr } = require('../../../test-helper');
-const Answer = require('../../../../lib/domain/models/Answer');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
@@ -45,8 +44,7 @@ describe('Integration | Repository | answerRepository', () => {
         const foundAnswer = await answerRepository.get(1);
 
         // then
-        expect(foundAnswer).to.be.an.instanceof(Answer);
-        expect(foundAnswer).to.deep.equal(expectedAnswer);
+        expect(foundAnswer).to.deepEqualInstance(expectedAnswer);
       });
     });
   });
@@ -99,8 +97,7 @@ describe('Integration | Repository | answerRepository', () => {
         const foundAnswers = await answerRepository.findByIds([1, 2]);
 
         // then
-        expect(foundAnswers[0]).to.be.an.instanceof(Answer);
-        expect(foundAnswers).to.deep.equal([firstAnswer, secondAnswer]);
+        expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
       });
     });
   });
@@ -163,8 +160,7 @@ describe('Integration | Repository | answerRepository', () => {
       });
 
       // then
-      expect(foundAnswer).to.be.an.instanceOf(Answer);
-      expect(foundAnswer).to.deep.equal(expectedAnswer);
+      expect(foundAnswer).to.deepEqualInstance(expectedAnswer);
     });
 
     it('should return the most recent answer when several answers match with challenge and assessment', async () => {
@@ -209,8 +205,7 @@ describe('Integration | Repository | answerRepository', () => {
       });
 
       // then
-      expect(foundAnswer).to.be.an.instanceOf(Answer);
-      expect(foundAnswer).to.deep.equal(newerAnswer);
+      expect(foundAnswer).to.deepEqualInstance(newerAnswer);
     });
   });
 
@@ -283,8 +278,7 @@ describe('Integration | Repository | answerRepository', () => {
         const foundAnswers = await answerRepository.findByAssessment(123);
 
         // then
-        expect(foundAnswers[0]).to.be.an.instanceof(Answer);
-        expect(foundAnswers).to.deep.equal([firstAnswer, secondAnswer]);
+        expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
       });
     });
   });
@@ -358,8 +352,7 @@ describe('Integration | Repository | answerRepository', () => {
         const foundAnswer = await answerRepository.findLastByAssessment(123);
 
         // then
-        expect(foundAnswer).to.be.an.instanceof(Answer);
-        expect(foundAnswer).to.deep.equal(newerAnswer);
+        expect(foundAnswer).to.deepEqualInstance(newerAnswer);
       });
     });
   });
@@ -399,8 +392,7 @@ describe('Integration | Repository | answerRepository', () => {
         const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([123, 123]);
 
         // then
-        expect(challengeIds).to.have.length(1);
-        expect(challengeIds[0]).to.equal('recABC');
+        expect(challengeIds).to.deepEqualArray(['recABC']);
       });
     });
 
@@ -416,7 +408,7 @@ describe('Integration | Repository | answerRepository', () => {
       const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([456, 123, 789, 159]);
 
       // then
-      expect(challengeIds).to.deep.include.members(['recABC', 'recDEF', 'recGHI']);
+      expect(challengeIds).to.deepEqualArray(['recABC', 'recDEF', 'recGHI']);
     });
   });
 
@@ -447,8 +439,7 @@ describe('Integration | Repository | answerRepository', () => {
 
       // then
       const answerInDB = await answerRepository.get(savedAnswer.id);
-      expect(savedAnswer).to.be.instanceOf(Answer);
-      expect(savedAnswer).to.deep.equal(answerInDB);
+      expect(savedAnswer).to.deepEqualInstance(answerInDB);
     });
 
     it('should save the knowledge elements', async () => {

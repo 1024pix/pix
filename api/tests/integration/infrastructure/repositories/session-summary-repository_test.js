@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const sessionSummaryRepository = require('../../../../lib/infrastructure/repositories/session-summary-repository');
-const SessionSummary = require('../../../../lib/domain/read-models/SessionSummary');
 const _ = require('lodash');
 
 describe('Integration | Repository | Session Summary', () => {
@@ -27,7 +26,7 @@ describe('Integration | Repository | Session Summary', () => {
         const { models: sessionSummaries, meta } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
 
         // then
-        expect(sessionSummaries).to.deep.equal([]);
+        expect(sessionSummaries).to.deepEqualArray([]);
         expect(meta.hasSessions).to.be.false;
       });
     });
@@ -63,8 +62,7 @@ describe('Integration | Repository | Session Summary', () => {
           enrolledCandidatesCount: 0,
           effectiveCandidatesCount: 0,
         });
-        expect(sessionSummaries[0]).to.be.instanceof(SessionSummary);
-        expect(sessionSummaries[0]).to.deep.equal(expectedSessionSummary);
+        expect(sessionSummaries[0]).to.be.deepEqualInstance(expectedSessionSummary);
       });
 
       it('should return hasSessions to true if the certification center has at least one session', async () => {
@@ -121,8 +119,8 @@ describe('Integration | Repository | Session Summary', () => {
             enrolledCandidatesCount: 3,
             effectiveCandidatesCount: 1,
           });
-          expect(sessionSummaries[0]).to.deep.equal(expectedSessionA);
-          expect(sessionSummaries[1]).to.deep.equal(expectedSessionB);
+          expect(sessionSummaries[0]).to.deepEqualInstance(expectedSessionA);
+          expect(sessionSummaries[1]).to.deepEqualInstance(expectedSessionB);
         });
       });
 
