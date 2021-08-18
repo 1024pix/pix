@@ -1,68 +1,52 @@
-const _ = require('lodash');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../bookshelf');
+const { fetchPage } = require('../utils/knex-utils');
 const { NotFoundError } = require('../../domain/errors');
 const JurySession = require('../../domain/models/JurySession');
 const { statuses } = require('../../domain/models/JurySession');
 const CertificationOfficer = require('../../domain/models/CertificationOfficer');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
-const DEFAULT_PAGE_SIZE = 10;
-const DEFAULT_PAGE_NUMBER = 1;
+const COLUMNS = Object.freeze(['sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName']);
 
 module.exports = {
 
   async get(id) {
-    const results = await Bookshelf.knex
-      .select('sessions.*', 'certification-centers.type', 'users.firstName', 'users.lastName')
+    const jurySessionDTO = await knex
+      .select(COLUMNS)
       .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
       .where('sessions.id', '=', id)
-      .limit(1);
-    if (!results[0]) {
+      .first();
+    if (!jurySessionDTO) {
       throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
     }
-    return _toDomain(results[0]);
+    return _toDomain(jurySessionDTO);
   },
 
   async findPaginatedFiltered({ filters, page }) {
-    const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
-    const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const offset = (pageNumber - 1) * pageSize;
-    const query = Bookshelf.knex.from('sessions');
-
-    _setupFilters(query, filters);
-    query.orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
-      .orderByRaw('?? ASC', 'finalizedAt')
-      .orderBy('id')
-      .select('sessions.*', 'certification-centers.type', 'users.firstName', 'users.lastName')
-      .select(Bookshelf.knex.raw('COUNT(*) OVER() AS ??', ['rowCount']))
+    const query = knex
+      .select(COLUMNS)
+      .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
-      .limit(pageSize).offset(offset);
+      .modify(_setupFilters, filters)
+      .orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
+      .orderByRaw('?? ASC', 'finalizedAt')
+      .orderBy('id');
 
-    const results = await query;
-
-    let rowCount = 0;
-    const jurySessions = _.map(results, (result) => {
-      rowCount = result.rowCount;
-      return _toDomain(result);
-    });
+    const { results, pagination } = await fetchPage(query, page);
+    const jurySessions = results.map(_toDomain);
 
     return {
       jurySessions,
-      pagination: {
-        page: pageNumber,
-        pageSize: pageSize,
-        rowCount,
-        pageCount: Math.ceil(rowCount / pageSize),
-      },
+      pagination,
     };
   },
 
   async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
     try {
-      await Bookshelf.knex('sessions')
+      await knex('sessions')
         .where({ id })
         .update({ assignedCertificationOfficerId })
         .returning('*');
@@ -81,6 +65,7 @@ function _toDomain(jurySessionFromDB) {
     ...jurySessionFromDB,
     certificationCenterName: jurySessionFromDB.certificationCenter,
     certificationCenterType: jurySessionFromDB.type,
+    certificationCenterExternalId: jurySessionFromDB.externalId,
   });
 
   if (jurySessionFromDB.assignedCertificationOfficerId) {
@@ -95,18 +80,26 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt, certificationCenterType } = filters;
+  const { id, certificationCenterName, status, resultsSentToPrescriberAt, certificationCenterExternalId, certificationCenterType } = filters;
 
   if (id) {
     query.where('sessions.id', id);
   }
 
   if (certificationCenterName) {
-    query.whereRaw('LOWER("certificationCenter") LIKE ?', `%${certificationCenterName.toLowerCase()}%`);
+    query.whereRaw(
+      'LOWER(??) LIKE ?', ['certificationCenter', '%' + certificationCenterName.toLowerCase() + '%'],
+    );
   }
 
   if (certificationCenterType) {
     query.where('certification-centers.type', certificationCenterType);
+  }
+
+  if (certificationCenterExternalId) {
+    query.whereRaw(
+      'LOWER(??) LIKE ?', ['certification-centers.externalId', '%' + certificationCenterExternalId.toLowerCase() + '%'],
+    );
   }
 
   if (resultsSentToPrescriberAt === true) {

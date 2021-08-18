@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
     let modelSession;
     let expectedJsonApi;
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedJsonApi = {
         data: {
           type: 'sessions',
@@ -36,6 +36,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
             'certification-center-name': 'someCenterName',
             'certification-center-type': 'someCenterType',
             'certification-center-id': 'someCenterId',
+            'certification-center-external-id': 'someCenterExternalId',
             address: 'someAddress',
             room: 'someRoom',
             examiner: 'someExaminer',
@@ -63,6 +64,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
         certificationCenterName: 'someCenterName',
         certificationCenterType: 'someCenterType',
         certificationCenterId: 'someCenterId',
+        certificationCenterExternalId: 'someCenterExternalId',
         address: 'someAddress',
         room: 'someRoom',
         examiner: 'someExaminer',
@@ -78,7 +80,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
       };
     });
 
-    context('when there is an assigned certification officer', () => {
+    context('when there is an assigned certification officer', function() {
 
       it('should convert a Session model object into JSON API data with included officer', function() {
         // given
@@ -115,7 +117,7 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
       });
     });
 
-    context('when there is no assigned certification officer', () => {
+    context('when there is no assigned certification officer', function() {
 
       it('should convert a Session model object into JSON API data', function() {
         // given
