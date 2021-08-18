@@ -1,5 +1,5 @@
 const { expect, domainBuilder, sinon } = require('../../../../test-helper');
-const certificationResultService = require('../../../../../lib/domain/services/certification-result-service');
+const certificationResultService = require('../../../../../lib/domain/services/scoring/certification-result-service');
 const scoringCertificationService = require('../../../../../lib/domain/services/scoring/scoring-certification-service');
 
 describe('Unit | Domain | services | scoring | scoring-certification-service', () => {
