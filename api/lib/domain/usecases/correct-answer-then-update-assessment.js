@@ -1,5 +1,4 @@
 const {
-  ChallengeAlreadyAnsweredError,
   ForbiddenAccess,
   ChallengeNotAskedError,
 } = require('../errors');
@@ -29,15 +28,6 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
   if (assessment.lastChallengeId && assessment.lastChallengeId != answer.challengeId) {
     throw new ChallengeNotAskedError();
-  }
-
-  const answersFind = await answerRepository.findByChallengeAndAssessment({
-    assessmentId: answer.assessmentId,
-    challengeId: answer.challengeId,
-  });
-
-  if (answersFind) {
-    throw new ChallengeAlreadyAnsweredError();
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
