@@ -92,10 +92,8 @@
       height: 38px;
 
       .organization-sub-form__input {
-        border-right: none;
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
         width: 280px;
+        margin-right: 6px;
 
         &__error {
           border-right: 1px solid $error;

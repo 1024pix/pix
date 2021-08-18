@@ -9,12 +9,7 @@
         @value={{@targetProfilesToAttach}}
         class="organization-sub-form__input form-field__text form-control"
         @placeholder="1, 2" />
-      <button
-        type="button"
-        {{on "click" @attachTargetProfiles}}
-        class="organization-sub-form__validate-button btn btn-outline-default">
-        Valider
-      </button>
+      <PixButton @size="small" @triggerAction={{@attachTargetProfiles}}>Valider</PixButton>
     </form>
   </div>
 </section>
