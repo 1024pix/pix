@@ -8,8 +8,8 @@ module.exports = {
 function setupSignupFormData(context, events, done) {
   context.vars['firstName'] = faker.name.firstName();
   context.vars['lastName'] = faker.name.lastName();
-  context.vars['email'] = faker.internet.exampleEmail();
-  context.vars['password'] = 'L0rem1psum';
+  context.vars['email'] = `${faker.datatype.uuid().slice(19)}@example.net`;
+  context.vars['password'] = 'Password123';
   return done();
 }
 
