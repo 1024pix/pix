@@ -1,21 +1,20 @@
 import ENV from 'mon-pix/config/environment';
-const PREVIEW_UNIQUE_STEP = 1;
+const ONE_STEP = 1;
 
 function getMaxStepsNumber(assessment) {
   if (assessment.isPreview) {
-    return PREVIEW_UNIQUE_STEP;
+    return ONE_STEP;
   }
   if (assessment.isCertification) {
     return assessment.get('certificationCourse.nbChallenges');
   }
-  if (assessment.isDemo) {
-    return assessment.get('course.nbChallenges');
-  }
   if (assessment.hasCheckpoints) {
     return ENV.APP.NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS;
   }
-  return assessment.get('course.nbChallenges');
-
+  if (assessment.get('course')) {
+    return assessment.get('course.nbChallenges');
+  }
+  return ONE_STEP;
 }
 
 function getCurrentStepIndex(assessment, currentChallengeNumber) {
