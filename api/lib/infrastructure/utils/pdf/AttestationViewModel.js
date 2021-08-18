@@ -1,4 +1,3 @@
-const startCase = require('lodash/startCase');
 const sortBy = require('lodash/sortBy');
 const moment = require('moment');
 
@@ -69,7 +68,7 @@ class AttestationViewModel {
 
     const verificationCode = certificate.verificationCode;
 
-    const fullName = `${startCase(certificate.firstName)} ${startCase(certificate.lastName)}`;
+    const fullName = `${certificate.firstName} ${certificate.lastName}`;
     const birthplace = certificate.birthplace ? ` à ${certificate.birthplace}` : '';
     const birth = _formatDate(certificate.birthdate) + birthplace;
     const certificationCenter = certificate.certificationCenter;
