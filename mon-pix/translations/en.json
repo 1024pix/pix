@@ -1234,21 +1234,26 @@
       "next": "Next",
       "pages": {
         "page0": {
-          "title": "You can search online",
+          "title": "You can search online...",
           "explanation": "If you do not know the answer to a question, \nyou can probably find it on the internet.",
           "icon": "icn-recherche.svg"
         },
         "page1": {
+          "title": "... ",
+          "explanation": "",
+          "icon": "icn-temps.svg"
+        },
+        "page2": {
           "title": "There’s no time limit!",
           "explanation": "Take all the time you need to finish your customised test. \nIf a question is timed, we will let you know.",
           "icon": "icn-temps.svg"
         },
-        "page2": {
+        "page3": {
           "title": "Tutorials",
           "explanation": "Access tutorials to learn more \nabout each question and improve.",
           "icon": "icn-tutos.svg"
         },
-        "page3": {
+        "page4": {
           "title": "Adapted levels of difficulty",
           "explanation": "Based on your answers, \nPix adapts the difficulty of the questions.",
           "icon": "icn-algo.svg"
