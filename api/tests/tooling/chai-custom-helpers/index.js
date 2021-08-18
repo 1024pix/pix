@@ -1,4 +1,4 @@
 module.exports = {
   deepEqualInstance: require('./deep-equal-instance'),
-  deepEqualOrderedInstances: require('./deep-equal-ordered-instances'),
+  deepEqualArray: require('./deep-equal-array'),
 };

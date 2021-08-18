@@ -1,5 +1,5 @@
 module.exports = function(chai, _utils) {
-  chai.Assertion.addMethod('deepEqualOrderedInstances', function(referenceInstances) {
+  chai.Assertion.addMethod('deepEqualArray', function(referenceInstances) {
     const assertedInstances = this._obj;
 
     // Assert that both provided values are arrays
