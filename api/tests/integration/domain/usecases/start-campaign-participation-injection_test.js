@@ -1,5 +1,5 @@
 const { expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
-const { startCampaignParticipationTrx } = require('../../../../lib/domain/usecases/index');
+const { startCampaignParticipation } = require('../../../../lib/domain/usecases/index');
 
 describe('Integration | UseCase | ', () => {
   afterEach(async () => {
@@ -24,7 +24,7 @@ describe('Integration | UseCase | ', () => {
 
       await databaseBuilder.commit();
 
-      await startCampaignParticipationTrx({ campaignParticipation, userId });
+      await startCampaignParticipation({ campaignParticipation, userId });
 
       const campaignParticipations = await knex('campaign-participations');
       expect(campaignParticipations).to.have.lengthOf(1);

@@ -20,7 +20,7 @@ module.exports = {
     const {
       event,
       campaignParticipation: campaignParticipationCreated,
-    } = await usecases.startCampaignParticipationTrx({ campaignParticipation, userId });
+    } = await usecases.startCampaignParticipation({ campaignParticipation, userId });
 
     await events.eventDispatcher.dispatch(event);
 

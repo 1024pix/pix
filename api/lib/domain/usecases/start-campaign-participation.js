@@ -3,45 +3,48 @@ const CampaignParticipationStarted = require('../events/CampaignParticipationSta
 const CampaignParticipation = require('../models/CampaignParticipation');
 const { EntityValidationError } = require('../../domain/errors');
 
-module.exports = async function startCampaignParticipation({
+async function startCampaignParticipation({
   campaignParticipation,
   userId,
-  campaignParticipationRepository,
-  assessmentRepository,
-  campaignToJoinRepository,
-  domainTransaction,
+  campaignParticipationRepositoryTrx,
+  assessmentRepositoryTrx,
+  campaignToJoinRepositoryTrx,
 }) {
-  const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
+  const campaignToJoin = await campaignToJoinRepositoryTrx.get(campaignParticipation.campaignId);
 
   if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId)
     throw new EntityValidationError('Un identifiant externe est requis pour accèder à la campagne.');
 
-  await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
+  await campaignToJoinRepositoryTrx.checkCampaignIsJoinableByUser(campaignToJoin, userId);
   let createdCampaignParticipation;
 
-  if (await campaignParticipationRepository.hasAlreadyParticipated(campaignToJoin.id, userId, domainTransaction)) {
-    await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignToJoin.id, userId, domainTransaction);
-    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
+  if (await campaignParticipationRepositoryTrx.hasAlreadyParticipated(campaignToJoin.id, userId)) {
+    await campaignParticipationRepositoryTrx.markPreviousParticipationsAsImproved(campaignToJoin.id, userId);
+    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepositoryTrx);
     if (campaignToJoin.isAssessment) {
       const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
-      await assessmentRepository.save({ assessment, domainTransaction });
+      await assessmentRepositoryTrx.save({ assessment });
     }
   } else {
-    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
+    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepositoryTrx);
     if (campaignToJoin.isAssessment) {
       const assessment = Assessment.createForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
-      await assessmentRepository.save({ assessment, domainTransaction });
+      await assessmentRepositoryTrx.save({ assessment });
     }
   }
-
   return {
     event: new CampaignParticipationStarted({ campaignParticipationId: createdCampaignParticipation.id }),
     campaignParticipation: createdCampaignParticipation,
   };
 };
 
-async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction) {
-
+async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepositoryTrx) {
   const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
-  return campaignParticipationRepository.save(userParticipation, domainTransaction);
+  await campaignParticipationRepositoryTrx.save(userParticipation);
+  return userParticipation;
+}
+
+module.exports = {
+  perform: startCampaignParticipation,
+  useTransaction: true,
 }

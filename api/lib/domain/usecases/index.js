@@ -325,6 +325,4 @@ module.exports = injectDependencies({
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
   updateUserEmail: require('./update-user-email'),
   updateUserPassword: require('./update-user-password'),
-
-  startCampaignParticipationTrx: require('./start-campaign-participation-trx'),
 }, dependencies);
