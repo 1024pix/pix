@@ -5,7 +5,7 @@
     @isInline={{true}}
     class="copy-paste-button__tooltip hide-on-mobile">
     <CopyButton
-      aria-label={{t @defaultMessage}}
+      aria-label={{@defaultMessage}}
       @clipboardText={{@clipBoardtext}}
       @success={{this.onClipboardSuccess}}
       {{on 'mouseLeave' this.onClipboardOut}}
