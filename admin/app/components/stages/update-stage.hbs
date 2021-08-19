@@ -2,32 +2,43 @@
   <form class="form" {{on "submit" this.updateStage}}>
     <div class="form-field">
       <label for="prescriberTitle" class="form-field__label">
-          Titre pour le prescripteur
+        Titre pour le prescripteur
       </label>
       <Input
         id="prescriberTitle"
         @type="text"
-        class="form-control {{if (v-get this.form 'prescriberTitle' 'isInvalid') "is-invalid"  }}"
-        @value={{this.form.prescriberTitle}} />
+        class="form-control
+          {{if (v-get this.form "prescriberTitle" "isInvalid") "is-invalid"}}"
+        @value={{this.form.prescriberTitle}}
+      />
 
-      {{#if (v-get this.form 'prescriberTitle' 'isInvalid')}}
+      {{#if (v-get this.form "prescriberTitle" "isInvalid")}}
         <div class="form-field__error">
-          {{v-get this.form 'prescriberTitle' 'message'}}
+          {{v-get this.form "prescriberTitle" "message"}}
         </div>
       {{/if}}
-      <br/>
+      <br />
 
       <label for="prescriberDescription" class="form-field__label">
-          Description pour le prescripteur
+        Description pour le prescripteur
       </label>
       <Input
         id="prescriberDescription"
         @type="text"
-        class="form-control {{if (v-get this.form 'prescriberDescription' 'isInvalid') "is-invalid" }}"
-        @value={{this.form.prescriberDescription}} />
+        class="form-control
+          {{if
+            (v-get this.form "prescriberDescription" "isInvalid")
+            "is-invalid"
+          }}"
+        @value={{this.form.prescriberDescription}}
+      />
     </div>
     <div class="form-actions">
-      <button class="btn btn-outline-default" type="button" {{on "click" @toggleEditMode}}>Annuler</button>
+      <button
+        class="btn btn-outline-default"
+        type="button"
+        {{on "click" @toggleEditMode}}
+      >Annuler</button>
       <button class="btn btn-success" type="submit">Enregistrer</button>
     </div>
   </form>

@@ -16,11 +16,18 @@
           {{#each @badges as |badge|}}
             <tr>
               <td>{{badge.id}}</td>
-              <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
+              <td class="badges-table__image"><img
+                  src={{badge.imageUrl}}
+                  alt={{badge.altMessage}}
+                /></td>
               <td>{{badge.key}}</td>
               <td>{{badge.title}}</td>
               <td>{{badge.message}}</td>
-              <td><LinkTo @route="authenticated.badges.badge" @model={{badge.id}} class="btn btn-outline-default btn-thin">Voir détail</LinkTo></td>
+              <td><LinkTo
+                  @route="authenticated.badges.badge"
+                  @model={{badge.id}}
+                  class="btn btn-outline-default btn-thin"
+                >Voir détail</LinkTo></td>
             </tr>
           {{/each}}
         </tbody>

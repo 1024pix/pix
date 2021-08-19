@@ -19,29 +19,40 @@
 
         {{#if @campaigns}}
           <tbody>
-          {{#each @campaigns as |campaign|}}
-            <tr aria-label="campagne">
-              <td class="table__column--medium">
-                <LinkTo @route="authenticated.campaigns.campaign" @model={{campaign.id}}>
-                  {{campaign.id}}
-                </LinkTo>
-              </td>
-              <td class="table__column--medium">{{campaign.code}}</td>
-              <td class="table__column--medium">
-                  {{if (eq campaign.type 'ASSESSMENT') "Évaluation" "Collecte de profils"}}
-              </td>
-              <td class="table__column">{{campaign.name}}</td>
-              <td class="table__column--small">{{moment-format campaign.createdAt 'DD/MM/YYYY'}}</td>
-              <td>{{campaign.creatorFirstName}} {{campaign.creatorLastName}}</td>
-              <td class="table__column--small">
-                {{#if campaign.archivedAt }}
-                  {{moment-format campaign.archivedAt 'DD/MM/YYYY'}}
-                {{else}}
-                  -
-                {{/if}}
-              </td>
-            </tr>
-          {{/each}}
+            {{#each @campaigns as |campaign|}}
+              <tr aria-label="campagne">
+                <td class="table__column--medium">
+                  <LinkTo
+                    @route="authenticated.campaigns.campaign"
+                    @model={{campaign.id}}
+                  >
+                    {{campaign.id}}
+                  </LinkTo>
+                </td>
+                <td class="table__column--medium">{{campaign.code}}</td>
+                <td class="table__column--medium">
+                  {{if
+                    (eq campaign.type "ASSESSMENT")
+                    "Évaluation"
+                    "Collecte de profils"
+                  }}
+                </td>
+                <td class="table__column">{{campaign.name}}</td>
+                <td class="table__column--small">{{moment-format
+                    campaign.createdAt
+                    "DD/MM/YYYY"
+                  }}</td>
+                <td>{{campaign.creatorFirstName}}
+                  {{campaign.creatorLastName}}</td>
+                <td class="table__column--small">
+                  {{#if campaign.archivedAt}}
+                    {{moment-format campaign.archivedAt "DD/MM/YYYY"}}
+                  {{else}}
+                    -
+                  {{/if}}
+                </td>
+              </tr>
+            {{/each}}
           </tbody>
         {{/if}}
       </table>
@@ -51,7 +62,7 @@
       {{/unless}}
     </div>
     {{#if @campaigns}}
-      <PaginationControl @pagination={{@campaigns.meta}}/>
+      <PaginationControl @pagination={{@campaigns.meta}} />
     {{/if}}
   </div>
 </section>

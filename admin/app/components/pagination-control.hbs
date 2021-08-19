@@ -2,35 +2,66 @@
   <div class="page-size">
     <div class="page-size__label">Voir</div>
     <div class="page-size__choice">
-      <select id="pageSize" class="select content-text content-text--small" {{on 'change' this.changePageSize}}>
-        <option value="10" selected="{{if (eq @pagination.pageSize 10) true}}">10</option>
-        <option value="25" selected="{{if (eq @pagination.pageSize 25) true}}">25</option>
-        <option value="50" selected="{{if (eq @pagination.pageSize 50) true}}">50</option>
-        <option value="100" selected="{{if (eq @pagination.pageSize 100) true}}">100</option>
+      <select
+        id="pageSize"
+        class="select content-text content-text--small"
+        {{on "change" this.changePageSize}}
+      >
+        <option
+          value="10"
+          selected="{{if (eq @pagination.pageSize 10) true}}"
+        >10</option>
+        <option
+          value="25"
+          selected="{{if (eq @pagination.pageSize 25) true}}"
+        >25</option>
+        <option
+          value="50"
+          selected="{{if (eq @pagination.pageSize 50) true}}"
+        >50</option>
+        <option
+          value="100"
+          selected="{{if (eq @pagination.pageSize 100) true}}"
+        >100</option>
       </select>
     </div>
   </div>
   <div class="page-navigation">
-    <div class="page-navigation__arrow page-navigation__arrow--previous {{if (eq @pagination.page 1) 'page-navigation__arrow--disabled'}}">
-      <LinkTo aria-label="Aller à la page précédente"
-              @query={{hash pageNumber=this.previousPage}}
-              @disabledWhen={{eq @pagination.page 1}}
-              @replace={{true}}
-              class="icon-button icon-button--link">
+    <div
+      class="page-navigation__arrow page-navigation__arrow--previous
+        {{if (eq @pagination.page 1) "page-navigation__arrow--disabled"}}"
+    >
+      <LinkTo
+        aria-label="Aller à la page précédente"
+        @query={{hash pageNumber=this.previousPage}}
+        @disabledWhen={{eq @pagination.page 1}}
+        @replace={{true}}
+        class="icon-button icon-button--link"
+      >
         <FaIcon @icon="arrow-left" />
       </LinkTo>
     </div>
     <div class="page-navigation__body">
       <div class="page-navigation__label">Page&nbsp;:</div>
       <div class="page-navigation__current-page">{{@pagination.page}}</div>
-      <div class="page-navigation__last-page">/&nbsp;{{@pagination.pageCount}}</div>
+      <div
+        class="page-navigation__last-page"
+      >/&nbsp;{{@pagination.pageCount}}</div>
     </div>
-    <div class="page-navigation__arrow page-navigation__arrow--next {{if (eq @pagination.page @pagination.pageCount) 'page-navigation__arrow--disabled'}}">
-      <LinkTo aria-label="Aller à la page suivante"
-              @query={{hash pageNumber=this.nextPage}}
-              @disabledWhen={{eq @pagination.page @pagination.pageCount}}
-              @replace={{true}}
-              class="icon-button icon-button--link">
+    <div
+      class="page-navigation__arrow page-navigation__arrow--next
+        {{if
+          (eq @pagination.page @pagination.pageCount)
+          "page-navigation__arrow--disabled"
+        }}"
+    >
+      <LinkTo
+        aria-label="Aller à la page suivante"
+        @query={{hash pageNumber=this.nextPage}}
+        @disabledWhen={{eq @pagination.page @pagination.pageCount}}
+        @replace={{true}}
+        class="icon-button icon-button--link"
+      >
         <FaIcon @icon="arrow-right" />
       </LinkTo>
     </div>

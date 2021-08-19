@@ -1,6 +1,6 @@
 <section class="page-section">
   <h1>{{@campaign.name}}</h1>
-  <br/>
+  <br />
 
   <form class="form" {{on "submit" this.update}}>
     <div class="form-field">
@@ -10,14 +10,16 @@
       <Input
         id="name"
         @type="text"
-        class="form-control {{if (v-get this.form 'name' 'isInvalid') "is-invalid"  }}"
-        @value={{this.form.name}} />
-      {{#if (v-get this.form 'name' 'isInvalid')}}
+        class="form-control
+          {{if (v-get this.form "name" "isInvalid") "is-invalid"}}"
+        @value={{this.form.name}}
+      />
+      {{#if (v-get this.form "name" "isInvalid")}}
         <div class="form-field__error">
-          {{v-get this.form 'name' 'message'}}
+          {{v-get this.form "name" "message"}}
         </div>
       {{/if}}
-      <br/>
+      <br />
 
       {{#if @campaign.isTypeAssessment}}
         <label for="title" class="form-field__label">
@@ -26,14 +28,16 @@
         <Input
           id="title"
           @type="text"
-          class="form-control {{if (v-get this.form 'title' 'isInvalid') "is-invalid" }}"
-          @value={{this.form.title}} />
-        {{#if (v-get this.form 'title' 'isInvalid')}}
+          class="form-control
+            {{if (v-get this.form "title" "isInvalid") "is-invalid"}}"
+          @value={{this.form.title}}
+        />
+        {{#if (v-get this.form "title" "isInvalid")}}
           <div class="form-field__error">
-            {{v-get this.form 'title' 'message'}}
+            {{v-get this.form "title" "message"}}
           </div>
         {{/if}}
-        <br/>
+        <br />
       {{/if}}
 
       <label for="customLandingPageText" class="form-field__label">
@@ -43,14 +47,18 @@
         id="customLandingPageText"
         rows={{8}}
         @value={{this.form.customLandingPageText}}
-        class="form-control {{if (v-get this.form 'customLandingPageText' 'isInvalid') "is-invalid" }}"
+        class="form-control
+          {{if
+            (v-get this.form "customLandingPageText" "isInvalid")
+            "is-invalid"
+          }}"
       />
-      {{#if (v-get this.form 'customLandingPageText' 'isInvalid')}}
+      {{#if (v-get this.form "customLandingPageText" "isInvalid")}}
         <div class="form-field__error">
-          {{v-get this.form 'customLandingPageText' 'message'}}
+          {{v-get this.form "customLandingPageText" "message"}}
         </div>
       {{/if}}
-      <br/>
+      <br />
 
       {{#if @campaign.isTypeAssessment}}
         <label for="customResultPageText" class="form-field__label">
@@ -60,14 +68,18 @@
           id="customResultPageText"
           rows={{8}}
           @value={{this.form.customResultPageText}}
-          class="form-control {{if (v-get this.form 'customResultPageText' 'isInvalid') "is-invalid" }}"
+          class="form-control
+            {{if
+              (v-get this.form "customResultPageText" "isInvalid")
+              "is-invalid"
+            }}"
         />
-        {{#if (v-get this.form 'customResultPageText' 'isInvalid')}}
+        {{#if (v-get this.form "customResultPageText" "isInvalid")}}
           <div class="form-field__error">
-            {{v-get this.form 'customResultPageText' 'message'}}
+            {{v-get this.form "customResultPageText" "message"}}
           </div>
         {{/if}}
-        <br/>
+        <br />
 
         <label for="customResultPageButtonText" class="form-field__label">
           Texte du bouton de la page de fin de parcours
@@ -75,15 +87,21 @@
         <Input
           id="customResultPageButtonText"
           @type="text"
-          class="form-control {{if (v-get this.form 'customResultPageButtonText' 'isInvalid') "is-invalid" }}"
-          @value={{this.form.customResultPageButtonText}} />
-        {{#if (v-get this.form 'customResultPageButtonText' 'isInvalid')}}
+          class="form-control
+            {{if
+              (v-get this.form "customResultPageButtonText" "isInvalid")
+              "is-invalid"
+            }}"
+          @value={{this.form.customResultPageButtonText}}
+        />
+        {{#if (v-get this.form "customResultPageButtonText" "isInvalid")}}
           <div class="form-field__error">
-            {{v-get this.form 'customResultPageButtonText' 'message'}}
+            {{v-get this.form "customResultPageButtonText" "message"}}
           </div>
         {{/if}}
-        <p class="form__instructions">Si un texte pour le bouton est saisi, une URL est également requise.</p>
-        <br/>
+        <p class="form__instructions">Si un texte pour le bouton est saisi, une
+          URL est également requise.</p>
+        <br />
 
         <label for="customResultPageButtonUrl" class="form-field__label">
           URL du bouton de la page de fin de parcours
@@ -91,19 +109,29 @@
         <Input
           id="customResultPageButtonUrl"
           @type="text"
-          class="form-control {{if (v-get this.form 'customResultPageButtonUrl' 'isInvalid') "is-invalid" }}"
-          @value={{this.form.customResultPageButtonUrl}} />
-        {{#if (v-get this.form 'customResultPageButtonUrl' 'isInvalid')}}
+          class="form-control
+            {{if
+              (v-get this.form "customResultPageButtonUrl" "isInvalid")
+              "is-invalid"
+            }}"
+          @value={{this.form.customResultPageButtonUrl}}
+        />
+        {{#if (v-get this.form "customResultPageButtonUrl" "isInvalid")}}
           <div class="form-field__error">
-            {{v-get this.form 'customResultPageButtonUrl' 'message'}}
+            {{v-get this.form "customResultPageButtonUrl" "message"}}
           </div>
         {{/if}}
-        <p class="form__instructions">Si une URL pour le bouton est saisie, le texte est également requis.</p>
+        <p class="form__instructions">Si une URL pour le bouton est saisie, le
+          texte est également requis.</p>
       {{/if}}
     </div>
 
     <div class="form-actions">
-      <button class="btn btn-outline-default" type="button" {{on "click" @onExit}}>Annuler</button>
+      <button
+        class="btn btn-outline-default"
+        type="button"
+        {{on "click" @onExit}}
+      >Annuler</button>
       <button class="btn btn-success" type="submit">Enregistrer</button>
     </div>
   </form>

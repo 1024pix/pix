@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-action --}}
+{{! template-lint-disable no-action }}
 {{page-title "Session " @model.id " Certifications - Pix admin" replace=true}}
 <div class="certification-list-page">
 
@@ -7,19 +7,31 @@
     <div class="btn-group" role="group">
 
       {{#if this.model.isPublished}}
-        <button class="btn btn-primary" {{on 'click' this.displayCertificationStatusUpdateConfirmationModal}} type="button">
+        <button
+          class="btn btn-primary"
+          {{on "click" this.displayCertificationStatusUpdateConfirmationModal}}
+          type="button"
+        >
           Dépublier la session
         </button>
       {{else}}
 
         {{#if this.canPublish}}
-          <button class="btn btn-primary" {{on 'click' this.displayCertificationStatusUpdateConfirmationModal}} type="button">
+          <button
+            class="btn btn-primary"
+            {{on
+              "click"
+              this.displayCertificationStatusUpdateConfirmationModal
+            }}
+            type="button"
+          >
             Publier la session
           </button>
         {{else}}
           <button class="btn btn-primary btn-disabled" type="button">
             Publier la session
-            <BsTooltip>Vous ne pouvez pas publier la session tant qu'il reste des certifications en "error" ou "started".</BsTooltip>
+            <BsTooltip>Vous ne pouvez pas publier la session tant qu'il reste
+              des certifications en "error" ou "started".</BsTooltip>
           </button>
         {{/if}}
 
@@ -28,11 +40,15 @@
   </header>
 
   <div>
-    <Certification::CertificationList @certifications={{this.model.juryCertificationSummaries}} />
+    <Certification::CertificationList
+      @certifications={{this.model.juryCertificationSummaries}}
+    />
   </div>
 </div>
 
-<ConfirmPopup @message={{this.confirmMessage}}
-              @confirm={{action this.toggleSessionPublication}}
-              @cancel={{action this.onCancelConfirm}}
-              @show={{this.displayConfirm}} />
+<ConfirmPopup
+  @message={{this.confirmMessage}}
+  @confirm={{action this.toggleSessionPublication}}
+  @cancel={{action this.onCancelConfirm}}
+  @show={{this.displayConfirm}}
+/>

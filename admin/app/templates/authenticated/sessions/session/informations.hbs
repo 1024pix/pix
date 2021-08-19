@@ -52,49 +52,70 @@
     {{#if this.sessionModel.finalizedAt}}
       <div class="row">
         <div class="col">Date de finalisation :</div>
-        <div class="col" data-test-id="session-info__finalized-at">{{format-date this.sessionModel.finalizedAt}}</div>
+        <div class="col" data-test-id="session-info__finalized-at">{{format-date
+            this.sessionModel.finalizedAt
+          }}</div>
       </div>
     {{/if}}
     {{#if this.sessionModel.publishedAt}}
       <div class="row">
         <div class="col">Date de publication :</div>
-        <div class="col" data-test-id="session-info__published-at">{{format-date this.sessionModel.publishedAt}}</div>
+        <div class="col" data-test-id="session-info__published-at">{{format-date
+            this.sessionModel.publishedAt
+          }}</div>
       </div>
     {{/if}}
     {{#if this.sessionModel.resultsSentToPrescriberAt}}
       <div class="row">
         <div class="col">Date d'envoi des résultats au prescripteur :</div>
-        <div class="col" data-test-id="session-info__sent-to-prescriber-at">{{format-date this.sessionModel.resultsSentToPrescriberAt}}</div>
+        <div
+          class="col"
+          data-test-id="session-info__sent-to-prescriber-at"
+        >{{format-date this.sessionModel.resultsSentToPrescriberAt}}</div>
       </div>
     {{/if}}
   </div>
 
-
   {{#if this.sessionModel.finalizedAt}}
-  <div class="session-info__stats">
-    <div class="row">
-      <div class="col">Nombre de signalements impactants non résolus:</div>
-      <div class="col" data-test-id="session-info__number-of-blocking-report">{{this.sessionModel.countCertificationIssueReportsWithActionRequired}}</div>
+    <div class="session-info__stats">
+      <div class="row">
+        <div class="col">Nombre de signalements impactants non résolus:</div>
+        <div
+          class="col"
+          data-test-id="session-info__number-of-blocking-report"
+        >{{this.sessionModel.countCertificationIssueReportsWithActionRequired}}</div>
+      </div>
+      <div class="row">
+        <div class="col">Nombre de signalements :</div>
+        <div
+          class="col"
+          data-test-id="session-info__number-of-issue-report"
+        >{{this.sessionModel.countCertificationIssueReports}}</div>
+      </div>
+      <div class="row">
+        <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
+        <div
+          class="col"
+          data-test-id="session-info__number-of-not-checked-end-screen"
+        >{{this.sessionModel.countNotCheckedEndScreen}}</div>
+      </div>
+      <div class="row">
+        <div class="col">Nombre de certifications démarrées/en erreur :</div>
+        <div
+          class="col"
+          data-test-id="session-info__number-of-started-or-error-certifications"
+        >{{this.sessionModel.countStartedAndInErrorCertifications}}</div>
+      </div>
+      {{#if this.sessionModel.hasExaminerGlobalComment}}
+        <div class="row">
+          <div class="col">Commentaire global :</div>
+          <div
+            class="col"
+            data-test-id="session-info__examiner-global-comment"
+          >{{this.sessionModel.examinerGlobalComment}}</div>
+        </div>
+      {{/if}}
     </div>
-    <div class="row">
-      <div class="col">Nombre de signalements :</div>
-      <div class="col" data-test-id="session-info__number-of-issue-report">{{this.sessionModel.countCertificationIssueReports}}</div>
-    </div>
-    <div class="row">
-      <div class="col">Nombre d'écrans de fin de test non renseignés :</div>
-      <div class="col" data-test-id="session-info__number-of-not-checked-end-screen">{{this.sessionModel.countNotCheckedEndScreen}}</div>
-    </div>
-    <div class="row">
-      <div class="col">Nombre de certifications démarrées/en erreur :</div>
-      <div class="col" data-test-id="session-info__number-of-started-or-error-certifications">{{this.sessionModel.countStartedAndInErrorCertifications}}</div>
-    </div>
-    {{#if this.sessionModel.hasExaminerGlobalComment}}
-    <div class="row">
-      <div class="col">Commentaire global :</div>
-      <div class="col" data-test-id="session-info__examiner-global-comment">{{this.sessionModel.examinerGlobalComment}}</div>
-    </div>
-    {{/if}}
-  </div>
   {{/if}}
 
   <div class="session-info__actions">
@@ -106,7 +127,11 @@
             Vous êtes assigné à cette session
           </button>
         {{else}}
-          <button type="button" class="btn btn-primary" {{on 'click' this.checkForAssignment}}>
+          <button
+            type="button"
+            class="btn btn-primary"
+            {{on "click" this.checkForAssignment}}
+          >
             M'assigner la session
           </button>
         {{/if}}
@@ -117,14 +142,27 @@
           <p>{{this.copyButtonText}}</p>
         {{/if}}
 
-        <button type="button" class="btn btn-secondary" {{on 'click' this.copyResultsDownloadLink}}>
-          <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
+        <button
+          type="button"
+          class="btn btn-secondary"
+          {{on "click" this.copyResultsDownloadLink}}
+        >
+          <FaIcon
+            @icon="copy"
+            @prefix="far"
+            class="fa-inverse"
+            aria-label="Copier"
+          />
           Lien de téléchargement des résultats
         </button>
       </div>
 
       {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
-        <button type="button" class="btn btn-secondary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          {{on "click" this.tagSessionAsSentToPrescriber}}
+        >
           Résultats transmis au prescripteur
         </button>
       {{/if}}
@@ -140,16 +178,26 @@
   >
     <div class="ember-modal-dialog--title">
       <h2>Assignation de la session</h2>
-      <span role="button" {{on 'click' this.cancelAssignment}}>×</span>
+      <span role="button" {{on "click" this.cancelAssignment}}>×</span>
     </div>
     <p>
-      L'utilisateur {{this.sessionModel.assignedCertificationOfficer.fullName}} s'est déjà assigné cette session.
-      <br>
+      L'utilisateur
+      {{this.sessionModel.assignedCertificationOfficer.fullName}}
+      s'est déjà assigné cette session.
+      <br />
       Voulez-vous vous quand même vous assigner cette session ?
     </p>
     <div class="ember-modal-dialog--actions">
-      <button type="button" class="btn btn-secondary" {{on 'click' this.cancelAssignment}}>Annuler</button>
-      <button type="button" class="btn btn-primary" {{on 'click' this.confirmAssignment}}>Confirmer</button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        {{on "click" this.cancelAssignment}}
+      >Annuler</button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        {{on "click" this.confirmAssignment}}
+      >Confirmer</button>
     </div>
   </ModalDialog>
 {{/if}}

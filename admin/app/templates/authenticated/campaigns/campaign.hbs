@@ -4,9 +4,13 @@
   <div class="page-title">
     <LinkTo @route="authenticated.organizations.list">Toutes les organisations</LinkTo>
     <span class="wire">&nbsp;>&nbsp;</span>
-    <LinkTo @route="authenticated.organizations.get" @model={{@model.organizationId}}>{{@model.organizationName}}</LinkTo>
+    <LinkTo
+      @route="authenticated.organizations.get"
+      @model={{@model.organizationId}}
+    >{{@model.organizationName}}</LinkTo>
     <span class="wire">&nbsp;>&nbsp;</span>
-    Campagne {{@model.name}}
+    Campagne
+    {{@model.name}}
   </div>
 </header>
 
@@ -14,6 +18,9 @@
   {{#if this.isEditMode}}
     <Campaigns::Update @campaign={{@model}} @onExit={{this.toggleEditMode}} />
   {{else}}
-    <Campaigns::Details @campaign={{@model}} @toggleEditMode={{this.toggleEditMode}} />
+    <Campaigns::Details
+      @campaign={{@model}}
+      @toggleEditMode={{this.toggleEditMode}}
+    />
   {{/if}}
 </main>

@@ -9,54 +9,62 @@
       </tr>
       <tr>
         <td>
-          <input id="id"
-                 type="text"
-                 value={{@id}}
-                 oninput={{perform @triggerFiltering 'id'}}
-                 class="table-admin-input" />
+          <input
+            id="id"
+            type="text"
+            value={{@id}}
+            oninput={{perform @triggerFiltering "id"}}
+            class="table-admin-input"
+          />
         </td>
         <td>
-          <input id="name"
-                 type="text"
-                 value={{@name}}
-                 oninput={{perform @triggerFiltering 'name'}}
-                 class="table-admin-input" />
+          <input
+            id="name"
+            type="text"
+            value={{@name}}
+            oninput={{perform @triggerFiltering "name"}}
+            class="table-admin-input"
+          />
         </td>
         <td>
-          <input id="type"
-                 type="text"
-                 value={{@type}}
-                 oninput={{perform @triggerFiltering 'type'}}
-                 class="table-admin-input" />
+          <input
+            id="type"
+            type="text"
+            value={{@type}}
+            oninput={{perform @triggerFiltering "type"}}
+            class="table-admin-input"
+          />
         </td>
         <td>
-          <input id="externalId"
-                 type="text"
-                 value={{@externalId}}
-                 oninput={{perform @triggerFiltering 'externalId'}}
-                 class="table-admin-input" />
+          <input
+            id="externalId"
+            type="text"
+            value={{@externalId}}
+            oninput={{perform @triggerFiltering "externalId"}}
+            class="table-admin-input"
+          />
         </td>
       </tr>
     </thead>
 
     {{#if @certificationCenters}}
       <tbody>
-      {{#each @certificationCenters as |certificationCenter|}}
-        <tr aria-label="Centre de certification">
-          <td>
-            <LinkTo
-              @route="authenticated.certification-centers.get"
-              @model={{certificationCenter.id}}
-              data-test-certification={{certificationCenter.id}}
-            >
-              {{certificationCenter.id}}
-            </LinkTo>
-          </td>
-          <td>{{certificationCenter.name}}</td>
-          <td>{{certificationCenter.type}}</td>
-          <td>{{certificationCenter.externalId}}</td>
-        </tr>
-      {{/each}}
+        {{#each @certificationCenters as |certificationCenter|}}
+          <tr aria-label="Centre de certification">
+            <td>
+              <LinkTo
+                @route="authenticated.certification-centers.get"
+                @model={{certificationCenter.id}}
+                data-test-certification={{certificationCenter.id}}
+              >
+                {{certificationCenter.id}}
+              </LinkTo>
+            </td>
+            <td>{{certificationCenter.name}}</td>
+            <td>{{certificationCenter.type}}</td>
+            <td>{{certificationCenter.externalId}}</td>
+          </tr>
+        {{/each}}
       </tbody>
     {{/if}}
   </table>

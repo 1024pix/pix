@@ -3,16 +3,21 @@
     <h2 class="page-section__title">Rattacher un ou plusieurs profil(s) cible(s)</h2>
   </header>
   <div class="organization__forms-section">
-    <form aria-label="Rattacher un ou plusieurs profil(s) cible(s)" class="organization__sub-form form">
+    <form
+      aria-label="Rattacher un ou plusieurs profil(s) cible(s)"
+      class="organization__sub-form form"
+    >
       <Input
         aria-label="ID du ou des profil(s) cible(s)"
         @value={{@targetProfilesToAttach}}
         class="organization-sub-form__input form-field__text form-control"
-        @placeholder="1, 2" />
+        @placeholder="1, 2"
+      />
       <button
         type="button"
         {{on "click" @attachTargetProfiles}}
-        class="organization-sub-form__validate-button btn btn-outline-default">
+        class="organization-sub-form__validate-button btn btn-outline-default"
+      >
         Valider
       </button>
     </form>
@@ -35,12 +40,17 @@
 
         {{#if @targetProfiles}}
           <tbody>
-          {{#each @targetProfiles as |targetProfile|}}
-            <tr aria-label="Profil cible" role="button" {{on "click" (fn @goToTargetProfilePage targetProfile.id)}} class="tr--clickable">
-              <td>{{targetProfile.id}}</td>
-              <td>{{targetProfile.name}}</td>
-            </tr>
-          {{/each}}
+            {{#each @targetProfiles as |targetProfile|}}
+              <tr
+                aria-label="Profil cible"
+                role="button"
+                {{on "click" (fn @goToTargetProfilePage targetProfile.id)}}
+                class="tr--clickable"
+              >
+                <td>{{targetProfile.id}}</td>
+                <td>{{targetProfile.name}}</td>
+              </tr>
+            {{/each}}
           </tbody>
         {{/if}}
       </table>

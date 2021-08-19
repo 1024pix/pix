@@ -1,8 +1,11 @@
 <header class="page-header">
   <div class="page-title">Tous les profils cibles</div>
   <div class="page-actions">
-    <LinkTo @route="authenticated.target-profiles.new" class="btn btn-outline-default btn-thin">
-      <FaIcon @icon="plus"></FaIcon>&nbsp;Nouveau profil cible
+    <LinkTo
+      @route="authenticated.target-profiles.new"
+      class="btn btn-outline-default btn-thin"
+    >
+      <FaIcon @icon="plus" />&nbsp;Nouveau profil cible
     </LinkTo>
   </div>
 </header>
@@ -14,6 +17,7 @@
       @id={{this.id}}
       @name={{this.name}}
       @triggerFiltering={{this.triggerFiltering}}
-      @goToTargetProfilePage={{this.goToTargetProfilePage}} />
+      @goToTargetProfilePage={{this.goToTargetProfilePage}}
+    />
   </section>
 </main>

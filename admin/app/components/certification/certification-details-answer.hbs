@@ -11,10 +11,20 @@
         {{@answer.challengeId}}
       </div>
       <div class="certification-details-answer-challenge-links">
-        <a href={{this.linkToChallengePreviewInPixApp}} target="_blank" rel="noreferrer noopener" data-test-link-preview>
+        <a
+          href={{this.linkToChallengePreviewInPixApp}}
+          target="_blank"
+          rel="noreferrer noopener"
+          data-test-link-preview
+        >
           Preview
         </a>|
-        <a href={{this.linkToChallengeInfoInPixEditor}} target="_blank" rel="noreferrer noopener" data-test-link-info>
+        <a
+          href={{this.linkToChallengeInfoInPixEditor}}
+          target="_blank"
+          rel="noreferrer noopener"
+          data-test-link-info
+        >
           Info
         </a>
       </div>
@@ -26,11 +36,12 @@
   <div class="card-footer">
     <div class={{this.resultClass}}>
       <PowerSelect
-          @options={{this.resultOptions}}
-          @selected={{this.selectedOption}}
-          @searchEnabled={{false}}
-          @onChange={{this.selectOption}}
-          as |result|>
+        @options={{this.resultOptions}}
+        @selected={{this.selectedOption}}
+        @searchEnabled={{false}}
+        @onChange={{this.selectOption}}
+        as |result|
+      >
         {{result.label}}
       </PowerSelect>
     </div>

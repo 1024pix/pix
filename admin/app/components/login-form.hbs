@@ -7,27 +7,34 @@
   {{/if}}
 
   <div class="login-form__control">
-    <Input id="identification"
-           data-test-id="login-form-field-identification"
-           @class="login-form__field"
-           @placeholder="Enter Login"
-           @required="true"
-           @value={{this.email}}
-           @autocomplete={{true}} />
+    <Input
+      id="identification"
+      data-test-id="login-form-field-identification"
+      @class="login-form__field"
+      @placeholder="Enter Login"
+      @required="true"
+      @value={{this.email}}
+      @autocomplete={{true}}
+    />
   </div>
 
   <div class="login-form__control">
-    <Input id="password"
-           data-test-id="login-form-field-password"
-           @class="login-form__field"
-           @placeholder="Enter Password"
-           @required="true"
-           @type="password"
-           @value={{this.password}}
-           @autocomplete={{true}} />
+    <Input
+      id="password"
+      data-test-id="login-form-field-password"
+      @class="login-form__field"
+      @placeholder="Enter Password"
+      @required="true"
+      @type="password"
+      @value={{this.password}}
+      @autocomplete={{true}}
+    />
   </div>
 
   <div class="login-form__control">
-    <button class="btn btn-primary login-form__button" type="submit">Connexion</button>
+    <button
+      class="btn btn-primary login-form__button"
+      type="submit"
+    >Connexion</button>
   </div>
 </form>

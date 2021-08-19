@@ -10,54 +10,62 @@
         </tr>
         <tr>
           <td>
-            <input id="id"
-                   type="text"
-                   value={{@id}}
-                   oninput={{fn @triggerFiltering 'id'}}
-                   class="table-admin-input form-control" />
+            <input
+              id="id"
+              type="text"
+              value={{@id}}
+              oninput={{fn @triggerFiltering "id"}}
+              class="table-admin-input form-control"
+            />
           </td>
           <td>
-            <input id="name"
-                   type="text"
-                   value={{@name}}
-                   oninput={{fn @triggerFiltering 'name'}}
-                   class="table-admin-input form-control" />
+            <input
+              id="name"
+              type="text"
+              value={{@name}}
+              oninput={{fn @triggerFiltering "name"}}
+              class="table-admin-input form-control"
+            />
           </td>
           <td>
-            <input id="type"
-                   type="text"
-                   value={{@type}}
-                   oninput={{fn @triggerFiltering 'type'}}
-                   class="table-admin-input form-control" />
+            <input
+              id="type"
+              type="text"
+              value={{@type}}
+              oninput={{fn @triggerFiltering "type"}}
+              class="table-admin-input form-control"
+            />
           </td>
           <td>
-            <input id="externalId"
-                   type="text"
-                   value={{@externalId}}
-                   oninput={{fn @triggerFiltering 'externalId'}}
-                   class="table-admin-input form-control" />
+            <input
+              id="externalId"
+              type="text"
+              value={{@externalId}}
+              oninput={{fn @triggerFiltering "externalId"}}
+              class="table-admin-input form-control"
+            />
           </td>
         </tr>
       </thead>
 
       {{#if @organizations}}
         <tbody>
-        {{#each @organizations as |organization|}}
-          <tr aria-label="Organisation">
-            <td>
-              <LinkTo
-                @route="authenticated.organizations.get"
-                @model={{organization.id}}
-                data-test-orga={{organization.id}}
-              >
-                {{organization.id}}
-              </LinkTo>
-            </td>
-            <td>{{organization.name}}</td>
-            <td>{{organization.type}}</td>
-            <td>{{organization.externalId}}</td>
-          </tr>
-        {{/each}}
+          {{#each @organizations as |organization|}}
+            <tr aria-label="Organisation">
+              <td>
+                <LinkTo
+                  @route="authenticated.organizations.get"
+                  @model={{organization.id}}
+                  data-test-orga={{organization.id}}
+                >
+                  {{organization.id}}
+                </LinkTo>
+              </td>
+              <td>{{organization.name}}</td>
+              <td>{{organization.type}}</td>
+              <td>{{organization.externalId}}</td>
+            </tr>
+          {{/each}}
         </tbody>
       {{/if}}
     </table>

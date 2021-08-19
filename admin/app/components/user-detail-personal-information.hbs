@@ -2,71 +2,130 @@
   {{#if this.isEditionMode}}
     <form class="form" {{on "submit" this.updateUserDetails}}>
       <span class="form__instructions col-md-4">
-        Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont obligatoires.
+        Les champs marqués de
+        <abbr
+          title="obligatoire"
+          class="mandatory-mark"
+          aria-hidden="true"
+        >*</abbr>
+        sont obligatoires.
       </span>
       <div class="form-field col-md-4">
         <label for="firstName" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Prénom :
+          <abbr
+            title="obligatoire"
+            class="mandatory-mark"
+            aria-hidden="true"
+          >*</abbr>
+          Prénom :
         </label>
-        {{#if (v-get this.form 'firstName' 'isInvalid')}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ prénom">
-            {{v-get this.form 'firstName' 'message'}}
+        {{#if (v-get this.form "firstName" "isInvalid")}}
+          <div
+            class="form-field__error"
+            aria-label="Message d'erreur du champ prénom"
+          >
+            {{v-get this.form "firstName" "message"}}
           </div>
         {{/if}}
-        <Input id="firstName"
-               @type="text"
-               class="form-control user-edit-form__first-name {{if (v-get this.form 'firstName' 'isInvalid') "is-invalid"}}"
-               @value={{this.form.firstName}} />
+        <Input
+          id="firstName"
+          @type="text"
+          class="form-control user-edit-form__first-name
+            {{if (v-get this.form "firstName" "isInvalid") "is-invalid"}}"
+          @value={{this.form.firstName}}
+        />
       </div>
       <div class="form-field col-md-4">
         <label for="lastName" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom :
+          <abbr
+            title="obligatoire"
+            class="mandatory-mark"
+            aria-hidden="true"
+          >*</abbr>
+          Nom :
         </label>
-        {{#if (v-get this.form 'lastName' 'isInvalid')}}
-          <div class="form-field__error" aria-label="Message d'erreur du champ nom">
-            {{v-get this.form 'lastName' 'message'}}
+        {{#if (v-get this.form "lastName" "isInvalid")}}
+          <div
+            class="form-field__error"
+            aria-label="Message d'erreur du champ nom"
+          >
+            {{v-get this.form "lastName" "message"}}
           </div>
         {{/if}}
-        <Input id="lastName"
-               @type="text"
-               class="form-control user-edit-form__last-name {{if (v-get this.form 'lastName' 'isInvalid') "is-invalid"}}"
-               @value={{this.form.lastName}} />
+        <Input
+          id="lastName"
+          @type="text"
+          class="form-control user-edit-form__last-name
+            {{if (v-get this.form "lastName" "isInvalid") "is-invalid"}}"
+          @value={{this.form.lastName}}
+        />
       </div>
       {{#if @user.email}}
         <div class="form-field col-md-4">
           <label for="email" class="form-field__label">
-            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> E-mail :
+            <abbr
+              title="obligatoire"
+              class="mandatory-mark"
+              aria-hidden="true"
+            >*</abbr>
+            E-mail :
           </label>
-          {{#if (v-get this.form 'email' 'isInvalid')}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ email">
-              {{v-get this.form 'email' 'message'}}
+          {{#if (v-get this.form "email" "isInvalid")}}
+            <div
+              class="form-field__error"
+              aria-label="Message d'erreur du champ email"
+            >
+              {{v-get this.form "email" "message"}}
             </div>
           {{/if}}
-          <Input id="email"
-                 @type="email"
-                 class="form-control user-edit-form__email {{if (v-get this.form 'email' 'isInvalid') "is-invalid"}}"
-                 @value={{this.form.email}} />
+          <Input
+            id="email"
+            @type="email"
+            class="form-control user-edit-form__email
+              {{if (v-get this.form "email" "isInvalid") "is-invalid"}}"
+            @value={{this.form.email}}
+          />
         </div>
       {{/if}}
       {{#if @user.username}}
         <div class="form-field col-md-4">
           <label for="username" class="form-field__label">
-            <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Identifiant :
+            <abbr
+              title="obligatoire"
+              class="mandatory-mark"
+              aria-hidden="true"
+            >*</abbr>
+            Identifiant :
           </label>
-          {{#if (v-get this.form 'username' 'isInvalid')}}
-            <div class="form-field__error" aria-label="Message d'erreur du champ identifiant">
-              {{v-get this.form 'username' 'message'}}
+          {{#if (v-get this.form "username" "isInvalid")}}
+            <div
+              class="form-field__error"
+              aria-label="Message d'erreur du champ identifiant"
+            >
+              {{v-get this.form "username" "message"}}
             </div>
           {{/if}}
-          <Input id="username"
-                 @type="text"
-                 class="form-control user-edit-form__username {{if (v-get this.form 'username' 'isInvalid') "is-invalid"}}"
-                 @value={{this.form.username}} />
+          <Input
+            id="username"
+            @type="text"
+            class="form-control user-edit-form__username
+              {{if (v-get this.form "username" "isInvalid") "is-invalid"}}"
+            @value={{this.form.username}}
+          />
         </div>
       {{/if}}
       <div class="col-md-4">
-        <button type="button" class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
-        <button type="submit" class="btn btn-success" aria-label="Editer">Editer</button>
+        <button
+          type="button"
+          class="btn btn-outline-default"
+          aria-label="Annuler"
+          {{on "click" this.cancelEdit}}
+        >Annuler</button>
+        <button
+          type="submit"
+          class="btn btn-success"
+          aria-label="Editer"
+        >Editer</button>
       </div>
     </form>
   {{else}}
@@ -90,37 +149,43 @@
               <span>Identifiant : </span>
               <span>{{@user.username}}</span>
             </div>
-            <br>
+            <br />
             <div>
               <span>CGU Pix App validé : </span>
-              <span>{{if @user.cgu 'OUI' 'NON'}}</span>
+              <span>{{if @user.cgu "OUI" "NON"}}</span>
             </div>
             <div>
               <span>CGU Pix Orga validé : </span>
               <span>
-                {{if @user.pixOrgaTermsOfServiceAccepted 'OUI' 'NON'}}
+                {{if @user.pixOrgaTermsOfServiceAccepted "OUI" "NON"}}
               </span>
             </div>
             <div>
               <span>CGU Pix Certif validé : </span>
               <span>
-                {{if @user.pixCertifTermsOfServiceAccepted 'OUI' 'NON'}}
+                {{if @user.pixCertifTermsOfServiceAccepted "OUI" "NON"}}
               </span>
             </div>
           </div>
           <div>
-            <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank" rel="noopener noreferrer">Tableau de bord</a>
+            <a
+              class="btn btn-outline-default"
+              aria-label="Tableau de bord"
+              href="{{this.externalURL}}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Tableau de bord</a>
           </div>
         </div>
       </section>
       <div class="col-md-4">
-          <button
-            type="button"
-            class="btn btn-outline-default"
-            {{on "click" this.changeEditionMode}}
-          >
-            Modifier
-          </button>
+        <button
+          type="button"
+          class="btn btn-outline-default"
+          {{on "click" this.changeEditionMode}}
+        >
+          Modifier
+        </button>
         {{#if this.canAdministratorAnonymizeUser}}
           <button
             type="button"
@@ -143,17 +208,32 @@
     <div class="user-authentication-method-item__label">
       <span>Adresse e-mail</span>
       {{#if @user.hasEmailAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+        <FaIcon
+          @icon="check-circle"
+          class="user-authentication-method-item__check"
+        />
       {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+        <FaIcon
+          @icon="times-circle"
+          class="user-authentication-method-item__uncheck"
+        />
       {{/if}}
     </div>
-    {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+    {{#if
+      (and
+        @user.hasEmailAuthenticationMethod
+        (not @user.hasOnlyOneAuthenticationMethod)
+      )
+    }}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'EMAIL'}}
-              data-test-remove-email>
+        class="user-authentication-method__remove-button"
+        @type="button"
+        @triggerAction={{fn
+          this.toggleDisplayRemoveAuthenticationMethodModal
+          "EMAIL"
+        }}
+        data-test-remove-email
+      >
         SUPPRIMER
       </PixButton>
     {{/if}}
@@ -162,17 +242,32 @@
     <div class="user-authentication-method-item__label">
       <span>Identifiant</span>
       {{#if @user.hasUsernameAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+        <FaIcon
+          @icon="check-circle"
+          class="user-authentication-method-item__check"
+        />
       {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+        <FaIcon
+          @icon="times-circle"
+          class="user-authentication-method-item__uncheck"
+        />
       {{/if}}
     </div>
-    {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+    {{#if
+      (and
+        @user.hasUsernameAuthenticationMethod
+        (not @user.hasOnlyOneAuthenticationMethod)
+      )
+    }}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'USERNAME'}}
-              data-test-remove-username>
+        class="user-authentication-method__remove-button"
+        @type="button"
+        @triggerAction={{fn
+          this.toggleDisplayRemoveAuthenticationMethodModal
+          "USERNAME"
+        }}
+        data-test-remove-username
+      >
         SUPPRIMER
       </PixButton>
     {{/if}}
@@ -181,17 +276,32 @@
     <div class="user-authentication-method-item__label">
       <span>Pôle Emploi</span>
       {{#if @user.hasPoleEmploiAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+        <FaIcon
+          @icon="check-circle"
+          class="user-authentication-method-item__check"
+        />
       {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+        <FaIcon
+          @icon="times-circle"
+          class="user-authentication-method-item__uncheck"
+        />
       {{/if}}
     </div>
-    {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+    {{#if
+      (and
+        @user.hasPoleEmploiAuthenticationMethod
+        (not @user.hasOnlyOneAuthenticationMethod)
+      )
+    }}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
-              data-test-remove-pole-emploi>
+        class="user-authentication-method__remove-button"
+        @type="button"
+        @triggerAction={{fn
+          this.toggleDisplayRemoveAuthenticationMethodModal
+          "POLE_EMPLOI"
+        }}
+        data-test-remove-pole-emploi
+      >
         SUPPRIMER
       </PixButton>
     {{/if}}
@@ -200,17 +310,32 @@
     <div class="user-authentication-method-item__label">
       <span>Médiacentre</span>
       {{#if @user.hasGARAuthenticationMethod}}
-        <FaIcon @icon="check-circle" class="user-authentication-method-item__check" />
+        <FaIcon
+          @icon="check-circle"
+          class="user-authentication-method-item__check"
+        />
       {{else}}
-        <FaIcon @icon="times-circle" class="user-authentication-method-item__uncheck" />
+        <FaIcon
+          @icon="times-circle"
+          class="user-authentication-method-item__uncheck"
+        />
       {{/if}}
     </div>
-    {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
+    {{#if
+      (and
+        @user.hasGARAuthenticationMethod
+        (not @user.hasOnlyOneAuthenticationMethod)
+      )
+    }}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
-              data-test-remove-mediacentre>
+        class="user-authentication-method__remove-button"
+        @type="button"
+        @triggerAction={{fn
+          this.toggleDisplayRemoveAuthenticationMethodModal
+          "GAR"
+        }}
+        data-test-remove-mediacentre
+      >
         SUPPRIMER
       </PixButton>
     {{/if}}
@@ -225,69 +350,83 @@
   <div class="schooling-registrations-table content-text content-text--small">
     <table class="table-admin">
       <thead>
-      <tr>
-        <th>Prénom</th>
-        <th>Nom</th>
-        <th>DDN</th>
-        <th class="table__column--small">Classe</th>
-        <th class="table__column--small">Orga ID</th>
-        <th>UAI</th>
-        <th class="table__column--wide">Nom de l'orga</th>
-        <th>Date d'import</th>
-        <th>Dernière MAJ</th>
-        <th>Actions</th>
-      </tr>
+        <tr>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>DDN</th>
+          <th class="table__column--small">Classe</th>
+          <th class="table__column--small">Orga ID</th>
+          <th>UAI</th>
+          <th class="table__column--wide">Nom de l'orga</th>
+          <th>Date d'import</th>
+          <th>Dernière MAJ</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tbody>
-      {{#each @user.schoolingRegistrations as |schoolingRegistration|}}
-        <tr aria-label="Inscription">
-          <td>{{schoolingRegistration.firstName}}</td>
-          <td>{{schoolingRegistration.lastName}}</td>
-          <td>{{format-date schoolingRegistration.birthdate}}</td>
-          <td>{{schoolingRegistration.division}}</td>
-          <td><LinkTo @route="authenticated.organizations.get" @model={{schoolingRegistration.organizationId}}>{{schoolingRegistration.organizationId}}</LinkTo></td>
-          <td>{{schoolingRegistration.organizationExternalId}}</td>
-          <td title="{{schoolingRegistration.organizationName}}">{{schoolingRegistration.organizationName}}</td>
-          <td>{{format-date schoolingRegistration.createdAt}}</td>
-          <td>{{format-date schoolingRegistration.updatedAt}}</td>
-          <td>
-            <PixButton
-                    @triggerAction={{fn this.toggleDisplayDissociateModal schoolingRegistration}}
-                    @border="squircle-small"
-                    class="btn btn-danger"
-                    data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
-            >
-              Dissocier
-            </PixButton>
-          </td>
-        </tr>
-      {{else}}
-        <tr>
-          <td colspan="10" class="table-admin-empty">Aucun résultat</td>
-        </tr>
-      {{/each}}
+        {{#each @user.schoolingRegistrations as |schoolingRegistration|}}
+          <tr aria-label="Inscription">
+            <td>{{schoolingRegistration.firstName}}</td>
+            <td>{{schoolingRegistration.lastName}}</td>
+            <td>{{format-date schoolingRegistration.birthdate}}</td>
+            <td>{{schoolingRegistration.division}}</td>
+            <td><LinkTo
+                @route="authenticated.organizations.get"
+                @model={{schoolingRegistration.organizationId}}
+              >{{schoolingRegistration.organizationId}}</LinkTo></td>
+            <td>{{schoolingRegistration.organizationExternalId}}</td>
+            <td
+              title="{{schoolingRegistration.organizationName}}"
+            >{{schoolingRegistration.organizationName}}</td>
+            <td>{{format-date schoolingRegistration.createdAt}}</td>
+            <td>{{format-date schoolingRegistration.updatedAt}}</td>
+            <td>
+              <PixButton
+                @triggerAction={{fn
+                  this.toggleDisplayDissociateModal
+                  schoolingRegistration
+                }}
+                @border="squircle-small"
+                class="btn btn-danger"
+                data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
+              >
+                Dissocier
+              </PixButton>
+            </td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan="10" class="table-admin-empty">Aucun résultat</td>
+          </tr>
+        {{/each}}
       </tbody>
     </table>
   </div>
 </section>
 
-<ConfirmPopup @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
-              @confirm={{this.anonymizeUser}}
-              @cancel={{this.toggleDisplayAnonymizeModal}}
-              @submitButtonType="danger"
-              @show={{this.displayAnonymizeModal}} />
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible."
+  @confirm={{this.anonymizeUser}}
+  @cancel={{this.toggleDisplayAnonymizeModal}}
+  @submitButtonType="danger"
+  @show={{this.displayAnonymizeModal}}
+/>
 
-<ConfirmPopup @message="Êtes-vous sûr de vouloir dissocier cet élève ?"
-              @title="Confirmer la dissociation"
-              @submitTitle="Oui, je dissocie"
-              @submitButtonType="danger"
-              @confirm={{this.dissociate}}
-              @cancel={{this.toggleDisplayDissociateModal}}
-              @show={{this.displayDissociateModal}} />
+<ConfirmPopup
+  @message="Êtes-vous sûr de vouloir dissocier cet élève ?"
+  @title="Confirmer la dissociation"
+  @submitTitle="Oui, je dissocie"
+  @submitButtonType="danger"
+  @confirm={{this.dissociate}}
+  @cancel={{this.toggleDisplayDissociateModal}}
+  @show={{this.displayDissociateModal}}
+/>
 
-<ConfirmPopup @message="Suppression de la méthode de connexion suivante : {{this.translatedType}}"
-              @title="Confirmer la suppression"
-              @submitTitle="Oui, je supprime"
-              @confirm={{this.removeAuthenticationMethod}}
-              @cancel={{this.toggleDisplayRemoveAuthenticationMethodModal}}
-              @show={{this.displayRemoveAuthenticationMethodModal}} />
+<ConfirmPopup
+  @message="Suppression de la méthode de connexion suivante : {{this.translatedType}}"
+  @title="Confirmer la suppression"
+  @submitTitle="Oui, je supprime"
+  @confirm={{this.removeAuthenticationMethod}}
+  @cancel={{this.toggleDisplayRemoveAuthenticationMethodModal}}
+  @show={{this.displayRemoveAuthenticationMethodModal}}
+/>

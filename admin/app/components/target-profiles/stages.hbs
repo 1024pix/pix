@@ -2,7 +2,7 @@
   <form class="form" {{on "submit" this.createStages}}>
     {{#if this.hasStages}}
       {{#if this.displayNoThresholdZero}}
-        <PixMessage @type='warning'>
+        <PixMessage @type="warning">
           Attention ! Il n'y a pas de palier à 0
         </PixMessage>
       {{/if}}
@@ -25,18 +25,28 @@
               <tr>
                 <td>{{stage.id}}</td>
                 <td class="stages-table__image">
-                <img src={{@targetProfile.imageUrl}} alt="" role="presentation" />
-              </td>
+                  <img
+                    src={{@targetProfile.imageUrl}}
+                    alt=""
+                    role="presentation"
+                  />
+                </td>
                 <td>
                   {{#if stage.isNew}}
                     <div class="form-field">
-                      <Input class={{if stage.errors.threshold "form-control is-invalid" "form-control"}}
-                             type="number"
-                             @required="true"
-                             @value={{stage.threshold}} />
+                      <Input
+                        class={{if
+                          stage.errors.threshold
+                          "form-control is-invalid"
+                          "form-control"
+                        }}
+                        type="number"
+                        @required="true"
+                        @value={{stage.threshold}}
+                      />
                       {{#if stage.errors.threshold}}
                         <div class="form-field__error">
-                          {{stage.errors.threshold.[0].message}}
+                          {{stage.errors.threshold.0.message}}
                         </div>
                       {{/if}}
                     </div>
@@ -47,12 +57,18 @@
                 <td>
                   {{#if stage.isNew}}
                     <div class="form-field">
-                      <Input class={{if stage.errors.title "form-field__text form-control is-invalid" "form-field__text form-control"}}
-                             @required="true"
-                             @value={{stage.title}} />
+                      <Input
+                        class={{if
+                          stage.errors.title
+                          "form-field__text form-control is-invalid"
+                          "form-field__text form-control"
+                        }}
+                        @required="true"
+                        @value={{stage.title}}
+                      />
                       {{#if stage.errors.title}}
                         <div class="form-field__error">
-                          {{stage.errors.title.[0].message}}
+                          {{stage.errors.title.0.message}}
                         </div>
                       {{/if}}
                     </div>
@@ -63,34 +79,40 @@
                 <td>
                   {{#if stage.isNew}}
                     <div class="form-field">
-                      <Input class="form-control"
-                             @required="true"
-                             @value={{stage.message}} />
+                      <Input
+                        class="form-control"
+                        @required="true"
+                        @value={{stage.message}}
+                      />
                     </div>
                   {{else}}
                     {{stage.message}}
                   {{/if}}
                 </td>
                 <td>
-                  <Common::TickOrCross 
-                    @isTrue={{stage.hasPrescriberTitle}}
-                  />
+                  <Common::TickOrCross @isTrue={{stage.hasPrescriberTitle}} />
                 </td>
                 <td>
-                  <Common::TickOrCross 
+                  <Common::TickOrCross
                     @isTrue={{stage.hasPrescriberDescription}}
                   />
                 </td>
                 <td>
                   {{#if stage.isNew}}
-                    <PixButton @backgroundColor="transparent"
-                               @border="squircle-small"
-                               aria-label="Supprimer palier"
-                               @triggerAction={{fn this.removeNewStage stage}}>
-                      <FaIcon @icon="minus"></FaIcon>
+                    <PixButton
+                      @backgroundColor="transparent"
+                      @border="squircle-small"
+                      aria-label="Supprimer palier"
+                      @triggerAction={{fn this.removeNewStage stage}}
+                    >
+                      <FaIcon @icon="minus" />
                     </PixButton>
                   {{else}}
-                   <LinkTo @route="authenticated.stages.stage" @model={{stage}} class="btn btn-outline-default btn-thin">
+                    <LinkTo
+                      @route="authenticated.stages.stage"
+                      @model={{stage}}
+                      class="btn btn-outline-default btn-thin"
+                    >
                       Voir détail
                     </LinkTo>
                   {{/if}}
@@ -104,12 +126,14 @@
       <div class="table__empty content-text">Aucun palier associé</div>
     {{/if}}
 
-    <PixButton class="stages-new-stage"
-               @backgroundColor="transparent"
-               @border="squircle-small"
-               data-test="Nouveau palier"
-               @triggerAction={{this.addStage}}>
-      <FaIcon @icon="plus"></FaIcon>&nbsp;Nouveau palier
+    <PixButton
+      class="stages-new-stage"
+      @backgroundColor="transparent"
+      @border="squircle-small"
+      data-test="Nouveau palier"
+      @triggerAction={{this.addStage}}
+    >
+      <FaIcon @icon="plus" />&nbsp;Nouveau palier
     </PixButton>
 
     {{#if this.hasNewStage}}
@@ -118,13 +142,15 @@
           data-test="form-action-cancel"
           @backgroundColor="transparent"
           @border="squircle-small"
-          @triggerAction={{this.cancelStagesCreation}}>Annuler</PixButton>
+          @triggerAction={{this.cancelStagesCreation}}
+        >Annuler</PixButton>
         <PixButton
           data-test="form-action-submit"
           @type="submit"
           @backgroundColor="green"
           @border="squircle-small"
-          @triggerAction={{this.createStages}}>Enregistrer</PixButton>
+          @triggerAction={{this.createStages}}
+        >Enregistrer</PixButton>
       </div>
     {{/if}}
   </form>

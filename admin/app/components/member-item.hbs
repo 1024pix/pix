@@ -4,13 +4,15 @@
 <td>{{@membership.user.email}}</td>
 <td data-test-id="editable-cell">
   {{#if this.isEditionMode}}
-    <PowerSelect @options={{this.organizationRoles}}
-                 @selected={{this.selectedNewRole}}
-                 @searchEnabled={{false}}
-                 @onChange={{this.setRoleSelection}}
-                 @placeholder="Sélectionner"
-                 aria-label="Sélectionner un rôle"
-                 as |role|>
+    <PowerSelect
+      @options={{this.organizationRoles}}
+      @selected={{this.selectedNewRole}}
+      @searchEnabled={{false}}
+      @onChange={{this.setRoleSelection}}
+      @placeholder="Sélectionner"
+      aria-label="Sélectionner un rôle"
+      as |role|
+    >
       {{role.label}}
     </PowerSelect>
   {{else}}
@@ -22,34 +24,42 @@
     <div>
       {{#if this.isEditionMode}}
         <div>
-          <button type="button"
-                  class="btn btn-primary btn-sm"
-                  aria-label="Enregistrer"
-                  {{on 'click' this.updateRoleOfMember}}>
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            aria-label="Enregistrer"
+            {{on "click" this.updateRoleOfMember}}
+          >
             Enregistrer
           </button>
-          <button type="button"
-                  class="btn btn-outline-default btn-sm"
-                  aria-label="Annuler"
-                  {{on 'click' this.cancelUpdateRoleOfMember}}>
-            <FaIcon @icon='times' />
+          <button
+            type="button"
+            class="btn btn-outline-default btn-sm"
+            aria-label="Annuler"
+            {{on "click" this.cancelUpdateRoleOfMember}}
+          >
+            <FaIcon @icon="times" />
           </button>
         </div>
       {{else}}
         <div>
           {{#if @membership.isSaving}}
-            <button type="button"
-                    class="btn btn-primary btn-sm"
-                    aria-label="Modifier le rôle"
-                    disabled>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              aria-label="Modifier le rôle"
+              disabled
+            >
               <FaIcon @icon="edit" />
               Modifier le rôle
             </button>
           {{else}}
-            <button type="button"
-                    class="btn btn-primary btn-sm"
-                    aria-label="Modifier le rôle"
-                    {{on 'click' this.editRoleOfMember}}>
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              aria-label="Modifier le rôle"
+              {{on "click" this.editRoleOfMember}}
+            >
               <FaIcon @icon="edit" />
               Modifier le rôle
             </button>
@@ -59,30 +69,35 @@
     </div>
     <div>
       {{#if @membership.isSaving}}
-        <button type="button"
-                class="btn btn-danger btn-sm disable-membership-button"
-                aria-label="Désactiver"
-                disabled>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm disable-membership-button"
+          aria-label="Désactiver"
+          disabled
+        >
           <FaIcon @icon="trash" />
           Désactiver
         </button>
       {{else}}
-        <button type="button"
-                class="btn btn-danger btn-sm disable-membership-button"
-                aria-label="Désactiver"
-                {{on 'click' this.toggleDisplayConfirm}}>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm disable-membership-button"
+          aria-label="Désactiver"
+          {{on "click" this.toggleDisplayConfirm}}
+        >
           <FaIcon @icon="trash" />
           Désactiver
         </button>
-      {{/if }}
+      {{/if}}
     </div>
   </div>
 </td>
 
-<ConfirmPopup @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
-              @title="Désactivation d'un membre"
-              @submitTitle="Désactiver"
-              @confirm={{this.disableMembership}}
-              @cancel={{this.toggleDisplayConfirm}}
-              @show={{this.displayConfirm}}
+<ConfirmPopup
+  @message="Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?"
+  @title="Désactivation d'un membre"
+  @submitTitle="Désactiver"
+  @confirm={{this.disableMembership}}
+  @cancel={{this.toggleDisplayConfirm}}
+  @show={{this.displayConfirm}}
 />
