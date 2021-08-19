@@ -26,13 +26,11 @@ scenarios:
           json:
             data:
               attributes:
+                cgu: true
+                email: "{{ email }}"
                 first-name: "{{ firstName }}"
                 last-name: "{{ lastName }}"
-                email: "{{ email }}"
                 password: "{{ password }}"
-                cgu: true
-                recaptcha-token: "some.recaptcha.token"
-              type: "users"
 
       # Authenticate user
       - post:
@@ -68,6 +66,7 @@ scenarios:
           headers:
             Authorization: "Bearer {{ accessToken }}"
 
+      # Get assessments filtered
       - get:
           url: "/api/assessments?filter[type]=PLACEMENT&filter[courseId]=recNPB7dTNt5krlMA&filter[resumable]=true"
           headers:
