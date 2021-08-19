@@ -2,11 +2,11 @@ const { expect } = require('../../test-helper');
 
 const { prepareDataForInsert } = require('../../../scripts/create-sco-certification-centers');
 
-describe('Unit | Scripts | create-sco-certification-centers.js', () => {
+describe('Unit | Scripts | create-sco-certification-centers.js', function() {
 
-  describe('#prepareDataForInsert', () => {
+  describe('#prepareDataForInsert', function() {
 
-    it('should trim name and add SCO type', () => {
+    it('should trim name and add SCO type', function() {
       // given
       const certificationCenters = [
         { name: '  Collège Victor Hugo   ', uai: '1234567a' },

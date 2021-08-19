@@ -4,7 +4,7 @@ const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized
 const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 
 describe('Event Choreography | Finalized session', function() {
-  it('Should trigger the automated jury', async () => {
+  it('Should trigger the automated jury', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new SessionFinalized({});
@@ -16,7 +16,7 @@ describe('Event Choreography | Finalized session', function() {
     expect(handlerStubs.handleAutoJury).to.have.been.calledWith({ event, domainTransaction: undefined });
   });
 
-  it('Should trigger persisting a finalized session on Auto Jury Done event', async () => {
+  it('Should trigger persisting a finalized session on Auto Jury Done event', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new AutoJuryDone({});

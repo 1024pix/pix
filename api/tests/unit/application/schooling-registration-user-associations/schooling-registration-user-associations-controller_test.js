@@ -4,15 +4,15 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
 
-describe('Unit | Application | Controller | schooling-registration-user-associations', () => {
+describe('Unit | Application | Controller | schooling-registration-user-associations', function() {
 
-  describe('#dissociate', () => {
+  describe('#dissociate', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'dissociateUserFromSchoolingRegistration');
     });
 
-    it('should call the usecase', async () => {
+    it('should call the usecase', async function() {
       // given
       const userId = 1;
       const schoolingRegistrationId = 1;

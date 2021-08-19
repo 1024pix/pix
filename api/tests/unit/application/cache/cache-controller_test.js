@@ -4,9 +4,9 @@ const learningContentDatasources = require('../../../../lib/infrastructure/datas
 const learningContentDatasource = require('../../../../lib/infrastructure/datasources/learning-content/datasource');
 const logger = require('../../../../lib/infrastructure/logger');
 
-describe('Unit | Controller | cache-controller', () => {
+describe('Unit | Controller | cache-controller', function() {
 
-  describe('#refreshCacheEntry', () => {
+  describe('#refreshCacheEntry', function() {
 
     const request = {
       params: {
@@ -18,11 +18,11 @@ describe('Unit | Controller | cache-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(learningContentDatasources.ChallengeDatasource, 'refreshLearningContentCacheRecord');
     });
 
-    it('should reply with null when the cache key exists', async () => {
+    it('should reply with null when the cache key exists', async function() {
       // given
       learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves();
 
@@ -34,7 +34,7 @@ describe('Unit | Controller | cache-controller', () => {
       expect(response).to.be.null;
     });
 
-    it('should reply with null when the cache key does not exist', async () => {
+    it('should reply with null when the cache key does not exist', async function() {
       // given
       learningContentDatasources.ChallengeDatasource.refreshLearningContentCacheRecord.resolves();
 
@@ -47,12 +47,12 @@ describe('Unit | Controller | cache-controller', () => {
     });
   });
 
-  describe('#refreshCacheEntries', () => {
+  describe('#refreshCacheEntries', function() {
 
     const request = {};
 
-    context('nominal case', () => {
-      it('should reply with http status 202', async () => {
+    context('nominal case', function() {
+      it('should reply with http status 202', async function() {
         // given
         const numberOfDeletedKeys = 0;
         sinon.stub(learningContentDatasource, 'refreshLearningContentCacheRecords').resolves(numberOfDeletedKeys);
@@ -66,10 +66,10 @@ describe('Unit | Controller | cache-controller', () => {
       });
     });
 
-    context('error case', () => {
+    context('error case', function() {
       let response;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         sinon.stub(logger, 'error');
         sinon.stub(learningContentDatasource, 'refreshLearningContentCacheRecords').rejects();
@@ -78,12 +78,12 @@ describe('Unit | Controller | cache-controller', () => {
         response = await cacheController.refreshCacheEntries(request, hFake);
       });
 
-      it('should reply with http status 202', async () => {
+      it('should reply with http status 202', async function() {
         // then
         expect(response.statusCode).to.equal(202);
       });
 
-      it('should call log errors', async () => {
+      it('should call log errors', async function() {
         // then
         expect(logger.error).to.have.been.calledOnce;
       });

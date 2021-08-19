@@ -3,11 +3,11 @@ const { expect } = require('../../../test-helper');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const poleEmploiTokensRepository = require('../../../../lib/infrastructure/repositories/pole-emploi-tokens-repository');
 
-describe('Integration | Repository | PoleEmploiTokensRepository', () => {
+describe('Integration | Repository | PoleEmploiTokensRepository', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    it('should save PoleEmploiTokens and return a key', async () => {
+    it('should save PoleEmploiTokens and return a key', async function() {
       // given
       const poleEmploiTokens = new PoleEmploiTokens({
         accessToken: 'accessToken',
@@ -24,9 +24,9 @@ describe('Integration | Repository | PoleEmploiTokensRepository', () => {
     });
   });
 
-  describe('#getByKey', () => {
+  describe('#getByKey', function() {
 
-    it('should retrieve the PoleEmploiTokens if it exists', async () => {
+    it('should retrieve the PoleEmploiTokens if it exists', async function() {
       // given
       const poleEmploiTokens = new PoleEmploiTokens({
         accessToken: 'accessToken',

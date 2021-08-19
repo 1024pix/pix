@@ -5,17 +5,17 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const campaignAssessmentParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-repository');
 
-describe('Integration | Repository | Campaign Assessment Participation', () => {
+describe('Integration | Repository | Campaign Assessment Participation', function() {
 
-  describe('#getByCampaignIdAndCampaignParticipationId', () => {
+  describe('#getByCampaignIdAndCampaignParticipationId', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
     let campaignId, campaignParticipationId, userId;
 
-    context('When there is an assessment for another campaign and another participation', () => {
+    context('When there is an assessment for another campaign and another participation', function() {
       const participant = {
         firstName: 'Josette',
         lastName: 'Gregorio',
@@ -26,7 +26,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         isShared: true,
         sharedAt: new Date('2020-12-12'),
       };
-      beforeEach(async () => {
+      beforeEach(async function() {
         const skill1 = { id: 'skill1' };
         const skill2 = { id: 'skill2' };
         mockLearningContent({ skills: [skill1, skill2] });
@@ -51,14 +51,14 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         await databaseBuilder.commit();
       });
 
-      it('matches the given campaign and given participation', async () => {
+      it('matches the given campaign and given participation', async function() {
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
         expect(campaignAssessmentParticipation.campaignId).to.equal(campaignId);
         expect(campaignAssessmentParticipation.campaignParticipationId).to.equal(campaignParticipationId);
       });
 
-      it('create CampaignAssessmentParticipation with attributes', async () => {
+      it('create CampaignAssessmentParticipation with attributes', async function() {
         const expectedResult = {
           ...participant,
           ...participation,
@@ -79,8 +79,8 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       });
     });
 
-    context('When there is another assessment for the same participation', () => {
-      beforeEach(async () => {
+    context('When there is another assessment for the same participation', function() {
+      beforeEach(async function() {
         const skill1 = { id: 'skill1', status: 'actif' };
         const skill2 = { id: 'skill2', status: 'actif' };
         mockLearningContent({ skills: [skill1, skill2] });
@@ -105,15 +105,15 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         await databaseBuilder.commit();
       });
 
-      it('computes progression with last assessment', async () => {
+      it('computes progression with last assessment', async function() {
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
         expect(campaignAssessmentParticipation.progression).to.equal(50);
       });
     });
 
-    context('When campaign participation is not shared', () => {
-      beforeEach(async () => {
+    context('When campaign participation is not shared', function() {
+      beforeEach(async function() {
         const skill1 = { id: 'skill1', status: 'actif' };
         mockLearningContent({ skills: [skill1] });
         campaignId = databaseBuilder.factory.buildAssessmentCampaign({}, [skill1]).id;
@@ -126,7 +126,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         await databaseBuilder.commit();
       });
 
-      it('create CampaignAssessmentParticipation with empty results', async () => {
+      it('create CampaignAssessmentParticipation with empty results', async function() {
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
         expect(campaignAssessmentParticipation.targetedSkillsCount).to.equal(1);
@@ -134,10 +134,10 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       });
     });
 
-    context('When campaign participation is shared', () => {
+    context('When campaign participation is shared', function() {
 
-      context('targetedSkillsCount', () => {
-        beforeEach(async () => {
+      context('targetedSkillsCount', function() {
+        beforeEach(async function() {
           const skill1 = { id: 'skill1', status: 'actif' };
           const skill2 = { id: 'skill2', status: 'actif' };
           mockLearningContent({ skills: [skill1, skill2] });
@@ -148,15 +148,15 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
 
           await databaseBuilder.commit();
         });
-        it('should equal 2', async () => {
+        it('should equal 2', async function() {
           const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
           expect(campaignAssessmentParticipation.targetedSkillsCount).to.equal(2);
         });
       });
 
-      context('validatedSkillsCount', () => {
-        beforeEach(async () => {
+      context('validatedSkillsCount', function() {
+        beforeEach(async function() {
           const skill1 = { id: 'skill1', status: 'actif' };
           const skill2 = { id: 'skill2', status: 'actif' };
           const skill3 = { id: 'skill3', status: 'actif' };
@@ -192,15 +192,15 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           await databaseBuilder.commit();
         });
 
-        it('computes the number of validated skills', async () => {
+        it('computes the number of validated skills', async function() {
           const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
           expect(campaignAssessmentParticipation.validatedSkillsCount).to.equal(1);
         });
       });
 
-      context('masteryPercentage', () => {
-        beforeEach(async () => {
+      context('masteryPercentage', function() {
+        beforeEach(async function() {
           const skill1 = { id: 'skill1', status: 'actif' };
           const skill2 = { id: 'skill2', status: 'actif' };
           mockLearningContent({ skills: [skill1, skill2] });
@@ -230,16 +230,16 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           await databaseBuilder.commit();
         });
 
-        it('computes the mastery percentage', async () => {
+        it('computes the mastery percentage', async function() {
           const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
           expect(campaignAssessmentParticipation.masteryPercentage).to.equal(50);
         });
       });
 
-      context('progression', () => {
+      context('progression', function() {
         let userId;
-        beforeEach(async () => {
+        beforeEach(async function() {
           const skill1 = { id: 'skill1', status: 'actif' };
           const skill2 = { id: 'skill2', status: 'actif' };
           const skill3 = { id: 'skill3', status: 'actif' };
@@ -269,7 +269,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           await databaseBuilder.commit();
         });
 
-        it('computes the progression when assessment is completed', async () => {
+        it('computes the progression when assessment is completed', async function() {
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: Assessment.states.COMPLETED });
           await databaseBuilder.commit();
 
@@ -278,7 +278,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
           expect(campaignAssessmentParticipation.progression).to.equal(100);
         });
 
-        it('computes the progression when assessment is started', async () => {
+        it('computes the progression when assessment is started', async function() {
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: Assessment.states.STARTED });
           await databaseBuilder.commit();
 
@@ -289,8 +289,8 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
       });
     });
 
-    context('when there are several schooling-registrations for the same participant', () => {
-      beforeEach(async () => {
+    context('when there are several schooling-registrations for the same participant', function() {
+      beforeEach(async function() {
         const skill = { id: 'skill', status: 'actif' };
         mockLearningContent({ skills: [skill] });
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -312,7 +312,7 @@ describe('Integration | Repository | Campaign Assessment Participation', () => {
         await databaseBuilder.commit();
       });
 
-      it('return the first name and the last name of the correct schooling-registration', async () => {
+      it('return the first name and the last name of the correct schooling-registration', async function() {
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
         expect(campaignAssessmentParticipation.firstName).to.equal('John');

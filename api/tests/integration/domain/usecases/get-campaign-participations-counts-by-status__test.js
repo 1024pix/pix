@@ -3,20 +3,20 @@ const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Integration | UseCase | get-campaign-participations-counts-by-status', () => {
+describe('Integration | UseCase | get-campaign-participations-counts-by-status', function() {
   let organizationId;
   let campaignId;
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', () => {
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
+  context('when requesting user is not allowed to access campaign informations', function() {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
       const user2 = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 
@@ -32,7 +32,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
     });
   });
 
-  it('should return participations counts by status', async () => {
+  it('should return participations counts by status', async function() {
     databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
     const participation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
     const participation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;

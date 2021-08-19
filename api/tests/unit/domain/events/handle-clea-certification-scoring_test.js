@@ -3,7 +3,7 @@ const { catchErr, expect, sinon } = require('../../../test-helper');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const { handleCleaCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
+describe('Unit | Domain | Events | handle-clea-certification-scoring', function() {
   const reproducibilityRate = Symbol('reproducibilityRate');
 
   let event;
@@ -38,7 +38,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
     badgeCriteriaService,
   };
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -51,7 +51,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
     expect(error).not.to.be.null;
   });
 
-  context('#handleCleaCertificationScoring', () => {
+  context('#handleCleaCertificationScoring', function() {
     const certificationCourseId = Symbol('certificationCourseId');
     const userId = Symbol('userId');
     const cleaCertificationScoring = { hasAcquiredBadge: true };
@@ -59,7 +59,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
     const badge = { targetProfileId: targetProfile.id };
     const knowledgeElements = Symbol('KnowledgeElements@& ');
 
-    beforeEach(() => {
+    beforeEach(function() {
       event = new CertificationScoringCompleted({
         certificationCourseId,
         userId,
@@ -85,9 +85,9 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         }).resolves(cleaCertificationScoring);
     });
 
-    context('when certification is eligible', () => {
+    context('when certification is eligible', function() {
 
-      it('should verify if the badge is still acquired', async () => {
+      it('should verify if the badge is still acquired', async function() {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
@@ -101,7 +101,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.have.been.calledWith(true);
       });
 
-      it('should save a certif partner', async () => {
+      it('should save a certif partner', async function() {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
@@ -117,9 +117,9 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
       });
     });
 
-    context('when certification is not eligible', () => {
+    context('when certification is not eligible', function() {
 
-      it('should not verify if the badge is still acquired if the badge is not acquired', async () => {
+      it('should not verify if the badge is still acquired if the badge is not acquired', async function() {
         // given
         cleaCertificationScoring.hasAcquiredBadge = false;
         cleaCertificationScoring.isEligible = () => true;
@@ -134,7 +134,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.not.to.have.been.called;
       });
 
-      it('should not save a certif partner', async () => {
+      it('should not save a certif partner', async function() {
         // given
         cleaCertificationScoring.isEligible = () => false;
 

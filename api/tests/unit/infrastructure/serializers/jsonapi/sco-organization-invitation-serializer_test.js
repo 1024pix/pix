@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/sco-organization-invitation-serializer');
 
-describe('Unit | Serializer | JSONAPI | sco-organization-invitation-serializer', () => {
+describe('Unit | Serializer | JSONAPI | sco-organization-invitation-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
     const invitationObject = domainBuilder.buildOrganizationInvitation();
 
@@ -14,7 +14,7 @@ describe('Unit | Serializer | JSONAPI | sco-organization-invitation-serializer',
       },
     };
 
-    it('should convert an organization-invitation object into JSON API data', () => {
+    it('should convert an organization-invitation object into JSON API data', function() {
       // when
       const json = serializer.serialize(invitationObject);
 

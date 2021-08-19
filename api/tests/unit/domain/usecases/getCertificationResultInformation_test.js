@@ -2,9 +2,9 @@ const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const CertificationResultInformation = require('../../../../lib/domain/read-models/CertificationResultInformation');
 const getCertificationResultInformation = require('../../../../lib/domain/usecases/get-certification-result-information');
 
-describe('Unit | Usecase | get-certification-result-information', () => {
+describe('Unit | Usecase | get-certification-result-information', function() {
 
-  it('should get the certificationResultInformation', async () => {
+  it('should get the certificationResultInformation', async function() {
     // given
     const certificationCourseId = 777;
 

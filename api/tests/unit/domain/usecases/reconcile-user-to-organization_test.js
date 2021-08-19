@@ -5,7 +5,7 @@ const campaignRepository = require('../../../../lib/infrastructure/repositories/
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 const { CampaignCodeError, UserCouldNotBeReconciledError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-user-to-organization', () => {
+describe('Unit | UseCase | reconcile-user-to-organization', function() {
 
   let reconcileUserByNationalStudentIdAndOrganizationIdStub;
   let campaignCode;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
   const schoolingRegistrationId = 1;
   const nationalStudentId = '123456789AZ';
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignCode = 'ABCD12';
     userId = domainBuilder.buildUser().id;
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, id: schoolingRegistrationId, nationalStudentId });
@@ -30,9 +30,9 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     findByUserIdStub = sinon.stub(schoolingRegistrationRepository, 'findByUserId');
   });
 
-  context('When there is no campaign with the given code', () => {
+  context('When there is no campaign with the given code', function() {
 
-    it('should throw a campaign code error', async () => {
+    it('should throw a campaign code error', async function() {
       // given
       getCampaignStub.withArgs(campaignCode).resolves(null);
 
@@ -47,9 +47,9 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     });
   });
 
-  context('When no schoolingRegistration is found by userId', () => {
+  context('When no schoolingRegistration is found by userId', function() {
 
-    it('should throw a UserCouldNotBeReconcile error', async () => {
+    it('should throw a UserCouldNotBeReconcile error', async function() {
       // given
       findByUserIdStub.resolves([]);
 
@@ -65,9 +65,9 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     });
   });
 
-  context('When no schoolingRegistration is found by organizationId', () => {
+  context('When no schoolingRegistration is found by organizationId', function() {
 
-    it('should throw a UserCouldNotBeReconcile error', async () => {
+    it('should throw a UserCouldNotBeReconcile error', async function() {
       // given
       findByUserIdStub.resolves([schoolingRegistration]);
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
@@ -84,9 +84,9 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     });
   });
 
-  context('When no schoolingRegistration is found by nationalStudentId', () => {
+  context('When no schoolingRegistration is found by nationalStudentId', function() {
 
-    it('should throw a UserCouldNotBeReconcile error', async () => {
+    it('should throw a UserCouldNotBeReconcile error', async function() {
       // given
       findByUserIdStub.resolves([schoolingRegistration]);
       reconcileUserByNationalStudentIdAndOrganizationIdStub.throws(new UserCouldNotBeReconciledError());
@@ -103,9 +103,9 @@ describe('Unit | UseCase | reconcile-user-to-organization', () => {
     });
   });
 
-  context('When schoolingRegistration is found', () => {
+  context('When schoolingRegistration is found', function() {
 
-    it('should use nationalStudentId of more recent schoolingRegistration', async () => {
+    it('should use nationalStudentId of more recent schoolingRegistration', async function() {
       // given
       const schoolingRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({ userId, updatedAt: '2020-07-10' });
       const mostRecentSchoolinRegistrationInOtherOrganization = domainBuilder.buildSchoolingRegistration({ userId, nationalStudentId, updatedAt: '2020-07-20' });

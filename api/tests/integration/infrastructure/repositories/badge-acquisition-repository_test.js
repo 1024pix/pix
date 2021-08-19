@@ -3,12 +3,12 @@ const _ = require('lodash');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | Badge Acquisition', () => {
+describe('Integration | Repository | Badge Acquisition', function() {
 
-  describe('#createOrUpdate', () => {
+  describe('#createOrUpdate', function() {
     let badgeAcquisitionToCreate;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const badgeId = databaseBuilder.factory.buildBadge({ key: 'éclair_au_chocolat' }).id;
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId }).id;
@@ -21,11 +21,11 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('badge-acquisitions').delete();
     });
 
-    it('should persist the badge acquisition in db', async () => {
+    it('should persist the badge acquisition in db', async function() {
       // when
       await DomainTransaction.execute(async (domainTransaction) => {
         return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
@@ -41,7 +41,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       expect(result[0].createdAt).to.deep.equal(result[0].updatedAt);
     });
 
-    it('should update the badge acquisition in the DB if it already exists', async () => {
+    it('should update the badge acquisition in the DB if it already exists', async function() {
       // given
       databaseBuilder.factory.buildBadgeAcquisition(badgeAcquisitionToCreate);
       await databaseBuilder.commit();
@@ -63,9 +63,9 @@ describe('Integration | Repository | Badge Acquisition', () => {
 
   });
 
-  describe('#hasAcquiredBadge', () => {
+  describe('#hasAcquiredBadge', function() {
 
-    it('should return true when user has acquired badge', async () => {
+    it('should return true when user has acquired badge', async function() {
       // given
       databaseBuilder.factory.buildUser({ id: 123 });
       databaseBuilder.factory.buildBadge({ id: 456, key: 'someKey' });
@@ -82,7 +82,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       expect(hasAcquiredBadge).to.be.true;
     });
 
-    it('should return false when user has not acquired badge', async () => {
+    it('should return false when user has not acquired badge', async function() {
       // given
       databaseBuilder.factory.buildUser({ id: 123 });
       databaseBuilder.factory.buildUser({ id: 789 });
@@ -101,11 +101,11 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#getAcquiredBadgeIds', () => {
+  describe('#getAcquiredBadgeIds', function() {
     let userId;
     let badgeId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       badgeId = databaseBuilder.factory.buildBadge({ key: 'beignet_a_la_creme' }).id;
       userId = databaseBuilder.factory.buildUser().id;
 
@@ -113,7 +113,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    it('should check that the user has acquired the badge', async () => {
+    it('should check that the user has acquired the badge', async function() {
       // when
       const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [badgeId] });
 
@@ -121,7 +121,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       expect(acquiredBadgeIds).to.deep.equal([badgeId]);
     });
 
-    it('should check that the user has not acquired the badge', async () => {
+    it('should check that the user has not acquired the badge', async function() {
       // when
       const acquiredBadgeIds = await badgeAcquisitionRepository.getAcquiredBadgeIds({ userId, badgeIds: [-1] });
 
@@ -130,15 +130,15 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#getAcquiredBadgesByCampaignParticipations', () => {
-    context('when there is just one campaignParticipionId', () => {
+  describe('#getAcquiredBadgesByCampaignParticipations', function() {
+    context('when there is just one campaignParticipionId', function() {
       let campaign;
       let user1;
       let badge1;
       let badge2;
       let campaignParticipationId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         user1 = databaseBuilder.factory.buildUser();
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
@@ -152,7 +152,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return badge ids acquired by user for a campaignParticipation', async () => {
+      it('should return badge ids acquired by user for a campaignParticipation', async function() {
         // when
         const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({
           campaignParticipationsIds: [campaignParticipationId],
@@ -165,7 +165,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       });
     });
 
-    context('when there are several campaignParticipationsIds', () => {
+    context('when there are several campaignParticipationsIds', function() {
       let campaign;
       let user1;
       let user2;
@@ -175,7 +175,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       let campaignParticipationId1;
       let campaignParticipationId2;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         user1 = databaseBuilder.factory.buildUser();
         user2 = databaseBuilder.factory.buildUser();
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -192,7 +192,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return badge ids acquired by user for a campaignParticipation', async () => {
+      it('should return badge ids acquired by user for a campaignParticipation', async function() {
         // when
         const campaignParticipationsIds = [campaignParticipationId1, campaignParticipationId2];
         const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
@@ -206,14 +206,14 @@ describe('Integration | Repository | Badge Acquisition', () => {
       });
     });
 
-    context('when the participant already has a badge and improve the assessment 4 days later', () => {
+    context('when the participant already has a badge and improve the assessment 4 days later', function() {
       let campaignId;
       let userId;
       let badge1;
       let badge2;
       let campaignParticipationId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         userId = databaseBuilder.factory.buildUser().id;
         const targetProfile = databaseBuilder.factory.buildTargetProfile();
         campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id }).id;
@@ -231,7 +231,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return badge ids acquired by user for a campaignParticipation', async () => {
+      it('should return badge ids acquired by user for a campaignParticipation', async function() {
         // when
         const campaignParticipationsIds = [campaignParticipationId];
         const acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
@@ -242,7 +242,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#getCampaignAcquiredBadgesByUsers', () => {
+  describe('#getCampaignAcquiredBadgesByUsers', function() {
     let campaign;
     let user1;
     let user2;
@@ -250,7 +250,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
     let badge1;
     let badge2;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
       badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: targetProfile.id });
@@ -266,7 +266,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return badge ids acquired by user for a campaign', async () => {
+    it('should return badge ids acquired by user for a campaign', async function() {
       // when
       const acquiredBadgeIdsByUsers = await badgeAcquisitionRepository.getCampaignAcquiredBadgesByUsers({
         campaignId: campaign.id,
@@ -280,9 +280,9 @@ describe('Integration | Repository | Badge Acquisition', () => {
     });
   });
 
-  describe('#findCertifiable', () => {
+  describe('#findCertifiable', function() {
     let badgeCertifiable, badgeNonCertifiable, badgePartnerCompetence, badgePartnerCriterion, user, userWithoutBadge;
-    beforeEach(async () => {
+    beforeEach(async function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       badgeCertifiable = databaseBuilder.factory.buildBadge({ key: 'key1', targetProfileId: targetProfile.id, isCertifiable: true });
       databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id, isCertifiable: true });
@@ -296,7 +296,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return certifiable badges acquired by the user', async () => {
+    it('should return certifiable badges acquired by the user', async function() {
       // when
       const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
         userId: user.id,
@@ -326,7 +326,7 @@ describe('Integration | Repository | Badge Acquisition', () => {
       expect(certifiableBadgesAcquiredByUser[0].badge.badgeCriteria).to.deep.equal(expectedBadgeCriteria);
     });
 
-    it('should return an empty array when user has no certifiable acquired badge', async () => {
+    it('should return an empty array when user has no certifiable acquired badge', async function() {
       // when
       const certifiableBadgesAcquiredByUser = await badgeAcquisitionRepository.findCertifiable({
         userId: userWithoutBadge.id,

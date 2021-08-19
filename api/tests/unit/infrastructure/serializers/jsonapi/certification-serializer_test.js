@@ -4,7 +4,7 @@ const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
-describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
 
   describe('#deserialize', function() {
     let jsonCertificationCourse;
@@ -153,7 +153,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
     });
   });
 
-  describe('#serializeFromCertificationCourse', () => {
+  describe('#serializeFromCertificationCourse', function() {
 
     const jsonCertification = {
       data: {
@@ -186,7 +186,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', () => {
       birthCountry: 'FRANCE',
     });
 
-    it('should serialize', () => {
+    it('should serialize', function() {
       // when
       const serializedCertification = serializer.serializeFromCertificationCourse(certificationCourse);
       // then

@@ -2,21 +2,21 @@ const { domainBuilder, expect, sinon } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | find-certification-center-memberships-by-certification-center', () => {
+describe('Unit | UseCase | find-certification-center-memberships-by-certification-center', function() {
 
   const certificationCenterId = 1;
   const certificationCenterMemberships = [domainBuilder.buildCertificationCenterMembership()];
 
   let certificationCenterMembershipRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCenterMembershipRepository = {
       findByCertificationCenterId: sinon.stub(),
     };
     certificationCenterMembershipRepository.findByCertificationCenterId.resolves(certificationCenterMemberships);
   });
 
-  it('should result certification-center-memberships by certification center id', async () => {
+  it('should result certification-center-memberships by certification center id', async function() {
     // given
 
     // when

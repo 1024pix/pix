@@ -10,9 +10,9 @@ const { EntityValidationError } = require('../../../lib/domain/errors');
 
 const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
 
-describe('Integration | Application | PreResponse-utils', () => {
+describe('Integration | Application | PreResponse-utils', function() {
 
-  describe('#handleDomainAndHttpErrors', () => {
+  describe('#handleDomainAndHttpErrors', function() {
 
     const invalidAttributes = [{
       attribute: 'type',
@@ -33,7 +33,7 @@ describe('Integration | Application | PreResponse-utils', () => {
     ];
 
     successfulCases.forEach((testCase) => {
-      it(testCase.should, async () => {
+      it(testCase.should, async function() {
         // given
         const request = {
           response: testCase.response,

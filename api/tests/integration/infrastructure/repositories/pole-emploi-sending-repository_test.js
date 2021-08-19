@@ -4,15 +4,15 @@ const poleEmploiSendingRepository = require('../../../../lib/infrastructure/repo
 const settings = require('../../../../lib/config');
 const poleEmploiSendingFactory = databaseBuilder.factory.poleEmploiSendingFactory;
 
-describe('Integration | Repository | PoleEmploiSending', () => {
+describe('Integration | Repository | PoleEmploiSending', function() {
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('pole-emploi-sendings').delete();
     });
 
-    it('should save PoleEmploiSending', async () => {
+    it('should save PoleEmploiSending', async function() {
       // given
       const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation().id;
       await databaseBuilder.commit();
@@ -28,22 +28,22 @@ describe('Integration | Repository | PoleEmploiSending', () => {
     });
   });
 
-  describe('#find', () => {
+  describe('#find', function() {
     let originalEnvPoleEmploiSendingsLimit;
     let sending1;
     let sending2;
     let sending3;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       originalEnvPoleEmploiSendingsLimit = settings.poleEmploi.poleEmploiSendingsLimit;
       settings.poleEmploi.poleEmploiSendingsLimit = 3;
     });
 
-    afterEach(() => {
+    afterEach(function() {
       settings.poleEmploi.poleEmploiSendingsLimit = originalEnvPoleEmploiSendingsLimit;
     });
 
-    it('should render sendings with idPoleEmploi inside the object', async () => {
+    it('should render sendings with idPoleEmploi inside the object', async function() {
       poleEmploiSendingFactory.buildWithUser({}, 'externalUserId1');
       await databaseBuilder.commit();
 
@@ -52,7 +52,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       expect(sending.resultat.individu.idPoleEmploi).to.equal('externalUserId1');
     });
 
-    it('should render existing sendings using poleEmploiSendingsLimit', async () => {
+    it('should render existing sendings using poleEmploiSendingsLimit', async function() {
       poleEmploiSendingFactory.buildWithUser();
       poleEmploiSendingFactory.buildWithUser();
       poleEmploiSendingFactory.buildWithUser();
@@ -65,18 +65,18 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       expect(sendings).to.have.lengthOf(3);
     });
 
-    context('when there is a cursor', () => {
+    context('when there is a cursor', function() {
       let expectedSending;
       let sendingInCursor;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         expectedSending = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-03-01' });
         sendingInCursor = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-04-01' });
 
         await databaseBuilder.commit();
       });
 
-      it('should return sendings where the date is before de given date', async() => {
+      it('should return sendings where the date is before de given date', async function() {
         const { id: idEnvoi, createdAt: dateEnvoi } = sendingInCursor;
 
         const [sending] = await poleEmploiSendingRepository.find({ idEnvoi, dateEnvoi });
@@ -85,8 +85,8 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       });
     });
 
-    context('when the participant has several authentication method', () => {
-      it('should render only one sending', async () => {
+    context('when the participant has several authentication method', function() {
+      it('should render only one sending', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'PIX' });
         databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId, externalIdentifier: 'idPoleEmploi' });
@@ -102,8 +102,8 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       });
     });
 
-    context('order', () => {
-      beforeEach(async () => {
+    context('order', function() {
+      beforeEach(async function() {
         sending1 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-03-01' });
         sending2 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-04-01' });
         sending3 = poleEmploiSendingFactory.buildWithUser({ createdAt: '2021-05-01' });
@@ -111,7 +111,7 @@ describe('Integration | Repository | PoleEmploiSending', () => {
         await databaseBuilder.commit();
       });
 
-      it('should render sendings order by date', async () => {
+      it('should render sendings order by date', async function() {
         const sendings = await poleEmploiSendingRepository.find();
 
         expect(sendings.map((sending) => sending.idEnvoi)).to.deep.equal([sending3.id, sending2.id, sending1.id]);
@@ -122,20 +122,20 @@ describe('Integration | Repository | PoleEmploiSending', () => {
       let sendingSent;
       let sendingNotSent;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         sendingSent = poleEmploiSendingFactory.buildWithUser({ isSuccessful: true });
         sendingNotSent = poleEmploiSendingFactory.buildWithUser({ isSuccessful: false });
 
         await databaseBuilder.commit();
       });
 
-      it('returns the sendings which have been sent correctly', async() => {
+      it('returns the sendings which have been sent correctly', async function() {
         const sendings = await poleEmploiSendingRepository.find(null, { isSuccessful: true });
         const sendingIds = sendings.map((sending) => sending.idEnvoi);
         expect(sendingIds).to.exactlyContain([sendingSent.id]);
       });
 
-      it('returns the sendings which have been not sent correctly', async() => {
+      it('returns the sendings which have been not sent correctly', async function() {
         const sendings = await poleEmploiSendingRepository.find(null, { isSuccessful: false });
         const sendingIds = sendings.map((sending) => sending.idEnvoi);
         expect(sendingIds).to.exactlyContain([sendingNotSent.id]);

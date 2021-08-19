@@ -11,22 +11,22 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller', () => {
+describe('Acceptance | Controller | users-controller', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('authentication-methods').delete();
     await knex('users_pix_roles').delete();
     await knex('sessions').delete();
     await knex('users').delete();
   });
 
-  describe('save', () => {
+  describe('save', function() {
 
     const options = {
       method: 'POST',
@@ -45,9 +45,9 @@ describe('Acceptance | Controller | users-controller', () => {
 
     let user;
 
-    context('user is valid', () => {
+    context('user is valid', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
 
         nock('https://www.google.com')
           .post('/recaptcha/api/siteverify')
@@ -66,11 +66,11 @@ describe('Acceptance | Controller | users-controller', () => {
         };
       });
 
-      afterEach(async () => {
+      afterEach(async function() {
         nock.cleanAll();
       });
 
-      it('should return status 201 with user', async () => {
+      it('should return status 201 with user', async function() {
         // given
         const pickedUserAttributes = ['first-name', 'last-name', 'email', 'username', 'cgu'];
         const expectedAttributes = {
@@ -93,7 +93,7 @@ describe('Acceptance | Controller | users-controller', () => {
         expect(userAttributes).to.deep.equal(expectedAttributes);
       });
 
-      it('should create user in Database', async () => {
+      it('should create user in Database', async function() {
         // given
         const pickedUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
         const expectedUser = {
@@ -115,7 +115,7 @@ describe('Acceptance | Controller | users-controller', () => {
 
     });
 
-    context('user is invalid', async () => {
+    context('user is invalid', async function() {
 
       const validUserAttributes = {
         'first-name': 'John',
@@ -125,7 +125,7 @@ describe('Acceptance | Controller | users-controller', () => {
         'cgu': true,
       };
 
-      it('should return Unprocessable Entity (HTTP_422) with offending properties', async () => {
+      it('should return Unprocessable Entity (HTTP_422) with offending properties', async function() {
 
         const invalidUserAttributes = { ...validUserAttributes, 'must-validate-terms-of-service': 'not_a_boolean' };
 

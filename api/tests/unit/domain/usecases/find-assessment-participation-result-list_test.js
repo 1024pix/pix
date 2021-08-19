@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const findAssessmentParticipationResultList = require('../../../../lib/domain/usecases/find-assessment-participation-result-list');
 
-describe('Unit | UseCase | find-assessment-participation-result-list', () => {
+describe('Unit | UseCase | find-assessment-participation-result-list', function() {
 
-  it('return the assessmentParticipationResultMinimal list', async () => {
+  it('return the assessmentParticipationResultMinimal list', async function() {
     const findPaginatedByCampaignId = sinon.stub();
     const campaignId = 1;
     const filters = Symbol('filters');

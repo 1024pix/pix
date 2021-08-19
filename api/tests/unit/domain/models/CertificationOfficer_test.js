@@ -1,10 +1,10 @@
 const { expect } = require('../../../test-helper');
 const CertificationOfficer = require('../../../../lib/domain/models/CertificationOfficer');
 
-describe('Unit | Domain | Models | CertificationOfficer', () => {
+describe('Unit | Domain | Models | CertificationOfficer', function() {
 
-  describe('#getFullName', () => {
-    it('should return certification officer full name', () => {
+  describe('#getFullName', function() {
+    it('should return certification officer full name', function() {
       // when
       const certificationOfficer = new CertificationOfficer({ id: 1234, firstName: 'Chuck', lastName: 'Norris' });
 

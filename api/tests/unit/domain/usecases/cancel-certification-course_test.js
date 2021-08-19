@@ -1,9 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const cancelCertificationCourse = require('../../../../lib/domain/usecases/cancel-certification-course');
 
-describe('Unit | UseCase | cancel-certification-course', () => {
+describe('Unit | UseCase | cancel-certification-course', function() {
 
-  it('should update certification course cancelled status', async () => {
+  it('should update certification course cancelled status', async function() {
     // given
     const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: false });
     const cancelledCertificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: true });
@@ -27,7 +27,7 @@ describe('Unit | UseCase | cancel-certification-course', () => {
     expect(certificationCourseRepository.update).to.have.been.calledWith(certificationCourse);
   });
 
-  it('should not cancel an already cancelled certification course', async () => {
+  it('should not cancel an already cancelled certification course', async function() {
     // given
     const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: false });
     const cancelledCertificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: true });

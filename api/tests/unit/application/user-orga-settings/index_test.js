@@ -6,13 +6,13 @@ const {
 const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
 const moduleUnderTest = require('../../../../lib/application/user-orga-settings');
 
-describe('Unit | Router | user-orga-settings-router', () => {
+describe('Unit | Router | user-orga-settings-router', function() {
 
-  describe('PUT /api/user-orga-settings/{id}', () => {
+  describe('PUT /api/user-orga-settings/{id}', function() {
     const userId = 2;
     const auth = { credentials: { userId: userId }, strategy: {} };
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(userOrgaSettingsController, 'createOrUpdate').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -40,9 +40,9 @@ describe('Unit | Router | user-orga-settings-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    describe('Payload schema validation', () => {
+    describe('Payload schema validation', function() {
 
-      it('should be mandatory', async () => {
+      it('should be mandatory', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -58,7 +58,7 @@ describe('Unit | Router | user-orga-settings-router', () => {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should contain relationships.organization.data.id', async () => {
+      it('should contain relationships.organization.data.id', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -85,7 +85,7 @@ describe('Unit | Router | user-orga-settings-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should contain relationships.organization.data.id as number', async () => {
+      it('should contain relationships.organization.data.id as number', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

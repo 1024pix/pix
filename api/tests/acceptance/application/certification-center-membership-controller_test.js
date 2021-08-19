@@ -4,18 +4,18 @@ const {
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Certification Center Membership', () => {
+describe('Acceptance | API | Certification Center Membership', function() {
 
   let server, options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('POST /api/certification-center-memberships', () => {
+  describe('POST /api/certification-center-memberships', function() {
     let user, certificationCenter;
-    beforeEach(async() => {
+    beforeEach(async function() {
       user = databaseBuilder.factory.buildUser();
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       await databaseBuilder.commit();
@@ -34,16 +34,16 @@ describe('Acceptance | API | Certification Center Membership', () => {
       };
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('certification-center-memberships').delete();
     });
 
-    context('when user is Pix Master', () => {
-      beforeEach(() => {
+    context('when user is Pix Master', function() {
+      beforeEach(function() {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 201 HTTP status', () => {
+      it('should return 201 HTTP status', function() {
         // when
         const promise = server.inject(options);
 
@@ -54,12 +54,12 @@ describe('Acceptance | API | Certification Center Membership', () => {
       });
     });
 
-    context('when user is not PixMaster', () => {
-      beforeEach(() => {
+    context('when user is not PixMaster', function() {
+      beforeEach(function() {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', () => {
+      it('should return 403 HTTP status code ', function() {
         // when
         const promise = server.inject(options);
 
@@ -70,8 +70,8 @@ describe('Acceptance | API | Certification Center Membership', () => {
       });
     });
 
-    context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', () => {
+    context('when user is not connected', function() {
+      it('should return 401 HTTP status code if user is not authenticated', function() {
         // when
         const promise = server.inject(options);
 

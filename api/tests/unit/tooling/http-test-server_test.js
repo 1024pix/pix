@@ -2,29 +2,29 @@ const { expect } = require('../../test-helper');
 
 const HttpTestServer = require('../../tooling/server/http-test-server');
 
-describe('Unit | Tooling | Http-test-server', () => {
+describe('Unit | Tooling | Http-test-server', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
     let server;
 
-    before(() => {
+    before(function() {
       server = new HttpTestServer();
     });
 
-    it('should create hapi server', () => {
+    it('should create hapi server', function() {
       // then
       expect(server.hapiServer).to.exist;
     });
 
-    it('Should use pre-response-utils function', () => {
+    it('Should use pre-response-utils function', function() {
       // then
       expect(server.hapiServer._core.extensions.route.onPreResponse.nodes[0].func.name).to.equal('handleDomainAndHttpErrors');
     });
   });
 
-  describe('#register', () => {
+  describe('#register', function() {
 
-    it('should throw error if route is invalid', async () => {
+    it('should throw error if route is invalid', async function() {
 
       const invalidRoute = {
         name: 'foo-route',

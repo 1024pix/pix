@@ -2,12 +2,12 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const ResultCompetence = require('../../../../lib/domain/models/ResultCompetence');
 const ResultCompetenceTree = require('../../../../lib/domain/models/ResultCompetenceTree');
 
-describe('Unit | Domain | Models | ResultCompetence', () => {
+describe('Unit | Domain | Models | ResultCompetence', function() {
 
-  describe('#generateTreeFromCompetenceMarks', () => {
+  describe('#generateTreeFromCompetenceMarks', function() {
 
     it('should return the tree with the resultCompetence filled with -1 if no mark ' +
-      ' or the real mark if the mark exists', () => {
+      ' or the real mark if the mark exists', function() {
       const competenceTree = domainBuilder.buildCompetenceTree();
       const competenceMark1 = domainBuilder.buildCompetenceMark({ id: 1, competence_code: '1.1', level: 2, score: 13 });
       const competenceMark3 = domainBuilder.buildCompetenceMark({ id: 3, competence_code: '1.3', level: 4, score: 22 });

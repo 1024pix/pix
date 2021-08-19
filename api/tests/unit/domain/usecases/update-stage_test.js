@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const { updateStage } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | update-stage', () => {
+describe('Unit | UseCase | update-stage', function() {
 
-  it('should call repository method to update prescriberTitle and prescriberDescription for a stage', async () => {
+  it('should call repository method to update prescriberTitle and prescriberDescription for a stage', async function() {
     //given
     const stageRepository = {
       updateStagePrescriberAttributes: sinon.stub(),

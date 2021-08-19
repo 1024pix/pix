@@ -2,20 +2,20 @@ const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | get-campaign-participations-activity-by-day', () => {
+describe('Integration | UseCase | get-campaign-participations-activity-by-day', function() {
   let organizationId;
   let campaignId;
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', () => {
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
+  context('when requesting user is not allowed to access campaign informations', function() {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
       const user2 = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 
@@ -31,8 +31,8 @@ describe('Integration | UseCase | get-campaign-participations-activity-by-day', 
     });
   });
 
-  context('when requesting user is allowed to access campaign', () => {
-    it('should return participations activity', async () => {
+  context('when requesting user is allowed to access campaign', function() {
+    it('should return participations activity', async function() {
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-06-01', isShared: false });
       await databaseBuilder.commit();
 

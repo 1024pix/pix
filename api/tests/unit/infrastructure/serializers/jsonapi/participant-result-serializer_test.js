@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
 
     let assessmentResult;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const isCampaignMultipleSendings = true;
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({

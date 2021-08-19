@@ -3,13 +3,13 @@ const { expect } = require('../../../../test-helper');
 const User = require('../../../../../lib/domain/models/User');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-serializer', () => {
+describe('Unit | Serializer | JSONAPI | user-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
     let userModelObject;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userModelObject = new User({
         id: '234567',
         firstName: 'Luke',
@@ -27,9 +27,9 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       });
     });
 
-    describe('when user has no userOrgaSettings', () => {
+    describe('when user has no userOrgaSettings', function() {
 
-      it('should serialize excluding password', () => {
+      it('should serialize excluding password', function() {
         // given
         const expectedSerializedUser = {
           data: {
@@ -100,11 +100,11 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
     });
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize()', function() {
 
     let jsonUser;
 
-    beforeEach(() => {
+    beforeEach(function() {
       jsonUser = {
         data: {
           type: 'user',
@@ -120,7 +120,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       };
     });
 
-    it('should convert JSON API data into an User model object', () => {
+    it('should convert JSON API data into an User model object', function() {
       // when
       const user = serializer.deserialize(jsonUser);
 
@@ -132,7 +132,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       expect(user.lang).to.equal('jp');
     });
 
-    it('should contain an ID attribute', () => {
+    it('should contain an ID attribute', function() {
       jsonUser.data.id = '42';
 
       // when
@@ -142,7 +142,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       expect(user.id).to.equal('42');
     });
 
-    it('should not contain an ID attribute when not given', () => {
+    it('should not contain an ID attribute when not given', function() {
       // when
       const user = serializer.deserialize(jsonUser);
 

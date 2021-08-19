@@ -8,12 +8,12 @@ const {
   AlreadyExistingOrganizationInvitationError, NotFoundError, UserNotFoundError, OrganizationWithoutEmailError, OrganizationNotFoundError, ManyOrganizationsFoundError,
 } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Organization-invitations | organization-invitation-controller', () => {
+describe('Integration | Application | Organization-invitations | organization-invitation-controller', function() {
 
   let sandbox;
   let httpTestServer;
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'sendScoInvitation');
@@ -23,11 +23,11 @@ describe('Integration | Application | Organization-invitations | organization-in
     await httpTestServer.register(moduleUnderTest);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     sandbox.restore();
   });
 
-  describe('#acceptOrganizationInvitation', () => {
+  describe('#acceptOrganizationInvitation', function() {
 
     const payload = {
       data: {
@@ -40,9 +40,9 @@ describe('Integration | Application | Organization-invitations | organization-in
       },
     };
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      it('should return an HTTP response with status code 204', async () => {
+      it('should return an HTTP response with status code 204', async function() {
         // given
         usecases.acceptOrganizationInvitation.resolves();
 
@@ -54,9 +54,9 @@ describe('Integration | Application | Organization-invitations | organization-in
       });
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async () => {
+      it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async function() {
         // given
         usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
 
@@ -67,7 +67,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(412);
       });
 
-      it('should respond an HTTP response with status code 404 when NotFoundError', async () => {
+      it('should respond an HTTP response with status code 404 when NotFoundError', async function() {
         // given
         usecases.acceptOrganizationInvitation.rejects(new NotFoundError());
 
@@ -78,7 +78,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 404 when UserNotFoundError', async () => {
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function() {
         // given
         usecases.acceptOrganizationInvitation.rejects(new UserNotFoundError());
 
@@ -91,7 +91,7 @@ describe('Integration | Application | Organization-invitations | organization-in
     });
   });
 
-  describe('#sendScoInvitation', () => {
+  describe('#sendScoInvitation', function() {
 
     const uai = '1234567A';
     const payload = {
@@ -105,9 +105,9 @@ describe('Integration | Application | Organization-invitations | organization-in
       },
     };
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      it('should return an HTTP response with status code 201', async () => {
+      it('should return an HTTP response with status code 201', async function() {
         // given
         usecases.sendScoInvitation.resolves();
 
@@ -119,9 +119,9 @@ describe('Integration | Application | Organization-invitations | organization-in
       });
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      it('should respond an HTTP response with status code 404 when OrganizationNotFoundError', async () => {
+      it('should respond an HTTP response with status code 404 when OrganizationNotFoundError', async function() {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationNotFoundError());
 
@@ -132,7 +132,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 409 when OrganizationWithoutEmailError', async () => {
+      it('should respond an HTTP response with status code 409 when OrganizationWithoutEmailError', async function() {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationWithoutEmailError());
 
@@ -143,7 +143,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(412);
       });
 
-      it('should respond an HTTP response with status code 409 when ManyOrganizationsFoundError', async () => {
+      it('should respond an HTTP response with status code 409 when ManyOrganizationsFoundError', async function() {
         // given
         usecases.sendScoInvitation.rejects(new ManyOrganizationsFoundError());
 

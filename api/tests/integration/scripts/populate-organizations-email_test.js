@@ -2,14 +2,14 @@ const { expect, databaseBuilder, knex, sinon } = require('../../test-helper');
 
 const populateOrganizations = require('../../../scripts/populate-organizations-email');
 
-describe('Integration | Scripts | populate-organizations-email.js', () => {
+describe('Integration | Scripts | populate-organizations-email.js', function() {
 
-  describe('#populateOrganizations', () => {
+  describe('#populateOrganizations', function() {
 
     const externalId1 = 'uai1';
     const externalId2 = 'uai2';
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       databaseBuilder.factory.buildOrganization({ externalId: externalId1, email: 'first.last@example.net' });
       databaseBuilder.factory.buildOrganization({ externalId: externalId2 });
       // eslint-disable-next-line no-console
@@ -18,7 +18,7 @@ describe('Integration | Scripts | populate-organizations-email.js', () => {
       await databaseBuilder.commit();
     });
 
-    it('should populate organization\'s email', async () => {
+    it('should populate organization\'s email', async function() {
       // given
       const csvData = [
         { uai: 'uai1', email: 'uai1@example.net' },

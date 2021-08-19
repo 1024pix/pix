@@ -2,9 +2,9 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const checkUserIsAdminAndManagingStudentsForOrganization = require('../../../../lib/application/usecases/checkUserIsAdminAndManagingStudentsForOrganization');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization', () => {
-  describe('when the user does not belongs to the organization', () => {
-    it('returns false', async () => {
+describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization', function() {
+  describe('when the user does not belongs to the organization', function() {
+    it('returns false', async function() {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
       const user = databaseBuilder.factory.buildUser();
@@ -17,8 +17,8 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     });
   });
 
-  describe('when the user belongs to the organization is admin, the organization manages students and has the correct type', () => {
-    it('returns false', async () => {
+  describe('when the user belongs to the organization is admin, the organization manages students and has the correct type', function() {
+    it('returns false', async function() {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
       const user = databaseBuilder.factory.buildUser();
@@ -31,8 +31,8 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     });
   });
 
-  describe('when the user belongs to the organization but is not admin,', () => {
-    it('returns false', async () => {
+  describe('when the user belongs to the organization but is not admin,', function() {
+    it('returns false', async function() {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
       const user = databaseBuilder.factory.buildUser();
@@ -45,8 +45,8 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     });
   });
 
-  describe('when the user belongs to an organization that is not managing students,', () => {
-    it('returns false', async () => {
+  describe('when the user belongs to an organization that is not managing students,', function() {
+    it('returns false', async function() {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: false });
       const user = databaseBuilder.factory.buildUser();
@@ -59,8 +59,8 @@ describe('Integration | API | checkUserIsAdminAndManagingStudentsForOrganization
     });
   });
 
-  describe('when the user belongs to an organization that has not the given organization type,', () => {
-    it('returns false', async () => {
+  describe('when the user belongs to an organization that has not the given organization type,', function() {
+    it('returns false', async function() {
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
       const user = databaseBuilder.factory.buildUser();

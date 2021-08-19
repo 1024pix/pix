@@ -4,11 +4,11 @@ const participantResultsSharedRepository = require('../../../../lib/infrastructu
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
 
-describe('Integration | Repository | Campaign Participant Result Shared Repository', () => {
+describe('Integration | Repository | Campaign Participant Result Shared Repository', function() {
 
-  describe('#get', () => {
-    describe('when there is no target profile', () => {
-      it('computes the participant results for the complete learning content', async () => {
+  describe('#get', function() {
+    describe('when there is no target profile', function() {
+      it('computes the participant results for the complete learning content', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
         const participation = _buildParticipationWithSnapshot(
@@ -41,8 +41,8 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
       });
     });
 
-    describe('when there is a target profile', () => {
-      it('computes the participant results for a target profile', async () => {
+    describe('when there is a target profile', function() {
+      it('computes the participant results for a target profile', async function() {
         const skillIds = ['skill_1', 'skill_2'];
 
         const { id: campaignId } = _buildCampaignForSkills(skillIds);
@@ -76,8 +76,8 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         expect(participantResultsShared.validatedSkillsCount).to.equals(2);
       });
 
-      describe('when there are active, archived and deprecated skills', () => {
-        it('computes the participant results using operative skills', async () => {
+      describe('when there are active, archived and deprecated skills', function() {
+        it('computes the participant results using operative skills', async function() {
           const skillIds = ['skill_1', 'skill_2', 'skill_3'];
 
           const { id: campaignId } = _buildCampaignForSkills(skillIds);
@@ -111,8 +111,8 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         });
       });
 
-      describe('when there are invalidated knowledge elements', () => {
-        it('computes the participant results counting only validated knowledge element for the mastery percentage and validated skills count', async () => {
+      describe('when there are invalidated knowledge elements', function() {
+        it('computes the participant results counting only validated knowledge element for the mastery percentage and validated skills count', async function() {
           const skillIds = ['skill_1', 'skill_2', 'skill_3'];
 
           const { id: campaignId } = _buildCampaignForSkills(skillIds);
@@ -148,7 +148,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
       });
     });
 
-    it('return results for the given campaign participation', async () => {
+    it('return results for the given campaign participation', async function() {
       const { id: campaignId } = _buildCampaignForSkills(['skill_1']);
 
       _buildParticipationWithSnapshot({}, []);

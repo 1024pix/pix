@@ -9,7 +9,7 @@ const {
 
 const getUserByResetPasswordDemand = require('../../../../lib/domain/usecases/get-user-by-reset-password-demand');
 
-describe('Unit | UseCase | get-user-by-reset-password-demand', () => {
+describe('Unit | UseCase | get-user-by-reset-password-demand', function() {
 
   const temporaryKey = 'ABCDEF123';
   const email = 'user@example.net';
@@ -18,7 +18,7 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', () => {
   let tokenService;
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     resetPasswordService = {
       verifyDemand: sinon.stub(),
     };
@@ -32,7 +32,7 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', () => {
     resetPasswordService.verifyDemand.resolves({ email });
   });
 
-  it('should return a User with email', async () => {
+  it('should return a User with email', async function() {
     // given
     const user = domainBuilder.buildUser({ email });
     userRepository.getByEmail.resolves(user);
@@ -52,7 +52,7 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', () => {
     expect(userRepository.getByEmail).to.have.been.calledWith(email);
   });
 
-  it('should throw InvalidTemporaryKeyError if TemporaryKey is invalid', async () => {
+  it('should throw InvalidTemporaryKeyError if TemporaryKey is invalid', async function() {
     // given
     tokenService.decodeIfValid.rejects(new InvalidTemporaryKeyError());
 
@@ -68,7 +68,7 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', () => {
     expect(error).to.be.an.instanceOf(InvalidTemporaryKeyError);
   });
 
-  it('should throw PasswordResetDemandNotFoundError if ResetPasswordDemand does not exist', async () => {
+  it('should throw PasswordResetDemandNotFoundError if ResetPasswordDemand does not exist', async function() {
     // given
     resetPasswordService.verifyDemand.throws(new PasswordResetDemandNotFoundError());
 
@@ -84,7 +84,7 @@ describe('Unit | UseCase | get-user-by-reset-password-demand', () => {
     expect(error).to.be.an.instanceOf(PasswordResetDemandNotFoundError);
   });
 
-  it('should throw UserNotFoundError if user with the email does not exist', async () => {
+  it('should throw UserNotFoundError if user with the email does not exist', async function() {
     // given
     userRepository.getByEmail.throws(new UserNotFoundError());
 

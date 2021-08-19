@@ -1,11 +1,11 @@
 const { expect } = require('../../../test-helper');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
-describe('Unit | Domain | Models | UserCompetence', () => {
+describe('Unit | Domain | Models | UserCompetence', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
 
-    it('should construct a model UserCompetence from attributes', () => {
+    it('should construct a model UserCompetence from attributes', function() {
       // given
       const userCompetenceRawData = {
         id: 1,
@@ -26,9 +26,9 @@ describe('Unit | Domain | Models | UserCompetence', () => {
     });
   });
 
-  describe('#isCertifiable', () => {
+  describe('#isCertifiable', function() {
 
-    it('should return false when the user competence is not certifiable', () => {
+    it('should return false when the user competence is not certifiable', function() {
       // given
       const userCompetence = new UserCompetence({ estimatedLevel: 0 });
 
@@ -39,7 +39,7 @@ describe('Unit | Domain | Models | UserCompetence', () => {
       expect(result).to.be.false;
     });
 
-    it('should return false when the user competence is certifiable', () => {
+    it('should return false when the user competence is certifiable', function() {
       // given
       const userCompetence = new UserCompetence({ estimatedLevel: 1 });
 

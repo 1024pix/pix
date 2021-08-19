@@ -3,11 +3,11 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const poleEmploiController = require('../../../../lib/application/pole-emplois/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | pole-emplois-controller', () => {
+describe('Unit | Controller | pole-emplois-controller', function() {
 
-  describe('#getSendings', () => {
+  describe('#getSendings', function() {
     context('when there is a cursor in the url', function() {
-      it('should return the pole emploi sending', async () => {
+      it('should return the pole emploi sending', async function() {
         // given
         const request = { query: { curseur: 'azefvbjljhgrEDJNH' } };
         const sending = [{ idEnvoi: 456 }];
@@ -22,7 +22,7 @@ describe('Unit | Controller | pole-emplois-controller', () => {
     });
     context('when there are filters', function() {
       context('when enErreur is \'false\'', function() {
-        it('should return the pole emploi sending', async () => {
+        it('should return the pole emploi sending', async function() {
           // given
           const request = { query: { curseur: 'azefvbjljhgrEDJNH', enErreur: false } };
           const sending = [{ idEnvoi: 456 }];
@@ -36,7 +36,7 @@ describe('Unit | Controller | pole-emplois-controller', () => {
         });
       });
       context('when enErreur is \'true\'', function() {
-        it('should return the pole emploi sending', async () => {
+        it('should return the pole emploi sending', async function() {
           // given
           const request = { query: { curseur: 'azefvbjljhgrEDJNH', enErreur: true } };
           const sending = [{ idEnvoi: 456 }];

@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | CertificationCenter', () => {
+describe('Unit | Domain | Models | CertificationCenter', function() {
 
-  describe('#isSco', () => {
+  describe('#isSco', function() {
 
-    it('should return true when certification center is of type SCO', () => {
+    it('should return true when certification center is of type SCO', function() {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter({ type: 'SCO' });
 
@@ -12,7 +12,7 @@ describe('Unit | Domain | Models | CertificationCenter', () => {
       expect(certificationCenter.isSco).is.true;
     });
 
-    it('should return false when certification center is not of type SCO', () => {
+    it('should return false when certification center is not of type SCO', function() {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter({ type: 'SUP' });
 

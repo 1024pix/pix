@@ -5,11 +5,11 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const moduleUnderTest = require('../../../../lib/application/memberships');
 const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Memberships | membership-controller', () => {
+describe('Integration | Application | Memberships | membership-controller', function() {
 
   let httpTestServer;
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sinon.stub(usecases, 'createMembership');
     sinon.stub(usecases, 'updateMembership');
     sinon.stub(usecases, 'disableMembership');
@@ -19,7 +19,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('#create', () => {
+  describe('#create', function() {
 
     const payload = {
       data: {
@@ -31,9 +31,9 @@ describe('Integration | Application | Memberships | membership-controller', () =
       },
     };
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      it('should resolve a 201 HTTP response', async () => {
+      it('should resolve a 201 HTTP response', async function() {
         // given
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
@@ -47,7 +47,7 @@ describe('Integration | Application | Memberships | membership-controller', () =
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return a JSON API membership', async () => {
+      it('should return a JSON API membership', async function() {
         // given
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
@@ -62,11 +62,11 @@ describe('Integration | Application | Memberships | membership-controller', () =
       });
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      context('when user is not allowed to access resource', () => {
+      context('when user is not allowed to access resource', function() {
 
-        it('should resolve a 403 HTTP response', async () => {
+        it('should resolve a 403 HTTP response', async function() {
           // given
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
 
@@ -80,11 +80,11 @@ describe('Integration | Application | Memberships | membership-controller', () =
     });
   });
 
-  describe('#update', () => {
+  describe('#update', function() {
 
-    context('Success cases', () => {
+    context('Success cases', function() {
 
-      it('should return a 200 HTTP response', async () => {
+      it('should return a 200 HTTP response', async function() {
         // given
         const membership = new Membership({
           id: 123,
@@ -124,11 +124,11 @@ describe('Integration | Application | Memberships | membership-controller', () =
       });
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      context('when request is not valid', () => {
+      context('when request is not valid', function() {
 
-        it('should resolve a 400 HTTP response', async () => {
+        it('should resolve a 400 HTTP response', async function() {
           // given
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           const idGivenInRequestParams = 1;
@@ -171,9 +171,9 @@ describe('Integration | Application | Memberships | membership-controller', () =
         });
       });
 
-      context('when organization role is not valid', () => {
+      context('when organization role is not valid', function() {
 
-        it('should resolve a 400 HTTP response', async () => {
+        it('should resolve a 400 HTTP response', async function() {
           // given
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           usecases.updateMembership.throws(new InvalidMembershipOrganizationRoleError());
@@ -204,9 +204,9 @@ describe('Integration | Application | Memberships | membership-controller', () =
     });
   });
 
-  describe('#disable', () => {
+  describe('#disable', function() {
 
-    it('should return a 204 HTTP response', async () => {
+    it('should return a 204 HTTP response', async function() {
       // given
       const membershipId = domainBuilder.buildMembership().id;
       usecases.disableMembership.resolves();

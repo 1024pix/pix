@@ -2,13 +2,13 @@ const { expect, catchErr, databaseBuilder, learningContentBuilder, mockLearningC
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | get-campaign-participations-counts-by-stage', () => {
+describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function() {
   let organizationId;
   let campaignId;
   let userId;
   let stage1, stage2, stage3;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const learningContentObjects = learningContentBuilder.buildLearningContent([{
       id: 'recArea1',
       titleFrFr: 'area1_Title',
@@ -44,8 +44,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', () => {
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
+  context('when requesting user is not allowed to access campaign informations', function() {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
       const user2 = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 
@@ -61,8 +61,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 
-  context('when the campaign doesnt manage stages', () => {
-    it('should throw a NoStagesForCampaign error', async () => {
+  context('when the campaign doesnt manage stages', function() {
+    it('should throw a NoStagesForCampaign error', async function() {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId1' });
       const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
@@ -80,8 +80,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 
-  context('when the campaign manage stages', () => {
-    it('should return participations counts by stages', async () => {
+  context('when the campaign manage stages', function() {
+    it('should return participations counts by stages', async function() {
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0 });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 1 });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 2 });
@@ -98,7 +98,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
       ]);
     });
 
-    it('should set to 0 all participation counts when no participations', async () => {
+    it('should set to 0 all participation counts when no participations', async function() {
       await databaseBuilder.commit();
 
       // when

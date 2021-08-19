@@ -41,7 +41,7 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
   });
 
   describe('#deserialize', function() {
-    it('should create JSON API date into a Stage model', () => {
+    it('should create JSON API date into a Stage model', function() {
       // given
       const targetProfileId = 43;
       const jsonStage = {

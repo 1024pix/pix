@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
 
-describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
+describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should return a serialized JSON data object', () => {
+    it('should return a serialized JSON data object', function() {
       // given
       const tutorialId = 123;
 
@@ -33,7 +33,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
     });
-    it('should return a serialized JSON data object, enhanced by tube information', () => {
+    it('should return a serialized JSON data object, enhanced by tube information', function() {
       // given
       const tutorialId = 123;
 
@@ -70,7 +70,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', () => {
       expect(result).to.deep.equal(expectedSerializedResult);
     });
 
-    it('should return a serialized JSON data object, with userTutorial related to', () => {
+    it('should return a serialized JSON data object, with userTutorial related to', function() {
       // given
       const userId = 456;
       const tutorialId = 123;

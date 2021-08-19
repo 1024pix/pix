@@ -7,9 +7,9 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
-describe('Unit | Controller | PasswordController', () => {
+describe('Unit | Controller | PasswordController', function() {
 
-  describe('#createResetDemand', () => {
+  describe('#createResetDemand', function() {
 
     const email = 'user@example.net';
     const locale = 'fr';
@@ -34,7 +34,7 @@ describe('Unit | Controller | PasswordController', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'createPasswordResetDemand');
       sinon.stub(passwordResetSerializer, 'serialize');
 
@@ -42,7 +42,7 @@ describe('Unit | Controller | PasswordController', () => {
       passwordResetSerializer.serialize.returns();
     });
 
-    it('should reply with serialized password reset demand when all went well', async () => {
+    it('should reply with serialized password reset demand when all went well', async function() {
       // when
       const response = await passwordController.createResetDemand(request, hFake);
 
@@ -55,7 +55,7 @@ describe('Unit | Controller | PasswordController', () => {
     });
   });
 
-  describe('#checkResetDemand', () => {
+  describe('#checkResetDemand', function() {
 
     const email = 'user@example.net';
     const temporaryKey = 'ABCDEF123';
@@ -64,14 +64,14 @@ describe('Unit | Controller | PasswordController', () => {
       params: { temporaryKey },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getUserByResetPasswordDemand');
       sinon.stub(userSerializer, 'serialize');
 
       usecases.getUserByResetPasswordDemand.resolves({ email });
     });
 
-    it('should return serialized user', async () => {
+    it('should return serialized user', async function() {
       // when
       await passwordController.checkResetDemand(request, hFake);
 
@@ -81,7 +81,7 @@ describe('Unit | Controller | PasswordController', () => {
     });
   });
 
-  describe('#updateExpiredPassword', () => {
+  describe('#updateExpiredPassword', function() {
 
     const request = {
       payload: {
@@ -95,11 +95,11 @@ describe('Unit | Controller | PasswordController', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'updateExpiredPassword');
     });
 
-    it('should return 201 http status code', async () => {
+    it('should return 201 http status code', async function() {
       // given
       usecases.updateExpiredPassword.resolves();
 

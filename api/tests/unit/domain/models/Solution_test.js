@@ -1,11 +1,11 @@
 const { expect } = require('../../../test-helper');
 const Solution = require('../../../../lib/domain/models/Solution');
 
-describe('Unit | Domain | Models | Solution', () => {
+describe('Unit | Domain | Models | Solution', function() {
 
-  describe('#enabledTreatments', () => {
+  describe('#enabledTreatments', function() {
 
-    it('should contain nothing, when no treatments are set', () => {
+    it('should contain nothing, when no treatments are set', function() {
       // given
       const solution = new Solution({ id: 'id' });
 
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(enabledTreatments).to.be.empty;
     });
 
-    it('should contain t1, when isT1Enabled is true', () => {
+    it('should contain t1, when isT1Enabled is true', function() {
       // given
       const solution = new Solution({ id: 'id', isT1Enabled: true });
 
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(enabledTreatments).to.deep.equal(['t1']);
     });
 
-    it('should contain t2, when isT2Enabled is true', () => {
+    it('should contain t2, when isT2Enabled is true', function() {
       // given
       const solution = new Solution({ id: 'id', isT2Enabled: true });
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(enabledTreatments).to.deep.equal(['t2']);
     });
 
-    it('should contain t3, when isT3Enabled is true', () => {
+    it('should contain t3, when isT3Enabled is true', function() {
       // given
       const solution = new Solution({ id: 'id', isT3Enabled: true });
 
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(enabledTreatments).to.deep.equal(['t3']);
     });
 
-    it('should contain t1, t2, t3, when isT1Enabled, isT2Enabled, isT3Enabled is true', () => {
+    it('should contain t1, t2, t3, when isT1Enabled, isT2Enabled, isT3Enabled is true', function() {
       // given
       const solution = new Solution({ id: 'id', isT1Enabled: true, isT2Enabled: true, isT3Enabled: true });
 
@@ -61,9 +61,9 @@ describe('Unit | Domain | Models | Solution', () => {
     });
   });
 
-  describe('#deactivations', () => {
+  describe('#deactivations', function() {
 
-    it('should return an deactivations.t1 = false when t1 is enabled ', () => {
+    it('should return an deactivations.t1 = false when t1 is enabled ', function() {
       // given
       const solution = new Solution({ id: 'id', isT1Enabled: true });
 
@@ -74,7 +74,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(deactivationsT1).to.be.false;
     });
 
-    it('should return an deactivations.t1 = true when t1 is not enabled ', () => {
+    it('should return an deactivations.t1 = true when t1 is not enabled ', function() {
       // given
       const solution = new Solution({ id: 'id', isT1Enabled: false });
 
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(deactivationsT1).to.be.true;
     });
 
-    it('should return an deactivations.t2 = false when t2 is enabled ', () => {
+    it('should return an deactivations.t2 = false when t2 is enabled ', function() {
       // given
       const solution = new Solution({ id: 'id', isT2Enabled: true });
 
@@ -96,7 +96,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(deactivationsT2).to.be.false;
     });
 
-    it('should return an deactivations.t2 = true when t2 is not enabled ', () => {
+    it('should return an deactivations.t2 = true when t2 is not enabled ', function() {
       // given
       const solution = new Solution({ id: 'id', isT2Enabled: false });
 
@@ -107,7 +107,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(deactivationsT2).to.be.true;
     });
 
-    it('should return an deactivations.t3 = false when t3 is enabled ', () => {
+    it('should return an deactivations.t3 = false when t3 is enabled ', function() {
       // given
       const solution = new Solution({ id: 'id', isT3Enabled: true });
 
@@ -118,7 +118,7 @@ describe('Unit | Domain | Models | Solution', () => {
       expect(deactivationsT3).to.be.false;
     });
 
-    it('should return an deactivations.t3 = true when t3 is not enabled ', () => {
+    it('should return an deactivations.t3 = true when t3 is not enabled ', function() {
       // given
       const solution = new Solution({ id: 'id', isT3Enabled: false });
 

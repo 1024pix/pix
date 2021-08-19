@@ -2,13 +2,13 @@ const { expect, sinon } = require('../../../test-helper');
 const updateSession = require('../../../../lib/domain/usecases/update-session');
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 
-describe('Unit | UseCase | update-session', () => {
+describe('Unit | UseCase | update-session', function() {
   let originalSession;
   let sessionRepository;
 
   const certificationCenterId = 1;
 
-  beforeEach(() => {
+  beforeEach(function() {
     originalSession = {
       id: 1,
       certificationCenter: 'Université de gastronomie Paul',
@@ -32,8 +32,8 @@ describe('Unit | UseCase | update-session', () => {
     sessionValidator.validate.withArgs(originalSession).returns();
   });
 
-  context('when session exists', () => {
-    it('should update the session address only', () => {
+  context('when session exists', function() {
+    it('should update the session address only', function() {
       // given
       const updatedSession = {
         id: 1,
@@ -61,7 +61,7 @@ describe('Unit | UseCase | update-session', () => {
       });
     });
 
-    it('should update the session address and examiner only', () => {
+    it('should update the session address and examiner only', function() {
       // given
       const updatedSession = {
         id: 1,
@@ -90,8 +90,8 @@ describe('Unit | UseCase | update-session', () => {
     });
   });
 
-  context('when an error occurred', () => {
-    it('should throw an error when the session could not be retrieved', () => {
+  context('when an error occurred', function() {
+    it('should throw an error when the session could not be retrieved', function() {
       // given
       sessionRepository.get.withArgs(originalSession.id).rejects();
 
@@ -105,7 +105,7 @@ describe('Unit | UseCase | update-session', () => {
       return expect(promise).to.be.rejected;
     });
 
-    it('should throw an error when the payload is invalid', () => {
+    it('should throw an error when the payload is invalid', function() {
       // given
       sessionValidator.validate.withArgs(originalSession).throws();
 
@@ -119,7 +119,7 @@ describe('Unit | UseCase | update-session', () => {
       return expect(promise).to.be.rejected;
     });
 
-    it('should throw an error when the session could not be updated', () => {
+    it('should throw an error when the session could not be updated', function() {
       // given
       sessionRepository.updateSessionInfo.withArgs(originalSession).rejects();
 

@@ -4,11 +4,11 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Unit | Domain | Models | FinalizedSession', () => {
+describe('Unit | Domain | Models | FinalizedSession', function() {
 
-  context('#isPublishable', () => {
+  context('#isPublishable', function() {
 
-    it('is not publishable when session has an examiner global comment', () => {
+    it('is not publishable when session has an examiner global comment', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one test end screen has not been seen', () => {
+    it('is not publishable when at least one test end screen has not been seen', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when has at least one unresolved issue report that requires action', () => {
+    it('is not publishable when has at least one unresolved issue report that requires action', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one scoring error occurred', () => {
+    it('is not publishable when at least one scoring error occurred', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -69,7 +69,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is not publishable when at least one assessment has not been completed', () => {
+    it('is not publishable when at least one assessment has not been completed', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -85,7 +85,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
-    it('is publishable when session has no global comment, no started or error status, no issue report requiring action and all end screen seen', () => {
+    it('is publishable when session has no global comment, no started or error status, no issue report requiring action and all end screen seen', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -101,7 +101,7 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
       expect(finalizedSession.isPublishable).to.be.true;
     });
 
-    it('is publishable when has no unresolved issue reports that requires action', () => {
+    it('is publishable when has no unresolved issue reports that requires action', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
         sessionId: 1234,
@@ -117,9 +117,9 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
     });
   });
 
-  context('#assignCertificationOfficer', () => {
+  context('#assignCertificationOfficer', function() {
 
-    it('Assigns certification officer and make the session not publishable', () => {
+    it('Assigns certification officer and make the session not publishable', function() {
       // given / when
       const certificationOfficerName = 'Ruppert Giles';
       const finalizedSession = new FinalizedSession({
@@ -143,8 +143,8 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
     });
   });
 
-  context('#publish', () => {
-    it('publishes the session', () => {
+  context('#publish', function() {
+    it('publishes the session', function() {
       // given
       const now = new Date();
       const session = new FinalizedSession({
@@ -168,8 +168,8 @@ describe('Unit | Domain | Models | FinalizedSession', () => {
     });
   });
 
-  context('#unpublish', () => {
-    it('unpublishes the session', () => {
+  context('#unpublish', function() {
+    it('unpublishes the session', function() {
       const session = new FinalizedSession({
         sessionId: 1234,
         certificationCenterName: 'a certification center',

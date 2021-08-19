@@ -5,7 +5,7 @@ const { AlreadyRegisteredEmailError, UserNotAuthorizedToUpdateEmailError, Invali
 
 const { sinon, expect, catchErr } = require('../../../test-helper');
 
-describe('Unit | UseCase | update-user-email', () => {
+describe('Unit | UseCase | update-user-email', function() {
 
   let userRepository;
   let authenticationMethodRepository;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | update-user-email', () => {
   // eslint-disable-next-line no-sync
   const passwordHash = bcrypt.hashSync(password, 1);
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       updateEmail: sinon.stub(),
       isEmailAvailable: sinon.stub(),
@@ -37,7 +37,7 @@ describe('Unit | UseCase | update-user-email', () => {
     };
   });
 
-  it('should call updateEmail', async () => {
+  it('should call updateEmail', async function() {
     // given
     const userId = 1;
     const authenticatedUserId = 1;
@@ -63,7 +63,7 @@ describe('Unit | UseCase | update-user-email', () => {
     });
   });
 
-  it('should call notifyEmailChange', async () => {
+  it('should call notifyEmailChange', async function() {
     // given
     const userId = 1;
     const authenticatedUserId = 1;
@@ -89,7 +89,7 @@ describe('Unit | UseCase | update-user-email', () => {
     });
   });
 
-  it('should save email in lower case', async () => {
+  it('should save email in lower case', async function() {
     // given
     const userId = 1;
     const authenticatedUserId = 1;
@@ -116,7 +116,7 @@ describe('Unit | UseCase | update-user-email', () => {
     });
   });
 
-  it('should throw AlreadyRegisteredEmailError if email already exists', async () => {
+  it('should throw AlreadyRegisteredEmailError if email already exists', async function() {
     // given
     userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
     const userId = 1;
@@ -140,7 +140,7 @@ describe('Unit | UseCase | update-user-email', () => {
     expect(error).to.be.an.instanceOf(AlreadyRegisteredEmailError);
   });
 
-  it('should throw UserNotAuthorizedToUpdateEmailError if the authenticated user try to change the email of an other user', async () => {
+  it('should throw UserNotAuthorizedToUpdateEmailError if the authenticated user try to change the email of an other user', async function() {
     // given
     const userId = 1;
     const authenticatedUserId = 2;
@@ -162,7 +162,7 @@ describe('Unit | UseCase | update-user-email', () => {
     expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
   });
 
-  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async () => {
+  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function() {
     // given
     userRepository.get.resolves({});
     const userId = 1;
@@ -185,7 +185,7 @@ describe('Unit | UseCase | update-user-email', () => {
     expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
   });
 
-  it('should throw InvalidPasswordForUpdateEmailError if the password is invalid', async () => {
+  it('should throw InvalidPasswordForUpdateEmailError if the password is invalid', async function() {
     // given
     encryptionService.checkPassword.rejects();
     const userId = 1;

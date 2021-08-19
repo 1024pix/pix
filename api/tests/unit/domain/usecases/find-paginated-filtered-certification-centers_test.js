@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 
-describe('Unit | UseCase | find-paginated-filtered-certification-centers', () => {
+describe('Unit | UseCase | find-paginated-filtered-certification-centers', function() {
 
-  it('should result certification-centers with filtering and pagination', async () => {
+  it('should result certification-centers with filtering and pagination', async function() {
     // given
     const filter = { name: 'Dragon' };
     const page = { number: 1, size: 2 };

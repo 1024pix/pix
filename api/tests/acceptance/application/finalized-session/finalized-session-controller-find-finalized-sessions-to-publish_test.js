@@ -3,16 +3,16 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-to-publish', () => {
+describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-to-publish', function() {
   let server, options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/admin/sessions/to-publish', () => {
-    beforeEach(() => {
+  describe('GET /api/admin/sessions/to-publish', function() {
+    beforeEach(function() {
       options = {
         method: 'GET',
         url: '/api/admin/sessions/to-publish',
@@ -31,13 +31,13 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
 
       return databaseBuilder.commit();
     });
-    context('When user is authorized', () => {
+    context('When user is authorized', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return a 200 status code response with JSON API serialized', async () => {
+      it('should return a 200 status code response with JSON API serialized', async function() {
         // when
         const response = await server.inject(options);
 

@@ -21,7 +21,7 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const certifiableProfileForLearningContentRepository = require('../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
-describe('Unit | Service | Certification Challenge Service', () => {
+describe('Unit | Service | Certification Challenge Service', function() {
 
   const userId = 63731;
   const locale = 'fr-fr';
@@ -111,12 +111,12 @@ describe('Unit | Service | Certification Challenge Service', () => {
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
-  describe('#pickCertificationChallenges', () => {
+  describe('#pickCertificationChallenges', function() {
     let placementProfile;
     let userCompetence1;
     let userCompetence2;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves([
         challengeForSkillCitation4,
         anotherChallengeForSkillCitation4,
@@ -162,7 +162,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
     });
 
-    it('should assign skill to related competence', async () => {
+    it('should assign skill to related competence', async function() {
       // given
       placementProfile.userCompetences = [new UserCompetence({
         ...userCompetence2,
@@ -187,9 +187,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([expectedCertificationChallenge]);
     });
 
-    context('when competence level is less than 1', () => {
+    context('when competence level is less than 1', function() {
 
-      it('should select no challenge', async () => {
+      it('should select no challenge', async function() {
         // given
         const userCompetenceWithLowLevel = domainBuilder.buildUserCompetence({
           ...userCompetence1,
@@ -216,9 +216,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    context('when no challenge validate the skill', () => {
+    context('when no challenge validate the skill', function() {
 
-      it('should not return the skill', async () => {
+      it('should not return the skill', async function() {
         // given
         placementProfile.userCompetences = [userCompetence2];
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -234,9 +234,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    context('when three challenges validate the same skill', () => {
+    context('when three challenges validate the same skill', function() {
 
-      it('should select an unanswered challenge', async () => {
+      it('should select an unanswered challenge', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -258,7 +258,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         expect(certificationChallenges[0].challengeId).to.be.oneOf(['challengeRecordIdTen', 'challengeRecordIdTwo']);
       });
 
-      it('should select a challenge for every skill', async () => {
+      it('should select a challenge for every skill', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -287,7 +287,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
-      it('should return at most one challenge per skill', async () => {
+      it('should return at most one challenge per skill', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -317,7 +317,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    it('should group skills by competence', async () => {
+    it('should group skills by competence', async function() {
       // given
       placementProfile.userCompetences = [
         new UserCompetence({
@@ -358,7 +358,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should sort in desc grouped skills by competence', async () => {
+    it('should sort in desc grouped skills by competence', async function() {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -395,7 +395,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should return the three most difficult skills sorted in desc grouped by competence', async () => {
+    it('should return the three most difficult skills sorted in desc grouped by competence', async function() {
       // given
       placementProfile.userCompetences = [
         new UserCompetence({
@@ -437,7 +437,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should not add a skill twice', async () => {
+    it('should not add a skill twice', async function() {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -464,7 +464,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([_createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2)]);
     });
 
-    it('should not add a challenge twice', async () => {
+    it('should not add a challenge twice', async function() {
       // given
       const onlyOneChallengeForCitation4AndMoteur3 = [
         challengeForSkillCitation4AndMoteur3,
@@ -503,7 +503,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(_.map(certificationChallenges, 'challengeId')).to.deep.equal(['challengeRecordIdTwo']);
     });
 
-    it('should not assign skill, when the challenge id is not found', async () => {
+    it('should not assign skill, when the challenge id is not found', async function() {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -520,7 +520,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([]);
     });
 
-    it('should not assign skill, when the competence is not found', async () => {
+    it('should not assign skill, when the competence is not found', async function() {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -538,7 +538,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
     });
   });
 
-  describe('#pickCertificationChallengesForPixPlus', () => {
+  describe('#pickCertificationChallengesForPixPlus', function() {
     let targetProfileWithLearningContent;
     let clock;
     const now = new Date('2019-01-01T05:06:07Z');
@@ -587,7 +587,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       return challenges;
     }
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(now);
       const targetedTube1Area1 = _createTargetedTubeWithSkills({ maxLevel: 5, tubeName: 'faireDesCourses', tubeId: 'faireDesCourses_id', areaName: 'reussirDehors' });
       const targetedTube2Area1 = _createTargetedTubeWithSkills({ maxLevel: 4, tubeName: 'direBonjour', tubeId: 'direBonjour_id', areaName: 'reussirDehors' });
@@ -618,11 +618,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
         .resolves(targetProfileWithLearningContent);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 
-    it('should pick 4 challenges per area', async () => {
+    it('should pick 4 challenges per area', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -739,7 +739,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(8);
     });
 
-    it('should preferably pick non answered challenges', async () => {
+    it('should preferably pick non answered challenges', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -856,7 +856,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(8);
     });
 
-    it('should prioritize on hardest skill per area', async () => {
+    it('should prioritize on hardest skill per area', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -979,7 +979,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(8);
     });
 
-    it('should exclude skill which origin is Pix', async () => {
+    it('should exclude skill which origin is Pix', async function() {
       // given
       targetProfileWithLearningContent.getCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
       // user knowledge elements and answers
@@ -1083,7 +1083,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(4);
     });
 
-    it('should avoid select the same challenge twice', async () => {
+    it('should avoid select the same challenge twice', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -1194,7 +1194,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(7);
     });
 
-    it('should only consider directly validated skill', async () => {
+    it('should only consider directly validated skill', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({

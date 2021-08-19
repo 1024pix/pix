@@ -5,9 +5,9 @@ const schoolingRegistrationsCsvService = require('../../../../lib/domain/service
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-describe('Integration | Services | schooling-registrations-csv-service', () => {
+describe('Integration | Services | schooling-registrations-csv-service', function() {
 
-  describe('extractSchoolingRegistrationsInformation', () => {
+  describe('extractSchoolingRegistrationsInformation', function() {
 
     it('should parse two schoolingRegistrations information', async function() {
       // given

@@ -8,9 +8,9 @@ describe('Integration | Repository | General certification information', functio
 
   describe('#get', function() {
 
-    context('when the certification course exists for given id', () => {
+    context('when the certification course exists for given id', function() {
 
-      it('should retrieve general certification information', async () => {
+      it('should retrieve general certification information', async function() {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -86,8 +86,8 @@ describe('Integration | Repository | General certification information', functio
       });
     });
 
-    context('when the certification course does not exist', () => {
-      it('should retrieve a NotFoundError Error', async () => {
+    context('when the certification course does not exist', function() {
+      it('should retrieve a NotFoundError Error', async function() {
         // given
         const existingCertificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
         const nonExistingId = existingCertificationCourseId + 1;

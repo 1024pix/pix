@@ -9,7 +9,7 @@ const fs = require('fs').promises;
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
+describe('Unit | UseCase | import-schooling-registrations-from-siecle', function() {
 
   const organizationUAI = '123ABC';
   const organizationId = 1234;
@@ -20,7 +20,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
   let organizationRepositoryStub;
   let payload = null;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(fs, 'unlink');
     sinon.stub(fs, 'readFile');
     format = 'xml';
@@ -33,21 +33,21 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
-  afterEach(() => {
+  afterEach(function() {
     sinon.restore();
   });
 
-  context('when extracted schoolingRegistrations informations can be imported', () => {
+  context('when extracted schoolingRegistrations informations can be imported', function() {
     payload = { path: 'file.csv' };
     const buffer = 'data';
 
-    beforeEach(() => {
+    beforeEach(function() {
       format = 'csv';
       fs.readFile.withArgs(payload.path).resolves(buffer);
     });
 
-    context('when the format is CSV', () => {
-      it('should save these informations', async () => {
+    context('when the format is CSV', function() {
+      it('should save these informations', async function() {
         const organization = Symbol('organization');
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
 
@@ -93,12 +93,12 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
 
-    context('when the format is XML', async () => {
-      beforeEach(() => {
+    context('when the format is XML', async function() {
+      beforeEach(function() {
         format = 'xml';
       });
 
-      it('should save these informations', async () => {
+      it('should save these informations', async function() {
         // given
         payload = { path: 'file.xml' } ;
 
@@ -134,18 +134,18 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
     });
   });
 
-  context('when the import fails', () => {
+  context('when the import fails', function() {
 
     let error;
 
-    context('because there is no schooling registrations imported', () => {
-      beforeEach(() => {
+    context('because there is no schooling registrations imported', function() {
+      beforeEach(function() {
         // given
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
         schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns([]);
       });
 
-      it('should throw a SiecleXmlImportError', async () => {
+      it('should throw a SiecleXmlImportError', async function() {
 
         error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 
@@ -155,14 +155,14 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', () => {
       });
     });
 
-    context('because the file format is not valid', () => {
-      beforeEach(() => {
+    context('because the file format is not valid', function() {
+      beforeEach(function() {
         // given
         format = 'txt';
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       });
 
-      it('should throw a FileValidationError', async () => {
+      it('should throw a FileValidationError', async function() {
         // when
         error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, organizationRepository: organizationRepositoryStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
 

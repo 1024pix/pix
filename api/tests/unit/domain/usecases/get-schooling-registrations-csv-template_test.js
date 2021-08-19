@@ -4,15 +4,15 @@ const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
+describe('Unit | UseCase | get-schooling-registrations-csv-template', function() {
 
   const userId = Symbol('userId');
   const organizationId = Symbol('organizationId');
   const membershipRepository = { findByUserIdAndOrganizationId: _.noop };
   const i18n = getI18n();
 
-  context('When user is ADMIN in a SUP organization managing students', () => {
-    it('should return headers line', async () => {
+  context('When user is ADMIN in a SUP organization managing students', function() {
+    it('should return headers line', async function() {
       // given
       const organization = domainBuilder.buildOrganization({ isManagingStudents: true, type: 'SUP' });
       const membership = domainBuilder.buildMembership({ organizationRole: 'ADMIN', organization });
@@ -39,8 +39,8 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
     });
   });
 
-  context('When user is ADMIN in a SUP organization not managing students', () => {
-    it('should throw an error', async () => {
+  context('When user is ADMIN in a SUP organization not managing students', function() {
+    it('should throw an error', async function() {
       // given
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([{ isAdmin: true, organization: { isManagingStudents: false, type: 'SUP' } }]);
 
@@ -52,8 +52,8 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
     });
   });
 
-  context('When user is not ADMIN in a SUP organization', () => {
-    it('should throw an error', async () => {
+  context('When user is not ADMIN in a SUP organization', function() {
+    it('should throw an error', async function() {
       // given
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([{ isAdmin: false, organization: { isManagingStudents: true, type: 'SUP' } }]);
 
@@ -65,8 +65,8 @@ describe('Unit | UseCase | get-schooling-registrations-csv-template', () => {
     });
   });
 
-  context('When user is not a member of the organization', () => {
-    it('should throw an error', async () => {
+  context('When user is not a member of the organization', function() {
+    it('should throw an error', async function() {
       // given
       sinon.stub(membershipRepository, 'findByUserIdAndOrganizationId').resolves([]);
 

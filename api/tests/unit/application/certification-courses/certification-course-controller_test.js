@@ -8,11 +8,11 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
-describe('Unit | Controller | certification-course-controller', () => {
+describe('Unit | Controller | certification-course-controller', function() {
 
-  describe('#getCertificationDetails', () => {
+  describe('#getCertificationDetails', function() {
 
-    it('should return a serialized certification details', async () => {
+    it('should return a serialized certification details', async function() {
       // given
       sinon.stub(usecases, 'getCertificationDetails');
       const certificationCourseId = 1234;
@@ -95,9 +95,9 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#getCertificationResultInformation', () => {
+  describe('#getCertificationResultInformation', function() {
 
-    it('should return certification result', async () => {
+    it('should return certification result', async function() {
       // given
       const certificationCourseId = 1;
       const request = {
@@ -123,7 +123,7 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#update', () => {
+  describe('#update', function() {
 
     const options = {
       method: 'PATCH',
@@ -155,7 +155,7 @@ describe('Unit | Controller | certification-course-controller', () => {
       },
     };
 
-    it('should modify the certification course candidate ', async () => {
+    it('should modify the certification course candidate ', async function() {
       // given
       sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
       const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
@@ -181,9 +181,9 @@ describe('Unit | Controller | certification-course-controller', () => {
       });
     });
 
-    context('when certification course was modified', () => {
+    context('when certification course was modified', function() {
 
-      it('should serialize and return saved certification course', async () => {
+      it('should serialize and return saved certification course', async function() {
         // when
         sinon.stub(usecases, 'correctCandidateIdentityInCertificationCourse').resolves();
         const updatedCertificationCourse = domainBuilder.buildCertificationCourse();
@@ -212,11 +212,11 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
 
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
         pre: { userId: 'userId' },
@@ -235,7 +235,7 @@ describe('Unit | Controller | certification-course-controller', () => {
 
     const retrievedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
 
-    it('should call the use case with the right arguments', async () => {
+    it('should call the use case with the right arguments', async function() {
       // given
       const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' };
       usecases.retrieveLastOrCreateCertificationCourse
@@ -256,7 +256,7 @@ describe('Unit | Controller | certification-course-controller', () => {
       });
     });
 
-    it('should reply the certification course serialized', async () => {
+    it('should reply the certification course serialized', async function() {
       // given
       const serializedCertificationCourse = Symbol('a serialized certification course');
       const usecaseArgs = { sessionId: '12345', accessCode: 'ABCD12', userId: 'userId' };
@@ -277,16 +277,16 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     let certificationCourse;
     const certificationCourseId = 'certification_course_id';
 
-    beforeEach(() => {
+    beforeEach(function() {
       certificationCourse = new CertificationCourse({ 'id': certificationCourseId });
     });
 
-    it('should fetch and return the given course, serialized as JSONAPI', async () => {
+    it('should fetch and return the given course, serialized as JSONAPI', async function() {
       // given
       const userId = 42;
       sinon.stub(usecases, 'getCertificationCourse')
@@ -309,9 +309,9 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#getCertifiedProfile', () => {
+  describe('#getCertifiedProfile', function() {
 
-    it('should fetch the associated certified profile serialized as JSONAPI', async () => {
+    it('should fetch the associated certified profile serialized as JSONAPI', async function() {
       // given
       const skill1 = domainBuilder.buildCertifiedSkill({
         id: 'recSkill1',
@@ -455,9 +455,9 @@ describe('Unit | Controller | certification-course-controller', () => {
     });
   });
 
-  describe('#cancelCertificationCourse', () => {
+  describe('#cancelCertificationCourse', function() {
 
-    it('should cancel certification course', async () => {
+    it('should cancel certification course', async function() {
       // given
       sinon.stub(usecases, 'cancelCertificationCourse');
       const certificationCourseId = 1234;

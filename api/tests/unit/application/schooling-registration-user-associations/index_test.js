@@ -15,16 +15,16 @@ describe('Unit | Application | Router | schooling-registration-user-associations
   const studentId = '1234';
   const userId = 2;
 
-  describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', () => {
+  describe('PATCH /api/organizations/id/schooling-registration-user-associations/studentId', function() {
 
     const method = 'PATCH';
     const headers = {
       authorization: generateValidRequestAuthorizationHeader(userId),
     };
 
-    context('when the user is authenticated', () => {
+    context('when the user is authenticated', function() {
 
-      it('should exist', async () => {
+      it('should exist', async function() {
         // given
         sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents').callsFake((request, h) => h.response(true));
         sinon.stub(schoolingRegistrationUserAssociationController, 'updateStudentNumber').returns('ok');
@@ -46,7 +46,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return a 422 status error when student-number parameter is not a string', async () => {
+      it('should return a 422 status error when student-number parameter is not a string', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -70,7 +70,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         expect(responsePayload.errors[0].detail).to.equal('Un des champs saisis n’est pas valide.');
       });
 
-      it('should return a 404 status error when organizationId parameter is not a number', async () => {
+      it('should return a 404 status error when organizationId parameter is not a number', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -94,7 +94,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
         expect(responsePayload.errors[0].detail).to.equal('Ressource non trouvée');
       });
 
-      it('should return a 404 status error when studentId parameter is not a number', async () => {
+      it('should return a 404 status error when studentId parameter is not a number', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -119,9 +119,9 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       });
     });
 
-    context('when the user is not authenticated', () => {
+    context('when the user is not authenticated', function() {
 
-      it('should return an error when the user is not authenticated', async () => {
+      it('should return an error when the user is not authenticated', async function() {
         // given
         sinon.stub(preHandler, 'checkUserIsAdminInSUPOrganizationManagingStudents').callsFake((request, h) => h.response().code(403).takeover());
         const httpTestServer = new HttpTestServer();
@@ -145,7 +145,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
     });
   });
 
-  describe('DELETE /api/schooling-registration-user-associations/{id}', () => {
+  describe('DELETE /api/schooling-registration-user-associations/{id}', function() {
 
     const method = 'DELETE';
     const headers = {
@@ -153,7 +153,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
     };
     const payload = null;
 
-    it('should return a HTTP status code 200', async () => {
+    it('should return a HTTP status code 200', async function() {
       // given
       sinon.stub(schoolingRegistrationUserAssociationController, 'dissociate').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -168,7 +168,7 @@ describe('Unit | Application | Router | schooling-registration-user-associations
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a HTTP status code 400 if id parameter is not a number', async () => {
+    it('should return a HTTP status code 400 if id parameter is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

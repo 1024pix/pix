@@ -2,11 +2,11 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const Skill = require('../../../../lib/domain/models/Skill');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Answer', () => {
+describe('Unit | Domain | Models | Answer', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should build an Answer from raw JSON', () => {
+    it('should build an Answer from raw JSON', function() {
       // given
       const rawData = {
         id: 2,
@@ -40,9 +40,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('isOK', () => {
+  describe('isOK', function() {
 
-    it('should return true if answer is ok', () => {
+    it('should return true if answer is ok', function() {
       // given
       const answer = new Answer({ result: 'ok' });
 
@@ -50,7 +50,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(answer.isOk()).to.be.true;
     });
 
-    it('should return false if answer is different than ok', () => {
+    it('should return false if answer is different than ok', function() {
       // given
       const answer = new Answer({ result: 'notok' });
 
@@ -59,9 +59,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('isPartially', () => {
+  describe('isPartially', function() {
 
-    it('should return true if answer is partially', () => {
+    it('should return true if answer is partially', function() {
       // given
       const answer = new Answer({ result: 'partially' });
 
@@ -69,7 +69,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(answer.isPartially()).to.be.true;
     });
 
-    it('should return false if answer is different than partially', () => {
+    it('should return false if answer is different than partially', function() {
       // given
       const answer = new Answer({ result: 'notok' });
 
@@ -78,9 +78,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('#maxDifficulty', () => {
+  describe('#maxDifficulty', function() {
 
-    it('should exist', () => {
+    it('should exist', function() {
       // given
       const answer = new Answer({ result: 'ko' });
       answer.challenge = { skills: [] };
@@ -89,7 +89,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(answer.maxDifficulty).to.exist;
     });
 
-    it('should return the maximal skill difficulty of a challenge', () => {
+    it('should return the maximal skill difficulty of a challenge', function() {
       // given
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
@@ -104,7 +104,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(maxDifficulty).to.equal(5);
     });
 
-    it('should return the base difficulty if the challenge is undefined', () => {
+    it('should return the base difficulty if the challenge is undefined', function() {
       // given
       const answer = new Answer({});
 
@@ -117,9 +117,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('#binaryOutcome', () => {
+  describe('#binaryOutcome', function() {
 
-    it('should exist', () => {
+    it('should exist', function() {
       // given
       const answer = new Answer({ result: 'ko' });
 
@@ -127,7 +127,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(answer.binaryOutcome).to.exist;
     });
 
-    it('should return 1 if answer is correct', () => {
+    it('should return 1 if answer is correct', function() {
       // given
       const answer = new Answer({ result: 'ok' });
 
@@ -138,7 +138,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(maxDifficulty).to.equal(1);
     });
 
-    it('should return 0 if answer is not correct', () => {
+    it('should return 0 if answer is not correct', function() {
       // given
       const answer = new Answer({ result: 'ko' });
 
@@ -150,9 +150,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('#hasTimedOut', () => {
+  describe('#hasTimedOut', function() {
 
-    it('should return true if answer has timed out', () => {
+    it('should return true if answer has timed out', function() {
       // given
       const answer = domainBuilder.buildAnswer({ timeout: -1 });
 
@@ -163,7 +163,7 @@ describe('Unit | Domain | Models | Answer', () => {
       expect(hasTimedOut).to.be.true;
     });
 
-    it('should return false if answer has not timed out', () => {
+    it('should return false if answer has not timed out', function() {
       // given
       const answer = domainBuilder.buildAnswer({ timeout: 1 });
 
@@ -175,9 +175,9 @@ describe('Unit | Domain | Models | Answer', () => {
     });
   });
 
-  describe('#setTimeSpentFrom', () => {
+  describe('#setTimeSpentFrom', function() {
 
-    it('should return the computed time spent on a challenge', () => {
+    it('should return the computed time spent on a challenge', function() {
       // given
       const answer = domainBuilder.buildAnswer();
       const lastQuestionDate = new Date('2021-03-11T11:00:00Z');

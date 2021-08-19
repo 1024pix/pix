@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 
-describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
+describe('Unit | Serializer | JSONAPI | scorecard-serializer', function() {
 
-  describe('#serialize()', () => {
+  describe('#serialize()', function() {
     const expectedTutorials = [
       domainBuilder.buildTutorial({ id: 'recTuto1' }),
       domainBuilder.buildTutorial({ id: 'recTuto2' }),
@@ -66,7 +66,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', () => {
       ],
     };
 
-    it('should convert a scorecard object into JSON API data', () => {
+    it('should convert a scorecard object into JSON API data', function() {
       // when
       const json = serializer.serialize(scorecardObject);
 

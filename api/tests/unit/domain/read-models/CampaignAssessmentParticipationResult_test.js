@@ -1,9 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const CampaignAssessmentParticipationResult = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
 
-describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () => {
-  describe('constructor', () => {
-    it('should correctly initialize the information about campaign participation', () => {
+describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function() {
+  describe('constructor', function() {
+    it('should correctly initialize the information about campaign participation', function() {
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent();
       const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
         campaignParticipationId: 1,
@@ -16,8 +16,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () =>
       expect(campaignAssessmentParticipationResult.campaignId).equal(2);
     });
 
-    context('when the campaignParticipation is not shared', () => {
-      it('does not compute CampaignAssessmentParticipationCompetenceResult', () => {
+    context('when the campaignParticipation is not shared', function() {
+      it('does not compute CampaignAssessmentParticipationCompetenceResult', function() {
         const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'] });
         const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence] });
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
@@ -33,8 +33,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', () =>
       });
     });
 
-    context('when the campaignParticipation is shared', () => {
-      it('should compute results with targeted competences', () => {
+    context('when the campaignParticipation is shared', function() {
+      it('should compute results with targeted competences', function() {
         const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'], areaId: 'area1' });
         const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });
         const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence], areas: [targetedArea] });

@@ -2,16 +2,16 @@ const { expect, sinon } = require('../../test-helper');
 const { buildCities } = require('../../../scripts/import-certification-cpf-cities');
 const { noop } = require('lodash/noop');
 
-describe('Unit | Scripts | import-certification-cpf-cities.js', () => {
+describe('Unit | Scripts | import-certification-cpf-cities.js', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(console, 'error').callsFake(noop);
   });
 
-  describe('#buildCities', () => {
-    describe('#when there are n alternate names', () => {
+  describe('#buildCities', function() {
+    describe('#when there are n alternate names', function() {
 
-      it('should return n+1 lines for the city', () => {
+      it('should return n+1 lines for the city', function() {
 
         const csvData = [
           {
@@ -74,8 +74,8 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', () => {
 
     });
 
-    describe('#when there are no alternate names', () => {
-      it('should return 1 line', () => {
+    describe('#when there are no alternate names', function() {
+      it('should return 1 line', function() {
       // given
         const csvData = [
           {

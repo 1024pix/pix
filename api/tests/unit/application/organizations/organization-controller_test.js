@@ -27,19 +27,19 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | Application | Organizations | organization-controller', () => {
+describe('Unit | Application | Organizations | organization-controller', function() {
 
   let request;
   const i18n = getI18n();
 
-  describe('#getOrganizationDetails', () => {
+  describe('#getOrganizationDetails', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getOrganizationDetails');
       sinon.stub(organizationSerializer, 'serialize');
     });
 
-    it('should call the usecase and serialize the response', async () => {
+    it('should call the usecase and serialize the response', async function() {
       // given
       const organizationId = 1234;
       request = { params: { id: organizationId } };
@@ -57,16 +57,16 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'createOrganization');
       sinon.stub(organizationSerializer, 'serialize');
     });
 
-    context('successful case', () => {
+    context('successful case', function() {
 
-      it('should create an organization', async () => {
+      it('should create an organization', async function() {
         // given
         usecases.createOrganization.resolves();
 
@@ -106,7 +106,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         });
       });
 
-      it('should serialized organization into JSON:API', async () => {
+      it('should serialized organization into JSON:API', async function() {
         // given
         const organizationToCreate = domainBuilder.buildOrganization();
 
@@ -134,7 +134,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
         expect(organizationSerializer.serialize).to.have.been.calledWith(organizationToCreate);
       });
 
-      it('should return the serialized organization', async () => {
+      it('should return the serialized organization', async function() {
         // given
         const organizationToCreate = domainBuilder.buildOrganization();
 
@@ -166,9 +166,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#getDivisions', () => {
+  describe('#getDivisions', function() {
 
-    it('Should return a serialized list of divisions', async () => {
+    it('Should return a serialized list of divisions', async function() {
       // given
       const request = {
         auth: {
@@ -216,9 +216,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#updateOrganizationInformation', () => {
+  describe('#updateOrganizationInformation', function() {
 
-    it('should return the serialized organization', async () => {
+    it('should return the serialized organization', async function() {
       // given
       const organizationAttributes = {
         id: 7,
@@ -280,15 +280,15 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findPaginatedFilteredOrganizations', () => {
+  describe('#findPaginatedFilteredOrganizations', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(usecases, 'findPaginatedFilteredOrganizations');
       sinon.stub(organizationSerializer, 'serialize');
     });
 
-    it('should return a list of JSON API organizations fetched from the data repository', async () => {
+    it('should return a list of JSON API organizations fetched from the data repository', async function() {
       // given
       const request = { query: {} };
       queryParamsUtils.extractParameters.withArgs({}).returns({});
@@ -303,7 +303,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(organizationSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should return a JSON API response with pagination information in the data field "meta"', async () => {
+    it('should return a JSON API response with pagination information in the data field "meta"', async function() {
       // given
       const request = { query: {} };
       const expectedResults = [new Organization({ id: 1 }), new Organization({ id: 2 }), new Organization({ id: 3 })];
@@ -318,7 +318,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(organizationSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
 
-    it('should allow to filter organization by name', async () => {
+    it('should allow to filter organization by name', async function() {
       // given
       const query = { filter: { name: 'organization_name' }, page: {} };
       const request = { query };
@@ -332,7 +332,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to filter organization by code', async () => {
+    it('should allow to filter organization by code', async function() {
       // given
       const query = { filter: { code: 'organization_code' }, page: {} };
       const request = { query };
@@ -346,7 +346,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to filter users by type', async () => {
+    it('should allow to filter users by type', async function() {
       // given
       const query = { filter: { type: 'organization_type' }, page: {} };
       const request = { query };
@@ -360,7 +360,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to paginate on a given page and page size', async () => {
+    it('should allow to paginate on a given page and page size', async function() {
       // given
       const query = { filter: { name: 'organization_name' }, page: { number: 2, size: 25 } };
       const request = { query };
@@ -375,14 +375,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findPaginatedFilteredCampaigns', () => {
+  describe('#findPaginatedFilteredCampaigns', function() {
 
     let organizationId;
     let request;
     let campaign;
     let serializedCampaigns;
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = 1;
       request = {
         params: { id: organizationId },
@@ -400,7 +400,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should call the usecase to get the campaigns and associated campaignReports', async () => {
+    it('should call the usecase to get the campaigns and associated campaignReports', async function() {
       // given
       request.query = {
         campaignReport: true,
@@ -420,7 +420,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredOrganizationCampaigns).to.have.been.calledWith({ organizationId, filter: expectedFilter, page: expectedPage });
     });
 
-    it('should return the serialized campaigns belonging to the organization', async () => {
+    it('should return the serialized campaigns belonging to the organization', async function() {
       // given
       request.query = {};
       const expectedResponse = { data: serializedCampaigns, meta: {} };
@@ -435,7 +435,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(response).to.deep.equal(expectedResponse);
     });
 
-    it('should return a JSON API response with meta information', async () => {
+    it('should return a JSON API response with meta information', async function() {
       // given
       request.query = {};
       const expectedResults = [campaign];
@@ -451,14 +451,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findPaginatedCampaignManagements', () => {
+  describe('#findPaginatedCampaignManagements', function() {
 
     let organizationId;
     let request;
     let campaign;
     let serializedCampaigns;
 
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = 1;
       request = {
         params: { id: organizationId },
@@ -476,7 +476,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(campaignManagementSerializer, 'serialize');
     });
 
-    it('should call the usecase to get the campaigns and associated campaignManagements', async () => {
+    it('should call the usecase to get the campaigns and associated campaignManagements', async function() {
       // given
       request.query = {
         campaignManagement: true,
@@ -496,7 +496,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWith({ organizationId, filter: expectedFilter, page: expectedPage });
     });
 
-    it('should return the serialized campaigns belonging to the organization', async () => {
+    it('should return the serialized campaigns belonging to the organization', async function() {
       // given
       request.query = {};
       const expectedResponse = { data: serializedCampaigns, meta: {} };
@@ -515,12 +515,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findTargetProfiles', () => {
+  describe('#findTargetProfiles', function() {
     const connectedUserId = 1;
     const organizationId = 145;
     let foundTargetProfiles;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
@@ -532,8 +532,8 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(targetProfileSerializer, 'serialize');
     });
 
-    context('success cases', () => {
-      it('should reply 200 with serialized target profiles', async () => {
+    context('success cases', function() {
+      it('should reply 200 with serialized target profiles', async function() {
         // given
         organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(145).resolves(foundTargetProfiles);
         targetProfileSerializer.serialize.withArgs(foundTargetProfiles).returns({});
@@ -547,7 +547,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#attachTargetProfiles', () => {
+  describe('#attachTargetProfiles', function() {
     const userId = 1;
     const targetProfile = domainBuilder.buildTargetProfile();
 
@@ -555,7 +555,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const targetProfileId = targetProfile.id.toString();
     const targetProfilesToAttachAsArray = [targetProfileId];
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
@@ -572,7 +572,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(usecases, 'attachTargetProfilesToOrganization');
     });
 
-    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async () => {
+    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function() {
       // given
       usecases.attachTargetProfilesToOrganization.withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray }).resolves();
 
@@ -584,7 +584,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findPaginatedFilteredSchoolingRegistrations', () => {
+  describe('#findPaginatedFilteredSchoolingRegistrations', function() {
 
     const connectedUserId = 1;
     const organizationId = 145;
@@ -592,7 +592,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     let studentWithUserInfo;
     let serializedStudentsWithUsersInfos;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
@@ -610,7 +610,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       };
     });
 
-    it('should call the usecase to find students with users infos related to the organization id', async () => {
+    it('should call the usecase to find students with users infos related to the organization id', async function() {
       // given
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
 
@@ -621,7 +621,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {}, page: {} });
     });
 
-    it('should call the usecase to find students with users infos related to filters', async () => {
+    it('should call the usecase to find students with users infos related to filters', async function() {
       // given
       request = { ...request, query: { 'filter[lastName]': 'Bob', 'filter[firstName]': 'Tom', 'filter[connexionType]': 'email' } };
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
@@ -637,7 +637,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       });
     });
 
-    it('should call the usecase to find students with users infos related to pagination', async () => {
+    it('should call the usecase to find students with users infos related to pagination', async function() {
       // given
       request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
@@ -649,7 +649,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {}, page: { size: 10, number: 1 } });
     });
 
-    it('should return the serialized students belonging to the organization', async () => {
+    it('should return the serialized students belonging to the organization', async function() {
       // given
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
       userWithSchoolingRegistrationSerializer.serialize.returns(serializedStudentsWithUsersInfos);
@@ -662,14 +662,14 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#importSchoolingRegistrationsFromSIECLE', () => {
+  describe('#importSchoolingRegistrationsFromSIECLE', function() {
 
     const connectedUserId = 1;
     const organizationId = 145;
     const payload = { path: 'path-to-file' };
     const format = 'xml';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
@@ -681,7 +681,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
     });
 
-    it('should call the usecase to import schoolingRegistrations', async () => {
+    it('should call the usecase to import schoolingRegistrations', async function() {
       // given
       usecases.importSchoolingRegistrationsFromSIECLEFormat.resolves();
 
@@ -693,7 +693,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#sendInvitations', () => {
+  describe('#sendInvitations', function() {
 
     const userId = 1;
     const invitation = domainBuilder.buildOrganizationInvitation();
@@ -702,7 +702,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const emails = [invitation.email];
     const locale = 'fr-fr';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
@@ -719,7 +719,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
     });
 
-    it('should call the usecase to create invitation with organizationId, email and locale', async () => {
+    it('should call the usecase to create invitation with organizationId, email and locale', async function() {
       // when
       await organizationController.sendInvitations(request, hFake);
 
@@ -728,9 +728,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#sendInvitationsByLang', () => {
+  describe('#sendInvitationsByLang', function() {
 
-    it('should call the usecase to create invitation with organizationId, email and lang', async () => {
+    it('should call the usecase to create invitation with organizationId, email and lang', async function() {
       //given
       const userId = 1;
       const invitation = domainBuilder.buildOrganizationInvitation();
@@ -763,7 +763,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#findPendingInvitations', () => {
+  describe('#findPendingInvitations', function() {
 
     const userId = 1;
     const organization = domainBuilder.buildOrganization();
@@ -771,7 +771,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     const resolvedOrganizationInvitations = 'organization invitations';
     const serializedOrganizationInvitations = 'serialized organization invitations';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: organization.id },
@@ -784,7 +784,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
     });
 
-    it('should call the usecase to find pending invitations with organizationId', async () => {
+    it('should call the usecase to find pending invitations with organizationId', async function() {
       // when
       const response = await organizationController.findPendingInvitations(request, hFake);
 
@@ -795,7 +795,7 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#getSchoolingRegistrationsCsvTemplate', () => {
+  describe('#getSchoolingRegistrationsCsvTemplate', function() {
     const userId = 1;
     const organizationId = 2;
     const request = {
@@ -807,12 +807,12 @@ describe('Unit | Application | Organizations | organization-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getSchoolingRegistrationsCsvTemplate').resolves('template');
       sinon.stub(tokenService, 'extractUserId').returns(userId);
     });
 
-    it('should return a response with correct headers', async () => {
+    it('should return a response with correct headers', async function() {
       // when
       request.i18n = i18n;
       const response = await organizationController.getSchoolingRegistrationsCsvTemplate(request, hFake);
@@ -823,9 +823,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#downloadCertificationResults', () => {
+  describe('#downloadCertificationResults', function() {
 
-    it('should return a response with CSV results', async () => {
+    it('should return a response with CSV results', async function() {
       // given
 
       const request = {
@@ -864,9 +864,9 @@ describe('Unit | Application | Organizations | organization-controller', () => {
     });
   });
 
-  describe('#downloadCertificationAttestationsForDivision', () => {
+  describe('#downloadCertificationAttestationsForDivision', function() {
 
-    it('should return binary attestations', async () => {
+    it('should return binary attestations', async function() {
       // given
       const certifications = [
         domainBuilder.buildPrivateCertificateWithCompetenceTree(),

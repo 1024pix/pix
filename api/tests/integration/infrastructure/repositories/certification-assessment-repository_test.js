@@ -5,9 +5,9 @@ const CertificationAssessment = require('../../../../lib/domain/models/Certifica
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const _ = require('lodash');
 
-describe('Integration | Infrastructure | Repositories | certification-assessment-repository', () => {
+describe('Integration | Infrastructure | Repositories | certification-assessment-repository', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     const learningContent = {
       areas: [{
         id: 'recArea1',
@@ -57,7 +57,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     mockLearningContent(learningContent);
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     let certificationAssessmentId;
     let expectedCertificationCourseId;
@@ -66,9 +66,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
 
-    context('when the certification assessment exists', () => {
+    context('when the certification assessment exists', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         expectedCertificationCourseId = dbf.buildCertificationCourse({
@@ -90,7 +90,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         return databaseBuilder.commit();
       });
 
-      it('should return the certification assessment with certification challenges and answers', async () => {
+      it('should return the certification assessment with certification challenges and answers', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
 
@@ -109,8 +109,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       });
     });
 
-    context('when the assessment does not exist', () => {
-      it('should throw a NotFoundError', async () => {
+    context('when the assessment does not exist', function() {
+      it('should throw a NotFoundError', async function() {
         // when
         const error = await catchErr(certificationAssessmentRepository.get)(12345);
 
@@ -120,7 +120,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     });
   });
 
-  describe('#getByCertificationCourseId', () => {
+  describe('#getByCertificationCourseId', function() {
 
     let expectedCertificationAssessmentId;
     let certificationCourseId;
@@ -129,11 +129,11 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
 
-    context('when the certification assessment exists', () => {
+    context('when the certification assessment exists', function() {
       let firstAnswerInTime;
       let secondAnswerInTime;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         certificationCourseId = dbf.buildCertificationCourse({
@@ -165,7 +165,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         return databaseBuilder.commit();
       });
 
-      it('should return the certification assessment with certification challenges and answers', async () => {
+      it('should return the certification assessment with certification challenges and answers', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
@@ -181,7 +181,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(certificationAssessment.certificationChallenges).to.have.length(2);
       });
 
-      it('should return the certification answers ordered by date', async () => {
+      it('should return the certification answers ordered by date', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
@@ -189,7 +189,7 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         expect(_.map(certificationAssessment.certificationAnswersByDate, 'id')).to.deep.equal([firstAnswerInTime, secondAnswerInTime]);
       });
 
-      it('should return the certification challenges ordered by id', async () => {
+      it('should return the certification challenges ordered by id', async function() {
         // when
         const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
 
@@ -199,8 +199,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       });
     });
 
-    context('when the assessment does not exist', () => {
-      it('should throw a NotFoundError', async () => {
+    context('when the assessment does not exist', function() {
+      it('should throw a NotFoundError', async function() {
         // when
         const error = await catchErr(certificationAssessmentRepository.getByCertificationCourseId)({ certificationCourseId: 12345 });
 
@@ -210,9 +210,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    it('persists the mutation of neutralized certification challenges', async () => {
+    it('persists the mutation of neutralized certification challenges', async function() {
       // given
       const dbf = databaseBuilder.factory;
       const userId = dbf.buildUser().id;

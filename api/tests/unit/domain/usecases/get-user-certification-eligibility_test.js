@@ -2,7 +2,7 @@ const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const getUserCertificationEligibility = require('../../../../lib/domain/usecases/get-user-certification-eligibility');
 const CertificationEligibility = require('../../../../lib/domain/read-models/CertificationEligibility');
 
-describe('Unit | UseCase | get-user-certification-eligibility', () => {
+describe('Unit | UseCase | get-user-certification-eligibility', function() {
 
   let clock;
   const pixPlusDroitMaitreBadgeKey = CertificationEligibility.pixPlusDroitMaitreBadgeKey;
@@ -16,20 +16,20 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     hasStillValidCleaBadgeAcquisition: () => undefined,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(now);
     placementProfileService.getPlacementProfile = sinon.stub();
     certificationBadgesService.findStillValidBadgeAcquisitions = sinon.stub();
     certificationBadgesService.hasStillValidCleaBadgeAcquisition = sinon.stub();
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  context('when pix certification is not eligible', () => {
+  context('when pix certification is not eligible', function() {
 
-    it('should return the user certification eligibility with not eligible complementary certifications', async () => {
+    it('should return the user certification eligibility with not eligible complementary certifications', async function() {
       // given
       const placementProfile = {
         isCertifiable: () => false,
@@ -59,9 +59,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     });
   });
 
-  context('when clea badge is acquired and still valid', () => {
+  context('when clea badge is acquired and still valid', function() {
 
-    it('should return the user certification eligibility with eligible clea', async () => {
+    it('should return the user certification eligibility with eligible clea', async function() {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -84,9 +84,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     });
   });
 
-  context('when pix plus droit maitre badge is not acquired', () => {
+  context('when pix plus droit maitre badge is not acquired', function() {
 
-    it('should return the user certification eligibility with not eligible pix plus droit maitre', async () => {
+    it('should return the user certification eligibility with not eligible pix plus droit maitre', async function() {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -115,9 +115,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     });
   });
 
-  context('when pix plus droit maitre badge is acquired', () => {
+  context('when pix plus droit maitre badge is acquired', function() {
 
-    it('should return the user certification eligibility with eligible pix plus droit maitre', async () => {
+    it('should return the user certification eligibility with eligible pix plus droit maitre', async function() {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -146,9 +146,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     });
   });
 
-  context('when pix plus droit expert badge is not acquired', () => {
+  context('when pix plus droit expert badge is not acquired', function() {
 
-    it('should return the user certification eligibility with not eligible pix plus droit expert', async () => {
+    it('should return the user certification eligibility with not eligible pix plus droit expert', async function() {
       // given
       const placementProfile = {
         isCertifiable: () => true,
@@ -177,9 +177,9 @@ describe('Unit | UseCase | get-user-certification-eligibility', () => {
     });
   });
 
-  context('when pix plus droit expert badge is acquired', () => {
+  context('when pix plus droit expert badge is acquired', function() {
 
-    it('should return the user certification eligibility with eligible pix plus droit expert', async () => {
+    it('should return the user certification eligibility with eligible pix plus droit expert', async function() {
       // given
       const placementProfile = {
         isCertifiable: () => true,

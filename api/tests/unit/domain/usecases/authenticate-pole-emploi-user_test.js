@@ -15,7 +15,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const authenticatePoleEmploiUser = require('../../../../lib/domain/usecases/authenticate-pole-emploi-user');
 
-describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
+describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
   const code = 'code';
   const redirectUri = 'redirectUri';
@@ -52,7 +52,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
   let userInfo;
   let clock;
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(Date.now());
 
     userInfo = {
@@ -87,13 +87,13 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  context('When the request state does not match the response state', () => {
+  context('When the request state does not match the response state', function() {
 
-    it('should throw an UnexpectedPoleEmploiStateError', async () => {
+    it('should throw an UnexpectedPoleEmploiStateError', async function() {
       // given
       const stateSent = 'stateSent';
       const stateReceived = 'stateReceived';
@@ -120,9 +120,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
     });
   });
 
-  context('When user has an account', () => {
+  context('When user has an account', function() {
 
-    it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async () => {
+    it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async function() {
       // when
       await authenticatePoleEmploiUser({
         authenticatedUserId: userId,
@@ -144,7 +144,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
       });
     });
 
-    it('should call get pole emploi user info with id token parameter', async () => {
+    it('should call get pole emploi user info with id token parameter', async function() {
       // when
       await authenticatePoleEmploiUser({
         authenticatedUserId: userId,
@@ -164,7 +164,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
       expect(authenticationService.getPoleEmploiUserInfo).to.have.been.calledWith(idToken);
     });
 
-    it('should call tokenService createAccessTokenFromUser function with external source and user parameters', async () => {
+    it('should call tokenService createAccessTokenFromUser function with external source and user parameters', async function() {
       // given
       const user = new User({ id: userId, firstName, lastName });
       user.externalIdentityId = externalIdentityId;
@@ -190,7 +190,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
       expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(userId, 'pole_emploi_connect');
     });
 
-    it('should return accessToken and idToken', async () => {
+    it('should return accessToken and idToken', async function() {
       // given
       const expectedResult = {
         pixAccessToken,
@@ -218,9 +218,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
       expect(result).to.deep.equal(expectedResult);
     });
 
-    context('When user has an pole emploi authentication method', () => {
+    context('When user has an pole emploi authentication method', function() {
 
-      it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async () => {
+      it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function() {
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: userId });
         const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
@@ -252,11 +252,11 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
       });
     });
 
-    context('When user is connected with Pix authentication method', () => {
+    context('When user is connected with Pix authentication method', function() {
 
-      context('When the user does not have a pole emploi authentication method', () => {
+      context('When the user does not have a pole emploi authentication method', function() {
 
-        it('should call authentication method repository create function with pole emploi authentication method in domain transaction', async () => {
+        it('should call authentication method repository create function with pole emploi authentication method in domain transaction', async function() {
           // given
           const userInfo = {
             firstName, lastName, externalIdentityId,
@@ -297,9 +297,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
         });
       });
 
-      context('When the user does have a pole emploi authentication method', () => {
+      context('When the user does have a pole emploi authentication method', function() {
 
-        it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async () => {
+        it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function() {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
             externalIdentifier: userInfo.externalIdentityId,
@@ -333,7 +333,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
             });
         });
 
-        it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async () => {
+        it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async function() {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
             externalIdentifier: 'other_external_identifier',
@@ -361,9 +361,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
     });
   });
 
-  context('When user has no account', () => {
+  context('When user has no account', function() {
 
-    it('should call poleEmploiTokens repository save method', async () => {
+    it('should call poleEmploiTokens repository save method', async function() {
       // given
       const key = 'aaa-bbb-ccc';
       poleEmploiTokensRepository.save.resolves(key);
@@ -388,7 +388,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', () => {
       expect(poleEmploiTokensRepository.save).to.have.been.calledWith(poleEmploiTokens);
     });
 
-    it('should return an authenticationKey', async () => {
+    it('should return an authenticationKey', async function() {
       // given
       const key = 'aaa-bbb-ccc';
       poleEmploiTokensRepository.save.resolves(key);

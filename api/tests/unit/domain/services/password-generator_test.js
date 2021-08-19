@@ -1,11 +1,11 @@
 const { expect } = require('../../../test-helper');
 const service = require('../../../../lib/domain/services/password-generator');
 
-describe('Unit | Service | password-generator', () => {
+describe('Unit | Service | password-generator', function() {
 
   let generatedPassword;
 
-  beforeEach(() => {
+  beforeEach(function() {
     generatedPassword = service.generate();
   });
 

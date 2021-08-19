@@ -7,11 +7,11 @@ const {
 const moduleUnderTest = require('../../../../lib/application/courses');
 const courseController = require('../../../../lib/application/courses/course-controller');
 
-describe('Unit | Router | course-router', () => {
+describe('Unit | Router | course-router', function() {
 
-  describe('GET /api/courses/{id}', () => {
+  describe('GET /api/courses/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(courseController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();

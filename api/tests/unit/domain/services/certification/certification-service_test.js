@@ -11,12 +11,12 @@ describe('Unit | Service | Certification Service', function() {
 
   const certificationAssessment = Symbol('certificationAssessment');
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(certificationAssessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
   });
 
-  describe('#getCertificationResultByCertifCourse', () => {
-    it('should call CertificationResult with correct parameters', async () => {
+  describe('#getCertificationResultByCertifCourse', function() {
+    it('should call CertificationResult with correct parameters', async function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         id: 1,

@@ -4,18 +4,18 @@ const organizationInvitationService = require('../../../../lib/domain/services/o
 
 const createOrganizationInvitations = require('../../../../lib/domain/usecases/create-organization-invitations');
 
-describe('Unit | UseCase | create-organization-invitations', () => {
+describe('Unit | UseCase | create-organization-invitations', function() {
 
   let organizationInvitationRepository;
   let organizationRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
   });
 
-  describe('#createOrganizationInvitations', () => {
+  describe('#createOrganizationInvitations', function() {
 
-    it('should create one organization-invitation with organizationId and email', async () => {
+    it('should create one organization-invitation with organizationId and email', async function() {
       // given
       const organizationId = 1;
       const emails = ['member@organization.org'];
@@ -32,7 +32,7 @@ describe('Unit | UseCase | create-organization-invitations', () => {
       });
     });
 
-    it('should delete spaces and duplicated emails, and create two organization-invitations', async () => {
+    it('should delete spaces and duplicated emails, and create two organization-invitations', async function() {
       // given
       const organizationId = 2;
       const emails = ['member01@organization.org', '   member01@organization.org', 'member02@organization.org'];

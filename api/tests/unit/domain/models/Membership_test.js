@@ -2,13 +2,13 @@ const { expect } = require('../../../test-helper');
 const Membership = require('../../../../lib/domain/models/Membership');
 const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | Membership', () => {
+describe('Unit | Domain | Models | Membership', function() {
 
-  describe('#validateRole', () => {
+  describe('#validateRole', function() {
 
-    context('when organizationRole is valid', () => {
+    context('when organizationRole is valid', function() {
 
-      it('should not throw an error', () => {
+      it('should not throw an error', function() {
         // given / when
         const membership = new Membership({
           id: 'bbb12aa3',
@@ -20,9 +20,9 @@ describe('Unit | Domain | Models | Membership', () => {
       });
     });
 
-    context('when organizationRole is invalid', () => {
+    context('when organizationRole is invalid', function() {
 
-      it('should throw an InvalidMembershipOrganizationRoleError error', async () => {
+      it('should throw an InvalidMembershipOrganizationRoleError error', async function() {
         // given / when
         const membership = new Membership({
           id: '123',

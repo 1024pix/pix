@@ -1,18 +1,18 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const findCountries = require('../../../../lib/domain/usecases/find-countries');
 
-describe('Unit | UseCase | find-country', () => {
+describe('Unit | UseCase | find-country', function() {
 
   let countryRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
 
     countryRepository = {
       findAll: sinon.stub(),
     };
   });
 
-  it('should find the countries', async () => {
+  it('should find the countries', async function() {
     // given
     const countries = [
       domainBuilder.buildCountry({

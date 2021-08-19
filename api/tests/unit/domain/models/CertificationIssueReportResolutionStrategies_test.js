@@ -10,11 +10,11 @@ const {
   doNotResolveStrategy,
 } = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
-describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', () => {
+describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function() {
 
-  context('#NEUTRALIZE_WITHOUT_CHECKING', () => {
+  context('#NEUTRALIZE_WITHOUT_CHECKING', function() {
 
-    context('When challenge is neutralizable', () => {
+    context('When challenge is neutralizable', function() {
 
       it('neutralizes successfully', async function() {
         // given
@@ -66,9 +66,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', () => {
+    context('When challenge is not neutralizable', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -92,7 +92,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -119,9 +119,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_IMAGE', () => {
+  context('#NEUTRALIZE_IF_IMAGE', function() {
 
-    context('When challenge is neutralizable', () => {
+    context('When challenge is neutralizable', function() {
 
       it('neutralizes successfully', async function() {
         // given
@@ -182,9 +182,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', () => {
+    context('the challenge does not contain the question designated by the question number', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -206,7 +206,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -230,9 +230,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an image', () => {
+    context('the challenge does not contain an image', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -259,7 +259,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -288,9 +288,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', () => {
+    context('When challenge is not neutralizable', function() {
 
-      it('returns a successful resolution attempt without effect', async () => {
+      it('returns a successful resolution attempt without effect', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -318,7 +318,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -349,9 +349,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_EMBED', () => {
+  context('#NEUTRALIZE_IF_EMBED', function() {
 
-    context('When challenge is neutralizable', () => {
+    context('When challenge is neutralizable', function() {
 
       it('neutralizes successfully', async function() {
         // given
@@ -414,9 +414,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', () => {
+    context('the challenge does not contain the question designated by the question number', function() {
 
-      it('returns a successful resolution attempt without effect', async () => {
+      it('returns a successful resolution attempt without effect', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -438,7 +438,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -462,9 +462,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an embed', () => {
+    context('the challenge does not contain an embed', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -492,7 +492,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -521,9 +521,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', () => {
+    context('When challenge is not neutralizable', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -551,7 +551,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -582,9 +582,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_ATTACHMENT', () => {
+  context('#NEUTRALIZE_IF_ATTACHMENT', function() {
 
-    context('When challenge is neutralizable', () => {
+    context('When challenge is neutralizable', function() {
 
       it('neutralizes successfully', async function() {
         // given
@@ -651,9 +651,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', () => {
+    context('the challenge does not contain the question designated by the question number', function() {
 
-      it('returns a successful resolution attempt without effect', async () => {
+      it('returns a successful resolution attempt without effect', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -675,7 +675,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -699,9 +699,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an attachment', () => {
+    context('the challenge does not contain an attachment', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -728,7 +728,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -757,9 +757,9 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', () => {
+    context('When challenge is not neutralizable', function() {
 
-      it('returns a successful resolution without effect', async () => {
+      it('returns a successful resolution without effect', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -789,7 +789,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
-      it('resolves the certification issue report anyway', async () => {
+      it('resolves the certification issue report anyway', async function() {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
         const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
@@ -822,8 +822,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#DO_NOT_RESOLVE', () => {
-    it('returns an unresolved resolution attempt', async () => {
+  context('#DO_NOT_RESOLVE', function() {
+    it('returns an unresolved resolution attempt', async function() {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
@@ -838,7 +838,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       expect(resolutionAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.unresolved());
     });
 
-    it('does not resolve the certification issue report', async () => {
+    it('does not resolve the certification issue report', async function() {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
@@ -854,7 +854,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#resolve', () => {
+  context('#resolve', function() {
     [
       { subCategoryToBeResolved: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE, strategyToBeApplied: 'doNotResolve' },
       { subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE, strategyToBeApplied: 'doNotResolve' },
@@ -873,7 +873,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       subCategoryToBeResolved,
       strategyToBeApplied,
     }) => {
-      it(`apply strategy "${strategyToBeApplied}" when resolving issue report of subcategory "${subCategoryToBeResolved}"`, async () => {
+      it(`apply strategy "${strategyToBeApplied}" when resolving issue report of subcategory "${subCategoryToBeResolved}"`, async function() {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: subCategoryToBeResolved,

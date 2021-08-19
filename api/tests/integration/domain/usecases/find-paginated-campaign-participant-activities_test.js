@@ -2,22 +2,22 @@ const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 const useCases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | find-paginated-campaign-participants-activities', () => {
+describe('Integration | UseCase | find-paginated-campaign-participants-activities', function() {
 
   let organizationId;
   let campaignId;
   let userId;
   const page = { number: 1 };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', () => {
+  context('when requesting user is not allowed to access campaign informations', function() {
 
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
       // when
       const error = await catchErr(useCases.findPaginatedCampaignParticipantsActivities)({
         userId,
@@ -30,9 +30,9 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
     });
   });
 
-  context('when requesting user is allowed to access campaign', () => {
+  context('when requesting user is allowed to access campaign', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       databaseBuilder.factory.buildAssessmentFromParticipation({
         participantExternalId: 'Ashitaka',
@@ -41,7 +41,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
       await databaseBuilder.commit();
     });
 
-    it('returns the campaignParticipantsActivites of the participants of the campaign', async () => {
+    it('returns the campaignParticipantsActivites of the participants of the campaign', async function() {
       const { campaignParticipantsActivities } = await useCases.findPaginatedCampaignParticipantsActivities({
         userId,
         campaignId,
@@ -51,8 +51,8 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
     });
   });
 
-  context('when there is a filter on division', () => {
-    beforeEach(async () => {
+  context('when there is a filter on division', function() {
+    beforeEach(async function() {
       databaseBuilder.factory.buildMembership({ organizationId, userId });
 
       const participation1 = { participantExternalId: 'Yubaba', campaignId };
@@ -68,7 +68,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
       await databaseBuilder.commit();
     });
 
-    it('returns the campaignParticipantsActivities for the participants for the division', async () => {
+    it('returns the campaignParticipantsActivities for the participants for the division', async function() {
       const { campaignParticipantsActivities } = await useCases.findPaginatedCampaignParticipantsActivities({
         userId,
         campaignId,

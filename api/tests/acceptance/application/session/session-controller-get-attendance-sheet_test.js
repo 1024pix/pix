@@ -1,17 +1,17 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-get-attendance-sheet', () => {
+describe('Acceptance | Controller | session-controller-get-attendance-sheet', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/sessions/{id}/attendance-sheet', () => {
+  describe('GET /api/sessions/{id}/attendance-sheet', function() {
     let user, sessionIdAllowed, sessionIdNotAllowed;
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       user = databaseBuilder.factory.buildUser();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -27,7 +27,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
       await databaseBuilder.commit();
     });
 
-    it('should respond with a 200 when session can be found', async () => {
+    it('should respond with a 200 when session can be found', async function() {
       // when
       const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');
@@ -45,7 +45,7 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', ()
       });
     });
 
-    it('should respond with a 403 when user cant access the session', async () => {
+    it('should respond with a 403 when user cant access the session', async function() {
       // when
       const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');

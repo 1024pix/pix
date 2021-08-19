@@ -2,7 +2,7 @@ const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, mockLe
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-profile', () => {
+describe('Acceptance | Controller | users-controller-get-user-profile', function() {
 
   let options;
   let server;
@@ -41,7 +41,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
     options = {
@@ -55,11 +55,11 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
 
   let knowledgeElement;
 
-  describe('GET /users/:id/profile', () => {
+  describe('GET /users/:id/profile', function() {
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -70,7 +70,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -83,9 +83,9 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         mockLearningContent(learningContent);
@@ -105,7 +105,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return 200', async () => {
+      it('should return 200', async function() {
         // when
         const response = await server.inject(options);
 
@@ -113,7 +113,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', () => {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return user\'s serialized scorecards', async () => {
+      it('should return user\'s serialized scorecards', async function() {
         // when
         const response = await server.inject(options);
 

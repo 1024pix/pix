@@ -13,13 +13,13 @@ const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumn
   .map((column) => column.label)
   .join(';');
 
-describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
-  afterEach(() => {
+describe('Integration | UseCase | ImportHigherSchoolingRegistration', function() {
+  afterEach(function() {
     return knex('schooling-registrations').delete();
   });
 
-  context('when there is no schooling registrations for the organization', () => {
-    it('parses the csv received and creates the HigherSchoolingRegistration', async () => {
+  context('when there is no schooling registrations for the organization', function() {
+    it('parses the csv received and creates the HigherSchoolingRegistration', async function() {
       const input = `${higherSchoolingRegistrationColumns}
           Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;12346;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
           O-Ren;;;Ishii;Cottonmouth;01/01/1980;ishii@example.net;789;Assassination Squad;Bill;Deadly Viper Assassination Squad;DUT;;
@@ -40,9 +40,9 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
     });
   });
 
-  context('when there are schooling registration for the organization', () => {
-    context('which matches by student number', () => {
-      it('updates the existing schooling registration which have matched with csv data', async () => {
+  context('when there are schooling registration for the organization', function() {
+    context('which matches by student number', function() {
+      it('updates the existing schooling registration which have matched with csv data', async function() {
         const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;Master;hello darkness my old friend;
         `.trim();
@@ -72,7 +72,7 @@ describe('Integration | UseCase | ImportHigherSchoolingRegistration', () => {
     });
   });
 
-  it('should return warnings about the import', async () => {
+  it('should return warnings about the import', async function() {
     const input = `${higherSchoolingRegistrationColumns}
             Beatrix;The;Bride;Kiddo;Black Mamba;01/01/1970;thebride@example.net;123456;Assassination Squad;Hattori Hanzo;Deadly Viper Assassination Squad;BAD;BAD;
         `.trim();

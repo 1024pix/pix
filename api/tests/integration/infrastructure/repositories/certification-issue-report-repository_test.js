@@ -7,13 +7,13 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Certification Issue Report', function() {
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('certification-issue-reports').delete();
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    it('should persist the certif issue report in db', async () => {
+    it('should persist the certif issue report in db', async function() {
       // given
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
@@ -48,9 +48,9 @@ describe('Integration | Repository | Certification Issue Report', function() {
     });
   });
 
-  describe('#delete', () => {
+  describe('#delete', function() {
 
-    it('should delete the issue report when it exists in certification course id', async () => {
+    it('should delete the issue report when it exists in certification course id', async function() {
       // given
       const certificationIssueReportToDeleteId = databaseBuilder.factory.buildCertificationIssueReport().id;
       databaseBuilder.factory.buildCertificationIssueReport();
@@ -64,7 +64,7 @@ describe('Integration | Repository | Certification Issue Report', function() {
       expect(Boolean(exists)).to.be.false;
     });
 
-    it('should return true when deletion happened', async () => {
+    it('should return true when deletion happened', async function() {
       // given
       const certificationIssueReportToDeleteId = databaseBuilder.factory.buildCertificationIssueReport().id;
       await databaseBuilder.commit();
@@ -76,7 +76,7 @@ describe('Integration | Repository | Certification Issue Report', function() {
       expect(deleted).to.be.true;
     });
 
-    it('should return false when there was nothing to delete', async () => {
+    it('should return false when there was nothing to delete', async function() {
       // given
       const certificationIssueReportToDeleteId = databaseBuilder.factory.buildCertificationIssueReport().id;
 
@@ -88,8 +88,8 @@ describe('Integration | Repository | Certification Issue Report', function() {
     });
   });
 
-  describe('#get', () => {
-    it('should return a certification issue report', async () => {
+  describe('#get', function() {
+    it('should return a certification issue report', async function() {
       // given
       const issueReport = databaseBuilder.factory.buildCertificationIssueReport({ category: 'OTHER' });
       await databaseBuilder.commit();
@@ -105,7 +105,7 @@ describe('Integration | Repository | Certification Issue Report', function() {
       expect(result).to.be.instanceOf(CertificationIssueReport);
     });
 
-    it('should throw a notFound error', async () => {
+    it('should throw a notFound error', async function() {
       // when
       const error = await catchErr(certificationIssueReportRepository.get)(1234);
 
@@ -114,8 +114,8 @@ describe('Integration | Repository | Certification Issue Report', function() {
     });
   });
 
-  describe('#findByCertificationCourseId', () => {
-    it('should return certification issue reports for a certification course id', async () => {
+  describe('#findByCertificationCourseId', function() {
+    it('should return certification issue reports for a certification course id', async function() {
       // given
       const targetCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
       const otherCertificationCourse = databaseBuilder.factory.buildCertificationCourse();
@@ -136,7 +136,7 @@ describe('Integration | Repository | Certification Issue Report', function() {
       expect(results[0]).to.be.instanceOf(CertificationIssueReport);
     });
 
-    it('should throw a notFound error', async () => {
+    it('should throw a notFound error', async function() {
       // when
       const error = await catchErr(certificationIssueReportRepository.get)(1234);
 

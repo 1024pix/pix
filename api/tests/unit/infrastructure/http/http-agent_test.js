@@ -3,15 +3,15 @@ const axios = require('axios');
 const logger = require('../../../../lib/infrastructure/logger');
 const { post, get } = require('../../../../lib/infrastructure/http/http-agent');
 
-describe('Unit | Infrastructure | http | http-agent', () => {
+describe('Unit | Infrastructure | http | http-agent', function() {
 
-  describe('#post', () => {
+  describe('#post', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       axios.post.restore();
     });
 
-    it('should return the response status and success from the http call when successful', async () => {
+    it('should return the response status and success from the http call when successful', async function() {
       // given
       const url = 'someUrl';
       const payload = 'somePayload';
@@ -33,11 +33,11 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       });
     });
 
-    context('when an error occurs', () => {
+    context('when an error occurs', function() {
 
-      context('when error.response exists', () => {
+      context('when error.response exists', function() {
 
-        it('should return the error\'s response status and data from the http call when failed', async () => {
+        it('should return the error\'s response status and data from the http call when failed', async function() {
           // given
           sinon.stub(logger, 'error');
 
@@ -64,9 +64,9 @@ describe('Unit | Infrastructure | http | http-agent', () => {
         });
       });
 
-      context('when error.response doesn\'t exists', () => {
+      context('when error.response doesn\'t exists', function() {
 
-        it('should log error and return the error\'s response status and success from the http call when failed', async () => {
+        it('should log error and return the error\'s response status and success from the http call when failed', async function() {
           // given
           sinon.stub(logger, 'error');
 
@@ -97,13 +97,13 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       });
     });
   });
-  describe('#get', () => {
+  describe('#get', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       axios.get.restore();
     });
 
-    it('should return the response status and success from the http call when successful', async () => {
+    it('should return the response status and success from the http call when successful', async function() {
       // given
       const url = 'someUrl';
       const payload = 'somePayload';
@@ -125,11 +125,11 @@ describe('Unit | Infrastructure | http | http-agent', () => {
       });
     });
 
-    context('when an error occurs', () => {
+    context('when an error occurs', function() {
 
-      context('when error.response exists', () => {
+      context('when error.response exists', function() {
 
-        it('should return the error\'s response status and data from the http call when failed', async () => {
+        it('should return the error\'s response status and data from the http call when failed', async function() {
           // given
           const url = 'someUrl';
           const payload = 'somePayload';
@@ -154,9 +154,9 @@ describe('Unit | Infrastructure | http | http-agent', () => {
         });
       });
 
-      context('when error.response doesn\'t exists', () => {
+      context('when error.response doesn\'t exists', function() {
 
-        it('should return the error\'s response status and success from the http call when failed', async () => {
+        it('should return the error\'s response status and success from the http call when failed', async function() {
           // given
           const url = 'someUrl';
           const payload = 'somePayload';

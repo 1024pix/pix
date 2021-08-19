@@ -3,13 +3,13 @@ const Course = require('../../../../lib/domain/models/Course');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 
-describe('Integration | Repository | course-repository', () => {
+describe('Integration | Repository | course-repository', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    context('when course exists', () => {
+    context('when course exists', function() {
 
-      it('should return the course', async () => {
+      it('should return the course', async function() {
         // given
         const expectedCourse = domainBuilder.buildCourse();
         mockLearningContent({ courses: [{ ...expectedCourse }] });
@@ -24,11 +24,11 @@ describe('Integration | Repository | course-repository', () => {
     });
   });
 
-  describe('#getCourseName', () => {
+  describe('#getCourseName', function() {
 
-    context('when course does not exist', () => {
+    context('when course does not exist', function() {
 
-      it('should return all areas without fetching competences', async () => {
+      it('should return all areas without fetching competences', async function() {
         // when
         const error = await catchErr(courseRepository.getCourseName)('illusion');
 
@@ -38,9 +38,9 @@ describe('Integration | Repository | course-repository', () => {
 
     });
 
-    context('when course exists', () => {
+    context('when course exists', function() {
 
-      it('should return the course name', async () => {
+      it('should return the course name', async function() {
         // given
         const expectedCourse = domainBuilder.buildCourse();
         mockLearningContent({ courses: [{ ...expectedCourse }] });

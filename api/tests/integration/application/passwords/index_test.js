@@ -4,11 +4,11 @@ const moduleUnderTest = require('../../../../lib/application/passwords');
 
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
-describe('Integration | Application | Password | Routes', () => {
+describe('Integration | Application | Password | Routes', function() {
 
   let httpTestServer;
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sinon.stub(passwordController, 'checkResetDemand').resolves('ok');
     sinon.stub(passwordController, 'createResetDemand').callsFake((request, h) => h.response().created());
     sinon.stub(passwordController, 'updateExpiredPassword').callsFake((request, h) => h.response().created());
@@ -17,7 +17,7 @@ describe('Integration | Application | Password | Routes', () => {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/password-reset-demands', () => {
+  describe('POST /api/password-reset-demands', function() {
 
     const method = 'POST';
     const url = '/api/password-reset-demands';
@@ -31,7 +31,7 @@ describe('Integration | Application | Password | Routes', () => {
       },
     };
 
-    it('should return 201 http status code', async () => {
+    it('should return 201 http status code', async function() {
       // when
       const response = await httpTestServer.request(method, url, payload, null, headers);
 
@@ -40,12 +40,12 @@ describe('Integration | Application | Password | Routes', () => {
     });
   });
 
-  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
+  describe('GET /api/password-reset-demands/{temporaryKey}', function() {
 
     const method = 'GET';
     const url = '/api/password-reset-demands/ABCDEF123';
 
-    it('should return 200 http status code', async () => {
+    it('should return 200 http status code', async function() {
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -55,9 +55,9 @@ describe('Integration | Application | Password | Routes', () => {
 
   });
 
-  describe('POST /api/expired-password-updates', () => {
+  describe('POST /api/expired-password-updates', function() {
 
-    it('should return 201 http status code', async () => {
+    it('should return 201 http status code', async function() {
       // given
       const method = 'POST';
       const url = '/api/expired-password-updates';

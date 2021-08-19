@@ -5,17 +5,17 @@ const competenceEvaluationRepository = require('../../../../lib/infrastructure/r
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const getCompetenceLevel = require('../../../../lib/domain/services/get-competence-level');
 
-describe('Integration | UseCase | Improve Competence Evaluation', () => {
+describe('Integration | UseCase | Improve Competence Evaluation', function() {
   const competenceId = 'recCompetenceId';
   let competenceEvaluation, userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser().id;
     competenceEvaluation = databaseBuilder.factory.buildCompetenceEvaluation({ userId, competenceId });
     await databaseBuilder.commit();
   });
 
-  it('should create an improving assessment', async () => {
+  it('should create an improving assessment', async function() {
     // when
     await improveCompetenceEvaluation({ competenceEvaluationRepository, assessmentRepository, getCompetenceLevel, userId, competenceId });
 

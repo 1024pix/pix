@@ -5,17 +5,17 @@ const logger = require('../../../../lib/infrastructure/logger');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
-describe('Unit | Infrastructure | Mailers | mailer', () => {
+describe('Unit | Infrastructure | Mailers | mailer', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(mailing, 'provider').value('sendinblue');
   });
 
-  describe('#sendEmail', () => {
+  describe('#sendEmail', function() {
 
-    context('when mailing is disabled', () => {
+    context('when mailing is disabled', function() {
 
-      it('should resolve immediately and return a skip status', async () => {
+      it('should resolve immediately and return a skip status', async function() {
         //given
         _disableMailing();
         const mailingProvider = _mockMailingProvider();
@@ -37,13 +37,13 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
       });
     });
 
-    context('when mailing is enabled', () => {
+    context('when mailing is enabled', function() {
 
       const recipient = 'test@example.net';
 
-      context('when email check succeed', () => {
+      context('when email check succeed', function() {
 
-        it('should send email and return a success status', async () => {
+        it('should send email and return a success status', async function() {
           // given
           _enableMailing();
           _mailAddressIsValid(recipient);
@@ -68,9 +68,9 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
         });
       });
 
-      context('when email is invalid', () => {
+      context('when email is invalid', function() {
 
-        it('should log a warning, and return an error status', async () => {
+        it('should log a warning, and return an error status', async function() {
           // given
           _enableMailing();
           _mockMailingProvider();
@@ -89,9 +89,9 @@ describe('Unit | Infrastructure | Mailers | mailer', () => {
         });
       });
 
-      context('when emailing fails', () => {
+      context('when emailing fails', function() {
 
-        it('should log a warning and return an error status', async () => {
+        it('should log a warning and return an error status', async function() {
           // given
           _enableMailing();
           _mailAddressIsValid(recipient);

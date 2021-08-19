@@ -8,15 +8,15 @@ const {
 
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Campaign Stats Controller', () => {
+describe('Acceptance | API | Campaign Stats Controller', function() {
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/campaigns/{id}/stats/participations-by-stage', () => {
-    it('should return the campaign by id', async () => {
+  describe('GET /api/campaigns/{id}/stats/participations-by-stage', function() {
+    it('should return the campaign by id', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent([{
         id: 'recArea1',
@@ -64,7 +64,7 @@ describe('Acceptance | API | Campaign Stats Controller', () => {
       ]);
     });
 
-    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async () => {
+    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -82,8 +82,8 @@ describe('Acceptance | API | Campaign Stats Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/stats/participations-by-status', () => {
-    it('should return participations counts by status for the campaign', async () => {
+  describe('GET /api/campaigns/{id}/stats/participations-by-status', function() {
+    it('should return participations counts by status for the campaign', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -103,7 +103,7 @@ describe('Acceptance | API | Campaign Stats Controller', () => {
       expect(response.result.data.attributes).to.deep.equal({ started: 0, completed: 0, shared: 0 });
     });
 
-    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async () => {
+    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -121,8 +121,8 @@ describe('Acceptance | API | Campaign Stats Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/stats/participations-by-day', () => {
-    it('should return the activity by day', async () => {
+  describe('GET /api/campaigns/{id}/stats/participations-by-day', function() {
+    it('should return the activity by day', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
       const userId = databaseBuilder.factory.buildUser().id;

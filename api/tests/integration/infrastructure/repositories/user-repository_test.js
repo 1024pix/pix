@@ -26,7 +26,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Integration | Infrastructure | Repository | UserRepository', () => {
+describe('Integration | Infrastructure | Repository | UserRepository', function() {
 
   const userToInsert = {
     firstName: 'Jojo',
@@ -73,18 +73,18 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     return databaseBuilder.commit();
   }
 
-  describe('find user', () => {
+  describe('find user', function() {
 
-    describe('#getByEmail', () => {
+    describe('#getByEmail', function() {
 
       let userInDb;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
         await databaseBuilder.commit();
       });
 
-      it('should handle a rejection, when user id is not found', async () => {
+      it('should handle a rejection, when user id is not found', async function() {
         // given
         const emailThatDoesNotExist = '10093';
 
@@ -95,7 +95,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(result).to.be.instanceOf(NotFoundError);
       });
 
-      it('should return a domain user when found', async () => {
+      it('should return a domain user when found', async function() {
         // when
         const user = await userRepository.getByEmail(userInDb.email);
 
@@ -103,7 +103,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(userInDb.email);
       });
 
-      it('should return a domain user when email case insensitive found', async () => {
+      it('should return a domain user when email case insensitive found', async function() {
         // given
         const uppercaseEmailAlreadyInDb = userInDb.email.toUpperCase();
 
@@ -114,7 +114,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.email).to.equal(userInDb.email);
       });
 
-      it('should return a domain user when email match (case insensitive)', async () => {
+      it('should return a domain user when email match (case insensitive)', async function() {
         // given
         const mixCaseEmail = 'USER@example.net';
         databaseBuilder.factory.buildUser({ email: mixCaseEmail });
@@ -128,11 +128,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getBySamlId', () => {
+    describe('#getBySamlId', function() {
 
       let userInDb;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
         databaseBuilder.factory.buildAuthenticationMethod({
           externalIdentifier: 'some-saml-id',
@@ -142,7 +142,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return user informations for the given SAML ID', async () => {
+      it('should return user informations for the given SAML ID', async function() {
         // when
         const user = await userRepository.getBySamlId('some-saml-id');
 
@@ -151,7 +151,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.id).to.equal(userInDb.id);
       });
 
-      it('should return undefined when no user was found with this SAML ID', async () => {
+      it('should return undefined when no user was found with this SAML ID', async function() {
         // given
         const badSamlId = 'bad-saml-id';
 
@@ -163,13 +163,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#findByPoleEmploiExternalIdentifier', () => {
+    describe('#findByPoleEmploiExternalIdentifier', function() {
 
       const externalIdentityId = 'external-identity-id';
 
       let userInDb;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         userInDb = databaseBuilder.factory.buildUser();
         databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
           externalIdentifier: externalIdentityId,
@@ -178,7 +178,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return user informations for the given external identity id', async () => {
+      it('should return user informations for the given external identity id', async function() {
         // when
         const foundUser = await userRepository.findByPoleEmploiExternalIdentifier(externalIdentityId);
 
@@ -187,7 +187,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(foundUser.id).to.equal(userInDb.id);
       });
 
-      it('should return undefined when no user was found with this external identity id', async () => {
+      it('should return undefined when no user was found with this external identity id', async function() {
         // given
         const badId = 'not-exist-external-identity-id';
 
@@ -200,16 +200,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#getForObfuscation', () => {
+  describe('#getForObfuscation', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
       await databaseBuilder.commit();
     });
 
-    it('should return a domain user with authentication methods only when found', async () => {
+    it('should return a domain user with authentication methods only when found', async function() {
       // when
       const user = await userRepository.getForObfuscation(userInDb.id);
 
@@ -218,7 +218,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(user.email).to.equal(userInDb.email);
     });
 
-    it('should throw an error when user not found', async () => {
+    it('should throw an error when user not found', async function() {
       // given
       const userIdThatDoesNotExist = '99999';
 
@@ -231,18 +231,18 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('get user', () => {
+  describe('get user', function() {
 
-    describe('#get', () => {
+    describe('#get', function() {
 
       let userInDb;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
         await databaseBuilder.commit();
       });
 
-      it('should return the found user', async () => {
+      it('should return the found user', async function() {
         // when
         const user = await userRepository.get(userInDb.id);
 
@@ -255,7 +255,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.cgu).to.be.true;
       });
 
-      it('should return a UserNotFoundError if no user is found', async () => {
+      it('should return a UserNotFoundError if no user is found', async function() {
         // given
         const nonExistentUserId = 678;
 
@@ -267,13 +267,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getByUsernameOrEmailWithRolesAndPassword', () => {
+    describe('#getByUsernameOrEmailWithRolesAndPassword', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
-      it('should return user informations for the given email', async () => {
+      it('should return user informations for the given email', async function() {
         // given
         const expectedUser = new User(userInDB);
 
@@ -290,7 +290,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(foundUser.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return user informations for the given email (case insensitive)', async () => {
+      it('should return user informations for the given email (case insensitive)', async function() {
         // given
         const expectedUser = new User(userInDB);
         const uppercaseEmailAlreadyInDb = userInDB.email.toUpperCase();
@@ -304,7 +304,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(foundUser.email).to.equal(expectedUser.email);
       });
 
-      it('should return user informations for the given username', async () => {
+      it('should return user informations for the given username', async function() {
         // given
         const expectedUser = new User(userInDB);
 
@@ -321,7 +321,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(foundUser.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return authenticationMethods associated to the user', async () => {
+      it('should return authenticationMethods associated to the user', async function() {
         // when
         const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
 
@@ -336,7 +336,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(firstAuthenticationMethod.authenticationComplement).to.deep.equal(passwordAuthenticationMethodInDB.authenticationComplement);
       });
 
-      it('should return membership associated to the user', async () => {
+      it('should return membership associated to the user', async function() {
         // when
         const user = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
 
@@ -358,9 +358,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(firstMembership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
-      context('when the membership associated to the user has been disabled', () => {
+      context('when the membership associated to the user has been disabled', function() {
 
-        it('should not return the membership', async () => {
+        it('should not return the membership', async function() {
           // given
           const userInDB = databaseBuilder.factory.buildUser();
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -380,7 +380,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
       });
 
-      it('should return certification center membership associated to the user', async () => {
+      it('should return certification center membership associated to the user', async function() {
         // when
         const user = await userRepository.getByUsernameOrEmailWithRolesAndPassword(userInDB.email);
 
@@ -393,7 +393,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(firstMembership.certificationCenter.name).to.equal(certificationCenterInDB.name);
       });
 
-      it('should reject with a UserNotFound error when no user was found with this email', async () => {
+      it('should reject with a UserNotFound error when no user was found with this email', async function() {
         // given
         const unusedEmail = 'kikou@pix.fr';
 
@@ -404,7 +404,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(result).to.be.instanceOf(UserNotFoundError);
       });
 
-      it('should reject with a UserNotFound error when no user was found with this username', async () => {
+      it('should reject with a UserNotFound error when no user was found with this username', async function() {
         // given
         const unusedUsername = 'john.doe0909';
 
@@ -416,13 +416,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getWithMemberships', () => {
+    describe('#getWithMemberships', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
-      it('should return user for the given id', async () => {
+      it('should return user for the given id', async function() {
         // given
         const expectedUser = new User(userInDB);
 
@@ -439,7 +439,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return membership associated to the user', async () => {
+      it('should return membership associated to the user', async function() {
         // when
         const user = await userRepository.getWithMemberships(userInDB.id);
 
@@ -461,9 +461,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(membership.organizationRole).to.equal(membershipInDB.organizationRole);
       });
 
-      context('when the membership associated to the user has been disabled', () => {
+      context('when the membership associated to the user has been disabled', function() {
 
-        it('should not return the membership', async () => {
+        it('should not return the membership', async function() {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -483,7 +483,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         });
       });
 
-      it('should reject with a UserNotFound error when no user was found with the given id', async () => {
+      it('should reject with a UserNotFound error when no user was found with the given id', async function() {
         // given
         const unknownUserId = 666;
 
@@ -495,13 +495,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    describe('#getWithCertificationCenterMemberships', () => {
+    describe('#getWithCertificationCenterMemberships', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         await _insertUserWithOrganizationsAndCertificationCenterAccesses();
       });
 
-      it('should return user for the given id', async () => {
+      it('should return user for the given id', async function() {
         // given
         const expectedUser = new User(userInDB);
 
@@ -518,7 +518,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(user.cgu).to.equal(expectedUser.cgu);
       });
 
-      it('should return certification center membership associated to the user', async () => {
+      it('should return certification center membership associated to the user', async function() {
         // when
         const user = await userRepository.getWithCertificationCenterMemberships(userInDB.id);
 
@@ -535,7 +535,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         expect(associatedCertificationCenter.name).to.equal(certificationCenterInDB.name);
       });
 
-      it('should reject with a UserNotFound error when no user was found with the given id', async () => {
+      it('should reject with a UserNotFound error when no user was found with the given id', async function() {
         // given
         const unknownUserId = 666;
 
@@ -549,9 +549,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#getUserDetailsForAdmin', () => {
+  describe('#getUserDetailsForAdmin', function() {
 
-    it('should return the found user', async () => {
+    it('should return the found user', async function() {
       // given
       const userInDB = databaseBuilder.factory.buildUser(userToInsert);
       await databaseBuilder.commit();
@@ -568,7 +568,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(userDetailsForAdmin.cgu).to.be.true;
     });
 
-    it('should return a UserNotFoundError if no user is found', async () => {
+    it('should return a UserNotFoundError if no user is found', async function() {
       // given
       const nonExistentUserId = 678;
 
@@ -579,9 +579,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(result).to.be.instanceOf(UserNotFoundError);
     });
 
-    context('when user has schoolingRegistrations from SCO organization', () => {
+    context('when user has schoolingRegistrations from SCO organization', function() {
 
-      it('should return the user with his schoolingRegistrations', async () => {
+      it('should return the user with his schoolingRegistrations', async function() {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
@@ -622,9 +622,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when user has schoolingRegistrations from non-SCO organization', () => {
+    context('when user has schoolingRegistrations from non-SCO organization', function() {
 
-      it('should return the user with empty schoolingRegistrations', async () => {
+      it('should return the user with empty schoolingRegistrations', async function() {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         const firstOrganizationInDB = databaseBuilder.factory.buildOrganization({ type: 'SUP' });
@@ -641,9 +641,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when user has authentication methods', () => {
+    context('when user has authentication methods', function() {
 
-      it('should return the user with his authentication methods', async () => {
+      it('should return the user with his authentication methods', async function() {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
         databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.PIX, userId: userInDB.id });
@@ -659,13 +659,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('users').delete();
     });
 
-    it('should save the user', async () => {
+    it('should save the user', async function() {
       // given
       const email = 'my-email-to-save@example.net';
       const user = domainBuilder.buildUser({
@@ -683,7 +683,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(usersSaved).to.have.lengthOf(1);
     });
 
-    it('should return a Domain User object', async () => {
+    it('should return a Domain User object', async function() {
       // given
       const email = 'my-email-to-save@example.net';
       const user = domainBuilder.buildUser({
@@ -705,16 +705,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#isEmailAvailable', () => {
+  describe('#isEmailAvailable', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
       await databaseBuilder.commit();
     });
 
-    it('should return the email when the email is not registered', async () => {
+    it('should return the email when the email is not registered', async function() {
       // when
       const email = await userRepository.isEmailAvailable('email@example.net');
 
@@ -722,7 +722,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(email).to.equal('email@example.net');
     });
 
-    it('should reject an AlreadyRegisteredEmailError when it already exists', async () => {
+    it('should reject an AlreadyRegisteredEmailError when it already exists', async function() {
       // when
       const result = await catchErr(userRepository.isEmailAvailable)(userInDb.email);
 
@@ -730,7 +730,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
     });
 
-    it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async () => {
+    it('should reject an AlreadyRegisteredEmailError when email case insensitive already exists', async function() {
       // given
       const upperCaseEmail = 'TEST@example.net';
       const lowerCaseEmail = 'test@example.net';
@@ -745,16 +745,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateEmail', () => {
+  describe('#updateEmail', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net' });
       await databaseBuilder.commit();
     });
 
-    it('should update the user email', async () => {
+    it('should update the user email', async function() {
       // given
       const newEmail = 'new_email@example.net';
 
@@ -768,16 +768,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updateWithEmailConfirmed', () => {
+  describe('#updateWithEmailConfirmed', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser({ ...userToInsert, email: 'old_email@example.net', cgu: false });
       await databaseBuilder.commit();
     });
 
-    it('should update the user email', async () => {
+    it('should update the user email', async function() {
       // given
       const newEmail = 'new_email@example.net';
       const userAttributes = {
@@ -797,7 +797,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     });
 
-    it('should rollback the user email in case of error in transaction', async () => {
+    it('should rollback the user email in case of error in transaction', async function() {
       // given
       const newEmail = 'new_email@example.net';
       const userAttributes = {
@@ -823,16 +823,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateUserAttributes', () => {
+  describe('#updateUserAttributes', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
       await databaseBuilder.commit();
     });
 
-    it('should update lang of the user', async () => {
+    it('should update lang of the user', async function() {
       // given
       const userAttributes = {
         lang: 'en',
@@ -846,7 +846,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(updatedUser.lang).to.equal(userAttributes.lang);
     });
 
-    it('should throw UserNotFoundError when user id not found', async () => {
+    it('should throw UserNotFoundError when user id not found', async function() {
       // given
       const wrongUserId = 0;
 
@@ -859,17 +859,17 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updateUserDetailsForAdministration', () => {
+  describe('#updateUserDetailsForAdministration', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
       databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: 'samlId', userId: userInDb.id });
       await databaseBuilder.commit();
     });
 
-    it('should update firstName,lastName,email of the user', async () => {
+    it('should update firstName,lastName,email of the user', async function() {
       // given
       const patchUserFirstNameLastNameEmail = {
         id: userInDb.id,
@@ -888,7 +888,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
     });
 
-    it('should update email of the user', async () => {
+    it('should update email of the user', async function() {
       // given
       const patchUserFirstNameLastNameEmail = {
         id: userInDb.id,
@@ -903,7 +903,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(updatedUser.email).to.equal(patchUserFirstNameLastNameEmail.email);
     });
 
-    it('should update username of the user', async () => {
+    it('should update username of the user', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser({
         email: null,
@@ -923,7 +923,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(updatedUser.username).to.equal(userPropertiesToUpdate.username);
     });
 
-    it('should throw AlreadyExistingEntityError when username is already used', async () => {
+    it('should throw AlreadyExistingEntityError when username is already used', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser({
         email: null,
@@ -948,7 +948,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(error.message).to.equal(expectedErrorMessage);
     });
 
-    it('should throw UserNotFoundError when user id not found', async () => {
+    it('should throw UserNotFoundError when user id not found', async function() {
       // given
       const wrongUserId = 0;
       const patchUserFirstNameLastNameEmail = {
@@ -964,16 +964,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updateUsername', () => {
+  describe('#updateUsername', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser(userToInsert).id;
       await databaseBuilder.commit();
     });
 
-    it('should update the username', async () => {
+    it('should update the username', async function() {
       // given
       const username = 'blue.carter0701';
 
@@ -988,7 +988,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(updatedUser.username).to.equal(username);
     });
 
-    it('should throw UserNotFoundError when user id not found', async () => {
+    it('should throw UserNotFoundError when user id not found', async function() {
       // given
       const wrongUserId = 0;
       const username = 'blue.carter0701';
@@ -1004,21 +1004,21 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#isUserExistingByEmail', () => {
+  describe('#isUserExistingByEmail', function() {
     const email = 'shi@fu.fr';
 
-    beforeEach(() => {
+    beforeEach(function() {
       databaseBuilder.factory.buildUser({ email });
       databaseBuilder.factory.buildUser();
       return databaseBuilder.commit();
     });
 
-    it('should return true when the user exists by email', async () => {
+    it('should return true when the user exists by email', async function() {
       const userExists = await userRepository.isUserExistingByEmail(email);
       expect(userExists).to.be.true;
     });
 
-    it('should return true when the user exists by email (case insensitive)', async () => {
+    it('should return true when the user exists by email (case insensitive)', async function() {
       // given
       const uppercaseEmailAlreadyInDb = email.toUpperCase();
 
@@ -1029,23 +1029,23 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(userExists).to.be.true;
     });
 
-    it('should throw an error when the user does not exist by email', async () => {
+    it('should throw an error when the user does not exist by email', async function() {
       const err = await catchErr(userRepository.isUserExistingByEmail)('none');
       expect(err).to.be.instanceOf(NotFoundError);
     });
   });
 
-  describe('#findPaginatedFiltered', () => {
+  describe('#findPaginatedFiltered', function() {
 
-    context('when there are users in the database', () => {
+    context('when there are users in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         times(3, databaseBuilder.factory.buildUser);
 
         return databaseBuilder.commit();
       });
 
-      it('should return an Array of Users', async () => {
+      it('should return an Array of Users', async function() {
         // given
         const filter = {};
         const page = { number: 1, size: 10 };
@@ -1062,15 +1062,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are lots of users (> 10) in the database', () => {
+    context('when there are lots of users (> 10) in the database', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         times(12, databaseBuilder.factory.buildUser);
 
         return databaseBuilder.commit();
       });
 
-      it('should return paginated matching users', async () => {
+      it('should return paginated matching users', async function() {
         // given
         const filter = {};
         const page = { number: 1, size: 3 };
@@ -1085,9 +1085,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are multiple users matching the same "first name" search pattern', () => {
+    context('when there are multiple users matching the same "first name" search pattern', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         databaseBuilder.factory.buildUser({ firstName: 'Son Gohan' });
         databaseBuilder.factory.buildUser({ firstName: 'Son Goku' });
         databaseBuilder.factory.buildUser({ firstName: 'Son Goten' });
@@ -1096,7 +1096,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return only users matching "first name" if given in filter', async () => {
+      it('should return only users matching "first name" if given in filter', async function() {
         // given
         const filter = { firstName: 'Go' };
         const page = { number: 1, size: 10 };
@@ -1111,9 +1111,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are multiple users matching the same "last name" search pattern', () => {
+    context('when there are multiple users matching the same "last name" search pattern', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         each([
           { firstName: 'Anakin', lastName: 'Skywalker' },
           { firstName: 'Luke', lastName: 'Skywalker' },
@@ -1127,7 +1127,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return only users matching "last name" if given in filter', async () => {
+      it('should return only users matching "last name" if given in filter', async function() {
         // given
         const filter = { lastName: 'walk' };
         const page = { number: 1, size: 10 };
@@ -1142,9 +1142,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are multiple users matching the same "email" search pattern', () => {
+    context('when there are multiple users matching the same "email" search pattern', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         each([
           { email: 'playpus@pix.fr' },
           { email: 'panda@pix.fr' },
@@ -1158,7 +1158,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return only users matching "email" if given in filter', async () => {
+      it('should return only users matching "email" if given in filter', async function() {
         // given
         const filter = { email: 'pix.fr' };
         const page = { number: 1, size: 10 };
@@ -1173,9 +1173,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are multiple users matching the fields "first name", "last name" and "email" search pattern', () => {
+    context('when there are multiple users matching the fields "first name", "last name" and "email" search pattern', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         each([
           // Matching users
           { firstName: 'fn_ok_1', lastName: 'ln_ok_1', email: 'email_ok_1@mail.com' },
@@ -1193,7 +1193,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return only users matching "first name" AND "last name" AND "email" if given in filter', async () => {
+      it('should return only users matching "first name" AND "last name" AND "email" if given in filter', async function() {
         // given
         const filter = { firstName: 'fn_ok', lastName: 'ln_ok', email: 'email_ok' };
         const page = { number: 1, size: 10 };
@@ -1210,19 +1210,19 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       });
     });
 
-    context('when there are filter that should be ignored', () => {
+    context('when there are filter that should be ignored', function() {
 
       let firstUserId;
       let secondUserId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         firstUserId = databaseBuilder.factory.buildUser().id;
         secondUserId = databaseBuilder.factory.buildUser().id;
 
         await databaseBuilder.commit();
       });
 
-      it('should ignore the filter and retrieve all users', async () => {
+      it('should ignore the filter and retrieve all users', async function() {
         // given
         const filter = { id: firstUserId };
         const page = { number: 1, size: 10 };
@@ -1239,16 +1239,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#isPixMaster', () => {
+  describe('#isPixMaster', function() {
     let userId;
 
-    context('when user is pix master', () => {
-      beforeEach(() => {
+    context('when user is pix master', function() {
+      beforeEach(function() {
         userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
         return databaseBuilder.commit();
       });
 
-      it('should return true', async () => {
+      it('should return true', async function() {
         // when
         const isPixMaster = await userRepository.isPixMaster(userId);
 
@@ -1258,13 +1258,13 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
     });
 
-    context('when user is not pix master', () => {
-      beforeEach(() => {
+    context('when user is not pix master', function() {
+      beforeEach(function() {
         userId = databaseBuilder.factory.buildUser().id;
         return databaseBuilder.commit();
       });
 
-      it('should return false', async () => {
+      it('should return false', async function() {
         // when
         const isPixMaster = await userRepository.isPixMaster(userId);
 
@@ -1275,15 +1275,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updateHasSeenAssessmentInstructionsToTrue', () => {
+  describe('#updateHasSeenAssessmentInstructionsToTrue', function() {
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser({ hasSeenAssessmentInstructions: false }).id;
       return databaseBuilder.commit();
     });
 
-    it('should return the model with hasSeenAssessmentInstructions flag updated to true', async () => {
+    it('should return the model with hasSeenAssessmentInstructions flag updated to true', async function() {
       // when
       const actualUser = await userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
 
@@ -1293,15 +1293,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#acceptPixLastTermsOfService', () => {
+  describe('#acceptPixLastTermsOfService', function() {
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser({ mustValidateTermsOfService: true, lastTermsOfServiceValidatedAt: null }).id;
       return databaseBuilder.commit();
     });
 
-    it('should validate the last terms of service and save the date of acceptance ', async () => {
+    it('should validate the last terms of service and save the date of acceptance ', async function() {
       // when
       const actualUser = await userRepository.acceptPixLastTermsOfService(userId);
 
@@ -1313,15 +1313,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', () => {
+  describe('#updatePixOrgaTermsOfServiceAcceptedToTrue', function() {
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser({ pixOrgaTermsOfServiceAccepted: false }).id;
       return databaseBuilder.commit();
     });
 
-    it('should return the model with pixOrgaTermsOfServiceAccepted flag updated to true', async () => {
+    it('should return the model with pixOrgaTermsOfServiceAccepted flag updated to true', async function() {
       // when
       const actualUser = await userRepository.updatePixOrgaTermsOfServiceAcceptedToTrue(userId);
 
@@ -1331,15 +1331,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#updatePixCertifTermsOfServiceAcceptedToTrue', () => {
+  describe('#updatePixCertifTermsOfServiceAcceptedToTrue', function() {
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser({ pixCertifTermsOfServiceAccepted: false }).id;
       return databaseBuilder.commit();
     });
 
-    it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async () => {
+    it('should return the model with pixCertifTermsOfServiceAccepted flag updated to true', async function() {
       // when
       const actualUser = await userRepository.updatePixCertifTermsOfServiceAcceptedToTrue(userId);
 
@@ -1349,11 +1349,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   });
 
-  describe('#isUsernameAvailable', () => {
+  describe('#isUsernameAvailable', function() {
 
     const username = 'abc.def0101';
 
-    it('should return username when it doesn\'t exist', async () => {
+    it('should return username when it doesn\'t exist', async function() {
       // when
       const result = await userRepository.isUsernameAvailable(username);
 
@@ -1361,7 +1361,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(result).to.equal(username);
     });
 
-    it('should throw AlreadyRegisteredUsernameError when username already exist', async () => {
+    it('should throw AlreadyRegisteredUsernameError when username already exist', async function() {
       // given
       databaseBuilder.factory.buildUser({
         username,
@@ -1376,16 +1376,16 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateHasSeenNewDashboardInfoToTrue', () => {
+  describe('#updateHasSeenNewDashboardInfoToTrue', function() {
 
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser({ hasSeenNewDashboardInfo: false }).id;
       return databaseBuilder.commit();
     });
 
-    it('should return the model with hasSeenNewDashboardInfo flag updated to true', async () => {
+    it('should return the model with hasSeenNewDashboardInfo flag updated to true', async function() {
       // when
       const actualUser = await userRepository.updateHasSeenNewDashboardInfoToTrue(userId);
 
@@ -1394,18 +1394,18 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#updateHasSeenChallengeTooltip', () => {
+  describe('#updateHasSeenChallengeTooltip', function() {
 
     let userId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = databaseBuilder.factory
         .buildUser({ hasSeenFocusedChallengeTooltip: false })
         .id;
       return databaseBuilder.commit();
     });
 
-    it('should return the model with hasSeenFocusedChallengeTooltip flag updated to true', async () => {
+    it('should return the model with hasSeenFocusedChallengeTooltip flag updated to true', async function() {
       // when
       const challengeType = 'focused';
       const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
@@ -1415,9 +1415,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#findAnotherUserByEmail', () => {
+  describe('#findAnotherUserByEmail', function() {
 
-    it('should return a list of a single user if email already used', async () => {
+    it('should return a list of a single user if email already used', async function() {
       // given
       const currentUser = databaseBuilder.factory.buildUser({
         email: 'current.user@example.net',
@@ -1438,7 +1438,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(foundUsers[0].email).to.equal(anotherUser.email);
     });
 
-    it('should return a list of a single user if email case insensitive already used', async () => {
+    it('should return a list of a single user if email case insensitive already used', async function() {
       // given
       const currentUser = databaseBuilder.factory.buildUser({
         email: 'current.user@example.net',
@@ -1459,7 +1459,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(foundUsers[0].email).to.equal(anotherUser.email);
     });
 
-    it('should return an empty list if email is not used', async () => {
+    it('should return an empty list if email is not used', async function() {
       // given
       const currentUser = databaseBuilder.factory.buildUser({
         email: 'current.user@example.net',
@@ -1474,9 +1474,9 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     });
   });
 
-  describe('#findAnotherUserByUsername', () => {
+  describe('#findAnotherUserByUsername', function() {
 
-    it('should return a list of a single user if username already used', async () => {
+    it('should return a list of a single user if username already used', async function() {
       // given
       const currentUser = databaseBuilder.factory.buildUser({
         username: 'current.user.name',
@@ -1497,7 +1497,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       expect(foundUsers[0].username).to.equal(anotherUser.username);
     });
 
-    it('should return an empty list if username is not used', async () => {
+    it('should return an empty list if username is not used', async function() {
       // given
       const currentUser = databaseBuilder.factory.buildUser({
         username: 'current.user.name',

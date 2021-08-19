@@ -7,11 +7,11 @@ const {
 const moduleUnderTest = require('../../../../lib/application/countries');
 const countryController = require('../../../../lib/application/countries/country-controller');
 
-describe('Unit | Router | country-router', () => {
+describe('Unit | Router | country-router', function() {
 
-  describe('GET /api/countries', () => {
+  describe('GET /api/countries', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(countryController, 'findCountries').callsFake((request, h) => h.response().code(200));
       const httpTestServer = new HttpTestServer();
