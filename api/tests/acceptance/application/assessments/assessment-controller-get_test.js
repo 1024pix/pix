@@ -124,8 +124,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
     beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: Assessment.states.COMPLETED, type: Assessment.types.PREVIEW }).id;
 
-      answer1 = databaseBuilder.factory.buildAnswer({ assessmentId });
-      answer2 = databaseBuilder.factory.buildAnswer({ assessmentId });
+      answer1 = databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: 'rec1' });
+      answer2 = databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: 'rec2' });
 
       await databaseBuilder.commit();
     });

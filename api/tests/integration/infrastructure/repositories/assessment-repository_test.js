@@ -19,9 +19,10 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     context('when the assessment exists', function() {
 
       beforeEach(async function() {
-        const dateOfFirstAnswer = moment.utc().subtract(2, 'minute').toDate();
-        const dateOfSecondAnswer = moment.utc().subtract(1, 'minute').toDate();
-        const dateOfThirdAnswer = moment.utc().toDate();
+        const dateOfFirstAnswer = moment.utc().subtract(3, 'minute').toDate();
+        const dateOfSecondAnswer = moment.utc().subtract(2, 'minute').toDate();
+        const dateOfThirdAnswer = moment.utc().subtract(1, 'minute').toDate();moment.utc().toDate();
+        const dateOfFourthAnswer = moment.utc().toDate();
 
         assessmentId = databaseBuilder.factory.buildAssessment({
           courseId: 'course_A',
@@ -32,6 +33,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           { assessmentId, value: '3,1', result: 'ko', challengeId: 'challenge_3_1', createdAt: dateOfFirstAnswer },
           { assessmentId, value: '1,4', result: 'ko', challengeId: 'challenge_1_4', createdAt: dateOfSecondAnswer },
           { assessmentId, value: '2,8', result: 'ko', challengeId: 'challenge_2_8', createdAt: dateOfThirdAnswer },
+          { assessmentId, value: '2,9', result: 'ko', challengeId: 'challenge_2_8', createdAt: dateOfFourthAnswer },
           { value: '5,2', result: 'ko', challengeId: 'challenge_4' },
         ], (answer) => {
           databaseBuilder.factory.buildAnswer(answer);
@@ -54,6 +56,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessment.answers[0].challengeId).to.equal('challenge_3_1');
         expect(assessment.answers[1].challengeId).to.equal('challenge_1_4');
         expect(assessment.answers[2].challengeId).to.equal('challenge_2_8');
+        expect(assessment.answers[2].value).to.equal('2,8');
       });
     });
 
