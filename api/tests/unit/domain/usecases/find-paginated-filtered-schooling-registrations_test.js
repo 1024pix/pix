@@ -22,6 +22,8 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', functio
       expectedReconciledSchoolingRegistrationFromGAR,
     ],
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const schoolingRegistrationRepository = { findPaginatedFilteredSchoolingRegistrations: sinon.stub().returns(expectedSchoolingRegistrations) };
 
   it('should fetch students matching organization', async function() {

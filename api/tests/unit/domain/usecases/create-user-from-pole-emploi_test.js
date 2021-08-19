@@ -15,6 +15,8 @@ const createUserFromPoleEmploi = require('../../../../lib/domain/usecases/create
 
 describe('Unit | UseCase | create-user-from-pole-emploi', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol();
 
   let clock;

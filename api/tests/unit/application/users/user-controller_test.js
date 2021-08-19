@@ -783,7 +783,11 @@ describe('Unit | Controller | user-controller', function() {
   describe('#getUserCampaignParticipationToCampaign', function() {
     const userId = 789;
     const campaignId = 456;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const campaignParticipation = Symbol('campaign participation');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const expectedCampaignParticipation = Symbol('expected campaign participation');
 
     const request = {

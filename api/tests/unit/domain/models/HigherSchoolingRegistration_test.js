@@ -25,6 +25,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
       it(`throw an error when ${field} is required`, async function() {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined });
@@ -34,6 +36,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'studentNumber',
       'firstName',
@@ -57,6 +61,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'studentNumber',
       'firstName',
@@ -124,6 +130,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
 
     context('student number', function() {
       context('when student number is not correctly formed', function() {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         [
           '#123457',
           '1 23457',
@@ -141,6 +149,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
 
       context('when student number is correctly formed', function() {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         [
           '123456',
           '1234aA',

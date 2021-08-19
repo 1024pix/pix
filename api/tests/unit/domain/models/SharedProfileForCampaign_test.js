@@ -3,6 +3,8 @@ const constants = require('../../../../lib/domain/constants');
 const SharedProfileForCampaign = require('../../../../lib/domain/models/SharedProfileForCampaign');
 
 describe('Unit | Domain | Models | SharedProfileForCampaign', function() {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   let clock;
 

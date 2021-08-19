@@ -9,7 +9,11 @@ describe('Unit | UseCase | reset-scorecard', function() {
 
   const competenceId = 123;
   const userId = 456;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const resetScorecardResult = Symbol('reset scorecard result');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const scorecard = Symbol('Scorecard');
   const competenceEvaluationRepository = {};
   const knowledgeElementRepository = {};

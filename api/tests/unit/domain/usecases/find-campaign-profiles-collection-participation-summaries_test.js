@@ -5,9 +5,17 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 
 describe('Unit | UseCase | find-campaign-profiles-collection-participation-summaries', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userId = Symbol('user id');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignId = Symbol('campaign id');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignProfilesCollectionParticipationSummaryRepository = { findPaginatedByCampaignId: sinon.stub() };
 
   const campaignProfilesCollectionParticipationSummaries = [

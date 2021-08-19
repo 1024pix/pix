@@ -94,6 +94,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           }
         });
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         [
           'SUP',
           'SCO',

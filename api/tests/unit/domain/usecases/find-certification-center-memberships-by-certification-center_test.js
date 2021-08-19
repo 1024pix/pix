@@ -5,6 +5,8 @@ const usecases = require('../../../../lib/domain/usecases');
 describe('Unit | UseCase | find-certification-center-memberships-by-certification-center', function() {
 
   const certificationCenterId = 1;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationCenterMemberships = [domainBuilder.buildCertificationCenterMembership()];
 
   let certificationCenterMembershipRepository;

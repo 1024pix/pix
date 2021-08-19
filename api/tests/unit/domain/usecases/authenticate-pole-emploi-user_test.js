@@ -40,6 +40,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
   const externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
 
   const userId = 1;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol();
 
   let authenticationService;

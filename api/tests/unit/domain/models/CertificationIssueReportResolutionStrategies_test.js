@@ -855,20 +855,113 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
   });
 
   context('#resolve', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE, strategyToBeApplied: 'doNotResolve' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE, strategyToBeApplied: 'doNotResolve' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, strategyToBeApplied: 'doNotResolve' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.SIGNATURE_ISSUE, strategyToBeApplied: 'doNotResolve' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING, strategyToBeApplied: 'neutralizeIfImage' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.LINK_NOT_WORKING, strategyToBeApplied: 'doNotResolve' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.EMBED_NOT_WORKING, strategyToBeApplied: 'neutralizeIfEmbed' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.FILE_NOT_OPENING, strategyToBeApplied: 'neutralizeIfAttachment' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE, strategyToBeApplied: 'neutralizeWithoutChecking' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, strategyToBeApplied: 'neutralizeWithoutChecking' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED, strategyToBeApplied: 'doNotResolve' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING, strategyToBeApplied: 'neutralizeWithoutChecking' },
-      { subCategoryToBeResolved: CertificationIssueReportSubcategories.OTHER, strategyToBeApplied: 'doNotResolve' },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+        strategyToBeApplied: 'doNotResolve',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE,
+        strategyToBeApplied: 'doNotResolve',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
+        strategyToBeApplied: 'doNotResolve',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+        strategyToBeApplied: 'doNotResolve',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+        strategyToBeApplied: 'neutralizeIfImage',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+        strategyToBeApplied: 'doNotResolve',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+        strategyToBeApplied: 'neutralizeIfEmbed',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+        strategyToBeApplied: 'neutralizeIfAttachment',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+        strategyToBeApplied: 'neutralizeWithoutChecking',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+        strategyToBeApplied: 'neutralizeWithoutChecking',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+        strategyToBeApplied: 'doNotResolve',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
+        strategyToBeApplied: 'neutralizeWithoutChecking',
+      },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
+        subCategoryToBeResolved: CertificationIssueReportSubcategories.OTHER,
+        strategyToBeApplied: 'doNotResolve',
+      },
     ].forEach(({
       subCategoryToBeResolved,
       strategyToBeApplied,

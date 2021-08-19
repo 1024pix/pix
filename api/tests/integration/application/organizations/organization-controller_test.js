@@ -10,6 +10,8 @@ const { NoCertificationAttestationForDivisionError } = require('../../../../lib/
 
 describe('Integration | Application | Organizations | organization-controller', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organization = domainBuilder.buildOrganization();
 
   let sandbox;
@@ -120,6 +122,8 @@ describe('Integration | Application | Organizations | organization-controller', 
         securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster.returns(true);
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const membership = domainBuilder.buildMembership();
 
       it('should return an HTTP response with status code 200', async function() {
@@ -169,6 +173,8 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Success cases', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
 
       it('should return an HTTP response with status code 200', async function() {
@@ -219,8 +225,12 @@ describe('Integration | Application | Organizations | organization-controller', 
 
     context('Success cases', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const invitation = domainBuilder.buildOrganizationInvitation({
         organizationId: 1,
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         status: OrganizationInvitation.StatusType.PENDING,
       });
 

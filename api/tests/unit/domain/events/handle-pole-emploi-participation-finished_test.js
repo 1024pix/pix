@@ -7,13 +7,29 @@ const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domai
 describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', function() {
   let event;
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const assessmentRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignParticipationRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const targetProfileRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const poleEmploiNotifier = { notify: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const poleEmploiSendingRepository = { create: _.noop() };
 
   const dependencies = {
@@ -27,6 +43,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
     poleEmploiSendingRepository,
   };
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const expectedResults = JSON.stringify({
     campagne: {
       nom: 'Campagne Pôle Emploi',
@@ -82,9 +100,17 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
   });
 
   context('#handlePoleEmploiParticipationFinished', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const campaignId = Symbol('campaignId');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const userId = Symbol('userId');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const organizationId = Symbol('organizationId');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const assessmentId = Symbol('assessmentId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function() {

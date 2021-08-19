@@ -403,6 +403,8 @@ describe('Unit | Application | SecurityPreHandlers', function() {
 
       context('when organization id is in request params', function() {
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         request.params = { id: 5678 };
 
         it('should authorize access to resource when the user is authenticated, belongs to SCO Organization and manages students', async function() {
@@ -419,6 +421,8 @@ describe('Unit | Application | SecurityPreHandlers', function() {
 
       context('when organization id is in request payload', function() {
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         request.payload = {
           data: {
             attributes: {

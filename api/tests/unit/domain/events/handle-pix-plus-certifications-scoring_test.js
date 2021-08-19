@@ -5,12 +5,18 @@ const { handlePixPlusCertificationsScoring } = require('../../../../lib/domain/e
 describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', function() {
 
   const certificationAssessmentRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCertificationCourseId: _.noop(),
   };
   const partnerCertificationScoringRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: _.noop(),
   };
   const assessmentResultRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCertificationCourseId: _.noop(),
   };
   const dependencies = {

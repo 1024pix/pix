@@ -5,6 +5,8 @@ const { UserNotMemberOfOrganizationError } = require('../../../../lib/domain/err
 describe('Unit | UseCase | get-prescriber', function() {
 
   const userId = 1;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const expectedResult = Symbol('prescriber');
   let prescriberRepository;
   let membershipRepository;

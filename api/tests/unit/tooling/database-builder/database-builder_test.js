@@ -6,6 +6,8 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
   describe('#clean', function() {
     let databaseBuilder;
     let knex;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sandbox = sinon.createSandbox();
 
     beforeEach(function() {

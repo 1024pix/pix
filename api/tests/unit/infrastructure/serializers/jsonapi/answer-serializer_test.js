@@ -12,6 +12,8 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
     const assessmentId = 12345;
     const challengeId = 2134356;
     const timeout = 8;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const result = AnswerStatus.SKIPPED;
     const resultDetails = null;
     const answerValue = '1';

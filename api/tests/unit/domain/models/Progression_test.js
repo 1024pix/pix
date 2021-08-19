@@ -3,6 +3,8 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Progression', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
 
   describe('#completionRate', function() {

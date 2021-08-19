@@ -115,10 +115,14 @@ describe('Unit | Service | Certification Result Service', function() {
       certificationCourseId: 111,
       createdAt: '2020-02-01T00:00:00Z',
       completedAt: '2020-02-01T00:00:00Z',
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       state: states.COMPLETED,
       isV2Certification: true,
     };
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const competenceWithMarks_1_1 = domainBuilder.buildCompetenceMark({
       level: UNCERTIFIED_LEVEL,
       score: 0,
@@ -127,6 +131,8 @@ describe('Unit | Service | Certification Result Service', function() {
       competenceId: 'competence_1',
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const competenceWithMarks_2_2 = domainBuilder.buildCompetenceMark({
       level: UNCERTIFIED_LEVEL,
       score: 0,
@@ -135,6 +141,8 @@ describe('Unit | Service | Certification Result Service', function() {
       competenceId: 'competence_2',
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const competenceWithMarks_3_3 = domainBuilder.buildCompetenceMark({
       level: UNCERTIFIED_LEVEL,
       score: 0,
@@ -143,6 +151,8 @@ describe('Unit | Service | Certification Result Service', function() {
       competenceId: 'competence_3',
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const competenceWithMarks_4_4 = domainBuilder.buildCompetenceMark({
       level: UNCERTIFIED_LEVEL,
       score: 0,

@@ -9,6 +9,8 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function() {
 
     context('when a status is given', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       forIn(AssessmentResult.status, (status, key) => {
         it(`should returns "${status}" status`, function() {
           // when

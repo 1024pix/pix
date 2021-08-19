@@ -145,6 +145,8 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         type: 'assessments',
         id: 'assessmentId',
         attributes: {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           type: Assessment.types.CERTIFICATION,
         },
         relationships: {

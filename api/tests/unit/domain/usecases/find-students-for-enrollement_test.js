@@ -12,13 +12,19 @@ describe('Unit | UseCase | find-students-for-enrollment', function() {
   let organization;
 
   const organizationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getIdByCertificationCenterId: sinon.stub(),
   };
   const schoolingRegistrationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findByOrganizationIdAndUpdatedAtOrderByDivision: sinon.stub(),
   };
 
   const certificationCandidateRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findBySessionId: sinon.stub(),
   };
 

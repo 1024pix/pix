@@ -59,6 +59,8 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
         .to.throw(ObjectValidationError);
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     _.forIn(CertificationAssessment.states, (value) => {
       it(`should not throw an ObjectValidationError when state is ${value}`, function() {
         // when

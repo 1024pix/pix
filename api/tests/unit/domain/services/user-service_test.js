@@ -8,6 +8,8 @@ const userService = require('../../../../lib/domain/services/user-service');
 
 describe('Unit | Service | user-service', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('domain transaction');
   const hashedPassword = 'ABCD1234';
 

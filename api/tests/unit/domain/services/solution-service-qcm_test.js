@@ -17,6 +17,8 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       { answerValue: '1, 2, 3', solutionValue: '1, 2, 3' },
     ];
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(({ answerValue, solutionValue }) => {
       it('should return "ok" when answer is "' + answerValue + '" and solution is "' + solutionValue + '"', function() {
         const result = service.match(answerValue, solutionValue);
@@ -31,6 +33,8 @@ describe('Unit | Service | SolutionServiceQCM ', function() {
       { answerValue: '3, 1', solutionValue: '1, 2' },
     ];
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach(({ answerValue, solutionValue }) => {
       it('should return "ko" when answer is "' + answerValue + '" and solution is "' + solutionValue + '"', function() {
         const result = service.match(answerValue, solutionValue);

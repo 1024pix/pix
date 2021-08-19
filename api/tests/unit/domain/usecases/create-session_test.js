@@ -13,10 +13,20 @@ describe('Unit | UseCase | create-session', function() {
     const certificationCenterName = 'certificationCenterName';
     const certificationCenter = { id: certificationCenterId, name: certificationCenterName };
     const sessionToSave = { certificationCenterId };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const certificationCenterRepository = { get: sinon.stub() };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sessionRepository = { save: sinon.stub() };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const userRepository = { getWithCertificationCenterMemberships: sinon.stub() };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const userWithMemberships = { hasAccessToCertificationCenter: sinon.stub() };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const accessCode = Symbol('accessCode');
 
     context('when session is not valid', function() {

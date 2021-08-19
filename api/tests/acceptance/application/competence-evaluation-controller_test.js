@@ -19,6 +19,8 @@ describe('Acceptance | API | Competence Evaluations', function() {
       method: 'POST',
       url: '/api/competence-evaluations/start-or-resume',
       headers: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         authorization: generateValidRequestAuthorizationHeader(userId),
       },
       payload: { competenceId },

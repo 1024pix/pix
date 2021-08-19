@@ -89,6 +89,8 @@ describe('Unit | Utils | lodash-utils', function() {
       expect(_.isBlank()).to.be.true;
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       null,
       '',
@@ -103,6 +105,8 @@ describe('Unit | Utils | lodash-utils', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'a',
       ' a',

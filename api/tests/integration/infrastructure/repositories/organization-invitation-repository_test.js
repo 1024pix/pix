@@ -8,6 +8,8 @@ const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/
 
 describe('Integration | Repository | OrganizationInvitationRepository', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const role = Membership.roles.ADMIN;
 
   describe('#create', function() {

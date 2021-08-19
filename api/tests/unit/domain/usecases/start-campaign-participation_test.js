@@ -7,10 +7,14 @@ const CampaignParticipationStarted = require('../../../../lib/domain/events/Camp
 describe('Unit | UseCase | start-campaign-participation', function() {
 
   const userId = 19837482;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignParticipation = domainBuilder.buildCampaignParticipation();
   const campaignToJoinRepository = { get: () => undefined, checkCampaignIsJoinableByUser: () => undefined };
   const campaignParticipationRepository = { save: () => undefined, findOneByCampaignIdAndUserId: () => undefined, hasAlreadyParticipated: () => {}, markPreviousParticipationsAsImproved: () => {} };
   const assessmentRepository = { save: () => undefined };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('DomainTransaction');
 
   beforeEach(function() {

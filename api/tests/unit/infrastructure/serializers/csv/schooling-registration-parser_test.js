@@ -13,6 +13,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function() {
     const organizationId = 123;
 
     const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     fieldList.forEach((field) => {
       context(`when the ${field} column is missing`, function() {
         it('should throw an CsvImportError', async function() {
@@ -120,6 +122,8 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function() {
         context('when csv does not have \'Sex code\' column', function() {
 
           const COL_TO_REMOVE = 'Sexe*';
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).filter((col) => col !== COL_TO_REMOVE).join(';');
 
           it('returns a schooling registration for each line', function() {

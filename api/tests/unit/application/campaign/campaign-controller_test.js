@@ -81,6 +81,8 @@ describe('Unit | Application | Controller | Campaign', function() {
         id: campaignId,
       },
       i18n: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         __: sinon.stub(),
       },
     };
@@ -140,6 +142,8 @@ describe('Unit | Application | Controller | Campaign', function() {
         id: campaignId,
       },
       i18n: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         __: sinon.stub(),
       },
     };

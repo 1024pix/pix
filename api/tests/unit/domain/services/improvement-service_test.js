@@ -22,6 +22,8 @@ describe('Unit | Service | ImprovementService', function() {
 
     context('when the campaign participation is retrying', function() {
       let assessment, knowledgeElements;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
 
       beforeEach(function() {

@@ -20,6 +20,8 @@ describe('Unit | Service | Validation Comparison', function() {
         { should: 'If they have two different characters', arg1: 'book', arg2: ['back'], output: 2 },
       ];
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       successfulCases.forEach(function(testCase) {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
           expect(getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
@@ -39,6 +41,8 @@ describe('Unit | Service | Validation Comparison', function() {
         { should: 'If the difference is 2 for all elements', arg1: 'book', arg2: ['back', 'buck'], output: 2 },
       ];
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       successfulCases.forEach(function(testCase) {
         it(`${testCase.should} for example arg1 ${JSON.stringify(testCase.arg1)} and arg2 ${JSON.stringify(testCase.arg2)} => ${testCase.output}`, function() {
           expect(getSmallestLevenshteinDistance(testCase.arg1, testCase.arg2)).to.equal(testCase.output);
@@ -48,6 +52,8 @@ describe('Unit | Service | Validation Comparison', function() {
   });
 
   describe('getSmallestLevenshteinRatio', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { scenario: 'the inputString is the only reference', inputString: 'a1', references: ['a1'], expected: 0 },
       { scenario: 'the inputString is a reference', inputString: 'a', references: ['a', 'b'], expected: 0 },
@@ -64,6 +70,8 @@ describe('Unit | Service | Validation Comparison', function() {
   });
 
   describe('getLevenshteinRatio', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { scenario: 'the inputString is the reference', inputString: 'a1', reference: 'a1', expected: 0 },
       { scenario: 'there is 3/4 good character', inputString: 'faco', reference: 'face', expected: 1 / 4 },
@@ -86,6 +94,8 @@ describe('Unit | Service | Validation Comparison', function() {
       const referenceString = '12KBKHBHB65';
 
       // when
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
 
       // then
@@ -101,6 +111,8 @@ describe('Unit | Service | Validation Comparison', function() {
       const referenceString = 'àaaaaa';
 
       // when
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const actual = areTwoStringsCloseEnough(inputString, referenceString, MAX_ACCEPTABLE_RATIO);
 
       // then
@@ -118,6 +130,8 @@ describe('Unit | Service | Validation Comparison', function() {
       const references = ['12KBKHBHB65', 'Jacques'];
 
       // when
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
 
       // then
@@ -133,6 +147,8 @@ describe('Unit | Service | Validation Comparison', function() {
       const references = ['àaaaaa', 'bbbbbbb', 'aaaaab'];
 
       // when
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const actual = isOneStringCloseEnoughFromMultipleStrings(inputString, references, MAX_ACCEPTABLE_RATIO);
 
       // then

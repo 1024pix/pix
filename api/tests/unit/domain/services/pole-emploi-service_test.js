@@ -4,6 +4,8 @@ const settings = require('../../../../lib/config');
 
 describe('Unit | Service | Pole Emploi Service', function() {
   describe('#generateLink', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalEnv = settings.apiManager.url;
 
     before(function() {

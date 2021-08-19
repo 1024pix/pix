@@ -8,6 +8,8 @@ describe('Unit | UseCase | compute-campaign-collective-result', function() {
   let campaignRepository;
   let campaignCollectiveResultRepository;
   let targetProfileWithLearningContentRepository;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const targetProfileWithLearningContent = Symbol('targetProfileWithLearningContent');
   const locale = 'fr';
 

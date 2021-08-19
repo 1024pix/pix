@@ -5,10 +5,16 @@ const { handleCleaCertificationRescoring } = require('../../../../lib/domain/eve
 describe('Unit | Domain | Events | handle-clea-certification-rescoring', function() {
 
   const partnerCertificationScoringRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     buildCleaCertificationScoring: _.noop(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: _.noop(),
   };
   const cleaCertificationResultRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: _.noop(),
   };
 

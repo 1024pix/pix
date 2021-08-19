@@ -5,7 +5,11 @@ const CertificationEligibility = require('../../../../lib/domain/read-models/Cer
 describe('Unit | UseCase | get-user-certification-eligibility', function() {
 
   let clock;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const pixPlusDroitMaitreBadgeKey = CertificationEligibility.pixPlusDroitMaitreBadgeKey;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const pixPlusDroitExpertBadgeKey = CertificationEligibility.pixPlusDroitExpertBadgeKey;
   const now = new Date(2020, 1, 1);
   const placementProfileService = {

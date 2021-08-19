@@ -5,6 +5,8 @@ describe('Unit | Service | Validation Treatments', function() {
 
   describe('#normalizeAndRemoveAccents', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { description: 'white spaces', input: '  foo  bar  ', expected: 'foobar' },
       { description: 'unbreakable spaces', input: 'unbreakable spaces', expected: 'unbreakablespaces' },
@@ -29,6 +31,8 @@ describe('Unit | Service | Validation Treatments', function() {
 
   describe('#removeSpecialCharacters', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { description: 'all point types', input: '?Allo?,:;.', expected: 'Allo' },
       { description: 'slashs', input: '\\o/', expected: 'o' },

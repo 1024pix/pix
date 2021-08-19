@@ -8,14 +8,28 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
 describe('Unit | Domain | Events | handle-certification-scoring', function() {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationAssessmentRepository = { get: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const assessmentResultRepository = { save: _.noop };
   const certificationCourseRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     update: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getCreationDate: _.noop,
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceMarkRepository = { save: _.noop };
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -38,7 +52,11 @@ describe('Unit | Domain | Events | handle-certification-scoring', function() {
   });
 
   context('when assessment is of type CERTIFICATION', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const assessmentId = Symbol('assessmentId');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const userId = Symbol('userId');
     const certificationCourseId = 1234;
     let certificationAssessment;
@@ -94,8 +112,12 @@ describe('Unit | Domain | Events | handle-certification-scoring', function() {
     });
 
     context('when an error of type CertificationComputeError happens while scoring the assessment', function() {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const errorAssessmentResult = Symbol('ErrorAssessmentResult');
       const computeError = new CertificationComputeError();
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const certificationCourse = domainBuilder.buildCertificationCourse({
         id: certificationCourseId,
         completedAt: null,
@@ -149,16 +171,28 @@ describe('Unit | Domain | Events | handle-certification-scoring', function() {
     });
 
     context('when scoring is successful', function() {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const certificationCourse = domainBuilder.buildCertificationCourse({
         id: certificationCourseId,
         completedAt: null,
       });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const assessmentResult = Symbol('AssessmentResult');
       const assessmentResultId = 99;
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceMarkData1 = domainBuilder.buildCompetenceMark({ assessmentResultId });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceMarkData2 = domainBuilder.buildCompetenceMark({ assessmentResultId });
       const savedAssessmentResult = { id: assessmentResultId };
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const nbPix = Symbol('nbPix');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const status = Symbol('status');
       const certificationAssessmentScore = {
         nbPix,

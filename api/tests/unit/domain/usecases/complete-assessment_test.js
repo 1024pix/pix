@@ -6,13 +6,25 @@ const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors')
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Unit | UseCase | complete-assessment', function() {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
   const assessmentRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     completeByAssessmentId: _.noop,
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const assessmentResultRepository = { save: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationCourseRepository = { changeCompletionDate: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceMarkRepository = { save: _.noop };
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
@@ -53,13 +65,23 @@ describe('Unit | UseCase | complete-assessment', function() {
   });
 
   context('when assessment is not yet completed', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCompetenceEvaluationAssessment(),
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCampaignAssessment(),
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCertificationAssessment(),
     ]
       .forEach((assessment) => {
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         context(`common behavior when assessment is of type ${assessment.type}`, function() {
 
           beforeEach(function() {

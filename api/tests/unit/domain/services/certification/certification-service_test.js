@@ -9,6 +9,8 @@ const assessementRepository = require('../../../../../lib/infrastructure/reposit
 
 describe('Unit | Service | Certification Service', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationAssessment = Symbol('certificationAssessment');
 
   beforeEach(function() {

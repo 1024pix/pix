@@ -6,6 +6,8 @@ const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
 
 describe('Integration | CertificationChallengeService | pickCertificationChallenge', function() {
   const placementDate = new Date('2020-01-01T00:00:00Z');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationDate = _addOneDayToDate(placementDate);
   const sufficientPixValueToBeCertifiableOnCompetence = PIX_COUNT_BY_LEVEL;
   const unsufficientPixValueToBeCertifiableOnCompetence = 1;

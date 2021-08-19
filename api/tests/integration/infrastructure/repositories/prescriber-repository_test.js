@@ -17,7 +17,7 @@ describe('Integration | Infrastructure | Repository | Prescriber', function() {
     lastName: 'popopo',
     email: 'estelle.popopo@example.net',
     lang: 'someSuperCoolLanguage',
-    /* eslint-disable-next-line no-sync */
+    /* eslint-disable-next-line no-sync, mocha/no-setup-in-describe */
     password: bcrypt.hashSync('A124B2C3#!', 1),
     cgu: true,
     samlId: 'some-saml-id',

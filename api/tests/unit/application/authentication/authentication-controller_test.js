@@ -193,8 +193,14 @@ describe('Unit | Application | Controller | Authentication', function() {
     const access_token = 'jwt.access.token';
 
     let request;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const client_id = Symbol('clientId');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const client_secret = Symbol('clientSecret');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const scope = Symbol('scope');
 
     beforeEach(function() {

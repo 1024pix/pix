@@ -8,7 +8,11 @@ describe('Unit | Domain | Service | Get Competence Level', function() {
   describe('#getCompetenceLevel', function() {
     const userId = 'userId';
     const competenceId = 'competenceId';
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const knowledgeElements = Symbol('knowledgeElements');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const domainTransaction = Symbol('domainTransaction');
     const level = 3;
     let competenceLevel;

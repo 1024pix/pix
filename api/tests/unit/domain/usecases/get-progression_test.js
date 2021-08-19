@@ -34,16 +34,24 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
 
     context('when the assessment exists and is campaign', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         userId,
         state: 'completed',
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         type: Assessment.types.CAMPAIGN,
         campaignParticipationId: 456,
       });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const campaignParticipation = domainBuilder.buildCampaignParticipation({
         campaignId: 123,
       });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const targetProfile = domainBuilder.buildTargetProfile();
 
       beforeEach(function() {
@@ -203,17 +211,25 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
 
     context('when the assessment exists and is competence evaluation', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceEvaluationAssessment = domainBuilder.buildAssessment({
         id: assessmentId,
         userId,
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         type: Assessment.types.COMPETENCE_EVALUATION,
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({
         competenceId: 1,
         assessmentId,
         userId,
       });
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceSkills = [domainBuilder.buildSkill()];
 
       beforeEach(function() {
@@ -335,9 +351,13 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
 
     context('when the assessment does not exist', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const assessment = domainBuilder.buildAssessment({
         id: assessmentId,
         userId,
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         type: Assessment.types.CAMPAIGN,
       });
 

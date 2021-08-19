@@ -5,10 +5,20 @@ const { expect, domainBuilder } = require('../../../test-helper');
 describe('Unit | Domain | Models | CertificationResult', function() {
 
   context('#constructor', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const assessmentId = domainBuilder.buildAssessment().id;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const assessmentResultId = domainBuilder.buildAssessmentResult().id;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sessionId = domainBuilder.buildSession().id;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const competenceMarks = [domainBuilder.buildCompetenceMark()];
 
     it('should construct a certification result with assessementResult data', function() {

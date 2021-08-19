@@ -9,6 +9,8 @@ describe('Acceptance | Controller | users-controller-get-memberships', function(
   let organization;
   let membershipId;
   let options;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationRole = Membership.roles.MEMBER;
   let server;
 

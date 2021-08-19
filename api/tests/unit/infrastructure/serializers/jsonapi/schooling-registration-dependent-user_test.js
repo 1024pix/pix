@@ -5,13 +5,21 @@ describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-se
 
   describe('#serialize', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const schoolingRegistrationWithUsernameAndPassword = domainBuilder.buildSchoolingRegistration();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     schoolingRegistrationWithUsernameAndPassword.username = 'john.harry0702';
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     schoolingRegistrationWithUsernameAndPassword.generatedPassword = 'AZFETGFR';
 
     const expectedSchoolingRegistrationJson = {
       data: {
         type: 'schooling-registration-dependent-users',
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         id: schoolingRegistrationWithUsernameAndPassword.id.toString(),
         attributes: {
           username: 'john.harry0702',
