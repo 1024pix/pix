@@ -13,9 +13,9 @@ const encryptionService = require('../../../../../lib/domain/services/encryption
 
 const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
 
-describe('Integration | UseCases | Account-recovery | updateUserAccount', () => {
+describe('Integration | UseCases | Account-recovery | updateUserAccount', function() {
 
-  it('should rollback update user account when domain transaction throw an error', async () => {
+  it('should rollback update user account when domain transaction throw an error', async function() {
     // given
     const password = 'pix123';
     const user = databaseBuilder.factory.buildUser();

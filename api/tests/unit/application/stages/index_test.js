@@ -7,13 +7,13 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const stagesController = require('../../../../lib/application/stages/stages-controller');
 const moduleUnderTest = require('../../../../lib/application/stages');
 
-describe('Unit | Router | stages-router', () => {
+describe('Unit | Router | stages-router', function() {
 
-  describe('POST /api/admin/stages', () => {
+  describe('POST /api/admin/stages', function() {
 
     const method = 'POST';
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'create').returns('ok');
@@ -30,8 +30,8 @@ describe('Unit | Router | stages-router', () => {
     });
   });
 
-  describe('GET /api/admin/stages/:id', () => {
-    it('should exist', async () => {
+  describe('GET /api/admin/stages/:id', function() {
+    it('should exist', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'getStageDetails').callsFake((request, h) => h.response('ok').code(200));
@@ -48,7 +48,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 error when the id is not a number', async () => {
+    it('should return a 400 error when the id is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -65,8 +65,8 @@ describe('Unit | Router | stages-router', () => {
     });
   });
 
-  describe('PATCH /api/admin/stages/:id', () => {
-    it('should update the stage with attributes', async () => {
+  describe('PATCH /api/admin/stages/:id', function() {
+    it('should update the stage with attributes', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
@@ -89,7 +89,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should update the stage even if there is null', async () => {
+    it('should update the stage even if there is null', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
@@ -112,7 +112,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a 400 error when the id is not a number', async () => {
+    it('should return a 400 error when the id is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -134,7 +134,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 error when payload is undefined', async () => {
+    it('should return a 400 error when payload is undefined', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -155,7 +155,7 @@ describe('Unit | Router | stages-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 error when payload is empty strings', async () => {
+    it('should return a 400 error when payload is empty strings', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

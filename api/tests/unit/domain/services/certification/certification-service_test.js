@@ -9,14 +9,16 @@ const assessementRepository = require('../../../../../lib/infrastructure/reposit
 
 describe('Unit | Service | Certification Service', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationAssessment = Symbol('certificationAssessment');
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(certificationAssessmentRepository, 'getByCertificationCourseId').resolves(certificationAssessment);
   });
 
-  describe('#getCertificationResultByCertifCourse', () => {
-    it('should call CertificationResult with correct parameters', async () => {
+  describe('#getCertificationResultByCertifCourse', function() {
+    it('should call CertificationResult with correct parameters', async function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         id: 1,

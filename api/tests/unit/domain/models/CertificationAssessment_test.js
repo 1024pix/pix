@@ -5,11 +5,11 @@ const NeutralizationAttempt = require('../../../../lib/domain/models/Neutralizat
 const { expect, domainBuilder } = require('../../../test-helper');
 const { ObjectValidationError, ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | CertificationAssessment', () => {
+describe('Unit | Domain | Models | CertificationAssessment', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
     let validArguments;
-    beforeEach(() => {
+    beforeEach(function() {
       validArguments = {
         id: 123,
         userId: 123,
@@ -23,84 +23,86 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       };
     });
 
-    it('should successfully instantiate object when passing all valid arguments', () => {
+    it('should successfully instantiate object when passing all valid arguments', function() {
       // when
       expect(() => new CertificationAssessment(validArguments))
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when id is not valid', () => {
+    it('should throw an ObjectValidationError when id is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, id: 'coucou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when userId is not valid', () => {
+    it('should throw an ObjectValidationError when userId is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, userId: 'les zouzous' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationCourseId is not valid', () => {
+    it('should throw an ObjectValidationError when certificationCourseId is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationCourseId: 'ça gaze ?' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when createdAt is not valid', () => {
+    it('should throw an ObjectValidationError when createdAt is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, createdAt: 'coucou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when completed is not valid', () => {
+    it('should throw an ObjectValidationError when completed is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, completedAt: 'ça pétille !' }))
         .to.throw(ObjectValidationError);
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     _.forIn(CertificationAssessment.states, (value) => {
-      it(`should not throw an ObjectValidationError when state is ${value}`, () => {
+      it(`should not throw an ObjectValidationError when state is ${value}`, function() {
         // when
         expect(() => new CertificationAssessment({ ...validArguments, state: value }))
           .not.to.throw(ObjectValidationError);
       });
     });
 
-    it('should throw an ObjectValidationError when status is not one of [completed, started]', () => {
+    it('should throw an ObjectValidationError when status is not one of [completed, started]', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, state: 'aborted' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when isV2Certification is not valid', () => {
+    it('should throw an ObjectValidationError when isV2Certification is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, isV2Certification: 'glouglou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationChallenges is not valid', () => {
+    it('should throw an ObjectValidationError when certificationChallenges is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationChallenges: [] }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationAnswersByDate is not valid', () => {
+    it('should throw an ObjectValidationError when certificationAnswersByDate is not valid', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: 'glouglou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should be valid when certificationAnswersByDate has no answer', () => {
+    it('should be valid when certificationAnswersByDate has no answer', function() {
       // when
       expect(() => new CertificationAssessment({ ...validArguments, certificationAnswersByDate: [] }))
         .not.to.throw(ObjectValidationError);
     });
   });
 
-  describe('#getCertificationChallenge', () => {
+  describe('#getCertificationChallenge', function() {
 
-    it('returns the challenge for the given challengeId', () => {
+    it('returns the challenge for the given challengeId', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456' });
@@ -116,7 +118,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationChallenge).to.deep.equal(certificationChallenge1);
     });
 
-    it('returns null if no certification challenge exists for challengeId', () => {
+    it('returns null if no certification challenge exists for challengeId', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456' });
@@ -134,9 +136,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#neutralizeChallengeByRecId', () => {
+  describe('#neutralizeChallengeByRecId', function() {
 
-    it('neutralizes the challenge when the challenge was asked', () => {
+    it('neutralizes the challenge when the challenge was asked', function() {
       // given
       const challengeToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
@@ -165,7 +167,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
     });
 
-    it('throws when the challenge was not asked', async () => {
+    it('throws when the challenge was not asked', async function() {
       // given
       const challengeNotAskedToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
@@ -190,9 +192,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#deneutralizeChallengeByRecId', () => {
+  describe('#deneutralizeChallengeByRecId', function() {
 
-    it('deneutralizes the challenge when the challenge was asked', () => {
+    it('deneutralizes the challenge when the challenge was asked', function() {
       // given
       const challengeToBeDeneutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: true });
 
@@ -221,7 +223,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.true;
     });
 
-    it('throws when the challenge was not asked', async () => {
+    it('throws when the challenge was not asked', async function() {
       // given
       const challengeNotAskedToBeDeneutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
@@ -246,9 +248,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#neutralizeChallengeByNumberIfKoOrSkippedOrPartially', () => {
+  describe('#neutralizeChallengeByNumberIfKoOrSkippedOrPartially', function() {
 
-    it('should neutralize the challenge when the answer is ko', () => {
+    it('should neutralize the challenge when the answer is ko', function() {
       // given
       const challengeKoToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
@@ -276,7 +278,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.neutralized(1));
     });
 
-    it('should neutralize the challenge when the answer is skipped', () => {
+    it('should neutralize the challenge when the answer is skipped', function() {
       // given
       const challengeSkippedToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec3', isNeutralized: false });
 
@@ -304,7 +306,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.neutralized(1));
     });
 
-    it('should neutralize the challenge when the answer is partially answered', () => {
+    it('should neutralize the challenge when the answer is partially answered', function() {
       // given
       const challengeSkippedToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec3', isNeutralized: false });
 
@@ -332,7 +334,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.neutralized(1));
     });
 
-    it('should not neutralize the challenge when the answer is neither skipped nor ko nor partially', () => {
+    it('should not neutralize the challenge when the answer is neither skipped nor ko nor partially', function() {
       // given
       const challengeNotToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec3', isNeutralized: false });
 
@@ -360,7 +362,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.skipped(1));
     });
 
-    it('should fail when the challenge is not asked', async () => {
+    it('should fail when the challenge is not asked', async function() {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
@@ -388,9 +390,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#listCertifiableBadgeKeysTaken', () => {
+  describe('#listCertifiableBadgeKeysTaken', function() {
 
-    it('returns the certifiable badge keys of those taken during this certification', () => {
+    it('returns the certifiable badge keys of those taken during this certification', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_2' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_1' });
@@ -412,7 +414,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certifiableBadgeKeys).to.have.lengthOf(2);
     });
 
-    it('returns an empty array if no certifiable badge exam was taken', () => {
+    it('returns an empty array if no certifiable badge exam was taken', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: null });
 
@@ -428,9 +430,9 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#findAnswersAndChallengesForCertifiableBadgeKey', () => {
+  describe('#findAnswersAndChallengesForCertifiableBadgeKey', function() {
 
-    it('returns the answers and challenges for a certifiableBadgeKey', () => {
+    it('returns the answers and challenges for a certifiableBadgeKey', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_1' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal2', certifiableBadgeKey: 'BADGE_2' });
@@ -454,7 +456,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationChallenges).to.deep.equals([certificationChallenge1, certificationChallenge3]);
     });
 
-    it('returns empty arrays if there are no answers nor challenges for given key', () => {
+    it('returns empty arrays if there are no answers nor challenges for given key', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'chal1', certifiableBadgeKey: 'BADGE_1' });
       const certificationAnswer1 = domainBuilder.buildAnswer({ challengeId: 'chal1' });
@@ -473,8 +475,8 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#isCompleted', () => {
-    it('returns true when completed', () => {
+  describe('#isCompleted', function() {
+    it('returns true when completed', function() {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.COMPLETED,
@@ -483,7 +485,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(certificationAssessment.isCompleted()).to.be.true;
     });
 
-    it('returns false when only started', () => {
+    it('returns false when only started', function() {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         state: CertificationAssessment.states.STARTED,
@@ -493,8 +495,8 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
     });
   });
 
-  describe('#getChallengeRecIdByQuestionNumber', () => {
-    it('returns the recId when question number exists', () => {
+  describe('#getChallengeRecIdByQuestionNumber', function() {
+    it('returns the recId when question number exists', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456' });
@@ -516,7 +518,7 @@ describe('Unit | Domain | Models | CertificationAssessment', () => {
       expect(recId).to.equal('rec456');
     });
 
-    it('returns null when question number does not exist', () => {
+    it('returns null when question number does not exist', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234' });
 

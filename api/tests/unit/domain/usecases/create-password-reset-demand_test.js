@@ -4,7 +4,7 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const { createPasswordResetDemand } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | create-password-reset-demand', () => {
+describe('Unit | UseCase | create-password-reset-demand', function() {
 
   const email = 'user@example.net';
   const locale = 'fr';
@@ -21,7 +21,7 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
   let resetPasswordDemandRepository;
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     mailService = {
       sendResetPasswordDemandEmail: sinon.stub(),
     };
@@ -40,7 +40,7 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
     resetPasswordDemandRepository.create.resolves(resetPasswordDemand);
   });
 
-  it('should create a password reset demand if user email exists', async () => {
+  it('should create a password reset demand if user email exists', async function() {
     // when
     const result = await createPasswordResetDemand({
       email,
@@ -61,7 +61,7 @@ describe('Unit | UseCase | create-password-reset-demand', () => {
       .to.have.been.calledWithExactly({ email, locale, temporaryKey });
   });
 
-  it('should throw UserNotFoundError if user email does not exist', async () => {
+  it('should throw UserNotFoundError if user email does not exist', async function() {
     // given
     userRepository.isUserExistingByEmail.throws(new UserNotFoundError());
 

@@ -3,11 +3,11 @@ const certifiableProfileForLearningContentRepository = require('../../../../lib/
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const CertifiableProfileForLearningContent = require('../../../../lib/domain/models/CertifiableProfileForLearningContent');
 
-describe('Integration | Repository | certifiable-profile-for-learning-content', () => {
+describe('Integration | Repository | certifiable-profile-for-learning-content', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return user profile', async () => {
+    it('should return user profile', async function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({
         id: 'skill1_id',
@@ -83,7 +83,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       expect(userProfile).to.deep.equal(expectedCertifiableProfileForLearningContent);
     });
 
-    it('should include user skill that are in the target profile only', async () => {
+    it('should include user skill that are in the target profile only', async function() {
       // given
       const skill = domainBuilder.buildTargetedSkill({
         id: 'skill1_id',
@@ -154,7 +154,7 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       expect(userProfile).to.deep.equal(expectedCertifiableProfileForLearningContent);
     });
 
-    it('should include user skill that are within the profile date only', async () => {
+    it('should include user skill that are within the profile date only', async function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({
         id: 'skill1_id',

@@ -3,27 +3,35 @@ const getCertificationDetails = require('../../../../lib/domain/usecases/get-cer
 const CertificationDetails = require('../../../../lib/domain/read-models/CertificationDetails');
 const CertificationAssessmentStates = require('../../../../lib/domain/models/CertificationAssessment').states;
 
-describe('Unit | UseCase | get-certification-details', () => {
+describe('Unit | UseCase | get-certification-details', function() {
 
   const certificationAssessmentRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCertificationCourseId: sinon.stub(),
   };
 
   const placementProfileService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getPlacementProfile: sinon.stub(),
   };
 
   const competenceMarkRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findByCertificationCourseId: sinon.stub(),
   };
 
   const scoringCertificationService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     calculateCertificationAssessmentScore: sinon.stub(),
   };
 
-  context('the certification assessment has not been completed', () => {
+  context('the certification assessment has not been completed', function() {
 
-    it('should compute the certification details on the fly', async () => {
+    it('should compute the certification details on the fly', async function() {
       // given
       const certificationCourseId = 1234;
       const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
@@ -120,8 +128,8 @@ describe('Unit | UseCase | get-certification-details', () => {
     });
   });
 
-  context('the certification assessment has been completed', () => {
-    it('should return the certification details', async () => {
+  context('the certification assessment has been completed', function() {
+    it('should return the certification details', async function() {
       // given
       const certificationCourseId = 1234;
       const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });

@@ -7,11 +7,11 @@ const {
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | tag-router', () => {
+describe('Acceptance | Route | tag-router', function() {
 
-  describe('GET /api/admin/tags', () => {
+  describe('GET /api/admin/tags', function() {
 
-    it('should return a list of tags with 200 HTTP status code', async () => {
+    it('should return a list of tags with 200 HTTP status code', async function() {
       // given
       const server = await createServer();
       const tag1 = databaseBuilder.factory.buildTag({ name: 'TAG1' });
@@ -51,7 +51,7 @@ describe('Acceptance | Route | tag-router', () => {
       expect(response.result.data).to.deep.equal(expectedTags);
     });
 
-    it('should return 403 HTTP status code when the user authenticated is not PixMaster', async () => {
+    it('should return 403 HTTP status code when the user authenticated is not PixMaster', async function() {
       // given
       const server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;

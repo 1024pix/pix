@@ -3,19 +3,19 @@ const { expect, sinon } = require('../../../test-helper');
 const getNextChallengeForCertification = require('../../../../lib/domain/usecases/get-next-challenge-for-certification');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', () => {
+describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', function() {
 
-  describe('#getNextChallengeForCertification', () => {
+  describe('#getNextChallengeForCertification', function() {
 
     let certificationChallengeRepository;
     let challengeRepository;
 
-    beforeEach(() => {
+    beforeEach(function() {
       certificationChallengeRepository = { getNextNonAnsweredChallengeByCourseId: sinon.stub().resolves() };
       challengeRepository = { get: sinon.stub().resolves() };
     });
 
-    it('should use the assessmentService to select the next CertificationChallenge', async () => {
+    it('should use the assessmentService to select the next CertificationChallenge', async function() {
       // given
       const nextChallenge = Symbol('nextChallenge');
       const assessment = new Assessment({ id: 156, certificationCourseId: 54516 });
@@ -29,7 +29,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-certification', ()
       expect(certificationChallengeRepository.getNextNonAnsweredChallengeByCourseId).to.have.been.calledWith(156, 54516);
     });
 
-    it('should return the next Challenge', async () => {
+    it('should return the next Challenge', async function() {
       // given
       const challengeId = 15167432;
       const nextChallengeToAnswer = Symbol('nextChallengeToAnswer');

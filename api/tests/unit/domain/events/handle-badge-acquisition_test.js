@@ -3,23 +3,33 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const { handleBadgeAcquisition } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
-describe('Unit | Domain | Events | handle-badge-acquisition', () => {
+describe('Unit | Domain | Events | handle-badge-acquisition', function() {
 
-  describe('#handleBadgeAcquisition', () => {
+  describe('#handleBadgeAcquisition', function() {
     const badgeRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       findByCampaignParticipationId: _.noop,
     };
     const targetProfileRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       getByCampaignParticipationId: _.noop,
     };
     const knowledgeElementRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       findUniqByUserId: _.noop,
     };
     const badgeAcquisitionRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       createOrUpdate: _.noop,
     };
 
     const badgeCriteriaService = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       areBadgeCriteriaFulfilled: _.noop,
     };
 
@@ -31,7 +41,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       targetProfileRepository,
     };
 
-    it('fails when event is not of correct type', async () => {
+    it('fails when event is not of correct type', async function() {
       // given
       const event = 'not an event of the correct type';
       // when / then
@@ -42,21 +52,27 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       // then
       expect(error).not.to.be.null;
     });
-    context('when the assessment belongs to a campaign', () => {
+    context('when the assessment belongs to a campaign', function() {
 
       const event = new AssessmentCompleted({
         userId: 'userId',
         campaignParticipationId: 'campaignParticipationId',
       });
 
-      context('when the campaign is associated to one badge', () => {
+      context('when the campaign is associated to one badge', function() {
 
         let badge;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badgeId = Symbol('badgeId');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const targetProfile = Symbol('targetProfile');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const knowledgeElements = Symbol('knowledgeElements');
 
-        beforeEach(() => {
+        beforeEach(function() {
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge = {
             id: badgeId,
@@ -73,7 +89,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
         });
 
-        it('should create a badge when badge requirements are fulfilled', async () => {
+        it('should create a badge when badge requirements are fulfilled', async function() {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge })
@@ -90,7 +106,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           }]);
         });
 
-        it('should not create a badge when badge requirements are not fulfilled', async () => {
+        it('should not create a badge when badge requirements are not fulfilled', async function() {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge })
@@ -103,15 +119,23 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         });
       });
 
-      context('when the campaign is associated to two badges', () => {
+      context('when the campaign is associated to two badges', function() {
 
         let badge1, badge2;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badgeId_1 = Symbol('badgeId_1');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badgeId_2 = Symbol('badgeId_2');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const targetProfile = Symbol('targetProfile');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const knowledgeElements = Symbol('knowledgeElements');
 
-        beforeEach(() => {
+        beforeEach(function() {
           sinon.stub(badgeRepository, 'findByCampaignParticipationId');
           badge1 = {
             id: badgeId_1,
@@ -133,7 +157,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
         });
 
-        it('should create one badge when only one badge requirements are fulfilled', async () => {
+        it('should create one badge when only one badge requirements are fulfilled', async function() {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
@@ -153,7 +177,7 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
           }]);
         });
 
-        it('should create two badges when both badges requirements are fulfilled', async () => {
+        it('should create two badges when both badges requirements are fulfilled', async function() {
           // given
           badgeCriteriaService.areBadgeCriteriaFulfilled
             .withArgs({ targetProfile, knowledgeElements, badge: badge1 })
@@ -173,8 +197,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
         });
       });
 
-      context('when the campaign is not associated to a badge', () => {
-        it('should not create a badge', async () => {
+      context('when the campaign is not associated to a badge', function() {
+        it('should not create a badge', async function() {
           // given
           const userId = 42;
           const campaignParticipationId = 78;
@@ -194,8 +218,8 @@ describe('Unit | Domain | Events | handle-badge-acquisition', () => {
       });
     });
 
-    context('when the assessment does not belong to a campaign', () => {
-      it('should not create a badge', async () => {
+    context('when the assessment does not belong to a campaign', function() {
+      it('should not create a badge', async function() {
         // given
         sinon.stub(badgeAcquisitionRepository, 'createOrUpdate');
 

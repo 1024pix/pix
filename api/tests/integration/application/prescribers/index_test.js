@@ -4,12 +4,12 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
 const moduleUnderTest = require('../../../../lib/application/prescribers');
 
-describe('Integration | Application | Prescribers | Routes', () => {
+describe('Integration | Application | Prescribers | Routes', function() {
 
   let httpTestServer;
   const method = 'GET';
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
     sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
 
@@ -19,11 +19,11 @@ describe('Integration | Application | Prescribers | Routes', () => {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('GET /api/prescription/prescribers/{id}', () => {
+  describe('GET /api/prescription/prescribers/{id}', function() {
 
     const auth = { credentials: {}, strategy: {} };
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       auth.credentials.userId = '1234';
       securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => h.response(true));
@@ -36,7 +36,7 @@ describe('Integration | Application | Prescribers | Routes', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 when id in param is not a number"', async () => {
+    it('should return a 400 when id in param is not a number"', async function() {
 
       // given
       const url = '/api/prescription/prescribers/NOT_A_NUMBER';

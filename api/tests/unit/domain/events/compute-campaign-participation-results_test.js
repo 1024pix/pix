@@ -5,7 +5,7 @@ const CampaignParticipationResultsShared = require('../../../../lib/domain/event
 const computeCampaignParticipationResults = require('../../../../lib/domain/events/compute-campaign-participation-results');
 
 describe('Unit | Domain | Events | compute-campaign-participation-results', function() {
-  it('Should trigger ComputeCampaignParticipationResults on CampaignParticipationResultsShared event', async () => {
+  it('Should trigger ComputeCampaignParticipationResults on CampaignParticipationResultsShared event', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new CampaignParticipationResultsShared();
@@ -18,7 +18,7 @@ describe('Unit | Domain | Events | compute-campaign-participation-results', func
     expect(handlerStubs.computeCampaignParticipationResults).to.have.been.calledWith({ event, domainTransaction });
   });
 
-  it('should compute and save results on the campaign participation', async() => {
+  it('should compute and save results on the campaign participation', async function() {
     // given
     const participationResultsShared = Symbol('participation results shared');
     const event = new CampaignParticipationResultsShared({ campaignParticipationId: 1 });

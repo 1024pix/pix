@@ -2,11 +2,11 @@ const { expect, nock } = require('../../test-helper');
 
 const { checkData, updateOrganizations } = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
 
-describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', () => {
+describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', function() {
 
-  describe('#updateOrganizations', () => {
+  describe('#updateOrganizations', function() {
 
-    it('should update organizations', async () => {
+    it('should update organizations', async function() {
       // given
       const accessToken = 'token';
 
@@ -57,9 +57,9 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
     });
   });
 
-  describe('#checkData', () => {
+  describe('#checkData', function() {
 
-    it('should keep all data', async () => {
+    it('should keep all data', async function() {
       // given
       const csvData = [
         ['a100', '1-2-999'],
@@ -79,7 +79,7 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when a whole line is empty', async () => {
+    it('should keep only one data when a whole line is empty', async function() {
       // given
       const csvData = [
         ['a100'],

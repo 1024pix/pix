@@ -4,11 +4,11 @@ const CampaignToJoin = require('../../../../lib/domain/read-models/CampaignToJoi
 const { NotFoundError, ForbiddenAccess, AlreadyExistingCampaignParticipationError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | CampaignToJoin', () => {
+describe('Integration | Repository | CampaignToJoin', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return the CampaignToJoin', async () => {
+    it('should return the CampaignToJoin', async function() {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const organization = databaseBuilder.factory.buildOrganization();
@@ -41,7 +41,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.targetProfileImageUrl).to.deep.equal(targetProfile.imageUrl);
     });
 
-    it('should throw a NotFoundError when no campaign exists with given id', async () => {
+    it('should throw a NotFoundError when no campaign exists with given id', async function() {
       // given
       let error;
       const existingId = databaseBuilder.factory.buildCampaign().id;
@@ -58,9 +58,9 @@ describe('Integration | Repository | CampaignToJoin', () => {
     });
   });
 
-  describe('#getByCode', () => {
+  describe('#getByCode', function() {
 
-    it('should return the CampaignToJoin by its code', async () => {
+    it('should return the CampaignToJoin by its code', async function() {
       // given
       const code = 'LAURA123';
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -93,8 +93,8 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(actualCampaign.isSimplifiedAccess).to.deep.equal(targetProfile.isSimplifiedAccess);
     });
 
-    context('when the organization of the campaign has the POLE EMPLOI tag', () => {
-      it('should return true for organizationIsPoleEmploi', async () => {
+    context('when the organization of the campaign has the POLE EMPLOI tag', function() {
+      it('should return true for organizationIsPoleEmploi', async function() {
         // given
         const code = 'LAURA456';
         const organization = databaseBuilder.factory.buildOrganization();
@@ -114,8 +114,8 @@ describe('Integration | Repository | CampaignToJoin', () => {
       });
     });
 
-    context('when the organization of the campaign does not have the POLE EMPLOI tag', () => {
-      it('should return false for organizationIsPoleEmploi', async () => {
+    context('when the organization of the campaign does not have the POLE EMPLOI tag', function() {
+      it('should return false for organizationIsPoleEmploi', async function() {
         // given
         const code = 'LAURA456';
         const organization = databaseBuilder.factory.buildOrganization();
@@ -131,7 +131,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       });
     });
 
-    it('should throw a NotFoundError when no campaign exists with given code', async () => {
+    it('should throw a NotFoundError when no campaign exists with given code', async function() {
       // given
       const code = 'LAURA123';
       databaseBuilder.factory.buildCampaign({ code });
@@ -145,7 +145,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
     });
   });
 
-  describe('#checkCampaignIsJoinableByUser', () => {
+  describe('#checkCampaignIsJoinableByUser', function() {
 
     let targetProfileId;
     const skills = [
@@ -155,7 +155,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       { id: 'skill4', status: 'actif' },
     ];
 
-    beforeEach(() => {
+    beforeEach(function() {
       mockLearningContent({ skills });
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
@@ -163,7 +163,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill3' });
     });
 
-    it('should not throw an error when the user can join the campaign', async () => {
+    it('should not throw an error when the user can join the campaign', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignData = databaseBuilder.factory.buildCampaign();
@@ -181,7 +181,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       }
     });
 
-    it('should throw an error if the campaign is archived', async () => {
+    it('should throw an error if the campaign is archived', async function() {
       // given
       let error;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -197,7 +197,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(error.message).to.equal('Vous n\'êtes pas autorisé à rejoindre la campagne');
     });
 
-    it('should throw an error when there is already a participation for user', async () => {
+    it('should throw an error when there is already a participation for user', async function() {
       // given
       let error;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -216,8 +216,8 @@ describe('Integration | Repository | CampaignToJoin', () => {
       expect(error.message).to.equal(`User ${userId} has already a campaign participation with campaign ${campaignData.id}`);
     });
 
-    context('when campaign is restricted', () => {
-      it('should throw an error if the user does not have a corresponding schooling registration', async () => {
+    context('when campaign is restricted', function() {
+      it('should throw an error if the user does not have a corresponding schooling registration', async function() {
         // given
         let error;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -237,7 +237,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
         expect(error.message).to.equal('Vous n\'êtes pas autorisé à rejoindre la campagne');
       });
 
-      it('should not throw error when the user has a corresponding schooling registration', async () => {
+      it('should not throw error when the user has a corresponding schooling registration', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
@@ -259,7 +259,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
         }
       });
 
-      it('should throw an error if the user has a disabled schooling registration', async () => {
+      it('should throw an error if the user has a disabled schooling registration', async function() {
         let error;
         const userId = databaseBuilder.factory.buildUser().id;
         const organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true }).id;
@@ -279,8 +279,8 @@ describe('Integration | Repository | CampaignToJoin', () => {
       });
     });
 
-    context('when campaign is multipleSendings', () => {
-      it('should not throw error when there is already a participation shared for user', async () => {
+    context('when campaign is multipleSendings', function() {
+      it('should not throw error when there is already a participation shared for user', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true });
@@ -300,7 +300,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
         }
       });
 
-      it('should throw error when there is already a participation which is not shared for user', async () => {
+      it('should throw error when there is already a participation which is not shared for user', async function() {
         // given
         let error;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -318,7 +318,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
         expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
       });
 
-      it('should throw error when there is at least one participation which is not shared for user', async () => {
+      it('should throw error when there is at least one participation which is not shared for user', async function() {
         // given
         let error;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -337,7 +337,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
         expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
       });
 
-      it('should throw error when there is participation which is shared for user but the mastery percentage is 100%', async () => {
+      it('should throw error when there is participation which is shared for user but the mastery percentage is 100%', async function() {
         // given
         let error;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -356,7 +356,7 @@ describe('Integration | Repository | CampaignToJoin', () => {
         expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
       });
 
-      it('should throw error when there is participation which is shared for user but the mastery percentage is over 100%', async () => {
+      it('should throw error when there is participation which is shared for user but the mastery percentage is over 100%', async function() {
         // given
         let error;
         const userId = databaseBuilder.factory.buildUser().id;

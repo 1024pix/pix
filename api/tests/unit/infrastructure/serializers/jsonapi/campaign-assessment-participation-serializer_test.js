@@ -11,7 +11,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
     let expectedJsonApi;
 
     describe('with badges', function() {
-      beforeEach(() => {
+      beforeEach(function() {
         const createdAt = new Date('2020-01-01');
         const sharedAt = new Date('2020-01-02');
         expectedJsonApi = {
@@ -88,7 +88,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
     });
 
     describe('without badges', function() {
-      beforeEach(() => {
+      beforeEach(function() {
         const createdAt = new Date('2020-01-01');
         const sharedAt = new Date('2020-01-02');
         expectedJsonApi = {

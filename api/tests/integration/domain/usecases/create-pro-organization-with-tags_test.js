@@ -9,23 +9,23 @@ const tagRepository = require('../../../../lib/infrastructure/repositories/tag-r
 const { OrganizationTagNotFound, ObjectValidationError, ManyOrganizationsFoundError } = require('../../../../lib/domain/errors');
 const createProOrganizationsWithTags = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags');
 
-describe('Integration | UseCases | create-pro-organization', () => {
+describe('Integration | UseCases | create-pro-organization', function() {
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     databaseBuilder.factory.buildTag({ name: 'TAG1' });
     databaseBuilder.factory.buildTag({ name: 'TAG2' });
     databaseBuilder.factory.buildTag({ name: 'TAG3' });
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('organization-invitations').delete();
     await knex('organization-tags').delete();
     await knex('organizations').delete();
 
   });
 
-  it('should create pro organizations with tags when tags already exists  ', async () => {
+  it('should create pro organizations with tags when tags already exists  ', async function() {
     // given
     const organizationsWithTagsAlreadyExist = [
       { externalId: 'b200', name: 'Youness et Fils', provinceCode: '123', canCollectProfiles: false, credit: 0, email: 'youness@example.net', locale: 'fr-fr', tags: 'Tag1_Tag2' },
@@ -62,7 +62,7 @@ describe('Integration | UseCases | create-pro-organization', () => {
 
   });
 
-  it('should rollback create pro organizations with tags when tags not found', async () => {
+  it('should rollback create pro organizations with tags when tags not found', async function() {
     // given
     const organizationsWithTagsNotExists = [
       { externalId: 'b200', name: 'Youness et Fils', provinceCode: '123', canCollectProfiles: false, credit: 0, email: 'youness@example.net', locale: 'fr-fr', tags: 'TagNotFound' },
@@ -90,7 +90,7 @@ describe('Integration | UseCases | create-pro-organization', () => {
 
   });
 
-  it('should rollback create pro organizations with tags and throw an error when an externalId is missing', async () => {
+  it('should rollback create pro organizations with tags and throw an error when an externalId is missing', async function() {
     //given
     const organizationsWithTagsWithOneMissingExternalId = [
       { externalId: 'b200', name: 'Youness et Fils', provinceCode: '123', canCollectProfiles: false, credit: 0, email: 'youness@example.net', locale: 'fr-fr', tags: 'TagNotFound' },
@@ -118,7 +118,7 @@ describe('Integration | UseCases | create-pro-organization', () => {
 
   });
 
-  it('should rollback create pro organizations with tags and throw an error when an organization name is missing', async () => {
+  it('should rollback create pro organizations with tags and throw an error when an organization name is missing', async function() {
     // given
     const organizationsWithTagsWithOneMissingName = [
       { externalId: 'b200', name: 'Youness et Fils', provinceCode: '123', canCollectProfiles: false, credit: 0, email: 'youness@example.net', locale: 'fr-fr', tags: 'TagNotFound' },
@@ -146,7 +146,7 @@ describe('Integration | UseCases | create-pro-organization', () => {
 
   });
 
-  it('should rollback create pro organizations with tags and throw an error when there is more than one occurrence of the same organization', async () => {
+  it('should rollback create pro organizations with tags and throw an error when there is more than one occurrence of the same organization', async function() {
     // given
     const tooManyOccurencesOfTheSameorganizationWithTags = [
       { externalId: 'b200', name: 'Youness et Fils', provinceCode: '123', canCollectProfiles: false, credit: 0, email: 'youness@example.net', locale: 'fr-fr', tags: 'TagNotFound' },

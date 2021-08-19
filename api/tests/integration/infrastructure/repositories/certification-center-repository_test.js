@@ -4,13 +4,13 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe('Integration | Repository | Certification Center', () => {
+describe('Integration | Repository | Certification Center', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    context('when the certification center is found', () => {
+    context('when the certification center is found', function() {
 
-      it('should return the certification center of the given id with the right properties', async () => {
+      it('should return the certification center of the given id with the right properties', async function() {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -33,9 +33,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('the certification center could not be found', () => {
+    context('the certification center could not be found', function() {
 
-      it('should throw a NotFound error', async () => {
+      it('should throw a NotFound error', async function() {
         // when
         const nonExistentId = 1;
         const error = await catchErr(certificationCenterRepository.get)(nonExistentId);
@@ -46,11 +46,11 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#getBySessionId', () => {
+  describe('#getBySessionId', function() {
 
-    context('the certification center is found for a sessionId', () => {
+    context('the certification center is found for a sessionId', function() {
 
-      it('should return the certification center of the given sessionId', async () => {
+      it('should return the certification center of the given sessionId', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           externalId: '123456',
@@ -70,9 +70,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('the certification center could not be found for a sessionId', () => {
+    context('the certification center could not be found for a sessionId', function() {
 
-      it('should throw a NotFound error', async () => {
+      it('should throw a NotFound error', async function() {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 7,
@@ -92,13 +92,13 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-centers').delete();
     });
 
-    it('should save the given certification center', async () => {
+    it('should save the given certification center', async function() {
       // given
       const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName' });
 
@@ -112,11 +112,11 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#findPaginatedFiltered', () => {
+  describe('#findPaginatedFiltered', function() {
 
-    context('when there are CertificationCenters in the database', () => {
+    context('when there are CertificationCenters in the database', function() {
 
-      it('should return an Array of CertificationCenters', async () => {
+      it('should return an Array of CertificationCenters', async function() {
         // given
         _.times(3, databaseBuilder.factory.buildCertificationCenter);
         await databaseBuilder.commit();
@@ -137,9 +137,9 @@ describe('Integration | Repository | Certification Center', () => {
 
     });
 
-    context('when there are lots of CertificationCenters (> 10) in the database', () => {
+    context('when there are lots of CertificationCenters (> 10) in the database', function() {
 
-      it('should return paginated matching CertificationCenters', async () => {
+      it('should return paginated matching CertificationCenters', async function() {
         // given
         _.times(12, databaseBuilder.factory.buildCertificationCenter);
         await databaseBuilder.commit();
@@ -157,9 +157,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "name" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the same "name" search pattern', function() {
 
-      it('should return only CertificationCenters matching "name" if given in filters', async () => {
+      it('should return only CertificationCenters matching "name" if given in filters', async function() {
         // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragon & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragonades & co center' });
@@ -181,9 +181,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "type" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the same "type" search pattern', function() {
 
-      it('should return only CertificationCenters matching "type" if given in filters', async () => {
+      it('should return only CertificationCenters matching "type" if given in filters', async function() {
         // given
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
@@ -204,9 +204,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "externalId" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the same "externalId" search pattern', function() {
 
-      it('should return only CertificationCenters matching "externalId" if given in filters', async () => {
+      it('should return only CertificationCenters matching "externalId" if given in filters', async function() {
         // given
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'AZH578' });
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'BFR842' });
@@ -226,9 +226,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern', () => {
+    context('when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern', function() {
 
-      it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async () => {
+      it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async function() {
         // given
         _buildThreeCertificationCenterMatchingNameTypeAndExternalId({ databaseBuilder, numberOfBuild: 3 });
         _buildThreeCertificationCenterUnmatchingNameTypeOrExternalId({ databaseBuilder, numberOfBuild: 3 });
@@ -249,9 +249,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('when there are filters that should be ignored', () => {
+    context('when there are filters that should be ignored', function() {
 
-      it('should ignore the filters and retrieve all certificationCenters', async () => {
+      it('should ignore the filters and retrieve all certificationCenters', async function() {
         // given
         databaseBuilder.factory.buildCertificationCenter({ id: 1 });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
@@ -271,11 +271,11 @@ describe('Integration | Repository | Certification Center', () => {
     });
   });
 
-  describe('#findByExternalId', () => {
+  describe('#findByExternalId', function() {
 
-    context('the certification center is found', () => {
+    context('the certification center is found', function() {
 
-      it('should return the certification center', async () => {
+      it('should return the certification center', async function() {
         // given
         const externalId = 'EXTERNAL_ID';
         databaseBuilder.factory.buildCertificationCenter({ externalId });
@@ -290,9 +290,9 @@ describe('Integration | Repository | Certification Center', () => {
       });
     });
 
-    context('the certification center is not found', () => {
+    context('the certification center is not found', function() {
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const externalId = 'nonExistentExternalId';
         const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });

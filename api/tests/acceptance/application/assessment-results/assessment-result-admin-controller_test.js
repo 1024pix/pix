@@ -6,12 +6,12 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 describe('Acceptance | Controller | assessment-results-controller', function() {
   let server;
 
-  describe('POST /admin/assessment-results', () => {
+  describe('POST /admin/assessment-results', function() {
 
     let certificationCourseId;
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentId = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId,
@@ -63,7 +63,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       return insertUserWithRolePixMaster();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('authentication-methods').delete();
       await knex('competence-marks').delete();
       await knex('assessment-results').delete();
@@ -73,7 +73,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       await knex('users').delete();
     });
 
-    it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
+    it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
       // given
       const nonPixMAsterUserId = 9999;
       options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
@@ -85,7 +85,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should return a 204 after saving in database', async () => {
+    it('should return a 204 after saving in database', async function() {
       // when
       const response = await server.inject(options);
 
@@ -93,7 +93,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should save a assessment-results and 3 marks', async () => {
+    it('should save a assessment-results and 3 marks', async function() {
       // when
       await server.inject(options);
 
@@ -105,8 +105,8 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       expect(marks).to.have.lengthOf(3);
     });
 
-    context('when assessment has already the assessment-result compute', () => {
-      before(async () => {
+    context('when assessment has already the assessment-result compute', function() {
+      before(async function() {
         const results = await knex('assessment-results')
           .insert({
             level: -1,
@@ -128,7 +128,7 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
           });
       });
 
-      it('should save a assessment-results and 3 marks', async () => {
+      it('should save a assessment-results and 3 marks', async function() {
         // when
         await server.inject(options);
 
@@ -141,9 +141,9 @@ describe('Acceptance | Controller | assessment-results-controller', function() {
       });
     });
 
-    context('when the correction to be applied has a mistake', () => {
+    context('when the correction to be applied has a mistake', function() {
 
-      it('should return a 422 error', async () => {
+      it('should return a 422 error', async function() {
         const wrongScore = 9999999999;
 
         const options = {

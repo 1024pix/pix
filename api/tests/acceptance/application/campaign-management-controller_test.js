@@ -1,15 +1,15 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Campaign Management Controller', () => {
+describe('Acceptance | API | Campaign Management Controller', function() {
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/admin/campaigns/{id}', () => {
-    it('should return the campaign details', async () => {
+  describe('GET /api/admin/campaigns/{id}', function() {
+    it('should return the campaign details', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
@@ -28,8 +28,8 @@ describe('Acceptance | API | Campaign Management Controller', () => {
     });
   });
 
-  describe('PATCH /api/admin/campaigns/{id}', () => {
-    it('should return the updated campaign', async () => {
+  describe('PATCH /api/admin/campaigns/{id}', function() {
+    it('should return the updated campaign', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({ name: 'odlName' });
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();

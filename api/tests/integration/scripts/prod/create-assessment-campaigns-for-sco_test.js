@@ -6,18 +6,18 @@ const {
   getByExternalIdFetchingIdOnly,
 } = require('../../../../scripts/prod/create-assessment-campaigns-for-sco');
 
-describe('Integration | Scripts | create-assessment-campaigns', () => {
+describe('Integration | Scripts | create-assessment-campaigns', function() {
 
-  describe('#prepareCampaigns', () => {
+  describe('#prepareCampaigns', function() {
 
     const externalId = '456A';
     let organizationId;
-    beforeEach(() => {
+    beforeEach(function() {
       organizationId = databaseBuilder.factory.buildOrganization({ externalId }).id;
       return databaseBuilder.commit();
     });
 
-    it('should generate a code for the campaign model', async () => {
+    it('should generate a code for the campaign model', async function() {
       // given
       const creatorId = '789';
       const targetProfileId = '123';
@@ -36,7 +36,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       expect(campaigns[0].code.length).to.equal(9);
     });
 
-    it('should create campaigns for each target profile', async () => {
+    it('should create campaigns for each target profile', async function() {
       // given
       const creatorId = '789';
       const targetProfileId1 = '123';
@@ -78,7 +78,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
 
     });
 
-    it('should throw a validate error when campaign is not valid', async () => {
+    it('should throw a validate error when campaign is not valid', async function() {
       // given
       const campaignData = {
         targetProfileId: 'foireux',
@@ -93,9 +93,9 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
     });
   });
 
-  describe('#checkData', () => {
+  describe('#checkData', function() {
 
-    it('should create proper campaign attributes', () => {
+    it('should create proper campaign attributes', function() {
       // given
       const targetProfileId = '123';
       const name = 'SomeName';
@@ -119,7 +119,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       });
     });
 
-    it('replace title and customLandingPageText when there has empty', () => {
+    it('replace title and customLandingPageText when there has empty', function() {
       // given
       const targetProfileId = '123';
       const name = 'SomeName';
@@ -143,7 +143,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       });
     });
 
-    it('should throw an error if targetProfileId is missing', async () => {
+    it('should throw an error if targetProfileId is missing', async function() {
       // given
       const targetProfileId = undefined;
       const name = 'SomeName';
@@ -159,7 +159,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       expect(error.message).to.equal('Un targetProfileId est manquant pour la campagne SomeName.');
     });
 
-    it('should throw an error if campaign name is missing', async () => {
+    it('should throw an error if campaign name is missing', async function() {
       // given
       const targetProfileId = '123';
       const name = undefined;
@@ -175,7 +175,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       expect(error.message).to.equal('Un nom de campagne est manquant pour le profil cible 123.');
     });
 
-    it('should throw an error if externalId is missing', async () => {
+    it('should throw an error if externalId is missing', async function() {
       // given
       const targetProfileId = '123';
       const name = 'SomeName';
@@ -191,7 +191,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       expect(error.message).to.equal('Un externalId est manquant pour le profil cible 123.');
     });
 
-    it('should throw an error if creatorId is missing', async () => {
+    it('should throw an error if creatorId is missing', async function() {
       // given
       const targetProfileId = '123';
       const name = 'SomeName';
@@ -208,17 +208,17 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
     });
   });
 
-  describe('#getByExternalIdFetchingIdOnly', () => {
+  describe('#getByExternalIdFetchingIdOnly', function() {
     let organization;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organization = databaseBuilder.factory.buildOrganization({ externalId: '1234568' });
       databaseBuilder.factory.buildOrganization({ externalId: '9764321' });
 
       await databaseBuilder.commit();
     });
 
-    it('should return the organization based on the externalId', async () => {
+    it('should return the organization based on the externalId', async function() {
       // given
       const externalId = '1234568';
 
@@ -229,7 +229,7 @@ describe('Integration | Scripts | create-assessment-campaigns', () => {
       expect(foundOrganization.externalId).to.equal(organization.externalId);
     });
 
-    it('should throw a not found error when externalId is not present in database', async () => {
+    it('should throw a not found error when externalId is not present in database', async function() {
       // given
       const externalId = '999';
 

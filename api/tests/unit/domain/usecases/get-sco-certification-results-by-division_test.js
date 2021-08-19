@@ -1,8 +1,8 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getScoCertificationResultsByDivision = require('../../../../lib/domain/usecases/get-sco-certification-results-by-division');
 const { NoCertificationResultForDivision } = require('../../../../lib/domain/errors');
-describe('Unit | UseCase | get-sco-certification-results-by-division', () => {
-  it('throws when no results is found for organization and division', async () => {
+describe('Unit | UseCase | get-sco-certification-results-by-division', function() {
+  it('throws when no results is found for organization and division', async function() {
     // given
     const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
@@ -31,7 +31,7 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', () => {
     expect(error).to.be.instanceof(NoCertificationResultForDivision);
   });
 
-  it('throws when no certification course is published', async () => {
+  it('throws when no certification course is published', async function() {
     // given
     const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
@@ -69,7 +69,7 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', () => {
     expect(error).to.be.instanceof(NoCertificationResultForDivision);
   });
 
-  it('returns the list of results of candidates matching the organization and division', async () => {
+  it('returns the list of results of candidates matching the organization and division', async function() {
     // given
     const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({

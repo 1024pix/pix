@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
 const Solution = require('../../../../lib/domain/models/Solution');
 
-describe('Unit | Adapter | Solution', () => {
+describe('Unit | Adapter | Solution', function() {
 
-  describe('#fromDatasourceObject', () => {
+  describe('#fromDatasourceObject', function() {
 
-    it('should create a Solution model', () => {
+    it('should create a Solution model', function() {
       // given
       const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',

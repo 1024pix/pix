@@ -2,11 +2,11 @@ const { expect, databaseBuilder, knex } = require('../../test-helper');
 const { addTag, checkData, createOrUpdateOrganizations } = require('../../../scripts/create-or-update-sco-agri-organizations');
 const logoUrl = require('../../../scripts/logo/default-sco-agri-organization-logo-base64');
 
-describe('Integration | Scripts | create-or-update-sco-agri-organizations', () => {
+describe('Integration | Scripts | create-or-update-sco-agri-organizations', function() {
 
-  describe('#checkData', () => {
+  describe('#checkData', function() {
 
-    it('should keep all data', async () => {
+    it('should keep all data', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle', 'cdg@example.net'],
@@ -29,7 +29,7 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when a whole line is empty', async () => {
+    it('should keep only one data when a whole line is empty', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
@@ -48,7 +48,7 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when an externalId is missing', async () => {
+    it('should keep only one data when an externalId is missing', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
@@ -67,7 +67,7 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when name is missing', async () => {
+    it('should keep only one data when name is missing', async function() {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
@@ -87,18 +87,18 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
     });
   });
 
-  describe('#createOrUpdateOrganizations', () => {
+  describe('#createOrUpdateOrganizations', function() {
 
     let organization;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organization = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
     });
 
-    context('When organization already exists', () => {
+    context('When organization already exists', function() {
 
-      it('should update name, email, isManagingStudents, canCollectProfiles and logo url', async () => {
+      it('should update name, email, isManagingStudents, canCollectProfiles and logo url', async function() {
         // given
         const organizationsByExternalId = {};
         organizationsByExternalId[organization.externalId] = {
@@ -123,9 +123,9 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
       });
     });
 
-    context('When organization does not exist', () => {
+    context('When organization does not exist', function() {
 
-      it('should create the organization', async () => {
+      it('should create the organization', async function() {
         // given
         const organizationsByExternalId = {};
         const checkedData = [{
@@ -151,15 +151,15 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
 
   });
 
-  describe('#addTag', () => {
+  describe('#addTag', function() {
 
-    context('When AGRICULTURE tag does not exist', () => {
+    context('When AGRICULTURE tag does not exist', function() {
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('tags').delete();
       });
 
-      it('should create it', async() => {
+      it('should create it', async function() {
         // given
         const organizations = [];
 
@@ -173,22 +173,22 @@ describe('Integration | Scripts | create-or-update-sco-agri-organizations', () =
       });
     });
 
-    context('When AGRICULTURE tag already exists in DB', () => {
+    context('When AGRICULTURE tag already exists in DB', function() {
 
       let agriTag;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         agriTag = databaseBuilder.factory.buildTag({ name: 'AGRICULTURE' });
         await databaseBuilder.commit();
       });
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('organization-tags').delete();
       });
 
-      context('When organization does not have an AGRICULTURE tag', () => {
+      context('When organization does not have an AGRICULTURE tag', function() {
 
-        it('should add AGRICULTURE tag to the organization', async () => {
+        it('should add AGRICULTURE tag to the organization', async function() {
           // given
           const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
           await databaseBuilder.commit();

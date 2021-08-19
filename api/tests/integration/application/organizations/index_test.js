@@ -4,11 +4,11 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
-describe('Integration | Application | Organizations | Routes', () => {
+describe('Integration | Application | Organizations | Routes', function() {
 
   let httpTestServer;
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganizationOrHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
@@ -30,9 +30,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/organizations', () => {
+  describe('POST /api/organizations', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'POST';
       const url = '/api/organizations';
@@ -45,9 +45,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('GET /api/organizations', () => {
+  describe('GET /api/organizations', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations';
@@ -60,9 +60,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('GET /api/organizations/:id/campaigns', () => {
+  describe('GET /api/organizations/:id/campaigns', function() {
 
-    it('should call the organization controller to get the campaigns', async () => {
+    it('should call the organization controller to get the campaigns', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/campaigns';
@@ -76,9 +76,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('POST /api/organizations/:id/schooling-registrations/import-siecle', () => {
+  describe('POST /api/organizations/:id/schooling-registrations/import-siecle', function() {
 
-    it('should call the organization controller to import schoolingRegistrations', async () => {
+    it('should call the organization controller to import schoolingRegistrations', async function() {
       // given
       const method = 'POST';
       const url = '/api/organizations/1/schooling-registrations/import-siecle';
@@ -92,7 +92,7 @@ describe('Integration | Application | Organizations | Routes', () => {
       expect(organizationController.importSchoolingRegistrationsFromSIECLE).to.have.been.calledOnce;
     });
 
-    it('should throw an error when id is invalid', async () => {
+    it('should throw an error when id is invalid', async function() {
       // given
       const method = 'POST';
       const url = '/api/organizations/wrongId/schooling-registrations/import-siecle';
@@ -106,9 +106,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('POST /api/organizations/:id/invitations', () => {
+  describe('POST /api/organizations/:id/invitations', function() {
 
-    it('should call the organization controller to send invitations', async () => {
+    it('should call the organization controller to send invitations', async function() {
       // given
       const method = 'POST';
       const url = '/api/organizations/1/invitations';
@@ -130,9 +130,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('GET /api/organizations/:id/invitations', () => {
+  describe('GET /api/organizations/:id/invitations', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/invitations';
@@ -146,9 +146,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('GET /api/organizations/:id/students', () => {
+  describe('GET /api/organizations/:id/students', function() {
 
-    it('should call the organization controller to return students', async () => {
+    it('should call the organization controller to return students', async function() {
       // given
       const method = 'GET';
       const url = '/api/organizations/1/students';
@@ -161,9 +161,9 @@ describe('Integration | Application | Organizations | Routes', () => {
       expect(organizationController.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledOnce;
     });
 
-    describe('When parameters are not valid', () => {
+    describe('When parameters are not valid', function() {
 
-      it('should throw an error when page size is invalid', async () => {
+      it('should throw an error when page size is invalid', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/1/students?page[size]=blabla';
@@ -175,7 +175,7 @@ describe('Integration | Application | Organizations | Routes', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when page number is invalid', async () => {
+      it('should throw an error when page number is invalid', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/1/students?page[number]=blabla';
@@ -187,7 +187,7 @@ describe('Integration | Application | Organizations | Routes', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when id is invalid', async () => {
+      it('should throw an error when id is invalid', async function() {
         // given
         const method = 'GET';
         const url = '/api/organizations/wrongId/students';
@@ -201,9 +201,9 @@ describe('Integration | Application | Organizations | Routes', () => {
     });
   });
 
-  describe('POST /api/organizations/:id/target-profiles', () => {
+  describe('POST /api/organizations/:id/target-profiles', function() {
 
-    it('should resolve with a 204 status code', async () => {
+    it('should resolve with a 204 status code', async function() {
       // given
       const method = 'POST';
       const url = '/api/organizations/1/target-profiles';

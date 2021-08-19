@@ -6,13 +6,15 @@ const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
 
 describe('Integration | CertificationChallengeService | pickCertificationChallenge', function() {
   const placementDate = new Date('2020-01-01T00:00:00Z');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationDate = _addOneDayToDate(placementDate);
   const sufficientPixValueToBeCertifiableOnCompetence = PIX_COUNT_BY_LEVEL;
   const unsufficientPixValueToBeCertifiableOnCompetence = 1;
   const locale = 'fr-fr';
   let certifiableUserId;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certifiableUserId = databaseBuilder.factory.buildUser().id;
   });
 
@@ -88,7 +90,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence1_Tube1_Skill2_Challenge1']);
   });
 
-  it('picks only fr-fr challenges', async () => {
+  it('picks only fr-fr challenges', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
@@ -161,7 +163,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence1_Tube1_Skill2_Challenge1']);
   });
 
-  it('picks challenges on certifiable competences only', async () => {
+  it('picks challenges on certifiable competences only', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'] }],
@@ -241,7 +243,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence2_Tube1_Skill1_Challenge1']);
   });
 
-  it('picks challenges on Pix competences only', async () => {
+  it('picks challenges on Pix competences only', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'] }],
@@ -321,7 +323,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence2_Tube1_Skill1_Challenge1']);
   });
 
-  it('picks one skill-related challenge, starting by unanswered challenges first', async () => {
+  it('picks one skill-related challenge, starting by unanswered challenges first', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
@@ -384,7 +386,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     expect(challenges[0].challengeId).to.be.oneOf(['recArea1_Competence1_Tube1_Skill1_Challenge2', 'recArea1_Competence1_Tube1_Skill1_Challenge3']);
   });
 
-  it('picks one skill-related challenge, falling back on already answered challenges if no unanswered one is available', async () => {
+  it('picks one skill-related challenge, falling back on already answered challenges if no unanswered one is available', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
@@ -464,7 +466,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     expect(['recArea1_Competence1_Tube1_Skill1_Challenge1', 'recArea1_Competence1_Tube1_Skill1_Challenge2', 'recArea1_Competence1_Tube1_Skill1_Challenge3']).to.include(challenges[0].challengeId);
   });
 
-  it('picks one challenge by skill to a maximum of 3 challenges by competence starting by most difficult skills', async () => {
+  it('picks one challenge by skill to a maximum of 3 challenges by competence starting by most difficult skills', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
@@ -582,7 +584,7 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     );
   });
 
-  it('picks the same challenge only once even if it is related to two different skills (QROCmDep)', async () => {
+  it('picks the same challenge only once even if it is related to two different skills (QROCmDep)', async function() {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],

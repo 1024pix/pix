@@ -8,13 +8,13 @@ const Membership = require('../../../../lib/domain/models/Membership');
 
 const updateMembership = require('../../../../lib/domain/usecases/update-membership');
 
-describe('Integration | UseCases | update-membership', () => {
+describe('Integration | UseCases | update-membership', function() {
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('certification-center-memberships').delete();
   });
 
-  it('should update membership', async () => {
+  it('should update membership', async function() {
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const userId = databaseBuilder.factory.buildUser().id;
@@ -44,11 +44,11 @@ describe('Integration | UseCases | update-membership', () => {
     expect(result.updatedByUserId).equal(updatedByUserId);
   });
 
-  describe('when the organizationRole to change is set to ADMIN', () => {
+  describe('when the organizationRole to change is set to ADMIN', function() {
 
-    describe('when the SCO organization has a certification center', () => {
+    describe('when the SCO organization has a certification center', function() {
 
-      it('it should create a certification center membership ', async () => {
+      it('it should create a certification center membership ', async function() {
         // given
         const externalId = 'foo';
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
@@ -89,9 +89,9 @@ describe('Integration | UseCases | update-membership', () => {
     });
   });
 
-  describe('when the organizationRole to change is set to MEMBER', () => {
+  describe('when the organizationRole to change is set to MEMBER', function() {
 
-    it('should only update membership and keep certificationMembership untouch', async () => {
+    it('should only update membership and keep certificationMembership untouch', async function() {
       // given
       const externalId = 'foo';
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;

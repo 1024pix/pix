@@ -7,6 +7,7 @@ describe('Unit | Service | email-validator', function() {
     expect(service.emailIsValid()).to.be.false;
   });
 
+  // eslint-disable-next-line mocha/no-setup-in-describe
   [
     '',
     ' ',
@@ -23,6 +24,7 @@ describe('Unit | Service | email-validator', function() {
     });
   });
 
+  // eslint-disable-next-line mocha/no-setup-in-describe
   [
     'follower@pix.fr',
     'follower@pix.fr ',

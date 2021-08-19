@@ -5,9 +5,13 @@ const {
 } = require('../../../../lib/domain/errors');
 const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
-describe('Unit | UseCase | get-campaign', () => {
+describe('Unit | UseCase | get-campaign', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const badges = Symbol('badges');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const stages = Symbol('stages');
 
   const campaignId = 1;
@@ -22,7 +26,7 @@ describe('Unit | UseCase | get-campaign', () => {
   let stageRepository;
   let badgeRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     badgeRepository = {
       findByCampaignId: sinon.stub(),
     };
@@ -42,7 +46,7 @@ describe('Unit | UseCase | get-campaign', () => {
     stageRepository.findByCampaignId.resolves(stages);
   });
 
-  it('should get the campaign', async () => {
+  it('should get the campaign', async function() {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
@@ -59,7 +63,7 @@ describe('Unit | UseCase | get-campaign', () => {
       .calledWith(campaignId, userId);
   });
 
-  it('should get campaign stages', async () => {
+  it('should get campaign stages', async function() {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
@@ -74,7 +78,7 @@ describe('Unit | UseCase | get-campaign', () => {
     expect(resultCampaign.stages).to.equal(stages);
   });
 
-  it('should get campaign badges', async () => {
+  it('should get campaign badges', async function() {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
@@ -89,7 +93,7 @@ describe('Unit | UseCase | get-campaign', () => {
     expect(resultCampaign.badges).to.equal(badges);
   });
 
-  it('should throw a Not found error when the campaign is searched with a not valid ID', async () => {
+  it('should throw a Not found error when the campaign is searched with a not valid ID', async function() {
     // when
     const error = await catchErr(getCampaign)({
       campaignId: 'invalid Campaign Id',
@@ -104,7 +108,7 @@ describe('Unit | UseCase | get-campaign', () => {
     expect(error).to.be.instanceOf(NotFoundError);
   });
 
-  it('should throw UserNotAuthorizedToAccessEntityError when user does not belong to organization\'s campaign', async () => {
+  it('should throw UserNotAuthorizedToAccessEntityError when user does not belong to organization\'s campaign', async function() {
     // given
     campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 

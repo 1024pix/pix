@@ -16,18 +16,18 @@ const {
   FRENCH_SPOKEN,
 } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Service | MailService', () => {
+describe('Unit | Service | MailService', function() {
 
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
   const userEmailAddress = 'user@example.net';
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(mailer, 'sendEmail').resolves();
   });
 
-  describe('#sendAccountCreationEmail', () => {
+  describe('#sendAccountCreationEmail', function() {
 
-    it('should call sendEmail with from, to, subject, template', async () => {
+    it('should call sendEmail with from, to, subject, template', async function() {
       // given
       const locale = undefined;
 
@@ -47,11 +47,11 @@ describe('Unit | Service | MailService', () => {
       expect(options).to.include(expectedOptions);
     });
 
-    context('according to redirectionUrl', () => {
+    context('according to redirectionUrl', function() {
 
-      context('if redirectionUrl is provided', () => {
+      context('if redirectionUrl is provided', function() {
 
-        it('should call sendEmail with provided value', async () => {
+        it('should call sendEmail with provided value', async function() {
           // given
           const redirectionUrl = 'https://pix.fr';
           const locale = FRENCH_FRANCE;
@@ -66,19 +66,25 @@ describe('Unit | Service | MailService', () => {
       });
     });
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const translationsMapping = {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         fr: mainTranslationsMapping.fr['pix-account-creation-email'],
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         en: mainTranslationsMapping.en['pix-account-creation-email'],
       };
 
-      context('should call sendEmail with localized variable options', () => {
+      context('should call sendEmail with localized variable options', function() {
         const testCases = [
           {
             locale: undefined,
             expected: {
               fromName: 'PIX - Ne pas répondre',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.fr',
@@ -86,6 +92,8 @@ describe('Unit | Service | MailService', () => {
                 helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
                 displayNationalLogo: true,
                 redirectionUrl: 'https://app.pix.fr/connexion',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.params,
               },
             },
@@ -94,6 +102,8 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_FRANCE,
             expected: {
               fromName: 'PIX - Ne pas répondre',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.fr',
@@ -101,6 +111,8 @@ describe('Unit | Service | MailService', () => {
                 helpdeskUrl: 'https://support.pix.fr/support/tickets/new',
                 displayNationalLogo: true,
                 redirectionUrl: 'https://app.pix.fr/connexion',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.params,
               },
             },
@@ -109,6 +121,8 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_SPOKEN,
             expected: {
               fromName: 'PIX - Ne pas répondre',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.org',
@@ -116,6 +130,8 @@ describe('Unit | Service | MailService', () => {
                 helpdeskUrl: 'https://pix.org/fr/formulaire-aide',
                 displayNationalLogo: false,
                 redirectionUrl: 'https://app.pix.org/connexion/?lang=fr',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.params,
               },
             },
@@ -124,6 +140,8 @@ describe('Unit | Service | MailService', () => {
             locale: ENGLISH_SPOKEN,
             expected: {
               fromName: 'PIX - Noreply',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.en.subject,
               variables: {
                 homeName: 'pix.org',
@@ -131,14 +149,17 @@ describe('Unit | Service | MailService', () => {
                 helpdeskUrl: 'https://pix.org/en-gb/contact-form',
                 displayNationalLogo: false,
                 redirectionUrl: 'https://app.pix.org/connexion/?lang=en',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.en.params,
               },
             },
           },
         ];
 
+        // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async () => {
+          it(`when locale is ${testCase.locale}`, async function() {
             // when
             await mailService.sendAccountCreationEmail(userEmailAddress, testCase.locale);
 
@@ -152,9 +173,9 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendCertificationResultEmail', () => {
+  describe('#sendCertificationResultEmail', function() {
 
-    it('should use mailer to send an email with given options', async () => {
+    it('should use mailer to send an email with given options', async function() {
       // given
       sinon.stub(settings.domain, 'pixApp').value('https://pix.app');
       const sessionDate = '2020-10-03';
@@ -193,7 +214,7 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendResetPasswordDemandEmail', () => {
+  describe('#sendResetPasswordDemandEmail', function() {
 
     const from = senderEmailAddress;
     const to = userEmailAddress;
@@ -201,11 +222,15 @@ describe('Unit | Service | MailService', () => {
     const temporaryKey = 'token';
 
     const translationsMapping = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       fr: mainTranslationsMapping.fr['reset-password-demand-email'],
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       en: mainTranslationsMapping.en['reset-password-demand-email'],
     };
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const testCases = [
         {
@@ -216,9 +241,13 @@ describe('Unit | Service | MailService', () => {
             to,
             template,
             fromName: 'PIX - Ne pas répondre',
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             subject: translationsMapping.fr.subject,
             variables: {
               locale: FRENCH_FRANCE,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               ...translationsMapping.fr.params,
               homeName: 'pix.fr',
               homeUrl: 'https://pix.fr',
@@ -235,9 +264,13 @@ describe('Unit | Service | MailService', () => {
             to,
             template,
             fromName: 'PIX - Ne pas répondre',
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             subject: translationsMapping.fr.subject,
             variables: {
               locale: FRENCH_FRANCE,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               ...translationsMapping.fr.params,
               homeName: 'pix.fr',
               homeUrl: 'https://pix.fr',
@@ -254,9 +287,13 @@ describe('Unit | Service | MailService', () => {
             to,
             template,
             fromName: 'PIX - Ne pas répondre',
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             subject: translationsMapping.fr.subject,
             variables: {
               locale: FRENCH_SPOKEN,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               ...translationsMapping.fr.params,
               homeName: 'pix.org',
               homeUrl: 'https://pix.org/fr/',
@@ -273,9 +310,13 @@ describe('Unit | Service | MailService', () => {
             to,
             template,
             fromName: 'PIX - Noreply',
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             subject: translationsMapping.en.subject,
             variables: {
               locale: ENGLISH_SPOKEN,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               ...translationsMapping.en.params,
               homeName: 'pix.org',
               homeUrl: 'https://pix.org/en-gb/',
@@ -286,8 +327,9 @@ describe('Unit | Service | MailService', () => {
         },
       ];
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       testCases.forEach((testCase) => {
-        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async () => {
+        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async function() {
           // when
           await mailService.sendResetPasswordDemandEmail({
             email: userEmailAddress,
@@ -302,13 +344,13 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendOrganizationInvitationEmail', () => {
+  describe('#sendOrganizationInvitationEmail', function() {
 
     const organizationName = 'Organization Name';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
-    it('should call sendEmail with from, to, organizationName', async () => {
+    it('should call sendEmail with from, to, organizationName', async function() {
       // given
       const locale = undefined;
 
@@ -332,11 +374,11 @@ describe('Unit | Service | MailService', () => {
       expect(options.variables.organizationName).to.equal(expectedOptions.variables.organizationName);
     });
 
-    context('according to tags', () => {
+    context('according to tags', function() {
 
-      context('When tags property is not provided', () => {
+      context('When tags property is not provided', function() {
 
-        it('should call mail provider with null tags', async () => {
+        it('should call mail provider with null tags', async function() {
           // given
           const tags = null;
 
@@ -351,9 +393,9 @@ describe('Unit | Service | MailService', () => {
         });
       });
 
-      context('When tags property is provided', () => {
+      context('When tags property is provided', function() {
 
-        it('should call mail provider with correct tags', async () => {
+        it('should call mail provider with correct tags', async function() {
           // given
           const tags = ['JOIN_ORGA'];
 
@@ -369,20 +411,26 @@ describe('Unit | Service | MailService', () => {
       });
     });
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const translationsMapping = {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         'fr': mainTranslationsMapping.fr['organization-invitation-email'],
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         'en': mainTranslationsMapping.en['organization-invitation-email'],
       };
 
-      context('should call sendEmail with localized variable options', () => {
+      context('should call sendEmail with localized variable options', function() {
 
         const testCases = [
           {
             locale: undefined,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 pixHomeName: 'pix.fr',
@@ -390,6 +438,8 @@ describe('Unit | Service | MailService', () => {
                 pixOrgaHomeUrl: 'https://orga.pix.fr',
                 redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
                 supportUrl: 'https://support.pix.fr/support/tickets/new',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.params,
               },
             },
@@ -398,6 +448,8 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_SPOKEN,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 pixHomeName: 'pix.org',
@@ -405,6 +457,8 @@ describe('Unit | Service | MailService', () => {
                 pixOrgaHomeUrl: 'https://orga.pix.org',
                 redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
                 supportUrl: 'https://pix.org/fr/formulaire-aide',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.params,
               },
             },
@@ -413,6 +467,8 @@ describe('Unit | Service | MailService', () => {
             locale: FRENCH_FRANCE,
             expected: {
               fromName: 'Pix Orga - Ne pas répondre',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 pixHomeName: 'pix.fr',
@@ -420,6 +476,8 @@ describe('Unit | Service | MailService', () => {
                 pixOrgaHomeUrl: 'https://orga.pix.fr',
                 redirectionUrl: `https://orga.pix.fr/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
                 supportUrl: 'https://support.pix.fr/support/tickets/new',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.params,
               },
             },
@@ -428,6 +486,8 @@ describe('Unit | Service | MailService', () => {
             locale: ENGLISH_SPOKEN,
             expected: {
               fromName: 'Pix Orga - Noreply',
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.en.subject,
               variables: {
                 pixHomeName: 'pix.org',
@@ -435,14 +495,17 @@ describe('Unit | Service | MailService', () => {
                 pixOrgaHomeUrl: 'https://orga.pix.org?lang=en',
                 redirectionUrl: `https://orga.pix.org/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
                 supportUrl: 'https://pix.org/en-gb/contact-form',
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.en.params,
               },
             },
           },
         ];
 
+        // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async () => {
+          it(`when locale is ${testCase.locale}`, async function() {
             // when
             await mailService.sendOrganizationInvitationEmail({
               email: userEmailAddress, organizationName, organizationInvitationId, code, locale: testCase.locale,
@@ -459,7 +522,7 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#sendScoOrganizationInvitationEmail', () => {
+  describe('#sendScoOrganizationInvitationEmail', function() {
 
     const fromName = 'Pix Orga - Ne pas répondre';
 
@@ -475,7 +538,7 @@ describe('Unit | Service | MailService', () => {
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
-    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async () => {
+    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async function() {
       // given
       const expectedOptions = {
         from: senderEmailAddress,
@@ -507,9 +570,9 @@ describe('Unit | Service | MailService', () => {
     });
   });
 
-  describe('#notifyEmailChange', () => {
+  describe('#notifyEmailChange', function() {
 
-    it('should call sendEmail with from, to, template, tags', async () => {
+    it('should call sendEmail with from, to, template, tags', async function() {
 
       // given
       const locale = FRENCH_FRANCE;
@@ -529,53 +592,70 @@ describe('Unit | Service | MailService', () => {
       expect(options).to.deep.include(expectedOptions);
     });
 
-    context('according to locale', () => {
+    context('according to locale', function() {
 
       const translationsMapping = {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         'fr': mainTranslationsMapping.fr['email-change-email'],
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         'en': mainTranslationsMapping.en['email-change-email'],
       };
 
-      context('should call sendEmail with localized variable options', () => {
+      context('should call sendEmail with localized variable options', function() {
 
         const testCases = [
           {
             locale: FRENCH_SPOKEN,
             expected: {
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.org',
                 homeUrl: 'https://pix.org/fr/',
                 displayNationalLogo: false,
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.body },
             },
           },
           {
             locale: FRENCH_FRANCE,
             expected: {
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.fr.subject,
               variables: {
                 homeName: 'pix.fr',
                 homeUrl: 'https://pix.fr',
                 displayNationalLogo: true,
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.fr.body },
             },
           },
           {
             locale: ENGLISH_SPOKEN,
             expected: {
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               subject: translationsMapping.en.subject,
               variables: {
                 homeName: 'pix.org',
                 homeUrl: 'https://pix.org/en-gb/',
                 displayNationalLogo: false,
+                // TODO: Fix this the next time the file is edited.
+                // eslint-disable-next-line mocha/no-setup-in-describe
                 ...translationsMapping.en.body },
             },
           },
         ];
 
+        // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async () => {
+          it(`when locale is ${testCase.locale}`, async function() {
 
             // when
             await mailService.notifyEmailChange({ email: userEmailAddress, locale: testCase.locale });
@@ -593,9 +673,9 @@ describe('Unit | Service | MailService', () => {
 
   });
 
-  describe('#sendAccountRecoveryEmail', () => {
+  describe('#sendAccountRecoveryEmail', function() {
 
-    it('should call sendEmail with from, to, template, tags', async () => {
+    it('should call sendEmail with from, to, template, tags', async function() {
       // given
       const translationsMapping = mainTranslationsMapping.fr['account-recovery-email'];
 

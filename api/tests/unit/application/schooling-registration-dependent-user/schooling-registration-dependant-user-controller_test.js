@@ -4,11 +4,11 @@ const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
 const schoolingRegistrationDependantUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
 
-describe('Unit | Application | Controller | schooling-registration-user-associations', () => {
+describe('Unit | Application | Controller | schooling-registration-user-associations', function() {
 
-  describe('#checkScoAccountRecovery', () => {
+  describe('#checkScoAccountRecovery', function() {
 
-    it('should return student account information serialized', async () => {
+    it('should return student account information serialized', async function() {
       // given
       const studentInformation = {
         ineIna: '1234567890A',

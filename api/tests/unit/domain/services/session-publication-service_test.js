@@ -11,7 +11,7 @@ const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = req
 const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
-describe('Unit | UseCase | session-publication-service', () => {
+describe('Unit | UseCase | session-publication-service', function() {
 
   const sessionId = 123;
   let certificationRepository;
@@ -21,7 +21,7 @@ describe('Unit | UseCase | session-publication-service', () => {
   const sessionDate = '2020-05-08';
   let clock;
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(now);
     certificationRepository = {
       publishCertificationCoursesBySessionId: sinon.stub(),
@@ -38,26 +38,36 @@ describe('Unit | UseCase | session-publication-service', () => {
     mailService.sendCertificationResultEmail = sinon.stub();
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  context('when the session exists', () => {
+  context('when the session exists', function() {
     const recipient1 = 'email1@example.net';
     const recipient2 = 'email2@example.net';
     const certificationCenter = 'certificationCenter';
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient1,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: null,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalSession = domainBuilder.buildSession({
       id: sessionId,
       certificationCenter,
@@ -68,11 +78,11 @@ describe('Unit | UseCase | session-publication-service', () => {
       publishedAt: null,
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
     });
 
-    it('should throw when the session is already published', async () => {
+    it('should throw when the session is already published', async function() {
       // given
       const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: new Date() });
       const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
@@ -89,9 +99,9 @@ describe('Unit | UseCase | session-publication-service', () => {
       expect(error).to.be.an.instanceof(SessionAlreadyPublishedError);
     });
 
-    context('When we publish the session', () => {
+    context('When we publish the session', function() {
 
-      it('should update the published date', async () => {
+      it('should update the published date', async function() {
         // given
         const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
         const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
@@ -120,7 +130,7 @@ describe('Unit | UseCase | session-publication-service', () => {
         expect(finalizedSessionRepository.save).to.have.been.calledWith(finalizedSession);
       });
 
-      it('should send result emails', async () => {
+      it('should send result emails', async function() {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
@@ -157,7 +167,7 @@ describe('Unit | UseCase | session-publication-service', () => {
           .to.have.been.calledWithMatch(getCertificationResultArgs(recipient2));
       });
 
-      it('should generate links for certification results for each unique recipient', async () => {
+      it('should generate links for certification results for each unique recipient', async function() {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
@@ -189,9 +199,9 @@ describe('Unit | UseCase | session-publication-service', () => {
         );
       });
 
-      context('when there is at least one results recipient', () => {
+      context('when there is at least one results recipient', function() {
 
-        it('should set session results as sent now', async () => {
+        it('should set session results as sent now', async function() {
           // given
           const now = new Date();
           const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
@@ -220,8 +230,8 @@ describe('Unit | UseCase | session-publication-service', () => {
         });
       });
 
-      context('when there is no results recipient', () => {
-        it('should leave resultSentToPrescriberAt untouched', async () => {
+      context('when there is no results recipient', function() {
+        it('should leave resultSentToPrescriberAt untouched', async function() {
           // given
           const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
             resultRecipientEmail: null,
@@ -259,9 +269,9 @@ describe('Unit | UseCase | session-publication-service', () => {
       });
     });
 
-    context('When at least one of the e-mail sending fails', () => {
+    context('When at least one of the e-mail sending fails', function() {
 
-      it('should throw an error and leave the session unpublished', async () => {
+      it('should throw an error and leave the session unpublished', async function() {
         // given
         const publishedAt = new Date();
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();

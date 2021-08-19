@@ -3,12 +3,12 @@ const removeAuthenticationMethod = require('../../../../lib/domain/usecases/remo
 const { UserNotAuthorizedToRemoveAuthenticationMethod } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-describe('Unit | UseCase | remove-authentication-method', () => {
+describe('Unit | UseCase | remove-authentication-method', function() {
 
   let userRepository;
   let authenticationMethodRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       get: sinon.stub(),
       updateEmail: sinon.stub(),
@@ -31,11 +31,11 @@ describe('Unit | UseCase | remove-authentication-method', () => {
     ];
   }
 
-  context('When type is EMAIL', () => {
+  context('When type is EMAIL', function() {
 
     const type = 'EMAIL';
 
-    it('should set the email to null', async () => {
+    it('should set the email to null', async function() {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
@@ -49,9 +49,9 @@ describe('Unit | UseCase | remove-authentication-method', () => {
       expect(userRepository.updateEmail).to.have.been.calledWith({ id: user.id, email: null });
     });
 
-    context('When user does not have a username', () => {
+    context('When user does not have a username', function() {
 
-      it('should remove PIX authentication method', async () => {
+      it('should remove PIX authentication method', async function() {
         // given
         const user = domainBuilder.buildUser({ username: null });
         userRepository.get.resolves(user);
@@ -69,9 +69,9 @@ describe('Unit | UseCase | remove-authentication-method', () => {
       });
     });
 
-    context('When user has a username', () => {
+    context('When user has a username', function() {
 
-      it('should not remove PIX authentication method', async () => {
+      it('should not remove PIX authentication method', async function() {
         // given
         const user = domainBuilder.buildUser({ username: 'john.doe0101' });
         userRepository.get.resolves(user);
@@ -87,11 +87,11 @@ describe('Unit | UseCase | remove-authentication-method', () => {
     });
   });
 
-  context('When type is USERNAME', () => {
+  context('When type is USERNAME', function() {
 
     const type = 'USERNAME';
 
-    it('should set the username to null', async () => {
+    it('should set the username to null', async function() {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
@@ -105,9 +105,9 @@ describe('Unit | UseCase | remove-authentication-method', () => {
       expect(userRepository.updateUsername).to.have.been.calledWith({ id: user.id, username: null });
     });
 
-    context('When user does not have an email', () => {
+    context('When user does not have an email', function() {
 
-      it('should remove PIX authentication method', async () => {
+      it('should remove PIX authentication method', async function() {
         // given
         const user = domainBuilder.buildUser({ email: null });
         userRepository.get.resolves(user);
@@ -125,9 +125,9 @@ describe('Unit | UseCase | remove-authentication-method', () => {
       });
     });
 
-    context('When user has an email', () => {
+    context('When user has an email', function() {
 
-      it('should not remove PIX authentication method', async () => {
+      it('should not remove PIX authentication method', async function() {
         // given
         const user = domainBuilder.buildUser({ email: 'john.doe@example.net' });
         userRepository.get.resolves(user);
@@ -143,11 +143,11 @@ describe('Unit | UseCase | remove-authentication-method', () => {
     });
   });
 
-  context('When type is GAR', () => {
+  context('When type is GAR', function() {
 
     const type = 'GAR';
 
-    it('should remove GAR authentication method', async () => {
+    it('should remove GAR authentication method', async function() {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
@@ -165,11 +165,11 @@ describe('Unit | UseCase | remove-authentication-method', () => {
     });
   });
 
-  context('When type is POLE_EMPLOI', () => {
+  context('When type is POLE_EMPLOI', function() {
 
     const type = 'POLE_EMPLOI';
 
-    it('should remove POLE_EMPLOI authentication method', async () => {
+    it('should remove POLE_EMPLOI authentication method', async function() {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
@@ -187,9 +187,9 @@ describe('Unit | UseCase | remove-authentication-method', () => {
     });
   });
 
-  context('When there is only one remaining authentication method', () => {
+  context('When there is only one remaining authentication method', function() {
 
-    it('should throw a UserNotAuthorizedToRemoveAuthenticationMethod', async () => {
+    it('should throw a UserNotAuthorizedToRemoveAuthenticationMethod', async function() {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
@@ -203,7 +203,7 @@ describe('Unit | UseCase | remove-authentication-method', () => {
       expect(error).to.be.an.instanceOf(UserNotAuthorizedToRemoveAuthenticationMethod);
     });
 
-    it('should not remove the authentication method', async () => {
+    it('should not remove the authentication method', async function() {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);

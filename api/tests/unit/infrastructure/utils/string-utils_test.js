@@ -7,10 +7,11 @@ const {
   normalize,
 } = require('../../../../lib/infrastructure/utils/string-utils');
 
-describe('Unit | Utils | string-utils', () => {
+describe('Unit | Utils | string-utils', function() {
   const zeroWidthSpaceChar = '​';
 
-  describe('isNumeric', () => {
+  describe('isNumeric', function() {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'abc', expectedResult: false },
       { case: '123', expectedResult: true },
@@ -25,7 +26,7 @@ describe('Unit | Utils | string-utils', () => {
       { case: '0,123', expectedResult: true },
       { case: '25 000', expectedResult: true },
     ].forEach((data) => {
-      it(`should return ${data.expectedResult} with ${data.case}`, () => {
+      it(`should return ${data.expectedResult} with ${data.case}`, function() {
         // When
         const result = isNumeric(data.case);
         // Then
@@ -34,7 +35,8 @@ describe('Unit | Utils | string-utils', () => {
     });
   });
 
-  describe('cleanStringAndParseFloat', () => {
+  describe('cleanStringAndParseFloat', function() {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: '0123', expectedResult: 123 },
       { case: '1,23', expectedResult: 1.23 },
@@ -44,7 +46,7 @@ describe('Unit | Utils | string-utils', () => {
       { case: '1.00', expectedResult: 1 },
       { case: '00025 000', expectedResult: 25000 },
     ].forEach((data) => {
-      it(`should return ${data.expectedResult} with ${data.case}`, () => {
+      it(`should return ${data.expectedResult} with ${data.case}`, function() {
         // When
         const result = cleanStringAndParseFloat(data.case);
         // Then
@@ -53,7 +55,8 @@ describe('Unit | Utils | string-utils', () => {
     });
   });
 
-  describe('splitIntoWordsAndRemoveBackspaces', () => {
+  describe('splitIntoWordsAndRemoveBackspaces', function() {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'abc', expectedResult: ['abc'] },
       { case: 'qvak\nqwak\nanything\n', expectedResult: [ 'qvak', 'qwak', 'anything' ] },
@@ -61,7 +64,7 @@ describe('Unit | Utils | string-utils', () => {
       { case: ',.!p-u-n-c-t', expectedResult: [ ',.!p-u-n-c-t' ] },
       { case: 'variant 1\nvariant 2\nvariant 3\n', expectedResult: [ 'variant 1', 'variant 2', 'variant 3' ] },
     ].forEach((data) => {
-      it(`should return ${data.expectedResult} with ${data.case}`, () => {
+      it(`should return ${data.expectedResult} with ${data.case}`, function() {
         // When
         const result = splitIntoWordsAndRemoveBackspaces(data.case);
         // Then
@@ -70,16 +73,16 @@ describe('Unit | Utils | string-utils', () => {
     });
   });
 
-  describe('#normalizeAndSortChars', () => {
+  describe('#normalizeAndSortChars', function() {
 
-    it(`should normalize and sort chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, () => {
+    it(`should normalize and sort chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, function() {
       expect(normalizeAndSortChars(('Féd \'. 4àBç - 2 (îHg)K​J'))).to.equal('24ABCDEFGHIJK');
     });
   });
 
-  describe('#normalize', () => {
+  describe('#normalize', function() {
 
-    it(`should normalize chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, () => {
+    it(`should normalize chars of a string with non canonical, zero-width and special characters: "Féd '. 4àBç - 2 (îHg)K${zeroWidthSpaceChar}J"`, function() {
       expect(normalize(('Féd \'. 4àBç - 2 (îHg)K​J'))).to.equal('FED4ABC2IHGKJ');
     });
   });

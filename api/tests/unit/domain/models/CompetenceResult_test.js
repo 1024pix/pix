@@ -1,9 +1,9 @@
 const { expect } = require('../../../test-helper');
 const CompetenceResult = require('../../../../lib/domain/models/CompetenceResult');
 
-describe('Unit | Domain | Models | CompetenceResult', () => {
+describe('Unit | Domain | Models | CompetenceResult', function() {
 
-  describe('#masteryPercentage', () => {
+  describe('#masteryPercentage', function() {
     it('should return the correct masteryPercentage when totalSkillsCount is different than 0', function() {
       // given
       const expectedMasteryPercentage = 50;

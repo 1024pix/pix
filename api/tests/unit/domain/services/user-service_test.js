@@ -6,8 +6,10 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 
 const userService = require('../../../../lib/domain/services/user-service');
 
-describe('Unit | Service | user-service', () => {
+describe('Unit | Service | user-service', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('domain transaction');
   const hashedPassword = 'ABCD1234';
 
@@ -19,7 +21,7 @@ describe('Unit | Service | user-service', () => {
   let schoolingRegistrationRepository;
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       create: sinon.stub(),
       updateUsername: sinon.stub(),
@@ -42,9 +44,9 @@ describe('Unit | Service | user-service', () => {
     });
   });
 
-  describe('#createUserWithPassword', () => {
+  describe('#createUserWithPassword', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       user = domainBuilder.buildUser();
       authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
         userId: user.id,
@@ -52,7 +54,7 @@ describe('Unit | Service | user-service', () => {
       });
     });
 
-    it('should call user and authenticationMethod create functions ', async () => {
+    it('should call user and authenticationMethod create functions ', async function() {
       // given
       userRepository.create.resolves(user);
       const expectedAuthenticationMethod = omit(authenticationMethod, ['id', 'createdAt', 'updatedAt']);
@@ -74,9 +76,9 @@ describe('Unit | Service | user-service', () => {
     });
   });
 
-  describe('#updateUsernameAndAddPassword', () => {
+  describe('#updateUsernameAndAddPassword', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       user = domainBuilder.buildUser();
       authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
         userId: user.id,
@@ -85,7 +87,7 @@ describe('Unit | Service | user-service', () => {
       user.authenticationMethods = [authenticationMethod];
     });
 
-    it('should call user and authenticationMethod update functions', async () => {
+    it('should call user and authenticationMethod update functions', async function() {
       const userId = user.id;
       const username = 'newUsername';
       const newHashedPassword = '1234ABCD';
@@ -112,11 +114,11 @@ describe('Unit | Service | user-service', () => {
     });
   });
 
-  describe('#createAndReconcileUserToSchoolingRegistration', () => {
+  describe('#createAndReconcileUserToSchoolingRegistration', function() {
 
     const samlId = 'ABCD';
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       user = domainBuilder.buildUser();
       authenticationMethod = domainBuilder.buildAuthenticationMethod({
         externalIdentifier: samlId,
@@ -124,7 +126,7 @@ describe('Unit | Service | user-service', () => {
       });
     });
 
-    it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async () => {
+    it('should call user and authenticationMethod create and function, and schoolingRegistration update function', async function() {
       // given
       const schoolingRegistrationId = 1;
       userRepository.create.resolves(user);

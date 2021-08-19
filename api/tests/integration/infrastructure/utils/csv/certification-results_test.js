@@ -1,13 +1,13 @@
 const { expect, domainBuilder, databaseBuilder } = require('../../../../test-helper');
 const { getSessionCertificationResultsCsv, getDivisionCertificationResultsCsv } = require('../../../../../lib/infrastructure/utils/csv/certification-results');
 
-describe('Integration | Infrastructure | Utils | csv | certification-results', () => {
+describe('Integration | Infrastructure | Utils | csv | certification-results', function() {
 
-  context('#getSessionCertificationResultsCsv', () => {
+  context('#getSessionCertificationResultsCsv', function() {
 
-    context('when no certification has passed complementary certifications', () => {
+    context('when no certification has passed complementary certifications', function() {
 
-      it('should return correct csvContent without complementary certification informations', async () => {
+      it('should return correct csvContent without complementary certification informations', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -67,8 +67,8 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when at least one certification course is cancelled', () => {
-      it('should return correct csvContent with cancelled status and dashes as Pix scores', async () => {
+    context('when at least one certification course is cancelled', function() {
+      it('should return correct csvContent with cancelled status and dashes as Pix scores', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -128,8 +128,8 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when at least one certification course is in error', () => {
-      it('should return correct csvContent with error status and dashes as Pix scores', async () => {
+    context('when at least one certification course is in error', function() {
+      it('should return correct csvContent with error status and dashes as Pix scores', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -189,9 +189,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when at least one candidate has passed CleA certification', () => {
+    context('when at least one candidate has passed CleA certification', function() {
 
-      it('should return correct csvContent with the CleA information', async () => {
+      it('should return correct csvContent with the CleA information', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -247,9 +247,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when at least one candidate has passed Pix plus maitre certification', () => {
+    context('when at least one candidate has passed Pix plus maitre certification', function() {
 
-      it('should return correct csvContent with the Pix plus maitre information', async () => {
+      it('should return correct csvContent with the Pix plus maitre information', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -305,9 +305,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when at least one candidate has passed Pix plus expert certification', () => {
+    context('when at least one candidate has passed Pix plus expert certification', function() {
 
-      it('should return correct csvContent with the Pix plus expert information', async () => {
+      it('should return correct csvContent with the Pix plus expert information', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -363,9 +363,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when there are several complementary certifications', () => {
+    context('when there are several complementary certifications', function() {
 
-      it('should return correct csvContent with complementary informations', async () => {
+      it('should return correct csvContent with complementary informations', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         const session = databaseBuilder.factory.buildSession({ certificationCenterId });
@@ -436,11 +436,11 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
     });
   });
 
-  context('#getDivisionCertificationResultsCsv', () => {
+  context('#getDivisionCertificationResultsCsv', function() {
 
-    context('when at least one candidate has passed a certification', () => {
+    context('when at least one candidate has passed a certification', function() {
 
-      it('returns a csv without session informations', async () => {
+      it('returns a csv without session informations', async function() {
         // given
         const birthdate = new Date('1990-01-01');
         const createdAt = new Date('2020-01-01');
@@ -493,9 +493,9 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', (
       });
     });
 
-    context('when at least one certification course is cancelled', () => {
+    context('when at least one certification course is cancelled', function() {
 
-      it('returns a csv with cancelled status', async () => {
+      it('returns a csv with cancelled status', async function() {
         // given
         const birthdate = new Date('1990-01-01');
         const createdAt = new Date('2020-01-01');

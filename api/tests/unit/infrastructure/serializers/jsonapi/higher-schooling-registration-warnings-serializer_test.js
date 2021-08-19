@@ -1,11 +1,11 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
 
-describe('Unit | Serializer | higher-schooling-registration-warnings-serializer', () => {
+describe('Unit | Serializer | higher-schooling-registration-warnings-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should return a JSON API serialized warning', () => {
+    it('should return a JSON API serialized warning', function() {
       // given
       const importWarnings = {
         id: 123,

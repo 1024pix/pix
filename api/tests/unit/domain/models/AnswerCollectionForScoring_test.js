@@ -4,9 +4,9 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
 
-  context('#numberOfNonNeutralizedChallenges', () => {
+  context('#numberOfNonNeutralizedChallenges', function() {
 
-    it('equals 0 when no challenges asked', () => {
+    it('equals 0 when no challenges asked', function() {
       // given
       const answerCollection = AnswerCollectionForScoring.from({
         answers: [],
@@ -20,7 +20,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(0);
     });
 
-    it('counts the number of non neutralized challenges', () => {
+    it('counts the number of non neutralized challenges', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal1', type: 'QCM' });
       const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
@@ -40,7 +40,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(2);
     });
 
-    it('counts QROCMDeps as single challenges', () => {
+    it('counts QROCMDeps as single challenges', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(2);
     });
 
-    it('counts only answered challenges and ignore unanswered ones', () => {
+    it('counts only answered challenges and ignore unanswered ones', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
@@ -76,9 +76,9 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(0);
     });
   });
-  context('#numberOfCorrectAnswers', () => {
+  context('#numberOfCorrectAnswers', function() {
 
-    it('equals 0 when no answers', () => {
+    it('equals 0 when no answers', function() {
       // given
       const answerCollection = AnswerCollectionForScoring.from({
         answers: [],
@@ -92,7 +92,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(0);
     });
 
-    it('equals 0 when no correct answers', () => {
+    it('equals 0 when no correct answers', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
@@ -112,7 +112,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(0);
     });
 
-    it('equals the number of answers when they are all correct and non-neutralized', () => {
+    it('equals the number of answers when they are all correct and non-neutralized', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM', isNeutralized: false });
       const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM', isNeutralized: false });
@@ -132,7 +132,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(3);
     });
 
-    it('counts QROCMDeps as 0 when partially correct', () => {
+    it('counts QROCMDeps as 0 when partially correct', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
@@ -150,7 +150,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(1);
     });
 
-    it('counts QROCMDeps as 1 when fully correct', () => {
+    it('counts QROCMDeps as 1 when fully correct', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM' });
       const qROCMDepChallenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QROCM-dep' });
@@ -168,7 +168,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(2);
     });
 
-    it('count only non-neutralized challenges', () => {
+    it('count only non-neutralized challenges', function() {
       // given
       const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', type: 'QCM', isNeutralized: true });
       const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM', isNeutralized: true });
@@ -188,8 +188,8 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
-  context('#numberOfChallengesForCompetence', () => {
-    it('equals 0 when no challenges asked for given competence', () => {
+  context('#numberOfChallengesForCompetence', function() {
+    it('equals 0 when no challenges asked for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -211,7 +211,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(0);
     });
 
-    it('equals the number of challenges when no QROCMDep for given competence', () => {
+    it('equals the number of challenges when no QROCMDep for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -238,7 +238,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(3);
     });
 
-    it('counts QROCMDeps as double if only two challenges or less for given competence', () => {
+    it('counts QROCMDeps as double if only two challenges or less for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -264,7 +264,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(3);
     });
 
-    it('counts QROCMDeps as single if more than two challenges for given competence', () => {
+    it('counts QROCMDeps as single if more than two challenges for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -292,7 +292,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(3);
     });
 
-    it('counts all challenges with or without answer for given competence', () => {
+    it('counts all challenges with or without answer for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -315,9 +315,9 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(2);
     });
   });
-  context('#numberOfCorrectAnswersForCompetence', () => {
+  context('#numberOfCorrectAnswersForCompetence', function() {
 
-    it('equals 0 when no answers for given competence', () => {
+    it('equals 0 when no answers for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -339,7 +339,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(0);
     });
 
-    it('equals 0 when no correct answers for given competence', () => {
+    it('equals 0 when no correct answers for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -367,7 +367,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(0);
     });
 
-    it('equals the number of answers when they are all correct for given competence', () => {
+    it('equals the number of answers when they are all correct for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -395,7 +395,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(3);
     });
 
-    it('counts QROCMDeps as 1 when partially correct for given competence', () => {
+    it('counts QROCMDeps as 1 when partially correct for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -421,7 +421,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(2);
     });
 
-    it('counts 2 QROCMDeps as 3 correct answers when fully correct for given competence', () => {
+    it('counts 2 QROCMDeps as 3 correct answers when fully correct for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const qROCMDepChallenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1', competenceId: aCompetenceId, type: 'QROCM-dep' });
@@ -441,7 +441,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(3);
     });
 
-    it('counts QROCMDeps as 2 when fully correctfor given competence', () => {
+    it('counts QROCMDeps as 2 when fully correctfor given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -467,7 +467,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfCorrectAnswers).to.equal(3);
     });
 
-    it('count only non-neutralized challenges for given competence', () => {
+    it('count only non-neutralized challenges for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -495,9 +495,9 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
-  context('#numberOfNeutralizedChallengesForCompetence', () => {
+  context('#numberOfNeutralizedChallengesForCompetence', function() {
 
-    it('equals 0 when there are no answers for given competence', () => {
+    it('equals 0 when there are no answers for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -519,7 +519,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfNeutralizedChallenges).to.equal(0);
     });
 
-    it('equals the number of challenges when there are all neutralized and none of them are QROCMDep for given competence', () => {
+    it('equals the number of challenges when there are all neutralized and none of them are QROCMDep for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -547,7 +547,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfNeutralizedChallenges).to.equal(3);
     });
 
-    it('counts a neutralized QROCMDep challenge as two neutralized challenges when less than 3 challenges for given competence', () => {
+    it('counts a neutralized QROCMDep challenge as two neutralized challenges when less than 3 challenges for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';
@@ -573,7 +573,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfNeutralizedChallenges).to.equal(3);
     });
 
-    it('counts a neutralized QROCMDep challenge as a single neutralized challenge when 3 challenges for given competence', () => {
+    it('counts a neutralized QROCMDep challenge as a single neutralized challenge when 3 challenges for given competence', function() {
       // given
       const aCompetenceId = 'recIdOfACompetence';
       const anotherCompetenceId = 'recIdOfAnotherCompetence';

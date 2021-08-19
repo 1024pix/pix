@@ -6,11 +6,11 @@ const {
   CertificationCandidatePersonalInfoWrongFormat,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | Certification Candidate', () => {
+describe('Unit | Domain | Models | Certification Candidate', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should build a Certification Candidate from JSON', () => {
+    it('should build a Certification Candidate from JSON', function() {
       // given
       const rawData = {
         firstName: 'Jean-Pierre',
@@ -44,11 +44,11 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
     });
   });
 
-  describe('validate', () => {
+  describe('validate', function() {
 
     const buildCertificationCandidate = (attributes) => new CertificationCandidate(attributes);
 
-    context('previous version 1.4', () => {
+    context('previous version 1.4', function() {
       const version = '1.4';
 
       const validAttributes = {
@@ -62,8 +62,8 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         resultRecipientEmail: 'orga@example.net',
       };
 
-      context('when all required fields are presents', () => {
-        it('should be ok when object is valid', () => {
+      context('when all required fields are presents', function() {
+        it('should be ok when object is valid', function() {
           try {
             const certificationCandidate = buildCertificationCandidate(validAttributes);
             certificationCandidate.validate(version);
@@ -73,6 +73,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         });
       });
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       [
         'firstName',
         'lastName',
@@ -80,7 +81,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         'birthProvinceCode',
         'birthCountry',
       ].forEach((field) => {
-        it(`should throw an error when field ${field} is not a string`, async () => {
+        it(`should throw an error when field ${field} is not a string`, async function() {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -89,7 +90,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           expect(error.why).to.equal('not_a_string');
         });
 
-        it(`should throw an error when field ${field} is not present`, async () => {
+        it(`should throw an error when field ${field} is not present`, async function() {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -98,7 +99,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           expect(error.why).to.equal('required');
         });
 
-        it(`should throw an error when field ${field} is not present because null`, async () => {
+        it(`should throw an error when field ${field} is not present because null`, async function() {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -108,7 +109,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         });
       });
 
-      it('should throw an error when field sessionId is not a number', async () => {
+      it('should throw an error when field sessionId is not a number', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -117,7 +118,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('not_a_number');
       });
 
-      it('should throw an error when field sessionId is not present', async () => {
+      it('should throw an error when field sessionId is not present', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -126,7 +127,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when field sessionId is not present because null', async () => {
+      it('should throw an error when field sessionId is not present because null', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: null });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -135,7 +136,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when field externalId is not a string', async () => {
+      it('should throw an error when field externalId is not a string', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -144,7 +145,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('not_a_string');
       });
 
-      it('should throw an error when birthdate is not a date', async () => {
+      it('should throw an error when birthdate is not a date', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: 'je mange des légumes' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -153,7 +154,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('date_format');
       });
 
-      it('should throw an error when birthdate is not a valid format', async () => {
+      it('should throw an error when birthdate is not a valid format', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -162,7 +163,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('date_format');
       });
 
-      it('should throw an error when birthdate is null', async () => {
+      it('should throw an error when birthdate is null', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -171,7 +172,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when birthdate is not present', async () => {
+      it('should throw an error when birthdate is not present', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -180,7 +181,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when field extraTimePercentage is not a number', async () => {
+      it('should throw an error when field extraTimePercentage is not a number', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, extraTimePercentage: 'salut' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -190,7 +191,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       });
     });
 
-    context('current version 1.5', () => {
+    context('current version 1.5', function() {
       const version = '1.5';
 
       const validAttributes = {
@@ -204,8 +205,8 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         resultRecipientEmail: 'orga@example.net',
       };
 
-      context('when all required fields are presents', () => {
-        it('should be ok when object is valid', () => {
+      context('when all required fields are presents', function() {
+        it('should be ok when object is valid', function() {
           try {
             const certificationCandidate = buildCertificationCandidate(validAttributes);
             certificationCandidate.validate(version);
@@ -215,12 +216,13 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         });
       });
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       [
         'firstName',
         'lastName',
         'birthCountry',
       ].forEach((field) => {
-        it(`should throw an error when field ${field} is not a string`, async () => {
+        it(`should throw an error when field ${field} is not a string`, async function() {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: 123 });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -229,7 +231,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           expect(error.why).to.equal('not_a_string');
         });
 
-        it(`should throw an error when field ${field} is not present`, async () => {
+        it(`should throw an error when field ${field} is not present`, async function() {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: undefined });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -238,7 +240,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
           expect(error.why).to.equal('required');
         });
 
-        it(`should throw an error when field ${field} is not present because null`, async () => {
+        it(`should throw an error when field ${field} is not present because null`, async function() {
           const certificationCandidate = buildCertificationCandidate({ ...validAttributes, [field]: null });
           const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -248,7 +250,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         });
       });
 
-      it('should throw an error when field sessionId is not a number', async () => {
+      it('should throw an error when field sessionId is not a number', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: 'salut' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -257,7 +259,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('not_a_number');
       });
 
-      it('should throw an error when field sessionId is not present', async () => {
+      it('should throw an error when field sessionId is not present', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: undefined });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -266,7 +268,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when field sessionId is not present because null', async () => {
+      it('should throw an error when field sessionId is not present because null', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sessionId: null });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -275,7 +277,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when field externalId is not a string', async () => {
+      it('should throw an error when field externalId is not a string', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, externalId: 1235 });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -284,7 +286,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('not_a_string');
       });
 
-      it('should throw an error when birthdate is not a date', async () => {
+      it('should throw an error when birthdate is not a date', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: 'je mange des légumes' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -293,7 +295,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('date_format');
       });
 
-      it('should throw an error when birthdate is not a valid format', async () => {
+      it('should throw an error when birthdate is not a valid format', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: '2020/02/01' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -302,7 +304,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('date_format');
       });
 
-      it('should throw an error when birthdate is null', async () => {
+      it('should throw an error when birthdate is null', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: null });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -311,7 +313,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when birthdate is not present', async () => {
+      it('should throw an error when birthdate is not present', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, birthdate: undefined });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -320,7 +322,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('required');
       });
 
-      it('should throw an error when field extraTimePercentage is not a number', async () => {
+      it('should throw an error when field extraTimePercentage is not a number', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, extraTimePercentage: 'salut' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -329,7 +331,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
         expect(error.why).to.equal('not_a_number');
       });
 
-      it('should throw an error when sex is neither M nor F', async () => {
+      it('should throw an error when sex is neither M nor F', async function() {
         const certificationCandidate = buildCertificationCandidate({ ...validAttributes, sex: 'something_else' });
         const error = await catchErr(certificationCandidate.validate, certificationCandidate)(version);
 
@@ -340,9 +342,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
     });
   });
 
-  describe('validateParticipation', () => {
+  describe('validateParticipation', function() {
 
-    it('should not throw when the object is valid', () => {
+    it('should not throw when the object is valid', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
 
@@ -353,7 +355,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       expect(true).to.be.true;
     });
 
-    it('should return an error if firstName is not defined', () => {
+    it('should return an error if firstName is not defined', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.firstName = undefined;
@@ -367,7 +369,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if firstName is not a string', () => {
+    it('should return an error if firstName is not a string', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ firstName: 123 });
 
@@ -380,7 +382,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if lastName is not defined', () => {
+    it('should return an error if lastName is not defined', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.lastName = undefined;
@@ -394,7 +396,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if lastName is not a string', () => {
+    it('should return an error if lastName is not a string', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ lastName: 123 });
 
@@ -407,7 +409,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if birthdate is not defined', () => {
+    it('should return an error if birthdate is not defined', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.birthdate = undefined;
@@ -421,7 +423,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if birthdate is not a date in iso format', () => {
+    it('should return an error if birthdate is not a date in iso format', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '04/01/1990' });
 
@@ -434,7 +436,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if birthdate not greater than 1900-01-01', () => {
+    it('should return an error if birthdate not greater than 1900-01-01', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1899-06-06' });
 
@@ -447,7 +449,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if birthdate does not exist (such as 31th November)', () => {
+    it('should return an error if birthdate does not exist (such as 31th November)', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ birthdate: '1999-11-31' });
 
@@ -460,7 +462,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if sessionId is not defined', () => {
+    it('should return an error if sessionId is not defined', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate();
       certificationCandidate.sessionId = undefined;
@@ -474,7 +476,7 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
       }
     });
 
-    it('should return an error if sessionId is not a number', () => {
+    it('should return an error if sessionId is not a number', function() {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: 'a' });
 
@@ -489,9 +491,9 @@ describe('Unit | Domain | Models | Certification Candidate', () => {
 
   });
 
-  describe('updateBirthInformation', () => {
+  describe('updateBirthInformation', function() {
 
-    it('should update certification candidate\'s birth information', () => {
+    it('should update certification candidate\'s birth information', function() {
       // given
       const birthCountry = 'birthCountry';
       const birthINSEECode = 'birthINSEECode';

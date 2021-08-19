@@ -4,19 +4,19 @@ const authenticationMethodRepository = require('../../../../lib/infrastructure/r
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-describe('Unit | Service | user-authentication-method-obfuscation-service', () => {
+describe('Unit | Service | user-authentication-method-obfuscation-service', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
   });
 
-  afterEach(() => {
+  afterEach(function() {
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider.restore();
   });
 
-  describe('#emailObfuscation', () => {
+  describe('#emailObfuscation', function() {
 
-    it('should return obfuscated email', () => {
+    it('should return obfuscated email', function() {
       // Given
       const email = 'johnHarry@example.net';
       // When
@@ -27,9 +27,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
   });
 
-  describe('#usernameObfuscation', () => {
+  describe('#usernameObfuscation', function() {
 
-    it('should return obfuscated username', () => {
+    it('should return obfuscated username', function() {
       // Given
       const username = 'john.harry0702';
       // When
@@ -40,9 +40,9 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
 
   });
 
-  describe('#getUserAuthenticationMethodWithObfuscation', () => {
+  describe('#getUserAuthenticationMethodWithObfuscation', function() {
 
-    it('should return authenticated with samlId when user is authenticated with samlId only', async () => {
+    it('should return authenticated with samlId when user is authenticated with samlId only', async function() {
       // Given
       const user = domainBuilder.buildUser();
       const authenticationMethod = domainBuilder.buildAuthenticationMethod({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
@@ -59,7 +59,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       expect(value).to.be.deep.equal(expectedResult);
     });
 
-    it('should return authenticated with samlId when user is authenticated with samlId and username', async () => {
+    it('should return authenticated with samlId when user is authenticated with samlId and username', async function() {
       // Given
       const username = 'john.harry.0702';
       const user = new User({ username });
@@ -77,7 +77,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       expect(value).to.be.deep.equal(expectedResult);
     });
 
-    it('should return authenticated with samlId when user is authenticated with samlId, username and email', async () => {
+    it('should return authenticated with samlId when user is authenticated with samlId, username and email', async function() {
       // Given
       const username = 'john.harry.0702';
       const email = 'john.harry@example.net';
@@ -96,7 +96,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       expect(value).to.be.deep.equal(expectedResult);
     });
 
-    it('should return authenticated with username when user is authenticated with username only', async () => {
+    it('should return authenticated with username when user is authenticated with username only', async function() {
       // Given
       const username = 'john.harry0702';
       const user = new User({ username });
@@ -111,7 +111,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       expect(value).to.be.deep.equal(expectedResult);
     });
 
-    it('should return authenticated with username when user is authenticated with username and email', async () => {
+    it('should return authenticated with username when user is authenticated with username and email', async function() {
       // Given
       const username = 'john.harry0702';
       const email = 'john.harry@example.net';
@@ -128,7 +128,7 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', () =
       expect(value).to.be.deep.equal(expectedResult);
     });
 
-    it('should return authenticated with username when user is authenticated with email only', async () => {
+    it('should return authenticated with username when user is authenticated with email only', async function() {
       // Given
       const email = 'john.harry@example.net';
       const user = new User({ email });

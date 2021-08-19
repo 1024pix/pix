@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationDetails = require('../../../../lib/domain/read-models/CertificationDetails');
 const { states } = require('../../../../lib/domain/models/CertificationAssessment');
 
-describe('Unit | Domain | Read-models | CertificationDetails', () => {
+describe('Unit | Domain | Read-models | CertificationDetails', function() {
 
-  describe('static #from', () => {
+  describe('static #from', function() {
 
-    it('should return a CertificationDetails', () => {
+    it('should return a CertificationDetails', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
@@ -81,7 +81,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
       expect(certificationDetails.toDTO()).to.deep.equal(expectedCertificationDetails.toDTO());
     });
 
-    it('should take into account neutralized challenges when computing the percentage of correct answers', () => {
+    it('should take into account neutralized challenges when computing the percentage of correct answers', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', isNeutralized: true });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
@@ -101,7 +101,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
       expect(certificationDetails.toDTO().percentageCorrectAnswers).to.equal(0);
     });
 
-    it('should ignore challenges that do not have answer', () => {
+    it('should ignore challenges that do not have answer', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123' });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
@@ -122,9 +122,9 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
     });
   });
 
-  describe('static #fromCertificationAssessmentScore', () => {
+  describe('static #fromCertificationAssessmentScore', function() {
 
-    it('should return a CertificationDetails', () => {
+    it('should return a CertificationDetails', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
@@ -206,7 +206,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
       expect(certificationDetails.toDTO()).to.deep.equal(expectedCertificationDetails.toDTO());
     });
 
-    it('should ignore challenges that do not have answer', () => {
+    it('should ignore challenges that do not have answer', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: true });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
@@ -240,9 +240,9 @@ describe('Unit | Domain | Read-models | CertificationDetails', () => {
     });
   });
 
-  describe('#toDTO', () => {
+  describe('#toDTO', function() {
 
-    it('should return a DTO version of a CertificationDetails', () => {
+    it('should return a DTO version of a CertificationDetails', function() {
       // given
       const competencesWithMark = [{
         areaCode: '1',

@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const { outdateTargetProfile } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | outdate-target-profile', () => {
+describe('Unit | UseCase | outdate-target-profile', function() {
 
-  it('should call repository method to update a target profile name', async () => {
+  it('should call repository method to update a target profile name', async function() {
     //given
     const targetProfileRepository = {
       update: sinon.stub(),

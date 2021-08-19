@@ -4,19 +4,21 @@ const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 
-describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
+describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
     const answerId = 1232345;
     const assessmentId = 12345;
     const challengeId = 2134356;
     const timeout = 8;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const result = AnswerStatus.SKIPPED;
     const resultDetails = null;
     const answerValue = '1';
 
-    it('should convert an Answer model object into JSON API data', () => {
+    it('should convert an Answer model object into JSON API data', function() {
       // given
       const answer = domainBuilder.buildAnswer({
         id: answerId,
@@ -70,12 +72,12 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
     });
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize()', function() {
 
     let jsonAnswer;
     const assessmentId = 'assessmentId', challengeId = 'recChallengeId';
 
-    beforeEach(() => {
+    beforeEach(function() {
       jsonAnswer = {
         data: {
           type: 'answers',
@@ -102,7 +104,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', () => {
         },
       };
     });
-    it('should convert JSON API data into an Answer model object', () => {
+    it('should convert JSON API data into an Answer model object', function() {
       // when
       const answer = serializer.deserialize(jsonAnswer);
 

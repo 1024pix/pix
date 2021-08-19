@@ -1,15 +1,15 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findUserPrivateCertificates = require('../../../../lib/domain/usecases/find-user-private-certificates');
 
-describe('Unit | UseCase | find-user-private-certificates', () => {
+describe('Unit | UseCase | find-user-private-certificates', function() {
 
   const privateCertificateRepository = {};
 
-  beforeEach(() => {
+  beforeEach(function() {
     privateCertificateRepository.findByUserId = sinon.stub();
   });
 
-  it('should return the private certificates', async () => {
+  it('should return the private certificates', async function() {
     // given
     const privateCertificate1 = domainBuilder.buildPrivateCertificate();
     const privateCertificate2 = domainBuilder.buildPrivateCertificate();

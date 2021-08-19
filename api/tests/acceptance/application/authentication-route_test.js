@@ -12,7 +12,7 @@ const poleEmploiTokensRepository = require('../../../lib/infrastructure/reposito
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | authentication-controller', () => {
+describe('Acceptance | Controller | authentication-controller', function() {
 
   const orgaRoleInDB = { id: 1, name: 'ADMIN' };
 
@@ -22,7 +22,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
   let server;
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     userId = databaseBuilder.factory.buildUser.withRawPassword({
@@ -34,11 +34,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
     await databaseBuilder.commit();
   });
 
-  describe('POST /api/token', () => {
+  describe('POST /api/token', function() {
 
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, organizationRoleId: orgaRoleInDB.id });
 
@@ -59,7 +59,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 with accessToken when authentication is ok', async () => {
+    it('should return an 200 with accessToken when authentication is ok', async function() {
       // when
       const response = await server.inject(options);
 
@@ -72,7 +72,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       expect(result.user_id).to.equal(userId);
     });
 
-    it('should return http code 401 when user should change password', async () => {
+    it('should return http code 401 when user should change password', async function() {
       // given
       const username = 'username123';
       const shouldChangePassword = true;
@@ -110,15 +110,15 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
   });
 
-  describe('POST /api/token-from-external-user', () => {
+  describe('POST /api/token-from-external-user', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('authentication-methods').delete();
     });
 
-    describe('when user has a reconciled Pix account, then connect to Pix from GAR', () => {
+    describe('when user has a reconciled Pix account, then connect to Pix from GAR', function() {
 
-      it('should return an 200 with accessToken', async () => {
+      it('should return an 200 with accessToken', async function() {
         // given
         const password = 'Pix123';
         const userAttributes = {
@@ -158,7 +158,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(response.result.data.attributes['access-token']).to.exist;
       });
 
-      it('should add GAR authentication method', async () => {
+      it('should add GAR authentication method', async function() {
         // given
         const password = 'Pix123';
         const userAttributes = {
@@ -205,7 +205,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
   });
 
-  describe('POST /api/pole-emploi/token', () => {
+  describe('POST /api/pole-emploi/token', function() {
 
     let clock;
     let options;
@@ -217,7 +217,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
     const lastName = 'Doe';
     const externalIdentifier = 'idIdentiteExterne';
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       clock = sinon.useFakeTimers({
         now: Date.now(),
@@ -264,13 +264,13 @@ describe('Acceptance | Controller | authentication-controller', () => {
         .reply(200, getAccessTokenResponse);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 
-    context('When the state sent does not match the state received', () => {
+    context('When the state sent does not match the state received', function() {
 
-      it('should return http code 400', async () => {
+      it('should return http code 400', async function() {
         // given
         options.payload = querystring.stringify({
           code: 'code',
@@ -288,16 +288,16 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    context('When user is not connected to Pix', () => {
+    context('When user is not connected to Pix', function() {
 
-      context('When user has not account', () => {
+      context('When user has not account', function() {
 
-        afterEach(async () => {
+        afterEach(async function() {
           await knex('authentication-methods').delete();
           await knex('users').delete();
         });
 
-        it('should return http code 401', async () => {
+        it('should return http code 401', async function() {
           // when
           const response = await server.inject(options);
 
@@ -305,7 +305,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(response.statusCode).to.equal(401);
         });
 
-        it('should return an authenticationKey in meta', async () => {
+        it('should return an authenticationKey in meta', async function() {
           // when
           const response = await server.inject(options);
 
@@ -313,7 +313,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(response.result.errors[0].meta).to.exist;
         });
 
-        it('should return validate cgu in code', async () => {
+        it('should return validate cgu in code', async function() {
           // when
           const response = await server.inject(options);
 
@@ -322,7 +322,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(response.result.errors[0].code).to.equal('SHOULD_VALIDATE_CGU');
         });
 
-        it('should return an authenticationKey in meta which match to stored poleEmploiTokens', async () => {
+        it('should return an authenticationKey in meta which match to stored poleEmploiTokens', async function() {
           // given
           const poleEmploiTokens = new PoleEmploiTokens({
             accessToken: 'access_token',
@@ -342,11 +342,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
       });
 
-      context('When user and POLE EMPLOI authentication method exist', () => {
+      context('When user and POLE EMPLOI authentication method exist', function() {
 
         let userId;
 
-        beforeEach(async () => {
+        beforeEach(async function() {
           userId = databaseBuilder.factory.buildUser({
             firstName,
             lastName,
@@ -363,7 +363,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           await databaseBuilder.commit();
         });
 
-        it('should update POLE_EMPLOI authentication method authentication complement', async () => {
+        it('should update POLE_EMPLOI authentication method authentication complement', async function() {
           // when
           await server.inject(options);
 
@@ -374,7 +374,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
         });
 
-        it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+        it('should return an 200 with access_token and id_token when authentication is ok', async function() {
           // when
           const response = await server.inject(options);
 
@@ -387,25 +387,25 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    context('When user is connected to Pix', () => {
+    context('When user is connected to Pix', function() {
 
       let authenticatedUser;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         authenticatedUser = databaseBuilder.factory.buildUser();
         await databaseBuilder.commit();
 
         options.headers['Authorization'] = generateValidRequestAuthorizationHeader(authenticatedUser.id);
       });
 
-      afterEach(async () => {
+      afterEach(async function() {
         await knex('authentication-methods').delete();
         await knex('users').delete();
       });
 
-      context('When the user does not have a POLE_EMPLOI authentication method', () => {
+      context('When the user does not have a POLE_EMPLOI authentication method', function() {
 
-        it('should create a POLE_EMPLOI authentication method for the authenticated user', async () => {
+        it('should create a POLE_EMPLOI authentication method for the authenticated user', async function() {
           // when
           await server.inject(options);
 
@@ -418,7 +418,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
         });
 
-        it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+        it('should return an 200 with access_token and id_token when authentication is ok', async function() {
           // when
           const response = await server.inject(options);
 
@@ -430,9 +430,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
         });
       });
 
-      context('When the user does have a POLE_EMPLOI authentication method', () => {
+      context('When the user does have a POLE_EMPLOI authentication method', function() {
 
-        it('should update POLE_EMPLOI authentication method authentication complement', async () => {
+        it('should update POLE_EMPLOI authentication method authentication complement', async function() {
           // given
           databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
             externalIdentifier,
@@ -454,7 +454,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
           expect(authenticationMethods[0].authenticationComplement.refreshToken).to.equal(getAccessTokenResponse['refresh_token']);
         });
 
-        it('should return a 409 Conflict if the authenticated user is not the expected one', async () => {
+        it('should return a 409 Conflict if the authenticated user is not the expected one', async function() {
           // given
           const otherUser = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
@@ -472,7 +472,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         });
       });
 
-      it('should return an 200 with access_token and id_token when authentication is ok', async () => {
+      it('should return an 200 with access_token and id_token when authentication is ok', async function() {
         // when
         const response = await server.inject(options);
 
@@ -484,9 +484,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    context('When user has an invalid token', () => {
+    context('When user has an invalid token', function() {
 
-      it('should be rejected by API', async () => {
+      it('should be rejected by API', async function() {
         // given
         options.headers['Authorization'] = 'invalid_token';
 
@@ -498,9 +498,9 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    context('When pole-emploi request fail', () => {
+    context('When pole-emploi request fail', function() {
 
-      it('should return HTTP 500 with error detail', async () => {
+      it('should return HTTP 500 with error detail', async function() {
         // given
         const errorData = {
           error: 'invalid_client',
@@ -522,16 +522,16 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
   });
 
-  describe('POST /api/token/anonymous', () => {
+  describe('POST /api/token/anonymous', function() {
 
     let options;
 
-    context('When is not simplified Access Campaign', () => {
+    context('When is not simplified Access Campaign', function() {
 
       const campaignCode = 'RANDOM123';
       const lang = 'en';
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const targetProfile = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: false });
         databaseBuilder.factory.buildCampaign({ code: campaignCode, targetProfile });
 
@@ -550,7 +550,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return an 401', async() =>{
+      it('should return an 401', async function() {
         // when
         const response = await server.inject(options);
 
@@ -560,7 +560,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    context('When is simplified Access Campaign', () =>{
+    context('When is simplified Access Campaign', function() {
 
       const simplifiedAccessCampaignCode = 'SIMPLIFIE';
       const firstName = '';
@@ -568,7 +568,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       const isAnonymous = true;
       const lang = 'en';
 
-      beforeEach(async () => {
+      beforeEach(async function() {
 
         const targetProfileId = databaseBuilder.factory.buildTargetProfile({ isSimplifiedAccess: true }).id;
         databaseBuilder.factory.buildCampaign({ code: simplifiedAccessCampaignCode, targetProfileId });
@@ -588,7 +588,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return a 200 with accessToken', async() =>{
+      it('should return a 200 with accessToken', async function() {
         // when
         const response = await server.inject(options);
         const result = response.result;
@@ -600,7 +600,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
         expect(result.access_token).to.exist;
       });
 
-      it('should create an anonymous user', async () => {
+      it('should create an anonymous user', async function() {
         // when
         await server.inject(options);
 
@@ -611,14 +611,14 @@ describe('Acceptance | Controller | authentication-controller', () => {
     });
   });
 
-  describe('POST /api/application/token', () => {
+  describe('POST /api/application/token', function() {
 
     let options;
     const OSMOSE_CLIENT_ID = 'graviteeOsmoseClientId';
     const OSMOSE_CLIENT_SECRET = 'graviteeOsmoseClientSecret';
     const SCOPE = 'organizations-certifications-result';
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'POST',
         url: '/api/application/token',
@@ -630,7 +630,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 with accessToken when clientId, client secret and scope are registred', async () => {
+    it('should return an 200 with accessToken when clientId, client secret and scope are registred', async function() {
       // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
@@ -651,7 +651,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       expect(result.client_id).to.equal(OSMOSE_CLIENT_ID);
     });
 
-    it('should return an 401 when clientId is not registred', async () => {
+    it('should return an 401 when clientId is not registred', async function() {
       // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
@@ -672,7 +672,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     });
 
-    it('should return an 401 when client secret is not valid', async () => {
+    it('should return an 401 when client secret is not valid', async function() {
       // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',
@@ -692,7 +692,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
       });
     });
 
-    it('should return an 403 when scope is not allowed', async () => {
+    it('should return an 403 when scope is not allowed', async function() {
       // given
       options.payload = querystring.stringify({
         grant_type: 'client_credentials',

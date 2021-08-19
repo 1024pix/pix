@@ -3,22 +3,22 @@ const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-m
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
+describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
 
-  describe('validation', () => {
+  describe('validation', function() {
 
     let rawData;
 
-    beforeEach(() => {
+    beforeEach(function() {
       rawData = {
         emitter: '',
         status: null,
       };
     });
 
-    describe('the status field', () => {
+    describe('the status field', function() {
 
-      it('should only accept specific values', () => {
+      it('should only accept specific values', function() {
         // given
         rawData.status = 'not_a_correct_status';
         const certification = new BookshelfAssessmentResults(rawData);
@@ -39,9 +39,9 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
     });
   });
 
-  describe('#buildStartedAssessmentResult', () => {
+  describe('#buildStartedAssessmentResult', function() {
 
-    it('should return true if the campaign is of type ASSESSMENT', () => {
+    it('should return true if the campaign is of type ASSESSMENT', function() {
       // given
       const assessmentId = 123;
 
@@ -67,9 +67,9 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
     });
   });
 
-  describe('#isValidated', () => {
+  describe('#isValidated', function() {
 
-    it('should return true if the assessment result is validated', () => {
+    it('should return true if the assessment result is validated', function() {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.validated();
 
@@ -80,7 +80,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
       expect(isValidated).to.be.true;
     });
 
-    it('should return false if the assessment result is rejected', () => {
+    it('should return false if the assessment result is rejected', function() {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.rejected();
 
@@ -91,7 +91,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
       expect(isValidated).to.be.false;
     });
 
-    it('should return false if the assessment result is in error', () => {
+    it('should return false if the assessment result is in error', function() {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.error();
 
@@ -102,7 +102,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', () => {
       expect(isValidated).to.be.false;
     });
 
-    it('should return false if the assessment result is started', () => {
+    it('should return false if the assessment result is started', function() {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.started();
 

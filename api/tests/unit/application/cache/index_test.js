@@ -8,11 +8,11 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const moduleUnderTest = require('../../../../lib/application/cache');
 const cacheController = require('../../../../lib/application/cache/cache-controller');
 
-describe('Unit | Router | cache-router', () => {
+describe('Unit | Router | cache-router', function() {
 
-  describe('PATCH /api/cache/{model}/{id}', () => {
+  describe('PATCH /api/cache/{model}/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       //given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(cacheController, 'refreshCacheEntry').callsFake((request, h) => h.response().code(204));
@@ -29,9 +29,9 @@ describe('Unit | Router | cache-router', () => {
     });
   });
 
-  describe('PATCH /api/cache', () => {
+  describe('PATCH /api/cache', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       //given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(cacheController, 'refreshCacheEntries').callsFake((request, h) => h.response().code(204));

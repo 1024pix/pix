@@ -11,16 +11,16 @@ const {
 const UserLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserLinkedToCertificationCandidate');
 const UserAlreadyLinkedToCertificationCandidate = require('../../../../lib/domain/events/UserAlreadyLinkedToCertificationCandidate');
 
-describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', () => {
+describe('Unit | Domain | Use Cases | link-user-to-session-certification-candidate', function() {
   const sessionId = 42;
   const userId = 'userId';
   const firstName = 'Charlie';
   const lastName = 'Bideau';
   const birthdate = '2010-10-10';
 
-  context('when the session is not accessible', () => {
+  context('when the session is not accessible', function() {
 
-    it('should throw a SessionNotAccessible error', async () => {
+    it('should throw a SessionNotAccessible error', async function() {
       // given
       const sessionRepository = {
         get: sinon.stub(),
@@ -42,19 +42,19 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
     });
   });
 
-  context('when the session is accessible', () => {
+  context('when the session is accessible', function() {
     const sessionRepository = { get: () => undefined };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sessionRepository.get = sinon.stub();
       sessionRepository.get.withArgs(42).resolves(domainBuilder.buildSession.created());
     });
 
-    context('when there is a problem with the personal info', () => {
+    context('when there is a problem with the personal info', function() {
 
-      context('when no certification candidates match with the provided personal info', () => {
+      context('when no certification candidates match with the provided personal info', function() {
 
-        it('should throw a CertificationCandidateByPersonalInfoNotFoundError', async () => {
+        it('should throw a CertificationCandidateByPersonalInfoNotFoundError', async function() {
           // given
           const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
@@ -83,9 +83,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
       });
 
-      context('when there are more than one certification candidates that match with the provided personal info', () => {
+      context('when there are more than one certification candidates that match with the provided personal info', function() {
 
-        it('should throw a CertificationCandidateByPersonalInfoTooManyMatchesError', async () => {
+        it('should throw a CertificationCandidateByPersonalInfoTooManyMatchesError', async function() {
           // given
           const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
             .withFindBySessionIdAndPersonalInfo({
@@ -115,13 +115,13 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       });
     });
 
-    context('when there is exactly one certification candidate that matches with the provided personal info', () => {
+    context('when there is exactly one certification candidate that matches with the provided personal info', function() {
 
-      context('when the matching certification candidate is already linked to a user', () => {
+      context('when the matching certification candidate is already linked to a user', function() {
 
-        context('when the linked user is the same as the user being linked', () => {
+        context('when the linked user is the same as the user being linked', function() {
 
-          it('should not create a link and return the matching certification candidate', async () => {
+          it('should not create a link and return the matching certification candidate', async function() {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId });
             const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
@@ -158,9 +158,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
         });
 
-        context('when the linked user is not the same as the user being linked', () => {
+        context('when the linked user is not the same as the user being linked', function() {
 
-          it('should throw a CertificationCandidateAlreadyLinkedToUserError', async () => {
+          it('should throw a CertificationCandidateAlreadyLinkedToUserError', async function() {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: 'otherUserId' });
             const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
@@ -196,11 +196,11 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
       });
 
-      context('when the matching certification candidate has no link to any user', () => {
+      context('when the matching certification candidate has no link to any user', function() {
 
-        context('when the user is already linked to another candidate in the session', () => {
+        context('when the user is already linked to another candidate in the session', function() {
 
-          it('should throw a UserAlreadyLinkedToCandidateInSessionError', async () => {
+          it('should throw a UserAlreadyLinkedToCandidateInSessionError', async function() {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null });
             const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
@@ -236,9 +236,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
         });
 
-        context('when the user is not linked to any candidate in this session', () => {
+        context('when the user is not linked to any candidate in this session', function() {
 
-          it('should create a link between the candidate and the user and return the linked certification candidate', async () => {
+          it('should create a link between the candidate and the user and return the linked certification candidate', async function() {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null, id: 'candidateId' });
             const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()
@@ -281,13 +281,13 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
       });
     });
 
-    context('when the organization behind this session is of type SCO', () => {
+    context('when the organization behind this session is of type SCO', function() {
 
-      context('when the organization is also managing students', () => {
+      context('when the organization is also managing students', function() {
 
-        context('when the user does not match with a session candidate and its schooling registration', () => {
+        context('when the user does not match with a session candidate and its schooling registration', function() {
 
-          it('throws MatchingReconciledStudentNotFoundError', async () => {
+          it('throws MatchingReconciledStudentNotFoundError', async function() {
             // given
             const certificationCandidate = domainBuilder.buildCertificationCandidate({
               userId: null,
@@ -335,11 +335,11 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
           });
         });
 
-        context('when the user matches with a session candidate and its schooling registration', () => {
+        context('when the user matches with a session candidate and its schooling registration', function() {
 
-          context('when no other candidates is already linked to that user', () => {
+          context('when no other candidates is already linked to that user', function() {
 
-            it('should create a link between the candidate and the user and return an event to notify it, ', async () => {
+            it('should create a link between the candidate and the user and return an event to notify it, ', async function() {
               // given
               const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -400,9 +400,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
             });
           });
 
-          context('when another candidates is already linked to that user', () => {
+          context('when another candidates is already linked to that user', function() {
 
-            it('throws UserAlreadyLinkedToCandidateInSessionError', async () => {
+            it('throws UserAlreadyLinkedToCandidateInSessionError', async function() {
               // given
               const schoolingRegistration = domainBuilder.buildSchoolingRegistration();
               const certificationCandidate = domainBuilder.buildCertificationCandidate({
@@ -458,9 +458,9 @@ describe('Unit | Domain | Use Cases | link-user-to-session-certification-candida
         });
       });
 
-      context('when the organization is not managing students', () => {
+      context('when the organization is not managing students', function() {
 
-        it('should return the linked certification candidate', async () => {
+        it('should return the linked certification candidate', async function() {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ userId: null, id: 'candidateId' });
           const certificationCandidateRepository = _buildFakeCertificationCandidateRepository()

@@ -1,17 +1,17 @@
 const { expect, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const campaignAssessmentParticipationResultListRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-list-repository');
 
-describe('Integration | Repository | Campaign Assessment Participation Result List', () => {
+describe('Integration | Repository | Campaign Assessment Participation Result List', function() {
 
-  describe('#findPaginatedByCampaignId', () => {
-    afterEach(() => {
+  describe('#findPaginatedByCampaignId', function() {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
     let campaign;
 
-    context('when participants have not retried', () => {
-      beforeEach(async () => {
+    context('when participants have not retried', function() {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
@@ -51,7 +51,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('returns the list of participations shared for the given campaign', async () => {
+      it('returns the list of participations shared for the given campaign', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         expect(participations).to.have.lengthOf(1);
@@ -63,9 +63,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when a participant has retried', () => {
+    context('when a participant has retried', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
         const { id: userId } = databaseBuilder.factory.buildUser();
 
@@ -101,7 +101,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('returns the list of participations shared for the given campaign', async () => {
+      it('returns the list of participations shared for the given campaign', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         expect(participations).to.have.lengthOf(1);
@@ -109,9 +109,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when there is a schooling registration', () => {
+    context('when there is a schooling registration', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
         const { userId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -142,7 +142,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('returns the name from the schooling registration', async () => {
+      it('returns the name from the schooling registration', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         expect(participations).to.have.lengthOf(1);
@@ -153,9 +153,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when there are no schooling registrations', () => {
+    context('when there are no schooling registrations', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
         const { id: userId } = databaseBuilder.factory.buildUser({
           firstName: 'Jane',
@@ -183,7 +183,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('returns the name from the schooling registration', async () => {
+      it('returns the name from the schooling registration', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         expect(participations).to.have.lengthOf(1);
@@ -194,9 +194,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when there are badges acquired', () => {
+    context('when there are badges acquired', function() {
       let badge1Id, badge2Id;
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
         const { id: userId } = databaseBuilder.factory.buildUser({
           firstName: 'Jane',
@@ -233,7 +233,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('returns acquired badges during the campaign', async () => {
+      it('returns acquired badges during the campaign', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         expect(participations[0].badges).to.deep.equal([{
@@ -245,8 +245,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('masteryPercentage', () => {
-      beforeEach(async () => {
+    context('masteryPercentage', function() {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }, { id: 'Skill2' }, { id: 'Skill3' }]);
 
         const { id: userId } = databaseBuilder.factory.buildUser({});
@@ -277,15 +277,15 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('computes the mastery percentage', async () => {
+      it('computes the mastery percentage', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
         expect(participations[0].masteryPercentage).to.equal(33);
       });
     });
 
-    context('order', () => {
-      it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async () => {
+    context('order', function() {
+      it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async function() {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({ organizationId }, [{ id: 'Skill1' }]);
@@ -319,9 +319,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('pagination', () => {
+    context('pagination', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
         const participation = {
@@ -347,7 +347,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         mockLearningContent(learningContentObjects);
       });
 
-      it('should return paginated campaign participations based on the given size and number', async () => {
+      it('should return paginated campaign participations based on the given size and number', async function() {
         const page = { size: 1, number: 1 };
 
         const { participations, pagination } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id, page });
@@ -357,8 +357,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(pagination).to.deep.equals({ page: 1, pageCount: 2, pageSize: 1, rowCount: 2 });
       });
 
-      context('default pagination', () => {
-        beforeEach(async () => {
+      context('default pagination', function() {
+        beforeEach(async function() {
           campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
           const participation = {
@@ -372,7 +372,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           await databaseBuilder.commit();
         });
 
-        it('should return the first page with 10 elements', async () => {
+        it('should return the first page with 10 elements', async function() {
 
           const { participations, pagination } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           const participantExternalIds = participations.map((summary) => summary.participantExternalId);
@@ -383,14 +383,14 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
       });
 
-      context('when there are zero rows', () => {
-        beforeEach(async () => {
+      context('when there are zero rows', function() {
+        beforeEach(async function() {
           campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
           await databaseBuilder.commit();
         });
 
-        it('should return the first page with O elements', async () => {
+        it('should return the first page with O elements', async function() {
 
           const { participations, pagination } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           const participantExternalIds = participations.map((summary) => summary.participantExternalId);
@@ -402,8 +402,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when there is a filter on division', () => {
-      it('returns participants which have the correct division', async () => {
+    context('when there is a filter on division', function() {
+      it('returns participants which have the correct division', async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
 
         const participation1 = {
@@ -456,13 +456,13 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
 
     });
 
-    context('when there is a filter on badges', () => {
+    context('when there is a filter on badges', function() {
       let badge1;
       let badge2;
       let user1;
       let user2;
 
-      beforeEach(() => {
+      beforeEach(function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }]);
         badge1 = databaseBuilder.factory.buildBadge({ key: 'badge1', targetProfileId: campaign.targetProfileId });
         badge2 = databaseBuilder.factory.buildBadge({ key: 'badge2', targetProfileId: campaign.targetProfileId });
@@ -482,7 +482,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
       });
-      it('returns participants which have one badge', async () => {
+      it('returns participants which have one badge', async function() {
         const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user1.id, participantExternalId: 'The good' });
         databaseBuilder.factory.buildAssessment({ userId: user1.id, campaignParticipationId: campaignParticipation1.id });
         databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id, campaignParticipationId: campaignParticipation1.id });
@@ -501,7 +501,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participantExternalIds).to.exactlyContain(['The good']);
       });
 
-      it('returns participants which have several badges', async () => {
+      it('returns participants which have several badges', async function() {
         const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user1.id, participantExternalId: 'The good' });
         databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id, campaignParticipationId: campaignParticipation1.id });
 
@@ -520,7 +520,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participantExternalIds).to.exactlyContain(['The bad']);
       });
 
-      it('should not return participants which has not shared but has the badge', async () => {
+      it('should not return participants which has not shared but has the badge', async function() {
         const campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: user1.id, participantExternalId: 'The good', isShared: true });
         databaseBuilder.factory.buildAssessment({ userId: user1.id, campaignParticipationId: campaignParticipation1.id });
         databaseBuilder.factory.buildBadgeAcquisition({ badgeId: badge1.id, userId: user1.id, campaignParticipationId: campaignParticipation1.id });
@@ -540,8 +540,8 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       });
     });
 
-    context('when there is a filter on stage', () => {
-      beforeEach(() => {
+    context('when there is a filter on stage', function() {
+      beforeEach(function() {
         const learningContent = [{
           id: 'recArea1',
           competences: [{
@@ -560,7 +560,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
       });
-      it('returns participants which have the given stage', async () => {
+      it('returns participants which have the given stage', async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }, { id: 'Skill2' }, { id: 'Skill3' }, { id: 'Skill4' }]);
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 });
         const { id: stageId } = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 25 });
@@ -583,7 +583,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         expect(participantExternalIds).to.exactlyContain(['Stage Reached Boundary IN', 'Stage Reached Boundary OUT']);
       });
 
-      it('returns participants which have validated skill count between several boundaries', async () => {
+      it('returns participants which have validated skill count between several boundaries', async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [{ id: 'Skill1' }, { id: 'Skill2' }, { id: 'Skill3' }]);
 
         const { id: stage1Id } = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 });

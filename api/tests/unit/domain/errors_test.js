@@ -1,89 +1,89 @@
 const { expect } = require('../../test-helper');
 const errors = require('../../../lib/domain/errors');
 
-describe('Unit | Domain | Errors', () => {
+describe('Unit | Domain | Errors', function() {
 
-  it('should export a CertificationCandidateAlreadyLinkedToUserError', () => {
+  it('should export a CertificationCandidateAlreadyLinkedToUserError', function() {
     expect(errors.CertificationCandidateAlreadyLinkedToUserError).to.exist;
   });
 
-  it('should export a CertificationCandidateByPersonalInfoNotFoundError', () => {
+  it('should export a CertificationCandidateByPersonalInfoNotFoundError', function() {
     expect(errors.CertificationCandidateByPersonalInfoNotFoundError).to.exist;
   });
 
-  it('should export a CertificationCandidateByPersonalInfoTooManyMatchesError', () => {
+  it('should export a CertificationCandidateByPersonalInfoTooManyMatchesError', function() {
     expect(errors.CertificationCandidateByPersonalInfoTooManyMatchesError).to.exist;
   });
 
-  it('should export a CertificationCandidateCreationOrUpdateError', () => {
+  it('should export a CertificationCandidateCreationOrUpdateError', function() {
     expect(errors.CertificationCandidateCreationOrUpdateError).to.exist;
   });
 
-  it('should export a CertificationCandidateDeletionError', () => {
+  it('should export a CertificationCandidateDeletionError', function() {
     expect(errors.CertificationCandidateDeletionError).to.exist;
   });
 
-  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', () => {
+  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', function() {
     expect(errors.CertificationCandidateMultipleUserLinksWithinSessionError).to.exist;
   });
 
-  it('should export a CertificationCandidatePersonalInfoFieldMissingError', () => {
+  it('should export a CertificationCandidatePersonalInfoFieldMissingError', function() {
     expect(errors.CertificationCandidatePersonalInfoFieldMissingError).to.exist;
   });
 
-  it('should export a CertificationCandidatePersonalInfoWrongFormat', () => {
+  it('should export a CertificationCandidatePersonalInfoWrongFormat', function() {
     expect(errors.CertificationCandidatePersonalInfoWrongFormat).to.exist;
   });
 
-  it('should export a CertificationCandidateForbiddenDeletionError', () => {
+  it('should export a CertificationCandidateForbiddenDeletionError', function() {
     expect(errors.CertificationCandidateForbiddenDeletionError).to.exist;
   });
 
-  it('should export a NotFoundError', () => {
+  it('should export a NotFoundError', function() {
     expect(errors.NotFoundError).to.exist;
   });
 
-  it('should export a InvalidCertificationReportForFinalization', () => {
+  it('should export a InvalidCertificationReportForFinalization', function() {
     expect(errors.InvalidCertificationReportForFinalization).to.exist;
   });
 
-  it('should export a UserAlreadyLinkedToCandidateInSessionError', () => {
+  it('should export a UserAlreadyLinkedToCandidateInSessionError', function() {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a ArchivedCampaignError', () => {
+  it('should export a ArchivedCampaignError', function() {
     expect(errors.ArchivedCampaignError).to.exist;
   });
 
-  it('should export a UserNotAuthorizedToUpdatePasswordError', () => {
+  it('should export a UserNotAuthorizedToUpdatePasswordError', function() {
     expect(errors.UserNotAuthorizedToUpdatePasswordError).to.exist;
   });
 
-  it('should export a UserNotAuthorizedToUpdateCampaignError', () => {
+  it('should export a UserNotAuthorizedToUpdateCampaignError', function() {
     expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
-  it('should export a CsvImportError', () => {
+  it('should export a CsvImportError', function() {
     expect(errors.CsvImportError).to.exist;
   });
 
-  it('should export a SiecleXmlImportError', () => {
+  it('should export a SiecleXmlImportError', function() {
     expect(errors.SiecleXmlImportError).to.exist;
   });
 
-  it('should export a AuthenticationMethodNotFoundError', () => {
+  it('should export a AuthenticationMethodNotFoundError', function() {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });
 
-  it('should export a SessionNotAccessible error', () => {
+  it('should export a SessionNotAccessible error', function() {
     expect(errors.SessionNotAccessible).to.exist;
   });
 
-  describe('#SameNationalStudentIdInOrganizationError', () => {
+  describe('#SameNationalStudentIdInOrganizationError', function() {
 
-    context('When errorDetail is provided', () => {
+    context('When errorDetail is provided', function() {
 
-      it('should return a message with given nationalStudentId', () => {
+      it('should return a message with given nationalStudentId', function() {
         // given
         const expectedErrorMessage = 'The INE 123INE456 is already in use for this organization.';
         const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
@@ -95,7 +95,7 @@ describe('Unit | Domain | Errors', () => {
         expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
       });
 
-      it('should set a nationalStudentId property', () => {
+      it('should set a nationalStudentId property', function() {
         // given
         const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
 
@@ -107,9 +107,9 @@ describe('Unit | Domain | Errors', () => {
       });
     });
 
-    context('When errorDetail is not provided', () => {
+    context('When errorDetail is not provided', function() {
 
-      it('should return a generic message', () => {
+      it('should return a generic message', function() {
         // given
         const expectedErrorMessage = 'INE already in use for this organization.';
 
@@ -122,12 +122,12 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#UserNotFoundError', () => {
-    it('should export a UserNotFoundError', () => {
+  describe('#UserNotFoundError', function() {
+    it('should export a UserNotFoundError', function() {
       expect(errors.UserNotFoundError).to.exist;
     });
 
-    it('should have a getErrorMessage method', () => {
+    it('should have a getErrorMessage method', function() {
       // given
       const expectedErrorMessage = {
         data: {
@@ -142,12 +142,12 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#PasswordResetDemandNotFoundError', () => {
-    it('should export a PasswordResetDemandNotFoundError', () => {
+  describe('#PasswordResetDemandNotFoundError', function() {
+    it('should export a PasswordResetDemandNotFoundError', function() {
       expect(errors.PasswordResetDemandNotFoundError).to.exist;
     });
 
-    it('should have a getErrorMessage method', () => {
+    it('should have a getErrorMessage method', function() {
       // given
       const expectedErrorMessage = {
         data: {
@@ -162,20 +162,20 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  it('should export a SessionAlreadyFinalizedError', () => {
+  it('should export a SessionAlreadyFinalizedError', function() {
     expect(errors.SessionAlreadyFinalizedError).to.exist;
   });
 
-  it('should export a TargetProfileInvalidError', () => {
+  it('should export a TargetProfileInvalidError', function() {
     expect(errors.TargetProfileInvalidError).to.exist;
   });
 
-  describe('#InvalidTemporaryKeyError', () => {
-    it('should export a InvalidTemporaryKeyError', () => {
+  describe('#InvalidTemporaryKeyError', function() {
+    it('should export a InvalidTemporaryKeyError', function() {
       expect(errors.InvalidTemporaryKeyError).to.exist;
     });
 
-    it('should have a getErrorMessage method', () => {
+    it('should have a getErrorMessage method', function() {
       // given
       const expectedErrorMessage = {
         data: {
@@ -190,12 +190,12 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#UserNotAuthorizedToCertifyError', () => {
-    it('should export a UserNotAuthorizedToCertifyError', () => {
+  describe('#UserNotAuthorizedToCertifyError', function() {
+    it('should export a UserNotAuthorizedToCertifyError', function() {
       expect(errors.UserNotAuthorizedToCertifyError).to.exist;
     });
 
-    it('should have a getErrorMessage method', () => {
+    it('should have a getErrorMessage method', function() {
       // given
       const expectedErrorMessage = {
         data: {
@@ -210,12 +210,12 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('#AssessmentEndedError', () => {
-    it('should export an AssessmentEndedError', () => {
+  describe('#AssessmentEndedError', function() {
+    it('should export an AssessmentEndedError', function() {
       expect(errors.AssessmentEndedError).to.exist;
     });
 
-    it('should have a getErrorMessage method', () => {
+    it('should have a getErrorMessage method', function() {
       // given
       const expectedErrorMessage = {
         data: {
@@ -230,11 +230,11 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('EntityValidationError', () => {
+  describe('EntityValidationError', function() {
 
-    context('#fromJoiErrors', () => {
+    context('#fromJoiErrors', function() {
 
-      it('should populate the invalidAttributes key', () => {
+      it('should populate the invalidAttributes key', function() {
         //given
         const joiErrors = [
           {
@@ -268,9 +268,9 @@ describe('Unit | Domain | Errors', () => {
       });
     });
 
-    context('#fromEntityValidationError', () => {
+    context('#fromEntityValidationError', function() {
 
-      it('should populate the invalidAttributes key', () => {
+      it('should populate the invalidAttributes key', function() {
         //given
         const error1 = new errors.EntityValidationError({
           invalidAttributes: [
@@ -323,11 +323,11 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('InvalidCertificationCandidate', () => {
+  describe('InvalidCertificationCandidate', function() {
 
-    context('#fromJoiErrorDetail', () => {
+    context('#fromJoiErrorDetail', function() {
 
-      it('should return an InvalidCertificationCandidateError', () => {
+      it('should return an InvalidCertificationCandidateError', function() {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -341,7 +341,7 @@ describe('Unit | Domain | Errors', () => {
         expect(error).to.be.instanceOf(errors.InvalidCertificationCandidate);
       });
 
-      it('should assign key from joiErrorDetail context', () => {
+      it('should assign key from joiErrorDetail context', function() {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -355,6 +355,7 @@ describe('Unit | Domain | Errors', () => {
         expect(error.key).to.equal(joiErrorDetail.context.key);
       });
 
+      // eslint-disable-next-line mocha/no-setup-in-describe
       [
         { type: 'any.required', why: 'required' },
         { type: 'date.format', why: 'date_format' },
@@ -364,7 +365,7 @@ describe('Unit | Domain | Errors', () => {
         { type: 'number.base', why: 'not_a_number' },
         { type: 'number.integer', why: 'not_a_number' },
       ].forEach(({ type, why }) => {
-        it(`should assign why "${why}" to error when joi error type is "${type}"`, async () => {
+        it(`should assign why "${why}" to error when joi error type is "${type}"`, async function() {
           // given
           const joiErrorDetail = {
             context: { key: 'someKey' },
@@ -379,7 +380,7 @@ describe('Unit | Domain | Errors', () => {
         });
       });
 
-      it('should let why empty when type is unknown', async () => {
+      it('should let why empty when type is unknown', async function() {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -395,11 +396,11 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  describe('CertificationCandidatesImportError', () => {
+  describe('CertificationCandidatesImportError', function() {
 
-    context('#fromInvalidCertificationCandidateError', () => {
+    context('#fromInvalidCertificationCandidateError', function() {
 
-      it('should return a CertificationCandidatesImportError', () => {
+      it('should return a CertificationCandidatesImportError', function() {
         // given
         const invalidCertificationCandidateError = {
           key: 'someKey',
@@ -413,7 +414,7 @@ describe('Unit | Domain | Errors', () => {
         expect(error).to.be.instanceOf(errors.CertificationCandidatesImportError);
       });
 
-      it('should start the error message with line number', () => {
+      it('should start the error message with line number', function() {
         // given
         const lineNumber = 20;
         const invalidCertificationCandidateError = {
@@ -428,9 +429,9 @@ describe('Unit | Domain | Errors', () => {
         expect(error.message.startsWith(`Ligne ${lineNumber} :`)).to.be.true;
       });
 
-      context('when err.why is known', () => {
+      context('when err.why is known', function() {
 
-        it('should include the right label when found in the keyLabelMap', () => {
+        it('should include the right label when found in the keyLabelMap', function() {
           // given
           const lineNumber = 20;
           const invalidCertificationCandidateError = {
@@ -449,6 +450,7 @@ describe('Unit | Domain | Errors', () => {
           expect(error.message).to.contain('Le champ “someLabel”');
         });
 
+        // eslint-disable-next-line mocha/no-setup-in-describe
         [
           { why: 'not_a_date', content: 'doit être au format jj/mm/aaaa.' },
           { why: 'date_format', content: 'doit être au format jj/mm/aaaa.' },
@@ -457,7 +459,7 @@ describe('Unit | Domain | Errors', () => {
           { why: 'not_a_number', content: 'doit être un nombre.' },
           { why: 'required', content: 'est obligatoire.' },
         ].forEach(({ why, content }) => {
-          it(`message should contain "${content}" when why is "${why}"`, async () => {
+          it(`message should contain "${content}" when why is "${why}"`, async function() {
             // given
             const invalidCertificationCandidateError = {
               key: 'someKey',
@@ -476,9 +478,9 @@ describe('Unit | Domain | Errors', () => {
         });
       });
 
-      context('when err.why is unknown', () => {
+      context('when err.why is unknown', function() {
 
-        it('should display generic message', () => {
+        it('should display generic message', function() {
           // given
           const invalidCertificationCandidateError = {
             key: 'someKey',
@@ -498,15 +500,15 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
-  it('should export a UserAccountNotFoundForPoleEmploiError', () => {
+  it('should export a UserAccountNotFoundForPoleEmploiError', function() {
     expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
   });
 
-  it('should export a UnknownCountryForStudentEnrollmentError', () => {
+  it('should export a UnknownCountryForStudentEnrollmentError', function() {
     expect(errors.UnknownCountryForStudentEnrollmentError).to.exist;
   });
 
-  it('should export a SchoolingRegistrationsCouldNotBeSavedError', () => {
+  it('should export a SchoolingRegistrationsCouldNotBeSavedError', function() {
     expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
   });
 });

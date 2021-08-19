@@ -6,12 +6,12 @@ const {
   generateKnowledgeElementSnapshots,
 } = require('../../../../scripts/prod/generate-knowledge-element-snapshots-for-campaigns');
 
-describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campaigns.js', () => {
+describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campaigns.js', function() {
 
-  describe('#getEligibleCampaignParticipations', () => {
+  describe('#getEligibleCampaignParticipations', function() {
     const maxParticipationCountToGet = 5;
 
-    it('should avoid returning campaign participations that are not shared', async () => {
+    it('should avoid returning campaign participations that are not shared', async function() {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, sharedAt: null });
@@ -24,7 +24,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       expect(campaignParticipationData.length).to.equal(0);
     });
 
-    it('should avoid returning campaign participations that already have a corresponding snasphot', async () => {
+    it('should avoid returning campaign participations that already have a corresponding snasphot', async function() {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -39,7 +39,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       expect(campaignParticipationData.length).to.equal(0);
     });
 
-    it('should return shared campaign participations from active campaigns that does not have a corresponding snapshot', async () => {
+    it('should return shared campaign participations from active campaigns that does not have a corresponding snapshot', async function() {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -54,7 +54,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipation.userId, sharedAt: campaignParticipation.sharedAt });
     });
 
-    it('should return shared campaign participations from active campaigns even if there is a snapshot from a different date that already exists', async () => {
+    it('should return shared campaign participations from active campaigns even if there is a snapshot from a different date that already exists', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const campaignParticipationWithoutSnapshot = databaseBuilder.factory.buildCampaignParticipation({ sharedAt: new Date('2020-01-01'), userId });
@@ -72,7 +72,7 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
       expect(campaignParticipationData[0]).to.deep.equal({ userId: campaignParticipationWithoutSnapshot.userId, sharedAt: campaignParticipationWithoutSnapshot.sharedAt });
     });
 
-    it('should return maximum campaign participation as set in the parameter', async () => {
+    it('should return maximum campaign participation as set in the parameter', async function() {
       // given
       const campaignId = databaseBuilder.factory.buildCampaign({ archivedAt: null }).id;
       const userId1 = databaseBuilder.factory.buildUser().id;
@@ -90,19 +90,19 @@ describe('Integration | Scripts | generate-knowledge-element-snapshots-for-campa
     });
   });
 
-  describe('#generateKnowledgeElementSnapshots', () => {
+  describe('#generateKnowledgeElementSnapshots', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(knowledgeElementRepository, 'findUniqByUserId');
       sinon.stub(knowledgeElementSnapshotRepository, 'save');
     });
 
-    afterEach(() => {
+    afterEach(function() {
       knowledgeElementRepository.findUniqByUserId.restore();
       knowledgeElementSnapshotRepository.save.restore();
     });
 
-    it('should save snapshots', async () => {
+    it('should save snapshots', async function() {
       // given
       const concurrency = 1;
       const campaignParticipationData = [{ userId: 1, sharedAt: new Date('2020-01-01') }];

@@ -1,13 +1,13 @@
 const { expect } = require('../../../test-helper');
 const { userId, competenceId } = require('../../../../lib/domain/types/identifiers-type');
 
-describe('Unit | Domain | Type | identifier-types', () => {
+describe('Unit | Domain | Type | identifier-types', function() {
 
-  describe('#userId', () => {
+  describe('#userId', function() {
 
-    context('when id is valid', () => {
+    context('when id is valid', function() {
 
-      it('should not reject', () => {
+      it('should not reject', function() {
         // given
         const validId = 1;
 
@@ -19,9 +19,9 @@ describe('Unit | Domain | Type | identifier-types', () => {
       });
     });
 
-    context('when id is invalid', () => {
+    context('when id is invalid', function() {
 
-      it('should reject outside of lower bound', async () => {
+      it('should reject outside of lower bound', async function() {
         // given
         const lowerBoundOutOfRangeId = 0;
 
@@ -32,7 +32,7 @@ describe('Unit | Domain | Type | identifier-types', () => {
         expect(error.message).to.equal('"value" must be greater than or equal to 1');
       });
 
-      it('should reject outside of upper bound', async () => {
+      it('should reject outside of upper bound', async function() {
         // given
         const upperBoundOutOfRangeId = 2147483648;
 
@@ -46,11 +46,11 @@ describe('Unit | Domain | Type | identifier-types', () => {
     });
   });
 
-  describe('#competenceId', () => {
+  describe('#competenceId', function() {
 
-    context('when id is valid', () => {
+    context('when id is valid', function() {
 
-      it('should not reject', () => {
+      it('should not reject', function() {
         // given
         const validId = '1234567890123456';
 
@@ -62,9 +62,9 @@ describe('Unit | Domain | Type | identifier-types', () => {
       });
     });
 
-    context('when id is invalid', () => {
+    context('when id is invalid', function() {
 
-      it('should reject when empty', async () => {
+      it('should reject when empty', async function() {
         // given
         const emptyString = '';
 
@@ -75,7 +75,7 @@ describe('Unit | Domain | Type | identifier-types', () => {
         expect(error.message).to.equal('"value" is not allowed to be empty');
       });
 
-      it('should reject when too large', async () => {
+      it('should reject when too large', async function() {
         // given
         const tooLargeString = 'A'.repeat(256);
 

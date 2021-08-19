@@ -4,13 +4,15 @@ const settings = require('../../../../lib/config');
 
 describe('Unit | Service | Pole Emploi Service', function() {
   describe('#generateLink', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalEnv = settings.apiManager.url;
 
-    before(() => {
+    before(function() {
       settings.apiManager.url = 'https://url-externe';
     });
 
-    after(() => {
+    after(function() {
       settings.apiManager.url = originalEnv;
     });
 
@@ -27,8 +29,8 @@ describe('Unit | Service | Pole Emploi Service', function() {
       expect(generatedLink).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo0NTYsImRhdGVFbnZvaSI6IjIwMjEtMDUtMDFUMDA6MDA6MDAuMDAwWiJ9');
     });
 
-    context('when there is a filter', () => {
-      context('when isSuccessful is true', () => {
+    context('when there is a filter', function() {
+      context('when isSuccessful is true', function() {
         it('should generate a link with a query params using the filters', function() {
           const sending = {
             idEnvoi: 456,
@@ -46,7 +48,7 @@ describe('Unit | Service | Pole Emploi Service', function() {
           expect(generatedLink).to.equal('https://url-externe/pole-emploi/envois?curseur=eyJpZEVudm9pIjo0NTYsImRhdGVFbnZvaSI6IjIwMjEtMDUtMDFUMDA6MDA6MDAuMDAwWiJ9&enErreur=false');
         });
       });
-      context('when isSuccessful is false', () => {
+      context('when isSuccessful is false', function() {
         it('should generate a link with a query params using the filters', function() {
           const sending = {
             idEnvoi: 456,
@@ -68,7 +70,7 @@ describe('Unit | Service | Pole Emploi Service', function() {
   });
 
   describe('#decodeCursor', function() {
-    context('when there is a cursor', ()=> {
+    context('when there is a cursor', function() {
       it('should decode the cursor', function() {
         const cursor = poleEmploiService.generateCursor({ idEnvoi: 456, dateEnvoi: '2021-05-01T00:00:00.000Z' });
         const decodedData = poleEmploiService.decodeCursor(cursor);
@@ -77,7 +79,7 @@ describe('Unit | Service | Pole Emploi Service', function() {
       });
     });
 
-    context('when the parameter is undefined', ()=> {
+    context('when the parameter is undefined', function() {
       it('should return null', function() {
         const str = undefined;
         const decodedData = poleEmploiService.decodeCursor(str);

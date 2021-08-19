@@ -13,8 +13,10 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const createUserFromPoleEmploi = require('../../../../lib/domain/usecases/create-user-from-pole-emploi');
 
-describe('Unit | UseCase | create-user-from-pole-emploi', () => {
+describe('Unit | UseCase | create-user-from-pole-emploi', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol();
 
   let clock;
@@ -23,7 +25,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
   let userRepository;
   let authenticationService;
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(Date.now());
 
     DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
@@ -47,11 +49,11 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
     };
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  it('should throw an AuthenticationKeyForPoleEmploiTokenExpired if key expired', async () => {
+  it('should throw an AuthenticationKeyForPoleEmploiTokenExpired if key expired', async function() {
     // given
     const authenticationKey = 'authenticationKey';
     poleEmploiTokensRepository.getByKey
@@ -72,9 +74,9 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
     expect(error.message).to.be.equal('This authentication key for pole emploi token has expired.');
   });
 
-  context('When there is no user with Pole Emploi authentication method', () => {
+  context('When there is no user with Pole Emploi authentication method', function() {
 
-    it('should create the user and the authentication method', async () => {
+    it('should create the user and the authentication method', async function() {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';
@@ -146,7 +148,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
       expect(response.idToken).to.equal(poleEmploiTokens.idToken);
     });
 
-    it('should raise an error and log details if required properties are not returned by external API', async () => {
+    it('should raise an error and log details if required properties are not returned by external API', async function() {
       // given
       const authenticationKey = 'authenticationKey';
       const poleEmploiTokens = new PoleEmploiTokens({
@@ -189,9 +191,9 @@ describe('Unit | UseCase | create-user-from-pole-emploi', () => {
     });
   });
 
-  context('When there is already a user with Pole Emploi authentication method', () => {
+  context('When there is already a user with Pole Emploi authentication method', function() {
 
-    it('should neither create the user nor the authentication method', async () => {
+    it('should neither create the user nor the authentication method', async function() {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';

@@ -6,9 +6,9 @@ const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsFo
 
 const dissociateSchoolingRegistrations = require('../../../../lib/domain/usecases/dissociate-schooling-registrations');
 
-describe('Integration | UseCases | dissociate-schooling-registrations', () => {
+describe('Integration | UseCases | dissociate-schooling-registrations', function() {
 
-  it('should dissociate schooling registration by user id', async () => {
+  it('should dissociate schooling registration by user id', async function() {
     // given
     const userId = databaseBuilder.factory.buildSchoolingRegistrationWithUser().userId;
     databaseBuilder.factory.buildSchoolingRegistration({ userId });

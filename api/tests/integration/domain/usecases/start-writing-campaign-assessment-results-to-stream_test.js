@@ -15,9 +15,9 @@ const campaignCsvExportService = require('../../../../lib/domain/services/campai
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', () => {
+describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function() {
 
-  describe('#startWritingCampaignAssessmentResultsToStream', () => {
+  describe('#startWritingCampaignAssessmentResultsToStream', function() {
 
     let organization;
     let targetProfile;
@@ -28,9 +28,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     let writableStream;
     let csvPromise;
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const i18n = getI18n();
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organization = databaseBuilder.factory.buildOrganization();
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
@@ -127,7 +129,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       csvPromise = streamToPromise(writableStream);
     });
 
-    it('should return the complete line', async () => {
+    it('should return the complete line', async function() {
       // given
       const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
       const csvSecondLine = `"${organization.name}";` +

@@ -1,18 +1,18 @@
 const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-post', () => {
+describe('Acceptance | Controller | session-controller-post', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /sessions', () => {
+  describe('POST /sessions', function() {
     let options;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: 'Tour Gamma' }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -38,11 +38,11 @@ describe('Acceptance | Controller | session-controller-post', () => {
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('sessions').delete();
     });
 
-    it('should return an OK status after saving in database', async () => {
+    it('should return an OK status after saving in database', async function() {
       // when
       const response = await server.inject(options);
 
@@ -52,9 +52,9 @@ describe('Acceptance | Controller | session-controller-post', () => {
       expect(sessions).to.have.lengthOf(1);
     });
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 

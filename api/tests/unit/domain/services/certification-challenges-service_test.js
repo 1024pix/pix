@@ -21,7 +21,7 @@ const skillRepository = require('../../../../lib/infrastructure/repositories/ski
 const targetProfileWithLearningContentRepository = require('../../../../lib/infrastructure/repositories/target-profile-with-learning-content-repository');
 const certifiableProfileForLearningContentRepository = require('../../../../lib/infrastructure/repositories/certifiable-profile-for-learning-content-repository');
 
-describe('Unit | Service | Certification Challenge Service', () => {
+describe('Unit | Service | Certification Challenge Service', function() {
 
   const userId = 63731;
   const locale = 'fr-fr';
@@ -56,22 +56,54 @@ describe('Unit | Service | Certification Challenge Service', () => {
     });
   }
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper', '1');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceRemplir = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin', '1');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceRequin = _createCompetence('competenceRecordIdThree', '1.3', '1.3 Se faire manger par un requin', '1');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceKoala = _createCompetence('competenceRecordIdKoala', '1.3', '1.3 Se faire manger par un koala', '1');
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillCitation4 = new Skill({ id: 10, name: '@citation4', competenceId: competenceFlipper.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillCollaborer4 = new Skill({ id: 20, name: '@collaborer4', competenceId: competenceFlipper.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillMoteur3 = new Skill({ id: 30, name: '@moteur3', competenceId: competenceFlipper.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillRecherche4 = new Skill({ id: 40, name: '@recherche4', competenceId: competenceFlipper.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillRemplir2 = new Skill({ id: 50, name: '@remplir2', competenceId: competenceRemplir.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillRemplir4 = new Skill({ id: 60, name: '@remplir4', competenceId: competenceRemplir.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillUrl3 = new Skill({ id: 70, name: '@url3', competenceId: competenceRemplir.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillWeb1 = new Skill({ id: 80, name: '@web1', competenceId: competenceRemplir.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillRequin5 = new Skill({ id: 110, name: '@requin5', competenceId: competenceRequin.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillRequin8 = new Skill({ id: 120, name: '@requin8', competenceId: competenceRequin.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillKoala1 = new Skill({ id: 110, name: '@koala1', competenceId: competenceKoala.id });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const skillKoala2 = new Skill({ id: 120, name: '@koala2', competenceId: competenceKoala.id });
 
   function findOperativeByIds(skillIds) {
@@ -92,31 +124,61 @@ describe('Unit | Service | Certification Challenge Service', () => {
     return skills.filter((skill) => skillIds.includes(skill.id));
   }
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4], '@citation4');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const anotherChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillKoala1 = _createChallenge('challengeRecordIdKoala1', competenceKoala.id, [skillKoala1], skillKoala1.name);
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillKoala2 = _createChallenge('challengeRecordIdKoala2', competenceKoala.id, [skillKoala2], skillKoala2.name);
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceRemplir.id, [skillRemplir2], '@remplir2');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   _createChallenge('anotherChallengeForSkillRemplir2', competenceRemplir.id, [skillRemplir2], '@remplir2');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceRemplir.id, [skillRemplir4], '@remplir4');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceRemplir.id, [skillUrl3], '@url3');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceRemplir.id, [skillWeb1], '@web1');
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRequin5 = _createChallenge('challengeRecordIdNine', competenceRequin.id, [skillRequin5], '@requin5');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRequin8 = _createChallenge('challengeRecordIdTen', competenceRequin.id, [skillRequin8], '@requin8');
 
-  describe('#pickCertificationChallenges', () => {
+  describe('#pickCertificationChallenges', function() {
     let placementProfile;
     let userCompetence1;
     let userCompetence2;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(challengeRepository, 'findOperativeHavingLocale').withArgs(locale).resolves([
         challengeForSkillCitation4,
         anotherChallengeForSkillCitation4,
@@ -162,7 +224,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       sinon.stub(answerRepository, 'findChallengeIdsFromAnswerIds');
     });
 
-    it('should assign skill to related competence', async () => {
+    it('should assign skill to related competence', async function() {
       // given
       placementProfile.userCompetences = [new UserCompetence({
         ...userCompetence2,
@@ -187,9 +249,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([expectedCertificationChallenge]);
     });
 
-    context('when competence level is less than 1', () => {
+    context('when competence level is less than 1', function() {
 
-      it('should select no challenge', async () => {
+      it('should select no challenge', async function() {
         // given
         const userCompetenceWithLowLevel = domainBuilder.buildUserCompetence({
           ...userCompetence1,
@@ -216,9 +278,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    context('when no challenge validate the skill', () => {
+    context('when no challenge validate the skill', function() {
 
-      it('should not return the skill', async () => {
+      it('should not return the skill', async function() {
         // given
         placementProfile.userCompetences = [userCompetence2];
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -234,9 +296,9 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    context('when three challenges validate the same skill', () => {
+    context('when three challenges validate the same skill', function() {
 
-      it('should select an unanswered challenge', async () => {
+      it('should select an unanswered challenge', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -258,7 +320,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         expect(certificationChallenges[0].challengeId).to.be.oneOf(['challengeRecordIdTen', 'challengeRecordIdTwo']);
       });
 
-      it('should select a challenge for every skill', async () => {
+      it('should select a challenge for every skill', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -287,7 +349,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
         expect(skillsForChallenges).to.deep.include.members(expectedSkills);
       });
 
-      it('should return at most one challenge per skill', async () => {
+      it('should return at most one challenge per skill', async function() {
         // given
         placementProfile.userCompetences = [
           new UserCompetence({
@@ -317,7 +379,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       });
     });
 
-    it('should group skills by competence', async () => {
+    it('should group skills by competence', async function() {
       // given
       placementProfile.userCompetences = [
         new UserCompetence({
@@ -358,7 +420,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should sort in desc grouped skills by competence', async () => {
+    it('should sort in desc grouped skills by competence', async function() {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -395,7 +457,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should return the three most difficult skills sorted in desc grouped by competence', async () => {
+    it('should return the three most difficult skills sorted in desc grouped by competence', async function() {
       // given
       placementProfile.userCompetences = [
         new UserCompetence({
@@ -437,7 +499,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal(expectedCertificationChallenges);
     });
 
-    it('should not add a skill twice', async () => {
+    it('should not add a skill twice', async function() {
       // given
       placementProfile.userCompetences = [
         userCompetence1,
@@ -464,7 +526,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([_createCertificationChallenge(challengeForSkillRemplir2.id, skillRemplir2)]);
     });
 
-    it('should not add a challenge twice', async () => {
+    it('should not add a challenge twice', async function() {
       // given
       const onlyOneChallengeForCitation4AndMoteur3 = [
         challengeForSkillCitation4AndMoteur3,
@@ -503,7 +565,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(_.map(certificationChallenges, 'challengeId')).to.deep.equal(['challengeRecordIdTwo']);
     });
 
-    it('should not assign skill, when the challenge id is not found', async () => {
+    it('should not assign skill, when the challenge id is not found', async function() {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -520,7 +582,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallenges).to.deep.equal([]);
     });
 
-    it('should not assign skill, when the competence is not found', async () => {
+    it('should not assign skill, when the competence is not found', async function() {
       // given
       placementProfile.userCompetences = [userCompetence1, userCompetence2];
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: 'limitDate' })
@@ -538,7 +600,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
     });
   });
 
-  describe('#pickCertificationChallengesForPixPlus', () => {
+  describe('#pickCertificationChallengesForPixPlus', function() {
     let targetProfileWithLearningContent;
     let clock;
     const now = new Date('2019-01-01T05:06:07Z');
@@ -587,7 +649,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       return challenges;
     }
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(now);
       const targetedTube1Area1 = _createTargetedTubeWithSkills({ maxLevel: 5, tubeName: 'faireDesCourses', tubeId: 'faireDesCourses_id', areaName: 'reussirDehors' });
       const targetedTube2Area1 = _createTargetedTubeWithSkills({ maxLevel: 4, tubeName: 'direBonjour', tubeId: 'direBonjour_id', areaName: 'reussirDehors' });
@@ -618,11 +680,11 @@ describe('Unit | Service | Certification Challenge Service', () => {
         .resolves(targetProfileWithLearningContent);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 
-    it('should pick 4 challenges per area', async () => {
+    it('should pick 4 challenges per area', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -739,7 +801,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(8);
     });
 
-    it('should preferably pick non answered challenges', async () => {
+    it('should preferably pick non answered challenges', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -856,7 +918,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(8);
     });
 
-    it('should prioritize on hardest skill per area', async () => {
+    it('should prioritize on hardest skill per area', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -979,7 +1041,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(8);
     });
 
-    it('should exclude skill which origin is Pix', async () => {
+    it('should exclude skill which origin is Pix', async function() {
       // given
       targetProfileWithLearningContent.getCompetence('comp_faireBienDedans_id').origin = PIX_ORIGIN;
       // user knowledge elements and answers
@@ -1083,7 +1145,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(4);
     });
 
-    it('should avoid select the same challenge twice', async () => {
+    it('should avoid select the same challenge twice', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({
@@ -1194,7 +1256,7 @@ describe('Unit | Service | Certification Challenge Service', () => {
       expect(certificationChallengesForPlus).to.have.length(7);
     });
 
-    it('should only consider directly validated skill', async () => {
+    it('should only consider directly validated skill', async function() {
       // given
       // user knowledge elements and answers
       const keFaireDesCoursesLvl3 = domainBuilder.buildKnowledgeElement.directlyValidated({

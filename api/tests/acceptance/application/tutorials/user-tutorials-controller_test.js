@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | user-tutorial-controller', () => {
+describe('Acceptance | Controller | user-tutorial-controller', function() {
 
   let server;
 
@@ -17,7 +17,7 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     }],
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     await databaseBuilder.factory.buildUser({
       id: 4444,
@@ -31,11 +31,11 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
     mockLearningContent(learningContent);
   });
 
-  describe('PUT /api/users/tutorials/{tutorialId}', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}', function() {
 
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId',
@@ -45,12 +45,12 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
       };
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       return knex('user_tutorials').delete();
     });
 
-    describe('nominal case', () => {
-      it('should respond with a 201 and return user-tutorial created', async () => {
+    describe('nominal case', function() {
+      it('should respond with a 201 and return user-tutorial created', async function() {
         // given
         const expectedUserTutorial = {
           data: {
@@ -75,8 +75,8 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
       });
     });
 
-    describe('error cases', () => {
-      it('should respond with a 404 - not found when tutorialId does not exist', async () => {
+    describe('error cases', function() {
+      it('should respond with a 404 - not found when tutorialId does not exist', async function() {
         // given
         options.url = '/api/users/tutorials/badId';
 
@@ -90,11 +90,11 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   });
 
-  describe('GET /api/users/tutorials', () => {
+  describe('GET /api/users/tutorials', function() {
 
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'GET',
         url: '/api/users/tutorials',
@@ -104,8 +104,8 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
       };
     });
 
-    describe('nominal case', () => {
-      it('should respond with a 200 and return tutorials saved by user', async () => {
+    describe('nominal case', function() {
+      it('should respond with a 200 and return tutorials saved by user', async function() {
         // given
         databaseBuilder.factory.buildUserTutorial({ id: 4242, userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
@@ -156,11 +156,11 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
 
   });
 
-  describe('DELETE /api/users/tutorials/{tutorialId}', () => {
+  describe('DELETE /api/users/tutorials/{tutorialId}', function() {
 
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'DELETE',
         url: '/api/users/tutorials/tutorialId',
@@ -170,8 +170,8 @@ describe('Acceptance | Controller | user-tutorial-controller', () => {
       };
     });
 
-    describe('nominal case', () => {
-      it('should respond with a 204', async () => {
+    describe('nominal case', function() {
+      it('should respond with a 204', async function() {
         // given
         databaseBuilder.factory.buildUserTutorial({ userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();

@@ -5,21 +5,21 @@ const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMI
 
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
+describe('Unit | Domain | Models | ValidatorQROCMInd', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
 
     sinon.stub(solutionServiceQrocmInd, 'match');
   });
 
-  describe('#assess', () => {
+  describe('#assess', function() {
 
     let uncorrectedAnswer;
     let validation;
     let validator;
     let solution;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       solutionServiceQrocmInd.match.returns({ result: AnswerStatus.OK, resultDetails: 'resultDetailYAMLString' });
       solution = domainBuilder.buildSolution({ type: 'QROCM-ind' });
@@ -31,12 +31,12 @@ describe('Unit | Domain | Models | ValidatorQROCMInd', () => {
       validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
-    it('should call solutionServiceQROCMInd', () => {
+    it('should call solutionServiceQROCMInd', function() {
       // then
       expect(solutionServiceQrocmInd.match).to.have.been.calledWith(
         uncorrectedAnswer.value, solution.value, solution.enabledTreatments);
     });
-    it('should return a validation object with the returned status', () => {
+    it('should return a validation object with the returned status', function() {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: 'resultDetailYAMLString',

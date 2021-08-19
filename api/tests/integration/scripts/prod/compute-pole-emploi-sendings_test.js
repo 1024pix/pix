@@ -9,13 +9,13 @@ function setLearningContent(learningContent) {
   mockLearningContent(learningObjects);
 }
 
-describe('computePoleEmploiSendings', () => {
+describe('computePoleEmploiSendings', function() {
 
   const code = 'CODEPE123';
   let campaignParticipationId, userId, campaignId;
   let skill1, skill2, competence1, competence2;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(console, 'log');
 
     skill1 = domainBuilder.buildSkill({ id: 'skill1Id' }); // skill invalidated in assessment
@@ -60,18 +60,18 @@ describe('computePoleEmploiSendings', () => {
     return databaseBuilder.commit();
   });
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('pole-emploi-sendings').delete();
   });
 
-  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_START', () => {
-    beforeEach(() => {
+  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_START', function() {
+    beforeEach(function() {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: false, sharedAt: null }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'started', type: 'CAMPAIGN' });
       return databaseBuilder.commit();
     });
 
-    it('should create pole emploi sending', async () => {
+    it('should create pole emploi sending', async function() {
       const payload = {
         campagne: {
           nom: 'Campagne Pôle Emploi',
@@ -115,14 +115,14 @@ describe('computePoleEmploiSendings', () => {
     });
   });
 
-  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_COMPLETION', () => {
-    beforeEach(() => {
+  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_COMPLETION', function() {
+    beforeEach(function() {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: false, sharedAt: null }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'completed', type: 'CAMPAIGN' });
       return databaseBuilder.commit();
     });
 
-    it('should create pole emploi sending', async () => {
+    it('should create pole emploi sending', async function() {
       const payload = {
         campagne: {
           nom: 'Campagne Pôle Emploi',
@@ -166,17 +166,17 @@ describe('computePoleEmploiSendings', () => {
     });
   });
 
-  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_COMPLETION and assessment has been improved', () => {
+  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_COMPLETION and assessment has been improved', function() {
     let oldAssessment, assessmentImproving;
 
-    beforeEach(() => {
+    beforeEach(function() {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: false, sharedAt: null }).id;
       oldAssessment = databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'completed', type: 'CAMPAIGN', updatedAt: new Date('2020-10-10') });
       assessmentImproving = databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'completed', type: 'CAMPAIGN', updatedAt: new Date('2020-12-12'), isImproving: true });
       return databaseBuilder.commit();
     });
 
-    it('should create pole emploi sending', async () => {
+    it('should create pole emploi sending', async function() {
       await computePoleEmploiSendings(code, 1);
 
       const poleEmploiSendings = await knex('pole-emploi-sendings').where({ type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION });
@@ -185,8 +185,8 @@ describe('computePoleEmploiSendings', () => {
     });
   });
 
-  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_SHARING', () => {
-    beforeEach(() => {
+  context('when pole emploi sendings is missing for status CAMPAIGN_PARTICIPATION_SHARING', function() {
+    beforeEach(function() {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: true, sharedAt: new Date('2021-10-10') }).id;
       const assessmentId = databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'completed', type: 'CAMPAIGN' }).id;
       const ke1 = databaseBuilder.factory.buildKnowledgeElement({ status: 'validated', skillId: skill1.id, assessmentId, userId, competenceId: competence1.id });
@@ -195,7 +195,7 @@ describe('computePoleEmploiSendings', () => {
       return databaseBuilder.commit();
     });
 
-    it('should create pole emploi sending', async () => {
+    it('should create pole emploi sending', async function() {
       const payload = {
         campagne: {
           nom: 'Campagne Pôle Emploi',
@@ -261,15 +261,15 @@ describe('computePoleEmploiSendings', () => {
     });
   });
 
-  context('when pole emploi sendings is missing for all statuses', () => {
-    beforeEach(() => {
+  context('when pole emploi sendings is missing for all statuses', function() {
+    beforeEach(function() {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: true, sharedAt: new Date('2021-10-10') }).id;
       databaseBuilder.factory.buildAssessment({ userId, campaignParticipationId, state: 'completed', type: 'CAMPAIGN' });
       databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId, snappedAt: new Date('2021-10-10'), snapshot: JSON.stringify([]) });
       return databaseBuilder.commit();
     });
 
-    it('should create 3 pole emploi sendings', async () => {
+    it('should create 3 pole emploi sendings', async function() {
       await computePoleEmploiSendings(code, 1);
 
       const poleEmploiSendings = await knex('pole-emploi-sendings');
@@ -277,8 +277,8 @@ describe('computePoleEmploiSendings', () => {
     });
   });
 
-  context('when only one pole emploi sendings is missing', () => {
-    beforeEach(() => {
+  context('when only one pole emploi sendings is missing', function() {
+    beforeEach(function() {
       campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isShared: true, sharedAt: new Date('2021-10-10') }).id;
       poleEmploiSendingFactory.build({ campaignParticipationId, type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_START });
       poleEmploiSendingFactory.build({ campaignParticipationId, type: PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION });
@@ -287,7 +287,7 @@ describe('computePoleEmploiSendings', () => {
       return databaseBuilder.commit();
     });
 
-    it('should only create pole emploi sending missing', async () => {
+    it('should only create pole emploi sending missing', async function() {
       await computePoleEmploiSendings(code, 1);
 
       const poleEmploiSendings = await knex('pole-emploi-sendings');

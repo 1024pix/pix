@@ -4,16 +4,16 @@ const attachOrganizationsFromExistingTargetProfile = require('../../../../lib/do
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 
-describe('Integration | UseCase | attach-organizations-from-existing-target-profile', () => {
-  beforeEach(() => {
+describe('Integration | UseCase | attach-organizations-from-existing-target-profile', function() {
+  beforeEach(function() {
     sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([]);
   });
-  afterEach(() => {
+  afterEach(function() {
     return knex('target-profile-shares').delete();
   });
 
-  describe('#attachOrganizationsFromExistingTargetProfile', () => {
-    it('attaches organizations to target profile with given existing target profile', async () => {
+  describe('#attachOrganizationsFromExistingTargetProfile', function() {
+    it('attaches organizations to target profile with given existing target profile', async function() {
       const existingTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organizationId1 = databaseBuilder.factory.buildOrganization().id;
@@ -38,7 +38,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       expect(organizationIds).to.exactlyContain(expectedOrganizationIds);
     });
 
-    it('throws error when no organizations to attach', async () => {
+    it('throws error when no organizations to attach', async function() {
       const existingTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       await databaseBuilder.commit();
@@ -52,7 +52,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       expect(error).to.be.instanceOf(NoOrganizationToAttach);
     });
 
-    it('throws error when new target profile does not exist', async () => {
+    it('throws error when new target profile does not exist', async function() {
       const existingTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: existingTargetProfileId, organizationId });
@@ -67,7 +67,7 @@ describe('Integration | UseCase | attach-organizations-from-existing-target-prof
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('throws error when old target profile does not exist', async () => {
+    it('throws error when old target profile does not exist', async function() {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       await databaseBuilder.commit();
 

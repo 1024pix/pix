@@ -8,11 +8,11 @@ const { CertificationCandidatesImportError } = require('../../../../../lib/domai
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
 
-describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', () => {
+describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function() {
   let userId;
   let sessionId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -21,8 +21,8 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     await databaseBuilder.commit();
   });
 
-  context('When attendance sheet is of version different than 1.4', () => {
-    it('should throw a CertificationCandidatesImportError', async () => {
+  context('When attendance sheet is of version different than 1.4', function() {
+    it('should throw a CertificationCandidatesImportError', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-3_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -43,9 +43,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
   });
 
-  context('When attendance sheet is of version 1.4', () => {
+  context('When attendance sheet is of version 1.4', function() {
 
-    it('should throw a CertificationCandidatesImportError if there is an error in the file', async () => {
+    it('should throw a CertificationCandidatesImportError if there is an error in the file', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-4_extract_mandatory_ko_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -65,7 +65,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       expect(error.code).to.be.null;
     });
 
-    it('should return extracted and validated certification candidates', async () => {
+    it('should return extracted and validated certification candidates', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet-1-4_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -119,9 +119,9 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     });
   });
 
-  context('When attendance sheet is of version 1.5', () => {
+  context('When attendance sheet is of version 1.5', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       databaseBuilder.factory.buildCertificationCpfCountry({ code: '99100', commonName: 'FRANCE', originalName: 'FRANCE', matcher: 'ACEFNR' });
       databaseBuilder.factory.buildCertificationCpfCountry({ code: '99132', commonName: 'ANGLETERRE', originalName: 'ANGLETERRE', matcher: 'AEEEGLNRRT' });
 
@@ -131,7 +131,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       await databaseBuilder.commit();
     });
 
-    it('should throw a CertificationCandidatesImportError if there is an error in the file', async () => {
+    it('should throw a CertificationCandidatesImportError if there is an error in the file', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_mandatory_ko_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -151,7 +151,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       expect(error.code).to.be.null;
     });
 
-    it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async () => {
+    it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_birth_ko_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
@@ -171,7 +171,7 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       expect(error.code).to.be.null;
     });
 
-    it('should return extracted and validated certification candidates', async () => {
+    it('should return extracted and validated certification candidates', async function() {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);

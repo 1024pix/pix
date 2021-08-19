@@ -2,11 +2,11 @@ const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 const certificationReportController = require('../../../../lib/application/certification-reports/certification-report-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | certification-report-controller', () => {
+describe('Unit | Controller | certification-report-controller', function() {
 
-  describe('#saveCertificationIssueReport', () => {
+  describe('#saveCertificationIssueReport', function() {
 
-    it('should return serialized certification issue report with code 201', async () => {
+    it('should return serialized certification issue report with code 201', async function() {
       // given
       const certificationReportId = 123;
       const userId = 456;

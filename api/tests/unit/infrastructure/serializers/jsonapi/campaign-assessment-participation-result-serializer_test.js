@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
     let modelCampaignAssessmentParticipationResult;
     let expectedJsonApi;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'], areaId: 'area1' });
       const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });

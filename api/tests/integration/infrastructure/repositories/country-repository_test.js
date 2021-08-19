@@ -2,13 +2,13 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const countryRepository = require('../../../../lib/infrastructure/repositories/country-repository');
 const { Country } = require('../../../../lib/domain/read-models/Country');
 
-describe('Integration | Repository | country-repository', () => {
+describe('Integration | Repository | country-repository', function() {
 
-  describe('#findAll', () => {
+  describe('#findAll', function() {
 
-    describe('when there are countries', () => {
+    describe('when there are countries', function() {
 
-      it('should return all common named countries ordered by name', async () => {
+      it('should return all common named countries ordered by name', async function() {
         // given
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99345',
@@ -50,9 +50,9 @@ describe('Integration | Repository | country-repository', () => {
       });
     });
 
-    describe('when there are no countries', () => {
+    describe('when there are no countries', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given when
         const countries = await countryRepository.findAll();
 

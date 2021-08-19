@@ -2,15 +2,15 @@ const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helpe
 const resetPasswordDemandsRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 const { PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Infrastructure | Repository | reset-password-demands-repository', () => {
+describe('Integration | Infrastructure | Repository | reset-password-demands-repository', function() {
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('reset-password-demands').delete();
   });
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    it('should create a password reset demand', async () => {
+    it('should create a password reset demand', async function() {
       // when
       const email = 'someMail@example.net';
       const temporaryKey = 'someKey';
@@ -26,15 +26,15 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
     });
   });
 
-  describe('#markAsBeingUsed', () => {
+  describe('#markAsBeingUsed', function() {
     const email = 'someEmail@example.net';
 
-    beforeEach(() => {
+    beforeEach(function() {
       databaseBuilder.factory.buildResetPasswordDemand({ email, used: false });
       return databaseBuilder.commit();
     });
 
-    it('should mark demand as used', async () => {
+    it('should mark demand as used', async function() {
       // when
       await resetPasswordDemandsRepository.markAsBeingUsed(email);
 
@@ -46,7 +46,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       expect(demand.used).to.be.true;
     });
 
-    it('should be case insensitive', async () => {
+    it('should be case insensitive', async function() {
       // when
       const emailWithUppercase = email.toUpperCase();
       await resetPasswordDemandsRepository.markAsBeingUsed(emailWithUppercase);
@@ -59,8 +59,8 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       expect(demand.used).to.be.true;
     });
 
-    context('when case is not identical', () => {
-      it('should mark demand as used', async () => {
+    context('when case is not identical', function() {
+      it('should mark demand as used', async function() {
         // given
         const sameEmailWithAnotherCase = 'SomeEmaIL@example.net';
 
@@ -77,11 +77,11 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
     });
   });
 
-  describe('#findByTemporaryKey', () => {
+  describe('#findByTemporaryKey', function() {
 
-    context('when demand does not exist', () => {
+    context('when demand does not exist', function() {
 
-      it('should throw a PasswordResetDemandNotFoundError', async () => {
+      it('should throw a PasswordResetDemandNotFoundError', async function() {
         // when
         const error = await catchErr(resetPasswordDemandsRepository.findByTemporaryKey)('salut les noobs');
 
@@ -90,17 +90,17 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       });
     });
 
-    context('when demand exists', () => {
+    context('when demand exists', function() {
       const temporaryKey = 'someTemporaryKey';
 
-      context('when demand has been used already', () => {
+      context('when demand has been used already', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           databaseBuilder.factory.buildResetPasswordDemand({ temporaryKey, used: true });
           return databaseBuilder.commit();
         });
 
-        it('should throw a PasswordResetDemandNotFoundError', async () => {
+        it('should throw a PasswordResetDemandNotFoundError', async function() {
           // when
           const error = await catchErr(resetPasswordDemandsRepository.findByTemporaryKey)(temporaryKey);
 
@@ -110,17 +110,17 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
       });
 
-      context('when demand is still up', () => {
+      context('when demand is still up', function() {
         const email = 'someMail@example.net';
         let demandId;
 
-        beforeEach(() => {
+        beforeEach(function() {
           demandId = databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey, used: false }).id;
           databaseBuilder.factory.buildResetPasswordDemand({ email, used: false });
           return databaseBuilder.commit();
         });
 
-        it('should return the bookshelf demand', async () => {
+        it('should return the bookshelf demand', async function() {
           // when
           const demand = await resetPasswordDemandsRepository.findByTemporaryKey(temporaryKey);
 
@@ -135,11 +135,11 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
     });
   });
 
-  describe('#findByUserEmail', () => {
+  describe('#findByUserEmail', function() {
 
-    context('when demand does not exist', () => {
+    context('when demand does not exist', function() {
 
-      it('should throw a PasswordResetDemandNotFoundError', async () => {
+      it('should throw a PasswordResetDemandNotFoundError', async function() {
         // when
         const error = await catchErr(resetPasswordDemandsRepository.findByUserEmail)('bolossdu66@example.net', 'salut les noobs');
 
@@ -148,18 +148,18 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
       });
     });
 
-    context('when demand exists', () => {
+    context('when demand exists', function() {
       const temporaryKey = 'someTemporaryKey';
       const email = 'someMail@example.net';
 
-      context('when demand has been used already', () => {
+      context('when demand has been used already', function() {
 
-        beforeEach(() => {
+        beforeEach(function() {
           databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey, used: true });
           return databaseBuilder.commit();
         });
 
-        it('should throw a PasswordResetDemandNotFoundError', async () => {
+        it('should throw a PasswordResetDemandNotFoundError', async function() {
           // when
           const error = await catchErr(resetPasswordDemandsRepository.findByUserEmail)(email, temporaryKey);
 
@@ -169,17 +169,17 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
 
       });
 
-      context('when demand is still up', () => {
+      context('when demand is still up', function() {
         let demandId;
 
-        beforeEach(() => {
+        beforeEach(function() {
           demandId = databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey, used: false }).id;
           databaseBuilder.factory.buildResetPasswordDemand({ email, used: false });
           databaseBuilder.factory.buildResetPasswordDemand({ temporaryKey, used: false });
           return databaseBuilder.commit();
         });
 
-        it('should return the bookshelf demand', async () => {
+        it('should return the bookshelf demand', async function() {
           // when
           const demand = await resetPasswordDemandsRepository.findByUserEmail(email, temporaryKey);
 
@@ -190,7 +190,7 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           expect(demand.attributes.used).to.equal(false);
         });
 
-        it('should be case insensitive', async () => {
+        it('should be case insensitive', async function() {
           // when
           const emailWithUppercase = email.toUpperCase();
           const demand = await resetPasswordDemandsRepository.findByUserEmail(emailWithUppercase, temporaryKey);
@@ -202,8 +202,8 @@ describe('Integration | Infrastructure | Repository | reset-password-demands-rep
           expect(demand.attributes.used).to.equal(false);
         });
 
-        context('when case is not identical', () => {
-          it('should return the bookshelf demand', async () => {
+        context('when case is not identical', function() {
+          it('should return the bookshelf demand', async function() {
             // given
             const sameEmailWithAnotherCase = 'SomeMaIL@example.net';
 

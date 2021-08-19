@@ -3,7 +3,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
+describe('Unit | UseCase | dissociate-user-from-schooling-registration', function() {
 
   const organizationId = 1;
   const schoolingRegistrationId = 2;
@@ -14,7 +14,7 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
   let schoolingRegistrationRepositoryStub;
   let userRepositoryStub;
 
-  beforeEach(() => {
+  beforeEach(function() {
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({
       organization: { id: organizationId },
       id: schoolingRegistrationId,
@@ -32,9 +32,9 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     };
   });
 
-  context('when the authenticated user has role pix master', () => {
+  context('when the authenticated user has role pix master', function() {
 
-    it('should dissociate user from the schooling registration', async () => {
+    it('should dissociate user from the schooling registration', async function() {
       // given
       membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([]);
       userRepositoryStub.isPixMaster.resolves(true);
@@ -55,9 +55,9 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     });
   });
 
-  context('when the authenticated user is an admin of the organization which manage the student', () => {
+  context('when the authenticated user is an admin of the organization which manage the student', function() {
 
-    it('should dissociate user from the schooling registration', async () => {
+    it('should dissociate user from the schooling registration', async function() {
       // given
       membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([{ isAdmin: true }]);
       userRepositoryStub.isPixMaster.resolves(false);
@@ -78,9 +78,9 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     });
   });
 
-  context('when the authenticated user is neither a member of the organization which manages the student nor has role pix master', () => {
+  context('when the authenticated user is neither a member of the organization which manages the student nor has role pix master', function() {
 
-    it('throws a ForbiddenAccess error', async () => {
+    it('throws a ForbiddenAccess error', async function() {
       // given
       membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([]);
       userRepositoryStub.isPixMaster.resolves(false);
@@ -99,9 +99,9 @@ describe('Unit | UseCase | dissociate-user-from-schooling-registration', () => {
     });
   });
 
-  context('when the authenticated user is neither a admin of the organization which manages the student nor has role pix master', () => {
+  context('when the authenticated user is neither a admin of the organization which manages the student nor has role pix master', function() {
 
-    it('throws a ForbiddenAccess error', async () => {
+    it('throws a ForbiddenAccess error', async function() {
       // given
       membershipRepositoryStub.findByUserIdAndOrganizationId.resolves([{ idAdmin: false }]);
       userRepositoryStub.isPixMaster.resolves(false);

@@ -5,13 +5,13 @@ const Organization = require('../../../../lib/domain/models/Organization');
 
 const createOrganization = require('../../../../lib/domain/usecases/create-organization');
 
-describe('Integration | UseCases | create-organization', () => {
+describe('Integration | UseCases | create-organization', function() {
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('organizations').delete();
   });
 
-  it('should create and return an Organization', async () => {
+  it('should create and return an Organization', async function() {
     // given
     const pixMasterUserId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();

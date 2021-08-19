@@ -14,7 +14,7 @@ const {
   buildErrorUnpublishedCertificationData,
 } = require('../../../../tests/tooling/domain-builder/factory/build-certifications-results-for-ls');
 
-describe('Integration | Repository | Certification-ls ', () => {
+describe('Integration | Repository | Certification-ls ', function() {
 
   const pixScore = 400;
   const uai = '789567AA';
@@ -25,7 +25,7 @@ describe('Integration | Repository | Certification-ls ', () => {
     code: '5.2', level: 4,
   }];
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('competence-marks').delete();
     await knex('certification-candidates').delete();
     await knex('partner-certifications').delete();
@@ -35,9 +35,9 @@ describe('Integration | Repository | Certification-ls ', () => {
     return knex('sessions').delete();
   });
 
-  describe('#getCertificatesByOrganizationUAI', () => {
+  describe('#getCertificatesByOrganizationUAI', function() {
 
-    it('should return validated certification results for a given UAI', async () => {
+    it('should return validated certification results for a given UAI', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -84,7 +84,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResults).to.deep.equal([expected]);
     });
 
-    it('should not return cancelled certification for a given UAI', async () => {
+    it('should not return cancelled certification for a given UAI', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -106,7 +106,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResults).to.deep.equal([]);
     });
 
-    it('should return rejected certification results for a given UAI', async () => {
+    it('should return rejected certification results for a given UAI', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -128,7 +128,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return pending (error) certification results for a given UAI', async () => {
+    it('should return pending (error) certification results for a given UAI', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -150,7 +150,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return pending (validated) certification results for a given UAI', async () => {
+    it('should return pending (validated) certification results for a given UAI', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -172,7 +172,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).to.be.empty;
     });
 
-    it('should return no certification results if no competence-marks for a given UAI', async () => {
+    it('should return no certification results if no competence-marks for a given UAI', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -192,7 +192,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult).to.be.empty;
     });
 
-    it('should return certification from student even if this certification was from another other organisation', async () => {
+    it('should return certification from student even if this certification was from another other organisation', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -219,7 +219,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResult.competenceResults).not.to.be.empty;
     });
 
-    it('should return only the last (not cancelled) certification', async () => {
+    it('should return only the last (not cancelled) certification', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();
@@ -260,7 +260,7 @@ describe('Integration | Repository | Certification-ls ', () => {
       expect(certificationResults[0].id).to.equal(lastCertificationCourse.id);
     });
 
-    it('should return 0 (low level) and -1 (rejected) competence level', async () => {
+    it('should return 0 (low level) and -1 (rejected) competence level', async function() {
       // given
       const organizationId = buildOrganization(uai).id;
       const user = buildUser();

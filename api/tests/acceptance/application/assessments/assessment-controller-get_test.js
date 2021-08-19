@@ -3,28 +3,30 @@ const createServer = require('../../../../server');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Acceptance | API | assessment-controller-get', () => {
+describe('Acceptance | API | assessment-controller-get', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
   let userId;
   const courseId = 'courseId';
 
-  beforeEach(async () => {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-sibling-hooks
+  beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
   });
 
-  describe('(no provided answer) GET /api/assessments/:id', () => {
+  describe('(no provided answer) GET /api/assessments/:id', function() {
 
     let options;
     let assessmentId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: Assessment.states.STARTED, type: Assessment.types.PREVIEW }).id;
       await databaseBuilder.commit();
       options = {
@@ -37,7 +39,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    it('should return 200 HTTP status code', async () => {
+    it('should return 200 HTTP status code', async function() {
       // when
       const response = await server.inject(options);
 
@@ -45,7 +47,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', async () => {
+    it('should return application/json', async function() {
       // when
       const response = await server.inject(options);
 
@@ -54,7 +56,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(contentType).to.contain('application/json');
     });
 
-    it('should return the expected assessment', async () => {
+    it('should return the expected assessment', async function() {
       // when
       const response = await server.inject(options);
 
@@ -89,12 +91,12 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('(when userId and assessmentId match) GET /api/assessments/:id', () => {
+  describe('(when userId and assessmentId match) GET /api/assessments/:id', function() {
 
     let assessmentId;
     let options;
 
-    beforeEach(async() => {
+    beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, type: Assessment.types.PREVIEW }).id;
       await databaseBuilder.commit();
       options = {
@@ -107,7 +109,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       };
     });
 
-    it('should return 200 HTTP status code, when userId provided is linked to assessment', async () => {
+    it('should return 200 HTTP status code, when userId provided is linked to assessment', async function() {
       // when
       const response = await server.inject(options);
 
@@ -116,10 +118,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('(answers provided, assessment completed) GET /api/assessments/:id', () => {
+  describe('(answers provided, assessment completed) GET /api/assessments/:id', function() {
     let assessmentId, answer1, answer2;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessmentId = databaseBuilder.factory.buildAssessment({ userId, courseId, state: Assessment.states.COMPLETED, type: Assessment.types.PREVIEW }).id;
 
       answer1 = databaseBuilder.factory.buildAnswer({ assessmentId });
@@ -128,7 +130,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', async () => {
+    it('should return 200 HTTP status code', async function() {
       const options = {
         method: 'GET',
         url: `/api/assessments/${assessmentId}`,
@@ -145,7 +147,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', async () => {
+    it('should return application/json', async function() {
       const options = {
         method: 'GET',
         url: `/api/assessments/${assessmentId}`,
@@ -163,7 +165,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(contentType).to.contain('application/json');
     });
 
-    it('should return the expected assessment', async () => {
+    it('should return the expected assessment', async function() {
       // given
       const options = {
         method: 'GET',
@@ -210,10 +212,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
   });
 
-  describe('GET /api/assessments/', () => {
+  describe('GET /api/assessments/', function() {
     let assessmentId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const campaignId = databaseBuilder.factory.buildCampaign({ code: 'TESTCODE', name: 'CAMPAIGN TEST' }).id;
       const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId });
       assessmentId = databaseBuilder.factory.buildAssessment(
@@ -227,7 +229,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return 200 HTTP status code', async () => {
+    it('should return 200 HTTP status code', async function() {
       // given
       const options = {
         method: 'GET',
@@ -245,7 +247,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return application/json', async () => {
+    it('should return application/json', async function() {
       // given
       const options = {
         method: 'GET',
@@ -264,7 +266,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(contentType).to.contain('application/json');
     });
 
-    it('should return an array of assessments, with code campaign', async () => {
+    it('should return an array of assessments, with code campaign', async function() {
       // given
       const options = {
         method: 'GET',
@@ -301,7 +303,7 @@ describe('Acceptance | API | assessment-controller-get', () => {
       expect(assessment.attributes).to.deep.equal(expectedFirstAssessment.attributes);
     });
 
-    it('should return an empty array since no user is logged', async () => {
+    it('should return an empty array since no user is logged', async function() {
       // given
       const options = {
         method: 'GET',

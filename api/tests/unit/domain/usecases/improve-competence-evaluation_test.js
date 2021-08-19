@@ -4,16 +4,18 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { MAX_REACHABLE_LEVEL } = require('../../../../lib/domain/constants');
 const { ImproveCompetenceEvaluationForbiddenError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | Improve Competence Evaluation', () => {
+describe('Unit | UseCase | Improve Competence Evaluation', function() {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
   let getCompetenceLevel;
   let competenceId;
   let expectedAssessment;
   let createdAssessment;
   const assessmentId = 'created-assessment-id';
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('DomainTransaction');
 
-  beforeEach(() => {
+  beforeEach(function() {
     const currentAssessment = new Assessment({
       state: 'completed',
       userId,
@@ -44,7 +46,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     getCompetenceLevel = sinon.stub().resolves(3);
   });
 
-  it('should retrieve competence evaluation from id', async () => {
+  it('should retrieve competence evaluation from id', async function() {
     // when
     await improveCompetenceEvaluation({
       assessmentRepository,
@@ -63,7 +65,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     });
   });
 
-  it('should create an improving assessment', async () => {
+  it('should create an improving assessment', async function() {
     // when
     await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
 
@@ -71,7 +73,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     expect(assessmentRepository.save).to.be.calledWith({ assessment: expectedAssessment, domainTransaction });
   });
 
-  it('should update competence evaluation with newly created assessment', async () => {
+  it('should update competence evaluation with newly created assessment', async function() {
     // when
     await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
 
@@ -83,7 +85,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     });
   });
 
-  it('should return competence evaluation with newly created assessment', async () => {
+  it('should return competence evaluation with newly created assessment', async function() {
     // given
     const expectedCompetenceEvaluation = competenceEvaluation;
     expectedCompetenceEvaluation.assessmentId = createdAssessment.id;
@@ -95,12 +97,12 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     expect(result).to.deep.equal(expectedCompetenceEvaluation);
   });
 
-  context('when user has reached maximum level for given competence', () => {
-    beforeEach(() => {
+  context('when user has reached maximum level for given competence', function() {
+    beforeEach(function() {
       getCompetenceLevel.resolves(MAX_REACHABLE_LEVEL);
     });
 
-    it('should throw a Forbidden error', async () => {
+    it('should throw a Forbidden error', async function() {
       // when
       const error = await catchErr(improveCompetenceEvaluation)({
         assessmentRepository,
@@ -116,8 +118,8 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
     });
   });
 
-  context('when user has already started the improvement of the competence', () => {
-    beforeEach(() => {
+  context('when user has already started the improvement of the competence', function() {
+    beforeEach(function() {
       const currentAssessment = new Assessment({
         state: 'started',
         userId,
@@ -131,7 +133,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', () => {
       competenceEvaluationRepository.getByCompetenceIdAndUserId.resolves(competenceEvaluation);
     });
 
-    it('should not modify data and return the current competence evaluation', async () => {
+    it('should not modify data and return the current competence evaluation', async function() {
       // given
       const expectedCompetenceEvaluation = { ...competenceEvaluation };
 

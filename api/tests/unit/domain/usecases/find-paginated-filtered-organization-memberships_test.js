@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const Memberships = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', () => {
+describe('Unit | UseCase | find-paginated-filtered-organizations-memberships', function() {
 
-  it('should result organizations with filtering and pagination', async () => {
+  it('should result organizations with filtering and pagination', async function() {
     // given
     const organizationId = 345;
     const filter = { firstName: 'André' };

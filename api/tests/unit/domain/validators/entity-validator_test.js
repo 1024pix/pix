@@ -5,16 +5,16 @@ const { validateEntity } = require('../../../../lib/domain/validators/entity-val
 
 describe('Unit | Domain | Validators | entity-validator', function() {
 
-  describe('#validateEntity', () => {
+  describe('#validateEntity', function() {
 
-    context('when entity is valid', () => {
-      it('should not throw', () => {
+    context('when entity is valid', function() {
+      it('should not throw', function() {
         expect(() => new EntityForValidatorTest({ id: 3, name: 'salut' })).not.to.throw(ObjectValidationError);
       });
     });
 
-    context('when entity is not valid', () => {
-      it('should throw', () => {
+    context('when entity is not valid', function() {
+      it('should throw', function() {
         expect(() => new EntityForValidatorTest({ id: 'coucou', name: 'salut' })).to.throw(ObjectValidationError);
       });
     });

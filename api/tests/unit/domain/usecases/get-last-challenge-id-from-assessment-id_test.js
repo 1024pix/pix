@@ -4,11 +4,11 @@ const getLastChallengeIdFromAssessmentId = require('../../../../lib/domain/useca
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', () => {
+describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', function() {
   let assessment;
   const assessmentLastChallengeId = 'last-challenge-id';
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     assessment = await domainBuilder.buildAssessment({
       lastChallengeId: assessmentLastChallengeId,
     });
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', () => {
     sinon.stub(assessmentRepository, 'get');
   });
 
-  it('should resolve the Assessment domain object matching the given assessment ID', async () => {
+  it('should resolve the Assessment domain object matching the given assessment ID', async function() {
     assessmentRepository.get.resolves(assessment);
 
     const { lastChallengeId } = await getLastChallengeIdFromAssessmentId({ assessmentId: assessment.id, assessmentRepository });
@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-last-challenge-id-from-assessment-id', () => {
     expect(lastChallengeId).to.equal(lastChallengeId);
   });
 
-  it('should reject a domain NotFoundError when there is no assessment for given ID', async () => {
+  it('should reject a domain NotFoundError when there is no assessment for given ID', async function() {
     assessmentRepository.get.resolves(null);
 
     const error = await catchErr(getLastChallengeIdFromAssessmentId)({ assessmentRepository, assessmentId: assessment.id });

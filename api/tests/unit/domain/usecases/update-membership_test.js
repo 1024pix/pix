@@ -4,13 +4,13 @@ const Membership = require('../../../../lib/domain/models/Membership');
 const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Unit | UseCase | update-membership', () => {
+describe('Unit | UseCase | update-membership', function() {
 
   let membershipRepository;
   let certificationCenterRepository;
   let certificationCenterMembershipRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     membershipRepository = {
       updateById: sinon.stub(),
       get: sinon.stub(),
@@ -24,7 +24,7 @@ describe('Unit | UseCase | update-membership', () => {
     };
   });
 
-  it('should throw a InvalidMembershipOrganizationRoleError if role is not valid', async () => {
+  it('should throw a InvalidMembershipOrganizationRoleError if role is not valid', async function() {
     // given
     const membershipId = 100;
     const organizationRole = 'NOT_VALID_ROLE';
@@ -42,15 +42,15 @@ describe('Unit | UseCase | update-membership', () => {
     expect(error).to.an.instanceOf(InvalidMembershipOrganizationRoleError);
   });
 
-  context('when the organizationRole to update is set to administrator', () => {
+  context('when the organizationRole to update is set to administrator', function() {
 
-    context('when the organization is SCO', () => {
+    context('when the organization is SCO', function() {
 
-      context('when the membership\'s organization has a certification center', () => {
+      context('when the membership\'s organization has a certification center', function() {
 
-        context('when the user is already a member of the certification center', () => {
+        context('when the user is already a member of the certification center', function() {
 
-          it('should not create a certification center membership', async () => {
+          it('should not create a certification center membership', async function() {
           // given
             const membershipId = 1;
             const externalId = 'externalId';
@@ -83,9 +83,9 @@ describe('Unit | UseCase | update-membership', () => {
           });
         });
 
-        context('when the user is not yet a member of the certification center', () => {
+        context('when the user is not yet a member of the certification center', function() {
 
-          it('should create a certification center membership and update organizationRole', async () => {
+          it('should create a certification center membership and update organizationRole', async function() {
           // given
             const membershipId = 1;
             const domainTransaction = Symbol('a domain transaction');
@@ -126,9 +126,9 @@ describe('Unit | UseCase | update-membership', () => {
         });
       });
 
-      context('when the membership\'s organization has no certification center', () => {
+      context('when the membership\'s organization has no certification center', function() {
 
-        it('should not create a certification center membership', async () => {
+        it('should not create a certification center membership', async function() {
         // given
           const membershipId = 1;
           const externalId = 'externalId';
@@ -156,7 +156,7 @@ describe('Unit | UseCase | update-membership', () => {
           expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
         });
 
-        it('should update the membership', async () => {
+        it('should update the membership', async function() {
         // given
           const organization = domainBuilder.buildOrganization({ type: 'SUP' });
           const membershipId = 100;
@@ -189,9 +189,9 @@ describe('Unit | UseCase | update-membership', () => {
       });
     });
 
-    context('when the organization is not SCO', () => {
+    context('when the organization is not SCO', function() {
 
-      it('should not create a certification center membership', async () => {
+      it('should not create a certification center membership', async function() {
         // given
         const membershipId = 1;
         const givenMembership = new Membership({ id: membershipId, organizationRole: Membership.roles.ADMIN });
@@ -224,9 +224,9 @@ describe('Unit | UseCase | update-membership', () => {
 
   });
 
-  context('when the organizationRole to update is set to member', () => {
+  context('when the organizationRole to update is set to member', function() {
 
-    it('should not create a certification center membership', async () => {
+    it('should not create a certification center membership', async function() {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SCO' });
       const membershipId = 1;
@@ -252,7 +252,7 @@ describe('Unit | UseCase | update-membership', () => {
       expect(certificationCenterMembershipRepository.save).to.not.have.been.called;
     });
 
-    it('should update the membership', async () => {
+    it('should update the membership', async function() {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SUP' });
       const membershipId = 100;

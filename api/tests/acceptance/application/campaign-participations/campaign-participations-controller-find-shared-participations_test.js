@@ -1,15 +1,15 @@
 const createServer = require('../../../../server');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
-describe('Acceptance | API | Campaign Participations | Analyses', () => {
+describe('Acceptance | API | Campaign Participations | Analyses', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/campaigns/{id}/assessment-participations', () => {
+  describe('GET /api/campaigns/{id}/assessment-participations', function() {
 
     const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
     const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
@@ -17,7 +17,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
     let campaign;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -54,7 +54,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return the participation results for an assessment campaign', async () => {
+    it('should return the participation results for an assessment campaign', async function() {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/assessment-results?page[number]=1&page[size]=10&filter[divisions][]=5eme`,

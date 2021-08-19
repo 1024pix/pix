@@ -3,10 +3,14 @@ const getUserProfileSharedForCampaign = require('../../../../lib/domain/usecases
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
+describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
 
   const sharedAt = new Date('2020-02-01');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userId = Symbol('user id');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignId = Symbol('campaign id');
   const expectedCampaignParticipation = { id: '1', sharedAt };
   const locale = 'fr';
@@ -16,9 +20,9 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
   let competenceRepository;
   let campaignRepository;
 
-  context('When user has shared its profile for the campaign', () => {
+  context('When user has shared its profile for the campaign', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
@@ -26,11 +30,11 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
       sinon.stub(Scorecard, 'buildFrom');
     });
 
-    afterEach(() => {
+    afterEach(function() {
       sinon.restore();
     });
 
-    it('should return the shared profile for campaign', async () => {
+    it('should return the shared profile for campaign', async function() {
       const knowledgeElements = { 'competence1': [], 'competence2': [] };
       const competences = [{ id: 'competence1' }, { id: 'competence2' }];
       const campaign = { multipleSendings: false };
@@ -73,8 +77,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', () => {
     });
   });
 
-  context('When user has not shared its profile', () => {
-    it('should throw an error', async () => {
+  context('When user has not shared its profile', function() {
+    it('should throw an error', async function() {
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(null);
 

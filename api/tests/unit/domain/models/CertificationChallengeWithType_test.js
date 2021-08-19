@@ -2,13 +2,16 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationChallengeWithType = require('../../../../lib/domain/models/CertificationChallengeWithType');
 const { Type } = require('../../../../lib/domain/models/Challenge');
 
-describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
+describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const validTypes = Object.values(Type);
+    // eslint-disable-next-line mocha/no-setup-in-describe
     validTypes.forEach((validType) => {
-      it(`should initialize CertificationChallengeWithType with type ${validType}`, () => {
+      it(`should initialize CertificationChallengeWithType with type ${validType}`, function() {
         // when
         const certificationChallengeWithType = new CertificationChallengeWithType({ type: validType });
 
@@ -17,7 +20,7 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
       });
     });
 
-    it('should initialize type to EmptyType when type is not valid', () => {
+    it('should initialize type to EmptyType when type is not valid', function() {
       // when
       const certificationChallengeWithType = new CertificationChallengeWithType({ type: 'COUCOUCOUCOCUCUO' });
 
@@ -26,9 +29,9 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
     });
   });
 
-  describe('#neutralize', () => {
+  describe('#neutralize', function() {
 
-    it('should neutralize a non neutralized certification challenge', () => {
+    it('should neutralize a non neutralized certification challenge', function() {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
 
@@ -39,7 +42,7 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
       expect(certificationChallengeWithType.isNeutralized).to.be.true;
     });
 
-    it('should leave a neutralized certification challenge if it was neutralized already', () => {
+    it('should leave a neutralized certification challenge if it was neutralized already', function() {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true });
 
@@ -51,9 +54,9 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
     });
   });
 
-  describe('#deneutralize', () => {
+  describe('#deneutralize', function() {
 
-    it('should deneutralize a neutralized certification challenge', () => {
+    it('should deneutralize a neutralized certification challenge', function() {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true });
 
@@ -64,7 +67,7 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
       expect(certificationChallengeWithType.isNeutralized).to.be.false;
     });
 
-    it('should leave a deneutralized certification challenge if it was deneutralized already', () => {
+    it('should leave a deneutralized certification challenge if it was deneutralized already', function() {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
 
@@ -76,9 +79,9 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
     });
   });
 
-  describe('#isPixPlus', () => {
+  describe('#isPixPlus', function() {
 
-    it('return true when challenge was picked for a pix plus certification', () => {
+    it('return true when challenge was picked for a pix plus certification', function() {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: 'someValue' });
 
@@ -89,7 +92,7 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', () => {
       expect(isPixPlus).to.be.true;
     });
 
-    it('return false when challenge was picked for a regular pix certification', () => {
+    it('return false when challenge was picked for a regular pix certification', function() {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: null });
 

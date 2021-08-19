@@ -1,18 +1,18 @@
 const { expect, nock, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Courses', () => {
+describe('Acceptance | API | Courses', function() {
 
   let server;
   const userId = 42;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/courses/:course_id', () => {
+  describe('GET /api/courses/:course_id', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       const learningContent = [{
         id: '1. Information et données',
@@ -40,14 +40,14 @@ describe('Acceptance | API | Courses', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    after(() => {
+    after(function() {
       nock.cleanAll();
     });
 
-    context('when the course exists', () => {
+    context('when the course exists', function() {
       let options;
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'GET',
           url: '/api/courses/rec_course_id',
@@ -57,7 +57,7 @@ describe('Acceptance | API | Courses', () => {
         };
       });
 
-      it('should return 200 HTTP status code', () => {
+      it('should return 200 HTTP status code', function() {
         // when
         const promise = server.inject(options);
 
@@ -67,7 +67,7 @@ describe('Acceptance | API | Courses', () => {
         });
       });
 
-      it('should return application/json', () => {
+      it('should return application/json', function() {
         // when
         const promise = server.inject(options);
 
@@ -78,7 +78,7 @@ describe('Acceptance | API | Courses', () => {
         });
       });
 
-      it('should return the expected course', () => {
+      it('should return the expected course', function() {
         // when
         const promise = server.inject(options);
 
@@ -93,17 +93,17 @@ describe('Acceptance | API | Courses', () => {
 
     });
 
-    context('when the course does not exist', () => {
+    context('when the course does not exist', function() {
       let options;
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'GET',
           url: '/api/courses/rec_i_dont_exist',
         };
       });
 
-      it('should return 404 HTTP status code', () => {
+      it('should return 404 HTTP status code', function() {
         // when
         const promise = server.inject(options);
 

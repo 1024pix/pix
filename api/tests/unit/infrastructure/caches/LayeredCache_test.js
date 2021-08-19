@@ -1,11 +1,11 @@
 const { expect, sinon } = require('../../../test-helper');
 const LayeredCache = require('../../../../lib/infrastructure/caches/LayeredCache');
 
-describe('Unit | Infrastructure | Caches | LayeredCache', () => {
+describe('Unit | Infrastructure | Caches | LayeredCache', function() {
 
   const layeredCacheInstance = new LayeredCache();
 
-  beforeEach(() => {
+  beforeEach(function() {
     layeredCacheInstance._firstLevelCache = {
       get: sinon.stub(),
       set: sinon.stub(),
@@ -18,13 +18,13 @@ describe('Unit | Infrastructure | Caches | LayeredCache', () => {
     };
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     const cachedObject = { foo: 'bar' };
     const cacheKey = 'cache-key';
     const generator = () => cachedObject;
 
-    it('should delegate to first level cache, by passing it the second level cache as generator', async () => {
+    it('should delegate to first level cache, by passing it the second level cache as generator', async function() {
       // given
       layeredCacheInstance._firstLevelCache.get.withArgs(cacheKey).callsFake((key, generator) => generator());
       layeredCacheInstance._secondLevelCache.get.withArgs(cacheKey, generator).callsFake((key, generator) => generator());
@@ -37,12 +37,12 @@ describe('Unit | Infrastructure | Caches | LayeredCache', () => {
     });
   });
 
-  describe('#set', () => {
+  describe('#set', function() {
 
     const cacheKey = 'cache-key';
     const objectToCache = { foo: 'bar' };
 
-    it('should delegate to first level cache, by passing it the second level cache as generator', async () => {
+    it('should delegate to first level cache, by passing it the second level cache as generator', async function() {
       // given
       layeredCacheInstance._secondLevelCache.set.withArgs(cacheKey, objectToCache).resolves(objectToCache);
 
@@ -56,9 +56,9 @@ describe('Unit | Infrastructure | Caches | LayeredCache', () => {
     });
   });
 
-  describe('#flushAll', () => {
+  describe('#flushAll', function() {
 
-    it('should flush all entries for both first and second level caches', async () => {
+    it('should flush all entries for both first and second level caches', async function() {
       // given
 
       // when

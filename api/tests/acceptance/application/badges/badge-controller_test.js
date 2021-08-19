@@ -1,17 +1,17 @@
 const createServer = require('../../../../server');
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 
-describe('Acceptance | API | Badges', () => {
+describe('Acceptance | API | Badges', function() {
 
   let server, options, userId, badge, badgeCriterion, badgePartnerCompetence;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/admin/badges/{id}', () => {
+  describe('GET /api/admin/badges/{id}', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = (await insertUserWithRolePixMaster()).id;
 
       const learningContent = [{
@@ -51,7 +51,7 @@ describe('Acceptance | API | Badges', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the badge', async () => {
+    it('should return the badge', async function() {
       // given
       options = {
         method: 'GET',

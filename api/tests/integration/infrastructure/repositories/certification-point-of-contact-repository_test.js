@@ -6,9 +6,9 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | CertificationPointOfContact', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return CertificationPointOfContact with all the info if exists', async () => {
+    it('should return CertificationPointOfContact with all the info if exists', async function() {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         name: 'Centre des papys gâteux',
@@ -47,7 +47,7 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
       expect(firstCertificationCenter.isRelatedOrganizationManagingStudents).to.be.false;
     });
 
-    it('should return CertificationPointOfContact with isRelatedOrganizationManagingStudents as true when the certification center is related to an organization that manages students', async () => {
+    it('should return CertificationPointOfContact with isRelatedOrganizationManagingStudents as true when the certification center is related to an organization that manages students', async function() {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
         externalId: 'ABC123',
@@ -72,7 +72,7 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
       expect(certificationPointOfContact.certificationCenters[0].isRelatedOrganizationManagingStudents).to.be.true;
     });
 
-    it('should throw NotFoundError when point of contact does not exist', async () => {
+    it('should throw NotFoundError when point of contact does not exist', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -88,9 +88,9 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    context('When there is more than one membership', () => {
+    context('When there is more than one membership', function() {
 
-      it('should return all the CertificationCenterMembership', async () => {
+      it('should return all the CertificationCenterMembership', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId });
@@ -105,7 +105,7 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
         expect(certificationPointOfContact.certificationCenters).to.have.lengthOf(3);
       });
 
-      it('should order CertificationCenterMembership by the most recently created membership', async () => {
+      it('should order CertificationCenterMembership by the most recently created membership', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const thirdCreatedMembership = databaseBuilder.factory.buildCertificationCenterMembership({ userId, createdAt: new Date('2016-02-15T00:00:00Z') });

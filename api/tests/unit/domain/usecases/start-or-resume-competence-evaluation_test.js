@@ -5,24 +5,38 @@ const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
+describe('Unit | UseCase | start-or-resume-competence-evaluation', function() {
 
   const userId = 123;
   const assessmentId = 456;
   const newAssessmentId = 789;
   const competenceId = 'recABC123';
   const competenceEvaluation = { userId, competenceId, assessmentId };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceRepository = { get: _.noop };
   const competenceEvaluationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCompetenceIdAndUserId: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     updateStatusByUserIdAndCompetenceId: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     updateAssessmentId: _.noop,
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const assessmentRepository = { save: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(competenceRepository, 'get');
     sinon.stub(competenceEvaluationRepository, 'save');
     sinon.stub(competenceEvaluationRepository, 'getByCompetenceIdAndUserId');
@@ -31,9 +45,9 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
     sinon.stub(assessmentRepository, 'save');
   });
 
-  context('When the competence does not exist', () => {
+  context('When the competence does not exist', function() {
 
-    it('should bubble the domain NotFoundError', async () => {
+    it('should bubble the domain NotFoundError', async function() {
       // given
       const notFoundError = new NotFoundError('La compétence demandée n’existe pas');
       competenceRepository.get.withArgs({ id: competenceId }).rejects(notFoundError);
@@ -48,14 +62,14 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
     });
   });
 
-  context('When the competence could not be retrieved', () => {
+  context('When the competence could not be retrieved', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       competenceRepository.get.withArgs({ id: competenceId }).resolves();
       competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new Error);
     });
 
-    it('should forward the error', async () => {
+    it('should forward the error', async function() {
       // when
       const err = await catchErr(usecases.startOrResumeCompetenceEvaluation)({
         competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
@@ -64,12 +78,12 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
       expect(err).to.be.instanceOf(Error);
     });
   });
-  context('When the competence exists', () => {
-    beforeEach(() => {
+  context('When the competence exists', function() {
+    beforeEach(function() {
       competenceRepository.get.withArgs({ id: competenceId }).resolves();
     });
-    context('When the user starts a new competence evaluation', () => {
-      beforeEach(() => {
+    context('When the user starts a new competence evaluation', function() {
+      beforeEach(function() {
         competenceEvaluationRepository.getByCompetenceIdAndUserId.rejects(new NotFoundError);
         const expectedAssessment = {
           userId,
@@ -87,7 +101,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
         });
         competenceEvaluationRepository.save.withArgs({ competenceEvaluation: competenceEvaluationToSave }).resolves(competenceEvaluation);
       });
-      it('should return the created competence evaluation', async () => {
+      it('should return the created competence evaluation', async function() {
         const res = await usecases.startOrResumeCompetenceEvaluation({
           competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
         });
@@ -95,11 +109,11 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
       });
     });
 
-    context('When the user resumes a competence evaluation', () => {
-      beforeEach(() => {
+    context('When the user resumes a competence evaluation', function() {
+      beforeEach(function() {
         competenceEvaluationRepository.getByCompetenceIdAndUserId.resolves(competenceEvaluation);
       });
-      it('should return the existing competence evaluation', async () => {
+      it('should return the existing competence evaluation', async function() {
       // given
         const res = await usecases.startOrResumeCompetenceEvaluation({
           competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
@@ -108,9 +122,9 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
       });
     });
 
-    context('When the user restarts a competence evaluation', () => {
+    context('When the user restarts a competence evaluation', function() {
       let resetCompetenceEvaluation, res;
-      beforeEach(async () => {
+      beforeEach(async function() {
         resetCompetenceEvaluation = { ...competenceEvaluation, status: CompetenceEvaluation.statuses.RESET };
         competenceEvaluationRepository.getByCompetenceIdAndUserId
           .onFirstCall().resolves(resetCompetenceEvaluation)
@@ -131,10 +145,10 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
           competenceId, userId, competenceEvaluationRepository, assessmentRepository, competenceRepository,
         });
       });
-      it('should return the updated competenceEvaluation', () => {
+      it('should return the updated competenceEvaluation', function() {
         expect(res).to.deep.equal({ competenceEvaluation: updatedCompetenceEvaluation, created: false });
       });
-      it('should have updated the status', () => {
+      it('should have updated the status', function() {
         expect(competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId).to.have.been
           .calledWithExactly({
             userId,
@@ -142,7 +156,7 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', () => {
             status: CompetenceEvaluation.statuses.STARTED,
           });
       });
-      it('should have updated the assessment id to the newly created assessment id', () => {
+      it('should have updated the assessment id to the newly created assessment id', function() {
         expect(competenceEvaluationRepository.updateAssessmentId).to.have.been
           .calledWithExactly({
             currentAssessmentId: competenceEvaluation.assessmentId,

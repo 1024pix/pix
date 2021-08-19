@@ -2,13 +2,13 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | target-profile-controller', () => {
+describe('Unit | Controller | target-profile-controller', function() {
 
-  describe('#updateTargetProfileName', () => {
+  describe('#updateTargetProfileName', function() {
 
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       sinon.stub(usecases, 'updateTargetProfileName');
 
@@ -26,9 +26,9 @@ describe('Unit | Controller | target-profile-controller', () => {
       };
     });
 
-    context('successful case', () => {
+    context('successful case', function() {
 
-      it('should succeed', async () => {
+      it('should succeed', async function() {
         // when
         const response = await targetProfileController.updateTargetProfileName(request, hFake);
 
@@ -36,7 +36,7 @@ describe('Unit | Controller | target-profile-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should update target profile name', async () => {
+      it('should update target profile name', async function() {
         // when
         await targetProfileController.updateTargetProfileName(request, hFake);
 
@@ -47,10 +47,10 @@ describe('Unit | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('#attachOrganizations', () => {
+  describe('#attachOrganizations', function() {
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
 
       request = {
@@ -63,9 +63,9 @@ describe('Unit | Controller | target-profile-controller', () => {
       };
     });
 
-    context('successful case', () => {
+    context('successful case', function() {
 
-      it('should succeed', async () => {
+      it('should succeed', async function() {
         // when
         const response = await targetProfileController.attachOrganizations(request, hFake);
 
@@ -73,7 +73,7 @@ describe('Unit | Controller | target-profile-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should call usecase', async () => {
+      it('should call usecase', async function() {
         // when
         await targetProfileController.attachOrganizations(request, hFake);
 
@@ -84,10 +84,10 @@ describe('Unit | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('#attachOrganizationsFromExistingTargetProfile', () => {
+  describe('#attachOrganizationsFromExistingTargetProfile', function() {
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'attachOrganizationsFromExistingTargetProfile');
 
       request = {
@@ -100,9 +100,9 @@ describe('Unit | Controller | target-profile-controller', () => {
       };
     });
 
-    context('successful case', () => {
+    context('successful case', function() {
 
-      it('should succeed', async () => {
+      it('should succeed', async function() {
         // when
         const response = await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
 
@@ -110,7 +110,7 @@ describe('Unit | Controller | target-profile-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should call usecase', async () => {
+      it('should call usecase', async function() {
         // when
         await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
 
@@ -121,11 +121,11 @@ describe('Unit | Controller | target-profile-controller', () => {
     });
   });
 
-  describe('#outdateTargetProfile', () => {
+  describe('#outdateTargetProfile', function() {
 
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
 
       sinon.stub(usecases, 'outdateTargetProfile');
 
@@ -136,9 +136,9 @@ describe('Unit | Controller | target-profile-controller', () => {
       };
     });
 
-    context('successful case', () => {
+    context('successful case', function() {
 
-      it('should succeed', async () => {
+      it('should succeed', async function() {
         // when
         const response = await targetProfileController.outdateTargetProfile(request, hFake);
 
@@ -146,7 +146,7 @@ describe('Unit | Controller | target-profile-controller', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should outdate target profile', async () => {
+      it('should outdate target profile', async function() {
         // when
         await targetProfileController.outdateTargetProfile(request, hFake);
 

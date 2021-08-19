@@ -58,6 +58,7 @@ describe('Unit | Utils | Request Utils', function() {
       expect(locale).to.equal(FRENCH_FRANCE);
     });
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { header: 'fr-FR', expectedLocale: FRENCH_FRANCE },
       { header: 'fr', expectedLocale: FRENCH_SPOKEN },

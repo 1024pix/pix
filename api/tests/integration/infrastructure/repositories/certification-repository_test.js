@@ -4,7 +4,7 @@ const { CertificationCourseNotPublishableError } = require('../../../../lib/doma
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/orm-models/CertificationCourse');
 const PARTNER_CLEA_KEY = 'BANANA';
 
-describe('Integration | Repository | Certification ', () => {
+describe('Integration | Repository | Certification ', function() {
   let sessionLatestAssessmentRejected;
   let sessionWithPublishedCertificationCourses;
   let sessionWithStartedAndError;
@@ -15,7 +15,7 @@ describe('Integration | Repository | Certification ', () => {
   let certificationCenterId;
   let certificationCenter;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
 
     databaseBuilder.factory.buildBadge({ key: PARTNER_CLEA_KEY });
     ({
@@ -44,7 +44,7 @@ describe('Integration | Repository | Certification ', () => {
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('partner-certifications').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
@@ -52,9 +52,9 @@ describe('Integration | Repository | Certification ', () => {
     return knex('sessions').delete();
   });
 
-  describe('#publishCertificationCoursesBySessionId', () => {
+  describe('#publishCertificationCoursesBySessionId', function() {
 
-    it('should flag the specified certifications as published', async () => {
+    it('should flag the specified certifications as published', async function() {
       await certificationRepository.publishCertificationCoursesBySessionId(sessionLatestAssessmentRejected.id);
       await Promise.all(sessionLatestAssessmentRejectedCertifCourseIds.map(async (id) => {
         const certifCourse = await get(id);
@@ -62,7 +62,7 @@ describe('Integration | Repository | Certification ', () => {
       }));
     });
 
-    it('should not flag the specified certifications as published and be rejected', async () => {
+    it('should not flag the specified certifications as published and be rejected', async function() {
       const result = await catchErr(certificationRepository.publishCertificationCoursesBySessionId.bind(certificationRepository))(sessionWithStartedAndError.id);
       // then
       expect(result).to.be.instanceOf(CertificationCourseNotPublishableError);
@@ -70,7 +70,7 @@ describe('Integration | Repository | Certification ', () => {
       await Promise.all(sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false));
     });
 
-    it('does nothing when there are no certification courses', async () => {
+    it('does nothing when there are no certification courses', async function() {
       // given
       const sessionWithNoCertificationCourses = databaseBuilder.factory.buildSession({
         certificationCenterId,
@@ -87,9 +87,9 @@ describe('Integration | Repository | Certification ', () => {
     });
   });
 
-  describe('#unpublishCertificationCoursesBySessionId', () => {
+  describe('#unpublishCertificationCoursesBySessionId', function() {
 
-    it('should update the specified certifications', async () => {
+    it('should update the specified certifications', async function() {
       await certificationRepository.unpublishCertificationCoursesBySessionId(sessionWithPublishedCertificationCourses.id);
       await Promise.all(sessionWithPublishedCertificationCoursesCertifCourseIds.map(async (id) => {
         const certifCourse = await get(id);

@@ -1,10 +1,10 @@
 const { expect } = require('../../test-helper');
 const { BaseHttpError, MissingQueryParamError } = require('../../../lib/application/http-errors');
 
-describe('Unit | Application | HTTP Errors', () => {
+describe('Unit | Application | HTTP Errors', function() {
 
-  describe('#BaseHttpError', () => {
-    it('should have a title, message, and errorCode property', () => {
+  describe('#BaseHttpError', function() {
+    it('should have a title, message, and errorCode property', function() {
       // given
       const expectedTitle = 'Default Bad Request';
       const expectedMessage = 'Boom...';
@@ -20,8 +20,8 @@ describe('Unit | Application | HTTP Errors', () => {
     });
   });
 
-  describe('#MissingQueryParamError', () => {
-    it('should export an decendant instance of Infrastructure Error', () => {
+  describe('#MissingQueryParamError', function() {
+    it('should export an decendant instance of Infrastructure Error', function() {
       // when
       const missingQueryParamError = new MissingQueryParamError('assessmentId');
 
@@ -29,7 +29,7 @@ describe('Unit | Application | HTTP Errors', () => {
       expect(missingQueryParamError).to.be.an.instanceof(BaseHttpError);
     });
 
-    it('should have a title, message, and errorCode property', () => {
+    it('should have a title, message, and errorCode property', function() {
       // given
       const expectedTitle = 'Missing Query Parameter';
       const expectedMessage = 'Missing assessmentId query parameter.';

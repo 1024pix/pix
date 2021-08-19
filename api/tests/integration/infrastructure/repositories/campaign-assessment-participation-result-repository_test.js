@@ -3,13 +3,13 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const campaignAssessmentParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-assessment-participation-result-repository');
 const { ENGLISH_SPOKEN, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Integration | Repository | Campaign Assessment Participation Result', () => {
+describe('Integration | Repository | Campaign Assessment Participation Result', function() {
 
-  describe('#getByCampaignIdAndCampaignParticipationId', () => {
+  describe('#getByCampaignIdAndCampaignParticipationId', function() {
 
     let campaignId, campaignParticipationId, targetProfileId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
@@ -64,12 +64,12 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    context('When campaign participation is shared', () => {
-      beforeEach(() => {
+    context('When campaign participation is shared', function() {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
@@ -105,7 +105,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         return databaseBuilder.commit();
       });
 
-      it('fills competenceResults', async () => {
+      it('fills competenceResults', async function() {
         const expectedResult = [{
           areaColor: 'orange',
           id: `${campaignParticipationId}-rec1`,
@@ -130,9 +130,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
       });
     });
 
-    context('When given locale is fr', () => {
+    context('When given locale is fr', function() {
       const locale = FRENCH_SPOKEN;
-      beforeEach(() => {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
@@ -145,16 +145,16 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         return databaseBuilder.commit();
       });
 
-      it('returns french', async () => {
+      it('returns french', async function() {
         const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale });
 
         expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('Compétence 1');
       });
     });
 
-    context('When given locale is en', () => {
+    context('When given locale is en', function() {
       const locale = ENGLISH_SPOKEN;
-      beforeEach(() => {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
@@ -167,15 +167,15 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         return databaseBuilder.commit();
       });
 
-      it('returns english', async () => {
+      it('returns english', async function() {
         const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale });
 
         expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('English competence 1');
       });
     });
 
-    context('When no given locale', () => {
-      beforeEach(() => {
+    context('When no given locale', function() {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', targetProfileId }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({
@@ -188,7 +188,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
         return databaseBuilder.commit();
       });
 
-      it('returns french', async () => {
+      it('returns french', async function() {
         const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
         expect(campaignAssessmentParticipationResult.competenceResults[0].name).to.equal('Compétence 1');

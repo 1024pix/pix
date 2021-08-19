@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-details-serializer');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 
-describe('Unit | Serializer | JSONAPI | certification-details-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-details-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should convert a Certification Details model object into JSON API data', () => {
+    it('should convert a Certification Details model object into JSON API data', function() {
       // given
       const certificationDetails = domainBuilder.buildCertificationDetails({
         id: 123,

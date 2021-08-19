@@ -6,18 +6,18 @@ const Assessment = require('../../../lib/domain/models/Assessment');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
-describe('Acceptance | API | Certification Course', () => {
+describe('Acceptance | API | Certification Course', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/admin/certifications/{id}/details', () => {
+  describe('GET /api/admin/certifications/{id}/details', function() {
 
-    context('when certification match an existing scoring rule', () => {
-      it('Should respond with a status 200', async () => {
+    context('when certification match an existing scoring rule', function() {
+      it('Should respond with a status 200', async function() {
 
         // given
         await insertUserWithRolePixMaster();
@@ -73,8 +73,8 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    context('when certification does not match an existing scoring rule', () => {
-      it('Should respond with a status 400', async () => {
+    context('when certification does not match an existing scoring rule', function() {
+      it('Should respond with a status 400', async function() {
 
         // given
         await insertUserWithRolePixMaster();
@@ -152,13 +152,13 @@ describe('Acceptance | API | Certification Course', () => {
     });
   });
 
-  describe('GET /api/admin/certifications/{id}', () => {
+  describe('GET /api/admin/certifications/{id}', function() {
     let options;
     let certificationCourseId;
 
-    context('when certification course has no assessment', () => {
+    context('when certification course has no assessment', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
@@ -179,8 +179,8 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      context('when user has no pixMaster role', () => {
-        it('should return 403 HTTP status code', async () => {
+      context('when user has no pixMaster role', function() {
+        it('should return 403 HTTP status code', async function() {
           // when
           const response = await server.inject(options);
 
@@ -189,14 +189,14 @@ describe('Acceptance | API | Certification Course', () => {
         });
       });
 
-      context('when user is pixMaster', () => {
+      context('when user is pixMaster', function() {
 
-        beforeEach(async () => {
+        beforeEach(async function() {
           await insertUserWithRolePixMaster();
           return databaseBuilder.commit();
         });
 
-        it('should return 200 HTTP status code', async () => {
+        it('should return 200 HTTP status code', async function() {
         // when
           const response = await server.inject(options);
 
@@ -204,7 +204,7 @@ describe('Acceptance | API | Certification Course', () => {
           expect(response.statusCode).to.equal(200);
         });
 
-        it('should return application/json', async () => {
+        it('should return application/json', async function() {
         // when
           const response = await server.inject(options);
 
@@ -213,7 +213,7 @@ describe('Acceptance | API | Certification Course', () => {
           expect(contentType).to.contain('application/json');
         });
 
-        it('should retrieve the certification total pix score and certified competences levels', async () => {
+        it('should retrieve the certification total pix score and certified competences levels', async function() {
         // when
           const response = await server.inject(options);
 
@@ -226,8 +226,8 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    context('when certification course has an assessment', () => {
-      beforeEach(async () => {
+    context('when certification course has an assessment', function() {
+      beforeEach(async function() {
         ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
@@ -276,8 +276,8 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      context('when user has no pixMaster role', () => {
-        it('should return 403 HTTP status code', async () => {
+      context('when user has no pixMaster role', function() {
+        it('should return 403 HTTP status code', async function() {
           // when
           const response = await server.inject(options);
 
@@ -286,12 +286,12 @@ describe('Acceptance | API | Certification Course', () => {
         });
       });
 
-      context('when user is pixMaster', () => {
-        beforeEach(async() => {
+      context('when user is pixMaster', function() {
+        beforeEach(async function() {
           await insertUserWithRolePixMaster();
           return databaseBuilder.commit();
         });
-        it('should return 200 HTTP status code', async () => {
+        it('should return 200 HTTP status code', async function() {
         // when
           const response = await server.inject(options);
 
@@ -299,7 +299,7 @@ describe('Acceptance | API | Certification Course', () => {
           expect(response.statusCode).to.equal(200);
         });
 
-        it('should return application/json', async () => {
+        it('should return application/json', async function() {
         // when
           const response = await server.inject(options);
 
@@ -308,7 +308,7 @@ describe('Acceptance | API | Certification Course', () => {
           expect(contentType).to.contain('application/json');
         });
 
-        it('should retrieve the certification total pix score and certified competences levels', async () => {
+        it('should retrieve the certification total pix score and certified competences levels', async function() {
         // given
           const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
           const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
@@ -334,7 +334,7 @@ describe('Acceptance | API | Certification Course', () => {
           expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
         });
 
-        it('should return 404 HTTP status code if certification not found', async () => {
+        it('should return 404 HTTP status code if certification not found', async function() {
         // given
           const options = {
             method: 'GET',
@@ -349,9 +349,9 @@ describe('Acceptance | API | Certification Course', () => {
           expect(response.statusCode).to.equal(404);
         });
 
-        describe('Resource access management', () => {
+        describe('Resource access management', function() {
 
-          it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+          it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
           // given
             options.headers.authorization = 'invalid.access.token';
 
@@ -362,7 +362,7 @@ describe('Acceptance | API | Certification Course', () => {
             expect(response.statusCode).to.equal(401);
           });
 
-          it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async () => {
+          it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
           // given
             const nonPixMAsterUserId = 9999;
             options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
@@ -381,10 +381,10 @@ describe('Acceptance | API | Certification Course', () => {
 
   });
 
-  describe('PATCH /api/certification-courses/{id}', () => {
+  describe('PATCH /api/certification-courses/{id}', function() {
 
-    context('When the user does not have role pixmaster', () => {
-      it('should return 403 HTTP status code', async () => {
+    context('When the user does not have role pixmaster', function() {
+      it('should return 403 HTTP status code', async function() {
         const options = {
           headers: { authorization: generateValidRequestAuthorizationHeader() },
           method: 'PATCH',
@@ -399,11 +399,11 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    context('When the user does have role pixmaster', () => {
+    context('When the user does have role pixmaster', function() {
       let options;
       let certificationCourseId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         await insertUserWithRolePixMaster();
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99100',
@@ -448,7 +448,7 @@ describe('Acceptance | API | Certification Course', () => {
         return databaseBuilder.commit();
       });
 
-      it('should update the certification course', async () => {
+      it('should update the certification course', async function() {
         // when
         const response = await server.inject(options);
 
@@ -471,7 +471,7 @@ describe('Acceptance | API | Certification Course', () => {
         expect(verificationCode).to.equal('ABCD123');
       });
 
-      it('should return a Wrong Error Format when birthdate is false', () => {
+      it('should return a Wrong Error Format when birthdate is false', function() {
       // given
         options.payload.data.attributes.birthdate = 'aaaaaaa';
 
@@ -487,14 +487,14 @@ describe('Acceptance | API | Certification Course', () => {
 
   });
 
-  describe('GET /api/certification-courses/{id}', () => {
+  describe('GET /api/certification-courses/{id}', function() {
 
     let options;
     let userId;
     let otherUserId;
     let expectedCertificationCourse;
 
-    beforeEach(() => {
+    beforeEach(function() {
       otherUserId = databaseBuilder.factory.buildUser().id;
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -536,9 +536,9 @@ describe('Acceptance | API | Certification Course', () => {
       return databaseBuilder.commit();
     });
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -551,7 +551,7 @@ describe('Acceptance | API | Certification Course', () => {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', () => {
+      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', function() {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
 
@@ -565,7 +565,7 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    it('should return the certification course', async () => {
+    it('should return the certification course', async function() {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
@@ -577,13 +577,13 @@ describe('Acceptance | API | Certification Course', () => {
     });
   });
 
-  describe('POST /api/certification-courses', () => {
+  describe('POST /api/certification-courses', function() {
     let options;
     let response;
     let userId;
     let sessionId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123' }).id;
       const payload = {
@@ -606,9 +606,9 @@ describe('Acceptance | API | Certification Course', () => {
       return databaseBuilder.commit();
     });
 
-    context('when the given access code does not correspond to the session', () => {
+    context('when the given access code does not correspond to the session', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         options.payload.data.attributes['access-code'] = 'wrongcode';
 
@@ -616,13 +616,13 @@ describe('Acceptance | API | Certification Course', () => {
         response = await server.inject(options);
       });
 
-      it('should respond with 404 status code', () => {
+      it('should respond with 404 status code', function() {
         // then
         expect(response.statusCode).to.equal(404);
       });
     });
 
-    context('when the certification course does not exist', () => {
+    context('when the certification course does not exist', function() {
       let certificationCandidate;
       const learningContent = [
         {
@@ -832,9 +832,9 @@ describe('Acceptance | API | Certification Course', () => {
         },
       ];
 
-      context('when locale is fr-fr', () => {
+      context('when locale is fr-fr', function() {
 
-        beforeEach(async () => {
+        beforeEach(async function() {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
           mockLearningContent(learningContentObjects);
@@ -851,7 +851,7 @@ describe('Acceptance | API | Certification Course', () => {
           response = await server.inject(options);
         });
 
-        afterEach(async () => {
+        afterEach(async function() {
           await knex('knowledge-elements').delete();
           await knex('answers').delete();
           await knex('assessments').delete();
@@ -859,18 +859,18 @@ describe('Acceptance | API | Certification Course', () => {
           await knex('certification-courses').delete();
         });
 
-        it('should respond with 201 status code', () => {
+        it('should respond with 201 status code', function() {
           // then
           expect(response.statusCode).to.equal(201);
         });
 
-        it('should have created a certification course', async () => {
+        it('should have created a certification course', async function() {
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses).to.have.length(1);
         });
 
-        it('should have copied matching certification candidate info into created certification course', async () => {
+        it('should have copied matching certification candidate info into created certification course', async function() {
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
@@ -880,7 +880,7 @@ describe('Acceptance | API | Certification Course', () => {
           expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
         });
 
-        it('should have only fr-fr challenges associated with certification-course', async () => {
+        it('should have only fr-fr challenges associated with certification-course', async function() {
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -889,8 +889,8 @@ describe('Acceptance | API | Certification Course', () => {
         });
       });
 
-      context('when locale is en', () => {
-        beforeEach(async () => {
+      context('when locale is en', function() {
+        beforeEach(async function() {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
           mockLearningContent(learningContentObjects);
@@ -908,7 +908,7 @@ describe('Acceptance | API | Certification Course', () => {
           response = await server.inject(options);
         });
 
-        afterEach(async () => {
+        afterEach(async function() {
           await knex('knowledge-elements').delete();
           await knex('answers').delete();
           await knex('assessments').delete();
@@ -916,7 +916,7 @@ describe('Acceptance | API | Certification Course', () => {
           await knex('certification-courses').delete();
         });
 
-        it('should have only en challenges associated with certification-course', async () => {
+        it('should have only en challenges associated with certification-course', async function() {
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -926,10 +926,10 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    context('when the certification course already exists', () => {
+    context('when the certification course already exists', function() {
       let certificationCourseId;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
         databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
@@ -939,12 +939,12 @@ describe('Acceptance | API | Certification Course', () => {
         response = await server.inject(options);
       });
 
-      it('should respond with 200 status code', () => {
+      it('should respond with 200 status code', function() {
         // then
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should retrieve the already existing certification course', async () => {
+      it('should retrieve the already existing certification course', async function() {
         // then
         const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
         expect(certificationCourses).to.have.length(1);
@@ -955,10 +955,10 @@ describe('Acceptance | API | Certification Course', () => {
 
   });
 
-  describe('POST /api/admin/certification-courses/{id}/cancel', () => {
+  describe('POST /api/admin/certification-courses/{id}/cancel', function() {
 
-    context('when user has no pixMaster role', () => {
-      it('should return 403 HTTP status code', async () => {
+    context('when user has no pixMaster role', function() {
+      it('should return 403 HTTP status code', async function() {
         const options = {
           method: 'POST',
           url: '/api/admin/certification-courses/1/cancel',
@@ -973,9 +973,9 @@ describe('Acceptance | API | Certification Course', () => {
       });
     });
 
-    context('when user is pixMaster', () => {
+    context('when user is pixMaster', function() {
 
-      it('should respond with a 200', async () => {
+      it('should respond with a 200', async function() {
         // given
         const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
         const options = {

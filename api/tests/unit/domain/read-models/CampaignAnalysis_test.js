@@ -1,11 +1,11 @@
 const CampaignAnalysis = require('../../../../lib/domain/read-models/CampaignAnalysis');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
+describe('Unit | Domain | Read-Models | CampaignAnalysis', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should initialize as many CampaignTubeRecommendations objects as competences in target profile', () => {
+    it('should initialize as many CampaignTubeRecommendations objects as competences in target profile', function() {
       // given
       const targetedTube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', competenceId: 'recCompetenceId' });
       const targetedTube2 = domainBuilder.buildTargetedTube({ id: 'recTube2', competenceId: 'recCompetenceId' });
@@ -24,7 +24,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations).to.have.length(2);
     });
 
-    it('should initialize CampaignTubeRecommendation with appropriate properties', () => {
+    it('should initialize CampaignTubeRecommendation with appropriate properties', function() {
       // given
       const targetedTube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetence', index: '3.1' });
       const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'recCompetence', areaId: 'recAreaId', tubes: [targetedTube] });
@@ -51,7 +51,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations[0].maxSkillLevelInTargetProfile).to.equal(targetProfileWithLearningContent.maxSkillDifficulty);
     });
 
-    it('should affect CampaignTubeRecommendation with appropriate unique tutorials', () => {
+    it('should affect CampaignTubeRecommendation with appropriate unique tutorials', function() {
       // given
       const targetedSkill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTubeId', tutorialIds: ['tutorial2', 'nonexistent'] });
       const targetedSkill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', tubeId: 'recTubeId', tutorialIds: ['tutorial2'] });
@@ -77,9 +77,9 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
     });
   });
 
-  describe('Average score computation', () => {
+  describe('Average score computation', function() {
 
-    it('should add up to obtain expected average recommendation score on a tube when finalizing ', () => {
+    it('should add up to obtain expected average recommendation score on a tube when finalizing ', function() {
       // given
       const participantCount = 2;
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
@@ -106,7 +106,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations[0].averageScore).to.equal(82.5);
     });
 
-    it('computes average recommendation when some participants does not have knowledge element', () => {
+    it('computes average recommendation when some participants does not have knowledge element', function() {
       const participantCount = 2;
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
@@ -133,7 +133,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations[0].averageScore).to.equal(47.5);
     });
 
-    it('returns null when there is no participant', () => {
+    it('returns null when there is no participant', function() {
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
       const tube = domainBuilder.buildTargetedTube({ id: 'recTubeId', competenceId: 'recCompetenceId', practicalTitle: 'TubeName', skills: [skill1, skill2] });
@@ -154,7 +154,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations[0].averageScore).to.be.null;
     });
 
-    it('returns the difficulty score when there are participant but no knowledge elements', () => {
+    it('returns the difficulty score when there are participant but no knowledge elements', function() {
       const participantCount = 6;
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId' });
@@ -178,7 +178,7 @@ describe('Unit | Domain | Read-Models | CampaignAnalysis', () => {
       expect(campaignAnalysis.campaignTubeRecommendations[0].averageScore).to.equal(15);
     });
 
-    it('should work for all the tubes', () => {
+    it('should work for all the tubes', function() {
       const participantCount = 2;
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', name: '@difficulty1', tubeId: 'recTubeId' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill2', name: '@difficulty2', tubeId: 'recTubeId2' });

@@ -1,9 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | get-target-profile-details', () => {
+describe('Unit | UseCase | get-target-profile-details', function() {
 
-  it('should get target profile details', async () => {
+  it('should get target profile details', async function() {
     // given
     const expectedResult = Symbol('target profile');
     const targetProfileId = Symbol('target profile id');

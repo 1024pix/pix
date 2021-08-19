@@ -7,7 +7,7 @@ const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const _ = require('lodash');
 
-describe('Integration | Infrastructure | Repository | Private Certificate', () => {
+describe('Integration | Infrastructure | Repository | Private Certificate', function() {
 
   const minimalLearningContent = [{
     id: 'recArea0',
@@ -19,9 +19,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
     }],
   }];
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should throw a NotFoundError when private certificate does not exist', async () => {
+    it('should throw a NotFoundError when private certificate does not exist', async function() {
       // when
       const error = await catchErr(privateCertificateRepository.get)(123);
 
@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(error.message).to.equal('Certificate not found for ID 123');
     });
 
-    it('should return a PrivateCertificate', async () => {
+    it('should return a PrivateCertificate', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -67,7 +67,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should return a PrivateCertificate with resultCompetenceTree', async () => {
+    it('should return a PrivateCertificate with resultCompetenceTree', async function() {
       // given
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -152,7 +152,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('should build from the latest assessment result if any', async () => {
+    it('should build from the latest assessment result if any', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -188,7 +188,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should build even if there is not assessment result', async () => {
+    it('should build even if there is not assessment result', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -243,7 +243,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should get the clea certification result if taken with badge V1', async () => {
+    it('should get the clea certification result if taken with badge V1', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -299,7 +299,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should get the clea certification result if taken with badge V2', async () => {
+    it('should get the clea certification result if taken with badge V2', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -338,9 +338,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    context('acquired certifiable badges', () => {
+    context('acquired certifiable badges', function() {
 
-      it('should get the certified badge image of pixPlusDroitExpert when this certification was acquired', async () => {
+      it('should get the certified badge image of pixPlusDroitExpert when this certification was acquired', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -380,7 +380,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
       });
 
-      it('should get the certified badge image of pixPlusDroitMaitre when this certifications was acquired', async () => {
+      it('should get the certified badge image of pixPlusDroitMaitre when this certifications was acquired', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -420,7 +420,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
       });
 
-      it('should get the certified badge images of pixPlusDroitMaitre and pixPlusDroitExpert when those certifications were acquired', async () => {
+      it('should get the certified badge images of pixPlusDroitMaitre and pixPlusDroitExpert when those certifications were acquired', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -461,7 +461,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         expect(_.omit(privateCertificate, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
       });
 
-      it('should only take into account acquired ones', async () => {
+      it('should only take into account acquired ones', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -526,9 +526,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('#findByUserId', function() {
 
-    it('should return a collection of PrivateCertificate', async () => {
+    it('should return a collection of PrivateCertificate', async function() {
       // given
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -563,7 +563,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('should return all the certificates of the user if he has many ordered by creation date DESC', async () => {
+    it('should return all the certificates of the user if he has many ordered by creation date DESC', async function() {
       // given
 
       const userId = databaseBuilder.factory.buildUser().id;
@@ -600,7 +600,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(privateCertificates[1].id).to.equal(certificateId1);
     });
 
-    it('should build from the latest assessment result if any', async () => {
+    it('should build from the latest assessment result if any', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
@@ -633,7 +633,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('should build even if there is not assessment result', async () => {
+    it('should build even if there is not assessment result', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -687,7 +687,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(_.omit(privateCertificates[0], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedPrivateCertificate, ['resultCompetenceTree']));
     });
 
-    it('should get the clea certification result if taken', async () => {
+    it('should get the clea certification result if taken', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const privateCertificateData = {
@@ -741,9 +741,9 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
       expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
     });
 
-    context('acquired certifiable badges', () => {
+    context('acquired certifiable badges', function() {
 
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async () => {
+      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const privateCertificateData = {
@@ -806,7 +806,7 @@ describe('Integration | Infrastructure | Repository | Private Certificate', () =
         expect(privateCertificates[0]).to.deep.equal(expectedPrivateCertificate);
       });
 
-      it('should only take into account acquired ones', async () => {
+      it('should only take into account acquired ones', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const privateCertificateData = {

@@ -3,11 +3,11 @@ const { expect, sinon } = require('../../../test-helper');
 const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('../../../../scripts/helpers/organizations-by-external-id-helper');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
-describe('Unit | Scripts | organizations-by-external-id-helper.js', () => {
+describe('Unit | Scripts | organizations-by-external-id-helper.js', function() {
 
-  describe('#organizeOrganizationsByExternalId', () => {
+  describe('#organizeOrganizationsByExternalId', function() {
 
-    it('should return organizations data by externalId', () => {
+    it('should return organizations data by externalId', function() {
       // given
       const organizations = [
         { id: 1, externalId: 'a100' },
@@ -33,15 +33,15 @@ describe('Unit | Scripts | organizations-by-external-id-helper.js', () => {
     });
   });
 
-  describe('#findOrganizationsByExternalIds', () => {
+  describe('#findOrganizationsByExternalIds', function() {
 
     let organizationRepositoryStub;
 
-    afterEach(() => {
+    afterEach(function() {
       sinon.restore();
     });
 
-    it('should find organizations with given externalIds', async () => {
+    it('should find organizations with given externalIds', async function() {
       // given
       const checkedData = [
         { externalId: 'A100', targetProfileIdList: ['1', '2', '999'] },

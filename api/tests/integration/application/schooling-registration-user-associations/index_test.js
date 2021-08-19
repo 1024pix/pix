@@ -3,11 +3,11 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-user-associations');
 
-describe('Integration | Application | Route | schooling-registration-user-associations', () => {
+describe('Integration | Application | Route | schooling-registration-user-associations', function() {
 
   let httpTestServer;
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationManually').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileHigherSchoolingRegistration').callsFake((request, h) => h.response('ok').code(204));
     sinon.stub(schoolingRegistrationUserAssociationController, 'reconcileSchoolingRegistrationAutomatically').callsFake((request, h) => h.response('ok').code(204));
@@ -18,13 +18,13 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/schooling-registration-user-associations', () => {
+  describe('POST /api/schooling-registration-user-associations', function() {
 
     const method = 'POST';
     const url = '/api/schooling-registration-user-associations';
 
-    context('User association with firstName, lastName, birthdate and campaignCode', () => {
-      it('should succeed', async () => {
+    context('User association with firstName, lastName, birthdate and campaignCode', function() {
+      it('should succeed', async function() {
         // given
         const payload = {
           data: {
@@ -44,7 +44,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should succeed when there is a space', async () => {
+      it('should succeed when there is a space', async function() {
         // given
         const payload = {
           data: {
@@ -65,7 +65,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.request.payload.data.attributes['first-name']).to.equal('Robert ');
       });
 
-      it('should return an error when there is no payload', async () => {
+      it('should return an error when there is no payload', async function() {
         // when
         const response = await httpTestServer.request(method, url);
 
@@ -73,7 +73,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid first name attribute in the payload', async () => {
+      it('should return an error when there is an invalid first name attribute in the payload', async function() {
         // given
         const INVALID_FIRSTNAME = ' ';
         const payload = {
@@ -94,7 +94,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid last name attribute in the payload', async () => {
+      it('should return an error when there is an invalid last name attribute in the payload', async function() {
         // given
         const INVALID_LASTNAME = '';
         const payload = {
@@ -115,7 +115,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid a birthdate attribute (with space) in the payload', async () => {
+      it('should return an error when there is an invalid a birthdate attribute (with space) in the payload', async function() {
         // given
         const INVALID_BIRTHDATE = '2012- 12-12';
 
@@ -138,7 +138,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid birthdate attribute (with extra zeros) in the payload', async () => {
+      it('should return an error when there is an invalid birthdate attribute (with extra zeros) in the payload', async function() {
         // given
         const INVALID_BIRTHDATE = '2012-012-12';
         const payload = {
@@ -159,7 +159,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid birthdate attribute (not a proper date) in the payload', async () => {
+      it('should return an error when there is an invalid birthdate attribute (not a proper date) in the payload', async function() {
         // given
         const INVALID_BIRTHDATE = '1999-99-99';
         const payload = {
@@ -180,7 +180,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid campaign code attribute in the payload', async () => {
+      it('should return an error when there is an invalid campaign code attribute in the payload', async function() {
         // given
         const INVALID_CAMPAIGNCODE = '';
         const payload = {
@@ -203,13 +203,13 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/student', () => {
+  describe('POST /api/schooling-registration-user-associations/student', function() {
 
     const method = 'POST';
     const url = '/api/schooling-registration-user-associations/student';
 
-    context('User association with studentNumber, firstName, lastName, birthdate and campaignCode', () => {
-      it('should succeed', async () => {
+    context('User association with studentNumber, firstName, lastName, birthdate and campaignCode', function() {
+      it('should succeed', async function() {
         // given
         const payload = {
           data: {
@@ -230,7 +230,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should succeed when there is a space', async () => {
+      it('should succeed when there is a space', async function() {
         // given
         const payload = {
           data: {
@@ -252,7 +252,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.request.payload.data.attributes['first-name']).to.equal('Robert ');
       });
 
-      it('should return an error when there is no payload', async () => {
+      it('should return an error when there is no payload', async function() {
         // when
         const response = await httpTestServer.request(method, url);
 
@@ -260,7 +260,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid student number attribute in the payload', async () => {
+      it('should return an error when there is an invalid student number attribute in the payload', async function() {
         // given
         const INVALID_STUDENT_NUMBER = ' ';
         const payload = {
@@ -282,7 +282,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid first name attribute in the payload', async () => {
+      it('should return an error when there is an invalid first name attribute in the payload', async function() {
         // given
         const INVALID_FIRSTNAME = ' ';
         const payload = {
@@ -304,7 +304,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid last name attribute in the payload', async () => {
+      it('should return an error when there is an invalid last name attribute in the payload', async function() {
         // given
         const INVALID_LASTNAME = '';
         const payload = {
@@ -326,7 +326,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid a birthdate attribute (with space) in the payload', async () => {
+      it('should return an error when there is an invalid a birthdate attribute (with space) in the payload', async function() {
         // given
         const INVALID_BIRTHDATE = '2012- 12-12';
 
@@ -350,7 +350,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid birthdate attribute (with extra zeros) in the payload', async () => {
+      it('should return an error when there is an invalid birthdate attribute (with extra zeros) in the payload', async function() {
         // given
         const INVALID_BIRTHDATE = '2012-012-12';
         const payload = {
@@ -372,7 +372,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid birthdate attribute (not a proper date) in the payload', async () => {
+      it('should return an error when there is an invalid birthdate attribute (not a proper date) in the payload', async function() {
         // given
         const INVALID_BIRTHDATE = '1999-99-99';
         const payload = {
@@ -394,7 +394,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should return an error when there is an invalid campaign code attribute in the payload', async () => {
+      it('should return an error when there is an invalid campaign code attribute in the payload', async function() {
         // given
         const INVALID_CAMPAIGNCODE = '';
         const payload = {
@@ -418,12 +418,12 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/auto', () => {
+  describe('POST /api/schooling-registration-user-associations/auto', function() {
 
     const method = 'POST';
     const url = '/api/schooling-registration-user-associations/auto';
 
-    it('should succeed', async () => {
+    it('should succeed', async function() {
       // given
       const payload = {
         data: {
@@ -440,7 +440,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return an error when there is an invalid campaign code attribute in the payload', async () => {
+    it('should return an error when there is an invalid campaign code attribute in the payload', async function() {
       // given
       const INVALID_CAMPAIGNCODE = '';
       const payload = {
@@ -459,12 +459,12 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     });
   });
 
-  describe('GET /api/schooling-registration-user-associations', () => {
+  describe('GET /api/schooling-registration-user-associations', function() {
 
     const method = 'GET';
     const url = '/api/schooling-registration-user-associations';
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -473,12 +473,12 @@ describe('Integration | Application | Route | schooling-registration-user-associ
     });
   });
 
-  describe('PUT /api/schooling-registration-user-associations/possibilities', () => {
+  describe('PUT /api/schooling-registration-user-associations/possibilities', function() {
 
     const method = 'PUT';
     const url = '/api/schooling-registration-user-associations/possibilities';
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       const payload = {
         data: {
@@ -498,7 +498,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should succeed when there is a space', async () => {
+    it('should succeed when there is a space', async function() {
       // given
       const payload = {
         data: {
@@ -519,7 +519,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.request.payload.data.attributes['first-name']).to.equal('Robert ');
     });
 
-    it('should return an error when there is no payload', async () => {
+    it('should return an error when there is no payload', async function() {
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -527,7 +527,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return an error when there is an invalid first name attribute in the payload', async () => {
+    it('should return an error when there is an invalid first name attribute in the payload', async function() {
       // given
       const INVALID_FIRSTNAME = ' ';
       const payload = {
@@ -548,7 +548,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return an error when there is an invalid last name attribute in the payload', async () => {
+    it('should return an error when there is an invalid last name attribute in the payload', async function() {
       // given
       const INVALID_LASTNAME = '';
       const payload = {
@@ -569,7 +569,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return an error when there is an invalid a birthdate attribute (with space) in the payload', async () => {
+    it('should return an error when there is an invalid a birthdate attribute (with space) in the payload', async function() {
       // given
       const INVALID_BIRTHDATE = '2012- 12-12';
       const payload = {
@@ -590,7 +590,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return an error when there is an invalid birthdate attribute (with extra zeros) in the payload', async () => {
+    it('should return an error when there is an invalid birthdate attribute (with extra zeros) in the payload', async function() {
       // given
       const INVALID_BIRTHDATE = '2012-012-12';
 
@@ -613,7 +613,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return an error when there is an invalid birthdate attribute (not a proper date) in the payload', async () => {
+    it('should return an error when there is an invalid birthdate attribute (not a proper date) in the payload', async function() {
       // given
       const INVALID_BIRTHDATE = '1999-99-99';
       const payload = {
@@ -634,7 +634,7 @@ describe('Integration | Application | Route | schooling-registration-user-associ
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return an error when there is an invalid campaign code attribute in the payload', async () => {
+    it('should return an error when there is an invalid campaign code attribute in the payload', async function() {
       // given
       const INVALID_CAMPAIGNCODE = '';
       const payload = {

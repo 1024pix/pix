@@ -6,7 +6,7 @@ const {
 const StudentInformationForAccountRecovery = require('../../../../lib/domain/read-models/StudentInformationForAccountRecovery');
 const checkScoAccountRecovery = require('../../../../lib/domain/usecases/check-sco-account-recovery');
 
-describe('Unit | UseCase | check-sco-account-recovery', () => {
+describe('Unit | UseCase | check-sco-account-recovery', function() {
 
   let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
@@ -15,7 +15,7 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
   let scoAccountRecoveryService;
   const userReconciliationService = {};
 
-  beforeEach(() => {
+  beforeEach(function() {
     schoolingRegistrationRepository = {
       getSchoolingRegistrationInformation: sinon.stub(),
       findByUserId: sinon.stub(),
@@ -31,11 +31,11 @@ describe('Unit | UseCase | check-sco-account-recovery', () => {
     };
   });
 
-  context('when user exists', () => {
+  context('when user exists', function() {
 
-    context('when user have only one schooling registration', () => {
+    context('when user have only one schooling registration', function() {
 
-      it('should return user account information', async () => {
+      it('should return user account information', async function() {
         // given
         const studentInformation = {
           ineIna: '123456789AA',

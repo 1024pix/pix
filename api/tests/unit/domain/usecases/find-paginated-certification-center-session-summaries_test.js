@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 const findPaginatedCertificationCenterSessionSummaries = require('../../../../lib/domain/usecases/find-paginated-certification-center-session-summaries');
 
-describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', () => {
+describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', function() {
 
   const sessionSummaryRepository = {
     findPaginatedByCertificationCenterId: () => undefined,
@@ -12,14 +12,14 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
     getWithCertificationCenterMemberships: () => undefined,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     sessionSummaryRepository.findPaginatedByCertificationCenterId = sinon.stub();
     userRepository.getWithCertificationCenterMemberships = sinon.stub();
   });
 
-  context('when user is not a member of the certification center', () => {
+  context('when user is not a member of the certification center', function() {
 
-    it('should throw a Forbidden Access error', async () => {
+    it('should throw a Forbidden Access error', async function() {
       // given
       const user = domainBuilder.buildUser();
       const certificationCenter = domainBuilder.buildCertificationCenter({ id: 789 });
@@ -43,9 +43,9 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
     });
   });
 
-  context('when user is a member of the certification center', () => {
+  context('when user is a member of the certification center', function() {
 
-    it('should return session summaries', async () => {
+    it('should return session summaries', async function() {
       // given
       const user = domainBuilder.buildUser();
       const certificationCenter = domainBuilder.buildCertificationCenter({ id: 456 });
