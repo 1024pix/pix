@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.89.0 (19/08/2021)
+
+- [#3347](https://github.com/1024pix/pix/pull/3347) [FEATURE] Mettre les focus sur les autres type d'épreuves (PIX-2876).
+- [#3300](https://github.com/1024pix/pix/pull/3300) [BUGFIX] Ne pas utiliser les traitements t1,t2,t3 pour les menu déroulants (PIX-2926).
+- [#3310](https://github.com/1024pix/pix/pull/3310) [TECH] Utiliser les règles de lint mocha recommandées pour nos tests API (PIX-2974).
+
 ## v3.88.0 (19/08/2021)
 
 - [#3348](https://github.com/1024pix/pix/pull/3348) [FEATURE] Permettre le filtre par classe sur la liste des élèves SCO (PIX-2026).
