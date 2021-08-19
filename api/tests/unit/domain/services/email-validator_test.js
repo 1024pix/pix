@@ -7,7 +7,6 @@ describe('Unit | Service | email-validator', function() {
     expect(service.emailIsValid()).to.be.false;
   });
 
-  // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     '',
@@ -25,7 +24,6 @@ describe('Unit | Service | email-validator', function() {
     });
   });
 
-  // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   [
     'follower@pix.fr',

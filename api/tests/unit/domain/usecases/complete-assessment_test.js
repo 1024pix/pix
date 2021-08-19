@@ -65,16 +65,12 @@ describe('Unit | UseCase | complete-assessment', function() {
   });
 
   context('when assessment is not yet completed', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCompetenceEvaluationAssessment(),
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCampaignAssessment(),
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       _buildCertificationAssessment(),
     ]

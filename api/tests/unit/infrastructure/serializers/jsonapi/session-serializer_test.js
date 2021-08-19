@@ -136,7 +136,6 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
     });
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
       it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function() {

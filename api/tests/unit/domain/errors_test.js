@@ -355,7 +355,6 @@ describe('Unit | Domain | Errors', function() {
         expect(error.key).to.equal(joiErrorDetail.context.key);
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         { type: 'any.required', why: 'required' },
@@ -451,7 +450,6 @@ describe('Unit | Domain | Errors', function() {
           expect(error.message).to.contain('Le champ “someLabel”');
         });
 
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         [
           { why: 'not_a_date', content: 'doit être au format jj/mm/aaaa.' },

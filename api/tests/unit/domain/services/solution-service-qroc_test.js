@@ -11,7 +11,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
   describe('match, with numerical answers and solutions', function() {
     const challengeFormat = 'nombre';
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'when two numbers are strictly equal', answer: '0.123', solution: '0.123', expectedAnswerStatus: ANSWER_OK },
@@ -58,7 +57,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) answer is 0.25 away from the closest solution', answer: 'quak', solution: 'qvak\nqwak\nanything\n' },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function(data) {
       it(data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -79,7 +77,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) answer is minimum 0.4 away from a solution', answer: 'quaks', solution: 'qvakes\nqwakes\nanything\n' },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function(data) {
       it(data.case + ', should return "ko" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -107,7 +104,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: {} },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -134,7 +130,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -161,7 +156,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t2: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -188,7 +182,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t3: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -215,7 +208,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_OK, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true, t2: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -242,7 +234,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true, t3: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -269,7 +260,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t2: true, t3: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
@@ -296,7 +286,6 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { when: 'reverted levenshtein stress', output: ANSWER_KO, answer: '123456789', solution: '\nvariant1\n0123456789\n', deactivations: { t1: true, t2: true, t3: true } },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(data) {
       it(data.when + ', should return ' + data.output + ' when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {

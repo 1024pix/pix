@@ -9,7 +9,6 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const validTypes = Object.values(Type);
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     validTypes.forEach((validType) => {
       it(`should initialize CertificationChallengeWithType with type ${validType}`, function() {

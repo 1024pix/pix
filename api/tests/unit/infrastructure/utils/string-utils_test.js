@@ -11,7 +11,6 @@ describe('Unit | Utils | string-utils', function() {
   const zeroWidthSpaceChar = '​';
 
   describe('isNumeric', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'abc', expectedResult: false },
@@ -37,7 +36,6 @@ describe('Unit | Utils | string-utils', function() {
   });
 
   describe('cleanStringAndParseFloat', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: '0123', expectedResult: 123 },
@@ -58,7 +56,6 @@ describe('Unit | Utils | string-utils', function() {
   });
 
   describe('splitIntoWordsAndRemoveBackspaces', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { case: 'abc', expectedResult: ['abc'] },

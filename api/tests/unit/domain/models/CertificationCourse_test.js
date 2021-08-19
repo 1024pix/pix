@@ -35,7 +35,6 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctBirthdate', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['2000-13-01', null, undefined, '', 'invalid']
       .forEach((invalidDate) => {
@@ -65,7 +64,6 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctFirstName', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   ']
       .forEach((invalidFirstName) => {
@@ -95,7 +93,6 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctLastName', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   ']
       .forEach((invalidLastName) => {
@@ -125,7 +122,6 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctBirthplace', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   ']
       .forEach((invalidBirthPlace) => {
@@ -191,7 +187,6 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
       expect(() => certificationCourse.correctSex(sex)).not.to.throw(EntityValidationError);
     });
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['M', 'F']
       .forEach((validSex) => {

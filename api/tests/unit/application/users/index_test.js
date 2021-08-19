@@ -506,7 +506,6 @@ describe('Unit | Router | user-router', function() {
 
   describe('POST /api/admin/users/{id}/remove-authentication', function() {
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI']
       .forEach((type) => {
