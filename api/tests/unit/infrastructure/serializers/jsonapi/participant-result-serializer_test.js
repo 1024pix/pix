@@ -11,6 +11,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
 
     beforeEach(function() {
       const isCampaignMultipleSendings = true;
+      const isRegistrationActive = true;
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({
           skillId: 'skill1',
@@ -60,7 +61,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       }];
 
       const targetProfile = { competences, stages, badges };
-      assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
+      assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
     });
 
     it('should convert a CampaignParticipationResult model object into JSON API data', function() {

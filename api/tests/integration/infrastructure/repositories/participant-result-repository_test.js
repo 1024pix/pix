@@ -65,7 +65,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
     });
 
     context('computes canRetry', function() {
-      it('returns true when all conditions are filled', async function() {
+      it('returns true when there is no schooling-registration and all other conditions are filled', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: true });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -81,7 +81,25 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         expect(participantResult.canRetry).to.equal(true);
       });
 
-      it('returns false', async function() {
+      it('returns true when there is a schooling-registration active and all other conditions are filled', async function() {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId });
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings: true });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          sharedAt: new Date('2020-01-02'),
+        });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
+
+        expect(participantResult.canRetry).to.equal(true);
+      });
+
+      it('returns false when multipleSendings is false', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: false });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
@@ -91,6 +109,59 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
         expect(participantResult.canRetry).to.equal(false);
+      });
+
+      it('returns false when schooling-registration is disabled', async function() {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings: true });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId, isDisabled: true });
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
+
+        expect(participantResult.canRetry).to.equal(false);
+      });
+
+      it('takes into account only schooling registration for the given userId', async function() {
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings: true }).id;
+        const userId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+
+        const otherUserId = databaseBuilder.factory.buildUser().id;
+        databaseBuilder.factory.buildSchoolingRegistration({ userId: otherUserId, organizationId, isDisabled: false });
+        const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId: otherUserId, campaignId }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: otherCampaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId: otherUserId, campaignId, locale: 'FR' });
+
+        expect(participantResult.canRetry).to.equal(true);
+      });
+
+      it('takes into account only schooling registration for the given campaignId', async function() {
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
+        const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings: true }).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
+
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId: otherOrganizationId, isDisabled: false });
+        const otherCampaignId = databaseBuilder.factory.buildCampaign({ organizationId: otherOrganizationId, targetProfileId, multipleSendings: true }).id;
+        const otherCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: otherCampaignId }).id;
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId: otherCampaignParticipationId, userId });
+        await databaseBuilder.commit();
+
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId: otherCampaignId, locale: 'FR' });
+
+        expect(participantResult.canRetry).to.equal(true);
       });
     });
 
