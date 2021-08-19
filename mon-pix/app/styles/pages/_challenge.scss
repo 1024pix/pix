@@ -64,7 +64,7 @@
     border-radius: 51px;
     box-shadow: 0 10px 20px 0 rgba($blue, 0.06);
     background-color: rgba($blue-10, 0.9);
-    color: #0D25B3;
+    color: $blue-60;
 
     @include device-is('tablet') {
       padding: 24px 98px;
