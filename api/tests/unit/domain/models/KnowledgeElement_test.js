@@ -36,41 +36,32 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
 
   describe('#isDirectlyValidated', function() {
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         status: KnowledgeElement.StatusType.VALIDATED,
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         source: KnowledgeElement.SourceType.DIRECT,
         expected: true,
       },
       {
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         status: KnowledgeElement.StatusType.INVALIDATED,
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         source: KnowledgeElement.SourceType.DIRECT,
         expected: false,
       },
       {
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         status: KnowledgeElement.StatusType.VALIDATED,
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         source: KnowledgeElement.SourceType.INFERRED,
         expected: false,
       },
       {
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         status: KnowledgeElement.StatusType.INVALIDATED,
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         source: KnowledgeElement.SourceType.INFERRED,
         expected: false,
@@ -943,7 +934,6 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       sinon.useFakeTimers(testCurrentDate.getTime());
     });
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysBefore: 0, hoursBefore: 2, expectedDaysSinceLastKnowledgeElement: 0.0833 },

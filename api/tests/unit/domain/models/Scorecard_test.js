@@ -271,7 +271,6 @@ describe('Unit | Domain | Models | Scorecard', function() {
       constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
     });
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
@@ -320,7 +319,6 @@ describe('Unit | Domain | Models | Scorecard', function() {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },

@@ -157,7 +157,6 @@ describe('Unit | Service | MailService', function() {
           },
         ];
 
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
           it(`when locale is ${testCase.locale}`, async function() {
@@ -328,7 +327,6 @@ describe('Unit | Service | MailService', function() {
         },
       ];
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       testCases.forEach((testCase) => {
         it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async function() {
@@ -505,7 +503,6 @@ describe('Unit | Service | MailService', function() {
           },
         ];
 
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
           it(`when locale is ${testCase.locale}`, async function() {
@@ -656,7 +653,6 @@ describe('Unit | Service | MailService', function() {
           },
         ];
 
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
           it(`when locale is ${testCase.locale}`, async function() {

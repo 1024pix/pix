@@ -197,7 +197,6 @@ describe('Unit | Domain | Models | Challenge', function() {
       'other': Validator,
     };
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     Object.entries(challengeTypeAndValidators).forEach(([challengeType, associatedValidatorClass]) => {
 

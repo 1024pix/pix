@@ -13,7 +13,6 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function() {
     const organizationId = 123;
 
     const fieldList = ['Identifiant unique*', 'Nom de famille*', 'Date de naissance (jj/mm/aaaa)*', 'Code département naissance*', 'Code pays naissance*', 'Statut*', 'Code MEF*', 'Division*'];
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     fieldList.forEach((field) => {
       context(`when the ${field} column is missing`, function() {

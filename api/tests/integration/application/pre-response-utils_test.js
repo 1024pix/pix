@@ -32,7 +32,6 @@ describe('Integration | Application | PreResponse-utils', function() {
       { should: 'should return HTTP code 400 when BaseHttpError', response: new BaseHttpError('Error message'), expectedStatusCode: 400 },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach((testCase) => {
       it(testCase.should, async function() {

@@ -105,7 +105,6 @@ describe('Unit | Utils | lodash-utils', function() {
       });
     });
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'a',

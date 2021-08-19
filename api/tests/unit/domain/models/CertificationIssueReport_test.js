@@ -25,7 +25,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(CertificationIssueReport);
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -40,7 +39,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -72,7 +70,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
           .to.be.an.instanceOf(CertificationIssueReport);
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -88,7 +85,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
       });
 
       // Test dynamically all subcategories
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, CertificationIssueReportSubcategories.SIGNATURE_ISSUE].includes(subcategory)) {
@@ -124,7 +120,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
           .to.be.an.instanceOf(CertificationIssueReport);
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -140,7 +135,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
       });
 
       // Test dynamically all subcategories
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE, CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE].includes(subcategory)) {
@@ -172,7 +166,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
           .to.be.an.instanceOf(CertificationIssueReport);
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -187,7 +180,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -220,7 +212,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
       });
 
       // Test dynamically all subcategories
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([
@@ -265,7 +256,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         }
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -318,7 +308,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(CertificationIssueReport);
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -333,7 +322,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         MISSING_VALUE,
@@ -349,7 +337,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
     });
 
     context('Adds isImpactful boolean to certif issue report when the category or subcategory is impactful', function() {
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         { certificationCourseId: 42, category: 'OTHER', subcategory: undefined, description: 'toto' },
@@ -386,7 +373,6 @@ describe('Unit | Domain | Models | CertificationIssueReport', function() {
         });
       });
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
         {

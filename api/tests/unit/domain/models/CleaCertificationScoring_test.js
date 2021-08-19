@@ -133,7 +133,6 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function() {
     });
 
     context('reproducibility rate in green zone', function() {
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       GREEN_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should obtain certification`, async function() {
@@ -203,7 +202,6 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function() {
     });
 
     context('reproducibility rate in red zone', function() {
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       RED_ZONE_REPRO.forEach((reproducibilityRate) =>
         it(`for ${reproducibilityRate} reproducibility rate, it should not obtain certification`, async function() {

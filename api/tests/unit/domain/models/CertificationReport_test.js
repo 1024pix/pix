@@ -4,7 +4,6 @@ const CertificationReport = require('../../../../lib/domain/models/Certification
 describe('Unit | Domain | Models | CertificationReport', function() {
 
   describe('#constructor', function() {
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerComment) => {
       it(`should return no examiner comment if comment is "${examinerComment}"`, function() {

@@ -69,7 +69,6 @@ describe('Unit | Router | organization-router', function() {
           },
         ];
 
-        // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
         numbersOutsideLimits.forEach(({ expectedBehavior, wrongNumber }) => {
           it(expectedBehavior, async function() {

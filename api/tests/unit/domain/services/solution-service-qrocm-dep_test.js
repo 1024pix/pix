@@ -49,7 +49,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach((testCase) => {
       it(`should return "ko" when ${testCase.when}`, function() {
@@ -110,7 +109,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     maximalScoreCases.forEach(function(testCase) {
       it(`Should return "ok" when ${testCase.when}`, function() {
@@ -151,7 +149,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     maximalScoreCases.forEach(function(testCase) {
       it(`should return "ok" when ${testCase.when}`, function() {
@@ -180,7 +177,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     partialScoreCases.forEach(function(testCase) {
 
@@ -217,7 +213,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach(function(testCase) {
       it(`should return "ko" when ${testCase.when}`, function() {
@@ -347,7 +342,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(`${testCase.when}, should return ${testCase.output} when answer is "${testCase.answer}" and solution is "${testCase.solution}"`, function() {
@@ -465,7 +459,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
@@ -583,7 +576,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
@@ -701,7 +693,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
@@ -819,7 +810,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
@@ -937,7 +927,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
@@ -1055,7 +1044,6 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       },
     ];
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {

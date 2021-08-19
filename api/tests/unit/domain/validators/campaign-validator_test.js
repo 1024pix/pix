@@ -41,7 +41,6 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
   describe('#validate', function() {
 
-    // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     [campaignOfTypeAssessment, campaignOfTypeProfilesCollection].forEach((campaign) => {
 
