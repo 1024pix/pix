@@ -321,8 +321,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
     });
   });
 
-  context('when there is less than 33 percent answering rate', () => {
-    it('should cancel certification course', async () => {
+  context('when there is less than 33 percent answering rate', function() {
+    it('should cancel certification course', async function() {
       // given
       const now = Date.now();
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
@@ -367,7 +367,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
       expect(certificationCourse.cancel).to.have.been.called;
     });
 
-    it('should not return CertificationJuryDone event', async () => {
+    it('should not return CertificationJuryDone event', async function() {
       // given
       const now = Date.now();
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
