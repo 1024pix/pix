@@ -5,12 +5,10 @@ const bluebird = require('bluebird');
 const {
   CertificationComputeError,
 } = require('../errors');
-const ChallengeNeutralized = require('./ChallengeNeutralized');
-const ChallengeDeneutralized = require('./ChallengeDeneutralized');
-const CertificationJuryDone = require('./CertificationJuryDone');
+const CertificationAutoCancelCheckDone = require('./CertificationAutoCancelCheckDone');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
+const eventTypes = [CertificationAutoCancelCheckDone];
 const EMITTER = 'PIX-ALGO-NEUTRALIZATION';
 
 async function handleCertificationRescoring({

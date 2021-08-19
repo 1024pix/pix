@@ -1,6 +1,6 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
-const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
+const CertificationAutoCancelCheckDone = require('../../../../lib/domain/events/CertificationAutoCancelCheckDone');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
@@ -14,7 +14,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -88,7 +88,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = domainBuilder.buildCertificationAssessment({
       userId: 123,
       certificationCourseId: 1,
@@ -133,7 +133,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new ChallengeNeutralized({ certificationCourseId: 1, juryId: 7 });
+    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7 });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
