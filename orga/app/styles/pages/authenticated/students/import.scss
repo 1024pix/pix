@@ -21,7 +21,7 @@
     box-shadow: 0 2px 5px 0 rgba($black, 0.05);
     background-color: $white;
     padding: 16px;
-    margin: 16px 16px 0 16px;
+    margin: 16px;
   }
 }
 
@@ -60,10 +60,6 @@
     line-height: 22px;
     letter-spacing: 0.15px;
     margin: 16px;
-  }
-
-  &__action {
-    margin: 8px;
   }
 }
 

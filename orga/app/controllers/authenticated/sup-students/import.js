@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
-import ENV from 'pix-orga/config/environment';
 import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
@@ -14,33 +13,37 @@ export default class ImportController extends Controller {
   @service intl;
   @service notifications;
   @service errorMessages;
+  @service store;
 
   @tracked isLoading = false;
 
   @action
-  async importStudents(file) {
-    const url = `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-csv`;
-    await this._uploadFile(url, file);
+  async importStudents(files) {
+    const adapter = this.store.adapterFor('students-import');
+    const organizationId = this.currentUser.organization.id;
+
+    this.isLoading = true;
+    this.notifications.clearAll();
+    try {
+      const response = await adapter.addStudentsCsv(organizationId, files);
+      this._sendNotifications(response);
+      this.transitionToRoute('authenticated.sup-students.list');
+    } catch (errorResponse) {
+      this._sendErrorNotifications(errorResponse);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   @action
-  async replaceStudents(file) {
-    const url = `${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/replace-csv`;
-    await this._uploadFile(url, file);
-  }
+  async replaceStudents(files) {
+    const adapter = this.store.adapterFor('students-import');
+    const organizationId = this.currentUser.organization.id;
 
-  async _uploadFile(url, file) {
     this.isLoading = true;
     this.notifications.clearAll();
-    const { access_token } = this.session.data.authenticated;
-
     try {
-      const response = await file.uploadBinary(url, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          'Accept-Language': this.currentUser.prescriber.lang,
-        },
-      });
+      const response = await adapter.replaceStudentsCsv(organizationId, files);
       this._sendNotifications(response);
       this.transitionToRoute('authenticated.sup-students.list');
     } catch (errorResponse) {
@@ -51,7 +54,7 @@ export default class ImportController extends Controller {
   }
 
   _sendNotifications(response) {
-    const warningsArray = get(response, 'body.data.attributes.warnings', []);
+    const warningsArray = get(response, 'data.attributes.warnings', []);
     if (isEmpty(warningsArray)) {
       this.notifications.sendSuccess(this.intl.t('pages.students-sup-import.global-success'));
     }
@@ -74,8 +77,8 @@ export default class ImportController extends Controller {
 
   _sendErrorNotifications(errorResponse) {
     const globalErrorMessage = this.intl.t('pages.students-sup-import.global-error', { htmlSafe: true });
-    if (errorResponse.body.errors) {
-      errorResponse.body.errors.forEach((error) => {
+    if (errorResponse.errors) {
+      errorResponse.errors.forEach((error) => {
         if (error.status === '412' || error.status === '413') {
           const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
           return this.notifications.sendError(this.intl.t('pages.students-sup-import.error-wrapper', { message, htmlSafe: true }));
