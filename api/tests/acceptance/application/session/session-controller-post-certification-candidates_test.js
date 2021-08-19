@@ -10,24 +10,24 @@ const {
 const createServer = require('../../../../server');
 const { featureToggles } = require('../../../../lib/config');
 
-describe('Acceptance | Controller | session-controller-post-certification-candidates', () => {
+describe('Acceptance | Controller | session-controller-post-certification-candidates', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  context('version 1.4', () => {
+  context('version 1.4', function() {
 
-    describe('#save', () => {
+    describe('#save', function() {
       let options;
       let payload;
       let sessionId;
       let userId;
       let certificationCandidate;
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(false);
         certificationCandidate = domainBuilder.buildCertificationCandidate();
         userId = databaseBuilder.factory.buildUser().id;
@@ -70,11 +70,11 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         return databaseBuilder.commit();
       });
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('certification-candidates').delete();
       });
 
-      it('should respond with a 201 created', async () => {
+      it('should respond with a 201 created', async function() {
         // when
         const response = await server.inject(options);
 
@@ -82,7 +82,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return the saved certification candidate', async () => {
+      it('should return the saved certification candidate', async function() {
         // when
         const response = await server.inject(options);
 
@@ -114,9 +114,9 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
     });
   });
 
-  context('version 1.5', () => {
+  context('version 1.5', function() {
 
-    describe('#save', () => {
+    describe('#save', function() {
       let options;
       let payload;
       let sessionId;
@@ -125,7 +125,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       let certificationCpfCountry;
       let certificationCpfCity;
 
-      beforeEach(() => {
+      beforeEach(function() {
         sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(true);
         certificationCandidate = domainBuilder.buildCertificationCandidate({
           birthCountry: 'FRANCE',
@@ -182,11 +182,11 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         return databaseBuilder.commit();
       });
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('certification-candidates').delete();
       });
 
-      it('should respond with a 201 created', async () => {
+      it('should respond with a 201 created', async function() {
         // when
         const response = await server.inject(options);
 
@@ -194,7 +194,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return the saved certification candidate', async () => {
+      it('should return the saved certification candidate', async function() {
         // when
         const response = await server.inject(options);
 

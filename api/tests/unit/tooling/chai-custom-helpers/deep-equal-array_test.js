@@ -1,8 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | chai-custom-helpers | deepEqualArray', () => {
+describe('Unit | chai-custom-helpers | deepEqualArray', function() {
 
-  it('should fail assertion when compared objects are not arrays', () => {
+  it('should fail assertion when compared objects are not arrays', function() {
     global.chaiErr(function() {
       expect([]).to.deepEqualArray('coucou');
     }, 'expected \'String\' to equal \'Array\'');
@@ -11,13 +11,13 @@ describe('Unit | chai-custom-helpers | deepEqualArray', () => {
     }, 'expected \'String\' to equal \'Array\'');
   });
 
-  it('should fail assertion when compared arrays have not the same length', () => {
+  it('should fail assertion when compared arrays have not the same length', function() {
     global.chaiErr(function() {
       expect([1, 2, 3]).to.deepEqualArray([1, 2]);
     }, 'expected 3 to equal 2');
   });
 
-  it('should fail assertion when compared values of array are not of the same instance', () => {
+  it('should fail assertion when compared values of array are not of the same instance', function() {
     global.chaiErr(function() {
       expect([1]).to.deepEqualArray(['coucou']);
     }, 'expected \'Number\' to equal \'String\'');
@@ -26,13 +26,13 @@ describe('Unit | chai-custom-helpers | deepEqualArray', () => {
     }, 'expected \'Answer\' to equal \'User\'');
   });
 
-  it('should fail assertion when compared values of array have not the same content', () => {
+  it('should fail assertion when compared values of array have not the same content', function() {
     global.chaiErr(function() {
       expect([1]).to.deepEqualArray([3]);
     }, 'expected 1 to deeply equal 3');
   });
 
-  it('should succeed assertion when compared arrays have the same values in order', () => {
+  it('should succeed assertion when compared arrays have the same values in order', function() {
     // given
     const badgePartnerCompetence = domainBuilder.buildBadgePartnerCompetence({
       id: 123,

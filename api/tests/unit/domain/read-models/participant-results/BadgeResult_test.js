@@ -2,8 +2,8 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const BadgeResult = require('../../../../../lib/domain/read-models/participant-results/BadgeResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', () => {
-  it('computes the badges results', () => {
+describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', function() {
+  it('computes the badges results', function() {
     const knowledgeElements = [
       domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
       domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
@@ -35,7 +35,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | BadgeResult', () => 
     });
   });
 
-  it('computes the result for each badge competence', () => {
+  it('computes the result for each badge competence', function() {
 
     const knowledgeElements = [
       domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),

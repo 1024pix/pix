@@ -78,7 +78,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       expect(actual).to.deep.equal(expected);
     });
 
-    it('should throw an error if there is no solutions for one input but answers', async () => {
+    it('should throw an error if there is no solutions for one input but answers', async function() {
       // given
       const answers = { 'phraseSansSolution': 'lasagne', 'phrase1': 'Le silence est d\'ours', 'phrase2': 'facebook' };
       const solutions = { 'phrase1': ['Le silence est d\'or'], 'phrase2': ['facebook'] };
@@ -217,6 +217,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
     },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function(testCase) {
       it(testCase.case + ', should return "ok" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -282,6 +283,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     failingCases.forEach(function(testCase) {
       it(testCase.case + ', should return "ko" when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -397,6 +399,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         const actual = service.match(testCase.answer, testCase.solution, testCase.enabledTreatments);
@@ -501,6 +504,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -604,6 +608,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -707,6 +712,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -810,6 +816,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -913,6 +920,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -1016,6 +1024,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);
@@ -1119,6 +1128,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + escape(testCase.solution) + '"', function() {
         expect(service.match(testCase.answer, testCase.solution, testCase.enabledTreatments)).to.deep.equal(testCase.output);

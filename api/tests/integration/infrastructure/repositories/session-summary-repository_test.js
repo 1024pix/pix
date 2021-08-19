@@ -2,21 +2,21 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const sessionSummaryRepository = require('../../../../lib/infrastructure/repositories/session-summary-repository');
 const _ = require('lodash');
 
-describe('Integration | Repository | Session Summary', () => {
+describe('Integration | Repository | Session Summary', function() {
 
-  describe('#findPaginatedByCertificationCenterId', () => {
+  describe('#findPaginatedByCertificationCenterId', function() {
     let page;
     let certificationCenterId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       await databaseBuilder.commit();
       page = { number: 1, size: 4 };
     });
 
-    context('when the given certification center has no session', () => {
+    context('when the given certification center has no session', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given
         const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         databaseBuilder.factory.buildSession({ certificationCenterId: otherCertificationCenterId });
@@ -31,9 +31,9 @@ describe('Integration | Repository | Session Summary', () => {
       });
     });
 
-    context('when the given certification center has sessions', () => {
+    context('when the given certification center has sessions', function() {
 
-      it('should return a session summary with all attributes', async () => {
+      it('should return a session summary with all attributes', async function() {
         // given
         databaseBuilder.factory.buildSession({
           id: 456,
@@ -65,7 +65,7 @@ describe('Integration | Repository | Session Summary', () => {
         expect(sessionSummaries[0]).to.be.deepEqualInstance(expectedSessionSummary);
       });
 
-      it('should return hasSessions to true if the certification center has at least one session', async () => {
+      it('should return hasSessions to true if the certification center has at least one session', async function() {
         // given
         databaseBuilder.factory.buildSession({ certificationCenterId });
         await databaseBuilder.commit();
@@ -77,7 +77,7 @@ describe('Integration | Repository | Session Summary', () => {
         expect(meta.hasSessions).to.be.true;
       });
 
-      it('should sort sessions by descending date and time, and finally by ID ascending', async () => {
+      it('should sort sessions by descending date and time, and finally by ID ascending', async function() {
         // given
         databaseBuilder.factory.buildSession({ id: 1, certificationCenterId, date: '2020-01-01', time: '18:00:00' }).id;
         databaseBuilder.factory.buildSession({ id: 2, certificationCenterId, date: '2020-01-01', time: '15:00:00' }).id;
@@ -93,9 +93,9 @@ describe('Integration | Repository | Session Summary', () => {
         expect(_.map(sessionSummaries, 'id')).to.deep.equal([3, 1, 2, 4]);
       });
 
-      context('when sessions have candidates', async () => {
+      context('when sessions have candidates', function() {
 
-        it('should return correct enrolled candidates count and effective candidates count', async () => {
+        it('should return correct enrolled candidates count and effective candidates count', async function() {
           // given
           const sessionA = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: new Date('2019-01-01'), finalizedAt: new Date('2020-01-01') });
           const sessionB = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: new Date('2018-01-01'), publishedAt: new Date('2020-02-01') });
@@ -124,9 +124,9 @@ describe('Integration | Repository | Session Summary', () => {
         });
       });
 
-      context('when session does not have candidates at all', async () => {
+      context('when session does not have candidates at all', function() {
 
-        it('should return 0 as enrolled and effective candidates count', async () => {
+        it('should return 0 as enrolled and effective candidates count', async function() {
           // given
           databaseBuilder.factory.buildSession({ certificationCenterId });
           await databaseBuilder.commit();

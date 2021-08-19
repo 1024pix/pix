@@ -3,11 +3,11 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Organization = require('../../../../../lib/domain/models/Organization');
 const Tag = require('../../../../../lib/domain/models/Tag');
 
-describe('Unit | Serializer | organization-serializer', () => {
+describe('Unit | Serializer | organization-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should return a JSON API serialized organization', () => {
+    it('should return a JSON API serialized organization', function() {
       // given
       const tags = [
         domainBuilder.buildTag({ id: 7, name: 'AEFE' }),
@@ -90,7 +90,7 @@ describe('Unit | Serializer | organization-serializer', () => {
       });
     });
 
-    it('should include serialized student data when organization has schoolingRegistration', () => {
+    it('should include serialized student data when organization has schoolingRegistration', function() {
       // given
       const organization = domainBuilder.buildOrganization.withSchoolingRegistrations();
 

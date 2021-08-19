@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     let modelSession;
     let expectedJsonApi;
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedJsonApi = {
         data: {
           type: 'sessions',
@@ -61,7 +61,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       });
     });
 
-    context('when session does not have a link to an existing certification center', () => {
+    context('when session does not have a link to an existing certification center', function() {
 
       it('should convert a Session model object into JSON API data', function() {
         // when
@@ -86,6 +86,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           examiner: 'Antoine Toutvenant',
           date: '2017-01-20',
           time: '14:30',
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           status: statuses.CREATED,
           description: '',
           'certification-center-id': 42,
@@ -113,7 +115,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       jsonApiSession.data.attributes.date = '2017-01-20';
     });
 
@@ -134,8 +136,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
     });
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
-      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, () => {
+      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function() {
         // given
         jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
 
@@ -148,7 +151,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     });
   });
 
-  describe('#serializeForFinalization()', () => {
+  describe('#serializeForFinalization()', function() {
 
     let modelSession;
     const expectedJsonApi = {
@@ -156,6 +159,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         type: 'sessions',
         id: '12',
         attributes: {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           status: statuses.CREATED,
           'examiner-global-comment': 'It was a fine session my dear',
         },

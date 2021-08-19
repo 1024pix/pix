@@ -14,17 +14,17 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 
 const createCertificationCenterMembershipByEmail = require('../../../../lib/domain/usecases/create-certification-center-membership-by-email');
 
-describe('Integration | UseCases | create-certification-center-membership-by-email', () => {
+describe('Integration | UseCases | create-certification-center-membership-by-email', function() {
 
   let certificationCenterId;
   let user;
   let email;
 
-  afterEach(async() => {
+  afterEach(async function() {
     await knex('certification-center-memberships').delete();
   });
 
-  it('should throw UserNotFoundError if user\'s email does not exist', async () => {
+  it('should throw UserNotFoundError if user\'s email does not exist', async function() {
     // given
     email = 'notExist@example.net';
 
@@ -41,7 +41,7 @@ describe('Integration | UseCases | create-certification-center-membership-by-ema
     expect(error.message).to.equal(`User not found for email ${email}`);
   });
 
-  it('should throw AlreadyExistingEntityError if certification center membership exist', async () => {
+  it('should throw AlreadyExistingEntityError if certification center membership exist', async function() {
     // given
     certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     user = databaseBuilder.factory.buildUser();
@@ -60,7 +60,7 @@ describe('Integration | UseCases | create-certification-center-membership-by-ema
     expect(error).to.be.an.instanceOf(AlreadyExistingEntityError);
   });
 
-  it('should create and return certification center membership ', async () => {
+  it('should create and return certification center membership ', async function() {
     // given
     certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
     user = databaseBuilder.factory.buildUser();

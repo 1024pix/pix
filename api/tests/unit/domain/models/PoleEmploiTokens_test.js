@@ -1,11 +1,11 @@
 const { expect } = require('../../../test-helper');
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 
-describe('Unit | Domain | Models | PoleEmploiTokens', () => {
+describe('Unit | Domain | Models | PoleEmploiTokens', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
 
-    it('should construct a model PoleEmploiTokens from attributes', () => {
+    it('should construct a model PoleEmploiTokens from attributes', function() {
       // given
       const attributes = {
         accessToken: 'accessToken',

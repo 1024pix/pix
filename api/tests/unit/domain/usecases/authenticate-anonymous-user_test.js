@@ -4,14 +4,14 @@ const { UserCantBeCreatedError } = require('../../../../lib/domain/errors');
 
 const authenticateAnonymousUser = require('../../../../lib/domain/usecases/authenticate-anonymous-user');
 
-describe('Unit | UseCase | authenticate-anonymous-user', () => {
+describe('Unit | UseCase | authenticate-anonymous-user', function() {
   let campaignCode;
   let lang;
   let campaignToJoinRepository;
   let userRepository;
   let tokenService;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignCode = 'SIMPLIFIE';
     lang = 'en';
     campaignToJoinRepository = {
@@ -28,7 +28,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', () => {
       .resolves({ isSimplifiedAccess: true });
   });
 
-  it('should create an anonymous user', async () => {
+  it('should create an anonymous user', async function() {
     // given
     const expectedUser = new User({
       firstName: '',
@@ -48,7 +48,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', () => {
     expect(userRepository.create).to.have.been.calledWith({ user: expectedUser });
   });
 
-  it('should create an access token', async () => {
+  it('should create an access token', async function() {
     // given
     const userId = 1;
 
@@ -61,7 +61,7 @@ describe('Unit | UseCase | authenticate-anonymous-user', () => {
     expect(tokenService.createAccessTokenFromUser).to.have.been.calledWith(userId, 'pix');
   });
 
-  it('should throw a UserCantBeCreatedError', async () => {
+  it('should throw a UserCantBeCreatedError', async function() {
     // given
     const userId = 1;
     campaignCode = 'RANDOM123';

@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const createMembership = require('../../../../lib/domain/usecases/create-membership');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | UseCase | create-membership', () => {
+describe('Unit | UseCase | create-membership', function() {
 
-  it('should insert a new membership with role ADMIN', async () => {
+  it('should insert a new membership with role ADMIN', async function() {
     // given
     const membershipRepository = {
       create: sinon.stub(),
@@ -21,7 +21,7 @@ describe('Unit | UseCase | create-membership', () => {
     expect(membershipRepository.create).to.has.been.calledWithExactly(userId, organizationId, role);
   });
 
-  it('should insert a new membership with role MEMBER', async () => {
+  it('should insert a new membership with role MEMBER', async function() {
     // given
     const membershipRepository = {
       create: sinon.stub(),

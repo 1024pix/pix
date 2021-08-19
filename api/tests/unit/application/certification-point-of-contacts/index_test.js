@@ -10,9 +10,9 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 
 describe('Unit | Router | certification-point-of-contact-router', function() {
 
-  describe('GET /api/certification-point-of-contacts/{userId}', () => {
+  describe('GET /api/certification-point-of-contacts/{userId}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
       sinon.stub(certificationPointOfContactController, 'get').callsFake((request, h) => h.response().code(200));
@@ -26,7 +26,7 @@ describe('Unit | Router | certification-point-of-contact-router', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should call pre-handler', async () => {
+    it('should call pre-handler', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').returns('ok');
       sinon.stub(certificationPointOfContactController, 'get').callsFake((request, h) => h.response().code(200));

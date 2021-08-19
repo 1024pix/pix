@@ -10,11 +10,11 @@ const moduleUnderTest = require('../../../../lib/application/memberships');
 
 const membershipController = require('../../../../lib/application/memberships/membership-controller');
 
-describe('Unit | Router | membership-router', () => {
+describe('Unit | Router | membership-router', function() {
 
-  describe('PATCH /api/admin/memberships/{id}', () => {
+  describe('PATCH /api/admin/memberships/{id}', function() {
 
-    it('should return 200 if user is Pix Admin', async () => {
+    it('should return 200 if user is Pix Admin', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(membershipController, 'update').callsFake((request, h) => h.response().code(200));
@@ -31,7 +31,7 @@ describe('Unit | Router | membership-router', () => {
       expect(membershipController.update).to.have.been.called;
     });
 
-    it('should return 403 if user is not Pix Admin', async () => {
+    it('should return 403 if user is not Pix Admin', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'update');
@@ -49,9 +49,9 @@ describe('Unit | Router | membership-router', () => {
     });
   });
 
-  describe('PATCH /api/memberships/{id}', () => {
+  describe('PATCH /api/memberships/{id}', function() {
 
-    it('should return 200 if user is admin in organization', async () => {
+    it('should return 200 if user is admin in organization', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
       sinon.stub(membershipController, 'update').callsFake((request, h) => h.response().code(200));
@@ -68,7 +68,7 @@ describe('Unit | Router | membership-router', () => {
       expect(membershipController.update).to.have.been.called;
     });
 
-    it('should return 403 if user is not admin in organization', async () => {
+    it('should return 403 if user is not admin in organization', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'update');
@@ -86,9 +86,9 @@ describe('Unit | Router | membership-router', () => {
     });
   });
 
-  describe('POST /api/admin/memberships/{id}/disable', () => {
+  describe('POST /api/admin/memberships/{id}/disable', function() {
 
-    it('should return 204 if user is Pix Admin', async () => {
+    it('should return 204 if user is Pix Admin', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(membershipController, 'disable').callsFake((request, h) => h.response().code(204));
@@ -105,7 +105,7 @@ describe('Unit | Router | membership-router', () => {
       expect(membershipController.disable).to.have.been.called;
     });
 
-    it('should return 403 if user is not Pix Admin', async () => {
+    it('should return 403 if user is not Pix Admin', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'disable');
@@ -123,9 +123,9 @@ describe('Unit | Router | membership-router', () => {
     });
   });
 
-  describe('POST /api/memberships/{id}/disable', () => {
+  describe('POST /api/memberships/{id}/disable', function() {
 
-    it('should return 204 if user is admin in organization', async () => {
+    it('should return 204 if user is admin in organization', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response(true));
       sinon.stub(membershipController, 'disable').callsFake((request, h) => h.response().code(204));
@@ -142,7 +142,7 @@ describe('Unit | Router | membership-router', () => {
       expect(membershipController.disable).to.have.been.called;
     });
 
-    it('should return 403 if user is not admin in organization', async () => {
+    it('should return 403 if user is not admin in organization', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(membershipController, 'disable');

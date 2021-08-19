@@ -6,16 +6,16 @@ const CertificationOfficer = require('../../../../lib/domain/models/Certificatio
 
 describe('Integration | Repository | CertificationOfficer', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
     let userInDb;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userInDb = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    it('should return the found certificationOfficer', async () => {
+    it('should return the found certificationOfficer', async function() {
       // when
       const certificationOfficer = await certificationOfficerRepository.get(userInDb.id);
 
@@ -26,7 +26,7 @@ describe('Integration | Repository | CertificationOfficer', function() {
       expect(certificationOfficer.lastName).to.equal(userInDb.lastName);
     });
 
-    it('should return a UserNotFoundError if no certificationOfficer is found', async () => {
+    it('should return a UserNotFoundError if no certificationOfficer is found', async function() {
       // given
       const nonExistentUserId = 678;
 

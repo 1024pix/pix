@@ -3,29 +3,45 @@ const { catchErr, expect, sinon } = require('../../../test-helper');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const { handleCleaCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
+describe('Unit | Domain | Events | handle-clea-certification-scoring', function() {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const reproducibilityRate = Symbol('reproducibilityRate');
 
   let event;
   const partnerCertificationScoringRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     buildCleaCertificationScoring: _.noop(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: _.noop(),
   };
 
   const badgeRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByKey: _.noop(),
   };
   const knowledgeElementRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findUniqByUserId: _.noop(),
   };
   const targetProfileRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: _.noop(),
   };
   const badgeCriteriaService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     areBadgeCriteriaFulfilled: _.noop(),
   };
 
   const certificationCourseRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getCreationDate: _.noop(),
   };
 
@@ -38,7 +54,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
     badgeCriteriaService,
   };
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -51,15 +67,23 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
     expect(error).not.to.be.null;
   });
 
-  context('#handleCleaCertificationScoring', () => {
+  context('#handleCleaCertificationScoring', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const certificationCourseId = Symbol('certificationCourseId');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const userId = Symbol('userId');
     const cleaCertificationScoring = { hasAcquiredBadge: true };
     const targetProfile = { id: 'targetProfileId' };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const badge = { targetProfileId: targetProfile.id };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const knowledgeElements = Symbol('KnowledgeElements@& ');
 
-    beforeEach(() => {
+    beforeEach(function() {
       event = new CertificationScoringCompleted({
         certificationCourseId,
         userId,
@@ -85,9 +109,9 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         }).resolves(cleaCertificationScoring);
     });
 
-    context('when certification is eligible', () => {
+    context('when certification is eligible', function() {
 
-      it('should verify if the badge is still acquired', async () => {
+      it('should verify if the badge is still acquired', async function() {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
@@ -101,7 +125,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.have.been.calledWith(true);
       });
 
-      it('should save a certif partner', async () => {
+      it('should save a certif partner', async function() {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
@@ -117,9 +141,9 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
       });
     });
 
-    context('when certification is not eligible', () => {
+    context('when certification is not eligible', function() {
 
-      it('should not verify if the badge is still acquired if the badge is not acquired', async () => {
+      it('should not verify if the badge is still acquired if the badge is not acquired', async function() {
         // given
         cleaCertificationScoring.hasAcquiredBadge = false;
         cleaCertificationScoring.isEligible = () => true;
@@ -134,7 +158,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', () => {
         expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.not.to.have.been.called;
       });
 
-      it('should not save a certif partner', async () => {
+      it('should not save a certif partner', async function() {
         // given
         cleaCertificationScoring.isEligible = () => false;
 

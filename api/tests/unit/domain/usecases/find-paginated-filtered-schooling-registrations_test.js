@@ -1,7 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const findPaginatedFilteredSchoolingRegistrations = require('../../../../lib/domain/usecases/find-paginated-filtered-schooling-registrations');
 
-describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', () => {
+describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', function() {
 
   const organizationId = 1;
   const userId = 2;
@@ -22,6 +22,8 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', () => {
       expectedReconciledSchoolingRegistrationFromGAR,
     ],
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const schoolingRegistrationRepository = { findPaginatedFilteredSchoolingRegistrations: sinon.stub().returns(expectedSchoolingRegistrations) };
 
   it('should fetch students matching organization', async function() {

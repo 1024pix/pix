@@ -4,12 +4,18 @@ const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../.
 
 const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
 
-describe('Unit | UseCase | generate-username-with-temporary-password', () => {
+describe('Unit | UseCase | generate-username-with-temporary-password', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userRelatedToStudent = domainBuilder.buildUser({
     username: null,
   });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organization = userRelatedToStudent.memberships[0].organization;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationId = userRelatedToStudent.memberships[0].organization.id;
 
   const expectedUsername = 'john.harry0207';
@@ -28,7 +34,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
   let userRepository;
   let schoolingRegistrationRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({
       organization,
     });
@@ -63,7 +69,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     userRepository.get.resolves(userRelatedToStudent);
   });
 
-  it('should generate username and temporary password', async () => {
+  it('should generate username and temporary password', async function() {
     // when
     const result = await generateUsernameWithTemporaryPassword({
       schoolingRegistrationId,
@@ -80,7 +86,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     expect(result.generatedPassword).to.be.equal(expectedPassword);
   });
 
-  it('should throw an error when student has not access to the organization', async () => {
+  it('should throw an error when student has not access to the organization', async function() {
     // given
     schoolingRegistration.organizationId = 99;
 
@@ -100,7 +106,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     expect(error.message).to.be.equal(`L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`);
   });
 
-  it('should throw an error when student account has already a username', async () => {
+  it('should throw an error when student account has already a username', async function() {
     // given
     userRelatedToStudent.username = 'username';
     userRepository.get.resolves(userRelatedToStudent);
@@ -121,7 +127,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     expect(error.message).to.be.equal(`Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`);
   });
 
-  context('when schooling-registration refers to an user with a password', ()=> {
+  context('when schooling-registration refers to an user with a password', function() {
 
     const username = 'john.doe2510';
     const userEmail = 'john.doe@example.net';
@@ -131,7 +137,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
     let organizationId;
     let schoolingRegistration;
 
-    beforeEach(()=>{
+    beforeEach(function() {
       userWithEmail = domainBuilder.buildUser({
         email: userEmail,
         username: null,
@@ -152,7 +158,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', () => {
       authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     });
 
-    it('should return an username', async () => {
+    it('should return an username', async function() {
       // when
       const result = await generateUsernameWithTemporaryPassword({
         schoolingRegistrationId: schoolingRegistration.id,

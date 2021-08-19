@@ -2,7 +2,7 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const { CertificationCandidateAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
 const importCertificationCandidatesFromCandidatesImportSheet = require('../../../../lib/domain/usecases/import-certification-candidates-from-candidates-import-sheet');
 
-describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', () => {
+describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet', function() {
 
   let certificationCandidateRepository;
   let certificationCandidatesOdsService;
@@ -10,7 +10,7 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
   let certificationCpfCityRepository;
   let certificationCpfCountryRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCandidateRepository = {
       doesLinkedCertificationCandidateInSessionExist: sinon.stub(),
       setSessionCandidates: sinon.stub(),
@@ -25,11 +25,11 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   });
 
-  describe('#importCertificationCandidatesFromCandidatesImportSheet', () => {
+  describe('#importCertificationCandidatesFromCandidatesImportSheet', function() {
 
-    context('when session contains already linked certification candidates', () => {
+    context('when session contains already linked certification candidates', function() {
 
-      it('should throw a BadRequestError', async () => {
+      it('should throw a BadRequestError', async function() {
         // given
         const sessionId = 'sessionId';
         const odsBuffer = 'buffer';
@@ -52,9 +52,9 @@ describe('Unit | UseCase | import-certification-candidates-from-attendance-sheet
       });
     });
 
-    context('when session contains zero linked certification candidates', () => {
+    context('when session contains zero linked certification candidates', function() {
 
-      context('when cpf birth information validation has succeed', () => {
+      context('when cpf birth information validation has succeed', function() {
 
         it('should add the certification candidates', async function() {
           // given

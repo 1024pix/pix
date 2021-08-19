@@ -1,15 +1,15 @@
 const { learningContentBuilder, expect, mockLearningContent } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', () => {
+describe('Acceptance | API | ChallengeController', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/challenges/:challenge_id', () => {
+  describe('GET /api/challenges/:challenge_id', function() {
 
     const proposals = '- Ils sont bio.\n' +
                       '- Ils pèsent plus de 63 grammes.\n' +
@@ -20,7 +20,7 @@ describe('Acceptance | API | ChallengeController', () => {
     const challengeId = 'recLt9uwa2dR3IYpi';
     const challengeType = 'QCM';
 
-    beforeEach(() => {
+    beforeEach(function() {
       const learningContent = [{
         id: 'recArea0',
         competences: [{
@@ -51,7 +51,7 @@ describe('Acceptance | API | ChallengeController', () => {
       url: `/api/challenges/${challengeId}`,
     };
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', function() {
       // when
       const promise = server.inject(options);
 
@@ -61,7 +61,7 @@ describe('Acceptance | API | ChallengeController', () => {
       });
     });
 
-    it('should return application/json', () => {
+    it('should return application/json', function() {
       // when
       const promise = server.inject(options);
 
@@ -72,7 +72,7 @@ describe('Acceptance | API | ChallengeController', () => {
       });
     });
 
-    it('should return the expected challenge', () => {
+    it('should return the expected challenge', function() {
       // when
       const promise = server.inject(options);
 

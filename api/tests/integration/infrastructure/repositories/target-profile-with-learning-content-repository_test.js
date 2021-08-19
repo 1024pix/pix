@@ -45,11 +45,11 @@ const checkBadge = (actual, expected) => {
   expect(actual.badgePartnerCompetences).to.have.deep.members(expected.badgePartnerCompetences);
 };
 
-describe('Integration | Repository | Target-profile-with-learning-content', () => {
+describe('Integration | Repository | Target-profile-with-learning-content', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should return target profile with learning content', async () => {
+    it('should return target profile with learning content', async function() {
       // given
       const skill1_1_1_2 = domainBuilder.buildTargetedSkill({
         id: 'recArea1_Competence1_Tube1_Skill2',
@@ -174,7 +174,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
     });
 
-    it('should return target profile badges without imageUrl', async () => {
+    it('should return target profile badges without imageUrl', async function() {
       // given
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfileDB.id, skillId: 'recArea1_Competence1_Tube1_Skill1' });
@@ -230,7 +230,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       });
     });
 
-    it('should return target profile stages', async () => {
+    it('should return target profile stages', async function() {
       // given
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
@@ -278,7 +278,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(targetProfile.stages).to.have.deep.members([ stage1, stage2 ]);
     });
 
-    it('should return target profile filled with objects with appropriate translation', async () => {
+    it('should return target profile filled with objects with appropriate translation', async function() {
       // given
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
@@ -333,7 +333,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
     });
 
-    it('should throw a NotFoundError when targetProfile does not exists', async () => {
+    it('should throw a NotFoundError when targetProfile does not exists', async function() {
       // when
       const error = await catchErr(targetProfileWithLearningContentRepository.get)({ id: 123 });
 
@@ -341,7 +341,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('should throw a TargetProfileInvalidError when targetProfile has no skills', async () => {
+    it('should throw a TargetProfileInvalidError when targetProfile has no skills', async function() {
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       await databaseBuilder.commit();
@@ -385,9 +385,9 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
     });
   });
 
-  describe('#getByCampaignId', () => {
+  describe('#getByCampaignId', function() {
 
-    it('should return target profile with learning content', async () => {
+    it('should return target profile with learning content', async function() {
       // given
       const skill1_1_1_2 = domainBuilder.buildTargetedSkill({
         id: 'recArea1_Competence1_Tube1_Skill2',
@@ -510,7 +510,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
     });
 
-    it('should return target profile stages', async () => {
+    it('should return target profile stages', async function() {
       // given
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
@@ -558,7 +558,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(targetProfile.stages).to.have.deep.members([ stage1, stage2 ]);
     });
 
-    it('should return target profile badges without imageUrl', async () => {
+    it('should return target profile badges without imageUrl', async function() {
       // given
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
@@ -617,7 +617,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
 
     });
 
-    it('should return target profile filled with objects with appropriate translation', async () => {
+    it('should return target profile filled with objects with appropriate translation', async function() {
       // given
       const targetProfileDB = databaseBuilder.factory.buildTargetProfile();
       const expectedTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent({
@@ -672,7 +672,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(targetProfile).to.deep.equal(expectedTargetProfile);
     });
 
-    it('should throw a NotFoundError when targetProfile cannot be found', async () => {
+    it('should throw a NotFoundError when targetProfile cannot be found', async function() {
       // when
       const error = await catchErr(targetProfileWithLearningContentRepository.getByCampaignId)({ campaignId: 123 });
 
@@ -680,7 +680,7 @@ describe('Integration | Repository | Target-profile-with-learning-content', () =
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('should throw a TargetProfileInvalidError when targetProfile has no skills', async () => {
+    it('should throw a TargetProfileInvalidError when targetProfile has no skills', async function() {
       // given
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;

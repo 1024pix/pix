@@ -1,13 +1,13 @@
 const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-anonymize-user', () => {
+describe('Acceptance | Controller | users-controller-anonymize-user', function() {
 
   let server;
   let user;
   let options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
     const pixMaster = await insertUserWithRolePixMaster();
@@ -20,9 +20,9 @@ describe('Acceptance | Controller | users-controller-anonymize-user', () => {
     return databaseBuilder.commit();
   });
 
-  describe('POST /admin/users/:id/anonymize', () => {
+  describe('POST /admin/users/:id/anonymize', function() {
 
-    it('should return 204', async () => {
+    it('should return 204', async function() {
       // when
       const response = await server.inject(options);
 
@@ -30,7 +30,7 @@ describe('Acceptance | Controller | users-controller-anonymize-user', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should update user in Database', async () => {
+    it('should update user in Database', async function() {
       // when
       await server.inject(options);
 

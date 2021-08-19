@@ -7,10 +7,10 @@ const {
 const poleEmploiController = require('../../../../lib/application/pole-emplois/pole-emploi-controller');
 const moduleUnderTest = require('../../../../lib/application/pole-emplois');
 
-describe('Unit | Router | pole-emploi-router', () => {
+describe('Unit | Router | pole-emploi-router', function() {
 
-  describe('GET /api/pole-emploi/envois', () => {
-    it('should return 200 if the user is a pole emploi user', async () => {
+  describe('GET /api/pole-emploi/envois', function() {
+    it('should return 200 if the user is a pole emploi user', async function() {
       sinon.stub(poleEmploiController, 'getSendings').callsFake((_request, h) => h.response('ok').code(200));
 
       const httpTestServer = new HttpTestServer();
@@ -31,7 +31,7 @@ describe('Unit | Router | pole-emploi-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 401 if the user is a pole emploi user', async () => {
+    it('should return 401 if the user is a pole emploi user', async function() {
       const httpTestServer = new HttpTestServer();
       httpTestServer.setupAuthentication();
       await httpTestServer.register(moduleUnderTest);

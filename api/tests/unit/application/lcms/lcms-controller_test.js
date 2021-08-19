@@ -2,11 +2,11 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const lcmsController = require('../../../../lib/application/lcms/lcms-controller');
 
-describe('Unit | Controller | lcms-controller', () => {
+describe('Unit | Controller | lcms-controller', function() {
 
-  describe('#createRelease', () => {
+  describe('#createRelease', function() {
 
-    it('should call the createRelease', async () => {
+    it('should call the createRelease', async function() {
       // given
       sinon.stub(usecases, 'createLcmsRelease').resolves();
       const request = {};

@@ -2,15 +2,21 @@ const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handlePixPlusCertificationsScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () => {
+describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', function() {
 
   const certificationAssessmentRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCertificationCourseId: _.noop(),
   };
   const partnerCertificationScoringRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: _.noop(),
   };
   const assessmentResultRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCertificationCourseId: _.noop(),
   };
   const dependencies = {
@@ -19,13 +25,13 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
     assessmentResultRepository,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     partnerCertificationScoringRepository.save = sinon.stub();
     certificationAssessmentRepository.getByCertificationCourseId = sinon.stub();
     assessmentResultRepository.getByCertificationCourseId = sinon.stub();
   });
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -38,9 +44,9 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
     expect(error.message).to.equal('event must be one of types CertificationScoringCompleted, CertificationRescoringCompleted');
   });
 
-  context('when user was not asked any pix plus challenges', () => {
+  context('when user was not asked any pix plus challenges', function() {
 
-    it('should save no pix plus certifications', async () => {
+    it('should save no pix plus certifications', async function() {
       // given
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
@@ -65,9 +71,9 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
     });
   });
 
-  context('when user has answered some pix plus challenges', () => {
+  context('when user has answered some pix plus challenges', function() {
 
-    it('should save as many pix plus certifications as there are certifiable badges evaluted during the certification test', async () => {
+    it('should save as many pix plus certifications as there are certifiable badges evaluted during the certification test', async function() {
       // given
       const event = domainBuilder.buildCertificationScoringCompletedEvent({
         certificationCourseId: 123,
@@ -98,9 +104,9 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
       expect(partnerCertificationScoringRepository.save.callCount).to.equal(2);
     });
 
-    context('scoring', () => {
+    context('scoring', function() {
 
-      it('should save a not acquired pix plus certification when pix certification is not validated', async () => {
+      it('should save a not acquired pix plus certification when pix certification is not validated', async function() {
         // given
         const event = domainBuilder.buildCertificationScoringCompletedEvent({
           certificationCourseId: 123,
@@ -135,7 +141,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
         expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({ partnerCertificationScoring: expectedPartnerCertificationScoring });
       });
 
-      it('should save a not acquired pix plus certification when pix certification is validated and repro rate is not sufficient', async () => {
+      it('should save a not acquired pix plus certification when pix certification is validated and repro rate is not sufficient', async function() {
         // given
         const event = domainBuilder.buildCertificationScoringCompletedEvent({
           certificationCourseId: 123,
@@ -172,7 +178,7 @@ describe('Unit | Domain | Events | handle-pix-plus-certifications-scoring', () =
         expect(partnerCertificationScoringRepository.save).to.have.been.calledWithExactly({ partnerCertificationScoring: expectedPartnerCertificationScoring });
       });
 
-      it('should save an acquired pix plus certification when pix certification is validated and repro rate is sufficient', async () => {
+      it('should save an acquired pix plus certification when pix certification is validated and repro rate is sufficient', async function() {
         // given
         const event = domainBuilder.buildCertificationScoringCompletedEvent({
           certificationCourseId: 123,

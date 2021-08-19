@@ -8,7 +8,7 @@ const correctAnswerThenUpdateAssessment = require('../../../../lib/domain/usecas
 const { ChallengeNotAskedError, NotFoundError, ForbiddenAccess } = require('../../../../lib/domain/errors');
 const dateUtils = require('../../../../lib/infrastructure/utils/date-utils');
 
-describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', () => {
+describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', function() {
   const userId = 1;
   let assessment;
   let challenge;
@@ -34,9 +34,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
     findUniqByUserIdAndAssessmentId: () => undefined,
   };
   const nowDate = new Date('2021-03-11T11:00:04Z');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   nowDate.setMilliseconds(1);
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(answerRepository, 'saveWithKnowledgeElements');
     sinon.stub(assessmentRepository, 'get');
@@ -63,9 +65,9 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
     dateUtils.getNowDate.returns(nowDate);
   });
 
-  context('when an answer for that challenge is not for an asked challenge', () => {
+  context('when an answer for that challenge is not for an asked challenge', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       assessment.type = Assessment.types.CERTIFICATION;
       assessment.lastChallengeId = 'anotherChallenge';
@@ -73,7 +75,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
       answerRepository.findByChallengeAndAssessment.withArgs({ assessmentId: assessment.id, challengeId: challenge.id }).resolves(true);
     });
 
-    it('should fail because Challenge Not Asked', async () => {
+    it('should fail because Challenge Not Asked', async function() {
       // when
       const error = await catchErr(correctAnswerThenUpdateAssessment)({
         answer,
@@ -91,11 +93,11 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
     });
   });
 
-  context('when no answer already exists', () => {
+  context('when no answer already exists', function() {
     let completedAnswer;
     let savedAnswer;
 
-    beforeEach(() => {
+    beforeEach(function() {
       completedAnswer = domainBuilder.buildAnswer(answer);
       completedAnswer.id = undefined;
       completedAnswer.result = AnswerStatus.OK;
@@ -105,7 +107,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
       answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
     });
 
-    context('and assessment is a COMPETENCE_EVALUATION', () => {
+    context('and assessment is a COMPETENCE_EVALUATION', function() {
 
       let knowledgeElement;
       let firstCreatedKnowledgeElement;
@@ -113,7 +115,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
       let skills;
       let scorecard;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         assessment.type = Assessment.types.COMPETENCE_EVALUATION;
         assessment.competenceId = 'recABCD';
@@ -133,7 +135,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         scorecardService.computeScorecard.resolves(scorecard);
       });
 
-      it('should call the answer repository to save the answer', async () => {
+      it('should call the answer repository to save the answer', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -152,7 +154,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWith(completedAnswer);
       });
 
-      it('should call repositories to get needed information', async () => {
+      it('should call repositories to get needed information', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -172,7 +174,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(knowledgeElementRepository.findUniqByUserIdAndAssessmentId).to.have.been.calledWith({ userId: assessment.userId, assessmentId: assessment.id });
       });
 
-      it('should return the saved answer - with the id', async () => {
+      it('should return the saved answer - with the id', async function() {
         // when
         const result = await correctAnswerThenUpdateAssessment({
           answer,
@@ -192,8 +194,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(result).to.deep.equal(expectedArgument);
       });
 
-      context('when the user responds correctly', async () => {
-        it('should add the level up to the answer when the user gain one level', async () => {
+      context('when the user responds correctly', function() {
+        it('should add the level up to the answer when the user gain one level', async function() {
           // given
           const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
             name: scorecard.name,
@@ -227,7 +229,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
           });
         });
 
-        it('should return an empty levelup when not gaining a level', async () => {
+        it('should return an empty levelup when not gaining a level', async function() {
           scorecardService.computeScorecard
             .onFirstCall().resolves(scorecard)
             .onSecondCall().resolves(scorecard);
@@ -251,8 +253,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         });
       });
 
-      context('when the user responds badly', async () => {
-        it('should not compute the level up', async () => {
+      context('when the user responds badly', function() {
+        it('should not compute the level up', async function() {
           // given
           answer = domainBuilder.buildAnswer({ value: '' });
           answer.id = undefined;
@@ -279,12 +281,12 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
       });
     });
 
-    context('and assessment is a CAMPAIGN', () => {
+    context('and assessment is a CAMPAIGN', function() {
       let firstKnowledgeElement;
       let secondKnowledgeElement;
       let scorecard, knowledgeElement, targetProfile, skills, challenge, skillAlreadyValidated, skillNotAlreadyValidated;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         assessment.type = Assessment.types.CAMPAIGN;
         assessment.campaignParticipationId = 123;
@@ -310,7 +312,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         scorecardService.computeScorecard.resolves(scorecard);
       });
 
-      it('should call the answer repository to save the answer', async () => {
+      it('should call the answer repository to save the answer', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -331,7 +333,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(answerRepository.saveWithKnowledgeElements.args).to.deep.equal(expectedArgs);
       });
 
-      it('should call the target profile repository to find target skills', async () => {
+      it('should call the target profile repository to find target skills', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -351,7 +353,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should call the challenge repository to get the answer challenge', async () => {
+      it('should call the challenge repository to get the answer challenge', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -371,7 +373,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should create the knowledge elements for the answer', async () => {
+      it('should create the knowledge elements for the answer', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -400,7 +402,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(KnowledgeElement.createKnowledgeElementsForAnswer).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should return the saved answer - with the id', async () => {
+      it('should return the saved answer - with the id', async function() {
         // when
         const result = await correctAnswerThenUpdateAssessment({
           answer,
@@ -420,8 +422,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(result).to.deep.equal(expectedArgument);
       });
 
-      context('when the user responds correctly', async () => {
-        it('should add the level up to the answer when the user gain one level', async () => {
+      context('when the user responds correctly', function() {
+        it('should add the level up to the answer when the user gain one level', async function() {
           // given
           const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
             name: scorecard.name,
@@ -454,7 +456,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
           });
         });
 
-        it('should return an empty levelup when not gaining a level', async () => {
+        it('should return an empty levelup when not gaining a level', async function() {
           // given
           scorecardService.computeScorecard
             .onFirstCall().resolves(scorecard)
@@ -479,8 +481,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         });
       });
 
-      context('when the user responds badly', async () => {
-        it('should not compute the level up', async () => {
+      context('when the user responds badly', function() {
+        it('should not compute the level up', async function() {
           // given
           answer = domainBuilder.buildAnswer({ value: '' });
           answer.id = undefined;
@@ -508,7 +510,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
 
     });
 
-    context('and assessment is a nor a CAMPAIGN nor a COMPETENCE_EVALUATION', () => {
+    context('and assessment is a nor a CAMPAIGN nor a COMPETENCE_EVALUATION', function() {
 
       let answer;
       let assessment;
@@ -519,7 +521,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
       let solution;
       let validator;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         correctAnswerValue = '1';
 
@@ -547,7 +549,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         answerRepository.saveWithKnowledgeElements.resolves(savedAnswer);
       });
 
-      it('should call the answer repository to save the answer', async () => {
+      it('should call the answer repository to save the answer', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -567,7 +569,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(answerRepository.saveWithKnowledgeElements).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should call the challenge repository to get the answer challenge', async () => {
+      it('should call the challenge repository to get the answer challenge', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -587,7 +589,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(challengeRepository.get).to.have.been.calledWith(expectedArgument);
       });
 
-      it('should not call the compute scorecard method', async () => {
+      it('should not call the compute scorecard method', async function() {
         // when
         await correctAnswerThenUpdateAssessment({
           answer,
@@ -606,7 +608,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
         expect(scorecardService.computeScorecard).to.not.have.been.called;
       });
 
-      it('should return the saved answer - with the id', async () => {
+      it('should return the saved answer - with the id', async function() {
         // when
         const result = await correctAnswerThenUpdateAssessment({
           answer,
@@ -628,18 +630,18 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
     });
   });
 
-  context('when the user which want to save the answer is not the right user', () => {
+  context('when the user which want to save the answer is not the right user', function() {
 
     let answer;
     let assessment;
 
-    beforeEach(() => {
+    beforeEach(function() {
       answer = domainBuilder.buildAnswer();
       assessment = domainBuilder.buildAssessment({ userId: (userId + 1) });
       assessmentRepository.get.resolves(assessment);
     });
 
-    it('should throw an error if no userId is passed', () => {
+    it('should throw an error if no userId is passed', function() {
       // when
       const result = correctAnswerThenUpdateAssessment({
         answer,
@@ -654,12 +656,12 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
     });
   });
 
-  context('compute the timeSpent and save it on the answer', () => {
+  context('compute the timeSpent and save it on the answer', function() {
     let answer;
     let assessment;
     let answerSaved;
 
-    it('compute the timeSpent', async () => {
+    it('compute the timeSpent', async function() {
       answer = domainBuilder.buildAnswer({ timeSpent: null });
       assessment = domainBuilder.buildAssessment({
         userId,
@@ -686,8 +688,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', ()
       expect(answerRepository.saveWithKnowledgeElements).to.be.calledWith(expectedAnswer);
     });
 
-    context('when assessment type is preview', () => {
-      it('compute timeSpent=0 when the assessment does not have a lastQuestionDate', async () => {
+    context('when assessment type is preview', function() {
+      it('compute timeSpent=0 when the assessment does not have a lastQuestionDate', async function() {
         answer = domainBuilder.buildAnswer({ timeSpent: null });
         assessment = domainBuilder.buildAssessment({
           userId,

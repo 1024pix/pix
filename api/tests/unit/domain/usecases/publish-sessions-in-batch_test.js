@@ -2,15 +2,21 @@ const { sinon, expect } = require('../../../test-helper');
 
 const publishSessionsInBatch = require('../../../../lib/domain/usecases/publish-sessions-in-batch');
 
-describe('Unit | UseCase | publish-sessions-in-batch', () => {
+describe('Unit | UseCase | publish-sessions-in-batch', function() {
 
   const dependencies = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     certificationRepository: Symbol('certificationRepository'),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     finalizedSessionRepository: Symbol('finalizedSessionRepository'),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     sessionRepository: Symbol('sessionRepository'),
   };
 
-  it('delegates to the publish session service', async () => {
+  it('delegates to the publish session service', async function() {
     // given
     const sessionId1 = Symbol('first session id');
     const sessionId2 = Symbol('second session id');
@@ -42,8 +48,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', () => {
     });
   });
 
-  context('when one or many session publication fail', () => {
-    it('should continue', async () => {
+  context('when one or many session publication fail', function() {
+    it('should continue', async function() {
       // given
       const sessionId1 = Symbol('first session id');
       const sessionId2 = Symbol('second session id');
@@ -74,7 +80,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', () => {
       });
     });
 
-    it('should return the errors with a batch id', async () => {
+    it('should return the errors with a batch id', async function() {
       // given
       const sessionId1 = Symbol('first session id');
       const sessionId2 = Symbol('second session id');

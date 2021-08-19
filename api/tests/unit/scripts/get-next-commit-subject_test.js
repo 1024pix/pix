@@ -1,9 +1,9 @@
 const { expect } = require('../../test-helper');
 const getNextCommitSubject = require('../../../scripts/get-next-commit-subject');
 
-describe('get-next-commit-subject', () => {
+describe('get-next-commit-subject', function() {
   const commitSubject = 'Add a user repository';
-  it('should prepend [app-abbrev-xxx] when branch name starts with pf, po, pc or pa', () => {
+  it('should prepend [app-abbrev-xxx] when branch name starts with pf, po, pc or pa', function() {
     expect(getNextCommitSubject(commitSubject, 'pf-42-branch')).to.deep.equal('[pf-42] Add a user repository');
     expect(getNextCommitSubject(commitSubject, 'po-42-branch')).to.deep.equal('[po-42] Add a user repository');
     expect(getNextCommitSubject(commitSubject, 'pc-42-branch')).to.deep.equal('[pc-42] Add a user repository');

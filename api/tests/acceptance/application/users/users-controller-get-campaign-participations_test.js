@@ -1,7 +1,7 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | GET /user/id/campaign-participations', () => {
+describe('Acceptance | Controller | GET /user/id/campaign-participations', function() {
 
   let userId;
   let campaign1;
@@ -15,13 +15,13 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
   let options;
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /users/:id/campaign-participations', () => {
+  describe('GET /users/:id/campaign-participations', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       const user = databaseBuilder.factory.buildUser();
       userId = user.id;
 
@@ -61,9 +61,9 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
       return databaseBuilder.commit();
     });
 
-    describe('Resource access management', () => {
+    describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async () => {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -74,7 +74,7 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async () => {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -87,9 +87,9 @@ describe('Acceptance | Controller | GET /user/id/campaign-participations', () =>
       });
     });
 
-    describe('Success case', () => {
+    describe('Success case', function() {
 
-      it('should return found campaign-participations with 200 HTTP status code', async () => {
+      it('should return found campaign-participations with 200 HTTP status code', async function() {
         // when
         const response = await server.inject(options);
 

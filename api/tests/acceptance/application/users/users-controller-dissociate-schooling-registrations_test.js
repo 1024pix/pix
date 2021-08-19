@@ -7,13 +7,13 @@ const {
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-dissociate-schooling-registrations-by-user', () => {
+describe('Acceptance | Controller | users-controller-dissociate-schooling-registrations-by-user', function() {
 
   let server;
   let user;
   let options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     user = databaseBuilder.factory.buildUser({ samlId: null });
     const pixMaster = await insertUserWithRolePixMaster();
@@ -26,9 +26,9 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
     await databaseBuilder.commit();
   });
 
-  describe('PATCH /admin/users/:id/dissociate', () => {
+  describe('PATCH /admin/users/:id/dissociate', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // when
       const response = await server.inject(options);
 
@@ -36,7 +36,7 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should dissociate and return updated user', async () => {
+    it('should dissociate and return updated user', async function() {
       // given
       const expectedUpdatedUserDetailsForAdmin = {
         type: 'users',

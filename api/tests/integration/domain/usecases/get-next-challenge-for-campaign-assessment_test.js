@@ -4,9 +4,9 @@ const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/us
 const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', () => {
+describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function() {
 
-  describe('#getNextChallengeForCampaignAssessment', () => {
+  describe('#getNextChallengeForCampaignAssessment', function() {
 
     let userId, assessmentId, campaignParticipationId,
       assessment, lastAnswer, answerRepository, challengeRepository, challenges,
@@ -16,7 +16,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-as
       improvementService, pickChallengeService,
       challengeWeb21, challengeWeb22, possibleSkillsForNextChallenge, locale;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
 
       userId = 'dummyUserId';
       assessmentId = 21;
@@ -68,11 +68,11 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-as
       });
     });
 
-    it('should have fetched the answers', () => {
+    it('should have fetched the answers', function() {
       expect(answerRepository.findByAssessment).to.have.been.calledWithExactly(assessmentId);
     });
 
-    it('should have filter the knowledge elements with an assessment improving', () => {
+    it('should have filter the knowledge elements with an assessment improving', function() {
       // given
       const expectedAssessment = assessment;
       expectedAssessment.isImproving = true;
@@ -84,19 +84,19 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-as
       }));
     });
 
-    it('should have fetched the target profile', () => {
+    it('should have fetched the target profile', function() {
       expect(targetProfileRepository.getByCampaignParticipationId).to.have.been.calledWithExactly(campaignParticipationId);
     });
 
-    it('should have fetched the most recent knowledge elements', () => {
+    it('should have fetched the most recent knowledge elements', function() {
       expect(knowledgeElementRepository.findUniqByUserId).to.have.been.calledWithExactly({ userId });
     });
 
-    it('should have fetched the challenges', () => {
+    it('should have fetched the challenges', function() {
       expect(challengeRepository.findOperativeBySkills).to.have.been.calledWithExactly(skills);
     });
 
-    it('should have fetched the next challenge with only most recent knowledge elements', () => {
+    it('should have fetched the next challenge with only most recent knowledge elements', function() {
       const allAnswers = [lastAnswer];
       expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.calledWithExactly({
         allAnswers,
@@ -108,11 +108,11 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-as
       });
     });
 
-    it('should have returned the next challenge', () => {
+    it('should have returned the next challenge', function() {
       expect(actualNextChallenge.id).to.equal(challengeWeb22.id);
     });
 
-    it('should have pick challenge with skills, randomSeed and locale', () => {
+    it('should have pick challenge with skills, randomSeed and locale', function() {
       expect(pickChallengeService.pickChallenge).to.have.been.calledWithExactly({
         skills: possibleSkillsForNextChallenge,
         randomSeed: assessmentId,

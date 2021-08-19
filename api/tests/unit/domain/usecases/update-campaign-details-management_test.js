@@ -4,11 +4,11 @@ const { EntityValidationError } = require('../../../../lib/domain/errors');
 const campaignValidator = require('../../../../lib/domain/validators/campaign-validator');
 const sinon = require('sinon');
 
-describe('Unit | UseCase | update-campaign-details-management', () => {
+describe('Unit | UseCase | update-campaign-details-management', function() {
   let campaignManagementRepository;
   let campaign;
 
-  beforeEach(()=> {
+  beforeEach(function() {
     campaign = domainBuilder.buildCampaign();
 
     campaignManagementRepository = {
@@ -19,7 +19,7 @@ describe('Unit | UseCase | update-campaign-details-management', () => {
     sinon.stub(campaignValidator, 'validate');
   });
 
-  it('should update the campaign', async () => {
+  it('should update the campaign', async function() {
     const campaignId = campaign.id;
     const campaignAttributes = {
       name: 'new Name',
@@ -35,8 +35,8 @@ describe('Unit | UseCase | update-campaign-details-management', () => {
     expect(campaignManagementRepository.update).to.have.been.calledOnceWith({ campaignId, campaignAttributes });
   });
 
-  context('when you update campaign but validation is wrong', () => {
-    it('should throw an error', async () => {
+  context('when you update campaign but validation is wrong', function() {
+    it('should throw an error', async function() {
       const campaignId = campaign.id;
       campaignValidator.validate.throws(new EntityValidationError({ invalidAttributes: [] }));
 

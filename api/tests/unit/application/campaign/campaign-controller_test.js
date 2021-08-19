@@ -12,16 +12,16 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Application | Controller | Campaign', () => {
+describe('Unit | Application | Controller | Campaign', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'createCampaign');
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should return a serialized campaign when the campaign has been successfully created', async () => {
+    it('should return a serialized campaign when the campaign has been successfully created', async function() {
       // given
       const connectedUserId = 1;
       const request = {
@@ -70,7 +70,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#getCsvAssessmentResults', () => {
+  describe('#getCsvAssessmentResults', function() {
     const userId = 1;
     const campaignId = 2;
     const request = {
@@ -81,16 +81,18 @@ describe('Unit | Application | Controller | Campaign', () => {
         id: campaignId,
       },
       i18n: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         __: sinon.stub(),
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream');
       sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
-    it('should call the use case to get result campaign in csv', async () => {
+    it('should call the use case to get result campaign in csv', async function() {
       // given
       usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'any file name' });
 
@@ -104,7 +106,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
-    it('should return a response with correct headers', async () => {
+    it('should return a response with correct headers', async function() {
       // given
       usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'expected file name' });
 
@@ -117,7 +119,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response.headers['content-encoding']).to.equal('identity');
     });
 
-    it('should fix invalid header chars in filename', async () => {
+    it('should fix invalid header chars in filename', async function() {
       // given
       usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
 
@@ -129,7 +131,7 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#getCsvProfilesCollectionResult', () => {
+  describe('#getCsvProfilesCollectionResult', function() {
     const userId = 1;
     const campaignId = 2;
     const request = {
@@ -140,16 +142,18 @@ describe('Unit | Application | Controller | Campaign', () => {
         id: campaignId,
       },
       i18n: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         __: sinon.stub(),
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
       sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
-    it('should call the use case to get result campaign in csv', async () => {
+    it('should call the use case to get result campaign in csv', async function() {
       // given
       usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'any file name' });
 
@@ -163,7 +167,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
-    it('should return a response with correct headers', async () => {
+    it('should return a response with correct headers', async function() {
       // given
       usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'expected file name' });
 
@@ -176,7 +180,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response.headers['content-encoding']).to.equal('identity');
     });
 
-    it('should fix invalid header chars in filename', async () => {
+    it('should fix invalid header chars in filename', async function() {
       // given
       usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
 
@@ -188,9 +192,9 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#getByCode', () => {
+  describe('#getByCode', function() {
 
-    it('should return the serialized campaign', async () => {
+    it('should return the serialized campaign', async function() {
       // given
       const code = 'AZERTY123';
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ code });
@@ -234,14 +238,14 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('#getById', () => {
+  describe('#getById', function() {
 
     const campaignId = 1;
     const userId = 1;
 
     let request, campaign;
 
-    beforeEach(() => {
+    beforeEach(function() {
       campaign = {
         id: 1,
         name: 'My campaign',
@@ -268,7 +272,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       usecases.getCampaign.resolves(campaign);
     });
 
-    it('should return the campaign', async () => {
+    it('should return the campaign', async function() {
       // given
       const expectedResult = Symbol('ok');
       const tokenForCampaignResults = 'token';
@@ -283,10 +287,10 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#update', () => {
+  describe('#update', function() {
     let request, updatedCampaign, updateCampaignArgs;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId: 1 } },
         params: { id: 1 },
@@ -320,7 +324,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should return the updated campaign', async () => {
+    it('should return the updated campaign', async function() {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
       campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
@@ -333,18 +337,18 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#getCollectiveResult', () => {
+  describe('#getCollectiveResult', function() {
 
     const campaignId = 1;
     const userId = 1;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'computeCampaignCollectiveResult');
       sinon.stub(campaignCollectiveResultSerializer, 'serialize');
     });
 
-    it('should return expected results', async () => {
+    it('should return expected results', async function() {
       // given
       const campaignCollectiveResult = Symbol('campaignCollectiveResults');
       const expectedResults = Symbol('results');
@@ -364,7 +368,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response).to.equal(expectedResults);
     });
 
-    it('should return an unauthorized error', async () => {
+    it('should return an unauthorized error', async function() {
       // given
       const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign participation');
       const request = {
@@ -384,17 +388,17 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('#getAnalysis', () => {
+  describe('#getAnalysis', function() {
     const campaignId = 1;
     const userId = 1;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'computeCampaignAnalysis');
       sinon.stub(campaignAnalysisSerializer, 'serialize');
     });
 
-    it('should return expected results', async () => {
+    it('should return expected results', async function() {
       // given
       const campaignAnalysis = Symbol('campaignAnalysis');
       const expectedResults = Symbol('results');
@@ -414,7 +418,7 @@ describe('Unit | Application | Controller | Campaign', () => {
       expect(response).to.equal(expectedResults);
     });
 
-    it('should return an unauthorized error', async () => {
+    it('should return an unauthorized error', async function() {
       // given
       const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
       const request = {
@@ -433,21 +437,21 @@ describe('Unit | Application | Controller | Campaign', () => {
     });
   });
 
-  describe('#archiveCampaign', async () => {
+  describe('#archiveCampaign', function() {
     let updatedCampaign;
     let serializedCampaign;
 
     const campaignId = 1;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'archiveCampaign');
       sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
 
-    it('should return the updated campaign properly serialized', async () => {
+    it('should return the updated campaign properly serialized', async function() {
       // given
       usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
       campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
@@ -466,21 +470,21 @@ describe('Unit | Application | Controller | Campaign', () => {
 
   });
 
-  describe('#unarchiveCampaign', async () => {
+  describe('#unarchiveCampaign', function() {
     let updatedCampaign;
     let serializedCampaign;
 
     const campaignId = 1;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'unarchiveCampaign');
       sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
 
-    it('should return the updated campaign properly serialized', async () => {
+    it('should return the updated campaign properly serialized', async function() {
       // given
       usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
       campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);

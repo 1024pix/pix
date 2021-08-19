@@ -19,19 +19,19 @@ describe('Integration | Repository | UserOrgaSettings', function() {
   let user;
   let organization;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     user = databaseBuilder.factory.buildUser();
     organization = databaseBuilder.factory.buildOrganization();
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('user-orga-settings').delete();
   });
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    it('should return an UserOrgaSettings domain object', async () => {
+    it('should return an UserOrgaSettings domain object', async function() {
       // when
       const userOrgaSettingsSaved = await userOrgaSettingsRepository.create(user.id, organization.id);
 
@@ -39,7 +39,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(userOrgaSettingsSaved).to.be.an.instanceof(UserOrgaSettings);
     });
 
-    it('should add a row in the table "user-orga-settings"', async () => {
+    it('should add a row in the table "user-orga-settings"', async function() {
       // given
       const nbBeforeCreation = await BookshelfUserOrgaSettings.count();
 
@@ -51,7 +51,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(nbAfterCreation).to.equal(nbBeforeCreation + 1);
     });
 
-    it('should save model properties', async () => {
+    it('should save model properties', async function() {
       // when
       const userOrgaSettingsSaved = await userOrgaSettingsRepository.create(user.id, organization.id);
 
@@ -61,7 +61,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(_.omit(userOrgaSettingsSaved.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(organization, ORGANIZATION_OMITTED_PROPERTIES));
     });
 
-    it('should throw a UserOrgaSettingsCreationError when userOrgaSettings already exist', async () => {
+    it('should throw a UserOrgaSettingsCreationError when userOrgaSettings already exist', async function() {
       // given
       databaseBuilder.factory.buildUserOrgaSettings({ userId: user.id, currentOrganizationId: organization.id });
       await databaseBuilder.commit();
@@ -74,18 +74,18 @@ describe('Integration | Repository | UserOrgaSettings', function() {
     });
   });
 
-  describe('#update', () => {
+  describe('#update', function() {
 
     let userOrgaSettingsId;
     let expectedOrganization;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({ userId: user.id, currentOrganizationId: organization.id }).id;
       expectedOrganization = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
     });
 
-    it('should return the updated userOrgaSettings', async () => {
+    it('should return the updated userOrgaSettings', async function() {
       // when
       const updatedUserOrgaSettings = await userOrgaSettingsRepository.update(user.id, expectedOrganization.id);
 
@@ -96,16 +96,16 @@ describe('Integration | Repository | UserOrgaSettings', function() {
     });
   });
 
-  describe('#findOneByUserId', () => {
+  describe('#findOneByUserId', function() {
 
     let userOrgaSettingsId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({ userId: user.id, currentOrganizationId: organization.id }).id;
       await databaseBuilder.commit();
     });
 
-    it('should return an UserOrgaSettings domain object', async () => {
+    it('should return an UserOrgaSettings domain object', async function() {
       // when
       const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id);
 
@@ -113,7 +113,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(foundUserOrgaSettings).to.be.an.instanceof(UserOrgaSettings);
     });
 
-    it('should return the userOrgaSettings belonging to user', async () => {
+    it('should return the userOrgaSettings belonging to user', async function() {
       // when
       const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id);
 
@@ -123,7 +123,7 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(_.omit(foundUserOrgaSettings.currentOrganization, ORGANIZATION_OMITTED_PROPERTIES)).to.deep.equal(_.omit(organization, ORGANIZATION_OMITTED_PROPERTIES));
     });
 
-    it('should return empty object when user-orga-settings doesn\'t exists', async () => {
+    it('should return empty object when user-orga-settings doesn\'t exists', async function() {
       // when
       const foundUserOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(user.id + 1);
 

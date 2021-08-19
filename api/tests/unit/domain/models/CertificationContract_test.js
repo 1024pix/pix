@@ -3,11 +3,11 @@ const { CertificationComputeError } = require('../../../../lib/domain/errors');
 const CertificationContract = require('../../../../lib/domain/models/CertificationContract');
 const _ = require('lodash');
 
-describe('Unit | Domain | Models | CertificationContract', () => {
-  describe('#assertThatWeHaveEnoughAnswers', () => {
-    describe('when there is less answers than challenges', () => {
+describe('Unit | Domain | Models | CertificationContract', function() {
+  describe('#assertThatWeHaveEnoughAnswers', function() {
+    describe('when there is less answers than challenges', function() {
 
-      it('should throw', async () => {
+      it('should throw', async function() {
         // given
         const answers = _.map([
           { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
@@ -34,10 +34,10 @@ describe('Unit | Domain | Models | CertificationContract', () => {
     });
   });
 
-  describe('#assertThatCompetenceHasAtLeastOneChallenge', () => {
-    describe('when there not enough challenges for one competence', () => {
+  describe('#assertThatCompetenceHasAtLeastOneChallenge', function() {
+    describe('when there not enough challenges for one competence', function() {
 
-      it('should throw', async () => {
+      it('should throw', async function() {
         // given
         const competenceIndex = '1.1';
 
@@ -53,10 +53,10 @@ describe('Unit | Domain | Models | CertificationContract', () => {
     });
   });
 
-  describe('#assertThatCompetenceHasAtLeastOneAnswer', () => {
-    describe('when there is not enough answers for one competence', () => {
+  describe('#assertThatCompetenceHasAtLeastOneAnswer', function() {
+    describe('when there is not enough answers for one competence', function() {
 
-      it('should throw', async () => {
+      it('should throw', async function() {
         // given
         const competenceIndex = '1.1';
 
@@ -72,10 +72,10 @@ describe('Unit | Domain | Models | CertificationContract', () => {
     });
   });
 
-  describe('#assertThatScoreIsCoherentWithReproducibilityRate', () => {
-    describe('when score is < 1 and reproductibility rate is > 50%', () => {
+  describe('#assertThatScoreIsCoherentWithReproducibilityRate', function() {
+    describe('when score is < 1 and reproductibility rate is > 50%', function() {
 
-      it('should throw', async () => {
+      it('should throw', async function() {
         // given
         const score = 0;
 
@@ -91,10 +91,10 @@ describe('Unit | Domain | Models | CertificationContract', () => {
     });
   });
 
-  describe('#assertThatEveryAnswerHasMatchingChallenge', () => {
-    describe('when an answer does not match a challenge', () => {
+  describe('#assertThatEveryAnswerHasMatchingChallenge', function() {
+    describe('when an answer does not match a challenge', function() {
 
-      it('should throw', async () => {
+      it('should throw', async function() {
         // given
         const answers = _.map([
           { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
@@ -121,10 +121,10 @@ describe('Unit | Domain | Models | CertificationContract', () => {
     });
   });
 
-  describe('#assertThatNoChallengeHasMoreThanOneAnswer', () => {
-    describe('when there are several answers for the same challenge', () => {
+  describe('#assertThatNoChallengeHasMoreThanOneAnswer', function() {
+    describe('when there are several answers for the same challenge', function() {
 
-      it('should throw', async () => {
+      it('should throw', async function() {
         // given
         const answers = _.map([
           { challengeId: 'challenge_A_for_competence_1', result: 'ok' },

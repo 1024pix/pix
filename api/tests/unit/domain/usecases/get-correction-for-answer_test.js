@@ -4,7 +4,7 @@ const Answer = require('../../../../lib/domain/models/Answer');
 const { AssessmentNotCompletedError, NotFoundError } = require('../../../../lib/domain/errors');
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | UseCase | getCorrectionForAnswer', () => {
+describe('Unit | UseCase | getCorrectionForAnswer', function() {
 
   const assessmentRepository = { get: () => undefined };
   const answerRepository = { get: () => undefined };
@@ -15,7 +15,7 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
   const locale = 'lang-country';
   let answer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(assessmentRepository, 'get');
     sinon.stub(answerRepository, 'get');
     sinon.stub(correctionRepository, 'getByChallengeId');
@@ -24,10 +24,10 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     answerRepository.get.withArgs(answerId).resolves(answer);
   });
 
-  context('when assessment is not completed', () => {
+  context('when assessment is not completed', function() {
 
-    context('and when the assessment is of type CERTIFICATION', () => {
-      it('should reject with a assessment not completed error', async () => {
+    context('and when the assessment is of type CERTIFICATION', function() {
+      it('should reject with a assessment not completed error', async function() {
         // given
         const assessment = domainBuilder.buildAssessment({
           state: 'started',
@@ -50,8 +50,8 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       });
     });
 
-    context('and when the assessment is of type CAMPAIGN', () => {
-      it('should return the content', async () => {
+    context('and when the assessment is of type CAMPAIGN', function() {
+      it('should return the content', async function() {
         // given
         const assessment = domainBuilder.buildAssessment({
           state: 'started',
@@ -77,8 +77,8 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
       });
     });
 
-    context('and when the assessment is COMPETENCE_EVALUATION', () => {
-      it('should return the content', async () => {
+    context('and when the assessment is COMPETENCE_EVALUATION', function() {
+      it('should return the content', async function() {
         // given
         const assessment = domainBuilder.buildAssessment({
           state: 'started',
@@ -105,9 +105,9 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     });
   });
 
-  context('when assessment is completed', () => {
+  context('when assessment is completed', function() {
 
-    it('should return with the correction', async () => {
+    it('should return with the correction', async function() {
       // given
       const assessment = domainBuilder.buildAssessment({ state: 'completed' });
       assessmentRepository.get.withArgs(assessmentId).resolves(assessment);
@@ -130,9 +130,9 @@ describe('Unit | UseCase | getCorrectionForAnswer', () => {
     });
   });
 
-  context('when user ask for correction is not the user who answered the challenge', () => {
+  context('when user ask for correction is not the user who answered the challenge', function() {
 
-    it('should throw a NotFound error', async () => {
+    it('should throw a NotFound error', async function() {
       // given
       const assessment = domainBuilder.buildAssessment({ state: 'completed' });
       assessmentRepository.get.withArgs(assessmentId).resolves(assessment);

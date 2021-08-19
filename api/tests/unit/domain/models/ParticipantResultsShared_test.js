@@ -3,10 +3,10 @@ const ParticipantResultsShared = require('../../../../lib/domain/models/Particip
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
 
-describe('Unit | Domain | Models | ParticipantResultsShared', () => {
+describe('Unit | Domain | Models | ParticipantResultsShared', function() {
 
-  context('#masteryPercentage', () => {
-    context('when there are targetSkills', () => {
+  context('#masteryPercentage', function() {
+    context('when there are targetSkills', function() {
       it('computes the masteryPercentage using the number of skill validated', function() {
         // given
         const knowledgeElements = [
@@ -27,7 +27,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', () => {
       });
     });
 
-    context('when there are no targetSkills', () => {
+    context('when there are no targetSkills', function() {
       it('computes the masteryPercentage using the pixScore and the maximal pix score', function() {
         // given
         const knowledgeElements = [

@@ -3,11 +3,11 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const CertificationResultInformation = require('../../../../../lib/domain/read-models/CertificationResultInformation');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 
-describe('Unit | Serializer | JSONAPI | certification-result-information-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-result-information-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should serialize results of a certification', () => {
+    it('should serialize results of a certification', function() {
       // given
       const certificationCourseId = 123;
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport.impactful({

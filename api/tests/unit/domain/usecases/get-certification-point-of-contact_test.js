@@ -3,18 +3,22 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const getCertificationPointOfContact = require('../../../../lib/domain/usecases/get-certification-point-of-contact');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-certification-point-of-contact', () => {
+describe('Unit | UseCase | get-certification-point-of-contact', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationCenterMembershipRepository = { doesUserHaveMembershipToAnyCertificationCenter: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationPointOfContactRepository = { get: _.noop() };
   const userId = 123;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter = sinon.stub();
     certificationPointOfContactRepository.get = sinon.stub();
   });
 
-  it('should throw NotFoundError when user is not member of any certification center', async () => {
+  it('should throw NotFoundError when user is not member of any certification center', async function() {
     // given
     certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter
       .withArgs(userId)
@@ -31,7 +35,7 @@ describe('Unit | UseCase | get-certification-point-of-contact', () => {
     expect(error).to.be.instanceOf(NotFoundError);
   });
 
-  it('should return the CertificationPointOfContact when user is member of a certification center', async () => {
+  it('should return the CertificationPointOfContact when user is member of a certification center', async function() {
     // given
     const expectedCertificationPointOfContact = Symbol('somePointOfContact');
     certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter

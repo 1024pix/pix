@@ -9,16 +9,18 @@ class TestEvent {}
 
 class AnotherTestEvent {}
 
-describe('Integration | Infrastructure | EventHandler', () => {
+describe('Integration | Infrastructure | EventHandler', function() {
   let eventDispatcher;
   const event = new TestEvent();
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('domain transaction');
 
-  beforeEach(() => {
+  beforeEach(function() {
     eventDispatcher = new EventDispatcher();
   });
 
-  it('dispatches event to subscriber', async () => {
+  it('dispatches event to subscriber', async function() {
     // given
     const eventHandler = getEventHandlerMock();
     eventDispatcher.subscribe(TestEvent, eventHandler);
@@ -30,7 +32,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
   });
 
-  it('thows when duplicate subscription', async () => {
+  it('thows when duplicate subscription', async function() {
     // given
     const eventHandler = getEventHandlerMock();
 
@@ -42,7 +44,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     }).to.throw();
   });
 
-  it('dispatches event to several eventHandlers', async () => {
+  it('dispatches event to several eventHandlers', async function() {
     // given
     const eventHandler_1 = getEventHandlerMock();
     const eventHandler_2 = getEventHandlerMock();
@@ -58,7 +60,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     expect(eventHandler_2).to.have.been.calledWith({ domainTransaction, event });
   });
 
-  it('calls handler only for subscribed events', async () => {
+  it('calls handler only for subscribed events', async function() {
     // given
     const eventHandler = getEventHandlerMock();
     const otherEvent = new AnotherTestEvent();
@@ -74,7 +76,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     expect(eventHandler).not.to.have.been.calledWith({ domainTransaction, otherEvent });
   });
 
-  it('dispatches event returned by eventHandlers', async () => {
+  it('dispatches event returned by eventHandlers', async function() {
     // given
     const returnedEvent = new AnotherTestEvent();
     const originEventEmitter = () => returnedEvent;
@@ -89,7 +91,7 @@ describe('Integration | Infrastructure | EventHandler', () => {
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent });
   });
 
-  it('dispatches events returned by eventHandlers', async () => {
+  it('dispatches events returned by eventHandlers', async function() {
     // given
     const returnedEvent1 = new AnotherTestEvent();
     const returnedEvent2 = new AnotherTestEvent();

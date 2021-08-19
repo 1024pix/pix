@@ -23,33 +23,57 @@ describe('Unit | Repository | correction-repository', function() {
     const locale = 'en';
 
     const expectedHints = [
-      domainBuilder.buildHint({ skillName: '@web2', value: 'Can we geo-locate a rabbit on the ice floe?' }),
-      domainBuilder.buildHint({ skillName: '@web3', value: 'Can we geo-locate a rabbit on the ice floe?' }),
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      domainBuilder.buildHint(
+        { skillName: '@web2', value: 'Can we geo-locate a rabbit on the ice floe?' },
+      ),
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
+      domainBuilder.buildHint(
+        { skillName: '@web3', value: 'Can we geo-locate a rabbit on the ice floe?' },
+      ),
     ];
 
     const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
     const tutorialEvaluation = { id: 'tutorialEvaluationId', userId, tutorialId: 'recTuto1' };
     const expectedTutorials = [
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       domainBuilder.buildTutorial({ id: 'recTuto1', title: 'Comment dresser un panda' }),
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       domainBuilder.buildTutorial({ id: 'recTuto2', title: 'Comment dresser un chat' }),
     ];
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     expectedTutorials[0].userTutorial = userTutorial;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     expectedTutorials[0].tutorialEvaluation = tutorialEvaluation;
 
     const userTutorial3 = { id: 'userTutorialId3', userId, tutorialId: 'recTuto3' };
     const tutorialEvaluation3 = { id: 'tutorialEvaluationId3', userId, tutorialId: 'recTuto3' };
     const expectedLearningMoreTutorials = [
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       domainBuilder.buildTutorial({ id: 'recTuto3', title: 'Comment dresser un tigre du bengale' }),
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       domainBuilder.buildTutorial({ id: 'recTuto4', title: 'Comment dresser une belette' }),
     ];
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     expectedLearningMoreTutorials[0].userTutorial = userTutorial3;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     expectedLearningMoreTutorials[0].tutorialEvaluation = tutorialEvaluation3;
 
-    context('normal challenge', () => {
+    context('normal challenge', function() {
 
       let challengeDataObject;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         const skillDatas = [
           SkillLearningContentDataObjectFixture({
@@ -117,20 +141,24 @@ describe('Unit | Repository | correction-repository', function() {
       });
     });
 
-    context('duplicated tutorials', () => {
+    context('duplicated tutorials', function() {
 
       const expectedCorrection = new Correction({
         id: 'recwWzTquPlvIl4So',
         solution: '1, 5',
         solutionToDisplay: '1, 5',
         hints: expectedHints,
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         tutorials: [expectedTutorials[0]],
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         learningMoreTutorials: [expectedLearningMoreTutorials[0]],
       });
 
       let promise;
 
-      beforeEach(() => {
+      beforeEach(function() {
         // given
         const challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
         const skillDatas = [

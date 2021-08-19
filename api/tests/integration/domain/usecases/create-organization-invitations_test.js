@@ -6,20 +6,20 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 
 const createOrganizationInvitations = require('../../../../lib/domain/usecases/create-organization-invitations');
 
-describe('Integration | UseCases | create-organization-invitations', () => {
+describe('Integration | UseCases | create-organization-invitations', function() {
 
   let organizationId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     await databaseBuilder.commit();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('organization-invitations').delete();
   });
 
-  it('should create and return a list of new organization-invitations', async () => {
+  it('should create and return a list of new organization-invitations', async function() {
     // given
     const emails = ['member@organization.org'];
 

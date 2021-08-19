@@ -7,14 +7,14 @@ const {
   updateBadgeAcquisitionWithCampaignParticipationId,
 } = require('../../../scripts/fill-campaign-participation-id-in-badge-acquisitions');
 
-describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', () => {
+describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(console, 'log');
   });
 
-  describe('#main', () => {
-    it('should update the campaignParticipationId of BadgeAcquisition', async ()=> {
+  describe('#main', function() {
+    it('should update the campaignParticipationId of BadgeAcquisition', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -45,9 +45,9 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
       expect(result[0].campaignParticipationId).to.equal(campaignParticipation.id);
     });
   });
-  describe('#getAllBadgeAcquistionsWithoutCampaignParticipationId', () => {
+  describe('#getAllBadgeAcquistionsWithoutCampaignParticipationId', function() {
 
-    it('should return badge-acquisitions without campaignParticipationId', async () => {
+    it('should return badge-acquisitions without campaignParticipationId', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const badge = databaseBuilder.factory.buildBadge();
@@ -73,9 +73,9 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
     });
   });
 
-  describe('#getCampaignParticipationFromBadgeAcquisition', () => {
+  describe('#getCampaignParticipationFromBadgeAcquisition', function() {
 
-    it('should return possible campaignParticipations for one badge', async () => {
+    it('should return possible campaignParticipations for one badge', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -105,7 +105,7 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
       expect(result).to.deep.equal([{ id: campaignParticipation.id }]);
     });
 
-    it('should return only campaignParticipations whose assessment has completed on same date as badge was acquired', async () => {
+    it('should return only campaignParticipations whose assessment has completed on same date as badge was acquired', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -159,8 +159,8 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
     });
   });
 
-  describe('#updateBadgeAcquisitionWithCampaignParticipationId', () => {
-    it('should update the badge-acquisitions with its campaignParticipationId', async () => {
+  describe('#updateBadgeAcquisitionWithCampaignParticipationId', function() {
+    it('should update the badge-acquisitions with its campaignParticipationId', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -186,7 +186,7 @@ describe('Integration | Scripts | fillCampaignParticipationIdInBadgeAcquisitions
       expect(result[0].campaignParticipationId).to.equal(campaignParticipation.id);
     });
 
-    it('should not update the badge-acquisitions when there is more than one campaign participation', async () => {
+    it('should not update the badge-acquisitions when there is more than one campaign participation', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();

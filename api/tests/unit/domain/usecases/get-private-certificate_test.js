@@ -2,18 +2,18 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const getPrivateCertificate = require('../../../../lib/domain/usecases/certificate/get-private-certificate');
 
-describe('Unit | UseCase | getPrivateCertificate', async () => {
+describe('Unit | UseCase | getPrivateCertificate', function() {
   const privateCertificateRepository = {
     get: () => undefined,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     privateCertificateRepository.get = sinon.stub();
   });
 
-  context('when the user is not owner of the certification', async () => {
+  context('when the user is not owner of the certification', function() {
 
-    it('should throw an error if user is not the owner of the certificate', async () => {
+    it('should throw an error if user is not the owner of the certificate', async function() {
       // given
       const privateCertificate = domainBuilder.buildPrivateCertificate({
         id: 123,
@@ -29,9 +29,9 @@ describe('Unit | UseCase | getPrivateCertificate', async () => {
     });
   });
 
-  context('when the user is owner of the certification', async () => {
+  context('when the user is owner of the certification', function() {
 
-    it('should get the private certificate', async () => {
+    it('should get the private certificate', async function() {
       // given
       const privateCertificate = domainBuilder.buildPrivateCertificate({
         id: 123,

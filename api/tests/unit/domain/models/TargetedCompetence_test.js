@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Target-Profile/TargetedCompetence', () => {
+describe('Unit | Domain | Models | Target-Profile/TargetedCompetence', function() {
 
-  describe('get#skillCount', () => {
+  describe('get#skillCount', function() {
 
-    it('should return the count of skills across all tubes within competence', () => {
+    it('should return the count of skills across all tubes within competence', function() {
       // given
       const skill1a = domainBuilder.buildTargetedSkill({ id: 'recSkill1a', tubeId: 'recTube1' });
       const skill1b = domainBuilder.buildTargetedSkill({ id: 'recSkill1b', tubeId: 'recTube1' });

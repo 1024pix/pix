@@ -6,11 +6,11 @@ const {
 const scorecardController = require('../../../../lib/application/scorecards/scorecard-controller');
 const moduleUnderTest = require('../../../../lib/application/scorecards');
 
-describe('Unit | Router | scorecard-router', () => {
+describe('Unit | Router | scorecard-router', function() {
 
-  describe('GET /api/scorecards/{id}', () => {
+  describe('GET /api/scorecards/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(scorecardController, 'getScorecard').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -29,9 +29,9 @@ describe('Unit | Router | scorecard-router', () => {
     });
   });
 
-  describe('GET /api/scorecards/{id}/tutorials', () => {
+  describe('GET /api/scorecards/{id}/tutorials', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(scorecardController, 'findTutorials').returns('ok');
       const httpTestServer = new HttpTestServer();

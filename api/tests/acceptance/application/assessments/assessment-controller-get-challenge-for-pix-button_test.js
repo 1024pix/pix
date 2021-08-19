@@ -31,21 +31,21 @@ const learningContent = [{
   }],
 }];
 
-describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-auto-answer', () => {
+describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-auto-answer', function() {
   let server;
   let options;
   let assessmentId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
   });
 
-  describe('GET /api/assessments/:id/challenge-for-pix-auto-answer', () => {
+  describe('GET /api/assessments/:id/challenge-for-pix-auto-answer', function() {
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const user = await insertUserWithRolePixMaster();
       userId = user.id;
       assessmentId = databaseBuilder.factory.buildAssessment(
@@ -53,13 +53,13 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       return knex('assessments').delete();
     });
 
-    context('Nominal case', () => {
+    context('Nominal case', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         options = {
           method: 'GET',
           url: `/api/assessments/${assessmentId}/challenge-for-pix-auto-answer`,
@@ -69,7 +69,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         };
       });
 
-      it('should return 200 HTTP status code', async () => {
+      it('should return 200 HTTP status code', async function() {
         // when
         const response = await server.inject(options);
 
@@ -77,7 +77,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json; charset=utf-8', async () => {
+      it('should return application/json; charset=utf-8', async function() {
         // when
         const response = await server.inject(options);
 
@@ -86,7 +86,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
         expect(contentType).to.contain('application/json; charset=utf-8');
       });
 
-      it('should return challengeForPixAutoAnswer', async () => {
+      it('should return challengeForPixAutoAnswer', async function() {
         // when
         const response = await server.inject(options);
 
@@ -100,8 +100,8 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
       });
     });
 
-    context('When the user does not have role pixmaster', () => {
-      it('should return 403 HTTP status code', async () => {
+    context('When the user does not have role pixmaster', function() {
+      it('should return 403 HTTP status code', async function() {
         const userId = 456;
         options = {
           method: 'GET',

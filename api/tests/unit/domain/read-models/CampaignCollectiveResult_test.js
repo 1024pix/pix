@@ -1,11 +1,11 @@
 const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
+describe('Unit | Domain | Read-Models | CampaignCollectiveResult', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should initialize as many CampaignCompetenceCollectiveResult objects as competences in target profile', () => {
+    it('should initialize as many CampaignCompetenceCollectiveResult objects as competences in target profile', function() {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId' });
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId' });
@@ -20,7 +20,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults).to.have.length(2);
     });
 
-    it('should order CampaignCompetenceCollectiveResult by competenceIndex', () => {
+    it('should order CampaignCompetenceCollectiveResult by competenceIndex', function() {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '3.1' });
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId', index: '1.1' });
@@ -36,7 +36,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[1].competenceId).to.equal('recCompetence1');
     });
 
-    it('should initialize CampaignCompetenceCollectiveResult with a computed id', () => {
+    it('should initialize CampaignCompetenceCollectiveResult with a computed id', function() {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '3.1' });
       const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence1] });
@@ -50,7 +50,7 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
       expect(campaignCollectiveResult.campaignCompetenceCollectiveResults[0].id).to.equal('123_recCompetence1');
     });
 
-    it('should initialize CampaignCompetenceCollectiveResult with a computed areaCode', () => {
+    it('should initialize CampaignCompetenceCollectiveResult with a computed areaCode', function() {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '3.1' });
       const targetedArea = domainBuilder.buildTargetedArea({ id: 'recAreaId', competences: [targetedCompetence1] });
@@ -65,9 +65,9 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
     });
   });
 
-  describe('addValidatedSkillCountToCompetences()', () => {
+  describe('addValidatedSkillCountToCompetences()', function() {
 
-    it('should add up to obtain expected averageValidatedSkills when finalizing on appropriate competence', () => {
+    it('should add up to obtain expected averageValidatedSkills when finalizing on appropriate competence', function() {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '1.1' });
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId', index: '2.1' });
@@ -89,9 +89,9 @@ describe('Unit | Domain | Read-Models | CampaignCollectiveResult', () => {
     });
   });
 
-  describe('finalize()', () => {
+  describe('finalize()', function() {
 
-    it('should obtain expected averageValidatedSkills when finalizing on appropriate competence', () => {
+    it('should obtain expected averageValidatedSkills when finalizing on appropriate competence', function() {
       // given
       const targetedCompetence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', areaId: 'recAreaId', index: '1.1' });
       const targetedCompetence2 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence2', areaId: 'recAreaId', index: '2.1' });

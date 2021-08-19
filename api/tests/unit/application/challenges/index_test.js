@@ -10,7 +10,7 @@ describe('Unit | Router | challenge-router', function() {
 
   describe('GET /api/challenges/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(challengeController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();

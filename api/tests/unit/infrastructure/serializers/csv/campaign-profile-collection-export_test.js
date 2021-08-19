@@ -4,17 +4,21 @@ const { domainBuilder, expect, sinon, streamToPromise } = require('../../../../t
 const CampaignProfilesCollectionExport = require('../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 
-describe('Unit | Serializer | CSV | campaign-profiles-collection-export', () => {
-  describe('#export', () => {
+describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function() {
+  describe('#export', function() {
     let writableStream, csvPromise, organization, campaign, competences;
 
     const placementProfileServiceStub = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       getPlacementProfilesWithSnapshotting: sinon.stub(),
     };
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const translate = getI18n().__;
 
-    beforeEach(() => {
+    beforeEach(function() {
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
 
@@ -40,7 +44,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', () => 
       ];
     });
 
-    it('should display common header parts of csv', async () => {
+    it('should display common header parts of csv', async function() {
       //given
       const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
 
@@ -69,7 +73,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', () => 
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('should display division header when organization is SCO and managing students', async () => {
+    it('should display division header when organization is SCO and managing students', async function() {
       //given
       organization.isSco = true;
       organization.isManagingStudents = true;
@@ -102,7 +106,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', () => 
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('should display student number header when organization is SUP and managing students', async () => {
+    it('should display student number header when organization is SUP and managing students', async function() {
       //given
       organization.isSup = true;
       organization.isManagingStudents = true;
@@ -135,7 +139,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', () => 
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('should display idPixLabel header when campaign has one', async () => {
+    it('should display idPixLabel header when campaign has one', async function() {
       //given
       campaign.idPixLabel = 'email';
       const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);

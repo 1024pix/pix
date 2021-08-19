@@ -6,17 +6,17 @@ const {
 
 const findAllTags = require('../../../../lib/domain/usecases/find-all-tags');
 
-describe('Unit | UseCase | find-all-tags', () => {
+describe('Unit | UseCase | find-all-tags', function() {
 
   let tagRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     tagRepository = {
       findAll: sinon.stub(),
     };
   });
 
-  it('should return tags', async () => {
+  it('should return tags', async function() {
     // given
     const tags = [
       domainBuilder.buildTag({ name: 'TAG1' }),
@@ -33,7 +33,7 @@ describe('Unit | UseCase | find-all-tags', () => {
     expect(tagRepository.findAll).to.have.been.calledOnce;
   });
 
-  it('should return an empty array when no tags found', async () => {
+  it('should return an empty array when no tags found', async function() {
     // given
     tagRepository.findAll.returns([]);
 

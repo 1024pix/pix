@@ -4,15 +4,29 @@ const CampaignParticipationStarted = require('../../../../lib/domain/events/Camp
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const { handlePoleEmploiParticipationStarted } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-pole-emploi-participation-started', () => {
+describe('Unit | Domain | Events | handle-pole-emploi-participation-started', function() {
   let event;
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignParticipationRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const poleEmploiSendingRepository = { create: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const targetProfileRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const poleEmploiNotifier = { notify: _.noop() };
 
   const dependencies = {
@@ -25,6 +39,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
     poleEmploiNotifier,
   };
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const expectedResults = JSON.stringify({
     campagne: {
       nom: 'Campagne Pôle Emploi',
@@ -54,7 +70,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
     },
   });
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignRepository.get = sinon.stub();
     campaignParticipationRepository.get = sinon.stub();
     organizationRepository.get = sinon.stub();
@@ -64,7 +80,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
     poleEmploiNotifier.notify = sinon.stub();
   });
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
     // when / then
@@ -74,14 +90,18 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
     expect(error).not.to.be.null;
   });
 
-  context('#handlePoleEmploiParticipationStarted', () => {
+  context('#handlePoleEmploiParticipationStarted', function() {
     const campaignParticipationId = 55667788;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const campaignId = Symbol('campaignId');
     const userId = 987654321;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const organizationId = Symbol('organizationId');
 
-    context('when campaign is of type ASSESSMENT and organization is Pole Emploi', () => {
-      beforeEach(() => {
+    context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function() {
+      beforeEach(function() {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: campaignParticipationId,
           userId,
@@ -109,7 +129,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         event = new CampaignParticipationStarted({ campaignParticipationId });
       });
 
-      it('should notify pole emploi and create pole emploi sending accordingly', async () => {
+      it('should notify pole emploi and create pole emploi sending accordingly', async function() {
         // given
         const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
         poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
@@ -132,8 +152,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
       });
     });
 
-    context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', () => {
-      beforeEach(() => {
+    context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function() {
+      beforeEach(function() {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: campaignParticipationId,
           userId,
@@ -148,7 +168,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         event = new CampaignParticipationStarted({ campaignParticipationId });
       });
 
-      it('should not notify to Pole Emploi', async () => {
+      it('should not notify to Pole Emploi', async function() {
         // when
         await handlePoleEmploiParticipationStarted({
           event,
@@ -160,8 +180,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
       });
     });
 
-    context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', () => {
-      beforeEach(() => {
+    context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', function() {
+      beforeEach(function() {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: campaignParticipationId,
           userId,
@@ -176,7 +196,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-started', ()
         event = new CampaignParticipationStarted({ campaignParticipationId });
       });
 
-      it('should not notify to Pole Emploi', async () => {
+      it('should not notify to Pole Emploi', async function() {
         // when
         await handlePoleEmploiParticipationStarted({
           event,

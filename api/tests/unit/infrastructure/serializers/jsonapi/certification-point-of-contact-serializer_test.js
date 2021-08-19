@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const certificationPointOfContactSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer');
 
-describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function() {
 
-  describe('#serialize()', () => {
+  describe('#serialize()', function() {
 
-    it('should convert a CertificationReferent model object into JSON API data', () => {
+    it('should convert a CertificationReferent model object into JSON API data', function() {
       // given
       const certificationCenter = { id: 1, name: 'Serre tiff', type: 'SCO', externalId: 'externalId', isRelatedOrganizationManagingStudents: false };
       const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({ certificationCenters: [certificationCenter] });

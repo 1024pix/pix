@@ -1,3 +1,5 @@
+/* eslint-disable mocha/no-exports, mocha/no-top-level-hooks */
+
 const _ = require('lodash');
 const chai = require('chai');
 const expect = chai.expect;

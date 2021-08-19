@@ -2,11 +2,11 @@ const { expect, sinon } = require('../../../test-helper');
 
 const findPaginatedCampaignManagements = require('../../../../lib/domain/usecases/find-paginated-campaign-managements');
 
-describe('Unit | Domain | Use Cases | find-paginated-campaign-managments', () => {
+describe('Unit | Domain | Use Cases | find-paginated-campaign-managments', function() {
 
-  describe('#findPaginatedCampaignManagement', () => {
+  describe('#findPaginatedCampaignManagement', function() {
 
-    it('should return the campaigns of the given organization', async () => {
+    it('should return the campaigns of the given organization', async function() {
       const campaignManagementRepository = { findPaginatedCampaignManagements: sinon.stub() };
 
       // given

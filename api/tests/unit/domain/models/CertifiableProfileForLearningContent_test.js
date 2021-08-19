@@ -2,11 +2,11 @@ const CertifiableProfileForLearningContent = require('../../../../lib/domain/mod
 
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => {
+describe('Unit | Domain | Models | CertifiableProfileForLearningContent', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
 
-    it('should filter out knowledge elements data that does not intersect with target profile', () => {
+    it('should filter out knowledge elements data that does not intersect with target profile', function() {
       // given
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -34,10 +34,10 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
     });
   });
 
-  describe('#getOrderedCertifiableSkillsByAreaId', () => {
+  describe('#getOrderedCertifiableSkillsByAreaId', function() {
     let targetProfileWithLearningContent;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const easySkillArea1 = domainBuilder.buildTargetedSkill({
         id: 'a1_c1_t1_s1_id',
         name: '@iziAreaOne1',
@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
     });
 
-    it('should return directly validated skills ordered by decreasing difficulty by area id', () => {
+    it('should return directly validated skills ordered by decreasing difficulty by area id', function() {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -164,7 +164,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
     });
 
-    it('should ignore skills that are not directly validated', () => {
+    it('should ignore skills that are not directly validated', function() {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -211,7 +211,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
       });
     });
 
-    it('should only include skills not in excludedOrigins', () => {
+    it('should only include skills not in excludedOrigins', function() {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -260,9 +260,9 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', () => 
     });
   });
 
-  describe('#getAlreadyAnsweredChallengeIds', () => {
+  describe('#getAlreadyAnsweredChallengeIds', function() {
 
-    it('should return list of uniq challenge ids answered on directly validated skills in the profile', () => {
+    it('should return list of uniq challenge ids answered on directly validated skills in the profile', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({
         id: 'skill1',

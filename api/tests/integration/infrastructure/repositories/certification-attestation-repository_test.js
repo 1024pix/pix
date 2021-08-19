@@ -7,7 +7,7 @@ const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
 
-describe('Integration | Infrastructure | Repository | Certification Attestation', () => {
+describe('Integration | Infrastructure | Repository | Certification Attestation', function() {
 
   const minimalLearningContent = [{
     id: 'recArea0',
@@ -19,9 +19,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     }],
   }];
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should throw a NotFoundError when certification attestation does not exist', async () => {
+    it('should throw a NotFoundError when certification attestation does not exist', async function() {
       // when
       const error = await catchErr(certificationAttestationRepository.get)(123);
 
@@ -30,7 +30,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification has no assessment-result', async () => {
+    it('should throw a NotFoundError when certification has no assessment-result', async function() {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -60,7 +60,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification is cancelled', async () => {
+    it('should throw a NotFoundError when certification is cancelled', async function() {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -90,7 +90,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification is not published', async () => {
+    it('should throw a NotFoundError when certification is not published', async function() {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -120,7 +120,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification is rejected', async () => {
+    it('should throw a NotFoundError when certification is rejected', async function() {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -151,7 +151,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should return a CertificationAttestation', async () => {
+    it('should return a CertificationAttestation', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -185,7 +185,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
     });
 
-    it('should return a CertificationAttestation with appropriate result competence tree', async () => {
+    it('should return a CertificationAttestation with appropriate result competence tree', async function() {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -264,7 +264,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
     });
 
-    it('should take into account the latest validated assessment result of the certification', async () => {
+    it('should take into account the latest validated assessment result of the certification', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -298,7 +298,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation).to.deep.equal(expectedCertificationAttestation);
     });
 
-    it('should get the clea certification result if badge V1 taken', async () => {
+    it('should get the clea certification result if badge V1 taken', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -333,7 +333,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
     });
 
-    it('should get the clea certification result if badge V2 taken', async () => {
+    it('should get the clea certification result if badge V2 taken', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -368,9 +368,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
     });
 
-    context('acquired certifiable badges', () => {
+    context('acquired certifiable badges', function() {
 
-      it('should get the certified badge images of pixPlusDroitExpert when acquired', async () => {
+      it('should get the certified badge images of pixPlusDroitExpert when acquired', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -404,7 +404,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
       });
 
-      it('should get the certified badge images of pixPlusDroitMaitre when acquired', async () => {
+      it('should get the certified badge images of pixPlusDroitMaitre when acquired', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -439,7 +439,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       });
 
-      it('should only take into account acquired ones', async () => {
+      it('should only take into account acquired ones', async function() {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -476,9 +476,9 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
     });
   });
 
-  describe('#findByDivisionForScoIsManagingStudentsOrganization', () => {
+  describe('#findByDivisionForScoIsManagingStudentsOrganization', function() {
 
-    it('should return an empty array when there are no certification attestations for given organization', async () => {
+    it('should return an empty array when there are no certification attestations for given organization', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -513,7 +513,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an empty array when the organization is not SCO IS MANAGING STUDENTS', async () => {
+    it('should return an empty array when the organization is not SCO IS MANAGING STUDENTS', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -547,7 +547,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an empty array when the certification does not belong to a schooling registration in the right division', async () => {
+    it('should return an empty array when the certification does not belong to a schooling registration in the right division', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -581,7 +581,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should not return certifications that have no validated assessment-result', async () => {
+    it('should not return certifications that have no validated assessment-result', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -615,7 +615,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should not return cancelled certifications', async () => {
+    it('should not return cancelled certifications', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -649,7 +649,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should not return non published certifications', async () => {
+    it('should not return non published certifications', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -683,7 +683,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an array of certification attestations ordered by last name, first name', async () => {
+    it('should return an array of certification attestations ordered by last name, first name', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -766,7 +766,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(_.omit(certificationAttestations[2], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestationA, ['resultCompetenceTree']));
     });
 
-    it('should take into account the latest validated assessment result of a certification', async () => {
+    it('should take into account the latest validated assessment result of a certification', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -803,7 +803,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
     });
 
-    it('should take into account the latest certification of a schooling registration', async () => {
+    it('should take into account the latest certification of a schooling registration', async function() {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);

@@ -5,11 +5,11 @@ const {
 const createServer = require('../../../../server');
 const { featureToggles } = require('../../../../lib/config');
 
-describe('Acceptance | Route | Account-recovery', () => {
+describe('Acceptance | Route | Account-recovery', function() {
 
-  describe('PATCH /api/users/{id}/account-recovery', () => {
+  describe('PATCH /api/users/{id}/account-recovery', function() {
 
-    it('should return 204 HTTP status codes', async () => {
+    it('should return 204 HTTP status codes', async function() {
       // given
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = true;
@@ -47,7 +47,7 @@ describe('Acceptance | Route | Account-recovery', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async () => {
+    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async function() {
       // given
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = false;

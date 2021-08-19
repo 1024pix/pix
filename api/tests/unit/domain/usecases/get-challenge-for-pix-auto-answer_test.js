@@ -3,7 +3,7 @@ const getChallengeForPixAutoAnswer = require('../../../../lib/domain/usecases/ge
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const challengeForPixAutoAnswerRepository = require('../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository');
 
-describe('Unit | UseCase | get-challenge-answer-for-pix-button', () => {
+describe('Unit | UseCase | get-challenge-answer-for-pix-button', function() {
 
   let assessment;
   const challengeId = 1;
@@ -15,7 +15,7 @@ describe('Unit | UseCase | get-challenge-answer-for-pix-button', () => {
   };
   const lastChallengeId = 'last challenge id';
 
-  beforeEach(() => {
+  beforeEach(function() {
     assessment = domainBuilder.buildAssessment({
       lastChallengeId,
     });
@@ -24,7 +24,7 @@ describe('Unit | UseCase | get-challenge-answer-for-pix-button', () => {
     sinon.stub(challengeForPixAutoAnswerRepository, 'get');
   });
 
-  it('should return the solution of the last challenge from the given assessment', async () => {
+  it('should return the solution of the last challenge from the given assessment', async function() {
     assessmentRepository.get.resolves(assessment);
     challengeForPixAutoAnswerRepository.get.resolves(challenge);
 

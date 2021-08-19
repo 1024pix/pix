@@ -2,20 +2,20 @@ const { expect, catchErr, databaseBuilder, learningContentBuilder, mockLearningC
 const useCases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | find-paginated-campaign-assessment-participation-summaries', () => {
+describe('Integration | UseCase | find-paginated-campaign-assessment-participation-summaries', function() {
 
-  context('when requesting user is not allowed to access campaign informations', () => {
+  context('when requesting user is not allowed to access campaign informations', function() {
     let campaign;
     let user;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const skill = { id: 'Skill1', name: '@Acquis1' };
       campaign = databaseBuilder.factory.buildAssessmentCampaignForSkills({}, [skill]);
       user = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async () => {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
       // when
       const error = await catchErr(useCases.findPaginatedCampaignAssessmentParticipationSummaries)({
         userId: user.id,
@@ -28,12 +28,12 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
     });
   });
 
-  context('when requesting user is allowed to access campaign informations', () => {
+  context('when requesting user is allowed to access campaign informations', function() {
     let campaign;
     let user;
     let participant;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const skill = { id: 'Skill1', name: '@Acquis1', challenges: [] };
 
       const learningContent = [{
@@ -60,15 +60,15 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       await databaseBuilder.commit();
     });
 
-    context('When there no filter', () => {
-      beforeEach(async ()=> {
+    context('When there no filter', function() {
+      beforeEach(async function() {
         const participation = { participantExternalId: 'Ashitaka', campaignId: campaign.id, validatedSkillsCount: 1 };
         participant = { id: 123, firstName: 'Princess', lastName: 'Mononoke' };
         databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
         await databaseBuilder.commit();
       });
 
-      it('returns the campaignAssessmentParticipationSummaries for the participants of the campaign', async () => {
+      it('returns the campaignAssessmentParticipationSummaries for the participants of the campaign', async function() {
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,
@@ -78,9 +78,9 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       });
     });
 
-    context('when target profile has badges', () => {
+    context('when target profile has badges', function() {
       let badge;
-      beforeEach(async () => {
+      beforeEach(async function() {
 
         participant = databaseBuilder.factory.buildUser({ firstName: 'Princess', lastName: 'Mononoke' });
         const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, userId: participant.id, validatedSkillsCount: 1 }).id;
@@ -91,7 +91,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
         await databaseBuilder.commit();
       });
 
-      it('returns the campaignAssessmentParticipationSummaries for the participants with badges', async () => {
+      it('returns the campaignAssessmentParticipationSummaries for the participants with badges', async function() {
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,
@@ -102,8 +102,8 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       });
     });
 
-    context('when there is a filter on division', () => {
-      beforeEach(async () => {
+    context('when there is a filter on division', function() {
+      beforeEach(async function() {
         const participation = { participantExternalId: 'Yubaba', campaignId: campaign.id };
         const participant = { id: 456, firstName: 'Chihiro', lastName: 'Ogino' };
         databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
@@ -112,7 +112,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
         await databaseBuilder.commit();
       });
 
-      it('returns the campaignAssessmentParticipationSummaries for the participants for the division', async () => {
+      it('returns the campaignAssessmentParticipationSummaries for the participants for the division', async function() {
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,
@@ -123,10 +123,10 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
       });
     });
 
-    context('when there is a filter on stages', () => {
+    context('when there is a filter on stages', function() {
       let stage;
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const participation = { participantExternalId: 'Ashitaka', campaignId: campaign.id, validatedSkillsCount: 1 };
         participant = { id: 123, firstName: 'Princess', lastName: 'Mononoke' };
         databaseBuilder.factory.buildAssessmentFromParticipation(participation, participant);
@@ -134,7 +134,7 @@ describe('Integration | UseCase | find-paginated-campaign-assessment-participati
         await databaseBuilder.commit();
       });
 
-      it('returns the campaignAssessmentParticipationSummaries for the participants with reached stage', async () => {
+      it('returns the campaignAssessmentParticipationSummaries for the participants with reached stage', async function() {
         const { campaignAssessmentParticipationSummaries } = await useCases.findPaginatedCampaignAssessmentParticipationSummaries({
           userId: user.id,
           campaignId: campaign.id,

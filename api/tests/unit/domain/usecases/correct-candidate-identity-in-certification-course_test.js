@@ -5,14 +5,14 @@ const correctCandidateIdentityInCertificationCourse = require('../../../../lib/d
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 const { CpfBirthInformationValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | correct-candidate-identity-in-certification-course', () => {
+describe('Unit | UseCase | correct-candidate-identity-in-certification-course', function() {
 
   let certificationCourseRepository;
   let certificationCpfService;
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCourseRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
@@ -26,7 +26,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   });
 
-  it('it modifies the candidate', async () => {
+  it('it modifies the candidate', async function() {
     // given
     const sex = 'F';
     const birthCountry = 'FRANCE';
@@ -92,7 +92,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     );
   });
 
-  it('should throws a CpfBirthInformationValidationError if birth information validation fails', async () => {
+  it('should throws a CpfBirthInformationValidationError if birth information validation fails', async function() {
     // given
     const sex = 'F';
     const birthCountry = 'FRANCE';

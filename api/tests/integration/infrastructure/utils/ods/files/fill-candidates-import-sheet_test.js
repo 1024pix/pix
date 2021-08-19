@@ -6,7 +6,7 @@ const fillCandidatesImportSheet = require('../../../../../../lib/infrastructure/
 const usecases = require('../../../../../../lib/domain/usecases');
 const { featureToggles } = require('../../../../../../lib/config');
 
-describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', () => {
+describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet', function() {
 
   let userId;
   let sessionId;
@@ -14,9 +14,9 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
   let expectedOdsFilePath;
   let actualOdsFilePath;
 
-  context('Version 1.5', () => {
+  context('Version 1.5', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(true);
       expectedOdsFilePath = `${__dirname}/1.5/candidates_import_template.ods`;
       actualOdsFilePath = `${__dirname}/1.5/candidates_import_template.tmp.ods`;
@@ -108,11 +108,11 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await unlink(actualOdsFilePath);
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async function() {
       // when
       const session = await usecases.getSessionWithCandidates({ sessionId, userId });
       const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);
@@ -125,9 +125,9 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     });
   });
 
-  context('Version 1.4', () => {
+  context('Version 1.4', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(false);
       expectedOdsFilePath = `${__dirname}/1.4/candidates_import_template.ods`;
       actualOdsFilePath = `${__dirname}/1.4/candidates_import_template.tmp.ods`;
@@ -163,11 +163,11 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
       await databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await unlink(actualOdsFilePath);
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled', async () => {
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async function() {
       // when
       const session = await usecases.getSessionWithCandidates({ sessionId, userId });
       const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);

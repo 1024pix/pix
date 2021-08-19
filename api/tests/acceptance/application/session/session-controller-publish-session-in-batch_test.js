@@ -3,7 +3,7 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('POST /api/admin/sessions/publish-in-batch', () => {
+describe('POST /api/admin/sessions/publish-in-batch', function() {
   let server;
   const options = {
     method: 'POST',
@@ -11,7 +11,7 @@ describe('POST /api/admin/sessions/publish-in-batch', () => {
   };
   let userId;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     // given
     userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
@@ -19,11 +19,11 @@ describe('POST /api/admin/sessions/publish-in-batch', () => {
     return databaseBuilder.commit();
   });
 
-  context('when the session id is a number', () => {
+  context('when the session id is a number', function() {
 
-    context('when a session does not exist', () => {
+    context('when a session does not exist', function() {
 
-      it('should return a 207 error code', async () => {
+      it('should return a 207 error code', async function() {
         // given
         options.payload = { data: { attributes: { ids: [1] } } };
 
@@ -36,10 +36,10 @@ describe('POST /api/admin/sessions/publish-in-batch', () => {
       });
     });
 
-    context('when all the sessions exists', () => {
+    context('when all the sessions exists', function() {
       let sessionId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         sessionId = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
         databaseBuilder.factory.buildFinalizedSession({ sessionId });
         options.payload = { data: { attributes: { ids: [sessionId] } } };
@@ -47,7 +47,7 @@ describe('POST /api/admin/sessions/publish-in-batch', () => {
         return databaseBuilder.commit();
       });
 
-      it('should return a 204 status code', async () => {
+      it('should return a 204 status code', async function() {
         // when
         const response = await server.inject(options);
 

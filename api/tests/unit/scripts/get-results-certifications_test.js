@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const getResultsCertifications = require('../../../../api/scripts/get-results-certifications');
 
-describe('Unit | Scripts | get-results-certifications.js', () => {
+describe('Unit | Scripts | get-results-certifications.js', function() {
 
   const HEADERS = [
     'ID de certification',
@@ -15,9 +15,9 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
     '5.1', '5.2',
   ];
 
-  describe('buildCertificationRequest', () => {
+  describe('buildCertificationRequest', function() {
 
-    it('should take an id and return a request object', () => {
+    it('should take an id and return a request object', function() {
       // given
       const courseId = 12;
       const baseUrl = 'http://localhost:3000';
@@ -34,7 +34,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
 
   describe('buildSessionRequest', function() {
 
-    it('should take an id and return a request object', () => {
+    it('should take an id and return a request object', function() {
       // given
       const sessionId = 12;
       const baseUrl = 'http://localhost:3000';
@@ -48,8 +48,8 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
     });
   });
 
-  describe('toCSVRow', () => {
-    it('should normalize a JSON object', () => {
+  describe('toCSVRow', function() {
+    it('should normalize a JSON object', function() {
       // given
       const object = { data: { attributes: { 'competences-with-mark': [] } } };
       // when
@@ -58,7 +58,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result).to.have.all.keys(HEADERS);
     });
 
-    it('should extract all the informations of the certification', () => {
+    it('should extract all the informations of the certification', function() {
       // given
       const object = {
         data: {
@@ -100,7 +100,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result[HEADERS[13]]).to.equal(7331);
     });
 
-    it('should extract competences', () => {
+    it('should extract competences', function() {
       // given
       const object = { data: { attributes: { 'competences-with-mark': [] } } };
 
@@ -111,7 +111,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result[HEADERS[14]]).to.equal('');
     });
 
-    it('should extract competences 1.1', () => {
+    it('should extract competences 1.1', function() {
       // given
       const object = {
         data: {
@@ -133,7 +133,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result['1.1']).to.equal(9001);
     });
 
-    it('should extract all competences', () => {
+    it('should extract all competences', function() {
       // given
       const object = {
         data: {
@@ -162,9 +162,9 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
 
   });
 
-  describe('findCompetence', () => {
+  describe('findCompetence', function() {
 
-    it('should return empty string when not found', () => {
+    it('should return empty string when not found', function() {
       // given
       const profile = [];
       const competenceCode = '1.1';
@@ -176,7 +176,7 @@ describe('Unit | Scripts | get-results-certifications.js', () => {
       expect(result).to.be.equals('');
     });
 
-    it('should return competence level when found', () => {
+    it('should return competence level when found', function() {
       // given
       const competenceCode = '1.1';
       const profile = [{

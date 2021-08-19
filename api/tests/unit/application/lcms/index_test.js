@@ -10,11 +10,11 @@ const moduleUnderTest = require('../../../../lib/application/lcms');
 
 const lcmsController = require('../../../../lib/application/lcms/lcms-controller');
 
-describe('Unit | Router | lcms-router', () => {
+describe('Unit | Router | lcms-router', function() {
 
   let httpTestServer;
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
     sinon.stub(lcmsController, 'createRelease').callsFake((request, h) => h.response().code(204));
 
@@ -22,9 +22,9 @@ describe('Unit | Router | lcms-router', () => {
     httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/lcms/releases', () => {
+  describe('POST /api/lcms/releases', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // when
       const response = await httpTestServer.request('POST', '/api/lcms/releases');
 

@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const PixPlusMaitreCertificationResult = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 
-describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
+describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', function() {
 
-  context('#static buildFrom', () => {
+  context('#static buildFrom', function() {
 
-    it('builds a PixPlusMaitreCertificationResult acquired', async () => {
+    it('builds a PixPlusMaitreCertificationResult acquired', async function() {
       // when
       const pixPlusResult = PixPlusMaitreCertificationResult.buildFrom({ acquired: true });
 
@@ -14,7 +14,7 @@ describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
       expect(pixPlusResult.status).to.equal(PixPlusMaitreCertificationResult.statuses.ACQUIRED);
     });
 
-    it('builds a PixPlusMaitreCertificationResult rejected', async () => {
+    it('builds a PixPlusMaitreCertificationResult rejected', async function() {
       // when
       const pixPlusResult = PixPlusMaitreCertificationResult.buildFrom({ acquired: false });
 
@@ -24,9 +24,9 @@ describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
     });
   });
 
-  context('#static buildNotTaken', () => {
+  context('#static buildNotTaken', function() {
 
-    it('builds a PixPlusMaitreCertificationResult not_taken', async () => {
+    it('builds a PixPlusMaitreCertificationResult not_taken', async function() {
       // when
       const pixPlusResult = PixPlusMaitreCertificationResult.buildNotTaken();
 
@@ -36,9 +36,9 @@ describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
     });
   });
 
-  context('#isTaken', () => {
+  context('#isTaken', function() {
 
-    it('returns true when PixPlusMaitreCertificationResult has a status acquired', async () => {
+    it('returns true when PixPlusMaitreCertificationResult has a status acquired', async function() {
       // given
       const pixPlusResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
 
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
       expect(isTaken).to.be.true;
     });
 
-    it('returns true when PixPlusMaitreCertificationResult has a status rejected', async () => {
+    it('returns true when PixPlusMaitreCertificationResult has a status rejected', async function() {
       // given
       const pixPlusResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
 
@@ -60,7 +60,7 @@ describe('Unit | Domain | Models | PixPlusMaitreCertificationResult', () => {
       expect(isTaken).to.be.true;
     });
 
-    it('returns false when PixPlusMaitreCertificationResult has a status not_taken', async () => {
+    it('returns false when PixPlusMaitreCertificationResult has a status not_taken', async function() {
       // given
       const pixPlusResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
 

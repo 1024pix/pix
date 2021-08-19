@@ -5,18 +5,18 @@ const {
 const createServer = require('../../../../server');
 const { featureToggles } = require('../../../../lib/config');
 
-describe('Acceptance | Route | Account-recovery', () => {
+describe('Acceptance | Route | Account-recovery', function() {
 
-  describe('POST /api/account-recovery', () => {
+  describe('POST /api/account-recovery', function() {
     let server;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       //given
       server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = true;
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await databaseBuilder.knex('account-recovery-demands').delete();
     });
 
@@ -60,7 +60,7 @@ describe('Acceptance | Route | Account-recovery', () => {
       await databaseBuilder.commit();
     };
 
-    it('should return 204 HTTP status code', async () => {
+    it('should return 204 HTTP status code', async function() {
       // given
       await createUserWithSeveralSchoolingRegistrations();
       const newEmail = 'new_email@example.net';
@@ -88,7 +88,7 @@ describe('Acceptance | Route | Account-recovery', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 400 if email already exists', async () => {
+    it('should return 400 if email already exists', async function() {
       // given
       const newEmail = 'new_email@example.net';
       await createUserWithSeveralSchoolingRegistrations({ email: newEmail });
@@ -117,7 +117,7 @@ describe('Acceptance | Route | Account-recovery', () => {
       expect(response.result.errors[0].detail).to.equal('Cette adresse e-mail est déjà utilisée.');
     });
 
-    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async () => {
+    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async function() {
       // given
       const server = await createServer();
       featureToggles.isScoAccountRecoveryEnabled = false;

@@ -23,6 +23,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.isDefault(caze.deactivations)).to.equal(caze.output);
@@ -49,6 +50,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasOnlyT1(caze.deactivations)).to.equal(caze.output);
@@ -75,6 +77,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasOnlyT2(caze.deactivations)).to.equal(caze.output);
@@ -101,6 +104,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasOnlyT3(caze.deactivations)).to.equal(caze.output);
@@ -127,6 +131,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasOnlyT1T2(caze.deactivations)).to.equal(caze.output);
@@ -153,6 +158,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasOnlyT1T3(caze.deactivations)).to.equal(caze.output);
@@ -179,6 +185,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: false, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasOnlyT2T3(caze.deactivations)).to.equal(caze.output);
@@ -205,6 +212,7 @@ describe('Unit | Service | DeactivationsService ', function() {
       { when: 'Deactivations has t1, t2, t3 with truthy value', output: true, deactivations: { t1: true, t2: 'other', t3: 'any' } },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(caze) {
       it(caze.when + ' : ' + JSON.stringify(caze.deactivations) + '  =>  ' + caze.output, function() {
         expect(service.hasT1T2T3(caze.deactivations)).to.equal(caze.output);

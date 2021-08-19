@@ -13,20 +13,20 @@ const settings = require('../../../lib/config');
 const Membership = require('../../../lib/domain/models/Membership');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Campaign Controller', () => {
+describe('Acceptance | API | Campaign Controller', function() {
 
   let campaign;
   let organization;
   let targetProfile;
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('GET /api/campaigns', () => {
+  describe('GET /api/campaigns', function() {
 
-    it('should return the campaign requested by code', async () => {
+    it('should return the campaign requested by code', async function() {
       // given
       campaign = databaseBuilder.factory.buildCampaign();
       await databaseBuilder.commit();
@@ -48,14 +48,14 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/collective-result', () => {
+  describe('GET /api/campaigns/{id}/collective-result', function() {
 
     const assessmentStartDate = '2018-01-02';
     const participationStartDate = '2018-01-01';
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile({
@@ -140,7 +140,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return campaign collective result with status code 200', async () => {
+    it('should return campaign collective result with status code 200', async function() {
       // given
       const url = `/api/campaigns/${campaign.id}/collective-results`;
       const request = {
@@ -185,7 +185,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-assessment-results', () => {
+  describe('GET /api/campaigns/{id}/csv-assessment-results', function() {
 
     let accessToken;
 
@@ -195,7 +195,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
     }
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const skillId = 'rec123';
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
@@ -238,7 +238,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return csv file with statusCode 200', async () => {
+    it('should return csv file with statusCode 200', async function() {
       // given
       const url = `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`;
       const request = {
@@ -254,7 +254,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', () => {
+  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function() {
 
     let accessToken;
 
@@ -264,7 +264,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
     }
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -305,7 +305,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return csv file with statusCode 200', async () => {
+    it('should return csv file with statusCode 200', async function() {
       // given
       const url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`;
       const request = {
@@ -321,11 +321,11 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/analyses', () => {
+  describe('GET /api/campaigns/{id}/analyses', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
 
@@ -387,7 +387,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return campaign analysis with status code 200', async () => {
+    it('should return campaign analysis with status code 200', async function() {
       // given
       const url = `/api/campaigns/${campaign.id}/analyses`;
       const request = {
@@ -452,11 +452,11 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('POST /api/campaigns', () => {
+  describe('POST /api/campaigns', function() {
 
     let options, payload;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
@@ -512,11 +512,11 @@ describe('Acceptance | API | Campaign Controller', () => {
       };
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('campaigns').delete();
     });
 
-    it('should return 201 status code and the campaign created with type ASSESSMENT', async () => {
+    it('should return 201 status code and the campaign created with type ASSESSMENT', async function() {
       // when
       const response = await server.inject(options, payload);
 
@@ -526,7 +526,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result.data.attributes.type).to.equal('ASSESSMENT');
     });
 
-    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION', async () => {
+    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION', async function() {
       // given
       payload = {
         data: {
@@ -562,7 +562,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result.data.attributes.type).to.equal('PROFILES_COLLECTION');
     });
 
-    it('should return 403 status code when the user does not have access', async () => {
+    it('should return 403 status code when the user does not have access', async function() {
       // given
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -582,9 +582,9 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/profiles-collection-participations', () => {
+  describe('GET /api/campaigns/{id}/profiles-collection-participations', function() {
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       const learningContent = [{
         id: 'recArea1',
         competences: [{
@@ -603,9 +603,9 @@ describe('Acceptance | API | Campaign Controller', () => {
       mockLearningContent(learningContentObjects);
     });
 
-    context('when there is one divisions', () => {
+    context('when there is one divisions', function() {
 
-      it('should returns profiles collection campaign participations', async () => {
+      it('should returns profiles collection campaign participations', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organization = databaseBuilder.factory.buildOrganization();
@@ -651,9 +651,9 @@ describe('Acceptance | API | Campaign Controller', () => {
       });
     });
 
-    context('when there are several divisions', () => {
+    context('when there are several divisions', function() {
 
-      it('should returns profiles collection campaign participations', async () => {
+      it('should returns profiles collection campaign participations', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organization = databaseBuilder.factory.buildOrganization();
@@ -705,7 +705,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/assessment-participations', () => {
+  describe('GET /api/campaigns/{id}/assessment-participations', function() {
 
     const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
     const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
@@ -713,7 +713,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     let campaign;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -750,7 +750,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return the campaign participations result as JSONAPI', async () => {
+    it('should return the campaign participations result as JSONAPI', async function() {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/assessment-participations?page[number]=1&page[size]=10&filter[divisions][]=5eme`,
@@ -766,9 +766,9 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/divisions', () => {
+  describe('GET /api/campaigns/{id}/divisions', function() {
 
-    it('should return the campaign participants division', async () => {
+    it('should return the campaign participants division', async function() {
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
@@ -788,7 +788,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}', () => {
+  describe('GET /api/campaigns/{id}', function() {
 
     const options = {
       headers: { authorization: null },
@@ -799,7 +799,7 @@ describe('Acceptance | API | Campaign Controller', () => {
     let campaign;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       campaign = databaseBuilder.factory.buildCampaign();
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({
@@ -813,7 +813,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the campaign by id', async () => {
+    it('should return the campaign by id', async function() {
       // when
       const response = await server.inject(options);
 
@@ -823,7 +823,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       expect(response.result.data.attributes.name).to.equal(campaign.name);
     });
 
-    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async () => {
+    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function() {
       // given
       userId = databaseBuilder.factory.buildUser().id;
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -837,14 +837,14 @@ describe('Acceptance | API | Campaign Controller', () => {
     });
   });
 
-  describe('GET /api/campaigns/{id}/participants-activity', () => {
+  describe('GET /api/campaigns/{id}/participants-activity', function() {
     const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
     const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
 
     let campaign;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -865,7 +865,7 @@ describe('Acceptance | API | Campaign Controller', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return the campaign participant activity as JSONAPI', async () => {
+    it('should return the campaign participant activity as JSONAPI', async function() {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/participants-activity?page[number]=1&page[size]=1&filter[divisions][]=5eme`,

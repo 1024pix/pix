@@ -2,20 +2,20 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insert
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-update-user-details-for-administration', () => {
+describe('Acceptance | Controller | users-controller-update-user-details-for-administration', function() {
 
   let server;
   let user;
   let options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     user = await insertUserWithRolePixMaster();
   });
 
-  describe('Error case', () => {
+  describe('Error case', function() {
 
-    it('should return bad request when payload is not valid', async () => {
+    it('should return bad request when payload is not valid', async function() {
       // given
       options = {
         method: 'PATCH',
@@ -40,7 +40,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
       expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
     });
 
-    it('should reply with not authorized error', async () => {
+    it('should reply with not authorized error', async function() {
       // given
       options = {
         method: 'PATCH',
@@ -64,7 +64,7 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
       expect(response.statusCode).to.equal(401);
     });
 
-    it('should reply with forbidden error', async () => {
+    it('should reply with forbidden error', async function() {
 
       user = databaseBuilder.factory.buildUser({ email: 'partial.update@example.net' });
       await databaseBuilder.commit();
@@ -94,9 +94,9 @@ describe('Acceptance | Controller | users-controller-update-user-details-for-adm
     });
   });
 
-  describe('Success case', () => {
+  describe('Success case', function() {
 
-    it('should reply with 200 status code, when user details are updated', async () => {
+    it('should reply with 200 status code, when user details are updated', async function() {
       // given
       options = {
         method: 'PATCH',

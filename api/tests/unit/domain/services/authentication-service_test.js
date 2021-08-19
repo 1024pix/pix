@@ -17,9 +17,9 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
 
-describe('Unit | Domain | Services | authentication-service', () => {
+describe('Unit | Domain | Services | authentication-service', function() {
 
-  describe('#getUserByUsernameAndPassword', () => {
+  describe('#getUserByUsernameAndPassword', function() {
 
     const username = 'user@example.net';
     const password = 'Password123';
@@ -28,7 +28,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
     let authenticationMethod;
     let userRepository;
 
-    beforeEach(() => {
+    beforeEach(function() {
       user = domainBuilder.buildUser({ username });
       authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
         userId: user.id,
@@ -42,14 +42,14 @@ describe('Unit | Domain | Services | authentication-service', () => {
       sinon.stub(encryptionService, 'checkPassword');
     });
 
-    context('When user exist', () => {
+    context('When user exist', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
         encryptionService.checkPassword.resolves();
       });
 
-      it('should call the user repository', async () => {
+      it('should call the user repository', async function() {
         // when
         await authenticationService.getUserByUsernameAndPassword({
           username, password, userRepository,
@@ -59,7 +59,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         expect(userRepository.getByUsernameOrEmailWithRolesAndPassword).to.has.been.calledWith(username);
       });
 
-      it('should call the encryptionService check function', async () => {
+      it('should call the encryptionService check function', async function() {
         // given
         const expectedPasswordHash = authenticationMethod.authenticationComplement.password;
 
@@ -75,7 +75,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         });
       });
 
-      it('should return user found', async () => {
+      it('should return user found', async function() {
         // when
         const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password, userRepository });
 
@@ -85,9 +85,9 @@ describe('Unit | Domain | Services | authentication-service', () => {
       });
     });
 
-    context('When user credentials are not valid', () => {
+    context('When user credentials are not valid', function() {
 
-      it('should throw UserNotFoundError when username does not exist', async () => {
+      it('should throw UserNotFoundError when username does not exist', async function() {
         // given
         userRepository.getByUsernameOrEmailWithRolesAndPassword.rejects(new UserNotFoundError());
 
@@ -98,7 +98,7 @@ describe('Unit | Domain | Services | authentication-service', () => {
         expect(error).to.be.an.instanceof(UserNotFoundError);
       });
 
-      it('should throw PasswordNotMatching when password does not match', async () => {
+      it('should throw PasswordNotMatching when password does not match', async function() {
         // given
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
         encryptionService.checkPassword.rejects(new PasswordNotMatching());
@@ -112,13 +112,13 @@ describe('Unit | Domain | Services | authentication-service', () => {
     });
   });
 
-  describe('#generatePoleEmploiTokens', () => {
+  describe('#generatePoleEmploiTokens', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(httpAgent, 'post');
     });
 
-    it('should return access token, id token and validity period', async () => {
+    it('should return access token, id token and validity period', async function() {
       // given
       const code = 'code';
       const clientId = 'clientId';
@@ -159,9 +159,9 @@ describe('Unit | Domain | Services | authentication-service', () => {
       expect(result).to.deep.equal(poleEmploiTokens);
     });
 
-    context('when PE tokens generation fails', () => {
+    context('when PE tokens generation fails', function() {
 
-      it('should log error and throw GeneratePoleEmploiTokensError', async () => {
+      it('should log error and throw GeneratePoleEmploiTokensError', async function() {
         // given
         const code = 'code';
         const clientId = 'clientId';
@@ -190,13 +190,13 @@ describe('Unit | Domain | Services | authentication-service', () => {
     });
   });
 
-  describe('#getPoleEmploiUserInfo', () => {
+  describe('#getPoleEmploiUserInfo', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(tokenService, 'extractPayloadFromPoleEmploiIdToken');
     });
 
-    it('should return email, firstName, lastName and external identity id', async () => {
+    it('should return email, firstName, lastName and external identity id', async function() {
       // given
       const idToken = 'ID_TOKEN';
       const payloadFromIdToken = {

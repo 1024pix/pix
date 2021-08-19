@@ -1,8 +1,8 @@
 const EnvoiDoc = require('../../../../../lib/infrastructure/open-api-doc/pole-emploi/envois-doc');
 const { expect } = require('../../../../test-helper');
 
-describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Envois Documentation', () => {
-  it('should validate payload for a campaign participation', () => {
+describe('Unit | Infrastructure | Open API Doc | Pole Emploi | Envois Documentation', function() {
+  it('should validate payload for a campaign participation', function() {
     // given
     const resultat = {
       campagne: {

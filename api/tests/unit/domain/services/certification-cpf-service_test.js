@@ -1,12 +1,12 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const { CpfBirthInformationValidation, getBirthInformation } = require('../../../../lib/domain/services/certification-cpf-service');
 
-describe('Unit | Service | Certification CPF service', () => {
+describe('Unit | Service | Certification CPF service', function() {
 
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCpfCountryRepository = {
       getByMatcher: sinon.stub(),
     };
@@ -16,11 +16,11 @@ describe('Unit | Service | Certification CPF service', () => {
     };
   });
 
-  describe('#getBirthInformation', () => {
+  describe('#getBirthInformation', function() {
 
-    context('when country name is not defined', () => {
+    context('when country name is not defined', function() {
 
-      it('should return a validation failure', async () => {
+      it('should return a validation failure', async function() {
         // when
         const result = await getBirthInformation({
           birthCountry: null,
@@ -36,9 +36,9 @@ describe('Unit | Service | Certification CPF service', () => {
       });
     });
 
-    context('when country does not exist', () => {
+    context('when country does not exist', function() {
 
-      it('should return a validation failure', async () => {
+      it('should return a validation failure', async function() {
         // given
         const birthCountry = 'ABCD';
         const birthCity = 'GOTHAM CITY';
@@ -62,11 +62,11 @@ describe('Unit | Service | Certification CPF service', () => {
       });
     });
 
-    context('when country exists', () => {
+    context('when country exists', function() {
 
-      context('when country is not FRANCE', () => {
+      context('when country is not FRANCE', function() {
 
-        it('should return a validation failure when city name is not defined', async() => {
+        it('should return a validation failure when city name is not defined', async function() {
           // given
           const birthCountry = 'PORTUGAL';
           const birthCity = null;
@@ -91,7 +91,7 @@ describe('Unit | Service | Certification CPF service', () => {
           expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ ville est obligatoire.'));
         });
 
-        it('should return a validation failure when postal code is defined', async () => {
+        it('should return a validation failure when postal code is defined', async function() {
           // given
           const birthCountry = 'PORTUGAL';
           const birthCity = 'Porto';
@@ -119,7 +119,7 @@ describe('Unit | Service | Certification CPF service', () => {
           expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ code postal ne doit pas être renseigné pour un pays étranger.'));
         });
 
-        it('should return a validation failure when INSEE code is not defined', async () => {
+        it('should return a validation failure when INSEE code is not defined', async function() {
           // given
           const birthCountry = 'PORTUGAL';
           const birthCity = 'Porto';
@@ -147,7 +147,7 @@ describe('Unit | Service | Certification CPF service', () => {
           expect(result).to.deep.equal(CpfBirthInformationValidation.failure('La valeur du code INSEE doit être "99" pour un pays étranger.'));
         });
 
-        it('should return a validation failure when INSEE code is not 99', async () => {
+        it('should return a validation failure when INSEE code is not 99', async function() {
           // given
           const birthCountry = 'PORTUGAL';
           const birthCity = 'Porto';
@@ -175,7 +175,7 @@ describe('Unit | Service | Certification CPF service', () => {
           expect(result).to.deep.equal(CpfBirthInformationValidation.failure('La valeur du code INSEE doit être "99" pour un pays étranger.'));
         });
 
-        it('should return birth information when city name is defined', async () => {
+        it('should return birth information when city name is defined', async function() {
           // given
           const birthCountry = 'PORTUGAL';
           const birthCity = 'Porto';
@@ -209,11 +209,11 @@ describe('Unit | Service | Certification CPF service', () => {
         });
       });
 
-      context('when country is FRANCE', () => {
+      context('when country is FRANCE', function() {
 
-        context('when postal code and INSEE code are not defined', async () => {
+        context('when postal code and INSEE code are not defined', function() {
 
-          it('should return a validation failure', async () => {
+          it('should return a validation failure', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = null;
@@ -238,9 +238,9 @@ describe('Unit | Service | Certification CPF service', () => {
           });
         });
 
-        context('when both postal code and INSEE code are defined', async () => {
+        context('when both postal code and INSEE code are defined', function() {
 
-          it('should return a validation failure', async () => {
+          it('should return a validation failure', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = null;
@@ -265,9 +265,9 @@ describe('Unit | Service | Certification CPF service', () => {
           });
         });
 
-        context('when INSEE code is provided', () => {
+        context('when INSEE code is provided', function() {
 
-          it('should return birth information when INSEE code is valid', async () => {
+          it('should return birth information when INSEE code is valid', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = null;
@@ -303,7 +303,7 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(certificationCpfCityRepository.findByINSEECode).to.have.been.calledWith({ INSEECode: birthINSEECode });
           });
 
-          it('should return a validation failure when INSEE code is not valid', async () => {
+          it('should return a validation failure when INSEE code is not valid', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = null;
@@ -329,7 +329,7 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code INSEE "${birthINSEECode}" n'est pas valide.`));
           });
 
-          it('should return a validation failure when birth city is provided along with INSEE code', async () => {
+          it('should return a validation failure when birth city is provided along with INSEE code', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = 'GOTHAM CITY';
@@ -356,9 +356,9 @@ describe('Unit | Service | Certification CPF service', () => {
           });
         });
 
-        context('when postal code is provided', () => {
+        context('when postal code is provided', function() {
 
-          it('should return birth information when postal code is valid', async () => {
+          it('should return birth information when postal code is valid', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = 'GOTHAM CITY';
@@ -394,9 +394,9 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(certificationCpfCityRepository.findByPostalCode).to.have.been.calledWith({ postalCode: birthPostalCode });
           });
 
-          context('when there is multiple cities for the same postal code', () => {
+          context('when there is multiple cities for the same postal code', function() {
 
-            it('should return birth information with the normalized provided city name', async () => {
+            it('should return birth information with the normalized provided city name', async function() {
               // given
               const birthCountry = 'FRANCE';
               const birthCity = 'Losse-en-Gelaisse';
@@ -439,7 +439,7 @@ describe('Unit | Service | Certification CPF service', () => {
             });
           });
 
-          it('should return a validation failure when postal code is not valid', async () => {
+          it('should return a validation failure when postal code is not valid', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = 'GOTHAM CITY';
@@ -465,7 +465,7 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(result).to.deep.equal(CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" n'est pas valide.`));
           });
 
-          it('should return a validation failure when birth city is not defined', async () => {
+          it('should return a validation failure when birth city is not defined', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = null;
@@ -489,7 +489,7 @@ describe('Unit | Service | Certification CPF service', () => {
             expect(result).to.deep.equal(CpfBirthInformationValidation.failure('Le champ ville est obligatoire.'));
           });
 
-          it('should return a validation failure when postal code does not match city name', async () => {
+          it('should return a validation failure when postal code does not match city name', async function() {
             // given
             const birthCountry = 'FRANCE';
             const birthCity = 'METROPOLIS';

@@ -4,11 +4,11 @@ const enrollStudentsToSession = require('../../../../lib/domain/usecases/enroll-
 const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
 const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | enroll-students-to-session', () => {
+describe('Unit | UseCase | enroll-students-to-session', function() {
 
-  context('when referent is allowed to Pix Certif', () => {
+  context('when referent is allowed to Pix Certif', function() {
 
-    it('enrolls n students to a session', async () => {
+    it('enrolls n students to a session', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -71,7 +71,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(scoCertificationCandidateRepository.findBySessionId(anotherSessionId)).to.deep.equal(undefined);
     });
 
-    it('enrolls a student by trimming his first name and last name', async () => {
+    it('enrolls a student by trimming his first name and last name', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -137,7 +137,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal([expectedCertificationCandidate]);
     });
 
-    it('rejects enrollment if students do not belong to same organization as referent', async () => {
+    it('rejects enrollment if students do not belong to same organization as referent', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
 
@@ -173,7 +173,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(error).to.be.instanceof(ForbiddenAccess);
     });
 
-    it('rejects enrollment if session does not belong to same certification center as referent', async () => {
+    it('rejects enrollment if session does not belong to same certification center as referent', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildNonMatchingSessionAndCertificationCenterMembership();
       const referentId = Symbol('a referent id');
@@ -199,7 +199,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
     });
 
-    it('rejects enrollment if a student birth country is not found', async () => {
+    it('rejects enrollment if a student birth country is not found', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -246,7 +246,7 @@ describe('Unit | UseCase | enroll-students-to-session', () => {
       expect(error.message).to.contains(`${schoolingRegistrations[0].firstName} ${schoolingRegistrations[0].lastName}`);
     });
 
-    it('does nothing if no student ids is given as input', async () => {
+    it('does nothing if no student ids is given as input', async function() {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;

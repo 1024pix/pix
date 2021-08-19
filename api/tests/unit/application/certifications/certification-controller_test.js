@@ -7,11 +7,11 @@ const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
 
-describe('Unit | Controller | certifications-controller', () => {
+describe('Unit | Controller | certifications-controller', function() {
 
-  describe('#findUserCertifications', () => {
+  describe('#findUserCertifications', function() {
 
-    it('should return the serialized private certificates of the user', async () => {
+    it('should return the serialized private certificates of the user', async function() {
       // given
       const userId = 1;
       const request = { auth: { credentials: { userId } } };
@@ -72,9 +72,9 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#getCertification', () => {
+  describe('#getCertification', function() {
 
-    it('should return a serialized private certificate given by id', async () => {
+    it('should return a serialized private certificate given by id', async function() {
       // given
       const userId = 1;
       const certificationId = 2;
@@ -137,9 +137,9 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#getCertificationByVerificationCode', () => {
+  describe('#getCertificationByVerificationCode', function() {
 
-    it('should return a serialized shareable certificate given by verification code', async () => {
+    it('should return a serialized shareable certificate given by verification code', async function() {
       // given
       const request = { payload: { verificationCode: 'P-123456BB' } };
       const shareableCertificate = domainBuilder.buildShareableCertificate({
@@ -194,8 +194,10 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#getCertificationAttestation', () => {
+  describe('#getCertificationAttestation', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const attestationPDF = 'binary string';
     const fileName = 'attestation-pix-20181003.pdf';
@@ -203,14 +205,16 @@ describe('Unit | Controller | certifications-controller', () => {
 
     const request = {
       auth: { credentials: { userId } },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       params: { id: certification.id },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getCertificationAttestation');
     });
 
-    it('should return binary attestation', async () => {
+    it('should return binary attestation', async function() {
       // given
       sinon.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer').resolves({ buffer: attestationPDF, fileName });
       usecases.getCertificationAttestation.resolves(certification);
@@ -228,8 +232,8 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#neutralizeChallenge', () => {
-    it('neutralizes the challenge and dispatches the event', async () => {
+  describe('#neutralizeChallenge', function() {
+    it('neutralizes the challenge and dispatches the event', async function() {
       // given
       const request = {
         payload: {
@@ -258,7 +262,7 @@ describe('Unit | Controller | certifications-controller', () => {
       });
     });
 
-    it('returns 204', async () => {
+    it('returns 204', async function() {
       // given
       const request = {
         payload: {
@@ -283,7 +287,7 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('dispatches an event', async () => {
+    it('dispatches an event', async function() {
       // given
       const request = {
         payload: {
@@ -310,8 +314,8 @@ describe('Unit | Controller | certifications-controller', () => {
     });
   });
 
-  describe('#deneutralizeChallenge', () => {
-    it('deneutralizes the challenge', async () => {
+  describe('#deneutralizeChallenge', function() {
+    it('deneutralizes the challenge', async function() {
       // given
       const request = {
         payload: {
@@ -338,7 +342,7 @@ describe('Unit | Controller | certifications-controller', () => {
       });
     });
 
-    it('returns 204', async () => {
+    it('returns 204', async function() {
       // given
       const request = {
         payload: {
@@ -361,7 +365,7 @@ describe('Unit | Controller | certifications-controller', () => {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('dispatches the event', async () => {
+    it('dispatches the event', async function() {
       // given
       const request = {
         payload: {

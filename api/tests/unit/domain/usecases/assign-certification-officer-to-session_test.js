@@ -1,9 +1,9 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
 
-describe('Unit | UseCase | assign-certification-officer-to-session', () => {
+describe('Unit | UseCase | assign-certification-officer-to-session', function() {
 
-  it('should return the session id after assigningUser to it', async () => {
+  it('should return the session id after assigningUser to it', async function() {
     // given
     const returnedSessionId = Symbol('returnedSessionId');
     const sessionId = 1;

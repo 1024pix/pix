@@ -7,15 +7,15 @@ const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require
 
 const reconcileHigherSchoolingRegistration = require('../../../../lib/domain/usecases/reconcile-higher-schooling-registration');
 
-describe('Integration | UseCases | reconcile-higher-schooling-registration', () => {
+describe('Integration | UseCases | reconcile-higher-schooling-registration', function() {
 
   let userId;
   let organizationId;
   let campaignCode;
 
-  context('When there is no campaign with the given code', () => {
+  context('When there is no campaign with the given code', function() {
 
-    it('should throw a campaign code error', async () => {
+    it('should throw a campaign code error', async function() {
       // when
       const error = await catchErr(reconcileHigherSchoolingRegistration)({
         campaignCode: 'NOTEXIST',
@@ -28,8 +28,8 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
     });
   });
 
-  context('When there is a campaign with the given code', () => {
-    beforeEach(async () => {
+  context('When there is a campaign with the given code', function() {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Valentin', lastName: 'Frangin', birthdate: '2010-12-12' }).id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId }).code;
@@ -37,8 +37,8 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
       await databaseBuilder.commit();
     });
 
-    context('When no registered schooling registration found with matching student number, firstName, lastName and birthdate', () => {
-      it('should throw an error', async () => {
+    context('When no registered schooling registration found with matching student number, firstName, lastName and birthdate', function() {
+      it('should throw an error', async function() {
         // given
         const reconciliationInfo = {
           userId,
@@ -65,9 +65,9 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
       });
     });
 
-    context('When a matching registered schooling registration is found', () => {
-      context('and is not reconciled yet', () => {
-        it('should reconcile schooling registration with user', async () => {
+    context('When a matching registered schooling registration is found', function() {
+      context('and is not reconciled yet', function() {
+        it('should reconcile schooling registration with user', async function() {
         // given
           const reconciliationInfo = {
             userId,
@@ -101,8 +101,8 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', () 
         });
       });
 
-      context('but already reconciled', () => {
-        it('should throw an error', async () => {
+      context('but already reconciled', function() {
+        it('should throw an error', async function() {
           // given
           const reconciliationInfo = {
             userId,

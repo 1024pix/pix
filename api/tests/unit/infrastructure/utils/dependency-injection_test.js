@@ -3,7 +3,7 @@ const { injectDependencies } = require('../../../../lib/infrastructure/utils/dep
 
 describe('Unit | Utils | #injectDependencies', function() {
 
-  it('should inject dependencies by name', () => {
+  it('should inject dependencies by name', function() {
     // given
     const dependency = Symbol('a dependency');
     const dependencies = { dependency };

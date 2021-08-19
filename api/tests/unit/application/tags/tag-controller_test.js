@@ -8,11 +8,11 @@ const tagController = require('../../../../lib/application/tags/tag-controller')
 const usecases = require('../../../../lib/domain/usecases');
 const tagSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
 
-describe('Unit | Application | Tags | tag-controller', () => {
+describe('Unit | Application | Tags | tag-controller', function() {
 
-  describe('#findAllTags', () => {
+  describe('#findAllTags', function() {
 
-    it('should call findAllTags usecase and tag serializer', async () => {
+    it('should call findAllTags usecase and tag serializer', async function() {
       // given
       const tag1 = domainBuilder.buildTag({ id: 1, name: 'TAG1' });
       const tag2 = domainBuilder.buildTag({ id: 2, name: 'TAG2' });

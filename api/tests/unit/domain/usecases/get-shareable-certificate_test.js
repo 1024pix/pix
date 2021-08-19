@@ -1,17 +1,17 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getCertificationByVerificationCode = require('../../../../lib/domain/usecases/certificate/get-shareable-certificate');
 
-describe('Unit | UseCase | get-shareable-certificate', () => {
+describe('Unit | UseCase | get-shareable-certificate', function() {
 
   const shareableCertificateRepository = {
     getByVerificationCode: () => undefined,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     shareableCertificateRepository.getByVerificationCode = sinon.stub();
   });
 
-  it('should return certification from verification code enhanced with resultCompetenceTree', async () => {
+  it('should return certification from verification code enhanced with resultCompetenceTree', async function() {
     // given
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const shareableCertificate = domainBuilder.buildShareableCertificate({

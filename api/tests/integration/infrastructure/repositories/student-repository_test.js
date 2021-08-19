@@ -1,11 +1,11 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const studentRepository = require('../../../../lib/infrastructure/repositories/student-repository');
 
-describe('Integration | Infrastructure | Repository | student-repository', () => {
+describe('Integration | Infrastructure | Repository | student-repository', function() {
 
-  describe('#findReconciledStudentsByNationalStudentId', () => {
+  describe('#findReconciledStudentsByNationalStudentId', function() {
 
-    it('should return instances of Student', async () => {
+    it('should return instances of Student', async function() {
       // given
       const firstNationalStudentId = '123456789AB';
       const firstAccount = databaseBuilder.factory.buildUser();
@@ -35,9 +35,9 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
     });
   });
 
-  describe('#getReconciledStudentByNationalStudentId', () => {
+  describe('#getReconciledStudentByNationalStudentId', function() {
 
-    it('should return instance of Student', async () => {
+    it('should return instance of Student', async function() {
       // given
       const nationalStudentId = '123456789AB';
       const account = databaseBuilder.factory.buildUser();
@@ -55,7 +55,7 @@ describe('Integration | Infrastructure | Repository | student-repository', () =>
       expect(student.account).to.deep.equal({ userId: account.id, updatedAt: account.updatedAt, certificationCount: 2 });
     });
 
-    it('should return null when no student found', async () => {
+    it('should return null when no student found', async function() {
       // given
       const nationalStudentId = '000000999B';
 

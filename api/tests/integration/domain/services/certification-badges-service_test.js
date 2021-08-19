@@ -39,11 +39,11 @@ const learningContent = [{
   }],
 }];
 
-describe('Integration | Service | Certification-Badges Service', () => {
+describe('Integration | Service | Certification-Badges Service', function() {
 
-  describe('#findStillValidBadgeAcquisitions', () => {
+  describe('#findStillValidBadgeAcquisitions', function() {
 
-    it('should return one badgeAcquisition', async () => {
+    it('should return one badgeAcquisition', async function() {
       // given
       const { id: userId } = databaseBuilder.factory.buildUser();
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;

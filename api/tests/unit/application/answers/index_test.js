@@ -6,11 +6,11 @@ const {
 const moduleUnderTest = require('../../../../lib/application/answers');
 const answerController = require('../../../../lib/application/answers/answer-controller');
 
-describe('Unit | Application | Router | answer-router', () => {
+describe('Unit | Application | Router | answer-router', function() {
 
-  describe('POST /api/answers', () => {
+  describe('POST /api/answers', function() {
 
-    it('should return 201', async () => {
+    it('should return 201', async function() {
       // given
       sinon.stub(answerController, 'save').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
@@ -39,9 +39,9 @@ describe('Unit | Application | Router | answer-router', () => {
     });
   });
 
-  describe('GET /api/answers/{id}', () => {
+  describe('GET /api/answers/{id}', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       //given
       sinon.stub(answerController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -55,9 +55,9 @@ describe('Unit | Application | Router | answer-router', () => {
     });
   });
 
-  describe('PATCH /api/answers/{id}', () => {
+  describe('PATCH /api/answers/{id}', function() {
 
-    it('should return 204', async () => {
+    it('should return 204', async function() {
       // given
       sinon.stub(answerController, 'update').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
@@ -71,9 +71,9 @@ describe('Unit | Application | Router | answer-router', () => {
     });
   });
 
-  describe('GET /api/answers', () => {
+  describe('GET /api/answers', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(answerController, 'find').returns('ok');
       const httpTestServer = new HttpTestServer();

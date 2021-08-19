@@ -138,13 +138,15 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   });
 
-  describe('#deserialize()', () => {
+  describe('#deserialize()', function() {
 
     const jsonAssessment = {
       data: {
         type: 'assessments',
         id: 'assessmentId',
         attributes: {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           type: Assessment.types.CERTIFICATION,
         },
         relationships: {
@@ -158,7 +160,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       },
     };
 
-    it('should convert JSON API data into an Assessment object', () => {
+    it('should convert JSON API data into an Assessment object', function() {
       // when
       const assessment = serializer.deserialize(jsonAssessment);
 
@@ -169,7 +171,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
 
-    it('should have a null courseId for type CAMPAIGN', () => {
+    it('should have a null courseId for type CAMPAIGN', function() {
       //given
       jsonAssessment.data.attributes.type = Assessment.types.CAMPAIGN;
 
@@ -180,7 +182,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.courseId).to.be.null;
     });
 
-    it('should have a null courseId for type PREVIEW', () => {
+    it('should have a null courseId for type PREVIEW', function() {
       //given
       jsonAssessment.data.attributes.type = Assessment.types.PREVIEW;
 

@@ -6,7 +6,7 @@ const createProOrganizations = require('../../../../lib/domain/usecases/create-p
 const organizationInvitationService = require('../../../../lib/domain/services/organization-invitation-service');
 const { ManyOrganizationsFoundError, ObjectValidationError, OrganizationAlreadyExistError, OrganizationTagNotFound } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
+describe('Unit | UseCase | create-pro-organizations-with-tags', function() {
 
   let organizationRepositoryStub;
   let organizationTagRepositoryStub;
@@ -16,7 +16,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
 
   let tagRepositoryStub;
 
-  beforeEach(() => {
+  beforeEach(function() {
     organizationRepositoryStub = {
       findByExternalIdsFetchingIdsOnly: sinon.stub(),
       batchCreateProOrganizations: sinon.stub(),
@@ -35,7 +35,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
 
   });
 
-  it('should throw an ObjectValidationError if organizations are undefined', async() => {
+  it('should throw an ObjectValidationError if organizations are undefined', async function() {
     // given
     const organizations = undefined;
 
@@ -48,7 +48,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
 
   });
 
-  it('should throw an error if the same organization appears twice', async() => {
+  it('should throw an error if the same organization appears twice', async function() {
     // given
     const organizations = [{ externalId: 'externalId' }, { externalId: 'externalId' }];
 
@@ -59,9 +59,9 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     expect(error).to.be.an.instanceOf(ManyOrganizationsFoundError);
   });
 
-  context('when an organization already exists in database', () => {
+  context('when an organization already exists in database', function() {
 
-    it('should throw an error', async() => {
+    it('should throw an error', async function() {
       // given
       const organizations = [{ externalId: 'externalId' }];
       organizationRepositoryStub.findByExternalIdsFetchingIdsOnly.resolves([{ id: 'id', externalId: 'externalId' }]);
@@ -74,7 +74,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     });
   });
 
-  it('should throw an ObjectValidationError if name is empty or undefined', async () => {
+  it('should throw an ObjectValidationError if name is empty or undefined', async function() {
     // given
     const organizations = [{ name: '', externalId: 'externalId' }];
 
@@ -86,7 +86,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     expect(error.message).to.be.equals('Le nom de l’organisation n’est pas présent.');
   });
 
-  it('should throw an ObjectValidationError if externalId is empty or undefined', async () => {
+  it('should throw an ObjectValidationError if externalId is empty or undefined', async function() {
     // given
     const organizations = [{ name: 'name', externalId: '' }];
 
@@ -98,7 +98,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     expect(error.message).to.be.equals('L’externalId de l’organisation n’est pas présent.');
   });
 
-  it('should add organizations into database', async () => {
+  it('should add organizations into database', async function() {
     // given
     const organization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'Tag1_Tag2_Tag3' };
 
@@ -119,7 +119,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     expect(organizationRepositoryStub.batchCreateProOrganizations).to.be.calledWith(expectedProOrganizationToInsert);
   });
 
-  it('should add organization tags when exists', async ()=> {
+  it('should add organization tags when exists', async function() {
     // given
     const firstOrganization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'Tag1' };
     const secondOrganization = { id: 2, name: 'organization B', externalId: 'externalId B', tags: 'Tag1_Tag2' };
@@ -149,7 +149,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     expect(organizationTagRepositoryStub.batchCreate).to.be.calledWith(expectedOrganizationTagsToInsert);
   });
 
-  it('should throw an error when organization tags not exists', async ()=> {
+  it('should throw an error when organization tags not exists', async function() {
     // given
     const firstOrganization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'TagNotFound' };
     const secondOrganization = { id: 2, name: 'organization B', externalId: 'externalId B', tags: 'Tag1_Tag2' };
@@ -175,7 +175,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     expect(error.message).to.be.equal('Le tag de l’organization n’existe pas.');
   });
 
-  it('should create invitation for organizations with email', async () => {
+  it('should create invitation for organizations with email', async function() {
     // given
     const firstOrganization = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'Tag1', email: 'organizationA@exmaple.net', locale: 'en' };
     const secondOrganization = { id: 2, name: 'organization B', externalId: 'externalId B', tags: 'Tag2', email: 'organizationB@exmaple.net' };
@@ -216,7 +216,7 @@ describe('Unit | UseCase | create-pro-organizations-with-tags', () => {
     });
   });
 
-  it('should not create invitation if organization email is empty', async () => {
+  it('should not create invitation if organization email is empty', async function() {
     // given
     const organizationWithoutEmail = { id: 1, name: 'organization A', externalId: 'externalId A', tags: 'TAG1', email: null };
 

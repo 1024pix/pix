@@ -1,6 +1,7 @@
 extends:
   - '../.eslintrc.yaml'
   - 'plugin:i18n-json/recommended'
+  - 'plugin:mocha/recommended'
 parserOptions:
   ecmaVersion: 2020
 
@@ -11,6 +12,7 @@ plugins:
   - knex
 
 rules:
+  mocha/no-hooks-for-single-case: off
   no-sync: error
   no-restricted-syntax:
      -  error

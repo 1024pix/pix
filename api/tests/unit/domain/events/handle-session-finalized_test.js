@@ -6,9 +6,13 @@ const { CertificationIssueReportCategories, CertificationIssueReportSubcategorie
 const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
-describe('Unit | Domain | Events | handle-session-finalized', () => {
+describe('Unit | Domain | Events | handle-session-finalized', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const finalizedSessionRepository = { save: sinon.stub() };
 
   const dependencies = {
@@ -16,7 +20,7 @@ describe('Unit | Domain | Events | handle-session-finalized', () => {
     finalizedSessionRepository,
   };
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -29,7 +33,7 @@ describe('Unit | Domain | Events | handle-session-finalized', () => {
     expect(error).not.to.be.null;
   });
 
-  it('saves a finalized session', async () => {
+  it('saves a finalized session', async function() {
     // given
     const event = new AutoJuryDone({
       sessionId: 1234,

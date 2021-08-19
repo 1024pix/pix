@@ -10,9 +10,9 @@ const { EntityValidationError } = require('../../../lib/domain/errors');
 
 const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-response-utils');
 
-describe('Integration | Application | PreResponse-utils', () => {
+describe('Integration | Application | PreResponse-utils', function() {
 
-  describe('#handleDomainAndHttpErrors', () => {
+  describe('#handleDomainAndHttpErrors', function() {
 
     const invalidAttributes = [{
       attribute: 'type',
@@ -32,8 +32,9 @@ describe('Integration | Application | PreResponse-utils', () => {
       { should: 'should return HTTP code 400 when BaseHttpError', response: new BaseHttpError('Error message'), expectedStatusCode: 400 },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach((testCase) => {
-      it(testCase.should, async () => {
+      it(testCase.should, async function() {
         // given
         const request = {
           response: testCase.response,

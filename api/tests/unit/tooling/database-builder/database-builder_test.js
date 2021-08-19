@@ -1,11 +1,13 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const DatabaseBuilder = require('../../../../db/database-builder/database-builder');
 
-describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
+describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
 
-  describe('#clean', () => {
+  describe('#clean', function() {
     let databaseBuilder;
     let knex;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sandbox = sinon.createSandbox();
 
     beforeEach(function() {
@@ -19,7 +21,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
-    it('should delete content of all tables in databaseBuffer set for deletion when there are some', async () => {
+    it('should delete content of all tables in databaseBuffer set for deletion when there are some', async function() {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
@@ -41,7 +43,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(knex.raw).to.have.been.calledWithExactly('DELETE FROM ??;DELETE FROM ??;', ['table2', 'table1']);
     });
 
-    it('should avoid deleting anything if not table are set for deletion in database buffer', async () => {
+    it('should avoid deleting anything if not table are set for deletion in database buffer', async function() {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
@@ -53,7 +55,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(knex.raw).to.not.have.been.called;
     });
 
-    it('should reset the dirtyness map', async () => {
+    it('should reset the dirtyness map', async function() {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
@@ -84,7 +86,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       }]);
     });
 
-    it('should purge the databasebuffer', async () => {
+    it('should purge the databasebuffer', async function() {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
@@ -97,19 +99,19 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
     });
   });
 
-  describe('#commit', () => {
+  describe('#commit', function() {
     let databaseBuilder;
 
-    beforeEach(() => {
+    beforeEach(function() {
       databaseBuilder = new DatabaseBuilder({ knex: null });
       sinon.stub(console, 'error');
     });
 
-    afterEach(() => {
+    afterEach(function() {
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
-    it('should init the database by cleaning it except for specific tables when this is the first call ever to commit()', async () => {
+    it('should init the database by cleaning it except for specific tables when this is the first call ever to commit()', async function() {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -153,7 +155,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       }]);
     });
 
-    it('should insert values in database buffer into the database', async () => {
+    it('should insert values in database buffer into the database', async function() {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -186,7 +188,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(insertStub.secondCall.args).to.deep.equal(['someValuesForTable2']);
     });
 
-    it('should empty objectsToInsert collection in databaseBuffer', async () => {
+    it('should empty objectsToInsert collection in databaseBuffer', async function() {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -216,7 +218,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(databaseBuilder.databaseBuffer.objectsToInsert).to.be.empty;
     });
 
-    it('should update the dirtynessmap accordingly', async () => {
+    it('should update the dirtynessmap accordingly', async function() {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -258,7 +260,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       }]);
     });
 
-    it('should commit the transaction', async () => {
+    it('should commit the transaction', async function() {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -288,7 +290,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(trxStub.commit).to.have.been.calledOnce;
     });
 
-    it('should throw an error when the commit fails', async () => {
+    it('should throw an error when the commit fails', async function() {
       // given
       const insertError = new Error('expected error');
       const trxFake = () => ({ insert: () => { throw insertError; } });
@@ -312,7 +314,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', () => {
       expect(error).to.deep.equal(insertError);
     });
 
-    it('should clear the dirtiness map and empty objectsToInsert if something goes wrong when inserting', async () => {
+    it('should clear the dirtiness map and empty objectsToInsert if something goes wrong when inserting', async function() {
       // given
       const insertStub = sinon.stub().rejects();
       const trxStub = sinon.stub().returns({ insert: insertStub });
