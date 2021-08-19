@@ -71,7 +71,6 @@ module.exports = {
 async function _checkCanAccessToCampaign(campaign, userId, domainTransaction) {
   if (campaign.isArchived) {
     throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
-
   }
 
   if (campaign.isRestricted && await _hasNoActiveSchoolingRegistration(userId, campaign, domainTransaction)) {
@@ -90,7 +89,7 @@ async function _hasNoActiveSchoolingRegistration(userId, campaign, domainTransac
 }
 
 async function _checkCanParticipateToCampaign(campaign, userId, domainTransaction) {
-  if (campaign.multipleSendings && await _cannotImproveResults(campaign.id, userId, domainTransaction)) {
+  if (campaign.multipleSendings && campaign.isAssessment && await _cannotImproveResults(campaign.id, userId, domainTransaction)) {
     throw new ForbiddenAccess('Vous ne pouvez pas repasser la campagne');
   }
   if (!campaign.multipleSendings && await _hasAlreadyParticipatedToCampaign(campaign.id, userId, domainTransaction)) {
