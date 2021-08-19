@@ -315,6 +315,7 @@ describe('Unit | Service | SolutionServiceQROC ', function() {
       { case: '(multiple solutions) answer is 0.2 away from the closest solution', answer: 'quack', solution: 'quacks\nazertysqdf\nblablabla\n', output: ANSWER_KO },
     ];
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     successfulCases.forEach(function(data) {
       it(data.case + ', should return "ok" when answer is "' + data.answer + '" and solution is "' + escape(data.solution) + '"', function() {
         const solution = { value: data.solution, deactivations: data.deactivations, qrocBlocksTypes: { 'rep': 'select' } };

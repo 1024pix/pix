@@ -28,7 +28,7 @@ describe('Unit | Adapter | Solution', function() {
       expect(solution).to.deep.equal(expectedSolution);
     });
 
-    it('should precise the type of each key in Solution model', function() => {
+    it('should precise the type of each key in Solution model', function() {
       // given
       const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',
