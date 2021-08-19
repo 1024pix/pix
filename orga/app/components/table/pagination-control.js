@@ -26,6 +26,15 @@ export default class PaginationControl extends Component {
     return Math.max(this.currentPage - 1, 1);
   }
 
+  get pageOptions() {
+    return [
+      { label: '10', value: 10 },
+      { label: '25', value: 25 },
+      { label: '50', value: 50 },
+      { label: '100', value: 100 },
+    ];
+  }
+
   @action
   changePageSize(event) {
     this.router.replaceWith({ queryParams: { pageSize: event.target.value, pageNumber: 1 } });
