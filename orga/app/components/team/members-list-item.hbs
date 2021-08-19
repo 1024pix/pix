@@ -28,13 +28,13 @@
   {{#if this.isEditionMode}}
     <td>
       <div id="selectOrganizationRole">
-        <Ui::SelectInput
+        <PixSelect
           class="table__input"
+          aria-label="{{t 'pages.team-members.actions.select-role.label'}}"
+          placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
           @onChange={{this.setRoleSelection}}
           @options={{this.organizationRoles}}
           @selectedOption={{@membership.organizationRole}}
-          @placeholder="{{t 'pages.team-members.actions.select-role.label'}}"
-          @ariaLabel="{{t 'pages.team-members.actions.select-role.label'}}"
         />
       </div>
     </td>
