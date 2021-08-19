@@ -14,7 +14,9 @@ module.exports = async function startCampaignParticipation({
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
 
   if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId)
-    throw new EntityValidationError('Un identifiant externe est requis pour accèder à la campagne.');
+    throw new EntityValidationError({
+      invalidAttributes: [{ attribute: 'participantExternalId', message: 'Un identifiant externe est requis pour accèder à la campagne.' }],
+    });
 
   await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
   let createdCampaignParticipation;
