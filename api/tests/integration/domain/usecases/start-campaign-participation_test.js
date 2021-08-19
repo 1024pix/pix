@@ -175,6 +175,21 @@ describe('Integration | UseCases | start-campaign-participation', function() {
           expect(assessments).to.have.lengthOf(0);
         });
       });
+
+      context('when it is a retry', function() {
+        it('should save new participation with participant external id of first participation', async function() {
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, participantExternalId: '123' }).id;
+          await databaseBuilder.commit();
+          campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+          });
+
+          const campaignParticipations = await knex('campaign-participations').where('participantExternalId', 123);
+          expect(campaignParticipations).to.have.lengthOf(2);
+        });
+      });
     });
   });
 });
