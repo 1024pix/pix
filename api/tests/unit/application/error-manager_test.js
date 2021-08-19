@@ -121,6 +121,27 @@ describe('Unit | Application | ErrorManager', function() {
         ],
       });
     });
+
+    it('should translate EntityValidationError even if invalidAttributes is undefined', async function() {
+      // given
+      const request = {
+        headers: {
+          'accept-language': 'en',
+        },
+      };
+      const error = new EntityValidationError({
+        invalidAttributes: undefined,
+      });
+
+      // when
+      const response = await handle(request, hFake, error);
+
+      // then
+      expect(response.statusCode).to.equal(422);
+      expect(response.source).to.deep.equal({
+        errors: [],
+      });
+    });
   });
 
   describe('#_mapToHttpError', function() {

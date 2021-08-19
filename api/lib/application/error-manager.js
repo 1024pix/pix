@@ -374,7 +374,7 @@ function handle(request, h, error) {
   if (error instanceof DomainErrors.EntityValidationError) {
     const locale = extractLocaleFromRequest(request).split('-')[0];
 
-    const jsonApiError = new JSONAPIError(error.invalidAttributes.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)));
+    const jsonApiError = new JSONAPIError(error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)));
     return h.response(jsonApiError).code(422);
   }
 
