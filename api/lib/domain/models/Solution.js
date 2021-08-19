@@ -26,6 +26,7 @@ class Solution {
     scoring,
     type,
     value,
+    qrocBlocksTypes,
   } = {}) {
     this.id = id;
     this.isT1Enabled = isT1Enabled;
@@ -34,6 +35,7 @@ class Solution {
     this.scoring = scoring;
     this.type = type;
     this.value = value;
+    this.qrocBlocksTypes = qrocBlocksTypes;
   }
 
   get enabledTreatments() {

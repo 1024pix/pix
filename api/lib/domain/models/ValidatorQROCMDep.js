@@ -14,12 +14,10 @@ class ValidatorQROCMDep extends Validator {
   }
 
   assess({ answer }) {
-    const result = solutionServiceQROCMDep.match(
-      answer.value,
-      this.solution.value,
-      this.solution.scoring,
-      this.solution.deactivations,
-    );
+    const result = solutionServiceQROCMDep.match({
+      answerValue: answer.value,
+      solution: this.solution,
+    });
 
     return new Validation({
       result,

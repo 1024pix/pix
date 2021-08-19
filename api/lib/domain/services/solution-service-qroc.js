@@ -3,9 +3,7 @@ const deactivationsService = require('../../../lib/domain/services/deactivations
 const { isNumeric, splitIntoWordsAndRemoveBackspaces, cleanStringAndParseFloat } = require('../../../lib/infrastructure/utils/string-utils');
 const { every, includes, isEmpty, isString, map } = require('lodash');
 const {
-  normalizeAndRemoveAccents,
-  removeSpecialCharacters,
-  applyPreTreatments,
+  applyTreatments, applyPreTreatments,
 } = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -15,16 +13,20 @@ const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {
 
-  match({ answer, challengeFormat, solution, deactivations }) {
+  match({ answer, challengeFormat, solution }) {
+    const solutionValue = solution.value;
+    const deactivations = solution.deactivations;
+    const qrocBlocksTypes = solution.qrocBlocksTypes || {};
+    const shouldApplyTreatments = qrocBlocksTypes[Object.keys(qrocBlocksTypes)[0]] === 'select' ? false : true;
 
     const isIncorrectAnswerFormat = !isString(answer);
-    const isIncorrectSolutionFormat = !isString(solution) || isEmpty(solution);
+    const isIncorrectSolutionFormat = !isString(solutionValue) || isEmpty(solutionValue);
 
     if (isIncorrectAnswerFormat || isIncorrectSolutionFormat) {
       return AnswerStatus.KO;
     }
 
-    const solutions = splitIntoWordsAndRemoveBackspaces(solution);
+    const solutions = splitIntoWordsAndRemoveBackspaces(solutionValue);
     const areAllNumericSolutions = every(solutions, (solution) => {
       return isNumeric(solution);
     });
@@ -33,7 +35,7 @@ module.exports = {
       return _getAnswerStatusFromNumberMatching(answer, solutions);
     }
 
-    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations);
+    return _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments);
   },
 };
 
@@ -48,42 +50,23 @@ function _getAnswerStatusFromNumberMatching(answer, solutions) {
   return AnswerStatus.KO;
 }
 
-function _getAnswerStatusFromStringMatching(answer, solutions, deactivations) {
+function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, shouldApplyTreatments) {
   const treatedAnswer = applyPreTreatments(answer);
-  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations);
-  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions);
+  const treatedSolutions = _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatments);
+  const validations = utils.treatmentT1T2T3(treatedAnswer, treatedSolutions, shouldApplyTreatments);
   return _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations);
 }
 
-function _applyTreatmentsToSolutions(solutions, deactivations) {
+function _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatments) {
   return map(solutions, (solution) => {
 
-    if (deactivationsService.isDefault(deactivations)) {
-      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
-      return removeSpecialCharacters(normalizedWithoutAccentsSolution);
-    }
-    else if (deactivationsService.hasOnlyT1(deactivations)) {
-      return removeSpecialCharacters(solution);
-    }
-    else if (deactivationsService.hasOnlyT2(deactivations)) {
-      return normalizeAndRemoveAccents(solution);
-    }
-    else if (deactivationsService.hasOnlyT3(deactivations)) {
-      const normalizedWithoutAccentsSolution = normalizeAndRemoveAccents(solution);
-      return removeSpecialCharacters(normalizedWithoutAccentsSolution);
-    }
-    else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+    if (shouldApplyTreatments === false) {
       return solution;
     }
-    else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-      return removeSpecialCharacters(solution);
-    }
-    else if (deactivationsService.hasOnlyT2T3(deactivations)) {
-      return normalizeAndRemoveAccents(solution);
-    }
-    else if (deactivationsService.hasT1T2T3(deactivations)) {
-      return solution;
-    }
+
+    const allTreatments = ['t1', 't2', 't3'];
+    const enabledTreatments = allTreatments.filter((treatment) => !deactivations[treatment]);
+    return applyTreatments(solution, enabledTreatments);
   });
 }
 
