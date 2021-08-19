@@ -249,7 +249,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
   describe('#updateExternalIdentifierByUserIdAndIdentityProvider', function() {
 
-    context('When authentication method exists', async function() {
+    context('When authentication method exists', function() {
 
       let authenticationMethod;
 
@@ -277,7 +277,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
     });
 
-    context('When authentication method does not exist', async function() {
+    context('When authentication method does not exist', function() {
 
       it('should throw an AuthenticationMethodNotFoundError', async function() {
         // given
@@ -448,7 +448,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
   describe('#updatePoleEmploiAuthenticationComplementByUserId', function() {
 
-    context('When authentication method exists', async function() {
+    context('When authentication method exists', function() {
 
       let poleEmploiAuthenticationMethod;
 
@@ -480,7 +480,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
     });
 
-    context('When authentication method does not exist', async function() {
+    context('When authentication method does not exist', function() {
 
       it('should throw a not found error', async function() {
         // given

@@ -887,7 +887,7 @@ describe('Integration | Repository | Campaign Participation', function() {
         expect(result).to.deep.equal({ started: 0, completed: 0, shared: 0 });
       });
 
-      describe('Count shared Participation', async function() {
+      describe('Count shared Participation', function() {
         it('returns an object with 1 participation shared', async function() {
           databaseBuilder.factory.buildCampaignParticipation({ isShared: true });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
@@ -909,7 +909,7 @@ describe('Integration | Repository | Campaign Participation', function() {
         });
       });
 
-      describe('Count completed Participation', async function() {
+      describe('Count completed Participation', function() {
         it('returns an object with 1 participation completed', async function() {
           const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ isShared: false }).id;
           const idParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
@@ -940,7 +940,7 @@ describe('Integration | Repository | Campaign Participation', function() {
         });
       });
 
-      describe('Count started Participation', async function() {
+      describe('Count started Participation', function() {
         it('returns an object with 1 participation started', async function() {
           const idSomeParticipation = databaseBuilder.factory.buildCampaignParticipation({ isShared: false }).id;
           const idParticipation = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
@@ -991,7 +991,7 @@ describe('Integration | Repository | Campaign Participation', function() {
         expect(result).to.deep.equal({ completed: 0, shared: 0 });
       });
 
-      describe('Count shared Participation', async function() {
+      describe('Count shared Participation', function() {
         it('returns an object with 1 participation shared', async function() {
           databaseBuilder.factory.buildCampaignParticipation({ isShared: true });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
@@ -1013,7 +1013,7 @@ describe('Integration | Repository | Campaign Participation', function() {
         });
       });
 
-      describe('Count completed Participation', async function() {
+      describe('Count completed Participation', function() {
         it('returns an object with 1 participation completed', async function() {
           databaseBuilder.factory.buildCampaignParticipation({ isShared: false });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });

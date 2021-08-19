@@ -160,7 +160,7 @@ describe('Integration | Repository | Campaign-Report', function() {
         expect(_.map(campaignsWithReports, 'id')).to.deep.equal([campaignCInTheFutureId, campaignAInThePresentId, campaignBInThePastId]);
       });
 
-      context('when campaigns have participants', async function() {
+      context('when campaigns have participants', function() {
 
         it('should only count participations not improved', async function() {
           // given
@@ -213,7 +213,7 @@ describe('Integration | Repository | Campaign-Report', function() {
         });
       });
 
-      context('when campaigns do not have participants', async function() {
+      context('when campaigns do not have participants', function() {
 
         it('should return 0 as participations count and as shared participations count', async function() {
           // given
@@ -228,7 +228,7 @@ describe('Integration | Repository | Campaign-Report', function() {
         });
       });
 
-      context('when some campaigns matched the archived filter', async function() {
+      context('when some campaigns matched the archived filter', function() {
 
         it('should be able to retrieve only campaigns that are archived', async function() {
           // given

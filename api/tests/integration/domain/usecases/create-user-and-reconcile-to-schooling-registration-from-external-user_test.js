@@ -239,7 +239,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
     context('When the external user is already reconciled by another account with samlId authentication method', function() {
 
-      context('When reconciled in other organization', async function() {
+      context('When reconciled in other organization', function() {
 
         it('should update existing account with the new samlId', async function() {
           // given
@@ -291,7 +291,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         });
       });
 
-      context('When reconciled in the same organization', async function() {
+      context('When reconciled in the same organization', function() {
 
         it('should update existing account with the new samlId', async function() {
           // given

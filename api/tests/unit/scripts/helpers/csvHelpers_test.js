@@ -37,7 +37,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
     });
   });
 
-  describe('#parseCsv', async function() {
+  describe('#parseCsv', function() {
 
     it('should throw a NotFoundError when file does not exist', async function() {
       // when

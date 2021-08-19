@@ -79,7 +79,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
     });
   });
 
-  describe('#findIdsByOrganizationIdAndDivision', async function() {
+  describe('#findIdsByOrganizationIdAndDivision', function() {
     it('retrieves no candidates when no one belongs to organisation', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;

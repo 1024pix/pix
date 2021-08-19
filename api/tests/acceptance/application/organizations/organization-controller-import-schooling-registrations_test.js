@@ -691,7 +691,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be imported', async function() {
+      context('when a schoolingRegistration cant be imported', function() {
         beforeEach(function() {
           // given
           const malformedStudentsBuffer = iconv.encode(
@@ -732,7 +732,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when file in not properly formatted', async function() {
+      context('when file in not properly formatted', function() {
         beforeEach(function() {
           // given
           const malformedBuffer = iconv.encode(
@@ -756,7 +756,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when file is too large', async function() {
+      context('when file is too large', function() {
         beforeEach(function() {
           // given
           options.payload = Buffer.alloc(1048576 * 21, 'B'); // > 20 Mo buffer

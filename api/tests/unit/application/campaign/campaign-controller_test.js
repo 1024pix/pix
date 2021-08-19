@@ -433,7 +433,7 @@ describe('Unit | Application | Controller | Campaign', function() {
     });
   });
 
-  describe('#archiveCampaign', async function() {
+  describe('#archiveCampaign', function() {
     let updatedCampaign;
     let serializedCampaign;
 
@@ -466,7 +466,7 @@ describe('Unit | Application | Controller | Campaign', function() {
 
   });
 
-  describe('#unarchiveCampaign', async function() {
+  describe('#unarchiveCampaign', function() {
     let updatedCampaign;
     let serializedCampaign;
 

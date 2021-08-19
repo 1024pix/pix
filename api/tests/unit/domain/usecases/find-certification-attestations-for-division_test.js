@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const findCertificationAttestationsForDivision = require('../../../../lib/domain/usecases/certificate/find-certification-attestations-for-division');
 const { NoCertificationAttestationForDivisionError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-certification-attestations-for-division', async function() {
+describe('Unit | UseCase | find-certification-attestations-for-division', function() {
 
   const certificationAttestationRepository = {
     findByDivisionForScoIsManagingStudentsOrganization: () => undefined,

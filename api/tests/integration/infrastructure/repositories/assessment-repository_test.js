@@ -348,7 +348,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#getIdByCertificationCourseId', async function() {
+  describe('#getIdByCertificationCourseId', function() {
 
     let userId;
     let certificationCourseId;

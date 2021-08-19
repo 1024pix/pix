@@ -100,7 +100,7 @@ describe('Unit | Controller | answer-controller', function() {
       deserializedAnswer.id = undefined;
     });
 
-    context('when answer does not exist', async function() {
+    context('when answer does not exist', function() {
 
       let createdAnswer;
       let response;

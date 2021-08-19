@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const get = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
-describe('Unit | UseCase | get-certification-attestation', async function() {
+describe('Unit | UseCase | get-certification-attestation', function() {
 
   const certificationAttestationRepository = {
     get: () => undefined,
@@ -16,7 +16,7 @@ describe('Unit | UseCase | get-certification-attestation', async function() {
     certificationAttestationRepository.get = sinon.stub();
   });
 
-  context('when the user is not owner of the certification attestation', async function() {
+  context('when the user is not owner of the certification attestation', function() {
 
     it('should throw an error if user is not the owner of the certificationAttestation', async function() {
       // given
@@ -34,7 +34,7 @@ describe('Unit | UseCase | get-certification-attestation', async function() {
     });
   });
 
-  context('when the user is owner of the certification attestation', async function() {
+  context('when the user is owner of the certification attestation', function() {
 
     it('should return the certification attestation enhanced with result competence tree', async function() {
       // given

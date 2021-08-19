@@ -8,7 +8,7 @@ describe('Unit | Service | Encryption', function() {
 
   describe('#checkPassword', function() {
 
-    describe('when password and hash are matching', async function() {
+    describe('when password and hash are matching', function() {
 
       it('should resolve to undefined', async function() {
 
@@ -29,7 +29,7 @@ describe('Unit | Service | Encryption', function() {
       });
     });
 
-    describe('when password and hash are not matching', async function() {
+    describe('when password and hash are not matching', function() {
 
       it('should reject a PasswordNotMatching error ', async function() {
 
@@ -50,7 +50,7 @@ describe('Unit | Service | Encryption', function() {
 
     });
 
-    describe('when password is not supplied', async function() {
+    describe('when password is not supplied', function() {
 
       it('should reject, but not a PasswordNotMatching error ', async function() {
 

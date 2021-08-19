@@ -211,7 +211,7 @@ describe('Unit | Service | Certification CPF service', function() {
 
       context('when country is FRANCE', function() {
 
-        context('when postal code and INSEE code are not defined', async function() {
+        context('when postal code and INSEE code are not defined', function() {
 
           it('should return a validation failure', async function() {
             // given
@@ -238,7 +238,7 @@ describe('Unit | Service | Certification CPF service', function() {
           });
         });
 
-        context('when both postal code and INSEE code are defined', async function() {
+        context('when both postal code and INSEE code are defined', function() {
 
           it('should return a validation failure', async function() {
             // given
