@@ -38,7 +38,7 @@ describe('Acceptance | Profile | Start competence', function() {
 
       // then
       expect(currentURL()).to.contains('/assessments/');
-      expect(find('.assessment-challenge__content')).to.exist;
+      expect(find('.challenge__content')).to.exist;
     });
   });
 });

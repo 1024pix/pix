@@ -1,52 +1,51 @@
-<article class="challenge-item"
-         data-challenge-id="{{@challenge.id}}">
+<form {{on "submit" this.validateAnswer}}>
 
-  <form {{on "submit" this.validateAnswer}} class="rounded-panel rounded-panel--no-margin-bottom">
-    <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
-
-    <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}  {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
-      <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
-      <div class="challenge-proposals">
-        <QcmProposals @answer={{@answer}}
-                      @answerValue={{@answer.value}}
-                      @proposals={{@challenge.proposals}}
-                      @answerChanged={{this.answerChanged}} />
-      </div>
-
-      {{#if @answer}}
-        <div class="challenge-response__locked-overlay">
-          <FaIcon @icon='lock' class='challenge-response-locked__icon' />
-        </div>
-      {{/if}}
-      {{#if this.hasChallengeTimedOut}}
-        <div class="challenge-response__locked-overlay">
-          <FaIcon @icon='hourglass-end' class='challenge-response-locked__icon' />
-        </div>
-      {{/if}}
-
-      {{#if this.displayTimer}}
-        <div class="timeout-gauge-wrapper">
-          <TimeoutGauge @allottedTime={{@challenge.timer}}
-                        @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}} />
-        </div>
-      {{/if}}
+  <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}  {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
+    <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
+    <div class="challenge-proposals">
+      <QcmProposals @answer={{@answer}}
+                    @answerValue={{@answer.value}}
+                    @proposals={{@challenge.proposals}}
+                    @answerChanged={{this.answerChanged}}
+                    @isAnswerFieldDisabled={{this.isAnswerFieldDisabled}}
+      />
     </div>
 
-    {{#if this.errorMessage}}
-      <div class="alert alert--danger" role="alert">
-        {{this.errorMessage}}
+    {{#if @answer}}
+      <div class="challenge-response__locked-overlay">
+        <FaIcon @icon='lock' class='challenge-response-locked__icon' />
+      </div>
+    {{/if}}
+    {{#if this.hasChallengeTimedOut}}
+      <div class="challenge-response__locked-overlay">
+        <FaIcon @icon='hourglass-end' class='challenge-response-locked__icon' />
       </div>
     {{/if}}
 
-    {{#if @assessment}}
-      <ChallengeActions @challenge={{@challenge}}
-                        @answer={{@answer}}
-                        @resumeAssessment={{this.resumeAssessment}}
-                        @validateAnswer={{this.validateAnswer}}
-                        @skipChallenge={{this.skipChallenge}}
-                        @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
-                        @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
-                        @isSkipButtonEnabled={{this.isSkipButtonEnabled}}/>
+    {{#if this.displayTimer}}
+      <div class="timeout-gauge-wrapper">
+        <TimeoutGauge @allottedTime={{@challenge.timer}}
+                      @setChallengeAsTimedOut={{this.setChallengeAsTimedOut}} />
+      </div>
     {{/if}}
-  </form>
-</article>
+  </div>
+
+  {{#if this.errorMessage}}
+    <div class="alert alert--danger" role="alert">
+      {{this.errorMessage}}
+    </div>
+  {{/if}}
+
+  {{#if @assessment}}
+    <ChallengeActions @challenge={{@challenge}}
+                      @answer={{@answer}}
+                      @resumeAssessment={{this.resumeAssessment}}
+                      @validateAnswer={{this.validateAnswer}}
+                      @skipChallenge={{this.skipChallenge}}
+                      @isValidateButtonEnabled={{this.isValidateButtonEnabled}}
+                      @hasChallengeTimedOut={{this.hasChallengeTimedOut}}
+                      @hasFocusedOutOfWindow={{@hasFocusedOutOfWindow}}
+                      @isSkipButtonEnabled={{this.isSkipButtonEnabled}}
+                      @isDisabled={{this.isAnswerFieldDisabled}}/>
+  {{/if}}
+</form>

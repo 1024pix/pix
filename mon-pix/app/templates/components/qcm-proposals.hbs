@@ -5,9 +5,10 @@
     <Input @type="checkbox"
            id="checkbox_{{inc index}}"
            @checked={{labeledCheckbox.[1]}}
+           data-test="challenge-response-proposal-selector"
            name="{{inc index}}"
            {{on 'click' (fn this.checkboxClicked (inc index))}}
-           disabled={{if @answer true}} />
+           disabled={{@isAnswerFieldDisabled}} />
 
     <label for="checkbox_{{inc index}}"
             class="label-checkbox-proposal">
