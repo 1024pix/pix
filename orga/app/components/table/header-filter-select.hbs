@@ -1,10 +1,10 @@
 <Table::Header ...attributes>
-  <Ui::SelectInput
-    @id="select-{{@field}}"
+  <PixSelect
+    id="select-{{@field}}"
     class="table__input"
+    aria-label={{@ariaLabel}}
     @onChange={{fn @triggerFiltering @field false}}
     @options={{@options}}
-    @ariaLabel={{@ariaLabel}}
     @selectedOption={{@selectedOption}}
     @emptyOptionLabel={{@emptyOptionLabel}}
   />
