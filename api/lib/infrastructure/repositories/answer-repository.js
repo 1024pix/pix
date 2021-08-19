@@ -78,8 +78,9 @@ module.exports = {
       .from('answers')
       .where({ assessmentId })
       .orderBy('createdAt');
+    const answerDTOsWithoutDuplicate = _.uniqBy(answerDTOs, 'challengeId');
 
-    return _toDomainArray(answerDTOs);
+    return _toDomainArray(answerDTOsWithoutDuplicate);
   },
 
   async findLastByAssessment(assessmentId) {

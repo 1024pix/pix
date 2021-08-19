@@ -158,8 +158,8 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
         answers = [
-          databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id }),
-          databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id }),
+          databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, challengeId: 'rec1' }),
+          databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, challengeId: 'rec2' }),
         ];
         await databaseBuilder.commit();
         options = {
