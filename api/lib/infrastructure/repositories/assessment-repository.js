@@ -8,8 +8,8 @@ const { knex } = require('../bookshelf');
 
 module.exports = {
 
-  getWithAnswersAndCampaignParticipation(id) {
-    return BookshelfAssessment
+  async getWithAnswersAndCampaignParticipation(id) {
+    const bookshelfAssessment = await BookshelfAssessment
       .where('id', id)
       .fetch({
         require: false,
@@ -20,8 +20,11 @@ module.exports = {
             },
           }, 'campaignParticipation', 'campaignParticipation.campaign',
         ],
-      })
-      .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
+      });
+
+    const assessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
+    if (assessment) assessment.answers = _.uniqBy(assessment.answers, 'challengeId');
+    return assessment;
   },
 
   async get(id) {
