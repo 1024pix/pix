@@ -83,8 +83,9 @@
                 </td>
                 <td>
                   {{#if stage.isNew}}
-                    <PixButton @backgroundColor="transparent"
-                               @border="squircle-small"
+                    <PixButton @backgroundColor="transparent-light"
+                               @size="small"
+                               @isBorderVisible={{true}}
                                aria-label="Supprimer palier"
                                @triggerAction={{fn this.removeNewStage stage}}>
                       <FaIcon @icon="minus" />
@@ -105,8 +106,8 @@
     {{/if}}
 
     <PixButton class="stages-new-stage"
-               @backgroundColor="transparent"
-               @border="squircle-small"
+               @backgroundColor="transparent-light"
+               @isBorderVisible={{true}}
                data-test="Nouveau palier"
                @triggerAction={{this.addStage}}>
       <FaIcon @icon="plus" />&nbsp;Nouveau palier
@@ -116,14 +117,13 @@
       <div class="stages-actions">
         <PixButton
           data-test="form-action-cancel"
-          @backgroundColor="transparent"
-          @border="squircle-small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
           @triggerAction={{this.cancelStagesCreation}}>Annuler</PixButton>
         <PixButton
           data-test="form-action-submit"
           @type="submit"
           @backgroundColor="green"
-          @border="squircle-small"
           @triggerAction={{this.createStages}}>Enregistrer</PixButton>
       </div>
     {{/if}}
