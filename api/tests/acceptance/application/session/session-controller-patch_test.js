@@ -1,19 +1,19 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-patch', () => {
+describe('Acceptance | Controller | session-controller-patch', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('PATCH /api/sessions/{id}', () => {
+  describe('PATCH /api/sessions/{id}', function() {
 
     let user, unauthorizedUser, certificationCenter, session, payload;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       user = databaseBuilder.factory.buildUser();
       unauthorizedUser = databaseBuilder.factory.buildUser();
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();

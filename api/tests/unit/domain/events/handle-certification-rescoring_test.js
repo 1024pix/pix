@@ -5,9 +5,9 @@ const CertificationAssessment = require('../../../../lib/domain/models/Certifica
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Events | handle-certification-rescoring', () => {
+describe('Unit | Domain | Events | handle-certification-rescoring', function() {
 
-  it('computes and persists the assessment result and competence marks when computation succeeds', async () => {
+  it('computes and persists the assessment result and competence marks when computation succeeds', async function() {
     // given
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -81,7 +81,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     expect(competenceMarkRepository.save).to.have.been.calledWithExactly(competenceMarkData2);
   });
 
-  it('returns a CertificationRescoringCompleted event', async () => {
+  it('returns a CertificationRescoringCompleted event', async function() {
     // given
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -126,7 +126,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', () => {
     expect(returnedEvent).to.deep.equal(expectedReturnedEvent);
   });
 
-  it('computes and persists the assessment result in error when computation fails', async () => {
+  it('computes and persists the assessment result in error when computation fails', async function() {
     // given
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };

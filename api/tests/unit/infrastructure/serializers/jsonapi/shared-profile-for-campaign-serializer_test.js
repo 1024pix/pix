@@ -2,18 +2,18 @@ const { expect, domainBuilder, sinon } = require('../../../../test-helper');
 const SharedProfileForCampaign = require('../../../../../lib/domain/models/SharedProfileForCampaign');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/shared-profile-for-campaign-serializer');
 
-describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', () => {
+describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer', function() {
   let clock;
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
   });
 
-  beforeEach(() => {
+  beforeEach(function() {
     const now = new Date('2020-01-02');
     clock = sinon.useFakeTimers(now);
   });
 
-  describe('#serialize()', () => {
+  describe('#serialize()', function() {
     const area1 = {
       id: '1',
       code: '1',
@@ -128,7 +128,7 @@ describe('Unit | Serializer | JSONAPI | shared-profile-for-campaign-serializer',
       ],
     };
 
-    it('should convert a scorecard object into JSON API data', () => {
+    it('should convert a scorecard object into JSON API data', function() {
       // when
       const json = serializer.serialize(profileSharedForCampaign);
 

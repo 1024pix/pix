@@ -1,10 +1,10 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | CertificationCourse', () => {
-  describe('#cancel #isCancelled', () => {
+describe('Unit | Domain | Models | CertificationCourse', function() {
+  describe('#cancel #isCancelled', function() {
 
-    it('should cancel a certification course', () => {
+    it('should cancel a certification course', function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         isCancelled: false,
@@ -17,8 +17,8 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       expect(certificationCourse.toDTO().isCancelled).to.be.true;
     });
 
-    describe('when certification course is already cancelled', () => {
-      it('should not change isCancelled value', () => {
+    describe('when certification course is already cancelled', function() {
+      it('should not change isCancelled value', function() {
         // given
         const certificationCourse = domainBuilder.buildCertificationCourse({
           isCancelled: false,
@@ -34,10 +34,10 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#correctBirthdate', () => {
+  describe('#correctBirthdate', function() {
     ['2000-13-01', null, undefined, '', 'invalid']
       .forEach((invalidDate) => {
-        it(`throws if date is invalid : ${invalidDate}`, () => {
+        it(`throws if date is invalid : ${invalidDate}`, function() {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse();
 
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('modifies the birthdate', () => {
+    it('modifies the birthdate', function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         birthdate: '1999-12-31',
@@ -62,10 +62,10 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#correctFirstName', () => {
+  describe('#correctFirstName', function() {
     [null, undefined, '', '   ']
       .forEach((invalidFirstName) => {
-        it(`throws if first name is invalid : ${invalidFirstName}`, () => {
+        it(`throws if first name is invalid : ${invalidFirstName}`, function() {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse();
 
@@ -76,7 +76,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('collapses white spaces and modifies the first name', () => {
+    it('collapses white spaces and modifies the first name', function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         firstName: 'John',
@@ -90,10 +90,10 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#correctLastName', () => {
+  describe('#correctLastName', function() {
     [null, undefined, '', '   ']
       .forEach((invalidLastName) => {
-        it(`throws if last name is invalid : ${invalidLastName}`, () => {
+        it(`throws if last name is invalid : ${invalidLastName}`, function() {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse();
 
@@ -104,7 +104,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('collapses white spaces and modifies the last name', () => {
+    it('collapses white spaces and modifies the last name', function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         lastName: 'Doe',
@@ -118,10 +118,10 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#correctBirthplace', () => {
+  describe('#correctBirthplace', function() {
     [null, undefined, '', '   ']
       .forEach((invalidBirthPlace) => {
-        it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, () => {
+        it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, function() {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse({
             birthplace: 'some place',
@@ -134,7 +134,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
           expect(certificationCourse.toDTO().birthplace).to.equal('some place');
         });
 
-        it(`does not throw if birthplace is invalid : ${invalidBirthPlace}`, () => {
+        it(`does not throw if birthplace is invalid : ${invalidBirthPlace}`, function() {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse();
 
@@ -145,7 +145,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
         });
       });
 
-    it('collapses white spaces and modifies the birthplace', () => {
+    it('collapses white spaces and modifies the birthplace', function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         birthplace: 'Paris',
@@ -159,9 +159,9 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#correctSex', () => {
+  describe('#correctSex', function() {
 
-    it('throws if sex is neither M nor F', () => {
+    it('throws if sex is neither M nor F', function() {
       // given
       const invalidSex = 'invalid_sex';
       const certificationCourse = domainBuilder.buildCertificationCourse({
@@ -172,7 +172,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       expect(() => certificationCourse.correctSex(invalidSex)).to.throw(EntityValidationError);
     });
 
-    it('not throw if sex is not defined', () => {
+    it('not throw if sex is not defined', function() {
       // given
       const sex = null;
       const certificationCourse = domainBuilder.buildCertificationCourse({
@@ -185,7 +185,7 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
 
     ['M', 'F']
       .forEach((validSex) => {
-        it(`modifies the sex when value is ${validSex}`, () => {
+        it(`modifies the sex when value is ${validSex}`, function() {
           // given
           const certificationCourse = domainBuilder.buildCertificationCourse({
             sex: 'X',
@@ -200,9 +200,9 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
       });
   });
 
-  describe('#correctBirthInformation', () => {
+  describe('#correctBirthInformation', function() {
 
-    it('should set birth information to certification course', () => {
+    it('should set birth information to certification course', function() {
       // given
       const birthCountry = 'FRANCE';
       const birthCity = 'PARIS 10';
@@ -227,8 +227,8 @@ describe('Unit | Domain | Models | CertificationCourse', () => {
     });
   });
 
-  describe('#complete', () => {
-    it('completes the certification course', () => {
+  describe('#complete', function() {
+    it('completes the certification course', function() {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         completedAt: null,

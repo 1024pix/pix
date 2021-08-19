@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const BadgeWithLearningContent = require('../../../../lib/domain/models/BadgeWithLearningContent');
 
-describe('Unit | UseCase | get-badge-details', () => {
+describe('Unit | UseCase | get-badge-details', function() {
 
-  it('should get badge details', async () => {
+  it('should get badge details', async function() {
     // given
     const badge = {
       badgePartnerCompetences: [

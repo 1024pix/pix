@@ -9,17 +9,17 @@ const { status: assessmentResultStatuses } = require('../../../../lib/domain/mod
 
 describe('Integration | Repository | AssessmentResult', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
     let assessmentResultToSave;
     let assessmentResult;
 
-    describe('when entries are corrects', () => {
+    describe('when entries are corrects', function() {
 
-      afterEach(() => {
+      afterEach(function() {
         return knex('assessment-results').where('id', assessmentResult.id).delete();
       });
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const juryId = databaseBuilder.factory.buildUser().id;
         const assessmentId = databaseBuilder.factory.buildAssessment().id;
         assessmentResultToSave = domainBuilder.buildAssessmentResult({ juryId, assessmentId });
@@ -27,7 +27,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         await databaseBuilder.commit();
       });
 
-      it('should persist the assessment result in db', async () => {
+      it('should persist the assessment result in db', async function() {
         // when
         assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
 
@@ -36,7 +36,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(assessmentResultSaved).to.have.lengthOf(1);
       });
 
-      it('should save a cancelled assessment result', async () => {
+      it('should save a cancelled assessment result', async function() {
         // when
         assessmentResultToSave.status = assessmentResultStatuses.CANCELLED;
         assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
@@ -46,7 +46,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(assessmentResultSaved).to.have.lengthOf(1);
       });
 
-      it('should return the saved assessment result', async () => {
+      it('should return the saved assessment result', async function() {
         // when
         assessmentResult = await assessmentResultRepository.save(assessmentResultToSave);
 
@@ -57,16 +57,16 @@ describe('Integration | Repository | AssessmentResult', function() {
       });
     });
 
-    describe('when entries are incorrects', () => {
+    describe('when entries are incorrects', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         const juryId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildAssessment().id;
         assessmentResultToSave = domainBuilder.buildAssessmentResult({ juryId });
         await databaseBuilder.commit();
       });
 
-      it('should throw a MissingAssessmentId error if assessmentId is null or undefined', async () => {
+      it('should throw a MissingAssessmentId error if assessmentId is null or undefined', async function() {
         // when
         assessmentResultToSave.assessmentId = null;
         const result = await catchErr(assessmentResultRepository.save)(assessmentResultToSave);
@@ -75,7 +75,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(result).to.be.instanceOf(MissingAssessmentId);
       });
 
-      it('should throw when assessment result status is invalid', async () => {
+      it('should throw when assessment result status is invalid', async function() {
         // when
         const result = await catchErr(assessmentResultRepository.save)({ state: 'invalid status' });
 
@@ -83,7 +83,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(result).to.be.instanceOf(Error);
       });
 
-      it('should throw an error in others cases', async () => {
+      it('should throw an error in others cases', async function() {
         // when
         const result = await catchErr(assessmentResultRepository.save)({ assessmentId: 1 });
 
@@ -94,7 +94,7 @@ describe('Integration | Repository | AssessmentResult', function() {
 
   });
 
-  describe('#findLatestLevelAndPixScoreByAssessmentId', () => {
+  describe('#findLatestLevelAndPixScoreByAssessmentId', function() {
 
     let assessmentWithResultsId;
     let assessmentWithoutResultsId;
@@ -103,7 +103,7 @@ describe('Integration | Repository | AssessmentResult', function() {
     const expectedAssessmentResultWithinLimitDateLevel = 4;
     const expectedAssessmentResultWithinLimitDatePixScore = 20;
 
-    beforeEach(() => {
+    beforeEach(function() {
       assessmentWithResultsId = databaseBuilder.factory.buildAssessment().id;
       assessmentWithoutResultsId = databaseBuilder.factory.buildAssessment().id;
       databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessmentWithResultsId, createdAt: new Date('2019-02-01T00:00:00Z'), level: expectedAssessmentResultLevel, pixScore: expectedAssessmentResultPixScore }).id;
@@ -112,7 +112,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return the most recent assessment result level and pixScore when assessment has some', async () => {
+    it('should return the most recent assessment result level and pixScore when assessment has some', async function() {
       // when
       const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessmentWithResultsId });
 
@@ -121,7 +121,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       expect(pixScore).to.equal(expectedAssessmentResultPixScore);
     });
 
-    it('should return the most recent assessment result level and pixScore within limit date when assessment has some', async () => {
+    it('should return the most recent assessment result level and pixScore within limit date when assessment has some', async function() {
       // when
       const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessmentWithResultsId, limitDate: new Date('2019-01-05T00:00:00Z') });
 
@@ -130,7 +130,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       expect(pixScore).to.equal(expectedAssessmentResultWithinLimitDatePixScore);
     });
 
-    it('should return null when assessment has no results', async () => {
+    it('should return null when assessment has no results', async function() {
       // when
       const { level, pixScore } = await assessmentResultRepository.findLatestLevelAndPixScoreByAssessmentId({ assessmentId: assessmentWithoutResultsId });
 
@@ -140,13 +140,13 @@ describe('Integration | Repository | AssessmentResult', function() {
     });
   });
 
-  describe('#findLatestByCertificationCourseIdWithCompetenceMarks', () => {
+  describe('#findLatestByCertificationCourseIdWithCompetenceMarks', function() {
 
     let ccWithResultsId;
     let ccWithoutResultsId;
     let expectedAssessmentResultId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       ccWithResultsId = databaseBuilder.factory.buildCertificationCourse().id;
       ccWithoutResultsId = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentWithResultsId = databaseBuilder.factory.buildAssessment({ certificationCourseId: ccWithResultsId }).id;
@@ -158,7 +158,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return the most recent assessment result when certification course has some', async () => {
+    it('should return the most recent assessment result when certification course has some', async function() {
       // when
       const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId: ccWithResultsId });
 
@@ -168,7 +168,7 @@ describe('Integration | Repository | AssessmentResult', function() {
       expect(mostRecentAssessmentResult.competenceMarks).to.have.length(2);
     });
 
-    it('should return null when certification course has no results', async () => {
+    it('should return null when certification course has no results', async function() {
       // when
       const mostRecentAssessmentResult = await assessmentResultRepository.findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId: ccWithoutResultsId });
 
@@ -177,11 +177,11 @@ describe('Integration | Repository | AssessmentResult', function() {
     });
   });
 
-  describe('#getByCertificationCourseId', () => {
+  describe('#getByCertificationCourseId', function() {
 
-    describe('when the given certification course id is correct', () => {
+    describe('when the given certification course id is correct', function() {
 
-      it('should return assessment result', async () => {
+      it('should return assessment result', async function() {
         // given
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
         const juryId = databaseBuilder.factory.buildUser().id;
@@ -244,7 +244,7 @@ describe('Integration | Repository | AssessmentResult', function() {
         expect(result).to.deep.equal(expectedAssessmentResult);
       });
 
-      it('should return last assessment result', async () => {
+      it('should return last assessment result', async function() {
         // given
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
         const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;
@@ -274,11 +274,11 @@ describe('Integration | Repository | AssessmentResult', function() {
       });
     });
 
-    describe('when the given certification course id is incorrect', () => {
+    describe('when the given certification course id is incorrect', function() {
 
-      describe('when no assessment was found', () => {
+      describe('when no assessment was found', function() {
 
-        it('should build an started assessment result', async () => {
+        it('should build an started assessment result', async function() {
           // given
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           await databaseBuilder.commit();
@@ -293,9 +293,9 @@ describe('Integration | Repository | AssessmentResult', function() {
         });
       });
 
-      describe('when no assessment-result  was found', () => {
+      describe('when no assessment-result  was found', function() {
 
-        it('should build an started assessment result', async () => {
+        it('should build an started assessment result', async function() {
           // given
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
           const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId }).id;

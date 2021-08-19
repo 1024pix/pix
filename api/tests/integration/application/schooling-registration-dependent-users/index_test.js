@@ -4,11 +4,11 @@ const schoolingRegistrationDependentUserController = require('../../../../lib/ap
 const moduleUnderTest = require('../../../../lib/application/schooling-registration-dependent-users');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 
-describe('Integration | Application | Route | schooling-registration-dependent-users', () => {
+describe('Integration | Application | Route | schooling-registration-dependent-users', function() {
 
   let httpTestServer;
 
-  beforeEach(async() => {
+  beforeEach(async function() {
     sinon.stub(securityPreHandlers, 'checkUserBelongsToScoOrganizationAndManagesStudents').callsFake((request, h) => h.response(true));
     sinon.stub(schoolingRegistrationDependentUserController, 'createAndReconcileUserToSchoolingRegistration').callsFake((request, h) => h.response().code(204));
     sinon.stub(schoolingRegistrationDependentUserController, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').callsFake((request, h) => h.response('ok').code(200));
@@ -18,16 +18,16 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/schooling-registration-dependent-users', () => {
+  describe('POST /api/schooling-registration-dependent-users', function() {
 
     let method;
     let url;
     let payload;
     let response;
 
-    context('When registration succeed with email', () =>{
+    context('When registration succeed with email', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         method = 'POST';
         url = '/api/schooling-registration-dependent-users';
@@ -47,7 +47,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         };
       });
 
-      it('should return 204', async () => {
+      it('should return 204', async function() {
       // when
         response = await httpTestServer.request(method, url, payload);
 
@@ -56,9 +56,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       });
     });
 
-    context('When registration succeed with username', () =>{
+    context('When registration succeed with username', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         method = 'POST';
         url = '/api/schooling-registration-dependent-users';
@@ -78,7 +78,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         };
       });
 
-      it('should return 204', async () => {
+      it('should return 204', async function() {
         // when
         response = await httpTestServer.request(method, url, payload);
 
@@ -87,9 +87,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       });
     });
 
-    context('Error cases', () => {
+    context('Error cases', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         // given
         method = 'POST';
         url = '/api/schooling-registration-dependent-users';
@@ -108,7 +108,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         };
       });
 
-      it('should return 400 when firstName is empty', async () => {
+      it('should return 400 when firstName is empty', async function() {
         // given
         payload.data.attributes['first-name'] = '';
 
@@ -119,7 +119,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should return 400 when lastName is empty', async () => {
+      it('should return 400 when lastName is empty', async function() {
         // given
         payload.data.attributes['last-name'] = '';
 
@@ -130,7 +130,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should return 400 when birthDate is not a valid date', async () => {
+      it('should return 400 when birthDate is not a valid date', async function() {
         // given
         payload.data.attributes.birthdate = '2012*-12-12';
 
@@ -141,7 +141,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should return 400 when campaignCode is empty', async () => {
+      it('should return 400 when campaignCode is empty', async function() {
         // given
         payload.data.attributes['campaign-code'] = '';
 
@@ -152,7 +152,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should return 400 when password is not valid', async () => {
+      it('should return 400 when password is not valid', async function() {
         // given
         payload.data.attributes.password = 'not_valid';
 
@@ -163,7 +163,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should return 400 when withUsername is not a boolean', async () => {
+      it('should return 400 when withUsername is not a boolean', async function() {
         // given
         payload.data.attributes['with-username'] = 'not_a_boolean';
 
@@ -174,9 +174,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
         expect(response.statusCode).to.equal(400);
       });
 
-      context('when username is not valid', () => {
+      context('when username is not valid', function() {
 
-        it('should return 400 when username is an email', async () => {
+        it('should return 400 when username is an email', async function() {
           // given
           payload.data.attributes.username = 'robert.smith1212@example.net';
 
@@ -187,7 +187,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
           expect(response.statusCode).to.equal(400);
         });
 
-        it('should return 400 when username has not dot between names', async () => {
+        it('should return 400 when username has not dot between names', async function() {
           // given
           payload.data.attributes.username = 'robertsmith1212';
 
@@ -198,7 +198,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
           expect(response.statusCode).to.equal(400);
         });
 
-        it('should return 400 when username does not end with 4 digits', async () => {
+        it('should return 400 when username does not end with 4 digits', async function() {
           // given
           payload.data.attributes.username = 'robert.smith';
 
@@ -209,7 +209,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
           expect(response.statusCode).to.equal(400);
         });
 
-        it('should return 400 when username is capitalized', async () => {
+        it('should return 400 when username is capitalized', async function() {
           // given
           payload.data.attributes.username = 'Robert.Smith1212';
 
@@ -219,7 +219,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
           expect(response.statusCode).to.equal(400);
         });
 
-        it('should return 400 when username is a phone number', async () => {
+        it('should return 400 when username is a phone number', async function() {
           // given
           payload.data.attributes.username = '0601010101';
 
@@ -233,14 +233,14 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
   });
 
-  describe('POST /api/schooling-registration-dependent-users/external-user-token', () => {
+  describe('POST /api/schooling-registration-dependent-users/external-user-token', function() {
 
     let method;
     let url;
     let payload;
     let response;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       method = 'POST';
       url = '/api/schooling-registration-dependent-users/external-user-token';
@@ -257,7 +257,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       };
     });
 
-    it('should succeed', async () => {
+    it('should succeed', async function() {
       // when
       response = await httpTestServer.request(method, url, payload);
 
@@ -265,7 +265,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 Bad Request when campaignCode is missing', async () => {
+    it('should return a 400 Bad Request when campaignCode is missing', async function() {
       // given
       payload.data.attributes['campaign-code'] = '';
 
@@ -277,7 +277,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       expect(JSON.parse(response.payload).errors[0].detail).to.equal('"data.attributes.campaign-code" is not allowed to be empty');
     });
 
-    it('should return 400 Bad Request when external-user-token is missing', async () => {
+    it('should return 400 Bad Request when external-user-token is missing', async function() {
       // given
       payload.data.attributes['external-user-token'] = '';
 
@@ -289,7 +289,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
       expect(JSON.parse(response.payload).errors[0].detail).to.equal('"data.attributes.external-user-token" is not allowed to be empty');
     });
 
-    it('should return 400 Bad Request when birthDate is not a valid date', async () => {
+    it('should return 400 Bad Request when birthDate is not a valid date', async function() {
       // given
       payload.data.attributes.birthdate = '2012*-12-12';
 
@@ -302,9 +302,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     });
   });
 
-  describe('POST /api/schooling-registration-dependent-users/password-update', () => {
+  describe('POST /api/schooling-registration-dependent-users/password-update', function() {
 
-    it('should succeed', async () => {
+    it('should succeed', async function() {
       // given
       const method = 'POST';
       const url = '/api/schooling-registration-dependent-users/password-update';
@@ -325,9 +325,9 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     });
   });
 
-  describe('POST /api/schooling-registration-dependent-users/generate-username-password', () => {
+  describe('POST /api/schooling-registration-dependent-users/generate-username-password', function() {
 
-    it('should succeed', async () => {
+    it('should succeed', async function() {
       // given
       const method = 'POST';
       const url = '/api/schooling-registration-dependent-users/generate-username-password';

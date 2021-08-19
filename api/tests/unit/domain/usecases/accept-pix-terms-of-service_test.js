@@ -2,13 +2,13 @@ const { expect, sinon } = require('../../../test-helper');
 const acceptPixLastTermsOfService = require('../../../../lib/domain/usecases/accept-pix-last-terms-of-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | accept-pix-last-terms-of-service', () => {
+describe('Unit | UseCase | accept-pix-last-terms-of-service', function() {
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(userRepository, 'acceptPixLastTermsOfService');
   });
 
-  it('should accept terms of service of pix', async () => {
+  it('should accept terms of service of pix', async function() {
     // given
     const userId = Symbol('userId');
     const updatedUser = Symbol('updateduser');

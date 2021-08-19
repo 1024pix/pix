@@ -9,7 +9,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
     let modelJuryCertifSummary;
     let expectedJsonApi;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const issueReport = domainBuilder.buildCertificationIssueReport.impactful({
         certificationCourseId: 1,
         description: 'someComment',

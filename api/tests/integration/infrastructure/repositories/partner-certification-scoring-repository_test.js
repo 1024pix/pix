@@ -7,10 +7,10 @@ const { NotEligibleCandidateError } = require('../../../../lib/domain/errors');
 describe('Integration | Repository | Partner Certification Scoring', function() {
   const PARTNER_CERTIFICATIONS_TABLE_NAME = 'partner-certifications';
 
-  describe('#save', () => {
+  describe('#save', function() {
     let partnerCertificationScoring;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse().id;
       partnerCertificationScoring = domainBuilder.buildCleaCertificationScoring({
         certificationCourseId,
@@ -20,13 +20,13 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
       return databaseBuilder.commit();
     });
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex(PARTNER_CERTIFICATIONS_TABLE_NAME).delete();
       await knex('certification-courses').delete();
       await knex('badges').delete();
     });
 
-    it('should insert the certification partner in db if it does not already exists', async () => {
+    it('should insert the certification partner in db if it does not already exists', async function() {
       // given
       sinon.stub(partnerCertificationScoring, 'isAcquired').returns(true);
 
@@ -43,7 +43,7 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
       });
     });
 
-    it('should update the existing certification partner if it exists', async () => {
+    it('should update the existing certification partner if it exists', async function() {
       // given
       databaseBuilder.factory.buildPartnerCertification({
         certificationCourseId: partnerCertificationScoring.certificationCourseId,
@@ -67,11 +67,11 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
 
   });
 
-  describe('#buildCleaCertificationScoring', () => {
+  describe('#buildCleaCertificationScoring', function() {
 
-    context('when the user does not have no cleA badge', () => {
+    context('when the user does not have no cleA badge', function() {
 
-      it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async () => {
+      it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async function() {
         // given
         const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
         const learningContent = { skills: [skill] };
@@ -93,11 +93,11 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
       });
     });
 
-    context('when the user has a cleA badge', () => {
+    context('when the user has a cleA badge', function() {
 
-      context('when the badge was obtained after the certification test was taken', () => {
+      context('when the badge was obtained after the certification test was taken', function() {
 
-        it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async () => {
+        it('should build a CleaCertificationScoring that throws a NotEligibleCandidateError', async function() {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, createdAt: new Date('2020-01-01') }).id;
@@ -123,12 +123,12 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
 
       });
 
-      context('when the badge was obtained before the certification test was taken', () => {
+      context('when the badge was obtained before the certification test was taken', function() {
         let userId;
         let badgeId;
         let certificationCourseId;
 
-        beforeEach(() => {
+        beforeEach(function() {
           userId = databaseBuilder.factory.buildUser().id;
           certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, createdAt: new Date('2021-04-04') }).id;
           badgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA }).id;
@@ -136,9 +136,9 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
           return databaseBuilder.commit();
         });
 
-        context('when user reproducibility rate is below minimum rate', () => {
+        context('when user reproducibility rate is below minimum rate', function() {
 
-          it('should build a not acquired CleaCertificationScoring', async () => {
+          it('should build a not acquired CleaCertificationScoring', async function() {
             // given
             const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
             const learningContent = { skills: [skill] };
@@ -157,9 +157,9 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
           });
         });
 
-        context('when user reproducibility rate is above trusted rate', () => {
+        context('when user reproducibility rate is above trusted rate', function() {
 
-          it('should build an acquired CleaCertificationScoring', async () => {
+          it('should build an acquired CleaCertificationScoring', async function() {
             // given
             const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
             const learningContent = { skills: [skill] };
@@ -178,9 +178,9 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
           });
         });
 
-        context('when user reproducibility rate is in between minimum repro rate and trusted repro rate (grey zone)', () => {
+        context('when user reproducibility rate is in between minimum repro rate and trusted repro rate (grey zone)', function() {
 
-          it('should build CleaCertificationScoring containing a hash of maxReachablePixByCompetenceForClea based on operative clea skills', async () => {
+          it('should build CleaCertificationScoring containing a hash of maxReachablePixByCompetenceForClea based on operative clea skills', async function() {
             // given
             const cleaSkill1Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1', pixValue: 3 });
             const cleaSkill2Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_2', competenceId: 'recCompetence1', pixValue: 6 });
@@ -217,7 +217,7 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
             });
           });
 
-          it('should build CleaCertificationScoring containing a the user competence marks of clea competences only', async () => {
+          it('should build CleaCertificationScoring containing a the user competence marks of clea competences only', async function() {
             // given
             const cleaSkill1Comp1 = domainBuilder.buildSkill({ id: 'recSkill1_1', competenceId: 'recCompetence1' });
             const cleaSkill1Comp2 = domainBuilder.buildSkill({ id: 'recSkill2_1', competenceId: 'recCompetence2' });
@@ -274,9 +274,9 @@ describe('Integration | Repository | Partner Certification Scoring', function() 
           });
         });
 
-        context('when user has more than one clea badges obtained before certification test was taken', () => {
+        context('when user has more than one clea badges obtained before certification test was taken', function() {
 
-          it('should compute the cleA scoring based on the most recently obtained cleA badge', async () => {
+          it('should compute the cleA scoring based on the most recently obtained cleA badge', async function() {
             // given
             const anotherBadgeId = databaseBuilder.factory.buildBadge({ key: Badge.keys.PIX_EMPLOI_CLEA_V2 }).id;
             databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: anotherBadgeId, createdAt: new Date('2015-01-01') });

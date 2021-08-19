@@ -4,13 +4,13 @@ const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement
 const { ChallengeAlreadyAnsweredError, NotFoundError } = require('../../../../lib/domain/errors');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 
-describe('Integration | Repository | answerRepository', () => {
+describe('Integration | Repository | answerRepository', function() {
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    context('when there are no answers', () => {
+    context('when there are no answers', function() {
 
-      it('should reject an error if nothing is found', async () => {
+      it('should reject an error if nothing is found', async function() {
         // when
         const error = await catchErr(answerRepository.get)(100);
 
@@ -19,9 +19,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when there is an answer', () => {
+    context('when there is an answer', function() {
 
-      it('should retrieve an answer from its id', async () => {
+      it('should retrieve an answer from its id', async function() {
         // given
         const expectedAnswer = domainBuilder.buildAnswer({
           id: 1,
@@ -49,11 +49,11 @@ describe('Integration | Repository | answerRepository', () => {
     });
   });
 
-  describe('#findByIds', () => {
+  describe('#findByIds', function() {
 
-    context('when there are no answers', () => {
+    context('when there are no answers', function() {
 
-      it('should return an empty list', async () => {
+      it('should return an empty list', async function() {
         // when
         const foundAnswers = await answerRepository.findByIds([100]);
 
@@ -62,9 +62,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when there are answers', () => {
+    context('when there are answers', function() {
 
-      it('should retrieve all answers from its id', async () => {
+      it('should retrieve all answers from its id', async function() {
         // given
         const firstAnswer = domainBuilder.buildAnswer({
           id: 1,
@@ -102,9 +102,9 @@ describe('Integration | Repository | answerRepository', () => {
     });
   });
 
-  describe('#findByChallengeAndAssessment', () => {
+  describe('#findByChallengeAndAssessment', function() {
 
-    it('should returns null if there is no assessment matching', async () => {
+    it('should returns null if there is no assessment matching', async function() {
       // given
       databaseBuilder.factory.buildAssessment({ id: 123 });
       databaseBuilder.factory.buildAnswer({ assessmentId: 123, challengeId: 'recChal1' });
@@ -119,7 +119,7 @@ describe('Integration | Repository | answerRepository', () => {
       expect(foundAnswer).to.be.null;
     });
 
-    it('should returns null if there is no challengeId matching', async () => {
+    it('should returns null if there is no challengeId matching', async function() {
       // given
       databaseBuilder.factory.buildAssessment({ id: 123 });
       databaseBuilder.factory.buildAnswer({ assessmentId: 123, challengeId: 'recChal1' });
@@ -134,7 +134,7 @@ describe('Integration | Repository | answerRepository', () => {
       expect(foundAnswer).to.be.null;
     });
 
-    it('should find the answer by challenge and assessment', async () => {
+    it('should find the answer by challenge and assessment', async function() {
       // given
       const expectedAnswer = domainBuilder.buildAnswer({
         id: 1,
@@ -163,7 +163,7 @@ describe('Integration | Repository | answerRepository', () => {
       expect(foundAnswer).to.deepEqualInstance(expectedAnswer);
     });
 
-    it('should return the most recent answer when several answers match with challenge and assessment', async () => {
+    it('should return the most recent answer when several answers match with challenge and assessment', async function() {
       // given
       const olderAnswer = domainBuilder.buildAnswer({
         id: 1,
@@ -209,11 +209,11 @@ describe('Integration | Repository | answerRepository', () => {
     });
   });
 
-  describe('#findByAssessment', () => {
+  describe('#findByAssessment', function() {
 
-    context('when assessment does not exist', () => {
+    context('when assessment does not exist', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given
         databaseBuilder.factory.buildAssessment({ id: 123 });
         databaseBuilder.factory.buildAnswer({ assessmentId: 123 });
@@ -227,9 +227,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when assessment does not have any answers', () => {
+    context('when assessment does not have any answers', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given
         databaseBuilder.factory.buildAssessment({ id: 123 });
         databaseBuilder.factory.buildAssessment({ id: 456 });
@@ -244,9 +244,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when assessment has some answers', () => {
+    context('when assessment has some answers', function() {
 
-      it('should return the answers ordered by creation date', async () => {
+      it('should return the answers ordered by creation date', async function() {
         // given
         const firstAnswer = domainBuilder.buildAnswer({
           id: 1,
@@ -283,11 +283,11 @@ describe('Integration | Repository | answerRepository', () => {
     });
   });
 
-  describe('#findLastByAssessment', () => {
+  describe('#findLastByAssessment', function() {
 
-    context('when assessment does not exist', () => {
+    context('when assessment does not exist', function() {
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // given
         databaseBuilder.factory.buildAssessment({ id: 123 });
         databaseBuilder.factory.buildAnswer({ assessmentId: 123 });
@@ -301,9 +301,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when assessment does not have any answers', () => {
+    context('when assessment does not have any answers', function() {
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // given
         databaseBuilder.factory.buildAssessment({ id: 123 });
         databaseBuilder.factory.buildAssessment({ id: 456 });
@@ -318,9 +318,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when assessment has some answers', () => {
+    context('when assessment has some answers', function() {
 
-      it('should return the latest created answer', async () => {
+      it('should return the latest created answer', async function() {
         // given
         const olderAnswer = domainBuilder.buildAnswer({
           id: 1,
@@ -357,11 +357,11 @@ describe('Integration | Repository | answerRepository', () => {
     });
   });
 
-  describe('#findChallengeIdsFromAnswerIds', () => {
+  describe('#findChallengeIdsFromAnswerIds', function() {
 
-    context('when provided answerIds collection is empty', () => {
+    context('when provided answerIds collection is empty', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // when
         const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([]);
 
@@ -370,9 +370,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when provided answerIds refer to non-existent answers', () => {
+    context('when provided answerIds refer to non-existent answers', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // when
         const challengeIds = await answerRepository.findChallengeIdsFromAnswerIds([1]);
 
@@ -381,9 +381,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when provided answerIds list contains duplicate ids', () => {
+    context('when provided answerIds list contains duplicate ids', function() {
 
-      it('should return distinct challengeIds', async () => {
+      it('should return distinct challengeIds', async function() {
         // given
         databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
         await databaseBuilder.commit();
@@ -396,7 +396,7 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    it('should return a list of corresponding distinct challenge ids ordered by challenge id', async () => {
+    it('should return a list of corresponding distinct challenge ids ordered by challenge id', async function() {
       // given
       databaseBuilder.factory.buildAnswer({ id: 123, challengeId: 'recABC' });
       databaseBuilder.factory.buildAnswer({ id: 456, challengeId: 'recDEF' });
@@ -412,14 +412,14 @@ describe('Integration | Repository | answerRepository', () => {
     });
   });
 
-  describe('#saveWithKnowledgeElements', () => {
+  describe('#saveWithKnowledgeElements', function() {
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('knowledge-elements').delete();
       await knex('answers').delete();
     });
 
-    it('should save and return the answer', async () => {
+    it('should save and return the answer', async function() {
       // given
       const answerToSave = domainBuilder.buildAnswer({
         id: null,
@@ -442,7 +442,7 @@ describe('Integration | Repository | answerRepository', () => {
       expect(savedAnswer).to.deepEqualInstance(answerInDB);
     });
 
-    it('should save the knowledge elements', async () => {
+    it('should save the knowledge elements', async function() {
       // given
       const answerToSave = domainBuilder.buildAnswer({
         id: null,
@@ -506,9 +506,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when something goes wrong during the saving of the knowledge elements', () => {
+    context('when something goes wrong during the saving of the knowledge elements', function() {
 
-      it('should not have saved anything', async () => {
+      it('should not have saved anything', async function() {
         // given
         const answerToSave = domainBuilder.buildAnswer({
           id: null,
@@ -534,9 +534,9 @@ describe('Integration | Repository | answerRepository', () => {
       });
     });
 
-    context('when there is already an answer for one challenge in one assessment', () => {
+    context('when there is already an answer for one challenge in one assessment', function() {
 
-      it('should not have saved anything', async () => {
+      it('should not have saved anything', async function() {
         // given
         const assessmentId = 123;
         const answerToSave = domainBuilder.buildAnswer({

@@ -2,7 +2,7 @@ const createServer = require('../../../../server');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const _ = require('lodash');
 
-describe('Acceptance | API | Campaign Assessment Result', () => {
+describe('Acceptance | API | Campaign Assessment Result', function() {
 
   const JAFFA_COLOR = 'jaffa';
   const EMERALD_COLOR = 'emerald';
@@ -17,7 +17,7 @@ describe('Acceptance | API | Campaign Assessment Result', () => {
 
   let server, badge, badgePartnerCompetence, stage;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
 
     const oldDate = new Date('2018-02-03');
@@ -164,10 +164,10 @@ describe('Acceptance | API | Campaign Assessment Result', () => {
     await databaseBuilder.commit();
   });
 
-  describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', () => {
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function() {
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       options = {
         method: 'GET',
         url: `/api/users/${user.id}/campaigns/${campaign.id}/assessment-result`,
@@ -175,7 +175,7 @@ describe('Acceptance | API | Campaign Assessment Result', () => {
       };
     });
 
-    it('should return the campaign assessment result', async () => {
+    it('should return the campaign assessment result', async function() {
       // given
       const expectedResponse = {
         data: {

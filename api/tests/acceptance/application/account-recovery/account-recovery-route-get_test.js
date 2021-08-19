@@ -2,11 +2,11 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const { featureToggles } = require('../../../../lib/config');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Application | Account-Recovery | Routes', () => {
+describe('Acceptance | Application | Account-Recovery | Routes', function() {
 
-  describe('GET /api/account-recovery/{temporaryKey}', () => {
+  describe('GET /api/account-recovery/{temporaryKey}', function() {
 
-    it('should return 200 http status code when account recovery demand found', async () => {
+    it('should return 200 http status code when account recovery demand found', async function() {
       // given
       const temporaryKey = 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=';
       const userId = 1234;
@@ -40,7 +40,7 @@ describe('Acceptance | Application | Account-Recovery | Routes', () => {
       expect(response.result.data.id).to.equal(id.toString());
     });
 
-    it('should return 404 http status code when the feature disabled', async () => {
+    it('should return 404 http status code when the feature disabled', async function() {
       // given
       const temporaryKey = 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=';
       const server = await createServer();

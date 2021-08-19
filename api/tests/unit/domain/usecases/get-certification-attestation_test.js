@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const get = require('../../../../lib/domain/usecases/certificate/get-certification-attestation');
 
-describe('Unit | UseCase | get-certification-attestation', async () => {
+describe('Unit | UseCase | get-certification-attestation', async function() {
 
   const certificationAttestationRepository = {
     get: () => undefined,
@@ -12,13 +12,13 @@ describe('Unit | UseCase | get-certification-attestation', async () => {
     certificationAttestationRepository,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationAttestationRepository.get = sinon.stub();
   });
 
-  context('when the user is not owner of the certification attestation', async () => {
+  context('when the user is not owner of the certification attestation', async function() {
 
-    it('should throw an error if user is not the owner of the certificationAttestation', async () => {
+    it('should throw an error if user is not the owner of the certificationAttestation', async function() {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         id: 123,
@@ -34,9 +34,9 @@ describe('Unit | UseCase | get-certification-attestation', async () => {
     });
   });
 
-  context('when the user is owner of the certification attestation', async () => {
+  context('when the user is owner of the certification attestation', async function() {
 
-    it('should return the certification attestation enhanced with result competence tree', async () => {
+    it('should return the certification attestation enhanced with result competence tree', async function() {
       // given
       const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'myResultTreeId' });
       const certificationAttestation = domainBuilder.buildCertificationAttestation({

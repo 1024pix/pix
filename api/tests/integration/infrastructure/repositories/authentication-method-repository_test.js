@@ -16,20 +16,20 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | AuthenticationMethod', () => {
+describe('Integration | Repository | AuthenticationMethod', function() {
 
   const hashedPassword = 'ABCDEF1234';
   const newHashedPassword = '1234ABCDEF';
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('authentication-methods').delete();
     });
 
-    context('When creating a AuthenticationMethod containing an external identifier', () => {
+    context('When creating a AuthenticationMethod containing an external identifier', function() {
 
-      it('should return an AuthenticationMethod', async () => {
+      it('should return an AuthenticationMethod', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -49,9 +49,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('When an AuthenticationMethod already exist for an identity provider and an external identifier', () => {
+    context('When an AuthenticationMethod already exist for an identity provider and an external identifier', function() {
 
-      it('should throw an AlreadyExistingEntityError', async () => {
+      it('should throw an AlreadyExistingEntityError', async function() {
         // given
         const identityProvider = AuthenticationMethod.identityProviders.GAR;
         const externalIdentifier = 'alreadyExistingExternalIdentifier';
@@ -74,9 +74,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('When an AuthenticationMethod already exist for an identity provider and a userId', () => {
+    context('When an AuthenticationMethod already exist for an identity provider and a userId', function() {
 
-      it('should throw an AlreadyExistingEntityError', async () => {
+      it('should throw an AlreadyExistingEntityError', async function() {
         // given
         const identityProvider = AuthenticationMethod.identityProviders.GAR;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -95,16 +95,16 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#updateChangedPassword', () => {
+  describe('#updateChangedPassword', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
     });
 
-    it('should update the password', async () => {
+    it('should update the password', async function() {
       // given
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -124,7 +124,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(updatedAuthenticationMethod.authenticationComplement.password).to.equal(newHashedPassword);
     });
 
-    it('should update the password and disable changing password', async () => {
+    it('should update the password and disable changing password', async function() {
       // given
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -144,7 +144,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(updatedAuthenticationMethod.authenticationComplement.shouldChangePassword).to.be.false;
     });
 
-    it('should throw AuthenticationMethodNotFoundError when user id not found', async () => {
+    it('should throw AuthenticationMethodNotFoundError when user id not found', async function() {
       // given
       const wrongUserId = 0;
 
@@ -158,7 +158,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(error).to.be.instanceOf(AuthenticationMethodNotFoundError);
     });
 
-    it('should rollback update change password when error occurs in transaction', async () => {
+    it('should rollback update change password when error occurs in transaction', async function() {
       // given
       const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -182,9 +182,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
 
   });
 
-  describe('#findOneByUserIdAndIdentityProvider', () => {
+  describe('#findOneByUserIdAndIdentityProvider', function() {
 
-    it('should return the AuthenticationMethod associated to a user for a given identity provider', async () => {
+    it('should return the AuthenticationMethod associated to a user for a given identity provider', async function() {
       // given
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -202,7 +202,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.deep.equal(garAuthenticationMethodInDB);
     });
 
-    it('should return null if there is no AuthenticationMethod for the given user and identity provider', async () => {
+    it('should return null if there is no AuthenticationMethod for the given user and identity provider', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -216,9 +216,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#findOneByExternalIdentifierAndIdentityProvider', () => {
+  describe('#findOneByExternalIdentifierAndIdentityProvider', function() {
 
-    it('should return the AuthenticationMethod for a given external identifier and identity provider', async () => {
+    it('should return the AuthenticationMethod for a given external identifier and identity provider', async function() {
       // given
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const externalIdentifier = 'samlId';
@@ -234,7 +234,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(authenticationMethodsByTypeAndValue).to.deep.equal(authenticationMethodInDB);
     });
 
-    it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async () => {
+    it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async function() {
       // given
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const externalIdentifier = 'samlId';
@@ -247,13 +247,13 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#updateExternalIdentifierByUserIdAndIdentityProvider', () => {
+  describe('#updateExternalIdentifierByUserIdAndIdentityProvider', function() {
 
-    context('When authentication method exists', async () => {
+    context('When authentication method exists', async function() {
 
       let authenticationMethod;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId = databaseBuilder.factory.buildUser().id;
         authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod({
           identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -263,7 +263,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         return databaseBuilder.commit();
       });
 
-      it('should update external identifier by userId and identity provider', async () => {
+      it('should update external identifier by userId and identity provider', async function() {
         // given
         const userId = authenticationMethod.userId;
         const identityProvider = authenticationMethod.identityProvider;
@@ -277,9 +277,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('When authentication method does not exist', async () => {
+    context('When authentication method does not exist', async function() {
 
-      it('should throw an AuthenticationMethodNotFoundError', async () => {
+      it('should throw an AuthenticationMethodNotFoundError', async function() {
         // given
         const userId = 12345;
         const identityProvider = AuthenticationMethod.identityProviders.GAR;
@@ -294,11 +294,11 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#updatePasswordThatShouldBeChanged', () => {
+  describe('#updatePasswordThatShouldBeChanged', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -308,7 +308,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
     });
 
-    it('should update password and set shouldChangePassword to true', async () => {
+    it('should update password and set shouldChangePassword to true', async function() {
       // given
       const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
         password: newHashedPassword,
@@ -327,7 +327,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
     });
 
-    it('should throw AuthenticationMethodNotFoundError when user id not found', async () => {
+    it('should throw AuthenticationMethodNotFoundError when user id not found', async function() {
       // given
       const wrongUserId = 0;
 
@@ -342,11 +342,11 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#createPasswordThatShouldBeChanged', () => {
+  describe('#createPasswordThatShouldBeChanged', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({
         userId,
@@ -355,7 +355,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
     });
 
-    it('should create password and set shouldChangePassword to true', async () => {
+    it('should create password and set shouldChangePassword to true', async function() {
       // given
       const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
         password: newHashedPassword,
@@ -374,7 +374,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(createdAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
     });
 
-    it('should create PIX authenticationMethod and do not replace existing authenticationMethod', async () => {
+    it('should create PIX authenticationMethod and do not replace existing authenticationMethod', async function() {
       // given
       await authenticationMethodRepository.createPasswordThatShouldBeChanged({
         userId,
@@ -398,11 +398,11 @@ describe('Integration | Repository | AuthenticationMethod', () => {
 
   });
 
-  describe('#updateExpiredPassword', () => {
+  describe('#updateExpiredPassword', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         userId,
@@ -412,7 +412,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
     });
 
-    it('should update password and set shouldChangePassword to false', async () => {
+    it('should update password and set shouldChangePassword to false', async function() {
       // given
       const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
         password: newHashedPassword,
@@ -431,7 +431,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(updatedAuthenticationMethod.authenticationComplement).to.deep.equal(expectedAuthenticationComplement);
     });
 
-    it('should throw AuthenticationMethodNotFoundError when user id is not found', async () => {
+    it('should throw AuthenticationMethodNotFoundError when user id is not found', async function() {
       // given
       const wrongUserId = 0;
 
@@ -446,13 +446,13 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#updatePoleEmploiAuthenticationComplementByUserId', () => {
+  describe('#updatePoleEmploiAuthenticationComplementByUserId', function() {
 
-    context('When authentication method exists', async () => {
+    context('When authentication method exists', async function() {
 
       let poleEmploiAuthenticationMethod;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const userId = databaseBuilder.factory.buildUser().id;
         poleEmploiAuthenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
           accessToken: 'to_be_updated',
@@ -463,7 +463,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
         return databaseBuilder.commit();
       });
 
-      it('should update authentication complement by userId and identity provider', async () => {
+      it('should update authentication complement by userId and identity provider', async function() {
         // given
         const userId = poleEmploiAuthenticationMethod.userId;
         const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
@@ -480,9 +480,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('When authentication method does not exist', async () => {
+    context('When authentication method does not exist', async function() {
 
-      it('should throw a not found error', async () => {
+      it('should throw a not found error', async function() {
         // given
         const userId = 12345;
         const authenticationComplement = {};
@@ -496,9 +496,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#hasIdentityProviderPIX', () => {
+  describe('#hasIdentityProviderPIX', function() {
 
-    it('should return true if user have an authenticationMethod with an IdentityProvider PIX ', async () => {
+    it('should return true if user have an authenticationMethod with an IdentityProvider PIX ', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
@@ -515,7 +515,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(result).to.be.true;
     });
 
-    it('should return false if user have no authenticationMethod with an IdentityProvider PIX ', async () => {
+    it('should return false if user have no authenticationMethod with an IdentityProvider PIX ', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({
@@ -534,11 +534,11 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#updateOnlyShouldChangePassword', () => {
+  describe('#updateOnlyShouldChangePassword', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
         hashedPassword,
@@ -549,9 +549,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       await databaseBuilder.commit();
     });
 
-    context('when authentication method exists', () => {
+    context('when authentication method exists', function() {
 
-      it('should update authentication complement by userId with shouldChangePassword false', async () => {
+      it('should update authentication complement by userId with shouldChangePassword false', async function() {
         // given
         const expectedAuthenticationComplement = new AuthenticationMethod.PixAuthenticationComplement({
           password: hashedPassword,
@@ -570,9 +570,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       });
     });
 
-    context('when authentication method does not exist', () => {
+    context('when authentication method does not exist', function() {
 
-      it('should throw AuthenticationMethodNotFoundError', async () => {
+      it('should throw AuthenticationMethodNotFoundError', async function() {
         // given
         userId = 1;
 
@@ -588,9 +588,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#removeByUserIdAndIdentityProvider', () => {
+  describe('#removeByUserIdAndIdentityProvider', function() {
 
-    it('should remove the authentication method by userId and identityProvider', async () => {
+    it('should remove the authentication method by userId and identityProvider', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
@@ -611,9 +611,9 @@ describe('Integration | Repository | AuthenticationMethod', () => {
     });
   });
 
-  describe('#findByUserId', () => {
+  describe('#findByUserId', function() {
 
-    it('should return the user\'s authentication methods', async () => {
+    it('should return the user\'s authentication methods', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod({
@@ -630,7 +630,7 @@ describe('Integration | Repository | AuthenticationMethod', () => {
       expect(result.length).to.equal(2);
     });
 
-    it('should return an empty array if user has no authentication methods', async () => {
+    it('should return an empty array if user has no authentication methods', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();

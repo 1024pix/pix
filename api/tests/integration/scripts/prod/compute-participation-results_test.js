@@ -2,10 +2,10 @@ const { expect, mockLearningContent, databaseBuilder, knex } = require('../../..
 const computeParticipationResults = require('../../../../scripts/prod/compute-participation-results');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-describe('computeParticipationResults', () => {
+describe('computeParticipationResults', function() {
 
-  context('when there is one campaign participation on profile collection campaign', () => {
-    it('computes results using all knowledge elements', async () => {
+  context('when there is one campaign participation on profile collection campaign', function() {
+    it('computes results using all knowledge elements', async function() {
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
       _buildParticipationWithSnapshot(
@@ -31,8 +31,8 @@ describe('computeParticipationResults', () => {
     });
   });
 
-  context('when there is one campaign participation on assessment campaigns', () => {
-    it('computes results on target skills', async () => {
+  context('when there is one campaign participation on assessment campaigns', function() {
+    it('computes results on target skills', async function() {
       const { id: campaignId } = _buildCampaignForSkills(['skill_1']);
 
       _buildParticipationWithSnapshot(
@@ -65,9 +65,9 @@ describe('computeParticipationResults', () => {
     });
   });
 
-  context('when there are campaign participation', () => {
-    context('when there are several campaign participation', () => {
-      it('computes results for each participation', async () => {
+  context('when there are campaign participation', function() {
+    context('when there are several campaign participation', function() {
+      it('computes results for each participation', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
         _buildParticipationWithSnapshot(
@@ -91,8 +91,8 @@ describe('computeParticipationResults', () => {
       });
     });
 
-    context('when there are campaign participation for the several campaigns', () => {
-      it('computes results for each participation', async () => {
+    context('when there are campaign participation for the several campaigns', function() {
+      it('computes results for each participation', async function() {
 
         const { id: campaignId1 } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
         const { id: campaignId2 } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
@@ -121,8 +121,8 @@ describe('computeParticipationResults', () => {
       });
     });
 
-    context('when there are campaign participation with already pix score computed', () => {
-      it('does not compute results', async () => {
+    context('when there are campaign participation with already pix score computed', function() {
+      it('does not compute results', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, sharedAt: new Date('2020-01-02'), validatedSkillsCount: 10, masteryPercentage: 0.2, pixScore: 10 });
@@ -141,8 +141,8 @@ describe('computeParticipationResults', () => {
       });
     });
 
-    context('when there are campaign participation not shared', () => {
-      it('does not compute results', async () => {
+    context('when there are campaign participation not shared', function() {
+      it('does not compute results', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });

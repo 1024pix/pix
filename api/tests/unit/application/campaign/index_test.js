@@ -12,9 +12,9 @@ const campaignManagementController = require('../../../../lib/application/campai
 
 describe('Unit | Application | Router | campaign-router ', function() {
 
-  describe('POST /api/campaigns', () => {
+  describe('POST /api/campaigns', function() {
 
-    it('should return 201', async () => {
+    it('should return 201', async function() {
       // given
       sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
@@ -28,9 +28,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns?filter[code=SOMECODE]', () => {
+  describe('GET /api/campaigns?filter[code=SOMECODE]', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'getByCode').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -46,7 +46,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 404 when controller throws a NotFound domain error', async () => {
+    it('should return 404 when controller throws a NotFound domain error', async function() {
       // given
       sinon.stub(campaignController, 'getByCode').rejects(new NotFoundError());
       const httpTestServer = new HttpTestServer();
@@ -60,9 +60,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}', () => {
+  describe('GET /api/campaigns/{id}', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -75,7 +75,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -88,9 +88,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-assessment-results', () => {
+  describe('GET /api/campaigns/{id}/csv-assessment-results', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'getCsvAssessmentResults').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -103,7 +103,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -116,9 +116,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', () => {
+  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'getCsvProfilesCollectionResults').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -131,7 +131,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -144,9 +144,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('PATCH /api/campaigns/{id}', () => {
+  describe('PATCH /api/campaigns/{id}', function() {
 
-    it('should return 201', async () => {
+    it('should return 201', async function() {
       // given
       sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
       const httpTestServer = new HttpTestServer();
@@ -159,7 +159,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -172,9 +172,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('PATCH /api/admin/campaigns/{id}', () => {
+  describe('PATCH /api/admin/campaigns/{id}', function() {
 
-    it('should return 204', async () => {
+    it('should return 204', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
       sinon.stub(campaignManagementController, 'updateCampaignDetailsManagement').callsFake((request, h) => h.response('ok').code(204));
@@ -201,7 +201,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -213,7 +213,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 when name is null', async () => {
+    it('should return 400 when name is null', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -233,7 +233,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 when name is empty', async () => {
+    it('should return 400 when name is empty', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -253,7 +253,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 400 when title is empty', async () => {
+    it('should return 400 when title is empty', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -274,7 +274,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 403 when unauthorized', async () => {
+    it('should return 403 when unauthorized', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
@@ -301,9 +301,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/admin/campaigns/{id}', () => {
+  describe('GET /api/admin/campaigns/{id}', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
       sinon.stub(campaignManagementController, 'getCampaignDetails').callsFake((request, h) => h.response('ok').code(200));
@@ -317,7 +317,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -329,7 +329,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 403 when unauthorized', async () => {
+    it('should return 403 when unauthorized', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
@@ -343,9 +343,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/collective-results', () => {
+  describe('GET /api/campaigns/{id}/collective-results', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'getCollectiveResult').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -358,7 +358,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -371,9 +371,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/analyses', () => {
+  describe('GET /api/campaigns/{id}/analyses', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -386,7 +386,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400', async () => {
+    it('should return 400', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -399,9 +399,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('PUT /api/campaigns/{id}/archive', () => {
+  describe('PUT /api/campaigns/{id}/archive', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'archiveCampaign').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -414,7 +414,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -427,9 +427,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('DELETE /api/campaigns/{id}/archive', () => {
+  describe('DELETE /api/campaigns/{id}/archive', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'unarchiveCampaign').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -442,7 +442,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -455,9 +455,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/profiles-collection-participations', () => {
+  describe('GET /api/campaigns/{id}/profiles-collection-participations', function() {
 
-    it('should return 200 with empty query string', async () => {
+    it('should return 200 with empty query string', async function() {
       // given
       sinon.stub(campaignController, 'findProfilesCollectionParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -470,7 +470,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with pagination', async () => {
+    it('should return 200 with pagination', async function() {
       // given
       sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -483,7 +483,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as division filter', async () => {
+    it('should return 200 with a string array of one element as division filter', async function() {
       // given
       sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -496,7 +496,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as division filter', async () => {
+    it('should return 200 with a string array of several elements as division filter', async function() {
       // given
       sinon.stub(campaignController, 'findProfilesCollectionParticipations').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -509,7 +509,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with unexpected filters', async () => {
+    it('should return 400 with unexpected filters', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -521,7 +521,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a division filter which is not an array', async () => {
+    it('should return 400 with a division filter which is not an array', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -533,7 +533,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page number which is not a number', async () => {
+    it('should return 400 with a page number which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -545,7 +545,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page size which is not a number', async () => {
+    it('should return 400 with a page size which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -557,7 +557,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -570,9 +570,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/assessment-participations', () => {
+  describe('GET /api/campaigns/{id}/assessment-participations', function() {
 
-    it('should return 200 with empty query string', async () => {
+    it('should return 200 with empty query string', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -585,7 +585,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with pagination', async () => {
+    it('should return 200 with pagination', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -598,7 +598,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as division filter', async () => {
+    it('should return 200 with a string array of one element as division filter', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -611,7 +611,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as division filter', async () => {
+    it('should return 200 with a string array of several elements as division filter', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -624,7 +624,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as badge filter', async () => {
+    it('should return 200 with a string array of one element as badge filter', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -637,7 +637,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as badge filter', async () => {
+    it('should return 200 with a string array of several elements as badge filter', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -650,7 +650,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as stage filter', async () => {
+    it('should return 200 with a string array of one element as stage filter', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -663,7 +663,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as stage filter', async () => {
+    it('should return 200 with a string array of several elements as stage filter', async function() {
       // given
       sinon.stub(campaignController, 'findAssessmentParticipations').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -676,7 +676,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with unexpected filters', async () => {
+    it('should return 400 with unexpected filters', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -688,7 +688,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a division filter which is not an array', async () => {
+    it('should return 400 with a division filter which is not an array', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -700,7 +700,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a badge filter which is not an array', async () => {
+    it('should return 400 with a badge filter which is not an array', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -712,7 +712,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a badge filter which is not a number', async () => {
+    it('should return 400 with a badge filter which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -724,7 +724,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a stage filter which is not an array', async () => {
+    it('should return 400 with a stage filter which is not an array', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -736,7 +736,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a stage filter which is not a number', async () => {
+    it('should return 400 with a stage filter which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -748,7 +748,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page number which is not a number', async () => {
+    it('should return 400 with a page number which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -760,7 +760,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a page size which is not a number', async () => {
+    it('should return 400 with a page size which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -772,7 +772,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -785,9 +785,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/divisions', () => {
+  describe('GET /api/campaigns/{id}/divisions', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignController, 'division').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -800,7 +800,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -813,9 +813,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/stats/participations-by-stage', () => {
+  describe('GET /api/campaigns/{id}/stats/participations-by-stage', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(campaignStatsController, 'getParticipationsByStage').callsFake((request, h) => h.response('ok').code(200)); const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -827,7 +827,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -840,9 +840,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/stats/participations-by-status', () => {
+  describe('GET /api/campaigns/{id}/stats/participations-by-status', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       sinon.stub(campaignStatsController, 'getParticipationsByStatus').callsFake((request, h) => h.response('ok').code(200));
 
       // when
@@ -854,7 +854,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -865,9 +865,9 @@ describe('Unit | Application | Router | campaign-router ', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/participants-activity', () => {
+  describe('GET /api/campaigns/{id}/participants-activity', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       sinon.stub(campaignController, 'findParticipantsActivity').callsFake((request, h) => h.response('ok').code(200));
 
       // when
@@ -879,7 +879,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of one element as division filter', async () => {
+    it('should return 200 with a string array of one element as division filter', async function() {
       // given
       sinon.stub(campaignController, 'findParticipantsActivity').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -892,7 +892,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 200 with a string array of several elements as division filter', async () => {
+    it('should return 200 with a string array of several elements as division filter', async function() {
       // given
       sinon.stub(campaignController, 'findParticipantsActivity').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -905,7 +905,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 with an invalid campaign id', async () => {
+    it('should return 400 with an invalid campaign id', async function() {
       // when
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -915,7 +915,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with unexpected filters', async () => {
+    it('should return 400 with unexpected filters', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -927,7 +927,7 @@ describe('Unit | Application | Router | campaign-router ', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 with a division filter which is not an array', async () => {
+    it('should return 400 with a division filter which is not an array', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

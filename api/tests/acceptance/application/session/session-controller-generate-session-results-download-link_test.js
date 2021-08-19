@@ -1,7 +1,7 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-generate-session-results-download-link', () => {
+describe('Acceptance | Controller | session-controller-generate-session-results-download-link', function() {
 
   let server;
 
@@ -12,14 +12,14 @@ describe('Acceptance | Controller | session-controller-generate-session-results-
     payload: { },
   };
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/admin/sessions/{id}/generate-results-download-link', () => {
-    context('when user is Pix Master', () => {
-      it('should return a 200 status code response', async () => {
+  describe('GET /api/admin/sessions/{id}/generate-results-download-link', function() {
+    context('when user is Pix Master', function() {
+      it('should return a 200 status code response', async function() {
         databaseBuilder.factory.buildSession({ id: sessionId });
         await databaseBuilder.commit();
 
@@ -32,8 +32,8 @@ describe('Acceptance | Controller | session-controller-generate-session-results-
       });
     });
 
-    context('when user is not PixMaster', () => {
-      it('should return 403 HTTP status code', async () => {
+    context('when user is not PixMaster', function() {
+      it('should return 403 HTTP status code', async function() {
         // when
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
         const response = await server.inject(options);
@@ -43,8 +43,8 @@ describe('Acceptance | Controller | session-controller-generate-session-results-
       });
     });
 
-    context('when user is not connected', () => {
-      it('should return 401 HTTP status code if user is not authenticated', async () => {
+    context('when user is not connected', function() {
+      it('should return 401 HTTP status code if user is not authenticated', async function() {
         // when
         options.headers = {};
         const response = await server.inject(options);

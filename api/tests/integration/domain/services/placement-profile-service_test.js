@@ -7,7 +7,7 @@ describe('Integration | Service | Placement Profile Service', function() {
 
   let userId, assessmentId;
 
-  beforeEach(() => {
+  beforeEach(function() {
     const learningContent = [{
       id: 'areaOne',
       code: '1',
@@ -84,13 +84,13 @@ describe('Integration | Service | Placement Profile Service', function() {
     return databaseBuilder.commit();
   });
 
-  context('V1 Profile', () => {
-    describe('#getPlacementProfile', () => {
+  context('V1 Profile', function() {
+    describe('#getPlacementProfile', function() {
 
       let assessment1;
       let assessment2;
       let assessment3;
-      beforeEach(async () => {
+      beforeEach(async function() {
         assessment1 = databaseBuilder.factory.buildAssessment({
           id: 13,
           status: 'completed',
@@ -113,7 +113,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         await databaseBuilder.commit();
       });
 
-      it('should load achieved assessments', async () => {
+      it('should load achieved assessments', async function() {
         // given
         const limitDate = '2020-10-27 08:44:25';
 
@@ -153,11 +153,11 @@ describe('Integration | Service | Placement Profile Service', function() {
     });
   });
 
-  context('V2 Profile', () => {
+  context('V2 Profile', function() {
     const isV2Certification = true;
-    describe('#getPlacementProfile', () => {
+    describe('#getPlacementProfile', function() {
 
-      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
+      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function() {
         // when
         const actualPlacementProfile = await placementProfileService.getPlacementProfile({
           userId,
@@ -196,7 +196,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           }]);
       });
 
-      it('should return area and competence name according to given locale', async () => {
+      it('should return area and competence name according to given locale', async function() {
         // when
         const actualPlacementProfile = await placementProfileService.getPlacementProfile({
           userId,
@@ -212,7 +212,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         expect(areaTitle).to.have.members(['1. Area 1', '1. Area 1', '1. Area 1']);
       });
 
-      it('should return area and competence name according to default locale', async () => {
+      it('should return area and competence name according to default locale', async function() {
         // when
         const actualPlacementProfile = await placementProfileService.getPlacementProfile({
           userId,
@@ -227,8 +227,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         expect(areaTitle).to.have.members(['1. Domaine 1', '1. Domaine 1', '1. Domaine 1']);
       });
 
-      describe('PixScore by competences', () => {
-        it('should assign pixScore and level to user competence based on knowledge elements', async () => {
+      describe('PixScore by competences', function() {
+        it('should assign pixScore and level to user competence based on knowledge elements', async function() {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
@@ -274,7 +274,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           });
         });
 
-        it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
+        it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function() {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
@@ -306,8 +306,8 @@ describe('Integration | Service | Placement Profile Service', function() {
           expect(actualPlacementProfile.userCompetences[1].pixScore).to.equal(17);
         });
 
-        context('when we dont want to limit pix score', () => {
-          it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async () => {
+        context('when we dont want to limit pix score', function() {
+          it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function() {
             databaseBuilder.factory.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
               earnedPix: 64,
@@ -334,8 +334,8 @@ describe('Integration | Service | Placement Profile Service', function() {
 
         });
 
-        context('when we want to limit pix score', () => {
-          it('should limit pixScore to 40 and level to 5', async () => {
+        context('when we want to limit pix score', function() {
+          it('should limit pixScore to 40 and level to 5', async function() {
             databaseBuilder.factory.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
               earnedPix: 64,
@@ -362,8 +362,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         });
       });
 
-      describe('Skills not found in learningContent', () => {
-        it('should skip not found skills', async () => {
+      describe('Skills not found in learningContent', function() {
+        it('should skip not found skills', async function() {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
@@ -420,7 +420,7 @@ describe('Integration | Service | Placement Profile Service', function() {
     });
   });
 
-  describe('#getPlacementProfilesWithSnapshotting', () => {
+  describe('#getPlacementProfilesWithSnapshotting', function() {
     const competences = [{
       id: 'competenceRecordIdOne',
       area: { id: 'areaOne', code: '1' },
@@ -441,7 +441,7 @@ describe('Integration | Service | Placement Profile Service', function() {
       skillIds: ['recRequin5', 'recRequin8'],
     }];
 
-    it('should assign 0 pixScore and level of 0 to user competence when not assessed', async () => {
+    it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function() {
       // when
       const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
         userIdsAndDates: { [userId]: new Date() },
@@ -479,9 +479,9 @@ describe('Integration | Service | Placement Profile Service', function() {
         }]);
     });
 
-    describe('PixScore by competences', () => {
+    describe('PixScore by competences', function() {
 
-      it('should assign pixScore and level to user competence based on knowledge elements', async () => {
+      it('should assign pixScore and level to user competence based on knowledge elements', async function() {
         // given
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
@@ -511,7 +511,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         });
       });
 
-      it('should include both inferred and direct KnowlegdeElements to compute PixScore', async () => {
+      it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function() {
         // given
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
@@ -542,8 +542,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         expect(actualPlacementProfiles[0].userCompetences[1].pixScore).to.equal(17);
       });
 
-      context('when we dont want to limit pix score', () => {
-        it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async () => {
+      context('when we dont want to limit pix score', function() {
+        it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function() {
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,
@@ -569,8 +569,8 @@ describe('Integration | Service | Placement Profile Service', function() {
 
       });
 
-      context('when we want to limit pix score', () => {
-        it('should limit pixScore to 40 and level to 5', async () => {
+      context('when we want to limit pix score', function() {
+        it('should limit pixScore to 40 and level to 5', async function() {
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,

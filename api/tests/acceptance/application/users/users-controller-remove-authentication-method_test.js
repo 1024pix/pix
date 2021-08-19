@@ -2,13 +2,13 @@ const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, insert
 const createServer = require('../../../../server');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-describe('Acceptance | Controller | users-controller-remove-authentication-method', () => {
+describe('Acceptance | Controller | users-controller-remove-authentication-method', function() {
 
   let server;
   let user;
   let options;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
     user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: null });
     databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId: user.id });
@@ -33,9 +33,9 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
     return databaseBuilder.commit();
   });
 
-  describe('POST /admin/users/:id/remove-authentication', () => {
+  describe('POST /admin/users/:id/remove-authentication', function() {
 
-    it('should return 204', async () => {
+    it('should return 204', async function() {
       // when
       const response = await server.inject(options);
 
@@ -43,7 +43,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should set the username to null', async () => {
+    it('should set the username to null', async function() {
       // when
       await server.inject(options);
 
@@ -52,7 +52,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
       expect(updatedUser.username).to.be.null;
     });
 
-    it('should remove PIX authenticationMethod', async () => {
+    it('should remove PIX authenticationMethod', async function() {
       // when
       await server.inject(options);
 

@@ -11,13 +11,13 @@ describe('Unit | Service | Password Service', function() {
 
     let randomGeneratedString;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(jsonwebtoken, 'sign');
       randomGeneratedString = 'aaaaaa';
       sinon.stub(crypto, 'randomBytes').returns(randomGeneratedString);
     });
 
-    it('should call sign function from jwt', () => {
+    it('should call sign function from jwt', function() {
       // given
       const signParams = {
         payload: { data: randomGeneratedString },
@@ -36,11 +36,11 @@ describe('Unit | Service | Password Service', function() {
 
   describe('#invalidateOldResetPasswordDemand', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(resetPasswordRepository, 'markAsBeingUsed');
     });
 
-    it('should call reset password repository', () => {
+    it('should call reset password repository', function() {
       // given
       const userEmail = 'shi@fu.me';
       resetPasswordRepository.markAsBeingUsed.resolves();

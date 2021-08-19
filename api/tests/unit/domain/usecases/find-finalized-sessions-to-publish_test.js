@@ -1,19 +1,19 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findFinalizedSessionsToPublish = require('../../../../lib/domain/usecases/find-finalized-sessions-to-publish');
 
-describe('Unit | UseCase | findFinalizedSessionsToPublish', () => {
+describe('Unit | UseCase | findFinalizedSessionsToPublish', function() {
 
   let finalizedSessionRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     finalizedSessionRepository = {
       findFinalizedSessionsToPublish: sinon.stub(),
     };
   });
 
-  context('when there are finalized publishable sessions', () => {
+  context('when there are finalized publishable sessions', function() {
 
-    it('should get a list of publishable sessions', async () => {
+    it('should get a list of publishable sessions', async function() {
       // given
       const publishableSessions = [
         domainBuilder.buildFinalizedSession({ isPublishable: true }),
@@ -30,9 +30,9 @@ describe('Unit | UseCase | findFinalizedSessionsToPublish', () => {
     });
   });
 
-  context('when there are no finalized publishable sessions', () => {
+  context('when there are no finalized publishable sessions', function() {
 
-    it('should get an empty array', async () => {
+    it('should get an empty array', async function() {
       // given
       finalizedSessionRepository.findFinalizedSessionsToPublish.resolves([]);
       // when

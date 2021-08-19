@@ -1,14 +1,14 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | answer-controller-update', () => {
+describe('Acceptance | Controller | answer-controller-update', function() {
 
-  describe('PATCH /api/answers/:id', () => {
+  describe('PATCH /api/answers/:id', function() {
 
     let server;
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
@@ -22,7 +22,7 @@ describe('Acceptance | Controller | answer-controller-update', () => {
       };
     });
 
-    it('should return 200 HTTP status code', () => {
+    it('should return 200 HTTP status code', function() {
       // when
       const promise = server.inject(options);
 

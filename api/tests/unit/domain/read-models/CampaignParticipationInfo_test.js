@@ -2,11 +2,11 @@ const { expect } = require('../../../test-helper');
 const CampaignParticipationInfo = require('../../../../lib/domain/read-models/CampaignParticipationInfo');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
+describe('Unit | Domain | Read-models | CampaignParticipationInfo', function() {
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
     let validArguments;
-    beforeEach(() => {
+    beforeEach(function() {
       validArguments = {
         participantFirstName: 'Mariah',
         participantLastName: 'Carey',
@@ -20,13 +20,13 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
       };
     });
 
-    it('should successfully instantiate object when passing all valid arguments', () => {
+    it('should successfully instantiate object when passing all valid arguments', function() {
       // when
       expect(() => new CampaignParticipationInfo(validArguments))
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when participantFirstName is not valid', () => {
+    it('should throw an ObjectValidationError when participantFirstName is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: 123456 }))
         .to.throw(ObjectValidationError);
@@ -34,13 +34,13 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .to.throw(ObjectValidationError);
     });
 
-    it('should not throw an ObjectValidationError when participantFirstname is empty', () => {
+    it('should not throw an ObjectValidationError when participantFirstname is empty', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantFirstName: '' }))
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when participantLastName is not valid', () => {
+    it('should throw an ObjectValidationError when participantLastName is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: 123456 }))
         .to.throw(ObjectValidationError);
@@ -48,19 +48,19 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .to.throw(ObjectValidationError);
     });
 
-    it('should not throw an ObjectValidationError when participantLastName is empty', () => {
+    it('should not throw an ObjectValidationError when participantLastName is empty', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantLastName: '' }))
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when participantExternalId is not valid', () => {
+    it('should throw an ObjectValidationError when participantExternalId is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: 123456 }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should not throw an ObjectValidationError when participantExternalId is null or undefined', () => {
+    it('should not throw an ObjectValidationError when participantExternalId is null or undefined', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, participantExternalId: null }))
         .not.to.throw(ObjectValidationError);
@@ -68,13 +68,13 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when studentNumber is not valid', () => {
+    it('should throw an ObjectValidationError when studentNumber is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: 123456 }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should not throw an ObjectValidationError when studentNumber is null or undefined', () => {
+    it('should not throw an ObjectValidationError when studentNumber is null or undefined', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, studentNumber: null }))
         .not.to.throw(ObjectValidationError);
@@ -82,7 +82,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when userId is not valid', () => {
+    it('should throw an ObjectValidationError when userId is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, userId: 'les zouzous' }))
         .to.throw(ObjectValidationError);
@@ -90,7 +90,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when isCompleted is not valid', () => {
+    it('should throw an ObjectValidationError when isCompleted is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, isCompleted: 'les zouzous' }))
         .to.throw(ObjectValidationError);
@@ -98,7 +98,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when createdAt is not valid', () => {
+    it('should throw an ObjectValidationError when createdAt is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, createdAt: 'coucou' }))
         .to.throw(ObjectValidationError);
@@ -106,23 +106,23 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
         .to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when sharedAt is not valid', () => {
+    it('should throw an ObjectValidationError when sharedAt is not valid', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, sharedAt: 'coucou' }))
         .to.throw(ObjectValidationError);
     });
 
-    it('should not throw an ObjectValidationError when sharedAt is null', () => {
+    it('should not throw an ObjectValidationError when sharedAt is null', function() {
       // when
       expect(() => new CampaignParticipationInfo({ ...validArguments, sharedAt: null }))
         .not.to.throw(ObjectValidationError);
     });
   });
 
-  describe('#get isShared()', () => {
+  describe('#get isShared()', function() {
     let validArguments;
 
-    beforeEach(() => {
+    beforeEach(function() {
       validArguments = {
         participantFirstName: 'Mariah',
         participantLastName: 'Carey',
@@ -134,7 +134,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
       };
     });
 
-    it('should return true', () => {
+    it('should return true', function() {
       // given
       const campaignParticipationInfo = new CampaignParticipationInfo({
         ...validArguments,
@@ -145,7 +145,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', () => {
       expect(campaignParticipationInfo.isShared).to.be.true;
     });
 
-    it('should return false', () => {
+    it('should return false', function() {
       // given
       const campaignParticipationInfo = new CampaignParticipationInfo({
         ...validArguments,

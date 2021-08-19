@@ -6,16 +6,16 @@ const knowledgeElementRepository = require('../../../../lib/infrastructure/repos
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | knowledgeElementRepository', () => {
+describe('Integration | Repository | knowledgeElementRepository', function() {
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('knowledge-elements').delete();
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
     let knowledgeElementToSave;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       const userId = databaseBuilder.factory.buildUser({}).id;
       const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
@@ -31,7 +31,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       return databaseBuilder.commit();
     });
 
-    it('should save the knowledgeElement in db', async () => {
+    it('should save the knowledgeElement in db', async function() {
       // when
       await knowledgeElementRepository.save(knowledgeElementToSave);
 
@@ -42,7 +42,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
     });
 
-    it('should return a domain object with the id', async () => {
+    it('should return a domain object with the id', async function() {
       // when
       const savedKnowledgeElement = await knowledgeElementRepository.save(knowledgeElementToSave);
 
@@ -52,7 +52,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findUniqByUserId', () => {
+  describe('#findUniqByUserId', function() {
 
     const today = new Date('2018-08-01T12:34:56Z');
     const yesterday = moment(today).subtract(1, 'days').toDate();
@@ -61,7 +61,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       userId = databaseBuilder.factory.buildUser().id;
 
@@ -85,7 +85,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should be DomainTransaction compliant', async () => {
+    it('should be DomainTransaction compliant', async function() {
       // given
       const answerId = databaseBuilder.factory.buildAnswer().id;
       const assessmentId = databaseBuilder.factory.buildAssessment().id;
@@ -105,8 +105,8 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(knowledgeElementsFound).to.have.deep.members(knowledgeElementsWantedTrx);
     });
 
-    context('when there is no limit date', () => {
-      it('should find the knowledge elements for campaign assessment associated with a user id', async () => {
+    context('when there is no limit date', function() {
+      it('should find the knowledge elements for campaign assessment associated with a user id', async function() {
         // when
         const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId });
 
@@ -115,8 +115,8 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    context('when there is a limit date', () => {
-      it('should find the knowledge elements for campaign assessment associated with a user id created before limit date', async () => {
+    context('when there is a limit date', function() {
+      it('should find the knowledge elements for campaign assessment associated with a user id created before limit date', async function() {
         // when
         const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: today });
 
@@ -126,12 +126,12 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findUniqByUserIdAndAssessmentId', () => {
+  describe('#findUniqByUserIdAndAssessmentId', function() {
 
     let knowledgeElementsWanted;
     let userId, assessmentId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       userId = databaseBuilder.factory.buildUser().id;
       assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;
@@ -148,7 +148,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should find the knowledge elements for assessment associated with a user id', async () => {
+    it('should find the knowledge elements for assessment associated with a user id', async function() {
       // when
       const knowledgeElementsFound = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId, assessmentId });
 
@@ -159,11 +159,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
   });
 
-  describe('#findUniqByUserIdGroupedByCompetenceId', () => {
+  describe('#findUniqByUserIdGroupedByCompetenceId', function() {
 
     let userId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       userId = databaseBuilder.factory.buildUser().id;
 
@@ -177,7 +177,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should find the knowledge elements grouped by competence id', async () => {
+    it('should find the knowledge elements grouped by competence id', async function() {
       // when
       const actualKnowledgeElementsGroupedByCompetenceId = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({ userId });
 
@@ -189,14 +189,14 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
   });
 
-  describe('findUniqByUserIdAndCompetenceId', () => {
+  describe('findUniqByUserIdAndCompetenceId', function() {
     let wantedKnowledgeElements;
     let userId;
     let otherUserId;
     let competenceId;
     let otherCompetenceId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       userId = databaseBuilder.factory.buildUser().id;
       otherUserId = databaseBuilder.factory.buildUser().id;
       competenceId = '3';
@@ -219,7 +219,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       await databaseBuilder.commit();
     });
 
-    it('should find only the knowledge elements matching both userId and competenceId', async () => {
+    it('should find only the knowledge elements matching both userId and competenceId', async function() {
       // when
       const actualKnowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndCompetenceId({ userId, competenceId });
 
@@ -229,16 +229,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
 
   });
 
-  describe('findByCampaignIdForSharedCampaignParticipation', () => {
+  describe('findByCampaignIdForSharedCampaignParticipation', function() {
     let userId, targetProfileId, campaignId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       userId = databaseBuilder.factory.buildUser().id;
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
     });
 
-    it('should have the skill Id', async () => {
+    it('should have the skill Id', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -264,7 +264,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(actualKnowledgeElements[0].skillId).to.equal('12');
     });
 
-    it('should return nothing when there is no shared campaign participations', async () => {
+    it('should return nothing when there is no shared campaign participations', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -288,7 +288,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(actualKnowledgeElements).to.be.empty;
     });
 
-    it('should return a list of knowledge elements when there are shared campaign participations', async () => {
+    it('should return a list of knowledge elements when there are shared campaign participations', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
@@ -335,7 +335,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
     });
 
-    it('should return a list of knowledge elements when there are validated knowledge elements', async () => {
+    it('should return a list of knowledge elements when there are validated knowledge elements', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill2' });
@@ -369,7 +369,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
-    it('should return a list of knowledge elements whose its skillId is included in the campaign target profile', async () => {
+    it('should return a list of knowledge elements whose its skillId is included in the campaign target profile', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkill1' });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -401,7 +401,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
-    it('should return only knowledge elements before shared date', async () => {
+    it('should return only knowledge elements before shared date', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -433,7 +433,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
-    it('should return only last knowledge element for a skill', async () => {
+    it('should return only last knowledge element for a skill', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -465,7 +465,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
-    it('should return latest knowledge elements by skill for each user in the campaign', async () => {
+    it('should return latest knowledge elements by skill for each user in the campaign', async function() {
       // given
       const userId2 = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
@@ -510,7 +510,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(actualKnowledgeElements).to.have.length(3);
     });
 
-    it('should return only last knowledge element if validated for a skill within sharedAt date', async () => {
+    it('should return only last knowledge element if validated for a skill within sharedAt date', async function() {
       // given
       const userId2 = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 12 });
@@ -558,16 +558,16 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('findByCampaignIdAndUserIdForSharedCampaignParticipation', () => {
+  describe('findByCampaignIdAndUserIdForSharedCampaignParticipation', function() {
     let userId, targetProfileId, campaignId;
 
-    beforeEach(() => {
+    beforeEach(function() {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       userId = databaseBuilder.factory.buildUser().id;
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
     });
 
-    it('should return a list of knowledge elements for a given user', async () => {
+    it('should return a list of knowledge elements for a given user', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 2 });
@@ -615,7 +615,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1, 2]);
     });
 
-    it('should return only knowledge elements before shared date', async () => {
+    it('should return only knowledge elements before shared date', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -647,7 +647,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
-    it('should return only last knowledge element if validated for a skill within sharedAt date', async () => {
+    it('should return only last knowledge element if validated for a skill within sharedAt date', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -686,7 +686,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(_.map(actualKnowledgeElements, 'id')).to.exactlyContain([1]);
     });
 
-    it('should not return any knowledge element if latest by skill is not validated', async () => {
+    it('should not return any knowledge element if latest by skill is not validated', async function() {
       // given
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 1 });
       databaseBuilder.factory.buildCampaignParticipation({
@@ -719,22 +719,22 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findSnapshotGroupedByCompetencesForUsers', () => {
+  describe('#findSnapshotGroupedByCompetencesForUsers', function() {
     const sandbox = sinon.createSandbox();
     let userId1;
     let userId2;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId1 = databaseBuilder.factory.buildUser().id;
       userId2 = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return knowledge elements within respective dates grouped by userId the competenceId', async () => {
+    it('should return knowledge elements within respective dates grouped by userId the competenceId', async function() {
       // given
       const competence1 = 'competenceId1';
       const competence2 = 'competenceId2';
@@ -762,13 +762,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    context('when user has a snapshot for this date', () => {
+    context('when user has a snapshot for this date', function() {
 
-      afterEach(() => {
+      afterEach(function() {
         sandbox.restore();
       });
 
-      it('should return the knowledge elements in the snapshot', async () => {
+      it('should return the knowledge elements in the snapshot', async function() {
         // given
         const dateUserId1 = new Date('2020-01-03');
         const knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
@@ -784,17 +784,17 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    context('when user does not have a snapshot for this date', () => {
+    context('when user does not have a snapshot for this date', function() {
 
-      context('when no date is provided along with the user', () => {
+      context('when no date is provided along with the user', function() {
         let expectedKnowledgeElement;
 
-        beforeEach(() => {
+        beforeEach(function() {
           expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
           return databaseBuilder.commit();
         });
 
-        it('should return the knowledge elements with limit date as now', async () => {
+        it('should return the knowledge elements with limit date as now', async function() {
           // when
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: null });
@@ -805,7 +805,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           });
         });
 
-        it('should not trigger snapshotting', async () => {
+        it('should not trigger snapshotting', async function() {
           // when
           await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: null });
 
@@ -815,15 +815,15 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         });
       });
 
-      context('when a date is provided along with the user', () => {
+      context('when a date is provided along with the user', function() {
         let expectedKnowledgeElement;
 
-        beforeEach(() => {
+        beforeEach(function() {
           expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
           return databaseBuilder.commit();
         });
 
-        it('should return the knowledge elements at date', async () => {
+        it('should return the knowledge elements at date', async function() {
           // when
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findSnapshotGroupedByCompetencesForUsers({ [userId1]: new Date('2018-02-01') });
@@ -837,13 +837,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#countValidatedTargetedByCompetencesForOneUser', () => {
+  describe('#countValidatedTargetedByCompetencesForOneUser', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return count of validated knowledge elements within limit date for the given user grouped by competences within target profile of campaign', async () => {
+    it('should return count of validated knowledge elements within limit date for the given user grouped by competences within target profile of campaign', async function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', tubeId: 'tube1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', tubeId: 'tube1' });
@@ -877,11 +877,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(knowledgeElementsCountByCompetenceId[competence1.id]).to.equal(2);
     });
 
-    context('when user does not have a snapshot for this date', () => {
+    context('when user does not have a snapshot for this date', function() {
 
-      context('when no date is provided along with the user', () => {
+      context('when no date is provided along with the user', function() {
 
-        it('should take into account all the knowledge elements with a createdAt anterior as now', async () => {
+        it('should take into account all the knowledge elements with a createdAt anterior as now', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -902,7 +902,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           expect(knowledgeElementsCountByCompetenceId[competenceId]).to.equal(1);
         });
 
-        it('should not trigger snapshotting', async () => {
+        it('should not trigger snapshotting', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -923,9 +923,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         });
       });
 
-      context('when a date is provided along with the user', () => {
+      context('when a date is provided along with the user', function() {
 
-        it('should return the knowledge elements at date', async () => {
+        it('should return the knowledge elements at date', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -949,7 +949,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should avoid counting non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
+    it('should avoid counting non targeted knowledge elements when there are knowledge elements that are not in the target profile', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -971,7 +971,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async () => {
+    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -993,7 +993,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should only take into account validated knowledge elements', async () => {
+    it('should only take into account validated knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1016,7 +1016,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should count 0 on competence that does not have any targeted knowledge elements', async () => {
+    it('should count 0 on competence that does not have any targeted knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1033,13 +1033,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#countValidatedTargetedByCompetencesForUsers', () => {
+  describe('#countValidatedTargetedByCompetencesForUsers', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return count of validated knowledge elements within limit date for the given users grouped by competences within target profile of campaign', async () => {
+    it('should return count of validated knowledge elements within limit date for the given users grouped by competences within target profile of campaign', async function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', tubeId: 'tube1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', tubeId: 'tube2' });
@@ -1073,11 +1073,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    context('when user does not have a snapshot for this date', () => {
+    context('when user does not have a snapshot for this date', function() {
 
-      context('when no date is provided along with the user', () => {
+      context('when no date is provided along with the user', function() {
 
-        it('should take into account the knowledge elements with limit date as now', async () => {
+        it('should take into account the knowledge elements with limit date as now', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1098,7 +1098,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           expect(knowledgeElementsCountByCompetenceId[competenceId]).to.equal(1);
         });
 
-        it('should not trigger snapshotting', async () => {
+        it('should not trigger snapshotting', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1119,9 +1119,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         });
       });
 
-      context('when a date is provided along with the user', () => {
+      context('when a date is provided along with the user', function() {
 
-        it('should return the knowledge elements at date', async () => {
+        it('should return the knowledge elements at date', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1145,7 +1145,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should avoid counting non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
+    it('should avoid counting non targeted knowledge elements when there are knowledge elements that are not in the target profile', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1167,7 +1167,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async () => {
+    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1189,7 +1189,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should avoid counting non validated knowledge elements when there are knowledge elements that are not validated', async () => {
+    it('should avoid counting non validated knowledge elements when there are knowledge elements that are not validated', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1212,7 +1212,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should count 0 on competence that does not have any targeted knowledge elements', async () => {
+    it('should count 0 on competence that does not have any targeted knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1229,13 +1229,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findTargetedGroupedByCompetencesForUsers', () => {
+  describe('#findTargetedGroupedByCompetencesForUsers', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return knowledge elements within respective dates grouped by userId the competenceId within target profile of campaign', async () => {
+    it('should return knowledge elements within respective dates grouped by userId the competenceId within target profile of campaign', async function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', tubeId: 'tube1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', tubeId: 'tube1' });
@@ -1277,7 +1277,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async () => {
+    it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1298,11 +1298,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(knowledgeElementsByUserIdAndCompetenceId[userId][targetProfile.competences[0].id][0]).to.deep.equal(knowledgeElement);
     });
 
-    context('when user does not have a snapshot for this date', () => {
+    context('when user does not have a snapshot for this date', function() {
 
-      context('when no date is provided along with the user', () => {
+      context('when no date is provided along with the user', function() {
 
-        it('should return the knowledge elements with limit date as now', async () => {
+        it('should return the knowledge elements with limit date as now', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1324,7 +1324,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           });
         });
 
-        it('should not trigger snapshotting', async () => {
+        it('should not trigger snapshotting', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1345,9 +1345,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         });
       });
 
-      context('when a date is provided along with the user', () => {
+      context('when a date is provided along with the user', function() {
 
-        it('should return the knowledge elements at date', async () => {
+        it('should return the knowledge elements at date', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1371,7 +1371,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
+    it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1393,7 +1393,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async () => {
+    it('should requalify knowledgeElement under actual targeted competence of skill disregarding indicated competenceId', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1415,7 +1415,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should even return non validated knowledge elements', async () => {
+    it('should even return non validated knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1438,7 +1438,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should return an empty array on competence that does not have any targeted knowledge elements', async () => {
+    it('should return an empty array on competence that does not have any targeted knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1455,13 +1455,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findValidatedTargetedGroupedByTubes', () => {
+  describe('#findValidatedTargetedGroupedByTubes', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return knowledge elements within respective dates grouped by userId and tubeId within target profile of campaign', async () => {
+    it('should return knowledge elements within respective dates grouped by userId and tubeId within target profile of campaign', async function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'skill1', tubeId: 'tube1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'skill2', tubeId: 'tube1' });
@@ -1498,7 +1498,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(knowledgeElementsByTubeId[tube2.id]).to.deep.include.members([knowledgeElement2_2]);
     });
 
-    it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async () => {
+    it('should return the knowledge elements in the snapshot when user has a snapshot for this date', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1518,11 +1518,11 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(knowledgeElementsByTubeId[targetProfile.tubes[0].id][0]).to.deep.equal(knowledgeElement);
     });
 
-    context('when user does not have a snapshot for this date', () => {
+    context('when user does not have a snapshot for this date', function() {
 
-      context('when no date is provided along with the user', () => {
+      context('when no date is provided along with the user', function() {
 
-        it('should return the knowledge elements with limit date as now', async () => {
+        it('should return the knowledge elements with limit date as now', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1543,7 +1543,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           });
         });
 
-        it('should not trigger snapshotting', async () => {
+        it('should not trigger snapshotting', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1563,9 +1563,9 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         });
       });
 
-      context('when a date is provided along with the user', () => {
+      context('when a date is provided along with the user', function() {
 
-        it('should return the knowledge elements at date', async () => {
+        it('should return the knowledge elements at date', async function() {
           // given
           const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
           const userId = databaseBuilder.factory.buildUser().id;
@@ -1588,7 +1588,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async () => {
+    it('should avoid returning non targeted knowledge elements when there are knowledge elements that are not in the target profile', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1609,7 +1609,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should exclusively return validated knowledge elements', async () => {
+    it('should exclusively return validated knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1631,7 +1631,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    it('should return an empty array on tube that does not have any targeted knowledge elements', async () => {
+    it('should return an empty array on tube that does not have any targeted knowledge elements', async function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const userId = databaseBuilder.factory.buildUser().id;
@@ -1648,22 +1648,22 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
     });
   });
 
-  describe('#findSnapshotForUsers', () => {
+  describe('#findSnapshotForUsers', function() {
     const sandbox = sinon.createSandbox();
     let userId1;
     let userId2;
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId1 = databaseBuilder.factory.buildUser().id;
       userId2 = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return knowledge elements within respective dates and users', async () => {
+    it('should return knowledge elements within respective dates and users', async function() {
       // given
       const dateUserId1 = new Date('2020-01-03');
       const dateUserId2 = new Date('2019-01-03');
@@ -1687,13 +1687,13 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       expect(knowledgeElementsByUserIdAndCompetenceId[userId2]).to.deep.include.members([user2knowledgeElement1, user2knowledgeElement2 ]);
     });
 
-    context('when user has a snapshot for this date', () => {
+    context('when user has a snapshot for this date', function() {
 
-      afterEach(() => {
+      afterEach(function() {
         sandbox.restore();
       });
 
-      it('should return the knowledge elements in the snapshot', async () => {
+      it('should return the knowledge elements in the snapshot', async function() {
         // given
         sandbox.spy(knowledgeElementSnapshotRepository);
         const dateSharedAtUserId1 = new Date('2020-01-03');
@@ -1714,17 +1714,17 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
       });
     });
 
-    context('when user does not have a snapshot for this date', () => {
+    context('when user does not have a snapshot for this date', function() {
 
-      context('when no date is provided along with the user', () => {
+      context('when no date is provided along with the user', function() {
         let expectedKnowledgeElement;
 
-        beforeEach(() => {
+        beforeEach(function() {
           expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
           return databaseBuilder.commit();
         });
 
-        it('should return all knowledge elements', async () => {
+        it('should return all knowledge elements', async function() {
           // when
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: null });
@@ -1733,7 +1733,7 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
           expect(knowledgeElementsByUserIdAndCompetenceId[userId1]).to.deep.include.members([expectedKnowledgeElement]);
         });
 
-        it('should not trigger snapshotting', async () => {
+        it('should not trigger snapshotting', async function() {
           // when
           await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: null });
 
@@ -1743,15 +1743,15 @@ describe('Integration | Repository | knowledgeElementRepository', () => {
         });
       });
 
-      context('when a date is provided along with the user', () => {
+      context('when a date is provided along with the user', function() {
         let expectedKnowledgeElement;
 
-        beforeEach(() => {
+        beforeEach(function() {
           expectedKnowledgeElement = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1, createdAt: new Date('2018-01-01') });
           return databaseBuilder.commit();
         });
 
-        it('should return the knowledge elements at date', async () => {
+        it('should return the knowledge elements at date', async function() {
           // when
           const knowledgeElementsByUserIdAndCompetenceId =
             await knowledgeElementRepository.findSnapshotForUsers({ [userId1]: new Date('2018-02-01') });

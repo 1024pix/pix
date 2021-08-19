@@ -1,8 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 
-describe('Unit | Serializer | JSONAPI | profile', () => {
-  describe('#serialize()', () => {
+describe('Unit | Serializer | JSONAPI | profile', function() {
+  describe('#serialize()', function() {
     const area1 = {
       id: '1',
       code: '1',
@@ -111,7 +111,7 @@ describe('Unit | Serializer | JSONAPI | profile', () => {
       ],
     };
 
-    it('should convert a scorecard object into JSON API data', () => {
+    it('should convert a scorecard object into JSON API data', function() {
       // when
       const json = serializer.serialize(profile);
 

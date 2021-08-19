@@ -3,12 +3,12 @@ const _ = require('lodash');
 const improvementService = require('../../../../lib/domain/services/improvement-service');
 const constants = require('../../../../lib/domain/constants');
 
-describe('Unit | Service | ImprovementService', () => {
+describe('Unit | Service | ImprovementService', function() {
 
-  describe('#filterKnowledgeElementsIfImproving', () => {
+  describe('#filterKnowledgeElementsIfImproving', function() {
 
-    context('when assessment is not improving', () => {
-      it('should return the same list of knowledge-elements if assessment is not improving', () => {
+    context('when assessment is not improving', function() {
+      it('should return the same list of knowledge-elements if assessment is not improving', function() {
         // given
         const assessment = domainBuilder.buildAssessment({ state: 'started', isImproving: false });
         const knowledgeElements = [domainBuilder.buildKnowledgeElement()];
@@ -20,11 +20,11 @@ describe('Unit | Service | ImprovementService', () => {
       });
     });
 
-    context('when the campaign participation is retrying', () => {
+    context('when the campaign participation is retrying', function() {
       let assessment, knowledgeElements;
       const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
 
-      beforeEach(() => {
+      beforeEach(function() {
         constants['MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING'] = 3;
         const assessmentDate = '2020-07-30';
 
@@ -37,11 +37,11 @@ describe('Unit | Service | ImprovementService', () => {
         ];
       });
 
-      afterEach(() => {
+      afterEach(function() {
         constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
       });
 
-      it('should return the same list of knowledge-elements if assessment is not improving', () => {
+      it('should return the same list of knowledge-elements if assessment is not improving', function() {
 
         // when
         const listOfKnowledgeElements = improvementService.filterKnowledgeElementsIfImproving({ assessment, knowledgeElements, isRetrying: true });
@@ -52,9 +52,9 @@ describe('Unit | Service | ImprovementService', () => {
 
     });
 
-    context('when assessment is improving', () => {
+    context('when assessment is improving', function() {
       let assessment, oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements;
-      beforeEach(() => {
+      beforeEach(function() {
         const assessmentDate = '2020-07-30';
         const fiveDaysBeforeAssesmentDate = '2020-07-25';
         const fourDaysBeforeAssesmentDate = '2020-07-26';
@@ -81,7 +81,7 @@ describe('Unit | Service | ImprovementService', () => {
         ];
       });
 
-      it('should return validated knowledge elements and knowledge elements not validated but created less than 4 days', () => {
+      it('should return validated knowledge elements and knowledge elements not validated but created less than 4 days', function() {
         // given
         const knowledgeElements = _.concat(oldKnowledgeElementsValidated, oldKnowledgeElementsInvalidated, recentKnowledgeElements);
         // when

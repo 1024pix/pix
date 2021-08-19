@@ -2,7 +2,7 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-center-serializer');
 const CertificationCenter = require('../../../../../lib/domain/models/CertificationCenter');
 
-describe('Unit | Serializer | JSONAPI | certification-center-serializer', () => {
+describe('Unit | Serializer | JSONAPI | certification-center-serializer', function() {
 
   let certificationCenterId;
   let certificationCenterName;
@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', () => 
   let certificationCenterType;
   let certificationCenterExternalId;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCenterId = 42;
     certificationCenterName = 'My certification center';
     certificationCenterType = 'PRO';
@@ -18,9 +18,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', () => 
     certificationCenterDate = 'Some date';
   });
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should convert a Certification Center model object into JSON API data', () => {
+    it('should convert a Certification Center model object into JSON API data', function() {
       // given
       const certificationCenter = new CertificationCenter({
         id: certificationCenterId.toString(),
@@ -58,9 +58,9 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', () => 
     });
   });
 
-  describe('#deserialize', () => {
+  describe('#deserialize', function() {
 
-    it('should convert JSON API certification center data into a Certification Center model object', () => {
+    it('should convert JSON API certification center data into a Certification Center model object', function() {
       // given
       const jsonApi = {
         data: {

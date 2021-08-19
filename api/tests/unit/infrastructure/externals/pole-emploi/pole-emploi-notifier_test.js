@@ -9,9 +9,9 @@ const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
 const logger = require('../../../../../lib/infrastructure/logger');
 
-describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', () => {
+describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function() {
 
-  describe('#notify', () => {
+  describe('#notify', function() {
 
     let clock;
 
@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
     const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(Date.now());
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
@@ -45,7 +45,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
       settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
@@ -55,7 +55,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.restore();
     });
 
-    it('should throw an error if the user is not known as PoleEmploi user', async () => {
+    it('should throw an error if the user is not known as PoleEmploi user', async function() {
       // given
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider
         .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
@@ -69,9 +69,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       expect(error.message).to.equal('Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi');
     });
 
-    context('when access token is valid', () => {
+    context('when access token is valid', function() {
 
-      it('should send the notification to Pole Emploi', async () => {
+      it('should send the notification to Pole Emploi', async function() {
         // given
         const expiredDate = moment().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
@@ -100,9 +100,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       });
     });
 
-    context('when access token is invalid', () => {
+    context('when access token is invalid', function() {
 
-      it('should try to refresh the access token', async () => {
+      it('should try to refresh the access token', async function() {
         // given
         const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
@@ -127,9 +127,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         });
       });
 
-      context('when it succeeds', () => {
+      context('when it succeeds', function() {
 
-        it('should update the authentication method', async () => {
+        it('should update the authentication method', async function() {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
             .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
@@ -148,7 +148,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement, userId });
         });
 
-        it('should send the notification to Pole Emploi', async () => {
+        it('should send the notification to Pole Emploi', async function() {
           // given
           const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
             accessToken: data['access_token'],
@@ -187,9 +187,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         });
       });
 
-      context('when it fails', () => {
+      context('when it fails', function() {
 
-        it('should log error and return httpResponse with error if retrieve PE tokens fails', async () => {
+        it('should log error and return httpResponse with error if retrieve PE tokens fails', async function() {
           // given
           const errorData = {
             error: 'invalid_client',
@@ -226,7 +226,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           expect(result).to.deep.equal(expectedResult);
         });
 
-        it('should log error and return httpResponse with error if sending to PE fails', async () => {
+        it('should log error and return httpResponse with error if sending to PE fails', async function() {
           // given
           const tokenResponse = {
             isSuccessful: true,

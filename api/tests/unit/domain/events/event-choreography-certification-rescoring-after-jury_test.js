@@ -3,7 +3,7 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
 
 describe('Event Choreography | CertificationJuryDone', function() {
-  it('Should trigger the certification rescoring', async () => {
+  it('Should trigger the certification rescoring', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new CertificationJuryDone({});

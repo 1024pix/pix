@@ -8,15 +8,15 @@ const { handleDomainAndHttpErrors } = require('../../../lib/application/pre-resp
 
 const { DomainError } = require('../../../lib/domain/errors');
 
-describe('Unit | Application | PreResponse-utils', () => {
+describe('Unit | Application | PreResponse-utils', function() {
 
-  describe('#handleDomainAndHttpErrors', () => {
+  describe('#handleDomainAndHttpErrors', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(errorManager, 'handle').resolves();
     });
 
-    it('should continue the process when not DomainError or BaseHttpError', async () => {
+    it('should continue the process when not DomainError or BaseHttpError', async function() {
       // given
       const request = {
         response: {
@@ -33,7 +33,7 @@ describe('Unit | Application | PreResponse-utils', () => {
       expect(response.toString()).to.be.equal(expectedString);
     });
 
-    it('should manage DomainError', async () => {
+    it('should manage DomainError', async function() {
       const request = {
         response: new DomainError('Error message'),
       };
@@ -45,7 +45,7 @@ describe('Unit | Application | PreResponse-utils', () => {
       expect(errorManager.handle).to.have.been.calledWithExactly(request, hFake, request.response);
     });
 
-    it('should manage BaseHttpError', async () => {
+    it('should manage BaseHttpError', async function() {
       const request = {
         response: new BaseHttpError('Error message'),
       };
@@ -57,9 +57,9 @@ describe('Unit | Application | PreResponse-utils', () => {
       expect(errorManager.handle).to.have.been.calledWithExactly(request, hFake, request.response);
     });
 
-    context('when dealing with 5XX errors', () => {
-      context('when 5XX error logging is enabled', () => {
-        it('logs 5XX errors', () => {
+    context('when dealing with 5XX errors', function() {
+      context('when 5XX error logging is enabled', function() {
+        it('logs 5XX errors', function() {
           // given
           const response = _create500ErrorResponse();
           const request = { response };
@@ -75,8 +75,8 @@ describe('Unit | Application | PreResponse-utils', () => {
         });
       });
 
-      context('when 5XX error logging is disabled', () => {
-        it('skips 5XX errors logging', () => {
+      context('when 5XX error logging is disabled', function() {
+        it('skips 5XX errors logging', function() {
           // given
           const response = _create500ErrorResponse();
           const request = { response };

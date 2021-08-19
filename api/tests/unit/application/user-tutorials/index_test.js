@@ -6,11 +6,11 @@ const {
 const userTutorialsController = require('../../../../lib/application/user-tutorials/user-tutorials-controller');
 const moduleUnderTest = require('../../../../lib/application/user-tutorials');
 
-describe('Unit | Router | user-tutorials-router', () => {
+describe('Unit | Router | user-tutorials-router', function() {
 
-  describe('PUT /api/users/tutorials/{tutorialId}', () => {
+  describe('PUT /api/users/tutorials/{tutorialId}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(userTutorialsController, 'add').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
@@ -28,9 +28,9 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('GET /api/users/tutorials', () => {
+  describe('GET /api/users/tutorials', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(userTutorialsController, 'find').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -48,9 +48,9 @@ describe('Unit | Router | user-tutorials-router', () => {
     });
   });
 
-  describe('DELETE /api/users/tutorials/{tutorialId}', () => {
+  describe('DELETE /api/users/tutorials/{tutorialId}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(userTutorialsController, 'removeFromUser').callsFake((request, h) => h.response().code(204));
       const httpTestServer = new HttpTestServer();

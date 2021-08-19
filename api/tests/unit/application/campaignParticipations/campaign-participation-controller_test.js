@@ -13,9 +13,9 @@ const CampaignParticipationStarted = require('../../../../lib/domain/events/Camp
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Application | Controller | Campaign-Participation', () => {
+describe('Unit | Application | Controller | Campaign-Participation', function() {
 
-  describe('#shareCampaignResult', () => {
+  describe('#shareCampaignResult', function() {
     const userId = 1;
     const request = {
       params: {
@@ -31,12 +31,12 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'shareCampaignResult');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
     });
 
-    it('should call the use case to share campaign result', async () => {
+    it('should call the use case to share campaign result', async function() {
       // given
       usecases.shareCampaignResult.resolves();
 
@@ -50,7 +50,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(updateCampaignParticiaption).to.have.property('userId');
     });
 
-    it('should dispatch the campaign participation results shared event', async () => {
+    it('should dispatch the campaign participation results shared event', async function() {
       // given
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
@@ -63,9 +63,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
     });
 
-    context('when the request comes from a different user', () => {
+    context('when the request comes from a different user', function() {
 
-      it('should return a 403 status code', async () => {
+      it('should return a 403 status code', async function() {
         // given
         usecases.shareCampaignResult.resolves();
 
@@ -81,13 +81,13 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
     let request;
     const campaignId = 123456;
     const participantExternalId = 'azer@ty.com';
     const userId = 6;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'startCampaignParticipation');
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(events.eventDispatcher, 'dispatch');
@@ -113,7 +113,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       };
     });
 
-    it('should call the usecases to start the campaign participation', async () => {
+    it('should call the usecases to start the campaign participation', async function() {
       // given
       usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
@@ -135,7 +135,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
     });
 
-    it('should dispatch CampaignParticipationStartedEvent', async () => {
+    it('should dispatch CampaignParticipationStartedEvent', async function() {
       // given
       const campaignParticipationStartedEvent = new CampaignParticipationStarted();
       usecases.startCampaignParticipation.resolves({ event: campaignParticipationStartedEvent });
@@ -150,7 +150,7 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationStartedEvent);
     });
 
-    it('should return the serialized campaign participation when it has been successfully created', async () => {
+    it('should return the serialized campaign participation when it has been successfully created', async function() {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation();
       usecases.startCampaignParticipation.resolves({
@@ -174,9 +174,9 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
-  describe('#beginImprovement', () => {
+  describe('#beginImprovement', function() {
 
-    it('should call the usecase to begin improvement', async () => {
+    it('should call the usecase to begin improvement', async function() {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
@@ -196,19 +196,19 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
-  describe('#getCampaignAssessmentParticipationResult', () => {
+  describe('#getCampaignAssessmentParticipationResult', function() {
 
     const campaignId = 123;
     const userId = 456;
     const campaignParticipationId = 789;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getCampaignAssessmentParticipationResult');
       sinon.stub(campaignAssessmentParticipationResultSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer with expected parameters', async () => {
+    it('should call usecase and serializer with expected parameters', async function() {
       // given
       const campaignAssessmentParticipationResult = Symbol('campaignAssessmentParticipationResult');
       const expectedResults = Symbol('results');
@@ -229,19 +229,19 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
-  describe('#getCampaignProfile', () => {
+  describe('#getCampaignProfile', function() {
 
     const campaignId = 123;
     const userId = 456;
     const campaignParticipationId = 789;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getCampaignProfile');
       sinon.stub(campaignProfileSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer with expected parameters', async () => {
+    it('should call usecase and serializer with expected parameters', async function() {
       // given
       const campaignProfile = Symbol('campaignProfile');
       const expectedResults = Symbol('results');
@@ -262,18 +262,18 @@ describe('Unit | Application | Controller | Campaign-Participation', () => {
     });
   });
 
-  describe('#getAnalysis', () => {
+  describe('#getAnalysis', function() {
 
     const userId = 456;
     const campaignParticipationId = 789;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'computeCampaignParticipationAnalysis');
       sinon.stub(campaignAnalysisSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer with expected parameters', async () => {
+    it('should call usecase and serializer with expected parameters', async function() {
       // given
       const campaignAnalysis = Symbol('campaignAnalysis');
       const expectedResults = Symbol('results');

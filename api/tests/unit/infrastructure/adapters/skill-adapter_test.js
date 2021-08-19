@@ -2,11 +2,11 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const skillAdapter = require('../../../../lib/infrastructure/adapters/skill-adapter');
 const Skill = require('../../../../lib/domain/models/Skill');
 
-describe('Unit | Infrastructure | Adapter | skillAdapter', () => {
+describe('Unit | Infrastructure | Adapter | skillAdapter', function() {
 
-  describe('#fromDatasourceObject', () => {
+  describe('#fromDatasourceObject', function() {
 
-    it('should create a Skill model', () => {
+    it('should create a Skill model', function() {
     // given
       const skillDataObject = domainBuilder.buildSkillLearningContentDataObject();
       const expectedSkill = domainBuilder.buildSkill({

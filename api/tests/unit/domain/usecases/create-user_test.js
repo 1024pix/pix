@@ -12,7 +12,7 @@ const User = require('../../../../lib/domain/models/User');
 
 const createUser = require('../../../../lib/domain/usecases/create-user');
 
-describe('Unit | UseCase | create-user', () => {
+describe('Unit | UseCase | create-user', function() {
 
   const userId = 123;
   const userEmail = 'test@example.net';
@@ -30,7 +30,7 @@ describe('Unit | UseCase | create-user', () => {
   let mailService;
   let userService;
 
-  beforeEach(() => {
+  beforeEach(function() {
     authenticationMethodRepository = {
 
     };
@@ -68,9 +68,9 @@ describe('Unit | UseCase | create-user', () => {
     campaignCode = 'AZERTY123';
   });
 
-  context('step validation of data', () => {
+  context('step validation of data', function() {
 
-    it('should check the non existence of email in UserRepository', async () => {
+    it('should check the non existence of email in UserRepository', async function() {
       // given
       userRepository.isEmailAvailable.resolves();
 
@@ -90,7 +90,7 @@ describe('Unit | UseCase | create-user', () => {
       expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
     });
 
-    it('should validate the user', async () => {
+    it('should validate the user', async function() {
       // when
       await createUser({
         user,
@@ -107,7 +107,7 @@ describe('Unit | UseCase | create-user', () => {
       expect(userValidator.validate).to.have.been.calledWith({ user });
     });
 
-    it('should validate the password', async () => {
+    it('should validate the password', async function() {
       // when
       await createUser({
         user,
@@ -124,9 +124,9 @@ describe('Unit | UseCase | create-user', () => {
       expect(passwordValidator.validate).to.have.been.calledWith(password);
     });
 
-    context('when user email is already used', () => {
+    context('when user email is already used', function() {
 
-      it('should reject with an error EntityValidationError on email already registered', async () => {
+      it('should reject with an error EntityValidationError on email already registered', async function() {
         // given
         const emailExistError = new AlreadyRegisteredEmailError('email already exists');
         const expectedValidationError = new EntityValidationError({
@@ -157,9 +157,9 @@ describe('Unit | UseCase | create-user', () => {
 
     });
 
-    context('when user validator fails', () => {
+    context('when user validator fails', function() {
 
-      it('should reject with an error EntityValidationError containing the entityValidationError', async () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError', async function() {
         // given
         const expectedValidationError = new EntityValidationError({
           invalidAttributes: [
@@ -195,7 +195,7 @@ describe('Unit | UseCase | create-user', () => {
 
     });
 
-    context('when user email is already in use, user validator fails', () => {
+    context('when user email is already in use, user validator fails', function() {
 
       const entityValidationError = new EntityValidationError({
         invalidAttributes: [
@@ -211,7 +211,7 @@ describe('Unit | UseCase | create-user', () => {
       });
       const emailExistError = new AlreadyRegisteredEmailError('email already exists');
 
-      it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', async () => {
+      it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', async function() {
         // given
         userRepository.isEmailAvailable.rejects(emailExistError);
         userValidator.validate.throws(entityValidationError);
@@ -235,9 +235,9 @@ describe('Unit | UseCase | create-user', () => {
     });
   });
 
-  context('when user\'s email is not defined', () => {
+  context('when user\'s email is not defined', function() {
 
-    it('should not check the absence of email in UserRepository', async () => {
+    it('should not check the absence of email in UserRepository', async function() {
       // given
       const user = { email: null };
 
@@ -258,11 +258,11 @@ describe('Unit | UseCase | create-user', () => {
     });
   });
 
-  context('when user is valid', () => {
+  context('when user is valid', function() {
 
-    context('step hash password and save user', () => {
+    context('step hash password and save user', function() {
 
-      it('should encrypt the password', async () => {
+      it('should encrypt the password', async function() {
         // when
         await createUser({
           user,
@@ -279,7 +279,7 @@ describe('Unit | UseCase | create-user', () => {
         expect(encryptionService.hashPassword).to.have.been.calledWith(password);
       });
 
-      it('should throw Error when hash password function fails', async () => {
+      it('should throw Error when hash password function fails', async function() {
         // given
         encryptionService.hashPassword.rejects(new Error());
 
@@ -299,7 +299,7 @@ describe('Unit | UseCase | create-user', () => {
         expect(error).to.be.instanceOf(Error);
       });
 
-      it('should save the user with a properly encrypted password', async () => {
+      it('should save the user with a properly encrypted password', async function() {
         // when
         await createUser({
           user,
@@ -323,10 +323,10 @@ describe('Unit | UseCase | create-user', () => {
       });
     });
 
-    context('step send account creation email to user', () => {
+    context('step send account creation email to user', function() {
       const user = new User({ email: userEmail });
 
-      it('should send the account creation email', async () => {
+      it('should send the account creation email', async function() {
         // given
         campaignRepository.getByCode.resolves({ organizationId: 1 });
         const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
@@ -347,11 +347,11 @@ describe('Unit | UseCase | create-user', () => {
         expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(userEmail, locale, expectedRedirectionUrl);
       });
 
-      describe('when campaignCode is null', () => {
+      describe('when campaignCode is null', function() {
 
         campaignCode = null;
 
-        it('should send the account creation email with null redirectionUrl', async () => {
+        it('should send the account creation email with null redirectionUrl', async function() {
           // given
           const expectedRedirectionUrl = null;
 
@@ -372,11 +372,11 @@ describe('Unit | UseCase | create-user', () => {
         });
       });
 
-      describe('when campaignCode is not valid', () => {
+      describe('when campaignCode is not valid', function() {
 
         campaignCode = 'NOT-VALID';
 
-        it('should send the account creation email with null redirectionUrl', async () => {
+        it('should send the account creation email with null redirectionUrl', async function() {
           // given
           const expectedRedirectionUrl = null;
           campaignRepository.getByCode.resolves(null);
@@ -399,7 +399,7 @@ describe('Unit | UseCase | create-user', () => {
       });
     });
 
-    it('should return saved user', async () => {
+    it('should return saved user', async function() {
       // when
       const createdUser = await createUser({
         user,

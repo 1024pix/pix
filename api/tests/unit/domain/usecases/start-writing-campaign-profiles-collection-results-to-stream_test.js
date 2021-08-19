@@ -5,7 +5,7 @@ const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/
 const CampaignProfilesCollectionExport = require('../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', () => {
+describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function() {
   const campaignRepository = { get: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const competenceRepository = { listPixCompetencesOnly: () => undefined };
@@ -16,7 +16,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
   const placementProfileService = Symbol('placementProfileService');
   const i18n = getI18n();
 
-  beforeEach(() => {
+  beforeEach(function() {
     sinon.stub(campaignRepository, 'get').rejects('error for campaignRepository.get');
     sinon.stub(userRepository, 'getWithMemberships').rejects('error for userRepository.getWithMemberships');
     sinon.stub(competenceRepository, 'listPixCompetencesOnly').rejects('error for competenceRepository.listPixCompetencesOnly');
@@ -27,7 +27,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     csvPromise = streamToPromise(writableStream);
   });
 
-  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async () => {
+  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function() {
     // given
     const notAuthorizedUser = domainBuilder.buildUser({ memberships: [] });
     const campaign = domainBuilder.buildCampaign();
@@ -53,7 +53,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
-  it('should process result for each participation and add it to csv', async () => {
+  it('should process result for each participation and add it to csv', async function() {
     // given
     const competences = Symbol('competences');
     const campaignParticipationResultDatas = Symbol('campaignParticipationResultDatas');

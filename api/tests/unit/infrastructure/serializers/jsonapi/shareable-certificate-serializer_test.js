@@ -3,11 +3,11 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const ResultCompetenceTree = require('../../../../../lib/domain/models/ResultCompetenceTree');
 const ResultCompetence = require('../../../../../lib/domain/models/ResultCompetence');
 
-describe('Unit | Serializer | JSONAPI | shareable-certificate-serializer', () => {
+describe('Unit | Serializer | JSONAPI | shareable-certificate-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serialize', function() {
 
-    it('should serialize to JSON with included relationships', () => {
+    it('should serialize to JSON with included relationships', function() {
       // given
       const area1 = domainBuilder.buildArea({
         id: 'recAREA1',

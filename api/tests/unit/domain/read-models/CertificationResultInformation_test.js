@@ -3,11 +3,11 @@ const CertificationResultInformation = require('../../../../lib/domain/read-mode
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
-describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
+describe('Unit | Domain | Read-Models | CertificationResultInformation', function() {
 
-  describe('#from', () => {
+  describe('#from', function() {
 
-    it('should return an instance of CertificationResultInformation', () => {
+    it('should return an instance of CertificationResultInformation', function() {
       // given
       const generalCertificationInformation = domainBuilder.buildGeneralCertificationInformation({
         certificationCourseId: 123,
@@ -85,8 +85,8 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', () => {
       expect(certificationResultInformation).to.deep.equal(expectedCertificationResultInformation);
     });
 
-    describe('when certification course is cancelled', () => {
-      it('should return CertificationResultInformation with status cancelled', () => {
+    describe('when certification course is cancelled', function() {
+      it('should return CertificationResultInformation with status cancelled', function() {
         // given
         const generalCertificationInformation = new GeneralCertificationInformation({
           certificationCourseId: 123,

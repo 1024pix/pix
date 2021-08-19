@@ -2,14 +2,14 @@ const { expect, sinon } = require('../../../test-helper');
 const getAnswer = require('../../../../lib/domain/usecases/get-answer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-answer', () => {
+describe('Unit | UseCase | get-answer', function() {
 
   const answerId = 1;
   const userId = 'userId';
   let answerRepository;
   let assessmentRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     const answer = {
       id: 1,
       assessmentId: 3,
@@ -31,8 +31,8 @@ describe('Unit | UseCase | get-answer', () => {
     assessmentRepository.ownedByUser.withArgs({ id: answer.assessmentId, userId }).resolves(assessment);
   });
 
-  context('when user asked for answer is the user of the assessment', () => {
-    it('should get the answer', () => {
+  context('when user asked for answer is the user of the assessment', function() {
+    it('should get the answer', function() {
 
       // when
       const result = getAnswer({ answerId, userId, answerRepository, assessmentRepository });
@@ -44,8 +44,8 @@ describe('Unit | UseCase | get-answer', () => {
     });
   });
 
-  context('when user asked for answer is not the user of the assessment', () => {
-    it('should throw a Not Found error', () => {
+  context('when user asked for answer is not the user of the assessment', function() {
+    it('should throw a Not Found error', function() {
 
       // when
       const result = getAnswer({ answerId, userId: userId + 1, answerRepository, assessmentRepository });
@@ -55,8 +55,8 @@ describe('Unit | UseCase | get-answer', () => {
     });
   });
 
-  context('when the answer id provided is not an integer', () => {
-    it('should throw a Not Found error', () => {
+  context('when the answer id provided is not an integer', function() {
+    it('should throw a Not Found error', function() {
 
       // when
       const result = getAnswer({ answerId: 'salut', userId: userId + 1, answerRepository, assessmentRepository });

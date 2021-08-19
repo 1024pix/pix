@@ -7,8 +7,8 @@ const CertificationAssessment = require('../../../../lib/domain/models/Certifica
 const deneutralizeChallenge = require('../../../../lib/domain/usecases/deneutralize-challenge');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
 
-describe('Unit | UseCase | deneutralize-challenge', () => {
-  it('deneutralizes a challenge by its recId', async () => {
+describe('Unit | UseCase | deneutralize-challenge', function() {
+  it('deneutralizes a challenge by its recId', async function() {
     // given
     const certificationCourseId = 1;
     const certificationAssessmentRepository = {
@@ -46,7 +46,7 @@ describe('Unit | UseCase | deneutralize-challenge', () => {
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
-  it('return a ChallengeDeneutralized event', async () => {
+  it('return a ChallengeDeneutralized event', async function() {
     // given
     const certificationCourseId = 1;
     const certificationAssessmentRepository = {

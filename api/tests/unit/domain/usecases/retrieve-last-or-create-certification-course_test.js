@@ -5,7 +5,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const _ = require('lodash');
 
-describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => {
+describe('Unit | UseCase | retrieve-last-or-create-certification-course', function() {
 
   let clock;
   const now = new Date('2019-01-01T05:06:07Z');
@@ -49,23 +49,23 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     verifyCertificateCodeService,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     clock = sinon.useFakeTimers(now);
   });
 
-  afterEach(() => {
+  afterEach(function() {
     clock.restore();
     certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.reset();
   });
 
-  context('when session access code is different from provided access code', () => {
+  context('when session access code is different from provided access code', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       foundSession = { accessCode: 'differentAccessCode' };
       sessionRepository.get.withArgs(sessionId).resolves(foundSession);
     });
 
-    it('should throw a not found error', async () => {
+    it('should throw a not found error', async function() {
       // when
       const error = await catchErr(retrieveLastOrCreateCertificationCourse)({
         sessionId,
@@ -81,11 +81,11 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
     });
   });
 
-  context('when session access code is the same as the provided access code', () => {
+  context('when session access code is the same as the provided access code', function() {
 
-    context('when session is not accessible', () => {
+    context('when session is not accessible', function() {
 
-      it('should throw a SessionNotAccessible error', async () => {
+      it('should throw a SessionNotAccessible error', async function() {
         // given
         const foundSession = domainBuilder.buildSession.finalized({ accessCode });
         sessionRepository.get.withArgs(sessionId).resolves(foundSession);
@@ -105,17 +105,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
       });
     });
 
-    context('when session is accessible', () => {
+    context('when session is accessible', function() {
 
-      beforeEach(() => {
+      beforeEach(function() {
         const foundSession = domainBuilder.buildSession.created({ accessCode });
         sessionRepository.get.withArgs(sessionId).resolves(foundSession);
       });
 
-      context('when a certification course with provided userId and sessionId already exists', () => {
+      context('when a certification course with provided userId and sessionId already exists', function() {
 
         let existingCertificationCourse;
-        beforeEach(() => {
+        beforeEach(function() {
           existingCertificationCourse = Symbol('existingCertificationCourse');
           certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId.withArgs({ userId, sessionId, domainTransaction }).resolves(existingCertificationCourse);
         });
@@ -141,20 +141,20 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
       });
 
-      context('when no certification course exists for this userId and sessionId', () => {
+      context('when no certification course exists for this userId and sessionId', function() {
         let placementProfile;
         let competences;
 
-        beforeEach(() => {
+        beforeEach(function() {
           competences = [{ id: 'rec123' }, { id: 'rec456' }];
           competenceRepository.listPixCompetencesOnly.resolves(competences);
           certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
             .withArgs({ userId, sessionId, domainTransaction }).onCall(0).resolves(null);
         });
 
-        context('when the user is not certifiable', () => {
+        context('when the user is not certifiable', function() {
 
-          beforeEach(() => {
+          beforeEach(function() {
             placementProfile = { isCertifiable: sinon.stub().returns(false) };
             placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
           });
@@ -189,14 +189,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
           });
         });
 
-        context('when user is certifiable', () => {
+        context('when user is certifiable', function() {
 
           const skill1 = domainBuilder.buildSkill();
           const skill2 = domainBuilder.buildSkill();
           const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
           const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
 
-          beforeEach(() => {
+          beforeEach(function() {
             // TODO : use the domainBuilder to instanciate userCompetences
             placementProfile = { isCertifiable: sinon.stub().returns(true), userCompetences: [{ challenges: [challenge1] }, { challenges: [challenge2] }] };
             placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
@@ -208,10 +208,10 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
             );
           });
 
-          context('when a certification course has been created meanwhile', () => {
+          context('when a certification course has been created meanwhile', function() {
 
             let existingCertificationCourse;
-            beforeEach(() => {
+            beforeEach(function() {
               existingCertificationCourse = Symbol('existingCertificationCourse');
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                 .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(existingCertificationCourse);
@@ -235,7 +235,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               expect(verifyCertificateCodeService.generateCertificateVerificationCode).not.to.have.been.called;
             });
 
-            it('should have filled the certification profile with challenges anyway', async () => {
+            it('should have filled the certification profile with challenges anyway', async function() {
               // when
               await retrieveLastOrCreateCertificationCourse({
                 sessionId,
@@ -250,7 +250,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
           });
 
-          context('when a certification still has not been created meanwhile', () => {
+          context('when a certification still has not been created meanwhile', function() {
 
             const foundCertificationCandidate = {
               firstName: Symbol('firstName'),
@@ -292,7 +292,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
               id: 'savedAssessment',
             };
 
-            beforeEach(() => {
+            beforeEach(function() {
               certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId
                 .withArgs({ userId, sessionId, domainTransaction }).onCall(1).resolves(null);
               placementProfileService.getPlacementProfile.withArgs({ userId, limitDate: now }).resolves(placementProfile);
@@ -386,7 +386,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
                 });
               });
 
-              context('pix+ droit', () => {
+              context('pix+ droit', function() {
 
                 it('should generate challenges for expert badge only if both maitre and expert badges are acquired', async function() {
                   // given
@@ -434,7 +434,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', () => 
 
             context('when user has no certifiable badges with pix plus', async function() {
 
-              beforeEach(() => {
+              beforeEach(function() {
                 sinon.spy(CertificationCourse, 'from');
                 certificationBadgesService.findStillValidBadgeAcquisitions.withArgs({ userId, domainTransaction }).resolves([]);
                 certificationChallengesService.pickCertificationChallengesForPixPlus.throws();

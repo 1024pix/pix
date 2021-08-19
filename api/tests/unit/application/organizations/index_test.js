@@ -10,13 +10,13 @@ const usecases = require('../../../../lib/domain/usecases');
 const identifiersType = require('../../../../lib/domain/types/identifiers-type');
 const moduleUnderTest = require('../../../../lib/application/organizations');
 
-describe('Unit | Router | organization-router', () => {
+describe('Unit | Router | organization-router', function() {
 
-  describe('GET /api/organizations', () => {
+  describe('GET /api/organizations', function() {
 
     const method = 'GET';
 
-    it('should return OK (200) when request is valid', async () => {
+    it('should return OK (200) when request is valid', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
       sinon.stub(organizationController, 'findPaginatedFilteredOrganizations').returns('ok');
@@ -33,9 +33,9 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    context('when request is invalid', () => {
+    context('when request is invalid', function() {
 
-      it('should return BadRequest (400) if id is not numeric', async () => {
+      it('should return BadRequest (400) if id is not numeric', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -50,7 +50,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      context('when id is outside number limits', async () => {
+      context('when id is outside number limits', async function() {
 
         const minNumberLimit = identifiersType.positiveInteger32bits.min;
         const maxNumberLimit = identifiersType.positiveInteger32bits.max;
@@ -66,7 +66,7 @@ describe('Unit | Router | organization-router', () => {
         ];
 
         numbersOutsideLimits.forEach(({ expectedBehavior, wrongNumber }) => {
-          it(expectedBehavior, async () => {
+          it(expectedBehavior, async function() {
             // given
             const httpTestServer = new HttpTestServer();
             await httpTestServer.register(moduleUnderTest);
@@ -84,12 +84,12 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('POST /api/organizations/{id}/invitations', () => {
+  describe('POST /api/organizations/{id}/invitations', function() {
 
     const method = 'POST';
     const url = '/api/organizations/1/invitations';
 
-    it('should return HTTP code 201', async () => {
+    it('should return HTTP code 201', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
@@ -112,7 +112,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should accept multiple emails', async () => {
+    it('should accept multiple emails', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
@@ -135,7 +135,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should reject request with HTTP code 400, when email is empty', async () => {
+    it('should reject request with HTTP code 400, when email is empty', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -156,7 +156,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should reject request with HTTP code 400, when input is not a email', async () => {
+    it('should reject request with HTTP code 400, when input is not a email', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -177,7 +177,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should check if user is admin in organization', async () => {
+    it('should check if user is admin in organization', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').resolves(false);
       sinon.stub(organizationController, 'sendInvitations').callsFake((request, h) => h.response().created());
@@ -201,12 +201,12 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('POST /api/admin/organizations/{id}/invitations', () => {
+  describe('POST /api/admin/organizations/{id}/invitations', function() {
 
     const method = 'POST';
     const url = '/api/admin/organizations/1/invitations';
 
-    it('should return HTTP code 201', async () => {
+    it('should return HTTP code 201', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
       sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
@@ -230,7 +230,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should reject request with HTTP code 400, when email is empty', async () => {
+    it('should reject request with HTTP code 400, when email is empty', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -252,7 +252,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should reject request with HTTP code 400, when input is not a email', async () => {
+    it('should reject request with HTTP code 400, when input is not a email', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -274,7 +274,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should reject request with HTTP code 400, when lang is unknown', async () => {
+    it('should reject request with HTTP code 400, when lang is unknown', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -296,7 +296,7 @@ describe('Unit | Router | organization-router', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should check if user is Pix Master', async () => {
+    it('should check if user is Pix Master', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').resolves(false);
       sinon.stub(organizationController, 'sendInvitationsByLang').callsFake((request, h) => h.response().created());
@@ -321,9 +321,9 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('GET /api/organizations/{id}/invitations', () => {
+  describe('GET /api/organizations/{id}/invitations', function() {
 
-    it('should return an empty list when no organization is found', async () => {
+    it('should return an empty list when no organization is found', async function() {
       // given
       sinon.stub(usecases, 'findPendingOrganizationInvitations').resolves([]);
       sinon.stub(securityPreHandlers, 'checkUserIsAdminInOrganization').returns(true);
@@ -343,10 +343,10 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('POST /api/organizations/{id}/schooling-registrations/import-csv', () => {
+  describe('POST /api/organizations/{id}/schooling-registrations/import-csv', function() {
 
-    context('when the id not an integer', () => {
-      it('responds 400', async () => {
+    context('when the id not an integer', function() {
+      it('responds 400', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -363,14 +363,14 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('POST /api/organizations/{id}/schooling-registrations/replace-csv', () => {
+  describe('POST /api/organizations/{id}/schooling-registrations/replace-csv', function() {
 
-    context('when the user is an admin for the organization and the organization is SUP and manages student', () => {
-      afterEach(() => {
+    context('when the user is an admin for the organization and the organization is SUP and manages student', function() {
+      afterEach(function() {
         sinon.restore();
       });
 
-      it('responds 200', async () => {
+      it('responds 200', async function() {
         sinon.stub(organizationController, 'replaceHigherSchoolingRegistrations');
         sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
         organizationController.replaceHigherSchoolingRegistrations.resolves('ok');
@@ -387,12 +387,12 @@ describe('Unit | Router | organization-router', () => {
       });
     });
 
-    context('when the user is not admin for the organization', () => {
-      afterEach(() => {
+    context('when the user is not admin for the organization', function() {
+      afterEach(function() {
         sinon.restore();
       });
 
-      it('responds 403', async () => {
+      it('responds 403', async function() {
         sinon.stub(organizationController, 'replaceHigherSchoolingRegistrations');
         sinon.stub(securityPreHandlers, 'checkUserIsAdminInSUPOrganizationManagingStudents');
         organizationController.replaceHigherSchoolingRegistrations.resolves('ok');
@@ -410,9 +410,9 @@ describe('Unit | Router | organization-router', () => {
     });
   });
 
-  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', () => {
+  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function() {
 
-    it('should call the organization controller to csv template', async () => {
+    it('should call the organization controller to csv template', async function() {
       // given
       sinon.stub(organizationController, 'getSchoolingRegistrationsCsvTemplate').callsFake((request, h) => h.response('ok').code(200));
       const httpTestServer = new HttpTestServer();
@@ -429,9 +429,9 @@ describe('Unit | Router | organization-router', () => {
       expect(organizationController.getSchoolingRegistrationsCsvTemplate).to.have.been.calledOnce;
     });
 
-    describe('When parameters are not valid', () => {
+    describe('When parameters are not valid', function() {
 
-      it('should throw an error when id is not a number', async () => {
+      it('should throw an error when id is not a number', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -446,7 +446,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when id is null', async () => {
+      it('should throw an error when id is null', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -461,7 +461,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when access token is not specified', async () => {
+      it('should throw an error when access token is not specified', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -476,7 +476,7 @@ describe('Unit | Router | organization-router', () => {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should throw an error when access token is null', async () => {
+      it('should throw an error when access token is null', async function() {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);

@@ -1,11 +1,11 @@
 const { expect } = require('../../../test-helper');
 const TemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/TemporaryStorage');
 
-describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', () => {
+describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    it('should reject an error (because this class actually mocks an interface)', () => {
+    it('should reject an error (because this class actually mocks an interface)', function() {
       // given
       const temporaryStorageInstance = new TemporaryStorage();
 
@@ -17,9 +17,9 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', () => {
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should reject an error (because this class actually mocks an interface)', () => {
+    it('should reject an error (because this class actually mocks an interface)', function() {
       // given
       const temporaryStorageInstance = new TemporaryStorage();
 

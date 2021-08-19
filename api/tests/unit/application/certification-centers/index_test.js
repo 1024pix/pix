@@ -8,11 +8,11 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const moduleUnderTest = require('../../../../lib/application/certification-centers');
 const certificationCenterController = require('../../../../lib/application/certification-centers/certification-center-controller');
 
-describe('Unit | Router | certification-center-router', () => {
+describe('Unit | Router | certification-center-router', function() {
 
-  describe('GET /api/certification-centers/{certificationCenterId}/divisions', () => {
+  describe('GET /api/certification-centers/{certificationCenterId}/divisions', function() {
 
-    it('should reject an invalid certification center id', async () => {
+    it('should reject an invalid certification center id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -25,9 +25,9 @@ describe('Unit | Router | certification-center-router', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', () => {
+  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', function() {
 
-    it('should reject unexpected filters ', async () => {
+    it('should reject unexpected filters ', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -39,7 +39,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should accept a string array of one element as division filter ', async () => {
+    it('should accept a string array of one element as division filter ', async function() {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
       const httpTestServer = new HttpTestServer();
@@ -52,7 +52,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should accept a string array of several elements as division filter ', async () => {
+    it('should accept a string array of several elements as division filter ', async function() {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
       const httpTestServer = new HttpTestServer();
@@ -65,7 +65,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should reject a division filter if it is not an array', async () => {
+    it('should reject a division filter if it is not an array', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -77,7 +77,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should accept a pagination', async () => {
+    it('should accept a pagination', async function() {
       // given
       sinon.stub(certificationCenterController, 'getStudents').callsFake((request, h) => h.response().code(200));
       const httpTestServer = new HttpTestServer();
@@ -89,7 +89,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should reject a page number which is not a number', async () => {
+    it('should reject a page number which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -101,7 +101,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should reject a page size which is not a number', async () => {
+    it('should reject a page size which is not a number', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -112,7 +112,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should accept an empty query string', async () => {
+    it('should accept an empty query string', async function() {
       // given
       sinon.stub(certificationCenterController, 'getStudents').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -125,7 +125,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should reject an invalid certification-centers id', async () => {
+    it('should reject an invalid certification-centers id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -137,7 +137,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should reject an invalid session id', async () => {
+    it('should reject an invalid session id', async function() {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -150,12 +150,12 @@ describe('Unit | Router | certification-center-router', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/certification-center-memberships', () => {
+  describe('GET /api/certification-centers/{certificationCenterId}/certification-center-memberships', function() {
 
     const method = 'GET';
     const url = '/api/certification-centers/1/certification-center-memberships';
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       //given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
       sinon.stub(certificationCenterController, 'findCertificationCenterMembershipsByCertificationCenter').returns('ok');
@@ -169,7 +169,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should reject an invalid certification-centers id', async () => {
+    it('should reject an invalid certification-centers id', async function() {
       //given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -181,14 +181,14 @@ describe('Unit | Router | certification-center-router', () => {
     });
   });
 
-  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', () => {
+  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', function() {
 
     const method = 'POST';
     const url = '/api/certification-centers/1/certification-center-memberships';
     const email = 'user@example.net';
     const payload = { email };
 
-    it('should return CREATED (200) when everything does as expected', async () => {
+    it('should return CREATED (200) when everything does as expected', async function() {
       //given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').returns(true);
       sinon.stub(certificationCenterController, 'createCertificationCenterMembershipByEmail').returns('ok');
@@ -202,7 +202,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should reject an user without PixMaster role', async () => {
+    it('should reject an user without PixMaster role', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
@@ -215,7 +215,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(403);
     });
 
-    it('should reject an invalid certification-centers id', async () => {
+    it('should reject an invalid certification-centers id', async function() {
       //given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -227,7 +227,7 @@ describe('Unit | Router | certification-center-router', () => {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should reject an invalid email', async () => {
+    it('should reject an invalid email', async function() {
       //given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -242,9 +242,9 @@ describe('Unit | Router | certification-center-router', () => {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/session-summaries', () => {
+  describe('GET /api/certification-centers/{certificationCenterId}/session-summaries', function() {
 
-    it('should return 200', async () => {
+    it('should return 200', async function() {
       // given
       sinon.stub(certificationCenterController, 'findPaginatedSessionSummaries').returns('ok');
       const httpTestServer = new HttpTestServer();

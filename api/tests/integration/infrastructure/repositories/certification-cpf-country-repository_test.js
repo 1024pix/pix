@@ -2,13 +2,13 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const certificationCpfCountryRepository = require('../../../../lib/infrastructure/repositories/certification-cpf-country-repository');
 const CertificationCpfCountry = require('../../../../lib/domain/models/CertificationCpfCountry');
 
-describe('Integration | Repository | certificationCpfCountryRepository', () => {
+describe('Integration | Repository | certificationCpfCountryRepository', function() {
 
-  describe('#getByMatcher', () => {
+  describe('#getByMatcher', function() {
 
-    context('when the country exists', () => {
+    context('when the country exists', function() {
 
-      it('should return the country', async () => {
+      it('should return the country', async function() {
         // given
         const country = domainBuilder.buildCertificationCpfCountry({
           id: 1,
@@ -29,9 +29,9 @@ describe('Integration | Repository | certificationCpfCountryRepository', () => {
       });
     });
 
-    context('when the country does not exist', () => {
+    context('when the country does not exist', function() {
 
-      it('should return null', async () => {
+      it('should return null', async function() {
         // when
         const result = await certificationCpfCountryRepository.getByMatcher({ matcher: 'unknown_matcher' });
 

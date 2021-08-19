@@ -21,9 +21,9 @@ const validationErrorSerializer = require('../../../../lib/infrastructure/serial
 
 const userController = require('../../../../lib/application/users/user-controller');
 
-describe('Unit | Controller | user-controller', () => {
+describe('Unit | Controller | user-controller', function() {
 
-  describe('#save', () => {
+  describe('#save', function() {
     const email = 'to-be-free@ozone.airplane';
     const password = 'Password123';
 
@@ -31,7 +31,7 @@ describe('Unit | Controller | user-controller', () => {
     const savedUser = new User({ email });
     const locale = 'fr-fr';
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(userSerializer, 'deserialize').returns(deserializedUser);
       sinon.stub(userSerializer, 'serialize');
       sinon.stub(userRepository, 'create').resolves(savedUser);
@@ -41,7 +41,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(usecases, 'createUser').resolves(savedUser);
     });
 
-    describe('when request is valid', () => {
+    describe('when request is valid', function() {
 
       const request = {
         payload: {
@@ -57,7 +57,7 @@ describe('Unit | Controller | user-controller', () => {
         },
       };
 
-      it('should return a serialized user and a 201 status code', async () => {
+      it('should return a serialized user and a 201 status code', async function() {
         // given
         const expectedSerializedUser = { message: 'serialized user' };
         userSerializer.serialize.returns(expectedSerializedUser);
@@ -71,7 +71,7 @@ describe('Unit | Controller | user-controller', () => {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should call the user creation usecase', async () => {
+      it('should call the user creation usecase', async function() {
         // given
         const useCaseParameters = {
           user: deserializedUser,
@@ -89,7 +89,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#updatePassword', () => {
+  describe('#updatePassword', function() {
 
     const userId = 7;
     const userPassword = 'Pix2017!';
@@ -111,13 +111,13 @@ describe('Unit | Controller | user-controller', () => {
       payload,
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'updateUserPassword');
       sinon.stub(userSerializer, 'serialize');
       sinon.stub(userSerializer, 'deserialize');
     });
 
-    it('should update password', async () => {
+    it('should update password', async function() {
       // given
       userSerializer.deserialize.withArgs(payload).returns({ password: userPassword, temporaryKey: userTemporaryKey });
       usecases.updateUserPassword.withArgs({
@@ -135,18 +135,18 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#updateUserDetailsForAdministration', () => {
+  describe('#updateUserDetailsForAdministration', function() {
 
     const userId = 1132;
     const newEmail = 'partiel@update.com';
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'updateUserDetailsForAdministration');
       sinon.stub(userDetailsForAdminSerializer, 'serialize');
       sinon.stub(userDetailsForAdminSerializer, 'deserialize');
     });
 
-    it('should update email,firstName,lastName', async () => {
+    it('should update email,firstName,lastName', async function() {
 
       const lastName = 'newLastName';
       const firstName = 'newFirstName';
@@ -178,7 +178,7 @@ describe('Unit | Controller | user-controller', () => {
       expect(response).to.be.equal('updated');
     });
 
-    it('should update email only', async () => {
+    it('should update email only', async function() {
       // given
       const payload = {
         data: {
@@ -206,11 +206,11 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#acceptPixLastTermsOfService', () => {
+  describe('#acceptPixLastTermsOfService', function() {
     let request;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId },
@@ -220,7 +220,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should accept pix terms of service', async () => {
+    it('should accept pix terms of service', async function() {
       // given
       usecases.acceptPixLastTermsOfService.withArgs({ userId }).resolves({});
       const stubSerializedObject = 'ok';
@@ -234,11 +234,11 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#acceptPixOrgaTermsOfService', () => {
+  describe('#acceptPixOrgaTermsOfService', function() {
     let request;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId },
@@ -248,7 +248,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should accept pix orga terms of service', async () => {
+    it('should accept pix orga terms of service', async function() {
       // given
       usecases.acceptPixOrgaTermsOfService.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -261,11 +261,11 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#acceptPixCertifTermsOfService', () => {
+  describe('#acceptPixCertifTermsOfService', function() {
     let request;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId },
@@ -275,7 +275,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should accept pix certif terms of service', async () => {
+    it('should accept pix certif terms of service', async function() {
       // given
       usecases.acceptPixCertifTermsOfService.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -288,12 +288,12 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#changeLang', () => {
+  describe('#changeLang', function() {
     let request;
     const userId = 1;
     const lang = 'en';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId, lang },
@@ -303,7 +303,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should modify lang of user', async () => {
+    it('should modify lang of user', async function() {
       // given
       usecases.changeUserLang.withArgs({ userId, lang }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -316,11 +316,11 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#rememberUserHasSeenAssessmentInstructions', () => {
+  describe('#rememberUserHasSeenAssessmentInstructions', function() {
     let request;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId },
@@ -330,7 +330,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should remember user has seen assessment instructions', async () => {
+    it('should remember user has seen assessment instructions', async function() {
       // given
       usecases.rememberUserHasSeenAssessmentInstructions.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -343,11 +343,11 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#rememberUserHasSeenNewDashboardInfo', () => {
+  describe('#rememberUserHasSeenNewDashboardInfo', function() {
     let request;
     const userId = 1;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId },
@@ -357,7 +357,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should remember user has seen new dashboard info', async () => {
+    it('should remember user has seen new dashboard info', async function() {
       // given
       usecases.rememberUserHasSeenNewDashboardInfo.withArgs({ userId }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -370,12 +370,12 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#rememberUserHasSeenChallengeTooltip', () => {
+  describe('#rememberUserHasSeenChallengeTooltip', function() {
     let request;
     const userId = 1;
     const challengeType = 'focused';
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = {
         auth: { credentials: { userId } },
         params: { id: userId, challengeType },
@@ -385,7 +385,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should remember user has seen focused challenge tooltip', async () => {
+    it('should remember user has seen focused challenge tooltip', async function() {
       // given
       usecases.rememberUserHasSeenChallengeTooltip.withArgs({ userId, challengeType }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -398,17 +398,17 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getCurrentUser', () => {
+  describe('#getCurrentUser', function() {
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = { auth: { credentials: { userId: 1 } } };
 
       sinon.stub(usecases, 'getCurrentUser');
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should get the current user', async () => {
+    it('should get the current user', async function() {
       // given
       usecases.getCurrentUser.withArgs({ authenticatedUserId: 1 }).resolves({});
       userSerializer.serialize.withArgs({}).returns('ok');
@@ -422,17 +422,17 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
-  describe('#getUserDetailsForAdmin', () => {
+  describe('#getUserDetailsForAdmin', function() {
     let request;
 
-    beforeEach(() => {
+    beforeEach(function() {
       request = { params: { id: 123 } };
 
       sinon.stub(usecases, 'getUserDetailsForAdmin');
       sinon.stub(userDetailsForAdminSerializer, 'serialize');
     });
 
-    it('should get the specified user for admin context', async () => {
+    it('should get the specified user for admin context', async function() {
       // given
       usecases.getUserDetailsForAdmin.withArgs({ userId: 123 }).resolves('userDetail');
       userDetailsForAdminSerializer.serialize.withArgs('userDetail').returns('ok');
@@ -446,7 +446,7 @@ describe('Unit | Controller | user-controller', () => {
 
   });
 
-  describe('#getMemberships', () => {
+  describe('#getMemberships', function() {
     const userId = '1';
 
     const request = {
@@ -460,7 +460,7 @@ describe('Unit | Controller | user-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(membershipSerializer, 'serialize');
       sinon.stub(usecases, 'getUserWithMemberships');
     });
@@ -478,15 +478,15 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#findPaginatedFilteredUsers', () => {
+  describe('#findPaginatedFilteredUsers', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(usecases, 'findPaginatedFilteredUsers');
       sinon.stub(userSerializer, 'serialize');
     });
 
-    it('should return a list of JSON API users fetched from the data repository', async () => {
+    it('should return a list of JSON API users fetched from the data repository', async function() {
       // given
       const request = { query: {} };
       queryParamsUtils.extractParameters.withArgs({}).returns({});
@@ -501,7 +501,7 @@ describe('Unit | Controller | user-controller', () => {
       expect(userSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should return a JSON API response with pagination information', async () => {
+    it('should return a JSON API response with pagination information', async function() {
       // given
       const request = { query: {} };
       const expectedResults = [new User({ id: 1 }), new User({ id: 2 }), new User({ id: 3 })];
@@ -516,7 +516,7 @@ describe('Unit | Controller | user-controller', () => {
       expect(userSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
 
-    it('should allow to filter users by first name', async () => {
+    it('should allow to filter users by first name', async function() {
       // given
       const query = { filter: { firstName: 'Alexia' }, page: {} };
       const request = { query };
@@ -530,7 +530,7 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to filter users by last name', async () => {
+    it('should allow to filter users by last name', async function() {
       // given
       const query = { filter: { lastName: 'Granjean' }, page: {} };
       const request = { query };
@@ -544,7 +544,7 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to filter users by email', async () => {
+    it('should allow to filter users by email', async function() {
       // given
       const query = { filter: { email: 'alexiagranjean' }, page: {} };
       const request = { query };
@@ -558,7 +558,7 @@ describe('Unit | Controller | user-controller', () => {
       expect(usecases.findPaginatedFilteredUsers).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to paginate on a given page and page size', async () => {
+    it('should allow to paginate on a given page and page size', async function() {
       // given
       const query = { filter: { email: 'alexiagranjean' }, page: { number: 2, size: 25 } };
       const request = { query };
@@ -573,7 +573,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getCampaignParticipations', () => {
+  describe('#getCampaignParticipations', function() {
     const userId = '1';
 
     const request = {
@@ -587,7 +587,7 @@ describe('Unit | Controller | user-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(usecases, 'findLatestOngoingUserCampaignParticipations');
     });
@@ -605,10 +605,10 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getCampaignParticipationOverviews', () => {
+  describe('#getCampaignParticipationOverviews', function() {
     const userId = '1';
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(campaignParticipationOverviewSerializer, 'serialize');
       sinon.stub(campaignParticipationOverviewSerializer, 'serializeForPaginatedList');
       sinon.stub(usecases, 'findUserCampaignParticipationOverviews');
@@ -670,9 +670,9 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#isCertifiable', () => {
+  describe('#isCertifiable', function() {
 
-    it('should return user certification eligibility', async () => {
+    it('should return user certification eligibility', async function() {
       // given
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,
@@ -711,9 +711,9 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getProfile', () => {
+  describe('#getProfile', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'getUserProfile').resolves({
         pixScore: 3,
         scorecards: [],
@@ -721,7 +721,7 @@ describe('Unit | Controller | user-controller', () => {
       sinon.stub(profileSerializer, 'serialize').resolves();
     });
 
-    it('should call the expected usecase', async () => {
+    it('should call the expected usecase', async function() {
       // given
       const userId = '12';
       const locale = 'fr';
@@ -746,16 +746,16 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#resetScorecard', () => {
+  describe('#resetScorecard', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'resetScorecard').resolves({
         name: 'Comp1',
       });
       sinon.stub(scorecardSerializer, 'serialize').resolves();
     });
 
-    it('should call the expected usecase', async () => {
+    it('should call the expected usecase', async function() {
       // given
       const userId = '12';
       const competenceId = '875432';
@@ -780,7 +780,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#getUserCampaignParticipationToCampaign', () => {
+  describe('#getUserCampaignParticipationToCampaign', function() {
     const userId = 789;
     const campaignId = 456;
     const campaignParticipation = Symbol('campaign participation');
@@ -799,7 +799,7 @@ describe('Unit | Controller | user-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(usecases, 'getUserCampaignParticipationToCampaign');
     });
@@ -817,7 +817,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#anonymizeUser', () => {
+  describe('#anonymizeUser', function() {
 
     const userId = 1;
     const request = {
@@ -831,11 +831,11 @@ describe('Unit | Controller | user-controller', () => {
       },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'anonymizeUser').resolves();
     });
 
-    it('should call the anonymize user usecase', async () => {
+    it('should call the anonymize user usecase', async function() {
       // when
       const response = await userController.anonymizeUser(request, hFake);
 
@@ -845,7 +845,7 @@ describe('Unit | Controller | user-controller', () => {
     });
   });
 
-  describe('#dissociateSchoolingRegistrations', () => {
+  describe('#dissociateSchoolingRegistrations', function() {
 
     const userId = 1;
     const request = {
@@ -853,12 +853,12 @@ describe('Unit | Controller | user-controller', () => {
       params: { id: userId },
     };
 
-    beforeEach(() => {
+    beforeEach(function() {
       sinon.stub(usecases, 'dissociateSchoolingRegistrations');
       sinon.stub(userDetailsForAdminSerializer, 'serialize').resolves();
     });
 
-    it('should call the dissociate schooling registrations usecase', async () => {
+    it('should call the dissociate schooling registrations usecase', async function() {
       // given
       usecases.dissociateSchoolingRegistrations.resolves({ id: userId });
 

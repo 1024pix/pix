@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 
-describe('Unit | UseCase | find-paginated-filtered-target-profiles', () => {
+describe('Unit | UseCase | find-paginated-filtered-target-profiles', function() {
 
-  it('should result target profiles with filtering and pagination', async () => {
+  it('should result target profiles with filtering and pagination', async function() {
     // given
     const filter = { name: 'Dragon' };
     const page = { number: 1, size: 2 };

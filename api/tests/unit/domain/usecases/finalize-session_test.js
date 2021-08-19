@@ -9,7 +9,7 @@ const finalizeSession = require('../../../../lib/domain/usecases/finalize-sessio
 const { SessionAlreadyFinalizedError, InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
 const SessionFinalized = require('../../../../lib/domain/events/SessionFinalized');
 
-describe('Unit | UseCase | finalize-session', () => {
+describe('Unit | UseCase | finalize-session', function() {
 
   let sessionId;
   let updatedSession;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | finalize-session', () => {
   let sessionRepository;
   let certificationReportRepository;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     sessionId = 'dummy session id';
     updatedSession = domainBuilder.buildSession({
       id: sessionId,
@@ -34,13 +34,13 @@ describe('Unit | UseCase | finalize-session', () => {
     };
   });
 
-  context('When the session status is already finalized', () => {
+  context('When the session status is already finalized', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       sessionRepository.isFinalized.withArgs(sessionId).resolves(true);
     });
 
-    it('should throw a SessionAlreadyFinalizedError error', async () => {
+    it('should throw a SessionAlreadyFinalizedError error', async function() {
       // when
       const err = await catchErr(finalizeSession)({
         sessionId,
@@ -56,16 +56,16 @@ describe('Unit | UseCase | finalize-session', () => {
 
   });
 
-  context('When the session status is not finalized yet ', () => {
+  context('When the session status is not finalized yet ', function() {
     let certificationReports;
-    context('When the certificationReports are not valid', () => {
-      beforeEach(() => {
+    context('When the certificationReports are not valid', function() {
+      beforeEach(function() {
         const courseWithoutHasSeenLastScreen = domainBuilder.buildCertificationReport();
         delete courseWithoutHasSeenLastScreen.hasSeenEndTestScreen;
         certificationReports = [courseWithoutHasSeenLastScreen];
       });
 
-      it('should throw an InvalidCertificationReportForFinalization error', async () => {
+      it('should throw an InvalidCertificationReportForFinalization error', async function() {
         // when
         const err = await catchErr(finalizeSession)({
           sessionId,
@@ -80,11 +80,11 @@ describe('Unit | UseCase | finalize-session', () => {
       });
     });
 
-    context('When the certificationReports are valid', () => {
+    context('When the certificationReports are valid', function() {
       const now = new Date('2019-01-01T05:06:07Z');
       let clock;
 
-      beforeEach(() => {
+      beforeEach(function() {
         clock = sinon.useFakeTimers(now);
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
@@ -100,11 +100,11 @@ describe('Unit | UseCase | finalize-session', () => {
         }).resolves(updatedSession);
       });
 
-      afterEach(() => {
+      afterEach(function() {
         clock.restore();
       });
 
-      it('should finalize session with expected arguments', async () => {
+      it('should finalize session with expected arguments', async function() {
         // given
         clock = sinon.useFakeTimers(now);
         const validReportForFinalization = domainBuilder.buildCertificationReport({
@@ -137,7 +137,7 @@ describe('Unit | UseCase | finalize-session', () => {
         })).to.be.true;
       });
 
-      it('raises a session finalized event', async () => {
+      it('raises a session finalized event', async function() {
         // given
         const updatedSession = domainBuilder.buildSession({
           finalizedAt: new Date('2020-01-01T14:00:00Z'),

@@ -1,10 +1,10 @@
 const { expect, mockLearningContent } = require('../../../test-helper');
 const challengeForPixAutoAnswerRepository = require('../../../../lib/infrastructure/repositories/challenge-for-pix-auto-answer-repository');
 
-describe('Integration | Repository | challenge-for-pix-auto-answer-repository', () => {
+describe('Integration | Repository | challenge-for-pix-auto-answer-repository', function() {
 
-  describe('#get', () => {
-    it('should return the requested challenge for pix-auto-answer', async () => {
+  describe('#get', function() {
+    it('should return the requested challenge for pix-auto-answer', async function() {
       // given
       const challengeId = 'challenge_id';
       const challengeSolution = 'solution';

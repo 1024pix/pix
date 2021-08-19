@@ -8,18 +8,18 @@ const EMPTY_VALUE = '';
 const WHITESPACES_VALUE = '  ';
 const UNDEFINED_VALUE = undefined;
 
-describe('Unit | Domain | Models | CertificationIssueReport', () => {
+describe('Unit | Domain | Models | CertificationIssueReport', function() {
 
-  describe('#create', () => {
+  describe('#create', function() {
 
-    context('CATEGORY: OTHER', () => {
+    context('CATEGORY: OTHER', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.OTHER,
         description: 'Une description obligatoire',
       };
 
-      it('should create an OTHER CertificationIssueReport', () => {
+      it('should create an OTHER CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(CertificationIssueReport);
       });
 
@@ -29,7 +29,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         UNDEFINED_VALUE,
         WHITESPACES_VALUE,
       ].forEach((emptyValue) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, () => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function() {
           // when
           expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue }))
             .to.throw(InvalidCertificationIssueReportForSaving);
@@ -41,7 +41,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         EMPTY_VALUE,
         UNDEFINED_VALUE,
       ].forEach((emptyValue) => {
-        it(`should create an OTHER CertificationIssueReport when subcategory is empty with value ${emptyValue}`, () => {
+        it(`should create an OTHER CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function() {
           // when
           expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue }))
             .to.be.an.instanceOf(CertificationIssueReport);
@@ -49,7 +49,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       });
     });
 
-    context('CATEGORY: LATE_OR_LEAVING', () => {
+    context('CATEGORY: LATE_OR_LEAVING', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.LATE_OR_LEAVING,
@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         subcategory: CertificationIssueReportSubcategories.LEFT_EXAM_ROOM,
       };
 
-      it('should create a LATE_OR_LEAVING CertificationIssueReport of category', () => {
+      it('should create a LATE_OR_LEAVING CertificationIssueReport of category', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO))
           .to.be.an.instanceOf(CertificationIssueReport);
       });
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         UNDEFINED_VALUE,
         WHITESPACES_VALUE,
       ].forEach((emptyValue) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, () => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function() {
           // when
           expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue }))
             .to.throw(InvalidCertificationIssueReportForSaving);
@@ -78,13 +78,13 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       // Test dynamically all subcategories
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, CertificationIssueReportSubcategories.SIGNATURE_ISSUE].includes(subcategory)) {
-          it(`should create a LATE_OR_LEAVING CertificationIssueReport when subcategory is of value ${subcategory}`, () => {
+          it(`should create a LATE_OR_LEAVING CertificationIssueReport when subcategory is of value ${subcategory}`, function() {
             // when
             expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory }))
               .to.be.an.instanceOf(CertificationIssueReport);
           });
         } else {
-          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, () => {
+          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function() {
             // when
             expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory }))
               .to.throw(InvalidCertificationIssueReportForSaving);
@@ -93,7 +93,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       });
     });
 
-    context('CATEGORY: CANDIDATE_INFORMATIONS_CHANGES', () => {
+    context('CATEGORY: CANDIDATE_INFORMATIONS_CHANGES', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
@@ -101,7 +101,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         subcategory: CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
       };
 
-      it('should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport', () => {
+      it('should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO))
           .to.be.an.instanceOf(CertificationIssueReport);
       });
@@ -112,7 +112,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         UNDEFINED_VALUE,
         WHITESPACES_VALUE,
       ].forEach((emptyValue) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, () => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function() {
           // when
           expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue }))
             .to.throw(InvalidCertificationIssueReportForSaving);
@@ -122,13 +122,13 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       // Test dynamically all subcategories
       [...Object.values(CertificationIssueReportSubcategories)].forEach((subcategory) => {
         if ([CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE, CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE].includes(subcategory)) {
-          it(`should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport when subcategory is of value ${subcategory}`, () => {
+          it(`should create a CANDIDATE_INFORMATIONS_CHANGES CertificationIssueReport when subcategory is of value ${subcategory}`, function() {
             // when
             expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory }))
               .to.be.an.instanceOf(CertificationIssueReport);
           });
         } else {
-          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, () => {
+          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function() {
             // when
             expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory }))
               .to.throw(InvalidCertificationIssueReportForSaving);
@@ -137,13 +137,13 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       });
     });
 
-    context('CATEGORY: CONNECTION_OR_END_SCREEN', () => {
+    context('CATEGORY: CONNECTION_OR_END_SCREEN', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN,
       };
 
-      it('should create a CONNECTION_OR_END_SCREEN CertificationIssueReport', () => {
+      it('should create a CONNECTION_OR_END_SCREEN CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO))
           .to.be.an.instanceOf(CertificationIssueReport);
       });
@@ -154,7 +154,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         UNDEFINED_VALUE,
         WHITESPACES_VALUE,
       ].forEach((emptyValue) => {
-        it(`should create a CONNECTION_OR_END_SCREEN CertificationIssueReport when description is empty with value ${emptyValue}`, () => {
+        it(`should create a CONNECTION_OR_END_SCREEN CertificationIssueReport when description is empty with value ${emptyValue}`, function() {
           // when
           expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue }))
             .to.be.an.instanceOf(CertificationIssueReport);
@@ -166,7 +166,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         EMPTY_VALUE,
         UNDEFINED_VALUE,
       ].forEach((emptyValue) => {
-        it(`should create CONNECTION_OR_END_SCREEN CertificationIssueReport when subcategory is empty with value ${emptyValue}`, () => {
+        it(`should create CONNECTION_OR_END_SCREEN CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function() {
           // when
           expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue }))
             .to.be.an.instanceOf(CertificationIssueReport);
@@ -174,7 +174,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       });
     });
 
-    context('CATEGORY: IN_CHALLENGE', () => {
+    context('CATEGORY: IN_CHALLENGE', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.IN_CHALLENGE,
@@ -182,7 +182,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         questionNumber: 5,
       };
 
-      it('should create an IN_CHALLENGE CertificationIssueReport', () => {
+      it('should create an IN_CHALLENGE CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO))
           .to.be.an.instanceOf(CertificationIssueReport);
       });
@@ -198,7 +198,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
           CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
         ].includes(subcategory)) {
-          it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, () => {
+          it(`should create an IN_CHALLENGE CertificationIssueReport when subcategory is of value ${subcategory}`, function() {
             // when
             expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory, description: subcategory === CertificationIssueReportSubcategories.OTHER ? 'salut' : null }))
               .to.be.an.instanceOf(CertificationIssueReport);
@@ -209,7 +209,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
           CertificationIssueReportSubcategories.LINK_NOT_WORKING,
           CertificationIssueReportSubcategories.OTHER,
         ].includes(subcategory)) {
-          it(`should throw a deprecated error when using subcategory ${subcategory}`, () => {
+          it(`should throw a deprecated error when using subcategory ${subcategory}`, function() {
             // when
             const createIssueReport = () => CertificationIssueReport.create({
               ...certificationIssueReportDTO,
@@ -223,7 +223,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         }
 
         else {
-          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, () => {
+          it(`should throw an InvalidCertificationIssueReportForSaving when subcategory is ${subcategory}`, function() {
             // when
             expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory }))
               .to.throw(InvalidCertificationIssueReportForSaving);
@@ -236,45 +236,45 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         EMPTY_VALUE,
         UNDEFINED_VALUE,
       ].forEach((emptyValue) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when questionNumber is empty with value ${emptyValue}`, () => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when questionNumber is empty with value ${emptyValue}`, function() {
           // when
           expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, questionNumber: emptyValue }))
             .to.throw(InvalidCertificationIssueReportForSaving);
         });
       });
 
-      it('should throw an InvalidCertificationIssueReportForSaving when questionNumber is over 500', () => {
+      it('should throw an InvalidCertificationIssueReportForSaving when questionNumber is over 500', function() {
         // when
         expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, questionNumber: 501 }))
           .to.throw(InvalidCertificationIssueReportForSaving);
       });
 
-      it('should throw an InvalidCertificationIssueReportForSaving when questionNumber is under 1', () => {
+      it('should throw an InvalidCertificationIssueReportForSaving when questionNumber is under 1', function() {
         // when
         expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, questionNumber: 0 }))
           .to.throw(InvalidCertificationIssueReportForSaving);
       });
     });
 
-    context('CATEGORY: FRAUD', () => {
+    context('CATEGORY: FRAUD', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.FRAUD,
       };
 
-      it('should be valid', () => {
+      it('should be valid', function() {
         expect(() => CertificationIssueReport.create(certificationIssueReportDTO)).not.to.throw();
       });
     });
 
-    context('CATEGORY: TECHNICAL_PROBLEM', () => {
+    context('CATEGORY: TECHNICAL_PROBLEM', function() {
       const certificationIssueReportDTO = {
         certificationCourseId: 123,
         category: CertificationIssueReportCategories.TECHNICAL_PROBLEM,
         description: 'Une description obligatoire',
       };
 
-      it('should create an TECHNICAL_PROBLEM CertificationIssueReport', () => {
+      it('should create an TECHNICAL_PROBLEM CertificationIssueReport', function() {
         expect(CertificationIssueReport.create(certificationIssueReportDTO)).to.be.an.instanceOf(CertificationIssueReport);
       });
 
@@ -284,7 +284,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         UNDEFINED_VALUE,
         WHITESPACES_VALUE,
       ].forEach((emptyValue) => {
-        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, () => {
+        it(`should throw an InvalidCertificationIssueReportForSaving when description is of value ${emptyValue}`, function() {
           // when
           expect(() => CertificationIssueReport.create({ ...certificationIssueReportDTO, description: emptyValue }))
             .to.throw(InvalidCertificationIssueReportForSaving);
@@ -296,7 +296,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         EMPTY_VALUE,
         UNDEFINED_VALUE,
       ].forEach((emptyValue) => {
-        it(`should create an TECHNICAL_PROBLEM CertificationIssueReport when subcategory is empty with value ${emptyValue}`, () => {
+        it(`should create an TECHNICAL_PROBLEM CertificationIssueReport when subcategory is empty with value ${emptyValue}`, function() {
           // when
           expect(CertificationIssueReport.create({ ...certificationIssueReportDTO, subcategory: emptyValue }))
             .to.be.an.instanceOf(CertificationIssueReport);
@@ -335,7 +335,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         },
         { certificationCourseId: 42, category: 'TECHNICAL_PROBLEM', description: 'toto' },
       ].forEach((certificationIssueReportDTO) => {
-        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isImpactful to true`, () => {
+        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isImpactful to true`, function() {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isImpactful).to.be.true;
         });
       });
@@ -350,16 +350,16 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
         { certificationCourseId: 42, category: 'LATE_OR_LEAVING', subcategory: 'SIGNATURE_ISSUE' },
         { certificationCourseId: 42, category: 'CONNECTION_OR_END_SCREEN' },
       ].forEach((certificationIssueReportDTO) => {
-        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isImpactful to false`, () => {
+        it(`for ${certificationIssueReportDTO.category} ${certificationIssueReportDTO.subcategory ? certificationIssueReportDTO.subcategory : ''} should tag certificationIssueReport with isImpactful to false`, function() {
           expect(new CertificationIssueReport({ ...certificationIssueReportDTO }).isImpactful).to.be.false;
         });
       });
     });
   });
 
-  describe('#isResolved', () => {
+  describe('#isResolved', function() {
 
-    it('returns false when the certification issue report is not resolved', () => {
+    it('returns false when the certification issue report is not resolved', function() {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         resolvedAt: null,
@@ -372,7 +372,7 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       expect(isResolved).to.be.false;
     });
 
-    it('returns true when the certification issue report is resolved', () => {
+    it('returns true when the certification issue report is resolved', function() {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         resolvedAt: new Date(),
@@ -385,9 +385,9 @@ describe('Unit | Domain | Models | CertificationIssueReport', () => {
       expect(isResolved).to.be.true;
     });
   });
-  describe('#resolve', () => {
+  describe('#resolve', function() {
 
-    it('Sets the issue report as resolved', () => {
+    it('Sets the issue report as resolved', function() {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         resolvedAt: null,

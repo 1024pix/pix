@@ -10,25 +10,25 @@ const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumn
 
 let server;
 
-describe('Acceptance | Application | organization-controller-replace-higher-schooling-registrations', () => {
+describe('Acceptance | Application | organization-controller-replace-higher-schooling-registrations', function() {
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  afterEach(() => {
+  afterEach(function() {
     return knex('schooling-registrations').delete();
   });
 
-  describe('POST organizations/:id/schooling-registrations/replace-csv', () => {
+  describe('POST organizations/:id/schooling-registrations/replace-csv', function() {
     let connectedUser;
-    beforeEach(async () => {
+    beforeEach(async function() {
       connectedUser = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    context('when the user is an admin for an organization which managing student', () => {
-      it('replaces the schooling-registrations for the given organization', async () => {
+    context('when the user is an admin for an organization which managing student', function() {
+      it('replaces the schooling-registrations for the given organization', async function() {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
         databaseBuilder.factory.buildSchoolingRegistration({ id: 1, organizationId: organization.id, isDisabled: false });
@@ -63,7 +63,7 @@ describe('Acceptance | Application | organization-controller-replace-higher-scho
         expect(registrations).to.have.lengthOf(2);
       });
 
-      it('fails when the file payload is too large', async () => {
+      it('fails when the file payload is too large', async function() {
         const buffer = Buffer.alloc(1048576 * 11, 'B'); // > 10 Mo buffer
 
         const options = {

@@ -2,11 +2,11 @@ const { expect } = require('../../../test-helper');
 
 const campaignParticipationService = require('./../../../../lib/domain/services/campaign-participation-service');
 
-describe('Unit | Service | Campaign Participation Service', () => {
-  describe('progress', () => {
+describe('Unit | Service | Campaign Participation Service', function() {
+  describe('progress', function() {
 
-    context('when campaign participation is completed ', () => {
-      it('should return 1', () => {
+    context('when campaign participation is completed ', function() {
+      it('should return 1', function() {
         // when
         const progress = campaignParticipationService.progress(true, 10, 20);
 
@@ -15,8 +15,8 @@ describe('Unit | Service | Campaign Participation Service', () => {
       });
     });
 
-    context('when campaign participation is not completed', () => {
-      it('should return Percentage Progression', () => {
+    context('when campaign participation is not completed', function() {
+      it('should return Percentage Progression', function() {
         // when
         const progress = campaignParticipationService.progress(false, 11, 33);
 
@@ -24,7 +24,7 @@ describe('Unit | Service | Campaign Participation Service', () => {
         expect(progress).to.equal(0.333);
       });
 
-      it('should return round percentage progression', () => {
+      it('should return round percentage progression', function() {
         // when
         const progress = campaignParticipationService.progress(false, 6, 9);
 

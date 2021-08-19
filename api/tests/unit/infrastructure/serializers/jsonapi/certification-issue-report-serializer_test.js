@@ -5,9 +5,9 @@ const { CertificationIssueReportCategories, CertificationIssueReportSubcategorie
 
 describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', function() {
 
-  describe('#serialize()', () => {
+  describe('#serialize()', function() {
 
-    it('should convert a CertificationIssueReport model object into JSON API data', () => {
+    it('should convert a CertificationIssueReport model object into JSON API data', function() {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport();
       const jsonApiData = {

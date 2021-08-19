@@ -5,7 +5,7 @@ const scoringService = require('../../../../lib/domain/services/scoring/scoring-
 
 describe('Unit | Domain | Service | Get Competence Level', function() {
 
-  describe('#getCompetenceLevel', () => {
+  describe('#getCompetenceLevel', function() {
     const userId = 'userId';
     const competenceId = 'competenceId';
     const knowledgeElements = Symbol('knowledgeElements');
@@ -13,7 +13,7 @@ describe('Unit | Domain | Service | Get Competence Level', function() {
     const level = 3;
     let competenceLevel;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndCompetenceId').resolves(knowledgeElements);
       sinon.stub(scoringService, 'calculateScoringInformationForCompetence').returns({ currentLevel: level });
@@ -22,17 +22,17 @@ describe('Unit | Domain | Service | Get Competence Level', function() {
       competenceLevel = await getCompetenceLevel({ knowledgeElementRepository, scoringService, userId, competenceId, domainTransaction });
     });
 
-    it('should retrieve knowledgeElements for competence and user', () => {
+    it('should retrieve knowledgeElements for competence and user', function() {
       // then
       expect(knowledgeElementRepository.findUniqByUserIdAndCompetenceId).to.be.calledWith({ userId, competenceId, domainTransaction });
     });
 
-    it('should use scoringService to compute competence level', () => {
+    it('should use scoringService to compute competence level', function() {
       // then
       expect(scoringService.calculateScoringInformationForCompetence).to.be.calledWith({ knowledgeElements });
     });
 
-    it('should return competence level', () => {
+    it('should return competence level', function() {
       // then
       expect(competenceLevel).to.equal(level);
     });

@@ -95,7 +95,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-summar
     let modelCampaignAssessmentParticipationSummary;
     let expectedJsonApi;
 
-    beforeEach(() => {
+    beforeEach(function() {
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-summaries',

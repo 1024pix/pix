@@ -4,15 +4,15 @@ const Validation = require('../../../../lib/domain/models/Validation');
 
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Validator', () => {
+describe('Unit | Domain | Models | Validator', function() {
 
-  describe('#assess', () => {
+  describe('#assess', function() {
 
     let uncorrectedAnswer;
     let validation;
     let validator;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected();
       validator = new Validator();
@@ -21,7 +21,7 @@ describe('Unit | Domain | Models | Validator', () => {
       validation = validator.assess(uncorrectedAnswer);
     });
 
-    it('should return a validation object with Unimplemented status', () => {
+    it('should return a validation object with Unimplemented status', function() {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.UNIMPLEMENTED,
         resultDetails: null,

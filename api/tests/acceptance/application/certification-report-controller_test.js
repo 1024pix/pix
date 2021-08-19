@@ -6,15 +6,15 @@ const {
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | certification-report-controller', () => {
+describe('Acceptance | Controller | certification-report-controller', function() {
 
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', () => {
+  describe('POST /api/certification-reports/{id}/certification-issue-reports', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('certification-issue-reports').delete();
     });
 
-    it('should return 201 HTTP status code', async () => {
+    it('should return 201 HTTP status code', async function() {
       // given
       const server = await createServer();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;

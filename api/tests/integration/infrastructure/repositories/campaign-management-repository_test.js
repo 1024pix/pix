@@ -4,10 +4,10 @@ const _ = require('lodash');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const { knex } = require('../../../../lib/infrastructure/bookshelf');
 
-describe('Integration | Repository | Campaign-Management', () => {
+describe('Integration | Repository | Campaign-Management', function() {
 
-  describe('#get', () => {
-    it('should return campaign details with target profile', async () => {
+  describe('#get', function() {
+    it('should return campaign details with target profile', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -45,7 +45,7 @@ describe('Integration | Repository | Campaign-Management', () => {
       });
     });
 
-    it('should return campaign details without target profile', async () => {
+    it('should return campaign details without target profile', async function() {
       // given
       const user = databaseBuilder.factory.buildUser();
       const organization = databaseBuilder.factory.buildOrganization({});
@@ -83,8 +83,8 @@ describe('Integration | Repository | Campaign-Management', () => {
     });
   });
 
-  describe('#update', () => {
-    it('should update the campaign', async () => {
+  describe('#update', function() {
+    it('should update the campaign', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({
         name: 'Bad campaign',
@@ -113,7 +113,7 @@ describe('Integration | Repository | Campaign-Management', () => {
       expect(updatedCampaign).to.deep.equal(expectedCampaign);
     });
 
-    it('should only update editable attributes', async () => {
+    it('should only update editable attributes', async function() {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({
         code: 'SOMECODE',
@@ -137,20 +137,20 @@ describe('Integration | Repository | Campaign-Management', () => {
 
   });
 
-  describe('#findPaginatedCampaignManagements', () => {
+  describe('#findPaginatedCampaignManagements', function() {
     let page;
     let organizationId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       await databaseBuilder.commit();
 
       page = { number: 1, size: 3 };
     });
 
-    context('when the given organization has no campaign', () => {
+    context('when the given organization has no campaign', function() {
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // given
         databaseBuilder.factory.buildCampaign();
         await databaseBuilder.commit();
@@ -163,9 +163,9 @@ describe('Integration | Repository | Campaign-Management', () => {
       });
     });
 
-    context('when the given organization has campaigns', () => {
+    context('when the given organization has campaigns', function() {
 
-      it('should return campaign with all attributes', async () => {
+      it('should return campaign with all attributes', async function() {
         // given
         const creator = databaseBuilder.factory.buildUser({
           lastName: 'King',
@@ -199,7 +199,7 @@ describe('Integration | Repository | Campaign-Management', () => {
         });
       });
 
-      it('should sort campaigns by descending creation date', async () => {
+      it('should sort campaigns by descending creation date', async function() {
         // given
         databaseBuilder.factory.buildCampaign({ organizationId, name: 'May', createdAt: new Date('2020-05-01') }).id;
         databaseBuilder.factory.buildCampaign({ organizationId, name: 'June', createdAt: new Date('2020-06-01') }).id;
@@ -214,9 +214,9 @@ describe('Integration | Repository | Campaign-Management', () => {
       });
     });
 
-    context('when campaigns amount exceed page size', () => {
+    context('when campaigns amount exceed page size', function() {
 
-      it('should return page size number of campaigns', async () => {
+      it('should return page size number of campaigns', async function() {
         page = { number: 2, size: 2 };
 
         _.times(4, () => databaseBuilder.factory.buildCampaign({ organizationId }));

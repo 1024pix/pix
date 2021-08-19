@@ -6,9 +6,9 @@ const CertificationJuryDone = require('../../../../lib/domain/events/Certificati
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const { CertificationIssueReportSubcategories, CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Unit | Domain | Events | handle-auto-jury', () => {
+describe('Unit | Domain | Events | handle-auto-jury', function() {
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -19,7 +19,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     expect(error).not.to.be.null;
   });
 
-  it('auto neutralizes challenges', async () => {
+  it('auto neutralizes challenges', async function() {
     // given
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
@@ -71,7 +71,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
-  it('returns an AutoJuryDone event as last event', async () => {
+  it('returns an AutoJuryDone event as last event', async function() {
     // given
     const now = Date.now();
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
@@ -112,7 +112,7 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     }));
   });
 
-  it('returns a CertificationJuryDone event first in returned collection', async () => {
+  it('returns a CertificationJuryDone event first in returned collection', async function() {
     // given
     const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
     const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
@@ -156,8 +156,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     }));
   });
 
-  context('when there is no certification issue report', () => {
-    it('does not return a CertificationJuryDone event', async () => {
+  context('when there is no certification issue report', function() {
+    it('does not return a CertificationJuryDone event', async function() {
       // given
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
@@ -189,9 +189,9 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
   });
 
-  context('when there is no impacted certification', () => {
+  context('when there is no impacted certification', function() {
 
-    it('does not return a CertificationJuryDone event', async () => {
+    it('does not return a CertificationJuryDone event', async function() {
       // given
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
@@ -234,8 +234,8 @@ describe('Unit | Domain | Events | handle-auto-jury', () => {
     });
   });
 
-  context('when a resolution throws an exception', () => {
-    it('should go on and try to resolve the others certification issue reports', async () => {
+  context('when a resolution throws an exception', function() {
+    it('should go on and try to resolve the others certification issue reports', async function() {
       // given
       const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
       const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };

@@ -3,19 +3,19 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const findCompetenceEvaluationsByAssessment = require('../../../../lib/domain/usecases/find-competence-evaluations-by-assessment');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-competence-evaluations-by-assessment', () => {
+describe('Unit | UseCase | find-competence-evaluations-by-assessment', function() {
 
   const userId = 1;
   const assessmentId = 2;
   const assessmentRepository = { ownedByUser: _.noop() };
   const competenceEvaluationRepository = { findByAssessmentId: _.noop() };
 
-  beforeEach(() => {
+  beforeEach(function() {
     assessmentRepository.ownedByUser = sinon.stub();
     competenceEvaluationRepository.findByAssessmentId = sinon.stub();
   });
 
-  it('should throw an UserNotAuthorizedToAccessEntityError error when user is not the owner of the assessment', async () => {
+  it('should throw an UserNotAuthorizedToAccessEntityError error when user is not the owner of the assessment', async function() {
     // given
     assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(false);
 
@@ -31,7 +31,7 @@ describe('Unit | UseCase | find-competence-evaluations-by-assessment', () => {
     expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 
-  it('should return the assessment competence-evaluations', async () => {
+  it('should return the assessment competence-evaluations', async function() {
     // given
     const expectedCompetenceEvaluations = Symbol('competenceEvaluations');
     assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(true);

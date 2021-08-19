@@ -1,11 +1,11 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
 
-describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
+describe('Unit | Domain | Models | TargetProfileWithLearningContent', function() {
 
-  describe('constructor', () => {
+  describe('constructor', function() {
 
-    it('should order stages by threshold', () => {
+    it('should order stages by threshold', function() {
       // given
       const stage1 = domainBuilder.buildStage({ threshold: 50 });
       const stage2 = domainBuilder.buildStage({ threshold: 0 });
@@ -21,9 +21,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('get#skillNames', () => {
+  describe('get#skillNames', function() {
 
-    it('should return an array with targeted skill names', () => {
+    it('should return an array with targeted skill names', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ name: '@acquis1' });
       const skill2 = domainBuilder.buildTargetedSkill({ name: '@acquis2' });
@@ -37,9 +37,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('get#skillIds', () => {
+  describe('get#skillIds', function() {
 
-    it('should return an array with targeted skill ids', () => {
+    it('should return an array with targeted skill ids', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'acquis1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'acquis2' });
@@ -53,9 +53,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('get#tubeIds', () => {
+  describe('get#tubeIds', function() {
 
-    it('should return an array with targeted tubes ids order by id', () => {
+    it('should return an array with targeted tubes ids order by id', function() {
       // given
       const tube1 = domainBuilder.buildTargetedTube({ id: 'tubeId1' });
       const tube2 = domainBuilder.buildTargetedTube({ id: 'tubeId2' });
@@ -69,9 +69,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('get#competenceIds', () => {
+  describe('get#competenceIds', function() {
 
-    it('should return an array with targeted competence ids order by id', () => {
+    it('should return an array with targeted competence ids order by id', function() {
       // given
       const competence1 = domainBuilder.buildTargetedCompetence({ id: 'compId1' });
       const competence2 = domainBuilder.buildTargetedCompetence({ id: 'compId2' });
@@ -85,9 +85,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('get#reachableStages', () => {
+  describe('get#reachableStages', function() {
 
-    it('should return reachable stages ordered by threshold', () => {
+    it('should return reachable stages ordered by threshold', function() {
       // given
       const stage1 = domainBuilder.buildStage({ threshold: 0 });
       const stage2 = domainBuilder.buildStage({ threshold: 50 });
@@ -104,9 +104,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('hasSkill', () => {
+  describe('hasSkill', function() {
 
-    it('should return true when the skill is in target profile', () => {
+    it('should return true when the skill is in target profile', function() {
       // given
       const skill = domainBuilder.buildTargetedSkill();
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skill] });
@@ -118,7 +118,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(isIncluded).to.be.true;
     });
 
-    it('should return false when the skill is not in target profile', () => {
+    it('should return false when the skill is not in target profile', function() {
       // given
       const skill = domainBuilder.buildTargetedSkill({ id: 'someId' });
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skill] });
@@ -131,9 +131,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('hasBadges', () => {
+  describe('hasBadges', function() {
 
-    it('should return true when target profile has badges', () => {
+    it('should return true when target profile has badges', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const badge = domainBuilder.buildBadge();
@@ -143,7 +143,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(targetProfile.hasBadges()).to.be.true;
     });
 
-    it('should return false when target profile has no badges', () => {
+    it('should return false when target profile has no badges', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       targetProfile.badges = [];
@@ -153,9 +153,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('hasReachableStages', () => {
+  describe('hasReachableStages', function() {
 
-    it('should return true when target profile has reachable stages', () => {
+    it('should return true when target profile has reachable stages', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const stage1 = domainBuilder.buildStage({ threshold: 0 });
@@ -167,7 +167,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(targetProfile.hasReachableStages()).to.be.true;
     });
 
-    it('should return false when target profile has no reachable stages', () => {
+    it('should return false when target profile has no reachable stages', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const stage = domainBuilder.buildStage({ threshold: 0 });
@@ -177,7 +177,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(targetProfile.hasReachableStages()).to.be.false;
     });
 
-    it('should return false when target profile has no stages at all', () => {
+    it('should return false when target profile has no stages at all', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       targetProfile.stages = [];
@@ -187,9 +187,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('findSkill', () => {
+  describe('findSkill', function() {
 
-    it('should return the skill when its in the target profile', () => {
+    it('should return the skill when its in the target profile', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'sk1' });
       const skill2 = domainBuilder.buildTargetedSkill({ id: 'sk2' });
@@ -202,7 +202,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(actualSkill).to.deep.equal(skill2);
     });
 
-    it('should return null if skill not in target profile', () => {
+    it('should return null if skill not in target profile', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [] });
 
@@ -214,9 +214,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('findTube', () => {
+  describe('findTube', function() {
 
-    it('should return the tube when its in the target profile', () => {
+    it('should return the tube when its in the target profile', function() {
       // given
       const tube1 = domainBuilder.buildTargetedSkill({ id: 'tube1' });
       const tube2 = domainBuilder.buildTargetedSkill({ id: 'tube2' });
@@ -229,7 +229,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(actualTube).to.deep.equal(tube2);
     });
 
-    it('should return null if tube not in target profile', () => {
+    it('should return null if tube not in target profile', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ tubes: [] });
 
@@ -241,9 +241,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getCompetence', () => {
+  describe('getCompetence', function() {
 
-    it('should return the competence when its in the target profile', () => {
+    it('should return the competence when its in the target profile', function() {
       // given
       const competence1 = domainBuilder.buildTargetedCompetence({ id: 'comp1' });
       const competence2 = domainBuilder.buildTargetedCompetence({ id: 'comp2' });
@@ -256,7 +256,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(actualCompetence).to.deep.equal(competence2);
     });
 
-    it('should return null if competence not in target profile', () => {
+    it('should return null if competence not in target profile', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [] });
 
@@ -268,9 +268,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getArea', () => {
+  describe('getArea', function() {
 
-    it('should return the area when its in the target profile', () => {
+    it('should return the area when its in the target profile', function() {
       // given
       const area1 = domainBuilder.buildTargetedArea({ id: 'area1' });
       const area2 = domainBuilder.buildTargetedArea({ id: 'area2' });
@@ -283,7 +283,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(actualArea).to.deep.equal(area2);
     });
 
-    it('should return null if area not in target profile', () => {
+    it('should return null if area not in target profile', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ areas: [] });
 
@@ -295,13 +295,13 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getTubeIdOfSkill()', () => {
+  describe('getTubeIdOfSkill()', function() {
 
     const expectedTubeId = 'tubeId';
     const skillId = 'skillId';
     let targetProfile;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const skillNotInTube = domainBuilder.buildTargetedSkill({ id: 'otherSkillId', tubeId: expectedTubeId });
       const skillInTube = domainBuilder.buildTargetedSkill({ id: skillId, tubeId: 'anotherTubeId' });
       const tube1 = domainBuilder.buildTargetedTube({ id: expectedTubeId, skills: [skillInTube] });
@@ -309,7 +309,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skillNotInTube, skillInTube], tubes: [tube1, tube2] });
     });
 
-    it('should return tubeId of skill', () => {
+    it('should return tubeId of skill', function() {
       // when
       const tubeId = targetProfile.getTubeIdOfSkill(skillId);
 
@@ -317,7 +317,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(tubeId).to.equal(expectedTubeId);
     });
 
-    it('should return null when tubeId of skill is not found', () => {
+    it('should return null when tubeId of skill is not found', function() {
       // when
       const expectedTubeId = targetProfile.getTubeIdOfSkill('@mamèreenslip');
 
@@ -326,13 +326,13 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getCompetenceIdOfSkill()', () => {
+  describe('getCompetenceIdOfSkill()', function() {
 
     const expectedCompetenceId = 'compId';
     const skillId = 'skillId';
     let targetProfile;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const skillNotInCompetence = domainBuilder.buildTargetedSkill({ id: 'otherSkillId', tubeId: 'tube1' });
       const skillInCompetence = domainBuilder.buildTargetedSkill({ id: skillId, tubeId: 'tube2' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'tube1', skills: [skillNotInCompetence], competenceId: 'otherCompId' });
@@ -340,7 +340,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [skillNotInCompetence, skillInCompetence], tubes: [tube1, tube2] });
     });
 
-    it('should return competenceId of skill', () => {
+    it('should return competenceId of skill', function() {
       // when
       const competenceId = targetProfile.getCompetenceIdOfSkill(skillId);
 
@@ -348,7 +348,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(competenceId).to.equal(expectedCompetenceId);
     });
 
-    it('should return null when competenceId of skill is not found', () => {
+    it('should return null when competenceId of skill is not found', function() {
       // when
       const competenceId = targetProfile.getCompetenceIdOfSkill('@mamèreenslip');
 
@@ -357,13 +357,13 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getAreaOfCompetence()', () => {
+  describe('getAreaOfCompetence()', function() {
 
     const competenceId = 'competenceId';
     let expectedArea;
     let targetProfile;
 
-    beforeEach(() => {
+    beforeEach(function() {
       const competenceNotInArea = domainBuilder.buildTargetedCompetence({ id: 'otherCompetenceId', areaId: 'area1' });
       const competenceInArea = domainBuilder.buildTargetedCompetence({ id: competenceId, areaId: 'area2' });
       const area1 = domainBuilder.buildTargetedArea({ id: 'area1', competences: [competenceNotInArea] });
@@ -371,7 +371,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [competenceNotInArea, competenceInArea], areas: [expectedArea, area1] });
     });
 
-    it('should return area of competence', () => {
+    it('should return area of competence', function() {
       // when
       const area = targetProfile.getAreaOfCompetence(competenceId);
 
@@ -379,7 +379,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(area).to.deep.equal(expectedArea);
     });
 
-    it('should return null when area of competence is not found', () => {
+    it('should return null when area of competence is not found', function() {
       // when
       const area = targetProfile.getAreaOfCompetence('recPépite');
 
@@ -388,9 +388,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getKnowledgeElementsGroupedByCompetence()', () => {
+  describe('getKnowledgeElementsGroupedByCompetence()', function() {
 
-    it('should return knowledge elements of targeted skill by targeted competence id', () => {
+    it('should return knowledge elements of targeted skill by targeted competence id', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
@@ -419,7 +419,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should categorize knowledgeElement to actual competenceId and not based on the declared one', () => {
+    it('should categorize knowledgeElement to actual competenceId and not based on the declared one', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -441,7 +441,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should set an empty array to a targeted competence id when no knowledge element belongs to it', () => {
+    it('should set an empty array to a targeted competence id when no knowledge element belongs to it', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -463,7 +463,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should filter out non targeted knowledge element', () => {
+    it('should filter out non targeted knowledge element', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -487,9 +487,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getValidatedKnowledgeElementsGroupedByTube()', () => {
+  describe('getValidatedKnowledgeElementsGroupedByTube()', function() {
 
-    it('should return knowledge elements of targeted skill by targeted tube id', () => {
+    it('should return knowledge elements of targeted skill by targeted tube id', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
@@ -518,7 +518,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should set an empty array to a targeted tube id when no knowledge element belongs to it', () => {
+    it('should set an empty array to a targeted tube id when no knowledge element belongs to it', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -540,7 +540,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should filter out non targeted knowledge element', () => {
+    it('should filter out non targeted knowledge element', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -563,7 +563,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should filter out non validated knowledge element', () => {
+    it('should filter out non validated knowledge element', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -587,9 +587,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('countValidatedTargetedKnowledgeElementsByCompetence()', () => {
+  describe('countValidatedTargetedKnowledgeElementsByCompetence()', function() {
 
-    it('should return validated knowledge elements count by targeted competences', () => {
+    it('should return validated knowledge elements count by targeted competences', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const skill2_1 = domainBuilder.buildTargetedSkill({ id: 'recSkill2_1', tubeId: 'recTube2' });
@@ -618,7 +618,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should proceed counting knowledgeElement within actual competenceId and not based on the declared one', () => {
+    it('should proceed counting knowledgeElement within actual competenceId and not based on the declared one', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -640,7 +640,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should set 0 to a targeted competence id when no validated knowledge element belongs to it', () => {
+    it('should set 0 to a targeted competence id when no validated knowledge element belongs to it', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -662,7 +662,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should filter out non targeted knowledge element from the counting', () => {
+    it('should filter out non targeted knowledge element from the counting', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -685,7 +685,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       });
     });
 
-    it('should filter out non validated knowledge element from the counting', () => {
+    it('should filter out non validated knowledge element from the counting', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1', tubeId: 'recTube1' });
       const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skill1], competenceId: 'recCompetence1' });
@@ -709,9 +709,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('get#maxSkillDifficulty', () => {
+  describe('get#maxSkillDifficulty', function() {
 
-    it('should highest difficulty of target profile skills', () => {
+    it('should highest difficulty of target profile skills', function() {
       // given
       const mostDifficultSkill = domainBuilder.buildTargetedSkill({ id: '@rechercheNucléaire5' });
       const lessDifficultSkill = domainBuilder.buildTargetedSkill({ id: '@faireSesLacets1' });
@@ -724,7 +724,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       expect(maxDifficulty).to.equal(5);
     });
 
-    it('should return null when target profile has no skills', () => {
+    it('should return null when target profile has no skills', function() {
       // given
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ skills: [] });
 
@@ -736,8 +736,8 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getStageSkillsBoundaries()', () => {
-    it('should return skill count boundaries for all stages', () => {
+  describe('getStageSkillsBoundaries()', function() {
+    it('should return skill count boundaries for all stages', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill();
       const skill2 = domainBuilder.buildTargetedSkill();
@@ -763,7 +763,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       ]);
     });
 
-    it('should return skill count boundaries with a stage threshold 0', () => {
+    it('should return skill count boundaries with a stage threshold 0', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill();
       const skill2 = domainBuilder.buildTargetedSkill();
@@ -790,9 +790,9 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
     });
   });
 
-  describe('getSkillsCountBoundariesFromStages()', () => {
+  describe('getSkillsCountBoundariesFromStages()', function() {
 
-    it('should return skill count boundary for the given stage id', () => {
+    it('should return skill count boundary for the given stage id', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill();
       const skill2 = domainBuilder.buildTargetedSkill();
@@ -819,7 +819,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       ]);
     });
 
-    it('should return skill count boundaries for the given stage id list', () => {
+    it('should return skill count boundaries for the given stage id list', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill();
       const skill2 = domainBuilder.buildTargetedSkill();
@@ -847,7 +847,7 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', () => {
       ]);
     });
 
-    it('should return total skills count in "to" if it’s the last stage', () => {
+    it('should return total skills count in "to" if it’s the last stage', function() {
       // given
       const skill1 = domainBuilder.buildTargetedSkill();
       const skill2 = domainBuilder.buildTargetedSkill();

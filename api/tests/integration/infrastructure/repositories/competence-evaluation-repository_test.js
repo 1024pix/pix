@@ -6,21 +6,21 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | Competence Evaluation', () => {
+describe('Integration | Repository | Competence Evaluation', function() {
 
   const STARTED = 'started';
-  describe('#save', () => {
+  describe('#save', function() {
     let assessment;
-    beforeEach(async () => {
+    beforeEach(async function() {
       assessment = databaseBuilder.factory.buildAssessment({});
       await databaseBuilder.commit();
     });
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('competence-evaluations').delete();
     });
 
-    it('should return the given competence evaluation', async () => {
+    it('should return the given competence evaluation', async function() {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: assessment.id,
@@ -44,7 +44,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       expect(savedCompetenceEvaluation.userId).to.equal(competenceEvaluationToSave.userId);
     });
 
-    it('should save the given competence evaluation', async () => {
+    it('should save the given competence evaluation', async function() {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: assessment.id,
@@ -73,11 +73,11 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
   });
 
-  describe('#getByAssessmentId', () => {
+  describe('#getByAssessmentId', function() {
     let assessmentForExpectedCompetenceEvaluation, assessmentNotExpected;
     let competenceEvaluationExpected;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       assessmentForExpectedCompetenceEvaluation = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.COMPETENCE_EVALUATION,
@@ -94,7 +94,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the assessment', () => {
+    it('should return the competence evaluation linked to the assessment', function() {
       // when
       const promise = competenceEvaluationRepository.getByAssessmentId(assessmentForExpectedCompetenceEvaluation.id);
 
@@ -105,7 +105,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       });
     });
 
-    it('should return an error when there is no competence evaluation', () => {
+    it('should return an error when there is no competence evaluation', function() {
       // when
       const promise = catchErr(competenceEvaluationRepository.getByAssessmentId)(assessmentNotExpected.id);
 
@@ -117,11 +117,11 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
   });
 
-  describe('#getByCompetenceIdAndUserId', () => {
+  describe('#getByCompetenceIdAndUserId', function() {
     let user;
     let competenceEvaluationExpected, assessmentExpected;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       user = databaseBuilder.factory.buildUser({});
 
@@ -145,7 +145,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the competence id', () => {
+    it('should return the competence evaluation linked to the competence id', function() {
       // when
       const promise = competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId: 1, userId: user.id });
 
@@ -157,7 +157,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       });
     });
 
-    it('should return an error when there is no competence evaluation', () => {
+    it('should return an error when there is no competence evaluation', function() {
       // when
       const promise = catchErr(competenceEvaluationRepository.getByCompetenceIdAndUserId)({ competenceId: 'fakeId', userId: user.id });
 
@@ -169,11 +169,11 @@ describe('Integration | Repository | Competence Evaluation', () => {
 
   });
 
-  describe('#findByUserId', () => {
+  describe('#findByUserId', function() {
     let user;
     let competenceEvaluationExpected, assessmentExpected;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       user = databaseBuilder.factory.buildUser({});
       const otherUser = databaseBuilder.factory.buildUser({});
@@ -206,7 +206,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the competence id', () => {
+    it('should return the competence evaluation linked to the competence id', function() {
       // when
       const promise = competenceEvaluationRepository.findByUserId(user.id);
 
@@ -219,11 +219,11 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
   });
 
-  describe('#findByAssessmentId', () => {
+  describe('#findByAssessmentId', function() {
     let assessmentId;
     let competenceEvaluationExpected;
 
-    beforeEach(() => {
+    beforeEach(function() {
       // given
       assessmentId = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.COMPETENCE_EVALUATION,
@@ -244,7 +244,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       return databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the assessmentId', async () => {
+    it('should return the competence evaluation linked to the assessmentId', async function() {
       // when
       const competenceEvaluations = await competenceEvaluationRepository.findByAssessmentId(assessmentId);
 
@@ -254,17 +254,17 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
   });
 
-  describe('#updateStatusByAssessmentId', () => {
+  describe('#updateStatusByAssessmentId', function() {
     let assessment;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       assessment = databaseBuilder.factory.buildAssessment({});
       databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, status: 'current_status' });
       await databaseBuilder.commit();
     });
 
-    it('should update the competence status', async () => {
+    it('should update the competence status', async function() {
       // when
       const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId({ assessmentId: assessment.id, status: 'new_status' });
 
@@ -274,10 +274,10 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
   });
 
-  describe('#updateAssessmentId', () => {
+  describe('#updateAssessmentId', function() {
     let currentAssessmentId, newAssessmentId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       currentAssessmentId = databaseBuilder.factory.buildAssessment({}).id;
       newAssessmentId = databaseBuilder.factory.buildAssessment({}).id;
@@ -285,7 +285,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should update the assessment id', async () => {
+    it('should update the assessment id', async function() {
       // when
       const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateAssessmentId({ currentAssessmentId, newAssessmentId });
 
@@ -295,11 +295,11 @@ describe('Integration | Repository | Competence Evaluation', () => {
     });
   });
 
-  describe('#updateStatusByUserIdAndCompetenceId', () => {
+  describe('#updateStatusByUserIdAndCompetenceId', function() {
     const competenceId = 'recABCD1234';
     let userId, otherUserId;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       userId = databaseBuilder.factory.buildUser({}).id;
       otherUserId = databaseBuilder.factory.buildUser({}).id;
@@ -308,7 +308,7 @@ describe('Integration | Repository | Competence Evaluation', () => {
       await databaseBuilder.commit();
     });
 
-    it('should update the competence status', async () => {
+    it('should update the competence status', async function() {
       // when
       const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({ userId, competenceId, status: 'new_status' });
       const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId, userId: otherUserId });

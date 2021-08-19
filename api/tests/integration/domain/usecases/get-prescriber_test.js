@@ -6,15 +6,15 @@ const userOrgaSettingsRepository = require('../../../../lib/infrastructure/repos
 
 const getPrescriber = require('../../../../lib/domain/usecases/get-prescriber');
 
-describe('Integration | UseCases | get-prescriber', () => {
+describe('Integration | UseCases | get-prescriber', function() {
 
-  context('When prescriber does not have a userOrgaSettings', () => {
+  context('When prescriber does not have a userOrgaSettings', function() {
 
-    afterEach(() => {
+    afterEach(function() {
       return knex('user-orga-settings').delete();
     });
 
-    it('should create it with the first membership\'s organization', async() => {
+    it('should create it with the first membership\'s organization', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const firstMembership = databaseBuilder.factory.buildMembership({ userId });
@@ -32,9 +32,9 @@ describe('Integration | UseCases | get-prescriber', () => {
     });
   });
 
-  context('When prescriber has a userOrgaSettings', () => {
+  context('When prescriber has a userOrgaSettings', function() {
 
-    it('should return the prescriber\'s userOrgaSettings', async() => {
+    it('should return the prescriber\'s userOrgaSettings', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const membership = databaseBuilder.factory.buildMembership({ userId });
@@ -49,9 +49,9 @@ describe('Integration | UseCases | get-prescriber', () => {
       expect(prescriber.userOrgaSettings.id).to.equal(userOrgaSettings.id);
     });
 
-    context('When the currentOrganization does not belong to prescriber\'s memberships anymore', () => {
+    context('When the currentOrganization does not belong to prescriber\'s memberships anymore', function() {
 
-      it('should update the prescriber\'s userOrgaSettings with the organization of the first membership', async() => {
+      it('should update the prescriber\'s userOrgaSettings with the organization of the first membership', async function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const firstMembership = databaseBuilder.factory.buildMembership({ userId });

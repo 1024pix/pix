@@ -11,9 +11,9 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
 
   let userId, event, badgeCompleted;
 
-  describe('#handleBadgeAcquisition', () => {
+  describe('#handleBadgeAcquisition', function() {
 
-    beforeEach(async() => {
+    beforeEach(async function() {
       const listSkill = ['web1', 'web2', 'web3', 'web4'];
 
       const learningContent = [{
@@ -92,11 +92,11 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async() => {
+    afterEach(async function() {
       await knex('badge-acquisitions').delete();
     });
 
-    it('should save only the validated badges', async () => {
+    it('should save only the validated badges', async function() {
       // when
       await handleBadgeAcquisitionEvent({
         event,

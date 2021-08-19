@@ -10,18 +10,18 @@ const juryCertificationSummaryRepository = require('../../../../lib/infrastructu
 
 describe('Integration | Repository | JuryCertificationSummary', function() {
 
-  describe('#findBySessionId', () => {
+  describe('#findBySessionId', function() {
 
-    context('when the session has no certifications', () => {
+    context('when the session has no certifications', function() {
       let sessionId;
 
-      beforeEach(() => {
+      beforeEach(function() {
         sessionId = databaseBuilder.factory.buildSession().id;
 
         return databaseBuilder.commit();
       });
 
-      it('should return an empty array', async () => {
+      it('should return an empty array', async function() {
         // when
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -31,7 +31,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
     });
 
-    context('when the session has some certifications', () => {
+    context('when the session has some certifications', function() {
       let sessionId;
       let manyAsrCertification;
       let latestAssessmentResult;
@@ -40,7 +40,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       const description = 'Super candidat !';
       let certificationIssueReport;
 
-      beforeEach(() => {
+      beforeEach(function() {
         const dbf = databaseBuilder.factory;
         sessionId = dbf.buildSession().id;
         manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
@@ -63,7 +63,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return an array of JuryCertificationSummary sorted by name', async () => {
+      it('should return an array of JuryCertificationSummary sorted by name', async function() {
         // when
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -101,9 +101,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
       });
 
-      context('when the certification has assessment-results', () => {
+      context('when the certification has assessment-results', function() {
 
-        it('should return JuryCertificationSummary based on their latest assessment result', async () => {
+        it('should return JuryCertificationSummary based on their latest assessment result', async function() {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -119,9 +119,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         });
       });
 
-      context('when the certification has no assessment-result', () => {
+      context('when the certification has no assessment-result', function() {
 
-        it('should return all juryCertificationSummaries with status started', async () => {
+        it('should return all juryCertificationSummaries with status started', async function() {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -136,9 +136,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
     });
 
-    context('when the session has a cancelled certification course', () => {
+    context('when the session has a cancelled certification course', function() {
 
-      it('should return a JuryCertificationSummary with a cancelled status', async () => {
+      it('should return a JuryCertificationSummary with a cancelled status', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -158,8 +158,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has several issue reports', () => {
-      it('should return all issue reports', async () => {
+    context('when a summary has several issue reports', function() {
+      it('should return all issue reports', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -214,11 +214,11 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a Clea certification', () => {
+    context('when a summary has a Clea certification', function() {
 
-      context('badge V1', () => {
+      context('badge V1', function() {
 
-        it('should have the status acquired when clea certification is acquired', async () => {
+        it('should have the status acquired when clea certification is acquired', async function() {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
@@ -236,7 +236,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
         });
 
-        it('should have the status rejected when clea certification is rejected', async () => {
+        it('should have the status rejected when clea certification is rejected', async function() {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
@@ -255,9 +255,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         });
       });
 
-      context('badge V2', () => {
+      context('badge V2', function() {
 
-        it('should have the status acquired when clea certification is acquired', async () => {
+        it('should have the status acquired when clea certification is acquired', async function() {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
@@ -275,7 +275,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
         });
 
-        it('should have the status rejected when clea certification is rejected', async () => {
+        it('should have the status rejected when clea certification is rejected', async function() {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
@@ -295,9 +295,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a no Clea certification', () => {
+    context('when a summary has a no Clea certification', function() {
 
-      it('should have the status notTaken when clea certification has not be taken', async () => {
+      it('should have the status notTaken when clea certification has not be taken', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -314,9 +314,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a Pix plus droit maitre certification', () => {
+    context('when a summary has a Pix plus droit maitre certification', function() {
 
-      it('should have the status acquired when Pix plus droit maitre certification is acquired', async () => {
+      it('should have the status acquired when Pix plus droit maitre certification is acquired', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -334,7 +334,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
       });
 
-      it('should have the status rejected when Pix plus droit maitre certification is rejected', async () => {
+      it('should have the status rejected when Pix plus droit maitre certification is rejected', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -353,9 +353,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a no Pix plus droit maitre certification', () => {
+    context('when a summary has a no Pix plus droit maitre certification', function() {
 
-      it('should have the status notTaken when pix plus droit maitre certification has not be taken', async () => {
+      it('should have the status notTaken when pix plus droit maitre certification has not be taken', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -372,9 +372,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a Pix plus droit expert certification', () => {
+    context('when a summary has a Pix plus droit expert certification', function() {
 
-      it('should have the status acquired when Pix plus droit expert certification is acquired', async () => {
+      it('should have the status acquired when Pix plus droit expert certification is acquired', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -392,7 +392,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
       });
 
-      it('should have the status rejected when Pix plus droit expert certification is rejected', async () => {
+      it('should have the status rejected when Pix plus droit expert certification is rejected', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -411,9 +411,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a no Pix plus droit expert certification', () => {
+    context('when a summary has a no Pix plus droit expert certification', function() {
 
-      it('should have the status notTaken when pix plus droit expert certification has not be taken', async () => {
+      it('should have the status notTaken when pix plus droit expert certification has not be taken', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -430,9 +430,9 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has several partner certifications', () => {
+    context('when a summary has several partner certifications', function() {
 
-      it('should return only one exemplary of the summary with appropriate info on partner certification', async () => {
+      it('should return only one exemplary of the summary with appropriate info on partner certification', async function() {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;

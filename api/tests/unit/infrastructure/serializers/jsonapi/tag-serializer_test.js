@@ -4,11 +4,11 @@ const {
 } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/tag-serializer');
 
-describe('Unit | Serializer | JSONAPI | tag-serializer', () => {
+describe('Unit | Serializer | JSONAPI | tag-serializer', function() {
 
   describe('#serialize', function() {
 
-    it('should convert a tag model to JSON', () => {
+    it('should convert a tag model to JSON', function() {
       // given
       const tag = domainBuilder.buildTag({ name: 'TAG1' });
 

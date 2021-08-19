@@ -11,11 +11,11 @@ const countrySerializer = require('../../../../lib/infrastructure/serializers/js
 
 const countryController = require('../../../../lib/application/countries/country-controller');
 
-describe('Unit | Controller | country-controller', () => {
+describe('Unit | Controller | country-controller', function() {
 
-  describe('#findCountries', () => {
+  describe('#findCountries', function() {
 
-    it('should fetch and return the countries, serialized as JSONAPI', async () => {
+    it('should fetch and return the countries, serialized as JSONAPI', async function() {
       // given
       const countries = [
         domainBuilder.buildCountry({ code: '99345', name: 'Pologne' }),

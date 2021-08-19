@@ -3,7 +3,7 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 
 describe('Event Choreography | Pole Emploi Participation Finished', function() {
-  it('Should trigger Pole Emploi participation finished handler on AssessmentCompleted event', async () => {
+  it('Should trigger Pole Emploi participation finished handler on AssessmentCompleted event', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new AssessmentCompleted();

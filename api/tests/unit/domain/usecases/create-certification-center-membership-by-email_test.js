@@ -7,7 +7,7 @@ const {
 
 const createCertificationCenterMembershipByEmail = require('../../../../lib/domain/usecases/create-certification-center-membership-by-email');
 
-describe('Unit | UseCase | create-certification-center-membership-by-email', () => {
+describe('Unit | UseCase | create-certification-center-membership-by-email', function() {
 
   const certificationCenterId = 1;
   const email = 'user@exemple.net';
@@ -16,7 +16,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', () 
   let certificationCenterMembershipRepository;
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     certificationCenterMembershipRepository = {
       isMemberOfCertificationCenter: sinon.stub(),
       save: sinon.stub(),
@@ -30,7 +30,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', () 
     userRepository.getByEmail.resolves({ id: userId });
   });
 
-  it('should call repositories', async () => {
+  it('should call repositories', async function() {
     // when
     await createCertificationCenterMembershipByEmail({
       certificationCenterId,
@@ -46,7 +46,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', () 
     expect(certificationCenterMembershipRepository.save).has.been.calledWith(userId, certificationCenterId);
   });
 
-  it('should throw UserNotFoundError if no user matches this email', async () => {
+  it('should throw UserNotFoundError if no user matches this email', async function() {
     // given
     userRepository.getByEmail.throws(new UserNotFoundError());
 
@@ -62,7 +62,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', () 
     expect(error).to.be.an.instanceOf(UserNotFoundError);
   });
 
-  it('should throw AlreadyExistingEntityError if certification center membership exist', async () => {
+  it('should throw AlreadyExistingEntityError if certification center membership exist', async function() {
     // given
     certificationCenterMembershipRepository.isMemberOfCertificationCenter.resolves(true);
 

@@ -6,9 +6,9 @@ const knex = knexDatabaseConnection.knex;
 const { UserNotFoundError } = require('../../../lib/domain/errors');
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 
-describe('Integration | Infrastructure | knex-database-connection', () => {
+describe('Integration | Infrastructure | knex-database-connection', function() {
 
-  it('should connect to the database', async () => {
+  it('should connect to the database', async function() {
     // when
     const resultSet = await knex.raw('SELECT 1 as value');
 
@@ -16,7 +16,7 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
     expect(resultSet.rows || resultSet).to.deep.equal([{ value: 1 }]);
   });
 
-  it('should empty all tables', async () => {
+  it('should empty all tables', async function() {
     // given
     const { id } = databaseBuilder.factory.buildUser();
     await databaseBuilder.commit();
@@ -28,9 +28,9 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
     await expect(userRepository.get(id)).to.be.rejectedWith(UserNotFoundError);
   });
 
-  context('QueryBuilder extension - whereInArray', () => {
+  context('QueryBuilder extension - whereInArray', function() {
 
-    it('should return records that satisfy the where any clause', async () => {
+    it('should return records that satisfy the where any clause', async function() {
       // given
       databaseBuilder.factory.buildCampaign({ id: 1 });
       databaseBuilder.factory.buildCampaign({ id: 2 });
@@ -44,7 +44,7 @@ describe('Integration | Infrastructure | knex-database-connection', () => {
       expect(results).to.deep.equal([{ id: 2 }, { id: 3 }]);
     });
 
-    it('should return an empty array when no records satisfy the where any clause', async () => {
+    it('should return an empty array when no records satisfy the where any clause', async function() {
       // given
       databaseBuilder.factory.buildCampaign({ id: 1 });
       databaseBuilder.factory.buildCampaign({ id: 2 });

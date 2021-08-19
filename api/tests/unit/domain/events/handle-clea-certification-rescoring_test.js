@@ -2,7 +2,7 @@ const _ = require('lodash');
 const { catchErr, expect, sinon, domainBuilder } = require('../../../test-helper');
 const { handleCleaCertificationRescoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-clea-certification-rescoring', () => {
+describe('Unit | Domain | Events | handle-clea-certification-rescoring', function() {
 
   const partnerCertificationScoringRepository = {
     buildCleaCertificationScoring: _.noop(),
@@ -17,13 +17,13 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', () => {
     cleaCertificationResultRepository,
   };
 
-  beforeEach(() => {
+  beforeEach(function() {
     partnerCertificationScoringRepository.buildCleaCertificationScoring = sinon.stub();
     partnerCertificationScoringRepository.save = sinon.stub();
     cleaCertificationResultRepository.get = sinon.stub();
   });
 
-  it('fails when event is not of correct type', async () => {
+  it('fails when event is not of correct type', async function() {
     // given
     const event = 'not an event of the correct type';
 
@@ -36,11 +36,11 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', () => {
     expect(error.message).to.equal('event must be one of types CertificationRescoringCompleted');
   });
 
-  context('#handleCleaCertificationRescoring', () => {
+  context('#handleCleaCertificationRescoring', function() {
 
-    context('when CleA certification was not even taken in the first place', () => {
+    context('when CleA certification was not even taken in the first place', function() {
 
-      it('should not build or save no partner certification scoring', async () => {
+      it('should not build or save no partner certification scoring', async function() {
         // given
         const certificationRescoringCompletedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
           certificationCourseId: 123,
@@ -63,9 +63,9 @@ describe('Unit | Domain | Events | handle-clea-certification-rescoring', () => {
       });
     });
 
-    context('when CleA Certification was taken', () => {
+    context('when CleA Certification was taken', function() {
 
-      it('should save the re-scored cleA certification', async () => {
+      it('should save the re-scored cleA certification', async function() {
         // given
         const certificationRescoringCompletedEvent = domainBuilder.buildCertificationRescoringCompletedEvent({
           certificationCourseId: 123,

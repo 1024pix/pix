@@ -4,13 +4,13 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignParticipantActivity = require('../../../../lib/domain/read-models/CampaignParticipantActivity');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-describe('Integration | Repository | Campaign Participant activity', () => {
+describe('Integration | Repository | Campaign Participant activity', function() {
 
-  describe('#findPaginatedByCampaignId', () => {
+  describe('#findPaginatedByCampaignId', function() {
     let campaign;
 
-    context('When there is an assessment for another campaign', () => {
-      beforeEach(async () => {
+    context('When there is an assessment for another campaign', function() {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
         const otherCampaign = databaseBuilder.factory.buildCampaign();
 
@@ -32,7 +32,7 @@ describe('Integration | Repository | Campaign Participant activity', () => {
         await databaseBuilder.commit();
       });
 
-      it('Returns a participation activity for each participant of the given campaign', async () => {
+      it('Returns a participation activity for each participant of the given campaign', async function() {
         const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
         const participantExternalIds = campaignParticipantsActivities.map((activity) => activity.participantExternalId);
 
@@ -40,9 +40,9 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       });
     });
 
-    context('When there are several participations for the same participant', () => {
+    context('When there are several participations for the same participant', function() {
 
-      it('Returns one CampaignParticipantActivity with the most recent participation (isImproved = false)', async () => {
+      it('Returns one CampaignParticipantActivity with the most recent participation (isImproved = false)', async function() {
         //Given
         const campaign = databaseBuilder.factory.buildAssessmentCampaign({});
         const user = databaseBuilder.factory.buildUser();
@@ -74,11 +74,11 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       });
     });
 
-    context('when the campaign is assessment', () => {
+    context('when the campaign is assessment', function() {
 
-      context('When there are several assessments for the same participant', () => {
+      context('When there are several assessments for the same participant', function() {
 
-        beforeEach(async () => {
+        beforeEach(async function() {
           campaign = databaseBuilder.factory.buildAssessmentCampaign({});
           const user = databaseBuilder.factory.buildUser();
           const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
@@ -104,7 +104,7 @@ describe('Integration | Repository | Campaign Participant activity', () => {
           await databaseBuilder.commit();
         });
 
-        it('Returns one CampaignParticipantActivity with the most recent assessment', async () => {
+        it('Returns one CampaignParticipantActivity with the most recent assessment', async function() {
           const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
           const statuses = campaignParticipantsActivities.map((activity) => activity.status);
 
@@ -114,9 +114,9 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       });
     });
 
-    context('when the campaign is profile collection', () => {
-      context('when the participation is shared', () => {
-        it('should return status shared', async () => {
+    context('when the campaign is profile collection', function() {
+      context('when the participation is shared', function() {
+        it('should return status shared', async function() {
           campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, isShared: true });
           await databaseBuilder.commit();
@@ -126,8 +126,8 @@ describe('Integration | Repository | Campaign Participant activity', () => {
         });
       });
 
-      context('when the participation is not shared', () => {
-        it('should return status completed', async () => {
+      context('when the participation is not shared', function() {
+        it('should return status completed', async function() {
           campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
           databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, isShared: false });
           await databaseBuilder.commit();
@@ -138,8 +138,8 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       });
     });
 
-    context('order', () => {
-      it('should return participants activities ordered by last name then first name asc (including schooling registration data)', async () => {
+    context('order', function() {
+      it('should return participants activities ordered by last name then first name asc (including schooling registration data)', async function() {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         campaign = databaseBuilder.factory.buildAssessmentCampaign({ organizationId });
@@ -160,8 +160,8 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       });
     });
 
-    context('when there is a filter on division', () => {
-      it('returns participants which have the correct division', async () => {
+    context('when there is a filter on division', function() {
+      it('returns participants which have the correct division', async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
         databaseBuilder.factory.buildAssessmentFromParticipation({ participantExternalId: 'The good', campaignId: campaign.id }, { id: 1 });
@@ -185,9 +185,9 @@ describe('Integration | Repository | Campaign Participant activity', () => {
       });
     });
 
-    context('pagination', () => {
+    context('pagination', function() {
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
         const participation = { campaignId: campaign.id };
@@ -197,7 +197,7 @@ describe('Integration | Repository | Campaign Participant activity', () => {
         await databaseBuilder.commit();
       });
 
-      it('should return paginated campaign participations based on the given size and number', async () => {
+      it('should return paginated campaign participations based on the given size and number', async function() {
         const page = { size: 1, number: 1 };
 
         const { campaignParticipantsActivities, pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, page });
@@ -206,9 +206,9 @@ describe('Integration | Repository | Campaign Participant activity', () => {
         expect(pagination).to.deep.equals({ page: 1, pageCount: 2, pageSize: 1, rowCount: 2 });
       });
 
-      context('default pagination', () => {
+      context('default pagination', function() {
 
-        it('should return a page size of 25', async () => {
+        it('should return a page size of 25', async function() {
 
           const { pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
@@ -217,14 +217,14 @@ describe('Integration | Repository | Campaign Participant activity', () => {
         });
       });
 
-      context('when there are zero rows', () => {
-        beforeEach(async () => {
+      context('when there are zero rows', function() {
+        beforeEach(async function() {
           campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
           await databaseBuilder.commit();
         });
 
-        it('should return the first page with 0 elements', async () => {
+        it('should return the first page with 0 elements', async function() {
 
           const { campaignParticipantsActivities, pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 

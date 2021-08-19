@@ -9,7 +9,7 @@ const poleEmploiTokensRepository = require('../../../lib/infrastructure/reposito
 const createServer = require('../../../server');
 const settings = require('../../../lib/config');
 
-describe('Acceptance | API | Pole Emploi Controller', () => {
+describe('Acceptance | API | Pole Emploi Controller', function() {
 
   let server, options;
 
@@ -17,22 +17,22 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
   const POLE_EMPLOI_SCOPE = 'pole-emploi-participants-result';
   const POLE_EMPLOI_SOURCE = 'poleEmploi';
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  describe('POST /api/pole-emplois/users?authentication-key=key', () => {
+  describe('POST /api/pole-emplois/users?authentication-key=key', function() {
 
     const firstName = 'firstName';
     const lastName = 'lastName';
     const externalIdentifier = 'idIdentiteExterne';
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('authentication-methods').delete();
       await knex('users').delete();
     });
 
-    it('should return 200 HTTP status', async () => {
+    it('should return 200 HTTP status', async function() {
       // given
       const idToken = jsonwebtoken.sign({
         'given_name': firstName,
@@ -69,19 +69,19 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     });
   });
 
-  describe('GET /api/pole-emploi/envois', () => {
+  describe('GET /api/pole-emploi/envois', function() {
     const originalEnv = settings.apiManager.url;
 
-    before(() => {
+    before(function() {
       settings.apiManager.url = 'https://url-externe';
     });
 
-    after(() => {
+    after(function() {
       settings.apiManager.url = originalEnv;
     });
 
     context('When the request returns 200', function() {
-      it('should return the sending and a link', async () => {
+      it('should return the sending and a link', async function() {
         const sending = poleEmploiSendingFactory.buildWithUser({ id: 76345, createdAt: new Date('2021-05-01'), payload: { campagne: { nom: 'Campagne PE', dateDebut: new Date('2020-08-01'), type: 'EVALUATION', codeCampagne: 'POLEEMPLOI123', urlCampagne: 'https://app.pix.fr/campagnes/POLEEMPLOI123', nomOrganisme: 'Pix', typeOrganisme: 'externe' }, individu: { nom: 'Kamado', prenom: 'Tanjiro' }, test: { etat: 2, typeTest: 'DI', referenceExterne: 123456, dateDebut: new Date('2020-09-01'), elementsEvalues: [] } }, isSuccessful: true }, 'externalUserId');
         poleEmploiSendingFactory.buildWithUser({ isSuccessful: false });
         await databaseBuilder.commit();
@@ -124,7 +124,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
     });
 
     context('When the request has failed', function() {
-      it('should return 403 HTTP status code if user is not allowed to access', async () => {
+      it('should return 403 HTTP status code if user is not allowed to access', async function() {
         // given
         options = {
           method: 'GET',
@@ -139,7 +139,7 @@ describe('Acceptance | API | Pole Emploi Controller', () => {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should return 401 HTTP status code if user is not authenticated', async () => {
+      it('should return 401 HTTP status code if user is not authenticated', async function() {
         // given
         options = {
           method: 'GET',

@@ -5,9 +5,9 @@ const CertificationCenterMembership = require('../../../../lib/domain/models/Cer
 
 const { findCertificationCenterMembershipsByCertificationCenter } = require('../../../../lib/domain/usecases/index');
 
-describe('Integration | UseCase | find-certification-center-memberships-by-certification-center', () => {
+describe('Integration | UseCase | find-certification-center-memberships-by-certification-center', function() {
 
-  it('should return certification center memberships', async () => {
+  it('should return certification center memberships', async function() {
     // given
     const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
     const user = databaseBuilder.factory.buildUser();

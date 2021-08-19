@@ -4,12 +4,12 @@ const verifyCertificateCodeService = require('../../../../lib/domain/services/ve
 const certifCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../../lib/domain/errors');
 
-describe('Unit | Service | VerifyCertificateCode', () => {
+describe('Unit | Service | VerifyCertificateCode', function() {
 
-  describe('#generateCertificateVerificationCode', () => {
+  describe('#generateCertificateVerificationCode', function() {
 
     _.times(100, () =>
-      it('should return a certification code containing 8 digits/letters except 0, 1 and vowels', async () => {
+      it('should return a certification code containing 8 digits/letters except 0, 1 and vowels', async function() {
         // given
         sinon.stub(certifCourseRepository, 'isVerificationCodeAvailable').resolves(true);
 
@@ -21,8 +21,8 @@ describe('Unit | Service | VerifyCertificateCode', () => {
       }),
     );
 
-    context('when a code is not available', () => {
-      it('should choose another code', async () => {
+    context('when a code is not available', function() {
+      it('should choose another code', async function() {
         // given
         let codeIndex = 0;
         const codes = ['P-FXRSTX', 'P-SXCXND'];
@@ -39,7 +39,7 @@ describe('Unit | Service | VerifyCertificateCode', () => {
         expect(result).to.equal('P-SXCXND');
       });
 
-      it('should throw when trying too many times', async () => {
+      it('should throw when trying too many times', async function() {
         // given
         sinon.stub(certifCourseRepository, 'isVerificationCodeAvailable').resolves(false);
 

@@ -9,9 +9,9 @@ const moduleUnderTest = require('../../../../lib/application/tags');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const tagController = require('../../../../lib/application/tags/tag-controller');
 
-describe('Unit | Application | Router | tag-router', () => {
+describe('Unit | Application | Router | tag-router', function() {
 
-  it('return a response with an http status code OK', async () => {
+  it('return a response with an http status code OK', async function() {
     // given
     const tags = [
       domainBuilder.buildTag({ name: 'TAG1' }),

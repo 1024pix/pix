@@ -1,13 +1,13 @@
 const { expect, sinon } = require('../../../test-helper');
 const RedisTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage');
 
-describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', () => {
+describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', function() {
 
   const REDIS_URL = 'redis_url';
 
   let clientStub;
 
-  beforeEach(() => {
+  beforeEach(function() {
     clientStub = {
       get: sinon.stub(),
       set: sinon.stub(),
@@ -18,9 +18,9 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', ()
       .returns(clientStub);
   });
 
-  describe('#constructor', () => {
+  describe('#constructor', function() {
 
-    it('should call static method createClient', () => {
+    it('should call static method createClient', function() {
       // when
       const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
 
@@ -30,9 +30,9 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', ()
     });
   });
 
-  describe('#save', () => {
+  describe('#save', function() {
 
-    it('should call client set with value and EX parameters', async () => {
+    it('should call client set with value and EX parameters', async function() {
       // given
       const EXPIRATION_PARAMETER = 'ex';
       const value = { name: 'name' };
@@ -53,9 +53,9 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', ()
     });
   });
 
-  describe('#get', () => {
+  describe('#get', function() {
 
-    it('should call client set and retrieve value', async () => {
+    it('should call client set and retrieve value', async function() {
       // given
       const key = 'valueKey';
       const value = { name: 'name' };

@@ -3,13 +3,13 @@ const getCampaignProfile = require('../../../../lib/domain/usecases/get-campaign
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | UseCase | get-campaign-profile', () => {
+describe('Unit | UseCase | get-campaign-profile', function() {
 
   let campaignRepository, campaignProfileRepository;
   let userId, campaignId, campaignParticipationId;
   const locale = FRENCH_SPOKEN;
 
-  beforeEach(() => {
+  beforeEach(function() {
     campaignRepository = {
       checkIfUserOrganizationHasAccessToCampaign: sinon.stub(),
     };
@@ -18,16 +18,16 @@ describe('Unit | UseCase | get-campaign-profile', () => {
     };
   });
 
-  context('when user has access to organization that owns campaign', () => {
+  context('when user has access to organization that owns campaign', function() {
 
-    beforeEach(() => {
+    beforeEach(function() {
       userId = domainBuilder.buildUser().id;
       campaignId = domainBuilder.buildCampaign().id;
       campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
     });
 
-    it('should get the campaignProfile', async () => {
+    it('should get the campaignProfile', async function() {
       // given
       const expectedResult = Symbol('Result');
       campaignProfileRepository.findProfile.withArgs({ campaignId, campaignParticipationId, locale }).resolves(expectedResult);
@@ -40,15 +40,15 @@ describe('Unit | UseCase | get-campaign-profile', () => {
     });
   });
 
-  context('when user does not have access to organization that owns campaign', () => {
-    beforeEach(() => {
+  context('when user does not have access to organization that owns campaign', function() {
+    beforeEach(function() {
       userId = domainBuilder.buildUser().id;
       campaignId = domainBuilder.buildCampaign().id;
       campaignParticipationId = domainBuilder.buildCampaignParticipation({ campaignId, userId }).id;
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('should throw UserNotAuthorizedToAccessEntityError', async () => {
+    it('should throw UserNotAuthorizedToAccessEntityError', async function() {
       // when
       const result = await catchErr(getCampaignProfile)({ userId, campaignId, campaignParticipationId, campaignRepository, campaignProfileRepository, locale });
 

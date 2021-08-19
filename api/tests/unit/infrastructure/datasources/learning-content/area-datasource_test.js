@@ -2,9 +2,9 @@ const { expect, sinon } = require('../../../../test-helper');
 const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', () => {
+describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', function() {
 
-  describe('#findByRecordIds', () => {
+  describe('#findByRecordIds', function() {
 
     it('should return an array of matching learning content area data objects', async function() {
       // given

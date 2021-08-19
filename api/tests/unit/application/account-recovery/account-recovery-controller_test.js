@@ -10,11 +10,11 @@ const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Unit | Controller | account-recovery-controller', () => {
+describe('Unit | Controller | account-recovery-controller', function() {
 
-  describe('#sendEmailForAccountRecovery', () => {
+  describe('#sendEmailForAccountRecovery', function() {
 
-    it('should call sendEmailForAccountRecovery usecase and return 204', async () => {
+    it('should call sendEmailForAccountRecovery usecase and return 204', async function() {
       // given
       const newEmail = 'new_email@example.net';
       const studentInformation = {
@@ -54,9 +54,9 @@ describe('Unit | Controller | account-recovery-controller', () => {
 
   });
 
-  describe('#checkAccountRecoveryDemand', () => {
+  describe('#checkAccountRecoveryDemand', function() {
 
-    it('should return serialized account recovery details', async () => {
+    it('should return serialized account recovery details', async function() {
       // given
       const temporaryKey = 'ABCDEFZEFDD';
       const studentInformation = { id: 1234, email: 'philipe@example.net', firstName: 'philipe' };
@@ -76,9 +76,9 @@ describe('Unit | Controller | account-recovery-controller', () => {
     });
   });
 
-  describe('#updateUserAccount', () => {
+  describe('#updateUserAccount', function() {
 
-    it('should call updateUserAccount usecase and return 204', async () => {
+    it('should call updateUserAccount usecase and return 204', async function() {
       // given
       const user = domainBuilder.buildUser({ id: 1 });
       const temporaryKey = 'validTemporaryKey';

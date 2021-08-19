@@ -14,9 +14,9 @@ const COMPETENCE_RESULT_ID = {
   SECOND: 2,
 };
 
-describe('Unit | Domain | Services | badge-criteria', () => {
+describe('Unit | Domain | Services | badge-criteria', function() {
 
-  describe('#verifyCriteriaFulfilment', () => {
+  describe('#verifyCriteriaFulfilment', function() {
 
     context('when there is multiple badge criteria to acquire one badge', function() {
       const badgeCriteria = [
@@ -39,7 +39,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       ];
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when all the badge criteria are fulfilled', async () => {
+      it('should return true when all the badge criteria are fulfilled', async function() {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [
@@ -54,7 +54,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when no badge criterion is fulfilled', async () => {
+      it('should return false when no badge criterion is fulfilled', async function() {
         // given
         const masteryPercentage = 20;
         const partnerCompetenceResults = [
@@ -69,7 +69,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(false);
       });
 
-      it('should return false when at least one badge criterion is not fulfilled', async () => {
+      it('should return false when at least one badge criterion is not fulfilled', async function() {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [
@@ -96,7 +96,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       ];
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when fulfilled', async () => {
+      it('should return true when fulfilled', async function() {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [];
@@ -108,7 +108,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when not fulfilled', async () => {
+      it('should return false when not fulfilled', async function() {
         // given
         const masteryPercentage = 20;
         const partnerCompetenceResults = [];
@@ -122,7 +122,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
 
     context('when the SKILL_SET is the only badge criterion', function() {
-      context('when the list of partnerCompetencesIds contains one partnerCompetence', () => {
+      context('when the list of partnerCompetencesIds contains one partnerCompetence', function() {
         const badgeCriteria = [
           domainBuilder.buildBadgeCriterion({
             id: 1,
@@ -133,7 +133,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         ];
         const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-        it('should return true when fulfilled', async () => {
+        it('should return true when fulfilled', async function() {
           // given
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
@@ -148,7 +148,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
           expect(result).to.be.equal(true);
         });
 
-        it('should return false when not fulfilled', async () => {
+        it('should return false when not fulfilled', async function() {
 
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
@@ -164,7 +164,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         });
       });
 
-      context('when the list of partnerCompetencesIds contains more than one', () => {
+      context('when the list of partnerCompetencesIds contains more than one', function() {
         const badgeCriteria = [
           domainBuilder.buildBadgeCriterion({
             id: 1,
@@ -175,7 +175,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
         ];
         const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-        it('should return true when fulfilled for all partnerCompetence', async () => {
+        it('should return true when fulfilled for all partnerCompetence', async function() {
           // given
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
@@ -190,7 +190,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
           expect(result).to.be.equal(true);
         });
 
-        it('should return false when one is not fulfilled', async () => {
+        it('should return false when one is not fulfilled', async function() {
 
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
@@ -211,7 +211,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       const badgeCriteria = [];
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return false', async () => {
+      it('should return false', async function() {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [];
@@ -225,9 +225,9 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
   });
 
-  describe('#areBadgeCriteriaFulfilled', () => {
+  describe('#areBadgeCriteriaFulfilled', function() {
 
-    it('should return false if badge is not acquired', () => {
+    it('should return false if badge is not acquired', function() {
       // given
       const knowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -272,7 +272,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       expect(badgeAcquired).to.equal(false);
     });
 
-    it('should return true if badge is acquired', () => {
+    it('should return true if badge is acquired', function() {
       // given
       const knowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -329,9 +329,9 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
   });
 
-  describe('#getMasteryPercentageForAllPartnerCompetences', () => {
+  describe('#getMasteryPercentageForAllPartnerCompetences', function() {
 
-    it('should return an empty array when there is not badgePartnerCompetences', () => {
+    it('should return an empty array when there is not badgePartnerCompetences', function() {
       // given
       const targetedKnowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -358,7 +358,7 @@ describe('Unit | Domain | Services | badge-criteria', () => {
       expect(masteryPercentages).to.deep.equal(expectedMasteryPercentages);
     });
 
-    it('should return correct mastery percentages for all badgePartnerCompetences', () => {
+    it('should return correct mastery percentages for all badgePartnerCompetences', function() {
       // given
       const targetedKnowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -417,9 +417,9 @@ describe('Unit | Domain | Services | badge-criteria', () => {
     });
   });
 
-  describe('#getMasteryPercentageForTargetProfile', () => {
+  describe('#getMasteryPercentageForTargetProfile', function() {
 
-    it('should return global mastery percentage', () => {
+    it('should return global mastery percentage', function() {
       // given
       const targetedKnowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),

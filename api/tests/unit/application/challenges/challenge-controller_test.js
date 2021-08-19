@@ -28,7 +28,7 @@ describe('Unit | Controller | challenge-controller', function() {
 
     const challenge = Symbol('someChallenge');
 
-    it('should fetch and return the given challenge, serialized as JSONAPI', async () => {
+    it('should fetch and return the given challenge, serialized as JSONAPI', async function() {
       // given
       ChallengeRepoStub.resolves(challenge);
       ChallengeSerializerStub.resolves({ serialized: challenge });

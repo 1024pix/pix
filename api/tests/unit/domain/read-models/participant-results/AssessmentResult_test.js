@@ -3,9 +3,9 @@ const constants = require('../../../../../lib/domain/constants');
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', () => {
+describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function() {
 
-  it('computes the number of skills, the number of skill tested and the number of skill validated', () => {
+  it('computes the number of skills, the number of skill tested and the number of skill validated', function() {
     const competences = [
       { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2'] },
       { id: 'rec2', name: 'C2', index: '2.1', areaName: 'Domaine2', areaColor: 'Couleur2', skillIds: ['skill3', 'skill4'] },
@@ -33,8 +33,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
     });
   });
 
-  describe('masteryPercentage computation', () => {
-    it('computes the mastery percentage', () => {
+  describe('masteryPercentage computation', function() {
+    it('computes the mastery percentage', function() {
       const competences = [
         { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill2'] },
         { id: 'rec2', name: 'C2', index: '2.1', areaName: 'Domaine2', areaColor: 'Couleur2', skillIds: ['skill5', 'skill5', 'skill6'] },
@@ -57,7 +57,7 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
     });
   });
 
-  it('computes the result by competences', () => {
+  it('computes the result by competences', function() {
 
     const competences = [
       { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] },
@@ -83,8 +83,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
     expect(competenceResults2).to.deep.include({ name: 'C2', masteryPercentage: 100 });
   });
 
-  describe('when the targetProfile has stages', () => {
-    it('gives the reached stage', () => {
+  describe('when the targetProfile has stages', function() {
+    it('gives the reached stage', function() {
 
       const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
 
@@ -110,8 +110,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
     });
   });
 
-  describe('when the targetProfile has badges', () => {
-    it('computes results for each badge', () => {
+  describe('when the targetProfile has badges', function() {
+    it('computes results for each badge', function() {
 
       const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
       const participationResults = { knowledgeElements: [], acquiredBadgeIds: [1] };
@@ -147,23 +147,23 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
     });
   });
 
-  describe('#canRetry', () => {
+  describe('#canRetry', function() {
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
     const now = new Date('2020-01-05T05:06:07Z');
     let clock;
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(now);
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 4;
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
     });
 
-    context('when the campaign does not allow multiple sendings', () => {
-      it('returns false', () => {
+    context('when the campaign does not allow multiple sendings', function() {
+      it('returns false', function() {
         const isCampaignMultipleSendings = false;
         const participationResults = {
           knowledgeElements: [],
@@ -178,8 +178,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       });
     });
 
-    context('when the participation has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
-      it('returns false', () => {
+    context('when the participation has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
+      it('returns false', function() {
         const isCampaignMultipleSendings = true;
         const participationResults = {
           knowledgeElements: [],
@@ -194,8 +194,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       });
     });
 
-    context('when the mastery percentage is 100%', () => {
-      it('returns false', () => {
+    context('when the mastery percentage is 100%', function() {
+      it('returns false', function() {
         const isCampaignMultipleSendings = true;
         const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1'] }];
         const knowledgeElements = [
@@ -214,8 +214,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       });
     });
 
-    context('when the campaign allow multiple sendings, the mastery percentage is under 100% and the participation has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', () => {
-      it('returns true', () => {
+    context('when the campaign allow multiple sendings, the mastery percentage is under 100% and the participation has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
+      it('returns true', function() {
         const isCampaignMultipleSendings = true;
         const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
         const participationResults = {
@@ -231,29 +231,29 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
     });
   });
 
-  describe('#canImprove', () => {
+  describe('#canImprove', function() {
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
     const assessmentCreatedAt = new Date('2020-01-05T05:06:07Z');
     let clock;
 
-    before(() => {
+    before(function() {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
     });
 
-    after(() => {
+    after(function() {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
-    beforeEach(() => {
+    beforeEach(function() {
       clock = sinon.useFakeTimers(assessmentCreatedAt);
     });
 
-    afterEach(() => {
+    afterEach(function() {
       clock.restore();
     });
 
-    context('when the knowledge element has been created less than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', () => {
-      it('returns false', () => {
+    context('when the knowledge element has been created less than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', function() {
+      it('returns false', function() {
         const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-03') });
         const participationResults = {
           knowledgeElements: [ke],
@@ -268,8 +268,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       });
     });
 
-    context('when the knowledge element is validated', () => {
-      it('returns false', () => {
+    context('when the knowledge element is validated', function() {
+      it('returns false', function() {
         const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.VALIDATED, createdAt: new Date('2020-01-01') });
         const participationResults = {
           knowledgeElements: [ke],
@@ -284,8 +284,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', (
       });
     });
 
-    context('when the knowledge element is invalidated and has bee created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', () => {
-      it('returns true', () => {
+    context('when the knowledge element is invalidated and has bee created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', function() {
+      it('returns true', function() {
         const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-01') });
         const participationResults = {
           knowledgeElements: [ke],

@@ -8,25 +8,25 @@ const {
 const createServer = require('../../../server');
 const { featureToggles } = require('../../../lib/config');
 
-describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
+describe('Acceptance | Route | Schooling-registration-dependent-user', function() {
 
   let server;
 
-  beforeEach(async () => {
+  beforeEach(async function() {
     server = await createServer();
   });
 
-  afterEach(async () => {
+  afterEach(async function() {
     await knex('authentication-methods').delete();
   });
 
-  describe('POST /api/schooling-registration-dependent-users', () => {
+  describe('POST /api/schooling-registration-dependent-users', function() {
     let organization;
     let campaign;
     let options;
     let schoolingRegistration;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       // given
       organization = databaseBuilder.factory.buildOrganization();
       schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, nationalStudentId: 'salut' });
@@ -51,16 +51,16 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       };
     });
 
-    context('when creation is with email', () => {
+    context('when creation is with email', function() {
 
       const email = 'angie@example.net';
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         options.payload.data.attributes.email = email;
         options.payload.data.attributes['with-username'] = false;
       });
 
-      it('should return an 204 status after having successfully created user and associated user to schoolingRegistration', async () => {
+      it('should return an 204 status after having successfully created user and associated user to schoolingRegistration', async function() {
         // when
         const response = await server.inject(options);
 
@@ -68,9 +68,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      context('when no schoolingRegistration not linked yet found', () => {
+      context('when no schoolingRegistration not linked yet found', function() {
 
-        it('should respond with a 409 - Conflict', async () => {
+        it('should respond with a 409 - Conflict', async function() {
           // given
           const userId = databaseBuilder.factory.buildUser().id;
           const schoolingRegistrationAlreadyLinked = databaseBuilder.factory.buildSchoolingRegistration({
@@ -96,9 +96,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
         });
       });
 
-      context('when a field is not valid', () => {
+      context('when a field is not valid', function() {
 
-        it('should respond with a 422 - Unprocessable Entity', async () => {
+        it('should respond with a 422 - Unprocessable Entity', async function() {
           // given
           options.payload.data.attributes.email = 'not valid email';
 
@@ -111,16 +111,16 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       });
     });
 
-    context('when creation is with username', () => {
+    context('when creation is with username', function() {
 
       const username = 'angie.go1234';
 
-      beforeEach(async () => {
+      beforeEach(async function() {
         options.payload.data.attributes.username = username;
         options.payload.data.attributes['with-username'] = true;
       });
 
-      it('should return a 204 status after having successfully created user and associated user to schoolingRegistration', async () => {
+      it('should return a 204 status after having successfully created user and associated user to schoolingRegistration', async function() {
         // when
         const response = await server.inject(options);
 
@@ -128,9 +128,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
         expect(response.statusCode).to.equal(204);
       });
 
-      context('when username is already taken', () => {
+      context('when username is already taken', function() {
 
-        it('should respond with a 422 - Unprocessable entity', async () => {
+        it('should respond with a 422 - Unprocessable entity', async function() {
           // given
           databaseBuilder.factory.buildUser({ username });
           await databaseBuilder.commit();
@@ -146,13 +146,13 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
     });
   });
 
-  describe('POST /api/schooling-registration-dependent-users/generate-username-password', () => {
+  describe('POST /api/schooling-registration-dependent-users/generate-username-password', function() {
 
     let organizationId;
     let schoolingRegistrationId;
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization({
         type: 'SCO',
         isManagingStudents: true,
@@ -182,7 +182,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       };
     });
 
-    it('should return a 200 status after having successfully generated username and temporary password', async () => {
+    it('should return a 200 status after having successfully generated username and temporary password', async function() {
       // when
       const response = await server.inject(options);
 
@@ -191,7 +191,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
 
     });
 
-    it('should return a 404 status when schoolingRegistration does not exist', async () => {
+    it('should return a 404 status when schoolingRegistration does not exist', async function() {
       // given
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId + 1;
 
@@ -202,7 +202,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
+    it('should return a 404 status when schoolingRegistration\'s userId does not exist', async function() {
       // given
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId,
@@ -219,7 +219,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 403 status when student does not belong to the same organization as schoolingRegistration', async () => {
+    it('should return a 403 status when student does not belong to the same organization as schoolingRegistration', async function() {
       // given
       options.payload.data.attributes['organization-id'] = organizationId + 1;
       options.payload.data.attributes['schooling-registration-id'] = schoolingRegistrationId;
@@ -231,7 +231,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async () => {
+    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async function() {
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
       const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
@@ -250,12 +250,12 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
     });
   });
 
-  describe('POST /api/schooling-registration-dependent-users/password-update', () => {
+  describe('POST /api/schooling-registration-dependent-users/password-update', function() {
 
     let organizationId;
     let options;
 
-    beforeEach(async () => {
+    beforeEach(async function() {
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
@@ -277,7 +277,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       };
     });
 
-    it('should return a 200 status after having successfully updated the password', async () => {
+    it('should return a 200 status after having successfully updated the password', async function() {
       // given
       const userId = databaseBuilder.factory.buildUser.withRawPassword().id;
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
@@ -294,7 +294,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 404 status when schoolingRegistration does not exist', async () => {
+    it('should return a 404 status when schoolingRegistration does not exist', async function() {
       // given
       options.payload.data.attributes['schooling-registration-id'] = 1;
 
@@ -305,7 +305,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 404 status when schoolingRegistration\'s userId does not exist', async () => {
+    it('should return a 404 status when schoolingRegistration\'s userId does not exist', async function() {
       // given
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId, userId: null,
@@ -321,7 +321,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async () => {
+    it('should return a 403 status when user does not belong to the same organization as schoolingRegistration', async function() {
       // given
       const wrongOrganization = databaseBuilder.factory.buildOrganization();
       const schoolingRegistrationWithWrongOrganization = databaseBuilder.factory.buildSchoolingRegistration({
@@ -339,9 +339,9 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
     });
   });
 
-  describe('POST /api/schooling-registration-dependent-users/recover-account', () => {
+  describe('POST /api/schooling-registration-dependent-users/recover-account', function() {
 
-    it('should return a 200 status and student information for account recovery', async () => {
+    it('should return a 200 status and student information for account recovery', async function() {
       // given
       featureToggles.isScoAccountRecoveryEnabled = true;
 
@@ -417,7 +417,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', () => {
       });
     });
 
-    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async () => {
+    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async function() {
       // given
       featureToggles.isScoAccountRecoveryEnabled = false;
 

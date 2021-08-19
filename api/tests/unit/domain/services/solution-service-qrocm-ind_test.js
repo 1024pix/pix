@@ -78,7 +78,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
       expect(actual).to.deep.equal(expected);
     });
 
-    it('should throw an error if there is no solutions for one input but answers', async () => {
+    it('should throw an error if there is no solutions for one input but answers', async function() {
       // given
       const answers = { 'phraseSansSolution': 'lasagne', 'phrase1': 'Le silence est d\'ours', 'phrase2': 'facebook' };
       const solutions = { 'phrase1': ['Le silence est d\'or'], 'phrase2': ['facebook'] };

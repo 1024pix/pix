@@ -8,11 +8,11 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const moduleUnderTest = require('../../../../lib/application/prescribers');
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
 
-describe('Unit | Router | prescriber-router', () => {
+describe('Unit | Router | prescriber-router', function() {
 
-  describe('GET /api/prescription/prescribers/{id}', () => {
+  describe('GET /api/prescription/prescribers/{id}', function() {
 
-    it('should exist', async () => {
+    it('should exist', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
       sinon.stub(prescriberController, 'get').returns('ok');

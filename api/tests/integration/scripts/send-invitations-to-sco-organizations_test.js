@@ -7,11 +7,11 @@ const {
   getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations,
 } = require('../../../scripts/send-invitations-to-sco-organizations');
 
-describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () => {
+describe('Integration | Scripts | send-invitations-to-sco-organizations.js', function() {
 
-  describe('#getOrganizationByExternalId', () => {
+  describe('#getOrganizationByExternalId', function() {
 
-    it('should get organization by externalId', async () => {
+    it('should get organization by externalId', async function() {
       // given
       const externalId = '1234567A';
       const organization = databaseBuilder.factory.buildOrganization({ externalId });
@@ -28,9 +28,9 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
     });
   });
 
-  describe('#buildInvitation', () => {
+  describe('#buildInvitation', function() {
 
-    it('should build invitation by externalId and email', async () => {
+    it('should build invitation by externalId and email', async function() {
       // given
       const email = 'user@example.net';
       const externalId = '1234567A';
@@ -47,9 +47,9 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
     });
   });
 
-  describe('#prepareDataForSending', () => {
+  describe('#prepareDataForSending', function() {
 
-    it('should build a list of invitations with organizationId and email', async () => {
+    it('should build a list of invitations with organizationId and email', async function() {
       // given
       const email1 = 'user1@example.net';
       const email2 = 'user2@example.net';
@@ -78,18 +78,18 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', () 
     });
   });
 
-  describe('#sendJoinOrganizationInvitations', () => {
+  describe('#sendJoinOrganizationInvitations', function() {
 
     const getNumberOfOrganizationInvitations = () => {
       return BookshelfOrganizationInvitation.count()
         .then((number) => parseInt(number, 10));
     };
 
-    afterEach(async () => {
+    afterEach(async function() {
       await knex('organization-invitations').delete();
     });
 
-    it('should add organization invitations into database', async () => {
+    it('should add organization invitations into database', async function() {
       // given
       const objectsForInvitations = ['user1@example', 'user2@example', 'user3@example', 'user4@example' ]
         .map((email) => {

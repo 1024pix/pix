@@ -9,12 +9,12 @@ const DomainTransaction = require('../../../../../lib/infrastructure/DomainTrans
 
 const User = require('../../../../../lib/domain/models/User');
 
-describe('Unit | Usecases | update-user-account', () => {
+describe('Unit | Usecases | update-user-account', function() {
 
   let userRepository, authenticationMethodRepository, encryptionService, accountRecoveryDemandRepository, scoAccountRecoveryService;
   const domainTransaction = Symbol();
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       updateEmail: sinon.stub(),
       updateWithEmailConfirmed: sinon.stub(),
@@ -39,8 +39,8 @@ describe('Unit | Usecases | update-user-account', () => {
 
   });
 
-  context('when user has only GAR authentication method', () => {
-    it('should add PIX authentication method', async () => {
+  context('when user has only GAR authentication method', function() {
+    it('should add PIX authentication method', async function() {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -82,8 +82,8 @@ describe('Unit | Usecases | update-user-account', () => {
     });
   });
 
-  context('when user has either Pix authentication method or both GAR and Pix Authentication method', () => {
-    it('should change password', async () => {
+  context('when user has either Pix authentication method or both GAR and Pix Authentication method', function() {
+    it('should change password', async function() {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -122,7 +122,7 @@ describe('Unit | Usecases | update-user-account', () => {
     });
   });
 
-  it('should accept terms of service, update email and set date for confirmed email', async () => {
+  it('should accept terms of service, update email and set date for confirmed email', async function() {
     // given
     const temporaryKey = 'temporarykey';
     const password = 'pix123';

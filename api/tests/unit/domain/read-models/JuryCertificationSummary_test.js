@@ -3,14 +3,14 @@ const JuryCertificationSummary = require('../../../../lib/domain/read-models/Jur
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const forIn = require('lodash/forIn');
 
-describe('Unit | Domain | Models | JuryCertificationSummary', () => {
+describe('Unit | Domain | Models | JuryCertificationSummary', function() {
 
-  describe('#validate', () => {
+  describe('#validate', function() {
 
-    context('when a status is given', () => {
+    context('when a status is given', function() {
 
       forIn(AssessmentResult.status, (status, key) => {
-        it(`should returns "${status}" status`, () => {
+        it(`should returns "${status}" status`, function() {
           // when
           const juryCertificationSummary = new JuryCertificationSummary({ status });
 
@@ -20,9 +20,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
       });
     });
 
-    context('when no status is given', () => {
+    context('when no status is given', function() {
 
-      it('should return "started"', () => {
+      it('should return "started"', function() {
         // when
         const juryCertificationSummary = new JuryCertificationSummary({ status: null });
 
@@ -32,13 +32,13 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
     });
   });
 
-  describe('#isActionRequired', () => {
+  describe('#isActionRequired', function() {
 
-    context('when the issue report is unresolved', () => {
+    context('when the issue report is unresolved', function() {
 
-      context('when the issue report is impactful', () => {
+      context('when the issue report is impactful', function() {
 
-        it('should return true', () => {
+        it('should return true', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ certificationIssueReports: [
             domainBuilder.buildCertificationIssueReport.impactful({ resolvedAt: null }),
@@ -52,9 +52,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         });
       });
 
-      context('when the issue report is not impactful', () => {
+      context('when the issue report is not impactful', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ certificationIssueReports: [
             domainBuilder.buildCertificationIssueReport.notImpactful({ resolvedAt: null }),
@@ -69,11 +69,11 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
       });
     });
 
-    context('when the issue report is resolved', () => {
+    context('when the issue report is resolved', function() {
 
-      context('when the issue report is impactful', () => {
+      context('when the issue report is impactful', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ certificationIssueReports: [
             domainBuilder.buildCertificationIssueReport.impactful({ resolvedAt: new Date('2020-01-01'), resolution: 'coucou' }),
@@ -87,9 +87,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         });
       });
 
-      context('when the issue report is not impactful', () => {
+      context('when the issue report is not impactful', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ certificationIssueReports: [
             domainBuilder.buildCertificationIssueReport.notImpactful({ resolvedAt: new Date('2020-01-01') }),
@@ -105,11 +105,11 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
     });
   });
 
-  describe('#hasScoringError', () => {
+  describe('#hasScoringError', function() {
 
-    context('when assessment result has a scoring error', () => {
+    context('when assessment result has a scoring error', function() {
 
-      it('should return true', () => {
+      it('should return true', function() {
         // given
         const juryCertificationSummary = new JuryCertificationSummary({ status: AssessmentResult.status.ERROR });
 
@@ -120,9 +120,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         expect(hasScoringError).to.be.true;
       });
 
-      context('when assessment result doesn\'t have a scoring error', () => {
+      context('when assessment result doesn\'t have a scoring error', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ status: AssessmentResult.status.VALIDATED });
 
@@ -136,11 +136,11 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
     });
   });
 
-  describe('#hasCompletedAssessment', () => {
+  describe('#hasCompletedAssessment', function() {
 
-    context('when assessment is completed', () => {
+    context('when assessment is completed', function() {
 
-      it('should return true', () => {
+      it('should return true', function() {
         // given
         const juryCertificationSummary = new JuryCertificationSummary({ status: AssessmentResult.status.REJECTED });
 
@@ -151,9 +151,9 @@ describe('Unit | Domain | Models | JuryCertificationSummary', () => {
         expect(hasCompletedAssessment).to.be.true;
       });
 
-      context('when assessment is not completed', () => {
+      context('when assessment is not completed', function() {
 
-        it('should return false', () => {
+        it('should return false', function() {
           // given
           const juryCertificationSummary = new JuryCertificationSummary({ status: null });
 

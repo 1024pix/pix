@@ -3,7 +3,7 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 
 describe('Event Choreography | Pole Emploi Participation Started', function() {
-  it('Should trigger Pole Emploi participation started handler on CampaignParticipationStarted event', async () => {
+  it('Should trigger Pole Emploi participation started handler on CampaignParticipationStarted event', async function() {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new CampaignParticipationStarted();

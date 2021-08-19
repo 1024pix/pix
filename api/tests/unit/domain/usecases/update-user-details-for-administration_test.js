@@ -8,13 +8,13 @@ const User = require('../../../../lib/domain/models/User');
 
 const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
 
-describe('Unit | UseCase | update-user-details-for-administration', () => {
+describe('Unit | UseCase | update-user-details-for-administration', function() {
 
   const userId = 1;
 
   let userRepository;
 
-  beforeEach(() => {
+  beforeEach(function() {
     userRepository = {
       findAnotherUserByEmail: sinon.stub(),
       findAnotherUserByUsername: sinon.stub(),
@@ -23,9 +23,9 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     };
   });
 
-  context('search existing user with email', () => {
+  context('search existing user with email', function() {
 
-    it('should search existing users with email if not empty', async () => {
+    it('should search existing users with email if not empty', async function() {
       // given
       const email = 'user@example.net';
       const userDetailsForAdministration = { email };
@@ -37,7 +37,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       expect(userRepository.findAnotherUserByEmail).to.have.been.calledWith(userId, email);
     });
 
-    it('should not search existing users if email is empty', async () => {
+    it('should not search existing users if email is empty', async function() {
       // given
       const userDetailsForAdministration = { email: null };
 
@@ -49,9 +49,9 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     });
   });
 
-  context('search existing user with username', () => {
+  context('search existing user with username', function() {
 
-    it('should search existing user with username if not empty', async () => {
+    it('should search existing user with username if not empty', async function() {
       // given
       const username = 'user.name';
       const userDetailsForAdministration = { username };
@@ -63,7 +63,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       expect(userRepository.findAnotherUserByUsername).to.have.been.calledWith(userId, username);
     });
 
-    it('should not search existing user if username is empty', async () => {
+    it('should not search existing user if username is empty', async function() {
       // given
       const userDetailsForAdministration = { username: null };
 
@@ -75,7 +75,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     });
   });
 
-  it('should update userDetailsForAdministration data', async () => {
+  it('should update userDetailsForAdministration data', async function() {
     // given
     const email = 'user@example.net';
     const username = 'user.name';
@@ -100,7 +100,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     expect(userRepository.updateUserDetailsForAdministration).to.have.been.calledWith(userId, attributesToUpdate);
   });
 
-  it('should return the updated user details for admin', async () => {
+  it('should return the updated user details for admin', async function() {
     // given
     const email = 'user@example.net';
     const username = 'user.name';
@@ -129,9 +129,9 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
     expect(updatedUserDetailsForAdmin).to.deep.equal(expectedUserDetailsForAdmin);
   });
 
-  context('when email and/or username are already used', () => {
+  context('when email and/or username are already used', function() {
 
-    it('should throw AlreadyRegisteredEmailAndUsernameError if email and username already used', async () => {
+    it('should throw AlreadyRegisteredEmailAndUsernameError if email and username already used', async function() {
       // given
       const email = 'user@example.net';
       const username = 'user.name';
@@ -151,7 +151,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       expect(error).to.be.an.instanceof(AlreadyRegisteredEmailAndUsernameError);
     });
 
-    it('should throw AlreadyRegisteredEmailError if email already used', async () => {
+    it('should throw AlreadyRegisteredEmailError if email already used', async function() {
       // given
       const email = 'user@example.net';
       const userDetailsForAdministration = { email };
@@ -169,7 +169,7 @@ describe('Unit | UseCase | update-user-details-for-administration', () => {
       expect(error).to.be.an.instanceof(AlreadyRegisteredEmailError);
     });
 
-    it('should throw AlreadyRegisteredUsernameError if username already used', async () => {
+    it('should throw AlreadyRegisteredUsernameError if username already used', async function() {
       // given
       const username = 'user.name';
       const userDetailsForAdministration = { username };
