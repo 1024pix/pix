@@ -15,7 +15,11 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
     let clock;
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originPoleEmploiSendingUrl = settings.poleEmploi.sendingUrl;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originPoleEmploiTokenUrl = settings.poleEmploi.tokenUrl;
 
     const userId = 123;
@@ -32,6 +36,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     const expiredDate = new Date('2021-01-01');
     const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
 
     beforeEach(function() {

@@ -29,6 +29,8 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'firstName',
       'lastName',
@@ -58,6 +60,8 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'sex',
       'birthINSEECode',
@@ -71,6 +75,8 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function() {
       });
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       'sessionId',
       'schoolingRegistrationId',

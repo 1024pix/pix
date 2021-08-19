@@ -62,6 +62,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     let certificationAssessmentId;
     let expectedCertificationCourseId;
     let expectedUserId;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const expectedState = CertificationAssessment.states.COMPLETED;
     const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
@@ -125,6 +127,8 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     let expectedCertificationAssessmentId;
     let certificationCourseId;
     let expectedUserId;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const expectedState = CertificationAssessment.states.COMPLETED;
     const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
     const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');

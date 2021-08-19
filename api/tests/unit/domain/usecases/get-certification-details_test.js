@@ -6,18 +6,26 @@ const CertificationAssessmentStates = require('../../../../lib/domain/models/Cer
 describe('Unit | UseCase | get-certification-details', function() {
 
   const certificationAssessmentRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCertificationCourseId: sinon.stub(),
   };
 
   const placementProfileService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getPlacementProfile: sinon.stub(),
   };
 
   const competenceMarkRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findByCertificationCourseId: sinon.stub(),
   };
 
   const scoringCertificationService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     calculateCertificationAssessmentScore: sinon.stub(),
   };
 

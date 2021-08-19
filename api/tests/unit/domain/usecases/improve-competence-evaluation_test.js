@@ -11,6 +11,8 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
   let expectedAssessment;
   let createdAssessment;
   const assessmentId = 'created-assessment-id';
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('DomainTransaction');
 
   beforeEach(function() {

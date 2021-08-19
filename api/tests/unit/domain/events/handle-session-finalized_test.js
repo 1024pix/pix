@@ -8,7 +8,11 @@ const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession
 
 describe('Unit | Domain | Events | handle-session-finalized', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const finalizedSessionRepository = { save: sinon.stub() };
 
   const dependencies = {

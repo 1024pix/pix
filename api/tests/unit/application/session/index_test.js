@@ -444,6 +444,8 @@ describe('Unit | Application | Sessions | Routes', function() {
   });
 
   describe('id validation', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut' } },
       { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/sessions/9999999999' } },

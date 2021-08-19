@@ -13,7 +13,11 @@ describe('Unit | UseCase | create-campaign', function() {
   const creatorId = 13;
   const organizationId = 14;
   let campaignToCreate;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const savedCampaign = domainBuilder.buildCampaign({ code: availableCampaignCode });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId, isPublic: true });
   const campaignRepository = { create: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };

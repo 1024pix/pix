@@ -7,13 +7,29 @@ const { handlePoleEmploiParticipationShared } = require('../../../../lib/domain/
 describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', function() {
   let event;
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignParticipationRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignParticipationResultRepository = { getByParticipationId: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const poleEmploiSendingRepository = { create: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const targetProfileRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userRepository = { get: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const poleEmploiNotifier = { notify: _.noop() };
 
   const dependencies = {
@@ -27,6 +43,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
     poleEmploiNotifier,
   };
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const expectedResults = JSON.stringify({
     campagne: {
       nom: 'Campagne Pôle Emploi',
@@ -110,6 +128,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-shared', fun
     const campaignParticipationId = 55667788;
     const campaignId = 11223344;
     const userId = 987654321;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const organizationId = Symbol('organizationId');
 
     context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function() {

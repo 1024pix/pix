@@ -7,19 +7,29 @@ describe('Unit | Domain | Events | handle-badge-acquisition', function() {
 
   describe('#handleBadgeAcquisition', function() {
     const badgeRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       findByCampaignParticipationId: _.noop,
     };
     const targetProfileRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       getByCampaignParticipationId: _.noop,
     };
     const knowledgeElementRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       findUniqByUserId: _.noop,
     };
     const badgeAcquisitionRepository = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       createOrUpdate: _.noop,
     };
 
     const badgeCriteriaService = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       areBadgeCriteriaFulfilled: _.noop,
     };
 
@@ -52,8 +62,14 @@ describe('Unit | Domain | Events | handle-badge-acquisition', function() {
       context('when the campaign is associated to one badge', function() {
 
         let badge;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badgeId = Symbol('badgeId');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const targetProfile = Symbol('targetProfile');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const knowledgeElements = Symbol('knowledgeElements');
 
         beforeEach(function() {
@@ -106,9 +122,17 @@ describe('Unit | Domain | Events | handle-badge-acquisition', function() {
       context('when the campaign is associated to two badges', function() {
 
         let badge1, badge2;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badgeId_1 = Symbol('badgeId_1');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badgeId_2 = Symbol('badgeId_2');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const targetProfile = Symbol('targetProfile');
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const knowledgeElements = Symbol('knowledgeElements');
 
         beforeEach(function() {

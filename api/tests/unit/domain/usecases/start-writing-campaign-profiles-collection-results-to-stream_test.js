@@ -13,7 +13,11 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
   const campaignParticipationRepository = { findProfilesCollectionResultDataByCampaignId: () => undefined };
   let writableStream;
   let csvPromise;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const placementProfileService = Symbol('placementProfileService');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
   beforeEach(function() {

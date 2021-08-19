@@ -5,8 +5,14 @@ const publishSessionsInBatch = require('../../../../lib/domain/usecases/publish-
 describe('Unit | UseCase | publish-sessions-in-batch', function() {
 
   const dependencies = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     certificationRepository: Symbol('certificationRepository'),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     finalizedSessionRepository: Symbol('finalizedSessionRepository'),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     sessionRepository: Symbol('sessionRepository'),
   };
 

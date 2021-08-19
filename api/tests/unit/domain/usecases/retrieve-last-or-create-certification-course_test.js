@@ -9,27 +9,53 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
   let clock;
   const now = new Date('2019-01-01T05:06:07Z');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('someDomainTransaction');
   const userId = 'userId';
   const sessionId = 'sessionId';
   const accessCode = 'accessCode';
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const verificationCode = Symbol('verificationCode');
   let foundSession;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const assessmentRepository = { save: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceRepository = { listPixCompetencesOnly: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationBadgesService = { findStillValidBadgeAcquisitions: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationCandidateRepository = { getBySessionIdAndUserId: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationChallengeRepository = { save: sinon.stub() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationChallengesService = { pickCertificationChallengesForPixPlus: sinon.stub(), pickCertificationChallenges: sinon.stub() };
   const certificationCourseRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findOneCertificationCourseByUserIdAndSessionId: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: sinon.stub(),
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const sessionRepository = { get: sinon.stub() };
   const placementProfileService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getPlacementProfile: sinon.stub(),
   };
   const verifyCertificateCodeService = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     generateCertificateVerificationCode: sinon.stub().resolves(verificationCode),
   };
   const locale = 'fr';
@@ -191,9 +217,17 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
         context('when user is certifiable', function() {
 
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           const skill1 = domainBuilder.buildSkill();
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           const skill2 = domainBuilder.buildSkill();
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           const challenge1 = domainBuilder.buildChallenge({ id: 'challenge1' });
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           const challenge2 = domainBuilder.buildChallenge({ id: 'challenge2' });
 
           beforeEach(function() {
@@ -253,11 +287,23 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
           context('when a certification still has not been created meanwhile', function() {
 
             const foundCertificationCandidate = {
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               firstName: Symbol('firstName'),
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               lastName: Symbol('lastName'),
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               birthdate: Symbol('birthdate'),
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               birthCity: Symbol('birthCity'),
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               birthCountry: Symbol('birthCountry'),
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               externalId: Symbol('externalId'),
               userId,
               sessionId,
@@ -265,11 +311,23 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
             const mockCertificationCourse = {
               _userId: userId,
               _sessionId: sessionId,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               _firstName: foundCertificationCandidate.firstName,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               _lastName: foundCertificationCandidate.lastName,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               _birthdate: foundCertificationCandidate.birthdate,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               _birthplace: foundCertificationCandidate.birthCity,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               _birthCountry: foundCertificationCandidate.birthCountry,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               _externalId: foundCertificationCandidate.externalId,
               _isV2Certification: true,
             };
@@ -284,8 +342,14 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
 
             const mockAssessment = {
               userId,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               certificationCourseId: savedCertificationCourse.getId(),
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               state: Assessment.states.STARTED,
+              // TODO: Fix this the next time the file is edited.
+              // eslint-disable-next-line mocha/no-setup-in-describe
               type: Assessment.types.CERTIFICATION,
             };
             const savedAssessment = {

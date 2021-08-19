@@ -14,6 +14,8 @@ describe('Unit | UseCase | get-jury-session', function() {
   });
 
   context('when the session exists', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sessionToFind = Symbol('sessionToFind');
 
     beforeEach(function() {

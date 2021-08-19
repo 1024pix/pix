@@ -91,6 +91,8 @@ describe('Acceptance | API | Campaign Participations', function() {
     const options = {
       method: 'POST',
       url: '/api/campaign-participations',
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       headers: { authorization: generateValidRequestAuthorizationHeader() },
       payload: {
         data: {

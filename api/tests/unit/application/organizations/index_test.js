@@ -52,7 +52,11 @@ describe('Unit | Router | organization-router', function() {
 
       context('when id is outside number limits', function() {
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const minNumberLimit = identifiersType.positiveInteger32bits.min;
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const maxNumberLimit = identifiersType.positiveInteger32bits.max;
         const numbersOutsideLimits = [
           {
@@ -65,6 +69,8 @@ describe('Unit | Router | organization-router', function() {
           },
         ];
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         numbersOutsideLimits.forEach(({ expectedBehavior, wrongNumber }) => {
           it(expectedBehavior, async function() {
             // given

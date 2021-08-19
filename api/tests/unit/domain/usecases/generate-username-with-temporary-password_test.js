@@ -6,10 +6,16 @@ const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/us
 
 describe('Unit | UseCase | generate-username-with-temporary-password', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userRelatedToStudent = domainBuilder.buildUser({
     username: null,
   });
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organization = userRelatedToStudent.memberships[0].organization;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationId = userRelatedToStudent.memberships[0].organization.id;
 
   const expectedUsername = 'john.harry0207';

@@ -30,6 +30,8 @@ describe('Unit | Domain | Schooling Registration validator', function() {
     });
 
     context('required fields', function() {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       ['firstName', 'lastName', 'birthdate', 'nationalIdentifier', 'birthProvinceCode', 'birthProvinceCode', 'status', 'MEFCode', 'division', 'organizationId'].forEach((field) => {
         it(`throw an error when ${field} is missing`, async function() {
           const error = await catchErr(checkValidation)({ ...validAttributes, [field]: undefined });
@@ -41,6 +43,8 @@ describe('Unit | Domain | Schooling Registration validator', function() {
     });
 
     context('fields with a a max length of 255 characters', function() {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       ['firstName', 'middleName', 'thirdName', 'lastName', 'preferredLastName', 'nationalIdentifier', 'birthCity', 'MEFCode', 'division'].forEach((field) => {
         it(`throw an error when ${field} has more than 255 characters`, async function() {
           const error = await catchErr(checkValidation)({ ...validAttributes, [field]: '1'.repeat(256) });

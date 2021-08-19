@@ -55,8 +55,14 @@ describe('Integration | Repository | knowledgeElementRepository', function() {
   describe('#findUniqByUserId', function() {
 
     const today = new Date('2018-08-01T12:34:56Z');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const yesterday = moment(today).subtract(1, 'days').toDate();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const tomorrow = moment(today).add(1, 'days').toDate();
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const dayBeforeYesterday = moment(today).subtract(2, 'days').toDate();
     let knowledgeElementsWanted, knowledgeElementsWantedWithLimitDate;
     let userId;
@@ -720,6 +726,8 @@ describe('Integration | Repository | knowledgeElementRepository', function() {
   });
 
   describe('#findSnapshotGroupedByCompetencesForUsers', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sandbox = sinon.createSandbox();
     let userId1;
     let userId2;
@@ -1649,6 +1657,8 @@ describe('Integration | Repository | knowledgeElementRepository', function() {
   });
 
   describe('#findSnapshotForUsers', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sandbox = sinon.createSandbox();
     let userId1;
     let userId2;

@@ -19,6 +19,8 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     const method = 'PATCH';
     const headers = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       authorization: generateValidRequestAuthorizationHeader(userId),
     };
 
@@ -149,6 +151,8 @@ describe('Unit | Application | Router | schooling-registration-user-associations
 
     const method = 'DELETE';
     const headers = {
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       authorization: generateValidRequestAuthorizationHeader(userId),
     };
     const payload = null;

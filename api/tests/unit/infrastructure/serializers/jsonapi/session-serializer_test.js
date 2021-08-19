@@ -86,6 +86,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
           examiner: 'Antoine Toutvenant',
           date: '2017-01-20',
           time: '14:30',
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           status: statuses.CREATED,
           description: '',
           'certification-center-id': 42,
@@ -134,6 +136,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.examinerGlobalComment).to.equal('It was a fine session my dear');
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
       it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function() {
         // given
@@ -156,6 +160,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         type: 'sessions',
         id: '12',
         attributes: {
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           status: statuses.CREATED,
           'examiner-global-comment': 'It was a fine session my dear',
         },

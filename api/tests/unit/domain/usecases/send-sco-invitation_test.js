@@ -6,7 +6,11 @@ const { OrganizationNotFoundError, OrganizationWithoutEmailError, ManyOrganizati
 describe('Unit | UseCase | find-organizations', function() {
 
   const organizationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findScoOrganizationByUai: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: sinon.stub(),
   };
 

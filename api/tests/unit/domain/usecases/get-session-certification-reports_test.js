@@ -5,6 +5,8 @@ const getSessionCertificationReports = require('../../../../lib/domain/usecases/
 describe('Unit | Domain | Use Cases | get-session-certification-reports', function() {
 
   const sessionId = 'sessionId';
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationReports = Symbol('some certification candidates');
 
   beforeEach(function() {

@@ -6,7 +6,11 @@ const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/d
 describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
 
   const sharedAt = new Date('2020-02-01');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userId = Symbol('user id');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignId = Symbol('campaign id');
   const expectedCampaignParticipation = { id: '1', sharedAt };
   const locale = 'fr';

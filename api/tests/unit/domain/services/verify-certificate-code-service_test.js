@@ -8,6 +8,8 @@ describe('Unit | Service | VerifyCertificateCode', function() {
 
   describe('#generateCertificateVerificationCode', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     _.times(100, () =>
       it('should return a certification code containing 8 digits/letters except 0, 1 and vowels', async function() {
         // given

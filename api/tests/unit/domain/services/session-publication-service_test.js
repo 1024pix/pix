@@ -46,18 +46,28 @@ describe('Unit | UseCase | session-publication-service', function() {
     const recipient1 = 'email1@example.net';
     const recipient2 = 'email2@example.net';
     const certificationCenter = 'certificationCenter';
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidateWithRecipient1 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient1,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidateWithRecipient2 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidate2WithRecipient2 = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: recipient2,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
       resultRecipientEmail: null,
     });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalSession = domainBuilder.buildSession({
       id: sessionId,
       certificationCenter,

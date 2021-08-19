@@ -14,7 +14,7 @@ describe('Unit | UseCase | update-user-email', function() {
 
   const locale = undefined;
   const password = 'password123';
-  // eslint-disable-next-line no-sync
+  // eslint-disable-next-line no-sync, mocha/no-setup-in-describe
   const passwordHash = bcrypt.hashSync(password, 1);
 
   beforeEach(function() {

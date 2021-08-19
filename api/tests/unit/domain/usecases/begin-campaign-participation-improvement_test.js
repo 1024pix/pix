@@ -7,10 +7,16 @@ const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntity
 describe('Unit | Usecase | begin-campaign-participation-improvement', function() {
 
   const campaignParticipationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: sinon.stub(),
   };
   const assessmentRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getLatestByCampaignParticipationId: sinon.stub(),
   };
   const dependencies = { campaignParticipationRepository, assessmentRepository };

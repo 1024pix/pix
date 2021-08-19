@@ -30,6 +30,8 @@ const { getI18n } = require('../../../tooling/i18n/i18n');
 describe('Unit | Application | Organizations | organization-controller', function() {
 
   let request;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
   describe('#getOrganizationDetails', function() {
@@ -549,9 +551,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
   describe('#attachTargetProfiles', function() {
     const userId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const targetProfile = domainBuilder.buildTargetProfile();
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const organizationId = targetProfile.organizationId;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const targetProfileId = targetProfile.id.toString();
     const targetProfilesToAttachAsArray = [targetProfileId];
 
@@ -696,9 +704,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
   describe('#sendInvitations', function() {
 
     const userId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const invitation = domainBuilder.buildOrganizationInvitation();
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const organizationId = invitation.organizationId;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const emails = [invitation.email];
     const locale = 'fr-fr';
 
@@ -766,6 +780,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
   describe('#findPendingInvitations', function() {
 
     const userId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const organization = domainBuilder.buildOrganization();
 
     const resolvedOrganizationInvitations = 'organization invitations';

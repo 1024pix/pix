@@ -81,6 +81,8 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[codeCampaign]': 'Code' },
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
@@ -104,6 +106,8 @@ describe('Unit | Controller | assessment-controller', function() {
 
       const request = {
         query: { 'filter[type]': 'DEMO' },
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 

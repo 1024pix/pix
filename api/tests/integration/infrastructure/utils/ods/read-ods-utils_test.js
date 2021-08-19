@@ -24,6 +24,8 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
   const NEW_LINE_ODS_FILE_PATH = `${__dirname}/files/newline_test.ods`;
   const SIMPLE_ATTENDANCE_ODS_FILE_PATH = `${__dirname}/files/simple-attendance_test.ods`;
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const TRANSFORMATION_STRUCTS_BY_VERSION = _.orderBy(
     TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, ['version'], ['desc'],
   );

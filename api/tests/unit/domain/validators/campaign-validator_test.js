@@ -15,6 +15,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
   const campaignOfTypeProfilesCollection = {
     name: 'campagne de collecte de profils',
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     type: Campaign.types.PROFILES_COLLECTION,
     creatorId: 4,
     organizationId: 12,
@@ -25,6 +27,8 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
   const campaignOfTypeAssessment = {
     name: 'campagne d\'évaluation',
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     type: Campaign.types.ASSESSMENT,
     title: 'Campagne d\'évaluation',
     creatorId: 4,
@@ -37,8 +41,12 @@ describe('Unit | Domain | Validators | campaign-validator', function() {
 
   describe('#validate', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [campaignOfTypeAssessment, campaignOfTypeProfilesCollection].forEach((campaign) => {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       context(`when campaign is of type ${campaign.type}`, function() {
         context('when validation is successful', function() {
 

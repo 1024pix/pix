@@ -5,7 +5,11 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | UseCase | get-certification-point-of-contact', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationCenterMembershipRepository = { doesUserHaveMembershipToAnyCertificationCenter: _.noop() };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationPointOfContactRepository = { get: _.noop() };
   const userId = 123;
 

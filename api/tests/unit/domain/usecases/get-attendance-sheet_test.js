@@ -16,6 +16,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
   let result;
   const userId = 'dummyUserId';
   const sessionId = 'dummySessionId';
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const sessionRepository = { getWithCertificationCandidates: _.noop, doesUserHaveCertificationCenterMembershipForSession: _.noop };
 
   const sessionWithCandidates = {
@@ -78,6 +80,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
     },
   ];
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   _.times(EXTRA_EMPTY_CANDIDATE_ROWS, () => {
     const emptyCandidateSheetData = {};
     _.each(ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES, (templateVal) => {
@@ -90,6 +94,8 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
   const stringifiedXml = '<xml>Some xml</xml>';
   const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
   const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const odsBuffer = Buffer.from('some ods file');
 
   describe('getAttendanceSheet', function() {

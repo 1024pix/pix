@@ -12,6 +12,8 @@ class AnotherTestEvent {}
 describe('Integration | Infrastructure | EventHandler', function() {
   let eventDispatcher;
   const event = new TestEvent();
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('domain transaction');
 
   beforeEach(function() {

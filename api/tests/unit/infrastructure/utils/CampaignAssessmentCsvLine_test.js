@@ -33,6 +33,8 @@ function _computeExpectedColumnsIndex(campaign, organization, badges, stages) {
 }
 
 describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function() {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const translate = getI18n().__;
 
   describe('#toCsvLine', function() {

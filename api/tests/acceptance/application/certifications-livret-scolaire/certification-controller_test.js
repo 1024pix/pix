@@ -18,6 +18,8 @@ describe('Acceptance | API | Certifications', function() {
   describe('GET /api/organizations/:id/certifications', function() {
     const pixScore = 400;
     const uai = '789567AA';
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const type = Assessment.types.CERTIFICATION;
     const verificationCode = 'P-123498NN';
     let organizationId;

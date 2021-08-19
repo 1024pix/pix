@@ -20,23 +20,45 @@ describe('Unit | Domain | Services | badge-criteria', function() {
 
     context('when there is multiple badge criteria to acquire one badge', function() {
       const badgeCriteria = [
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         domainBuilder.buildBadgeCriterion({
           id: 1,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION,
         }),
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         domainBuilder.buildBadgeCriterion({
           id: 2,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           scope: BadgeCriterion.SCOPES.EVERY_PARTNER_COMPETENCE,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           threshold: CRITERION_THRESHOLD.EVERY_PARTNER_COMPETENCE,
         }),
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         domainBuilder.buildBadgeCriterion({
           id: 3,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           scope: BadgeCriterion.SCOPES.SKILL_SET,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           threshold: CRITERION_THRESHOLD.SKILL_SET,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
         }),
       ];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
       it('should return true when all the badge criteria are fulfilled', async function() {
@@ -88,12 +110,20 @@ describe('Unit | Domain | Services | badge-criteria', function() {
 
     context('when the CAMPAIGN_PARTICIPATION is the only badge criterion', function() {
       const badgeCriteria = [
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         domainBuilder.buildBadgeCriterion({
           id: 1,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           threshold: CRITERION_THRESHOLD.CAMPAIGN_PARTICIPATION,
         }),
       ];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
       it('should return true when fulfilled', async function() {
@@ -124,13 +154,23 @@ describe('Unit | Domain | Services | badge-criteria', function() {
     context('when the SKILL_SET is the only badge criterion', function() {
       context('when the list of partnerCompetencesIds contains one partnerCompetence', function() {
         const badgeCriteria = [
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           domainBuilder.buildBadgeCriterion({
             id: 1,
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             scope: BadgeCriterion.SCOPES.SKILL_SET,
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             threshold: CRITERION_THRESHOLD.SKILL_SET,
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             partnerCompetenceIds: [COMPETENCE_RESULT_ID.SECOND],
           }),
         ];
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badge = domainBuilder.buildBadge({ badgeCriteria });
 
         it('should return true when fulfilled', async function() {
@@ -166,13 +206,23 @@ describe('Unit | Domain | Services | badge-criteria', function() {
 
       context('when the list of partnerCompetencesIds contains more than one', function() {
         const badgeCriteria = [
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           domainBuilder.buildBadgeCriterion({
             id: 1,
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             scope: BadgeCriterion.SCOPES.SKILL_SET,
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             threshold: CRITERION_THRESHOLD.SKILL_SET,
+            // TODO: Fix this the next time the file is edited.
+            // eslint-disable-next-line mocha/no-setup-in-describe
             partnerCompetenceIds: [COMPETENCE_RESULT_ID.FIRST, COMPETENCE_RESULT_ID.SECOND],
           }),
         ];
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const badge = domainBuilder.buildBadge({ badgeCriteria });
 
         it('should return true when fulfilled for all partnerCompetence', async function() {
@@ -209,6 +259,8 @@ describe('Unit | Domain | Services | badge-criteria', function() {
 
     context('when the badge does not have criterion', function() {
       const badgeCriteria = [];
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
       it('should return false', async function() {

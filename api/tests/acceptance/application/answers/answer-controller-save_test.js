@@ -158,6 +158,8 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         expect(answer.relationships.challenge.data.id).to.equal(answerDB.challengeId);
       });
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       [
         { locale: FRENCH_FRANCE, expectedCompetenceName: 'Nom de la competence FR' },
         { locale: ENGLISH_SPOKEN, expectedCompetenceName: 'Nom de la competence EN' },

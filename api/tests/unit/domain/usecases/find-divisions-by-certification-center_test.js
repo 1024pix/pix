@@ -8,9 +8,13 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function() {
   let organization;
 
   const organizationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getIdByCertificationCenterId: sinon.stub(),
   };
   const divisionRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
   };
 

@@ -34,6 +34,8 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
     findUniqByUserIdAndAssessmentId: () => undefined,
   };
   const nowDate = new Date('2021-03-11T11:00:04Z');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   nowDate.setMilliseconds(1);
 
   beforeEach(function() {

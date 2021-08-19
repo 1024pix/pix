@@ -7,7 +7,11 @@ const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
 describe('Unit | UseCase | get-campaign', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const badges = Symbol('badges');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const stages = Symbol('stages');
 
   const campaignId = 1;

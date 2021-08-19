@@ -26,6 +26,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
 
     const createdAt = new Date('2019-02-25T10:00:00Z');
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const i18n = getI18n();
 
     beforeEach(async function() {

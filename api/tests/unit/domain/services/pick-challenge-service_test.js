@@ -6,11 +6,23 @@ const _ = require('lodash');
 describe('Unit | Service | PickChallengeService', function() {
 
   describe('#pickChallenge', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const frenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const otherFrenchSpokenChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_SPOKEN] });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const frenchChallenge = domainBuilder.buildChallenge({ locales: [FRENCH_FRANCE] });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const validatedChallenge = domainBuilder.buildChallenge({ status: 'validé' });
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const archivedChallenge = domainBuilder.buildChallenge({ status: 'archivé' });
 
     const randomSeed = 'some-random-seed';

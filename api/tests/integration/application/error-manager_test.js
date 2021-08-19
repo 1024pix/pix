@@ -4,6 +4,8 @@ const DomainErrors = require('../../../lib/domain/errors');
 describe('Integration | API | Controller Error', function() {
 
   let server;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const routeHandler = sinon.stub();
 
   const routeUrl = '/test_route';

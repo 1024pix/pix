@@ -102,8 +102,14 @@ describe('Unit | Service | ScorecardService', function() {
     const userId = 1;
     const competenceId = 2;
     const knowledgeElements = [{ id: 1 }, { id: 2 }];
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     resetKnowledgeElement2 = Symbol('reset knowledge element 2');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     resetKnowledgeElement1 = Symbol('reset knowledge element 1');
 
     context('when competence evaluation exists', function() {
@@ -191,7 +197,11 @@ describe('Unit | Service | ScorecardService', function() {
       const assessmentId1 = 12345;
       const assessmentId2 = 56789;
       const skillId = 'recmoustache';
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const campaignParticipation1Updated = Symbol('campaign participation 1 updated');
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const campaignParticipation2Updated = Symbol('campaign participation 2 updated');
       const shouldResetCompetenceEvaluation = false;
 

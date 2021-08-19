@@ -37,6 +37,8 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
       { title: 'palier 5', message: 'Tu as le palier 5', threshold: 80 },
     ];
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const targetProfile = domainBuilder.buildTargetProfile({
       id: 1,
       skills,

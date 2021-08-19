@@ -12,6 +12,8 @@ const User = require('../../../../../lib/domain/models/User');
 describe('Unit | Usecases | update-user-account', function() {
 
   let userRepository, authenticationMethodRepository, encryptionService, accountRecoveryDemandRepository, scoAccountRecoveryService;
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol();
 
   beforeEach(function() {

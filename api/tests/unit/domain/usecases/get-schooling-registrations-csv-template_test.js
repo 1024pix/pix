@@ -6,9 +6,17 @@ const { getI18n } = require('../../../tooling/i18n/i18n');
 
 describe('Unit | UseCase | get-schooling-registrations-csv-template', function() {
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const userId = Symbol('userId');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const organizationId = Symbol('organizationId');
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const membershipRepository = { findByUserIdAndOrganizationId: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
   context('When user is ADMIN in a SUP organization managing students', function() {

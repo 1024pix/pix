@@ -196,6 +196,8 @@ describe('Unit | Controller | certifications-controller', function() {
 
   describe('#getCertificationAttestation', function() {
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
     const attestationPDF = 'binary string';
     const fileName = 'attestation-pix-20181003.pdf';
@@ -203,6 +205,8 @@ describe('Unit | Controller | certifications-controller', function() {
 
     const request = {
       auth: { credentials: { userId } },
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       params: { id: certification.id },
     };
 

@@ -35,6 +35,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctBirthdate', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     ['2000-13-01', null, undefined, '', 'invalid']
       .forEach((invalidDate) => {
         it(`throws if date is invalid : ${invalidDate}`, function() {
@@ -63,6 +65,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctFirstName', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   ']
       .forEach((invalidFirstName) => {
         it(`throws if first name is invalid : ${invalidFirstName}`, function() {
@@ -91,6 +95,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctLastName', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   ']
       .forEach((invalidLastName) => {
         it(`throws if last name is invalid : ${invalidLastName}`, function() {
@@ -119,6 +125,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
   });
 
   describe('#correctBirthplace', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [null, undefined, '', '   ']
       .forEach((invalidBirthPlace) => {
         it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, function() {
@@ -183,6 +191,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
       expect(() => certificationCourse.correctSex(sex)).not.to.throw(EntityValidationError);
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     ['M', 'F']
       .forEach((validSex) => {
         it(`modifies the sex when value is ${validSex}`, function() {

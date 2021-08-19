@@ -20,6 +20,8 @@ describe('Acceptance | API | Improve Competence Evaluation', function() {
       method: 'POST',
       url: '/api/competence-evaluations/improve',
       headers: {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         authorization: generateValidRequestAuthorizationHeader(userId),
       },
       payload: { competenceId },

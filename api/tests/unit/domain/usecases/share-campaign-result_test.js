@@ -5,8 +5,14 @@ const shareCampaignResult = require('../../../../lib/domain/usecases/share-campa
 
 describe('Unit | UseCase | share-campaign-result', function() {
   const campaignParticipationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     get: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     updateWithSnapshot: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     isAssessmentCompleted: sinon.stub(),
   };
   const userId = 123;

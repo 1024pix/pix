@@ -254,6 +254,8 @@ describe('Unit | Domain | Models | Scorecard', function() {
   describe('#computeRemainingDaysBeforeReset', function() {
 
     let testCurrentDate;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET;
 
     beforeEach(function() {
@@ -269,6 +271,8 @@ describe('Unit | Domain | Models | Scorecard', function() {
       constants.MINIMUM_DELAY_IN_DAYS_FOR_RESET = originalConstantValue;
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeReset: 7 },
       { daysSinceLastKnowledgeElement: 1, expectedDaysBeforeReset: 6 },
@@ -299,6 +303,8 @@ describe('Unit | Domain | Models | Scorecard', function() {
   describe('#computeRemainingDaysBeforeImproving', function() {
 
     let testCurrentDate;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
 
     beforeEach(function() {
@@ -314,6 +320,8 @@ describe('Unit | Domain | Models | Scorecard', function() {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { daysSinceLastKnowledgeElement: 0.0833, expectedDaysBeforeImproving: 4 },
       { daysSinceLastKnowledgeElement: 0, expectedDaysBeforeImproving: 4 },

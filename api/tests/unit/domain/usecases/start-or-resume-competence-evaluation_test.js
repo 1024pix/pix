@@ -12,14 +12,28 @@ describe('Unit | UseCase | start-or-resume-competence-evaluation', function() {
   const newAssessmentId = 789;
   const competenceId = 'recABC123';
   const competenceEvaluation = { userId, competenceId, assessmentId };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const competenceRepository = { get: _.noop };
   const competenceEvaluationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     save: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getByCompetenceIdAndUserId: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     updateStatusByUserIdAndCompetenceId: _.noop,
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     updateAssessmentId: _.noop,
   };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const assessmentRepository = { save: _.noop };
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const updatedCompetenceEvaluation = Symbol('updated competence evaluation');
 
   beforeEach(function() {

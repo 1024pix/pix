@@ -13,7 +13,11 @@ describe('Unit | UseCase | update-student-number', function() {
   let schoolingRegistration;
 
   const higherSchoolingRegistrationRepository = {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     findOneByStudentNumber: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     updateStudentNumber: sinon.stub(),
   };
 

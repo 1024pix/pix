@@ -92,6 +92,8 @@ describe('Integration | Application | Passwords | password-controller', function
 
     const email = 'user@example.net';
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const user = domainBuilder.buildUser({ email });
 
     context('Success cases', function() {

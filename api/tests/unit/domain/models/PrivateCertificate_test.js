@@ -19,6 +19,8 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       certificationCenter: 'Centre des fruits et légumes',
       pixScore: 250,
       commentForCandidate: 'Bravo !',
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       certifiedBadgeImages: [],
       resultCompetenceTree: null,

@@ -43,6 +43,8 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
     context('Success cases', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const createdUser = domainBuilder.buildUser();
 
       context('When email is used', function() {
@@ -116,6 +118,8 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
     context('Success cases', function() {
 
+      // TODO: Fix this the next time the file is edited.
+      // eslint-disable-next-line mocha/no-setup-in-describe
       const createdUser = domainBuilder.buildUser();
 
       it('should return an HTTP response with status code 200 and access-token in payload', async function() {

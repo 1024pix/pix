@@ -4,6 +4,8 @@ const { getI18n } = require('../../../tooling/i18n/i18n');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
   context('#addRegistration', function() {

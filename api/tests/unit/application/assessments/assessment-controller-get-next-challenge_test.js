@@ -114,6 +114,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
       const certificationAssessment = new Assessment({
         id: 'assessmentId',
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         type: Assessment.types.CERTIFICATION,
       });
 
@@ -197,10 +199,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       describe('when assessment is started', function() {
         const userId = 1;
 
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const assessment = domainBuilder.buildAssessment({
           id: 1,
           courseId: 'courseId',
           userId: 5,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           type: Assessment.types.COMPETENCE_EVALUATION,
           state: 'started',
         });
@@ -264,10 +270,14 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
 
       describe('when assessment is completed', function() {
+        // TODO: Fix this the next time the file is edited.
+        // eslint-disable-next-line mocha/no-setup-in-describe
         const assessment = domainBuilder.buildAssessment({
           id: 1,
           courseId: 'courseId',
           userId: 5,
+          // TODO: Fix this the next time the file is edited.
+          // eslint-disable-next-line mocha/no-setup-in-describe
           type: Assessment.types.COMPETENCE_EVALUATION,
           state: 'completed',
         });

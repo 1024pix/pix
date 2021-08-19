@@ -210,9 +210,13 @@ describe('Unit | Controller | sessionController', function() {
   });
 
   describe('#getAttendanceSheet', function() {
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const tokenService = { extractUserId: _.noop };
     let request;
     const sessionId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const odsBuffer = Buffer.alloc(5);
     const accessToken = 'ABC123';
 
@@ -452,7 +456,11 @@ describe('Unit | Controller | sessionController', function() {
   describe('#getCertificationReports', function() {
     let request;
     const sessionId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const certificationReports = Symbol('some certification reports');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const serializedCertificationReports = Symbol('some serialized certification reports');
 
     beforeEach(function() {
@@ -480,8 +488,12 @@ describe('Unit | Controller | sessionController', function() {
     const userId = 2;
     const student1 = { id: 1 };
     const student2 = { id: 2 };
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const studentIds = [student1.id, student2.id];
     const studentList = [student1, student2];
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const serializedCertificationCandidate = Symbol('CertificationCandidates');
 
     beforeEach(function() {
@@ -533,8 +545,14 @@ describe('Unit | Controller | sessionController', function() {
     const userId = 2;
     let firstName;
     let lastName;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const birthdate = Symbol('birthdate');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const linkedCertificationCandidate = Symbol('candidate');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const serializedCertificationCandidate = Symbol('sCandidate');
 
     beforeEach(function() {
@@ -623,7 +641,11 @@ describe('Unit | Controller | sessionController', function() {
   describe('#finalize', function() {
     let request;
     const sessionId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const aCertificationReport = Symbol('a certficication report');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const updatedSession = Symbol('updatedSession');
     const examinerGlobalComment = 'It was a fine session my dear';
     const certificationReports = [
@@ -669,7 +691,11 @@ describe('Unit | Controller | sessionController', function() {
 
   describe('#publish / #unpublish', function() {
     const sessionId = 123;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const session = Symbol('session');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const serializedSession = Symbol('serializedSession');
 
     beforeEach(function() {
@@ -813,7 +839,11 @@ describe('Unit | Controller | sessionController', function() {
 
   describe('#flagResultsAsSentToPrescriber', function() {
     const sessionId = 123;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const session = Symbol('session');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const serializedSession = Symbol('serializedSession');
 
     beforeEach(function() {
@@ -896,7 +926,11 @@ describe('Unit | Controller | sessionController', function() {
   describe('#assignCertificationOfficer', function() {
     let request;
     const sessionId = 1;
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const session = Symbol('session');
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
     const sessionJsonApi = Symbol('someSessionSerialized');
 
     beforeEach(function() {

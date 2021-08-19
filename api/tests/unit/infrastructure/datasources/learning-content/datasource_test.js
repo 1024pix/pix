@@ -10,6 +10,8 @@ describe('Unit | Infrastructure | Datasource | Learning Content | datasource', f
     sinon.stub(cache, 'get');
   });
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-setup-in-describe
   const someDatasource = dataSource.extend({
     modelName: 'learningContentModel',
   });
