@@ -58,7 +58,7 @@
 
 .input {
   height: 38px;
-  border: 1px solid $grey-20;
+  border: 1px solid $grey-40;
   border-radius: 4px;
   font-size: 1rem;
   padding-left: 15px;
@@ -80,7 +80,7 @@
   border-radius: 3px;
   align-items: center;
   background-color: $white;
-  border: 1px solid $grey-20;
+  border: 1px solid $grey-40;
 
   &--error {
     border: 1px solid $error;
@@ -107,20 +107,6 @@
     &::-ms-clear, &::-ms-reveal {
       display: none;
     }
-  }
-}
-
-.textarea {
-  border: 1px solid $grey-20;
-  border-radius: 4px;
-  font-size: 1rem;
-  padding: 8px;
-  color: $grey-100;
-  outline: none;
-  resize: none;
-
-  &:focus {
-    border: 1px solid $blue;
   }
 }
 
