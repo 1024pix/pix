@@ -111,6 +111,11 @@ class CertificationAssessment {
   getChallengeRecIdByQuestionNumber(questionNumber) {
     return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
   }
+
+  hasMoreThan33PercentNeutralizedChallenges() {
+    const neutralizedChallenges = this.certificationChallenges.filter((challenge) => challenge.isNeutralized);
+    return Math.round((neutralizedChallenges.length / this.certificationChallenges.length) * 100) > 33;
+  }
 }
 
 function _isAnswerKoOrSkippedOrPartially(answerStatus) {

@@ -187,7 +187,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       });
 
       // when / then
-      expect(() => { certificationAssessment.neutralizeChallengeByRecId(challengeNotAskedToBeNeutralized.challengeId); })
+      expect(function() { certificationAssessment.neutralizeChallengeByRecId(challengeNotAskedToBeNeutralized.challengeId); })
         .to.throw(ChallengeToBeNeutralizedNotFoundError);
     });
   });
@@ -243,7 +243,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       });
 
       // when / then
-      expect(() => { certificationAssessment.deneutralizeChallengeByRecId(challengeNotAskedToBeDeneutralized.challengeId); })
+      expect(function() { certificationAssessment.deneutralizeChallengeByRecId(challengeNotAskedToBeDeneutralized.challengeId); })
         .to.throw(ChallengeToBeDeneutralizedNotFoundError);
     });
   });
@@ -534,6 +534,60 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
 
       // then
       expect(recId).to.equal(null);
+    });
+  });
+
+  describe('#hasMoreThan33PercentNeutralizedChallenges', function() {
+
+    it('should return false if there is no neutralized challenges', function() {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        ],
+      });
+
+      // when
+      const neutralizedChallengesRate = certificationAssessment.hasMoreThan33PercentNeutralizedChallenges();
+
+      // then
+      expect(neutralizedChallengesRate).to.be.false;
+    });
+
+    it('should return false if there is one out of three neutralized challenges', function() {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        ],
+      });
+
+      // when
+      const neutralizedChallengesRate = certificationAssessment.hasMoreThan33PercentNeutralizedChallenges();
+
+      // then
+      expect(neutralizedChallengesRate).to.be.false;
+    });
+
+    it('should return true if all challenges are neutralized', function() {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true }),
+        ],
+      });
+
+      // when
+      const neutralizedChallengesRate = certificationAssessment.hasMoreThan33PercentNeutralizedChallenges();
+
+      // then
+      expect(neutralizedChallengesRate).to.be.true;
     });
   });
 });
