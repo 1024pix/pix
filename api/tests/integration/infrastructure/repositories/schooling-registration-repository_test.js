@@ -1500,6 +1500,25 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         expect(_.map(data, 'studentNumber')).to.deep.equal(['BAR123', 'BAZ123']);
       });
 
+      it('should return school registrations filtered by division', async () => {
+        // given
+        const organization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: '1', division: '4A' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: '2', division: '3B' });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, lastName: '3', division: '3A' });
+        await databaseBuilder.commit();
+
+        // when
+        const { data } = await schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations({
+          organizationId: organization.id,
+          filter: { division: '3' },
+        });
+
+        // then
+        expect(_.map(data, 'division')).to.deep.equal(['3B', '3A']);
+      });
+
       it('should return school registrations filtered by firstname AND lastname', async () => {
         // given
         const organization = databaseBuilder.factory.buildOrganization();
