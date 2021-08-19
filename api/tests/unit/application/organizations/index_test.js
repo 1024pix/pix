@@ -50,7 +50,7 @@ describe('Unit | Router | organization-router', function() {
         expect(response.statusCode).to.equal(400);
       });
 
-      context('when id is outside number limits', async function() {
+      context('when id is outside number limits', function() {
 
         const minNumberLimit = identifiersType.positiveInteger32bits.min;
         const maxNumberLimit = identifiersType.positiveInteger32bits.max;

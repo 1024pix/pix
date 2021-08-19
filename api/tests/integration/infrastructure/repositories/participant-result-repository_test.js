@@ -64,7 +64,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
       });
     });
 
-    context('computes canRetry', async function() {
+    context('computes canRetry', function() {
       it('returns true when all conditions are filled', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId, multipleSendings: true });
@@ -620,7 +620,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
       });
     });
 
-    context('when no participation for given user and campaign', async function() {
+    context('when no participation for given user and campaign', function() {
       it('should throw a not found error', async function() {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });

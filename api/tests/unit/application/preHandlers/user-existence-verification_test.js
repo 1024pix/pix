@@ -36,7 +36,7 @@ describe('Unit | Pre-handler | User Verification', function() {
 
     });
 
-    describe('When user doesn’t exist', async function() {
+    describe('When user doesn’t exist', function() {
 
       it('should reply 404 status with a serialized error and takeOver the request', async function() {
         // given

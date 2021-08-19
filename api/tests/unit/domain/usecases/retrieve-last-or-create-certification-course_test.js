@@ -348,7 +348,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               expect(assessmentRepository.save).to.have.been.calledWith({ assessment: sinon.match(mockAssessment), domainTransaction });
             });
 
-            context('when user has certifiable badges with pix plus', async function() {
+            context('when user has certifiable badges with pix plus', function() {
 
               it('should save all the challenges from pix and pix plus', async function() {
                 // given
@@ -432,7 +432,7 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
               });
             });
 
-            context('when user has no certifiable badges with pix plus', async function() {
+            context('when user has no certifiable badges with pix plus', function() {
 
               beforeEach(function() {
                 sinon.spy(CertificationCourse, 'from');

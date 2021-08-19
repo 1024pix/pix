@@ -115,7 +115,7 @@ describe('Acceptance | Controller | users-controller', function() {
 
     });
 
-    context('user is invalid', async function() {
+    context('user is invalid', function() {
 
       const validUserAttributes = {
         'first-name': 'John',

@@ -93,7 +93,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
       });
     });
 
-    context('when the format is XML', async function() {
+    context('when the format is XML', function() {
       beforeEach(function() {
         format = 'xml';
       });

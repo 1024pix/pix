@@ -561,7 +561,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
       });
 
-      context('when a schoolingRegistration is already imported', async function() {
+      context('when a schoolingRegistration is already imported', function() {
 
         let schoolingRegistration_1_updated;
         let schoolingRegistrations;
@@ -594,7 +594,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
       });
 
-      context('when a schoolingRegistration is already imported in several organizations', async function() {
+      context('when a schoolingRegistration is already imported in several organizations', function() {
 
         let schoolingRegistration_1_updated;
         let schoolingRegistration_1_bis;

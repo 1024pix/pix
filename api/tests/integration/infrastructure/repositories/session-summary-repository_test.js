@@ -93,7 +93,7 @@ describe('Integration | Repository | Session Summary', function() {
         expect(_.map(sessionSummaries, 'id')).to.deep.equal([3, 1, 2, 4]);
       });
 
-      context('when sessions have candidates', async function() {
+      context('when sessions have candidates', function() {
 
         it('should return correct enrolled candidates count and effective candidates count', async function() {
           // given
@@ -124,7 +124,7 @@ describe('Integration | Repository | Session Summary', function() {
         });
       });
 
-      context('when session does not have candidates at all', async function() {
+      context('when session does not have candidates at all', function() {
 
         it('should return 0 as enrolled and effective candidates count', async function() {
           // given

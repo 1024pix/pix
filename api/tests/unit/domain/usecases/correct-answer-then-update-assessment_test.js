@@ -192,7 +192,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         expect(result).to.deep.equal(expectedArgument);
       });
 
-      context('when the user responds correctly', async function() {
+      context('when the user responds correctly', function() {
         it('should add the level up to the answer when the user gain one level', async function() {
           // given
           const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
@@ -251,7 +251,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
       });
 
-      context('when the user responds badly', async function() {
+      context('when the user responds badly', function() {
         it('should not compute the level up', async function() {
           // given
           answer = domainBuilder.buildAnswer({ value: '' });
@@ -420,7 +420,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         expect(result).to.deep.equal(expectedArgument);
       });
 
-      context('when the user responds correctly', async function() {
+      context('when the user responds correctly', function() {
         it('should add the level up to the answer when the user gain one level', async function() {
           // given
           const scorecardAfterAnswer = domainBuilder.buildUserScorecard({
@@ -479,7 +479,7 @@ describe('Unit | Domain | Use Cases | correct-answer-then-update-assessment', fu
         });
       });
 
-      context('when the user responds badly', async function() {
+      context('when the user responds badly', function() {
         it('should not compute the level up', async function() {
           // given
           answer = domainBuilder.buildAnswer({ value: '' });
