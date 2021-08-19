@@ -6,7 +6,7 @@ const errorSerializer = require('../infrastructure/serializers/jsonapi/error-ser
 const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
 const translations = require('../../translations');
 
-const NOT_VALID_RELATIONSHIPS = ['externalId'];
+const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
 function translateMessage(locale, key) {
   if (translations[locale]['entity-validation-errors'][key]) {

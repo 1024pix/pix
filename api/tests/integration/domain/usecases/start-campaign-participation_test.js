@@ -85,20 +85,30 @@ describe('Integration | UseCases | start-campaign-participation', function() {
     expect(assessments).to.have.lengthOf(0);
   });
 
-  it('should throw an error and not create anything when campaign has idPixLabel and no participantExternalId', async function() {
-    // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', idPixLabel: 'toto', creatorId: userId, organizationId, targetProfileId }).id;
-    await databaseBuilder.commit();
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+  context('when campaign has idPixLabel and no participantExternalId', function() {
+    let campaignParticipation;
 
-    // when
-    const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+    beforeEach(async function() {
+      campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', idPixLabel: 'toto', creatorId: userId, organizationId, targetProfileId }).id;
+      await databaseBuilder.commit();
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+    });
 
-    // then
-    const campaignParticipations = await knex('campaign-participations');
-    expect(campaignParticipations).to.have.lengthOf(0);
-    const assessments = await knex('assessments');
-    expect(assessments).to.have.lengthOf(0);
-    expect(error).to.be.instanceOf(EntityValidationError);
+    it('should throw an error', async function() {
+      const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+
+      expect(error).to.be.instanceOf(EntityValidationError);
+      expect(error.invalidAttributes[0].attribute).to.equal('participantExternalId');
+      expect(error.invalidAttributes[0].message).to.equal('Un identifiant externe est requis pour accèder à la campagne.');
+    });
+
+    it('should not create anything', async function() {
+      await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+
+      const campaignParticipations = await knex('campaign-participations');
+      expect(campaignParticipations).to.have.lengthOf(0);
+      const assessments = await knex('assessments');
+      expect(assessments).to.have.lengthOf(0);
+    });
   });
 });
