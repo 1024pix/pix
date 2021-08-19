@@ -1,0 +1,24 @@
+<article class="rounded-panel rounded-panel--no-margin-bottom challenge-item {{if this.hasFocusedOutOfChallenge "challenge-item--overlay"}}"
+         data-challenge-id="{{@challenge.id}}"
+  {{on 'mouseenter' this.hideOutOfFocusBorder}}
+  {{on 'mouseleave' this.showOutOfFocusBorder}}>
+
+  <div class="challenge-item__container {{if this.hasFocusedOutOfChallenge "challenge-item__container--focused"}}">
+    <ChallengeStatement @challenge={{@challenge}}
+                        @assessment={{@assessment}}
+                        @onTooltipClose={{this.enableFocusedChallenge}}/>
+
+    {{component (get-challenge-component-class @challenge)
+                challenge=@challenge
+                answer=@answer
+                assessment=@assessment
+                timeoutChallenge=@timeoutChallenge
+                finishChallenge=@finishChallenge
+                hasFocusedOutOfWindow=this.hasFocusedOutOfWindow
+                answerValidated=@answerValidated
+                resumeAssessment=@resumeAssessment
+                isTooltipClosed=this.isTooltipClosed
+                isFocusedChallenge=this.isFocusedChallenge
+    }}
+  </div>
+</article>

@@ -11,7 +11,7 @@ When(`je clique sur Signaler un problème`, () => {
 });
 
 Then(`je suis redirigé vers une page d'épreuve`, () => {
-  cy.get('.assessment-challenge').should('exist');
+  cy.get('.challenge').should('exist');
 });
 
 Then(`le titre sur l'épreuve est {string}`, (titre) => {
