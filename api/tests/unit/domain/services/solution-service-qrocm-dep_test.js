@@ -52,7 +52,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach((testCase) => {
       it(`should return "ko" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution)).to.deep.equal(ANSWER_KO);
+        const solution = { value: testCase.solution, deactivations: {} };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -112,7 +113,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     maximalScoreCases.forEach(function(testCase) {
       it(`Should return "ok" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution)).to.deep.equal(ANSWER_OK);
+        const solution = { value: testCase.solution, deactivations: {} };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -121,11 +123,11 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
   describe('if solution type is QROCM-dep with scoring', function() {
 
     it('should return "ko" for badly formatted solution', function() {
-      expect(service.match('num1: Google\nnum2: Yahoo', 'solution like a QCU', '1: @acquix')).to.deep.equal(ANSWER_KO);
+      expect(service.match({ answerValue: 'num1: Google\nnum2: Yahoo', solution: { value: 'solution like a QCU', scoring: '1: @acquix', deactivations: {} } })).to.deep.equal(ANSWER_KO);
     });
 
     it('should return "ko" when answer is incorrect', function() {
-      expect(service.match('num1: Foo\nnum2: Bar', twoPossibleSolutions, '1: acquix')).to.deep.equal(ANSWER_KO);
+      expect(service.match({ answerValue: 'num1: Foo\nnum2: Bar', solution: { value: twoPossibleSolutions, scoring: '1: acquix', deactivations: {} } })).to.deep.equal(ANSWER_KO);
     });
 
     const maximalScoreCases = [
@@ -152,7 +154,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     maximalScoreCases.forEach(function(testCase) {
       it(`should return "ok" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.deep.equal(ANSWER_OK);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_OK);
       });
     });
 
@@ -181,7 +184,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     partialScoreCases.forEach(function(testCase) {
 
       it(`should return "partially" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.deep.equal(ANSWER_PARTIALLY);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_PARTIALLY);
       });
 
     });
@@ -216,7 +220,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     failedCases.forEach(function(testCase) {
       it(`should return "ko" when ${testCase.when}`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring)).to.deep.equal(ANSWER_KO);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: {} };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(ANSWER_KO);
       });
     });
 
@@ -229,7 +234,7 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
       const solution = 'lecteur:\n- G\n- Perso G\n\nnum2:\n- Eureka\n';
       const enabledTreatments = ['t1', 't2', 't3'];
 
-      const error = await catchErr(service.match)(answer, solution, enabledTreatments);
+      const error = await catchErr(service.match)({ answerValue: answer, solution: { value: solution, enabledTreatments } });
 
       expect(error).to.be.an.instanceOf(YamlParsingError);
       expect(error.message).to.equal('Une erreur s\'est produite lors de l\'interprétation des réponses.');
@@ -345,7 +350,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(`${testCase.when}, should return ${testCase.output} when answer is "${testCase.answer}" and solution is "${testCase.solution}"`, function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -462,7 +468,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -579,7 +586,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -696,7 +704,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -813,7 +822,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -930,7 +940,8 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
@@ -1047,9 +1058,9 @@ describe('Unit | Service | SolutionServiceQROCM-dep ', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     allCases.forEach(function(testCase) {
       it(testCase.when + ', should return ' + testCase.output + ' when answer is "' + testCase.answer + '" and solution is "' + testCase.solution + '"', function() {
-        expect(service.match(testCase.answer, testCase.solution, testCase.scoring, testCase.deactivations)).to.deep.equal(testCase.output);
+        const solution = { value: testCase.solution, scoring: testCase.scoring, deactivations: testCase.deactivations };
+        expect(service.match({ answerValue: testCase.answer, solution })).to.deep.equal(testCase.output);
       });
     });
   });
-
 });

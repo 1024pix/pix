@@ -2,7 +2,7 @@ const jsYaml = require('js-yaml');
 const _ = require('../../infrastructure/utils/lodash-utils');
 const utils = require('./solution-service-utils');
 const deactivationsService = require('./deactivations-service');
-const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2, applyPreTreatments } = require('./validation-treatments');
+const { applyPreTreatments, applyTreatments } = require('./validation-treatments');
 const { YamlParsingError } = require('../../domain/errors');
 
 const AnswerStatus = require('../models/AnswerStatus');
@@ -11,28 +11,10 @@ function _applyTreatmentsToSolutions(solutions, deactivations) {
   return _.mapValues(solutions, (validSolutions) => {
     return _.map(validSolutions, (validSolution) => {
       const pretreatedSolution = validSolution.toString();
+      const allTreatments = ['t1', 't2', 't3'];
+      const enabledTreatments = allTreatments.filter((treatment) => !deactivations[treatment]);
 
-      if (deactivationsService.isDefault(deactivations)) {
-        return t2(t1(pretreatedSolution));
-      }
-      else if (deactivationsService.hasOnlyT1(deactivations)) {
-        return t2(pretreatedSolution);
-      }
-      else if (deactivationsService.hasOnlyT2(deactivations)) {
-        return t1(pretreatedSolution);
-      }
-      else if (deactivationsService.hasOnlyT3(deactivations)) {
-        return t2(t1(pretreatedSolution));
-      }
-      else if (deactivationsService.hasOnlyT1T2(deactivations)) {
-        return pretreatedSolution;
-      }
-      else if (deactivationsService.hasOnlyT1T3(deactivations)) {
-        return t2(pretreatedSolution);
-      }
-      else if (deactivationsService.hasT1T2T3(deactivations)) {
-        return pretreatedSolution;
-      }
+      return applyTreatments(pretreatedSolution, enabledTreatments);
     });
   });
 }
@@ -49,7 +31,6 @@ function _compareAnswersAndSolutions(answers, solutions) {
 
     const indexation = answer + '_' + index;
     const solutionKeys = Object.keys(solutions);
-
     _.each(solutionKeys, (solutionKey) => {
 
       const solutionVariants = solutions[solutionKey];
@@ -131,17 +112,20 @@ function _formatResult(scoring, validations, deactivations) {
 
 module.exports = {
 
-  match(yamlAnswer, yamlSolution, yamlScoring, deactivations) {
+  match({ answerValue, solution }) {
+    const yamlSolution = solution.value;
+    const yamlScoring = solution.scoring;
+    const deactivations = solution.deactivations;
 
     // Input checking
-    if (!_.isString(yamlAnswer)
-        || _.isEmpty(yamlAnswer)
+    if (!_.isString(answerValue)
+        || _.isEmpty(answerValue)
         || !_.includes(yamlSolution, '\n')) {
       return AnswerStatus.KO;
     }
 
     // Pre-Treatments
-    const preTreatedAnswers = applyPreTreatments(yamlAnswer);
+    const preTreatedAnswers = applyPreTreatments(answerValue);
 
     // Convert Yaml to JS objects
     let answers, solutions, scoring;

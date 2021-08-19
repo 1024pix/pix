@@ -53,10 +53,6 @@ describe('Unit | Service | Validation Treatments', function() {
 
   });
 
-  /**
-   * #applyPreTreatments(string)
-   */
-
   describe('#applyPreTreatments', function() {
 
     it('should return a copy of the given string with unbreakable spaces replaced by normal spaces', function() {
@@ -72,11 +68,7 @@ describe('Unit | Service | Validation Treatments', function() {
     });
   });
 
-  /**
-   * #applyTreatments(string, enabledTreatments)
-   */
-
-  describe('#applyTreatments', function() {
+  describe('#applyTreatments with enabled Treatments', function() {
 
     const input = ' Shi Foo-Bar ';
 
@@ -100,5 +92,4 @@ describe('Unit | Service | Validation Treatments', function() {
       expect(applyTreatments(input, ['t2'])).to.equal(' Shi FooBar ');
     });
   });
-
 });

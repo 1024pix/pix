@@ -36,8 +36,7 @@ describe('Unit | Domain | Models | ValidatorQROC', function() {
       // then
       expect(solutionServiceQroc.match).to.have.been.calledWith({
         answer: uncorrectedAnswer.value,
-        solution: solution.value,
-        deactivations: solution.deactivations,
+        solution: solution,
         challengeFormat,
       });
     });
