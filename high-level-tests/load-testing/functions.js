@@ -1,8 +1,11 @@
 const faker = require('faker');
+const get = require('lodash/get');
+const isUndefined = require('lodash/isUndefined');
 
 module.exports = {
-  setupSignupFormData,
   foundNextChallenge,
+  handleResponseForChallengeId,
+  setupSignupFormData,
 };
 
 function setupSignupFormData(context, events, done) {
@@ -14,6 +17,11 @@ function setupSignupFormData(context, events, done) {
 }
 
 function foundNextChallenge(context, next) {
-  const continueLooping = !!context.vars.challengeId;
+  const continueLooping = !isUndefined(context.vars.challengeId);
   return next(continueLooping);
+}
+
+function handleResponseForChallengeId(requestParams, response, context, events, next) {
+  context.vars.challengeId = get(response, 'body.data.id');
+  return next();
 }
