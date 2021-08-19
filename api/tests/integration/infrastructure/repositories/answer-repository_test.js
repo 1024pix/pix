@@ -281,6 +281,40 @@ describe('Integration | Repository | answerRepository', function() {
         expect(foundAnswers).to.deepEqualArray([firstAnswer, secondAnswer]);
       });
     });
+
+    context('when assessment has some duplicate answers', function() {
+
+      it('should return only one answer, the older one', async function() {
+        // given
+        const challengeId = 'recChallenge123';
+        const olderAnswer = domainBuilder.buildAnswer({
+          id: 1,
+          assessmentId: 123,
+          result: AnswerStatus.KO,
+          challengeId,
+        });
+        const recentAnswer = domainBuilder.buildAnswer({
+          id: 2,
+          assessmentId: 123,
+          result: AnswerStatus.KO,
+          challengeId,
+        });
+        databaseBuilder.factory.buildAssessment({ id: 123 });
+        databaseBuilder.factory.buildAnswer({ ...recentAnswer, result: 'ko', createdAt: new Date('2020-01-01') });
+        databaseBuilder.factory.buildAnswer({ ...olderAnswer, result: 'ko', createdAt: new Date('2018-01-01') });
+        databaseBuilder.factory.buildAnswer();
+        await databaseBuilder.commit();
+
+        // when
+        const foundAnswers = await answerRepository.findByAssessment(123);
+
+        // then
+        expect(foundAnswers).to.have.lengthOf(1);
+        expect(foundAnswers).to.deepEqualArray([olderAnswer]);
+        expect(foundAnswers[0].id).to.equal(olderAnswer.id);
+      });
+    });
+
   });
 
   describe('#findLastByAssessment', function() {
