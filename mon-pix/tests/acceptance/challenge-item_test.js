@@ -22,33 +22,26 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
       describe('when user has not seen the challenge tooltip yet', function() {
         beforeEach(async () => {
+          // given
           const user = server.create('user', 'withEmail', {
             hasSeenFocusedChallengeTooltip: false,
           });
           await authenticateByEmail(user);
-        });
 
-        it('should display an overlay and tooltip', async () => {
-          // given
           assessment = server.create('assessment', 'ofCompetenceEvaluationType');
           server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
+        });
 
+        it('should display an overlay and tooltip', async () => {
           // then
           expect(find('.challenge__focused-overlay')).to.exist;
           expect(find('.tooltip-tag__information')).to.exist;
         });
 
         it('should disable input and buttons', async () => {
-          // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
-
-          // when
-          await visit(`/assessments/${assessment.id}/challenges/0`);
-
           // then
           expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
           expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
@@ -59,12 +52,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         });
 
         it('should not display an info alert with dashed border and overlay', async function() {
-          // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
-
           // when
-          await visit(`/assessments/${assessment.id}/challenges/0`);
           const challengeItem = find('.challenge-item');
           await triggerEvent(challengeItem, 'mouseleave');
 
