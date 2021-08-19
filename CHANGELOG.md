@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.88.0 (19/08/2021)
+
+- [#3348](https://github.com/1024pix/pix/pull/3348) [FEATURE] Permettre le filtre par classe sur la liste des élèves SCO (PIX-2026).
+- [#3329](https://github.com/1024pix/pix/pull/3329) [FEATURE] Ajout d'une colonne filtrable "Identifiant externe" dans la liste de "Toutes les sessions" dans Pix Admin (PIX-2647)
+- [#3333](https://github.com/1024pix/pix/pull/3333) [FEATURE] Ajout scroll sur la modale d'édition de candidat sur Pix-Admin (PIX-2980)
+- [#3340](https://github.com/1024pix/pix/pull/3340) [FEATURE] Afficher la classe dans la liste des élèves SCO (PIX-2949).
+- [#3337](https://github.com/1024pix/pix/pull/3337) [FEATURE] Rendre impossible la réconciliation SUP lorsque l'étudiant est désactivé (PIX-2864).
+- [#3332](https://github.com/1024pix/pix/pull/3332) [FEATURE] Ne pas afficher de conseils/tooltips pour les épreuves hors focus (PIX-2899).
+- [#3351](https://github.com/1024pix/pix/pull/3351) [BUGFIX] Garder les caractères spéciaux des noms/prénoms dans l'attestation de résultat (PIX-2992)
+- [#3341](https://github.com/1024pix/pix/pull/3341) [BUGFIX] Corriger la version anglaise du message d'erreur d'expiration d'authentication (PIX-2990).
+- [#3339](https://github.com/1024pix/pix/pull/3339) [BUGFIX] Eviter qu'un même assessment possède deux réponses pour une même épreuve (PIX-2761).
+- [#3350](https://github.com/1024pix/pix/pull/3350) [BUGFIX] Mettre à jour le scénario des tests de charge pour une exécution locale (PIX-3043).
+- [#3353](https://github.com/1024pix/pix/pull/3353) [TECH] Merger les services de scoring de certification (PIX-3047).
+- [#3153](https://github.com/1024pix/pix/pull/3153) [TECH] Ajouter des helpers custom Chai pour tester à la fois les types et les contenus des objets en un appel (PIX-2768)
+- [#3336](https://github.com/1024pix/pix/pull/3336) [TECH] Mettre en cohérence l'URL du support 
+- [#3331](https://github.com/1024pix/pix/pull/3331) [SCRIPT] Ajouter la colonne "createdBy" dans le script de création des organisations PRO (PIX-3009).
+
 ## v3.87.0 (17/08/2021)
 
 - [#3334](https://github.com/1024pix/pix/pull/3334) [FEATURE] Supprimer le modèle d'import et l'explication des imports pour les orga AGRI SCO (PIX-2952).

@@ -1,6 +1,6 @@
 {
   "name": "pix-load-testing",
-  "version": "1.193.0",
+  "version": "1.194.0",
   "description": "Permet d'exécuter des tests de charge sur l'API de la plateforme Pix.",
   "main": "index.js",
   "author": "GIP Pix",
