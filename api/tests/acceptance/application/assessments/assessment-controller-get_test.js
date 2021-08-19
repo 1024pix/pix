@@ -14,6 +14,8 @@ describe('Acceptance | API | assessment-controller-get', function() {
   let userId;
   const courseId = 'courseId';
 
+  // TODO: Fix this the next time the file is edited.
+  // eslint-disable-next-line mocha/no-sibling-hooks
   beforeEach(async function() {
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
