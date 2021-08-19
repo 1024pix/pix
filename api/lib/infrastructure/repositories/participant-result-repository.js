@@ -9,13 +9,14 @@ const { NotFoundError } = require('../../domain/errors');
 
 const ParticipantResultRepository = {
   async getByUserIdAndCampaignId({ userId, campaignId, locale }) {
-    const [participationResults, targetProfile, isCampaignMultipleSendings] = await Promise.all([
+    const [participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive] = await Promise.all([
       _getParticipationResults(userId, campaignId),
       _getTargetProfile(campaignId, locale),
       _isCampaignMultipleSendings(campaignId),
+      _isRegistrationActive(userId, campaignId),
     ]);
 
-    return new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings);
+    return new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
   },
 };
 
@@ -139,6 +140,17 @@ async function _isCampaignMultipleSendings(campaignId) {
     .where({ 'campaigns.id': campaignId })
     .first();
   return campaign.multipleSendings;
+}
+
+async function _isRegistrationActive(userId, campaignId) {
+  const registration = await knex('schooling-registrations')
+    .select('schooling-registrations.isDisabled')
+    .join('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+    .join('campaigns', 'campaigns.organizationId', 'organizations.id')
+    .where({ 'campaigns.id': campaignId })
+    .andWhere({ 'schooling-registrations.userId': userId })
+    .first();
+  return !registration?.isDisabled;
 }
 
 module.exports = ParticipantResultRepository;

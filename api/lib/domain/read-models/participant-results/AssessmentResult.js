@@ -6,7 +6,7 @@ const moment = require('moment');
 
 class AssessmentResult {
 
-  constructor(participationResults, targetProfile, isCampaignMultipleSendings) {
+  constructor(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
     const { competences } = targetProfile;
 
@@ -28,7 +28,7 @@ class AssessmentResult {
       this.reachedStage = new ReachedStage(this.masteryPercentage, targetProfile.stages);
     }
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt);
-    this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt);
+    this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive);
   }
 
   _computeMasteryPercentage() {
@@ -47,13 +47,15 @@ class AssessmentResult {
     }).length > 0;
   }
 
-  _computeCanRetry(isCampaignMultipleSendings, sharedAt) {
+  _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive) {
     return isCampaignMultipleSendings
-      && this._isSharedLongTimeAgo(sharedAt)
-      && this.masteryPercentage < constants.MAX_MASTERY_POURCENTAGE;
+      && this._timeBeforeRetryingPassed(sharedAt)
+      && this.masteryPercentage < constants.MAX_MASTERY_POURCENTAGE
+      && isRegistrationActive;
   }
 
-  _isSharedLongTimeAgo(sharedAt) {
+  _timeBeforeRetryingPassed(sharedAt) {
+    if (!this.isShared) return false;
     return sharedAt && moment().diff(sharedAt, 'days') >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
   }
 }
