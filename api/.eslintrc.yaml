@@ -12,6 +12,7 @@ plugins:
   - knex
 
 rules:
+  mocha/no-hooks-for-single-case: off
   no-sync: error
   no-restricted-syntax:
      -  error
