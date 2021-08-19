@@ -9,6 +9,10 @@
 
   &__buttons {
     display: flex;
+
+    button {
+      margin-right: 12px;
+    }
   }
 }
 
