@@ -1148,6 +1148,7 @@ describe('Unit | Service | SolutionServiceQROCM-ind ', function() {
 
   context('One of the qroc is a select qroc', function() {
 
+    // eslint-disable-next-line mocha/no-setup-in-describe
     [{
       case: 'T3 does not work on select qroc but always on text qroc',
       output: { result: ANSWER_KO, resultDetails: { '9lettres': false, '6lettres': true } },
