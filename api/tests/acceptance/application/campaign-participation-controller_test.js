@@ -51,6 +51,8 @@ describe('Acceptance | API | Campaign Participations', function() {
 
     });
 
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-sibling-hooks
     beforeEach(function() {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
