@@ -28,6 +28,12 @@ async function handleAutoJury({
 
     const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 
+    if (certificationAssessment.hasUnsufficientAnsweringRateToBeScored()) {
+      certificationCourse.cancel();
+      await certificationCourseRepository.update(certificationCourse);
+      return;
+    }
+
     return _autoNeutralizeChallenges({
       certificationCourse,
       certificationAssessment,
@@ -36,8 +42,7 @@ async function handleAutoJury({
       resolutionStrategies,
       logger,
     });
-  },
-  ));
+  }));
 
   const filteredCertificationJuryDoneEvents = certificationJuryDoneEvents.filter((certificationJuryDoneEvent) => Boolean(certificationJuryDoneEvent));
 
