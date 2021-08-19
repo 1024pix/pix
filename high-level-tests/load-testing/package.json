@@ -10,6 +10,7 @@
   },
   "scripts": {
     "arti:cmd": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-competence-evaluation.yml",
+    "arti:cmd:dev": "artillery run --config config/common.yml -e development -o report/index.json scenarios/signup-and-competence-evaluation.yml",
     "arti:run": "npm run db:initialize && npm run arti:cmd",
     "arti:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix npm run arti:run",
     "db:empty": "cd ../../api && npm run db:empty",
