@@ -99,6 +99,24 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
       assert.equal(call.args[2].target.value, 'bob');
     });
 
+    test('it should trigger filtering with division', async function(assert) {
+      // given
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+
+      await render(hbs`<Student::Sco::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+
+      // when
+      await fillInByLabel('Entrer une classe', '3A');
+
+      // then
+      const call = triggerFiltering.getCall(0);
+      assert.equal(call.args[0], 'division');
+      assert.true(call.args[1]);
+      assert.equal(call.args[2].target.value, '3A');
+    });
+
     test('it should trigger filtering with connexionType', async function(assert) {
       // given
       const triggerFiltering = sinon.spy();

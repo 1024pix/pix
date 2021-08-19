@@ -17,6 +17,7 @@ export default class ListController extends Controller {
 
   @tracked lastName = null;
   @tracked firstName = null;
+  @tracked division = null;
   @tracked connexionType = null;
   @tracked pageNumber = null;
   @tracked pageSize = null;
