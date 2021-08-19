@@ -36,12 +36,14 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function() 
   });
 
   context('when the assessmentid passed is not an integer', function() {
-    it('should return empty array', async function() {
+    it('should throw an error', async function() {
       // when
-      const result = await catchErr(findAnswerByAssessment)({ assessmentId: 'salut', userId, answerRepository, assessmentRepository });
+      const error = await catchErr(findAnswerByAssessment)({ assessmentId: 'salut', userId, answerRepository, assessmentRepository });
 
       // then
-      expect(result).to.be.instanceOf(EntityValidationError);
+      expect(error).to.be.instanceOf(EntityValidationError);
+      expect(error.invalidAttributes[0].attribute).to.equal('assessmentId');
+      expect(error.invalidAttributes[0].message).to.equal('This assessment ID is not valid.');
     });
   });
 
