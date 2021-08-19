@@ -11,5 +11,6 @@
   "trashAssetsBeforeRuns": true,
   "projectId": "g2rfqp",
   "numTestsKeptInMemory": 0,
-  "viewportWidth": 1500
+  "viewportWidth": 1500,
+  "nodeVersion": "system"
 }
