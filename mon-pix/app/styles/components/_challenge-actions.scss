@@ -91,55 +91,17 @@
   }
 
   &__action-validate {
-    order: 1;
-    background-color: $green;
-    color: $white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    @include button-background-transition();
-
-    text-decoration: none;
-
-    &:hover,
-    &:active,
-    &:visited,
-    &:focus {
-      background: $green-hover;
-      text-decoration: none;
-    }
 
     &-text {
-      width: 76px;
-      flex-grow: 1;
-      font-size: 0.8rem;
       font-weight: $font-semi-bold;
       text-transform: uppercase;
       letter-spacing: 0.094rem;
-      color: white;
       text-decoration: none;
+      font-size: 0.8rem;
 
       @include device-is('tablet') {
         font-size: 1rem;
       }
-    }
-
-    &__loader {
-      order: 1;
-      width: 150px;
-      height: 46px;
-      border-radius: 23px;
-      background: lighten($green, 3%);
-    }
-
-    &__loader-bar {
-      background: url('/images/loader-white.svg');
-      background-size: 64px 55px;
-      margin: auto;
-      height: 50px;
-      width: 64px;
-      margin-top: -5px;
     }
   }
 
