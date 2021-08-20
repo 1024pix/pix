@@ -2,6 +2,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-models/AssessmentResult');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const omit = require('lodash/omit');
 
 describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
 
@@ -113,4 +114,60 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
       expect(isValidated).to.be.false;
     });
   });
+
+  describe('#buildAlgoErrorResult', function() {
+
+    it('should build an in error assessment result', function() {
+      // given
+      const error = new Error('error');
+      const assessmentId = 'assessmentId';
+      const juryId = 'juryId';
+      const emitter = 'emitter';
+      const commentForJury = 'commentForJury';
+
+      // when
+      const assessmentResult = AssessmentResult.buildAlgoErrorResult({ error, assessmentId, juryId, emitter, commentForJury });
+
+      // then
+      const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
+        emitter,
+        commentForJury: 'error - commentForJury',
+        pixScore: 0,
+        status: 'error',
+        assessmentId,
+        juryId,
+      });
+      const omittedAttributes = ['id', 'createdAt', 'commentForOrganization', 'commentForCandidate'];
+      expect(omit(assessmentResult, omittedAttributes)).to.deep.equal(omit(expectedAssessmentResult, omittedAttributes));
+    });
+  });
+
+  describe('#buildStandardAssessmentResult', function() {
+
+    it('should build a standard assessment result', function() {
+      // given
+      const emitter = 'emitter';
+      const commentForJury = 'commentForJury';
+      const pixScore = 10;
+      const status = 'status';
+      const assessmentId = 'assessmentId';
+      const juryId = 'juryId';
+
+      // when
+      const assessmentResult = AssessmentResult.buildStandardAssessmentResult({ pixScore, status, assessmentId, juryId, emitter, commentForJury });
+
+      // then
+      const expectedAssessmentResult = domainBuilder.buildAssessmentResult({
+        emitter,
+        commentForJury,
+        pixScore,
+        status,
+        assessmentId,
+        juryId,
+      });
+      const omittedAttributes = ['id', 'createdAt', 'commentForOrganization', 'commentForCandidate'];
+      expect(omit(assessmentResult, omittedAttributes)).to.deep.equal(omit(expectedAssessmentResult, omittedAttributes));
+    });
+  });
+
 });

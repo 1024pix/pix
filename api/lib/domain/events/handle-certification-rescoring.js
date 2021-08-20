@@ -27,6 +27,7 @@ async function handleCertificationRescoring({
     competenceMarkRepository,
     scoringCertificationService,
     juryId: event.juryId,
+    commentForJury: event.commentForJury,
   });
 }
 
@@ -36,6 +37,7 @@ async function _calculateCertificationScore({
   competenceMarkRepository,
   scoringCertificationService,
   juryId,
+  commentForJury,
 }) {
   try {
     const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
@@ -48,6 +50,7 @@ async function _calculateCertificationScore({
       assessmentResultRepository,
       competenceMarkRepository,
       juryId,
+      commentForJury,
     });
     return new CertificationRescoringCompleted({
       userId: certificationAssessment.userId,
@@ -63,6 +66,7 @@ async function _calculateCertificationScore({
       assessmentResultRepository,
       certificationComputeError: error,
       juryId,
+      commentForJury,
     });
   }
 }
@@ -73,12 +77,14 @@ async function _saveResult({
   assessmentResultRepository,
   competenceMarkRepository,
   juryId,
+  commentForJury,
 }) {
   const assessmentResult = await _createAssessmentResult({
     certificationAssessment,
     certificationAssessmentScore,
     assessmentResultRepository,
     juryId,
+    commentForJury,
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
@@ -87,13 +93,14 @@ async function _saveResult({
   });
 }
 
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, juryId }) {
+function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, juryId, commentForJury }) {
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     status: certificationAssessmentScore.status,
     assessmentId: certificationAssessment.id,
     emitter: EMITTER,
     juryId,
+    commentForJury,
   });
   return assessmentResultRepository.save(assessmentResult);
 }
@@ -103,12 +110,14 @@ async function _saveResultAfterCertificationComputeError({
   assessmentResultRepository,
   certificationComputeError,
   juryId,
+  commentForJury,
 }) {
   const assessmentResult = AssessmentResult.buildAlgoErrorResult({
     error: certificationComputeError,
     assessmentId: certificationAssessment.id,
     juryId,
     emitter: EMITTER,
+    commentForJury,
   });
   await assessmentResultRepository.save(assessmentResult);
 }

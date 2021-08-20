@@ -35,10 +35,10 @@ class AssessmentResult {
     this.juryId = juryId;
   }
 
-  static buildAlgoErrorResult({ error, assessmentId, juryId, emitter }) {
+  static buildAlgoErrorResult({ error, assessmentId, juryId, emitter, commentForJury }) {
     return new AssessmentResult({
       emitter,
-      commentForJury: error.message,
+      commentForJury: commentForJury ? `${error.message} - ${commentForJury}` : error.message,
       pixScore: 0,
       status: 'error',
       assessmentId,
@@ -46,10 +46,10 @@ class AssessmentResult {
     });
   }
 
-  static buildStandardAssessmentResult({ pixScore, status, assessmentId, juryId, emitter }) {
+  static buildStandardAssessmentResult({ pixScore, status, assessmentId, juryId, emitter, commentForJury }) {
     return new AssessmentResult({
       emitter,
-      commentForJury: 'Computed',
+      commentForJury: commentForJury ? commentForJury : 'Computed',
       pixScore: pixScore,
       status,
       assessmentId,

@@ -14,7 +14,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7 });
+    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7, commentForJury: 'commentForJury' });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -47,7 +47,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
 
     const assessmentResultToBeSaved = new AssessmentResult({
       id: undefined,
-      commentForJury: 'Computed',
+      commentForJury: 'commentForJury',
       emitter: 'PIX-ALGO-NEUTRALIZATION',
       pixScore: nbPix,
       status: status,
@@ -133,7 +133,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     const competenceMarkRepository = { save: sinon.stub() };
     const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
 
-    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7 });
+    const event = new CertificationAutoCancelCheckDone({ certificationCourseId: 1, juryId: 7, commentForJury: 'commentForJury' });
     const certificationAssessment = new CertificationAssessment({
       id: 123,
       userId: 123,
@@ -157,7 +157,7 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     const assessmentResultToBeSaved = new AssessmentResult({
       id: undefined,
       emitter: 'PIX-ALGO-NEUTRALIZATION',
-      commentForJury: 'Oopsie',
+      commentForJury: 'Oopsie - commentForJury',
       pixScore: 0,
       status: 'error',
       assessmentId: 123,
