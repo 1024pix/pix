@@ -10,8 +10,7 @@ class CampaignAssessmentParticipationCompetenceResult {
     this.name = targetedCompetence.name;
     this.index = targetedCompetence.index;
     this.areaColor = targetedArea.color;
-    this.targetedSkillsCount = targetedSkillsCount;
-    this.validatedSkillsCount = validatedTargetedKnowledgeElementsCount;
+    this.competenceMasteryRate = Number((validatedTargetedKnowledgeElementsCount / targetedSkillsCount).toFixed(2));
   }
 }
 
