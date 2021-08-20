@@ -1,4 +1,5 @@
-<div class="campaign-list-actions__header hide-on-mobile">
+<header class="campaign-list-actions__header hide-on-mobile">
+  <h1 class="sr-only">{{@title}}</h1>
   <button
     role="tab"
     type="submit"
@@ -19,10 +20,7 @@
   >
     {{t 'pages.campaigns-list.action.archived.label'}}
   </button>
-
-  <div class="campaign-list-actions__create-campaign-button">
-    <PixButtonLink @route="authenticated.campaigns.new">
-      {{t 'pages.campaigns-list.action.create'}}
-    </PixButtonLink>
-  </div>
-</div>
+  <PixButtonLink @route="authenticated.campaigns.new" class="campaign-list-actions__create-campaign-button">
+    {{t 'pages.campaigns-list.action.create'}}
+  </PixButtonLink>
+</header>
