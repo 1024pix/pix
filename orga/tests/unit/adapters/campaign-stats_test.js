@@ -50,4 +50,16 @@ module('Unit | Adapter | campaign-stats', function(hooks) {
       assert.equal(stats, expectedStats);
     });
   });
+
+  module('getParticipationsByMasteryRate', function() {
+    test('it request participations by mastery percentage', async function(assert) {
+      const campaignId = 12;
+      const url = `${ENV.APP.API_HOST}/api/campaigns/${campaignId}/stats/participations-by-mastery-rate`;
+      const expectedStats = Symbol('result-distribution');
+      ajaxStub.withArgs(url, 'GET').resolves(expectedStats);
+      const stats = await adapter.getParticipationsByMasteryRate(campaignId);
+
+      assert.equal(stats, expectedStats);
+    });
+  });
 });

@@ -15,4 +15,9 @@ export default class CampaignStatsAdapter extends ApplicationAdapter {
     const url = `${this.host}/${this.namespace}/campaigns/${campaignId}/stats/participations-by-day`;
     return this.ajax(url, 'GET');
   }
+
+  getParticipationsByMasteryRate(campaignId) {
+    const url = `${this.host}/${this.namespace}/campaigns/${campaignId}/stats/participations-by-mastery-rate`;
+    return this.ajax(url, 'GET');
+  }
 }
