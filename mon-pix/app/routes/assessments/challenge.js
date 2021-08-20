@@ -12,11 +12,11 @@ export default class ChallengeRoute extends Route {
     await assessment.answers;
 
     let challenge;
-
-    const isBackToPreviousChallenge = parseInt(params.challenge_number) < assessment.answers.length;
+    const currentChallengeNumber = parseInt(params.challenge_number);
+    const isBackToPreviousChallenge = currentChallengeNumber < assessment.answers.length;
     if (isBackToPreviousChallenge) {
       const answers = assessment.answers.toArray();
-      const challengeId = answers[params.challenge_number].challenge.get('id');
+      const challengeId = answers[currentChallengeNumber].challenge.get('id');
       challenge = await this.store.findRecord('challenge', challengeId);
     } else {
       if (assessment.isPreview) {
@@ -30,6 +30,7 @@ export default class ChallengeRoute extends Route {
       assessment,
       challenge,
       answer: this.store.queryRecord('answer', { assessmentId: assessment.id, challengeId: challenge.id }),
+      currentChallengeNumber,
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
       if (meta.field === 'authorization') {

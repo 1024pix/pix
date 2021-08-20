@@ -15,7 +15,7 @@ export default class ProgressBar extends Component {
   }
 
   get currentStepIndex() {
-    return progressInAssessment.getCurrentStepIndex(this.args.assessment, this.args.answerId);
+    return progressInAssessment.getCurrentStepIndex(this.args.assessment, this.args.currentChallengeNumber);
   }
 
   get maxStepsNumber() {
@@ -23,7 +23,7 @@ export default class ProgressBar extends Component {
   }
 
   get currentStepNumber() {
-    return progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.answerId);
+    return progressInAssessment.getCurrentStepNumber(this.args.assessment, this.args.currentChallengeNumber);
   }
 
   get steps() {
