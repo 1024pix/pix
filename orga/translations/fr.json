@@ -74,6 +74,16 @@
     }
   },
   "charts": {
+    "participants-by-mastery-percentage": {
+      "loader": "Chargement de la répartition des participants par résultat",
+      "title": "Répartition des participants par résultat",
+      "label-a11y": "De {from, number, ::percent} à {to, number, ::percent}: {count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
+      "tooltip": {
+        "title": "Résultats {legend}",
+        "legend": "{from, number, ::percent} - {to, number, ::percent}",
+        "label": "Nombre de participants : {count}"
+      }
+    },
     "participants-by-stage": {
       "loader": "Chargement de la répartition des participants par paliers",
       "participants": "{count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",

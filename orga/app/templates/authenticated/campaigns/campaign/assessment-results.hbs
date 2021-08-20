@@ -7,13 +7,11 @@
     @averageResult={{@model.campaign.averageResult}}
   />
 
-  {{#if @model.campaign.hasStages}}
-    <Campaign::Charts::ParticipantsByStage
-      @campaignId={{@model.campaign.id}}
-      @onSelectStage={{this.filterByStage}}
-      class="assessment-results__participants-by-stage hide-on-mobile"
-    />
-  {{/if}}
+
+  <Campaign::Charts::ResultDistribution
+    @campaign={{@model.campaign}}
+    @onSelectStage={{this.filterByStage}}
+  />
 
   <Campaign::Results::AssessmentList
     @campaign={{@model.campaign}}
