@@ -381,7 +381,8 @@
             }
           },
           "row-title": "Compétence"
-        }
+        },
+        "empty": "En attente de résultats"
       }
     },
     "campaigns-list": {
