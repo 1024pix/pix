@@ -128,9 +128,7 @@
   {{/if}}
 
   {{#if @model.campaignParticipationResult.canImprove}}
-    <SkillReviewImprove
-            @isShared={{@model.campaignParticipationResult.isShared}}
-            @improve={{this.improve}}/>
+    <SkillReviewImprove @improve={{this.improve}}/>
   {{/if}}
 
 

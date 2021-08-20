@@ -335,12 +335,12 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       });
     });
 
-    context('when user cannot retry', function() {
+    context('when user cannot improve', function() {
       beforeEach(async function() {
         const campaign = {};
         const campaignParticipationResult = {
           campaignParticipationBadges: [],
-          canRetry: false,
+          canImprove: false,
         };
         this.set('model', { campaign, campaignParticipationResult });
 

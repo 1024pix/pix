@@ -19,6 +19,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
   let knowledgeElementRepository;
   let competenceRepository;
   let campaignRepository;
+  let schoolingRegistrationRepository;
 
   context('When user has shared its profile for the campaign', function() {
 
@@ -27,6 +28,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
       campaignRepository = { get: sinon.stub() };
+      schoolingRegistrationRepository = { isActive: sinon.stub() };
       sinon.stub(Scorecard, 'buildFrom');
     });
 
@@ -43,6 +45,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
       knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: sharedAt }).resolves(knowledgeElements);
       competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
+      schoolingRegistrationRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
       Scorecard
         .buildFrom
         .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0] })
@@ -60,6 +63,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
         knowledgeElementRepository,
         competenceRepository,
         campaignRepository,
+        schoolingRegistrationRepository,
         locale,
       });
 
