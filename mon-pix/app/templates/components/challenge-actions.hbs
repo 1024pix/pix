@@ -9,11 +9,15 @@
         {{t "pages.challenge.already-answered"}}
       {{/if}}
     </span>
-    <button class="button challenge-actions__action challenge-actions__action-continue"
-            {{on 'click' (fn @resumeAssessment @assessment)}}
-            type="button">
+    <PixButton
+      @isBorderVisible={{true}}
+      @triggerAction={{fn @resumeAssessment @assessment}}
+      @backgroundColor="blue"
+      @shape="rounded"
+      class="challenge-actions__action-continue"
+    >
       <span class="challenge-actions__action-continue-text">{{t "pages.challenge.actions.continue"}}</span>
-    </button>
+    </PixButton>
 
   {{else if @hasChallengeTimedOut}}
     <span class="challenge-actions__timed-out">{{t "pages.challenge.timed.cannot-answer"}}</span>
