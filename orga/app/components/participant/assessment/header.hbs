@@ -32,7 +32,7 @@
         <li class="panel-header-data__content">
           <div class="label-text panel-header-data-content__label">{{t 'pages.assessment-individual-results.progression'}}</div>
           <div class="value-text panel-header-data-content__value">
-            {{@participation.progression}}%
+            {{t 'common.percentage' value=@participation.progression}}
           </div>
         </li>
       {{/unless}}
@@ -53,23 +53,22 @@
             <Campaign::Badges @badges={{@participation.badges}}/>
           </li>
         {{/if}}
-        <li aria-label={{t 'pages.assessment-individual-results.result.label'}} class="panel-header-data__content panel-header-data-content__progress-bar">
-          <Ui::ProgressBar @value={{@participation.masteryPercentage}}>
-            {{t 'pages.assessment-individual-results.result.value' count=@participation.validatedSkillsCount total=@participation.targetedSkillsCount}}
-          </Ui::ProgressBar>
-        </li>
         {{#if @campaign.hasStages}}
           <li aria-label={{t 'pages.assessment-individual-results.stages.label'}} class="panel-header-data__content panel-header-data-content__stages">
             <Campaign::StageStars
-              @result={{@participation.masteryPercentage}}
+              @result={{multiply @participation.masteryPercentage 100}}
               @stages={{@campaign.stages}}
               @withTooltip={{true}}
               @tooltipPosition="bottom-left"
             />
           </li>
         {{else}}
+          <li aria-label={{t 'pages.assessment-individual-results.result'}} class="panel-header-data__content panel-header-data-content__progress-bar">
+            <Ui::ProgressBar @value={{@participation.masteryPercentage}}/>
+          </li>
+
           <li class="panel-header-data__content value-text value-text--highlight panel-header-data-content__mastery-percentage">
-            {{@participation.masteryPercentage}}%
+            {{t 'common.percentage' value=@participation.masteryPercentage}}
           </li>
         {{/if}}
       </ul>
