@@ -111,15 +111,13 @@ describe('Integration | Repository | Campaign Assessment Participation Result', 
           id: `${campaignParticipationId}-rec1`,
           index: '1.1',
           name: 'Compétence 1',
-          targetedSkillsCount: 1,
-          validatedSkillsCount: 1,
+          competenceMasteryRate: 1,
         }, {
           areaColor: 'orange',
           id: `${campaignParticipationId}-rec2`,
           index: '1.2',
           name: 'Compétence 2',
-          targetedSkillsCount: 1,
-          validatedSkillsCount: 0,
+          competenceMasteryRate: 0,
         }];
 
         const campaignAssessmentParticipationResult = await campaignAssessmentParticipationResultRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });

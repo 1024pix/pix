@@ -18,8 +18,7 @@ module.exports = {
           'name',
           'index',
           'areaColor',
-          'targetedSkillsCount',
-          'validatedSkillsCount',
+          'competenceMasteryRate',
         ],
       },
     }).serialize(campaignAssessmentParticipationResult);

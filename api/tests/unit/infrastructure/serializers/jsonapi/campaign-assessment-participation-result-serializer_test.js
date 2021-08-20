@@ -36,8 +36,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
           attributes: {
             name: targetedCompetence.name,
             'index': targetedCompetence.index,
-            'targeted-skills-count': 1,
-            'validated-skills-count': 1,
+            'competence-mastery-rate': 1,
             'area-color': targetedArea.color,
           },
         }],
