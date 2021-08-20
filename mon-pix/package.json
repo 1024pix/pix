@@ -114,7 +114,7 @@
     "lodash": "^4.17.21",
     "p-queue": "^6.6.2",
     "pix-ui": "git://github.com/1024pix/pix-ui.git#v5.2.2",
-    "sass": "^1.35.2",
+    "sass": "^1.38.0",
     "showdown": "^1.9.1",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0",
