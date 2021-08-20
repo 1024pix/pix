@@ -29,10 +29,10 @@
 
   &__group {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 
     @include device-is('tablet') {
-      flex-direction: row;
+      flex-direction: row-reverse;
     }
   }
 
