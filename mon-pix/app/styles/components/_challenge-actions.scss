@@ -56,36 +56,18 @@
   }
 
   &__action-continue {
-    order: 1;
-    background-color: $blue;
-    font-family: $font-roboto;
-    color: $white;
-
-    @include button-background-transition();
-
-    text-decoration: none;
-
-    &:hover {
-      background: $blue-hover;
-      text-decoration: none;
-    }
-
-    &:active,
-    &:visited,
-    &:focus {
-      text-decoration: none;
-    }
+    margin: 0 5px;
 
     &-text {
-      width: 76px;
-      padding: 0;
-      font-family: $font-roboto;
-      font-size: 1rem;
       font-weight: $font-semi-bold;
       text-transform: uppercase;
-      letter-spacing: 0.094rem;
-      color: white;
+      letter-spacing: 0.03rem;
       text-decoration: none;
+      font-size: 0.8rem;
+
+      @include device-is('tablet') {
+        font-size: 1rem;
+      }
     }
   }
 
