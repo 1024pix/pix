@@ -21,7 +21,7 @@
           </td>
           <td class="competences-col__gauge">
             <PixProgressGauge
-              @value={{competenceResult.validatedSkillsCountPercentage}}
+              @value={{multiply competenceResult.validatedSkillsCountPercentage 100}}
               @tooltipText={{t 'pages.assessment-individual-results.table.column.results.tooltip' result=competenceResult.validatedSkillsCountPercentage competence=competenceResult.name htmlSafe=true}}
             />
           </td>

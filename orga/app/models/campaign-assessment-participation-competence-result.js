@@ -13,6 +13,6 @@ export default class CampaignAssessmentParticipationCompetenceResult extends Mod
   }
 
   get validatedSkillsCountPercentage() {
-    return Math.round(this.validatedSkillsCount * 100 / this.targetedSkillsCount);
+    return Number((this.validatedSkillsCount / this.targetedSkillsCount).toFixed(2));
   }
 }
