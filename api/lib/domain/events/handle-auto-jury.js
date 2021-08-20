@@ -24,14 +24,25 @@ async function handleAutoJury({
     challengeRepository,
   });
 
-  const certificationJuryDoneEvents = await Promise.all(certificationCourses.map(async(certificationCourse) =>
-    _autoNeutralizeChallenges({
+  const certificationJuryDoneEvents = await Promise.all(certificationCourses.map(async(certificationCourse) => {
+
+    const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
+
+    if (certificationAssessment.hasUnsufficientAnsweringRateToBeScored()) {
+      certificationCourse.cancel();
+      await certificationCourseRepository.update(certificationCourse);
+      return;
+    }
+
+    return _autoNeutralizeChallenges({
       certificationCourse,
+      certificationAssessment,
       certificationIssueReportRepository,
       certificationAssessmentRepository,
       resolutionStrategies,
       logger,
-    })));
+    });
+  }));
 
   const filteredCertificationJuryDoneEvents = certificationJuryDoneEvents.filter((certificationJuryDoneEvent) => Boolean(certificationJuryDoneEvent));
 
@@ -50,6 +61,7 @@ async function handleAutoJury({
 
 async function _autoNeutralizeChallenges({
   certificationCourse,
+  certificationAssessment,
   certificationIssueReportRepository,
   certificationAssessmentRepository,
   resolutionStrategies,
@@ -59,7 +71,6 @@ async function _autoNeutralizeChallenges({
   if (certificationIssueReports.length === 0) {
     return null;
   }
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 
   const resolutionAttempts = await bluebird.mapSeries(certificationIssueReports, async (certificationIssueReport) => {
     try {
