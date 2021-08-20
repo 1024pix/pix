@@ -14,9 +14,8 @@
 
       <PixButton
         @type="submit"
-        class="button button--big fill-in-participant-external-id__button"
-        @triggerAction={{action this.submit}}
-        @loading-color="white">
+        class="fill-in-participant-external-id__button"
+        @triggerAction={{action this.submit}}>
           {{t 'pages.fill-in-participant-external-id.buttons.continue'}}
       </PixButton>
       {{#if this.errorMessage}}

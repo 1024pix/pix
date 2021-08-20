@@ -19,6 +19,7 @@ import { authenticateByEmail, authenticateByGAR } from '../helpers/authenticatio
 import { startCampaignByCode, startCampaignByCodeAndExternalId } from '../helpers/campaign';
 import { currentSession } from 'ember-simple-auth/test-support';
 import ENV from 'mon-pix/config/environment';
+import setupIntl from '../helpers/setup-intl';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
@@ -26,6 +27,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   let campaign;
 
@@ -750,7 +752,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('button[aria-label="Associer"]');
 
             // when
-            await click('.campaign-landing-page__start-button');
+            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
@@ -779,7 +781,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             // when
-            await click('.campaign-landing-page__start-button');
+            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
