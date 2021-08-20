@@ -68,10 +68,18 @@
     justify-content: flex-end;
     margin: 0 100px;
 
+    > button {
+      margin-left: 24px;
+    }
+
     @include device-is('mobile') {
       flex-direction: column;
       align-items: center;
       margin: 15px 10px 0 10px;
+
+      > button {
+        margin-left: 0px;
+      }
     }
   }
 

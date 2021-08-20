@@ -11,11 +11,15 @@
     </p>
   </Modal::Body>
   <Modal::Footer class="remove-member-modal__actions">
-    <button type="button" class="button button--grey button--regular" {{on 'click' @onClose}}>
+    <PixButton @triggerAction={{@onClose}} @backgroundColor="grey">
       {{t 'common.actions.cancel'}}
-    </button>
-    <button type="button" class="button button--red" data-test-modal-remove-button {{on 'click' @onSubmit}}>
+    </PixButton>
+    <PixButton
+      data-test-modal-remove-button
+      @triggerAction={{@onSubmit}}
+      @backgroundColor="red"
+    >
       {{t 'pages.team-members.remove-membership-modal.actions.remove'}}
-    </button>
+    </PixButton>
   </Modal::Footer>
 </Modal::Dialog>

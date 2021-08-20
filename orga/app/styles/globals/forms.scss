@@ -58,7 +58,7 @@
 
 .input {
   height: 38px;
-  border: 2px solid $grey-20;
+  border: 1px solid $grey-40;
   border-radius: 4px;
   font-size: 1rem;
   padding-left: 15px;
@@ -66,11 +66,11 @@
   outline: none;
 
   &:focus {
-    border: 2px solid $blue;
+    border: 1px solid $blue;
   }
 
   &--error {
-    border: 2px solid $error;
+    border: 1px solid $error;
   }
 }
 
@@ -80,14 +80,14 @@
   border-radius: 3px;
   align-items: center;
   background-color: $white;
-  border: 2px solid $grey-20;
+  border: 1px solid $grey-40;
 
   &--error {
-    border: 2px solid $error;
+    border: 1px solid $error;
   }
 
   &:focus-within {
-    border: 2px solid $blue;
+    border: 1px solid $blue;
   }
 
   .input {
@@ -110,24 +110,21 @@
   }
 }
 
-.textarea {
-  border: 2px solid $grey-20;
-  border-radius: 4px;
-  font-size: 1rem;
-  padding: 8px;
-  color: $grey-100;
-  outline: none;
-  resize: none;
-
-  &:focus {
-    border: 2px solid $blue;
-  }
-}
-
 .error-message {
   color: red;
   font-family: $roboto;
   font-size: 0.75rem;
+}
+
+.pix-select > select, .pix-select > input {
+  border-radius: 4px;
+  border: 1px solid $grey-40;
+
+  &:focus {
+    border: 1px solid $blue;
+    box-shadow: none;
+    outline: none;
+  }
 }
 
 input[type=radio]::before,

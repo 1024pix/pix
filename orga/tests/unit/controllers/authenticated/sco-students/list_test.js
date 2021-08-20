@@ -1,68 +1,56 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import ENV from 'pix-orga/config/environment';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
   setupTest(hooks);
-  const currentUser = { organization: { id: 1 }, prescriber: { lang: 'fr' } };
-  const session = { data: { authenticated: { access_token: 12345 } } };
+  const files = Symbol('files');
+  const currentUser = { organization: { id: 1 } };
   let controller;
+  let importStudentStub;
 
   hooks.beforeEach(function() {
     this.owner.lookup('service:intl').setLocale('fr');
     controller = this.owner.lookup('controller:authenticated/sco-students/list');
     controller.send = sinon.stub();
-    controller.session = session;
+    controller.currentUser = currentUser;
+
+    const store = this.owner.lookup('service:store');
+    const adapter = store.adapterFor('students-import');
+    importStudentStub = sinon.stub(adapter, 'importStudentsSiecle');
   });
 
   module('#importStudents', function() {
     module('when file is csv', function() {
-
       test('it sends the chosen csv file to the API', async function(assert) {
-        const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-siecle?format=csv`;
-        const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': currentUser.prescriber.lang };
-        const file = { uploadBinary: sinon.spy() };
-
         currentUser.isAgriculture = true;
-        controller.currentUser = currentUser;
-        await controller.importStudents(file);
 
-        assert.ok(file.uploadBinary.calledWith(importStudentsURL, { headers }));
+        await controller.importStudents(files);
+
+        assert.ok(importStudentStub.calledWith(1, files, 'csv'));
       });
     });
 
     module('when file is xml', function() {
-
       test('it sends the chosen xml file to the API', async function(assert) {
-        const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-siecle?format=xml`;
-        const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': currentUser.prescriber.lang };
-        const file = { uploadBinary: sinon.spy() };
-
         currentUser.isAgriculture = false;
-        controller.currentUser = currentUser;
-        await controller.importStudents(file);
 
-        assert.ok(file.uploadBinary.calledWith(importStudentsURL, { headers }));
+        await controller.importStudents(files);
+
+        assert.ok(importStudentStub.calledWith(1, files, 'xml'));
       });
     });
 
     module('manage import errors', function(hooks) {
-      let file;
-
       hooks.beforeEach(function() {
-        controller.currentUser = currentUser;
-        file = { uploadBinary: sinon.stub() };
         controller.notifications.sendError = sinon.spy();
       });
 
       test('notify a global error message if error not handled', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [{ status: '401' }] },
-        });
+        importStudentStub.rejects({ errors: [{ status: '401' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -70,14 +58,10 @@ module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
       });
 
       test('notify a detailed error message if 412 error', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '412', detail: 'Error message' },
-          ] },
-        });
+        importStudentStub.rejects({ errors: [{ status: '412', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -85,14 +69,10 @@ module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
       });
 
       test('notify a detailed error message if 413 error', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '413', detail: 'Error message' },
-          ] },
-        });
+        importStudentStub.rejects({ errors: [{ status: '413', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -100,14 +80,10 @@ module('Unit | Controller | authenticated/sco-students/list', function(hooks) {
       });
 
       test('notify a detailed error message if 422 error', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '422', detail: 'Error message' },
-          ] },
-        });
+        importStudentStub.rejects({ errors: [{ status: '422', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;

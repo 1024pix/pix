@@ -1,4 +1,4 @@
-<form>
+<form {{on 'submit' @onSubmit}}>
   <div class="form__field">
     <label for="campaign-name" class="label">{{ t 'pages.campaign-modification.campaign-name' }}</label>
     <Input
@@ -27,14 +27,22 @@
 
   <div class="form__field">
     <label for="campaign-custom-landing-page-text" class="label">{{ t 'pages.campaign-modification.landing-page-text' }}</label>
-    <Textarea @id="campaign-custom-landing-page-text" @name="campaign-custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{@campaign.customLandingPageText}} class="textarea" />
+    <PixTextarea
+      @id="campaign-custom-landing-page-text"
+      @maxlength={{350}}
+      @value={{@campaign.customLandingPageText}}
+      rows={{8}}
+    />
   </div>
 
   <div class="form__validation">
-    <PixButton @triggerAction={{fn @onCancel @campaign.id}} class="button button--no-color">
+    <PixButton 
+      @triggerAction={{fn @onCancel @campaign.id}}
+      @backgroundColor="transparent-light"
+    >
       {{ t 'common.actions.cancel' }}
     </PixButton>
-    <PixButton @type="submit" @triggerAction={{@onSubmit}} class="button">
+    <PixButton @type="submit">
       {{t 'pages.campaign-modification.actions.edit'}}
     </PixButton>
   </div>

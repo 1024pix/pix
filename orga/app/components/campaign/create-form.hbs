@@ -43,8 +43,8 @@
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
       <label for="campaign-target-profile" class="label">{{t 'pages.campaign-creation.target-profiles-list.label'}}</label>
-      <Ui::SelectInput
-        @id="campaign-target-profile"
+      <PixSelect
+        id="campaign-target-profile"
         @onChange={{this.setSelectedTargetProfile}}
         @options={{this.targetProfilesOptions}}
         @emptyOptionLabel=""
@@ -113,12 +113,24 @@
 
   <div class="form__field">
     <label for="custom-landing-page-text" class="label">{{t 'pages.campaign-creation.landing-page-text.label'}}</label>
-    <Textarea @id="custom-landing-page-text" @name="custom-landing-page-text" @maxlength="350" @rows={{8}} @value={{@campaign.customLandingPageText}} class="textarea" />
+    <PixTextarea
+      @id="custom-landing-page-text"
+      @maxlength={{350}}
+      @value={{@campaign.customLandingPageText}}
+      rows={{8}}
+    />
   </div>
 
   <div class="form__validation">
-    <button class="button button--no-color" type="button" {{on 'click' @onCancel}}>{{t 'common.actions.cancel'}}</button>
-    <button class="button" type="submit">{{t 'pages.campaign-creation.actions.create'}}</button>
+    <PixButton
+      @triggerAction={{@onCancel}}
+      @backgroundColor="transparent-light"
+    >
+      {{t 'common.actions.cancel'}}
+    </PixButton>
+    <PixButton @type="submit">
+      {{t 'pages.campaign-creation.actions.create'}}
+    </PixButton>
   </div>
 
  {{#if this.wantIdPix}}

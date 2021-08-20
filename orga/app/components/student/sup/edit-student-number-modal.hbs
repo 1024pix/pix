@@ -19,8 +19,12 @@
       </div>
     </Modal::Body>
     <Modal::Footer class="edit-student-number-modal__actions">
-      <button type="button" class="button button--light-grey" {{on 'click' this.close}}>{{t "common.actions.cancel"}}</button>
-      <button type="submit" disabled={{this.isDisabled}} class="button">{{t "pages.students-sup.edit-student-number-modal.actions.update"}}</button>
+      <PixButton @triggerAction={{this.close}} @backgroundColor="transparent-light">
+        {{t "common.actions.cancel"}}
+      </PixButton>
+      <PixButton @type="submit" @isDisabled={{this.isDisabled}}>
+        {{t "pages.students-sup.edit-student-number-modal.actions.update"}}
+      </PixButton>
     </Modal::Footer>
   </form>
 </Modal::Dialog>

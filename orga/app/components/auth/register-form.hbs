@@ -96,11 +96,9 @@
     </div>
 
     <div class="input-container">
-      {{#if this.isLoading}}
-        <button type="button" class="button"><span class="loader-in-button">&nbsp;</span></button>
-      {{else}}
-        <button type="submit" class="button">{{t 'pages.login-or-register.register-form.fields.button.label'}}</button>
-      {{/if}}
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
+        {{t 'pages.login-or-register.register-form.fields.button.label'}}
+      </PixButton>
     </div>
 
   </form>

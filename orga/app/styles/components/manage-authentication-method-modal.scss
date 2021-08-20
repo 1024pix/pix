@@ -91,15 +91,15 @@
     background-color: $white;
     border-radius: 8px;
     margin-top: 16px;
-    padding: 16px 24px 1px 24px;
+    padding: 16px 24px 16px 24px;
 
     hr {
       color: $grey-22;
       margin-bottom: 16px;
     }
 
-    .button {
-      margin-bottom: 16px;
+    > .input-container {
+      margin-bottom: 0px;
     }
   }
 
