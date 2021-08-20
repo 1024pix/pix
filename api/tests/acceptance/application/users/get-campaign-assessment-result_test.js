@@ -190,7 +190,7 @@ describe('Acceptance | API | Campaign Assessment Result', function() {
             'is-shared': true,
             'stage-count': 2,
             'can-retry': false,
-            'can-improve': true,
+            'can-improve': false,
             'participant-external-id': 'participantExternalId',
           },
           relationships: {

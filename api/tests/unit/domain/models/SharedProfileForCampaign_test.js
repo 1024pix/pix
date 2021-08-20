@@ -18,44 +18,63 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function() {
   });
 
   describe('#canRetry', function() {
-    context('when the campaign allows retry', function() {
-      context('when the profile has been shared MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
-        beforeEach(function() {
-          const now = new Date('2020-01-06');
-          clock = sinon.useFakeTimers(now);
-        });
-
-        it('return true', function() {
-          const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, scorecards: [], sharedAt: new Date('2020-01-01') });
-
-          expect(sharedProfileForCampaign.canRetry).to.equal(true);
-        });
+    context('when participant is disabled', function() {
+      beforeEach(function() {
+        const now = new Date('2020-01-06');
+        clock = sinon.useFakeTimers(now);
       });
 
-      context('when the profile has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
-        beforeEach(function() {
-          const now = new Date('2020-01-06');
-          clock = sinon.useFakeTimers(now);
-        });
+      it('return true', function() {
+        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, isRegistrationActive: false, scorecards: [], sharedAt: new Date('2020-01-01') });
 
-        it('return false', function() {
-          const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, scorecards: [], sharedAt: new Date('2020-01-04') });
+        expect(sharedProfileForCampaign.canRetry).to.equal(false);
+      });
+    });
 
-          expect(sharedProfileForCampaign.canRetry).to.equal(false);
-        });
+    context('when participation is not shared', function() {
+      it('return true', function() {
+        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, isRegistrationActive: false, scorecards: [], sharedAt: null });
+
+        expect(sharedProfileForCampaign.canRetry).to.equal(false);
+      });
+    });
+
+    context('when participant is active and the profile has been shared MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
+      beforeEach(function() {
+        const now = new Date('2020-01-06');
+        clock = sinon.useFakeTimers(now);
       });
 
-      context('when the profile has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
-        beforeEach(function() {
-          const now = new Date('2020-01-09');
-          clock = sinon.useFakeTimers(now);
-        });
+      it('return true', function() {
+        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, isRegistrationActive: true, scorecards: [], sharedAt: new Date('2020-01-01') });
 
-        it('return true', function() {
-          const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, scorecards: [], sharedAt: new Date('2020-01-02') });
+        expect(sharedProfileForCampaign.canRetry).to.equal(true);
+      });
+    });
 
-          expect(sharedProfileForCampaign.canRetry).to.equal(true);
-        });
+    context('when the profile has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
+      beforeEach(function() {
+        const now = new Date('2020-01-06');
+        clock = sinon.useFakeTimers(now);
+      });
+
+      it('return false', function() {
+        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, isRegistrationActive: true, scorecards: [], sharedAt: new Date('2020-01-04') });
+
+        expect(sharedProfileForCampaign.canRetry).to.equal(false);
+      });
+    });
+
+    context('when participant is active and the profile has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
+      beforeEach(function() {
+        const now = new Date('2020-01-09');
+        clock = sinon.useFakeTimers(now);
+      });
+
+      it('return true', function() {
+        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: true, isRegistrationActive: true, scorecards: [], sharedAt: new Date('2020-01-02') });
+
+        expect(sharedProfileForCampaign.canRetry).to.equal(true);
       });
     });
 
@@ -66,7 +85,7 @@ describe('Unit | Domain | Models | SharedProfileForCampaign', function() {
       });
 
       it('return false', function() {
-        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: false, scorecards: [], sharedAt: new Date('2020-01-01') });
+        const sharedProfileForCampaign = new SharedProfileForCampaign({ campaignAllowsRetry: false, isRegistrationActive: true, scorecards: [], sharedAt: new Date('2020-01-01') });
 
         expect(sharedProfileForCampaign.canRetry).to.equal(false);
       });

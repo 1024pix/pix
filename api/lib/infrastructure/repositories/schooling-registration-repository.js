@@ -360,4 +360,14 @@ module.exports = {
       });
   },
 
+  async isActive({ userId, campaignId }) {
+    const registration = await knex('schooling-registrations')
+      .select('schooling-registrations.isDisabled')
+      .join('organizations', 'organizations.id', 'schooling-registrations.organizationId')
+      .join('campaigns', 'campaigns.organizationId', 'organizations.id')
+      .where({ 'campaigns.id': campaignId })
+      .andWhere({ 'schooling-registrations.userId': userId })
+      .first();
+    return !registration?.isDisabled;
+  },
 };
