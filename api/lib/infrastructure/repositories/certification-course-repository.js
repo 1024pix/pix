@@ -6,7 +6,6 @@ const AssessmentBookshelf = require('../orm-models/Assessment');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const DomainTransaction = require('../DomainTransaction');
 const CertificationCourse = require('../../domain/models/CertificationCourse');
-const Assessment = require('../../domain/models/Assessment');
 const { NotFoundError } = require('../../domain/errors');
 const certificationChallengeRepository = require('./certification-challenge-repository');
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
@@ -130,7 +129,6 @@ function toDomain(bookshelfCertificationCourse) {
   const assessment = bookshelfToDomainConverter.buildDomainObject(AssessmentBookshelf, bookshelfCertificationCourse.related('assessment'));
   const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
   return new CertificationCourse({
-    type: Assessment.types.CERTIFICATION,
     assessment,
     challenges: bookshelfCertificationCourse.related('challenges').toJSON(),
     certificationIssueReports: bookshelfCertificationCourse.related('certificationIssueReports').toJSON().map((json) => new CertificationIssueReport(json)),
