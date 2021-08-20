@@ -24,10 +24,15 @@
       </tr>
     </thead>
 
-    <tbody>
-      {{#each this.sortedRecommendations as |tubeRecommendation|}}
-        <Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{tubeRecommendation}} />
-      {{/each}}
-    </tbody>
+    {{#if @displayAnalysis}}
+      <tbody>
+        {{#each this.sortedRecommendations as |tubeRecommendation|}}
+          <Campaign::Analysis::TubeRecommendationRow @tubeRecommendation={{tubeRecommendation}} />
+        {{/each}}
+      </tbody>
+    {{/if}}
   </table>
+  {{#unless @displayAnalysis}}
+    <div class="table__empty content-text">{{t 'pages.campaign-review.table.empty'}}</div>
+  {{/unless}}
 </div>

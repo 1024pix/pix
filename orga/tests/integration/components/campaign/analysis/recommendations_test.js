@@ -8,7 +8,7 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
 
   let store;
 
-  module('when the analysis is displayed', function () {
+  module('when the analysis is displayed', function(hooks) {
     hooks.beforeEach(async function() {
       store = this.owner.lookup('service:store');
 
@@ -66,6 +66,18 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
       await click('[aria-label="Trier par pertinence"]');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
+    });
+  });
+
+  module('when the analysis is not displayed', function() {
+    test('it displays pending results', async function(assert) {
+      this.campaignTubeRecommendations = [];
+
+      await render(hbs`<Campaign::Analysis::Recommendations
+        @campaignTubeRecommendations={{campaignTubeRecommendations}}
+        @displayAnalysis={{false}}
+      />`);
+      assert.contains('En attente de résultats');
     });
   });
 });
