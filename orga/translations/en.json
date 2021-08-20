@@ -74,6 +74,16 @@
     }
   },
   "charts": {
+    "participants-by-mastery-percentage": {
+      "loader": "Loading participants grouped by success rates",
+      "title": "Distribution of participants grouped by success rate",
+      "label-a11y": "From {from, number, ::percent} to {to, number, ::percent}: {count, plural, =0 {0 participant} =1 {1 participant} other {{count, number} participants}}",
+      "tooltip": {
+        "title": "Results {legend}",
+        "legend": "{from, number, ::percent} - {to, number, ::percent}",
+        "label": "Number of participants : {count}"
+      }
+    },
     "participants-by-stage": {
       "loader": "Loading and sorting the participants grouped by success rates",
       "participants": "{count, plural, =0 {0 participants} =1 {1 participant} other {{count, number} participants}}",
