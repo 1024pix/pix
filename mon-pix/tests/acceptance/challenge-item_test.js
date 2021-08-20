@@ -18,7 +18,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
     { challengeType: 'QCM' },
     { challengeType: 'QCU' },
   ].forEach(function(data) {
-    describe(`when ${data.challengeType} challenge is focused`, () => {
+    describe(`when ${data.challengeType} challenge is focused`, function() {
 
       describe('when user has not seen the challenge tooltip yet', function() {
         beforeEach(async () => {
@@ -126,7 +126,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         });
       });
 
-      describe('when user has already seen challenge tooltip', () => {
+      describe('when user has already seen challenge tooltip', function() {
         beforeEach(async () => {
           const user = server.create('user', 'withEmail', {
             hasSeenFocusedChallengeTooltip: true,
@@ -139,13 +139,13 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           await visit(`/assessments/${assessment.id}/challenges/0`);
         });
 
-        it('should hide the overlay and tooltip', async () => {
+        it('should hide the overlay and tooltip', async function() {
           // then
           expect(find('.challenge__focused-overlay')).to.not.exist;
           expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
         });
 
-        it('should enable input and buttons', async () => {
+        it('should enable input and buttons', async function() {
           // then
           expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
           expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
@@ -154,8 +154,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
       });
     });
 
-    describe(`when ${data.challengeType} challenge is not focused`, () => {
-      it('should not display an overlay nor a tooltip', async () => {
+    describe(`when ${data.challengeType} challenge is not focused`, function() {
+      it('should not display an overlay nor a tooltip', async function() {
         // given
         assessment = server.create('assessment', 'ofCompetenceEvaluationType');
         server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
