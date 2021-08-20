@@ -18,7 +18,7 @@ module.exports = {
         qb.orderByRaw('LOWER("firstName") asc');
       })
       .fetchAll({
-        withRelated: [ 'certificationIssueReports' ],
+        withRelated: [ 'certificationIssueReports', 'assessment' ],
       });
 
     const certificationCourses = results.map(toDomain);
