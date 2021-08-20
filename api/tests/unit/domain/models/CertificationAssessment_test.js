@@ -495,6 +495,43 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
     });
   });
 
+  describe('#hasUnsufficientAnsweringRateToBeScored', function() {
+    it('returns true when answering rate < 33%', function() {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer(),
+        ],
+      });
+      // when / then
+      expect(certificationAssessment.hasUnsufficientAnsweringRateToBeScored()).to.be.true;
+    });
+
+    it('returns false when answering rate > 33%', function() {
+      // given
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+          domainBuilder.buildCertificationChallenge(),
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer(),
+          domainBuilder.buildAnswer(),
+        ],
+      });
+      // when / then
+      expect(certificationAssessment.hasUnsufficientAnsweringRateToBeScored()).to.be.false;
+    });
+  });
+
   describe('#getChallengeRecIdByQuestionNumber', function() {
     it('returns the recId when question number exists', function() {
       // given

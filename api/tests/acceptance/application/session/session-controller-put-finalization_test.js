@@ -13,9 +13,10 @@ describe('Acceptance | Controller | sessions-controller', function() {
   beforeEach(async function() {
     server = await createServer();
     session = databaseBuilder.factory.buildSession();
-    const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
-    const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id });
-
+    const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({}).id;
+    const report1 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id, certificationCourseId });
+    const report2 = databaseBuilder.factory.buildCertificationReport({ sessionId: session.id, certificationCourseId });
+    databaseBuilder.factory.buildAssessment({ certificationCourseId });
     options = {
       method: 'PUT',
       payload: {
@@ -94,6 +95,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+
         await databaseBuilder.commit();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
