@@ -10,7 +10,6 @@
       {{/if}}
     </span>
     <PixButton
-      @isBorderVisible={{true}}
       @triggerAction={{fn @resumeAssessment @assessment}}
       @backgroundColor="blue"
       @shape="rounded"
@@ -22,7 +21,6 @@
   {{else if @hasChallengeTimedOut}}
     <span class="challenge-actions__timed-out">{{t "pages.challenge.timed.cannot-answer"}}</span>
     <PixButton
-      @isBorderVisible={{true}}
       @triggerAction={{@validateAnswer}}
       @backgroundColor="green"
       @shape="rounded"
@@ -42,7 +40,6 @@
 
     <div class="challenge-actions__group">
       <PixButton
-        @isBorderVisible={{true}}
         @isDisabled={{@isDisabled}}
         @triggerAction={{@validateAnswer}}
         @backgroundColor="green"
