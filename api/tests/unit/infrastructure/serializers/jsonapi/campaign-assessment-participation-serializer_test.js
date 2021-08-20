@@ -26,10 +26,8 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'created-at': createdAt,
               'is-shared': true,
               'shared-at': sharedAt,
-              'targeted-skills-count': 20,
-              'validated-skills-count': 7,
-              'mastery-percentage': 35,
-              'progression': 100,
+              'mastery-percentage': 0.35,
+              'progression': 1,
             },
             relationships: {
               'badges': {
@@ -72,8 +70,8 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           isShared: true,
           sharedAt,
           targetedSkillsCount: 20,
-          validatedSkillsCount: 7,
           testedSkillsCount: 3,
+          masteryPercentage: 0.35,
           badges: [{ id: 1, title: 'someTitle', altMessage: 'someAltMessage', imageUrl: 'someImageUrl' }],
         });
       });
@@ -103,10 +101,8 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'created-at': createdAt,
               'is-shared': true,
               'shared-at': sharedAt,
-              'targeted-skills-count': 20,
-              'validated-skills-count': 7,
-              'mastery-percentage': 35,
-              'progression': 100,
+              'mastery-percentage': 0.35,
+              'progression': 1,
             },
             relationships: {
               'badges': {
@@ -136,9 +132,9 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           createdAt,
           isShared: true,
           sharedAt,
-          targetedSkillsCount: 20,
-          validatedSkillsCount: 7,
-          testedSkillsCount: 3,
+          targetedSkillsCount: 0,
+          testedSkillsCount: 0,
+          masteryPercentage: 0.35,
         });
       });
 
