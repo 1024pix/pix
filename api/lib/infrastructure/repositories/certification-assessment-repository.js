@@ -27,8 +27,9 @@ async function _getCertificationAnswersByDate(certificationAssessmentId, knexCon
   const answerRows = await knexConn('answers')
     .where({ assessmentId: certificationAssessmentId })
     .orderBy('createdAt');
+  const answerRowsWithoutDuplicate = _.uniqBy(answerRows, 'challengeId');
 
-  return _.map(answerRows, (answerRow) => new Answer({
+  return _.map(answerRowsWithoutDuplicate, (answerRow) => new Answer({
     ...answerRow,
     result: answerStatusDatabaseAdapter.fromSQLString(answerRow.result),
   }));
