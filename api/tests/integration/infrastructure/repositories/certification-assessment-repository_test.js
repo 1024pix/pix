@@ -62,15 +62,17 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     let certificationAssessmentId;
     let expectedCertificationCourseId;
     let expectedUserId;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const expectedState = CertificationAssessment.states.COMPLETED;
-    const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
-    const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
+    let expectedState;
+    let expectedCreatedAt;
+    let expectedCompletedAt;
 
     context('when the certification assessment exists', function() {
 
       beforeEach(function() {
+        expectedState = CertificationAssessment.states.COMPLETED;
+        expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
+        expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
+
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         expectedCertificationCourseId = dbf.buildCertificationCourse({
@@ -84,8 +86,9 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
           certificationCourseId: expectedCertificationCourseId,
           state: expectedState,
         }).id;
-        dbf.buildAnswer({ assessmentId: certificationAssessmentId });
-        dbf.buildAnswer({ assessmentId: certificationAssessmentId });
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId, challengeId: 'recChalA' });
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId, challengeId: 'recChalB' });
+        dbf.buildAnswer({ assessmentId: certificationAssessmentId, challengeId: 'recChalB' });
         dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: expectedCertificationCourseId, isNeutralized: true });
         dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: expectedCertificationCourseId });
 
@@ -127,17 +130,19 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
     let expectedCertificationAssessmentId;
     let certificationCourseId;
     let expectedUserId;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const expectedState = CertificationAssessment.states.COMPLETED;
-    const expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
-    const expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
+    let expectedState;
+    let expectedCreatedAt;
+    let expectedCompletedAt;
 
     context('when the certification assessment exists', function() {
       let firstAnswerInTime;
       let secondAnswerInTime;
 
       beforeEach(function() {
+        expectedState = CertificationAssessment.states.COMPLETED;
+        expectedCreatedAt = new Date('2020-01-01T00:00:00Z');
+        expectedCompletedAt = new Date('2020-01-02T00:00:00Z');
+
         const dbf = databaseBuilder.factory;
         expectedUserId = dbf.buildUser().id;
         certificationCourseId = dbf.buildCertificationCourse({
@@ -156,13 +161,20 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
         secondAnswerInTime = dbf.buildAnswer({
           assessmentId: expectedCertificationAssessmentId,
           createdAt: new Date('2020-06-24T00:00:01Z'),
+          challengeId: 'recChalA',
         }).id;
 
         firstAnswerInTime = dbf.buildAnswer({
           assessmentId: expectedCertificationAssessmentId,
           createdAt: new Date('2020-06-24T00:00:00Z'),
+          challengeId: 'recChalB',
         }).id;
 
+        dbf.buildAnswer({
+          assessmentId: expectedCertificationAssessmentId,
+          createdAt: new Date('2020-06-25T00:00:01Z'),
+          challengeId: 'recChalA',
+        }).id;
         dbf.buildCertificationChallenge({ challengeId: 'recChalA', courseId: certificationCourseId, id: 123 });
         dbf.buildCertificationChallenge({ challengeId: 'recChalB', courseId: certificationCourseId, id: 456 });
 
