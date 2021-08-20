@@ -7,12 +7,12 @@ config:
       arrivalRate: 5
       rampTo: 50
       name: Ramp up load
-    - duration: 600
-      arrivalRate: 50
-      name: Sustained load
+
+  variables:
+    competenceId: "recsvLz0W2ShyfD63"
 
 scenarios:
-  - name: 'Inscription et positionnement'
+  - name: "Inscription et évaluation"
     flow:
       - function: "setupSignupFormData"
 
@@ -60,35 +60,15 @@ scenarios:
       ### From page /compte ###
       ### ----------------- ###
 
-      # Get first competence
-      - get:
-          url: "/api/courses/recNPB7dTNt5krlMA"
-          headers:
-            Authorization: "Bearer {{ accessToken }}"
-
-      # Get assessments filtered
-      - get:
-          url: "/api/assessments?filter[type]=PLACEMENT&filter[courseId]=recNPB7dTNt5krlMA&filter[resumable]=true"
-          headers:
-            Authorization: "Bearer {{ accessToken }}"
-
-      # Create assessment for competence
+      # Create competence evaluation
       - post:
-          url: "/api/assessments"
+          url: "/api/competence-evaluations/start-or-resume"
           headers:
             Authorization: "Bearer {{ accessToken }}"
           json:
-            data:
-              attributes:
-                type: PLACEMENT
-              relationships:
-                course:
-                  data:
-                    type: courses
-                    id: "recNPB7dTNt5krlMA"
-              type: assessments
+            competenceId: "{{ competenceId }}"
           capture:
-            json: "$.data.id"
+            json: "$.data.relationships.assessment.data.id"
             as: "assessmentId"
 
       # Fetch assessment
@@ -154,9 +134,7 @@ scenarios:
               url: "/api/assessments/{{ assessmentId }}/next"
               headers:
                 Authorization: "Bearer {{ accessToken }}"
-              capture:
-                json: "$.data.id"
-                as: "challengeId"
+              afterResponse: "handleResponseForChallengeId"
 
         whileTrue: "foundNextChallenge"
 
@@ -165,20 +143,6 @@ scenarios:
           url: "/api/assessments/{{ assessmentId }}"
           headers:
             Authorization: "Bearer {{ accessToken }}"
-
-      # Post assessment-result
-      - post:
-          url: "/api/assessment-results"
-          headers:
-            Authorization: "Bearer {{ accessToken }}"
-          json:
-            data:
-              relationships:
-                assessment:
-                  data:
-                    type: assessments
-                    id: "{{ assessmentId }}"
-              type: assessment-results
 
       ### ----------------------------------------------------- ###
       ### From page /assessment-result, go back to profile page ###

@@ -3,5 +3,7 @@ config:
   environments:
     localhost:
       target: http://localhost:3000
+    development:
+      target: https://pix-api-load-testing.osc-fr1.scalingo.io
     staging:
       target: https://integration.pix.fr
