@@ -2,34 +2,41 @@
   "name": "pix-load-testing",
   "version": "1.195.0",
   "description": "Permet d'exécuter des tests de charge sur l'API de la plateforme Pix.",
-  "main": "index.js",
+  "homepage": "https://github.com/1024pix/pix/tree/dev/high-level-tests/load-testing#readme",
   "author": "GIP Pix",
   "engines": {
     "node": "14.17.0",
     "npm": "6.14.13"
+  },
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1024pix/pix"
   },
   "scripts": {
     "arti:cmd": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-competence-evaluation.yml",
     "arti:cmd:dev": "artillery run --config config/common.yml -e development -o report/index.json scenarios/signup-and-competence-evaluation.yml",
     "arti:run": "npm run db:initialize && npm run arti:cmd",
     "arti:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix npm run arti:run",
-    "db:empty": "cd ../../api && npm run db:empty",
+    "arti:test:local": "artillery run --config config/common.yml -e localhost --quiet scenarios/test-connectivity.yml",
+    "arti:test:dev": "artillery run --config config/common.yml -e development --quiet scenarios/test-connectivity.yml",
     "db:initialize": "cd ../../api && npm run db:prepare",
     "generate-bulk-data:schooling-registrations": "node ./data/generate-schooling-registrations.js",
     "lint": "npm run lint:code",
     "lint:code": "eslint .",
     "lint:fix": "eslint . --fix",
     "preinstall": "npx check-engine",
-    "report": "artillery report report/index.json",
-    "start:api:local": "cd ../../api && npm run start:watch"
+    "report": "artillery report report/index.json"
   },
-  "license": "ISC",
   "devDependencies": {
-    "artillery": "^1.7.6",
+    "js2xmlparser": "^4.0.1"
+  },
+  "dependencies": {
+    "artillery": "^1.7.7",
+    "artillery-plugin-expect": "^1.5.0",
     "eslint": "^7.32.0",
     "eslint-plugin-yaml": "^0.5.0",
     "faker": "^5.5.3",
-    "js2xmlparser": "^4.0.1",
     "lodash": "^4.17.21"
   }
 }
