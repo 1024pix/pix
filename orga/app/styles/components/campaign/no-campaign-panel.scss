@@ -2,19 +2,11 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-
-  &__explain-create-campaign {
-    text-align: center;
-    margin: 5%;
-  }
+  align-items: center;
+  text-align: center;
+  margin: 5%;
 
   &__information-text {
-    margin: 30px 30%;
-  }
-
-  &__link-to-create {
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
+    margin: 0 30% 30px 30%;
   }
 }
