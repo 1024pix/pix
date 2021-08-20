@@ -7,8 +7,6 @@ import isInteger from 'lodash/isInteger';
 export default class ChallengeItemGeneric extends Component {
 
   @service currentUser;
-  @tracked isValidateButtonEnabled = true;
-  @tracked isSkipButtonEnabled = true;
   @tracked hasChallengeTimedOut = false;
   @tracked errorMessage = null;
 
@@ -53,23 +51,18 @@ export default class ChallengeItemGeneric extends Component {
   validateAnswer(event) {
     event.preventDefault();
 
-    if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
-
-      if (this._hasError() && !this.hasChallengeTimedOut) {
-        const errorMessage = this._getErrorMessage();
-        this.errorMessage = errorMessage;
-        return;
-      }
-
-      this.errorMessage = null;
-      this.isValidateButtonEnabled = false;
-
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout())
-        .finally(() => {
-          this.isValidateButtonEnabled = true;
-          this.args.finishChallenge();
-        });
+    if (this._hasError() && !this.hasChallengeTimedOut) {
+      const errorMessage = this._getErrorMessage();
+      this.errorMessage = errorMessage;
+      return;
     }
+
+    this.errorMessage = null;
+
+    return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout())
+      .finally(() => {
+        this.args.finishChallenge();
+      });
   }
 
   @action
@@ -79,15 +72,11 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   skipChallenge() {
-    if (this.isValidateButtonEnabled && this.isSkipButtonEnabled) {
-      this.errorMessage = null;
-      this.isSkipButtonEnabled = false;
+    this.errorMessage = null;
 
-      return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout())
-        .finally(() => {
-          this.isSkipButtonEnabled = true;
-          this.args.finishChallenge();
-        });
-    }
+    return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout())
+      .finally(() => {
+        this.args.finishChallenge();
+      });
   }
 }

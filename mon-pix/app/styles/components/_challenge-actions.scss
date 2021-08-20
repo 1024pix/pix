@@ -1,13 +1,16 @@
-@mixin button-background-transition() {
-  transition: background 0.25s ease-in-out;
-  -moz-transition: background 0.25s ease-in-out;
-  -webkit-transition: background 0.25s ease-in-out;
-}
+@mixin action-button($text-color) {
+  margin: 0 5px;
 
-.picture-checkbox-proposal--qcm {
-  position: absolute;
-  left: -11px;
-  top: 3px;
+  &-text {
+    font-size: 0.8rem;
+    color: $text-color;
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+
+    @include device-is('tablet') {
+      font-size: 1rem;
+    }
+  }
 }
 
 .challenge-actions {
@@ -24,62 +27,25 @@
     align-items: center;
   }
 
-  &__action-skip {
-    margin: 0 5px;
+  &__group {
+    display: flex;
+    flex-direction: column;
 
-    &-text {
-      font-size: 0.8rem;
-      color: $grey-50;
-      text-transform: uppercase;
-      letter-spacing: 0.03rem;
-
-      @include device-is('tablet') {
-        font-size: 1rem;
-      }
+    @include device-is('tablet') {
+      flex-direction: row;
     }
+  }
+
+  &__action-skip {
+    @include action-button($grey-50);
   }
 
   &__action-validate {
-    margin: 0 5px;
-
-    &-text {
-      font-weight: $font-semi-bold;
-      text-transform: uppercase;
-      letter-spacing: 0.03rem;
-      text-decoration: none;
-      font-size: 0.8rem;
-
-      @include device-is('tablet') {
-        font-size: 1rem;
-      }
-    }
+    @include action-button($white);
   }
 
   &__action-continue {
-    margin: 0 5px;
-
-    &-text {
-      font-weight: $font-semi-bold;
-      text-transform: uppercase;
-      letter-spacing: 0.03rem;
-      text-decoration: none;
-      font-size: 0.8rem;
-
-      @include device-is('tablet') {
-        font-size: 1rem;
-      }
-    }
-  }
-
-  @keyframes spin {
-
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(360deg);
-    }
+    @include action-button($white);
   }
 
   &__already-answered {
@@ -117,15 +83,6 @@
     color: $grey-70;
     letter-spacing: 0.031rem;
     margin-right: 20px;
-  }
-
-  &__group {
-    display: flex;
-    flex-direction: column;
-
-    @include device-is('tablet') {
-      flex-direction: row;
-    }
   }
 }
 
