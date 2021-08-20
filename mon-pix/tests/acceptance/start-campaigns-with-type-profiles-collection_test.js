@@ -58,7 +58,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           it('should redirect to send profile page after completion of external id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
@@ -190,7 +190,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#id-pix-label', 'truc');
 
             // when
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
@@ -254,7 +254,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           it('should redirect to send profile page when the user fill in his id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);

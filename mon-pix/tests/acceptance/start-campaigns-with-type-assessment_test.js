@@ -10,12 +10,14 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
 describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let campaign;
 
   beforeEach(function() {
@@ -214,11 +216,11 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
             await click('button[aria-label="Associer"]');
-            await click('.campaign-landing-page__start-button');
+            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
             await fillIn('#id-pix-label', 'truc');
 
             // when
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -238,7 +240,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           it('should go to the tutorial when the user fill in his id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -247,7 +249,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           it('should start the assessment when the user has seen tutorial', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
             await click('.campaign-tutorial__ignore-button');
 
             // then
