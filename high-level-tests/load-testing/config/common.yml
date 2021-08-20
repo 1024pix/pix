@@ -4,6 +4,6 @@ config:
     localhost:
       target: http://localhost:3000
     development:
-      target: https://pix-api-load-testing.osc-fr1.scalingo.io
+      target: "{{ $processEnvironment.TARGET_DEV_API_URL }}"
     staging:
       target: https://integration.pix.fr
