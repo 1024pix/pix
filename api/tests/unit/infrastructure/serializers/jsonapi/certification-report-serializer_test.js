@@ -16,6 +16,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
             'certification-course-id': certificationReport.certificationCourseId,
             'first-name': certificationReport.firstName,
             'last-name': certificationReport.lastName,
+            'is-completed': certificationReport.isCompleted,
             'examiner-comment': certificationReport.examinerComment,
             'has-seen-end-test-screen': certificationReport.hasSeenEndTestScreen,
           },
@@ -66,7 +67,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
 
   describe('#deserialize()', function() {
     it('should convert a JSON API data into a CertificationReport', async function() {
-      const certificationReport = domainBuilder.buildCertificationReport({ certificationIssueReports: [] });
+      const certificationReport = domainBuilder.buildCertificationReport({ certificationIssueReports: [], isCompleted: true });
       const jsonApiData = {
         data: {
           type: 'certification-reports',
@@ -75,6 +76,7 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
             'certification-course-id': certificationReport.certificationCourseId,
             'first-name': certificationReport.firstName,
             'last-name': certificationReport.lastName,
+            'is-completed': certificationReport.isCompleted,
             'examiner-comment': certificationReport.examinerComment,
             'has-seen-end-test-screen': certificationReport.hasSeenEndTestScreen,
           },

@@ -2,11 +2,12 @@ const CertificationReport = require('../../../../lib/domain/models/Certification
 const buildCertificationIssueReport = require('./build-certification-issue-report');
 
 module.exports = function buildCertificationReport({
-  id = 123,
+  id = 'CertificationReport:456',
   firstName = 'Tiffany',
   lastName = 'Schwarzenegger',
   hasSeenEndTestScreen = false,
   examinerComment,
+  isCompleted,
   certificationIssueReports,
   certificationCourseId = 456,
 } = {}) {
@@ -18,6 +19,7 @@ module.exports = function buildCertificationReport({
     lastName,
     hasSeenEndTestScreen,
     examinerComment,
+    isCompleted,
     certificationIssueReports: certificationIssueReports
       ? certificationIssueReports
       : [buildCertificationIssueReport({ certificationCourseId })],

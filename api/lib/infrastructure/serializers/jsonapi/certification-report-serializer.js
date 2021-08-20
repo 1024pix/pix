@@ -12,6 +12,7 @@ module.exports = {
         'examinerComment',
         'hasSeenEndTestScreen',
         'certificationIssueReports',
+        'isCompleted',
       ],
       certificationIssueReports: {
         ref: 'id',
