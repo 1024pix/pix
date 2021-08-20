@@ -25,7 +25,6 @@ module.exports = function() {
       'search',
       'share',
       'share-square',
-      'sort',
       'times',
       'users',
 

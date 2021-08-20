@@ -45,20 +45,19 @@
 
   {{#unless @campaign.isArchived}}
     <div class="campaign-settings-buttons">
-      <LinkTo
+      <PixButtonLink
         @route="authenticated.campaigns.update"
         @model={{@campaign.id}}
-        class="button button--grey button--regular button--link"
+        @backgroundColor="grey"
       >
         {{t 'pages.campaign-settings.actions.edit'}}
-      </LinkTo>
-      <button
-        type="button"
-        {{on 'click' (fn this.archiveCampaign @campaign.id)}}
-        class="button button--grey button--regular button--link"
+      </PixButtonLink>
+      <PixButton
+        @triggerAction={{fn this.archiveCampaign @campaign.id}}
+        @backgroundColor="grey"
       >
         {{t 'pages.campaign-settings.actions.archive'}}
-      </button>
+      </PixButton>
     </div>
   {{/unless}}
 </div>

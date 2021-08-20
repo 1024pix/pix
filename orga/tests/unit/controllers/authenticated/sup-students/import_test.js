@@ -1,13 +1,14 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import ENV from 'pix-orga/config/environment';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/sup-students/import', function(hooks) {
   setupTest(hooks);
-  const currentUser = { organization: { id: 1 }, prescriber: { lang: 'fr' } };
-  const session = { data: { authenticated: { access_token: 12345 } } };
+  const files = Symbol('files');
+  const currentUser = { organization: { id: 1 } };
   let controller;
+  let addStudentsCsvStub;
+  let replaceStudentsCsvStub;
 
   hooks.beforeEach(function() {
     this.owner.lookup('service:intl').setLocale('fr');
@@ -15,38 +16,31 @@ module('Unit | Controller | authenticated/sup-students/import', function(hooks) 
     controller.send = sinon.stub();
     controller.transitionToRoute = sinon.stub();
     controller.currentUser = currentUser;
+
+    const store = this.owner.lookup('service:store');
+    const adapter = store.adapterFor('students-import');
+    addStudentsCsvStub = sinon.stub(adapter, 'addStudentsCsv');
+    replaceStudentsCsvStub = sinon.stub(adapter, 'replaceStudentsCsv');
   });
 
   module('#importStudents', function() {
+
     test('it sends the chosen file to the API', async function(assert) {
-      const importStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/import-csv`;
-      const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': controller.currentUser.prescriber.lang };
-      const file = { uploadBinary: sinon.spy() };
+      await controller.importStudents(files);
 
-      controller.session = session;
-      controller.currentUser = currentUser;
-      await controller.importStudents(file);
-
-      assert.ok(file.uploadBinary.calledWith(importStudentsURL, { headers }));
+      assert.ok(addStudentsCsvStub.calledWith(1, files));
     });
 
     module('manage CSV import errors', function(hooks) {
-      let file;
-
       hooks.beforeEach(function() {
-        controller.session = session;
-        controller.currentUser = currentUser;
-        file = { uploadBinary: sinon.stub() };
         controller.notifications.sendError = sinon.spy();
       });
 
       test('notify a global error message if error not handled', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [{ status: '401' }] },
-        });
+        addStudentsCsvStub.rejects({ errors: [{ status: '401' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -54,14 +48,10 @@ module('Unit | Controller | authenticated/sup-students/import', function(hooks) 
       });
 
       test('notify a detailed error message if 412 error', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '412', detail: 'Error message' },
-          ] },
-        });
+        addStudentsCsvStub.rejects({ errors: [{ status: '412', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -69,14 +59,10 @@ module('Unit | Controller | authenticated/sup-students/import', function(hooks) 
       });
 
       test('notify a detailed error message if 413 error', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '413', detail: 'Error message' },
-          ] },
-        });
+        addStudentsCsvStub.rejects({ errors: [{ status: '413', detail: 'Error message' }] });
 
         // when
-        await controller.importStudents(file);
+        await controller.importStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -87,34 +73,21 @@ module('Unit | Controller | authenticated/sup-students/import', function(hooks) 
 
   module('#replaceStudents', function() {
     test('it sends the chosen file to the API for replacing registrations', async function(assert) {
-      const replaceStudentsURL = `${ENV.APP.API_HOST}/api/organizations/${currentUser.organization.id}/schooling-registrations/replace-csv`;
-      const headers = { Authorization: `Bearer ${12345}`, 'Accept-Language': controller.currentUser.prescriber.lang };
-      const file = { uploadBinary: sinon.spy() };
+      await controller.replaceStudents(files);
 
-      controller.session = session;
-      controller.currentUser = currentUser;
-      await controller.replaceStudents(file);
-
-      assert.ok(file.uploadBinary.calledWith(replaceStudentsURL, { headers }));
+      assert.ok(replaceStudentsCsvStub.calledWith(1, files));
     });
 
     module('manage CSV import errors', function(hooks) {
-      let file;
-
       hooks.beforeEach(function() {
-        controller.session = session;
-        controller.currentUser = currentUser;
-        file = { uploadBinary: sinon.stub() };
         controller.notifications.sendError = sinon.spy();
       });
 
       test('notify a global error message if error not handled when replacing registrations', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [{ status: '401' }] },
-        });
+        replaceStudentsCsvStub.rejects({ errors: [{ status: '401' }] });
 
         // when
-        await controller.replaceStudents(file);
+        await controller.replaceStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -122,14 +95,10 @@ module('Unit | Controller | authenticated/sup-students/import', function(hooks) 
       });
 
       test('notify a detailed error message if 412 error when replacing registrations', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '412', detail: 'Error message' },
-          ] },
-        });
+        replaceStudentsCsvStub.rejects({ errors: [{ status: '412', detail: 'Error message' }] });
 
         // when
-        await controller.replaceStudents(file);
+        await controller.replaceStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
@@ -137,14 +106,10 @@ module('Unit | Controller | authenticated/sup-students/import', function(hooks) 
       });
 
       test('notify a detailed error message if 413 error when replacing registrations when replacing registrations', async function(assert) {
-        file.uploadBinary.rejects({
-          body: { errors: [
-            { status: '413', detail: 'Error message' },
-          ] },
-        });
+        replaceStudentsCsvStub.rejects({ errors: [{ status: '413', detail: 'Error message' }] });
 
         // when
-        await controller.replaceStudents(file);
+        await controller.replaceStudents(files);
 
         // then
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;

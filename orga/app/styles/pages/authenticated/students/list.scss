@@ -10,7 +10,7 @@ $margin-right: 32px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin: 1em;
+    margin: 1rem 0;
   }
 
   &__tooltip {
@@ -36,10 +36,13 @@ $margin-right: 32px;
   }
 
   &__import-students-button {
-    > * {
-      margin-right: 10px;
+    display: flex;
+
+    > a {
+      margin-right: 16px;
     }
-    > *:last-child {
+
+    > a:last-child {
       margin-right: 0;
     }
   }

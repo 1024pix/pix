@@ -7,11 +7,11 @@ import { CONNECTION_TYPES } from '../../../models/student';
 import debounce from 'lodash/debounce';
 
 export default class ListController extends Controller {
-  @service session;
   @service currentUser;
   @service notifications;
   @service intl;
   @service errorMessages;
+  @service store;
 
   @tracked isLoading = false;
 
@@ -48,36 +48,32 @@ export default class ListController extends Controller {
   }
 
   @action
-  async importStudents(file) {
+  async importStudents(files) {
+    const adapter = this.store.adapterFor('students-import');
+    const organizationId = this.currentUser.organization.id;
+    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
+
     this.isLoading = true;
     this.notifications.clearAll();
-    const { access_token } = this.session.data.authenticated;
-    const format = this.currentUser.isAgriculture ? 'csv' : 'xml';
     try {
-      await file.uploadBinary(`${ENV.APP.API_HOST}/api/organizations/${this.currentUser.organization.id}/schooling-registrations/import-siecle?format=${format}`, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          'Accept-Language': this.currentUser.prescriber.lang,
-        },
-      });
+      await adapter.importStudentsSiecle(organizationId, files, format);
       this.refresh();
       this.isLoading = false;
       this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
 
     } catch (errorResponse) {
       this.isLoading = false;
-
       this._handleError(errorResponse);
     }
   }
 
   _handleError(errorResponse) {
     const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error', { htmlSafe: true });
-    if (!errorResponse.body.errors) {
+    if (!errorResponse.errors) {
       return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
     }
 
-    errorResponse.body.errors.forEach((error) => {
+    errorResponse.errors.forEach((error) => {
       if (['422', '412', '413'].includes(error.status)) {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
         return this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true }));

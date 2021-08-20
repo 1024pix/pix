@@ -53,11 +53,9 @@
     </div>
 
     <div class="input-container">
-      {{#if this.isLoading}}
-        <button type="button" class="button"><span class="loader-in-button">&nbsp;</span></button>
-      {{else}}
-        <button type="submit" class="button join-request-form__button">Envoyer</button>
-      {{/if}}
+      <PixButton @type="submit" @isLoading={{this.isLoading}}>
+        Envoyer
+      </PixButton>
     </div>
 
   </form>
