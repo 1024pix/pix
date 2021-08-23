@@ -562,6 +562,30 @@ describe('Integration | API | Controller Error', function() {
       expect(unprocessableErrorOnFirstname.detail).to.equal('Le profile cible n’est pas renseigné.');
     });
 
+    it('responds Unprocessable Entity with invalid data attribute with name ends with Id', async function() {
+      // given
+      const invalidAttributes = [{
+        attribute: 'participantExternalId',
+        message: 'Un identifiant externe est requis pour accèder à la campagne.',
+      }];
+      routeHandler.throws(new DomainErrors.EntityValidationError({ invalidAttributes }));
+
+      // when
+      const response = await server.requestObject(request);
+
+      // then
+      expect(response.statusCode).to.equal(UNPROCESSABLE_ENTITY_ERROR);
+
+      const payload = JSON.parse(response.payload);
+      expect(payload.errors).to.have.lengthOf(1);
+
+      const unprocessableErrorOnFirstname = payload.errors[0];
+      expect(unprocessableErrorOnFirstname.status).to.equal('422');
+      expect(unprocessableErrorOnFirstname.source.pointer).to.equal('/data/attributes/participant-external-id');
+      expect(unprocessableErrorOnFirstname.title).to.equal('Invalid data attribute "participantExternalId"');
+      expect(unprocessableErrorOnFirstname.detail).to.equal('Un identifiant externe est requis pour accèder à la campagne.');
+    });
+
     it('responds Unprocessable Entity with invalid data attribute, if attribute is undefined', async function() {
       // given
       const invalidAttributes = [{

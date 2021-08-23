@@ -13,13 +13,24 @@ module.exports = async function startCampaignParticipation({
 }) {
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
 
-  if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId)
-    throw new EntityValidationError('Un identifiant externe est requis pour accèder à la campagne.');
-
   await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
-  let createdCampaignParticipation;
 
-  if (await campaignParticipationRepository.hasAlreadyParticipated(campaignToJoin.id, userId, domainTransaction)) {
+  const hasAlreadyParticipated = await campaignParticipationRepository.hasAlreadyParticipated(campaignToJoin.id, userId, domainTransaction);
+  if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId) {
+    if (campaignToJoin.multipleSendings && hasAlreadyParticipated) {
+      campaignParticipation.participantExternalId = await campaignParticipationRepository.findParticipantExternalId(campaignToJoin.id, userId, domainTransaction);
+    } else {
+      throw new EntityValidationError({
+        invalidAttributes: [{
+          attribute: 'participantExternalId',
+          message: 'Un identifiant externe est requis pour accèder à la campagne.',
+        }],
+      });
+    }
+  }
+
+  let createdCampaignParticipation;
+  if (hasAlreadyParticipated) {
     await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignToJoin.id, userId, domainTransaction);
     createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
     if (campaignToJoin.isAssessment) {

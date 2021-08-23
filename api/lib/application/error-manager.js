@@ -6,7 +6,7 @@ const errorSerializer = require('../infrastructure/serializers/jsonapi/error-ser
 const { extractLocaleFromRequest } = require('../infrastructure/utils/request-response-utils');
 const translations = require('../../translations');
 
-const NOT_VALID_RELATIONSHIPS = ['externalId'];
+const NOT_VALID_RELATIONSHIPS = ['externalId', 'participantExternalId'];
 
 function translateMessage(locale, key) {
   if (translations[locale]['entity-validation-errors'][key]) {
@@ -374,7 +374,7 @@ function handle(request, h, error) {
   if (error instanceof DomainErrors.EntityValidationError) {
     const locale = extractLocaleFromRequest(request).split('-')[0];
 
-    const jsonApiError = new JSONAPIError(error.invalidAttributes.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)));
+    const jsonApiError = new JSONAPIError(error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)));
     return h.response(jsonApiError).code(422);
   }
 
