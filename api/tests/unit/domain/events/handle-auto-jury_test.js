@@ -5,6 +5,7 @@ const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const CertificationJuryDone = require('../../../../lib/domain/events/CertificationJuryDone');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const { CertificationIssueReportSubcategories, CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | Domain | Events | handle-auto-jury', function() {
 
@@ -321,97 +322,204 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
     });
   });
 
-  context('when there is less than 33 percent answering rate', function() {
-    it('should cancel certification course', async function() {
-      // given
-      const now = Date.now();
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
-      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
-      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationAnswersByDate: [
-          domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
-        ],
-        certificationChallenges: [
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123' }),
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456' }),
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789' }),
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal1011' }),
-        ],
-      });
+  context('when FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED is enabled', function() {
 
-      const certificationCourse = domainBuilder.buildCertificationCourse();
-      certificationCourse.cancel = sinon.stub();
-      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
-      certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
-
-      const event = new SessionFinalized({
-        sessionId: 1234,
-        finalizedAt: now,
-        hasExaminerGlobalComment: false,
-        certificationCenterName: 'A certification center name',
-        sessionDate: '2021-01-29',
-        sessionTime: '14:00',
-      });
-
-      // when
-      await handleAutoJury({
-        event,
-        certificationIssueReportRepository,
-        certificationAssessmentRepository,
-        certificationCourseRepository,
-      });
-
-      // then
-      expect(certificationCourse.cancel).to.have.been.called;
+    beforeEach(function() {
+      sinon.stub(featureToggles, 'isManageUncompletedCertifEnabled').value(true);
     });
 
-    it('should not return CertificationJuryDone event', async function() {
-      // given
-      const now = Date.now();
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
-      const certificationIssueReportRepository = { save: sinon.stub(), findByCertificationCourseId: sinon.stub() };
-      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationAnswersByDate: [
-          domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
-        ],
-        certificationChallenges: [
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123' }),
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456' }),
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789' }),
-          domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal1011' }),
-        ],
+    context('when there is less than 33 percent answering rate', function() {
+      it('should cancel certification course', async function() {
+        // given
+        const now = Date.now();
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
+        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
+          ],
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal1011' }),
+          ],
+        });
+
+        const certificationCourse = domainBuilder.buildCertificationCourse();
+        certificationCourse.cancel = sinon.stub();
+        certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+        certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+        certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: now,
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(certificationCourse.cancel).to.have.been.called;
       });
 
-      const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+      it('should not return CertificationJuryDone event', async function() {
+        // given
+        const now = Date.now();
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
+        const certificationIssueReportRepository = { save: sinon.stub(), findByCertificationCourseId: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
+          ],
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal1011' }),
+          ],
+        });
 
-      const certificationCourse = domainBuilder.buildCertificationCourse();
-      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
-      certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([certificationIssueReport]);
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
 
-      const event = new SessionFinalized({
-        sessionId: 1234,
-        finalizedAt: now,
-        hasExaminerGlobalComment: false,
-        certificationCenterName: 'A certification center name',
-        sessionDate: '2021-01-29',
-        sessionTime: '14:00',
+        const certificationCourse = domainBuilder.buildCertificationCourse();
+        certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+        certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+        certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([certificationIssueReport]);
+
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: now,
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        const events = await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(events.length).to.equal(1);
+        expect(events[0]).not.to.be.an.instanceOf(CertificationJuryDone);
+      });
+    });
+  });
+  context('when FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED is not enabled', function() {
+
+    beforeEach(function() {
+      sinon.stub(featureToggles, 'isManageUncompletedCertifEnabled').value(false);
+    });
+
+    context('when there is less than 33 percent answering rate', function() {
+      it('should not cancel certification course', async function() {
+        // given
+        const now = Date.now();
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
+        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
+          ],
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal1011' }),
+          ],
+        });
+
+        const certificationCourse = domainBuilder.buildCertificationCourse();
+        certificationCourse.cancel = sinon.stub();
+        certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+        certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+        certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: now,
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(certificationCourse.cancel).not.to.have.been.called;
       });
 
-      // when
-      const events = await handleAutoJury({
-        event,
-        certificationIssueReportRepository,
-        certificationAssessmentRepository,
-        certificationCourseRepository,
-      });
+      it('should return CertificationJuryDone event', async function() {
+        // given
+        const now = Date.now();
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub(), update: sinon.stub() };
+        const certificationIssueReportRepository = { save: sinon.stub(), findByCertificationCourseId: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationAnswersByDate: [
+            domainBuilder.buildAnswer({ challengeId: 'recChal456', result: AnswerStatus.KO }),
+          ],
+          certificationChallenges: [
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal789' }),
+            domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal1011' }),
+          ],
+        });
 
-      // then
-      expect(events.length).to.equal(1);
-      expect(events[0]).not.to.be.an.instanceOf(CertificationJuryDone);
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ category: CertificationIssueReportCategories.IN_CHALLENGE, subcategory: CertificationIssueReportSubcategories.WEBSITE_BLOCKED, questionNumber: 1 });
+
+        const certificationCourse = domainBuilder.buildCertificationCourse();
+        certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+        certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+        certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([certificationIssueReport]);
+
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: now,
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
+
+        // when
+        const events = await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
+
+        // then
+        expect(events.length).to.equal(2);
+        expect(events[0]).to.be.an.instanceOf(CertificationJuryDone);
+      });
     });
   });
 });
