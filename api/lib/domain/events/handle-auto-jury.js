@@ -5,6 +5,7 @@ const AutoJuryDone = require('./AutoJuryDone');
 const CertificationJuryDone = require('./CertificationJuryDone');
 const bluebird = require('bluebird');
 const { CertificationIssueReportResolutionStrategies } = require('../models/CertificationIssueReportResolutionStrategies');
+const { featureToggles } = require('../../config');
 
 const eventTypes = [ SessionFinalized ];
 
@@ -28,7 +29,7 @@ async function handleAutoJury({
 
     const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 
-    if (certificationAssessment.hasUnsufficientAnsweringRateToBeScored()) {
+    if (featureToggles.isManageUncompletedCertifEnabled && certificationAssessment.hasUnsufficientAnsweringRateToBeScored()) {
       certificationCourse.cancel();
       await certificationCourseRepository.update(certificationCourse);
       return;
