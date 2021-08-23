@@ -19,6 +19,7 @@
     table-layout: initial;
   }
 
+
   &__row {
     display: flex;
     align-items: center;
@@ -34,6 +35,31 @@
     .add-button {
       font-size: 13px;
     }
+  }
+
+  &__header_cancel{
+    display: flex;
+
+    .pix-tooltip{
+      padding-left: 5px;
+    }
+
+    .pix-tooltip__content--wide{
+      width: 600px;
+    }
+
+    ul{
+      margin-left: 10px;
+
+      li{
+        list-style-type: disc;
+
+        li{
+          list-style-type: '- ';
+        }
+      }
+    }
+
   }
 
   .finalization-report-cancel-reason {
