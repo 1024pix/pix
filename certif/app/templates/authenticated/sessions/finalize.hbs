@@ -13,8 +13,13 @@
       @title="Renseigner les informations de vos candidats"
       @icon="/icons/session-finalization-user.svg"
       @iconAlt="">
+    <SessionFinalization::UncompletedReportsInformationStep
+      @certificationReports={{this.session.uncompletedCertificationReports}}
+      @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+      @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+    />
     <SessionFinalization::CompletedReportsInformationStep
-        @certificationReports={{this.session.certificationReports}}
+        @certificationReports={{this.session.completedCertificationReports}}
         @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
         @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
         @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}

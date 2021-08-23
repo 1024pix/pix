@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class CompletedReportsInformationStep extends Component {
+export default class UncompletedReportsInformationStep extends Component {
 
   @tracked reportToEdit = null;
   @tracked showAddIssueReportModal = false;
@@ -12,18 +12,11 @@ export default class CompletedReportsInformationStep extends Component {
     return this.args.certificationReports.length !== 0;
   }
 
-  get hasCheckedEverything() {
-    const allCertifReportsAreCheck = this.args.certificationReports.every((report) => report.hasSeenEndTestScreen);
-    return this.certifReportsAreNotEmpty && allCertifReportsAreCheck;
-  }
-
-  get hasCheckedSomething() {
-    const hasOneOrMoreCheck = this.args.certificationReports.any((report) => report.hasSeenEndTestScreen);
-    return this.certifReportsAreNotEmpty && hasOneOrMoreCheck;
-  }
-
-  get headerCheckboxStatus() {
-    return this.hasCheckedEverything ? 'checked' : this.hasCheckedSomething ? 'partial' : 'unchecked';
+  get cancelOptions() {
+    return [
+      { label: 'Abandon du candidat', value: 'candidate' },
+      { label: 'Problème technique', value: 'technical' },
+    ];
   }
 
   @action
