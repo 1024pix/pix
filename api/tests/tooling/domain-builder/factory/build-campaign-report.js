@@ -19,6 +19,7 @@ module.exports = function buildCampaignReport({
   targetProfileImageUrl = 'url.org',
   participationsCount = 5,
   sharedParticipationsCount = 2,
+  averageResult = 0.4,
   badges = [],
   stages = [],
 } = {}) {
@@ -40,6 +41,7 @@ module.exports = function buildCampaignReport({
     targetProfileImageUrl,
     participationsCount,
     sharedParticipationsCount,
+    averageResult,
     badges,
     stages,
   });
