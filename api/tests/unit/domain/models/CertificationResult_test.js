@@ -5,21 +5,13 @@ const { expect, domainBuilder } = require('../../../test-helper');
 describe('Unit | Domain | Models | CertificationResult', function() {
 
   context('#constructor', function() {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const assessmentId = domainBuilder.buildAssessment().id;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const assessmentResultId = domainBuilder.buildAssessmentResult().id;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const sessionId = domainBuilder.buildSession().id;
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const competenceMarks = [domainBuilder.buildCompetenceMark()];
+    const assessmentId = 123, assessmentResultId = 456, sessionId = 789;
+    const competenceMarks = [], certificationIssueReports = [];
+
+    beforeEach(function() {
+      competenceMarks.push(domainBuilder.buildCompetenceMark());
+      certificationIssueReports.push(domainBuilder.buildCertificationIssueReport());
+    });
 
     it('should construct a certification result with assessementResult data', function() {
       // given
@@ -198,6 +190,225 @@ describe('Unit | Domain | Models | CertificationResult', function() {
 
       // then
       expect(certificationResult).to.deep.equal(expectedCertificationResult);
+    });
+  });
+
+  context('#static from', function() {
+    let certificationResultData;
+
+    beforeEach(function() {
+      certificationResultData = {
+        id: 123,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        isPublished: true,
+        isV2Certification: true,
+        externalId: 'VAMPIRES_SUCK',
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-02'),
+        hasSeenEndTestScreen: true,
+        sessionId: 456,
+        assessmentId: 789,
+        resultCreatedAt: new Date('2020-01-03'),
+        pixScore: 123,
+        emitter: 'Moi',
+        commentForCandidate: 'Un commentaire candidat 1',
+        commentForJury: 'Un commentaire jury 1',
+        commentForOrganization: 'Un commentaire orga 1',
+        juryId: 159,
+        competenceMarksJson: '[{ "id":123, "score":10, "level":4, "area_code":2, "competence_code":2.3, "assessmentResultId":753, "competenceId":"recComp23"}]',
+      };
+    });
+
+    it('should build a CertificationResult from various arguments', function() {
+      // given
+      const certificationResultDTO = {
+        ...certificationResultData,
+        isCancelled: false,
+        assessmentResultStatus: CertificationResult.status.VALIDATED,
+      };
+      const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+      // when
+      const certificationResult = CertificationResult.from({
+        certificationResultDTO,
+        certificationIssueReports,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
+      });
+
+      // then
+      const expectedCertificationResult = domainBuilder.buildCertificationResult2({
+        id: 123,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        isPublished: true,
+        isV2Certification: true,
+        externalId: 'VAMPIRES_SUCK',
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-02'),
+        hasSeenEndTestScreen: true,
+        sessionId: 456,
+        assessmentId: 789,
+        resultCreatedAt: new Date('2020-01-03'),
+        pixScore: 123,
+        status: CertificationResult.status.VALIDATED,
+        emitter: 'Moi',
+        commentForCandidate: 'Un commentaire candidat 1',
+        commentForJury: 'Un commentaire jury 1',
+        commentForOrganization: 'Un commentaire orga 1',
+        juryId: 159,
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
+        certificationIssueReports,
+        competencesWithMark: [domainBuilder.buildCompetenceMark({
+          id: 123,
+          level: 4,
+          score: 10,
+          area_code: '2',
+          competence_code: '2.3',
+          competenceId: 'recComp23',
+          assessmentResultId: 753,
+        })],
+      });
+      expect(certificationResult).to.deepEqualInstance(expectedCertificationResult);
+    });
+
+    context('status', function() {
+
+      it('should build a cancelled CertificationResult when certification is cancelled', function() {
+        // given
+        const certificationResultDTO = {
+          ...certificationResultData,
+          isCancelled: true,
+          assessmentResultStatus: CertificationResult.status.VALIDATED,
+        };
+        const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+        // when
+        const certificationResult = CertificationResult.from({
+          certificationResultDTO,
+          certificationIssueReports,
+          cleaCertificationResult,
+          pixPlusDroitMaitreCertificationResult,
+          pixPlusDroitExpertCertificationResult,
+        });
+
+        // then
+        expect(certificationResult.status).to.equal(CertificationResult.status.CANCELLED);
+      });
+
+      it('should build a validated CertificationResult when assessmentResultStatus is validated and certification not cancelled', function() {
+        // given
+        const certificationResultDTO = {
+          ...certificationResultData,
+          isCancelled: false,
+          assessmentResultStatus: CertificationResult.status.VALIDATED,
+        };
+        const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+        // when
+        const certificationResult = CertificationResult.from({
+          certificationResultDTO,
+          certificationIssueReports,
+          cleaCertificationResult,
+          pixPlusDroitMaitreCertificationResult,
+          pixPlusDroitExpertCertificationResult,
+        });
+
+        // then
+        expect(certificationResult.status).to.equal(CertificationResult.status.VALIDATED);
+      });
+
+      it('should build a rejected CertificationResult when assessmentResultStatus is rejected and certification not cancelled', function() {
+        // given
+        const certificationResultDTO = {
+          ...certificationResultData,
+          isCancelled: false,
+          assessmentResultStatus: CertificationResult.status.REJECTED,
+        };
+        const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+        // when
+        const certificationResult = CertificationResult.from({
+          certificationResultDTO,
+          certificationIssueReports,
+          cleaCertificationResult,
+          pixPlusDroitMaitreCertificationResult,
+          pixPlusDroitExpertCertificationResult,
+        });
+
+        // then
+        expect(certificationResult.status).to.equal(CertificationResult.status.REJECTED);
+      });
+
+      it('should build an error CertificationResult when assessmentResultStatus is in error and certification not cancelled', function() {
+        // given
+        const certificationResultDTO = {
+          ...certificationResultData,
+          isCancelled: false,
+          assessmentResultStatus: CertificationResult.status.ERROR,
+        };
+        const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+        // when
+        const certificationResult = CertificationResult.from({
+          certificationResultDTO,
+          certificationIssueReports,
+          cleaCertificationResult,
+          pixPlusDroitMaitreCertificationResult,
+          pixPlusDroitExpertCertificationResult,
+        });
+
+        // then
+        expect(certificationResult.status).to.equal(CertificationResult.status.ERROR);
+      });
+
+      it('should build a started CertificationResult when there are no assessmentResultStatus and certification not cancelled', function() {
+        // given
+        const certificationResultDTO = {
+          ...certificationResultData,
+          isCancelled: false,
+          assessmentResultStatus: null,
+        };
+        const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
+        const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
+        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+        // when
+        const certificationResult = CertificationResult.from({
+          certificationResultDTO,
+          certificationIssueReports,
+          cleaCertificationResult,
+          pixPlusDroitMaitreCertificationResult,
+          pixPlusDroitExpertCertificationResult,
+        });
+
+        // then
+        expect(certificationResult.status).to.equal(CertificationResult.status.STARTED);
+      });
     });
   });
 

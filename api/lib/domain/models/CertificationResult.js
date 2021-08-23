@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const CompetenceMark = require('./CompetenceMark');
+
 const status = {
   REJECTED: 'rejected',
   VALIDATED: 'validated',
@@ -68,6 +71,52 @@ class CertificationResult {
     }
   }
 
+  static from({
+    certificationResultDTO,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+    certificationIssueReports,
+  }) {
+    const certificationResult = new CertificationResult();
+    certificationResult.id = certificationResultDTO.id;
+    certificationResult.firstName = certificationResultDTO.firstName;
+    certificationResult.lastName = certificationResultDTO.lastName;
+    certificationResult.birthplace = certificationResultDTO.birthplace;
+    certificationResult.birthdate = certificationResultDTO.birthdate;
+    certificationResult.externalId = certificationResultDTO.externalId;
+    certificationResult.createdAt = certificationResultDTO.createdAt;
+    certificationResult.completedAt = certificationResultDTO.completedAt;
+    certificationResult.isPublished = certificationResultDTO.isPublished;
+    certificationResult.isV2Certification = certificationResultDTO.isV2Certification;
+    certificationResult.cleaCertificationResult = cleaCertificationResult;
+    certificationResult.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
+    certificationResult.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    certificationResult.certificationIssueReports = certificationIssueReports;
+    certificationResult.hasSeenEndTestScreen = certificationResultDTO.hasSeenEndTestScreen;
+    certificationResult.assessmentId = certificationResultDTO.assessmentId;
+    certificationResult.sessionId = certificationResultDTO.sessionId;
+    if (certificationResultDTO.isCancelled) {
+      certificationResult.status = status.CANCELLED;
+    } else {
+      certificationResult.status = certificationResultDTO?.assessmentResultStatus ?? status.STARTED;
+    }
+    certificationResult.resultCreatedAt = certificationResultDTO.resultCreatedAt;
+    certificationResult.pixScore = certificationResultDTO.pixScore;
+    certificationResult.emitter = certificationResultDTO.emitter;
+    certificationResult.commentForCandidate = certificationResultDTO.commentForCandidate;
+    certificationResult.commentForJury = certificationResultDTO.commentForJury;
+    certificationResult.commentForOrganization = certificationResultDTO.commentForOrganization;
+    certificationResult.juryId = certificationResultDTO.juryId;
+    const competenceMarkDTOs = JSON.parse(certificationResultDTO.competenceMarksJson);
+    certificationResult.competencesWithMark = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
+      ...competenceMarkDTO,
+      area_code: competenceMarkDTO.area_code.toString(),
+      competence_code: competenceMarkDTO.competence_code.toString(),
+    }));
+    return certificationResult;
+  }
+
   isCancelled() {
     return this.status === status.CANCELLED;
   }
@@ -93,5 +142,5 @@ function _getStatus(lastAssessmentResult, isCourseCancelled) {
   return lastAssessmentResult?.status ?? status.STARTED;
 }
 
-module.exports = CertificationResult;
 CertificationResult.status = status;
+module.exports = CertificationResult;
