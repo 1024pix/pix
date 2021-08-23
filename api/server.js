@@ -10,6 +10,15 @@ const swaggers = require('./lib/swaggers');
 const authentication = require('./lib/infrastructure/authentication');
 
 const { handleFailAction } = require('./lib/validate');
+const { asyncLocalStorage } = require('./lib/infrastructure/performance-tools');
+
+const Request = require('@hapi/hapi/lib/request');
+const originalMethod = Request.prototype._execute;
+
+Request.prototype._execute = function(...args) {
+  const request = this;
+  return asyncLocalStorage.run(request, () => originalMethod.call(request, args));
+};
 
 let config;
 
