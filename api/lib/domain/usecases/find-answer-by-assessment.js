@@ -12,7 +12,9 @@ module.exports = async function findAnswerByAssessment(
   } = {}) {
   const integerAssessmentId = parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {
-    throw new EntityValidationError('This assessment ID is not valid.');
+    throw new EntityValidationError({
+      invalidAttributes: [{ attribute: 'assessmentId', message: 'This assessment ID is not valid.' }],
+    });
   }
 
   const ownedByUser = await assessmentRepository.ownedByUser({ id: assessmentId, userId });

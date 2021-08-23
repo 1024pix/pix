@@ -87,6 +87,14 @@ module.exports = {
     return count > 0;
   },
 
+  async findParticipantExternalId(campaignId, userId, domainTransaction) {
+    const campaignParticipation = await domainTransaction.knexTransaction('campaign-participations')
+      .select('participantExternalId')
+      .where({ campaignId, userId })
+      .first();
+    return campaignParticipation?.participantExternalId;
+  },
+
   async findProfilesCollectionResultDataByCampaignId(campaignId) {
     const results = await knex.with('campaignParticipationWithUser',
       (qb) => {

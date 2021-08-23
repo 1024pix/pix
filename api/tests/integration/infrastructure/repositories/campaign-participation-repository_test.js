@@ -233,6 +233,49 @@ describe('Integration | Repository | Campaign Participation', function() {
     });
   });
 
+  describe('findParticipantExternalId', function() {
+    it('returns participantExternalId', async function() {
+      const participantExternalId = 'kékédu26';
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, participantExternalId });
+      await databaseBuilder.commit();
+
+      const result = await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.findParticipantExternalId(campaignId, userId, domainTransaction);
+      });
+
+      expect(result).to.equals(participantExternalId);
+    });
+
+    it('returns null when participantExternalId is null', async function() {
+      const userId = databaseBuilder.factory.buildUser().id;
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, participantExternalId: null });
+
+      await databaseBuilder.commit();
+      const result = await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.findParticipantExternalId(campaignId, userId, domainTransaction);
+      });
+
+      expect(result).to.equals(null);
+    });
+
+    it('returns undefined when no participation is found', async function() {
+      const otherCampaignId = '999';
+      const campaignId = databaseBuilder.factory.buildCampaign().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, participantExternalId: '123' });
+
+      await databaseBuilder.commit();
+      const result = await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.findParticipantExternalId(otherCampaignId, userId, domainTransaction);
+      });
+
+      expect(result).to.equals(undefined);
+    });
+  });
+
   describe('#count', function() {
 
     let campaignId;

@@ -337,41 +337,65 @@ describe('Integration | Repository | CampaignToJoin', function() {
         expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
       });
 
-      it('should throw error when there is participation which is shared for user but the mastery percentage is 100%', async function() {
-        // given
-        let error;
-        const userId = databaseBuilder.factory.buildUser().id;
-        const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, targetProfileId });
-        databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: true, validatedSkillsCount: 1 });
-        databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false, validatedSkillsCount: 2 });
-        const campaignToJoin = domainBuilder.buildCampaignToJoin({
-          ...campaignData,
-        });
-        await databaseBuilder.commit();
+      context('when campaign is of type ASSESSMENT', function() {
+        it('should throw error when there is participation which is shared for user but the mastery percentage is 100%', async function() {
+          // given
+          let error;
+          const userId = databaseBuilder.factory.buildUser().id;
+          const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, targetProfileId });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: true, validatedSkillsCount: 1 });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false, validatedSkillsCount: 2 });
+          const campaignToJoin = domainBuilder.buildCampaignToJoin({
+            ...campaignData,
+          });
+          await databaseBuilder.commit();
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+          await DomainTransaction.execute(async (domainTransaction) => {
+            error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+          });
+          expect(error).to.be.instanceOf(ForbiddenAccess);
+          expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
         });
-        expect(error).to.be.instanceOf(ForbiddenAccess);
-        expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+
+        it('should throw error when there is participation which is shared for user but the mastery percentage is over 100%', async function() {
+          // given
+          let error;
+          const userId = databaseBuilder.factory.buildUser().id;
+          const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, targetProfileId });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false, validatedSkillsCount: 3 });
+          const campaignToJoin = domainBuilder.buildCampaignToJoin({
+            ...campaignData,
+          });
+          await databaseBuilder.commit();
+
+          await DomainTransaction.execute(async (domainTransaction) => {
+            error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+          });
+          expect(error).to.be.instanceOf(ForbiddenAccess);
+          expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
+        });
       });
 
-      it('should throw error when there is participation which is shared for user but the mastery percentage is over 100%', async function() {
-        // given
-        let error;
-        const userId = databaseBuilder.factory.buildUser().id;
-        const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, targetProfileId });
-        databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: false, validatedSkillsCount: 3 });
-        const campaignToJoin = domainBuilder.buildCampaignToJoin({
-          ...campaignData,
-        });
-        await databaseBuilder.commit();
+      context('when campaign is of type PROFILES_COLLECTION', function() {
+        it('should not throw an error', async function() {
+          // given
+          const userId = databaseBuilder.factory.buildUser().id;
+          const campaignData = databaseBuilder.factory.buildCampaign({ multipleSendings: true, type: 'PROFILES_COLLECTION' });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-01'), isImproved: true, validatedSkillsCount: 1 });
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaignData.id, isShared: true, sharedAt: new Date('2020-01-05'), isImproved: false, validatedSkillsCount: 2 });
+          const campaignToJoin = domainBuilder.buildCampaignToJoin({
+            ...campaignData,
+          });
+          await databaseBuilder.commit();
 
-        await DomainTransaction.execute(async (domainTransaction) => {
-          error = await catchErr(campaignToJoinRepository.checkCampaignIsJoinableByUser)(campaignToJoin, userId, domainTransaction);
+          try {
+            await DomainTransaction.execute(async (domainTransaction) => {
+              return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
+            });
+          } catch (error) {
+            expect.fail(`"${error}" should not have been thrown`);
+          }
         });
-        expect(error).to.be.instanceOf(ForbiddenAccess);
-        expect(error.message).to.equal('Vous ne pouvez pas repasser la campagne');
       });
     });
   });

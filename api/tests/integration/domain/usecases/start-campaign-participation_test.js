@@ -1,4 +1,4 @@
-const { expect, databaseBuilder, domainBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, databaseBuilder, domainBuilder, knex, catchErr, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const startCampaignParticipation = require('../../../../lib/domain/usecases/start-campaign-participation');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
@@ -10,16 +10,14 @@ describe('Integration | UseCases | start-campaign-participation', function() {
 
   let userId;
   let organizationId;
-  let targetProfileId;
   let campaignId;
 
   beforeEach(async function() {
+    const learningContentObjects = learningContentBuilder.buildLearningContent([]);
+    mockLearningContent(learningContentObjects);
+
     organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: false }).id;
     userId = databaseBuilder.factory.buildUser().id;
-    databaseBuilder.factory.buildMembership({
-      organizationId, userId,
-    });
-    targetProfileId = databaseBuilder.factory.buildTargetProfile({ organizationId }).id;
     await databaseBuilder.commit();
   });
 
@@ -30,7 +28,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
 
   it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async function() {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', creatorId: userId, organizationId, targetProfileId }).id;
+    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', organizationId }).id;
     await databaseBuilder.commit();
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
@@ -48,7 +46,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
 
   it('should save only a campaign participation when campaign is of type PROFILES_COLLECTION', async function() {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', creatorId: userId, organizationId, targetProfileId: null }).id;
+    campaignId = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', organizationId }).id;
     await databaseBuilder.commit();
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
@@ -66,7 +64,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
 
   it('should throw an error and not create anything when something goes wrong within the transaction', async function() {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', creatorId: userId, organizationId, targetProfileId }).id;
+    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', organizationId }).id;
     await databaseBuilder.commit();
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
@@ -85,20 +83,113 @@ describe('Integration | UseCases | start-campaign-participation', function() {
     expect(assessments).to.have.lengthOf(0);
   });
 
-  it('should throw an error and not create anything when campaign has idPixLabel and no participantExternalId', async function() {
-    // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', idPixLabel: 'toto', creatorId: userId, organizationId, targetProfileId }).id;
-    await databaseBuilder.commit();
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+  context('when campaign is multipleSendings', function() {
+    let campaignParticipation;
 
-    // when
-    const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+    beforeEach(async function() {
+      campaignId = databaseBuilder.factory.buildCampaign({ multipleSendings: true, idPixLabel: null, organizationId }).id;
+      await databaseBuilder.commit();
+    });
 
-    // then
-    const campaignParticipations = await knex('campaign-participations');
-    expect(campaignParticipations).to.have.lengthOf(0);
-    const assessments = await knex('assessments');
-    expect(assessments).to.have.lengthOf(0);
-    expect(error).to.be.instanceOf(EntityValidationError);
+    it('should save new participation', async function() {
+      databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+      await databaseBuilder.commit();
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+      });
+
+      const campaignParticipations = await knex('campaign-participations').where('campaignId', campaignId).andWhere('userId', userId);
+      expect(campaignParticipations).to.have.lengthOf(2);
+    });
+
+    it('should mark old participation as improved', async function() {
+      const oldCampaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, isImproved: false }).id;
+      await databaseBuilder.commit();
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
+
+      await DomainTransaction.execute(async (domainTransaction) => {
+        await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+      });
+
+      const result = await knex('campaign-participations').where('id', oldCampaignParticipationId).first();
+      expect(result.isImproved).to.be.true;
+    });
+  });
+
+  context('when campaign has idPixLabel and no participantExternalId', function() {
+    let campaignParticipation;
+
+    beforeEach(async function() {
+      campaignId = databaseBuilder.factory.buildCampaign({ idPixLabel: 'toto', organizationId }).id;
+      await databaseBuilder.commit();
+      campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+    });
+
+    it('should throw an error', async function() {
+      const error = await catchErr(startCampaignParticipation)({
+        campaignParticipation,
+        userId,
+        campaignParticipationRepository,
+        assessmentRepository,
+        campaignToJoinRepository,
+      });
+
+      expect(error).to.be.instanceOf(EntityValidationError);
+      expect(error.invalidAttributes[0].attribute).to.equal('participantExternalId');
+      expect(error.invalidAttributes[0].message).to.equal('Un identifiant externe est requis pour accèder à la campagne.');
+    });
+
+    it('should not create anything', async function() {
+      await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+
+      const campaignParticipations = await knex('campaign-participations');
+      expect(campaignParticipations).to.have.lengthOf(0);
+      const assessments = await knex('assessments');
+      expect(assessments).to.have.lengthOf(0);
+    });
+
+    context('when campaign is multipleSendings', function() {
+      beforeEach(async function() {
+        campaignId = databaseBuilder.factory.buildCampaign({ multipleSendings: true, idPixLabel: 'identifiant', organizationId }).id;
+        await databaseBuilder.commit();
+      });
+
+      context('when it is its first participation', function() {
+
+        it('should throw an error', async function() {
+          const error = await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+
+          expect(error).to.be.instanceOf(EntityValidationError);
+          expect(error.invalidAttributes[0].attribute).to.equal('participantExternalId');
+          expect(error.invalidAttributes[0].message).to.equal('Un identifiant externe est requis pour accèder à la campagne.');
+        });
+
+        it('should not create anything', async function() {
+          await catchErr(startCampaignParticipation)({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository });
+
+          const campaignParticipations = await knex('campaign-participations');
+          expect(campaignParticipations).to.have.lengthOf(0);
+          const assessments = await knex('assessments');
+          expect(assessments).to.have.lengthOf(0);
+        });
+      });
+
+      context('when it is a retry', function() {
+        it('should save new participation with participant external id of first participation', async function() {
+          databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, participantExternalId: '123' }).id;
+          await databaseBuilder.commit();
+          campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, participantExternalId: null });
+
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+          });
+
+          const campaignParticipations = await knex('campaign-participations').where('participantExternalId', 123);
+          expect(campaignParticipations).to.have.lengthOf(2);
+        });
+      });
+    });
   });
 });
