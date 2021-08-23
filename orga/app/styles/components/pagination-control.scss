@@ -8,6 +8,7 @@
 .page-size {
   display: flex;
   align-items: center;
+  padding: 0;
 
   &__label {
     margin-right: 16px;
@@ -24,6 +25,7 @@ select.page-size__choice {
 .page-navigation {
   display: flex;
   align-items: center;
+  padding: 0;
 
   &__arrow {
     &--previous {

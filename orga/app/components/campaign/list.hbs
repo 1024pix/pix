@@ -1,70 +1,58 @@
-<div class="campaign-list" role="tabpanel">
+<section class="campaign-list">
   <div class="panel">
-    <div class="table content-text content-text--small">
-      <table>
-        <thead>
-          <tr>
-            <th class="table__column table__column--wide">
-              {{t 'pages.campaigns-list.table.column.campaign'}}
-            </th>
-            <th class="table__column hide-on-mobile">
-              {{t 'pages.campaigns-list.table.column.created-by'}}
-            </th>
-            <th class="table__column table__column--small hide-on-mobile">
-              {{t 'pages.campaigns-list.table.column.created-on'}}
-            </th>
-            <th class="table__column table__column--small hide-on-mobile">
-              {{t 'pages.campaigns-list.table.column.participants'}}
-            </th>
-            <th class="table__column table__column--small hide-on-mobile">
-              {{t 'pages.campaigns-list.table.column.results'}}
-            </th>
-          </tr>
-          <tr class="hide-on-mobile">
-            <Table::HeaderFilterInput
-              @field="name"
-              @value={{@nameFilter}}
-              @placeholder={{t 'pages.campaigns-list.table.filter.by-name'}}
-              @ariaLabel={{t 'pages.campaigns-list.table.filter.by-name'}}
-              @triggerFiltering={{@onFilter}}
-            />
-            <Table::HeaderFilterInput
-              @field="creatorName"
-              @value={{@creatorNameFilter}}
-              @placeholder={{t 'pages.campaigns-list.table.filter.by-creator'}}
-              @ariaLabel={{t 'pages.campaigns-list.table.filter.by-creator'}}
-              @triggerFiltering={{@onFilter}}
-            />
-            <Table::Header/>
-            <Table::Header/>
-            <Table::Header/>
-          </tr>
-        </thead>
+    <table class="table content-text content-text--small">
+      <thead>
+        <tr>
+          <Table::Header @size="wide">{{t "pages.campaigns-list.table.column.campaign"}}</Table::Header>
+          <Table::Header @size="wide" class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-by"}}</Table::Header>
+          <Table::Header @size="small" class="hide-on-mobile">{{t "pages.campaigns-list.table.column.created-on"}}</Table::Header>
+          <Table::Header @size="small" class="hide-on-mobile">{{t "pages.campaigns-list.table.column.participants"}}</Table::Header>
+          <Table::Header @size="small" class="hide-on-mobile">{{t "pages.campaigns-list.table.column.results"}}</Table::Header>
+        </tr>
+        <tr class="hide-on-mobile">
+          <Table::HeaderFilterInput
+            @field="name"
+            @value={{@nameFilter}}
+            @placeholder={{t 'pages.campaigns-list.table.filter.by-name'}}
+            @ariaLabel={{t 'pages.campaigns-list.table.filter.by-name'}}
+            @triggerFiltering={{@onFilter}}
+          />
+          <Table::HeaderFilterInput
+            @field="creatorName"
+            @value={{@creatorNameFilter}}
+            @placeholder={{t 'pages.campaigns-list.table.filter.by-creator'}}
+            @ariaLabel={{t 'pages.campaigns-list.table.filter.by-creator'}}
+            @triggerFiltering={{@onFilter}}
+          />
+          <Table::Header/>
+          <Table::Header/>
+          <Table::Header/>
+        </tr>
+      </thead>
 
-        <tbody>
-        {{#each @campaigns as |campaign|}}
-          <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} {{on 'click' (fn @onClickCampaign campaign.id)}} class="tr--clickable">
-            <td class="table__column">
-              <LinkTo @route="authenticated.campaigns.campaign"
-                      @model={{campaign}}>
-                {{campaign.name}}
-              </LinkTo>
-            </td>
-            <td class="table__column--truncated hide-on-mobile">{{campaign.creatorFullName}}</td>
-            <td class="hide-on-mobile">{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
-            <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
-            <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>
-          </tr>
-        {{/each}}
-        </tbody>
-      </table>
-      {{#if (eq @campaigns.length 0)}}
-        <div class="table__empty content-text">
-          {{t 'pages.campaigns-list.table.empty'}}
-        </div>
-      {{/if}}
-    </div>
+      <tbody>
+      {{#each @campaigns as |campaign|}}
+        <tr aria-label={{t 'pages.campaigns-list.table.row-title'}} {{on 'click' (fn @onClickCampaign campaign.id)}} class="tr--clickable">
+          <td class="table__column">
+            <LinkTo @route="authenticated.campaigns.campaign"
+                    @model={{campaign}}>
+              {{campaign.name}}
+            </LinkTo>
+          </td>
+          <td class="table__column--truncated hide-on-mobile">{{campaign.creatorFullName}}</td>
+          <td class="hide-on-mobile">{{moment-format campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}</td>
+          <td class="hide-on-mobile">{{campaign.participationsCount}}</td>
+          <td class="hide-on-mobile">{{campaign.sharedParticipationsCount}}</td>
+        </tr>
+      {{/each}}
+      </tbody>
+    </table>
+    {{#if (eq @campaigns.length 0)}}
+      <p class="table__empty content-text">
+        {{t 'pages.campaigns-list.table.empty'}}
+      </p>
+    {{/if}}
   </div>
-</div>
 
-<Table::PaginationControl @pagination={{@campaigns.meta}}/>
+  <Table::PaginationControl @pagination={{@campaigns.meta}}/>
+</section>
