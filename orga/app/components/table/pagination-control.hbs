@@ -1,8 +1,6 @@
-<div class="pagination-control content-text content-text--small">
-  <div class="page-size">
-    <div class="page-size__label">
-      {{t 'common.pagination.result-by-page'}}
-    </div>
+<footer class="pagination-control content-text content-text--small">
+  <section class="page-size">
+    <p class="page-size__label">{{t 'common.pagination.result-by-page'}}</p>
     <PixSelect
       aria-label={{t 'common.pagination.action.select-page-size'}}
       class="page-size__choice"
@@ -10,34 +8,32 @@
       @onChange={{this.changePageSize}}
       @options={{this.pageOptions}}
     />
-  </div>
-  <div class="page-navigation">
-    <div class="page-navigation__arrow page-navigation__arrow--previous">
-      <PixIconButton
-        @icon="arrow-left"
-        aria-label={{t 'common.pagination.action.previous'}}
-        @triggerAction={{this.goToPreviousPage}}
-        @withBackground={{false}}
-        @size="small"
-        @color="dark-grey"
-        disabled={{eq this.currentPage 1}}
-        aria-disabled="{{eq this.currentPage 1}}"
-      />
-    </div>
-    <div>
+  </section>
+  <section class="page-navigation">
+    <PixIconButton
+      @icon="arrow-left"
+      aria-label={{t 'common.pagination.action.previous'}}
+      @triggerAction={{this.goToPreviousPage}}
+      @withBackground={{false}}
+      @size="small"
+      @color="dark-grey"
+      disabled={{eq this.currentPage 1}}
+      aria-disabled="{{eq this.currentPage 1}}"
+      class="page-navigation__arrow page-navigation__arrow--previous"
+    />
+    <p>
       {{t 'common.pagination.page-number' current=this.currentPage total=(if this.pageCount this.pageCount 1)}}
-    </div>
-    <div class="page-navigation__arrow page-navigation__arrow--next">
-      <PixIconButton
-        @icon="arrow-right"
-        aria-label={{t 'common.pagination.action.next'}}
-        @triggerAction={{this.goToNextPage}}
-        @withBackground={{false}}
-        @size="small"
-        @color="dark-grey"
-        disabled={{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}
-        aria-disabled="{{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}"
-      />
-    </div>
-  </div>
-</div>
+    </p>
+    <PixIconButton
+      @icon="arrow-right"
+      aria-label={{t 'common.pagination.action.next'}}
+      @triggerAction={{this.goToNextPage}}
+      @withBackground={{false}}
+      @size="small"
+      @color="dark-grey"
+      disabled={{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}
+      aria-disabled="{{or (eq this.currentPage this.pageCount) (eq this.pageCount 0)}}"
+      class="page-navigation__arrow page-navigation__arrow--next"
+    />
+  </section>
+</footer>

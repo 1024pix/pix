@@ -1,8 +1,9 @@
 {{page-title this.pageTitle}}
 
-<div class="list-campaigns-page">
+<article class="list-campaigns-page">
   {{#if @model.meta.hasCampaigns}}
-    <Campaign::ListActions 
+    <Campaign::ListActions
+      @title={{this.pageTitle}}
       @isArchived={{this.isArchived}}
       @onClickStatusFilter={{this.updateCampaignStatus}}
     />
@@ -16,4 +17,4 @@
   {{else}}
     <Campaign::NoCampaignPanel />
   {{/if}}
-</div>
+</article>
