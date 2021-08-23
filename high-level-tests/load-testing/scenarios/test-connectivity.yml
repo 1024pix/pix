@@ -1,0 +1,24 @@
+config:
+  phases:
+    - duration: 1
+      arrivalRate: 1
+      name: "Test connectivity"
+
+  plugins:
+    expect: {}
+
+scenarios:
+  - name: "Vérifier le bon déploiement de l'API"
+    flow:
+      - get:
+          url: "/api"
+          capture:
+            - json: "$.name"
+              as: name
+          expect:
+            - statusCode: 200
+            - contentType: json
+            - hasProperty: name
+            - equals:
+                - "{{ name }}"
+                - "pix-api"
