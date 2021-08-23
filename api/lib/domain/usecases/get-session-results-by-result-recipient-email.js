@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const moment = require('moment');
 
 module.exports = async function getSessionResultsByResultRecipientEmail({
   sessionId,
@@ -16,8 +15,5 @@ module.exports = async function getSessionResultsByResultRecipientEmail({
 
   const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: certificationCandidateIdsForResultRecipient });
 
-  const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
-  const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
-
-  return { session, certificationResults, fileName };
+  return { session, certificationResults };
 };
