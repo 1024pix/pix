@@ -15,8 +15,8 @@ describe('Unit | Domain | Use Cases | get-session-results', function() {
     // given
     const expectedSession = domainBuilder.buildSession();
     sessionRepository.get.withArgs(123).resolves(expectedSession);
-    const certificationResult1 = domainBuilder.buildCertificationResult2({ firstName: 'Buffy' });
-    const certificationResult2 = domainBuilder.buildCertificationResult2({ firstName: 'Spike' });
+    const certificationResult1 = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
+    const certificationResult2 = domainBuilder.buildCertificationResult({ firstName: 'Spike' });
     certificationResultRepository.findBySessionId.withArgs({ sessionId: 123 }).resolves([certificationResult1, certificationResult2]);
 
     // when

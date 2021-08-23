@@ -41,7 +41,6 @@ module.exports = {
   buildCertifiableProfileForLearningContent: require('./build-certifiable-profile-for-learning-content'),
   buildCertificationReport: require('./build-certification-report'),
   buildCertificationResult: require('./build-certification-result'),
-  buildCertificationResult2: require('./build-certification-result-2'),
   buildCertificationRescoringCompletedEvent: require('./build-certification-rescoring-completed-event'),
   buildCertificationScoringCompletedEvent: require('./build-certification-scoring-completed-event'),
   buildCertifiedArea: require('./build-certified-area'),

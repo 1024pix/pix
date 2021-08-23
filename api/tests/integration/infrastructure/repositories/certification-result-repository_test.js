@@ -85,7 +85,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 
       // then
-      const expectedFirstCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedFirstCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId2,
         firstName: 'Rupert',
         lastName: 'Giles',
@@ -103,7 +103,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
       });
-      const expectedSecondCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
         firstName: 'Auffy',
         lastName: 'Summers',
@@ -121,7 +121,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         commentForOrganization: null,
         competencesWithMark: [],
       });
-      const expectedThirdCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
         firstName: 'Buffy',
         lastName: 'Summers',
@@ -306,7 +306,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       });
 
       // then
-      const expectedFirstCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedFirstCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId2,
         firstName: 'Rupert',
         lastName: 'Giles',
@@ -324,7 +324,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
       });
-      const expectedSecondCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedSecondCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId3,
         firstName: 'Auffy',
         lastName: 'Summers',
@@ -342,7 +342,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         commentForOrganization: null,
         competencesWithMark: [],
       });
-      const expectedThirdCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedThirdCertificationResult = domainBuilder.buildCertificationResult({
         id: certificationCourseId1,
         firstName: 'Buffy',
         lastName: 'Summers',

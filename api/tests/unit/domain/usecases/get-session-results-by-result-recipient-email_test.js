@@ -47,7 +47,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
       time: '12:05:30',
     });
     sessionRepository.getWithCertificationCandidates.withArgs(123).resolves(expectedSession);
-    const certificationResult = domainBuilder.buildCertificationResult2({ firstName: 'Buffy' });
+    const certificationResult = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
     certificationResultRepository.findByCertificationCandidateIds.withArgs({ certificationCandidateIds: [789] }).resolves([certificationResult]);
 
     // when

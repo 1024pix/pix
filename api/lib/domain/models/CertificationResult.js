@@ -10,9 +10,9 @@ const status = {
 };
 
 class CertificationResult {
+
   constructor({
     id,
-    lastAssessmentResult,
     firstName,
     lastName,
     birthplace,
@@ -20,35 +20,31 @@ class CertificationResult {
     externalId,
     createdAt,
     isPublished,
+    sessionId,
+    status,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
-    sessionId,
-    isCourseCancelled,
-  } = {}) {
+  }) {
     this.id = id;
-    this.lastName = lastName;
     this.firstName = firstName;
+    this.lastName = lastName;
     this.birthplace = birthplace;
     this.birthdate = birthdate;
     this.externalId = externalId;
     this.createdAt = createdAt;
     this.isPublished = isPublished;
+    this.sessionId = sessionId;
+    this.status = status;
+    this.pixScore = pixScore;
+    this.commentForOrganization = commentForOrganization;
+    this.competencesWithMark = competencesWithMark;
     this.cleaCertificationResult = cleaCertificationResult;
     this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
     this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
-    this.sessionId = sessionId;
-    this.status = _getStatus(lastAssessmentResult, isCourseCancelled);
-
-    if (lastAssessmentResult) {
-      this.pixScore = lastAssessmentResult.pixScore;
-      this.commentForOrganization = lastAssessmentResult.commentForOrganization;
-      this.competencesWithMark = lastAssessmentResult.competenceMarks;
-    } else {
-      this.pixScore = undefined;
-      this.commentForOrganization = undefined;
-      this.competencesWithMark = [];
-    }
   }
 
   static from({
@@ -57,33 +53,37 @@ class CertificationResult {
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
   }) {
-    const certificationResult = new CertificationResult();
-    certificationResult.id = certificationResultDTO.id;
-    certificationResult.firstName = certificationResultDTO.firstName;
-    certificationResult.lastName = certificationResultDTO.lastName;
-    certificationResult.birthplace = certificationResultDTO.birthplace;
-    certificationResult.birthdate = certificationResultDTO.birthdate;
-    certificationResult.externalId = certificationResultDTO.externalId;
-    certificationResult.createdAt = certificationResultDTO.createdAt;
-    certificationResult.isPublished = certificationResultDTO.isPublished;
-    certificationResult.cleaCertificationResult = cleaCertificationResult;
-    certificationResult.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    certificationResult.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
-    certificationResult.sessionId = certificationResultDTO.sessionId;
+    let certificationStatus;
     if (certificationResultDTO.isCancelled) {
-      certificationResult.status = status.CANCELLED;
+      certificationStatus = status.CANCELLED;
     } else {
-      certificationResult.status = certificationResultDTO?.assessmentResultStatus ?? status.STARTED;
+      certificationStatus = certificationResultDTO?.assessmentResultStatus ?? status.STARTED;
     }
-    certificationResult.pixScore = certificationResultDTO.pixScore;
-    certificationResult.commentForOrganization = certificationResultDTO.commentForOrganization;
     const competenceMarkDTOs = JSON.parse(certificationResultDTO.competenceMarksJson);
-    certificationResult.competencesWithMark = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
+    const competencesWithMark = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
       ...competenceMarkDTO,
       area_code: competenceMarkDTO.area_code.toString(),
       competence_code: competenceMarkDTO.competence_code.toString(),
     }));
-    return certificationResult;
+
+    return new CertificationResult({
+      id: certificationResultDTO.id,
+      firstName: certificationResultDTO.firstName,
+      lastName: certificationResultDTO.lastName,
+      birthplace: certificationResultDTO.birthplace,
+      birthdate: certificationResultDTO.birthdate,
+      externalId: certificationResultDTO.externalId,
+      createdAt: certificationResultDTO.createdAt,
+      isPublished: certificationResultDTO.isPublished,
+      sessionId: certificationResultDTO.sessionId,
+      status: certificationStatus,
+      pixScore: certificationResultDTO.pixScore,
+      commentForOrganization: certificationResultDTO.commentForOrganization,
+      competencesWithMark,
+      cleaCertificationResult,
+      pixPlusDroitMaitreCertificationResult,
+      pixPlusDroitExpertCertificationResult,
+    });
   }
 
   isCancelled() {
@@ -129,14 +129,6 @@ class CertificationResult {
   hasAcquiredPixPlusDroitExpert() {
     return this.pixPlusDroitExpertCertificationResult.isAcquired();
   }
-}
-
-function _getStatus(lastAssessmentResult, isCourseCancelled) {
-  if (isCourseCancelled) {
-    return status.CANCELLED;
-  }
-
-  return lastAssessmentResult?.status ?? status.STARTED;
 }
 
 CertificationResult.status = status;
