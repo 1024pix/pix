@@ -80,18 +80,6 @@ module.exports = {
     };
   },
 
-  async findLatestByCertificationCourseIdWithCompetenceMarks({ certificationCourseId }) {
-    const latestAssessmentResultBookshelf = await BookshelfAssessmentResult
-      .query((qb) => {
-        qb.join('assessments', 'assessments.id', 'assessment-results.assessmentId');
-        qb.where('assessments.certificationCourseId', '=', certificationCourseId);
-      })
-      .orderBy('createdAt', 'desc')
-      .fetch({ require: false, withRelated: ['competenceMarks'] });
-
-    return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, latestAssessmentResultBookshelf);
-  },
-
   async getByCertificationCourseId({ certificationCourseId }) {
     const assessment = await knex('assessments')
       .select('id')
