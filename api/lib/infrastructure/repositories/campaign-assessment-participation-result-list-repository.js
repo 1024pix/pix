@@ -34,7 +34,6 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
     knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
     'campaign-participations.participantExternalId',
-    'campaign-participations.validatedSkillsCount',
     'campaign-participations.masteryPercentage',
     'campaign-participations.id AS campaignParticipationId',
     'users.id AS userId',
@@ -80,10 +79,15 @@ function _filterByBadgeAcquisitionsOut(qb, filters) {
 function _filterByStage(qb, targetProfile, filters) {
   if (!filters.stages) return;
 
-  const boundaries = targetProfile.getSkillsCountBoundariesFromStages(filters.stages);
+  const thresholdBoundaries = targetProfile.getThresholdBoundariesFromStages(filters.stages);
+  const thresholdRateBoundaries = thresholdBoundaries.map((boundary) => ({
+    id: boundary.id,
+    from: boundary.from / 100,
+    to: boundary.to / 100,
+  }));
   qb.where((builder) => {
-    boundaries.forEach((boundary) => {
-      builder.orWhereBetween('campaign-participations.validatedSkillsCount', [boundary.from, boundary.to]);
+    thresholdRateBoundaries.forEach((boundary) => {
+      builder.orWhereBetween('campaign-participations.masteryPercentage', [boundary.from, boundary.to]);
     });
   });
 }
