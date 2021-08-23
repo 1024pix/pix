@@ -8,6 +8,7 @@ export default class CertificationReport extends Model {
   @attr('string') firstName;
   @attr('string') lastName;
   @attr('boolean') hasSeenEndTestScreen;
+  @attr('boolean') isCompleted;
 
   @hasMany('certification-issue-report') certificationIssueReports;
 
