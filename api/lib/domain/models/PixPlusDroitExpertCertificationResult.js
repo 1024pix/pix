@@ -29,6 +29,10 @@ class PixPlusDroitExpertCertificationResult {
   isTaken() {
     return this.status !== statuses.NOT_TAKEN;
   }
+
+  isAcquired() {
+    return this.status === statuses.ACQUIRED;
+  }
 }
 
 PixPlusDroitExpertCertificationResult.statuses = statuses;

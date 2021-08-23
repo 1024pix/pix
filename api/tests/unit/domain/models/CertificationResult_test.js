@@ -424,12 +424,144 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
+  context('#isValidated', function() {
+
+    it('returns true if status is "validated"', function() {
+      // given
+      const validatedCertificationResult = domainBuilder.buildCertificationResult2({
+        status: CertificationResult.status.VALIDATED,
+      });
+
+      // when
+      const isValidated = validatedCertificationResult.isValidated();
+
+      // then
+      expect(isValidated).to.be.true;
+    });
+
+    it('returns false otherwise', function() {
+      for (const status of Object.values(CertificationResult.status)) {
+        if (status !== CertificationResult.status.VALIDATED) {
+          // given
+          const notValidatedCertificationResult = domainBuilder.buildCertificationResult2({
+            status,
+          });
+
+          // when
+          const isValidated = notValidatedCertificationResult.isValidated();
+
+          // then
+          expect(isValidated).to.equal(false, `should not be validated when status is ${status}`);
+        }
+      }
+    });
+  });
+
+  context('#isRejected', function() {
+
+    it('returns true if status is "rejected"', function() {
+      // given
+      const rejectedCertificationResult = domainBuilder.buildCertificationResult2({
+        status: CertificationResult.status.REJECTED,
+      });
+
+      // when
+      const isRejected = rejectedCertificationResult.isRejected();
+
+      // then
+      expect(isRejected).to.be.true;
+    });
+
+    it('returns false otherwise', function() {
+      for (const status of Object.values(CertificationResult.status)) {
+        if (status !== CertificationResult.status.REJECTED) {
+          // given
+          const notRejectedCertificationResult = domainBuilder.buildCertificationResult2({
+            status,
+          });
+
+          // when
+          const isRejected = notRejectedCertificationResult.isRejected();
+
+          // then
+          expect(isRejected).to.equal(false, `should not be rejected when status is ${status}`);
+        }
+      }
+    });
+  });
+
+  context('#isInError', function() {
+
+    it('returns true if status is "error"', function() {
+      // given
+      const errorCertificationResult = domainBuilder.buildCertificationResult2({
+        status: CertificationResult.status.ERROR,
+      });
+
+      // when
+      const isInError = errorCertificationResult.isInError();
+
+      // then
+      expect(isInError).to.be.true;
+    });
+
+    it('returns false otherwise', function() {
+      for (const status of Object.values(CertificationResult.status)) {
+        if (status !== CertificationResult.status.ERROR) {
+          // given
+          const notErrorCertificationResult = domainBuilder.buildCertificationResult2({
+            status,
+          });
+
+          // when
+          const isInError = notErrorCertificationResult.isInError();
+
+          // then
+          expect(isInError).to.equal(false, `should not be in error when status is ${status}`);
+        }
+      }
+    });
+  });
+
+  context('#isStarted', function() {
+
+    it('returns true if status is "started"', function() {
+      // given
+      const startedCertificationResult = domainBuilder.buildCertificationResult2({
+        status: CertificationResult.status.STARTED,
+      });
+
+      // when
+      const isStarted = startedCertificationResult.isStarted();
+
+      // then
+      expect(isStarted).to.be.true;
+    });
+
+    it('returns false otherwise', function() {
+      for (const status of Object.values(CertificationResult.status)) {
+        if (status !== CertificationResult.status.STARTED) {
+          // given
+          const notStartedCertificationResult = domainBuilder.buildCertificationResult2({
+            status,
+          });
+
+          // when
+          const isStarted = notStartedCertificationResult.isStarted();
+
+          // then
+          expect(isStarted).to.equal(false, `should not be started when status is ${status}`);
+        }
+      }
+    });
+  });
+
   context('#hasTakenClea', function() {
 
     it('returns true when Clea certification has been taken in the certification', async function() {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
 
       // when
       const hasTakenClea = certificationResult.hasTakenClea();
@@ -441,7 +573,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Clea certification has not been taken in the certification', async function() {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-      const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
 
       // when
       const hasTakenClea = certificationResult.hasTakenClea();
@@ -451,12 +583,39 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
+  context('#hasAcquiredClea', function() {
+
+    it('returns true when Clea certification has been acquired', async function() {
+      // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
+      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
+
+      // when
+      const hasAcquiredClea = certificationResult.hasAcquiredClea();
+
+      // then
+      expect(hasAcquiredClea).to.be.true;
+    });
+
+    it('returns false when Clea certification has not been acquired', async function() {
+      // given
+      const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
+      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
+
+      // when
+      const hasAcquiredClea = certificationResult.hasAcquiredClea();
+
+      // then
+      expect(hasAcquiredClea).to.be.false;
+    });
+  });
+
   context('#hasTakenPixPlusDroitMaitre', function() {
 
     it('returns true when Pix plus maitre certification has been taken in the certification', async function() {
       // given
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
 
       // when
       const hasTakenPixPlusDroitMaitre = certificationResult.hasTakenPixPlusDroitMaitre();
@@ -468,7 +627,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Pix plus maitre certification has not been taken in the certification', async function() {
       // given
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
 
       // when
       const hasTakenPixPlusDroitMaitre = certificationResult.hasTakenPixPlusDroitMaitre();
@@ -478,12 +637,39 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
+  context('#hasAcquiredPixPlusDroitMaitre', function() {
+
+    it('returns true when Pix plus maitre certification has been acquired', async function() {
+      // given
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
+
+      // when
+      const hasAcquiredPixPlusDroitMaitre = certificationResult.hasAcquiredPixPlusDroitMaitre();
+
+      // then
+      expect(hasAcquiredPixPlusDroitMaitre).to.be.true;
+    });
+
+    it('returns false when Pix plus maitre certification has not been acquired', async function() {
+      // given
+      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
+
+      // when
+      const hasAcquiredPixPlusDroitMaitre = certificationResult.hasAcquiredPixPlusDroitMaitre();
+
+      // then
+      expect(hasAcquiredPixPlusDroitMaitre).to.be.false;
+    });
+  });
+
   context('#hasTakenPixPlusDroitExpert', function() {
 
     it('returns true when Pix plus droit expert certification has been taken in the certification', async function() {
       // given
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
 
       // when
       const hasTakenPixPlusDroitExpert = certificationResult.hasTakenPixPlusDroitExpert();
@@ -495,13 +681,40 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Pix plus droit expert certification has not been taken in the certification', async function() {
       // given
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
-      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
 
       // when
       const hasTakenPixPlusDroitExpert = certificationResult.hasTakenPixPlusDroitExpert();
 
       // then
       expect(hasTakenPixPlusDroitExpert).to.be.false;
+    });
+  });
+
+  context('#hasAcquiredPixPlusDroitExpert', function() {
+
+    it('returns true when Pix plus droit expert certification has been acquired', async function() {
+      // given
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
+
+      // when
+      const hasAcquiredPixPlusDroitExpert = certificationResult.hasAcquiredPixPlusDroitExpert();
+
+      // then
+      expect(hasAcquiredPixPlusDroitExpert).to.be.true;
+    });
+
+    it('returns false when Pix plus droit expert certification has not been acquired', async function() {
+      // given
+      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
+
+      // when
+      const hasAcquiredPixPlusDroitExpert = certificationResult.hasAcquiredPixPlusDroitExpert();
+
+      // then
+      expect(hasAcquiredPixPlusDroitExpert).to.be.false;
     });
   });
 });

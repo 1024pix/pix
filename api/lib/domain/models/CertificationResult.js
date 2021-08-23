@@ -121,16 +121,44 @@ class CertificationResult {
     return this.status === status.CANCELLED;
   }
 
+  isValidated() {
+    return this.status === status.VALIDATED;
+  }
+
+  isRejected() {
+    return this.status === status.REJECTED;
+  }
+
+  isInError() {
+    return this.status === status.ERROR;
+  }
+
+  isStarted() {
+    return this.status === status.STARTED;
+  }
+
   hasTakenClea() {
     return this.cleaCertificationResult.isTaken();
+  }
+
+  hasAcquiredClea() {
+    return this.cleaCertificationResult.isAcquired();
   }
 
   hasTakenPixPlusDroitMaitre() {
     return this.pixPlusDroitMaitreCertificationResult.isTaken();
   }
 
+  hasAcquiredPixPlusDroitMaitre() {
+    return this.pixPlusDroitMaitreCertificationResult.isAcquired();
+  }
+
   hasTakenPixPlusDroitExpert() {
     return this.pixPlusDroitExpertCertificationResult.isTaken();
+  }
+
+  hasAcquiredPixPlusDroitExpert() {
+    return this.pixPlusDroitExpertCertificationResult.isAcquired();
   }
 }
 
