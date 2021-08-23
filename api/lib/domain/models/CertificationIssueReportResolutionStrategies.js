@@ -1,6 +1,22 @@
 const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt');
 const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
 
+async function neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+  const questionNumber = certificationIssueReport.questionNumber;
+  const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
+
+  if (!recId) {
+    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+  }
+
+  const challenge = await challengeRepository.get(recId);
+
+  if (!challenge.isTimed()) {
+    return _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport);
+  }
+  return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
+}
+
 async function neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
@@ -67,6 +83,7 @@ class CertificationIssueReportResolutionStrategies {
     neutralizeIfEmbed = neutralizeIfEmbedStrategy,
     neutralizeIfAttachment = neutralizeIfAttachmentStrategy,
     doNotResolve = doNotResolveStrategy,
+    neutralizeIfTimedChallenge = neutralizeIfTimedChallengeStrategy,
     certificationIssueReportRepository,
     challengeRepository,
   }) {
@@ -75,6 +92,7 @@ class CertificationIssueReportResolutionStrategies {
     this._neutralizeIfEmbed = neutralizeIfEmbed;
     this._neutralizeIfAttachment = neutralizeIfAttachment;
     this._doNotResolve = doNotResolve;
+    this._neutralizeIfTimedChallenge = neutralizeIfTimedChallenge;
     this._certificationIssueReportRepository = certificationIssueReportRepository;
     this._challengeRepository = challengeRepository;
   }
@@ -98,6 +116,8 @@ class CertificationIssueReportResolutionStrategies {
         return await this._neutralizeIfEmbed(strategyParameters);
       case CertificationIssueReportSubcategories.FILE_NOT_OPENING:
         return await this._neutralizeIfAttachment(strategyParameters);
+      case CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED:
+        return await this._neutralizeIfTimedChallenge(strategyParameters);
       default:
         return await this._doNotResolve(strategyParameters);
     }
@@ -110,6 +130,7 @@ module.exports = {
   neutralizeIfEmbedStrategy,
   neutralizeIfAttachmentStrategy,
   doNotResolveStrategy,
+  neutralizeIfTimedChallengeStrategy,
   CertificationIssueReportResolutionStrategies,
 };
 
@@ -151,6 +172,12 @@ async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepos
 
 async function _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport) {
   certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
+  await certificationIssueReportRepository.save(certificationIssueReport);
+  return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
+}
+
+async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
+  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle n\'est pas chronométrée');
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
