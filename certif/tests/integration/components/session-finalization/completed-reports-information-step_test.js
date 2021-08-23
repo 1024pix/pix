@@ -7,7 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | SessionFinalization::ReportsInformationsStep', function(hooks) {
+module('Integration | Component | SessionFinalization::CompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;
@@ -60,7 +60,7 @@ module('Integration | Component | SessionFinalization::ReportsInformationsStep',
 
     // when
     await render(hbs`
-        <SessionFinalization::ReportsInformationsStep
+        <SessionFinalization::CompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
@@ -93,7 +93,7 @@ module('Integration | Component | SessionFinalization::ReportsInformationsStep',
 
     // when
     await render(hbs`
-        <SessionFinalization::ReportsInformationsStep
+        <SessionFinalization::CompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
           @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
