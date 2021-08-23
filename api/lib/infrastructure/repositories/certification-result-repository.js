@@ -39,21 +39,12 @@ function _selectCertificationResults() {
       birthplace: 'certification-courses.birthplace',
       isPublished: 'certification-courses.isPublished',
       isCancelled: 'certification-courses.isCancelled',
-      isV2Certification: 'certification-courses.isV2Certification',
       externalId: 'certification-courses.externalId',
       createdAt: 'certification-courses.createdAt',
-      completedAt: 'certification-courses.completedAt',
-      hasSeenEndTestScreen: 'certification-courses.hasSeenEndTestScreen',
       sessionId: 'certification-courses.sessionId',
-      assessmentId: 'assessments.id',
-      resultCreatedAt: 'assessment-results.createdAt',
       pixScore: 'assessment-results.pixScore',
       assessmentResultStatus: 'assessment-results.status',
-      emitter: 'assessment-results.emitter',
-      commentForCandidate: 'assessment-results.commentForCandidate',
-      commentForJury: 'assessment-results.commentForJury',
       commentForOrganization: 'assessment-results.commentForOrganization',
-      juryId: 'assessment-results.juryId',
     })
     .select(knex.raw('\'[\' || (string_agg(\'{ "id":\' || "competence-marks"."id"::VARCHAR || \', "score":\' || "competence-marks".score::VARCHAR || \', "level":\' || "competence-marks".level::VARCHAR || \', "area_code":\' || "competence-marks"."area_code"::VARCHAR || \', "competence_code":\' || "competence-marks"."competence_code"::VARCHAR || \', "assessmentResultId":\' || "competence-marks"."assessmentResultId"::VARCHAR || \', "competenceId":"\' || "competence-marks"."competenceId" || \'"}\', \',\')) || \']\' as "competenceMarksJson"'))
     .from('certification-courses')
@@ -97,6 +88,5 @@ function _toDomain({ certificationResultDTO, cleaCertificationResult, pixPlusDro
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
-    certificationIssueReports: [],
   });
 }

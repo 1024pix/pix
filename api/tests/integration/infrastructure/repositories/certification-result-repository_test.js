@@ -12,7 +12,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     it('should return all certification results in a session ordered by lastName, firstName', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const juryId = databaseBuilder.factory.buildUser().id;
       const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
         firstName: 'Buffy',
         lastName: 'Summers',
@@ -20,11 +19,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Torreilles',
         isPublished: true,
         isCancelled: false,
-        isV2Certification: true,
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-01-02'),
-        hasSeenEndTestScreen: true,
         sessionId,
       }).id;
       const certificationCourseId2 = databaseBuilder.factory.buildCertificationCourse({
@@ -34,11 +30,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Saint-Ouen',
         isPublished: true,
         isCancelled: false,
-        isV2Certification: false,
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
-        completedAt: new Date('2021-06-07'),
-        hasSeenEndTestScreen: true,
         sessionId,
       }).id;
       const certificationCourseId3 = databaseBuilder.factory.buildCertificationCourse({
@@ -48,11 +41,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Salem',
         isPublished: false,
         isCancelled: true,
-        isV2Certification: true,
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
-        completedAt: new Date('2020-10-11'),
-        hasSeenEndTestScreen: false,
         sessionId,
       }).id;
       const certificationCourseIdNotInSession = databaseBuilder.factory.buildCertificationCourse().id;
@@ -62,33 +52,23 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const assessmentId2 = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId2,
       }).id;
-      const assessmentId3 = databaseBuilder.factory.buildAssessment({
+      databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId3,
-      }).id;
+      });
       databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseIdNotInSession,
       });
       const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId1,
-        createdAt: new Date('2000-01-01'),
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 1',
-        commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
-        juryId,
       }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId2,
-        createdAt: new Date('2001-01-01'),
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 2',
-        commentForJury: 'Un commentaire jury 2',
         commentForOrganization: 'Un commentaire orga 2',
-        juryId,
       }).id;
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
@@ -112,26 +92,16 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthdate: '1964-03-15',
         birthplace: 'Saint-Ouen',
         isPublished: true,
-        isV2Certification: false,
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
-        completedAt: new Date('2021-06-07'),
-        hasSeenEndTestScreen: true,
         sessionId,
-        assessmentId: assessmentId2,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
         pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        certificationIssueReports: [],
         status: CertificationResult.status.REJECTED,
-        resultCreatedAt: new Date('2001-01-01'),
         pixScore: 0,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 2',
-        commentForJury: 'Un commentaire jury 2',
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
-        juryId,
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult2({
         id: certificationCourseId3,
@@ -141,25 +111,15 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Salem',
         externalId: 'WITCH',
         isPublished: false,
-        isV2Certification: true,
         createdAt: new Date('2020-10-10'),
-        completedAt: new Date('2020-10-11'),
-        hasSeenEndTestScreen: false,
         sessionId,
-        assessmentId: assessmentId3,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
         pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        certificationIssueReports: [],
         status: CertificationResult.status.CANCELLED,
-        resultCreatedAt: null,
         pixScore: null,
-        emitter: null,
-        commentForCandidate: null,
-        commentForJury: null,
         commentForOrganization: null,
         competencesWithMark: [],
-        juryId: null,
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult2({
         id: certificationCourseId1,
@@ -168,23 +128,14 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
         isPublished: true,
-        isV2Certification: true,
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-01-02'),
-        hasSeenEndTestScreen: true,
         sessionId,
-        assessmentId: assessmentId1,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
         pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        certificationIssueReports: [],
         status: CertificationResult.status.VALIDATED,
-        resultCreatedAt: new Date('2000-01-01'),
         pixScore: 123,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 1',
-        commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
         competencesWithMark: [domainBuilder.buildCompetenceMark({
           id: 123,
@@ -195,7 +146,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           competenceId: 'recComp23',
           assessmentResultId: assessmentResultId1,
         })],
-        juryId,
       });
       expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
     });
@@ -274,7 +224,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     it('should return all certification results linked to given certificationCandidateIds ordered by lastName, firstName', async function() {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
-      const juryId = databaseBuilder.factory.buildUser().id;
       const userId1 = databaseBuilder.factory.buildUser().id;
       const userId2 = databaseBuilder.factory.buildUser().id;
       const userId3 = databaseBuilder.factory.buildUser().id;
@@ -285,11 +234,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Torreilles',
         isPublished: true,
         isCancelled: false,
-        isV2Certification: true,
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-01-02'),
-        hasSeenEndTestScreen: true,
         sessionId,
         userId: userId1,
       }).id;
@@ -300,11 +246,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Saint-Ouen',
         isPublished: true,
         isCancelled: false,
-        isV2Certification: false,
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
-        completedAt: new Date('2021-06-07'),
-        hasSeenEndTestScreen: true,
         sessionId,
         userId: userId2,
       }).id;
@@ -315,11 +258,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Salem',
         isPublished: false,
         isCancelled: true,
-        isV2Certification: true,
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
-        completedAt: new Date('2020-10-11'),
-        hasSeenEndTestScreen: false,
         sessionId,
         userId: userId3,
       }).id;
@@ -329,30 +269,20 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const assessmentId2 = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId2,
       }).id;
-      const assessmentId3 = databaseBuilder.factory.buildAssessment({
+      databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId3,
-      }).id;
+      });
       const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId1,
-        createdAt: new Date('2000-01-01'),
         pixScore: 123,
         status: CertificationResult.status.VALIDATED,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 1',
-        commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
-        juryId,
       }).id;
       databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId2,
-        createdAt: new Date('2001-01-01'),
         pixScore: 0,
         status: CertificationResult.status.REJECTED,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 2',
-        commentForJury: 'Un commentaire jury 2',
         commentForOrganization: 'Un commentaire orga 2',
-        juryId,
       }).id;
       databaseBuilder.factory.buildCompetenceMark({
         id: 123,
@@ -383,26 +313,16 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthdate: '1964-03-15',
         birthplace: 'Saint-Ouen',
         isPublished: true,
-        isV2Certification: false,
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
-        completedAt: new Date('2021-06-07'),
-        hasSeenEndTestScreen: true,
         sessionId,
-        assessmentId: assessmentId2,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
         pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        certificationIssueReports: [],
         status: CertificationResult.status.REJECTED,
-        resultCreatedAt: new Date('2001-01-01'),
         pixScore: 0,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 2',
-        commentForJury: 'Un commentaire jury 2',
         commentForOrganization: 'Un commentaire orga 2',
         competencesWithMark: [],
-        juryId,
       });
       const expectedSecondCertificationResult = domainBuilder.buildCertificationResult2({
         id: certificationCourseId3,
@@ -412,25 +332,15 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthplace: 'Salem',
         externalId: 'WITCH',
         isPublished: false,
-        isV2Certification: true,
         createdAt: new Date('2020-10-10'),
-        completedAt: new Date('2020-10-11'),
-        hasSeenEndTestScreen: false,
         sessionId,
-        assessmentId: assessmentId3,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
         pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        certificationIssueReports: [],
         status: CertificationResult.status.CANCELLED,
-        resultCreatedAt: null,
         pixScore: null,
-        emitter: null,
-        commentForCandidate: null,
-        commentForJury: null,
         commentForOrganization: null,
         competencesWithMark: [],
-        juryId: null,
       });
       const expectedThirdCertificationResult = domainBuilder.buildCertificationResult2({
         id: certificationCourseId1,
@@ -439,23 +349,14 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
         isPublished: true,
-        isV2Certification: true,
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-01-02'),
-        hasSeenEndTestScreen: true,
         sessionId,
-        assessmentId: assessmentId1,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
         pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
         pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        certificationIssueReports: [],
         status: CertificationResult.status.VALIDATED,
-        resultCreatedAt: new Date('2000-01-01'),
         pixScore: 123,
-        emitter: 'Moi',
-        commentForCandidate: 'Un commentaire candidat 1',
-        commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
         competencesWithMark: [domainBuilder.buildCompetenceMark({
           id: 123,
@@ -466,7 +367,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
           competenceId: 'recComp23',
           assessmentResultId: assessmentResultId1,
         })],
-        juryId,
       });
       expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
     });
