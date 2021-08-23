@@ -1,10 +1,8 @@
 const _ = require('lodash');
 const { expect, sinon, hFake, catchErr } = require('../../../test-helper');
-
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const Session = require('../../../../lib/domain/models/Session');
-
 const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const jurySessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 const certificationCandidateSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
@@ -439,7 +437,6 @@ describe('Unit | Controller | sessionController', function() {
       sinon.stub(usecases, 'getSessionResults').withArgs({ sessionId }).resolves({
         session,
         certificationResults,
-        fileName,
       });
 
       // when

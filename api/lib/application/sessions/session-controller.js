@@ -1,3 +1,4 @@
+const moment = require('moment');
 const { BadRequestError, SessionPublicationBatchError } = require('../http-errors');
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
@@ -136,9 +137,12 @@ module.exports = {
   async getSessionResultsToDownload(request, h) {
     const token = request.params.token;
     const { sessionId } = tokenService.extractSessionId(token);
-    const { session, certificationResults, fileName } = await usecases.getSessionResults({ sessionId });
+    const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
     const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
+
+    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+    const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
@@ -148,8 +152,11 @@ module.exports = {
   async getSessionResultsByRecipientEmail(request, h) {
     const token = request.params.token;
     const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
-    const { session, certificationResults, fileName } = await usecases.getSessionResultsByResultRecipientEmail({ sessionId, resultRecipientEmail });
+    const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({ sessionId, resultRecipientEmail });
     const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
+
+    const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
+    const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
 
     return h.response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')

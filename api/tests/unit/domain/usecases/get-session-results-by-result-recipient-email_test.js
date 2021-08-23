@@ -11,18 +11,16 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     certificationResultRepository.findByCertificationCandidateIds = sinon.stub();
   });
 
-  it('should return session and filename', async function() {
+  it('should return session', async function() {
     // given
     const expectedSession = domainBuilder.buildSession({
       certificationCandidates: [],
-      date: '2019-06-06',
-      time: '12:05:30',
     });
     sessionRepository.getWithCertificationCandidates.withArgs(123).resolves(expectedSession);
     certificationResultRepository.findByCertificationCandidateIds.withArgs({ certificationCandidateIds: [] }).resolves([]);
 
     // when
-    const { session, fileName } = await getSessionResultsByResultRecipientEmail({
+    const { session } = await getSessionResultsByResultRecipientEmail({
       sessionId: 123,
       resultRecipientEmail: 'matching@example.net',
       sessionRepository,
@@ -31,7 +29,6 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
 
     // then
     expect(session).to.deepEqualInstance(expectedSession);
-    expect(fileName).to.equal('20190606_1205_resultats_session_123.csv');
   });
 
   it('should return all certification results linked to candidates whose resultRecipientEmail matches with the one provided', async function() {
