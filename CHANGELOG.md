@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.90.0 (23/08/2021)
+
+- [#3359](https://github.com/1024pix/pix/pull/3359) [FEATURE] Annuler une certification si taux de réponse < 33% (PIX-3046)
+- [#3346](https://github.com/1024pix/pix/pull/3346) [FEATURE] Ne pas afficher l'encart "Repasser" lorsque l'élève/étudiant est désactivé (PIX-2991).
+- [#3363](https://github.com/1024pix/pix/pull/3363) [BUGFIX] Corriger le scenario actuel de tests de charge (PIX-3048).
+- [#3376](https://github.com/1024pix/pix/pull/3376) [TECH] Mettre l'annulation via taux de réponse sous toggle (PIX-3077)
+- [#3352](https://github.com/1024pix/pix/pull/3352) [TECH] Monitorer les queries Knex avec l'id de corrélation de Hapi JS, un compteur par appel API et une durée d'exécution (PIX-3044).
+- [#3372](https://github.com/1024pix/pix/pull/3372) [TECH] Exécuter les tests de charge à partir de Scalingo (PIX-3053).
+- [#3368](https://github.com/1024pix/pix/pull/3368) [TECH] Ajout du feature toggle pour la gestion des certifications non complétées (PIX-3060)
+- [#3345](https://github.com/1024pix/pix/pull/3345) [TECH] Aligner Pix Orga avec les composants Pix UI
+- [#3357](https://github.com/1024pix/pix/pull/3357) [TECH] Migrer la colonne knowledge_elements.id de INTEGER en BIG INTEGER (partie 1).
+- [#3360](https://github.com/1024pix/pix/pull/3360) [TECH] Utiliser la version de node applicatif au lieu de la version de node embarquée par Cypress dans les tests E2E (PIX-3050).
+- [#3362](https://github.com/1024pix/pix/pull/3362) [CLEAN] Ne pas remonter les answers en doublon (PIX-2801).
+- [#3355](https://github.com/1024pix/pix/pull/3355) [CLEAN] Utiliser le numéro d'épreuve pour la barre de progression (PIX-3049).
+
 ## v3.89.0 (19/08/2021)
 
 - [#3347](https://github.com/1024pix/pix/pull/3347) [FEATURE] Mettre les focus sur les autres type d'épreuves (PIX-2876).
