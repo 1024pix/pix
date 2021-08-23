@@ -1,4 +1,4 @@
-<div class="table session-finalization-reports-informations-step">
+<div class="table session-finalization-reports-information-step">
   <table>
     <thead>
       <tr>
@@ -7,8 +7,8 @@
         <th>N° de certification</th>
         <th>Signalement</th>
         <th>
-          <div class="session-finalization-reports-informations-step__row">
-            <div class="session-finalization-reports-informations-step__checker" {{on 'click' (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}>
+          <div class="session-finalization-reports-information-step__row">
+            <div class="session-finalization-reports-information-step__checker" {{on 'click' (fn @onAllHasSeenEndTestScreenCheckboxesClicked this.hasCheckedSomething)}}>
               <CertifCheckbox @state={{this.headerCheckboxStatus}}></CertifCheckbox>
             </div>
             Écran de fin du test vu
