@@ -323,7 +323,8 @@
           "results": {
             "label": "Résultats",
             "on-hold": " En attente d'envoi",
-            "under-test": "En cours de test"
+            "under-test": "En cours de test",
+            "value": "{percentage, number, ::percent}"
           }
         },
         "empty": "Aucune participation",
