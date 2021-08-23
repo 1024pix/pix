@@ -16,7 +16,7 @@ describe('Unit | Service | competence-evaluation', function() {
     const scorecardId = 'scorecardId';
     let store, router;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       // given
       competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
       store = Service.create({
@@ -34,7 +34,7 @@ describe('Unit | Service | competence-evaluation', function() {
         await competenceEvaluationService.improve({ userId, competenceId });
       });
 
-      it('creates a competence-evaluation for improving', async function() {
+      it('creates a competence-evaluation for improving', function() {
         // then
         sinon.assert.calledWith(store.queryRecord, 'competence-evaluation', {
           improve: true,
@@ -43,13 +43,13 @@ describe('Unit | Service | competence-evaluation', function() {
         });
       });
 
-      it('redirects to competences.resume route', async function() {
+      it('redirects to competences.resume route', function() {
         // then
         sinon.assert.calledWith(router.transitionTo, 'competences.resume', competenceId);
       });
     });
 
-    context('when improving fails with ImproveCompetenceEvaluationForbidden error', async function() {
+    context('when improving fails with ImproveCompetenceEvaluationForbidden error', function() {
       beforeEach(async function() {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
@@ -65,16 +65,16 @@ describe('Unit | Service | competence-evaluation', function() {
         await competenceEvaluationService.improve({ userId, competenceId, scorecardId });
       });
 
-      it('does not redirect to competence.resume route', async function() {
+      it('does not redirect to competence.resume route', function() {
         // then
         sinon.assert.notCalled(router.transitionTo);
       });
     });
 
-    context('when improving fails with another error', async function() {
+    context('when improving fails with another error', function() {
       const error = new Error();
 
-      beforeEach(async function() {
+      beforeEach(function() {
         // given
         competenceEvaluationService = this.owner.lookup('service:competence-evaluation');
         store = Service.create({

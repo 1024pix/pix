@@ -65,8 +65,8 @@ describe('Acceptance | competences results', function() {
       expect(find('.pix-return-to').getAttribute('href')).to.equal('/competences');
     });
 
-    context('When user obtained 0 pix', async function() {
-      beforeEach(async function() {
+    context('When user obtained 0 pix', function() {
+      beforeEach(function() {
 
         const area = this.server.schema.areas.find(3);
 
@@ -91,8 +91,8 @@ describe('Acceptance | competences results', function() {
       });
     });
 
-    context('When user obtained 5 pix (less than level 1)', async function() {
-      beforeEach(async function() {
+    context('When user obtained 5 pix (less than level 1)', function() {
+      beforeEach(function() {
 
         const area = this.server.schema.areas.find(3);
 
@@ -117,8 +117,8 @@ describe('Acceptance | competences results', function() {
       });
     });
 
-    context('When user obtained 17 pix and level 2', async function() {
-      beforeEach(async function() {
+    context('When user obtained 17 pix and level 2', function() {
+      beforeEach(function() {
 
         const area = this.server.schema.areas.find(3);
 

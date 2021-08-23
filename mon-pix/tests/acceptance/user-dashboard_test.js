@@ -20,7 +20,7 @@ describe('Acceptance | User dashboard page', function() {
 
   describe('Visit the user dashboard page', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       user = server.create('user', 'withEmail');
     });
 
@@ -46,7 +46,7 @@ describe('Acceptance | User dashboard page', function() {
 
   describe('campaign-participation-overviews', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       user = server.create('user', 'withEmail');
     });
 
@@ -207,7 +207,7 @@ describe('Acceptance | User dashboard page', function() {
 
     describe('when user has new information to see', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         user = server.create('user', 'withEmail');
       });
 

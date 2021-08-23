@@ -65,7 +65,7 @@ export default class FindScoRecordController extends Controller {
   }
 
   @action
-  async resetErrors() {
+  resetErrors() {
     this.showAlreadyRegisteredEmailError = false;
   }
 

@@ -25,7 +25,7 @@ describe('Integration | Component | signin form', function() {
 
   setupIntlRenderingTest();
 
-  describe('Rendering', async function() {
+  describe('Rendering', function() {
 
     it('should display an input for identifiant field', async function() {
       // when

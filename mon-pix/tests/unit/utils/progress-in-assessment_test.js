@@ -98,7 +98,7 @@ describe('Unit | Utility | progress-in-assessment', function() {
       });
     });
 
-    it('should return the current step number modulus maxStepsNumber', async function() {
+    it('should return the current step number modulus maxStepsNumber', function() {
       // given
       const currentChallengeNumber = 8;
 

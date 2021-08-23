@@ -81,7 +81,7 @@ describe('Integration | Component | competence-card-default', function() {
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
     });
 
-    context('when user can start the competence', async function() {
+    context('when user can start the competence', function() {
 
       it('should show the button "Commencer"', async function() {
         // given
@@ -97,7 +97,7 @@ describe('Integration | Component | competence-card-default', function() {
 
     });
 
-    context('when user can continue the competence', async function() {
+    context('when user can continue the competence', function() {
       it('should show the button "Reprendre"', async function() {
         // given
         const scorecard = { area, level: 3, isFinished: false, isStarted: true };
@@ -132,7 +132,7 @@ describe('Integration | Component | competence-card-default', function() {
       });
     });
 
-    context('when user has finished the competence', async function() {
+    context('when user has finished the competence', function() {
       it('should show the improving button when there is no remaining days before improving', async function() {
         // given
         const scorecard = { area, level: 3, isFinished: true, isStarted: false, remainingDaysBeforeImproving: 0 };

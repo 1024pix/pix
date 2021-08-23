@@ -197,7 +197,7 @@ describe('Integration | Component | comparison-window', function() {
       });
 
       describe('when challenge type is QROC', function() {
-        describe('and challenge is not autoReply', async function() {
+        describe('and challenge is not autoReply', function() {
 
           it('should display answers', async function() {
             // given
@@ -212,7 +212,7 @@ describe('Integration | Component | comparison-window', function() {
           });
         });
 
-        describe('and challenge is autoReply', async function() {
+        describe('and challenge is autoReply', function() {
           it('should hide answers when correction has no solutionToDisplay', async function() {
             // given
             challenge = EmberObject.create({ type: 'QROC', autoReply: true });

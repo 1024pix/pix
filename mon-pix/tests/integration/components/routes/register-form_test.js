@@ -122,7 +122,7 @@ describe('Integration | Component | routes/register-form', function() {
 
   context('errors management', function() {
 
-    context('When authentication service fails', async function() {
+    context('When authentication service fails', function() {
 
       it('Should display registerErrorMessage when authentication service fails with username error', async function() {
         // given
@@ -366,9 +366,9 @@ describe('Integration | Component | routes/register-form', function() {
       });
     });
 
-    context('When student is already reconciled in the same organization', async function() {
+    context('When student is already reconciled in the same organization', function() {
 
-      context('When student account is authenticated by email only', async function() {
+      context('When student account is authenticated by email only', function() {
 
         it('should display the error message related to the short code S61)', async function() {
           // given
@@ -397,7 +397,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      context('When student account is authenticated by username only', async function() {
+      context('When student account is authenticated by username only', function() {
 
         it('should display the error message related to the short code S62)', async function() {
           // given
@@ -426,7 +426,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      context('When student account is authenticated by SamlId only', async function() {
+      context('When student account is authenticated by SamlId only', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -455,7 +455,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      context('When student account is authenticated by SamlId and username', async function() {
+      context('When student account is authenticated by SamlId and username', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -484,7 +484,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      context('When student account is authenticated by SamlId and email', async function() {
+      context('When student account is authenticated by SamlId and email', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -513,7 +513,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      context('When student account is authenticated by SamlId, email and username', async function() {
+      context('When student account is authenticated by SamlId, email and username', function() {
 
         it('should display the error message related to the short code S63)', async function() {
           // given
@@ -542,7 +542,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      context('When student account is authenticated by email and username', async function() {
+      context('When student account is authenticated by email and username', function() {
 
         it('should display the error message related to the short code S62)', async function() {
           // given
@@ -573,9 +573,9 @@ describe('Integration | Component | routes/register-form', function() {
 
     });
 
-    context('When student is already reconciled in others organization', async function() {
+    context('When student is already reconciled in others organization', function() {
 
-      describe('When student account is authenticated by email only', async function() {
+      describe('When student account is authenticated by email only', function() {
 
         it('should display the error message related to the short code S51)', async function() {
           // given
@@ -604,7 +604,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by username only', async function() {
+      describe('When student account is authenticated by username only', function() {
 
         it('should display the error message related to the short code S52)', async function() {
           // given
@@ -633,7 +633,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId only', async function() {
+      describe('When student account is authenticated by SamlId only', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
@@ -662,7 +662,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId and username', async function() {
+      describe('When student account is authenticated by SamlId and username', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
@@ -691,7 +691,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId and email', async function() {
+      describe('When student account is authenticated by SamlId and email', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
@@ -720,7 +720,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by SamlId, username and email', async function() {
+      describe('When student account is authenticated by SamlId, username and email', function() {
 
         it('should display the error message related to the short code S53)', async function() {
           // given
@@ -749,7 +749,7 @@ describe('Integration | Component | routes/register-form', function() {
 
       });
 
-      describe('When student account is authenticated by username and email', async function() {
+      describe('When student account is authenticated by username and email', function() {
 
         it('should display the error message related to the short code S52)', async function() {
           // given

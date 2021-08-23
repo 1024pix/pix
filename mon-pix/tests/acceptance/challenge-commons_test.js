@@ -45,7 +45,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should display the name of the test', async function() {
+    it('should display the name of the test', function() {
       expect(find('.assessment-banner__title').textContent).to.contain(assessment.title);
     });
 
@@ -80,7 +80,7 @@ describe('Acceptance | Common behavior to all challenges', function() {
       expect(find('.assessment-banner__home-link')).to.exist;
     });
 
-    it('should come back to the home route when the back button is clicked', async function() {
+    it('should come back to the home route when the back button is clicked', function() {
       expect(find('.assessment-banner__home-link').getAttribute('href')).to.equal('/');
     });
 

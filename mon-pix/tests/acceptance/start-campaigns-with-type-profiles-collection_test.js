@@ -79,7 +79,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await click('.button');
             });
 
-            it('should redirect to send profile page', async function() {
+            it('should redirect to send profile page', function() {
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
@@ -108,7 +108,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await click('.campaign-landing-page__start-button');
             });
 
-            it('should redirect to send profile page', async function() {
+            it('should redirect to send profile page', function() {
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
@@ -128,7 +128,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           await click('.button');
         });
 
-        it('should redirect to send profile page after signup', async function() {
+        it('should redirect to send profile page after signup', function() {
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
@@ -146,7 +146,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           await click('.button');
         });
 
-        it('should redirect to send profile page after signup', async function() {
+        it('should redirect to send profile page after signup', function() {
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
         });
@@ -267,7 +267,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await startCampaignByCodeAndExternalId(campaign.code);
           });
 
-          it('should redirect to send profile page', async function() {
+          it('should redirect to send profile page', function() {
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
           });

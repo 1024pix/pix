@@ -80,7 +80,7 @@ describe('Integration | Component | competence-card-mobile', function() {
       expect(find('.score-value').textContent).to.equal(scorecard.level.toString());
     });
 
-    context('when user can continue the competence', async function() {
+    context('when user can continue the competence', function() {
 
       context('and the user has reached the maximum level', function() {
         beforeEach(async function() {
@@ -100,7 +100,7 @@ describe('Integration | Component | competence-card-mobile', function() {
       });
     });
 
-    context('when user has finished the competence', async function() {
+    context('when user has finished the competence', function() {
 
       context('and the user has reached the maximum level', function() {
         beforeEach(async function() {

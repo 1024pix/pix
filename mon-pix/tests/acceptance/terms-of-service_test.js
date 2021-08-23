@@ -19,7 +19,7 @@ describe('Acceptance | terms-of-service', function() {
     });
   });
 
-  describe('When user log in and must validate Pix latest terms of service', async function() {
+  describe('When user log in and must validate Pix latest terms of service', function() {
 
     it('should be redirected to terms-of-services page', async function() {
       // when
@@ -30,7 +30,7 @@ describe('Acceptance | terms-of-service', function() {
     });
   });
 
-  describe('when the user has validated terms of service', async function() {
+  describe('when the user has validated terms of service', function() {
     it('should redirect to default page when user validate the terms of service', async function() {
       // given
       await authenticateByEmail(user);

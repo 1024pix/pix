@@ -37,13 +37,13 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should display an overlay and tooltip', async () => {
+          it('should display an overlay and tooltip', () => {
             // then
             expect(find('.challenge__focused-overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
-          it('should disable input and buttons', async () => {
+          it('should disable input and buttons', () => {
             // then
             expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
             expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
@@ -75,13 +75,13 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await click('.tooltip-tag-information__button');
             });
 
-            it('should hide an overlay and tooltip', async () => {
+            it('should hide an overlay and tooltip', () => {
               // then
               expect(find('.challenge__focused-overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
-            it('should enable input and buttons', async () => {
+            it('should enable input and buttons', () => {
               // then
               expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
               expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
@@ -141,13 +141,13 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should hide the overlay and tooltip', async function() {
+          it('should hide the overlay and tooltip', function() {
             // then
             expect(find('.challenge__focused-overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 
-          it('should enable input and buttons', async function() {
+          it('should enable input and buttons', function() {
             // then
             expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
             expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
@@ -207,7 +207,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           await visit(`/assessments/${assessment.id}/challenges/0`);
         });
 
-        it('should not display instructions', async function() {
+        it('should not display instructions', function() {
           // then
           expect(find('.focused-challenge-instructions-action__confirmation-button')).to.not.exist;
         });

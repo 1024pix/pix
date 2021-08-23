@@ -97,7 +97,7 @@ describe('Integration | Component | scorecard-details', function() {
       expect(find('.score-value').textContent).to.contain('–');
     });
 
-    context('When the user has finished a competence', async function() {
+    context('When the user has finished a competence', function() {
       let scorecard;
 
       beforeEach(function() {
@@ -152,7 +152,7 @@ describe('Integration | Component | scorecard-details', function() {
         expect(find('.scorecard-details__improvement-countdown').textContent).to.contains('3 jours');
       });
 
-      context('and the user has reached the max level', async function() {
+      context('and the user has reached the max level', function() {
         beforeEach(async function() {
           // given
           const scorecard = {
@@ -222,7 +222,7 @@ describe('Integration | Component | scorecard-details', function() {
       });
     });
 
-    context('When the user has started a competence', async function() {
+    context('When the user has started a competence', function() {
 
       it('should display a button stating "Reprendre"', async function() {
         // given
@@ -258,7 +258,7 @@ describe('Integration | Component | scorecard-details', function() {
         expect(find('.tutorials')).to.not.exist;
       });
 
-      context('and the user has some tutorials', async function() {
+      context('and the user has some tutorials', function() {
         it('should display the tutorial section and the related tutorials', async function() {
           // given
           const tuto1 = EmberObject.create({

@@ -202,7 +202,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             });
           });
 
-          context('When user must accept Pix last terms of service', async function() {
+          context('When user must accept Pix last terms of service', function() {
 
             it('should redirect to campaign landing page after accept terms of service', async function() {
               // given
@@ -550,7 +550,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await startCampaignByCode(campaign.code);
         });
 
-        it('should redirect to signin page', async function() {
+        it('should redirect to signin page', function() {
           // then
           expect(currentURL()).to.equal('/inscription');
         });
@@ -608,7 +608,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('.button');
           });
 
-          it('should redirect to fill-in-participant-external-id page after signup', async function() {
+          it('should redirect to fill-in-participant-external-id page after signup', function() {
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
           });
@@ -760,7 +760,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
         context('When association is already done', function() {
 
-          beforeEach(async function() {
+          beforeEach(function() {
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
             });
@@ -827,7 +827,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await startCampaignByCode(campaign.code);
           });
 
-          it('should show the identifiant page after clicking on start button in landing page', async function() {
+          it('should show the identifiant page after clicking on start button in landing page', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
           });
         });
@@ -888,7 +888,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await visit('/campagnes/codefaux');
         });
 
-        it('should show an error message', async function() {
+        it('should show an error message', function() {
           // then
           expect(currentURL()).to.equal('/campagnes/codefaux');
           expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
@@ -1018,7 +1018,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          context('When user is already reconciled in another organization', async function() {
+          context('When user is already reconciled in another organization', function() {
 
             it('should reconcile and redirect to landing-page', async function() {
               // given
@@ -1045,7 +1045,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           const externalUserToken = 'aaa.' + btoa('{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}') + '.bbb';
 
           beforeEach(async function() {
-            server.post('/schooling-registration-dependent-users/external-user-token', async () => {
+            server.post('/schooling-registration-dependent-users/external-user-token', () => {
               return new Response(409, {}, {
                 errors: [{
                   status: '409',
@@ -1185,7 +1185,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
 
-              server.post('/schooling-registration-dependent-users/external-user-token', async () => {
+              server.post('/schooling-registration-dependent-users/external-user-token', () => {
                 return new Response(409, {}, {
                   errors: [{
                     status: '409',

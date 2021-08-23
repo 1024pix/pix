@@ -11,7 +11,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
   let assessment;
   let qrocmDepChallenge;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
   });
 
@@ -132,7 +132,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should set the input text with previous answers and propose to continue', async () => {
+      it('should set the input text with previous answers and propose to continue', () => {
         // then
         expect(find('div[data-test="qrocm-label-0"]').innerHTML).to.contains('Station <strong>1</strong> :');
         expect(find('div[data-test="qrocm-label-1"]').innerHTML).to.contains('Station <em>2</em> :');
@@ -163,7 +163,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should set the select with previous answer and propose to continue', async () => {
+      it('should set the select with previous answer and propose to continue', () => {
         // then
         expect(findAll('select[data-test="challenge-response-proposal-selector"] option')[1].hasAttribute('selected'));
 
@@ -230,7 +230,7 @@ describe('Acceptance | Displaying a QROCM challenge', () => {
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
-    it('should show the result of previous challenges in checkpoint', async () => {
+    it('should show the result of previous challenges in checkpoint', () => {
       // then
       expect(findAll('.result-item__icon')[0].title).to.equal('Réponse incorrecte');
       const instructionStripped = qrocmDepChallenge.instruction.slice(0, 102);

@@ -204,7 +204,7 @@ describe('Integration | Component | feedback-panel', function() {
       await render(hbs`<FeedbackPanel @assessment={{this.assessment}} @challenge={{this.challenge}} @alwaysOpenForm={{this.alwaysOpenForm}} />`);
     });
 
-    it('should display the "form" view', async function() {
+    it('should display the "form" view', function() {
       expect(find('.feedback-panel__view--form')).to.exist;
       expect(findAll(DROPDOWN).length).to.equal(1);
     });
@@ -232,7 +232,7 @@ describe('Integration | Component | feedback-panel', function() {
       await click(OPEN_FEEDBACK_BUTTON);
     });
 
-    it('should display the "form" view', async function() {
+    it('should display the "form" view', function() {
       expect(find('.feedback-panel__view--form')).to.exist;
       expect(findAll(DROPDOWN).length).to.equal(1);
     });

@@ -27,11 +27,11 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await visit(`/assessments/${assessment.id}/results`);
     });
 
-    it('should display the REPONSE link from the results screen', async function() {
+    it('should display the REPONSE link from the results screen', function() {
       expect(find('.result-item .js-correct-answer').textContent).to.contain('Réponses et tutos');
     });
 
-    it('should not yet display the modal nor its content', async function() {
+    it('should not yet display the modal nor its content', function() {
       expect(find('.comparison-window')).to.be.null;
       expect(find('.comparison-window__header .comparison-window__result-item-index')).to.be.null;
       expect(find('.comparison-window__header .comparison-window__title .comparison-window__title-text')).to.be.null;
@@ -46,23 +46,23 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
       await click('.result-item:nth-child(1) .result-item__correction-button');
     });
 
-    it('should be able to access the modal directly from the url', async function() {
+    it('should be able to access the modal directly from the url', function() {
       expect(find('.comparison-window')).to.exist;
     });
 
-    it('should contain an instruction', async function() {
+    it('should contain an instruction', function() {
       expect(find('.comparison-window--body .challenge-statement-instruction__text')).to.exist;
     });
 
-    it('should contain a correction zone', async function() {
+    it('should contain a correction zone', function() {
       expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
     });
 
-    it('should contain a zone reserved for feedback panel', async function() {
+    it('should contain a zone reserved for feedback panel', function() {
       expect(find('.comparison-window__feedback-panel')).to.exist;
     });
 
-    it('should contain a closing button', async function() {
+    it('should contain a closing button', function() {
       expect(find('.pix-modal__close-link > span')).to.exist;
     });
   });

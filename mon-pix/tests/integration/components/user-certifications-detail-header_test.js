@@ -37,7 +37,7 @@ describe('Integration | Component | user certifications detail header', function
       await render(hbs`{{user-certifications-detail-header certification=certification}}`);
     });
 
-    it('renders', async function() {
+    it('renders', function() {
       expect(find(PARENT_SELECTOR)).to.exist;
     });
 

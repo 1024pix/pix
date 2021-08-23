@@ -61,7 +61,7 @@ export default class BackupEmailConfirmationFormComponent extends Component {
     event.preventDefault();
     this.emailValidation.status = STATUS_MAP['successStatus'];
     this.emailValidation.message = null;
-    this.args.sendEmail(this.email);
+    await this.args.sendEmail(this.email);
   }
 
   _hasAPIRejectedCall() {

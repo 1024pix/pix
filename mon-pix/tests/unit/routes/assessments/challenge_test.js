@@ -74,7 +74,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         challengeId: model.challenge.id,
       });
     });
-    context('when the assessment is a Preview', async function() {
+    context('when the assessment is a Preview', function() {
       beforeEach(function() {
         const assessmentForPreview = {
           answers: [],
@@ -100,7 +100,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       });
     });
 
-    context('when the asked challenges is already answered', async function() {
+    context('when the asked challenges is already answered', function() {
       beforeEach(function() {
         const assessmentWithAnswers = {
           answers: [{ id: 3, challenge: {
@@ -291,7 +291,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
     });
 
     context('when saving fails', function() {
-      it('should remove temporary answer and send error', async function() {
+      it('should remove temporary answer and send error', function() {
         // given
         const error = { message: 'error' };
         answerToChallengeOne.save = sinon.stub().rejects(error);

@@ -66,7 +66,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     super.beforeModel(...arguments);
   }
 
-  async model() {
+  model() {
     this.isLoading = true;
     return this.modelFor('campaigns');
   }
@@ -92,7 +92,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
   }
 
-  async redirect(campaign) {
+  redirect(campaign) {
     if (this.state.doesUserHaveOngoingParticipation) {
       if (campaign.isProfilesCollection) {
         this.replaceWith('campaigns.profiles-collection.start-or-resume', campaign);

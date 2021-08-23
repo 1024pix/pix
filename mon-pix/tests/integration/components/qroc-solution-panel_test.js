@@ -93,14 +93,14 @@ describe('Integration | Component | QROC solution panel', function() {
           await render(hbs`<QrocSolutionPanel @answer={{this.answer}} @solution={{this.solution}}/>`);
         });
 
-        it('should display the answer in bold green', async function() {
+        it('should display the answer in bold green', function() {
           // then
           expect(find('.correction-qroc-box-answer')).to.exist;
           expect(find('.correction-qroc-box__answer')).to.exist;
           expect(find('.correction-qroc-box-answer--correct')).to.exist;
         });
 
-        it('should not display the solution', async function() {
+        it('should not display the solution', function() {
           // then
           expect(find('.comparison-window-solution')).to.not.exist;
         });

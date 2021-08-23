@@ -10,7 +10,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
 
   setupIntlRenderingTest();
 
-  beforeEach(async function() {
+  beforeEach(function() {
     class currentUser extends Service { user = {
       fullName: 'Bobby Carotte',
     }}
@@ -55,7 +55,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
   });
 
   context('when user has participations', function() {
-    beforeEach(async function() {
+    beforeEach(function() {
       class currentUser extends Service {
         user = {
           hasAssessmentParticipations: true,
@@ -75,7 +75,7 @@ describe('Integration | Component | navbar-burger-menu', function() {
   });
 
   context('when user has no participations', function() {
-    beforeEach(async function() {
+    beforeEach(function() {
       class currentUser extends Service {
         user = {
           hasAssessmentParticipations: false,

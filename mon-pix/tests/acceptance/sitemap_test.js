@@ -22,25 +22,25 @@ describe('Acceptance | Sitemap', function() {
       await visit('/plan-du-site');
     });
 
-    it('should contain a link to pix.fr/accessibilite', async function() {
+    it('should contain a link to pix.fr/accessibilite', function() {
       // then
       const accessibilityLink = findAll('.sitemap-content-items-link-resources__resource > a')[0];
       expect(accessibilityLink.getAttribute('href')).to.contains('/accessibilite');
     });
 
-    it('should contain a link to pix.fr/conditions-generales-d-utilisation', async function() {
+    it('should contain a link to pix.fr/conditions-generales-d-utilisation', function() {
       // then
       const cguLink = findAll('.sitemap-content-items-link-resources__resource > a')[1];
       expect(cguLink.getAttribute('href')).to.contains('/conditions-generales-d-utilisation');
     });
 
-    it('should contain a link to pix.fr/aide-accessibilite', async function() {
+    it('should contain a link to pix.fr/aide-accessibilite', function() {
       // then
       const accessibilityHelpLink = findAll('a[data-test-resource-link]')[0];
       expect(accessibilityHelpLink.getAttribute('href')).to.contains('/aide-accessibilite');
     });
 
-    it('should contain a link to pix.fr/politique-protection-donnees-personnelles-app', async function() {
+    it('should contain a link to pix.fr/politique-protection-donnees-personnelles-app', function() {
       // then
       const cguPolicyLink = findAll('a[data-test-resource-link]')[1];
       expect(cguPolicyLink.getAttribute('href')).to.contains('/politique-protection-donnees-personnelles-app');

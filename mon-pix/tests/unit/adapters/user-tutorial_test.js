@@ -28,7 +28,7 @@ describe('Unit | Adapters | user-tutorial', function() {
   });
 
   describe('#urlForFindAll', () => {
-    it('should return API to find related tutorials', async function() {
+    it('should return API to find related tutorials', function() {
       // when
       const url = adapter.urlForFindAll('user-tutorial');
 
@@ -38,7 +38,7 @@ describe('Unit | Adapters | user-tutorial', function() {
   });
 
   describe('#urlForDeleteRecord', () => {
-    it('should return API to delete a user-tutorial', async function() {
+    it('should return API to delete a user-tutorial', function() {
       // given
       const tutorialId = 'tutorialId';
       const tutorial = { adapterOptions: { tutorialId } };

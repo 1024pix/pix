@@ -146,7 +146,7 @@ describe('Integration | Component | QROCm proposal', function() {
             allInputElements = findAll('.challenge-response__proposal');
           });
 
-          it('should have an aria-label', async function() {
+          it('should have an aria-label', function() {
             // then
             expect(allInputElements.length).to.be.equal(data.expectedAriaLabel.length);
             allInputElements.forEach((element, index) => {
@@ -154,7 +154,7 @@ describe('Integration | Component | QROCm proposal', function() {
             });
           });
 
-          it('should not have a label', async function() {
+          it('should not have a label', function() {
             // then
             expect(find('label')).to.be.null;
           });
@@ -182,7 +182,7 @@ describe('Integration | Component | QROCm proposal', function() {
             allInputElements = findAll('.challenge-response__proposal');
           });
 
-          it('should have a label', async function() {
+          it('should have a label', function() {
             // then
             expect(allLabelElements.length).to.be.equal(allInputElements.length);
             expect(allLabelElements.length).to.be.equal(data.expectedLabel.length);
@@ -191,12 +191,12 @@ describe('Integration | Component | QROCm proposal', function() {
             });
           });
 
-          it('should not have an aria-label', async function() {
+          it('should not have an aria-label', function() {
             // then
             expect(find('.challenge-response__proposal').getAttribute('aria-label')).to.be.null;
           });
 
-          it('should connect the label with the input', async function() {
+          it('should connect the label with the input', function() {
             // then
             expect(allInputElements.length).to.equal(allLabelElements.length);
             const allInputElementsId = allInputElements.map((inputElement) => inputElement.getAttribute('id'));

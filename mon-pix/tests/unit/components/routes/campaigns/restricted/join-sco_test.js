@@ -593,7 +593,7 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
 
       });
 
-      describe('When another student is already reconciled on the same organization', async function() {
+      describe('When another student is already reconciled on the same organization', function() {
 
         it('should return a conflict error and display the error message related to the short code R70)', async function() {
 

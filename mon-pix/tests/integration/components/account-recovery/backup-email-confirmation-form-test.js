@@ -42,7 +42,7 @@ describe('Integration | Component | account-recovery::backup-email-confirmation-
     });
   });
 
-  context('when the user does not have an email associated with his account', async function() {
+  context('when the user does not have an email associated with his account', function() {
 
     it('should render recover account backup email confirmation form', async function() {
       // given

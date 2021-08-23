@@ -20,7 +20,7 @@ export default class CompetenceCardDefault extends Component {
   }
 
   @action
-  async improveCompetenceEvaluation() {
+  improveCompetenceEvaluation() {
     const userId = this.currentUser.user.id;
     const competenceId = this.args.scorecard.competenceId;
     const scorecardId = this.args.scorecard.id;

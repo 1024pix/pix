@@ -9,7 +9,7 @@ export default class ProfileRoute extends Route.extend(SecuredRouteMixin) {
     return this.currentUser.user;
   }
 
-  async afterModel(user) {
+  afterModel(user) {
     // This reloads are necessary to keep the ui in sync when the
     // user navigates back to this route
     user.belongsTo('profile').reload();

@@ -9,7 +9,7 @@ describe('Unit | Helpers | decodeToken', function() {
 
   describe('decodeToken', function() {
 
-    it('should decode valid token', async function() {
+    it('should decode valid token', function() {
       const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiRmlyc3QiLCJsYXN0X25hbWUiOiJMYXN0Iiwic2FtbF9pZCI6InNhbWxJRDEyMzQ1NjciLCJpYXQiOjE1OTc5Mjk0NDgsImV4cCI6MTU5NzkzMzA0OH0.bk7HPPwoa0bx6uxE92HXj1ak8DintQx5Id_1wyudZkg';
       const decodedToken = decodeToken(accessToken);
       const expectedResult = {
@@ -22,7 +22,7 @@ describe('Unit | Helpers | decodeToken', function() {
       expect(decodedToken).to.deep.equal(expectedResult);
     });
 
-    it('should decode valid token with accented characters in firstName, lastName', async function() {
+    it('should decode valid token with accented characters in firstName, lastName', function() {
       const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiTm_DqW1pZSIsImxhc3RfbmFtZSI6IkHDrmnDr21hbsOoIiwic2FtbF9pZCI6InNhbWxJRDEyMzQ1NjciLCJpYXQiOjE1OTc5Mjk0NDgsImV4cCI6MTU5NzkzMzA0OH0.XZJCiDE73sTqHrSmVc99ynypQHzxw3wwZahLUvxgdZY';
       const decodedToken = decodeToken(accessToken);
       const expectedResult = {

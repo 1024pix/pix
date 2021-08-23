@@ -66,13 +66,13 @@ describe('Integration | Component | QROCm ind solution panel', function() {
 
       describe('When the answer is correct', function() {
 
-        it('should display the correct answer in green bold', async function() {
+        it('should display the correct answer in green bold', function() {
           // then
           const correctAnswerText = findAll(ANSWER)[CORRECT_ANSWER_POSITION];
           expect(correctAnswerText.classList.contains('correction-qroc-box-answer--correct')).to.be.true;
         });
 
-        it('should not display the solution block', async function() {
+        it('should not display the solution block', function() {
           // then
           const solutionBlockList = findAll(SOLUTION_BLOCK);
           const correctSolutionBlock = solutionBlockList[CORRECT_ANSWER_POSITION];
@@ -85,7 +85,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
       describe('When there is no answer', function() {
         const EMPTY_DEFAULT_MESSAGE = 'Pas de réponse';
 
-        it('should display one solution in bold green', async function() {
+        it('should display one solution in bold green', function() {
           // then
           const noAnswerSolutionBlock = findAll(SOLUTION_BLOCK)[NO_ANSWER_POSITION];
           const noAnswerSolutionText = findAll(SOLUTION_TEXT)[NO_ANSWER_POSITION];
@@ -94,7 +94,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
           expect(noAnswerSolutionText).to.exist;
         });
 
-        it('should display the empty answer with the default message "Pas de réponse" in italic', async function() {
+        it('should display the empty answer with the default message "Pas de réponse" in italic', function() {
           // then
           const answerInput = findAll(ANSWER)[NO_ANSWER_POSITION];
 
@@ -105,7 +105,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
       });
 
       describe('When the answer is wrong', function() {
-        it('should display one solution in bold green', async function() {
+        it('should display one solution in bold green', function() {
           // then
           const wrongSolutionBlock = findAll(SOLUTION_BLOCK)[WRONG_ANSWER_POSITION];
           const wrongSolutionText = findAll(SOLUTION_TEXT)[WRONG_ANSWER_POSITION];
@@ -125,7 +125,7 @@ describe('Integration | Component | QROCm ind solution panel', function() {
           expect(find('.comparison-window-solution__text').textContent).to.contains(solutionToDisplay);
         });
 
-        it('should display the wrong answer in line-throughed bold', async function() {
+        it('should display the wrong answer in line-throughed bold', function() {
           // then
           const answerInput = findAll(ANSWER)[WRONG_ANSWER_POSITION];
 

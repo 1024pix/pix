@@ -11,7 +11,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
   let assessment;
   let qcuChallenge;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     qcuChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCU');
   });
@@ -84,7 +84,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should mark radio button corresponding to the answer and propose to continue', async () => {
+    it('should mark radio button corresponding to the answer and propose to continue', () => {
       // then
       const radioButtons = findAll('input[type=radio][name="radio"]');
       expect(radioButtons[0].checked).to.be.false;
@@ -125,7 +125,7 @@ describe('Acceptance | Displaying a QCU challenge', () => {
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
-    it('should show the result of previous challenge in checkpoint', async () => {
+    it('should show the result of previous challenge in checkpoint', () => {
       // then
       expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
       expect(find('.result-item__instruction').textContent.trim()).to.equal(qcuChallenge.instruction);

@@ -23,7 +23,7 @@ describe('Unit | Service | ajax-queue', function() {
       const expectedValue = 1;
 
       // when
-      const actualValue = await ajaxQueueService.add(async () => { return expectedValue; });
+      const actualValue = await ajaxQueueService.add(() => { return expectedValue; });
 
       // then
       expect(actualValue).to.equal(expectedValue);

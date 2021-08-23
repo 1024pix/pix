@@ -21,7 +21,7 @@ export default class UserAccountPersonalInformationController extends Controller
   }
 
   @action
-  async onChangeLang(event) {
+  onChangeLang(event) {
     if (!this.url.isFrenchDomainExtension) {
       this.location.replace(`/mon-compte/langue?lang=${event.target.value}`);
     }

@@ -5,7 +5,7 @@ export default class ResultsRoute extends Route {
     return this.modelFor('assessments').reload();
   }
 
-  async afterModel(assessment) {
+  afterModel(assessment) {
     if (assessment.isCertification) {
       return this.transitionTo('index');
     }

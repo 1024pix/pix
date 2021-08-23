@@ -11,7 +11,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
   let assessment;
   let qcmChallenge;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     assessment = server.create('assessment', 'ofCompetenceEvaluationType');
     qcmChallenge = server.create('challenge', 'forCompetenceEvaluation', 'QCM');
   });
@@ -86,7 +86,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should mark checkboxes corresponding to the answer and propose to continue', async () => {
+    it('should mark checkboxes corresponding to the answer and propose to continue', () => {
       // then
       expect(findAll('input[type="checkbox"]')[0].checked).to.be.false;
       expect(findAll('input[type="checkbox"]')[1].checked).to.be.true;
@@ -126,7 +126,7 @@ describe('Acceptance | Displaying a QCM challenge', () => {
       await visit(`/assessments/${assessment.id}/checkpoint`);
     });
 
-    it('should show the result of previous challenge in checkpoint', async () => {
+    it('should show the result of previous challenge in checkpoint', () => {
       // then
       expect(find('.result-item__icon').title).to.equal('Réponse incorrecte');
       expect(find('.result-item__instruction').textContent.trim()).to.equal(qcmChallenge.instruction);

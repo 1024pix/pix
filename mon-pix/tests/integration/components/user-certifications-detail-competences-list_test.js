@@ -49,12 +49,12 @@ describe('Integration | Component | user-certifications-detail-competences-list'
       @maxReachableLevelOnCertificationDate={{this.maxReachableLevelOnCertificationDate}} />`);
   });
 
-  it('renders', async function() {
+  it('renders', function() {
     // then
     expect(find(PARENT_SELECTOR)).to.exist;
   });
 
-  it('should have "Compétences certifiées (niveaux sur 5)" as a title', async function() {
+  it('should have "Compétences certifiées (niveaux sur 5)" as a title', function() {
     // then
     expect(find(`${PARENT_SELECTOR} h2`).textContent).to.equal('Compétences certifiées (niveaux sur 5)');
   });

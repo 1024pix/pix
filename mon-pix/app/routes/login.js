@@ -8,9 +8,9 @@ export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) 
   @service store;
 
   @action
-  async authenticate(login, password) {
+  authenticate(login, password) {
 
-    await this._removeExternalUserContext();
+    this._removeExternalUserContext();
 
     const scope = 'mon-pix';
     const trimedLogin = login ? login.trim() : '';
@@ -18,12 +18,12 @@ export default class LoginRoute extends Route.extend(UnauthenticatedRouteMixin) 
   }
 
   @action
-  async updateExpiredPassword(username, password) {
+  updateExpiredPassword(username, password) {
     this.store.createRecord('reset-expired-password-demand', { username, oneTimePassword: password });
     return this.replaceWith('update-expired-password');
   }
 
-  async _removeExternalUserContext() {
+  _removeExternalUserContext() {
     if (this.session.data && this.session.expectedUserId) {
       delete this.session.data.expectedUserId;
     }

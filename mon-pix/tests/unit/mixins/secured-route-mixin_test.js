@@ -98,7 +98,7 @@ describe('Unit | Mixin | secured-route-mixin', function() {
           currentUser.user.mustValidateTermsOfService = true;
         });
 
-        it('does not returns the upstream promise', async function() {
+        it('does not returns the upstream promise', function() {
           expect(route.beforeModel(transition)).to.be.undefined;
         });
 

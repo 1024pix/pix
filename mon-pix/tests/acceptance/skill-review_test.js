@@ -36,14 +36,14 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
       });
 
-      it('should be redirect to connexion page', async function() {
+      it('should be redirect to connexion page', function() {
         // then
         expect(currentURL()).to.equal('/connexion');
       });
 
     });
 
-    describe('When user is logged in', async function() {
+    describe('When user is logged in', function() {
 
       const competenceResultName = 'Competence Nom';
       const partnerCompetenceResultName = 'badge partner competence nom';
@@ -174,7 +174,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(findAll('.badge-acquired-card').length).to.equal(1);
       });
 
-      describe('when campaign has stages', async function() {
+      describe('when campaign has stages', function() {
 
         it('should display reached stage', async function() {
           // given
@@ -253,7 +253,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
     });
   });
 
-  context('when campaign is for Novice and isSimplifiedAccess', async function() {
+  context('when campaign is for Novice and isSimplifiedAccess', function() {
     let campaignForNovice;
 
     beforeEach(function() {

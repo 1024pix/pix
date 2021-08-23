@@ -93,7 +93,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await click('.button');
             });
 
-            it('should redirect to assessment', async function() {
+            it('should redirect to assessment', function() {
               // then
               expect(currentURL()).to.contains('/didacticiel');
             });
@@ -122,7 +122,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await click('.campaign-landing-page__start-button');
             });
 
-            it('should redirect to assessment', async function() {
+            it('should redirect to assessment', function() {
               // then
               expect(currentURL()).to.contains('/didacticiel');
             });
@@ -142,7 +142,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await click('.button');
         });
 
-        it('should redirect to assessment after signup', async function() {
+        it('should redirect to assessment after signup', function() {
           // then
           expect(currentURL()).to.contains('/didacticiel');
         });
@@ -160,7 +160,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await click('.button');
         });
 
-        it('should redirect to assessment after signup', async function() {
+        it('should redirect to assessment after signup', function() {
           // then
           expect(currentURL()).to.contains('/didacticiel');
         });
@@ -173,7 +173,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await visit(`/campagnes/${campaign.code}`);
         });
 
-        it('should redirect to signup page when starting a campaign', async function() {
+        it('should redirect to signup page when starting a campaign', function() {
           // then
           expect(currentURL()).to.contains('/inscription');
         });
@@ -262,7 +262,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await startCampaignByCodeAndExternalId(campaign.code, externalId256Characters);
           });
 
-          it('should redirect to fill in external participant id page', async function() {
+          it('should redirect to fill in external participant id page', function() {
             // then
             expect(currentURL()).to.contains('/identifiant');
           });
@@ -274,7 +274,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await startCampaignByCodeAndExternalId(campaign.code);
           });
 
-          it('should redirect to assessment', async function() {
+          it('should redirect to assessment', function() {
             // then
             expect(currentURL()).to.contains('/didacticiel');
           });
@@ -327,7 +327,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await visit(`campagnes/${campaign.code}`);
         });
 
-        it('should redirect to assessment when starting a campaign', async function() {
+        it('should redirect to assessment when starting a campaign', function() {
           // then
           expect(currentURL()).to.not.contains('/didacticiel');
           expect(currentURL()).to.contains('/assessments');
@@ -345,7 +345,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await visit(`campagnes/${campaign.code}?retry=true`);
           });
 
-          it('should redirect to assessment when retrying the campaign', async function() {
+          it('should redirect to assessment when retrying the campaign', function() {
             // then
             expect(currentURL()).to.contains('/evaluation');
           });
@@ -360,7 +360,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await visit(`campagnes/${campaign.code}?retry=true&hasUserSeenLandingPage=true`);
           });
 
-          it('should redirect to assessment results when retrying the campaign', async function() {
+          it('should redirect to assessment results when retrying the campaign', function() {
             // then
             expect(currentURL()).to.contains('/evaluation/resultats');
           });

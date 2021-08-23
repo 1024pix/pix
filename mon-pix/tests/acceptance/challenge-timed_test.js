@@ -24,11 +24,11 @@ describe('Acceptance | Timed challenge', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
       });
 
-      it('should hide the challenge statement', async () => {
+      it('should hide the challenge statement', () => {
         expect(find('.challenge-statement')).to.not.exist;
       });
 
-      it('should ensure the challenge does not automatically start', async () => {
+      it('should ensure the challenge does not automatically start', () => {
         expect(find('.timeout-gauge')).to.not.exist;
       });
     });
@@ -109,11 +109,11 @@ describe('Acceptance | Timed challenge', () => {
 
     });
 
-    it('should hide the challenge statement of the second challenge', async () => {
+    it('should hide the challenge statement of the second challenge', () => {
       expect(find('.challenge-statement')).to.not.exist;
     });
 
-    it('should ensure the challenge does not automatically start of the second challenge', async () => {
+    it('should ensure the challenge does not automatically start of the second challenge', () => {
       expect(find('.timeout-gauge')).to.not.exist;
     });
 

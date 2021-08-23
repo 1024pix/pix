@@ -18,7 +18,7 @@ describe('Integration | Component | user logged menu', function() {
 
   describe('when rendering for logged user', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       // given
       class currentUserService extends Service {
         user = {

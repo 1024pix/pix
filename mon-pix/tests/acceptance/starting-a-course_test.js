@@ -10,7 +10,7 @@ describe('Acceptance | Starting a course', function() {
   setupMirage();
   let demoCourse;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     server.createList('challenge', 3, 'forDemo');
     demoCourse = server.create('course', { nbChallenges: 3 });
   });

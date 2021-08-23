@@ -25,7 +25,7 @@ describe('Integration | Component | navbar-header', function() {
       expect(find('.navbar-desktop-header__container')).to.exist;
     });
 
-    it('should render skip links', async function() {
+    it('should render skip links', function() {
       expect(contains(this.intl.t('common.skip-links.skip-to-content'))).to.exist;
       expect(contains(this.intl.t('common.skip-links.skip-to-footer'))).to.exist;
     });

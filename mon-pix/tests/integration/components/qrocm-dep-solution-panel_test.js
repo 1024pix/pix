@@ -95,13 +95,13 @@ describe('Integration | Component | QROCm dep solution panel', function() {
           await render(hbs`<QrocmDepSolutionPanel @challenge={{this.challenge}} @solution={{this.solution}} @answer={{this.answer}} />`);
         });
 
-        it('should display one solution in bold green', async function() {
+        it('should display one solution in bold green', function() {
           // then
           const noAnswerSolutionBlockList = findAll(SOLUTION_BLOCK);
           expect(noAnswerSolutionBlockList).to.have.lengthOf(1);
         });
 
-        it('should display the empty answer with the default message "Pas de réponse" in italic', async function() {
+        it('should display the empty answer with the default message "Pas de réponse" in italic', function() {
           // then
           const firstAnswerInput = findAll(ANSWER)[0];
           expect(firstAnswerInput).to.exist;
@@ -111,7 +111,7 @@ describe('Integration | Component | QROCm dep solution panel', function() {
       });
 
       describe('When the answer is wrong', function() {
-        beforeEach(async function() {
+        beforeEach(function() {
           // given
           const answer = EmberObject.create({
             id: 'answer_id',

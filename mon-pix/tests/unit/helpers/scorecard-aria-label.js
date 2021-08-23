@@ -26,7 +26,7 @@ describe('Unit | Helper | scorecard-aria-label', function() {
       component = createGlimmerComponent('component:scorecard-aria-label');
     });
 
-    it('should return that competence is not started', async function() {
+    it('should return that competence is not started', function() {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: true,
@@ -39,7 +39,7 @@ describe('Unit | Helper | scorecard-aria-label', function() {
       sinon.assert.calledWith(intlServiceStub.t, 'pages.profile.competence-card.image-info.no-level');
     });
 
-    it('should return that first level of competence is started but not finished', async function() {
+    it('should return that first level of competence is started but not finished', function() {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: false,
@@ -57,7 +57,7 @@ describe('Unit | Helper | scorecard-aria-label', function() {
       sinon.assert.calledWith(intlServiceStub.t, 'pages.profile.competence-card.image-info.first-level', expectedTranslationsParams);
     });
 
-    it('should return current level and percentage completed of the next level', async function() {
+    it('should return current level and percentage completed of the next level', function() {
       // given
       const scorecard = EmberObject.create({
         isNotStarted: false,

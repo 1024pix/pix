@@ -23,7 +23,7 @@ describe('Integration | Component | ChallengeStatement', function() {
     return render(hbs`<ChallengeStatement @challenge={{this.challenge}} @assessment={{this.assessment}} @onTooltipClose={{this.onTooltipClose}}/>`);
   }
 
-  beforeEach(async function() {
+  beforeEach(function() {
     class currentUser extends Service {
       user = {
         hasSeenFocusedChallengeTooltip: false,

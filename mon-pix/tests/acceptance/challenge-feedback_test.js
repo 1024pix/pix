@@ -38,7 +38,7 @@ describe('Acceptance | Giving feedback about a challenge', function() {
       await visit(`/assessments/${assessment.id}/challenges/0`);
     });
 
-    it('should be able to directly send a feedback', async () => {
+    it('should be able to directly send a feedback', () => {
       assertThatFeedbackPanelExist();
     });
 

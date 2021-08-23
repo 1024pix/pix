@@ -18,7 +18,7 @@ export default class CompetenceEvaluationService extends Service {
     }
   }
 
-  async _reloadScorecard(scorecardId) {
+  _reloadScorecard(scorecardId) {
     return this.store.findRecord('scorecard', scorecardId, { include: 'competence-evaluation', reload: true });
   }
 }

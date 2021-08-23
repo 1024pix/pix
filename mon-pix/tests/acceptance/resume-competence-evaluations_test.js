@@ -23,7 +23,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
         await visit('/competences/1/evaluer');
       });
 
-      it('should redirect to signin page', async function() {
+      it('should redirect to signin page', function() {
         expect(currentURL()).to.equal('/connexion');
       });
 
@@ -49,7 +49,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
           await visit('/competences/1/evaluer');
         });
 
-        it('should redirect to assessment', async function() {
+        it('should redirect to assessment', function() {
           // then
           expect(currentURL()).to.contains(/assessments/);
           expect(find('.assessment-banner')).to.exist;
@@ -61,7 +61,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
           await visit('/competences/nonExistantCompetenceId/evaluer');
         });
 
-        it('should show an error message', async function() {
+        it('should show an error message', function() {
           expect(find('.error-page__main-content')).to.exist;
         });
       });

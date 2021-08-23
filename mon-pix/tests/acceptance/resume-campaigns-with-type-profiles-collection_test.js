@@ -54,9 +54,9 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
 
   });
 
-  context('When user is logged', async function() {
+  context('When user is logged', function() {
 
-    context('When user has seen send profile page but has not send it', async function() {
+    context('When user has seen send profile page but has not send it', function() {
 
       it('should redirect directly to send profile page', async function() {
         // when
@@ -67,7 +67,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
       });
     });
 
-    context('When user has already send his profile', async function() {
+    context('When user has already send his profile', function() {
 
       it('should redirect directly to send already sent page', async function() {
         // given

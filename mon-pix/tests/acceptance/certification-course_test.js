@@ -181,7 +181,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               await fillCertificationStarter({ accessCode: 'ABCD12' });
             });
 
-            it('should be redirected on the first challenge of an assessment', async function() {
+            it('should be redirected on the first challenge of an assessment', function() {
               // then
               expect(currentURL().startsWith(`/assessments/${assessment.id}/challenges`)).to.be.true;
             });

@@ -13,7 +13,7 @@ export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRo
     super.beforeModel(...arguments);
   }
 
-  async model() {
+  model() {
     return this.modelFor('campaigns');
   }
 
