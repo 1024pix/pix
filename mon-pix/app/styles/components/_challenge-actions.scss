@@ -1,5 +1,9 @@
 @mixin action-button($text-color) {
-  margin: 0 5px;
+  margin: 0 1px;
+
+  @include device-is('tablet') {
+    margin: 0 5px;
+  }
 
   &-text {
     font-size: 0.8rem;
@@ -10,6 +14,14 @@
     @include device-is('tablet') {
       font-size: 1rem;
     }
+  }
+}
+
+.rounded-panel__row.challenge-actions {
+  padding: 20px 0;
+
+  @include device-is('tablet') {
+    padding: 20px;
   }
 }
 
@@ -29,11 +41,7 @@
 
   &__group {
     display: flex;
-    flex-direction: column-reverse;
-
-    @include device-is('tablet') {
-      flex-direction: row-reverse;
-    }
+    flex-direction: row-reverse;
   }
 
   &__action-skip {
