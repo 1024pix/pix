@@ -1,24 +1,29 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const getScoCertificationResultsByDivision = require('../../../../lib/domain/usecases/get-sco-certification-results-by-division');
 const { NoCertificationResultForDivision } = require('../../../../lib/domain/errors');
+
 describe('Unit | UseCase | get-sco-certification-results-by-division', function() {
-  it('throws when no results is found for organization and division', async function() {
+  const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: null };
+  const certificationResultRepository = { findByCertificationCandidateIds: null };
+  const dependencies = {
+    scoCertificationCandidateRepository,
+    certificationResultRepository,
+  };
+
+  beforeEach(function() {
+    scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision = sinon.stub();
+    certificationResultRepository.findByCertificationCandidateIds = sinon.stub();
+  });
+
+  it('throws when no published results is found for organization and division', async function() {
     // given
-    const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
       organizationId: 1,
       division: '3ème A',
     }).resolves([]);
-    const certificationCourseRepository = { findCertificationCoursesByCandidateIds: sinon.stub() };
-    certificationCourseRepository.findCertificationCoursesByCandidateIds.withArgs({
-      candidateIds: [],
+    certificationResultRepository.findByCertificationCandidateIds.withArgs({
+      certificationCandidateIds: [],
     }).resolves([]);
-
-    const dependencies = {
-      scoCertificationCandidateRepository,
-      certificationCourseRepository,
-      getCertificationResultByCertifCourse: undefined,
-    };
 
     // when
     const error = await catchErr(getScoCertificationResultsByDivision)({
@@ -31,91 +36,27 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', function(
     expect(error).to.be.instanceof(NoCertificationResultForDivision);
   });
 
-  it('throws when no certification course is published', async function() {
+  it('returns the published certification results of candidates matching the organization and division', async function() {
     // given
-    const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
       organizationId: 1,
       division: '3ème A',
-    }).resolves([10, 11, 12]);
-    const certificationCourseRepository = { findCertificationCoursesByCandidateIds: sinon.stub() };
-
-    const unPublishedFirstMatchingCandidateCertificationCourse = domainBuilder.buildCertificationCourse({ isPublished: false });
-    const unPublishedSecondMatchingCandidateCertificationCourse = domainBuilder.buildCertificationCourse({ isPublished: false });
-    const unPublishedThirdMatchingCandidateCertificationCourse = domainBuilder.buildCertificationCourse({ isPublished: false });
-
-    certificationCourseRepository.findCertificationCoursesByCandidateIds.withArgs({
-      candidateIds: [10, 11, 12],
-    }).resolves([
-      unPublishedFirstMatchingCandidateCertificationCourse,
-      unPublishedSecondMatchingCandidateCertificationCourse,
-      unPublishedThirdMatchingCandidateCertificationCourse,
-    ]);
-
-    const dependencies = {
-      scoCertificationCandidateRepository,
-      certificationCourseRepository,
-      getCertificationResultByCertifCourse: sinon.stub(),
-    };
+    }).resolves([11, 12, 13]);
+    const certificationResultA = domainBuilder.buildCertificationResult2({ firstName: 'Buffy', isPublished: true });
+    const certificationResultB = domainBuilder.buildCertificationResult2({ firstName: 'Giles', isPublished: false });
+    const certificationResultC = domainBuilder.buildCertificationResult2({ firstName: 'Anyanka', isPublished: true });
+    certificationResultRepository.findByCertificationCandidateIds.withArgs({
+      certificationCandidateIds: [11, 12, 13],
+    }).resolves([certificationResultA, certificationResultB, certificationResultC]);
 
     // when
-    const error = await catchErr(getScoCertificationResultsByDivision)({
+    const publishedCertificationResults = await getScoCertificationResultsByDivision({
       ...dependencies,
       organizationId: 1,
       division: '3ème A',
     });
 
     // then
-    expect(error).to.be.instanceof(NoCertificationResultForDivision);
+    expect(publishedCertificationResults).to.deepEqualArray([certificationResultA, certificationResultC]);
   });
-
-  it('returns the list of results of candidates matching the organization and division', async function() {
-    // given
-    const scoCertificationCandidateRepository = { findIdsByOrganizationIdAndDivision: sinon.stub() };
-    scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
-      organizationId: 1,
-      division: '3ème A',
-    }).resolves([10, 11, 12]);
-    const certificationCourseRepository = { findCertificationCoursesByCandidateIds: sinon.stub() };
-
-    const publishedFirstMatchingCandidateCertificationCourse = domainBuilder.buildCertificationCourse({ isPublished: true });
-    const publishedFirstMatchingCandidateCertificationResult = domainBuilder.buildCertificationResult();
-    const publishedSecondMatchingCandidateCertificationCourse = domainBuilder.buildCertificationCourse({ isPublished: true });
-    const publishedSecondMatchingCandidateCertificationResult = domainBuilder.buildCertificationResult();
-    const unPublishedThirdMatchingCandidateCertificationCourse = domainBuilder.buildCertificationCourse({ isPublished: false });
-
-    certificationCourseRepository.findCertificationCoursesByCandidateIds.withArgs({
-      candidateIds: [10, 11, 12],
-    }).resolves([
-      publishedFirstMatchingCandidateCertificationCourse,
-      publishedSecondMatchingCandidateCertificationCourse,
-      unPublishedThirdMatchingCandidateCertificationCourse,
-    ]);
-
-    const getCertificationResultByCertifCourse = sinon.stub();
-    getCertificationResultByCertifCourse.withArgs({ certificationCourse: publishedFirstMatchingCandidateCertificationCourse })
-      .resolves(publishedFirstMatchingCandidateCertificationResult);
-    getCertificationResultByCertifCourse.withArgs({ certificationCourse: publishedSecondMatchingCandidateCertificationCourse })
-      .resolves(publishedSecondMatchingCandidateCertificationResult);
-
-    const dependencies = {
-      scoCertificationCandidateRepository,
-      certificationCourseRepository,
-      getCertificationResultByCertifCourse,
-    };
-
-    // when
-    const certificationResults = await getScoCertificationResultsByDivision({
-      ...dependencies,
-      organizationId: 1,
-      division: '3ème A',
-    });
-
-    // then
-    expect(certificationResults).to.deep.equal([
-      publishedFirstMatchingCandidateCertificationResult,
-      publishedSecondMatchingCandidateCertificationResult,
-    ]);
-  });
-
 });
