@@ -5,6 +5,7 @@ import { render, click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
+import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Results::AssessmentList', function(hooks) {
   setupIntlRenderingTest(hooks);
@@ -40,7 +41,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
   });
 
   module('when a participant has shared his results', function() {
-    test('it should display the participant\'s results', async function(assert) {
+    test('it should display the participant’s results', async function(assert) {
       // given
       const campaign = store.createRecord('campaign', {
         id: 1,
@@ -52,7 +53,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
         {
           firstName: 'John',
           lastName: 'Doe',
-          masteryPercentage: 80,
+          masteryPercentage: 0.8,
           isShared: true,
         },
       ];
@@ -71,7 +72,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       assert.notContains('Aucun participant');
       assert.contains('Doe');
       assert.contains('John');
-      assert.contains('80%');
+      assert.contains(t('pages.campaign-results.table.column.results.value', { percentage: participations[0].masteryPercentage }));
     });
 
     test('it should display badge and tooltip', async function(assert) {
