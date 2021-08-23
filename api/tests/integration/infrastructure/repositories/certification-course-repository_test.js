@@ -1,10 +1,9 @@
+const _ = require('lodash');
 const { catchErr, expect, databaseBuilder, domainBuilder, knex } = require('../../../test-helper');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const BookshelfCertificationCourse = require('../../../../lib/infrastructure/orm-models/CertificationCourse');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
-const _ = require('lodash');
 
 describe('Integration | Repository | Certification Course', function() {
 
@@ -446,101 +445,4 @@ describe('Integration | Repository | Certification Course', function() {
       expect(result).to.be.empty;
     });
   });
-
-  describe('#findBySessionIdAndUserIds', function() {
-    let sessionId;
-    let firstCertifCourse;
-    let user1;
-    let user2;
-
-    it('should returns all certification courses id with given session id and user ids', async function() {
-      // given
-      sessionId = databaseBuilder.factory.buildSession().id;
-      user1 = databaseBuilder.factory.buildUser();
-      user2 = databaseBuilder.factory.buildUser();
-      firstCertifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId: user1.id });
-      databaseBuilder.factory.buildCertificationCourse({ sessionId, userId: user2.id });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationCourses = await certificationCourseRepository.findBySessionIdAndUserIds({ sessionId, userIds: [user1.id] });
-
-      // then
-      expect(certificationCourses).to.have.lengthOf(1);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(firstCertifCourse)));
-    });
-  });
-
-  describe('#findCertificationCoursesByCandidateIds', function() {
-
-    it('returns an empty array when none exists', async function() {
-      // given
-      const candidateIds = [1, 2, 3];
-      // when
-      const certificationCourses = certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds });
-      // then
-      expect(certificationCourses).to.be.empty;
-    });
-
-    it('returns the certifications courses of given candidates Ids', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const userId = databaseBuilder.factory.buildUser().id;
-      const certifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId, userId });
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-        userId,
-        sessionId,
-      }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
-      // then
-      expect(certificationCourses).to.have.lengthOf(1);
-      expect(certificationCourses[0]).to.be.an.instanceof(CertificationCourse);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(certifCourse)));
-    });
-
-    it('returns only the certification course that is linked to the candidate\'s session', async function() {
-      const aSessionId = databaseBuilder.factory.buildSession().id;
-      const anotherSessionId = databaseBuilder.factory.buildSession().id;
-      const userId = databaseBuilder.factory.buildUser().id;
-      const certifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: aSessionId, userId });
-      databaseBuilder.factory.buildCertificationCourse({ sessionId: anotherSessionId, userId });
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-        userId,
-        sessionId: aSessionId,
-      }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
-      // then
-      expect(certificationCourses).to.have.lengthOf(1);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(certifCourse)));
-    });
-
-    it('returns only the certification course that is linked to the candidate\'s user', async function() {
-      const aSessionId = databaseBuilder.factory.buildSession().id;
-      const aUserId = databaseBuilder.factory.buildUser().id;
-      const anotherUserId = databaseBuilder.factory.buildUser().id;
-      const certifCourse = databaseBuilder.factory.buildCertificationCourse({ sessionId: aSessionId, userId: aUserId });
-      databaseBuilder.factory.buildCertificationCourse({ sessionId: aSessionId, userId: anotherUserId });
-      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({
-        userId: aUserId,
-        sessionId: aSessionId,
-      }).id;
-      await databaseBuilder.commit();
-
-      // when
-      const certificationCourses = await certificationCourseRepository.findCertificationCoursesByCandidateIds({ candidateIds: [certificationCandidateId] });
-      // then
-      expect(certificationCourses).to.have.lengthOf(1);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(certifCourse)));
-    });
-  });
 });
-
-function _cleanCertificationCourse(certificationCourse) {
-  return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
-}
