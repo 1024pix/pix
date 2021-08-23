@@ -1,22 +1,20 @@
-const bluebird = require('bluebird');
+const _ = require('lodash');
 const moment = require('moment');
 
 module.exports = async function getSessionResultsByResultRecipientEmail({
   sessionId,
-  sessionRepository,
-  certificationCourseRepository,
-  certificationService,
   resultRecipientEmail,
+  sessionRepository,
+  certificationResultRepository,
 }) {
   const session = await sessionRepository.getWithCertificationCandidates(sessionId);
-  const candidatesFilteredByRecipientEmail = session.certificationCandidates.filter((certificationCandidate)=> certificationCandidate.resultRecipientEmail === resultRecipientEmail);
-  const userIds = candidatesFilteredByRecipientEmail.map((candidate) => candidate.userId);
+  const certificationCandidateIdsForResultRecipient =
+      _(session.certificationCandidates)
+        .filter({ resultRecipientEmail })
+        .map('id')
+        .value();
 
-  const certificationCourses = await certificationCourseRepository.findBySessionIdAndUserIds({ sessionId, userIds });
-
-  const certificationResults = await bluebird.mapSeries(certificationCourses,
-    (certificationCourse) => certificationService.getCertificationResultByCertifCourse({ certificationCourse }),
-  );
+  const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: certificationCandidateIdsForResultRecipient });
 
   const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
   const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;

@@ -55,6 +55,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         hasSeenEndTestScreen: false,
         sessionId,
       }).id;
+      const certificationCourseIdNotInSession = databaseBuilder.factory.buildCertificationCourse().id;
       const assessmentId1 = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId1,
       }).id;
@@ -64,6 +65,9 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const assessmentId3 = databaseBuilder.factory.buildAssessment({
         certificationCourseId: certificationCourseId3,
       }).id;
+      databaseBuilder.factory.buildAssessment({
+        certificationCourseId: certificationCourseIdNotInSession,
+      });
       const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
         assessmentId: assessmentId1,
         createdAt: new Date('2000-01-01'),
