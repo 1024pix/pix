@@ -117,7 +117,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         });
 
         // then
-        expect(certificationResult.status).to.equal(CertificationResult.status.CANCELLED);
+        expect(certificationResult.isCancelled()).to.be.true;
       });
 
       it('should build a validated CertificationResult when assessmentResultStatus is validated and certification not cancelled', function() {
@@ -142,7 +142,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         });
 
         // then
-        expect(certificationResult.status).to.equal(CertificationResult.status.VALIDATED);
+        expect(certificationResult.isValidated()).to.be.true;
       });
 
       it('should build a rejected CertificationResult when assessmentResultStatus is rejected and certification not cancelled', function() {
@@ -167,7 +167,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         });
 
         // then
-        expect(certificationResult.status).to.equal(CertificationResult.status.REJECTED);
+        expect(certificationResult.isRejected()).to.be.true;
       });
 
       it('should build an error CertificationResult when assessmentResultStatus is in error and certification not cancelled', function() {
@@ -192,7 +192,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         });
 
         // then
-        expect(certificationResult.status).to.equal(CertificationResult.status.ERROR);
+        expect(certificationResult.isInError()).to.be.true;
       });
 
       it('should build a started CertificationResult when there are no assessmentResultStatus and certification not cancelled', function() {
@@ -217,7 +217,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         });
 
         // then
-        expect(certificationResult.status).to.equal(CertificationResult.status.STARTED);
+        expect(certificationResult.isStarted()).to.be.true;
       });
     });
   });

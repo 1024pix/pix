@@ -162,9 +162,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 
       // then
-      const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].cleaCertificationResult).to.deepEqualInstance(expectedCleaCertificationResult);
+      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
     });
 
     it('should get the clea certification result if clea V2 taken', async function() {
@@ -179,9 +178,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 
       // then
-      const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].cleaCertificationResult).to.deepEqualInstance(expectedCleaCertificationResult);
+      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
     });
 
     it('should get the pix plus droit maitre certification result if taken', async function() {
@@ -189,16 +187,15 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const sessionId = databaseBuilder.factory.buildSession().id;
       const certificationCourseId = await _buildCertificationResultInSession(sessionId);
       databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
       await databaseBuilder.commit();
 
       // when
       const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 
       // then
-      const expectedPixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].pixPlusDroitMaitreCertificationResult).to.deepEqualInstance(expectedPixPlusDroitMaitreCertificationResult);
+      expect(certificationResults[0].hasAcquiredPixPlusDroitMaitre()).to.be.true;
     });
 
     it('should get the pix plus droit expert certification result if taken', async function() {
@@ -213,9 +210,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 
       // then
-      const expectedPixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].pixPlusDroitExpertCertificationResult).to.deepEqualInstance(expectedPixPlusDroitExpertCertificationResult);
+      expect(certificationResults[0].hasAcquiredPixPlusDroitExpert()).to.be.true;
     });
   });
 
@@ -383,9 +379,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
 
       // then
-      const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].cleaCertificationResult).to.deepEqualInstance(expectedCleaCertificationResult);
+      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
     });
 
     it('should get the clea certification result if clea V2 taken', async function() {
@@ -400,9 +395,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
 
       // then
-      const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].cleaCertificationResult).to.deepEqualInstance(expectedCleaCertificationResult);
+      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
     });
 
     it('should get the pix plus droit maitre certification result if taken', async function() {
@@ -410,16 +404,15 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const sessionId = databaseBuilder.factory.buildSession().id;
       const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
       databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
+      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
       await databaseBuilder.commit();
 
       // when
       const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
 
       // then
-      const expectedPixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].pixPlusDroitMaitreCertificationResult).to.deepEqualInstance(expectedPixPlusDroitMaitreCertificationResult);
+      expect(certificationResults[0].hasAcquiredPixPlusDroitMaitre()).to.be.true;
     });
 
     it('should get the pix plus droit expert certification result if taken', async function() {
@@ -434,9 +427,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
 
       // then
-      const expectedPixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
       expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].pixPlusDroitExpertCertificationResult).to.deepEqualInstance(expectedPixPlusDroitExpertCertificationResult);
+      expect(certificationResults[0].hasAcquiredPixPlusDroitExpert()).to.be.true;
     });
   });
 });
