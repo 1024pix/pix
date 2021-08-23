@@ -9,7 +9,7 @@ async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }
   const targetProfile = await targetProfileRepository.getByCampaignId({ campaignId });
   const { results, pagination } = await _getResultListPaginated(campaignId, targetProfile, filters, page);
 
-  const participations = await _buildCampaignAssessmentParticipationResultList(results, targetProfile.skillIds.length);
+  const participations = await _buildCampaignAssessmentParticipationResultList(results);
 
   return {
     participations,
@@ -35,6 +35,7 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
     'campaign-participations.participantExternalId',
     'campaign-participations.validatedSkillsCount',
+    'campaign-participations.masteryPercentage',
     'campaign-participations.id AS campaignParticipationId',
     'users.id AS userId',
   )
@@ -87,14 +88,13 @@ function _filterByStage(qb, targetProfile, filters) {
   });
 }
 
-async function _buildCampaignAssessmentParticipationResultList(results, targetedSkillsCount) {
+async function _buildCampaignAssessmentParticipationResultList(results) {
 
   return await bluebird.mapSeries(results, async (result) => {
     const badges = await getAcquiredBadges(result.campaignParticipationId);
 
     return new CampaignAssessmentParticipationResultMinimal({
       ...result,
-      masteryPercentage: Math.round(result.validatedSkillsCount * 100 / targetedSkillsCount),
       badges,
     });
   });
