@@ -31,7 +31,7 @@ describe('Unit | UseCase | add-tutorial-to-user', function() {
     it('should throw a Domain error', async function() {
       // Given
       tutorialRepository = {
-        get: async () => {
+        get: () => {
           throw new LearningContentNotFoundError();
         },
       };

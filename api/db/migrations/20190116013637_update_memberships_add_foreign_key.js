@@ -1,6 +1,6 @@
 const TABLE_NAME = 'memberships';
 
-exports.up = async (knex) => {
+exports.up = (knex) => {
   return knex.schema.alterTable(TABLE_NAME, (table) => {
     table.unique(['userId', 'organizationId']);
   });

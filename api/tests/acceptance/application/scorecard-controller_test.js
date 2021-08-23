@@ -95,7 +95,7 @@ describe('Acceptance | Controller | scorecard-controller', function() {
 
   describe('GET /scorecards/{id}', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}`,
@@ -209,7 +209,7 @@ describe('Acceptance | Controller | scorecard-controller', function() {
 
   describe('GET /scorecards/{id}/tutorials', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}/tutorials`,

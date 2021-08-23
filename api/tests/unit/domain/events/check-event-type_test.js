@@ -13,7 +13,7 @@ describe('Unit | Domain | Events | check-event-types', function() {
     expect(error.message).to.equal('event must be one of types TestEvent1, TestEvent2');
   });
 
-  it('accepts an event of correct type ', async function() {
+  it('accepts an event of correct type ', function() {
     // given
     const correctTypeEvent = new TestEvent1();
 

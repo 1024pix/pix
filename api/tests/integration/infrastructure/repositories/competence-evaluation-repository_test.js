@@ -30,7 +30,7 @@ describe('Integration | Repository | Competence Evaluation', function() {
       });
 
       // when
-      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
+      const savedCompetenceEvaluation = await DomainTransaction.execute((domainTransaction) =>
         competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 
@@ -54,7 +54,7 @@ describe('Integration | Repository | Competence Evaluation', function() {
       });
 
       // when
-      const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
+      const savedCompetenceEvaluation = await DomainTransaction.execute((domainTransaction) =>
         competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
       );
 

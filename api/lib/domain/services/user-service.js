@@ -53,7 +53,7 @@ async function createUserWithPassword({
   return savedUser;
 }
 
-async function updateUsernameAndAddPassword({
+function updateUsernameAndAddPassword({
   userId,
   username,
   hashedPassword,
@@ -70,7 +70,7 @@ async function updateUsernameAndAddPassword({
   });
 }
 
-async function createAndReconcileUserToSchoolingRegistration({
+function createAndReconcileUserToSchoolingRegistration({
   hashedPassword,
   samlId,
   schoolingRegistrationId,

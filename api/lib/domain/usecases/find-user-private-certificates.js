@@ -1,4 +1,4 @@
-module.exports = async function findUserPrivateCertificates({
+module.exports = function findUserPrivateCertificates({
   userId,
   privateCertificateRepository,
 }) {

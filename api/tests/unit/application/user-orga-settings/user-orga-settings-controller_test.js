@@ -67,7 +67,7 @@ describe('Unit | Controller | user-orga-settings-controller', function() {
       response = await userOrgaSettingsController.createOrUpdate(request);
     });
 
-    it('should call the usecase to update the userOrgaSetting', async function() {
+    it('should call the usecase to update the userOrgaSetting', function() {
       // then
       expect(usecases.createOrUpdateUserOrgaSettings).to.have.been.calledWith({ userId, organizationId });
     });

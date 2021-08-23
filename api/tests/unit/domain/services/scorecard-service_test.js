@@ -141,7 +141,7 @@ describe('Unit | Service | ScorecardService', function() {
       });
 
       // then
-      it('should reset each knowledge elements', async function() {
+      it('should reset each knowledge elements', function() {
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
@@ -176,7 +176,7 @@ describe('Unit | Service | ScorecardService', function() {
       });
 
       // then
-      it('should reset each knowledge elements', async function() {
+      it('should reset each knowledge elements', function() {
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
@@ -205,7 +205,7 @@ describe('Unit | Service | ScorecardService', function() {
       const campaignParticipation2Updated = Symbol('campaign participation 2 updated');
       const shouldResetCompetenceEvaluation = false;
 
-      beforeEach(async function() {
+      beforeEach(function() {
         const skill = domainBuilder.buildSkill({ id: skillId });
         const targetProfile = domainBuilder.buildTargetProfile({ skills: [skill] });
         campaign = domainBuilder.buildCampaign.ofTypeAssessment({ targetProfileId: targetProfile.id, targetProfile });
@@ -356,13 +356,13 @@ describe('Unit | Service | ScorecardService', function() {
       });
 
       // then
-      it('should reset each assessments', async function() {
+      it('should reset each assessments', function() {
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 1, status: 'reset', earnedPix: 0 });
         expect(knowledgeElementRepository.save).to.have.been.calledWithExactly({ id: 2, status: 'reset', earnedPix: 0 });
         expect(resetKnowledgeElements).to.deep.equal([resetKnowledgeElement1, resetKnowledgeElement2]);
       });
 
-      it('should not save another assessment', async function() {
+      it('should not save another assessment', function() {
         expect(assessmentRepository.save).to.not.have.been.called;
         expect(assessmentRepository.abortByAssessmentId).to.not.have.been.called;
         expect(resetCampaignParticipation).to.equal(null);

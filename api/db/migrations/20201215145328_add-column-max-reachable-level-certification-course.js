@@ -1,7 +1,7 @@
 const TABLE_NAME = 'certification-courses';
 const COLUMN_NAME = 'maxReachableLevelOnCertificationDate';
 
-exports.up = async (knex) => {
+exports.up = (knex) => {
   return knex.schema.table(TABLE_NAME, (table) => {
     table.integer(COLUMN_NAME).notNullable().defaultTo(5);
   });

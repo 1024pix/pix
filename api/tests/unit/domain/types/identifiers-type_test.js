@@ -21,7 +21,7 @@ describe('Unit | Domain | Type | identifier-types', function() {
 
     context('when id is invalid', function() {
 
-      it('should reject outside of lower bound', async function() {
+      it('should reject outside of lower bound', function() {
         // given
         const lowerBoundOutOfRangeId = 0;
 
@@ -32,7 +32,7 @@ describe('Unit | Domain | Type | identifier-types', function() {
         expect(error.message).to.equal('"value" must be greater than or equal to 1');
       });
 
-      it('should reject outside of upper bound', async function() {
+      it('should reject outside of upper bound', function() {
         // given
         const upperBoundOutOfRangeId = 2147483648;
 
@@ -64,7 +64,7 @@ describe('Unit | Domain | Type | identifier-types', function() {
 
     context('when id is invalid', function() {
 
-      it('should reject when empty', async function() {
+      it('should reject when empty', function() {
         // given
         const emptyString = '';
 
@@ -75,7 +75,7 @@ describe('Unit | Domain | Type | identifier-types', function() {
         expect(error.message).to.equal('"value" is not allowed to be empty');
       });
 
-      it('should reject when too large', async function() {
+      it('should reject when too large', function() {
         // given
         const tooLargeString = 'A'.repeat(256);
 

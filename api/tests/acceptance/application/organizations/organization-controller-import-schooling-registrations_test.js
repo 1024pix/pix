@@ -362,7 +362,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       });
 
       context('when a schoolingRegistration is present twice in the file', function() {
-        beforeEach(async function() {
+        beforeEach(function() {
           // given
           const schoolingRegistration1 =
             '<ELEVE ELEVE_ID="0001">' +

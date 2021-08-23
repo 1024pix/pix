@@ -5,7 +5,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const schoolingRegistrationUserAssociationController = require('./schooling-registration-user-association-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

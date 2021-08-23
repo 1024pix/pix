@@ -17,7 +17,7 @@ describe('Integration | Repository | CampaignToJoin', function() {
       await databaseBuilder.commit();
 
       // when
-      const actualCampaign = await DomainTransaction.execute(async (domainTransaction) => {
+      const actualCampaign = await DomainTransaction.execute((domainTransaction) => {
         return campaignToJoinRepository.get(expectedCampaign.id, domainTransaction);
       });
 
@@ -172,7 +172,7 @@ describe('Integration | Repository | CampaignToJoin', function() {
 
       // when
       try {
-        await DomainTransaction.execute(async (domainTransaction) => {
+        await DomainTransaction.execute((domainTransaction) => {
           return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
         });
 
@@ -251,7 +251,7 @@ describe('Integration | Repository | CampaignToJoin', function() {
 
         // when
         try {
-          await DomainTransaction.execute(async (domainTransaction) => {
+          await DomainTransaction.execute((domainTransaction) => {
             return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
           });
         } catch (error) {
@@ -292,7 +292,7 @@ describe('Integration | Repository | CampaignToJoin', function() {
 
         // when
         try {
-          await DomainTransaction.execute(async (domainTransaction) => {
+          await DomainTransaction.execute((domainTransaction) => {
             return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
           });
         } catch (error) {
@@ -389,7 +389,7 @@ describe('Integration | Repository | CampaignToJoin', function() {
           await databaseBuilder.commit();
 
           try {
-            await DomainTransaction.execute(async (domainTransaction) => {
+            await DomainTransaction.execute((domainTransaction) => {
               return campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
             });
           } catch (error) {

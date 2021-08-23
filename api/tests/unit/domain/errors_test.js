@@ -365,7 +365,7 @@ describe('Unit | Domain | Errors', function() {
         { type: 'number.base', why: 'not_a_number' },
         { type: 'number.integer', why: 'not_a_number' },
       ].forEach(({ type, why }) => {
-        it(`should assign why "${why}" to error when joi error type is "${type}"`, async function() {
+        it(`should assign why "${why}" to error when joi error type is "${type}"`, function() {
           // given
           const joiErrorDetail = {
             context: { key: 'someKey' },
@@ -380,7 +380,7 @@ describe('Unit | Domain | Errors', function() {
         });
       });
 
-      it('should let why empty when type is unknown', async function() {
+      it('should let why empty when type is unknown', function() {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -459,7 +459,7 @@ describe('Unit | Domain | Errors', function() {
           { why: 'not_a_number', content: 'doit être un nombre.' },
           { why: 'required', content: 'est obligatoire.' },
         ].forEach(({ why, content }) => {
-          it(`message should contain "${content}" when why is "${why}"`, async function() {
+          it(`message should contain "${content}" when why is "${why}"`, function() {
             // given
             const invalidCertificationCandidateError = {
               key: 'someKey',

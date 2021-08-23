@@ -1,3 +1,3 @@
-module.exports = async function getUserWithMemberships({ userId, userRepository }) {
+module.exports = function getUserWithMemberships({ userId, userRepository }) {
   return userRepository.getWithMemberships(userId);
 };

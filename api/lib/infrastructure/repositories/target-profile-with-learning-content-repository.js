@@ -19,7 +19,7 @@ const { getTranslatedText } = require('../../domain/services/get-translated-text
 
 module.exports = {
 
-  async get({ id, locale = FRENCH_FRANCE }) {
+  get({ id, locale = FRENCH_FRANCE }) {
     const whereClauseFnc = (queryBuilder) => {
       return queryBuilder
         .where('target-profiles.id', id);
@@ -28,7 +28,7 @@ module.exports = {
     return _get(whereClauseFnc, locale);
   },
 
-  async getByCampaignId({ campaignId, locale = FRENCH_FRANCE }) {
+  getByCampaignId({ campaignId, locale = FRENCH_FRANCE }) {
     const whereClauseFnc = (queryBuilder) => {
       return queryBuilder
         .join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id')

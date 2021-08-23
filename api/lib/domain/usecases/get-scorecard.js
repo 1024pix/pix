@@ -1,7 +1,7 @@
 const { UserNotAuthorizedToAccessEntityError } = require('../errors');
 const Scorecard = require('../models/Scorecard');
 
-module.exports = async function getScorecard({
+module.exports = function getScorecard({
   authenticatedUserId,
   scorecardId,
   scorecardService,

@@ -69,7 +69,7 @@ module.exports = {
     await BookshelfCampaignParticipation.forge(attributes).save();
   },
 
-  async markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
+  markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || knex;
     return knexConn('campaign-participations')
       .where({ campaignId, userId })

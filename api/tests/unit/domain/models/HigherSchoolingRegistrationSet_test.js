@@ -130,7 +130,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
     });
 
     context('When there are warnings', function() {
-      it('should add a diploma warning', async function() {
+      it('should add a diploma warning', function() {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',
@@ -151,7 +151,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
         expect(warnings[0]).to.deep.equal({ studentNumber: '123ABC', field: 'diploma', value: 'BAD', code: 'unknown' });
       });
 
-      it('should add a study scheme warning', async function() {
+      it('should add a study scheme warning', function() {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',
@@ -172,7 +172,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
         expect(warnings[0]).to.deep.equal({ studentNumber: '123ABC', field: 'study-scheme', value: 'BAD', code: 'unknown' });
       });
 
-      it('should check diplomas and study schemes with lower case', async function() {
+      it('should check diplomas and study schemes with lower case', function() {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',
@@ -191,7 +191,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
         expect(warnings).to.have.lengthOf(0);
       });
 
-      it('should check diplomas and study schemes with Levenshtein distance', async function() {
+      it('should check diplomas and study schemes with Levenshtein distance', function() {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',

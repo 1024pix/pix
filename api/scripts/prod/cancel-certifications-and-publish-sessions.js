@@ -103,7 +103,7 @@ function _parseSessionId(line) {
   return _.toNumber(sessionIdValue);
 }
 
-async function _parseCertifications(line, sessionId, trx) {
+function _parseCertifications(line, sessionId, trx) {
   const COL_NAME_CERTIFICATIONS = 'certifications';
   const certificationsValue = line[COL_NAME_CERTIFICATIONS];
   if (certificationsValue === 'tout annuler') {

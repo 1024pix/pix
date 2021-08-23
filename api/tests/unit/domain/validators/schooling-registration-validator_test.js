@@ -20,7 +20,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
     };
 
     context('when all required fields are presents', function() {
-      it('is valid', async function() {
+      it('is valid', function() {
         try {
           checkValidation(validAttributes);
         } catch (e) {
@@ -73,7 +73,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
 
     context('birthCountryCode', function() {
       context('is valid', function() {
-        it('respects INSEE Code, only number', async function() {
+        it('respects INSEE Code, only number', function() {
           try {
             checkValidation({ ...validAttributes, birthCountryCode: '99123' });
           } catch (e) {
@@ -127,7 +127,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
         expect(error.why).to.equal('bad_values');
       });
 
-      it('is valid when status is \'ST\'', async function() {
+      it('is valid when status is \'ST\'', function() {
         try {
           checkValidation({ ...validAttributes, status: 'ST' });
         } catch (e) {
@@ -135,7 +135,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
         }
       });
 
-      it('is valid when status is \'AP\'', async function() {
+      it('is valid when status is \'AP\'', function() {
         try {
           checkValidation({ ...validAttributes, nationalIdentifier: '0123456789F', status: 'AP' });
         } catch (e) {
@@ -181,7 +181,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
         expect(error.why).to.equal('required');
       });
 
-      it('is valid when birthCity is undefined and birthCountry is France', async function() {
+      it('is valid when birthCity is undefined and birthCountry is France', function() {
         try {
           checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '51430', birthCity: undefined });
         } catch (e) {
@@ -194,7 +194,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
       context('is valid', function() {
         context('when birthCountryCode equal to France', function() {
 
-          it('respects INSEE Code, with one letter', async function() {
+          it('respects INSEE Code, with one letter', function() {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '2B125' });
             } catch (e) {
@@ -202,7 +202,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
             }
           });
 
-          it('respects INSEE Code, only number', async function() {
+          it('respects INSEE Code, only number', function() {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: FRANCE_COUNTRY_CODE, birthCityCode: '13125' });
             } catch (e) {
@@ -212,7 +212,7 @@ describe('Unit | Domain | Schooling Registration validator', function() {
         });
 
         context('when birthCountryCode not equal to France', function() {
-          it('is valid with birthCityCode undefined', async function() {
+          it('is valid with birthCityCode undefined', function() {
             try {
               checkValidation({ ...validAttributes, birthCountryCode: '99125', birthCityCode: undefined });
             } catch (e) {

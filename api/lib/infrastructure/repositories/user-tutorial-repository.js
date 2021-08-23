@@ -16,7 +16,7 @@ module.exports = {
     return userTutorials.map(_toDomain);
   },
 
-  async removeFromUser(userTutorial) {
+  removeFromUser(userTutorial) {
     return BookshelfUserTutorials.where(userTutorial).destroy({ require: false });
   },
 };

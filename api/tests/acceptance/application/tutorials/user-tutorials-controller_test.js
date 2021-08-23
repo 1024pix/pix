@@ -35,7 +35,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
 
     let options;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId',
@@ -45,7 +45,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(function() {
       return knex('user_tutorials').delete();
     });
 
@@ -94,7 +94,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
 
     let options;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'GET',
         url: '/api/users/tutorials',
@@ -160,7 +160,7 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
 
     let options;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'DELETE',
         url: '/api/users/tutorials/tutorialId',

@@ -2,7 +2,7 @@ const TABLE_NAME = 'users';
 const COLUMN_NAME = 'lang';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, async (table) => {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.string(COLUMN_NAME).notNullable().defaultTo('fr');
   });
 };

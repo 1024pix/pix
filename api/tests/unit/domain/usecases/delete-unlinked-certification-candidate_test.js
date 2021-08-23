@@ -12,7 +12,7 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function() 
   let certificationCandidateId;
   let certificationCandidateRepository;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     certificationCandidateId = 'dummy certification candidate id';
     certificationCandidateRepository = {
       isNotLinked: sinon.stub(),

@@ -9,20 +9,21 @@ class InMemoryCache extends Cache {
     this._queue = Promise.resolve();
   }
 
+  // eslint-disable-next-line require-await
   async get(key, generator) {
     return this._syncGet(key, () => this._chainPromise(() => {
       return this._syncGet(key, () => this._generateAndSet(key, generator));
     }));
   }
 
-  async set(key, value) {
+  set(key, value) {
     return this._chainPromise(() => {
       this._cache.set(key, value);
       return value;
     });
   }
 
-  async flushAll() {
+  flushAll() {
     return this._chainPromise(() => {
       this._cache.flushAll();
     });
@@ -34,7 +35,7 @@ class InMemoryCache extends Cache {
     return generatedValue;
   }
 
-  async _chainPromise(fn) {
+  _chainPromise(fn) {
     const queuedPromise = this._queue.then(fn);
     this._queue = queuedPromise.catch(() => {});
     return queuedPromise;

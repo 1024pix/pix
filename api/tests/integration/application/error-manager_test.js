@@ -24,7 +24,7 @@ describe('Integration | API | Controller Error', function() {
   before(async function() {
     const moduleUnderTest = {
       name: 'test-route',
-      register: async function(server) {
+      register: function(server) {
         server.route([{
           method: 'GET',
           path: routeUrl,

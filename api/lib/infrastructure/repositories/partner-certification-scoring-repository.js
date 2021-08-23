@@ -104,7 +104,7 @@ async function _getCleaCompetenceMarks({ certificationCourseId, cleaCompetenceId
   });
 }
 
-async function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBuilder, certificationCourseId) {
+function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBuilder, certificationCourseId) {
   return queryBuilder.select('assessment-results.id')
     .from('assessments')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')

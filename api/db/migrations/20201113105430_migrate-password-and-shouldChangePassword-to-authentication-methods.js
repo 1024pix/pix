@@ -1,4 +1,4 @@
-exports.up = async (knex) => {
+exports.up = (knex) => {
   return knex.raw('INSERT INTO "authentication-methods" ("userId", "identityProvider", "authenticationComplement") ' +
     'SELECT id AS "userId", ' +
     '\'PIX\' AS "identityProvider", ' +

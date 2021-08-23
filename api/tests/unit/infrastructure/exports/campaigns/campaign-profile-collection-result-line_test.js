@@ -47,7 +47,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
     });
 
     context('when user share his result', function() {
-      it('should return the complete line with 0 certifiable competence and non certifiable', async function() {
+      it('should return the complete line with 0 certifiable competence and non certifiable', function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -90,7 +90,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
 
-      it('should return the complete line with 5 certifiable competence', async function() {
+      it('should return the complete line with 5 certifiable competence', function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -135,7 +135,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
     });
 
     context('when user has not share his result yet', function() {
-      it('should return the complete line with 5 certifiable competences', async function() {
+      it('should return the complete line with 5 certifiable competences', function() {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -392,7 +392,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
 
       context('when the participant has a division', function() {
 
-        it('should return the line without division information', async function() {
+        it('should return the line without division information', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -548,7 +548,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
       });
 
       context('when the participant has a student number', function() {
-        it('should return the line without student number information', async function() {
+        it('should return the line without student number information', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);

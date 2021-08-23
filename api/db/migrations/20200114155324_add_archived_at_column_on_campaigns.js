@@ -2,7 +2,7 @@ const TABLE_NAME = 'campaigns';
 const COLUMN_NAME = 'archivedAt';
 
 exports.up = function(knex) {
-  return knex.schema.table(TABLE_NAME, async (table) => {
+  return knex.schema.table(TABLE_NAME, (table) => {
     table.dateTime(COLUMN_NAME).nullable();
   });
 };

@@ -14,7 +14,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-competence-evaluat
       recentKnowledgeElements, actualComputedChallenge,
       challengeUrl21, challengeUrl22, improvementService;
 
-    beforeEach(async function() {
+    beforeEach(function() {
 
       userId = 'dummyUserId';
       competenceId = 'dummyCompetenceId';

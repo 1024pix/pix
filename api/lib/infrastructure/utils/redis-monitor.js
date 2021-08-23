@@ -9,7 +9,7 @@ class RedisMonitor {
     }
   }
 
-  async ping() {
+  ping() {
     if (!this._client) {
       return false;
     }

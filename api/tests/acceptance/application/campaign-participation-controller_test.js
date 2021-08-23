@@ -17,7 +17,7 @@ describe('Acceptance | API | Campaign Participations', function() {
 
     let campaignParticipationId;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       campaignParticipationId = 123111;
 
       const learningContent = [{

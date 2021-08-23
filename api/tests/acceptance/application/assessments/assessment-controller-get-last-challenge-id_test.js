@@ -30,7 +30,7 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', funct
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(function() {
       return knex('assessments').delete();
     });
 
@@ -46,7 +46,7 @@ describe('Acceptance | API | assessment-controller-get-last-challenge-id', funct
         };
       });
 
-      afterEach(async function() {
+      afterEach(function() {
         return knex('assessments').delete();
       });
 

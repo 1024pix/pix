@@ -18,7 +18,7 @@ async function getPlacementProfile({ userId, limitDate, isV2Certification = true
   return _generatePlacementProfileV1({ userId, profileDate: limitDate, competences: pixCompetences });
 }
 
-async function _createUserCompetencesV1({ competences, userLastAssessments, limitDate }) {
+function _createUserCompetencesV1({ competences, userLastAssessments, limitDate }) {
   return bluebird.mapSeries(competences, async (competence) => {
     const assessment = _.find(userLastAssessments, { competenceId: competence.id });
     let estimatedLevel = 0;

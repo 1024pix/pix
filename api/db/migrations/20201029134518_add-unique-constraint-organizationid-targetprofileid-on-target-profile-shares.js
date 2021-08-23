@@ -18,6 +18,6 @@ exports.up = async function(knex) {
   return knex.schema.table('target-profile-shares', (table) => table.unique(['organizationId', 'targetProfileId']));
 };
 
-exports.down = async function(knex) {
+exports.down = function(knex) {
   return knex.schema.table('target-profile-shares', (table) => table.dropUnique(['organizationId', 'targetProfileId']));
 };

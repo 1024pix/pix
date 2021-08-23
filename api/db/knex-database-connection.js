@@ -62,7 +62,7 @@ knex.on('query-response', function(response, obj) {
   }
 });
 
-async function disconnect() {
+function disconnect() {
   return knex.destroy();
 }
 

@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       maxReachableLevelOnCertificationDate: 5,
     };
 
-    it('builds a cancelled PrivateCertificate', async function() {
+    it('builds a cancelled PrivateCertificate', function() {
       // when
       const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: true });
 
@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds a validated PrivateCertificate', async function() {
+    it('builds a validated PrivateCertificate', function() {
       // when
       const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: assessmentResultStatuses.VALIDATED });
 
@@ -48,7 +48,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds a rejected PrivateCertificate', async function() {
+    it('builds a rejected PrivateCertificate', function() {
       // when
       const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: assessmentResultStatuses.REJECTED });
 
@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds an error PrivateCertificate', async function() {
+    it('builds an error PrivateCertificate', function() {
       // when
       const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: assessmentResultStatuses.ERROR });
 
@@ -68,7 +68,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds a started PrivateCertificate', async function() {
+    it('builds a started PrivateCertificate', function() {
       // when
       const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: null });
 

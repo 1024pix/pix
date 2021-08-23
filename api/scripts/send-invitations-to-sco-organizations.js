@@ -14,7 +14,7 @@ const organizationInvitationRepository = require('../lib/infrastructure/reposito
 
 const TAGS = ['JOIN_ORGA'];
 
-async function getOrganizationByExternalId(externalId) {
+function getOrganizationByExternalId(externalId) {
   return BookshelfOrganization
     .where({ externalId })
     .fetch()
@@ -32,13 +32,13 @@ async function buildInvitation({ externalId, email }) {
   return { organizationId, email };
 }
 
-async function prepareDataForSending(objectsFromFile) {
+function prepareDataForSending(objectsFromFile) {
   return bluebird.mapSeries(objectsFromFile, ({ uai, email }) => {
     return buildInvitation({ externalId: uai, email });
   });
 }
 
-async function sendJoinOrganizationInvitations(invitations, tags) {
+function sendJoinOrganizationInvitations(invitations, tags) {
   return bluebird.mapSeries(invitations, ({ organizationId, email }, index) => {
     if (require.main === module) {
       process.stdout.write(`${index}/${invitations.length}\r`);

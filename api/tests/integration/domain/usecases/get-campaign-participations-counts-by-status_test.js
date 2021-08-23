@@ -8,7 +8,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
   let campaignId;
   let userId;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });

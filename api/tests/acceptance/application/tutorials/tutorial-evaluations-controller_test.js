@@ -35,7 +35,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function()
 
     let options;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId/evaluate',
@@ -45,7 +45,7 @@ describe('Acceptance | Controller | tutorial-evaluations-controller', function()
       };
     });
 
-    afterEach(async function() {
+    afterEach(function() {
       return knex('tutorial-evaluations').delete();
     });
 

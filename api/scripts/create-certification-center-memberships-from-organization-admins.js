@@ -61,7 +61,7 @@ async function prepareDataForInsert(rawExternalIds) {
   return certificationCenterMembershipsLists.flat();
 }
 
-async function createCertificationCenterMemberships(certificationCenterMemberships) {
+function createCertificationCenterMemberships(certificationCenterMemberships) {
   return knex.batchInsert('certification-center-memberships', certificationCenterMemberships);
 }
 

@@ -17,7 +17,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function() {
     let campaign;
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 

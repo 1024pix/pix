@@ -200,7 +200,7 @@ async function _createCampaign({ organizationId, campaignType, targetProfileId }
   return campaignId;
 }
 
-async function _createUsers({ count, uniqId, trx }) {
+function _createUsers({ count, uniqId, trx }) {
   const userData = [];
   for (let i = 0; i < count; ++i) {
     const identifier = _getIdentifier(uniqId);
@@ -288,7 +288,7 @@ function _buildPROSchoolingRegistration({ userId, organizationId, identifier }) 
   return _buildBaseSchoolingRegistration({ userId, organizationId, identifier });
 }
 
-async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
+function _createAssessments({ userAndCampaignParticipationIds, trx }) {
   const assessmentData = [];
   for (const userAndCampaignParticipationId of userAndCampaignParticipationIds) {
     assessmentData.push({
@@ -302,7 +302,7 @@ async function _createAssessments({ userAndCampaignParticipationIds, trx }) {
   return trx.batchInsert('assessments', assessmentData.flat(), chunkSize).returning(['id', 'userId']);
 }
 
-async function _createCampaignParticipations({ campaignId, userIds, trx }) {
+function _createCampaignParticipations({ campaignId, userIds, trx }) {
   const participationData = [];
   for (const userId of userIds) {
     const createdAt = moment(baseDate).add(_.random(0, 100), 'days').toDate();

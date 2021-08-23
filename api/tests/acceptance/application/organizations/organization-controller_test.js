@@ -108,7 +108,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should not keep the user in the database', async function() {
+      it('should not keep the user in the database', function() {
         // given
         payload.data.attributes.type = 'FAK';
 
@@ -757,7 +757,7 @@ describe('Acceptance | Application | organization-controller', function() {
     let organization;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       organization = databaseBuilder.factory.buildOrganization();
       options = {
@@ -1335,7 +1335,7 @@ describe('Acceptance | Application | organization-controller', function() {
 
     let userId, organization, accessToken;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       const authHeader = generateValidRequestAuthorizationHeader(userId);
       accessToken = authHeader.replace('Bearer ', '');

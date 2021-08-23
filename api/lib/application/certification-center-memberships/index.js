@@ -1,7 +1,7 @@
 const certificationCenterMembershipController = require('./certification-center-membership-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
 
     {

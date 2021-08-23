@@ -57,7 +57,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function() {
 
   context('#static buildNotEligible', function() {
 
-    it('should build a not eligible CleaCertificationScoring', async function() {
+    it('should build a not eligible CleaCertificationScoring', function() {
       // when
       const notEligibleCleaCertificationScoring = CleaCertificationScoring.buildNotEligible({ certificationCourseId: 123 });
 
@@ -161,7 +161,7 @@ describe('Unit | Domain | Models | CleaCertificationScoring', function() {
         expect(hasAcquiredCertif).to.be.true;
       });
 
-      it('for 70 reproducibility rate, it should not obtain certification when there are no competence marks for clea eligible competences', async function() {
+      it('for 70 reproducibility rate, it should not obtain certification when there are no competence marks for clea eligible competences', function() {
         // given
         const competenceId1 = 'competenceId1', competenceId2 = 'competenceId2',
           competenceId3 = 'competenceId3', competenceId4 = 'competenceId4';

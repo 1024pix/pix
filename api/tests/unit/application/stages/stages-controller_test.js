@@ -87,7 +87,7 @@ describe('Unit | Controller | stages-controller', function() {
     });
 
     context('successful case', function() {
-      it('should succeed', async function() {
+      it('should succeed', function() {
         // when
         stagesController.getStageDetails(request);
 

@@ -36,7 +36,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
 
   describe('GET /users/{userId}/campaigns/{campaignId}/profile', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
 
       mockLearningContent(learningContent);
 

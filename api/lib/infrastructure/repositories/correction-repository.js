@@ -52,7 +52,7 @@ function _convertSkillsToHints({ skillsWithHints, locale }) {
   });
 }
 
-async function _getTutorials({ userId, skills, tutorialIdsProperty, locale }) {
+function _getTutorials({ userId, skills, tutorialIdsProperty, locale }) {
   const tutorialsIds = _(skills)
     .map((skill) => skill[tutorialIdsProperty])
     .filter((tutorialId) => !_.isEmpty(tutorialId))

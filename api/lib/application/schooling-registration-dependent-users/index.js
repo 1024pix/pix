@@ -11,7 +11,7 @@ const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

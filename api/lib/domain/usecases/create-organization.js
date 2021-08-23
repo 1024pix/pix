@@ -1,7 +1,7 @@
 const Organization = require('../models/Organization');
 const organizationCreationValidator = require('../validators/organization-creation-validator');
 
-module.exports = async function createOrganization({
+module.exports = function createOrganization({
   createdBy,
   externalId,
   logoUrl,

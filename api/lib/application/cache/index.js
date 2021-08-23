@@ -1,7 +1,7 @@
 const securityPreHandlers = require('../security-pre-handlers');
 const CacheController = require('./cache-controller');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'PATCH',

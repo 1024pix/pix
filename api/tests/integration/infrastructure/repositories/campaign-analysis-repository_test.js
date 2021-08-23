@@ -40,7 +40,7 @@ describe('Integration | Repository | Campaign analysis repository', function() {
       let targetProfile;
       let campaignId;
 
-      beforeEach(async function() {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
 
         const url1 = domainBuilder.buildTargetedSkill({ id: 'recUrl1', tubeId: 'recTubeUrl', name: '@url1' });
@@ -242,7 +242,7 @@ describe('Integration | Repository | Campaign analysis repository', function() {
       let userId;
       let campaignParticipation;
 
-      beforeEach(async function() {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
         const sharedAt = new Date('2020-04-01');
         const userWithCampaignParticipation = _createUserWithSharedCampaignParticipation('Fred', campaignId, sharedAt, false);

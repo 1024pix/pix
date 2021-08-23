@@ -53,7 +53,7 @@ describe('Acceptance | API | assessment-controller-get-challenge-answer-for-pix-
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(function() {
       return knex('assessments').delete();
     });
 

@@ -28,7 +28,7 @@ describe('Unit | Tooling | Http-test-server', function() {
 
       const invalidRoute = {
         name: 'foo-route',
-        register: async function(server) {
+        register: function(server) {
           server.route([{
             method: 'GET',
           }]);

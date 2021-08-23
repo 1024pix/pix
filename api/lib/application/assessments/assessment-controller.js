@@ -120,7 +120,7 @@ async function _getChallenge(assessment, request) {
   return challenge;
 }
 
-async function _getChallengeByAssessmentType({ assessment, request }) {
+function _getChallengeByAssessmentType({ assessment, request }) {
   const locale = extractLocaleFromRequest(request);
 
   if (assessment.isPreview()) {

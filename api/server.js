@@ -39,7 +39,7 @@ const setupServer = async () => {
   return server;
 };
 
-const createServer = async function() {
+const createServer = function() {
 
   const serverConfiguration = {
     compression: false,

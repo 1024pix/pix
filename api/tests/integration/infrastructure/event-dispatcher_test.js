@@ -32,7 +32,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
   });
 
-  it('thows when duplicate subscription', async function() {
+  it('thows when duplicate subscription', function() {
     // given
     const eventHandler = getEventHandlerMock();
 

@@ -93,7 +93,7 @@ module.exports = {
       .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
   },
 
-  async getCertificationCandidates(request) {
+  getCertificationCandidates(request) {
     const sessionId = request.params.id;
 
     return usecases.getSessionCertificationCandidates({ sessionId })
@@ -127,7 +127,7 @@ module.exports = {
     return juryCertificationSummarySerializer.serialize(juryCertificationSummaries);
   },
 
-  async generateSessionResultsDownloadLink(request, h) {
+  generateSessionResultsDownloadLink(request, h) {
     const sessionId = request.params.id;
     const sessionResultsLink = sessionResultsLinkService.generateResultsLink(sessionId);
 
@@ -163,7 +163,7 @@ module.exports = {
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
 
-  async getCertificationReports(request) {
+  getCertificationReports(request) {
     const sessionId = request.params.id;
 
     return usecases.getSessionCertificationReports({ sessionId })

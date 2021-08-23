@@ -584,7 +584,7 @@ describe('Acceptance | API | Campaign Controller', function() {
 
   describe('GET /api/campaigns/{id}/profiles-collection-participations', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       const learningContent = [{
         id: 'recArea1',
         competences: [{
@@ -713,7 +713,7 @@ describe('Acceptance | API | Campaign Controller', function() {
     let campaign;
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -844,7 +844,7 @@ describe('Acceptance | API | Campaign Controller', function() {
     let campaign;
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 

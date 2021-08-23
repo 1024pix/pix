@@ -1,5 +1,5 @@
 const ProgressionController = require('./progression-controller');
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'GET',

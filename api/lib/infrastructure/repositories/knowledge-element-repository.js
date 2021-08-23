@@ -90,7 +90,7 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfKnowledgeElement, savedKnowledgeElement);
   },
 
-  async findUniqByUserId({ userId, limitDate, domainTransaction }) {
+  findUniqByUserId({ userId, limitDate, domainTransaction }) {
     return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
   },
 
@@ -137,7 +137,7 @@ module.exports = {
       .where({ campaignId, isShared: 'true' });
 
     const knowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations,
-      async ({ userId, sharedAt }) => {
+      ({ userId, sharedAt }) => {
         return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
       },
       { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
@@ -155,11 +155,11 @@ module.exports = {
     return knowledgeElementsGroupedByUser;
   },
 
-  async countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
+  countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
     return _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent);
   },
 
-  async countValidatedTargetedByCompetencesForOneUser(userId, limitDate, targetProfileWithLearningContent) {
+  countValidatedTargetedByCompetencesForOneUser(userId, limitDate, targetProfileWithLearningContent) {
     return _countValidatedTargetedByCompetencesForUsers({ [userId]: limitDate }, targetProfileWithLearningContent);
   },
 
@@ -180,7 +180,7 @@ module.exports = {
     return targetProfileWithLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
   },
 
-  async findSnapshotForUsers(userIdsAndDates) {
+  findSnapshotForUsers(userIdsAndDates) {
     return _findSnapshotsForUsers(userIdsAndDates);
   },
 

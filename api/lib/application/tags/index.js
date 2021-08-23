@@ -1,7 +1,7 @@
 const securityPreHandlers = require('../security-pre-handlers');
 const tagController = require('./tag-controller');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'GET',

@@ -4,7 +4,7 @@ const XRegExp = require('xregexp');
 const { passwordValidationPattern } = require('../../config').account;
 const passwordController = require('./password-controller');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

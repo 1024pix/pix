@@ -32,7 +32,7 @@ module.exports = async function getUserCertificationEligibility({
   });
 };
 
-async function _computeCleaCertificationEligibility({
+function _computeCleaCertificationEligibility({
   userId,
   pixCertificationEligible,
   certificationBadgesService,

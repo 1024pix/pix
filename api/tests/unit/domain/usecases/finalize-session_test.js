@@ -17,7 +17,7 @@ describe('Unit | UseCase | finalize-session', function() {
   let sessionRepository;
   let certificationReportRepository;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     sessionId = 'dummy session id';
     updatedSession = domainBuilder.buildSession({
       id: sessionId,

@@ -28,7 +28,7 @@ describe('Integration | Repository | CertificationCandidate', function() {
 
     context('when a proper candidate is being saved', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         certificationCandidate = domainBuilder.buildCertificationCandidate({
           firstName: 'Pix',
           lastName: 'Lover',

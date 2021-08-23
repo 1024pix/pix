@@ -1,6 +1,6 @@
 const countryController = require('./country-controller');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'GET',

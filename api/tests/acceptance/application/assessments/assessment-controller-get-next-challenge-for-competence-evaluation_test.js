@@ -79,7 +79,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-compet
         });
       });
 
-      afterEach(async function() {
+      afterEach(function() {
         clock.restore();
       });
 

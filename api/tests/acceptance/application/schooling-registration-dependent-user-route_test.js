@@ -54,7 +54,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function(
 
       const email = 'angie@example.net';
 
-      beforeEach(async function() {
+      beforeEach(function() {
         options.payload.data.attributes.email = email;
         options.payload.data.attributes['with-username'] = false;
       });
@@ -114,7 +114,7 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function(
 
       const username = 'angie.go1234';
 
-      beforeEach(async function() {
+      beforeEach(function() {
         options.payload.data.attributes.username = username;
         options.payload.data.attributes['with-username'] = true;
       });

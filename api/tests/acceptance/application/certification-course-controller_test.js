@@ -158,7 +158,7 @@ describe('Acceptance | API | Certification Course', function() {
 
     context('when certification course has no assessment', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
@@ -227,7 +227,7 @@ describe('Acceptance | API | Certification Course', function() {
     });
 
     context('when certification course has an assessment', function() {
-      beforeEach(async function() {
+      beforeEach(function() {
         ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
           createdAt: new Date('2017-12-21T15:44:38Z'),
           completedAt: new Date('2017-12-21T15:48:38Z'),
@@ -583,7 +583,7 @@ describe('Acceptance | API | Certification Course', function() {
     let userId;
     let sessionId;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123' }).id;
       const payload = {

@@ -1,6 +1,6 @@
 const TABLE_NAME = 'certification-partner-acquisitions';
 
-exports.up = async (knex) => {
+exports.up = (knex) => {
 
   return knex.schema.createTable(TABLE_NAME, (table) => {
     table

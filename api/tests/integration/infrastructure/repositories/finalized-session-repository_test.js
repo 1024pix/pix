@@ -45,7 +45,7 @@ describe('Integration | Repository | Finalized-session', function() {
 
     context('When the session does exist', function() {
 
-      it('is idempotent', async function() {
+      it('is idempotent', function() {
         // given
         const finalizedSession = new FinalizedSession({
           sessionId: 1234,

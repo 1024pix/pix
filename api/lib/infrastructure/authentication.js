@@ -4,7 +4,7 @@ const boom = require('boom');
 const tokenService = require('../domain/services/token-service');
 const config = require('../../lib/config');
 
-async function _checkIsAuthenticated(request, h, { key, validate }) {
+function _checkIsAuthenticated(request, h, { key, validate }) {
 
   if (!request.headers.authorization) {
     return boom.unauthorized(null, 'jwt');

@@ -67,7 +67,7 @@ describe('Integration | Service | Certification-Badges Service', function() {
       mockLearningContent(learningContentObjects);
 
       // when
-      const badgeAcquisitions = await DomainTransaction.execute(async (domainTransaction) => {
+      const badgeAcquisitions = await DomainTransaction.execute((domainTransaction) => {
         return certificationBadgesService.findStillValidBadgeAcquisitions({ userId, domainTransaction });
       });
 

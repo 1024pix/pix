@@ -9,7 +9,7 @@ const { passwordValidationPattern } = require('../../config').account;
 const { EntityValidationError } = require('../../domain/errors');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

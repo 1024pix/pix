@@ -56,7 +56,7 @@ describe('Acceptance | API | Improve Competence Evaluation', function() {
             assessment = response.result.data.relationships.assessment.data;
           });
 
-          it('should return 200 and the competence evaluation', async function() {
+          it('should return 200 and the competence evaluation', function() {
             // then
             expect(response.statusCode).to.equal(200);
             expect(response.result.data.id).to.exist;

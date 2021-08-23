@@ -4,7 +4,7 @@ const AuthenticationController = require('./authentication-controller');
 const responseAuthenticationObjectDoc = require('../../infrastructure/open-api-doc/authentication/response-authentication-doc');
 const responseErrorObjectDoc = require('../../infrastructure/open-api-doc/livret-scolaire/response-object-error-doc');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'POST',

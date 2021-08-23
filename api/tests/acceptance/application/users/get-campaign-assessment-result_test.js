@@ -167,7 +167,7 @@ describe('Acceptance | API | Campaign Assessment Result', function() {
   describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function() {
     let options;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       options = {
         method: 'GET',
         url: `/api/users/${user.id}/campaigns/${campaign.id}/assessment-result`,

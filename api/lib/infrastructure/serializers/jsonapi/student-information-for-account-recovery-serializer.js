@@ -23,7 +23,7 @@ module.exports = {
     }).serialize(accountRecoveryDemand);
   },
 
-  async deserialize(studentInformationForAccountRecovery) {
+  deserialize(studentInformationForAccountRecovery) {
     function transform(record) {
       return {
         ineIna: record['ine-ina'],

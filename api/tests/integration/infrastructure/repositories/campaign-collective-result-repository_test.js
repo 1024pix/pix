@@ -38,7 +38,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
       let targetProfile;
       let campaignId;
 
-      beforeEach(async function() {
+      beforeEach(function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
 
         // Competence A - nobody validated skills @url4 and @url5

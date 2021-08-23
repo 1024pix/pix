@@ -3,7 +3,7 @@ const Joi = require('joi');
 const organizationInvitationController = require('./organization-invitation-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'POST',

@@ -15,7 +15,7 @@ module.exports = {
     return tutorials;
   },
 
-  async findByRecordIds(ids) {
+  findByRecordIds(ids) {
     return _findByRecordIds({ ids });
   },
 

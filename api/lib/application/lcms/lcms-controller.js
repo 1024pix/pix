@@ -3,7 +3,7 @@ const logger = require('../../infrastructure/logger');
 
 module.exports = {
 
-  async createRelease(request, h) {
+  createRelease(request, h) {
     usecases.createLcmsRelease()
       .then(() => {
         logger.info('Release created and cache reloaded');

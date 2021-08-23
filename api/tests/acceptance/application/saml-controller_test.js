@@ -150,7 +150,7 @@ describe('Acceptance | Controller | saml-controller', function() {
   describe('POST /api/saml/assert', function() {
 
     // Uses samlify to create a valid SAML response
-    async function buildLoginResponse(attributes) {
+    function buildLoginResponse(attributes) {
       const identityProvider = samlify.IdentityProvider(idpConfig);
       const serviceProvider = samlify.ServiceProvider(spConfig);
 

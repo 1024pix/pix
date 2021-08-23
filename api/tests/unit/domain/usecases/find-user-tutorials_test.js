@@ -21,9 +21,9 @@ describe('Unit | UseCase | find-user-tutorials', function() {
 
   context('when there is no tutorial saved by current user', function() {
     beforeEach(function() {
-      tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
-      tutorialRepository = { findByRecordIds: sinon.spy(async () => []) };
-      userTutorialRepository = { find: sinon.spy(async () => []) };
+      tutorialEvaluationRepository = { find: sinon.spy(() => []) };
+      tutorialRepository = { findByRecordIds: sinon.spy(() => []) };
+      userTutorialRepository = { find: sinon.spy(() => []) };
     });
 
     it('should call the userTutorialRepository', async function() {
@@ -46,9 +46,9 @@ describe('Unit | UseCase | find-user-tutorials', function() {
   context('when there is one tutorial saved by current user', function() {
     beforeEach(function() {
       const userTutorial = { id: userTutorialId, userId, tutorialId };
-      tutorialEvaluationRepository = { find: sinon.spy(async () => []) };
-      userTutorialRepository = { find: sinon.spy(async () => [userTutorial]) };
-      tutorialRepository = { findByRecordIds: sinon.spy(async () => [tutorial]) };
+      tutorialEvaluationRepository = { find: sinon.spy(() => []) };
+      userTutorialRepository = { find: sinon.spy(() => [userTutorial]) };
+      tutorialRepository = { findByRecordIds: sinon.spy(() => [tutorial]) };
     });
 
     it('should call the tutorialRepository', async function() {

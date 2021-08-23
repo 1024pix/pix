@@ -3,7 +3,7 @@ const answerController = require('./answer-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const { NotFoundError } = require('../../domain/errors');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'POST',

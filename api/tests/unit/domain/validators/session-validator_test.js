@@ -55,7 +55,7 @@ describe('Unit | Domain | Validators | session-validator', function() {
 
       context('on room attribute', function() {
 
-        it('should reject with error when room is missing', async function() {
+        it('should reject with error when room is missing', function() {
           // given
           const expectedErrors = [{
             attribute: 'room',
@@ -231,7 +231,7 @@ describe('Unit | Domain | Validators | session-validator', function() {
 
         context('when certificationCenterName is a string', function() {
 
-          it('should not throw an error', async function() {
+          it('should not throw an error', function() {
             const certificationCenterName = '   Coucou le dév qui lit ce message !   ';
             expect(sessionValidator.validateAndNormalizeFilters({ certificationCenterName })).to.not.throw;
             expect(sessionValidator.validateAndNormalizeFilters({ certificationCenterName }).certificationCenterName).to.equal(certificationCenterName.trim());
@@ -270,7 +270,7 @@ describe('Unit | Domain | Validators | session-validator', function() {
 
         context('when status is in the statuses list', function() {
 
-          it('should not throw an error', async function() {
+          it('should not throw an error', function() {
             expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.CREATED })).to.not.throw;
             expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.FINALIZED })).to.not.throw;
             expect(sessionValidator.validateAndNormalizeFilters({ status: statuses.IN_PROCESS })).to.not.throw;
@@ -310,7 +310,7 @@ describe('Unit | Domain | Validators | session-validator', function() {
 
         context('when resultsSentToPrescriberAt is a boolean', function() {
 
-          it('should not throw an error', async function() {
+          it('should not throw an error', function() {
             expect(sessionValidator.validateAndNormalizeFilters({ resultsSentToPrescriberAt: true })).to.not.throw;
             expect(sessionValidator.validateAndNormalizeFilters({ resultsSentToPrescriberAt: false })).to.not.throw;
           });

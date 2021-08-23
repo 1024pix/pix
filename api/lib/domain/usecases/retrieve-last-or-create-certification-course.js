@@ -120,7 +120,7 @@ async function _findChallengesFromPixPlus({
   return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
 
-async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
+function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
   return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
     sessionId,

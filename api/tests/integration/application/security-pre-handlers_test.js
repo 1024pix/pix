@@ -8,7 +8,7 @@ describe('Integration | Application | SecurityPreHandlers', function() {
     beforeEach(async function() {
       const moduleUnderTest = {
         name: 'security-test',
-        register: async function(server) {
+        register: function(server) {
           server.route([{
             method: 'GET',
             path: '/check/{id}',

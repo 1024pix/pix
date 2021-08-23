@@ -2,7 +2,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const { getCsvContent } = require('./write-csv-utils');
 
-async function getDivisionCertificationResultsCsv({
+function getDivisionCertificationResultsCsv({
   certificationResults,
 }) {
   const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
@@ -11,7 +11,7 @@ async function getDivisionCertificationResultsCsv({
   return getCsvContent({ data, fileHeaders });
 }
 
-async function getSessionCertificationResultsCsv({
+function getSessionCertificationResultsCsv({
   session,
   certificationResults,
 }) {

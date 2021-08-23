@@ -5,7 +5,7 @@ const certificationCourseController = require('./certification-course-controller
 
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'GET',

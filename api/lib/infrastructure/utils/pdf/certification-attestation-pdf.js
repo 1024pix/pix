@@ -145,7 +145,7 @@ function _atLeastOneWithoutComplementaryCertifications(viewModels) {
   return _.some(viewModels, (viewModel) => !viewModel.shouldDisplayComplementaryCertifications());
 }
 
-async function _loadTemplateByFilename(templateFileName, dirname) {
+function _loadTemplateByFilename(templateFileName, dirname) {
   const path = `${dirname}/files/${templateFileName}`;
   return readFile(path);
 }
@@ -184,7 +184,7 @@ async function _render({ templatePdfPages, pdfDocument, viewModels, rgb, embedde
   }
 }
 
-async function _getTemplatePage(viewModel, templatePdfPages) {
+function _getTemplatePage(viewModel, templatePdfPages) {
   if (viewModel.shouldDisplayComplementaryCertifications()) {
     return templatePdfPages.withComplementaryCertifications;
   } else {

@@ -1,4 +1,4 @@
-module.exports = async function getUserCampaignParticipationToCampaign({
+module.exports = function getUserCampaignParticipationToCampaign({
   userId,
   campaignId,
   campaignParticipationRepository,

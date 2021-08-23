@@ -28,7 +28,7 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
       await databaseBuilder.commit();
     });
 
-    it('should respond with a 200 when session can be found', async function() {
+    it('should respond with a 200 when session can be found', function() {
       // when
       const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');
@@ -46,7 +46,7 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
       });
     });
 
-    it('should respond with a 403 when user cant access the session', async function() {
+    it('should respond with a 403 when user cant access the session', function() {
       // when
       const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');

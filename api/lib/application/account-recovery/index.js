@@ -7,7 +7,7 @@ const accountRecoveryController = require('./account-recovery-controller');
 
 const { passwordValidationPattern } = require('../../config').account;
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

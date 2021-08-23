@@ -9,7 +9,7 @@ describe('Integration | UseCase | find-paginated-campaign-participants-activitie
   let userId;
   const page = { number: 1 };
 
-  beforeEach(async function() {
+  beforeEach(function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;

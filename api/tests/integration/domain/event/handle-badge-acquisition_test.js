@@ -13,7 +13,7 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
 
   describe('#handleBadgeAcquisition', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       const listSkill = ['web1', 'web2', 'web3', 'web4'];
 
       const learningContent = [{

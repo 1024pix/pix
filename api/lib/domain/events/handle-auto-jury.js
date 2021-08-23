@@ -24,7 +24,7 @@ async function handleAutoJury({
     challengeRepository,
   });
 
-  const certificationJuryDoneEvents = await Promise.all(certificationCourses.map(async(certificationCourse) => {
+  const certificationJuryDoneEvents = await Promise.all(certificationCourses.map(async (certificationCourse) => {
 
     const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 

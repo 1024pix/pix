@@ -1,4 +1,4 @@
-module.exports = async function getCampaignManagement({
+module.exports = function getCampaignManagement({
   campaignId,
   campaignManagementRepository,
 }) {

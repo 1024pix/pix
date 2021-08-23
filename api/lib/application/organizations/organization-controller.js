@@ -195,7 +195,7 @@ module.exports = {
     return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
   },
 
-  async findPendingInvitations(request) {
+  findPendingInvitations(request) {
     const organizationId = request.params.id;
 
     return usecases.findPendingOrganizationInvitations({ organizationId })

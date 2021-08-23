@@ -384,7 +384,7 @@ module.exports = {
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
-  async findAnotherUserByEmail(userId, email) {
+  findAnotherUserByEmail(userId, email) {
     return BookshelfUser
       .where('id', '!=', userId)
       .where({ email: email.toLowerCase() })
@@ -392,7 +392,7 @@ module.exports = {
       .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
   },
 
-  async findAnotherUserByUsername(userId, username) {
+  findAnotherUserByUsername(userId, username) {
     return BookshelfUser
       .where('id', '!=', userId)
       .where({ username })

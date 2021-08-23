@@ -25,7 +25,7 @@ function _checkAppScope(application, scope) {
   }
 }
 
-module.exports = async function authenticateApplication({
+module.exports = function authenticateApplication({
   clientId,
   clientSecret,
   scope,

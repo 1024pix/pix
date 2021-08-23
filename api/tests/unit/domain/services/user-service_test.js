@@ -118,7 +118,7 @@ describe('Unit | Service | user-service', function() {
 
     const samlId = 'ABCD';
 
-    beforeEach(async function() {
+    beforeEach(function() {
       user = domainBuilder.buildUser();
       authenticationMethod = domainBuilder.buildAuthenticationMethod({
         externalIdentifier: samlId,

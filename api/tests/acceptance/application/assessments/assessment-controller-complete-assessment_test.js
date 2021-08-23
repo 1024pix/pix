@@ -195,7 +195,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(async function() {
+  afterEach(function() {
     return knex('assessment-results').delete();
   });
 

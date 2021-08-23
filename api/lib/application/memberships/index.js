@@ -4,7 +4,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const membershipController = require('./membership-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

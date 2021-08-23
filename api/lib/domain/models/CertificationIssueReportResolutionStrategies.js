@@ -68,11 +68,11 @@ async function neutralizeIfAttachmentStrategy({ certificationIssueReport, certif
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) {
+function neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) {
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function doNotResolveStrategy() {
+function doNotResolveStrategy() {
   return CertificationIssueReportResolutionAttempt.unresolved();
 }
 

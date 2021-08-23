@@ -93,7 +93,7 @@ describe('Unit | Service | Organization-Invitation Service', function() {
         });
       });
 
-      it('should re-send an email with same code', async function() {
+      it('should re-send an email with same code', function() {
         // then
         const expectedParameters = {
           email: userEmailAddress, organizationName, organizationInvitationId, code, locale, tags,
@@ -177,7 +177,7 @@ describe('Unit | Service | Organization-Invitation Service', function() {
         });
       });
 
-      it('should re-send an email with same code', async function() {
+      it('should re-send an email with same code', function() {
         // then
         const expectedParameters = {
           email: userEmailAddress, organizationName, organizationInvitationId, firstName, lastName, code, locale, tags,
@@ -242,7 +242,7 @@ describe('Unit | Service | Organization-Invitation Service', function() {
         });
       });
 
-      it('should re-send an email with same code', async function() {
+      it('should re-send an email with same code', function() {
         // then
         const expectedParameters = {
           email: userEmailAddress, name: organizationName, organizationInvitationId, code, locale, tags,

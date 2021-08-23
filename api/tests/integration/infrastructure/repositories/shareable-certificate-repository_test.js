@@ -554,11 +554,11 @@ async function _buildValidShareableCertificationWithClea(shareableCertificateDat
   return { certificateId };
 }
 
-async function _buildValidShareableCertificateWithCleaV1(shareableCertificateData) {
+function _buildValidShareableCertificateWithCleaV1(shareableCertificateData) {
   return _buildValidShareableCertificationWithClea(shareableCertificateData, cleaBadgeKeyV1);
 }
 
-async function _buildValidShareableCertificateWithCleaV2(shareableCertificateData) {
+function _buildValidShareableCertificateWithCleaV2(shareableCertificateData) {
   return _buildValidShareableCertificationWithClea(shareableCertificateData, cleaBadgeKeyV2);
 }
 

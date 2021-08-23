@@ -1,5 +1,5 @@
 
-exports.up = async function(knex) {
+exports.up = function(knex) {
   return knex('badge-criteria').update({ scope: 'SkillSet' }).where({ scope: 'SomePartnerCompetences' });
 };
 

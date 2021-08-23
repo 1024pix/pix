@@ -98,7 +98,7 @@ module.exports = {
     return _toDomain(answerDTO);
   },
 
-  async findChallengeIdsFromAnswerIds(ids) {
+  findChallengeIdsFromAnswerIds(ids) {
     return knex
       .distinct()
       .pluck('challengeId')
@@ -106,7 +106,7 @@ module.exports = {
       .whereInArray('id', ids);
   },
 
-  async saveWithKnowledgeElements(answer, knowledgeElements) {
+  saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptAnswerToDb(answer);
     return knex.transaction(async (trx) => {
       const alreadySavedAnswer = await trx('answers').select('id').where({ challengeId: answer.challengeId, assessmentId: answer.assessmentId });

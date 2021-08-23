@@ -18,7 +18,7 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function() {
     findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
   };
 
-  beforeEach(async function() {
+  beforeEach(function() {
     const externalId = 'AAA111';
     const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
     organization = domainBuilder.buildOrganization({ externalId });

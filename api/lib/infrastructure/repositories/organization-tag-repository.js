@@ -45,7 +45,7 @@ module.exports = {
       : [];
   },
 
-  async batchCreate(organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
+  batchCreate(organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
     return Bookshelf.knex.batchInsert('organization-tags', organizationsTags).transacting(domainTransaction.knexTransaction);
   },
 

@@ -1,6 +1,6 @@
 const feedbackController = require('./feedback-controller');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'POST',

@@ -99,7 +99,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
   const odsBuffer = Buffer.from('some ods file');
 
   describe('getAttendanceSheet', function() {
-    beforeEach(async function() {
+    beforeEach(function() {
       // given
       sinon.stub(sessionRepository, 'getWithCertificationCandidates').resolves(sessionWithCandidates);
       sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
@@ -129,7 +129,7 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
       it('should have rebuild the ods zip with new content.xml file', function() {
         expect(writeOdsUtils.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml, odsFilePath: sinon.match('attendance_sheet_template.ods') });
       });
-      it('should return something when user has access', async function() {
+      it('should return something when user has access', function() {
         expect(result).to.deep.equal(odsBuffer);
       });
     });

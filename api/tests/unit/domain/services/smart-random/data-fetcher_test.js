@@ -132,12 +132,12 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       });
     });
 
-    it('filter knowledge elements if assessment is an improving one', async function() {
+    it('filter knowledge elements if assessment is an improving one', function() {
       // then
       expect(improvementService.filterKnowledgeElementsIfImproving).to.be.called;
     });
 
-    it('fetches answers, targetsSkills challenges and knowledgeElements', async function() {
+    it('fetches answers, targetsSkills challenges and knowledgeElements', function() {
       // then
       expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.allAnswers).to.deep.equal([answer]);

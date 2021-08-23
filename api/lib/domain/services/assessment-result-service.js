@@ -3,7 +3,7 @@ const competenceMarkRepository = require('../../infrastructure/repositories/comp
 const CompetenceMark = require('../models/CompetenceMark');
 const bluebird = require('bluebird');
 
-async function _validatedDataForAllCompetenceMark(competenceMarks) {
+function _validatedDataForAllCompetenceMark(competenceMarks) {
   for (const competenceMark of competenceMarks) {
     competenceMark.validate();
   }

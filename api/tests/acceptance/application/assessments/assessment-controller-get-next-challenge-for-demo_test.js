@@ -110,7 +110,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should return the second challenge', async function() {
+      it('should return the second challenge', function() {
         // given
         const options = {
           method: 'GET',

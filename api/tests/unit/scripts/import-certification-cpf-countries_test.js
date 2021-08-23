@@ -140,7 +140,7 @@ describe('Unit | Scripts | import-certification-cpf-countries.js', function() {
 
     describe('#when there are no conflicts', function() {
 
-      it('should not throw an error', async function() {
+      it('should not throw an error', function() {
         const countries = [
           {
             code: '99141',

@@ -27,7 +27,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
     context('When registration succeed with email', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         // given
         method = 'POST';
         url = '/api/schooling-registration-dependent-users';
@@ -58,7 +58,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
     context('When registration succeed with username', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         // given
         method = 'POST';
         url = '/api/schooling-registration-dependent-users';
@@ -89,7 +89,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
 
     context('Error cases', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         // given
         method = 'POST';
         url = '/api/schooling-registration-dependent-users';
@@ -240,7 +240,7 @@ describe('Integration | Application | Route | schooling-registration-dependent-u
     let payload;
     let response;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       // given
       method = 'POST';
       url = '/api/schooling-registration-dependent-users/external-user-token';

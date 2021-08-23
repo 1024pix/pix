@@ -5,7 +5,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const targetProfileController = require('./target-profile-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'GET',

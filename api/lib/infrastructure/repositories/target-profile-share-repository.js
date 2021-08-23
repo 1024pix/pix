@@ -2,7 +2,7 @@ const { knex } = require('../bookshelf');
 
 module.exports = {
 
-  async addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {
+  addTargetProfilesToOrganization({ organizationId, targetProfileIdList }) {
     const targetProfileShareToAdd = targetProfileIdList.map((targetProfileId) => {
       return { organizationId, targetProfileId };
     });

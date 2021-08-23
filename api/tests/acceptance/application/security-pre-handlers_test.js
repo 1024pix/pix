@@ -242,7 +242,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
 
   describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       server.route({
         method: 'GET',
         path: '/test_route/{id}',
@@ -298,7 +298,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
 
   describe('#checkUserIsAdminInSUPOrganizationAndManagesStudents', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       server.route({
         method: 'GET',
         path: '/test_route/{id}',

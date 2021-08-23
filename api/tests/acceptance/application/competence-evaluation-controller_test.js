@@ -28,7 +28,7 @@ describe('Acceptance | API | Competence Evaluations', function() {
 
     context('When user is authenticated', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         const learningContent = [{
           id: 'recArea1',
           competences: [{

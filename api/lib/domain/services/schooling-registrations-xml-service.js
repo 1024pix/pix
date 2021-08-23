@@ -4,7 +4,7 @@ module.exports = {
   extractSchoolingRegistrationsInformationFromSIECLE,
 };
 
-async function extractSchoolingRegistrationsInformationFromSIECLE(path, organization) {
+function extractSchoolingRegistrationsInformationFromSIECLE(path, organization) {
   const parser = new SiecleParser(organization, path);
 
   return parser.parse();

@@ -167,7 +167,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.false;
     });
 
-    it('throws when the challenge was not asked', async function() {
+    it('throws when the challenge was not asked', function() {
       // given
       const challengeNotAskedToBeNeutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
@@ -223,7 +223,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       expect(certificationAssessment.certificationChallenges[2].isNeutralized).to.be.true;
     });
 
-    it('throws when the challenge was not asked', async function() {
+    it('throws when the challenge was not asked', function() {
       // given
       const challengeNotAskedToBeDeneutralized = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1', isNeutralized: false });
 
@@ -362,7 +362,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       expect(neutralizationAttempt).to.deep.equal(NeutralizationAttempt.skipped(1));
     });
 
-    it('should fail when the challenge is not asked', async function() {
+    it('should fail when the challenge is not asked', function() {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,

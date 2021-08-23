@@ -12,7 +12,7 @@ exports.up = async function(knex) {
   });
 };
 
-exports.down = async function(knex) {
+exports.down = function(knex) {
   return knex.schema.table(TABLE_NAME, function(table) {
     table.dropIndex(ORGANIZATIONID_COLUMN);
     table.index(USERID_COLUMN, OLD_INDEX_USERID);

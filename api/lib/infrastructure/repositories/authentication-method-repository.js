@@ -115,7 +115,7 @@ module.exports = {
     return Boolean(foundAuthenticationMethod);
   },
 
-  async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
+  removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
     return BookshelfAuthenticationMethod.where({ userId, identityProvider }).destroy({ require: true });
   },
 

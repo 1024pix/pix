@@ -1,4 +1,4 @@
-async function getCertificationCandidate({
+function getCertificationCandidate({
   userId,
   sessionId,
   certificationCandidateRepository,

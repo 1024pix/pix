@@ -67,7 +67,7 @@ describe('Acceptance | Controller | user-orga-settings-controller', function() {
 
     context('When user is authenticated', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(userId) };
       });
 

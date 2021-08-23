@@ -7,7 +7,7 @@ describe('Integration | UseCase | get-campaign-participations-activity-by-day', 
   let campaignId;
   let userId;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });

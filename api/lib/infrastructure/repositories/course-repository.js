@@ -29,7 +29,7 @@ async function _get(id) {
 
 module.exports = {
 
-  async get(id) {
+  get(id) {
     return _get(id);
   },
 

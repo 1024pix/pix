@@ -63,7 +63,7 @@ describe('Unit | UseCase | find-tutorials', function() {
       context('when there is at least one invalidated knowledge element and two inferred knowledge element', function() {
         let expectedTutorialList;
 
-        beforeEach(async function() {
+        beforeEach(function() {
           // given
           const userTutorial = { id: 1, userId: 'userId', tutorialId: 'tuto1' };
           const tutorial1 = domainBuilder.buildTutorial({ id: 'tuto1' });

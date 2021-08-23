@@ -1,4 +1,4 @@
-module.exports = async function findTargetProfileStages(
+module.exports = function findTargetProfileStages(
   {
     targetProfileId,
     stageRepository,

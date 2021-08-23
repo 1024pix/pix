@@ -1,7 +1,7 @@
 const Bookshelf = require('../lib/infrastructure/bookshelf');
 const ERROR_RETURN_CODE = 1;
 
-async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
+function markUsersRequiringTermsOfServiceValidationForRevalidation() {
   const subquery = Bookshelf.knex
     .select('users.id')
     .from('users')

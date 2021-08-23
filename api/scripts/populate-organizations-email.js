@@ -4,7 +4,7 @@ const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
 
 const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
 
-async function updateOrganizationEmailByExternalId(externalId, email) {
+function updateOrganizationEmailByExternalId(externalId, email) {
   return BookshelfOrganization
     .where({ externalId })
     .save({ email }, { patch: true })
@@ -17,7 +17,7 @@ async function updateOrganizationEmailByExternalId(externalId, email) {
     });
 }
 
-async function populateOrganizations(objectsFromFile) {
+function populateOrganizations(objectsFromFile) {
   return bluebird.mapSeries(objectsFromFile, ({ uai, email }) => {
     return updateOrganizationEmailByExternalId(uai, email);
   });

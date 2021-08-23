@@ -8,7 +8,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
   let userId;
   let stage1, stage2, stage3;
 
-  beforeEach(async function() {
+  beforeEach(function() {
     const learningContentObjects = learningContentBuilder.buildLearningContent([{
       id: 'recArea1',
       titleFrFr: 'area1_Title',

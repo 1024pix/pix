@@ -22,7 +22,7 @@ describe('Unit | UseCase | archive-campaign', function() {
       return archiveCampaign({ campaignId, userId, campaignRepository });
     });
 
-    it('should verify that the user has the rights', async function() {
+    it('should verify that the user has the rights', function() {
       expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign).to.have.been.calledWithExactly(campaignId, userId);
     });
 

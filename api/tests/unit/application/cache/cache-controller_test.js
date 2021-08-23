@@ -78,12 +78,12 @@ describe('Unit | Controller | cache-controller', function() {
         response = await cacheController.refreshCacheEntries(request, hFake);
       });
 
-      it('should reply with http status 202', async function() {
+      it('should reply with http status 202', function() {
         // then
         expect(response.statusCode).to.equal(202);
       });
 
-      it('should call log errors', async function() {
+      it('should call log errors', function() {
         // then
         expect(logger.error).to.have.been.calledOnce;
       });

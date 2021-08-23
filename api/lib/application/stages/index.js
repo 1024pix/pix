@@ -3,7 +3,7 @@ const stagesController = require('./stages-controller');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = function(server) {
   server.route([
     {
       method: 'POST',

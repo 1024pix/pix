@@ -25,7 +25,7 @@ describe('Unit | UseCase | find-campaign-profiles-collection-participation-summa
   context('the user belongs to the organization of the campaign', function() {
     let participationSummaries;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
     });
 

@@ -124,7 +124,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       });
     });
 
-    it('should create proper campaign attributes even customLandingPageText is missing', async function() {
+    it('should create proper campaign attributes even customLandingPageText is missing', function() {
       // given
       const name = 'SomeName';
       const customLandingPageText = undefined;

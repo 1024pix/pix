@@ -22,7 +22,7 @@ describe('Unit | Domain | Models | Membership', function() {
 
     context('when organizationRole is invalid', function() {
 
-      it('should throw an InvalidMembershipOrganizationRoleError error', async function() {
+      it('should throw an InvalidMembershipOrganizationRoleError error', function() {
         // given / when
         const membership = new Membership({
           id: '123',

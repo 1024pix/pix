@@ -34,7 +34,7 @@ describe('Integration | Repository | PoleEmploiSending', function() {
     let sending2;
     let sending3;
 
-    beforeEach(async function() {
+    beforeEach(function() {
       originalEnvPoleEmploiSendingsLimit = settings.poleEmploi.poleEmploiSendingsLimit;
       settings.poleEmploi.poleEmploiSendingsLimit = 3;
     });

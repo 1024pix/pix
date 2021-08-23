@@ -25,7 +25,7 @@ module.exports = async function updateUserDetailsForAdministration({
   return userRepository.getUserDetailsForAdmin(userId);
 };
 
-async function _checkEmailAndUsernameAreAvailable({ usersWithEmail, usersWithUsername }) {
+function _checkEmailAndUsernameAreAvailable({ usersWithEmail, usersWithUsername }) {
   const isEmailAlreadyUsed = has(usersWithEmail, '[0].email');
   const isUsernameAlreadyUsed = has(usersWithUsername, '[0].username');
 

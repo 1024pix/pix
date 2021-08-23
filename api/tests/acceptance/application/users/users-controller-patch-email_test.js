@@ -51,12 +51,12 @@ describe('Acceptance | Controller | users-controller', function() {
           response = await server.inject(options);
         });
 
-        it('should return status 204 with user', async function() {
+        it('should return status 204 with user', function() {
           // then
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should notify user by email', async function() {
+        it('should notify user by email', function() {
           // then
           expect(mailer.sendEmail).to.have.been.called;
         });

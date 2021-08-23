@@ -108,7 +108,7 @@ module.exports = {
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(CertificationCandidateBookshelf, results)[0]);
   },
 
-  async setSessionCandidates(sessionId, certificationCandidates) {
+  setSessionCandidates(sessionId, certificationCandidates) {
     const certificationCandidatesToInsert = certificationCandidates.map(_adaptModelToDb);
 
     return Bookshelf.knex.transaction(async (trx) => {

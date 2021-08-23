@@ -176,7 +176,7 @@ module.exports = {
     return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
   },
 
-  async attachOrganizationIds({ targetProfileId, organizationIds }) {
+  attachOrganizationIds({ targetProfileId, organizationIds }) {
     const rows = organizationIds.map((organizationId) => {
       return { organizationId, targetProfileId };
     });

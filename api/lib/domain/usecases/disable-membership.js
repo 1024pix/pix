@@ -1,4 +1,4 @@
-module.exports = async function disableMembership({
+module.exports = function disableMembership({
   membershipId,
   userId,
   membershipRepository,

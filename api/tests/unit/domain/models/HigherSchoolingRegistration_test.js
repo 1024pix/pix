@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
     };
 
     context('when all required fields are presents', function() {
-      it('is valid', async function() {
+      it('is valid', function() {
         try {
           new HigherSchoolingRegistration(validAttributes);
         } catch (e) {

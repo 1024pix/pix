@@ -37,7 +37,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
 
     context('when the user is linked to the assessment', function() {
 
-      beforeEach(async function() {
+      beforeEach(function() {
         // given
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],

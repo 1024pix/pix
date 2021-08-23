@@ -36,7 +36,7 @@ class SiecleParser {
     await this.siecleFileStreamer.perform((stream, resolve, reject) => this._checkUAI(stream, resolve, reject));
   }
 
-  async _checkUAI(stream, resolve, reject) {
+  _checkUAI(stream, resolve, reject) {
     const streamerToParseOrganizationUAI = new saxPath.SaXPath(stream, NODE_ORGANIZATION_UAI);
 
     streamerToParseOrganizationUAI.once('match', (xmlNode) => {

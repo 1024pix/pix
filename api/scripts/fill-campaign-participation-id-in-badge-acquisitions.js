@@ -1,7 +1,7 @@
 const { knex } = require('../db/knex-database-connection');
 const bluebird = require('bluebird');
 
-async function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
+function getAllBadgeAcquistionsWithoutCampaignParticipationId() {
   return knex('badge-acquisitions').select().where({ campaignParticipationId: null });
 }
 

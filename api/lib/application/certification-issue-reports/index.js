@@ -2,7 +2,7 @@ const Joi = require('joi');
 const certificationIssueReportController = require('./certification-issue-report-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'DELETE',

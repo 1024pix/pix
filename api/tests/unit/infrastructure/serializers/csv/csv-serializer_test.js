@@ -6,7 +6,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function() {
 
   describe('#serializeLine', function() {
 
-    it('should quote strings', async function() {
+    it('should quote strings', function() {
       // given
       const safeNumberAsString = '-123456';
       const csvExpected =
@@ -25,7 +25,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function() {
       expect(csv).to.equal(csvExpected);
     });
 
-    it('should format numbers in French locale', async function() {
+    it('should format numbers in French locale', function() {
       // given
       const csvExpected =
         '123;' +
@@ -41,7 +41,7 @@ describe('Unit | Serializer | CSV | csv-serializer', function() {
       expect(csv).to.equal(csvExpected);
     });
 
-    it('should escape formula-likes to prevent CSV injections', async function() {
+    it('should escape formula-likes to prevent CSV injections', function() {
       // given
       const csvExpected =
         '"\'=formula-like";' +

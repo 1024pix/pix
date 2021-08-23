@@ -6,7 +6,7 @@ const bluebird = require('bluebird');
 
 module.exports = {
 
-  async createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
+  createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
     return bluebird.mapSeries(badgeAcquisitionsToCreate, async (badgeAcquisitionToCreate) => {
       const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions').select('id').where(badgeAcquisitionToCreate);

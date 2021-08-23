@@ -28,7 +28,7 @@ describe('Unit | UseCase | find-students-for-enrollment', function() {
     findBySessionId: sinon.stub(),
   };
 
-  beforeEach(async function() {
+  beforeEach(function() {
     const externalId = 'AAA111';
     const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
     organization = domainBuilder.buildOrganization({ externalId });

@@ -6,7 +6,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 
 module.exports = {
 
-  async getCourse({ courseId }) {
+  getCourse({ courseId }) {
 
     // TODO: delete when campaign assessment does not have courses anymore
     if (_.startsWith(courseId, '[NOT USED] Campaign')) {

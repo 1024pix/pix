@@ -5,7 +5,7 @@ const finalizedSessionController = require('./finalized-session-controller');
 const sessionAuthorization = require('../preHandlers/session-authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async (server) => {
+exports.register = (server) => {
   server.route([
     {
       method: 'GET',

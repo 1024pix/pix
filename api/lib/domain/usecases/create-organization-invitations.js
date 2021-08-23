@@ -2,7 +2,7 @@ const bluebird = require('bluebird');
 
 const organizationInvitationService = require('../../domain/services/organization-invitation-service');
 
-module.exports = async function createOrganizationInvitations({
+module.exports = function createOrganizationInvitations({
   organizationRepository, organizationInvitationRepository, organizationId, emails, locale,
 }) {
   const trimmedEmails = emails.map((email) => email.trim());

@@ -27,7 +27,7 @@ describe('Integration | Repository | Badge Acquisition', function() {
 
     it('should persist the badge acquisition in db', async function() {
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute((domainTransaction) => {
         return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
       });
 
@@ -47,7 +47,7 @@ describe('Integration | Repository | Badge Acquisition', function() {
       await databaseBuilder.commit();
 
       // when
-      await DomainTransaction.execute(async (domainTransaction) => {
+      await DomainTransaction.execute((domainTransaction) => {
         return badgeAcquisitionRepository.createOrUpdate([badgeAcquisitionToCreate], domainTransaction);
       });
 

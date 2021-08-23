@@ -234,7 +234,7 @@ async function _createCertificationCoursesAndAssessments({ registrations, sessio
     .batchInsert('assessments', assessmentsData, assessmentsChunkSize).returning('id');
 }
 
-async function _createCertificationResultsInError({ assessmentIds, transaction }) {
+function _createCertificationResultsInError({ assessmentIds, transaction }) {
   const assessmentResultsData = [];
   for (const assessmentId of assessmentIds) {
     assessmentResultsData.push({
@@ -284,7 +284,7 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
   `, assessmentResultIds.join(','));
 }
 
-async function _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction }) {
+function _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction }) {
   const chosenRate = _.sample(COMPETENCE_MARK_PARTICIPATION_RATES);
   const chosenCount = parseInt(assessmentResultIds.length * chosenRate);
   const chosenAssessmentResultIds = _.sampleSize(assessmentResultIds, chosenCount);

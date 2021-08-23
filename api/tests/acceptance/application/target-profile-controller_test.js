@@ -155,7 +155,7 @@ describe('Acceptance | Controller | target-profile-controller', function() {
 
   describe('POST /api/admin/target-profiles/{id}/attach-organizations', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       mockLearningContent(learningContent);
     });
 
@@ -194,7 +194,7 @@ describe('Acceptance | Controller | target-profile-controller', function() {
 
   describe('POST /api/admin/target-profiles/{id}/copy-organizations', function() {
 
-    beforeEach(async function() {
+    beforeEach(function() {
       mockLearningContent(learningContent);
     });
 

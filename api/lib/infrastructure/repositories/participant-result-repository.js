@@ -63,7 +63,7 @@ async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
   return knowledgeElementsByUser[userId].filter(({ skillId }) => targetedSkillIds.includes(skillId));
 }
 
-async function _getAcquiredBadgeIds(userId, campaignParticipationId) {
+function _getAcquiredBadgeIds(userId, campaignParticipationId) {
   return knex('badge-acquisitions').select('badgeId').where({ userId, campaignParticipationId });
 }
 
@@ -77,7 +77,7 @@ async function _getTargetProfile(campaignId, locale) {
   return { competences, stages, badges };
 }
 
-async function _getTargetProfileId(campaignId) {
+function _getTargetProfileId(campaignId) {
   return knex('campaigns')
     .select('targetProfileId')
     .where({ 'campaigns.id': campaignId })

@@ -43,7 +43,7 @@ function _validateAndNormalizeArgs({
   };
 }
 
-async function getEligibleCampaignParticipations(maxSnapshotCount) {
+function getEligibleCampaignParticipations(maxSnapshotCount) {
   return knex('campaign-participations').select('campaign-participations.userId', 'campaign-participations.sharedAt')
     .leftJoin('knowledge-element-snapshots', function() {
       this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId')
@@ -58,7 +58,7 @@ async function getEligibleCampaignParticipations(maxSnapshotCount) {
     .limit(maxSnapshotCount);
 }
 
-async function generateKnowledgeElementSnapshots(campaignParticipationData, concurrency) {
+function generateKnowledgeElementSnapshots(campaignParticipationData, concurrency) {
   return bluebird.map(campaignParticipationData, async (campaignParticipation) => {
     const { userId, sharedAt } = campaignParticipation;
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });

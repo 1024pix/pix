@@ -66,7 +66,7 @@ describe('Acceptance | Controller | users-controller', function() {
         };
       });
 
-      afterEach(async function() {
+      afterEach(function() {
         nock.cleanAll();
       });
 

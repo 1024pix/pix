@@ -51,7 +51,7 @@ module.exports = async function startCampaignParticipation({
   };
 };
 
-async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction) {
+function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction) {
 
   const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
   return campaignParticipationRepository.save(userParticipation, domainTransaction);

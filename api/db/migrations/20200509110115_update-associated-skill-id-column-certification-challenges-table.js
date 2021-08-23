@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-exports.up = async function(knex) {
+exports.up = function(knex) {
   return knex.transaction(async (trx) => {
     const valuesTable = _.map(skills_at_2020_04_30, (skillId, skillName) => `('${skillId}', '${skillName}')`);
     const valuesString = _.join(valuesTable, ',');
