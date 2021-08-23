@@ -12,20 +12,20 @@ module.exports = {
       .orderBy('certification-courses.lastName', 'ASC')
       .orderBy('certification-courses.firstName', 'ASC');
 
-    const certificationResults = [];
-    for (const certificationResultDTO of certificationResultDTOs) {
-      const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId: certificationResultDTO.id });
-      const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId: certificationResultDTO.id });
-      const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId: certificationResultDTO.id });
-      const certificationResult = _toDomain({
-        certificationResultDTO,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
-      });
-      certificationResults.push(certificationResult);
-    }
-    return certificationResults;
+    return _toDomainArrayWithComplementaryCertifications(certificationResultDTOs);
+  },
+
+  async findByCertificationCandidateIds({ certificationCandidateIds }) {
+    const certificationResultDTOs = await _selectCertificationResults()
+      .join('certification-candidates', function() {
+        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' })
+          .andOn({ 'certification-candidates.userId': 'certification-courses.userId' });
+      })
+      .whereIn('certification-candidates.id', certificationCandidateIds)
+      .orderBy('certification-courses.lastName', 'ASC')
+      .orderBy('certification-courses.firstName', 'ASC');
+
+    return _toDomainArrayWithComplementaryCertifications(certificationResultDTOs);
   },
 };
 
@@ -72,6 +72,23 @@ function _filterMostRecentAssessmentResult(qb) {
         .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
         .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
     );
+}
+
+async function _toDomainArrayWithComplementaryCertifications(certificationResultDTOs) {
+  const certificationResults = [];
+  for (const certificationResultDTO of certificationResultDTOs) {
+    const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId: certificationResultDTO.id });
+    const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId: certificationResultDTO.id });
+    const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId: certificationResultDTO.id });
+    const certificationResult = _toDomain({
+      certificationResultDTO,
+      cleaCertificationResult,
+      pixPlusDroitMaitreCertificationResult,
+      pixPlusDroitExpertCertificationResult,
+    });
+    certificationResults.push(certificationResult);
+  }
+  return certificationResults;
 }
 
 function _toDomain({ certificationResultDTO, cleaCertificationResult, pixPlusDroitMaitreCertificationResult, pixPlusDroitExpertCertificationResult }) {
