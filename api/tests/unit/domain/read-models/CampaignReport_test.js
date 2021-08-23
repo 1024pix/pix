@@ -56,4 +56,22 @@ describe('Unit | Domain | Models | CampaignReport', function() {
       expect(campaignReport.isArchived).to.be.false;
     });
   });
+
+  describe('#computeAverageResult', function() {
+    it('should return null if there is no masteryPercentages', function() {
+      const campaignReport = domainBuilder.buildCampaignReport();
+
+      campaignReport.computeAverageResult([]);
+
+      expect(campaignReport.averageResult).to.equal(null);
+    });
+
+    it('should return a not rounded result if there is masteryPercentages', function() {
+      const campaignReport = domainBuilder.buildCampaignReport();
+
+      campaignReport.computeAverageResult([0.13, 0.52]);
+
+      expect(campaignReport.averageResult).to.equal(0.325);
+    });
+  });
 });

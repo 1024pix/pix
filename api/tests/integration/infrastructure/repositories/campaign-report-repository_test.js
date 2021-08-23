@@ -65,6 +65,66 @@ describe('Integration | Repository | Campaign-Report', function() {
     });
   });
 
+  describe('#findMasteryPercentages', function() {
+    let campaignId;
+
+    beforeEach(function() {
+      campaignId = databaseBuilder.factory.buildCampaign().id;
+      return databaseBuilder.commit();
+    });
+
+    it('should return array with result', async function() {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.1 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.3 });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.findMasteryPercentages(campaignId);
+
+      // then
+      expect(result).to.be.instanceOf(Array);
+      expect(result).to.deep.equal([0.1, 0.3]);
+    });
+
+    it('should only take into account participations not improved', async function() {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.1, isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.3, isImproved: false });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.findMasteryPercentages(campaignId);
+
+      // then
+      expect(result).to.deep.equal([0.3]);
+    });
+
+    it('should only take into account shared participations', async function() {
+      // given
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.1, sharedAt: new Date(), isShared: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.3, sharedAt: null, isShared: false });
+      await databaseBuilder.commit();
+
+      // when
+      const result = await campaignReportRepository.findMasteryPercentages(campaignId);
+
+      // then
+      expect(result).to.deep.equal([0.1]);
+    });
+
+    it('should return empty array if campaign can not be found', async function() {
+      // given
+      const nonExistentId = 666;
+
+      // when
+      const result = await campaignReportRepository.findMasteryPercentages(nonExistentId);
+
+      // then
+      expect(result).to.deep.equal([]);
+    });
+  });
+
   describe('#findPaginatedFilteredByOrganizationId', function() {
     let filter, page;
     let organizationId, targetProfileId, creatorId;
