@@ -63,7 +63,6 @@ const dependencies = {
   encryptionService: require('../../domain/services/encryption-service'),
   generalCertificationInformationRepository: require('../../infrastructure/repositories/general-certification-information-repository'),
   getCompetenceLevel: require('../../domain/services/get-competence-level'),
-  getCertificationResultByCertifCourse: require('../../domain/services/certification-service').getCertificationResultByCertifCourse,
   finalizedSessionRepository: require('../../infrastructure/repositories/finalized-session-repository'),
   higherSchoolingRegistrationRepository: require('../../infrastructure/repositories/higher-schooling-registration-repository'),
   improvementService: require('../../domain/services/improvement-service'),
