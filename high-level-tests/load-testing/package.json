@@ -26,10 +26,16 @@
     "lint:code": "eslint .",
     "lint:fix": "eslint . --fix",
     "preinstall": "npx check-engine",
-    "report": "artillery report report/index.json"
+    "report": "artillery report report/index.json",
+    "test:js": "mocha  --exit --recursive tests",
+    "test": "npm run lint && npm run test:js"
   },
   "devDependencies": {
-    "js2xmlparser": "^4.0.1"
+    "chai": "^4.3.4",
+    "js2xmlparser": "^4.0.1",
+    "mocha": "^9.1.0",
+    "sinon": "^11.1.2",
+    "sinon-chai": "^3.7.0"
   },
   "dependencies": {
     "artillery": "^1.7.7",
