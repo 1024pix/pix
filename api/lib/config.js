@@ -64,6 +64,7 @@ module.exports = (function() {
       colorEnabled: false,
       shouldLog5XXErrors: isFeatureEnabled(process.env.SHOULD_LOG_5XX_ERRORS),
       logLevel: (process.env.LOG_LEVEL || 'info'),
+      enableLogKnexQueriesWithCorrelationId: isFeatureEnabled(process.env.LOG_KNEX_QUERIES_WITH_CORRELATION_ID),
     },
 
     mailing: {
@@ -257,6 +258,7 @@ module.exports = (function() {
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
     config.logging.enabled = false;
+    config.logging.enableLogKnexQueriesWithCorrelationId = false;
 
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
