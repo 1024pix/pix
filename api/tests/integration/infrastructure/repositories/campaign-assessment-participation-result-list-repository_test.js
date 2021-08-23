@@ -255,7 +255,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
           userId,
           isShared: true,
-          validatedSkillsCount: 1,
+          masteryPercentage: '0.33',
         });
 
         await databaseBuilder.commit();
@@ -280,7 +280,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       it('computes the mastery percentage', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
-        expect(participations[0].masteryPercentage).to.equal(33);
+        expect(participations[0].masteryPercentage).to.equal('0.33');
       });
     });
 
