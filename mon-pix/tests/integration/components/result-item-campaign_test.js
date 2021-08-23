@@ -53,7 +53,7 @@ describe('Integration | Component | result-item', function() {
       this.set('answer', answer);
 
       // when
-      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails=(action openComparisonWindow)/>`);
+      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}}/>`);
 
       // then
       const expectedChallengeInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
@@ -64,7 +64,7 @@ describe('Integration | Component | result-item', function() {
       // given
       this.set('answer', answer);
 
-      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails=(action openComparisonWindow)/>`);
+      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}}/>`);
       // Then
       expect(find('.result-item__correction-button').textContent.trim()).to.deep.equal('Réponses et tutos');
     });
@@ -74,7 +74,7 @@ describe('Integration | Component | result-item', function() {
       this.set('answer', answer);
 
       // when
-      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails=(action openComparisonWindow)/>`);
+      await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}}/>`);
 
       // Then
       expect(find('result-item__icon-img'));
@@ -94,7 +94,7 @@ describe('Integration | Component | result-item', function() {
         this.set('answer', answer);
 
         // when
-        await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails=(action openComparisonWindow)/>`);
+        await render(hbs`<ResultItem @answer={{this.answer}} @openAnswerDetails={{this.openComparisonWindow}}/>`);
 
         // then
         expect(find(`.result-item__icon--${data.color}`)).to.exist;
