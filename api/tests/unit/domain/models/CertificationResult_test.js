@@ -1,197 +1,7 @@
-const Assessment = require('../../../../lib/domain/models/Assessment');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | CertificationResult', function() {
-
-  context('#constructor', function() {
-    const assessmentId = 123, assessmentResultId = 456, sessionId = 789;
-    const competenceMarks = [], certificationIssueReports = [];
-
-    beforeEach(function() {
-      competenceMarks.push(domainBuilder.buildCompetenceMark());
-      certificationIssueReports.push(domainBuilder.buildCertificationIssueReport());
-    });
-
-    it('should construct a certification result with assessementResult data', function() {
-      // given
-      const expectedCertificationResult = {
-        id: '123',
-        lastName: 'Wayne',
-        firstName: 'Malik',
-        birthplace: 'Perpignan',
-        birthdate: '2000-08-30',
-        externalId: 'externalId',
-        completedAt: new Date('2020-05-05'),
-        createdAt: new Date('2020-01-01'),
-        isPublished: true,
-        isV2Certification: true,
-        cleaCertificationResult: { status: 'not_taken' },
-        pixPlusDroitMaitreCertificationResult: { status: 'not_taken' },
-        pixPlusDroitExpertCertificationResult: { status: 'not_taken' },
-        certificationIssueReports,
-        hasSeenEndTestScreen: true,
-        assessmentId,
-        sessionId,
-        resultCreatedAt: new Date('2018-01-12T01:02:03Z'),
-        pixScore: 31,
-        status: 'validated',
-        emitter: 'PIX-ALGO',
-        commentForCandidate: 'Comment for Candidate',
-        commentForJury: 'Comment for Jury',
-        commentForOrganization: 'Comment for Organization',
-        competencesWithMark: competenceMarks,
-        juryId: 1,
-      };
-
-      // when
-      const certificationResult = new CertificationResult({
-        id: '123',
-        lastAssessmentResult: domainBuilder.buildAssessmentResult({
-          id: assessmentResultId,
-          competenceMarks,
-        }),
-        certificationIssueReports,
-        firstName: 'Malik',
-        lastName: 'Wayne',
-        birthplace: 'Perpignan',
-        birthdate: '2000-08-30',
-        externalId: 'externalId',
-        createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-05-05'),
-        isPublished: true,
-        isV2Certification: true,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        hasSeenEndTestScreen: true,
-        sessionId,
-        assessmentId,
-      });
-
-      // then
-      expect(certificationResult).to.deep.equal(expectedCertificationResult);
-
-    });
-
-    it('should construct a certification result without assessementResult data', function() {
-      // given
-      const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
-      const expectedCertificationResult = {
-        id: '123',
-        lastName: 'Wayne',
-        firstName: 'Malik',
-        birthplace: 'Perpignan',
-        birthdate: '2000-08-30',
-        externalId: 'externalId',
-        completedAt: new Date('2020-05-05'),
-        createdAt: new Date('2020-01-01'),
-        isPublished: true,
-        isV2Certification: true,
-        cleaCertificationResult: { status: 'not_taken' },
-        pixPlusDroitMaitreCertificationResult: { status: 'not_taken' },
-        pixPlusDroitExpertCertificationResult: { status: 'not_taken' },
-        certificationIssueReports,
-        hasSeenEndTestScreen: true,
-        sessionId,
-        assessmentId,
-        resultCreatedAt: undefined,
-        pixScore: undefined,
-        status: Assessment.states.STARTED,
-        emitter: undefined,
-        commentForCandidate: undefined,
-        commentForJury: undefined,
-        commentForOrganization: undefined,
-        competencesWithMark: [],
-        juryId: undefined,
-      };
-
-      // when
-      const certificationResult = new CertificationResult({
-        id: '123',
-        lastAssessmentResult: undefined,
-        certificationIssueReports,
-        firstName: 'Malik',
-        lastName: 'Wayne',
-        birthplace: 'Perpignan',
-        birthdate: '2000-08-30',
-        externalId: 'externalId',
-        createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-05-05'),
-        isPublished: true,
-        isV2Certification: true,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        hasSeenEndTestScreen: true,
-        assessmentId,
-        sessionId,
-      });
-
-      // then
-      expect(certificationResult).to.deep.equal(expectedCertificationResult);
-
-    });
-
-    it('should construct a certification result with a cancelled status', function() {
-      // given
-      const certificationIssueReports = [Symbol('a')];
-      const expectedCertificationResult = {
-        id: '123',
-        lastName: 'Wayne',
-        firstName: 'Malik',
-        birthplace: 'Perpignan',
-        birthdate: '2000-08-30',
-        externalId: 'externalId',
-        completedAt: new Date('2020-05-05'),
-        createdAt: new Date('2020-01-01'),
-        isPublished: true,
-        isV2Certification: true,
-        cleaCertificationResult: { status: 'not_taken' },
-        pixPlusDroitMaitreCertificationResult: { status: 'not_taken' },
-        pixPlusDroitExpertCertificationResult: { status: 'not_taken' },
-        certificationIssueReports,
-        hasSeenEndTestScreen: true,
-        sessionId,
-        assessmentId,
-        resultCreatedAt: undefined,
-        pixScore: undefined,
-        status: CertificationResult.status.CANCELLED,
-        emitter: undefined,
-        commentForCandidate: undefined,
-        commentForJury: undefined,
-        commentForOrganization: undefined,
-        competencesWithMark: [],
-        juryId: undefined,
-      };
-
-      // when
-      const certificationResult = new CertificationResult({
-        id: '123',
-        lastAssessmentResult: undefined,
-        certificationIssueReports,
-        firstName: 'Malik',
-        lastName: 'Wayne',
-        birthplace: 'Perpignan',
-        birthdate: '2000-08-30',
-        externalId: 'externalId',
-        createdAt: new Date('2020-01-01'),
-        completedAt: new Date('2020-05-05'),
-        isPublished: true,
-        isV2Certification: true,
-        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
-        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
-        hasSeenEndTestScreen: true,
-        assessmentId,
-        sessionId,
-        isCourseCancelled: true,
-      });
-
-      // then
-      expect(certificationResult).to.deep.equal(expectedCertificationResult);
-    });
-  });
 
   context('#static from', function() {
     let certificationResultData;
@@ -244,7 +54,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       });
 
       // then
-      const expectedCertificationResult = domainBuilder.buildCertificationResult2({
+      const expectedCertificationResult = domainBuilder.buildCertificationResult({
         id: 123,
         firstName: 'Buffy',
         lastName: 'Summers',
@@ -413,14 +223,32 @@ describe('Unit | Domain | Models | CertificationResult', function() {
   });
 
   context('#isCancelled', function() {
+
     it('returns true if status is "cancelled"', function() {
       // given
-      const cancelledCertificationResult = new CertificationResult({
-        isCourseCancelled: true,
+      const cancelledCertificationResult = domainBuilder.buildCertificationResult({
+        status: CertificationResult.status.CANCELLED,
       });
 
       // when / then
       expect(cancelledCertificationResult.isCancelled()).to.be.true;
+    });
+
+    it('returns false otherwise', function() {
+      for (const status of Object.values(CertificationResult.status)) {
+        if (status !== CertificationResult.status.CANCELLED) {
+          // given
+          const notCancelledCertificationResult = domainBuilder.buildCertificationResult({
+            status,
+          });
+
+          // when
+          const isCancelled = notCancelledCertificationResult.isCancelled();
+
+          // then
+          expect(isCancelled).to.equal(false, `should not be cancelled when status is ${status}`);
+        }
+      }
     });
   });
 
@@ -428,7 +256,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
 
     it('returns true if status is "validated"', function() {
       // given
-      const validatedCertificationResult = domainBuilder.buildCertificationResult2({
+      const validatedCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.VALIDATED,
       });
 
@@ -443,7 +271,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       for (const status of Object.values(CertificationResult.status)) {
         if (status !== CertificationResult.status.VALIDATED) {
           // given
-          const notValidatedCertificationResult = domainBuilder.buildCertificationResult2({
+          const notValidatedCertificationResult = domainBuilder.buildCertificationResult({
             status,
           });
 
@@ -461,7 +289,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
 
     it('returns true if status is "rejected"', function() {
       // given
-      const rejectedCertificationResult = domainBuilder.buildCertificationResult2({
+      const rejectedCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.REJECTED,
       });
 
@@ -476,7 +304,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       for (const status of Object.values(CertificationResult.status)) {
         if (status !== CertificationResult.status.REJECTED) {
           // given
-          const notRejectedCertificationResult = domainBuilder.buildCertificationResult2({
+          const notRejectedCertificationResult = domainBuilder.buildCertificationResult({
             status,
           });
 
@@ -494,7 +322,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
 
     it('returns true if status is "error"', function() {
       // given
-      const errorCertificationResult = domainBuilder.buildCertificationResult2({
+      const errorCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.ERROR,
       });
 
@@ -509,7 +337,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       for (const status of Object.values(CertificationResult.status)) {
         if (status !== CertificationResult.status.ERROR) {
           // given
-          const notErrorCertificationResult = domainBuilder.buildCertificationResult2({
+          const notErrorCertificationResult = domainBuilder.buildCertificationResult({
             status,
           });
 
@@ -527,7 +355,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
 
     it('returns true if status is "started"', function() {
       // given
-      const startedCertificationResult = domainBuilder.buildCertificationResult2({
+      const startedCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.STARTED,
       });
 
@@ -542,7 +370,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       for (const status of Object.values(CertificationResult.status)) {
         if (status !== CertificationResult.status.STARTED) {
           // given
-          const notStartedCertificationResult = domainBuilder.buildCertificationResult2({
+          const notStartedCertificationResult = domainBuilder.buildCertificationResult({
             status,
           });
 
@@ -561,7 +389,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns true when Clea certification has been taken in the certification', async function() {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
 
       // when
       const hasTakenClea = certificationResult.hasTakenClea();
@@ -573,7 +401,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Clea certification has not been taken in the certification', async function() {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
 
       // when
       const hasTakenClea = certificationResult.hasTakenClea();
@@ -588,7 +416,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns true when Clea certification has been acquired', async function() {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
 
       // when
       const hasAcquiredClea = certificationResult.hasAcquiredClea();
@@ -600,7 +428,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Clea certification has not been acquired', async function() {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
-      const certificationResult = domainBuilder.buildCertificationResult2({ cleaCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
 
       // when
       const hasAcquiredClea = certificationResult.hasAcquiredClea();
@@ -615,7 +443,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns true when Pix plus maitre certification has been taken in the certification', async function() {
       // given
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
       const hasTakenPixPlusDroitMaitre = certificationResult.hasTakenPixPlusDroitMaitre();
@@ -627,7 +455,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Pix plus maitre certification has not been taken in the certification', async function() {
       // given
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
       const hasTakenPixPlusDroitMaitre = certificationResult.hasTakenPixPlusDroitMaitre();
@@ -642,7 +470,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns true when Pix plus maitre certification has been acquired', async function() {
       // given
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
       const hasAcquiredPixPlusDroitMaitre = certificationResult.hasAcquiredPixPlusDroitMaitre();
@@ -654,7 +482,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Pix plus maitre certification has not been acquired', async function() {
       // given
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitMaitreCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
       const hasAcquiredPixPlusDroitMaitre = certificationResult.hasAcquiredPixPlusDroitMaitre();
@@ -669,7 +497,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns true when Pix plus droit expert certification has been taken in the certification', async function() {
       // given
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
       const hasTakenPixPlusDroitExpert = certificationResult.hasTakenPixPlusDroitExpert();
@@ -681,7 +509,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Pix plus droit expert certification has not been taken in the certification', async function() {
       // given
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
       const hasTakenPixPlusDroitExpert = certificationResult.hasTakenPixPlusDroitExpert();
@@ -696,7 +524,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns true when Pix plus droit expert certification has been acquired', async function() {
       // given
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
       const hasAcquiredPixPlusDroitExpert = certificationResult.hasAcquiredPixPlusDroitExpert();
@@ -708,7 +536,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     it('returns false when Pix plus droit expert certification has not been acquired', async function() {
       // given
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
-      const certificationResult = domainBuilder.buildCertificationResult2({ pixPlusDroitExpertCertificationResult });
+      const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
       const hasAcquiredPixPlusDroitExpert = certificationResult.hasAcquiredPixPlusDroitExpert();

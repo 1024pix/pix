@@ -1,11 +1,9 @@
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const buildAssessmentResult = require('./build-assessment-result');
 const buildCleaCertificationResult = require('./build-clea-certification-result');
 const buildPixPlusDroitCertificationResult = require('./build-pix-plus-droit-certification-result');
 
-module.exports = function buildCertificationResult({
-  id = '123',
-  lastAssessmentResult,
+const buildCertificationResult = function({
+  id = 123,
   firstName = 'Malik',
   lastName = 'Wayne',
   birthplace = 'Perpignan',
@@ -13,27 +11,181 @@ module.exports = function buildCertificationResult({
   externalId = 'externalId',
   createdAt = new Date('2020-01-01'),
   isPublished = true,
+  sessionId = 789,
+  status = CertificationResult.status.REJECTED,
+  pixScore = 0,
+  commentForOrganization = 'comment organization',
+  competencesWithMark = [],
   cleaCertificationResult = buildCleaCertificationResult.notTaken(),
   pixPlusDroitMaitreCertificationResult = buildPixPlusDroitCertificationResult.maitre.notTaken(),
   pixPlusDroitExpertCertificationResult = buildPixPlusDroitCertificationResult.expert.notTaken(),
-  sessionId,
-  isCourseCancelled = false,
 } = {}) {
-  lastAssessmentResult = buildAssessmentResult({ ...lastAssessmentResult });
   return new CertificationResult({
     id,
-    lastAssessmentResult,
     firstName,
     lastName,
-    birthdate,
     birthplace,
+    birthdate,
     externalId,
     createdAt,
     isPublished,
+    sessionId,
+    status,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
-    sessionId,
-    isCourseCancelled,
   });
 };
+
+buildCertificationResult.validated = function({
+  id,
+  firstName,
+  lastName,
+  birthplace,
+  birthdate,
+  externalId,
+  createdAt,
+  isPublished,
+  sessionId,
+  pixScore,
+  commentForOrganization,
+  competencesWithMark,
+  cleaCertificationResult,
+  pixPlusDroitMaitreCertificationResult,
+  pixPlusDroitExpertCertificationResult,
+}) {
+  return buildCertificationResult({
+    id,
+    firstName,
+    lastName,
+    birthplace,
+    birthdate,
+    externalId,
+    createdAt,
+    isPublished,
+    sessionId,
+    status: CertificationResult.status.VALIDATED,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+  });
+};
+
+buildCertificationResult.rejected = function({
+  id,
+  firstName,
+  lastName,
+  birthplace,
+  birthdate,
+  externalId,
+  createdAt,
+  isPublished,
+  sessionId,
+  pixScore,
+  commentForOrganization,
+  competencesWithMark,
+  cleaCertificationResult,
+  pixPlusDroitMaitreCertificationResult,
+  pixPlusDroitExpertCertificationResult,
+}) {
+  return buildCertificationResult({
+    id,
+    firstName,
+    lastName,
+    birthplace,
+    birthdate,
+    externalId,
+    createdAt,
+    isPublished,
+    sessionId,
+    status: CertificationResult.status.REJECTED,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+  });
+};
+
+buildCertificationResult.cancelled = function({
+  id,
+  firstName,
+  lastName,
+  birthplace,
+  birthdate,
+  externalId,
+  createdAt,
+  isPublished,
+  sessionId,
+  pixScore,
+  commentForOrganization,
+  competencesWithMark,
+  cleaCertificationResult,
+  pixPlusDroitMaitreCertificationResult,
+  pixPlusDroitExpertCertificationResult,
+}) {
+  return buildCertificationResult({
+    id,
+    firstName,
+    lastName,
+    birthplace,
+    birthdate,
+    externalId,
+    createdAt,
+    isPublished,
+    sessionId,
+    status: CertificationResult.status.CANCELLED,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+  });
+};
+
+buildCertificationResult.error = function({
+  id,
+  firstName,
+  lastName,
+  birthplace,
+  birthdate,
+  externalId,
+  createdAt,
+  isPublished,
+  sessionId,
+  pixScore,
+  commentForOrganization,
+  competencesWithMark,
+  cleaCertificationResult,
+  pixPlusDroitMaitreCertificationResult,
+  pixPlusDroitExpertCertificationResult,
+}) {
+  return buildCertificationResult({
+    id,
+    firstName,
+    lastName,
+    birthplace,
+    birthdate,
+    externalId,
+    createdAt,
+    isPublished,
+    sessionId,
+    status: CertificationResult.status.ERROR,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+  });
+};
+
+module.exports = buildCertificationResult;

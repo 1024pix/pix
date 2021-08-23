@@ -42,9 +42,9 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', function(
       organizationId: 1,
       division: '3ème A',
     }).resolves([11, 12, 13]);
-    const certificationResultA = domainBuilder.buildCertificationResult2({ firstName: 'Buffy', isPublished: true });
-    const certificationResultB = domainBuilder.buildCertificationResult2({ firstName: 'Giles', isPublished: false });
-    const certificationResultC = domainBuilder.buildCertificationResult2({ firstName: 'Anyanka', isPublished: true });
+    const certificationResultA = domainBuilder.buildCertificationResult({ firstName: 'Buffy', isPublished: true });
+    const certificationResultB = domainBuilder.buildCertificationResult({ firstName: 'Giles', isPublished: false });
+    const certificationResultC = domainBuilder.buildCertificationResult({ firstName: 'Anyanka', isPublished: true });
     certificationResultRepository.findByCertificationCandidateIds.withArgs({
       certificationCandidateIds: [11, 12, 13],
     }).resolves([certificationResultA, certificationResultB, certificationResultC]);
