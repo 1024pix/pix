@@ -49,7 +49,6 @@ const dependencies = {
   certificationRepository: require('../../infrastructure/repositories/certification-repository'),
   certificationCpfService: require('../../domain/services/certification-cpf-service'),
   certificationResultRepository: require('../../infrastructure/repositories/certification-result-repository'),
-  certificationService: require('../../domain/services/certification-service'),
   challengeRepository: require('../../infrastructure/repositories/challenge-repository'),
   challengeForPixAutoAnswerRepository: require('../../infrastructure/repositories/challenge-for-pix-auto-answer-repository'),
   cleaCertificationResultRepository: require('../../infrastructure/repositories/clea-certification-result-repository'),
