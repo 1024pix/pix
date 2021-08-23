@@ -7,6 +7,7 @@ const {
   neutralizeIfImageStrategy,
   neutralizeIfEmbedStrategy,
   neutralizeIfAttachmentStrategy,
+  neutralizeIfTimedChallengeStrategy,
   doNotResolveStrategy,
 } = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
@@ -822,6 +823,246 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
+  context('#NEUTRALIZE_IF_TIMED_CHALLENGE', function() {
+
+    context('When challenge is neutralizable', function() {
+
+      it('neutralizes successfully', async function() {
+        // given
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [certificationAnswer],
+        });
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const timedChallenge = domainBuilder.buildChallenge({
+          timer: 1.33,
+        });
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(timedChallenge),
+        };
+
+        // when
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+
+        // then
+        expect(neutralizationAttempt).to.deep.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+      });
+
+      it('resolves the issue report', async function() {
+        // given
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [certificationAnswer],
+        });
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+
+        const timedChallenge = domainBuilder.buildChallenge({
+          timer: 1.33,
+        });
+
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+
+        const challengeRepository = {
+          get: sinon.stub().resolves(timedChallenge),
+        };
+
+        // when
+        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+
+        // then
+        expect(certificationIssueReport.isResolved()).to.be.true;
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+      });
+    });
+
+    context('the challenge does not contain the question designated by the question number', function() {
+
+      it('returns a successful resolution attempt without effect', async function() {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const certificationIssueReportRepository = {
+          save: () => {},
+        };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
+          certificationAnswersByDate: [],
+        });
+
+        // when
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+
+        // then
+        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+      });
+
+      it('resolves the certification issue report anyway', async function() {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [domainBuilder.buildCertificationChallengeWithType()],
+          certificationAnswersByDate: [],
+        });
+
+        // when
+        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+
+        // then
+        expect(certificationIssueReport.isResolved()).to.be.true;
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+      });
+    });
+
+    context('the challenge is not timed', function() {
+
+      it('returns a successful resolution without effect', async function() {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const notTimedChallenge = domainBuilder.buildChallenge({});
+        const certificationIssueReportRepository = {
+          save: () => {},
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(notTimedChallenge),
+        };
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
+        });
+
+        // when
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+
+        // then
+        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+      });
+
+      it('resolves the certification issue report anyway', async function() {
+        // given
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const notTimedChallenge = domainBuilder.buildChallenge({});
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(notTimedChallenge),
+        };
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType();
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [domainBuilder.buildAnswer({ challengeId: certificationChallenge.challengeId })],
+        });
+
+        // when
+        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+
+        // then
+        expect(certificationIssueReport.isResolved()).to.be.true;
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+      });
+    });
+
+    context('When challenge is not neutralizable', function() {
+
+      it('returns a successful resolution without effect', async function() {
+        // given
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [certificationAnswer],
+        });
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const timedChallenge = domainBuilder.buildChallenge({
+          timer: 1.33,
+        });
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(timedChallenge),
+        };
+
+        // when
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+
+        // then
+        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+      });
+
+      it('resolves the certification issue report anyway', async function() {
+        // given
+        const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
+        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationChallenges: [certificationChallenge],
+          certificationAnswersByDate: [certificationAnswer],
+        });
+        const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
+          subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          questionNumber: 1,
+        });
+        const timedChallenge = domainBuilder.buildChallenge({
+          timer: 1.33,
+        });
+        const certificationIssueReportRepository = {
+          save: sinon.stub(),
+        };
+        const challengeRepository = {
+          get: sinon.stub().resolves(timedChallenge),
+        };
+
+        // when
+        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+
+        // then
+        expect(certificationIssueReport.isResolved()).to.be.true;
+        expect(certificationIssueReportRepository.save).to.have.been.calledOnceWithExactly(certificationIssueReport);
+      });
+    });
+  });
+
   context('#DO_NOT_RESOLVE', function() {
     it('returns an unresolved resolution attempt', async function() {
       // given
@@ -921,7 +1162,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       {
         // eslint-disable-next-line mocha/no-setup-in-describe
         subCategoryToBeResolved: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-        strategyToBeApplied: 'doNotResolve',
+        strategyToBeApplied: 'neutralizeIfTimedChallenge',
       },
       // eslint-disable-next-line mocha/no-setup-in-describe
       {
