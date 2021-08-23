@@ -60,4 +60,12 @@ export default class Session extends Model {
   get urlToDownloadSessionIssueReportSheet() {
     return ENV.urlToDownloadSessionIssueReportSheet;
   }
+
+  get completedCertificationReports() {
+    return this.certificationReports.filter((certificationReport) => certificationReport.isCompleted);
+  }
+
+  get uncompletedCertificationReports() {
+    return this.certificationReports.filter((certificationReport) => !certificationReport.isCompleted);
+  }
 }

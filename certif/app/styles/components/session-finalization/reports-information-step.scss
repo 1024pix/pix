@@ -1,6 +1,20 @@
 .session-finalization-reports-information-step {
   font-size: 0.8125rem;
 
+  &__title {
+    display: flex;
+    background: #F4F5F7;
+    margin: 8px;
+    color: #5E6C84;
+    font-weight: bold;
+    padding: 20px 0 20px 48px;
+  }
+
+  &__icon {
+    margin-right: 12px;
+    font-size: 1rem;
+  }
+
   table {
     table-layout: initial;
   }
@@ -19,6 +33,13 @@
 
     .add-button {
       font-size: 13px;
+    }
+  }
+
+  .finalization-report-cancel-reason {
+
+    .pix-select {
+      max-width: 210px;
     }
   }
 }
