@@ -875,4 +875,142 @@ describe('Unit | Domain | Models | TargetProfileWithLearningContent', function()
     });
 
   });
+
+  describe('getStageThresholdBoundaries()', function() {
+    it('should return skill count boundaries for all stages', function() {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 40 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 70 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 90 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getStageThresholdBoundaries();
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage1', from: 40, to: 69 },
+        { id: 'stage2', from: 70, to: 89 },
+        { id: 'stage3', from: 90, to: 100 },
+      ]);
+    });
+
+    it('should return skill count boundaries with a stage threshold 0', function() {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 20 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 90 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getStageThresholdBoundaries();
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage1', from: 0, to: 19 },
+        { id: 'stage2', from: 20, to: 89 },
+        { id: 'stage3', from: 90, to: 100 },
+      ]);
+    });
+  });
+
+  describe('getThresholdBoundariesFromStage()', function() {
+    it('should return skill count boundary for the given stage id', function() {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+      const skill4 = domainBuilder.buildTargetedSkill();
+      const skill5 = domainBuilder.buildTargetedSkill();
+      const skill6 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 40 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 80 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3, skill4, skill5, skill6],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getThresholdBoundariesFromStages(['stage2']);
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage2', from: 40, to: 79 },
+      ]);
+    });
+
+    it('should return skill count boundaries for the given stage id list', function() {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+      const skill4 = domainBuilder.buildTargetedSkill();
+      const skill5 = domainBuilder.buildTargetedSkill();
+      const skill6 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 40 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 80 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3, skill4, skill5, skill6],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getThresholdBoundariesFromStages(['stage1', 'stage2']);
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage1', from: 0, to: 39 },
+        { id: 'stage2', from: 40, to: 79 },
+      ]);
+    });
+
+    it('should return total skills count in "to" if it’s the last stage', function() {
+      // given
+      const skill1 = domainBuilder.buildTargetedSkill();
+      const skill2 = domainBuilder.buildTargetedSkill();
+      const skill3 = domainBuilder.buildTargetedSkill();
+      const skill4 = domainBuilder.buildTargetedSkill();
+      const skill5 = domainBuilder.buildTargetedSkill();
+      const skill6 = domainBuilder.buildTargetedSkill();
+
+      const stage1 = domainBuilder.buildStage({ id: 'stage1', threshold: 0 });
+      const stage2 = domainBuilder.buildStage({ id: 'stage2', threshold: 40 });
+      const stage3 = domainBuilder.buildStage({ id: 'stage3', threshold: 80 });
+
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        skills: [skill1, skill2, skill3, skill4, skill5, skill6],
+        stages: [stage1, stage2, stage3],
+      });
+
+      // when
+      const skillCountBoundaries = targetProfile.getThresholdBoundariesFromStages(['stage3']);
+
+      // then
+      expect(skillCountBoundaries).to.deep.equal([
+        { id: 'stage3', from: 80, to: 100 },
+      ]);
+    });
+  });
 });
