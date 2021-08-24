@@ -56,8 +56,7 @@
   "cards": {
     "participants-average-results": {
       "information": "Retrouvez ici la moyenne des résultats de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat.",
-      "title": "Résultat moyen",
-      "result": "{result, number, ::percent}"
+      "title": "Résultat moyen"
     },
     "participants-average-stages": {
       "information": "Retrouvez ici le palier moyen de votre campagne. Ce nombre comprend l'ensemble des participants ayant fini leur parcours et envoyé leur résultat.",
@@ -143,7 +142,8 @@
       },
       "page-number": "Page {current} / {total}",
       "result-by-page": "Voir"
-    }
+    },
+    "percentage": "{value, number, ::percent}"
   },
   "navigation": {
     "credits": {
@@ -168,12 +168,8 @@
     "assessment-individual-results": {
       "title": "Résultats de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
-      "mastery-percentage": "Résultat",
       "progression": "Avancement",
-      "result": {
-        "label": "Résultat",
-        "value": "{count} / {total} ACQUIS"
-      },
+      "result":  "Résultat",
       "stages": {
         "label": "Paliers",
         "value": "{count} étoiles sur {total}"
@@ -188,10 +184,8 @@
           "competences": "Compétences ({count, plural, =0 {-} other {{count}}})",
           "results": {
             "label": "Résultats",
-            "tooltip": "<span class=\"sr-only\">Ce participant a validé</span> {result} % <span class=\"sr-only\">de la compétence {competence}.</span>"
-          },
-          "totalSkills": "Acquis évalués",
-          "validatedSkills": "Acquis validés"
+            "tooltip": "<span class=\"sr-only\">Ce participant a validé</span> {result, number, ::percent} <span class=\"sr-only\">de la compétence {competence}.</span>"
+          }
         },
         "empty": "En attente de résultats"
       }

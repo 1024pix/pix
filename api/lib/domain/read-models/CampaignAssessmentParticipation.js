@@ -10,11 +10,11 @@ class CampaignAssessmentParticipation {
     campaignId,
     participantExternalId,
     assessmentState,
+    masteryPercentage,
     sharedAt,
     isShared,
     createdAt,
     targetedSkillsCount,
-    validatedSkillsCount,
     testedSkillsCount,
     badges = [],
   }) {
@@ -27,27 +27,14 @@ class CampaignAssessmentParticipation {
     this.sharedAt = sharedAt;
     this.isShared = isShared;
     this.createdAt = createdAt;
-    this.targetedSkillsCount = targetedSkillsCount;
-    this.progression = this._computeProgression(assessmentState, testedSkillsCount);
+    this.progression = this._computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount);
     this.badges = badges;
-
-    if (this.isShared) {
-      this.validatedSkillsCount = validatedSkillsCount;
-      this.masteryPercentage = this._computeMasteryPercentage();
-    }
+    this.masteryPercentage = Number(masteryPercentage) || 0;
   }
 
-  _computeMasteryPercentage() {
-    if (this.targetedSkillsCount !== 0) {
-      return Math.round(this.validatedSkillsCount * 100 / this.targetedSkillsCount);
-    } else {
-      return 0;
-    }
-  }
-
-  _computeProgression(assessmentState, testedSkillsCount) {
-    if (assessmentState === Assessment.states.COMPLETED) return 100;
-    return Math.round(testedSkillsCount * 100 / this.targetedSkillsCount);
+  _computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount) {
+    if (assessmentState === Assessment.states.COMPLETED) return 1;
+    return Number((testedSkillsCount / targetedSkillsCount).toFixed(2));
   }
 
   setBadges(badges) {

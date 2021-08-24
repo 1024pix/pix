@@ -1,18 +1,17 @@
 const _ = require('lodash');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const CampaignAssessmentParticipation = require('../../../lib/domain/read-models/CampaignAssessmentParticipation');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const targetProfileRepository = require('./target-profile-repository');
 
+const Assessment = require('../../../lib/domain/models/Assessment');
+
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
-    const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
-    const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
-
     const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
-    return _buildCampaignAssessmentParticipation(result, targetedSkillIds);
+    return _buildCampaignAssessmentParticipation(result);
   },
 };
 
@@ -30,6 +29,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         'campaign-participations.sharedAt',
         'campaign-participations.isShared',
         'campaign-participations.participantExternalId',
+        'campaign-participations.masteryPercentage',
         'assessments.state AS assessmentState',
         _assessmentRankByCreationDate(),
       ])
@@ -59,24 +59,32 @@ function _assessmentRankByCreationDate() {
   return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
 }
 
-async function _buildCampaignAssessmentParticipation(result, targetedSkillIds) {
-  const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [result.userId]: result.sharedAt });
-  const knowledgeElements = knowledgeElementsByUser[result.userId];
-  const testedSkillsCount = _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements);
+async function _buildCampaignAssessmentParticipation(result) {
+  const { targetedSkillsCount, testedSkillsCount } = await _setSkillsCount(result);
+
   return new CampaignAssessmentParticipation({
     ...result,
-    targetedSkillsCount: targetedSkillIds.length,
-    validatedSkillsCount: _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements),
+    targetedSkillsCount,
     testedSkillsCount,
   });
 }
 
-function _getValidatedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements) {
-  const validatedKnowledgeElements = _.filter(knowledgeElements, 'isValidated');
-  const validatedSkillIds = _.map(validatedKnowledgeElements, 'skillId');
-  const validatedTargetedSkillIds = _.intersection(validatedSkillIds, targetedSkillIds);
+async function _setSkillsCount(result) {
+  let targetedSkillsCount = 0;
+  let testedSkillsCount = 0;
 
-  return validatedTargetedSkillIds.length;
+  if (result.assessmentState !== Assessment.states.COMPLETED) {
+    const targetProfile = await targetProfileRepository.getByCampaignId(result.campaignId);
+    const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
+
+    const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [result.userId]: result.sharedAt });
+    const knowledgeElements = knowledgeElementsByUser[result.userId];
+
+    targetedSkillsCount = targetedSkillIds.length;
+    testedSkillsCount = _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements);
+  }
+
+  return { targetedSkillsCount, testedSkillsCount };
 }
 
 function _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements) {
