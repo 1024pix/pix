@@ -6,13 +6,13 @@
     "type": "ASSESSMENT",
     "organizationId": 1,
     "creatorId": 1,
-    "targetProfileId": 1
+    "targetProfileId": 1,
+    "idPixLabel": "Surnom"
   }, {
     "id": 2,
     "name": "Campagne du Mur",
     "code": "WALL",
     "type": "ASSESSMENT",
-    "idPixLabel": "Numéro de bataillon",
     "organizationId": 1,
     "creatorId": 1,
     "targetProfileId": 1
@@ -30,8 +30,9 @@
     "code": "LION",
     "type": "PROFILES_COLLECTION",
     "organizationId": 1,
-    "creatorId": 1
-  }, {
+    "creatorId": 1,
+    "idPixLabel": "Surnom"
+}, {
     "id": 5,
     "name": "Envoi profils Stark",
     "code": "WOLF",

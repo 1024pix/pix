@@ -3,9 +3,11 @@
     "id": 1,
     "campaignId": 1,
     "isShared": true,
-    "participantExternalId": "Le fratricide",
+    "participantExternalId": "Le parricide",
     "sharedAt": "2019-04-22T06:00:00Z",
-    "userId": 4
+    "userId": 4,
+    "validatedSkillsCount": 1,
+    "masteryPercentage": "0.5"
   },
   {
     "id": 2,
@@ -39,7 +41,6 @@
     "id": 6,
     "campaignId": 2,
     "isShared": false,
-    "participantExternalId": "Le régicide",
     "userId": 5
   }
 ]
