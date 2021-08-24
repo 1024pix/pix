@@ -10,6 +10,7 @@ const CERTIF_REGULAR_USER3_ID = 108;
 const CERTIF_REGULAR_USER4_ID = 109;
 const CERTIF_REGULAR_USER5_ID = 110;
 const CERTIF_DROIT_USER5_ID = 111;
+const CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID = 112;
 const { DEFAULT_PASSWORD } = require('../users-builder');
 
 const { SCO_STUDENT_ID } = require('../organizations-sco-builder');
@@ -124,6 +125,14 @@ function certificationUsersBuilder({ databaseBuilder }) {
     cgu: true,
   });
 
+  databaseBuilder.factory.buildUser.withRawPassword({
+    id: CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID,
+    firstName: 'AnneCertifTimedChallenge',
+    lastName: 'CertifTimedChallenge',
+    email: 'certif-timed-challenge@example.net',
+    rawPassword: DEFAULT_PASSWORD,
+    cgu: true,
+  });
 }
 
 module.exports = {
@@ -141,4 +150,5 @@ module.exports = {
   CERTIF_REGULAR_USER4_ID,
   CERTIF_REGULAR_USER5_ID,
   CERTIF_DROIT_USER5_ID,
+  CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID,
 };
