@@ -38,7 +38,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
       });
 
       it('resolves the issue report', async function() {
@@ -90,7 +90,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -149,7 +149,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
       });
 
       it('resolves the issue report', async function() {
@@ -204,7 +204,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -257,7 +257,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -316,7 +316,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -379,7 +379,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
       });
 
       it('resolves the issue report', async function() {
@@ -436,7 +436,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -490,7 +490,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
 
         // then
         expect(certificationIssueReport.resolution).to.equal('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -549,7 +549,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -614,7 +614,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
       });
 
       it('resolves the issue report', async function() {
@@ -673,7 +673,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -726,7 +726,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -787,7 +787,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -913,7 +913,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -966,7 +966,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -1027,7 +1027,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
 
         // then
-        expect(neutralizationAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
       });
 
       it('resolves the certification issue report anyway', async function() {
@@ -1076,7 +1076,7 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       const resolutionAttempt = await doNotResolveStrategy({ certificationIssueReport, certificationAssessment: null, certificationIssueReportRepository: null, challengeRepository: null });
 
       // then
-      expect(resolutionAttempt).to.deep.equal(CertificationIssueReportResolutionAttempt.unresolved());
+      expect(resolutionAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.unresolved());
     });
 
     it('does not resolve the certification issue report', async function() {
