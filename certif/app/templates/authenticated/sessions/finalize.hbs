@@ -13,12 +13,14 @@
       @title="Renseigner les informations de vos candidats"
       @icon="/icons/session-finalization-user.svg"
       @iconAlt="">
-    {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
-    <SessionFinalization::UncompletedReportsInformationStep
-      @certificationReports={{this.session.uncompletedCertificationReports}}
-      @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-      @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
-    />
+    {{#if this.isManageUncompletedCertifEnabled}}
+      {{#if (gt this.session.uncompletedCertificationReports.length 0)}}
+      <SessionFinalization::UncompletedReportsInformationStep
+        @certificationReports={{this.session.uncompletedCertificationReports}}
+        @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+        @onIssueReportDeleteButtonClicked={{this.deleteCertificationIssueReport}}
+      />
+      {{/if}}
     {{/if}}
     <SessionFinalization::CompletedReportsInformationStep
         @certificationReports={{this.session.completedCertificationReports}}

@@ -142,6 +142,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         test('it should show the uncompleted reports table', async function(assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false });
+          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
