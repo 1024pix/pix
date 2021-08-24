@@ -2,11 +2,12 @@ const _ = require('lodash');
 const {
   CERTIF_SUCCESS_USER_ID, CERTIF_FAILURE_USER_ID,
   CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID,
-  CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID, CERTIF_SCO_STUDENT_ID,
+  CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID, CERTIF_SCO_STUDENT_ID, CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID,
 } = require('./users');
 const {
   STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  WEAK_CERTIFIABLE_WITH_TIMED_CHALLENGE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
 } = require('./certification-data');
 const { SCO_FOREIGNER_USER_ID, SCO_FRENCH_USER_ID } = require('../organizations-sco-builder');
 
@@ -30,6 +31,13 @@ function certificationUserProfilesBuilder({ databaseBuilder }) {
       const answerId = databaseBuilder.factory.buildAnswer({ ...data, createdAt, updatedAt, assessmentId, value: 'Dummy value' }).id;
       databaseBuilder.factory.buildKnowledgeElement({ ...data, createdAt, answerId, userId, assessmentId });
     });
+  });
+
+  // A user having a timed challenge (for certification testing purpose)
+  const assessmentId = databaseBuilder.factory.buildAssessment({ userId: CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID, type: 'COMPETENCE_EVALUATION', state: 'completed' }).id;
+  _.each(WEAK_CERTIFIABLE_WITH_TIMED_CHALLENGE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS, (data) => {
+    const answerId = databaseBuilder.factory.buildAnswer({ ...data, createdAt, updatedAt, assessmentId, value: 'Dummy value' }).id;
+    databaseBuilder.factory.buildKnowledgeElement({ ...data, createdAt, answerId, userId: CERTIF_REGULAR_USER_WITH_TIMED_CHALLENGE_ID, assessmentId });
   });
 }
 
