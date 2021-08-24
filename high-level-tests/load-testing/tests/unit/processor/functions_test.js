@@ -49,14 +49,10 @@ describe('Unit | Processor | Functions', () => {
 
     it('should retrieve challengeId', () => {
       // given
-      const challengeId = 100;
+      const challengeId = 'recZTnGUZgrglFQE3';
       const requestParams = {};
       const response = {
-        body: {
-          data: {
-            id: challengeId,
-          },
-        },
+        body: `{"data":{"id":"${challengeId}"}}`,
       };
       const context = {
         vars: {},
