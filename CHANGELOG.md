@@ -1,5 +1,19 @@
 # Pix Changelog
 
+## v3.91.0 (24/08/2021)
+
+- [#3354](https://github.com/1024pix/pix/pull/3354) [FEATURE] Nouveau panneau dans le didacticiel (PIX-2898).
+- [#3377](https://github.com/1024pix/pix/pull/3377) [FEATURE] Utiliser la valeur du résultat stocké en BDD du participant dans la page détail (PIX-2996)
+- [#3386](https://github.com/1024pix/pix/pull/3386) [FEATURE] Résolution automatique des signalement concernant les épreuves chronométrées et temps majoré (PIX-3002)
+- [#3371](https://github.com/1024pix/pix/pull/3371) [FEATURE] Suppression de l'overlay et des alertes sur les épreuves focus déjà répondues (PIX-3005).
+- [#3366](https://github.com/1024pix/pix/pull/3366) [FEATURE] Récupérer si besoin l'identifiant externe de la participation précédente pour les campagnes à envois multiples (PIX-2675).
+- [#3373](https://github.com/1024pix/pix/pull/3373) [FEATURE][A11Y] Avoir une sémantique html correcte sur la page "Liste des campagnes" (PIX-3054).
+- [#3374](https://github.com/1024pix/pix/pull/3374) [BUGFIX]  Afficher un encart "en attente de résultats" dans l'onglet analyse individuelle quand la personne n'a pas encore partagé ses résultats (PIX-3067).
+- [#3378](https://github.com/1024pix/pix/pull/3378) [TECH] Supprime les setups de test dans le describe (pix-3378)
+- [#3375](https://github.com/1024pix/pix/pull/3375) [TECH] Ajout du statut de l'assessment au certificationReport (PIX-3061)
+- [#3385](https://github.com/1024pix/pix/pull/3385) [TECH] Rendre configurable la liste d'origines des embed autorisés
+- [#3202](https://github.com/1024pix/pix/pull/3202) [TECH] Mettre à jour les paquets de Pix App (PIX-2836).
+
 ## v3.90.0 (23/08/2021)
 
 - [#3359](https://github.com/1024pix/pix/pull/3359) [FEATURE] Annuler une certification si taux de réponse < 33% (PIX-3046)
