@@ -648,6 +648,11 @@ const WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_E
   { source: 'inferred', skillId: 'rec8uNegbB8PDuYRJ', earnedPix: 1.6, status: 'validated', competenceId: 'recfr0ax8XrfvJ3ER', result: 'ok', challengeId: 'recWfwWRISdCDitAr', timeout: null, resultDetails: 'null ' },
 ];
 
+const WEAK_CERTIFIABLE_WITH_TIMED_CHALLENGE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS = [
+  ...WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  { source: 'direct', skillId: 'rechRPFlSryfY3UnG', earnedPix: 8, status: 'validated', competenceId: 'recsvLz0W2ShyfD63', result: 'ok', challengeId: 'rec0EQfC6FVXXrAwk', timeout: null, resultDetails: 'null ' },
+];
+
 const CERTIFICATION_CHALLENGES_DATA = [
   { challengeId: 'reccEwkSAkyPd7e1H', competenceId: 'recudHE5Omrr10qrx', associatedSkillName: '@choixSystème5' },
   { challengeId: 'rec89GEKgYFZ1vqHr', competenceId: 'recudHE5Omrr10qrx', associatedSkillName: '@logicielLibre6' },
@@ -842,6 +847,7 @@ const CERTIFICATION_FAILURE_COMPETENCE_MARKS_DATA = [
 module.exports = {
   STRONG_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   WEAK_CERTIFIABLE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
+  WEAK_CERTIFIABLE_WITH_TIMED_CHALLENGE_PROFILE_DATA_OBJECTS_FOR_BUILDING_ANSWERS_AND_KNOWLEDGE_ELEMENTS,
   CERTIFICATION_CHALLENGES_DATA,
   CERTIFICATION_FAILURE_ANSWERS_DATA,
   CERTIFICATION_SUCCESS_ANSWERS_DATA,
