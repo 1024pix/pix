@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { databaseBuilder, domainBuilder, expect, catchErr, knex } = require('../../../test-helper');
 const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const certificationReportRepository = require('../../../../lib/infrastructure/repositories/certification-report-repository');
 const { CertificationCourseUpdateError } = require('../../../../lib/domain/errors');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
@@ -15,7 +16,17 @@ describe('Integration | Repository | CertificationReport', function() {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ lastName: 'Abba', sessionId });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse1.id,
+          state: Assessment.states.COMPLETED,
+          type: Assessment.types.CERTIFICATION,
+        });
         const certificationCourse2 = databaseBuilder.factory.buildCertificationCourse({ lastName: 'Xubbu', sessionId });
+        databaseBuilder.factory.buildAssessment({
+          certificationCourseId: certificationCourse2.id,
+          state: Assessment.states.COMPLETED,
+          type: Assessment.types.CERTIFICATION,
+        });
         const certificationIssueReport1 = databaseBuilder.factory.buildCertificationIssueReport({
           certificationCourseId: certificationCourse1.id,
           category: CertificationIssueReportCategories.OTHER,
@@ -36,6 +47,7 @@ describe('Integration | Repository | CertificationReport', function() {
           certificationCourseId: certificationCourse1.id,
           firstName: certificationCourse1.firstName,
           lastName: certificationCourse1.lastName,
+          isCompleted: true,
           certificationIssueReports: [
             { ...certificationIssueReport1,
               isImpactful: true,
@@ -48,6 +60,7 @@ describe('Integration | Repository | CertificationReport', function() {
           certificationCourseId: certificationCourse2.id,
           firstName: certificationCourse2.firstName,
           lastName: certificationCourse2.lastName,
+          isCompleted: true,
           certificationIssueReports: [],
           hasSeenEndTestScreen: certificationCourse2.hasSeenEndTestScreen,
         });

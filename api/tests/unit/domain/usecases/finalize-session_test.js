@@ -110,6 +110,7 @@ describe('Unit | UseCase | finalize-session', function() {
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,
+          isCompleted: true,
         });
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);
@@ -150,6 +151,7 @@ describe('Unit | UseCase | finalize-session', function() {
         const validReportForFinalization = domainBuilder.buildCertificationReport({
           examinerComment: 'signalement sur le candidat',
           hasSeenEndTestScreen: false,
+          isCompleted: true,
         });
         certificationReports = [validReportForFinalization];
         sessionRepository.isFinalized.withArgs(sessionId).resolves(false);

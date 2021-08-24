@@ -5,6 +5,7 @@ const _ = require('lodash');
 module.exports = function buildCertificationReport({
   firstName = 'Bobby',
   lastName = 'Lapointe',
+  isCompleted = true,
   hasSeenEndTestScreen = false,
   certificationCourseId,
   sessionId,
@@ -20,6 +21,7 @@ module.exports = function buildCertificationReport({
     id,
     firstName,
     lastName,
+    isCompleted,
     hasSeenEndTestScreen,
     certificationCourseId,
   };
