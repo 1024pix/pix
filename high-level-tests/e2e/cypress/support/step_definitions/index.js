@@ -9,16 +9,16 @@ Given('les données de test sont chargées', () => {
   cy.task('db:fixture', 'target-profiles_skills');
   cy.task('db:fixture', 'campaigns');
   cy.task('db:fixture', 'campaign-participations');
+  cy.task('db:fixture', 'certification-centers');
+  cy.task('db:fixture', 'sessions');
+  cy.task('db:fixture', 'certification-courses');
   cy.task('db:fixture', 'assessments');
   cy.task('db:fixture', 'answers');
   cy.task('db:fixture', 'knowledge-elements');
   cy.task('db:fixture', 'users_pix_roles');
   cy.task('db:fixture', 'schooling-registrations');
-  cy.task('db:fixture', 'certification-centers');
   cy.task('db:fixture', 'certification-center-memberships');
-  cy.task('db:fixture', 'sessions');
   cy.task('db:fixture', 'certification-candidates');
-  cy.task('db:fixture', 'certification-courses');
 });
 
 Given('tous les comptes sont créés', () => {
