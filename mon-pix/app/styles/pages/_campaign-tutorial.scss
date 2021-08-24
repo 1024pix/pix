@@ -7,13 +7,13 @@
   &__container {
     margin: auto;
     max-width: 800px;
-    max-height: 700px;
+    min-height: 600px;
     padding: 30px 40px;
 
     @include device-is('tablet') {
       padding: 30px 10px;
       width: 800px;
-      height: 600px;
+      min-height: 600px;
       padding-top: 85px;
     }
   }
@@ -34,7 +34,11 @@
   &__explanation-icon {
     text-align: center;
     margin: 40px;
-    height: 161px;
+
+    img {
+      width: 160px;
+      height: 160px;
+    }
   }
 
   &__explanation-text {
