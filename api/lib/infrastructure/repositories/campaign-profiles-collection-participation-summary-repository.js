@@ -1,4 +1,3 @@
-const sumBy = require('lodash/sumBy');
 const chunk = require('lodash/chunk');
 const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
@@ -21,6 +20,7 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
         knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
         'campaign-participations.participantExternalId',
         'campaign-participations.sharedAt',
+        'campaign-participations.pixScore AS pixScore',
       )
       .from('campaign-participations')
       .join('users', 'users.id', 'campaign-participations.userId')
@@ -49,7 +49,6 @@ const CampaignProfilesCollectionParticipationSummaryRepository = {
 
         return new CampaignProfilesCollectionParticipationSummary({
           ...result,
-          pixScore: sumBy(placementProfile.userCompetences, 'pixScore'),
           certifiable: placementProfile.isCertifiable(),
           certifiableCompetencesCount: placementProfile.getCertifiableCompetencesCount(),
         });
