@@ -9,21 +9,13 @@ module('Integration | Component | Ui::ProgressBar', function(hooks) {
   module('Component rendering', function() {
     test('should render the component with the given value', async function(assert) {
       // given
-      this.set('value', 80);
+      this.set('value', 0.80);
 
       // when
       await render(hbs`<Ui::ProgressBar @value={{value}} />`);
 
       // then
       assert.dom('.progress-bar--completion').hasAttribute('style', 'width: 80%');
-    });
-
-    test('should render the component with the given children', async function(assert) {
-      // when
-      await render(hbs`<Ui::ProgressBar>Text</Ui::ProgressBar>`);
-
-      // then
-      assert.contains('Text');
     });
   });
 });

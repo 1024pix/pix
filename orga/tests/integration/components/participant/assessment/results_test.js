@@ -2,9 +2,11 @@ import { module, test } from 'qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
+import { setupIntl, t } from 'ember-intl/test-support';
 
 module('Integration | Component | Participant::Assessment::Results', function(hooks) {
   setupIntlRenderingTest(hooks);
+  setupIntl(hooks);
 
   let store;
 
@@ -25,16 +27,11 @@ module('Integration | Component | Participant::Assessment::Results', function(ho
     const competenceResult = store.createRecord('campaignAssessmentParticipationCompetenceResult', {
       name: 'Compétence 1',
       index: '1.1',
-      targetedSkillsCount: 10,
-      testedSkillsCount: 9,
-      validatedSkillsCount: 5,
       areaColor: 'jaffa',
+      competenceMasteryRate: 0.50,
     });
 
     const campaignAssessmentParticipationResult = store.createRecord('campaignAssessmentParticipationResult', {
-      targetedSkillsCount: 30,
-      testedSkillsCount: 29,
-      validatedSkillsCount: 15,
       competenceResults: [competenceResult],
     });
 
@@ -44,10 +41,8 @@ module('Integration | Component | Participant::Assessment::Results', function(ho
     await render(hbs`<Participant::Assessment::Results @results={{campaignAssessmentParticipationResult}} @displayResults={{true}} />`);
 
     // then
-    assert.dom('[aria-label="Résultats par compétence"]').exists({ count: 1 });
-    assert.dom('[aria-label="Résultats par compétence"]').containsText('Compétence 1');
-    assert.dom('[aria-label="Résultats par compétence"]').containsText('50 %');
-    assert.dom('[aria-label="Résultats par compétence"]').containsText('5');
-    assert.dom('[aria-label="Résultats par compétence"]').containsText('10');
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.title')}"]`).exists({ count: 1 });
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.title')}"]`).containsText('Compétence 1');
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.title')}"]`).containsText('50 %');
   });
 });

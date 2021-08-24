@@ -42,9 +42,6 @@
   font-family: $roboto;
 
   &--highlight {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
     background-color: $grey-10;
     border-radius: 8px;
   }
@@ -57,11 +54,11 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 0 16px;
-    border-left: 1px solid $grey-20;
+    border-right: 1px solid $grey-20;
   }
 
-  &__content:first-child {
-    border-left: none;
+  &__content:last-child {
+    border-right: none;
   }
 }
 
@@ -87,9 +84,6 @@
     margin-bottom: 8px;
   }
 
-  &__progress-bar {
-    padding-top: 8px;
-  }
 
   &__stages {
     display: flex;
@@ -101,10 +95,12 @@
     }
   }
 
+  &__progress-bar {
+    border-right: none;
+  }
+
   &__mastery-percentage {
-    margin-bottom: 8px;
     padding-left: 0;
-    border-left: none;
   }
 }
 

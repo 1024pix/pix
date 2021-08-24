@@ -4,8 +4,6 @@
     <tr>
       <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.competences' count=@results.sortedCompetenceResults.length}}</th>
       <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.results.label'}}</th>
-      <th class="table__column--small">{{t 'pages.assessment-individual-results.table.column.validatedSkills'}}</th>
-      <th class="table__column--small">{{t 'pages.assessment-individual-results.table.column.totalSkills'}}</th>
     </tr>
     </thead>
 
@@ -21,12 +19,10 @@
           </td>
           <td class="competences-col__gauge">
             <PixProgressGauge
-              @value={{competenceResult.validatedSkillsCountPercentage}}
-              @tooltipText={{t 'pages.assessment-individual-results.table.column.results.tooltip' result=competenceResult.validatedSkillsCountPercentage competence=competenceResult.name htmlSafe=true}}
+              @value={{multiply competenceResult.competenceMasteryRate 100}}
+              @tooltipText={{t 'pages.assessment-individual-results.table.column.results.tooltip' result=competenceResult.competenceMasteryRate competence=competenceResult.name htmlSafe=true}}
             />
           </td>
-          <td>{{competenceResult.validatedSkillsCount}}</td>
-          <td>{{competenceResult.targetedSkillsCount}}</td>
         </tr>
       {{/each}}
       </tbody>
