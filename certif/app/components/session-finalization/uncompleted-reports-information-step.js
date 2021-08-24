@@ -43,7 +43,10 @@ export default class UncompletedReportsInformationStep extends Component {
     this.showIssueReportsModal = false;
   }
 
-  @action onChangeCancelReason(event) {
-    this.args.onChangeCancelReason(event.target.value);
+  @action
+  onChangeCancelReason(event) {
+    if (event.target.value) {
+      this.args.onChangeCancelReason(event.target.value);
+    }
   }
 }

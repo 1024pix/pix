@@ -106,4 +106,9 @@ export default class SessionsFinalizeController extends Controller {
   _convertStringToNullIfEmpty(str) {
     return isEmpty(trim(str)) ? null : str;
   }
+
+  @action
+  onChangeCancelReason(value) {
+    throw new Error('Not implemented', value);
+  }
 }
