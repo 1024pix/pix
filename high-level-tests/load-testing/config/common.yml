@@ -1,5 +1,5 @@
 config:
-  processor: "../functions.js"
+  processor: "../processor/functions.js"
   environments:
     localhost:
       target: http://localhost:3000
