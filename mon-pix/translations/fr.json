@@ -1234,21 +1234,26 @@
       "next": "Suivant",
       "pages": {
         "page0": {
-          "title": "Vous pouvez rechercher sur internet",
+          "title": "Vous pouvez rechercher sur internet ...",
           "explanation": "Si vous ignorez une réponse, \nelle se trouve sûrement sur internet.",
           "icon": "icn-recherche.svg"
         },
         "page1": {
+          "title": "... sauf pour certaines questions",
+          "explanation": "Si cette image est affichée, utilisez uniquement vos connaissances !\n Vous ne devez utiliser ni internet ni vos logiciels.",
+          "icon": "icn-focus.svg"
+        },
+        "page2": {
           "title": "Pas de limite de temps !",
           "explanation": "Prenez le temps nécessaire pour terminer votre parcours. \nSi une question est chronométrée, cela vous sera indiqué.",
           "icon": "icn-temps.svg"
         },
-        "page2": {
+        "page3": {
           "title": "Des tutos pour apprendre",
           "explanation": "Accédez à des tutos pour apprendre davantage \nsur chaque question et progresser.",
           "icon": "icn-tutos.svg"
         },
-        "page3": {
+        "page4": {
           "title": "Un niveau de difficulté adapté",
           "explanation": "En fonction de vos réponses,\nPix adapte la difficulté des questions.",
           "icon": "icn-algo.svg"
