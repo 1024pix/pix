@@ -21,7 +21,7 @@ export default class Item extends Component {
 
   @action
   showOutOfFocusBorder() {
-    if (this.isFocusedChallenge && this.isTooltipClosed) {
+    if (this.isFocusedChallenge && this.isTooltipClosed && !this.args.answer) {
       this.args.onFocusOutOfChallenge();
       this.hasFocusedOutOfChallenge = true;
     }
