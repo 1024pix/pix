@@ -53,7 +53,7 @@
             <PixSelect
               id="finalization-report-cancel-reason__select"
               @emptyOptionLabel="-- Choisissez --"
-              @id={{'add-student-list__multi-select'}}
+              @onChange={{this.onChangeCancelReason}}
               @options={{this.cancelOptions}} as |option|>
               {{option.label}}
             </PixSelect>
