@@ -13,13 +13,15 @@ Fonctionnalité: Campagne de collecte de profils
     Alors je vois la page de "presentation" de la campagne
     Et la page "Presentation campagne collecte profils" est correctement affichée
     Lorsque je clique sur "C'est parti !"
+    Et je saisis "khaleesi" dans le champ "Surnom"
+    Et je clique sur "Continuer"
     Alors je vois la page d'"envoi-profil" de la campagne
     Lorsque je clique sur "J'envoie mon profil"
     Alors je vois que j'ai partagé mon profil
 
   Scénario: Je partage mon profil via l'URL sans être connecté
     Étant donné que je vais sur Pix
-    Lorsque je vais sur la campagne "LION" avec l'identifiant "1er bataillon"
+    Lorsque je vais sur la campagne "LION" avec l'identifiant "khaleesi"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "C'est parti !"
     Et je clique sur "connectez-vous à votre compte"
