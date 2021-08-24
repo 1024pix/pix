@@ -98,12 +98,12 @@
       }
 
       .pix-select {
-        height: 35px;
         background: $white;
         border: 1.2px solid $grey-45;
         border-radius: 4px;
 
         select[id^="subcategory-for-category"] {
+          height: 35px;
           font-size: 14px;
           color: $grey-90;
         }
