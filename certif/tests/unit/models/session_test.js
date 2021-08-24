@@ -61,4 +61,63 @@ module('Unit | Model | session', function(hooks) {
       assert.equal(model.urlToDownloadSessionIssueReportSheet, config.urlToDownloadSessionIssueReportSheet);
     });
   });
+
+  module('#uncompletedCertificationReports', function() {
+    test('it should return the uncomplete certification reports', function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const model = run(() => store.createRecord('session', { id: 1, certificationReports: [
+        store.createRecord('certification-report', { isCompleted: false }),
+        store.createRecord('certification-report', { isCompleted: true }),
+        store.createRecord('certification-report', { isCompleted: true }),
+      ] }));
+      model.session = { data: { authenticated: { access_token: '123' } } };
+
+      // when/then
+      assert.equal(model.uncompletedCertificationReports.length, 1);
+    });
+  });
+
+  module('#completedCertificationReports', function() {
+
+    module('when isManageUncompletedCertifEnabled is enabled', function() {
+
+      test('it should return the complete certification reports', function(assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = run(() => store.createRecord('session', { id: 1, certificationReports: [
+          store.createRecord('certification-report', { isCompleted: false }),
+          store.createRecord('certification-report', { isCompleted: true }),
+          store.createRecord('certification-report', { isCompleted: true }),
+        ] }));
+
+        model.session = { data: { authenticated: { access_token: '123' } } };
+
+        model.featureToggles = { featureToggles: { isManageUncompletedCertifEnabled: true } };
+
+        // when/then
+        assert.equal(model.completedCertificationReports.length, 2);
+      });
+    });
+
+    module('when isManageUncompletedCertifEnabled is not enabled', function() {
+
+      test('it should return the all certification reports', function(assert) {
+        // given
+        const store = this.owner.lookup('service:store');
+        const model = run(() => store.createRecord('session', { id: 1, certificationReports: [
+          store.createRecord('certification-report', { isCompleted: false }),
+          store.createRecord('certification-report', { isCompleted: true }),
+          store.createRecord('certification-report', { isCompleted: true }),
+        ] }));
+
+        model.session = { data: { authenticated: { access_token: '123' } } };
+
+        model.featureToggles = { featureToggles: { isManageUncompletedCertifEnabled: false } };
+
+        // when/then
+        assert.equal(model.completedCertificationReports.length, 3);
+      });
+    });
+  });
 });

@@ -11,6 +11,8 @@ import trim from 'lodash/trim';
 
 export default class SessionsFinalizeController extends Controller {
 
+  @service featureToggles;
+
   @service notifications;
 
   @alias('model') session;
@@ -22,6 +24,10 @@ export default class SessionsFinalizeController extends Controller {
 
   get pageTitle() {
     return `Finalisation | Session ${this.session.id} | Pix Certif`;
+  }
+
+  get isManageUncompletedCertifEnabled() {
+    return this.featureToggles.featureToggles.isManageUncompletedCertifEnabled;
   }
 
   @computed('session.certificationReports.@each.hasSeenEndTestScreen')
