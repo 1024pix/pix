@@ -4,13 +4,14 @@ import ChallengeItemGeneric from './challenge-item-generic';
 import { inject as service } from '@ember/service';
 import generateRandomString from 'mon-pix/utils/generate-random-string';
 import proposalsAsBlocks from 'mon-pix/utils/proposals-as-blocks';
+import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemQroc extends ChallengeItemGeneric {
   @service intl;
 
   @tracked autoReplyAnswer = '';
   postMessageHandler = null;
-  embedOrigins = ['https://epreuves.pix.fr', 'https://1024pix.github.io'];
+  embedOrigins = ENV.APP.EMBED_ALLOWED_ORIGINS;
 
   constructor() {
     super(...arguments);
