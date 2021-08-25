@@ -53,9 +53,12 @@
   </section>
 
   <section class="form-section form-actions form-section--actions">
-    <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="small" @triggerAction={{@onCancel}}>
-      Annuler
-    </PixButton>
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+      @triggerAction={{@onCancel}}
+    >Annuler</PixButton>
     <PixButton @backgroundColor="green" @size="small" @type="submit" @isDisabled={{@isDisabled}}>
       Enregistrer
     </PixButton>
