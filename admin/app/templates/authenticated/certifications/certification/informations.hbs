@@ -193,11 +193,12 @@
   </div>
   {{#if this.isValid}}
     <div class="row">
-      <div class="col certification-informations__actions">
+      <div class="col certification-informations__actions form-actions">
         {{#if this.editingCandidateResults}}
           <PixButton
             @size="small"
             @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
             @triggerAction={{this.onCandidateResultsCancel}}
             aria-label="Annuler la modification des résultats du candidat"
           >
@@ -206,6 +207,7 @@
           <PixButton
             @size="small"
             @triggerAction={{this.onCandidateResultsSaveConfirm}}
+            @backgroundColor="green"
             aria-label="Enregistrer les résultats du candidat"
           >
             Enregistrer
