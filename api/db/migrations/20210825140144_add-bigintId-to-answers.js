@@ -1,10 +1,9 @@
-const TABLE_NAME = 'answers';
-const COLUMN_NAME = 'bigintId';
 const FAKE_VALUE_TO_COMPLY_WITH_NOT_NULL_CONSTRAINT_MANDATORY_FOR_FUTURE_PK = -1;
 
 exports.up = async function(knex) {
-  await knex.schema.table(TABLE_NAME, function(table) {
-    table.bigInteger(COLUMN_NAME).notNullable().defaultTo(FAKE_VALUE_TO_COMPLY_WITH_NOT_NULL_CONSTRAINT_MANDATORY_FOR_FUTURE_PK);
+
+  await knex.schema.table('answers', function(table) {
+    table.bigInteger('bigintId').notNullable().defaultTo(FAKE_VALUE_TO_COMPLY_WITH_NOT_NULL_CONSTRAINT_MANDATORY_FOR_FUTURE_PK);
   });
 
   await knex.schema.table('knowledge-elements', function(table) {
@@ -19,8 +18,8 @@ exports.up = async function(knex) {
   END
   $$ LANGUAGE plpgsql;`);
 
-  await knex.raw(`CREATE TRIGGER "trg_${TABLE_NAME}"
-  BEFORE INSERT ON "${TABLE_NAME}"
+  await knex.raw(`CREATE TRIGGER "trg_answers"
+  BEFORE INSERT ON "answers"
   FOR EACH ROW
   EXECUTE FUNCTION "copy_int_id_to_bigintId_on_answers"();`);
 

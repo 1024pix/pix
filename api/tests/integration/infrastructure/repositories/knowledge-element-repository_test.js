@@ -43,6 +43,17 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
       const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'createdAt', 'updatedAt']);
       expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
     });
+
+    it('should trigger filling of answer_bigintId column', async function() {
+      // when
+      const { id } = await knowledgeElementRepository.save(knowledgeElementToSave);
+
+      // then
+      const actualKnowledgeElement = await knex.select('answerId', 'answer_bigintId').from('knowledge-elements').where({ id }).first();
+      expect(actualKnowledgeElement.answer_bigintId).to.exist;
+      expect(actualKnowledgeElement.answer_bigintId).to.equal(actualKnowledgeElement.answerId);
+    });
+
   });
 
   describe('#findUniqByUserId', function () {
