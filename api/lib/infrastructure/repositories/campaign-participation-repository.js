@@ -202,9 +202,11 @@ module.exports = {
 
   async countParticipationsByStage(campaignId, stagesBoundaries) {
     const participationCounts = stagesBoundaries.map((boundary) => {
+      const from = boundary.from / 100;
+      const to = boundary.to / 100;
       return knex.raw(
-        'COUNT("id") FILTER (WHERE "validatedSkillsCount" between ?? and ??) OVER (PARTITION BY "campaignId") AS ??',
-        [boundary.from, boundary.to, String(boundary.id)],
+        'COUNT("id") FILTER (WHERE "masteryPercentage" between ?? and ??) OVER (PARTITION BY "campaignId") AS ??',
+        [from, to, String(boundary.id)],
       );
     });
 

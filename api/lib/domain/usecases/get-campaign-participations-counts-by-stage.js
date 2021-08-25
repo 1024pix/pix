@@ -16,7 +16,7 @@ module.exports = async function getCampaignParticipationsCountByStage({
     throw new NoStagesForCampaign();
   }
 
-  const stagesBoundaries = targetProfile.getStageSkillsBoundaries();
+  const stagesBoundaries = targetProfile.getStageThresholdBoundaries();
   const data = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
 
   return targetProfile.stages.map((stage) => ({
