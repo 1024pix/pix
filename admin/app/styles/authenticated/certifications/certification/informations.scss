@@ -16,10 +16,6 @@
     margin-bottom: 20px;
   }
 
-  &__actions {
-    text-align: center;
-  }
-
   &__published--float {
     float: right;
   }
@@ -56,7 +52,6 @@
   .certification-informations {
     &__actions {
       display: flex;
-      margin-top: 8px;
       justify-content: center;
     }
   }

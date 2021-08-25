@@ -8,15 +8,6 @@
   .row--btn {
     margin: inherit;
     margin-right: -20px;
-
-    .btn {
-      height: 36px;
-      margin-right: 20px;
-
-      &--right {
-        margin-left: auto;
-      }
-    }
   }
 
   &__certification-officer-assigned {
@@ -41,6 +32,8 @@
     display: flex;
     justify-content: center;
     position: relative;
+    margin-right: 20px;
+    margin-left: auto;
 
     p {
       background-color: $black;
