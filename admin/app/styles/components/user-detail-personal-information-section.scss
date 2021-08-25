@@ -29,12 +29,18 @@
     color: $grey-40;
   }
 
-  &__remove-button {
+  &__remove-button.pix-button {
     background-color: transparent;
-    color: red;
+    color: $error;
     font-size: 0.75rem;
     border: none;
     padding: 0 0 0 10px;
+
+    &:hover {
+      background-color: transparent;
+      box-shadow: none;
+      color: $dark-error;
+    }
   }
 
   .user-authentication-method-item {
