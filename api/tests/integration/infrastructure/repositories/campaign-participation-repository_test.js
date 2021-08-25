@@ -876,8 +876,8 @@ describe('Integration | Repository | Campaign Participation', function() {
     });
 
     it('returns the distribution for the campaign', async function() {
-      databaseBuilder.factory.buildCampaignParticipation({ validatedSkillsCount: 0 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ masteryPercentage: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0 });
       await databaseBuilder.commit();
 
       const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
@@ -886,8 +886,8 @@ describe('Integration | Repository | Campaign Participation', function() {
     });
 
     it('returns the distribution for only isImproved=false participations', async function() {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0, isImproved: false });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0, isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0, isImproved: false });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0, isImproved: true });
       await databaseBuilder.commit();
 
       const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);
@@ -896,12 +896,12 @@ describe('Integration | Repository | Campaign Participation', function() {
     });
 
     it('returns the distribution of participations by stage', async function() {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 5 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 6 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 10 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 12 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 19 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.05 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.06 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.10 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.12 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.19 });
       await databaseBuilder.commit();
 
       const result = await campaignParticipationRepository.countParticipationsByStage(campaignId, stagesBoundaries);

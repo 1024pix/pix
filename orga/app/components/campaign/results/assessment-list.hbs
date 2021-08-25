@@ -4,7 +4,7 @@
   @selectedBadges={{@selectedBadges}}
   @selectedStages={{@selectedStages}}
   @rowCount={{@participations.meta.rowCount}}
-  
+
   @onResetFilter={{@onResetFilter}}
   @onFilter={{@onFilter}}
 />
@@ -44,14 +44,14 @@
             <td>
               {{#if @campaign.hasStages}}
                 <Campaign::StageStars
-                  @result={{participation.masteryPercentage}}
+                  @result={{multiply participation.masteryPercentage 100}}
                   @stages={{@campaign.stages}}
                   @withTooltip={{true}}
                   @tooltipPosition="bottom-left"
                 />
               {{else}}
                 <span class="participant-list__mastery-percentage">
-                  {{participation.masteryPercentage}}%
+                  {{t 'pages.campaign-results.table.column.results.value' percentage=participation.masteryPercentage}}
                 </span>
               {{/if}}
             </td>

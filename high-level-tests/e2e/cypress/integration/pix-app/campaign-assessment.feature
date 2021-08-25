@@ -13,6 +13,8 @@ Fonctionnalité: Campagne d'évaluation
     Alors je vois la page de "presentation" de la campagne
     Et la page "Presentation campagne evaluation" est correctement affichée
     Lorsque je clique sur "Je commence"
+    Et je saisis "khaleesi" dans le champ "Surnom"
+    Et je clique sur "Continuer"
     Alors je vois la page de "didacticiel" de la campagne
     Lorsque je clique sur "Ignorer"
     Alors je vois l'épreuve "Quelle est la capitale de la Lettonie ?"
@@ -28,7 +30,7 @@ Fonctionnalité: Campagne d'évaluation
 
   Scénario: Je rejoins un parcours prescrit via l'URL sans être connecté
     Étant donné que je vais sur Pix
-    Lorsque je vais sur la campagne "WALL" avec l'identifiant "1er bataillon"
+    Lorsque je vais sur la campagne "WALL" avec l'identifiant "khaleesi"
     Alors je vois la page de "presentation" de la campagne
     Lorsque je clique sur "Je commence"
     Et je clique sur "connectez-vous à votre compte"

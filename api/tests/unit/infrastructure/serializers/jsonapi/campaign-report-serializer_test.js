@@ -11,6 +11,7 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
         id: 'campaign_report_id',
         participationsCount: 4,
         sharedParticipationsCount: 2,
+        averageResult: 0.4,
         stages: [{
           id: 1,
           prescriberTitle: 'stage1',
@@ -82,6 +83,7 @@ describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() 
             'token-for-campaign-results': report.tokenForCampaignResults,
             'participations-count': report.participationsCount,
             'shared-participations-count': report.sharedParticipationsCount,
+            'average-result': report.averageResult,
           },
         },
         included: [

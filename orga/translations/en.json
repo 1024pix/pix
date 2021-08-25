@@ -325,7 +325,8 @@
           "results": {
             "label": "Success rate",
             "on-hold": "Pending",
-            "under-test": "Test in progress"
+            "under-test": "Test in progress",
+            "value": "{percentage, number, ::percent}"
           }
         },
         "empty": "No participants",

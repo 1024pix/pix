@@ -255,7 +255,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
           userId,
           isShared: true,
-          validatedSkillsCount: 1,
+          masteryPercentage: '0.33',
         });
 
         await databaseBuilder.commit();
@@ -280,7 +280,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
       it('computes the mastery percentage', async function() {
         const { participations } = await campaignAssessmentParticipationResultListRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
 
-        expect(participations[0].masteryPercentage).to.equal(33);
+        expect(participations[0].masteryPercentage).to.equal('0.33');
       });
     });
 
@@ -565,10 +565,10 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 });
         const { id: stageId } = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 25 });
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 75 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 0, participantExternalId: 'Juste Before', campaignId: campaign.id }, { id: 1 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 1, participantExternalId: 'Stage Reached Boundary IN', campaignId: campaign.id }, { id: 2 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 2, participantExternalId: 'Stage Reached Boundary OUT', campaignId: campaign.id }, { id: 3 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 3, participantExternalId: 'Just After', campaignId: campaign.id }, { id: 4 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0, participantExternalId: 'Juste Before', campaignId: campaign.id }, { id: 1 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0.25, participantExternalId: 'Stage Reached Boundary IN', campaignId: campaign.id }, { id: 2 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0.74, participantExternalId: 'Stage Reached Boundary OUT', campaignId: campaign.id }, { id: 3 });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0.75, participantExternalId: 'Just After', campaignId: campaign.id }, { id: 4 });
         await databaseBuilder.commit();
 
         // when
@@ -589,9 +589,9 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         const { id: stage1Id } = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 0 });
         const { id: stage2Id } = databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 33 });
         databaseBuilder.factory.buildStage({ targetProfileId: campaign.targetProfileId, threshold: 66 });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 0, participantExternalId: 'The good', campaignId: campaign.id });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 1, participantExternalId: 'The bad', campaignId: campaign.id });
-        databaseBuilder.factory.buildAssessmentFromParticipation({ validatedSkillsCount: 2, participantExternalId: 'The ugly', campaignId: campaign.id });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0, participantExternalId: 'The good', campaignId: campaign.id });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0.33, participantExternalId: 'The bad', campaignId: campaign.id });
+        databaseBuilder.factory.buildAssessmentFromParticipation({ masteryPercentage: 0.66, participantExternalId: 'The ugly', campaignId: campaign.id });
         await databaseBuilder.commit();
 
         // when

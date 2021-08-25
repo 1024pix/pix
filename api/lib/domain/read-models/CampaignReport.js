@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { types } = require('../models/Campaign');
 
 class CampaignReport {
@@ -19,6 +20,7 @@ class CampaignReport {
     targetProfileImageUrl,
     participationsCount,
     sharedParticipationsCount,
+    averageResult,
     badges = [],
     stages = [],
   } = {}) {
@@ -39,6 +41,7 @@ class CampaignReport {
     this.targetProfileImageUrl = targetProfileImageUrl;
     this.participationsCount = participationsCount;
     this.sharedParticipationsCount = sharedParticipationsCount;
+    this.averageResult = averageResult;
     this.badges = badges;
     this.stages = stages;
   }
@@ -53,6 +56,13 @@ class CampaignReport {
 
   get isArchived() {
     return Boolean(this.archivedAt);
+  }
+
+  computeAverageResult(masteryPercentages) {
+    const totalMasteryPercentages = masteryPercentages.length;
+    if (totalMasteryPercentages > 0) {
+      this.averageResult = _.sum(masteryPercentages) / totalMasteryPercentages;
+    } else this.averageResult = null;
   }
 }
 
