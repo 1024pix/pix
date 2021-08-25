@@ -39,7 +39,7 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // then
       let actualKnowledgeElement = await knex.select('*').from('knowledge-elements').first();
-      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'intId', 'createdAt', 'updatedAt']);
+      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'intId', 'answer_bigintId', 'createdAt', 'updatedAt']);
       const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'createdAt', 'updatedAt']);
       expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
     });
