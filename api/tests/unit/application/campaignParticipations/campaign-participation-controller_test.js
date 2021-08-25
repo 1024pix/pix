@@ -12,6 +12,7 @@ const CampaignParticipationResultsShared = require('../../../../lib/domain/event
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+const performanceTool = require('../../../../lib/infrastructure/performance-tools');
 
 describe('Unit | Application | Controller | Campaign-Participation', function() {
 
@@ -91,6 +92,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       sinon.stub(usecases, 'startCampaignParticipation');
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(events.eventDispatcher, 'dispatch');
+      sinon.stub(performanceTool, 'logErrorWithCorrelationId');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -119,6 +121,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
+      events.eventDispatcher.dispatch.resolves();
 
       // when
       await campaignParticipationController.save(request, hFake);
@@ -142,6 +145,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
+      events.eventDispatcher.dispatch.resolves();
 
       // when
       await campaignParticipationController.save(request, hFake);
@@ -160,6 +164,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
+      events.eventDispatcher.dispatch.resolves();
 
       const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
       campaignParticipationSerializer.serialize.returns(serializedCampaignParticipation);
@@ -172,6 +177,33 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });
+
+    it('should log an error, return the serialized campaign participation when it has been successfully created even if the handler throw an error', async function() {
+      // given
+      const campaignParticipation = domainBuilder.buildCampaignParticipation();
+      usecases.startCampaignParticipation.resolves({
+        event: new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id }),
+        campaignParticipation,
+      });
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
+      const errorInHandler = new Error('handlePoleEmploiParticipationStarted failed with an error');
+      events.eventDispatcher.dispatch.rejects(errorInHandler);
+
+      const serializedCampaignParticipation = { id: 88, assessmentId: 12 };
+      campaignParticipationSerializer.serialize.returns(serializedCampaignParticipation);
+
+      // when
+      const response = await campaignParticipationController.save(request, hFake);
+
+      // then
+      expect(performanceTool.logErrorWithCorrelationId).to.have.been.calledWith(errorInHandler);
+      expect(campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
+      expect(response.statusCode).to.equal(201);
+      expect(response.source).to.deep.equal(serializedCampaignParticipation);
+    });
+
   });
 
   describe('#beginImprovement', function() {
