@@ -9,7 +9,8 @@
   <div class="login-form__control">
     <Input id="identification"
            data-test-id="login-form-field-identification"
-           @class="login-form__field"
+          
+            @class="login-form__field"
            @placeholder="Enter Login"
            @required="true"
            @value={{this.email}}
@@ -28,6 +29,10 @@
   </div>
 
   <div class="login-form__control">
-    <button class="btn btn-primary login-form__button" type="submit">Connexion</button>
+    <PixButton
+      @type="submit"
+      @size="small"
+      class="login-form__button"
+    >Connexion</PixButton>
   </div>
 </form>

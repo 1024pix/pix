@@ -42,6 +42,14 @@
   }
 }
 
+.form-actions {
+  display: flex;
+
+  button {
+    margin-right: 6px;
+  }
+}
+
 .form-inline {
   input {
     margin-right: 10px;

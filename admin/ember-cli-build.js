@@ -13,7 +13,7 @@ module.exports = function(defaults) {
       'importBootstrapCSS': true,
       'importBootstrapTheme': true,
       'bootstrapVersion': 4,
-      whitelist: ['bs-button', 'bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple', 'bs-tooltip'],
+      whitelist: ['bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple'],
     },
 
     'ember-cli-template-lint': {

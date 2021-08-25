@@ -1,9 +1,7 @@
 {{page-title "Sessions à publier"}}
 {{#if @model.length}}
 <div class="session-to-be-publish__publish-all">
-  <button class="btn btn-primary" type="button" {{on 'click' this.showConfirmModal}}>
-    Publier toutes les sessions
-  </button>
+  <PixButton @triggerAction={{this.showConfirmModal}}>Publier toutes les sessions</PixButton>
 </div>
 {{/if}}
 

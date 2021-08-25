@@ -45,8 +45,12 @@
     </div>
   </section>
 
-  <section class="form-section form-section--actions">
-    <button class="btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
-    <button class="btn btn-success btn-thin" type="submit">Ajouter</button>
+  <section class="form-section form-actions form-section--actions">
+    <PixButton
+      @size="small"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @triggerAction={{@onCancel}}>Annuler</PixButton>
+    <PixButton @type="submit" @size="small" @backgroundColor="green">Ajouter</PixButton>
   </section>
 </form>

@@ -7,6 +7,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class OrganizationMembersSection extends Component {
   @tracked organizationInvitationLang = this.languagesOptions[0].value;
+  options = [{ value: 'ADMIN', label: 'Administrateur' }, { value: 'MEMBER', label: 'Membre' }];
 
   get languagesOptions() {
     return [

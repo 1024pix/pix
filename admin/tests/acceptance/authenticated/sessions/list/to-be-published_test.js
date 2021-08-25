@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -10,8 +11,6 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
   setupMirage(hooks);
 
   const SESSIONS_TO_BE_PUBLISHED_LIST_PAGE = '/sessions/list/to-be-published';
-
-  const PUBLISH_ALL_SESSIONS_BUTTON_SELECTOR = '.session-to-be-publish__publish-all .btn-primary';
 
   module('When user is not logged in', function() {
 
@@ -26,7 +25,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
 
   module('When user is logged in', function(hooks) {
 
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(async function() {
       // given
       const { id: userId } = server.create('user');
       await createAuthenticateSession({ userId });
@@ -123,7 +122,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       });
 
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
-      await click(PUBLISH_ALL_SESSIONS_BUTTON_SELECTOR);
+      await clickByLabel('Publier toutes les sessions');
 
       // when
       await click('.modal-footer .btn-primary');

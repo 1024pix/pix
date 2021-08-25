@@ -83,16 +83,22 @@
                 </td>
                 <td>
                   {{#if stage.isNew}}
-                    <PixButton @backgroundColor="transparent"
-                               @border="squircle-small"
+                    <PixButton @backgroundColor="transparent-light"
+                               @size="small"
+                               @isBorderVisible={{true}}
                                aria-label="Supprimer palier"
                                @triggerAction={{fn this.removeNewStage stage}}>
-                      <FaIcon @icon="minus"></FaIcon>
+                      <FaIcon @icon="minus" />
                     </PixButton>
                   {{else}}
-                   <LinkTo @route="authenticated.stages.stage" @model={{stage}} class="btn btn-outline-default btn-thin">
-                      Voir détail
-                    </LinkTo>
+                    <PixButtonLink
+                      @backgroundColor="transparent-light"
+                      @isBorderVisible={{true}}
+                      @route="authenticated.stages.stage"
+                      @size="small"
+                      @model={{stage}}
+                      class="pix-button__secondary"
+                    >Voir détail</PixButtonLink>
                   {{/if}}
                 </td>
               </tr>
@@ -104,26 +110,26 @@
       <div class="table__empty content-text">Aucun palier associé</div>
     {{/if}}
 
-    <PixButton class="stages-new-stage"
-               @backgroundColor="transparent"
-               @border="squircle-small"
-               data-test="Nouveau palier"
-               @triggerAction={{this.addStage}}>
-      <FaIcon @icon="plus"></FaIcon>&nbsp;Nouveau palier
+    <PixButton class="stages-new-stage pix-button__secondary"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      data-test="Nouveau palier"
+      @triggerAction={{this.addStage}}
+    >
+      <FaIcon @icon="plus" />Nouveau palier
     </PixButton>
 
     {{#if this.hasNewStage}}
-      <div class="stages-actions">
+      <div class="stages-actions form-actions">
         <PixButton
           data-test="form-action-cancel"
-          @backgroundColor="transparent"
-          @border="squircle-small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
           @triggerAction={{this.cancelStagesCreation}}>Annuler</PixButton>
         <PixButton
           data-test="form-action-submit"
           @type="submit"
           @backgroundColor="green"
-          @border="squircle-small"
           @triggerAction={{this.createStages}}>Enregistrer</PixButton>
       </div>
     {{/if}}

@@ -103,8 +103,15 @@
     </div>
 
     <div class="form-actions">
-      <button class="btn btn-outline-default" type="button" {{on "click" @onExit}}>Annuler</button>
-      <button class="btn btn-success" type="submit">Enregistrer</button>
+      <PixButton
+        @triggerAction={{@onExit}}
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @size="small"
+      >Annuler</PixButton>
+      <PixButton @type="submit" @backgroundColor="green" @size="small">
+        Enregistrer
+      </PixButton>
     </div>
   </form>
 </section>

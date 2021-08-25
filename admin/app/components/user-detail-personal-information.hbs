@@ -64,9 +64,13 @@
                  @value={{this.form.username}} />
         </div>
       {{/if}}
-      <div class="col-md-4">
-        <button type="button" class="btn btn-outline-default" aria-label="Annuler" {{on "click" this.cancelEdit}}>Annuler</button>
-        <button type="submit" class="btn btn-success" aria-label="Editer">Editer</button>
+      <div class="col-md-4 form-actions">
+        <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.cancelEdit}}>Annuler</PixButton>
+        <PixButton @type="submit" @size="small" @backgroundColor="green">Editer</PixButton>
       </div>
     </form>
   {{else}}
@@ -109,26 +113,35 @@
             </div>
           </div>
           <div>
-            <a class="btn btn-outline-default" aria-label="Tableau de bord" href="{{this.externalURL}}" target="_blank" rel="noopener noreferrer">Tableau de bord</a>
+            <PixButtonLink
+              @backgroundColor="transparent-light"
+              @isBorderVisible={{true}}
+              @href={{this.externalURL}}
+              @size="small"
+              class="pix-button__secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >Tableau de bord</PixButtonLink>
           </div>
         </div>
       </section>
-      <div class="col-md-4">
-          <button
-            type="button"
-            class="btn btn-outline-default"
-            {{on "click" this.changeEditionMode}}
+      <div class="col-md-4 form-actions">
+          <PixButton
+            @size="small"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{this.changeEditionMode}}
           >
             Modifier
-          </button>
+          </PixButton>
         {{#if this.canAdministratorAnonymizeUser}}
-          <button
-            type="button"
-            class="btn btn-danger"
-            {{on "click" this.toggleDisplayAnonymizeModal}}
+          <PixButton
+            @size="small"
+            @backgroundColor="red"
+            @triggerAction={{this.toggleDisplayAnonymizeModal}}
           >
             Anonymiser cet utilisateur
-          </button>
+          </PixButton>
         {{/if}}
       </div>
     </form>
@@ -150,11 +163,10 @@
     </div>
     {{#if (and @user.hasEmailAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'EMAIL'}}
-              data-test-remove-email>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'EMAIL'}}
+        data-test-remove-email>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -169,11 +181,10 @@
     </div>
     {{#if (and @user.hasUsernameAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'USERNAME'}}
-              data-test-remove-username>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'USERNAME'}}
+        data-test-remove-username>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -188,11 +199,10 @@
     </div>
     {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
-              data-test-remove-pole-emploi>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
+        data-test-remove-pole-emploi>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -207,11 +217,10 @@
     </div>
     {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
-              class="user-authentication-method__remove-button"
-              @type="button"
-              @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
-              data-test-remove-mediacentre>
-        SUPPRIMER
+        class="user-authentication-method__remove-button"
+        @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
+        data-test-remove-mediacentre>
+          SUPPRIMER
       </PixButton>
     {{/if}}
   </div>
@@ -252,10 +261,10 @@
           <td>{{format-date schoolingRegistration.updatedAt}}</td>
           <td>
             <PixButton
-                    @triggerAction={{fn this.toggleDisplayDissociateModal schoolingRegistration}}
-                    @border="squircle-small"
-                    class="btn btn-danger"
-                    data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
+              @triggerAction={{fn this.toggleDisplayDissociateModal schoolingRegistration}}
+              @size="small"
+              @backgroundColor="red"
+              data-test-dissociate-schooling-registration="{{schoolingRegistration.id}}"
             >
               Dissocier
             </PixButton>

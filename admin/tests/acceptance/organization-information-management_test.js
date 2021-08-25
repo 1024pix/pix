@@ -1,8 +1,10 @@
 import { module, test } from 'qunit';
-import { click, fillIn, visit } from '@ember/test-helpers';
+import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | organization information management', function(hooks) {
   setupApplicationTest(hooks);
@@ -19,11 +21,11 @@ module('Acceptance | organization information management', function(hooks) {
       // given
       const organization = this.server.create('organization', { name: 'oldOrganizationName' });
       await visit(`/organizations/${organization.id}`);
-      await click('button[aria-label="Editer"]');
+      await clickByLabel('Editer');
 
       // when
-      await fillIn('#name', 'newOrganizationName');
-      await click('button[aria-label="Enregistrer"]');
+      await fillInByLabel('Nom', 'newOrganizationName');
+      await clickByLabel('Ajouter');
 
       // then
       assert.contains('newOrganizationName');

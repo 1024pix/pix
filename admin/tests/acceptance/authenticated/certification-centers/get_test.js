@@ -92,7 +92,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
 
       // then
       assert.contains('Ajouter un membre');
-      assert.dom('[placeholder="Adresse e-mail"]').exists();
+      assert.dom('[aria-label="Adresse e-mail du nouveau membre"]').exists();
       assert.dom('button').hasText('Valider');
       assert.dom('.error').notExists;
     });

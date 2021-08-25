@@ -52,8 +52,15 @@
     </div>
   </section>
 
-  <section class="form-section form-section--actions">
-    <button class="btn btn-outline-default btn-thin" type="button" {{on "click" @onCancel}}>Annuler</button>
-    <button class="btn btn-success btn-thin" type="submit" disabled={{@isDisabled}}>Enregistrer</button>
+  <section class="form-section form-actions form-section--actions">
+    <PixButton
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      @size="small"
+      @triggerAction={{@onCancel}}
+    >Annuler</PixButton>
+    <PixButton @backgroundColor="green" @size="small" @type="submit" @isDisabled={{@isDisabled}}>
+      Enregistrer
+    </PixButton>
   </section>
 </form>

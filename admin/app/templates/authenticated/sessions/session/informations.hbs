@@ -102,31 +102,27 @@
 
       {{#if this.sessionModel.finalizedAt}}
         {{#if this.isCurrentUserAssignedToSession}}
-          <button type="button" class="btn btn-primary btn-disabled">
-            Vous êtes assigné à cette session
-          </button>
+          <PixButton @size="small" @isDisabled={{true}}>Vous êtes assigné à cette session</PixButton>
         {{else}}
-          <button type="button" class="btn btn-primary" {{on 'click' this.checkForAssignment}}>
-            M'assigner la session
-          </button>
+          <PixButton @size="small" @triggerAction={{this.checkForAssignment}}>M'assigner la session</PixButton>
         {{/if}}
       {{/if}}
 
-      <div class="session-info__copy-button btn--right">
+      <div class="session-info__copy-button">
         {{#if this.isCopyButtonClicked}}
           <p>{{this.copyButtonText}}</p>
         {{/if}}
 
-        <button type="button" class="btn btn-secondary" {{on 'click' this.copyResultsDownloadLink}}>
+        <PixButton size="small" @triggerAction={{this.copyResultsDownloadLink}} @backgroundColor="grey">
           <FaIcon @icon="copy" @prefix="far" class="fa-inverse" aria-label="Copier" />
           Lien de téléchargement des résultats
-        </button>
+        </PixButton>
       </div>
 
       {{#if this.sessionModel.areResultsToBeSentToPrescriber}}
-        <button type="button" class="btn btn-secondary" {{on 'click' this.tagSessionAsSentToPrescriber}}>
+        <PixButton size="small" @triggerAction={{this.tagSessionAsSentToPrescriber}} @backgroundColor="grey">
           Résultats transmis au prescripteur
-        </button>
+        </PixButton>
       {{/if}}
     </div>
   </div>
@@ -148,8 +144,12 @@
       Voulez-vous vous quand même vous assigner cette session ?
     </p>
     <div class="ember-modal-dialog--actions">
-      <button type="button" class="btn btn-secondary" {{on 'click' this.cancelAssignment}}>Annuler</button>
-      <button type="button" class="btn btn-primary" {{on 'click' this.confirmAssignment}}>Confirmer</button>
+      <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="small" @triggerAction={{this.cancelAssignment}}>
+        Annuler
+      </PixButton>
+      <PixButton @size="small" @triggerAction={{this.confirmAssignment}}>
+        Confirmer
+      </PixButton>
     </div>
   </ModalDialog>
 {{/if}}

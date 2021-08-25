@@ -26,10 +26,19 @@
         {{@model.ownerOrganizationId}} </LinkTo><br>
     </div>
     <br>
-    <button type="button" class="btn btn-outline-default" {{on "click" this.toggleEditMode}}>Editer</button>
-    {{#unless @model.outdated}}
-      <button type="button" class="btn btn-danger" {{on "click" this.toggleDisplayConfirm}}>Marquer comme obsolète</button>
-    {{/unless}}
+    <div class="form-actions">
+      <PixButton
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.toggleEditMode}}>Editer</PixButton>
+      {{#unless @model.outdated}}
+        <PixButton
+          @size="small"
+          @backgroundColor="red"
+          @triggerAction={{this.toggleDisplayConfirm}}>Marquer comme obsolète</PixButton>
+      {{/unless}}
+    </div>
   </section>
 
   {{/if}}

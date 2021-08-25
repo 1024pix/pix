@@ -26,19 +26,19 @@
           <td>
             {{#if answer.isNeutralized}}
               <PixButton
-                      @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
-                      @backgroundColor="transparent"
-                      @loading-color="grey"
-                      class="neutralization__neutralize-button"
+                @triggerAction={{fn this.deneutralize answer.challengeId answer.order}}
+                @backgroundColor="transparent"
+                @loading-color="grey"
+                @size="small"
               >
                 Dé-neutraliser
               </PixButton>
             {{else}}
               <PixButton
-                      @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
-                      @backgroundColor="blue"
-                      @loading-color="grey"
-                      class="neutralization__neutralize-button"
+                @triggerAction={{fn this.neutralize answer.challengeId answer.order}}
+                @backgroundColor="blue"
+                @loading-color="white"
+                @size="small"
               >
                 Neutraliser
               </PixButton>
