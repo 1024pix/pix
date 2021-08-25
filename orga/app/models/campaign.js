@@ -22,6 +22,7 @@ export default class Campaign extends Model {
   @attr('string') targetProfileImageUrl;
   @attr('number') participationsCount;
   @attr('number') sharedParticipationsCount;
+  @attr('number') averageResult;
 
   @belongsTo('user') creator;
   @belongsTo('organization') organization;

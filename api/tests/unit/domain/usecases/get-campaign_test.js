@@ -3,30 +3,30 @@ const {
   NotFoundError,
   UserNotAuthorizedToAccessEntityError,
 } = require('../../../../lib/domain/errors');
+const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
 const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
 describe('Unit | UseCase | get-campaign', function() {
 
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const badges = Symbol('badges');
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const stages = Symbol('stages');
-
-  const campaignId = 1;
-  const userId = 1;
-  const campaign = {
-    id: campaignId,
-    name: 'My campaign',
-  };
-
+  let userId, campaignId, campaign, stages, badges, masteryPercentages;
   let campaignRepository;
   let campaignReportRepository;
   let stageRepository;
   let badgeRepository;
 
   beforeEach(function() {
+    badges = Symbol('badges');
+    stages = Symbol('stages');
+    masteryPercentages = Symbol('masteryPercentages');
+
+    campaignId = 1;
+    userId = 1;
+    campaign = new CampaignReport({
+      id: campaignId,
+      name: 'My campaign',
+      type: 'ASSESSMENT',
+    });
+
     badgeRepository = {
       findByCampaignId: sinon.stub(),
     };
@@ -35,6 +35,7 @@ describe('Unit | UseCase | get-campaign', function() {
     };
     campaignReportRepository = {
       get: sinon.stub(),
+      findMasteryPercentages: sinon.stub(),
     };
     stageRepository = {
       findByCampaignId: sinon.stub(),
@@ -43,7 +44,9 @@ describe('Unit | UseCase | get-campaign', function() {
     badgeRepository.findByCampaignId.resolves(badges);
     campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
     campaignReportRepository.get.resolves(campaign);
+    campaignReportRepository.findMasteryPercentages.resolves(masteryPercentages);
     stageRepository.findByCampaignId.resolves(stages);
+    sinon.stub(CampaignReport.prototype, 'computeAverageResult');
   });
 
   it('should get the campaign', async function() {
@@ -91,6 +94,42 @@ describe('Unit | UseCase | get-campaign', function() {
 
     // then
     expect(resultCampaign.badges).to.equal(badges);
+  });
+
+  it('should compute average results if campaign type is assessment', async function() {
+    // when
+    await getCampaign({
+      campaignId,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
+
+    // then
+    sinon.assert.calledWithExactly(CampaignReport.prototype.computeAverageResult, masteryPercentages);
+  });
+
+  it('should not compute average results if campaign type is profiles collection', async function() {
+    const profilesCollectionCampaign = new CampaignReport({
+      id: 999,
+      type: 'PROFILES_COLLECTION',
+    });
+    campaignReportRepository.get.resolves(profilesCollectionCampaign);
+
+    // when
+    await getCampaign({
+      campaignId: profilesCollectionCampaign.id,
+      userId,
+      badgeRepository,
+      campaignRepository,
+      campaignReportRepository,
+      stageRepository,
+    });
+
+    // then
+    sinon.assert.notCalled(CampaignReport.prototype.computeAverageResult);
   });
 
   it('should throw a Not found error when the campaign is searched with a not valid ID', async function() {

@@ -12,7 +12,7 @@ module.exports = {
       attributes: ['name', 'code', 'title', 'type', 'createdAt', 'customLandingPageText', 'isArchived',
         'tokenForCampaignResults', 'idPixLabel', 'targetProfileId', 'targetProfileName', 'targetProfileImageUrl',
         'creatorId', 'creatorLastName', 'creatorFirstName', 'participationsCount', 'sharedParticipationsCount',
-        'campaignCollectiveResult', 'campaignAnalysis', 'divisions', 'stages', 'badges'],
+        'averageResult', 'campaignCollectiveResult', 'campaignAnalysis', 'divisions', 'stages', 'badges'],
       stages: {
         ref: 'id',
         included: true,

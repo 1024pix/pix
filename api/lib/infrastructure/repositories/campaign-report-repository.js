@@ -48,6 +48,15 @@ module.exports = {
     return new CampaignReport({ ...result, id });
   },
 
+  async findMasteryPercentages(campaignId) {
+    const results = await knex('campaign-participations')
+      .select('masteryPercentage')
+      .where('isImproved', false)
+      .andWhere('isShared', true)
+      .andWhere({ campaignId });
+    return results.map((result) => Number(result.masteryPercentage));
+  },
+
   async findPaginatedFilteredByOrganizationId({ organizationId, filter, page }) {
     const query = knex('campaigns')
       .distinct('campaigns.id')

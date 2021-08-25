@@ -82,9 +82,9 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
 
   context('when the campaign manage stages', function() {
     it('should return participations counts by stages', async function() {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 0 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 1 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, validatedSkillsCount: 2 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.31 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.72 });
       await databaseBuilder.commit();
 
       // when

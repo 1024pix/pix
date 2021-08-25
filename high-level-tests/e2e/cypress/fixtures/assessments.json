@@ -9,14 +9,14 @@
   {
     "id": 2,
     "campaignParticipationId": 2,
-    "state": "started",
+    "state": "completed",
     "type": "CAMPAIGN",
     "userId": 5
   },
   {
     "id": 3,
     "campaignParticipationId": 3,
-    "state": "aborted",
+    "state": "started",
     "type": "CAMPAIGN",
     "userId": 6
   },

@@ -23,7 +23,6 @@ export default class AssessmentResultsRoute extends Route {
 
   async model(params) {
     const campaign = this.modelFor('authenticated.campaigns.campaign');
-    await campaign.belongsTo('campaignCollectiveResult').reload();
     return RSVP.hash({
       campaign,
       participations: this.fetchResultMinimalList({ campaignId: campaign.id, ...params }),

@@ -183,6 +183,38 @@ class TargetProfileWithLearningContent {
     if (!stageIds || stageIds.length === 0) return null;
     return this.getStageSkillsBoundaries().filter((boundary) => stageIds.includes(boundary.id));
   }
+
+  getStageThresholdBoundaries() {
+    const boundaries = [];
+    let lastTo = null;
+
+    this.stages.forEach((currentStage, index) => {
+      let to, from;
+
+      if (lastTo === null) {
+        from = currentStage.threshold;
+      } else {
+        from = lastTo + 1;
+      }
+
+      if (index + 1 >= this.stages.length) {
+        to = 100;
+      } else {
+        const nextThreshold = this.stages[index + 1].threshold;
+        to = Math.max(from, nextThreshold - 1);
+      }
+
+      lastTo = to;
+      boundaries.push({ id: currentStage.id, from, to });
+    });
+
+    return boundaries;
+  }
+
+  getThresholdBoundariesFromStages(stageIds) {
+    if (!stageIds || stageIds.length === 0) return null;
+    return this.getStageThresholdBoundaries().filter((boundary) => stageIds.includes(boundary.id));
+  }
 }
 
 module.exports = TargetProfileWithLearningContent;
