@@ -29,6 +29,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         'campaign-participations.sharedAt',
         'campaign-participations.isShared',
         'campaign-participations.participantExternalId',
+        'campaign-participations.pixScore',
       ])
         .from('campaign-participations')
         .leftJoin('users', 'campaign-participations.userId', 'users.id')
