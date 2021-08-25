@@ -86,7 +86,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       beforeEach(async function() {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const userId = 999;
-        campaignParticipation = { id: 888, userId, campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu' };
+        campaignParticipation = { id: 888, userId, campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
         databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId, firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation, false);
 
         databaseBuilder.factory.buildKnowledgeElement({
