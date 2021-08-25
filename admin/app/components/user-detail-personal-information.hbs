@@ -200,7 +200,6 @@
     {{#if (and @user.hasPoleEmploiAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
         class="user-authentication-method__remove-button"
-        @type="button"
         @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'POLE_EMPLOI'}}
         data-test-remove-pole-emploi>
           SUPPRIMER
@@ -219,7 +218,6 @@
     {{#if (and @user.hasGARAuthenticationMethod (not @user.hasOnlyOneAuthenticationMethod))}}
       <PixButton
         class="user-authentication-method__remove-button"
-        @type="button"
         @triggerAction={{fn this.toggleDisplayRemoveAuthenticationMethodModal 'GAR'}}
         data-test-remove-mediacentre>
           SUPPRIMER
