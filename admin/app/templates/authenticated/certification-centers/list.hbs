@@ -2,9 +2,14 @@
 <header class="page-header">
   <div class="page-title">Tous les centres de certification</div>
   <div class="page-actions">
-    <LinkTo @route="authenticated.certification-centers.new" class="btn btn-outline-default btn-thin">
-      <FaIcon @icon="plus"></FaIcon>&nbsp;Nouveau centre de certif
-    </LinkTo>
+    <PixButton
+      @route="authenticated.certification-centers.new"
+      @backgroundColor="transparent-light"
+      @isBorderVisible={{true}}
+      class="pix-button__secondary"
+    >
+      <FaIcon @icon="plus"/>Nouveau centre de certif
+    </PixButton>
   </div>
 </header>
 
