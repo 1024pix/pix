@@ -2,30 +2,6 @@ const { expect } = require('../../../test-helper');
 const CampaignProfile = require('../../../../lib/domain/read-models/CampaignProfile');
 
 describe('Unit | Domain | Read-Models | CampaignProfile', function() {
-  describe('#pixScore', function() {
-    context('when the campaign participation is shared', function() {
-      it('compute the total pix score certification profile', function() {
-        const params = { isShared: true };
-        const placementProfile = { getPixScore: () => 8 };
-
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
-
-        expect(campaignProfile.pixScore).to.equal(8);
-      });
-    });
-
-    context('when the campaign participation is not shared', function() {
-      it('does not compute the pix score', function() {
-        const params = { isShared: false };
-        const placementProfile = { getPixScore: () => 2 };
-
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
-
-        expect(campaignProfile.pixScore).to.equal(null);
-      });
-    });
-  });
-
   describe('#isCertifiable', function() {
     describe('when the  campaign participation is shared', function() {
       it('compute the number of certifiable competence', function() {
@@ -203,6 +179,16 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
       const campaignProfile = new CampaignProfile(params);
 
       expect(campaignProfile.createdAt).to.deep.equal(new Date('2020-01-02'));
+    });
+  });
+
+  describe('#pixScore', function() {
+    it('returns the pixScore', function() {
+      const params = { pixScore: 768 };
+
+      const campaignProfile = new CampaignProfile(params);
+
+      expect(campaignProfile.pixScore).to.equal(768);
     });
   });
 });
