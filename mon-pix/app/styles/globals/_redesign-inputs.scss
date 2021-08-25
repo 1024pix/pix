@@ -180,6 +180,12 @@ input[type=radio]:active::before {
   top: 3px;
 }
 
+.picture-checkbox-proposal--qcm {
+  position: absolute;
+  left: -11px;
+  top: 3px;
+}
+
 .qcm-panel__proposal-label {
   display: inline-block;
   line-height: 21px;
