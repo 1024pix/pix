@@ -28,18 +28,17 @@
         id="userEmailToAdd"
         @type="email"
         @value={{this.userEmailToAdd}}
-        aria-label="Adresse e-mail"
+        aria-label="Adresse e-mail du nouveau membre"
         class="form-field__text form-control"
-        placeholder="Adresse e-mail"
+        placeholder="membre@inviter.net"
         {{on "focusout" this.updateEmailErrorMessage}}
       />
 
       <PixButton
         @triggerAction={{this.addCertificationCenterMembership}}
-        @backgroundColor="transparent"
-        @loading-color="grey"
         @isDisabled={{this.isDisabled}}
-        class="btn btn-outline-default"
+        @size="small"
+        aria-label="Ajouter le membre"
         data-test-add-membership
       >
         Valider

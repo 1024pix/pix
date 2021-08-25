@@ -19,63 +19,64 @@
 </td>
 <td>
   <div class="member-item-actions">
-    <div>
-      {{#if this.isEditionMode}}
-        <div>
-          <button type="button"
-                  class="btn btn-primary btn-sm"
-                  aria-label="Enregistrer"
-                  {{on 'click' this.updateRoleOfMember}}>
-            Enregistrer
-          </button>
-          <button type="button"
-                  class="btn btn-outline-default btn-sm"
-                  aria-label="Annuler"
-                  {{on 'click' this.cancelUpdateRoleOfMember}}>
-            <FaIcon @icon='times' />
-          </button>
-        </div>
-      {{else}}
-        <div>
-          {{#if @membership.isSaving}}
-            <button type="button"
-                    class="btn btn-primary btn-sm"
-                    aria-label="Modifier le rôle"
-                    disabled>
-              <FaIcon @icon="edit" />
-              Modifier le rôle
-            </button>
-          {{else}}
-            <button type="button"
-                    class="btn btn-primary btn-sm"
-                    aria-label="Modifier le rôle"
-                    {{on 'click' this.editRoleOfMember}}>
-              <FaIcon @icon="edit" />
-              Modifier le rôle
-            </button>
-          {{/if}}
-        </div>
-      {{/if}}
-    </div>
-    <div>
+    {{#if this.isEditionMode}}
+      <div class="member-item-actions__modify">
+        <PixButton
+          @size="small"
+          @triggerAction={{this.updateRoleOfMember}}
+          class="member-item-actions__button member-item-actions__button--save"
+        >
+          Enregistrer
+        </PixButton>
+        <PixButton
+          @size="small"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.cancelUpdateRoleOfMember}}
+          aria-label="Annuler"
+          class="member-item-actions__button--icon"
+        >
+          <FaIcon @icon='times' />
+        </PixButton>
+      </div>
+    {{else}}
       {{#if @membership.isSaving}}
-        <button type="button"
-                class="btn btn-danger btn-sm disable-membership-button"
-                aria-label="Désactiver"
-                disabled>
-          <FaIcon @icon="trash" />
-          Désactiver
-        </button>
+        <PixButton
+          @isDisabled={{true}}
+          @size="small"
+          class="member-item-actions__button"
+        >
+          <FaIcon @icon="edit" />Modifier le rôle
+        </PixButton>
       {{else}}
-        <button type="button"
-                class="btn btn-danger btn-sm disable-membership-button"
-                aria-label="Désactiver"
-                {{on 'click' this.toggleDisplayConfirm}}>
-          <FaIcon @icon="trash" />
-          Désactiver
-        </button>
-      {{/if }}
-    </div>
+        <PixButton
+          @triggerAction={{this.editRoleOfMember}}
+          @size="small"
+          class="member-item-actions__button"
+        >
+          <FaIcon @icon="edit" />Modifier le rôle
+        </PixButton>
+      {{/if}}
+    {{/if}}
+    {{#if @membership.isSaving}}
+      <PixButton
+        @size="small"
+        @backgroundColor="red"
+        @isDisabled={{true}}
+        class="member-item-actions__button"
+      >
+        <FaIcon @icon="trash" />Désactiver
+      </PixButton>
+    {{else}}
+      <PixButton
+        @size="small"
+        @backgroundColor="red"
+        @triggerAction={{this.toggleDisplayConfirm}}
+        class="member-item-actions__button"
+      >
+        <FaIcon @icon="trash" />Désactiver
+      </PixButton>
+    {{/if }}
   </div>
 </td>
 

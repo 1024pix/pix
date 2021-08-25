@@ -272,8 +272,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
       await clickByLabel('Modifier');
 
       // then
-      assert.dom('button[aria-label="Editer"]').exists();
-      assert.dom('button[aria-label="Annuler"]').exists();
+      assert.contains('Editer');
+      assert.contains('Annuler');
     });
 
     test('should display user’s first name and last name in edit mode', async function(assert) {

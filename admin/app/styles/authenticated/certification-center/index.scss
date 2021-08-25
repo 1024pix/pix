@@ -18,12 +18,12 @@
     &__section {
       display: flex;
       justify-content: center;
+      max-height: 38px;
 
       input {
         width: 310px;
       }
     }
-
   }
 
   .error {

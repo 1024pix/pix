@@ -37,10 +37,10 @@ module('Integration | Component | TargetProfiles::Badges', function(hooks) {
     assert.dom('tbody tr td:nth-child(2) img').exists();
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('src'), 'data:,');
     assert.equal(find('tbody tr td:nth-child(2) img').getAttribute('alt'), 'My alt message');
-    assert.equal(find('tbody tr td:nth-child(3)').textContent, 'My key');
-    assert.equal(find('tbody tr td:nth-child(4)').textContent, 'My title');
-    assert.equal(find('tbody tr td:nth-child(5)').textContent, 'My message');
-    assert.equal(find('tbody tr td:nth-child(6)').textContent, 'Voir détail');
+    assert.contains('My key');
+    assert.contains('My title');
+    assert.contains('My message');
+    assert.contains('Voir détail');
     assert.notContains('Aucun résultat thématique associé');
   });
 

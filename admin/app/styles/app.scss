@@ -10,7 +10,6 @@
 @import 'globals/global';
 @import 'globals/utils';
 @import 'globals/button';
-@import 'globals/callout';
 @import 'globals/fonts';
 @import 'globals/form';
 @import 'globals/nav';
@@ -26,7 +25,6 @@
 @import 'authenticated/certifications/index';
 @import 'authenticated/certifications/certification/details';
 @import 'authenticated/certifications/certification/informations';
-@import 'authenticated/certifications/certification/neutralization';
 @import 'authenticated/certification-center/index';
 @import 'authenticated/organizations/get';
 @import 'authenticated/organizations/all-tags';
@@ -38,6 +36,7 @@
 /* components */
 @import 'components/common/tick-or-cross';
 @import 'components/certification/candidate-edit-modal';
+@import 'components/certification/certification-status-select';
 @import 'components/certification-center-form';
 @import 'components/certification-details-answer';
 @import 'components/certification-details-competence';
@@ -52,6 +51,7 @@
 @import 'components/organization-members-section';
 @import 'components/pagination-control';
 @import 'components/publish-session-button';
+@import 'components/sessions/list-items.scss';
 @import 'components/user-detail-personal-information-section';
 @import 'components/target-profiles/badges';
 @import 'components/target-profiles/create-target-profile-form';

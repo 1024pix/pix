@@ -1,10 +1,18 @@
-.user-detail-personal-information-section{
+.user-detail-personal-information-section {
 
   &__content {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     max-width: 600px;
+  }
+
+  &__buttons {
+    display: flex;
+
+    button {
+      margin-right: 12px;
+    }
   }
 }
 
@@ -21,12 +29,18 @@
     color: $grey-40;
   }
 
-  &__remove-button {
+  &__remove-button.pix-button {
     background-color: transparent;
-    color: red;
+    color: $error;
     font-size: 0.75rem;
     border: none;
     padding: 0 0 0 10px;
+
+    &:hover {
+      background-color: transparent;
+      box-shadow: none;
+      color: $dark-error;
+    }
   }
 
   .user-authentication-method-item {

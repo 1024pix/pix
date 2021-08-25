@@ -1,7 +1,29 @@
 .member-item-actions {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+
+  &__modify {
+    display: flex;
+  }
+
+  &__button {
+    max-height: 30px;
+    margin-bottom: 4px;
+
+    svg {
+      margin-right: 6px;
+    }
+
+    &--save {
+      margin-right: 12px
+    }
+
+    &--icon {
+      height: 30px;
+      width: 30px;
+    }
+  }
+
 }
 
 .disable-membership-button {

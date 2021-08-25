@@ -50,12 +50,15 @@
   margin-top: 0;
 }
 
-.login-form__field,
-.login-form__button {
+.login-form__field {
   box-sizing: border-box;
   width: 100%;
   border-radius: 3px;
   font-size: 14px;
+}
+
+.login-form__button {
+  width: 100%;
 }
 
 .login-form__field {
