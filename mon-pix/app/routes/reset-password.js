@@ -6,6 +6,7 @@ export default class ResetPasswordRoute extends Route {
   @service errors;
   @service intl;
   @service session;
+  @service store;
 
   async model(params) {
     const passwordResetTemporaryKey = params.temporary_key;

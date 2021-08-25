@@ -9,6 +9,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   @service currentUser;
   @service session;
   @service campaignStorage;
+  @service store;
 
   state = null;
 

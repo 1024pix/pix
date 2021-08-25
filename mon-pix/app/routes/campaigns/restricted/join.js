@@ -10,6 +10,7 @@ export default class JoinRoute extends Route {
   @service currentUser;
   @service session;
   @service campaignStorage;
+  @service store;
 
   model() {
     return this.modelFor('campaigns');

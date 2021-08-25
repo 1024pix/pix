@@ -5,6 +5,7 @@ import Route from '@ember/routing/route';
 export default class ResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service router;
+  @service store;
 
   competenceId = null;
 

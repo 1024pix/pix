@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 
 export default class ChallengeRoute extends Route {
   @service currentUser;
+  @service store;
 
   async model(params) {
     const assessment = await this.modelFor('assessments');

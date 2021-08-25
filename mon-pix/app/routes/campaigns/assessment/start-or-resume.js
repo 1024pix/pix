@@ -5,6 +5,7 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
+  @service store;
 
   userHasJustConsultedTutorial = false;
 
