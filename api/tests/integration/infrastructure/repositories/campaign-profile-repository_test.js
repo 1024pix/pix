@@ -190,7 +190,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.certifiableCompetencesCount).to.equal(1);
       });
 
-      it('return the total pix score limited to MAX_REACHABLE_PIX_BY_COMPETENCE', async function() {
+      it('return the total pix score', async function() {
         databaseBuilder.factory.buildCampaign().id;
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
@@ -199,6 +199,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
           userId: user.id,
           sharedAt: new Date('2020-01-02'),
           isShared: true,
+          pixScore: 80,
         });
         databaseBuilder.factory.buildKnowledgeElement({ userId: user.id,
           earnedPix: 1024,
@@ -220,7 +221,7 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
         expect(campaignProfile.pixScore).to.equal(80);
       });
 
-      it('computes certification informations with knowledge elements acquired before the sharing date of the campaign participation', async function() {
+      it('computes certifiable competences acquired before the sharing date of the campaign participation', async function() {
         databaseBuilder.factory.buildCampaign().id;
         const campaignId = databaseBuilder.factory.buildCampaign().id;
 
@@ -245,7 +246,6 @@ describe('Integration | Repository | CampaignProfileRepository', function() {
 
         const campaignProfile = await CampaignProfileRepository.findProfile({ campaignId, campaignParticipationId: campaignParticipation.id, locale });
 
-        expect(campaignProfile.pixScore).to.equal(PIX_COUNT_BY_LEVEL);
         expect(campaignProfile.certifiableCompetencesCount).to.equal(1);
       });
     });
