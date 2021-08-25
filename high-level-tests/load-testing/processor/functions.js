@@ -14,7 +14,8 @@ function foundNextChallenge(context, next) {
 }
 
 function handleResponseForChallengeId(requestParams, response, context, events, next) {
-  context.vars.challengeId = get(response, 'body.data.id');
+  const responseBody = JSON.parse(response.body);
+  context.vars.challengeId = get(responseBody, 'data.id');
   return next();
 }
 
