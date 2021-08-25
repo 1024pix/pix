@@ -1,3 +1,4 @@
+const performanceTool = require('../../infrastructure/performance-tools');
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
 
@@ -24,7 +25,7 @@ module.exports = {
     } = await DomainTransaction.execute((domainTransaction) => {
       return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
     });
-    await events.eventDispatcher.dispatch(event);
+    events.eventDispatcher.dispatch(event).catch((error) => performanceTool.logErrorWithCorrelationId(error));
 
     return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
   },
