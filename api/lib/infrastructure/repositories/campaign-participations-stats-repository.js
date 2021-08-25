@@ -8,6 +8,16 @@ const CampaignParticipationsStatsRepository = {
     ]);
     return { startedParticipations, sharedParticipations };
   },
+
+  async countParticipationsByMasteryRate({ campaignId }) {
+    return knex('campaign-participations')
+      .select('masteryPercentage AS  masteryRate')
+      .count()
+      .where({ campaignId, isShared: true, isImproved: false })
+      .whereNotNull('masteryPercentage')
+      .groupBy('masteryPercentage')
+      .orderBy('masteryPercentage', 'ASC');
+  },
 };
 
 async function _getCumulativeParticipationCountsByDay(campaignId, column) {
