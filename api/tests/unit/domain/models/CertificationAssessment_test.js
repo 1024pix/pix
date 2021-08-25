@@ -496,7 +496,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
   });
 
   describe('#hasUnsufficientAnsweringRateToBeScored', function() {
-    it('returns true when answering rate < 33%', function() {
+    it(`returns true when candidate answering rate < ${CertificationAssessment.MINIMUM_ACCEPTABLE_ANSWERING_RATE}`, function() {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationChallenges: [
@@ -507,13 +507,14 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
         ],
         certificationAnswersByDate: [
           domainBuilder.buildAnswer(),
+          domainBuilder.buildAnswer(),
         ],
       });
       // when / then
       expect(certificationAssessment.hasUnsufficientAnsweringRateToBeScored()).to.be.true;
     });
 
-    it('returns false when answering rate > 33%', function() {
+    it(`returns false when candidate answering rate > ${CertificationAssessment.MINIMUM_ACCEPTABLE_ANSWERING_RATE}`, function() {
       // given
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationChallenges: [
@@ -523,6 +524,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
           domainBuilder.buildCertificationChallenge(),
         ],
         certificationAnswersByDate: [
+          domainBuilder.buildAnswer(),
           domainBuilder.buildAnswer(),
           domainBuilder.buildAnswer(),
         ],

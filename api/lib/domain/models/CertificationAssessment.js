@@ -23,6 +23,8 @@ const certificationAssessmentSchema = Joi.object({
   certificationAnswersByDate: Joi.array().min(0).required(),
 });
 
+const MINIMUM_ACCEPTABLE_ANSWERING_RATE = 66;
+
 class CertificationAssessment {
 
   constructor({
@@ -109,8 +111,8 @@ class CertificationAssessment {
   }
 
   hasUnsufficientAnsweringRateToBeScored() {
-    const answeringRate = (this.certificationAnswersByDate.length / this.certificationChallenges.length) * 100;
-    return answeringRate < 33;
+    const candidateAnsweringRate = (this.certificationAnswersByDate.length / this.certificationChallenges.length) * 100;
+    return candidateAnsweringRate < MINIMUM_ACCEPTABLE_ANSWERING_RATE;
   }
 
   getChallengeRecIdByQuestionNumber(questionNumber) {
@@ -126,5 +128,6 @@ function _isAnswerKoOrSkippedOrPartially(answerStatus) {
 }
 
 CertificationAssessment.states = states;
+CertificationAssessment.MINIMUM_ACCEPTABLE_ANSWERING_RATE = MINIMUM_ACCEPTABLE_ANSWERING_RATE;
 
 module.exports = CertificationAssessment;
