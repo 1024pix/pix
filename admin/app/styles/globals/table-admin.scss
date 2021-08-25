@@ -1,6 +1,6 @@
 .table-admin {
 
-  a {
+  a:not(.pix-button) {
     color: $pix-blue;
   }
 
