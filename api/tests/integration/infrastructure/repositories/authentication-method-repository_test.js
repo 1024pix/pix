@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const {
   catchErr,
   databaseBuilder,
@@ -48,15 +47,13 @@ describe('Integration | Repository | AuthenticationMethod', function() {
           userId,
         });
         delete authenticationMethod.id;
+        authenticationMethod.authenticationComplement = undefined;
 
         // when
         const savedAuthenticationMethod = await authenticationMethodRepository.create({ authenticationMethod });
 
         // then
-        expect(savedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
-        authenticationMethod.authenticationComplement = undefined;
-        const ignoredColumns = ['id', 'createdAt', 'updatedAt'];
-        expect(_.omit(savedAuthenticationMethod, ignoredColumns)).to.deep.equal(_.omit(authenticationMethod, ignoredColumns));
+        expect(savedAuthenticationMethod).to.deepEqualInstanceOmitting(authenticationMethod, ['id', 'createdAt', 'updatedAt']);
       });
 
       it('should save an AuthenticationMethod in database', async function() {
@@ -213,8 +210,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         hashedPassword: newHashedPassword,
         updatedAt: new Date(),
       });
-      expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
+      expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
     it('should disable changing password', async function() {
@@ -290,8 +286,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       const authenticationMethodsByUserIdAndIdentityProvider = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
 
       // then
-      expect(authenticationMethodsByUserIdAndIdentityProvider).to.be.instanceof(AuthenticationMethod);
-      expect(authenticationMethodsByUserIdAndIdentityProvider).to.deep.equal(garAuthenticationMethod);
+      expect(authenticationMethodsByUserIdAndIdentityProvider).to.deepEqualInstance(garAuthenticationMethod);
     });
 
     it('should return null if there is no AuthenticationMethod for the given user and identity provider', async function() {
@@ -331,8 +326,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       const authenticationMethodsByTypeAndValue = await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({ externalIdentifier, identityProvider });
 
       // then
-      expect(authenticationMethodsByTypeAndValue).to.be.instanceof(AuthenticationMethod);
-      expect(authenticationMethodsByTypeAndValue).to.deep.equal(authenticationMethod);
+      expect(authenticationMethodsByTypeAndValue).to.deepEqualInstance(authenticationMethod);
     });
 
     it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async function() {
@@ -397,7 +391,8 @@ describe('Integration | Repository | AuthenticationMethod', function() {
 
         // then
         authenticationMethod.externalIdentifier = 'new_value';
-        expect(updatedAuthenticationMethod).to.deep.equal({ ...authenticationMethod, updatedAt: new Date() });
+        authenticationMethod.updatedAt = new Date();
+        expect(updatedAuthenticationMethod).to.deepEqualInstance(authenticationMethod);
       });
     });
 
@@ -474,8 +469,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         shouldChangePassword: true,
         updatedAt: new Date(),
       });
-      expect(updatedAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
-      expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
+      expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id not found', async function() {
@@ -546,8 +540,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       });
-      expect(createdAuthenticationMethod).to.be.instanceOf(AuthenticationMethod);
-      expect(createdAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
+      expect(createdAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
     it('should not replace an existing authenticationMethod with a different identity provider', async function() {
@@ -658,8 +651,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       });
 
       // then
-      expect(updatedAuthenticationMethod).to.be.an.instanceOf(AuthenticationMethod);
-      expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
+      expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
     it('should throw AuthenticationMethodNotFoundError when user id is not found', async function() {
@@ -739,7 +731,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
           userId,
           updatedAt: new Date(),
         });
-        expect(updatedAuthenticationMethod).to.deep.equal(expectedAuthenticationMethod);
+        expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
       });
     });
 
@@ -848,11 +840,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
 
       // then
-      expect(authenticationMethods).to.have.length(2);
-      expect(authenticationMethods[0]).to.be.instanceOf(AuthenticationMethod);
-      expect(authenticationMethods[1]).to.be.instanceOf(AuthenticationMethod);
-      expect(authenticationMethods[0]).to.deep.equal(firstAuthenticationMethod);
-      expect(authenticationMethods[1]).to.deep.equal(secondAuthenticationMethod);
+      expect(authenticationMethods).to.deepEqualArray([firstAuthenticationMethod, secondAuthenticationMethod]);
     });
 
     it('should return an empty array if user has no authentication methods', async function() {
@@ -864,7 +852,7 @@ describe('Integration | Repository | AuthenticationMethod', function() {
       const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
 
       // then
-      expect(authenticationMethods.length).to.equal(0);
+      expect(authenticationMethods).to.be.empty;
     });
   });
 });
