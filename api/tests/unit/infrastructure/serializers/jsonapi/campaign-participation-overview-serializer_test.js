@@ -30,6 +30,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       campaignTitle: 'My campaign',
       campaignArchivedAt: new Date('2021-01-01'),
       targetProfile,
+      masteryPercentage: '0.50',
     });
 
     let expectedSerializedCampaignParticipationOverview;
@@ -48,7 +49,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'campaign-code': '1234',
             'campaign-title': 'My campaign',
             'campaign-archived-at': new Date('2021-01-01'),
-            'mastery-percentage': 50,
+            'mastery-percentage': '0.50',
             'validated-stages-count': 1,
             'total-stages-count': 2,
           },
@@ -82,6 +83,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
           targetProfile,
+          masteryPercentage: null,
         }),
         new CampaignParticipationOverview({
           id: 7,
@@ -94,6 +96,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
           targetProfile,
+          masteryPercentage: null,
         }),
       ];
       const pagination = {
