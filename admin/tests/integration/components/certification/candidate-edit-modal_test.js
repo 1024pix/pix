@@ -4,6 +4,7 @@ import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
+import { run } from '@ember/runloop';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
@@ -12,11 +13,17 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 module('Integration | Component | <Certification::CandidateEditModal/>', function(hooks) {
   setupRenderingTest(hooks);
 
+  let store;
+
+  hooks.beforeEach(async function() {
+    store = this.owner.lookup('service:store');
+  });
+
   module('#display', function() {
 
     test('it should display the modal', async function(assert) {
       // given
-      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
       this.countries = [];
 
       // when
@@ -28,7 +35,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should not display the modal', async function(assert) {
       // given
-      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
       this.countries = [];
 
       // when
@@ -43,7 +50,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should reset form', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Fabrice',
         lastName: 'Gadjo',
         birthdate: '2000-12-15',
@@ -51,7 +58,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthInseeCode: '99101',
         birthplace: 'Copenhague',
         birthCountry: 'DANEMARK',
-      });
+      }));
       this.countries = [
         EmberObject.create({ code: '99101', name: 'DANEMARK' }),
         EmberObject.create({ code: '99100', name: 'FRANCE' }),
@@ -89,7 +96,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should call the onCancelButtonsClicked action', async function(assert) {
       // given
-      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
       this.countries = [];
       this.onCancelButtonsClickedStub = sinon.stub();
       await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}}  @onCancelButtonsClicked={{this.onCancelButtonsClickedStub}} @countries={{countries}} />`);
@@ -106,7 +113,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should not call the onFormSubmit action if a field is not filled', async function(assert) {
       // given
-      this.candidate = EmberObject.create({ birthdate: '2000-12-15' });
+      this.candidate = run(() => store.createRecord('certification', { birthdate: '2000-12-15' }));
       this.countries = [];
       this.onFormSubmitStub = sinon.stub();
       await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @onFormSubmit={{this.onFormSubmitStub}} @countries={{countries}} />`);
@@ -120,7 +127,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should call the onFormSubmit action if all fields are filled', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Fabrice',
         lastName: 'Gadjo',
         birthdate: '2000-12-15',
@@ -128,7 +135,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthInseeCode: '99101',
         birthplace: 'Copenhague',
         birthCountry: 'DANEMARK',
-      });
+      }));
       this.countries = [
         EmberObject.create({ code: '99101', name: 'DANEMARK' }),
         EmberObject.create({ code: '99100', name: 'FRANCE' }),
@@ -161,7 +168,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
   test('it should display candidate information to edit', async function(assert) {
     // given
-    this.candidate = EmberObject.create({
+    this.candidate = run(() => store.createRecord('certification', {
       firstName: 'Quentin',
       lastName: 'Lebouc',
       birthdate: '2000-12-15',
@@ -169,7 +176,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
       birthPostalCode: '35400',
       birthplace: 'Saint-Malo',
       birthCountry: 'FRANCE',
-    });
+    }));
     this.countries = [
       EmberObject.create({ code: '99101', name: 'DANEMARK' }),
       EmberObject.create({ code: '99100', name: 'FRANCE' }),
@@ -192,7 +199,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should select the insee code option if the candidate insee code is defined', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Quentin',
         lastName: 'Lebouc',
         birthdate: '2000-12-15',
@@ -200,7 +207,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthInseeCode: '35400',
         birthplace: 'Saint-Malo',
         birthCountry: 'FRANCE',
-      });
+      }));
       this.countries = [];
 
       // when
@@ -212,7 +219,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it should select the postal code option if the candidate postal code is defined', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Quentin',
         lastName: 'Lebouc',
         birthdate: '2000-12-15',
@@ -220,7 +227,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthPostalCode: '35400',
         birthplace: 'Saint-Malo',
         birthCountry: 'FRANCE',
-      });
+      }));
       this.countries = [];
 
       // when
@@ -235,7 +242,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it shows city field and hides insee code and postal code fields', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Fabrice',
         lastName: 'Gadjo',
         birthdate: '2000-12-15',
@@ -243,7 +250,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthInseeCode: '75015',
         birthplace: 'PARIS 15',
         birthCountry: 'FRANCE',
-      });
+      }));
       this.countries = [
         EmberObject.create({ code: '99101', name: 'DANEMARK' }),
         EmberObject.create({ code: '99100', name: 'FRANCE' }),
@@ -264,7 +271,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it shows insee code field and hides postal code and city fields', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Fabrice',
         lastName: 'Gadjo',
         birthdate: '2000-12-15',
@@ -272,7 +279,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthPostalCode: '75015',
         birthplace: 'PARIS 15',
         birthCountry: 'FRANCE',
-      });
+      }));
       this.countries = [];
       await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`);
 
@@ -290,7 +297,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
     test('it shows postal code and city fields and hides insee code field', async function(assert) {
       // given
-      this.candidate = EmberObject.create({
+      this.candidate = run(() => store.createRecord('certification', {
         firstName: 'Fabrice',
         lastName: 'Gadjo',
         birthdate: '2000-12-15',
@@ -298,7 +305,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
         birthInseeCode: '75115',
         birthplace: 'PARIS 15',
         birthCountry: 'FRANCE',
-      });
+      }));
       this.countries = [];
       await render(hbs`<Certification::CandidateEditModal @isDisplayed={{true}} @candidate={{candidate}} @countries={{this.countries}}/>`);
 

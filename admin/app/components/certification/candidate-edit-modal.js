@@ -97,27 +97,22 @@ export default class CandidateEditModal extends Component {
   @action
   async onFormSubmit(event) {
     event.preventDefault();
-    const { firstName, lastName, birthdate, birthplace, sex, birthInseeCode, birthPostalCode, birthCountry } = this.args.candidate;
-    this.args.candidate.firstName = this.firstName;
-    this.args.candidate.lastName = this.lastName;
-    this.args.candidate.birthdate = this.birthdate;
-    this.args.candidate.birthplace = this.birthCity;
-    this.args.candidate.sex = this.sex;
-    this.args.candidate.birthInseeCode = this.birthInseeCode;
-    this.args.candidate.birthPostalCode = this.birthPostalCode;
-    this.args.candidate.birthCountry = this.birthCountry;
+    const informationBeforeUpdate = this.args.candidate.getInformation();
+    this.args.candidate.updateInformation({
+      firstName: this.firstName,
+      lastName: this.lastName,
+      birthdate: this.birthdate,
+      birthplace: this.birthCity,
+      sex: this.sex,
+      birthInseeCode: this.birthInseeCode,
+      birthPostalCode: this.birthPostalCode,
+      birthCountry: this.birthCountry,
+    });
     try {
       await this.args.onFormSubmit();
       this._initForm();
     } catch (_) {
-      this.args.candidate.firstName = firstName;
-      this.args.candidate.lastName = lastName;
-      this.args.candidate.birthdate = birthdate;
-      this.args.candidate.birthplace = birthplace;
-      this.args.candidate.sex = sex;
-      this.args.candidate.birthInseeCode = birthInseeCode;
-      this.args.candidate.birthPostalCode = birthPostalCode;
-      this.args.candidate.birthCountry = birthCountry;
+      this.args.candidate.updateInformation(informationBeforeUpdate);
     }
   }
 
