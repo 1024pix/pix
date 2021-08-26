@@ -99,28 +99,28 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
     assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${certificationReport.certificationCourseId}"]`).hasText('2 signalements');
   });
 
-  test('it calls onChangeCancelReason on select update', async function(assert) {
+  test('it calls onChangeAbortReason on select update', async function(assert) {
     // given
     const certificationReport = run(() => store.createRecord('certification-report', {
       isCompleted: false,
     }));
     this.set('certificationReports', [certificationReport]);
-    const onChangeCancelReason = sinon.stub().returns();
-    this.set('onChangeCancelReason', onChangeCancelReason);
+    const onChangeAbortReason = sinon.stub().returns();
+    this.set('onChangeAbortReason', onChangeAbortReason);
 
     // when
     await render(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
-          @onChangeCancelReason={{this.onChangeCancelReason}}
+          @onChangeAbortReason={{this.onChangeAbortReason}}
         />
       `);
 
-    const select = await find('#finalization-report-cancel-reason__select');
+    const select = await find('#finalization-report-abort-reason__select');
     await fillIn(select, 'technical');
 
     // then
-    sinon.assert.calledWith(onChangeCancelReason, 'technical');
+    sinon.assert.calledWith(onChangeAbortReason, 'technical');
     assert.true(true);
   });
 });

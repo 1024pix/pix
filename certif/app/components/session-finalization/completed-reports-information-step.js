@@ -8,18 +8,18 @@ export default class CompletedReportsInformationStep extends Component {
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
 
-  get certifReportsAreNotEmpty() {
+  get certificationReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
   }
 
   get hasCheckedEverything() {
     const allCertifReportsAreCheck = this.args.certificationReports.every((report) => report.hasSeenEndTestScreen);
-    return this.certifReportsAreNotEmpty && allCertifReportsAreCheck;
+    return this.certificationReportsAreNotEmpty && allCertifReportsAreCheck;
   }
 
   get hasCheckedSomething() {
     const hasOneOrMoreCheck = this.args.certificationReports.any((report) => report.hasSeenEndTestScreen);
-    return this.certifReportsAreNotEmpty && hasOneOrMoreCheck;
+    return this.certificationReportsAreNotEmpty && hasOneOrMoreCheck;
   }
 
   get headerCheckboxStatus() {

@@ -108,7 +108,7 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   @action
-  onChangeCancelReason(value) {
+  onChangeAbortReason(value) {
     throw new Error('Not implemented', value);
   }
 }

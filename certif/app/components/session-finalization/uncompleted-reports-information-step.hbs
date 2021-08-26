@@ -49,12 +49,12 @@
               {{/if}}
             </div>
           </td>
-          <td class="finalization-report-cancel-reason">
+          <td class="finalization-report-abort-reason">
             <PixSelect
-              id="finalization-report-cancel-reason__select"
+              id="finalization-report-abort-reason__select"
               @emptyOptionLabel="-- Choisissez --"
-              @onChange={{this.onChangeCancelReason}}
-              @options={{this.cancelOptions}} as |option|>
+              @onChange={{this.onChangeAbortReason}}
+              @options={{this.abortOptions}} as |option|>
               {{option.label}}
             </PixSelect>
           </td>
