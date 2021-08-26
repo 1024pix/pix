@@ -1,11 +1,20 @@
 .session-finalization-reports-information-step {
   font-size: 0.8125rem;
 
-  &__title {
+  &__title-completed {
     display: flex;
-    background: #F4F5F7;
+    background: #DDF4E6;
     margin: 8px;
-    color: #5E6C84;
+    color: #277848;
+    font-weight: bold;
+    padding: 20px 0 20px 24px;
+  }
+
+  &__title-uncompleted {
+    display: flex;
+    background: #FFECB3;
+    margin: 8px;
+    color: #805F00;
     font-weight: bold;
     padding: 20px 0 20px 24px;
   }
