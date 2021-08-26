@@ -282,4 +282,77 @@ module('Unit | Model | certification', function(hooks) {
       assert.equal(juryCertificationSummary.completionDate, '30/06/2021, 15:10:45');
     });
   });
+
+  module('#getInformation', function() {
+
+    test('it should return the certification candidate information', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        sex: 'F',
+        birthInseeCode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'FRANCE',
+      }));
+
+      // when
+      const information = certification.getInformation();
+
+      // then
+      assert.deepEqual(information, {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        sex: 'F',
+        birthInseeCode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'FRANCE',
+      });
+    });
+  });
+
+  module('#updateInformation', function() {
+
+    test('it should update the certification candidate information', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        sex: 'F',
+        birthInseeCode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'FRANCE',
+      }));
+
+      // when
+      certification.updateInformation({
+        firstName: 'Xander',
+        lastName: 'Harris',
+        birthdate: '1981-02-22',
+        birthplace: 'Argelès',
+        sex: 'M',
+        birthInseeCode: '99120',
+        birthPostalCode: null,
+        birthCountry: 'TheMoon !',
+      });
+
+      // then
+      assert.deepEqual(certification.getInformation(), {
+        firstName: 'Xander',
+        lastName: 'Harris',
+        birthdate: '1981-02-22',
+        birthplace: 'Argelès',
+        sex: 'M',
+        birthInseeCode: '99120',
+        birthPostalCode: null,
+        birthCountry: 'TheMoon !',
+      });
+    });
+  });
 });
