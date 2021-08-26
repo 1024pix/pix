@@ -30,9 +30,9 @@
               </li>
             {{/each}}
           </ul>
-          <button type="button" aria-label="Ajouter un signalement" class="button__secondary" {{on 'click' (fn @onClickIssueReport @report)}}>
-            <FaIcon @icon="plus"/>Ajouter un signalement
-          </button>
+          <PixButton @triggerAction={{fn @onClickIssueReport @report}}>
+            <FaIcon @icon="plus"/> Ajouter un signalement
+          </PixButton>
         </div>
 
         {{#if this.showDeletionError}}

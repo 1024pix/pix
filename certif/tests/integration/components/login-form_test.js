@@ -7,6 +7,7 @@ import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import { reject, resolve } from 'rsvp';
 import ENV from 'pix-certif/config/environment';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 const errorMessages = {
   NOT_LINKED_CERTIFICATION_MSG: 'L\'accès à Pix Certif est limité aux centres de certification Pix. Contactez le référent de votre centre de certification si vous pensez avoir besoin d\'y accéder.',
@@ -54,7 +55,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.equal(sessionServiceObserver.authenticator, 'authenticator:oauth2');
@@ -81,7 +82,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'Mauvais mot de passe');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -103,7 +104,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -129,7 +130,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();
@@ -149,7 +150,7 @@ module('Integration | Component | login-form', function(hooks) {
     await fillIn('#login-password', 'JeMeLoggue1024');
 
     //  when
-    await click('.button');
+    await clickByLabel('Je me connecte');
 
     // then
     assert.dom('#login-form-error-message').exists();

@@ -52,13 +52,13 @@
               @onExaminerGlobalCommentChange={{this.updateExaminerGlobalComment}} />
   </SessionFinalizationStepContainer>
 
-  <ActionButton
-          class="finalize__button"
-          data-test-id="finalize__button"
-          @isLoading={{this.isLoading}}
-          @handleClick={{this.openModal}} >
-      Finaliser
-  </ActionButton>
+  <PixButton
+    class="finalize__button"
+    data-test-id="finalize__button"
+    @triggerAction={{this.openModal}}
+  >
+    Finaliser
+  </PixButton>
 </div>
 
 {{#if this.showConfirmModal}}
@@ -82,16 +82,19 @@
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button
-                type="button"
-                class="button button--big"
-                data-test-id="finalize-session-modal__confirm-button"
-          {{on "click" this.finalizeSession}}>Confirmer</button>
-        <button
-                type="button"
-                class="button button--regular button--grey"
-                data-test-id="finalize-session-modal__cancel-button"
-          {{on "click" this.closeModal}}>Annuler</button>
+        <PixButton
+          data-test-id="finalize-session-modal__cancel-button"
+          @triggerAction={{this.closeModal}}
+          @backgroundColor="grey"
+        >
+          Annuler
+        </PixButton>
+        <PixButton
+          data-test-id="finalize-session-modal__confirm-button"
+          @triggerAction={{this.finalizeSession}}
+        >
+          Confirmer
+        </PixButton>
       </div>
     </div>
   </AppModal>

@@ -816,7 +816,7 @@
 
     <div class="terms-of-service-form__actions">
       <LinkTo @route="logout" @id="terms-of-service-cancel-button" class="button button--white button--big button--link">Annuler</LinkTo>
-      <button type="submit" class="button button--extra-big terms-of-service-form__submit" {{on 'click' this.submit}}>J’accepte les conditions d’utilisation</button>
+      <PixButton @triggerAction={{this.submit}}>J’accepte les conditions d’utilisation</PixButton>
     </div>
 
   </div>
