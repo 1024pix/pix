@@ -7,7 +7,7 @@ const AuthenticationMethod = require('../../../../../lib/domain/models/Authentic
 const { notify } = require('../../../../../lib/infrastructure/externals/pole-emploi/pole-emploi-notifier');
 const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
-const logger = require('../../../../../lib/infrastructure/logger');
+const performanceTool = require('../../../../../lib/infrastructure/performance-tools');
 
 describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function() {
 
@@ -45,7 +45,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
       sinon.stub(authenticationMethodRepository, 'updatePoleEmploiAuthenticationComplementByUserId');
-      sinon.stub(logger, 'error');
+      sinon.stub(performanceTool, 'logErrorWithCorrelationId');
 
       settings.poleEmploi.tokenUrl = 'someTokenUrlToPoleEmploi';
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
@@ -216,7 +216,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             payload: sinon.match.any,
           }).resolves(tokenResponse);
 
-          logger.error.resolves();
+          performanceTool.logErrorWithCorrelationId.resolves();
 
           const expectedLoggerMessage = `${errorData.error} ${errorData.error_description}`;
           const expectedResult = {
@@ -228,7 +228,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(logger.error).to.have.been.calledWith(expectedLoggerMessage);
+          expect(performanceTool.logErrorWithCorrelationId).to.have.been.calledWith(expectedLoggerMessage);
           expect(result).to.deep.equal(expectedResult);
         });
 
@@ -263,7 +263,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
               payload: sinon.match.any,
             }).resolves(httpResponse);
 
-          logger.error.resolves();
+          performanceTool.logErrorWithCorrelationId.resolves();
 
           const expectedLoggerMessage = httpResponse.data;
           const expectedResult = {
@@ -275,7 +275,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           const result = await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(logger.error).to.have.been.calledWith(expectedLoggerMessage);
+          expect(performanceTool.logErrorWithCorrelationId).to.have.been.calledWith(expectedLoggerMessage);
           expect(result).to.deep.equal(expectedResult);
         });
       });

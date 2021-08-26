@@ -26,6 +26,32 @@ function logKnexQueriesWithCorrelationId(data, msg) {
   }
 }
 
+function logErrorWithCorrelationId(error) {
+  const request = asyncLocalStorage.getStore();
+  logger.error({
+    request_id: `${get(request, 'info.id', '-')}`,
+    http: {
+      method: get(request, 'method', '-'),
+      url_detail: {
+        path: get(request, 'path', '-'),
+      },
+    },
+  }, error);
+}
+
+function logInfoWithCorrelationId(message) {
+  const request = asyncLocalStorage.getStore();
+  logger.info({
+    request_id: `${get(request, 'info.id', '-')}`,
+    http: {
+      method: get(request, 'method', '-'),
+      url_detail: {
+        path: get(request, 'path', '-'),
+      },
+    },
+  }, message);
+}
+
 function addPositionToQuerieAndIncrementQueriesCounter(knexQueryId) {
   const request = asyncLocalStorage.getStore();
   if (request) {
@@ -40,4 +66,6 @@ module.exports = {
   asyncLocalStorage,
   addPositionToQuerieAndIncrementQueriesCounter,
   logKnexQueriesWithCorrelationId,
+  logErrorWithCorrelationId,
+  logInfoWithCorrelationId,
 };
