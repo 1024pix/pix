@@ -19,7 +19,6 @@ export default class SessionsFinalizeController extends Controller {
 
   examinerGlobalCommentMaxLength = 500;
   issueReportDescriptionMaxLength = 500;
-  @tracked isLoading = false;
   @tracked showConfirmModal = false;
 
   get pageTitle() {
@@ -52,7 +51,6 @@ export default class SessionsFinalizeController extends Controller {
 
   @action
   async finalizeSession() {
-    this.isLoading = true;
     try {
       await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
@@ -61,7 +59,6 @@ export default class SessionsFinalizeController extends Controller {
         ? this.showErrorNotification('Cette session a déjà été finalisée.')
         : this.showErrorNotification('Erreur lors de la finalisation de session.');
     }
-    this.isLoading = false;
     this.showConfirmModal = false;
     this.transitionToRoute('authenticated.sessions.details', this.session.id);
   }

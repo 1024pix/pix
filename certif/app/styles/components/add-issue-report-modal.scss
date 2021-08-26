@@ -196,16 +196,5 @@
     display: flex;
     justify-content: flex-end;
     border-radius: 0 0 5px 5px;
-
-    .button--showed-as-link {
-      font-family: $roboto;
-      text-decoration: none;
-      margin-right: 24px;
-      font-size: 0.875rem;
-
-      &:hover {
-        color: inherit;
-      }
-    }
   }
 }

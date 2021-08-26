@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { click, currentURL, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { currentSession } from 'ember-simple-auth/test-support';
 import {
@@ -7,6 +7,7 @@ import {
   createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -39,7 +40,7 @@ module('Acceptance | terms-of-service', function(hooks) {
       await visit('/cgu');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('J’accepte les conditions d’utilisation');
 
       // then
       certificationPointOfContact.reload();
@@ -53,7 +54,7 @@ module('Acceptance | terms-of-service', function(hooks) {
       await visit('/cgu');
 
       // when
-      await click('button[type=submit]');
+      await clickByLabel('J’accepte les conditions d’utilisation');
 
       // then
       assert.equal(currentURL(), '/sessions/liste');

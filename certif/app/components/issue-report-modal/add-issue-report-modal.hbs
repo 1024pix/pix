@@ -65,8 +65,8 @@
         {{/if}}
 
         <div class="add-issue-report-modal__actions">
-          <button type="button" class="button--showed-as-link" {{on "click" @closeModal}}>Annuler</button>
-          <button type="submit" aria-label="Ajouter le signalement" class="button">Valider</button>
+          <PixButton @triggerAction={{@closeModal}} @backgroundColor="transparent-light">Annuler</PixButton>
+          <PixButton @type="submit" aria-label="Ajouter le signalement">Valider</PixButton>
         </div>
       </div>
     </form>
