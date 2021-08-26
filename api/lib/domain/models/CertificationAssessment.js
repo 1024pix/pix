@@ -108,11 +108,6 @@ class CertificationAssessment {
     return this.state === states.COMPLETED;
   }
 
-  hasUnsufficientAnsweringRateToBeScored() {
-    const answeringRate = (this.certificationAnswersByDate.length / this.certificationChallenges.length) * 100;
-    return answeringRate < 33;
-  }
-
   getChallengeRecIdByQuestionNumber(questionNumber) {
     return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
   }
