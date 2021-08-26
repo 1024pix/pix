@@ -1,13 +1,12 @@
 const get = require('lodash/get');
 const moment = require('moment');
 const querystring = require('querystring');
-
+const performanceTool = require('../../performance-tools');
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const httpAgent = require('../../http/http-agent');
 const settings = require('../../../config');
 const { UnexpectedUserAccountError } = require('../../../domain/errors');
-const logger = require('../../logger');
 
 module.exports = {
   async notify(userId, payload) {
@@ -35,7 +34,7 @@ module.exports = {
 
       if (!tokenResponse.isSuccessful) {
         const errorMessage = _getErrorMessage(tokenResponse.data);
-        logger.error(errorMessage);
+        performanceTool.logErrorWithCorrelationId(errorMessage);
         return {
           isSuccessful: tokenResponse.isSuccessful,
           code: tokenResponse.code || '500',
@@ -63,7 +62,7 @@ module.exports = {
 
     if (!httpResponse.isSuccessful) {
       const errorMessage = _getErrorMessage(httpResponse.data);
-      logger.error(errorMessage);
+      performanceTool.logErrorWithCorrelationId(errorMessage);
     }
 
     return {
