@@ -87,7 +87,7 @@
     "loader.js": "^4.7.0",
     "lodash": "^4.17.21",
     "p-queue": "^6.3.0",
-    "pix-ui": "git://github.com/1024pix/pix-ui.git#v5.2.0",
+    "pix-ui": "git://github.com/1024pix/pix-ui.git#v5.5.0",
     "qunit-dom": "^1.6.0",
     "sass": "^1.32.8",
     "stylelint": "^13.12.0",
