@@ -7,7 +7,7 @@
     margin: 8px;
     color: #5E6C84;
     font-weight: bold;
-    padding: 20px 0 20px 48px;
+    padding: 20px 0 20px 24px;
   }
 
   &__icon {
@@ -17,8 +17,16 @@
 
   table {
     table-layout: initial;
-  }
 
+    th {
+      width: 20%;
+    }
+
+    th:nth-child(3),
+    th:nth-child(4) {
+      width: 15%;
+    }
+  }
 
   &__row {
     display: flex;
