@@ -18,6 +18,7 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function()
       participantExternalId: 'anExternalId',
       createdAt: '2020-01-01',
       sharedAt: '2020-01-02',
+      pixScore: 12,
       placementProfile: new PlacementProfile({
         userCompetences: [
           new UserCompetence({
