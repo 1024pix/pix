@@ -3,13 +3,14 @@ const campaignAnalysisRepository = require('../../../../lib/infrastructure/repos
 const CampaignAnalysis = require('../../../../lib/domain/read-models/CampaignAnalysis');
 const _ = require('lodash');
 
-function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt) {
+function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt, isImproved) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
     isShared: Boolean(sharedAt),
     sharedAt,
+    isImproved,
   });
 
   return { userId, campaignParticipation };
@@ -21,6 +22,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
     campaignId,
     userId,
     isShared: false,
+    isImproved: false,
   });
 
   return { userId, campaignParticipation };
@@ -120,6 +122,7 @@ describe('Integration | Repository | Campaign analysis repository', function() {
             campaignId,
             userId: goliathId,
             isShared: false,
+            isImproved: false,
           });
 
           databaseBuilder.factory.buildKnowledgeElement({
@@ -152,9 +155,9 @@ describe('Integration | Repository | Campaign analysis repository', function() {
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
           const shareDate = new Date('2019-01-02');
           const afterShareDate = new Date('2019-01-03');
-          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, shareDate);
-          const userWithCampaignParticipationJoe = _createUserWithSharedCampaignParticipation('Joe', campaignId, shareDate);
-          const userWithNonSharedParticipation = _createUserWithNonSharedCampaignParticipation('Paul', campaignId, shareDate);
+          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, shareDate, false);
+          const userWithCampaignParticipationJoe = _createUserWithSharedCampaignParticipation('Joe', campaignId, shareDate, false);
+          const userWithNonSharedParticipation = _createUserWithNonSharedCampaignParticipation('Paul', campaignId);
           const fredId = userWithCampaignParticipationFred.userId;
           const joeId = userWithCampaignParticipationJoe.userId;
           const paulId = userWithNonSharedParticipation.userId;
@@ -189,6 +192,41 @@ describe('Integration | Repository | Campaign analysis repository', function() {
           expect(tubeFileRecommendation.averageScore).to.equal(80);
         });
       });
+
+      context('when there are some participants who shared their contribution and try to improve it', function() {
+
+        beforeEach(function() {
+          const beforeCampaignParticipationShareDate = new Date('2019-01-01');
+          const shareDate = new Date('2019-01-02');
+          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, shareDate, true);
+          _createUserWithNonSharedCampaignParticipation('Fred', campaignId);
+          const fredId = userWithCampaignParticipationFred.userId;
+
+          _.each([
+            { userId: fredId, skillId: 'recUrl1', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'recUrl2', status: 'invalidated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'recFile2', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'recFile3', status: 'validated', createdAt: beforeCampaignParticipationShareDate },
+            { userId: fredId, skillId: 'someUntargetedSkill', status: 'validated', campaignId, createdAt: beforeCampaignParticipationShareDate },
+          ], (knowledgeElement) => {
+            databaseBuilder.factory.buildKnowledgeElement(knowledgeElement);
+          });
+
+          return databaseBuilder.commit();
+        });
+
+        it('should resolves an analysis with null average score', async function() {
+          // when
+          const tutorials = [];
+          const actualAnalysis = await campaignAnalysisRepository.getCampaignAnalysis(campaignId, targetProfile, tutorials);
+
+          // then
+          const tubeUrlRecommendation = actualAnalysis.campaignTubeRecommendations[0];
+          expect(tubeUrlRecommendation.averageScore).to.be.null;
+          const tubeFileRecommendation = actualAnalysis.campaignTubeRecommendations[1];
+          expect(tubeFileRecommendation.averageScore).to.be.null;
+        });
+      });
     });
   });
 
@@ -207,7 +245,7 @@ describe('Integration | Repository | Campaign analysis repository', function() {
       beforeEach(async function() {
         campaignId = databaseBuilder.factory.buildCampaign().id;
         const sharedAt = new Date('2020-04-01');
-        const userWithCampaignParticipation = _createUserWithSharedCampaignParticipation('Fred', campaignId, sharedAt);
+        const userWithCampaignParticipation = _createUserWithSharedCampaignParticipation('Fred', campaignId, sharedAt, false);
         userId = userWithCampaignParticipation.userId;
         campaignParticipation = { userId, sharedAt };
 
