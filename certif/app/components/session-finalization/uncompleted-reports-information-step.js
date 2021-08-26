@@ -8,11 +8,11 @@ export default class UncompletedReportsInformationStep extends Component {
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
 
-  get certifReportsAreNotEmpty() {
+  get certificationReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
   }
 
-  get cancelOptions() {
+  get abortOptions() {
     return [
       { label: 'Abandon du candidat', value: 'candidate' },
       { label: 'Problème technique', value: 'technical' },
@@ -44,9 +44,9 @@ export default class UncompletedReportsInformationStep extends Component {
   }
 
   @action
-  onChangeCancelReason(event) {
+  onChangeAbortReason(event) {
     if (event.target.value) {
-      this.args.onChangeCancelReason(event.target.value);
+      this.args.onChangeAbortReason(event.target.value);
     }
   }
 }
