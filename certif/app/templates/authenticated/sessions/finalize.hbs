@@ -24,6 +24,7 @@
       {{/if}}
     {{/if}}
     <SessionFinalization::CompletedReportsInformationStep
+        @session={{this.session}}
         @certificationReports={{this.session.completedCertificationReports}}
         @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
         @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
