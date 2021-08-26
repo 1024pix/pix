@@ -35,6 +35,8 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
     beforeEach(function() {
       sinon.stub(usecases, 'shareCampaignResult');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
+      sinon.stub(performanceTool, 'logErrorWithCorrelationId');
+
     });
 
     it('should call the use case to share campaign result', async function() {
@@ -56,12 +58,31 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
       sinon.stub(events.eventDispatcher, 'dispatch');
+      events.eventDispatcher.dispatch.resolves();
 
       // when
       await campaignParticipationController.shareCampaignResult(request, hFake);
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
+    });
+
+    it('should return an empty response and log an error if the campaign participation results shared event handler failed', async function() {
+      // given
+      const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
+      usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
+      sinon.stub(events.eventDispatcher, 'dispatch');
+      events.eventDispatcher.dispatch.resolves();
+      const errorInHandler = new Error('handlePoleEmploiParticipationShared failed with an error');
+      events.eventDispatcher.dispatch.rejects(errorInHandler);
+
+      // when
+      await campaignParticipationController.shareCampaignResult(request, hFake);
+
+      // then
+      expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
+      expect(performanceTool.logErrorWithCorrelationId).to.have.been.calledWith(errorInHandler);
+
     });
 
     context('when the request comes from a different user', function() {

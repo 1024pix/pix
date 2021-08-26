@@ -38,7 +38,7 @@ module.exports = {
       userId,
       campaignParticipationId,
     });
-    await events.eventDispatcher.dispatch(event);
+    events.eventDispatcher.dispatch(event).catch((error) => performanceTool.logErrorWithCorrelationId(error));
     return null;
   },
 
