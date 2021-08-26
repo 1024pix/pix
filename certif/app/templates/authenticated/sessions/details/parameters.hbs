@@ -49,23 +49,30 @@
   <div class="session-details-row">
     {{#if this.sessionHasStarted}}
       <div class="session-details-buttons">
-        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--grey button--link">
+        <PixButtonLink
+          @route="authenticated.sessions.update"
+          @model={{this.session.id}}
+          @backgroundColor="grey"
+        >
             Modifier
-        </LinkTo>
+        </PixButtonLink>
       </div>
       <div class="session-details-buttons session-details-buttons--push-right {{if this.session.isFinalized "button--disabled"}}">
-        <LinkTo @route="authenticated.sessions.finalize" @model={{this.session.id}} class="button button--regular button--link push-right">
+        <PixButtonLink
+          @route="authenticated.sessions.finalize"
+          @model={{this.session.id}}
+          class="push-right"
+        >
             Finaliser la session
-        </LinkTo>
+        </PixButtonLink>
       </div>
     {{else}}
       <div class="session-details-buttons">
-        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--link">
-            Modifier
-        </LinkTo>
+        <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}}>
+          Modifier
+        </PixButtonLink>
       </div>
     {{/if}}
   </div>
 
 </div>
-

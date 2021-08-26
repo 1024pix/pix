@@ -18,10 +18,10 @@
 
     <div class="panel">
       <div class="session-list__header">
-        <LinkTo @route="authenticated.sessions.new" class="button button--link button--with-icon">
-          Créer une session
+        <PixButtonLink @route="authenticated.sessions.new">
+          Créer une session&nbsp;
           <FaIcon @icon='plus'/>
-        </LinkTo>
+        </PixButtonLink>
       </div>
     </div>
     <SessionSummaryList

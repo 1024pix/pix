@@ -4,9 +4,13 @@
       Liste des candidats ({{@certificationCandidates.length}})
     </div>
     {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-      <LinkTo @route="authenticated.sessions.add-student" @model={{@sessionId}} class="button button--link enrolled-candidate__add-students" aria-label="Ajouter des candidats">
+      <PixButtonLink
+        @route="authenticated.sessions.add-student"
+        @model={{@sessionId}}
+        class="enrolled-candidate__add-students"
+      >
         Ajouter des candidats
-      </LinkTo>
+      </PixButtonLink>
     {{else}}
       <PixButton
         id="add-candidate"
