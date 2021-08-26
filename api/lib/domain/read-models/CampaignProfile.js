@@ -12,6 +12,8 @@ class CampaignProfile {
     sharedAt,
     isShared,
     createdAt,
+    pixScore,
+
   }) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -22,13 +24,7 @@ class CampaignProfile {
     this.isShared = isShared;
     this.createdAt = createdAt;
     this.placementProfile = placementProfile;
-  }
-
-  get pixScore() {
-    if (this.isShared) {
-      return this.placementProfile.getPixScore();
-    }
-    return null;
+    this.pixScore = pixScore;
   }
 
   get isCertifiable() {
