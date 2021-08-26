@@ -104,4 +104,64 @@ module('Integration | Component | SessionFinalization::CompletedReportsInformati
     // then
     assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${certificationReport.certificationCourseId}"]`).hasText('2 signalements');
   });
+
+  test('it shows "Certification(s) terminée(s)" if there is at least one uncomplete certification report', async function(assert) {
+    // given
+    const certificationReport1 = run(() => store.createRecord('certification-report',
+      { isCompleted: false },
+    ));
+    const certificationReport2 = run(() => store.createRecord('certification-report',
+      { isCompleted: true },
+    ));
+    const session = run(() => store.createRecord('session', {
+      certificationReports: [certificationReport1, certificationReport2],
+    }));
+
+    this.set('certificationReports', [certificationReport1, certificationReport2]);
+    this.set('session', session);
+
+    // when
+    await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @session={{this.session}}
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+        />
+      `);
+
+    // then
+    assert.contains('Certification(s) terminée(s)');
+  });
+
+  test('it does not show "Certification(s) terminée(s)" if there is no uncomplete certification report', async function(assert) {
+    // given
+    const certificationReport1 = run(() => store.createRecord('certification-report',
+      { isCompleted: true },
+    ));
+    const certificationReport2 = run(() => store.createRecord('certification-report',
+      { isCompleted: true },
+    ));
+    const session = run(() => store.createRecord('session', {
+      certificationReports: [certificationReport1, certificationReport2],
+    }));
+
+    this.set('certificationReports', [certificationReport1, certificationReport2]);
+    this.set('session', session);
+
+    // when
+    await render(hbs`
+        <SessionFinalization::CompletedReportsInformationStep
+          @session={{this.session}}
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
+          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
+        />
+      `);
+
+    // then
+    assert.notContains('Certification(s) terminée(s)');
+  });
 });
