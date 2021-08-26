@@ -22,6 +22,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         assessmentState: 'completed',
         campaignCode: 'campaignCode',
         campaignTitle: 'campaignTitle',
+        masteryPercentage: '0.50',
       });
 
       // then
@@ -35,50 +36,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(campaignParticipationOverview.assessmentState).to.equal('completed');
       expect(campaignParticipationOverview.campaignCode).to.equal('campaignCode');
       expect(campaignParticipationOverview.campaignTitle).to.equal('campaignTitle');
-    });
-  });
-
-  describe('#masteryPercentage', function() {
-    it('should compute mastery percentage', function() {
-      const targetProfile = new TargetProfileWithLearningContent({ skills: [new Skill(), new Skill()] });
-
-      // when
-      const campaignParticipationOverview = new CampaignParticipationOverview({
-        isShared: true,
-        validatedSkillsCount: 1,
-        targetProfile,
-      });
-
-      // then
-      expect(campaignParticipationOverview.masteryPercentage).to.equal(50);
-    });
-
-    it('should return 0 if total skills count is zero', function() {
-      const targetProfile = new TargetProfileWithLearningContent({ skills: [] });
-
-      // when
-      const campaignParticipationOverview = new CampaignParticipationOverview({
-        isShared: true,
-        validatedSkillsCount: 1,
-        targetProfile,
-      });
-
-      // then
-      expect(campaignParticipationOverview.masteryPercentage).to.equal(0);
-    });
-
-    it('should return null the participation is not shared', function() {
-      const targetProfile = new TargetProfileWithLearningContent({ skills: [new Skill()] });
-
-      // when
-      const campaignParticipationOverview = new CampaignParticipationOverview({
-        isShared: false,
-        validatedSkillsCount: 1,
-        targetProfile,
-      });
-
-      // then
-      expect(campaignParticipationOverview.masteryPercentage).to.equal(null);
+      expect(campaignParticipationOverview.masteryPercentage).to.equal('0.50');
     });
   });
 
@@ -103,6 +61,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
             isShared: true,
             validatedSkillsCount: 1,
             targetProfile,
+            masteryPercentage: '0.5',
           });
 
           expect(campaignParticipationOverview.validatedStagesCount).to.equal(2);
