@@ -51,9 +51,10 @@
           </td>
           <td class="finalization-report-abort-reason">
             <PixSelect
-              id="finalization-report-abort-reason__select"
-              @emptyOptionLabel="-- Choisissez --"
+              id={{concat "finalization-report-abort-reason__select" report.id }}
+              @emptyOptionLabel={{"-- Choisissez --"}}
               @onChange={{this.onChangeAbortReason}}
+              @emptyOptionNotSelectable={{true}}
               @options={{this.abortOptions}} as |option|>
               {{option.label}}
             </PixSelect>
