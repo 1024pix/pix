@@ -178,7 +178,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
         await databaseBuilder.commit();
       });
 
-      it('should information about the newest assessment', async function() {
+      it('should return information about the newest assessment', async function() {
         // when
         const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
         // then
@@ -188,6 +188,68 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           participantExternalId: campaignParticipation.participantExternalId,
           userId: campaignParticipation.userId,
           campaignParticipationId: campaignParticipation.id,
+          isCompleted: true,
+          participantFirstName: 'The',
+          participantLastName: 'Narrator',
+          studentNumber: null,
+          division: null,
+        }]);
+      });
+    });
+
+    context('when a participant has several campaign participation', function() {
+      let campaign;
+      let campaignParticipation1;
+      let campaignParticipation2;
+
+      beforeEach(async function() {
+        campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT });
+
+        const userId = databaseBuilder.factory.buildUser({ firstName: 'The', lastName: 'Narrator' }).id;
+
+        campaignParticipation1 = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          isShared: true,
+          sharedAt: new Date(),
+          isImproved: true,
+        });
+
+        campaignParticipation2 = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaign.id,
+          userId,
+          isShared: true,
+          sharedAt: new Date(),
+          isImproved: false,
+        });
+
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation1.id,
+          userId,
+          state: 'completed',
+          createdAt: '2020-01-02',
+        });
+
+        databaseBuilder.factory.buildAssessment({
+          campaignParticipationId: campaignParticipation2.id,
+          userId,
+          state: 'completed',
+          createdAt: '2020-01-01',
+        });
+
+        await databaseBuilder.commit();
+      });
+
+      it('should return information with last campaign participation', async function() {
+        // when
+        const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+        // then
+        expect(campaignParticipationInfos).to.deep.equal([{
+          sharedAt: campaignParticipation2.sharedAt,
+          createdAt: campaignParticipation2.createdAt,
+          participantExternalId: campaignParticipation2.participantExternalId,
+          userId: campaignParticipation2.userId,
+          campaignParticipationId: campaignParticipation2.id,
           isCompleted: true,
           participantFirstName: 'The',
           participantLastName: 'Narrator',
