@@ -108,65 +108,49 @@ const userCompetences = [
 describe('Unit | Service | Certification Result Service', function() {
 
   context('#calculateCertificationAssessmentScore', function() {
-    let certificationAssessment;
-    const certificationAssessmentData = {
-      id: 1,
-      userId: 11,
-      certificationCourseId: 111,
-      createdAt: '2020-02-01T00:00:00Z',
-      completedAt: '2020-02-01T00:00:00Z',
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      state: states.COMPLETED,
-      isV2Certification: true,
-    };
+    let certificationAssessment, certificationAssessmentData, expectedCertifiedCompetences;
+    let competenceWithMarks_1_1, competenceWithMarks_2_2, competenceWithMarks_3_3, competenceWithMarks_4_4;
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const competenceWithMarks_1_1 = domainBuilder.buildCompetenceMark({
-      level: UNCERTIFIED_LEVEL,
-      score: 0,
-      area_code: '1',
-      competence_code: '1.1',
-      competenceId: 'competence_1',
+    beforeEach(function() {
+      certificationAssessmentData = {
+        id: 1,
+        userId: 11,
+        certificationCourseId: 111,
+        createdAt: '2020-02-01T00:00:00Z',
+        completedAt: '2020-02-01T00:00:00Z',
+        state: states.COMPLETED,
+        isV2Certification: true,
+      };
+      competenceWithMarks_1_1 = domainBuilder.buildCompetenceMark({
+        level: UNCERTIFIED_LEVEL,
+        score: 0,
+        area_code: '1',
+        competence_code: '1.1',
+        competenceId: 'competence_1',
+      });
+      competenceWithMarks_2_2 = domainBuilder.buildCompetenceMark({
+        level: UNCERTIFIED_LEVEL,
+        score: 0,
+        area_code: '2',
+        competence_code: '2.2',
+        competenceId: 'competence_2',
+      });
+      competenceWithMarks_3_3 = domainBuilder.buildCompetenceMark({
+        level: UNCERTIFIED_LEVEL,
+        score: 0,
+        area_code: '3',
+        competence_code: '3.3',
+        competenceId: 'competence_3',
+      });
+      competenceWithMarks_4_4 = domainBuilder.buildCompetenceMark({
+        level: UNCERTIFIED_LEVEL,
+        score: 0,
+        area_code: '4',
+        competence_code: '4.4',
+        competenceId: 'competence_4',
+      });
+      expectedCertifiedCompetences = [competenceWithMarks_1_1, competenceWithMarks_2_2, competenceWithMarks_3_3, competenceWithMarks_4_4];
     });
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const competenceWithMarks_2_2 = domainBuilder.buildCompetenceMark({
-      level: UNCERTIFIED_LEVEL,
-      score: 0,
-      area_code: '2',
-      competence_code: '2.2',
-      competenceId: 'competence_2',
-    });
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const competenceWithMarks_3_3 = domainBuilder.buildCompetenceMark({
-      level: UNCERTIFIED_LEVEL,
-      score: 0,
-      area_code: '3',
-      competence_code: '3.3',
-      competenceId: 'competence_3',
-    });
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const competenceWithMarks_4_4 = domainBuilder.buildCompetenceMark({
-      level: UNCERTIFIED_LEVEL,
-      score: 0,
-      area_code: '4',
-      competence_code: '4.4',
-      competenceId: 'competence_4',
-    });
-
-    const expectedCertifiedCompetences = [
-      competenceWithMarks_1_1,
-      competenceWithMarks_2_2,
-      competenceWithMarks_3_3,
-      competenceWithMarks_4_4,
-    ];
 
     context('When at least one challenge have more than one answer ', function() {
 
