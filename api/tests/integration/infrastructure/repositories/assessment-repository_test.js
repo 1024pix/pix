@@ -710,4 +710,35 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
+  describe('#updateLastQuestionState', function() {
+    it('should update updateLastQuestionState', async function() {
+      // given
+      const assessment = databaseBuilder.factory.buildAssessment({
+        updateLastQuestionState: 'asked',
+      });
+      await databaseBuilder.commit();
+
+      const lastQuestionState = 'timeout';
+
+      // when
+      await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionState');
+      expect(assessmentsInDb.lastQuestionState).to.deep.equal(lastQuestionState);
+    });
+
+    context('when assessment does not exist', function() {
+      it('should return null', async function() {
+        const notExistingAssessmentId = 1;
+
+        // when
+        const result = await assessmentRepository.updateLastQuestionState({ id: notExistingAssessmentId, lastQuestionState: 'timeout' });
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+  });
+
 });

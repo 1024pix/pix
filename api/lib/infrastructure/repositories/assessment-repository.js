@@ -169,6 +169,19 @@ module.exports = {
     }
   },
 
+  async updateLastQuestionState({ id, lastQuestionState }) {
+    try {
+      await BookshelfAssessment
+        .where({ id })
+        .save({ lastQuestionState }, { require: true, patch: true, method: 'update' });
+    } catch (err) {
+      if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
+        return null;
+      }
+      throw err;
+    }
+  },
+
 };
 
 function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
