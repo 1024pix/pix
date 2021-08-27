@@ -15,7 +15,7 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', function(
     certificationResultRepository.findByCertificationCandidateIds = sinon.stub();
   });
 
-  it('throws when no published results is found for organization and division', async function() {
+  it('throws when no results are found for organization and division', async function() {
     // given
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
       organizationId: 1,
@@ -36,27 +36,26 @@ describe('Unit | UseCase | get-sco-certification-results-by-division', function(
     expect(error).to.be.instanceof(NoCertificationResultForDivision);
   });
 
-  it('returns the published certification results of candidates matching the organization and division', async function() {
+  it('returns the certification results of candidates matching the organization and division', async function() {
     // given
     scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision.withArgs({
       organizationId: 1,
       division: '3ème A',
     }).resolves([11, 12, 13]);
-    const certificationResultA = domainBuilder.buildCertificationResult({ firstName: 'Buffy', isPublished: true });
-    const certificationResultB = domainBuilder.buildCertificationResult({ firstName: 'Giles', isPublished: false });
-    const certificationResultC = domainBuilder.buildCertificationResult({ firstName: 'Anyanka', isPublished: true });
+    const certificationResultA = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
+    const certificationResultB = domainBuilder.buildCertificationResult({ firstName: 'Giles' });
     certificationResultRepository.findByCertificationCandidateIds.withArgs({
       certificationCandidateIds: [11, 12, 13],
-    }).resolves([certificationResultA, certificationResultB, certificationResultC]);
+    }).resolves([certificationResultA, certificationResultB]);
 
     // when
-    const publishedCertificationResults = await getScoCertificationResultsByDivision({
+    const certificationResults = await getScoCertificationResultsByDivision({
       ...dependencies,
       organizationId: 1,
       division: '3ème A',
     });
 
     // then
-    expect(publishedCertificationResults).to.deepEqualArray([certificationResultA, certificationResultC]);
+    expect(certificationResults).to.deepEqualArray([certificationResultA, certificationResultB]);
   });
 });

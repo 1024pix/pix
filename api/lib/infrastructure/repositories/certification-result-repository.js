@@ -37,7 +37,6 @@ function _selectCertificationResults() {
       lastName: 'certification-courses.lastName',
       birthdate: 'certification-courses.birthdate',
       birthplace: 'certification-courses.birthplace',
-      isPublished: 'certification-courses.isPublished',
       isCancelled: 'certification-courses.isCancelled',
       externalId: 'certification-courses.externalId',
       createdAt: 'certification-courses.createdAt',
@@ -52,7 +51,8 @@ function _selectCertificationResults() {
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .modify(_filterMostRecentAssessmentResult)
     .leftJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
-    .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id');
+    .groupBy('certification-courses.id', 'assessments.id', 'assessment-results.id')
+    .where('certification-courses.isPublished', true);
 }
 
 function _filterMostRecentAssessmentResult(qb) {
