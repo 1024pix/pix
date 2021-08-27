@@ -311,7 +311,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             </AddStudentList>`);
           });
 
-          test('it should show "Aucun candidat sélectionné | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
+          test('it should show "Aucun candidat sélectionné | 2 candidat(s) déjà ajouté(s) à la session"', function(assert) {
             // then
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -319,7 +319,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             assert.dom(candidatesSelectedSelector).includesText('Aucun candidat sélectionné');
           });
 
-          test('it should disable the "Ajouter" button', async function(assert) {
+          test('it should disable the "Ajouter" button', function(assert) {
             // then
             const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
             assert.dom(addButtonDisabled).exists();
@@ -355,7 +355,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             </AddStudentList>`);
           });
 
-          test('it should show "2 candidat(s) sélectionné(s) | 2 candidat(s) déjà ajouté(s) à la session"', async function(assert) {
+          test('it should show "2 candidat(s) sélectionné(s) | 2 candidat(s) déjà ajouté(s) à la session"', function(assert) {
             // then
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -363,7 +363,7 @@ module('Integration | Component | add-student-list', function(hooks) {
             assert.dom(candidatesSelectedSelector).includesText('2 candidat(s) sélectionné(s)');
           });
 
-          test('it should show "Ajouter" button', async function(assert) {
+          test('it should show "Ajouter" button', function(assert) {
             // then
             const addButtonDisabled = '.bottom-action-bar__actions--add-button.button--disabled';
             const addButton = ADD_BUTTON_SELECTOR;

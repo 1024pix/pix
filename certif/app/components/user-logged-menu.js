@@ -43,7 +43,7 @@ export default class UserLoggedMenu extends Component {
   }
 
   @action
-  async onCertificationCenterChange(certificationCenter) {
+  onCertificationCenterChange(certificationCenter) {
     this.currentUser.certificationPointOfContact.currentCertificationCenterId = parseInt(certificationCenter.id);
 
     this.closeMenu();

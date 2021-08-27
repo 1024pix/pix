@@ -25,7 +25,7 @@ export default class AuthenticatedController extends Controller {
   }
 
   @action
-  async closeBanner() {
+  closeBanner() {
     this.isBannerVisible = false;
   }
 }

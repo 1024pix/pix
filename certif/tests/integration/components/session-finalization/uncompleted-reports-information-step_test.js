@@ -14,7 +14,7 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
   let store;
   let certificationIssueReportA;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
 
     certificationIssueReportA = run(() => store.createRecord('certification-issue-report', {

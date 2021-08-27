@@ -87,7 +87,7 @@ export default class AddStudentList extends Component {
   }
 
   @action
-  async selectDivision(divisions) {
+  selectDivision(divisions) {
     this.selectedDivisions = divisions;
     return this.router.replaceWith({ queryParams: { divisions } });
   }

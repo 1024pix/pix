@@ -11,7 +11,7 @@ export default class SessionsFinalizeRoute extends Route {
     return session;
   }
 
-  async afterModel(model, transition) {
+  afterModel(model, transition) {
     if (model.isFinalized) {
       this.notifications.error('Cette session a déjà été finalisée.');
 

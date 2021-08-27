@@ -23,7 +23,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
   let updateDataStub;
   let candidateInStaging;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     saveStub = sinon.stub().returns();
     cancelStub = sinon.stub().returns();
     updateBirthdateStub = sinon.stub().returns();
@@ -76,7 +76,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
   });
 
   module('when filling the line with sufficient correct data', function(hooks) {
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(() => {
       candidateInStaging.set('firstName', 'Salut');
       candidateInStaging.set('lastName', 'Salut');
       candidateInStaging.set('birthCity', 'Salut');
@@ -105,7 +105,7 @@ module('Integration | Component | certification-candidate-in-staging-item', func
   });
 
   module('when filling the line with incorrect ', function(hooks) {
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(() => {
       candidateInStaging.set('firstName', 'Salut');
       candidateInStaging.set('lastName', 'Salut');
       candidateInStaging.set('birthCity', 'Salut');

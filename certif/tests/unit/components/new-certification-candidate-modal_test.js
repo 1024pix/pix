@@ -124,7 +124,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
 
   module('#isBirthGeoCodeQuired', function() {
     module('when selected country is Italy', function() {
-      test('should return false for Italy', async function(assert) {
+      test('should return false for Italy', function(assert) {
         // when
         modal.selectedCountryInseeCode = '99127';
 
@@ -172,7 +172,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
 
   module('#isBirthInseeCodeRequired', function() {
     module('when selected country is other than France', function() {
-      test('should return false for other than France', async function(assert) {
+      test('should return false for other than France', function(assert) {
         // when
         modal.selectedCountryInseeCode = '99123';
 
@@ -182,7 +182,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
     });
 
     module('when selected country is France', function() {
-      test('should return true for insee code option', async function(assert) {
+      test('should return true for insee code option', function(assert) {
         // when
         modal.selectedCountryInseeCode = '99100';
         modal.selectedBirthGeoCodeOption = 'insee';
@@ -191,7 +191,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
         assert.true(modal.isBirthInseeCodeRequired);
       });
 
-      test('should return false for postal code option', async function(assert) {
+      test('should return false for postal code option', function(assert) {
         // when
         modal.selectedCountryInseeCode = '99100';
         modal.selectedBirthGeoCodeOption = 'postal';
@@ -203,7 +203,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
   });
 
   module('#isBirthPostalCodeRequired', function() {
-    test('should return true for postal code option', async function(assert) {
+    test('should return true for postal code option', function(assert) {
       // when
       modal.selectedBirthGeoCodeOption = 'postal';
 
@@ -211,7 +211,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.true(modal.isBirthPostalCodeRequired);
     });
 
-    test('should return false for insee code option', async function(assert) {
+    test('should return false for insee code option', function(assert) {
       // when
       modal.selectedBirthGeoCodeOption = 'insee';
 
@@ -221,7 +221,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
   });
 
   module('#isBirthCityRequired', function() {
-    test('should return true when country is not France', async function(assert) {
+    test('should return true when country is not France', function(assert) {
       // when
       modal.selectedCountryInseeCode = '99123';
 
@@ -229,7 +229,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.true(modal.isBirthCityRequired);
     });
 
-    test('should return true if country is France and postal code option is selected', async function(assert) {
+    test('should return true if country is France and postal code option is selected', function(assert) {
       // when
       modal.selectedCountryInseeCode = '99100';
       modal.selectedBirthGeoCodeOption = 'postal';
@@ -238,7 +238,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
       assert.true(modal.isBirthCityRequired);
     });
 
-    test('should return false if country is France and insee code option is selected', async function(assert) {
+    test('should return false if country is France and insee code option is selected', function(assert) {
       // when
       modal.selectedCountryInseeCode = '99100';
       modal.selectedBirthGeoCodeOption = 'insee';
@@ -249,7 +249,7 @@ module('Unit | Component | new-certification-candidate-modal', function(hooks) {
   });
 
   module('#countryOptions', function() {
-    test('should return a list of countries', async function(assert) {
+    test('should return a list of countries', function(assert) {
       // when
       modal.args.countries = [
         { name: 'Wakanda', code: '99817' },
