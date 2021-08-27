@@ -33,6 +33,8 @@ export default class Assessment extends Model {
   @equal('state', 'completed') isCompleted;
   @equal('state', 'started') isStarted;
 
+  @equal('lastQuestionState', 'timeout') hasTimeoutChallenge;
+
   @or('isCompetenceEvaluation', 'isForCampaign') hasCheckpoints;
   @or('isCompetenceEvaluation', 'isForCampaign') showLevelup;
   @or('isCompetenceEvaluation', 'isForCampaign', 'isDemo') showProgressBar;
