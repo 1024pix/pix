@@ -8,8 +8,11 @@ module.exports = async function getScoCertificationResultsByDivision({
   certificationResultRepository,
 }) {
   const candidateIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({ organizationId, division });
-  const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: candidateIds });
+  if (isEmpty(candidateIds)) {
+    throw new NoCertificationResultForDivision();
+  }
 
+  const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: candidateIds });
   if (isEmpty(certificationResults)) {
     throw new NoCertificationResultForDivision();
   }
