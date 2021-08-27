@@ -15,6 +15,7 @@ const {
 } = require('../../../../lib/domain/errors');
 
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Infrastructure | Repository | schooling-registration-repository', function() {
 
@@ -467,9 +468,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
       await databaseBuilder.commit();
 
-      const trx = await knex.transaction();
-      await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId: organization.id });
-      await trx.commit();
+      await DomainTransaction.execute((domainTransaction) => {
+        return schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId: organization.id });
+      });
 
       const results = await knex('schooling-registrations').select();
       const expectedDisabled = results.find((result) => result.id === schoolingRegistration.id);
@@ -482,12 +483,27 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ updatedAt: new Date('1970-01-01') });
       await databaseBuilder.commit();
 
-      const trx = await knex.transaction();
-      await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId: schoolingRegistration.organizationId });
-      await trx.commit();
+      await DomainTransaction.execute((domainTransaction) => {
+        return schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId: schoolingRegistration.organizationId });
+      });
 
       const expectedDisabled = await knex('schooling-registrations').where('id', schoolingRegistration.id).first();
       expect(expectedDisabled.updatedAt).to.not.equal(schoolingRegistration.updatedAt);
+    });
+
+    it('should rollback when an error occurs during transaction', async function() {
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ updatedAt: new Date('1970-01-01') });
+      await databaseBuilder.commit();
+
+      await catchErr(async () => {
+        await DomainTransaction.execute(async (domainTransaction) => {
+          await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId: schoolingRegistration.organizationId });
+          throw new Error('an error occurs within the domain transaction');
+        });
+      });
+
+      const schoolingRegistrationNotDisabled = await knex('schooling-registrations').where('id', schoolingRegistration.id).first();
+      expect(schoolingRegistrationNotDisabled.isDisabled).to.be.false;
     });
   });
 
@@ -533,7 +549,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       it('should create all schoolingRegistrations', async function() {
         // when
-        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+        });
 
         // then
         const actualSchoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationId({ organizationId });
@@ -582,7 +600,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         it('should update schoolingRegistrations attributes', async function() {
           // when
-          await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+          await DomainTransaction.execute((domainTransaction) => {
+            return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+          });
 
           // then
           const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
@@ -628,7 +648,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
         it('should update the schoolingRegistration only in the organization that imports the file', async function() {
           // when
-          await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+          await DomainTransaction.execute((domainTransaction) => {
+            return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+          });
 
           // then
           const updated_organization_schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
@@ -658,26 +680,15 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           await databaseBuilder.commit();
 
           // when
-          await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([{ nationalStudentId }], organizationId);
+          await DomainTransaction.execute((domainTransaction) => {
+            return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([{ nationalStudentId }], organizationId, domainTransaction);
+          });
 
           // then
           const expectedEnabled = await knex('schooling-registrations').where({ id }).first();
 
           expect(expectedEnabled.isDisabled).to.be.false;
         });
-      });
-    });
-
-    context('when there are schooling registrations to disable', function() {
-      it('should set as disabled not imported schooling registration', async function() {
-        const { id, organizationId } = databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: false });
-        await databaseBuilder.commit();
-
-        const schoolingRegistrations = [];
-        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
-
-        const expectedDisabled = await knex('schooling-registrations').where({ id }).first();
-        expect(expectedDisabled.isDisabled).to.be.true;
       });
     });
 
@@ -718,7 +729,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+        });
 
         // then
         const newSchoolingRegistration = await knex('schooling-registrations').where({ organizationId, nationalStudentId });
@@ -733,7 +746,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         await databaseBuilder.commit();
 
         // when
-        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+        });
 
         // then
         const newSchoolingRegistration = await knex('schooling-registrations').where({ organizationId, nationalStudentId }).first();
@@ -749,7 +764,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           await databaseBuilder.commit();
 
           // when
-          await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+          await DomainTransaction.execute((domainTransaction) => {
+            return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+          });
 
           // then
           const alreadyReconciledSchoolingRegistrations = await knex('schooling-registrations').where({ 'nationalStudentId': schoolingRegistrationFromFile.nationalStudentId, 'organizationId': organizationId }).first();
@@ -801,7 +818,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       it('should update and create all schoolingRegistrations', async function() {
         // when
-        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId);
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrations, organizationId, domainTransaction);
+        });
 
         // then
         const actualSchoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
@@ -847,7 +866,10 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       it('should return a SameNationalStudentIdInOrganizationError', async function() {
         // when
-        const error = await catchErr(schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations, schoolingRegistrationRepository)(schoolingRegistrations, organizationId);
+        let error;
+        await DomainTransaction.execute(async (domainTransaction) => {
+          error = await catchErr(schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations, schoolingRegistrationRepository)(schoolingRegistrations, organizationId, domainTransaction);
+        });
 
         // then
         expect(error).to.be.instanceof(SameNationalStudentIdInOrganizationError);
@@ -876,12 +898,34 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // when
-        await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration_updated], organizationId);
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration_updated], organizationId, domainTransaction);
+        });
 
         // then
         const { updatedAt: afterUpdatedAt } = await knex.select('updatedAt').from('schooling-registrations').where({ id: schoolingRegistrationId }).first();
 
         expect(afterUpdatedAt).to.be.above(beforeUpdatedAt);
+      });
+    });
+
+    context('when an error occurs during transaction', function() {
+      it('should rollback', async function() {
+        // given
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const schoolingRegistration = new SchoolingRegistration({ organizationId });
+
+        // when
+        await catchErr(async () => {
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration], organizationId, domainTransaction);
+            throw new Error('an error occurs within the domain transaction');
+          });
+        });
+
+        // then
+        const schoolingRegistrations = await knex.from('schooling-registrations');
+        expect(schoolingRegistrations).to.deep.equal([]);
       });
     });
   });
