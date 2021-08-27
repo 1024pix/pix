@@ -93,6 +93,38 @@ describe('Acceptance | Timed challenge', () => {
       });
 
     });
+
+    context('when the challenge is already timeout', () => {
+
+      beforeEach(async () => {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeTimeout');
+        timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+      });
+
+      it('should hide the warning button', () => {
+        expect(find('.timed-challenge-instructions button')).to.not.exist;
+      });
+
+      it('should display the challenge statement and the feedback form', () => {
+        expect(find('.challenge-statement')).to.exist;
+        expect(find('.feedback-panel')).to.exist;
+      });
+
+      it('should display the timer without time remains', () => {
+        expect(find('.timeout-gauge-remaining').textContent).to.contains('0:00');
+      });
+
+      it('should only display continue button', () => {
+        expect(find('.challenge-actions__action-skip')).to.not.exist;
+        expect(find('.challenge-actions__action-validate')).to.not.exist;
+        expect(find('.challenge-actions__action-continue')).to.exist;
+      });
+    });
+
   });
   context('when user seen two timed challenge', function() {
 

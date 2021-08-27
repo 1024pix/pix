@@ -12,6 +12,7 @@ import isInteger from 'lodash/isInteger';
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
   @service intl;
+  @service store;
   @service currentUser;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
@@ -78,8 +79,9 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  timeoutChallenge() {
+  async timeoutChallenge() {
     this.challengeTitle = timedOutPageTitle;
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } });
   }
 
   @action
@@ -100,7 +102,7 @@ export default class ChallengeController extends Controller {
     }
 
     if (this._isTimedChallenge) {
-      if (this.hasUserConfirmedWarning || this.model.answer) return true;
+      if (this.hasUserConfirmedWarning || this.model.answer || this.model.assessment.hasTimeoutChallenge) return true;
     }
 
     return false;
@@ -120,6 +122,6 @@ export default class ChallengeController extends Controller {
   }
 
   get displayTimedChallengeInstructions() {
-    return this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning;
+    return this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning && !this.model.assessment.hasTimeoutChallenge;
   }
 }

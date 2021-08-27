@@ -17,9 +17,12 @@ export default class TimeoutGauge extends Component {
     super(...arguments);
 
     const allottedTimeInSeconds = this.args.allottedTime;
-    this.remainingSeconds = this._isNumeric(allottedTimeInSeconds) ? allottedTimeInSeconds : 0;
-
-    this._startTimer();
+    if (this.args.hasTimeoutChallenge) {
+      this.remainingSeconds = 0;
+    } else {
+      this.remainingSeconds = this._isNumeric(allottedTimeInSeconds) ? allottedTimeInSeconds : 0;
+      this._startTimer();
+    }
   }
 
   willDestroy() {

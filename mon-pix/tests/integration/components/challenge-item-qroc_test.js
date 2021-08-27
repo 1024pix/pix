@@ -8,13 +8,19 @@ describe('Integration | Component | Challenge item QROC', function() {
 
   setupIntlRenderingTest();
 
+  beforeEach(function() {
+    this.set('assessment', {
+      hasTimeoutChallenge: false,
+    });
+  });
+
   it('should render the form', async function() {
     this.set('challenge', {
       timer: false,
     });
     this.set('answer', null);
 
-    await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+    await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`);
 
     expect(find('.qroc-proposal')).to.exist;
   });
@@ -31,7 +37,7 @@ describe('Integration | Component | Challenge item QROC', function() {
       this.set('answer', {});
 
       // when
-      await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+      await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`);
 
       // then
       expect(find('.challenge-response__proposal--paragraph').tagName).to.equal('TEXTAREA');
@@ -50,7 +56,7 @@ describe('Integration | Component | Challenge item QROC', function() {
       this.set('answer', {});
 
       // when
-      await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+      await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`);
 
       // then
       expect(find('.challenge-response__proposal--sentence').tagName).to.equal('INPUT');
@@ -69,7 +75,7 @@ describe('Integration | Component | Challenge item QROC', function() {
       this.set('answer', {});
 
       // when
-      await render(hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} />`);
+      await render(hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`);
 
       // then
       expect(find('.challenge-response__proposal').getAttribute('type')).to.equal('number');
@@ -93,7 +99,7 @@ describe('Integration | Component | Challenge item QROC', function() {
         this.set('answer', {});
 
         // when
-        await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+        await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`);
 
         // then
         expect(find('.challenge-response__proposal--paragraph')).to.not.exist;
@@ -123,7 +129,7 @@ describe('Integration | Component | Challenge item QROC', function() {
           this.set('answer', { value: '' });
 
           // when
-          await render(hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} />`);
+          await render(hbs`<ChallengeItemQroc  @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`);
 
           // then
           expect(find(data.cssClass).getAttribute('autocomplete')).to.equal('nope');
@@ -142,7 +148,7 @@ describe('Integration | Component | Challenge item QROC', function() {
           this.set('answer', { value: 'myValue' });
 
           // when
-          await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+          await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}}/>`);
 
           // then
           expect(find(data.cssClass).value).to.equal('myValue');
@@ -172,7 +178,7 @@ describe('Integration | Component | Challenge item QROC', function() {
             this.set('answer', { value: input });
 
             // when
-            await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} />`);
+            await render(hbs`<ChallengeItemQroc @challenge={{this.challenge}} @answer={{this.answer}} @assessment={{this.assessment}} />`);
 
             // then
             expect(find(data.cssClass).value).to.be.equal(output);
