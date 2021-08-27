@@ -355,4 +355,29 @@ module('Unit | Model | certification', function(hooks) {
       });
     });
   });
+
+  module('#wasBornInFrance', function() {
+
+    test('it should return true when candidate was born in France', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', { birthCountry: 'FRANCE' }));
+
+      // when
+      const wasBornInFrance = certification.wasBornInFrance();
+
+      // then
+      assert.true(wasBornInFrance);
+    });
+
+    test('it should return false when candidate was not born in France', function(assert) {
+      // given
+      const certification = run(() => store.createRecord('certification', { birthCountry: 'OTHER_COUNTRY' }));
+
+      // when
+      const wasBornInFrance = certification.wasBornInFrance();
+
+      // then
+      assert.false(wasBornInFrance);
+    });
+  });
 });
