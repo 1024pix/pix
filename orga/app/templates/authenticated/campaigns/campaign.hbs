@@ -1,6 +1,6 @@
 {{page-title @model.name}}
 
-<div class="campaign-page">
+<article class="campaign-page">
   <Campaign::Header::Title @campaign={{@model}} />
 
   <Campaign::Header::Tabs @campaign={{@model}} />
@@ -8,4 +8,4 @@
   <Campaign::Header::ArchivedBanner @campaign={{@model}} />
 
   {{outlet}}
-</div>
+</article>

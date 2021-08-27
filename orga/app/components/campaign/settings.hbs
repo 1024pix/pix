@@ -1,47 +1,48 @@
 <div class="panel campaign-settings">
-  <div class="campaign-settings-row">
-    {{#if @campaign.isTypeAssessment}}
+  <dl>
+    <div class="campaign-settings-row">
+      {{#if @campaign.isTypeAssessment}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.target-profile'}}</dt>
+          <dd class="content-text campaign-settings-content__text">{{@campaign.targetProfileName}}</dd>
+        </div>
+      {{/if}}
+      {{#if @campaign.idPixLabel}}
+        <div class="campaign-settings-content">
+          <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.external-user-id-label'}}</dt>
+          <dd class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</dd>
+        </div>
+      {{/if}}
       <div class="campaign-settings-content">
-        <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.target-profile'}}</h4>
-        <p class="content-text campaign-settings-content__text">{{@campaign.targetProfileName}}</p>
-      </div>
-    {{/if}}
-    {{#if @campaign.idPixLabel}}
-      <div class="campaign-settings-content">
-        <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.external-user-id-label'}}</h4>
-        <p class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</p>
-      </div>
-    {{/if}}
-    <div class="campaign-settings-content">
-      <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.direct-link'}}</h4>
-      <div class="campaign-settings-content__clipboard">
-        <p class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</p>
-        <Campaign::CopyPasteButton
-          @clipBoardtext={{this.campaignsRootUrl}}
-          @successMessage={{t 'pages.campaign.copy.link.success'}}
-          @defaultMessage={{t 'pages.campaign.copy.link.default'}}
-        />
+        <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.direct-link'}}</dt>
+        <dd class="campaign-settings-content__clipboard">
+          <span class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</span>
+          <Campaign::CopyPasteButton
+            @clipBoardtext={{this.campaignsRootUrl}}
+            @successMessage={{t 'pages.campaign.copy.link.success'}}
+            @defaultMessage={{t 'pages.campaign.copy.link.default'}}
+          />
+        </dd>
       </div>
     </div>
-  </div>
-
-  {{#if @campaign.isTypeAssessment}}
+    {{#if @campaign.isTypeAssessment}}
     <div class="campaign-settings-row">
       <div class="campaign-settings-content campaign-settings-content--single">
-        <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.personalised-test-title'}}</h4>
-        <p class="content-text campaign-settings-content__text">{{@campaign.title}}</p>
+        <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.personalised-test-title'}}</dt>
+        <dd class="content-text campaign-settings-content__text">{{@campaign.title}}</dd>
       </div>
     </div>
-  {{/if}}
+    {{/if}}
 
-  <div class="campaign-settings-row">
-    <div class="campaign-settings-content campaign-settings-content--single">
-      <h4 class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.landing-page-text'}}</h4>
-      <p class="content-text campaign-settings-content__text">
-        <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
-      </p>
+    <div class="campaign-settings-row">
+        <div class="campaign-settings-content campaign-settings-content--single">
+          <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.landing-page-text'}}</dt>
+          <dd class="content-text campaign-settings-content__text">
+            <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+          </dd>
+        </div>
     </div>
-  </div>
+  </dl>
 
   {{#unless @campaign.isArchived}}
     <div class="campaign-settings-buttons">
