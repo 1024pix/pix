@@ -128,6 +128,30 @@ exports.register = async (server) => {
         tags: ['api', 'competence-evaluations'],
       },
     },
+    {
+      method: 'PATCH',
+      path: '/api/assessments/{id}/last-challenge-state/{state}',
+      config: {
+        auth: false,
+        pre: [{
+          method: assessmentAuthorization.verify,
+          assign: 'authorizationCheck',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.assessmentId,
+            state: Joi.string().valid('asked', 'timeout', 'unfocus'),
+          }),
+        },
+        handler: assessmentController.updateLastChallengeState,
+        notes: [
+          '- Modifie l\'état de la dernière question posée\n' +
+          '- L\'état doit être indiqué en paramètres.',
+        ],
+        tags: ['api', 'assessments'],
+      },
+    },
+
   ]);
 };
 

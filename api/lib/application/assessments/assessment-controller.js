@@ -105,6 +105,16 @@ module.exports = {
     return null;
   },
 
+  async updateLastChallengeState(request) {
+    const assessmentId = request.params.id;
+    const lastQuestionState = request.params.state;
+    await assessmentRepository.updateLastQuestionState({
+      id: assessmentId,
+      lastQuestionState,
+    });
+    return null;
+  },
+
   async findCompetenceEvaluations(request) {
     const userId = request.auth.credentials.userId;
     const assessmentId = request.params.id;
