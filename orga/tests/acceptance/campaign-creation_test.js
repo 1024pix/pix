@@ -46,7 +46,7 @@ module('Acceptance | Campaign Creation', function(hooks) {
       notificationMessagesService.clearAll();
     });
 
-    test('it should be accessible for an authenticated prescriber', async function(assert) {
+    test('it should be accessible for an authenticated prescriber', function(assert) {
       // then
       assert.equal(currentURL(), '/campagnes/creation');
       assert.contains('Création d\'une campagne');

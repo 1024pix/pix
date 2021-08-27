@@ -151,13 +151,13 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
       return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
-    test('it should display dash for authentication method', async function(assert) {
+    test('it should display dash for authentication method', function(assert) {
       const dash = '\u2013';
 
       assert.dom('[aria-label="Élève"]').containsText(dash);
     });
 
-    test('it should not display actions menu for username', async function(assert) {
+    test('it should not display actions menu for username', function(assert) {
       assert.dom('[aria-label="Afficher les actions"]').doesNotExist();
     });
   });
@@ -205,11 +205,11 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
       return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
-    test('it should display "Identifiant" as authentication method', async function(assert) {
+    test('it should display "Identifiant" as authentication method', function(assert) {
       assert.dom('[aria-label="Élève"]').containsText('Identifiant');
     });
 
-    test('it should display actions menu', async function(assert) {
+    test('it should display actions menu', function(assert) {
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 
@@ -231,11 +231,11 @@ module('Integration | Component | Student::Sco::List', function(hooks) {
       return render(hbs`<Student::Sco::List @students={{students}} @onFilter={{noop}}/>`);
     });
 
-    test('it should display "Adresse email" as authentication method', async function(assert) {
+    test('it should display "Adresse email" as authentication method', function(assert) {
       assert.dom('[aria-label="Élève"]').containsText('Adresse e-mail');
     });
 
-    test('it should display actions menu for email', async function(assert) {
+    test('it should display actions menu for email', function(assert) {
       assert.dom('[aria-label="Afficher les actions"]').exists();
     });
 

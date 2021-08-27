@@ -165,7 +165,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
   });
 
-  test('it should not display context message', async function(assert) {
+  test('it should not display context message', function(assert) {
     assert.dom('login-form__information').doesNotExist();
   });
 

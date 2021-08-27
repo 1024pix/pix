@@ -9,7 +9,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
   const campaignId = 1;
   let dataFetcher;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     // given
     this.set('campaignId', campaignId);
 

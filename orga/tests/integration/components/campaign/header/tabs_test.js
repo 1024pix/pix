@@ -28,11 +28,11 @@ module('Integration | Component | Campaign::Header::Tabs', function(hooks) {
       await render(hbs`<Campaign::Header::Tabs @campaign={{campaign}}/>`);
     });
 
-    test('it should display campaign settings item', async function(assert) {
+    test('it should display campaign settings item', function(assert) {
       assert.dom('nav a[href="/campagnes/12/parametres"]').hasText('Paramètres');
     });
 
-    test('it should display activity item', async function(assert) {
+    test('it should display activity item', function(assert) {
       assert.dom('nav a[href="/campagnes/12"]').hasText('Activité');
     });
   });
@@ -48,11 +48,11 @@ module('Integration | Component | Campaign::Header::Tabs', function(hooks) {
       await render(hbs`<Campaign::Header::Tabs @campaign={{campaign}}/>`);
     });
 
-    test('it should display evaluation results item', async function(assert) {
+    test('it should display evaluation results item', function(assert) {
       assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').hasText('Résultats (10)');
     });
 
-    test('it should display campaign analyse item', async function(assert) {
+    test('it should display campaign analyse item', function(assert) {
       assert.dom('nav a[href="/campagnes/13/analyse"]').hasText('Analyse');
     });
   });
@@ -69,19 +69,19 @@ module('Integration | Component | Campaign::Header::Tabs', function(hooks) {
       await render(hbs`<Campaign::Header::Tabs @campaign={{campaign}}/>`);
     });
 
-    test('it should display profile results item', async function(assert) {
+    test('it should display profile results item', function(assert) {
       assert.dom('nav a[href="/campagnes/13/profils"]').hasText('Résultats (6)');
     });
 
-    test('it should not display participation item', async function(assert) {
+    test('it should not display participation item', function(assert) {
       assert.dom('nav a[href="/campagnes/13/evaluations"]').doesNotExist();
     });
 
-    test('it should not display analyse item', async function(assert) {
+    test('it should not display analyse item', function(assert) {
       assert.dom('nav a[href="/campagnes/13/analyse"]').doesNotExist();
     });
 
-    test('it should not display evaluation results item', async function(assert) {
+    test('it should not display evaluation results item', function(assert) {
       assert.dom('nav a[href="/campagnes/13/resultats-evaluation"]').doesNotExist();
     });
   });

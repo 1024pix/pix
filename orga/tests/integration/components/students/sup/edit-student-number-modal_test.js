@@ -39,13 +39,13 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
   module('when the edit student number modal is open', function() {
 
     module('when there is student number', function() {
-      test('should render component with student number text', async function(assert) {
+      test('should render component with student number text', function(assert) {
         assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`);
       });
     });
 
     module('when there is no student number yet', function() {
-      test('should not render component with student number text', async function(assert) {
+      test('should not render component with student number text', function(assert) {
         this.student.set('studentNumber', null);
         render(hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}} @onSubmit={{onSaveStudentNumber}}/>`);
 
@@ -189,7 +189,7 @@ module('Integration | Component | edit-student-number-modal', function(hooks) {
   });
 
   module('when the edit student number modal is not open', function() {
-    test('should not render component', async function(assert) {
+    test('should not render component', function(assert) {
       // given
       this.set('display', false);
       render(hbs`<Student::Sup::EditStudentNumberModal @display={{display}} @onClose={{close}} @student={{this.student}}/>`);

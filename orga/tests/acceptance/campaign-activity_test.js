@@ -42,7 +42,7 @@ module('Acceptance | Campaign Activity', function(hooks) {
     });
 
     module('When campaign is of type profiles collection', function(hooks) {
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(() => {
         campaignId = 2;
         server.create('campaign', 'ofTypeProfilesCollection', { id: campaignId, participationsCount: 1 });
         server.create('campaign-profile', { id: 1, campaignId, lastName: 'Bacri' });

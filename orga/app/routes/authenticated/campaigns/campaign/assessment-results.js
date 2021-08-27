@@ -21,7 +21,7 @@ export default class AssessmentResultsRoute extends Route {
     },
   };
 
-  async model(params) {
+  model(params) {
     const campaign = this.modelFor('authenticated.campaigns.campaign');
     return RSVP.hash({
       campaign,

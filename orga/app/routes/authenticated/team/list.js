@@ -11,7 +11,7 @@ export default class ListRoute extends Route {
 
   @service currentUser;
 
-  async model(params) {
+  model(params) {
     const organization = this.currentUser.organization;
     const memberships = this.store.query('membership', {
       filter: {

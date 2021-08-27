@@ -1,0 +1,91 @@
+/Users/vincenthardouin/dev/pix/pix/orga/app/components/team/members-list-item.js
+  60:3  error  Async method 'updateRoleOfMember' has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/app/routes/authenticated/team/list.js
+  14:3  error  Async method 'model' has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/app/services/ajax-queue.js
+  12:3  error  Async method 'add' has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/acceptance/authentication_test.js
+  59:31  error  Async arrow function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/acceptance/campaign-activity_test.js
+  45:33  error  Async arrow function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/acceptance/campaign-creation_test.js
+  49:69  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/acceptance/campaign-list_test.js
+  83:33  error  Async arrow function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/acceptance/sco-student-list_test.js
+  120:26  error  Async function has no 'await' expression  require-await
+  169:26  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/auth/login-form_test.js
+  168:49  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/campaign/analysis/recommendations_test.js
+  43:70  error  Async function has no 'await' expression  require-await
+  48:44  error  Async function has no 'await' expression  require-await
+  54:63  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/campaign/charts/participants-by-day_test.js
+  12:20  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/campaign/charts/participants-by-stage_test.js
+  37:41  error  Async function has no 'await' expression  require-await
+  42:49  error  Async function has no 'await' expression  require-await
+  48:63  error  Async function has no 'await' expression  require-await
+  54:47  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/campaign/header/tabs_test.js
+  31:54  error  Async function has no 'await' expression  require-await
+  35:45  error  Async function has no 'await' expression  require-await
+  51:55  error  Async function has no 'await' expression  require-await
+  55:53  error  Async function has no 'await' expression  require-await
+  72:52  error  Async function has no 'await' expression  require-await
+  76:54  error  Async function has no 'await' expression  require-await
+  80:48  error  Async function has no 'await' expression  require-await
+  84:59  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/modal/dialog_test.js
+  22:45  error  Async function has no 'await' expression  require-await
+  29:42  error  Async function has no 'await' expression  require-await
+  59:34  error  Async function has no 'await' expression  require-await
+  68:51  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/students/sco/dissociate-user-modal_test.js
+  22:66  error  Async function has no 'await' expression  require-await
+  31:69  error  Async function has no 'await' expression  require-await
+  40:66  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/students/sco/header-actions_test.js
+  32:58  error  Async function has no 'await' expression  require-await
+  53:64  error  Async function has no 'await' expression  require-await
+  69:51  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/students/sco/list_test.js
+  154:62  error  Async function has no 'await' expression  require-await
+  160:61  error  Async function has no 'await' expression  require-await
+  208:70  error  Async function has no 'await' expression  require-await
+  212:44  error  Async function has no 'await' expression  require-await
+  234:72  error  Async function has no 'await' expression  require-await
+  238:54  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/integration/components/students/sup/edit-student-number-modal_test.js
+   42:64  error  Async function has no 'await' expression  require-await
+   48:68  error  Async function has no 'await' expression  require-await
+  192:41  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/unit/controllers/authenticated/campaigns/list_test.js
+  33:56  error  Async function has no 'await' expression  require-await
+  61:54  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/unit/controllers/authenticated/certifications_test.js
+  120:53  error  Async function has no 'await' expression  require-await
+  133:55  error  Async function has no 'await' expression  require-await
+
+/Users/vincenthardouin/dev/pix/pix/orga/tests/unit/services/file-saver_test.js
+  57:28  error  Async function has no 'await' expression  require-await

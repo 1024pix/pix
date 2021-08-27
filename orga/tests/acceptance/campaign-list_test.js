@@ -80,7 +80,7 @@ module('Acceptance | Campaign List', function(hooks) {
     module('When using creator filter', function(hooks) {
       let creator;
 
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(() => {
         creator = server.create('user', { firstName: 'Harry', lastName: 'Cojaune' });
         server.create('campaign', { creator });
       });

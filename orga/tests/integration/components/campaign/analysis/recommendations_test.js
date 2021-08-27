@@ -40,18 +40,18 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     />`);
     });
 
-    test('it should display the tube analysis list of the campaign', async function(assert) {
+    test('it should display the tube analysis list of the campaign', function(assert) {
       assert.dom('[aria-label="Sujet"]').exists({ count: 2 });
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });
 
-    test('it should display tube details', async function(assert) {
+    test('it should display tube details', function(assert) {
       const firstTube = '[aria-label="Sujet"]:first-child';
       assert.dom(firstTube).containsText('Tube A');
       assert.dom(firstTube).containsText('Competence A');
     });
 
-    test('it should order by recommendation desc by default', async function(assert) {
+    test('it should order by recommendation desc by default', function(assert) {
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });
 

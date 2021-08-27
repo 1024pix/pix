@@ -29,7 +29,7 @@ module('Integration | Component | Student::Sco::HeaderActions', function(hooks) 
           return render(hbs`<Student::Sco::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
         });
 
-        test('it should display import XML file button', async function(assert) {
+        test('it should display import XML file button', function(assert) {
           assert.contains('Importer (.xml ou .zip)');
         });
       });
@@ -50,7 +50,7 @@ module('Integration | Component | Student::Sco::HeaderActions', function(hooks) 
           return render(hbs`<Student::Sco::HeaderActions @onImportStudents={{importStudentsSpy}} />`);
         });
 
-        test('it should still display import CSV file button', async function(assert) {
+        test('it should still display import CSV file button', function(assert) {
           assert.contains('Importer (.csv)');
         });
       });
@@ -66,7 +66,7 @@ module('Integration | Component | Student::Sco::HeaderActions', function(hooks) 
         return render(hbs`<Student::Sco::HeaderActions />`);
       });
 
-      test('it should not display import button', async function(assert) {
+      test('it should not display import button', function(assert) {
         assert.notContains('Importer (.xml)');
         assert.notContains('Importer (.csv)');
       });

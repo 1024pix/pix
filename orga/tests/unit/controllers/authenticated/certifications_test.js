@@ -117,7 +117,7 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
   });
 
   module('#isCertificationAttestationDownloadEnabled', function() {
-    test('should return true if toggle is enabled', async function(assert) {
+    test('should return true if toggle is enabled', function(assert) {
       // given
       const store = this.owner.lookup('service:store');
       const featureToggles = run(() => store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: true }));
@@ -130,7 +130,7 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
       assert.ok(controller.isCertificationAttestationDownloadEnabled);
     });
 
-    test('should return false if toggle is disabled', async function(assert) {
+    test('should return false if toggle is disabled', function(assert) {
       // given
       const store = this.owner.lookup('service:store');
       const featureToggles = run(() => store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: false }));

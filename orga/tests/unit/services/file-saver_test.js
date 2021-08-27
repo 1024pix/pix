@@ -54,7 +54,7 @@ module('Unit | Service | file-saver', function(hooks) {
     });
 
     module('when response has not a status 200', function() {
-      test('should throw', async function(assert) {
+      test('should throw', function(assert) {
         // given
         const headers = { get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`) };
         const jsonStub = sinon.stub().resolves({ errors: [] });

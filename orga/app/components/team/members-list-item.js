@@ -58,7 +58,7 @@ export default class MembersListItem extends Component {
   }
 
   @action
-  async updateRoleOfMember(membership) {
+  updateRoleOfMember(membership) {
     this.isEditionMode = false;
 
     if (!this.selectedNewRole) return false;

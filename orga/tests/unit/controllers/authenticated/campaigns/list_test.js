@@ -30,7 +30,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         assert.true(isArchived);
       });
 
-      test('it should display page title as archived', async function(assert) {
+      test('it should display page title as archived', function(assert) {
         // given
         const pageTitle = 'Campagnes archivées';
 
@@ -58,7 +58,7 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         assert.false(isArchived);
       });
 
-      test('it should display page title as active', async function(assert) {
+      test('it should display page title as active', function(assert) {
         // given
         const pageTitle = 'Campagnes actives';
 

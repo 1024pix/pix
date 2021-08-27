@@ -56,7 +56,7 @@ module('Acceptance | authentication', function(hooks) {
 
     let user;
 
-    hooks.beforeEach(async () => {
+    hooks.beforeEach(() => {
       user = createUserWithMembership();
       createPrescriberByUser(user);
     });

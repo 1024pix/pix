@@ -34,24 +34,24 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
     await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
   });
 
-  test('it should display stage stars', async function(assert) {
+  test('it should display stage stars', function(assert) {
     assert.dom('[data-test-status=acquired]').isVisible({ count: 1 });
     assert.dom('[data-test-status=unacquired]').isVisible({ count: 1 });
   });
 
-  test('it should display participants number', async function(assert) {
+  test('it should display participants number', function(assert) {
     // then
     assert.contains('0 participant');
     assert.contains('5 participants');
   });
 
-  test('it should display participants percentage by stages', async function(assert) {
+  test('it should display participants percentage by stages', function(assert) {
     // then
     assert.contains('0 %');
     assert.contains('100 %');
   });
 
-  test('it should not display empty tooltip', async function(assert) {
+  test('it should not display empty tooltip', function(assert) {
     // then
     assert.dom('[role="tooltip"]').doesNotExist();
   });

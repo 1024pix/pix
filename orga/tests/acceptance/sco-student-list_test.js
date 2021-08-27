@@ -117,7 +117,7 @@ module('Acceptance | Sco Student List', function(hooks) {
 
       module('when prescriber is looking for students', function(hooks) {
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(function() {
           organizationId = user.memberships.models.firstObject.organizationId;
           server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
           server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
@@ -166,7 +166,7 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
 
       module('when student is associated', function(hooks) {
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(function() {
           organizationId = user.memberships.models.firstObject.organizationId;
 
           server.createList('student', 5, { organizationId });
