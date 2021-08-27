@@ -130,6 +130,65 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
+      context('when schoolingRegistrations have been already imported, and the file is well formatted', function() {
+        beforeEach(async function() {
+          databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '0000000001Y', organizationId });
+          await databaseBuilder.commit();
+
+          const buffer = iconv.encode(
+            '<?xml version="1.0" encoding="ISO-8859-15"?>' +
+            '<BEE_ELEVES VERSION="2.1">' +
+            '<PARAMETRES>' +
+            '<UAJ>UAI123ABC</UAJ>' +
+            '</PARAMETRES>' +
+            '<DONNEES>' +
+            '<ELEVES>' +
+            '<ELEVE ELEVE_ID="0001">' +
+            '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE></NOM_USAGE>' +
+            '<PRENOM>Luciole</PRENOM>' +
+            '<PRENOM2>Léa</PRENOM2>' +
+            '<PRENOM3>Lucy</PRENOM3>' +
+            '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>123456789</CODE_MEF>' +
+            '<CODE_STATUT>AP</CODE_STATUT>' +
+            '</ELEVE>' +
+            '</ELEVES>' +
+            '<STRUCTURES>' +
+            '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+            '<STRUCTURE>' +
+            '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+            '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+            '</STRUCTURE>' +
+            '</STRUCTURES_ELEVE>' +
+            '</STRUCTURES>' +
+            '</DONNEES>' +
+            '</BEE_ELEVES>', 'ISO-8859-15');
+          options.payload = buffer;
+        });
+
+        it('should respond with a 204 - no content', async function() {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+
+        it('should disable old schooling registrations', async function() {
+          // when
+          await server.inject(options);
+
+          // then
+          const schoolingRegistration = await knex('schooling-registrations').where({ nationalStudentId: '0000000001Y' }).first();
+          expect(schoolingRegistration.isDisabled).to.be.true;
+        });
+      });
+
       context('when some schoolingRegistrations data are not well formatted', function() {
         beforeEach(function() {
           // given

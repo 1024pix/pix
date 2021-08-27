@@ -3,6 +3,7 @@ const fs = require('fs').promises;
 const bluebird = require('bluebird');
 const { SCHOOLING_REGISTRATION_CHUNK_SIZE } = require('../../infrastructure/constants');
 const { isEmpty, chunk } = require('lodash');
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const ERRORS = {
   EMPTY: 'EMPTY',
@@ -32,7 +33,11 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
 
   const schoolingRegistrationsChunks = chunk(schoolingRegistrationData, SCHOOLING_REGISTRATION_CHUNK_SIZE);
 
-  return bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
-    return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId);
+  return DomainTransaction.execute(async (domainTransaction) => {
+    await schoolingRegistrationRepository.disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId });
+
+    await bluebird.mapSeries(schoolingRegistrationsChunks, (chunk) => {
+      return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations(chunk, organizationId, domainTransaction);
+    });
   });
 };
