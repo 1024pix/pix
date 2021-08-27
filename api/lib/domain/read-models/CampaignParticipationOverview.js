@@ -7,7 +7,6 @@ class CampaignParticipationOverview {
     createdAt,
     isShared,
     sharedAt,
-    validatedSkillsCount,
     organizationName,
     assessmentState,
     campaignCode,
@@ -21,8 +20,6 @@ class CampaignParticipationOverview {
     this.isShared = isShared;
     this.sharedAt = sharedAt;
     this.targetProfileId = targetProfile.id;
-    this.validatedSkillsCount = validatedSkillsCount;
-    this.totalSkillsCount = targetProfile.skills.length;
     this.organizationName = organizationName;
     this.assessmentState = assessmentState;
     this.campaignCode = campaignCode;
