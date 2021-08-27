@@ -4,8 +4,10 @@ const CertificationContract = require('../../../../lib/domain/models/Certificati
 const _ = require('lodash');
 
 describe('Unit | Domain | Models | CertificationContract', function() {
-  describe('#assertThatWeHaveEnoughAnswers', function() {
-    describe('when there is less answers than challenges', function() {
+
+  context('#assertThatWeHaveEnoughAnswers', function() {
+
+    context('when there is less answers than challenges', function() {
 
       it('should throw', async function() {
         // given
@@ -34,8 +36,9 @@ describe('Unit | Domain | Models | CertificationContract', function() {
     });
   });
 
-  describe('#assertThatCompetenceHasAtLeastOneChallenge', function() {
-    describe('when there not enough challenges for one competence', function() {
+  context('#assertThatCompetenceHasAtLeastOneChallenge', function() {
+
+    context('when there not enough challenges for one competence', function() {
 
       it('should throw', async function() {
         // given
@@ -53,8 +56,9 @@ describe('Unit | Domain | Models | CertificationContract', function() {
     });
   });
 
-  describe('#assertThatCompetenceHasAtLeastOneAnswer', function() {
-    describe('when there is not enough answers for one competence', function() {
+  context('#assertThatCompetenceHasAtLeastOneAnswer', function() {
+
+    context('when there is not enough answers for one competence', function() {
 
       it('should throw', async function() {
         // given
@@ -72,8 +76,9 @@ describe('Unit | Domain | Models | CertificationContract', function() {
     });
   });
 
-  describe('#assertThatScoreIsCoherentWithReproducibilityRate', function() {
-    describe('when score is < 1 and reproductibility rate is > 50%', function() {
+  context('#assertThatScoreIsCoherentWithReproducibilityRate', function() {
+
+    context('when score is < 1 and reproductibility rate is > 50%', function() {
 
       it('should throw', async function() {
         // given
@@ -91,8 +96,9 @@ describe('Unit | Domain | Models | CertificationContract', function() {
     });
   });
 
-  describe('#assertThatEveryAnswerHasMatchingChallenge', function() {
-    describe('when an answer does not match a challenge', function() {
+  context('#assertThatEveryAnswerHasMatchingChallenge', function() {
+
+    context('when an answer does not match a challenge', function() {
 
       it('should throw', async function() {
         // given
@@ -121,8 +127,9 @@ describe('Unit | Domain | Models | CertificationContract', function() {
     });
   });
 
-  describe('#assertThatNoChallengeHasMoreThanOneAnswer', function() {
-    describe('when there are several answers for the same challenge', function() {
+  context('#assertThatNoChallengeHasMoreThanOneAnswer', function() {
+
+    context('when there are several answers for the same challenge', function() {
 
       it('should throw', async function() {
         // given
@@ -141,6 +148,39 @@ describe('Unit | Domain | Models | CertificationContract', function() {
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
         expect(error.message).to.equal('Plusieurs réponses pour une même épreuve');
+      });
+    });
+  });
+
+  describe('#hasEnoughNonNeutralizedChallengesToBeTrusted', function() {
+
+    context('when certification has more than 66% of non neutralized challenges', function() {
+
+      it('should return true', function() {
+        // given
+        const numberOfChallenges = 6;
+        const numberOfNonNeutralizedChallenges = 4;
+
+        // when
+        const hasEnoughNonNeutralizedChallengeToBeTrusted = CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(numberOfChallenges, numberOfNonNeutralizedChallenges);
+
+        // then
+        expect(hasEnoughNonNeutralizedChallengeToBeTrusted).to.be.true;
+      });
+    });
+
+    context('when certification has less than 66% of non neutralized challenges', function() {
+
+      it('should return false', function() {
+        // given
+        const numberOfChallenges = 6;
+        const numberOfNonNeutralizedChallenges = 2;
+
+        // when
+        const hasEnoughNonNeutralizedChallengeToBeTrusted = CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(numberOfChallenges, numberOfNonNeutralizedChallenges);
+
+        // then
+        expect(hasEnoughNonNeutralizedChallengeToBeTrusted).to.be.false;
       });
     });
   });
