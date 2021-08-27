@@ -83,13 +83,6 @@ module.exports = {
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  getIdByCertificationCourseId(certificationCourseId) {
-    return BookshelfAssessment
-      .where({ certificationCourseId, type: Assessment.types.CERTIFICATION })
-      .fetch({ require: false, columns: 'id' })
-      .then((result) => result ? result.attributes.id : null);
-  },
-
   getLatestByCampaignParticipationId(campaignParticipationId) {
     return BookshelfAssessment
       .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'CAMPAIGN' })

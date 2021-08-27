@@ -97,27 +97,6 @@ module.exports = {
     return bookshelfCertificationCourses.map(toDomain);
   },
 
-  async findCertificationCoursesByCandidateIds({ candidateIds }) {
-    const bookshelfCertificationCourses = await CertificationCourseBookshelf
-      .query((qb) => {
-        qb.join('certification-candidates', function() {
-          this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' })
-            .andOn({ 'certification-candidates.userId': 'certification-courses.userId' });
-        });
-        qb.whereIn('certification-candidates.id', candidateIds);
-      })
-      .fetchAll();
-    return bookshelfCertificationCourses.map(toDomain);
-  },
-
-  async findBySessionIdAndUserIds({ sessionId, userIds }) {
-    const bookshelfCertificationCourses = await CertificationCourseBookshelf
-      .where({ sessionId })
-      .where('userId', 'in', userIds)
-      .fetchAll();
-
-    return bookshelfCertificationCourses.map(toDomain);
-  },
   toDomain,
 };
 

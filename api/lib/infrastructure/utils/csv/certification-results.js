@@ -1,11 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
 const { getCsvContent } = require('./write-csv-utils');
-const { status: assessmentResultStatuses } = require('../../../domain/models/AssessmentResult');
-const { status: certificationResultStatuses } = require('../../../domain/models/CertificationResult');
-const { cleaStatuses } = require('../../../domain/models/CleaCertificationResult');
-const { statuses: maitreStatuses } = require('../../../domain/models/PixPlusDroitMaitreCertificationResult');
-const { statuses: expertStatuses } = require('../../../domain/models/PixPlusDroitExpertCertificationResult');
 
 async function getDivisionCertificationResultsCsv({
   certificationResults,
@@ -38,7 +33,7 @@ function _getRowItemsFromResults(certificationResult) {
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.STATUS]: _formatStatus(certificationResult.status),
+    [_headers.STATUS]: _formatStatus(certificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
     [_headers.SESSION_ID]: certificationResult.sessionId,
@@ -127,10 +122,10 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
     [_headers.BIRTHDATE]: _formatDate(certificationResult.birthdate),
     [_headers.BIRTHPLACE]: certificationResult.birthplace,
     [_headers.EXTERNAL_ID]: certificationResult.externalId,
-    [_headers.STATUS]: _formatStatus(certificationResult.status),
-    [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult.cleaCertificationResult),
-    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult.pixPlusDroitMaitreCertificationResult),
-    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult.pixPlusDroitExpertCertificationResult),
+    [_headers.STATUS]: _formatStatus(certificationResult),
+    [_headers.CLEA_STATUS]: _formatCleaCertificationResult(certificationResult),
+    [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]: _formatPixPlusDroitMaitreCertificationResult(certificationResult),
+    [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]: _formatPixPlusDroitExpertCertificationResult(certificationResult),
     [_headers.PIX_SCORE]: _formatPixScore(certificationResult),
     [_headers.JURY_COMMENT_FOR_ORGANIZATION]: certificationResult.commentForOrganization,
     [_headers.SESSION_ID]: session.id,
@@ -142,46 +137,37 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
   return { ...rowWithoutCompetences, ...competencesCells };
 };
 
-function _formatCleaCertificationResult(cleaCertificationResult) {
-  if (cleaCertificationResult.status === cleaStatuses.ACQUIRED) return 'Validée';
-  if (cleaCertificationResult.status === cleaStatuses.REJECTED) return 'Rejetée';
-  return 'Non passée';
+function _formatCleaCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenClea()) return 'Non passée';
+  return certificationResult.hasAcquiredClea() ? 'Validée' : 'Rejetée';
 }
 
-function _formatPixPlusDroitMaitreCertificationResult(pixPlusDroitMaitreCertificationResult) {
-  if (pixPlusDroitMaitreCertificationResult.status === maitreStatuses.ACQUIRED) return 'Validée';
-  if (pixPlusDroitMaitreCertificationResult.status === maitreStatuses.REJECTED) return 'Rejetée';
-  return 'Non passée';
+function _formatPixPlusDroitMaitreCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenPixPlusDroitMaitre()) return 'Non passée';
+  return certificationResult.hasAcquiredPixPlusDroitMaitre() ? 'Validée' : 'Rejetée';
 }
 
-function _formatPixPlusDroitExpertCertificationResult(pixPlusDroitExpertCertificationResult) {
-  if (pixPlusDroitExpertCertificationResult.status === expertStatuses.ACQUIRED) return 'Validée';
-  if (pixPlusDroitExpertCertificationResult.status === expertStatuses.REJECTED) return 'Rejetée';
-  return 'Non passée';
+function _formatPixPlusDroitExpertCertificationResult(certificationResult) {
+  if (!certificationResult.hasTakenPixPlusDroitExpert()) return 'Non passée';
+  return certificationResult.hasAcquiredPixPlusDroitExpert() ? 'Validée' : 'Rejetée';
 }
 
 function _formatPixScore(certificationResult) {
-  if (certificationResult.status === certificationResultStatuses.CANCELLED) return '-';
-  if (_isCertificationRejected(certificationResult)) return '0';
+  if (certificationResult.isCancelled()) return '-';
+  if (certificationResult.isRejected()) return '0';
   return certificationResult.pixScore;
-}
-
-function _isCertificationRejected(certificationResult) {
-  return certificationResult.status === assessmentResultStatuses.REJECTED;
 }
 
 function _formatDate(date) {
   return moment(date).format('DD/MM/YYYY');
 }
 
-function _formatStatus(status) {
-  switch (status) {
-    case certificationResultStatuses.CANCELLED: return 'Annulée';
-    case certificationResultStatuses.VALIDATED: return 'Validée';
-    case certificationResultStatuses.REJECTED: return 'Rejetée';
-    case certificationResultStatuses.ERROR: return 'En erreur';
-    case certificationResultStatuses.STARTED: return 'Démarrée';
-  }
+function _formatStatus(certificationResult) {
+  if (certificationResult.isCancelled()) return 'Annulée';
+  if (certificationResult.isValidated()) return 'Validée';
+  if (certificationResult.isRejected()) return 'Rejetée';
+  if (certificationResult.isInError()) return 'En erreur';
+  if (certificationResult.isStarted()) return 'Démarrée';
 }
 
 function _getCompetenceCells(certificationResult) {
@@ -201,10 +187,10 @@ function _getCompetenceLevel({ certificationResult, competenceIndex }) {
   const competence = levelByCompetenceCode[competenceIndex];
   const notTestedCompetence = !competence;
 
-  if (notTestedCompetence || certificationResult.status === certificationResultStatuses.CANCELLED) {
+  if (notTestedCompetence || certificationResult.isCancelled()) {
     return '-';
   }
-  if (_isCertificationRejected(certificationResult) || _isCompetenceFailed(competence)) {
+  if (certificationResult.isRejected() || _isCompetenceFailed(competence)) {
     return 0;
   }
   return competence.level;
