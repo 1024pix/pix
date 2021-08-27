@@ -46,6 +46,11 @@ class CertificationContract {
       throw new CertificationComputeError('Plusieurs réponses pour une même épreuve');
     }
   }
+
+  static hasEnoughNonNeutralizedChallengesToBeTrusted(numberOfChallenges, numberOfNonNeutralizedChallenges) {
+    const minimalNumberOfNonNeutralizedChallengesToBeTrusted = Math.floor(numberOfChallenges * 0.66);
+    return numberOfNonNeutralizedChallenges >= minimalNumberOfNonNeutralizedChallengesToBeTrusted;
+  }
 }
 
 module.exports = CertificationContract;

@@ -4,6 +4,26 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
 describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
 
+  context('#numberOfChallenges', function() {
+
+    it('counts the number of challenges', function() {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ challengeId: 'chal1' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3' });
+      const answerCollection = AnswerCollectionForScoring.from({
+        challenges: [challenge1, challenge2, challenge3],
+        answers: [],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(3);
+    });
+  });
+
   context('#numberOfNonNeutralizedChallenges', function() {
 
     it('equals 0 when no challenges asked', function() {
@@ -76,6 +96,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(0);
     });
   });
+
   context('#numberOfCorrectAnswers', function() {
 
     it('equals 0 when no answers', function() {
@@ -188,6 +209,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
+
   context('#numberOfChallengesForCompetence', function() {
     it('equals 0 when no challenges asked for given competence', function() {
       // given
@@ -315,6 +337,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallenges).to.equal(2);
     });
   });
+
   context('#numberOfCorrectAnswersForCompetence', function() {
 
     it('equals 0 when no answers for given competence', function() {
@@ -495,6 +518,7 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       expect(numberOfChallengesAnswered).to.equal(1);
     });
   });
+
   context('#numberOfNeutralizedChallengesForCompetence', function() {
 
     it('equals 0 when there are no answers for given competence', function() {
