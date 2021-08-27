@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const CompetenceMark = require('./CompetenceMark');
+
 const status = {
   REJECTED: 'rejected',
   VALIDATED: 'validated',
@@ -7,91 +10,123 @@ const status = {
 };
 
 class CertificationResult {
+
   constructor({
     id,
-    lastAssessmentResult,
     firstName,
     lastName,
     birthplace,
     birthdate,
     externalId,
-    completedAt,
     createdAt,
-    isPublished,
-    isV2Certification,
+    sessionId,
+    status,
+    pixScore,
+    commentForOrganization,
+    competencesWithMark,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
-    certificationIssueReports,
-    hasSeenEndTestScreen,
-    assessmentId,
-    sessionId,
-    isCourseCancelled,
-  } = {}) {
+  }) {
     this.id = id;
-    this.lastName = lastName;
     this.firstName = firstName;
+    this.lastName = lastName;
     this.birthplace = birthplace;
     this.birthdate = birthdate;
     this.externalId = externalId;
-    this.completedAt = completedAt;
     this.createdAt = createdAt;
-    this.isPublished = isPublished;
-    this.isV2Certification = isV2Certification;
+    this.sessionId = sessionId;
+    this.status = status;
+    this.pixScore = pixScore;
+    this.commentForOrganization = commentForOrganization;
+    this.competencesWithMark = competencesWithMark;
     this.cleaCertificationResult = cleaCertificationResult;
     this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
     this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
-    this.certificationIssueReports = certificationIssueReports;
-    this.hasSeenEndTestScreen = hasSeenEndTestScreen;
-    this.assessmentId = assessmentId;
-    this.sessionId = sessionId;
-    this.status = _getStatus(lastAssessmentResult, isCourseCancelled);
+  }
 
-    if (lastAssessmentResult) {
-      this.resultCreatedAt = lastAssessmentResult.createdAt;
-      this.pixScore = lastAssessmentResult.pixScore;
-      this.emitter = lastAssessmentResult.emitter;
-      this.commentForCandidate = lastAssessmentResult.commentForCandidate;
-      this.commentForJury = lastAssessmentResult.commentForJury;
-      this.commentForOrganization = lastAssessmentResult.commentForOrganization;
-      this.competencesWithMark = lastAssessmentResult.competenceMarks;
-      this.juryId = lastAssessmentResult.juryId;
+  static from({
+    certificationResultDTO,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+  }) {
+    let certificationStatus;
+    if (certificationResultDTO.isCancelled) {
+      certificationStatus = status.CANCELLED;
     } else {
-      this.resultCreatedAt = undefined;
-      this.pixScore = undefined;
-      this.emitter = undefined;
-      this.commentForCandidate = undefined;
-      this.commentForJury = undefined;
-      this.commentForOrganization = undefined;
-      this.competencesWithMark = [];
-      this.juryId = undefined;
+      certificationStatus = certificationResultDTO?.assessmentResultStatus ?? status.STARTED;
     }
+    const competenceMarkDTOs = JSON.parse(certificationResultDTO.competenceMarksJson);
+    const competencesWithMark = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
+      ...competenceMarkDTO,
+      area_code: competenceMarkDTO.area_code.toString(),
+      competence_code: competenceMarkDTO.competence_code.toString(),
+    }));
+
+    return new CertificationResult({
+      id: certificationResultDTO.id,
+      firstName: certificationResultDTO.firstName,
+      lastName: certificationResultDTO.lastName,
+      birthplace: certificationResultDTO.birthplace,
+      birthdate: certificationResultDTO.birthdate,
+      externalId: certificationResultDTO.externalId,
+      createdAt: certificationResultDTO.createdAt,
+      sessionId: certificationResultDTO.sessionId,
+      status: certificationStatus,
+      pixScore: certificationResultDTO.pixScore,
+      commentForOrganization: certificationResultDTO.commentForOrganization,
+      competencesWithMark,
+      cleaCertificationResult,
+      pixPlusDroitMaitreCertificationResult,
+      pixPlusDroitExpertCertificationResult,
+    });
   }
 
   isCancelled() {
     return this.status === status.CANCELLED;
   }
 
+  isValidated() {
+    return this.status === status.VALIDATED;
+  }
+
+  isRejected() {
+    return this.status === status.REJECTED;
+  }
+
+  isInError() {
+    return this.status === status.ERROR;
+  }
+
+  isStarted() {
+    return this.status === status.STARTED;
+  }
+
   hasTakenClea() {
     return this.cleaCertificationResult.isTaken();
+  }
+
+  hasAcquiredClea() {
+    return this.cleaCertificationResult.isAcquired();
   }
 
   hasTakenPixPlusDroitMaitre() {
     return this.pixPlusDroitMaitreCertificationResult.isTaken();
   }
 
+  hasAcquiredPixPlusDroitMaitre() {
+    return this.pixPlusDroitMaitreCertificationResult.isAcquired();
+  }
+
   hasTakenPixPlusDroitExpert() {
     return this.pixPlusDroitExpertCertificationResult.isTaken();
   }
-}
 
-function _getStatus(lastAssessmentResult, isCourseCancelled) {
-  if (isCourseCancelled) {
-    return status.CANCELLED;
+  hasAcquiredPixPlusDroitExpert() {
+    return this.pixPlusDroitExpertCertificationResult.isAcquired();
   }
-
-  return lastAssessmentResult?.status ?? status.STARTED;
 }
 
-module.exports = CertificationResult;
 CertificationResult.status = status;
+module.exports = CertificationResult;

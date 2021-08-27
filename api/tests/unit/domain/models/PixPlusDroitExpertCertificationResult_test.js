@@ -71,4 +71,40 @@ describe('Unit | Domain | Models | PixPlusExpertCertificationResult', function()
       expect(isTaken).to.be.false;
     });
   });
+
+  context('#isAcquired', function() {
+
+    it('returns true when PixPlusExpertCertificationResult has a status acquired', async function() {
+      // given
+      const pixPlusResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
+
+      // when
+      const isAcquired = pixPlusResult.isAcquired();
+
+      // then
+      expect(isAcquired).to.be.true;
+    });
+
+    it('returns false when PixPlusExpertCertificationResult has a status rejected', async function() {
+      // given
+      const pixPlusResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+
+      // when
+      const isAcquired = pixPlusResult.isAcquired();
+
+      // then
+      expect(isAcquired).to.be.false;
+    });
+
+    it('returns false when PixPlusExpertCertificationResult has a status not_taken', async function() {
+      // given
+      const pixPlusResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+
+      // when
+      const isAcquired = pixPlusResult.isAcquired();
+
+      // then
+      expect(isAcquired).to.be.false;
+    });
+  });
 });

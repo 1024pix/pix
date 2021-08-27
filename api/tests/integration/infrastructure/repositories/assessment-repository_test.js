@@ -3,7 +3,6 @@ const _ = require('lodash');
 const moment = require('moment');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Answer = require('../../../../lib/domain/models/Answer');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -375,54 +374,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
       const assessmentsInDb = await knex('assessments').where('id', assessmentReturned.id).first('id', 'userId');
       expect(parseInt(assessmentsInDb.userId)).to.equal(userId);
     });
-  });
-
-  describe('#getIdByCertificationCourseId', function() {
-
-    let userId;
-    let certificationCourseId;
-
-    beforeEach(function() {
-      userId = databaseBuilder.factory.buildUser().id;
-      certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-      return databaseBuilder.commit();
-    });
-
-    context('When the assessment for this certificationCourseId exists', function() {
-      let assessmentId;
-
-      beforeEach(function() {
-        assessmentId = databaseBuilder.factory.buildAssessment({
-          userId,
-          certificationCourseId,
-          type: Assessment.types.CERTIFICATION,
-        }).id;
-
-        return databaseBuilder.commit();
-      });
-
-      it('should return the assessment for the given certificationCourseId', async function() {
-
-        // when
-        const returnedAssessmentId = await assessmentRepository.getIdByCertificationCourseId(certificationCourseId);
-
-        // then
-        expect(returnedAssessmentId).to.equal(assessmentId);
-      });
-
-    });
-
-    context('When there are no assessment for this certification course id', function() {
-
-      it('should return null', async function() {
-        // when
-        const assessment = await assessmentRepository.getIdByCertificationCourseId(1);
-
-        // then
-        expect(assessment).to.equal(null);
-      });
-    });
-
   });
 
   describe('#getLatestByCampaignParticipationId', function() {
