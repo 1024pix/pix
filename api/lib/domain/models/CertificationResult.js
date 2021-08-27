@@ -19,7 +19,6 @@ class CertificationResult {
     birthdate,
     externalId,
     createdAt,
-    isPublished,
     sessionId,
     status,
     pixScore,
@@ -36,7 +35,6 @@ class CertificationResult {
     this.birthdate = birthdate;
     this.externalId = externalId;
     this.createdAt = createdAt;
-    this.isPublished = isPublished;
     this.sessionId = sessionId;
     this.status = status;
     this.pixScore = pixScore;
@@ -74,7 +72,6 @@ class CertificationResult {
       birthdate: certificationResultDTO.birthdate,
       externalId: certificationResultDTO.externalId,
       createdAt: certificationResultDTO.createdAt,
-      isPublished: certificationResultDTO.isPublished,
       sessionId: certificationResultDTO.sessionId,
       status: certificationStatus,
       pixScore: certificationResultDTO.pixScore,

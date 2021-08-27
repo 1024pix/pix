@@ -9,11 +9,10 @@ module.exports = async function getScoCertificationResultsByDivision({
 }) {
   const candidateIds = await scoCertificationCandidateRepository.findIdsByOrganizationIdAndDivision({ organizationId, division });
   const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: candidateIds });
-  const publishedCertificationResults = certificationResults.filter((certificationResults) => certificationResults.isPublished);
 
-  if (isEmpty(publishedCertificationResults)) {
+  if (isEmpty(certificationResults)) {
     throw new NoCertificationResultForDivision();
   }
 
-  return publishedCertificationResults;
+  return certificationResults;
 };

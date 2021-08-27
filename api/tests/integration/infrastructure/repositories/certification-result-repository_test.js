@@ -39,7 +39,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         lastName: 'Summers',
         birthdate: '1981-01-01',
         birthplace: 'Salem',
-        isPublished: false,
+        isPublished: true,
         isCancelled: true,
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
@@ -91,7 +91,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         lastName: 'Giles',
         birthdate: '1964-03-15',
         birthplace: 'Saint-Ouen',
-        isPublished: true,
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
         sessionId,
@@ -110,7 +109,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthdate: '1981-01-01',
         birthplace: 'Salem',
         externalId: 'WITCH',
-        isPublished: false,
         createdAt: new Date('2020-10-10'),
         sessionId,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
@@ -127,7 +125,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         lastName: 'Summers',
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
-        isPublished: true,
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
@@ -148,6 +145,47 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         })],
       });
       expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
+    });
+
+    it('should ignore non published certifications', async function() {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        isPublished: false,
+        isCancelled: false,
+        externalId: 'VAMPIRES_SUCK',
+        createdAt: new Date('2020-01-01'),
+        sessionId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        certificationCourseId,
+      }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: 123,
+        status: CertificationResult.status.VALIDATED,
+        commentForOrganization: 'Un commentaire orga 1',
+      }).id;
+      databaseBuilder.factory.buildCompetenceMark({
+        id: 123,
+        score: 10,
+        level: 4,
+        competence_code: '2.3',
+        area_code: '2',
+        competenceId: 'recComp23',
+        assessmentResultId,
+      });
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
+
+      // then
+      expect(certificationResults).to.be.empty;
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -212,7 +250,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         lastName: 'Summers',
         birthdate: '1981-01-01',
         birthplace: 'Salem',
-        isPublished: false,
+        isPublished: true,
         isCancelled: true,
         externalId: 'WITCH',
         createdAt: new Date('2020-10-10'),
@@ -268,7 +306,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         lastName: 'Giles',
         birthdate: '1964-03-15',
         birthplace: 'Saint-Ouen',
-        isPublished: true,
         externalId: 'RIPPER',
         createdAt: new Date('2021-06-06'),
         sessionId,
@@ -287,7 +324,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         birthdate: '1981-01-01',
         birthplace: 'Salem',
         externalId: 'WITCH',
-        isPublished: false,
         createdAt: new Date('2020-10-10'),
         sessionId,
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
@@ -304,7 +340,6 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         lastName: 'Summers',
         birthdate: '1981-01-19',
         birthplace: 'Torreilles',
-        isPublished: true,
         externalId: 'VAMPIRES_SUCK',
         createdAt: new Date('2020-01-01'),
         sessionId,
@@ -325,6 +360,52 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         })],
       });
       expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
+    });
+
+    it('should ignore non published certifications', async function() {
+      // given
+      const sessionId = databaseBuilder.factory.buildSession().id;
+      const userId = databaseBuilder.factory.buildUser().id;
+      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthdate: '1981-01-19',
+        birthplace: 'Torreilles',
+        isPublished: false,
+        isCancelled: false,
+        externalId: 'VAMPIRES_SUCK',
+        createdAt: new Date('2020-01-01'),
+        sessionId,
+        userId,
+      }).id;
+      const assessmentId = databaseBuilder.factory.buildAssessment({
+        certificationCourseId,
+      }).id;
+      const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId,
+        pixScore: 123,
+        status: CertificationResult.status.VALIDATED,
+        commentForOrganization: 'Un commentaire orga 1',
+      }).id;
+      databaseBuilder.factory.buildCompetenceMark({
+        id: 123,
+        score: 10,
+        level: 4,
+        competence_code: '2.3',
+        area_code: '2',
+        competenceId: 'recComp23',
+        assessmentResultId,
+      });
+      const certificationCandidateId = databaseBuilder.factory.buildCertificationCandidate({ userId, sessionId }).id;
+      await databaseBuilder.commit();
+
+      // when
+      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
+        certificationCandidateIds: [certificationCandidateId],
+      });
+
+      // then
+      expect(certificationResults).to.be.empty;
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -356,6 +437,7 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
 async function _buildCertificationResultInSession(sessionId) {
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     sessionId,
+    isPublished: true,
   }).id;
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId,
@@ -376,6 +458,7 @@ async function _buildCertificationResultWithCandidate() {
   const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
     sessionId,
     userId,
+    isPublished: true,
   }).id;
   const assessmentId = databaseBuilder.factory.buildAssessment({
     certificationCourseId,
