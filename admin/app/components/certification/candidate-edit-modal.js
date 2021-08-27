@@ -69,7 +69,7 @@ export default class CandidateEditModal extends Component {
 
   get selectedCountryOption() {
     if (this.birthCountry === 'FRANCE') return FRANCE_INSEE_CODE;
-    return this.birthInseeCode;
+    return this.selectedCountryInseeCode;
   }
 
   @action
@@ -141,18 +141,38 @@ export default class CandidateEditModal extends Component {
   }
 
   _initForm() {
-    this.firstName = this.args.candidate.firstName;
-    this.lastName = this.args.candidate.lastName;
-    this.birthdate = this.args.candidate.birthdate;
-    this.birthCity = this.args.candidate.birthplace;
-    this.sex = this.args.candidate.sex;
-    this.selectedSex = this.args.candidate.sex;
-    this.birthInseeCode = this.args.candidate.birthInseeCode;
-    this.birthPostalCode = this.args.candidate.birthPostalCode;
-    this.birthCountry = this.args.candidate.birthCountry;
+    const candidate = this.args.candidate;
+    this.firstName = candidate.firstName;
+    this.lastName = candidate.lastName;
+    this.birthdate = candidate.birthdate;
+    this.sex = candidate.sex;
+    this.birthCountry = candidate.birthCountry;
+    this._initBirthInformation(candidate);
+  }
 
-    this.selectBirthGeoCodeOption(this.args.candidate.birthInseeCode ? INSEE_CODE_OPTION : POSTAL_CODE_OPTION);
-    this.selectedCountryInseeCode = this.args.candidate.birthCountry === 'FRANCE' ? FRANCE_INSEE_CODE : this.args.candidate.birthInseeCode;
+  _initBirthInformation(candidate) {
+    this.selectedBirthGeoCodeOption = candidate.birthInseeCode ? INSEE_CODE_OPTION : POSTAL_CODE_OPTION;
+    this.selectedCountryInseeCode = candidate.wasBornInFrance() ? FRANCE_INSEE_CODE : candidate.birthInseeCode;
+
+    if (candidate.wasBornInFrance() && this.isInseeCodeOptionSelected) {
+      this.birthCity = '';
+    } else {
+      this.birthCity = candidate.birthplace;
+    }
+
+    if (this.isPostalCodeOptionSelected) {
+      this.birthInseeCode = '';
+    } else if (this._isFranceSelected()) {
+      this.birthInseeCode = candidate.birthInseeCode;
+    } else {
+      this.birthInseeCode = '99';
+    }
+
+    if (this.isPostalCodeOptionSelected) {
+      this.birthPostalCode = candidate.birthPostalCode;
+    } else {
+      this.birthPostalCode = '';
+    }
   }
 
   _isFranceSelected() {
