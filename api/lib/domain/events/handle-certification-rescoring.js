@@ -19,6 +19,7 @@ async function handleCertificationRescoring({
   certificationAssessmentRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  certificationCourseRepository,
 }) {
   checkEventTypes(event, eventTypes);
 
@@ -28,6 +29,7 @@ async function handleCertificationRescoring({
     assessmentResultRepository,
     competenceMarkRepository,
     scoringCertificationService,
+    certificationCourseRepository,
     juryId: event.juryId,
   });
 }
@@ -37,8 +39,10 @@ async function _calculateCertificationScore({
   assessmentResultRepository,
   competenceMarkRepository,
   scoringCertificationService,
+  certificationCourseRepository,
   juryId,
 }) {
+
   try {
     const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
       certificationAssessment,
@@ -51,6 +55,13 @@ async function _calculateCertificationScore({
       competenceMarkRepository,
       juryId,
     });
+
+    await _handleCancellation({
+      certificationCourseId: certificationAssessment.certificationCourseId,
+      certificationAssessmentScore,
+      certificationCourseRepository,
+    });
+
     return new CertificationRescoringCompleted({
       userId: certificationAssessment.userId,
       certificationCourseId: certificationAssessment.certificationCourseId,
@@ -69,6 +80,21 @@ async function _calculateCertificationScore({
   }
 }
 
+async function _handleCancellation({
+  certificationCourseId,
+  certificationAssessmentScore,
+  certificationCourseRepository,
+}) {
+  const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
+  if (certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
+    certificationCourse.uncancel();
+  } else {
+    certificationCourse.cancel();
+  }
+
+  return certificationCourseRepository.update(certificationCourse);
+}
+
 async function _saveResult({
   certificationAssessment,
   certificationAssessmentScore,
@@ -76,20 +102,7 @@ async function _saveResult({
   competenceMarkRepository,
   juryId,
 }) {
-  const assessmentResult = await _createAssessmentResult({
-    certificationAssessment,
-    certificationAssessmentScore,
-    assessmentResultRepository,
-    juryId,
-  });
 
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId: assessmentResult.id });
-    return competenceMarkRepository.save(competenceMarkDomain);
-  });
-}
-
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository, juryId }) {
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     status: certificationAssessmentScore.status,
@@ -97,7 +110,12 @@ function _createAssessmentResult({ certificationAssessment, certificationAssessm
     emitter: EMITTER,
     juryId,
   });
-  return assessmentResultRepository.save(assessmentResult);
+
+  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
+  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
+    return competenceMarkRepository.save(competenceMarkDomain);
+  });
 }
 
 async function _saveResultAfterCertificationComputeError({
