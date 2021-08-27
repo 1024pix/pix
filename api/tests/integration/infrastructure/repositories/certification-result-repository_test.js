@@ -150,68 +150,28 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
     });
 
-    it('should get the clea certification result if clea V1 taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const certificationCourseId = await _buildCertificationResultInSession(sessionId);
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV1 });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: cleaBadgeKeyV1, acquired: true });
-      await databaseBuilder.commit();
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'PixPlus Droit Maître', badgeKey: pixPlusDroitMaitreBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitMaitre' },
+      { complementaryCertificationName: 'PixPlus Droit Expert', badgeKey: pixPlusDroitExpertBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitExpert' },
+    ].forEach(function(testCase) {
+      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function() {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const certificationCourseId = await _buildCertificationResultInSession(sessionId);
+        databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: testCase.badgeKey, acquired: true });
+        await databaseBuilder.commit();
 
-      // when
-      const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
+        // when
+        const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
-    });
-
-    it('should get the clea certification result if clea V2 taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const certificationCourseId = await _buildCertificationResultInSession(sessionId);
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV2 });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: cleaBadgeKeyV2, acquired: true });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
-
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
-    });
-
-    it('should get the pix plus droit maitre certification result if taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const certificationCourseId = await _buildCertificationResultInSession(sessionId);
-      databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
-
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredPixPlusDroitMaitre()).to.be.true;
-    });
-
-    it('should get the pix plus droit expert certification result if taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const certificationCourseId = await _buildCertificationResultInSession(sessionId);
-      databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
-
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredPixPlusDroitExpert()).to.be.true;
+        // then
+        expect(certificationResults).to.have.length(1);
+        expect(certificationResults[0][testCase.validationFunction]()).to.be.true;
+      });
     });
   });
 
@@ -367,68 +327,28 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
       expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
     });
 
-    it('should get the clea certification result if clea V1 taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV1 });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: cleaBadgeKeyV1, acquired: true });
-      await databaseBuilder.commit();
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
+      { complementaryCertificationName: 'PixPlus Droit Maître', badgeKey: pixPlusDroitMaitreBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitMaitre' },
+      { complementaryCertificationName: 'PixPlus Droit Expert', badgeKey: pixPlusDroitExpertBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitExpert' },
+    ].forEach(function(testCase) {
+      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function() {
+        // given
+        const sessionId = databaseBuilder.factory.buildSession().id;
+        const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
+        databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
+        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: testCase.badgeKey, acquired: true });
+        await databaseBuilder.commit();
 
-      // when
-      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
+        // when
+        const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
 
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
-    });
-
-    it('should get the clea certification result if clea V2 taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildBadge({ key: cleaBadgeKeyV2 });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: cleaBadgeKeyV2, acquired: true });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
-
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredClea()).to.be.true;
-    });
-
-    it('should get the pix plus droit maitre certification result if taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
-
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredPixPlusDroitMaitre()).to.be.true;
-    });
-
-    it('should get the pix plus droit expert certification result if taken', async function() {
-      // given
-      const sessionId = databaseBuilder.factory.buildSession().id;
-      const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
-      databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
-      databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-      await databaseBuilder.commit();
-
-      // when
-      const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
-
-      // then
-      expect(certificationResults).to.have.length(1);
-      expect(certificationResults[0].hasAcquiredPixPlusDroitExpert()).to.be.true;
+        // then
+        expect(certificationResults).to.have.length(1);
+        expect(certificationResults[0][testCase.validationFunction]()).to.be.true;
+      });
     });
   });
 });
