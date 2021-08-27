@@ -24,41 +24,20 @@ async function handleCertificationRescoring({
   checkEventTypes(event, eventTypes);
 
   const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: event.certificationCourseId });
-  return await _calculateCertificationScore({
-    certificationAssessment,
-    assessmentResultRepository,
-    competenceMarkRepository,
-    scoringCertificationService,
-    certificationCourseRepository,
-    juryId: event.juryId,
-  });
-}
-
-async function _calculateCertificationScore({
-  certificationAssessment,
-  assessmentResultRepository,
-  competenceMarkRepository,
-  scoringCertificationService,
-  certificationCourseRepository,
-  juryId,
-}) {
 
   try {
     const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
       certificationAssessment,
       continueOnError: false,
     });
-    await _saveResult({
-      certificationAssessmentScore,
-      certificationAssessment,
-      assessmentResultRepository,
-      competenceMarkRepository,
-      juryId,
-    });
 
-    await _handleCancellation({
+    const assessmentResultId = await _saveAssessmentResult(certificationAssessmentScore, certificationAssessment, event, assessmentResultRepository);
+
+    await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
+
+    await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
       certificationCourseId: certificationAssessment.certificationCourseId,
-      certificationAssessmentScore,
+      hasEnoughNonNeutralizedChallengesToBeTrusted: certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
       certificationCourseRepository,
     });
 
@@ -75,47 +54,24 @@ async function _calculateCertificationScore({
       certificationAssessment,
       assessmentResultRepository,
       certificationComputeError: error,
-      juryId,
+      juryId: event.juryId,
     });
   }
 }
 
-async function _handleCancellation({
+async function _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
   certificationCourseId,
-  certificationAssessmentScore,
+  hasEnoughNonNeutralizedChallengesToBeTrusted,
   certificationCourseRepository,
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
-  if (certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted) {
+  if (hasEnoughNonNeutralizedChallengesToBeTrusted) {
     certificationCourse.uncancel();
   } else {
     certificationCourse.cancel();
   }
 
   return certificationCourseRepository.update(certificationCourse);
-}
-
-async function _saveResult({
-  certificationAssessment,
-  certificationAssessmentScore,
-  assessmentResultRepository,
-  competenceMarkRepository,
-  juryId,
-}) {
-
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
-    pixScore: certificationAssessmentScore.nbPix,
-    status: certificationAssessmentScore.status,
-    assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
-    juryId,
-  });
-
-  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
-  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
-    return competenceMarkRepository.save(competenceMarkDomain);
-  });
 }
 
 async function _saveResultAfterCertificationComputeError({
@@ -131,6 +87,25 @@ async function _saveResultAfterCertificationComputeError({
     emitter: EMITTER,
   });
   await assessmentResultRepository.save(assessmentResult);
+}
+
+async function _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository) {
+  await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
+    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
+    return competenceMarkRepository.save(competenceMarkDomain);
+  });
+}
+
+async function _saveAssessmentResult(certificationAssessmentScore, certificationAssessment, event, assessmentResultRepository) {
+  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+    pixScore: certificationAssessmentScore.nbPix,
+    status: certificationAssessmentScore.status,
+    assessmentId: certificationAssessment.id,
+    emitter: EMITTER,
+    juryId: event.juryId,
+  });
+  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
+  return assessmentResultId;
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
