@@ -81,4 +81,5 @@ rules:
     - error
   no-multi-spaces:
     - error
-    
+  require-await:
+    - error
