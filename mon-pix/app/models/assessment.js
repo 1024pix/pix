@@ -11,6 +11,7 @@ export default class Assessment extends Model {
   @attr('string') state;
   @attr('string') title;
   @attr('string') type;
+  @attr('string') lastQuestionState;
 
   // references
   @attr('string') competenceId;
