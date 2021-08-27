@@ -8,8 +8,9 @@ async function handleUpdateLastQuestionInformation({
   assessmentRepository,
 }) {
   checkEventTypes(event, eventTypes);
-  if (event.challengeId) {
+  if (event.challengeId !== event.currentChallengeId) {
     await assessmentRepository.updateLastChallengeIdAsked({ id: event.assessmentId, lastChallengeId: event.challengeId });
+    await assessmentRepository.updateLastQuestionState({ id: event.assessmentId, lastQuestionState: 'asked' });
   }
 }
 

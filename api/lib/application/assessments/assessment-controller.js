@@ -122,7 +122,11 @@ async function _getChallenge(assessment, request) {
   const challenge = await _getChallengeByAssessmentType({ assessment, request });
 
   if (challenge) {
-    const newChallengeAskedEvent = new NewChallengeAsked({ assessmentId: assessment.id, challengeId: challenge.id, currentQuestionState: 'asked' });
+    const newChallengeAskedEvent = new NewChallengeAsked({
+      assessmentId: assessment.id,
+      challengeId: challenge.id,
+      currentChallengeId: assessment.lastChallengeId,
+    });
     await events.eventDispatcher.dispatch(newChallengeAskedEvent);
   }
 
