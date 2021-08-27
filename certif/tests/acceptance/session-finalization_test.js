@@ -123,6 +123,35 @@ module('Acceptance | Session Finalization', function(hooks) {
           assert.contains('1 signalement');
         });
       });
+
+      module('when there is no uncompleted report', function() {
+        test('it should not show the uncompleted reports table', async function(assert) {
+          // given
+          const certificationReport = server.create('certification-report', { isCompleted: true });
+          session.update({ certificationReports: [certificationReport] });
+
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+
+          // then
+          assert.notContains('Ces candidats n\'ont pas fini leur test de certification');
+        });
+      });
+
+      module('when there are uncompleted reports', function() {
+        test('it should show the uncompleted reports table', async function(assert) {
+          // given
+          const certificationReport = server.create('certification-report', { isCompleted: false });
+          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+          session.update({ certificationReports: [certificationReport] });
+
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+
+          // then
+          assert.contains('Ces candidats n\'ont pas fini leur test de certification');
+        });
+      });
     });
   });
 });
