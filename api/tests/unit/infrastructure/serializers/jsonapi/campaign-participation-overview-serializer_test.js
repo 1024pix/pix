@@ -23,7 +23,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       isShared: true,
       sharedAt: new Date('2018-02-06T14:12:44Z'),
       createdAt: new Date('2018-02-05T14:12:44Z'),
-      validatedSkillsCount: 1,
       organizationName: 'My organization',
       assessmentState: 'started',
       campaignCode: '1234',

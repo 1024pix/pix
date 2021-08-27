@@ -53,8 +53,6 @@ describe('Integration | Repository | Campaign Participation Overview', function(
           organizationName: 'Organization ABCD',
           assessmentState: Assessment.states.STARTED,
           targetProfileId: targetProfile.id,
-          totalSkillsCount: 1,
-          validatedSkillsCount: 1,
           masteryPercentage: '0.10',
           totalStagesCount: 1,
           validatedStagesCount: 1,
