@@ -80,10 +80,13 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     numberOfCorrectAnswers: answerCollection.numberOfCorrectAnswers(),
   });
 
+  const hasEnoughNonNeutralizedChallengesToBeTrusted = CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(answerCollection.numberOfChallenges(), answerCollection.numberOfNonNeutralizedChallenges());
+
   if (!reproducibilityRate.isEnoughToBeCertified()) {
     return new CertificationAssessmentScore({
       competenceMarks: _getCompetenceMarksWithFailedLevel(testedCompetences),
       percentageCorrectAnswers: reproducibilityRate.value,
+      hasEnoughNonNeutralizedChallengesToBeTrusted,
     });
   }
 
@@ -94,7 +97,7 @@ function _getResult(answers, certificationChallenges, testedCompetences, continu
     CertificationContract.assertThatScoreIsCoherentWithReproducibilityRate(scoreAfterRating, reproducibilityRate.value);
   }
 
-  return new CertificationAssessmentScore({ competenceMarks, percentageCorrectAnswers: reproducibilityRate.value });
+  return new CertificationAssessmentScore({ competenceMarks, percentageCorrectAnswers: reproducibilityRate.value, hasEnoughNonNeutralizedChallengesToBeTrusted });
 }
 
 async function _getTestedCompetences({ userId, limitDate, isV2Certification }) {
