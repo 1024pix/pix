@@ -353,6 +353,21 @@ exports.register = async function(server) {
         tags: ['api', 'campaign', 'stats'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/campaigns/{id}/stats/participations-by-mastery-rate',
+      config: {
+        validate: {
+          params: Joi.object({ id: identifiersType.campaignId }),
+        },
+        handler: campaignStatsController.getParticipationsCountByMasteryRate,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+          '- Récupération de la répartition du pourcentage de réussite',
+        ],
+        tags: ['api', 'campaign', 'stats'],
+      },
+    },
   ]);
 };
 

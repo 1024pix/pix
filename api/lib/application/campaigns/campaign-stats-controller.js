@@ -2,6 +2,7 @@ const usecases = require('../../domain/usecases');
 const participationsByStageSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer');
 const participationsByStatusSerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-status-serializer');
 const participationsByDaySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participations-counts-by-day-serializer');
+const participationsCountByMasteryRateSerializer = require('../../infrastructure/serializers/jsonapi/participations-count-by-mastery-rate');
 
 module.exports = {
   async getParticipationsByStage(request) {
@@ -37,6 +38,18 @@ module.exports = {
     return participationsByDaySerializer.serialize({
       campaignId,
       ...participantsCounts,
+    });
+  },
+
+  async getParticipationsCountByMasteryRate(request) {
+    const { userId } = request.auth.credentials;
+    const campaignId = request.params.id;
+
+    const resultDistribution = await usecases.getParticipationsCountByMasteryRate({ userId, campaignId });
+
+    return participationsCountByMasteryRateSerializer.serialize({
+      campaignId,
+      resultDistribution,
     });
   },
 };
