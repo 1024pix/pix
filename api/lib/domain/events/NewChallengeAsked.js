@@ -1,7 +1,7 @@
 module.exports = class NewChallengeAsked {
-  constructor({ assessmentId, challengeId, currentQuestionState }) {
+  constructor({ assessmentId, challengeId, currentChallengeId }) {
     this.assessmentId = assessmentId;
+    this.currentChallengeId = currentChallengeId;
     this.challengeId = challengeId;
-    this.currentQuestionState = currentQuestionState;
   }
 };

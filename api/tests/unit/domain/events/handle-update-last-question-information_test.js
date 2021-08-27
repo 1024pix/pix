@@ -7,7 +7,10 @@ describe('Unit | Domain | Events | handle-last-question-information', function()
   let dependencies;
   let assessmentRepository;
   beforeEach(function() {
-    assessmentRepository = { updateLastChallengeIdAsked: sinon.stub() };
+    assessmentRepository = {
+      updateLastChallengeIdAsked: sinon.stub(),
+      updateLastQuestionState: sinon.stub(),
+    };
 
     dependencies = {
       assessmentRepository,
@@ -27,33 +30,56 @@ describe('Unit | Domain | Events | handle-last-question-information', function()
     expect(error).not.to.be.null;
   });
 
-  it('update the last challenge Id', async function() {
-    // given
-    const assessmentId = 1234;
-    const challengeId = 'challengeRec123';
-    const event = new NewChallengeAsked({
-      assessmentId,
-      challengeId,
-      currentQuestionState: 'asked',
+  context('when currentChallengeId is not the same than the new challengeId', function() {
+    it('update the last challenge id if it is not the same', async function() {
+      // given
+      const assessmentId = 1234;
+      const challengeId = 'challenge2';
+      const currentChallengeId = 'challenge1';
+      const event = new NewChallengeAsked({
+        assessmentId,
+        challengeId,
+        currentChallengeId,
+      });
+
+      // when
+      await handleUpdateLastQuestionInformation({ event, ...dependencies });
+
+      // then
+      expect(assessmentRepository.updateLastChallengeIdAsked).to.have.been.calledWithExactly(
+        { id: assessmentId, lastChallengeId: challengeId },
+      );
     });
+    it('update the lastQuestionState to set at "asked"', async function() {
+      // given
+      const assessmentId = 1234;
+      const challengeId = 'challenge2';
+      const currentChallengeId = 'challenge1';
+      const event = new NewChallengeAsked({
+        assessmentId,
+        challengeId,
+        currentChallengeId,
+      });
 
-    // when
-    await handleUpdateLastQuestionInformation({ event, ...dependencies });
+      // when
+      await handleUpdateLastQuestionInformation({ event, ...dependencies });
 
-    // then
-    expect(assessmentRepository.updateLastChallengeIdAsked).to.have.been.calledWithExactly(
-      { id: assessmentId, lastChallengeId: challengeId },
-    );
+      // then
+      expect(assessmentRepository.updateLastQuestionState).to.have.been.calledWithExactly(
+        { id: assessmentId, lastQuestionState: 'asked' },
+      );
+    });
   });
 
-  it('do not update the last challenge Id when there is no challengeId', async function() {
+  it('do not update the last challenge Id when challengeId and currentChallengeId is the same', async function() {
     // given
     const assessmentId = 1234;
-    const challengeId = null;
+    const challengeId = 'challenge1';
+    const currentChallengeId = 'challenge1';
     const event = new NewChallengeAsked({
       assessmentId,
       challengeId,
-      currentQuestionState: 'asked',
+      currentChallengeId,
     });
 
     // when
