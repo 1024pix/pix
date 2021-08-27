@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.92.0 (27/08/2021)
+
+- [#3395](https://github.com/1024pix/pix/pull/3395) [FEATURE] Retire l'annulation automatique de certifications non terminées (PIX-3095)
+- [#3391](https://github.com/1024pix/pix/pull/3391) [FEATURE] N'utiliser que la dernière participation d'une campagne pour chaque utilisateur dans l'onglet analyse(PIX-2964).
+- [#3342](https://github.com/1024pix/pix/pull/3342) [FEATURE] Utiliser les composants Pix-UI dans PixAdmin (PIX-3011).
+- [#3401](https://github.com/1024pix/pix/pull/3401) [BUGFIX] Changer la couleur d'un lien d'aide pour qu'il soit plus accessible.
+- [#3387](https://github.com/1024pix/pix/pull/3387) [BUGFIX] Réparer l'affichage de la liste déroulante de sélection d'une sous catégorie pour un signalement "E1-E9 Problème technique sur une question" (PIX-3084).
+- [#3364](https://github.com/1024pix/pix/pull/3364) [TECH] Migrer la colonne knowledge_elements.id de INTEGER en BIG INTEGER (partie 2).
+- [#3394](https://github.com/1024pix/pix/pull/3394) [TECH] Optimiser le temps de réponse de l'api /campaign-participations pour la campagne Pôle Emploi (PIX-3091).
+- [#3393](https://github.com/1024pix/pix/pull/3393) [TECH] Réutiliser le champ résultat pour le détail du profil d'un participant dans une campagne de collecte de profils(PIX-3083)
+- [#3392](https://github.com/1024pix/pix/pull/3392) [TECH] Gérer le logging des métriques knex queries lors des exécutions via des scripts SQL (PIX-3090).
+- [#3390](https://github.com/1024pix/pix/pull/3390) [TECH] Mise à jour du scénario "Inscription et positionnement" dans Pix Load-Testing (PIX-3082).
+- [#3383](https://github.com/1024pix/pix/pull/3383) [TECH] Utilisation de la colonne "masteryPercentage" pour la liste des résultats d'une campagne d'évaluation (PIX-2897)
+- [#3388](https://github.com/1024pix/pix/pull/3388) [TECH] Réutiliser le champ résultat pour une campagne de collecte de profils dans l'onglet 'Résultat' (PIX-3064).
+- [#3384](https://github.com/1024pix/pix/pull/3384) [TECH] Ajouter des tests pour la partie logique de l'application Pix Load-Testing (PIX-3080).
+- [#3369](https://github.com/1024pix/pix/pull/3369) [CLEAN] Remplacement des boutons du challenge en PixButton (PIX-1210).
+
 ## v3.91.0 (24/08/2021)
 
 - [#3354](https://github.com/1024pix/pix/pull/3354) [FEATURE] Nouveau panneau dans le didacticiel (PIX-2898).
