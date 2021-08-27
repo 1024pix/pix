@@ -2,8 +2,6 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import { getSettledState, settled } from '@ember/test-helpers';
-import Service from '@ember/service';
-import { run } from '@ember/runloop';
 
 import EmberObject from '@ember/object';
 
@@ -180,30 +178,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
       // when/then
       assert.true(controller.isCertificationCancelled);
-    });
-  });
-
-  module('#shouldDisplayCPFInformation', function() {
-    test('should return true when isNewCpfDataEnabled  is enabled', function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const featureToggles = run(() => store.createRecord('feature-toggle', { isNewCpfDataEnabled: true }));
-      class FeatureTogglesStub extends Service { featureToggles = featureToggles; }
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
-
-      // when/then
-      assert.true(controller.shouldDisplayCPFInformation);
-    });
-
-    test('should return false when isNewCpfDataEnabled  is not enabled', function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const featureToggles = run(() => store.createRecord('feature-toggle', { isNewCpfDataEnabled: false }));
-      class FeatureTogglesStub extends Service { featureToggles = featureToggles; }
-      this.owner.register('service:feature-toggles', FeatureTogglesStub);
-
-      // when/then
-      assert.false(controller.shouldDisplayCPFInformation);
     });
   });
 

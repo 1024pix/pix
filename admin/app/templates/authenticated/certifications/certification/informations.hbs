@@ -52,25 +52,21 @@
             <div>
               Date de naissance : {{moment-format this.certification.birthdate 'DD/MM/YYYY' allow-empty=true}}
             </div>
-            {{#if this.shouldDisplayCPFInformation}}
-              <div>
-                Sexe : {{this.certification.sex}}
-              </div>
-            {{/if}}
+            <div>
+              Sexe : {{this.certification.sex}}
+            </div>
             <div>
               Commune de naissance : {{this.certification.birthplace}}
             </div>
-            {{#if this.shouldDisplayCPFInformation}}
-              <div>
-                Code postal de naissance : {{this.certification.birthPostalCode}}
-              </div>
-              <div>
-                Code INSEE de naissance : {{this.certification.birthInseeCode}}
-              </div>
-              <div>
-                Pays de naissance : {{this.certification.birthCountry}}
-              </div>
-            {{/if}}
+            <div>
+              Code postal de naissance : {{this.certification.birthPostalCode}}
+            </div>
+            <div>
+              Code INSEE de naissance : {{this.certification.birthInseeCode}}
+            </div>
+            <div>
+              Pays de naissance : {{this.certification.birthCountry}}
+            </div>
             <div class="candidate-informations__actions">
               <PixButton
                 @size="small"

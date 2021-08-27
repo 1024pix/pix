@@ -3,8 +3,6 @@ const {
   CpfBirthInformationValidationError,
 } = require('../errors');
 
-const { featureToggles } = require('../../config');
-
 module.exports = async function addCertificationCandidateToSession({
   sessionId,
   certificationCandidate,
@@ -15,7 +13,7 @@ module.exports = async function addCertificationCandidateToSession({
 }) {
   certificationCandidate.sessionId = sessionId;
 
-  const version = featureToggles.isNewCPFDataEnabled ? '1.5' : '1.4';
+  const version = '1.5';
 
   certificationCandidate.validate(version);
 

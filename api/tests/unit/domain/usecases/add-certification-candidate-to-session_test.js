@@ -6,7 +6,6 @@ const {
   InvalidCertificationCandidate,
   CpfBirthInformationValidationError,
 } = require('../../../../lib/domain/errors');
-const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | UseCase | add-certification-candidate-to-session', function() {
 
@@ -140,85 +139,46 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
         expect(certificationCandidate.sessionId).to.equal(sessionId);
       });
 
-      context('when isNewCpfDataEnabled toggle is enabled', function() {
+      it('should validate the certification candidate with the right model version', async function() {
+        // given
+        const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
+        certificationCandidate.validate = sinon.stub();
+        const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
+          birthCountry: 'COUNTRY',
+          birthINSEECode: 'INSEE_CODE',
+          birthPostalCode: null,
+          birthCity: 'CITY',
+        });
+        certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
+        certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
+        certificationCandidateRepository.saveInSession.resolves();
 
-        it('should validate the certification candidate with the right model version', async function() {
-          // given
-          const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
-          certificationCandidate.validate = sinon.stub();
-          const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
-            birthCountry: 'COUNTRY',
-            birthINSEECode: 'INSEE_CODE',
-            birthPostalCode: null,
-            birthCity: 'CITY',
-          });
-          certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
-          certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
-          certificationCandidateRepository.saveInSession.resolves();
-          sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(true);
-
-          // when
-          await addCertificationCandidateToSession({
-            sessionId,
-            certificationCandidate,
-            certificationCandidateRepository,
-            certificationCpfService,
-            certificationCpfCountryRepository,
-            certificationCpfCityRepository,
-          });
-
-          // then
-          expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.5');
+        // when
+        await addCertificationCandidateToSession({
+          sessionId,
+          certificationCandidate,
+          certificationCandidateRepository,
+          certificationCpfService,
+          certificationCpfCountryRepository,
+          certificationCpfCityRepository,
         });
 
-        context('when birth information validation fail', function() {
-
-          it('should throw a CpfBirthInformationValidationError', async function() {
-            // given
-            const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
-            const cpfBirthInformationValidation = CpfBirthInformationValidation.failure('Failure message');
-            certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
-            certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
-            certificationCandidateRepository.saveInSession.resolves();
-            sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(true);
-
-            // when
-            const error = await catchErr(addCertificationCandidateToSession)({
-              sessionId,
-              certificationCandidate,
-              certificationCandidateRepository,
-              certificationCpfService,
-              certificationCpfCountryRepository,
-              certificationCpfCityRepository,
-            });
-
-            // then
-            expect(error).to.be.an.instanceOf(CpfBirthInformationValidationError);
-            expect(error.message).to.equal(cpfBirthInformationValidation.message);
-          });
-        });
-
+        // then
+        expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.5');
       });
 
-      context('when isNewCpfDataEnabled toggle is not enabled', function() {
+      context('when birth information validation fail', function() {
 
-        it('should validate the certification candidate with the right model version', async function() {
+        it('should throw a CpfBirthInformationValidationError', async function() {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
-          certificationCandidate.validate = sinon.stub();
-          const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
-            birthCountry: 'COUNTRY',
-            birthINSEECode: 'INSEE_CODE',
-            birthPostalCode: null,
-            birthCity: 'CITY',
-          });
+          const cpfBirthInformationValidation = CpfBirthInformationValidation.failure('Failure message');
           certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves([]);
           certificationCpfService.getBirthInformation.resolves(cpfBirthInformationValidation);
           certificationCandidateRepository.saveInSession.resolves();
-          sinon.stub(featureToggles, 'isNewCPFDataEnabled').value(false);
 
           // when
-          await addCertificationCandidateToSession({
+          const error = await catchErr(addCertificationCandidateToSession)({
             sessionId,
             certificationCandidate,
             certificationCandidateRepository,
@@ -228,7 +188,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
           });
 
           // then
-          expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.4');
+          expect(error).to.be.an.instanceOf(CpfBirthInformationValidationError);
+          expect(error.message).to.equal(cpfBirthInformationValidation.message);
         });
       });
     });

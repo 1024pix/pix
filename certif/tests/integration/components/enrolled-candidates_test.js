@@ -7,7 +7,7 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   setupRenderingTest(hooks);
 
   const CERTIFICATION_CANDIDATES_TABLE_SELECTOR = 'certification-candidates-table tbody';
-  const CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR = 'certification-candidates-actions';
+  const CERTIFICATION_CANDIDATES_ACTION_DELETE_SELECTOR = 'certification-candidates-actions__delete';
   const DELETE_BUTTON_SELECTOR = 'certification-candidates-actions__delete-button';
   const DELETE_BUTTON_DISABLED_SELECTOR = `${DELETE_BUTTON_SELECTOR}--disabled`;
   const ADD_SINGLE_CANDIDATE_BUTTON_SELECTOR = 'certification-candidates-add-button__text';
@@ -23,130 +23,55 @@ module('Integration | Component | enrolled-candidates', function(hooks) {
   const EMAIL_SELECTOR = 'panel-candidate__email__';
   const EXTRA_TIME_SELECTOR = 'panel-candidate__extraTimePercentage__';
 
-  module('When FT_IS_NEW_CPF_DATA_ENABLED is not enabled', function() {
+  test('it displays candidates information', async function(assert) {
+    // given
+    const candidate = _buildCertificationCandidate({
+      birthdate: new Date('2019-04-28'),
+    });
+    const certificationCandidates = [candidate];
 
-    test('it displays all candidates information', async function(assert) {
-      // given
-      const candidate = _buildCertificationCandidate({
-        birthdate: new Date('2019-04-28'),
-      });
-      const isNewCpfDataToggleEnabled = false;
-      const certificationCandidates = [candidate];
+    this.set('certificationCandidates', certificationCandidates);
 
-      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
-      this.set('certificationCandidates', certificationCandidates);
-
-      // when
-      await render(hbs`
-        <EnrolledCandidates 
-          @sessionId="1" 
+    // when
+    await render(hbs`
+        <EnrolledCandidates
+          @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
-          @isNewCpfDataToggleEnabled={{isNewCpfDataToggleEnabled}}
           >
         </EnrolledCandidates>
       `);
 
-      // then
-      assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
-      assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
-      assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
-      assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
-      assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthCity);
-      assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.birthProvinceCode);
-      assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).hasText(candidate.birthCountry);
-      assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).hasText(candidate.email);
-      assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
-      assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
-    });
+    // then
+    assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
+    assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
+    assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
+    assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
+    assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
+    assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
+    assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+    assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
+    assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
+    assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
   });
 
-  module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', function() {
+  test('it should display details button', async function(assert) {
+    // given
+    const candidate = _buildCertificationCandidate({});
+    const certificationCandidates = [candidate];
 
-    test('it displays candidates information', async function(assert) {
-      // given
-      const candidate = _buildCertificationCandidate({
-        birthdate: new Date('2019-04-28'),
-      });
-      const isNewCpfDataToggleEnabled = true;
-      const certificationCandidates = [candidate];
+    this.set('certificationCandidates', certificationCandidates);
 
-      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
-      this.set('certificationCandidates', certificationCandidates);
-
-      // when
-      await render(hbs`
-        <EnrolledCandidates 
-          @sessionId="1" 
-          @certificationCandidates={{certificationCandidates}}
-          @isNewCpfDataToggleEnabled={{isNewCpfDataToggleEnabled}}
-          >
-        </EnrolledCandidates>
-      `);
-
-      // then
-      assert.dom(`[data-test-id=${EXTERNAL_ID_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.externalId);
-      assert.dom(`[data-test-id=${BIRTHDATE_COLUMN_SELECTOR}${candidate.id}]`).hasText('28/04/2019');
-      assert.dom(`[data-test-id=${LAST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.lastName);
-      assert.dom(`[data-test-id=${FIRST_NAME_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.firstName);
-      assert.dom(`[data-test-id=${RESULT_RECIPIENT_EMAIL_COLUMN_SELECTOR}${candidate.id}]`).hasText(candidate.resultRecipientEmail);
-      assert.dom(`[data-test-id=${EXTRA_TIME_SELECTOR}${candidate.id}]`).hasText('3000 %');
-      assert.dom(`[data-test-id=${BIRTH_CITY_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-      assert.dom(`[data-test-id=${BIRTH_PROVINCE_CODE_COLUMN_SELECTOR}${candidate.id}]`).doesNotExist();
-      assert.dom(`[data-test-id=${BIRTH_COUNTRY_SELECTOR}${candidate.id}]`).doesNotExist();
-      assert.dom(`[data-test-id=${EMAIL_SELECTOR}${candidate.id}]`).doesNotExist();
-    });
-
-    test('it should display details button', async function(assert) {
-      // given
-      const candidate = _buildCertificationCandidate({});
-      const certificationCandidates = [candidate];
-      const isNewCpfDataToggleEnabled = true;
-
-      this.set('certificationCandidates', certificationCandidates);
-      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
-
-      // when
-      await render(hbs`
+    // when
+    await render(hbs`
         <EnrolledCandidates
           @sessionId="1"
           @certificationCandidates={{certificationCandidates}}
-          @isNewCpfDataToggleEnabled={{isNewCpfDataToggleEnabled}}
         >
         </EnrolledCandidates>
       `);
 
-      // then
-      assert.dom(`[aria-label="Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}"]`).isVisible();
-    });
-  });
-
-  module('when details button should not be displayed', function() {
-    test('it should not display details button', async function(assert) {
-      // given
-      const candidate = _buildCertificationCandidate({
-        externalId: 'externalId',
-        birthdate: new Date('1980-07-01'),
-        isLinked: false,
-        extraTimePercentage: 0.1,
-      });
-      const certificationCandidates = [candidate];
-      const isNewCpfDataToggleEnabled = true;
-
-      this.set('certificationCandidates', certificationCandidates);
-      this.set('isNewCpfDataToggleEnabled', isNewCpfDataToggleEnabled);
-
-      // when
-      await render(hbs`
-        <EnrolledCandidates
-          @sessionId="1"
-          @certificationCandidates={{this.certificationCandidates}}
-        >
-        </EnrolledCandidates>
-      `);
-
-      // then
-      assert.dom(`[aria-label="Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}"]`).isNotVisible();
-    });
+    // then
+    assert.dom(`[aria-label="Voir le détail du candidat ${candidate.firstName} ${candidate.lastName}"]`).isVisible();
   });
 
   test('it display candidates with delete disabled button if linked', async function(assert) {

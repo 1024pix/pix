@@ -73,43 +73,17 @@ module('Unit | Component | enrolled-candidates', function(hooks) {
   });
   module('#addCertificationCandidateInStaging', function() {
 
-    module('When FT_IS_NEW_CPF_DATA_ENABLED is enabled', function() {
+    test('should add an empty new candidate', async function(assert) {
+      const newCandidate = EmberObject.create({
+        firstName: '', lastName: '', birthdate: '', birthCity: '',
+        birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
+        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
 
-      test('should add an empty new candidate', async function(assert) {
-      // given
-        component.args = {
-          isNewCpfDataToggleEnabled: true,
-        };
+      // when
+      await component.addCertificationCandidateInStaging();
 
-        const newCandidate = EmberObject.create({
-          firstName: '', lastName: '', birthdate: '', birthCity: '',
-          birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
-          birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
-
-        // when
-        await component.addCertificationCandidateInStaging();
-
-        // then
-        assert.deepEqual(component.newCandidate, newCandidate);
-      });
-
-    });
-
-    module('When FT_IS_NEW_CPF_DATA_ENABLED is  not enabled', function() {
-
-      test('should disable the feature of enrolling a new candidate', async function(assert) {
-      // given
-        component.args = {
-          isNewCpfDataToggleEnabled: false,
-        };
-
-        // when
-        await component.addCertificationCandidateInStaging();
-
-        // then
-        assert.equal(component.candidatesInStaging.length, 1);
-      });
-
+      // then
+      assert.deepEqual(component.newCandidate, newCandidate);
     });
   });
 

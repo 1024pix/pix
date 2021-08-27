@@ -14,7 +14,6 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
   let certification;
 
   hooks.beforeEach(async function() {
-    server.create('feature-toggle', { isNewCpfDataEnabled: true });
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
     this.server.create('user', { id: 888 });
