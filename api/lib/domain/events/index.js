@@ -55,6 +55,7 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
+  handleUpdateLastQuestionInformation: require('./handle-update-last-question-information'),
   handleSessionFinalized: require('./handle-session-finalized'),
 };
 
