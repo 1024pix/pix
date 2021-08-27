@@ -2,29 +2,21 @@ import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class ReportsInformationsStep extends Component {
-  textareaMaxLength = 500;
+export default class UncompletedReportsInformationStep extends Component {
 
   @tracked reportToEdit = null;
   @tracked showAddIssueReportModal = false;
   @tracked showIssueReportsModal = false;
 
-  get certifReportsAreNotEmpty() {
+  get certificationReportsAreNotEmpty() {
     return this.args.certificationReports.length !== 0;
   }
 
-  get hasCheckedEverything() {
-    const allCertifReportsAreCheck = this.args.certificationReports.every((report) => report.hasSeenEndTestScreen);
-    return this.certifReportsAreNotEmpty && allCertifReportsAreCheck;
-  }
-
-  get hasCheckedSomething() {
-    const hasOneOrMoreCheck = this.args.certificationReports.any((report) => report.hasSeenEndTestScreen);
-    return this.certifReportsAreNotEmpty && hasOneOrMoreCheck;
-  }
-
-  get headerCheckboxStatus() {
-    return this.hasCheckedEverything ? 'checked' : this.hasCheckedSomething ? 'partial' : 'unchecked';
+  get abortOptions() {
+    return [
+      { label: 'Abandon du candidat', value: 'candidate' },
+      { label: 'Problème technique', value: 'technical' },
+    ];
   }
 
   @action
@@ -51,4 +43,10 @@ export default class ReportsInformationsStep extends Component {
     this.showIssueReportsModal = false;
   }
 
+  @action
+  onChangeAbortReason(event) {
+    if (event.target.value) {
+      this.args.onChangeAbortReason(event.target.value);
+    }
+  }
 }

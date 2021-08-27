@@ -1,13 +1,13 @@
 import { module, test } from 'qunit';
-import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { A } from '@ember/array';
-import { render } from '@ember/test-helpers';
+import { render, find, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
+import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
 
-module('Integration | Component | SessionFinalization::ReportsInformationsStep', function(hooks) {
+module('Integration | Component | SessionFinalization::UnUncompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
   let reportA;
   let reportB;
@@ -39,8 +39,6 @@ module('Integration | Component | SessionFinalization::ReportsInformationsStep',
 
     this.set('certificationReports', [reportA, reportB]);
     this.set('issueReportDescriptionMaxLength', 500);
-    this.set('toggleCertificationReportHasSeenEndTestScreen', sinon.stub().returns());
-    this.set('toggleAllCertificationReportsHasSeenEndTestScreen', sinon.stub().returns());
   });
 
   test('it shows "1 signalement" if there is exactly one certification issue report', async function(assert) {
@@ -60,11 +58,9 @@ module('Integration | Component | SessionFinalization::ReportsInformationsStep',
 
     // when
     await render(hbs`
-        <SessionFinalization::ReportsInformationsStep
+        <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         />
       `);
 
@@ -93,15 +89,38 @@ module('Integration | Component | SessionFinalization::ReportsInformationsStep',
 
     // when
     await render(hbs`
-        <SessionFinalization::ReportsInformationsStep
+        <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
-          @onHasSeenEndTestScreenCheckboxClicked={{this.toggleCertificationReportHasSeenEndTestScreen}}
-          @onAllHasSeenEndTestScreenCheckboxesClicked={{this.toggleAllCertificationReportsHasSeenEndTestScreen}}
         />
       `);
 
     // then
     assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${certificationReport.certificationCourseId}"]`).hasText('2 signalements');
+  });
+
+  test('it calls onChangeAbortReason on select update', async function(assert) {
+    // given
+    const certificationReport = run(() => store.createRecord('certification-report', {
+      isCompleted: false,
+    }));
+    this.set('certificationReports', [certificationReport]);
+    const onChangeAbortReason = sinon.stub().returns();
+    this.set('onChangeAbortReason', onChangeAbortReason);
+
+    // when
+    await render(hbs`
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @onChangeAbortReason={{this.onChangeAbortReason}}
+        />
+      `);
+
+    const select = await find('#finalization-report-abort-reason__select');
+    await fillIn(select, 'technical');
+
+    // then
+    sinon.assert.calledWith(onChangeAbortReason, 'technical');
+    assert.true(true);
   });
 });

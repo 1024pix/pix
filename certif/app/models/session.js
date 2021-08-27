@@ -18,6 +18,8 @@ export const statusToDisplayName = {
 
 export default class Session extends Model {
   @service session;
+  @service featureToggles;
+
   @attr('string') address;
   @attr('string') accessCode;
   @attr('date-only') date;
@@ -59,5 +61,18 @@ export default class Session extends Model {
 
   get urlToDownloadSessionIssueReportSheet() {
     return ENV.urlToDownloadSessionIssueReportSheet;
+  }
+
+  get completedCertificationReports() {
+    if (this.featureToggles.featureToggles.isManageUncompletedCertifEnabled) {
+
+      return this.certificationReports.filter((certificationReport) => certificationReport.isCompleted);
+    }
+
+    return this.certificationReports;
+  }
+
+  get uncompletedCertificationReports() {
+    return this.certificationReports.filter((certificationReport) => !certificationReport.isCompleted);
   }
 }
