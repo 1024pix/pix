@@ -35,6 +35,7 @@ class Assessment {
     type,
     isImproving,
     lastChallengeId,
+    lastQuestionState,
     answers = [],
     campaignParticipation,
     course,
@@ -54,6 +55,7 @@ class Assessment {
     this.type = type;
     this.isImproving = isImproving;
     this.lastChallengeId = lastChallengeId;
+    this.lastQuestionState = lastQuestionState;
     this.answers = answers;
     this.campaignParticipation = campaignParticipation;
     this.course = course;
