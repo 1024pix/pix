@@ -849,5 +849,60 @@ describe('Unit | Service | Certification Result Service', function() {
         });
       });
     });
+
+    context('non neutralization rate trustability', function() {
+
+      beforeEach(function() {
+        certificationAssessment = domainBuilder.buildCertificationAssessment({
+          ...certificationAssessmentData,
+          certificationAnswersByDate: wrongAnswersForAllChallenges(),
+          certificationChallenges: challenges,
+        });
+        certificationAssessment.certificationAnswersByDate = correctAnswersForAllChallenges();
+        sinon.stub(placementProfileService, 'getPlacementProfile').withArgs({
+          userId: certificationAssessment.userId,
+          limitDate: certificationAssessment.createdAt,
+          isV2Certification: certificationAssessment.isV2Certification,
+        }).resolves({ userCompetences });
+      });
+
+      context('when certification has enough non neutralized challenges to be trusted', function() {
+
+        it('should return a CertificationAssessmentScore which hasEnoughNonNeutralizedChallengesToBeTrusted is true', async function() {
+          // given
+          const certificationAssessmentWithNeutralizedChallenge = _.cloneDeep(certificationAssessment);
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[0].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[1].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[2].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[3].isNeutralized = true;
+
+          // when
+          const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({ certificationAssessment: certificationAssessmentWithNeutralizedChallenge, continueOnError: false });
+
+          // then
+          expect(certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted).to.be.true;
+        });
+      });
+
+      context('when certification has not enough non neutralized challenges to be trusted', function() {
+
+        it('should return a CertificationAssessmentScore which hasEnoughNonNeutralizedChallengesToBeTrusted is false', async function() {
+          // given
+          const certificationAssessmentWithNeutralizedChallenge = _.cloneDeep(certificationAssessment);
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[0].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[1].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[2].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[3].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[4].isNeutralized = true;
+          certificationAssessmentWithNeutralizedChallenge.certificationChallenges[5].isNeutralized = true;
+
+          // when
+          const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({ certificationAssessment: certificationAssessmentWithNeutralizedChallenge, continueOnError: false });
+
+          // then
+          expect(certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted).to.be.false;
+        });
+      });
+    });
   });
 });
