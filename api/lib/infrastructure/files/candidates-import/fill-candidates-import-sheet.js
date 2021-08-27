@@ -6,22 +6,20 @@ const {
   IMPORT_CANDIDATES_TEMPLATE_VALUES,
   IMPORT_CANDIDATES_SESSION_TEMPLATE_VALUES,
 } = require('./candidates-import-placeholders');
-const { featureToggles } = require('../../../config');
 
 const moment = require('moment');
 const _ = require('lodash');
 const FRANCE_COUNTRY_CODE = '99100';
 
 module.exports = async function fillCandidatesImportSheet(session) {
-  const isCpfEnabled = featureToggles.isNewCPFDataEnabled;
-  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath(isCpfEnabled) });
+  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getCandidatesImportTemplatePath() });
 
   const sessionData = SessionData.fromSession(session);
-  const candidatesData = _getCandidatesData(session.certificationCandidates, isCpfEnabled);
+  const candidatesData = _getCandidatesData(session.certificationCandidates);
 
   const updatedStringifiedXml = _updateXml(stringifiedXml, sessionData, candidatesData);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getCandidatesImportTemplatePath(isCpfEnabled) });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getCandidatesImportTemplatePath() });
 };
 
 function _updateXml(stringifiedXml, sessionData, candidatesData) {
@@ -38,23 +36,21 @@ function _updateXml(stringifiedXml, sessionData, candidatesData) {
   });
 }
 
-function _getCandidatesData(certificationCandidates, isCpfEnabled) {
-  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates, isCpfEnabled);
+function _getCandidatesData(certificationCandidates) {
+  const enrolledCandidatesData = _certificationCandidatesToCandidatesData(certificationCandidates);
 
   const emptyCandidatesData = _emptyCandidatesData(enrolledCandidatesData.length);
 
   return enrolledCandidatesData.concat(emptyCandidatesData);
 }
 
-function _getCandidatesImportTemplatePath(isCpfEnabled) {
-  return isCpfEnabled ?
-    __dirname + '/1.5/candidates_import_template.ods'
-    : __dirname + '/1.4/candidates_import_template.ods';
+function _getCandidatesImportTemplatePath() {
+  return __dirname + '/1.5/candidates_import_template.ods';
 }
 
-function _certificationCandidatesToCandidatesData(certificationCandidates, isCpfEnabled) {
+function _certificationCandidatesToCandidatesData(certificationCandidates) {
   return _.map(certificationCandidates, (candidate, index) => {
-    return CandidateData.fromCertificationCandidateAndCandidateNumber(candidate, index + 1, isCpfEnabled);
+    return CandidateData.fromCertificationCandidateAndCandidateNumber(candidate, index + 1);
   });
 }
 
@@ -91,7 +87,6 @@ class CandidateData {
       userId = null,
       schoolingRegistrationId = null,
       number = null,
-      isCpfEnabled,
     }) {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
@@ -116,10 +111,7 @@ class CandidateData {
     this.userId = this._emptyStringIfNull(userId);
     this.schoolingRegistrationId = this._emptyStringIfNull(schoolingRegistrationId);
     this.count = number;
-
-    if (isCpfEnabled) {
-      this._clearBirthInformationDataForExport();
-    }
+    this._clearBirthInformationDataForExport();
   }
 
   _emptyStringIfNull(value) {
@@ -141,8 +133,8 @@ class CandidateData {
     }
   }
 
-  static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number, isCpfEnabled) {
-    return new CandidateData({ ...certificationCandidate, number, isCpfEnabled });
+  static fromCertificationCandidateAndCandidateNumber(certificationCandidate, number) {
+    return new CandidateData({ ...certificationCandidate, number });
   }
 
   static empty(number) {

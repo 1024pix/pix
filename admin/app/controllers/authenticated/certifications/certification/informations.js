@@ -70,10 +70,6 @@ export default class CertificationInformationsController extends Controller {
     return this.certification.status === 'cancelled';
   }
 
-  get shouldDisplayCPFInformation() {
-    return this.featureToggles.featureToggles.isNewCpfDataEnabled;
-  }
-
   get isModifyButtonDisabled() {
     return this.editingCandidateResults || this.certification.wasRegisteredBeforeCPF;
   }
