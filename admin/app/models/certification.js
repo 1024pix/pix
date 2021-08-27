@@ -113,6 +113,34 @@ export default class Certification extends Model {
     return !this.sex;
   }
 
+  wasBornInFrance() {
+    return this.birthCountry === 'FRANCE';
+  }
+
+  getInformation() {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      birthdate: this.birthdate,
+      birthplace: this.birthplace,
+      sex: this.sex,
+      birthInseeCode: this.birthInseeCode,
+      birthPostalCode: this.birthPostalCode,
+      birthCountry: this.birthCountry,
+    };
+  }
+
+  updateInformation({ firstName, lastName, birthdate, birthplace, sex, birthInseeCode, birthPostalCode, birthCountry }) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.birthdate = birthdate;
+    this.birthplace = birthplace;
+    this.sex = sex;
+    this.birthInseeCode = birthInseeCode;
+    this.birthPostalCode = birthPostalCode;
+    this.birthCountry = birthCountry;
+  }
+
   cancel = memberAction({
     type: 'post',
     urlType: 'cancel',
