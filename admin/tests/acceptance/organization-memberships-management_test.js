@@ -28,7 +28,7 @@ module('Acceptance | organization memberships management', function(hooks) {
   });
 
   module('listing members', function(hooks) {
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       server.createList('membership', 12);
     });
 
@@ -151,7 +151,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
     let membership;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
       membership = this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
     });
@@ -171,7 +171,7 @@ module('Acceptance | organization memberships management', function(hooks) {
 
   module('deactivating a member', function(hooks) {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
       this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
     });

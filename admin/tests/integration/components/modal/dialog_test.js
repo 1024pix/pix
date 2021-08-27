@@ -19,14 +19,14 @@ module('Integration | Component | modal', function(hooks) {
       return render(hbs`<Modal::Dialog @display={{display}} @title={{title}} @close={{close}} @additionalContainerClass={{additionalContainerClass}}>Mon contenu</Modal::Dialog>`);
     });
 
-    test('should render title and content', async function(assert) {
+    test('should render title and content', function(assert) {
       this.set('display', true);
 
       assert.contains('Mon titre');
       assert.contains('Mon contenu');
     });
 
-    test('should not display the modal', async function(assert) {
+    test('should not display the modal', function(assert) {
       this.set('display', false);
 
       assert.notContains('Mon titre');
@@ -56,7 +56,7 @@ module('Integration | Component | modal', function(hooks) {
       assert.ok(close.called);
     });
 
-    test('should be accessible', async function(assert) {
+    test('should be accessible', function(assert) {
       this.set('display', true);
 
       assert.dom('[aria-modal="true"]').exists();
@@ -65,7 +65,7 @@ module('Integration | Component | modal', function(hooks) {
       assert.dom('#modal_mon_titre_label').exists();
     });
 
-    test('should add additional container class', async function(assert) {
+    test('should add additional container class', function(assert) {
       const additionalContainerClass = 'a_class';
       this.set('display', true);
       this.set('additionalContainerClass', additionalContainerClass);

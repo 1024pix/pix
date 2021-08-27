@@ -7,7 +7,7 @@ module('Integration | Component | routes/authenticated/target-profiles | list-it
 
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     const triggerFiltering = function() {};
     const goToTargetProfilePage = function() {};
     this.triggerFiltering = triggerFiltering;

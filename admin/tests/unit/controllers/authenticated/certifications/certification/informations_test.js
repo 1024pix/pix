@@ -59,7 +59,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#hasImpactfulIssueReports', () => {
-    test('it should return true when there are some issue reports with required action', async function(assert) {
+    test('it should return true when there are some issue reports with required action', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -78,7 +78,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.true(controller.hasImpactfulIssueReports);
     });
 
-    test('it should return false when there are no issue reports with required action', async function(assert) {
+    test('it should return false when there are no issue reports with required action', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: false }),
@@ -98,7 +98,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#hasUnimpactfulIssueReports', () => {
-    test('it should return true when there are some issue reports without required action', async function(assert) {
+    test('it should return true when there are some issue reports without required action', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: false }),
@@ -116,7 +116,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.true(controller.hasUnimpactfulIssueReports);
     });
 
-    test('it should return false when there are no issue reports without required action', async function(assert) {
+    test('it should return false when there are no issue reports without required action', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -136,7 +136,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#hasIssueReports', () => {
-    test('it should return true when there are some issue reports', async function(assert) {
+    test('it should return true when there are some issue reports', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -154,7 +154,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.true(controller.hasIssueReports);
     });
 
-    test('it should return false when there are no issue reports', async function(assert) {
+    test('it should return false when there are no issue reports', function(assert) {
       // given
       const certificationIssueReports = [];
       controller.model = {
@@ -208,7 +208,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#impactfulCertificationIssueReports', () => {
-    test('it should return certification issue reports with action required', async function(assert) {
+    test('it should return certification issue reports with action required', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -228,7 +228,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#unimpactfulCertificationIssueReports', () => {
-    test('it should return certification issue reports without action required', async function(assert) {
+    test('it should return certification issue reports without action required', function(assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),

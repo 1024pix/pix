@@ -15,7 +15,7 @@ module('Integration | Component | <Certification::CandidateEditModal/>', functio
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
   });
 

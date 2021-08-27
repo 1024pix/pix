@@ -50,7 +50,7 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
     module('when filters are used', function(hooks) {
 
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(() => {
         server.createList('target-profile', 12);
       });
 

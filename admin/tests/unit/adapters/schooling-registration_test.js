@@ -15,7 +15,7 @@ module('Unit | Adapter | schooling-registration', function(hooks) {
 
   module('#urlForDeleteRecord', function() {
 
-    test('it performs the request to dissociate user from student', async function(assert) {
+    test('it performs the request to dissociate user from student', function(assert) {
       // given
       const schoolingRegistration = { id: 12345 };
       const expectedUrl = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations/${schoolingRegistration.id}`;

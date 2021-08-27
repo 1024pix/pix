@@ -35,7 +35,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
 
   module('#competenceJury', function() {
 
-    test('it should not give jury values when no jury rate is set', async function(assert) {
+    test('it should not give jury values when no jury rate is set', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ko', 'partially'),
@@ -49,7 +49,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.false(actual);
     });
 
-    test('it should give jury values when a jury rate is set and score differs', async function(assert) {
+    test('it should give jury values when a jury rate is set and score differs', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'ko', 25, 17),
@@ -65,7 +65,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should not give jury values when a jury rate is set and score does not differ', async function(assert) {
+    test('it should not give jury values when a jury rate is set and score does not differ', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'ko', 25, 17),
@@ -80,7 +80,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.false(actual);
     });
 
-    test('it should give level n and positioned score when jury rate is set and 3 ok', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set and 3 ok', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'ok', 25, 17, 3, 2),
@@ -96,7 +96,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 ko', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 ko', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'ko', 25, 17, 3, 2),
@@ -112,7 +112,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 aband', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 aband', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'aband', 25, 17, 3, 2),
@@ -128,7 +128,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 partially', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 partially', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'partially', 25, 17, 3, 2),
@@ -144,7 +144,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 timedout', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 timedout', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'timedout', 25, 17, 3, 2),
@@ -160,7 +160,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 ko', async function(assert) {
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 ko', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'ko', 25, 25, 3, 3),
@@ -176,7 +176,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 17);
     });
 
-    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 aband', async function(assert) {
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 aband', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'aband', 25, 25, 3, 3),
@@ -192,7 +192,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 17);
     });
 
-    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 partiallyx  x', async function(assert) {
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 partiallyx  x', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'partially', 25, 25, 3, 3),
@@ -208,7 +208,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 17);
     });
 
-    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 timedout', async function(assert) {
+    test('it should give level n-1 and score positionedScore-8 when jury rate is set to 65 and 2 ok and 1 timedout', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'timedout', 25, 25, 3, 3),
@@ -224,7 +224,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 17);
     });
 
-    test('it should give level -1 and score 0 when jury rate is set and 1 ok', async function(assert) {
+    test('it should give level -1 and score 0 when jury rate is set and 1 ok', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ko', 'aband', 25, 25, 3, 3),
@@ -240,7 +240,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 0);
     });
 
-    test('it should give level -1 and score 0 when jury rate is set to 49', async function(assert) {
+    test('it should give level -1 and score 0 when jury rate is set to 49', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'ok', 25, 25, 3, 3),
@@ -256,7 +256,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 0);
     });
 
-    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 skip', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set to 81 and 2 ok and 1 skip', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'skip', 25, 0, 3, -1),
@@ -272,7 +272,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n and positioned score when jury rate is set to 65 and 2 ok and 1 skip', async function(assert) {
+    test('it should give level n and positioned score when jury rate is set to 65 and 2 ok and 1 skip', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'skip', 25, 0, 3, -1),
@@ -288,7 +288,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n when jury rate is set to 90, 1 ok, 1 partially, 1 skip', async function(assert) {
+    test('it should give level n when jury rate is set to 90, 1 ok, 1 partially, 1 skip', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ok', 'skip', 25, 0, 3, -1),
@@ -304,7 +304,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 25);
     });
 
-    test('it should give level n-1 when jury rate is set to 65, 1 ok, 1 partially, 1 skip', async function(assert) {
+    test('it should give level n-1 when jury rate is set to 65, 1 ok, 1 partially, 1 skip', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'partially', 'skip', 25, 0, 3, -1),
@@ -320,7 +320,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
       assert.equal(actual.score, 17);
     });
 
-    test('it should give level -1 when jury rate is set, 1 ok, 1 ko, 1 skip', async function(assert) {
+    test('it should give level -1 when jury rate is set, 1 ok, 1 ko, 1 skip', function(assert) {
       // given
       component.args = {
         competence: competence('ok', 'ko', 'skip', 25, 25, 3, 3),
@@ -338,7 +338,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
 
   });
 
-  test('it should compute widths correctly', async function(assert) {
+  test('it should compute widths correctly', function(assert) {
     // when
     component.args = {
       competence: competence('ok', 'ok', 'ko', 25, 17, 3, 2),
@@ -352,7 +352,7 @@ module('Unit | Component | <CertificationDetailsCompetence/>', function(hooks) {
     assert.equal(component.competenceJury.width.toString(), htmlSafe('width:' + Math.round((3 / 8) * 100) + '%'));
   });
 
-  test('it should retrieve answers from competence', async function(assert) {
+  test('it should retrieve answers from competence', function(assert) {
     // when
     component.args = {
       competence: competence('ok', 'partially', 'ko'),

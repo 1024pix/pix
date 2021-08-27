@@ -9,7 +9,7 @@ export default class AjaxQueueService extends Service {
     this._queue = new PQueue({ concurrency: ENV.APP.MAX_CONCURRENT_AJAX_CALLS });
   }
 
-  async add(job) {
+  add(job) {
     return this._queue.add(job);
   }
 }

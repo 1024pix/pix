@@ -49,7 +49,7 @@ module('Acceptance | Organization List', function(hooks) {
 
     module('when filters are used', function(hooks) {
 
-      hooks.beforeEach(async () => {
+      hooks.beforeEach(() => {
         server.createList('organization', 12);
       });
 

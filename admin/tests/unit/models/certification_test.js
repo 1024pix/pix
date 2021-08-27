@@ -8,7 +8,7 @@ module('Unit | Model | certification', function(hooks) {
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
   });
 

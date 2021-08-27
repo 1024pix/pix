@@ -13,7 +13,7 @@ module('Unit | Component | organization-information-section', function(hooks) {
     component = createGlimmerComponent('component:organization-information-section');
   });
 
-  test('it should generate link based on environment and object', async function(assert) {
+  test('it should generate link based on environment and object', function(assert) {
     // given
     const args = { organization: { id: 1 } };
     const baseURL = 'https://metabase.pix.fr/dashboard/137/?id=';

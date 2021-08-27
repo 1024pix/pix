@@ -12,7 +12,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
   });
 
   module('#goBackToTargetProfileList', function() {
-    test('should delete record and go back target profile list page', async function(assert) {
+    test('should delete record and go back target profile list page', function(assert) {
       controller.store.deleteRecord = sinon.stub();
       controller.transitionToRoute = sinon.stub();
       controller.model = Symbol('targetProfile');
@@ -29,7 +29,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
       sinon.restore();
     });
 
-    test('should read the file', async function(assert) {
+    test('should read the file', function(assert) {
       const event = {
         target: {
           files: [Symbol('myFile')],
@@ -43,7 +43,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
       assert.ok(FileReader.prototype.readAsText.calledWith(event.target.files[0]));
     });
 
-    test('should parse the file', async function(assert) {
+    test('should parse the file', function(assert) {
       controller.model = {};
       const event = {
         target: {
@@ -65,7 +65,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
       assert.deepEqual(controller.model.skillsId, ['skill1', 'skill2']);
       assert.false(controller.isFileInvalid);
     });
-    test('should cannot parse the file', async function(assert) {
+    test('should cannot parse the file', function(assert) {
       controller.model = {};
       const event = {
         target: {

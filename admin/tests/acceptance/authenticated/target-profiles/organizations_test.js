@@ -23,7 +23,7 @@ module('Acceptance | authenticated/targets-profile/target-profile/organizations'
 
   module('with multiple organizations', function(hooks) {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       this.server.create('organization', { name: 'My organization' });
       this.server.create('organization', { name: 'My other organization' });
     });

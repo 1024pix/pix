@@ -7,7 +7,7 @@ module('Integration | Component | routes/authenticated/certification-centers | l
 
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     const triggerFiltering = function() {};
     this.triggerFiltering = triggerFiltering;
   });

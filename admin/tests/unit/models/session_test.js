@@ -8,7 +8,7 @@ module('Unit | Model | session', function(hooks) {
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
   });
 
@@ -119,7 +119,7 @@ module('Unit | Model | session', function(hooks) {
 
         let sessionWithAllCertificationsPublished;
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(function() {
           sessionWithAllCertificationsPublished = run(() => {
             const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
             const certif2 = store.createRecord('jury-certification-summary', { isPublished: true });
@@ -137,7 +137,7 @@ module('Unit | Model | session', function(hooks) {
 
         let sessionWithoutAllCertificationsPublished;
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(function() {
           sessionWithoutAllCertificationsPublished = run(() => {
             const certif1 = store.createRecord('jury-certification-summary', { isPublished: true });
             const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
@@ -154,7 +154,7 @@ module('Unit | Model | session', function(hooks) {
 
         let sessionWithoutAllCertificationsPublished;
 
-        hooks.beforeEach(async function() {
+        hooks.beforeEach(function() {
           sessionWithoutAllCertificationsPublished = run(() => {
             const certif1 = store.createRecord('jury-certification-summary', { isPublished: false });
             const certif2 = store.createRecord('jury-certification-summary', { isPublished: false });
@@ -176,7 +176,7 @@ module('Unit | Model | session', function(hooks) {
     let sessionWithCertificationIssueReports;
     let sessionWithoutCertificationIssueReport;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       sessionWithCertificationIssueReports = run(() => {
         const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: 5 });
         const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReports: 1 });
@@ -203,7 +203,7 @@ module('Unit | Model | session', function(hooks) {
     let sessionWithCertificationIssueReports;
     let sessionWithoutCertificationIssueReport;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       sessionWithCertificationIssueReports = run(() => {
         const certif = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 5 });
         const certif2 = store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 1 });
@@ -231,7 +231,7 @@ module('Unit | Model | session', function(hooks) {
     let sessionWithOneUncheckedEndScreen;
     let sessionWithOneCheckedEndScreen;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       sessionWithOneUncheckedEndScreen = run(() => {
         const certif = store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: false });
         return store.createRecord('session', { juryCertificationSummaries: [certif] });

@@ -40,7 +40,7 @@ module('Integration | Component | member-item', function(hooks) {
       await clickByLabel('Modifier le rôle');
     });
 
-    test('it should display save and cancel button', async function(assert) {
+    test('it should display save and cancel button', function(assert) {
       // then
       assert.contains('Enregistrer');
       assert.dom('button[aria-label="Annuler"]');

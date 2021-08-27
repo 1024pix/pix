@@ -5,7 +5,7 @@ import RSVP from 'rsvp';
 
 export default class CertificationInformationsRoute extends Route {
 
-  async model() {
+  model() {
     return RSVP.hash({
       certification: this.modelFor('authenticated.certifications.certification').reload(),
       countries: this.store.findAll('country'),

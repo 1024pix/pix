@@ -5,7 +5,7 @@ import { contains, notContains } from './contains';
 QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
-export async function createAuthenticateSession({ userId }) {
+export function createAuthenticateSession({ userId }) {
   return authenticateSession({
     user_id: userId,
     access_token: 'aaa.' + btoa(`{"user_id":${userId},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',

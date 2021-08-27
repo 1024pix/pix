@@ -8,7 +8,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     store = this.owner.lookup('service:store');
   });
 

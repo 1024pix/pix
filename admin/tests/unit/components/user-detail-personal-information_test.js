@@ -18,7 +18,7 @@ module('Unit | Component | user-detail-personal-information', function(hooks) {
     };
   });
 
-  test('it should generate dashboard URL based on environment and object', async function(assert) {
+  test('it should generate dashboard URL based on environment and object', function(assert) {
     // given
     const args = {
       user: {

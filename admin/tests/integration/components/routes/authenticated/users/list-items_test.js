@@ -7,7 +7,7 @@ module('Integration | Component | routes/authenticated/users | list-items', func
 
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(function() {
     const triggerFiltering = function() {};
     this.triggerFiltering = triggerFiltering;
   });

@@ -16,7 +16,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
   module('#canPublish', function() {
 
-    test('should be false when there is a certification in error', async function(assert) {
+    test('should be false when there is a certification in error', function(assert) {
       // given
       controller.set('model', model);
       controller.model.juryCertificationSummaries = [{ status: 'validated' }, { status: 'error' }];
@@ -28,7 +28,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       assert.false(result);
     });
 
-    test('should be false when there is a certification started', async function(assert) {
+    test('should be false when there is a certification started', function(assert) {
       // given
       controller.set('model', model);
       controller.model.juryCertificationSummaries = [{ status: 'rejected' }, { status: 'started' }];
@@ -40,7 +40,7 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
       assert.false(result);
     });
 
-    test('should be true when there is no certification in error orstarted', async function(assert) {
+    test('should be true when there is no certification in error orstarted', function(assert) {
       // given
       controller.set('model', model);
       controller.model.juryCertificationSummaries = [{ status: 'rejected' }, { status: 'validated' }];

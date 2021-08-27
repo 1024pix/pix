@@ -30,7 +30,7 @@ module('Acceptance | tools page', function(hooks) {
       await visit('/tools');
     });
 
-    test('Should content "Learning content" section', async function(assert) {
+    test('Should content "Learning content" section', function(assert) {
       assert.dom('section[data-test-id="learning-content"]').exists();
       assert.dom('button').exists();
     });

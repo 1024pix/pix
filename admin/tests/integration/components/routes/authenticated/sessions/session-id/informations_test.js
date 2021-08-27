@@ -72,7 +72,7 @@ module('Integration | Component | routes/authenticated/sessions/session | inform
 
   module('when the session is finalized', function(hooks) {
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(function() {
       const sessionData = {
         status: 'finalized',
         finalizedAt: new Date(),

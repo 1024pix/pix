@@ -74,7 +74,7 @@ module('Acceptance | Session page', function(hooks) {
 
   });
 
-  async function visitSessionsPage() {
+  function visitSessionsPage() {
     return visit('/sessions');
   }
 

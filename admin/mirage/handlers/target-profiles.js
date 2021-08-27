@@ -26,7 +26,7 @@ function attachOrganizationsFromExistingTargetProfile(schema, request) {
   return new Response(204);
 }
 
-async function getOrganizationTargetProfiles(schema, request) {
+function getOrganizationTargetProfiles(schema, request) {
   const ownerOrganizationId = request.params.id;
   return schema.targetProfiles.where({ ownerOrganizationId });
 }
