@@ -197,12 +197,12 @@
 
   &--link {
     text-decoration: underline;
-    color: $blue;
+    color: $blue-hover;
 
     &:active,
     &:focus,
     &:hover {
-      color: $blue-hover;
+      color: $dark-blue-pro;
     }
 
     &:visited {
