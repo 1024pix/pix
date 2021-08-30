@@ -14,6 +14,7 @@ const STATUS_MAP = {
 
 const ERROR_INPUT_MESSAGE_MAP = {
   wrongEmailFormat: 'pages.user-account.account-update-email.fields.errors.wrong-email-format',
+  emailAlreadyExist: 'pages.user-account.account-update-email.fields.errors.new-email-already-exist',
   mismatchingEmail: 'pages.user-account.account-update-email.fields.errors.mismatching-email',
   emptyPassword: 'pages.user-account.account-update-email.fields.errors.empty-password',
   invalidPassword: 'pages.user-account.account-update-email.fields.errors.invalid-password',
@@ -112,7 +113,11 @@ export default class UserAccountUpdateEmail extends Component {
             this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
           }
         } else if (status === '400' || status === '403') {
+          const code = get(response, 'errors[0].code');
           this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
+          if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
+            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
+          }
         } else {
           this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
         }
