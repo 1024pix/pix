@@ -6,7 +6,7 @@ async function getCommitDatesBetweenTags(olderTag, newerTag) {
   return commitDates.split('\n');
 }
 
-async function getTagDate(tag) {
+function getTagDate(tag) {
   return exec(`git show --pretty=format:"%ad" --summary ${tag} | tail -1`);
 }
 
