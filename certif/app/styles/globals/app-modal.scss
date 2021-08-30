@@ -99,16 +99,12 @@ $pix-modal-border-radius: 5px;
       .pix-modal-footer {
         border-bottom-left-radius: $pix-modal-border-radius;
         border-bottom-right-radius: $pix-modal-border-radius;
+        padding: 8px 0 20px 0;
+        display: flex;
+        justify-content: flex-end;
 
-        &--with-centered-buttons {
-          padding: 8px 0 20px 0;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-
-          > button {
-            margin: 0 10px;
-          }
+        .pix-button {
+          margin-left: 16px;
         }
 
         &--border {

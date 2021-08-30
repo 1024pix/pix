@@ -117,18 +117,10 @@
 
     .bottom-action-bar__actions {
       display: flex;
+      padding: 0 24px;
 
-      .button {
-        max-height: 44px;
-        margin-left: 16px;
-      }
-
-      &--add-button {
-        margin-right: 16px;
-      }
-
-      &:last-child {
-        margin-right: 19px;
+      .pix-button {
+        margin: 0 8px;
       }
     }
   }
