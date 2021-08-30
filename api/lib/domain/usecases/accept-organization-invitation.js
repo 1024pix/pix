@@ -41,13 +41,7 @@ module.exports = async function acceptOrganizationInvitation({
       await membershipRepository.create(userFound.id, organizationId, organizationRole);
     }
 
-    const userOrgaSettings = await userOrgaSettingsRepository.findOneByUserId(userFound.id);
-
-    if (_.isEmpty(userOrgaSettings)) {
-      await userOrgaSettingsRepository.create(userFound.id, organizationId);
-    } else {
-      await userOrgaSettingsRepository.update(userFound.id, organizationId);
-    }
+    await userOrgaSettingsRepository.createOrUpdate({ userId: userFound.id, organizationId });
 
     return organizationInvitationRepository.markAsAccepted(organizationInvitationId);
   }
