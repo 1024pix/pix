@@ -1286,6 +1286,7 @@
         "email-information": "Please provide a valid email address: it will be used to reset your password if you forget it. '<br>'This will change the email address you use to log in.",
         "fields": {
           "errors": {
+            "new-email-already-exist": "This email address is already in use.",
             "empty-password": "Your password can't be empty.",
             "invalid-password": "There was an error in the password entered.",
             "mismatching-email": "The email addresses you entered do not match. Please check your entry for spelling errors.",
