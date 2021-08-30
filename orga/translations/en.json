@@ -45,8 +45,7 @@
   },
   "banners": {
     "campaigns": {
-      "actionLabel": "Learn more.",
-      "message": "Certification in middle and high schools is open until 25 June. To reschedule sessions already scheduled, simply change the date of the session by clicking on 'edit' in Pix Certif."
+      "message": "Don't forget to create your back-to-school campaigns and share the codes with your students before November. More info for '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'middle schools {faIcon}'</a>' and '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'high schools {faIcon}'</a>'"
     },
     "import": {
       "link-to": "import or reimport the students database",

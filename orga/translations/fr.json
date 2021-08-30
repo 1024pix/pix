@@ -45,8 +45,7 @@
   },
   "banners": {
     "campaigns": {
-      "actionLabel": "En savoir plus",
-      "message": "La certification en collège et lycée est possible jusqu'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit, dans Pix Certif, de changer la date de la session en cliquant sur « modifier »."
+      "message": "'<strong>'Parcours de rentrée 2021'</strong>' : N’oubliez pas de créer les campagnes de rentrée et de diffuser les codes aux élèves avant la Toussaint. Plus d’info '<'a href={middleSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'collège {faIcon}'</a>' et '<'a href={highSchoolDocumentationLink} class={externalLinkClasses} target=\"_blank\" rel=\"noopener noreferrer\"'>'lycée (GT et Pro) {faIcon}'</a>'"
     },
     "import": {
       "link-to": "importer ou ré-importer la base élèves",
