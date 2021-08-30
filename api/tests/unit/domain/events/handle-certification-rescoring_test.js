@@ -4,11 +4,13 @@ const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeu
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const { CertificationComputeError } = require('../../../../lib/domain/errors');
+const { featureToggles } = require('../../../../lib/config');
 
 describe('Unit | Domain | Events | handle-certification-rescoring', function() {
 
   it('computes and persists the assessment result and competence marks when computation succeeds', async function() {
     // given
+    sinon.stub(featureToggles, 'isManageUncompletedCertifEnabled').value(true);
     const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
     const assessmentResultRepository = { save: sinon.stub() };
     const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
@@ -92,85 +94,173 @@ describe('Unit | Domain | Events | handle-certification-rescoring', function() {
     expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedSaveCertificationCourse);
   });
 
-  it('cancel the certification course if certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted is false', async function() {
-    // given
-    const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
-    const assessmentResultRepository = { save: sinon.stub() };
-    const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
-    const competenceMarkRepository = { save: sinon.stub() };
-    const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
-    const certificationCourse = domainBuilder.buildCertificationCourse({
-      isCancelled: false,
-    });
-    const expectedSaveCertificationCourse = domainBuilder.buildCertificationCourse({
-      ...certificationCourse.toDTO(),
-      isCancelled: true,
-    });
+  context('when FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED is enabled', function() {
 
-    const event = new ChallengeNeutralized({ certificationCourseId: certificationCourse.getId(), juryId: 7 });
-    const certificationAssessment = new CertificationAssessment({
-      id: 123,
-      userId: 123,
-      certificationCourseId: certificationCourse.getId(),
-      createdAt: new Date('2020-01-01'),
-      completedAt: new Date('2020-01-01'),
-      state: CertificationAssessment.states.STARTED,
-      isV2Certification: true,
-      certificationChallenges: [
-        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
-        domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
-      ],
-      certificationAnswersByDate: ['answer'],
-    });
-    certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
-    certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
-
-    const competenceMarkData2 = domainBuilder.buildCompetenceMark();
-    const competenceMarkData1 = domainBuilder.buildCompetenceMark();
-    const nbPix = Symbol('nbPix');
-    const status = Symbol('status');
-    const certificationAssessmentScore = {
-      nbPix,
-      status,
-      competenceMarks: [competenceMarkData1, competenceMarkData2],
-      percentageCorrectAnswers: 80,
-      hasEnoughNonNeutralizedChallengesToBeTrusted: false,
-    };
-    scoringCertificationService.calculateCertificationAssessmentScore
-      .withArgs({ certificationAssessment, continueOnError: false })
-      .resolves(certificationAssessmentScore);
-
-    const assessmentResultToBeSaved = new AssessmentResult({
-      id: undefined,
-      commentForJury: 'Computed',
-      emitter: 'PIX-ALGO-NEUTRALIZATION',
-      pixScore: nbPix,
-      status: status,
-      assessmentId: 123,
-      juryId: 7,
-    });
-    const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
-    assessmentResultRepository.save
-      .withArgs(assessmentResultToBeSaved)
-      .resolves(savedAssessmentResult);
-
-    const dependendencies = {
-      assessmentResultRepository,
-      certificationAssessmentRepository,
-      competenceMarkRepository,
-      scoringCertificationService,
-      certificationCourseRepository,
-    };
-
-    // when
-    await handleCertificationRescoring(
-      {
-        ...dependendencies,
-        event,
+    it('cancel the certification course if certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted is false', async function() {
+      // given
+      sinon.stub(featureToggles, 'isManageUncompletedCertifEnabled').value(true);
+      const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
+      const assessmentResultRepository = { save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+      const competenceMarkRepository = { save: sinon.stub() };
+      const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        isCancelled: false,
+      });
+      const expectedSaveCertificationCourse = domainBuilder.buildCertificationCourse({
+        ...certificationCourse.toDTO(),
+        isCancelled: true,
       });
 
-    // then
-    expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedSaveCertificationCourse);
+      const event = new ChallengeNeutralized({ certificationCourseId: certificationCourse.getId(), juryId: 7 });
+      const certificationAssessment = new CertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: certificationCourse.getId(),
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-01'),
+        state: CertificationAssessment.states.STARTED,
+        isV2Certification: true,
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        ],
+        certificationAnswersByDate: ['answer'],
+      });
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+      certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+
+      const competenceMarkData2 = domainBuilder.buildCompetenceMark();
+      const competenceMarkData1 = domainBuilder.buildCompetenceMark();
+      const nbPix = Symbol('nbPix');
+      const status = Symbol('status');
+      const certificationAssessmentScore = {
+        nbPix,
+        status,
+        competenceMarks: [competenceMarkData1, competenceMarkData2],
+        percentageCorrectAnswers: 80,
+        hasEnoughNonNeutralizedChallengesToBeTrusted: false,
+      };
+      scoringCertificationService.calculateCertificationAssessmentScore
+        .withArgs({ certificationAssessment, continueOnError: false })
+        .resolves(certificationAssessmentScore);
+
+      const assessmentResultToBeSaved = new AssessmentResult({
+        id: undefined,
+        commentForJury: 'Computed',
+        emitter: 'PIX-ALGO-NEUTRALIZATION',
+        pixScore: nbPix,
+        status: status,
+        assessmentId: 123,
+        juryId: 7,
+      });
+      const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
+      assessmentResultRepository.save
+        .withArgs(assessmentResultToBeSaved)
+        .resolves(savedAssessmentResult);
+
+      const dependendencies = {
+        assessmentResultRepository,
+        certificationAssessmentRepository,
+        competenceMarkRepository,
+        scoringCertificationService,
+        certificationCourseRepository,
+      };
+
+      // when
+      await handleCertificationRescoring(
+        {
+          ...dependendencies,
+          event,
+        });
+
+      // then
+      expect(certificationCourseRepository.update).to.have.been.calledWithExactly(expectedSaveCertificationCourse);
+    });
+  });
+
+  context('when FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED is not enabled', function() {
+
+    it('does not cancel the certification course if certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted is false', async function() {
+      // given
+      sinon.stub(featureToggles, 'isManageUncompletedCertifEnabled').value(false);
+      const certificationCourseRepository = { get: sinon.stub(), update: sinon.stub() };
+      const assessmentResultRepository = { save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub() };
+      const competenceMarkRepository = { save: sinon.stub() };
+      const scoringCertificationService = { calculateCertificationAssessmentScore: sinon.stub() };
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        isCancelled: false,
+      });
+
+      certificationCourse.cancel = sinon.stub();
+
+      const event = new ChallengeNeutralized({ certificationCourseId: certificationCourse.getId(), juryId: 7 });
+      const certificationAssessment = new CertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: certificationCourse.getId(),
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-01-01'),
+        state: CertificationAssessment.states.STARTED,
+        isV2Certification: true,
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+          domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false }),
+        ],
+        certificationAnswersByDate: ['answer'],
+      });
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+      certificationCourseRepository.get.withArgs(certificationCourse.getId()).resolves(certificationCourse);
+
+      const competenceMarkData2 = domainBuilder.buildCompetenceMark();
+      const competenceMarkData1 = domainBuilder.buildCompetenceMark();
+      const nbPix = Symbol('nbPix');
+      const status = Symbol('status');
+      const certificationAssessmentScore = {
+        nbPix,
+        status,
+        competenceMarks: [competenceMarkData1, competenceMarkData2],
+        percentageCorrectAnswers: 80,
+        hasEnoughNonNeutralizedChallengesToBeTrusted: false,
+      };
+      scoringCertificationService.calculateCertificationAssessmentScore
+        .withArgs({ certificationAssessment, continueOnError: false })
+        .resolves(certificationAssessmentScore);
+
+      const assessmentResultToBeSaved = new AssessmentResult({
+        id: undefined,
+        commentForJury: 'Computed',
+        emitter: 'PIX-ALGO-NEUTRALIZATION',
+        pixScore: nbPix,
+        status: status,
+        assessmentId: 123,
+        juryId: 7,
+      });
+      const savedAssessmentResult = new AssessmentResult({ ...assessmentResultToBeSaved, id: 4 });
+      assessmentResultRepository.save
+        .withArgs(assessmentResultToBeSaved)
+        .resolves(savedAssessmentResult);
+
+      const dependendencies = {
+        assessmentResultRepository,
+        certificationAssessmentRepository,
+        competenceMarkRepository,
+        scoringCertificationService,
+        certificationCourseRepository,
+      };
+
+      // when
+      await handleCertificationRescoring(
+        {
+          ...dependendencies,
+          event,
+        });
+
+      // then
+      expect(certificationCourseRepository.update).to.not.have.been.called;
+      expect(certificationCourse.cancel).to.not.have.been.called;
+    });
   });
 
   it('returns a CertificationRescoringCompleted event', async function() {
