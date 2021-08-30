@@ -64,10 +64,9 @@
     margin-right: 20px;
   }
 
-  &__focused-out-of-window {
+  &__alert-message {
     display: flex;
     align-items: center;
-    max-width: 600px;
     color: $grey-90;
     font-family: $font-roboto;
     font-size: 0.875rem;
@@ -81,19 +80,14 @@
       margin-bottom: 0;
       margin-right: auto;
     }
-  }
 
-  &__timed-out {
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: 600;
-    color: $grey-70;
-    letter-spacing: 0.031rem;
-    margin-right: 20px;
+    &--focused-out-of-window {
+      max-width: 600px;
+    }
   }
 }
 
-.challenge-actions-focused-out {
+.challenge-actions-alert-message {
 
   &__icon {
     font-size: 1rem;
