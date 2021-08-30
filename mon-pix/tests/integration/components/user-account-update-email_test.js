@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
+import { find, render, triggerEvent } from '@ember/test-helpers';
+import { fillInByLabel } from '../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../helpers/click-by-label';
+import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -16,9 +19,9 @@ describe('Integration | Component | User account update email', () => {
       await render(hbs`<UserAccountUpdateEmail/>`);
 
       // then
-      expect(find('div[data-test-new-email]')).to.exist;
-      expect(find('button[data-test-cancel-email]')).to.exist;
-      expect(find('button[data-test-submit-email]')).to.exist;
+      expect(contains(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'))).to.exist;
+      expect(contains(this.intl.t('common.actions.cancel'))).to.exist;
+      expect(contains(this.intl.t('pages.user-account.account-update-email.save-button'))).to.exist;
     });
 
     context('when the user cancel edition', function() {
@@ -30,7 +33,7 @@ describe('Integration | Component | User account update email', () => {
         await render(hbs`<UserAccountUpdateEmail @disableEmailEditionMode={{this.disableEmailEditionMode}} />`);
 
         // when
-        await click('button[data-test-cancel-email]');
+        await clickByLabel(this.intl.t('common.actions.cancel'));
 
         // then
         sinon.assert.called(disableEmailEditionMode);
@@ -43,16 +46,16 @@ describe('Integration | Component | User account update email', () => {
 
         it('should display a wrong format error message when focus-out', async function() {
           // given
-          const wrongEmail = 'wrongEmail';
+          const invalidEmail = 'invalidEmail';
 
           await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
-          await fillIn('#newEmail', wrongEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), invalidEmail);
           await triggerEvent('#newEmail', 'focusout');
 
           // then
-          expect(find('#validationMessage-newEmail').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
+          expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'))).to.exist;
         });
       });
 
@@ -60,16 +63,16 @@ describe('Integration | Component | User account update email', () => {
 
         it('should display a wrong format error message when focus-out', async function() {
           // given
-          const wrongEmail = 'wrongEmail';
+          const invalidEmail = 'invalidEmail';
 
           await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
-          await fillIn('#newEmailConfirmation', wrongEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), invalidEmail);
           await triggerEvent('#newEmailConfirmation', 'focusout');
 
           // then
-          expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
+          expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'))).to.exist;
         });
       });
 
@@ -83,12 +86,12 @@ describe('Integration | Component | User account update email', () => {
           await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
-          await fillIn('#newEmail', newEmail);
-          await fillIn('#newEmailConfirmation', newEmailConfirmation);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmailConfirmation);
           await triggerEvent('#newEmailConfirmation', 'focusout');
 
           // then
-          expect(find('#validationMessage-newEmailConfirmation').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.mismatching-email'));
+          expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.mismatching-email'))).to.exist;
         });
       });
 
@@ -102,13 +105,13 @@ describe('Integration | Component | User account update email', () => {
           await render(hbs`<UserAccountUpdateEmail />`);
 
           // when
-          await fillIn('#newEmail', newEmail);
-          await fillIn('#newEmailConfirmation', newEmail);
-          await fillIn('#password', emptyPassword);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), emptyPassword);
           await triggerEvent('#password', 'focusout');
 
           // then
-          expect(find('#validationMessage-password').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'));
+          expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'))).to.exist;
         });
 
         it('should have the autocomplete attribute set to "new-password" in order to prevent the web browsers to autocomplete the password and email fields', async () => {
@@ -145,20 +148,40 @@ describe('Integration | Component | User account update email', () => {
         await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
-        await fillIn('#newEmail', newEmail);
-        await fillIn('#newEmailConfirmation', newEmail);
-        await fillIn('#password', password);
-        await click('button[data-test-submit-email]');
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
 
         // then
         sinon.assert.calledWith(saveNewEmail, newEmail);
+      });
+
+      it('should display wrong email format error if response status is 400', async function() {
+        // given
+        const emailAlreadyExist = 'email@example.net';
+        const password = 'password';
+
+        const saveNewEmail = sinon.stub();
+        this.set('saveNewEmail', saveNewEmail);
+        saveNewEmail.rejects({ errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
+
+        await render(hbs `<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+
+        // when
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), emailAlreadyExist);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), emailAlreadyExist);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.new-email-already-exist'))).to.exist;
       });
 
       it('should display error message from server if response status is 400 or 403', async function() {
         // given
         const newEmail = 'newEmail@example.net';
         const password = 'password';
-        const expectedErrorMessage = this.intl.t('pages.user-account.account-update-email.fields.errors.invalid-password');
 
         const saveNewEmail = sinon.stub();
         this.set('saveNewEmail', saveNewEmail);
@@ -167,13 +190,13 @@ describe('Integration | Component | User account update email', () => {
         await render(hbs `<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
-        await fillIn('#newEmail', newEmail);
-        await fillIn('#newEmailConfirmation', newEmail);
-        await fillIn('#password', password);
-        await click('button[data-test-submit-email]');
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
 
         // then
-        expect(find('span[data-test-error-message]').textContent).to.equal(expectedErrorMessage);
+        expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.invalid-password'))).to.exist;
       });
 
       it('should display default error message if response status is unknown', async function() {
@@ -188,13 +211,13 @@ describe('Integration | Component | User account update email', () => {
         await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
-        await fillIn('#newEmail', newEmail);
-        await fillIn('#newEmailConfirmation', newEmail);
-        await fillIn('#password', password);
-        await click('button[data-test-submit-email]');
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
 
         // then
-        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.unknown-error'));
+        expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.unknown-error'))).to.exist;
       });
 
       it('should display wrong email format error if response status is 422', async function() {
@@ -209,13 +232,13 @@ describe('Integration | Component | User account update email', () => {
         await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
-        await fillIn('#newEmail', newEmail);
-        await fillIn('#newEmailConfirmation', newEmail);
-        await fillIn('#password', password);
-        await click('button[data-test-submit-email]');
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
 
         // then
-        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'));
+        expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.wrong-email-format'))).to.exist;
       });
 
       it('should display empty password error if response status is 422', async function() {
@@ -230,13 +253,13 @@ describe('Integration | Component | User account update email', () => {
         await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
-        await fillIn('#newEmail', newEmail);
-        await fillIn('#newEmailConfirmation', newEmail);
-        await fillIn('#password', password);
-        await click('button[data-test-submit-email]');
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
 
         // then
-        expect(find('span[data-test-error-message]').textContent).to.equal(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'));
+        expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'))).to.exist;
       });
     });
   });

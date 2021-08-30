@@ -1286,6 +1286,7 @@
         "email-information": "Cette adresse e-mail doit être valide en cas de mot de passe oublié. '<br>' Elle sera votre nouvelle adresse de connexion.",
         "fields": {
           "errors": {
+            "new-email-already-exist": "Cette adresse e-mail est déjà utilisée.",
             "empty-password": "Votre mot de passe ne peut pas être vide.",
             "invalid-password": "Le mot de passe que vous avez saisi est invalide.",
             "mismatching-email": "Les deux adresses e-mail ne sont pas identiques. Veuillez vérifier votre saisie.",
