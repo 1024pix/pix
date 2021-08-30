@@ -153,7 +153,7 @@
       "title": "Customised test",
       "card": {
         "finished-at": "Finished the {date}",
-        "results": "Success rate: {result}%",
+        "results": "Success rate: {result, number, ::percent}",
         "resume": "Resume",
         "see-more": "See more",
         "send": "Submit my results",
