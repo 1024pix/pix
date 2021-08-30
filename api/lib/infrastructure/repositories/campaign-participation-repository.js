@@ -112,7 +112,7 @@ module.exports = {
             this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
               .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
           })
-          .where({ campaignId });
+          .where({ campaignId, isImproved: false });
       })
       .from('campaignParticipationWithUser');
 
