@@ -33,7 +33,7 @@ function _findByUserId({ userId }) {
         createdAt: 'campaign-participations.createdAt',
         isShared: 'campaign-participations.isShared',
         sharedAt: 'campaign-participations.sharedAt',
-        validatedSkillsCount: 'campaign-participations.validatedSkillsCount',
+        masteryPercentage: 'campaign-participations.masteryPercentage',
         campaignCode: 'campaigns.code',
         campaignTitle: 'campaigns.title',
         targetProfileId: 'campaigns.targetProfileId',

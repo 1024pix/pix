@@ -36,7 +36,7 @@ describe('Integration | Repository | Campaign Participation Overview', function(
       it('retrieves information about campaign participation, campaign and organization', async function() {
         const { id: organizationId } = databaseBuilder.factory.buildOrganization({ name: 'Organization ABCD' });
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ title: 'Campaign ABCD', code: 'ABCD', archivedAt: new Date('2020-01-03'), organizationId, targetProfileId: targetProfile.id });
-        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-01-02'), validatedSkillsCount: 1 });
+        const { id: participationId } = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, createdAt: new Date('2020-01-01'), sharedAt: new Date('2020-01-02'), validatedSkillsCount: 1, masteryPercentage: '0.10' });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId: participationId, state: Assessment.states.STARTED });
         await databaseBuilder.commit();
 
@@ -53,9 +53,7 @@ describe('Integration | Repository | Campaign Participation Overview', function(
           organizationName: 'Organization ABCD',
           assessmentState: Assessment.states.STARTED,
           targetProfileId: targetProfile.id,
-          totalSkillsCount: 1,
-          validatedSkillsCount: 1,
-          masteryPercentage: 100,
+          masteryPercentage: '0.10',
           totalStagesCount: 1,
           validatedStagesCount: 1,
 

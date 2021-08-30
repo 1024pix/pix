@@ -45,7 +45,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
           sharedAt: '2020-12-18T15:16:20.109Z',
           assessmentState: 'completed',
           campaignTitle: 'My campaign',
-          masteryPercentage: 20,
+          masteryPercentage: '0.20',
           totalStagesCount: 0,
         });
         this.set('campaignParticipationOverview', campaignParticipationOverview);
@@ -67,7 +67,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Ended
           sharedAt: '2020-12-18T15:16:20.109Z',
           assessmentState: 'completed',
           campaignTitle: 'My campaign',
-          masteryPercentage: 70,
+          masteryPercentage: '0.70',
           validatedStagesCount: 4,
           totalStagesCount: 6,
         });
