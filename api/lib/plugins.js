@@ -10,23 +10,21 @@ const consoleReporters =
   isProduction ?
     [
       {
-        module: 'good-squeeze',
-        name: 'SafeJson',
+        module: require('@hapi/good-squeeze').SafeJson,
         args: [],
       },
     ]
     :
     [
       {
-        module: 'good-squeeze',
-        name: 'Squeeze',
+        module: require('@hapi/good-squeeze').Squeeze,
         args: [{
           response: '*',
           log: '*',
         }],
       },
       {
-        module: 'good-console',
+        module: require('@hapi/good-console'),
         args: [{
           color: settings.logging.colorEnabled,
         }],
@@ -55,7 +53,7 @@ const plugins = [
     },
   },
   {
-    plugin: require('good'),
+    plugin: require('@hapi/good'),
     options: {
       reporters: {
         console: consoleReporters,
