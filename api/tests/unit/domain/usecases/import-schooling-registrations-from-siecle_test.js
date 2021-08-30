@@ -1,6 +1,7 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const importSchoolingRegistrationsFromSIECLEFormat = require('../../../../lib/domain/usecases/import-schooling-registrations-from-siecle');
 const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 
@@ -19,10 +20,15 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
   let schoolingRegistrationRepositoryStub;
   let organizationRepositoryStub;
   let payload = null;
+  let domainTransaction;
 
   beforeEach(function() {
     sinon.stub(fs, 'unlink');
     sinon.stub(fs, 'readFile');
+    domainTransaction = Symbol();
+    sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+      return callback(domainTransaction);
+    });
     format = 'xml';
     schoolingRegistrationsXmlServiceStub = { extractSchoolingRegistrationsInformationFromSIECLE: sinon.stub() };
     schoolingRegistrationsCsvServiceStub = { extractSchoolingRegistrationsInformation: sinon.stub() };
@@ -30,6 +36,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
       addOrUpdateOrganizationSchoolingRegistrations: sinon.stub(),
       addOrUpdateOrganizationAgriSchoolingRegistrations: sinon.stub(),
       findByOrganizationId: sinon.stub(),
+      disableAllSchoolingRegistrationsInOrganization: sinon.stub().resolves(),
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
@@ -131,6 +138,27 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith(schoolingRegistrations, organizationId);
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.not.throw();
       });
+    });
+
+    it('should disable all previous schooling registrations', async function() {
+      // given
+      format = 'xml';
+      payload = { path: 'file.xml' } ;
+
+      const extractedSchoolingRegistrationsInformations = [
+        { nationalStudentId: 'INE1' },
+      ];
+      organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
+      schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
+        .returns(extractedSchoolingRegistrationsInformations);
+
+      schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
+
+      // when
+      await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+
+      // then
+      expect(schoolingRegistrationRepositoryStub.disableAllSchoolingRegistrationsInOrganization).to.have.been.calledWithExactly({ domainTransaction, organizationId });
     });
   });
 

@@ -136,13 +136,15 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  async disableAllSchoolingRegistrationsInOrganization({ trx, organizationId }) {
-    await trx('schooling-registrations')
+  async disableAllSchoolingRegistrationsInOrganization({ domainTransaction, organizationId }) {
+    const knexConn = domainTransaction.knexTransaction;
+    await knexConn('schooling-registrations')
       .where({ organizationId, isDisabled: false })
-      .update({ isDisabled: true, updatedAt: trx.raw('CURRENT_TIMESTAMP') });
+      .update({ isDisabled: true, updatedAt: knexConn.raw('CURRENT_TIMESTAMP') });
   },
 
-  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId) {
+  async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId, domainTransaction) {
+    const knexConn = domainTransaction.knexTransaction;
     const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
       ...schoolingRegistrationData,
       organizationId,
@@ -151,10 +153,7 @@ module.exports = {
 
     const [schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationsFromFile, currentSchoolingRegistrations);
 
-    const trx = await Bookshelf.knex.transaction();
     try {
-      await this.disableAllSchoolingRegistrationsInOrganization({ trx, organizationId });
-
       await Promise.all([
         bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
           const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
@@ -163,19 +162,17 @@ module.exports = {
             'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
           };
 
-          await trx('schooling-registrations')
+          await knexConn('schooling-registrations')
             .where(whereConditions)
             .update({
               ...attributesToUpdate,
               isDisabled: false,
-              updatedAt: Bookshelf.knex.raw('CURRENT_TIMESTAMP'),
+              updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
             });
         }),
-        trx.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
+        knexConn.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
       ]);
-      await trx.commit();
     } catch (err) {
-      await trx.rollback();
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
         throw new SameNationalStudentIdInOrganizationError(err.detail);
       }
