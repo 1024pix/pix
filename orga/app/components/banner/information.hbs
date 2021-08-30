@@ -1,5 +1,5 @@
 {{#if this.displayNewYearSchoolingRegistrationsImportBanner}}
-  <PixBanner  @type='information'>
+  <PixBanner @type='information'>
     <Ui::TranslateExtended
       @key='banners.import.message'
       @options={{hash
@@ -12,7 +12,15 @@
     />
   </PixBanner>
 {{else if this.displayNewYearCampaignsBanner}}
-  <PixBanner @type='information' @actionLabel={{t 'banners.campaigns.actionLabel'}} @actionUrl={{this.documentationLink}}>
-    {{t 'banners.campaigns.message' htmlSafe=true}}
+  <PixBanner @type='information'>
+    <Ui::TranslateExtended
+      @key='banners.campaigns.message'
+      @options={{hash
+      faIcon=(component 'fa-icon' icon='external-link-alt')
+      middleSchoolDocumentationLink=this.campaignMiddleSchoolDocumentationLink
+      highSchoolDocumentationLink=this.campaignHighSchoolDocumentationLink
+      externalLinkClasses='"link link--banner link--bold link--underlined"'
+    }}
+    />
   </PixBanner>
 {{/if}}
