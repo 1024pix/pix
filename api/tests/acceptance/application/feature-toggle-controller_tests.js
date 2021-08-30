@@ -24,7 +24,6 @@ describe('Acceptance | Controller | feature-toggle-controller', function() {
           id: '0',
           attributes: {
             'is-download-certification-attestation-by-division-enabled': false,
-            'is-sco-account-recovery-enabled': false,
             'is-new-cpf-data-enabled': false,
             'is-manage-uncompleted-certif-enabled': false,
           },

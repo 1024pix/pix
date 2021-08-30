@@ -5,7 +5,6 @@ const securityPreHandlers = require('../security-pre-handlers');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
 const { passwordValidationPattern } = require('../../config').account;
 const identifiersType = require('../../domain/types/identifiers-type');
-const featureToggles = require('../preHandlers/feature-toggles');
 
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
@@ -140,12 +139,6 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-dependent-users/recover-account',
       config: {
-        pre: [
-          {
-            method: featureToggles.isScoAccountRecoveryEnabled,
-            assign: 'isScoAccountRecoveryEnabled',
-          },
-        ],
         auth: false,
         handler: schoolingRegistrationDependentUserController.checkScoAccountRecovery,
         validate: {

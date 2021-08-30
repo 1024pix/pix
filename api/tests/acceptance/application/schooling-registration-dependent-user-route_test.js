@@ -6,7 +6,6 @@ const {
 } = require('../../test-helper');
 
 const createServer = require('../../../server');
-const { featureToggles } = require('../../../lib/config');
 
 describe('Acceptance | Route | Schooling-registration-dependent-user', function() {
 
@@ -343,8 +342,6 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function(
 
     it('should return a 200 status and student information for account recovery', async function() {
       // given
-      featureToggles.isScoAccountRecoveryEnabled = true;
-
       const studentInformation = {
         ineIna: '123456789AA',
         firstName: 'Jude',
@@ -415,40 +412,6 @@ describe('Acceptance | Route | Schooling-registration-dependent-user', function(
           'latest-organization-name': 'Super Collège Hollywoodien',
         },
       });
-    });
-
-    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async function() {
-      // given
-      featureToggles.isScoAccountRecoveryEnabled = false;
-
-      const studentInformation = {
-        ineIna: '123456789AA',
-        firstName: 'Jude',
-        lastName: 'Law',
-        birthdate: '2016-06-01',
-      };
-
-      const options = {
-        method: 'POST',
-        url: '/api/schooling-registration-dependent-users/recover-account',
-        payload: {
-          data: {
-            type: 'student-information',
-            attributes: {
-              'ine-ina': studentInformation.ineIna,
-              'first-name': studentInformation.firstName,
-              'last-name': studentInformation.lastName,
-              'birthdate': studentInformation.birthdate,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
     });
   });
 

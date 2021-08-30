@@ -3,7 +3,6 @@ const {
   sinon,
   HttpTestServer,
 } = require('../../../test-helper');
-const { featureToggles } = require('../../../../lib/config');
 const {
   NotFoundError,
   UserNotFoundError,
@@ -20,7 +19,6 @@ describe('Integration | Application | Account-Recovery | account-recovery-contro
     sinon.stub(usecases, 'getAccountRecoveryDetails');
 
     httpTestServer = new HttpTestServer();
-    featureToggles.isScoAccountRecoveryEnabled = true;
     await httpTestServer.register(moduleUnderTest);
   });
 

@@ -5,14 +5,7 @@ import get from 'lodash/get';
 export default class UpdateScoRecordRoute extends Route {
 
   @service intl;
-  @service featureToggles;
   @service store;
-
-  beforeModel() {
-    if (!this.featureToggles.featureToggles.isScoAccountRecoveryEnabled) {
-      this.replaceWith('/connexion');
-    }
-  }
 
   async model(params) {
     const temporaryKey = params.temporary_key;
