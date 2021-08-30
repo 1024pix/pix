@@ -154,6 +154,28 @@ describe('Integration | Component | User account update email', () => {
         sinon.assert.calledWith(saveNewEmail, newEmail);
       });
 
+      it('should display wrong email format error if response status is 400', async function() {
+        // given
+        const emailAlreadyExist = 'email@example.net';
+        const password = 'password';
+        const expectedErrorMessage = this.intl.t('pages.user-account.account-update-email.fields.errors.new-email-already-exist');
+
+        const saveNewEmail = sinon.stub();
+        this.set('saveNewEmail', saveNewEmail);
+        saveNewEmail.rejects({ errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
+
+        await render(hbs `<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+
+        // when
+        await fillIn('#newEmail', emailAlreadyExist);
+        await fillIn('#newEmailConfirmation', emailAlreadyExist);
+        await fillIn('#password', password);
+        await click('button[data-test-submit-email]');
+
+        // then
+        expect(find('span[data-test-error-message]').textContent).to.equal(expectedErrorMessage);
+      });
+
       it('should display error message from server if response status is 400 or 403', async function() {
         // given
         const newEmail = 'newEmail@example.net';
