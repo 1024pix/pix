@@ -124,7 +124,7 @@ async function _getReferentiel({
   }
 }
 
-async function _getChallenge({
+function _getChallenge({
   challenges,
   targetSkills,
   assessment,
@@ -160,13 +160,13 @@ function _getChallengeLevel({ assessment, result }) {
   return chosenSkill ? chosenSkill.difficulty : null;
 }
 
-async function proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE) {
+function proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE) {
   let isAssessmentOver = false;
   const algoResult = new AlgoResult();
 
   while (!isAssessmentOver) {
 
-    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = await _getChallenge({
+    const { challenge, hasAssessmentEnded, estimatedLevel, challengeLevel } = _getChallenge({
       challenges,
       targetSkills,
       assessment,
@@ -232,11 +232,9 @@ async function launchTest(argv) {
     targetProfileRepository,
   });
 
-  const proceedUsers = usersKE.map((userKE) => {
+  const algoResults = usersKE.map((userKE) => {
     return proceedAlgo(challenges, targetSkills, assessment, locale, knowledgeElements, allAnswers, userResult, userKE);
   });
-
-  const algoResults = await Promise.all(proceedUsers);
 
   if (enabledCsvOutput) {
     const writeResults = algoResults.map((algoResult) => {
