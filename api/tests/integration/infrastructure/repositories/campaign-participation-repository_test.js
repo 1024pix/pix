@@ -455,6 +455,37 @@ describe('Integration | Repository | Campaign Participation', function() {
       });
     });
 
+    context('When the participant has improved its participation', function() {
+      let campaignId, improvedCampaignParticipation;
+
+      beforeEach(async function() {
+        campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION, multipleSendings: true }).id;
+
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          userId,
+          isShared: true,
+          createdAt: new Date('2016-01-15T14:59:35Z'),
+          isImproved: true,
+        });
+        improvedCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          campaignId: campaignId,
+          userId,
+          isShared: true,
+          createdAt: new Date('2016-07-15T14:59:35Z'),
+          isImproved: false,
+        });
+        await databaseBuilder.commit();
+      });
+
+      it('should return the non improved campaign-participation', async function() {
+        const participationResultDatas = await campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaignId);
+
+        expect(participationResultDatas.length).to.eq(1);
+        expect(participationResultDatas[0].id).to.eq(improvedCampaignParticipation.id);
+      });
+    });
+
     context('When sharedAt is null', function() {
 
       it('Should return null as shared date', async function() {
