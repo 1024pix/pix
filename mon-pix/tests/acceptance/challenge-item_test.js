@@ -182,15 +182,16 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
       describe('when user has focused out of the window', function() {
 
-        beforeEach(async function() {
-          // given
-          const user = server.create('user', 'withEmail', {
-            hasSeenFocusedChallengeTooltip: true,
+        describe('when user has not already focusedout the challenge', function() {
+          beforeEach(async function() {
+            // given
+            const user = server.create('user', 'withEmail', {
+              hasSeenFocusedChallengeTooltip: true,
+            });
+            await authenticateByEmail(user);
           });
-          await authenticateByEmail(user);
-        });
 
-        describe('when assessment is of type certification', function() {
+          describe('when assessment is of type certification', function() {
 
           beforeEach(async function() {
             // given
@@ -248,6 +249,35 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             expect(getPageTitle()).to.not.contain('Échoué');
           });
         });
+
+        describe('when user has already unfocus the challenge', function() {
+          beforeEach(async () => {
+            // given
+            const user = server.create('user', 'withEmail', {
+              hasSeenFocusedChallengeTooltip: true,
+            });
+            await authenticateByEmail(user);
+
+            assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeUnfocus');
+            server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+
+            // when
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+          });
+          it('should enable input and buttons', async () => {
+            // then
+            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
+            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
+            expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
+          });
+
+          it('should display the warning alert to say it has been unfocused', async function() {
+            // then
+            expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
+          });
+
+        });
+
       });
     });
   });

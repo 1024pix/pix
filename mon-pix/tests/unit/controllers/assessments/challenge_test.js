@@ -163,8 +163,9 @@ describe('Unit | Controller | Assessments | Challenge', function() {
           };
 
           const answer = data.answer;
+          const assessment = { };
 
-          controller.model = { challenge, answer };
+          controller.model = { challenge, answer, assessment };
           controller.hasUserConfirmedWarning = data.hasUserConfirmedWarning;
 
           // when

@@ -46,7 +46,7 @@ export default class ChallengeController extends Controller {
   }
 
   get couldDisplayInfoAlert() {
-    return !this.hasFocusedOutOfWindow && !this.model.answer && this.model.challenge.focused;
+    return !this.hasFocusedOutOfWindow && !this.model.answer && this.model.challenge.focused && !this.model.assessment.hasUnfocusChallenge;
   }
 
   get displayInfoAlertForFocusOut() {
@@ -69,8 +69,11 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  setFocusedOutOfChallenge(value) {
+  async setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
+    if (this.hasFocusedOutOfChallenge) {
+      await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'unfocus' } });
+    }
   }
 
   @action
