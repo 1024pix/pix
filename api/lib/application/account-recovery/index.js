@@ -1,5 +1,4 @@
 const Joi = require('joi').extend(require('@joi/date'));
-const featureToggles = require('../preHandlers/feature-toggles');
 const XRegExp = require('xregexp');
 const inePattern = new RegExp('^[0-9]{9}[a-zA-Z]{2}$');
 const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
@@ -14,12 +13,6 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/account-recovery',
       config: {
-        pre: [
-          {
-            method: featureToggles.isScoAccountRecoveryEnabled,
-            assign: 'isScoAccountRecoveryEnabled',
-          },
-        ],
         auth: false,
         handler: accountRecoveryController.sendEmailForAccountRecovery,
         validate: {
@@ -51,12 +44,6 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: accountRecoveryController.checkAccountRecoveryDemand,
-        pre: [
-          {
-            method: featureToggles.isScoAccountRecoveryEnabled,
-            assign: 'isScoAccountRecoveryEnabled',
-          },
-        ],
         validate: {
           params: Joi.object({ temporaryKey: Joi.string().min(32) }),
         },
@@ -69,12 +56,6 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/account-recovery',
       config: {
-        pre: [
-          {
-            method: featureToggles.isScoAccountRecoveryEnabled,
-            assign: 'isScoAccountRecoveryEnabled',
-          },
-        ],
         auth: false,
         handler: accountRecoveryController.updateUserAccountFromRecoveryDemand,
         validate: {

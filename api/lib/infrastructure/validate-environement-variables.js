@@ -24,7 +24,6 @@ const schema = Joi.object({
   LOG_ENABLED: Joi.string().optional().valid('true', 'false'),
   LOG_LEVEL: Joi.string().optional().valid('fatal', 'error', 'warn', 'info', 'debug', 'trace'),
   AUTH_SECRET: Joi.string().required(),
-  IS_SCO_ACCOUNT_RECOVERY_ENABLED: Joi.string().optional().valid('true', 'false'),
   FT_IS_NEW_CPF_DATA_ENABLED: Joi.string().optional().valid('true', 'false'),
   SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
   CACHE_RELOAD_TIME: Joi.string().optional(),

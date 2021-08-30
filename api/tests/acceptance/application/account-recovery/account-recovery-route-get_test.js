@@ -1,5 +1,4 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
-const { featureToggles } = require('../../../../lib/config');
 const createServer = require('../../../../server');
 
 describe('Acceptance | Application | Account-Recovery | Routes', function() {
@@ -23,7 +22,6 @@ describe('Acceptance | Application | Account-Recovery | Routes', function() {
       });
       await databaseBuilder.commit();
       const server = await createServer();
-      featureToggles.isScoAccountRecoveryEnabled = true;
 
       const options = {
         method: 'GET',
