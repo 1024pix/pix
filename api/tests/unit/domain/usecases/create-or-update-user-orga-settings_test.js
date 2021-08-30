@@ -11,33 +11,18 @@ describe('Unit | UseCase | create-or-update-user-orga-settings', function() {
 
   beforeEach(function() {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
-    userOrgaSettingsRepository.findOneByUserId = sinon.stub();
-    sinon.stub(userOrgaSettingsRepository, 'update');
-    sinon.stub(userOrgaSettingsRepository, 'create');
+    sinon.stub(userOrgaSettingsRepository, 'createOrUpdate');
   });
 
-  it('should create the user orga settings if it doesn\'t exist', async function() {
+  it('should create or update the user orga settings if user is a member of the organization', async function() {
     // given
     membershipRepository.findByUserIdAndOrganizationId.withArgs({ userId, organizationId }).resolves([{}]);
 
     // when
-    userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves([]);
     await createOrUpdateUserOrgaSettings({ userId, organizationId, userOrgaSettingsRepository, membershipRepository });
 
     // then
-    expect(userOrgaSettingsRepository.create).to.have.been.calledWithExactly(userId, organizationId);
-  });
-
-  it('should update the user orga settings if it already exists', async function() {
-    // given
-    membershipRepository.findByUserIdAndOrganizationId.withArgs({ userId, organizationId }).resolves([{}]);
-
-    // when
-    userOrgaSettingsRepository.findOneByUserId.withArgs(userId).resolves([{ id: 22, userId: userId, organizationId: organizationId }]);
-    await createOrUpdateUserOrgaSettings({ userId, organizationId, userOrgaSettingsRepository, membershipRepository });
-
-    // then
-    expect(userOrgaSettingsRepository.update).to.have.been.calledWithExactly(userId, organizationId);
+    expect(userOrgaSettingsRepository.createOrUpdate).to.have.been.calledWithExactly({ userId, organizationId });
   });
 
   it('should throw a UserNotMemberOfOrganizationError if user is not member of the organization', async function() {

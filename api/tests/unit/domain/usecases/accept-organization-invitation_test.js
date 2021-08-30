@@ -25,9 +25,7 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
       markAsAccepted: sinon.stub(),
     };
     userOrgaSettingsRepository = {
-      create: sinon.stub(),
-      findOneByUserId: sinon.stub(),
-      update: sinon.stub(),
+      createOrUpdate: sinon.stub(),
     };
   });
 
@@ -89,10 +87,6 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
       const expectedUserId = userToInvite.id;
       const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
       membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([{ user: { id: 2 } }]);
-      const userOrgaSetting = domainBuilder.buildUserOrgaSettings({ user: userToInvite })
-      userOrgaSettingsRepository.findOneByUserId
-        .withArgs(userToInvite.id)
-        .resolves(userOrgaSetting);
 
       // when
       await acceptOrganizationInvitation({
@@ -106,7 +100,10 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
       });
 
       // then
-      expect(userOrgaSettingsRepository.update).to.have.been.calledWith(expectedUserId, organizationId);
+      expect(userOrgaSettingsRepository.createOrUpdate).to.have.been.calledWith({
+        userId: expectedUserId,
+        organizationId,
+      });
     });
 
     context('when the user is the first one to join the organization', function() {
