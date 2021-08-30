@@ -1,12 +1,4 @@
-ignores: ["good-console", "good-squeeze", "bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha"]
-
-# "good-console" is used in file ./lib/plugins.js
-# code => module: 'good-console'
-# see https://github.com/hapijs/good/blob/master/API.md#log-to-console
-
-# "good-squeeze" is used in file ./lib/plugins.js
-# code => module: 'good-squeeze'
-# see https://github.com/hapijs/good/blob/master/API.md#log-to-console
+ignores: ["bookshelf-validate", "mocha-junit-reporter", "eslint-plugin-mocha"]
 
 # "bookshelf-validate" is used in ./lib/infrastructure/bookshelf.js
 # code => bookshelf.plugin('bookshelf-validate',
