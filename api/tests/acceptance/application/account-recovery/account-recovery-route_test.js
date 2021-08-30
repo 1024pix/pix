@@ -3,7 +3,6 @@ const {
   expect,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { featureToggles } = require('../../../../lib/config');
 
 describe('Acceptance | Route | Account-recovery', function() {
 
@@ -13,7 +12,6 @@ describe('Acceptance | Route | Account-recovery', function() {
     beforeEach(async function() {
       //given
       server = await createServer();
-      featureToggles.isScoAccountRecoveryEnabled = true;
     });
 
     afterEach(async function() {
@@ -115,36 +113,6 @@ describe('Acceptance | Route | Account-recovery', function() {
       // then
       expect(response.statusCode).to.equal(400);
       expect(response.result.errors[0].detail).to.equal('Cette adresse e-mail est déjà utilisée.');
-    });
-
-    it('should return 404 if IS_SCO_ACCOUNT_RECOVERY_ENABLED is not enabled', async function() {
-      // given
-      const server = await createServer();
-      featureToggles.isScoAccountRecoveryEnabled = false;
-
-      const newEmail = 'new_email@example.net';
-
-      const options = {
-        method: 'POST',
-        url: '/api/account-recovery',
-        payload: {
-          data: {
-            attributes: {
-              'ine-ina': studentInformation.ineIna,
-              'first-name': studentInformation.firstName,
-              'last-name': studentInformation.lastName,
-              'birthdate': studentInformation.birthdate,
-              email: newEmail,
-            },
-          },
-        },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
     });
 
   });
