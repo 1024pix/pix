@@ -1,5 +1,14 @@
 # Pix Changelog
 
+## v3.93.0 (30/08/2021)
+
+- [#3396](https://github.com/1024pix/pix/pull/3396) [FEATURE] Afficher la dernière participation dans l'export d'une campagne de collecte(PIX-2967)
+- [#3402](https://github.com/1024pix/pix/pull/3402) [FEATURE] Changer le message de la bannière des organisations SCO concernant les dates de certification possibles (PIX-3096)
+- [#3381](https://github.com/1024pix/pix/pull/3381) [FEATURE] Ajout d'une section pour les certifications non terminées d'une session à finaliser (PIX-3062)
+- [#3403](https://github.com/1024pix/pix/pull/3403) [BUGFIX] Pouvoir importer des fichiers d'import élèves SCO sans qu'ils soient automatiquement désactivés (PIX-3110).
+- [#3400](https://github.com/1024pix/pix/pull/3400) [BUGFIX] Il est impossible d'éditer les informations d'un candidat né à l'étranger sur PixAdmin (PIX-3104)
+- [#3379](https://github.com/1024pix/pix/pull/3379) [CLEANUP] Refactoring autour du CertificationResult (PIX-3108)
+
 ## v3.92.0 (27/08/2021)
 
 - [#3395](https://github.com/1024pix/pix/pull/3395) [FEATURE] Retire l'annulation automatique de certifications non terminées (PIX-3095)
