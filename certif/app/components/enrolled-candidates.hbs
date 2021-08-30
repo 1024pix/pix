@@ -82,15 +82,18 @@
                   {{/unless}}
                   <div class="certification-candidates-actions__delete">
                     {{#if candidate.isLinked}}
-                      <PixIconButton
-                        @icon="trash-alt"
-                        class="certification-candidates-actions__delete-button--disabled"
-                        data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
-                        @withBackground={{true}}
-                      />
-                      <div class="certification-candidates-actions__delete-tooltip">
-                        Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
-                      </div>
+                      <PixTooltip
+                        @text="Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer."
+                        @position="left"
+                        @isInline={{true}}
+                      >
+                        <PixIconButton
+                          @icon="trash-alt"
+                          class="certification-candidates-actions__delete-button--disabled"
+                          data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
+                          @withBackground={{true}}
+                        />
+                      </PixTooltip>
                     {{else}}
                       <PixIconButton
                         @icon="trash-alt"
