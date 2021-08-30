@@ -3,13 +3,14 @@ const campaignCollectiveResultRepository = require('../../../../lib/infrastructu
 const CampaignCollectiveResult = require('../../../../lib/domain/read-models/CampaignCollectiveResult');
 const _ = require('lodash');
 
-function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt) {
+function _createUserWithSharedCampaignParticipation(userName, campaignId, sharedAt, isImproved) {
   const userId = databaseBuilder.factory.buildUser({ firstName: userName }).id;
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
     isShared: true,
     sharedAt,
+    isImproved,
   });
 
   return { userId, campaignParticipation };
@@ -21,6 +22,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
     campaignId,
     userId,
     isShared: false,
+    isImproved: false,
   });
 
   return { userId, campaignParticipation };
@@ -163,6 +165,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
             campaignId,
             userId: goliathId,
             isShared: false,
+            isImproved: false,
           });
 
           databaseBuilder.factory.buildKnowledgeElement({
@@ -243,7 +246,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
         beforeEach(function() {
           const longTimeAgo = new Date('2018-01-01');
           const beforeCampaignParticipationShareDate = new Date('2019-01-01');
-          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, new Date());
+          const userWithCampaignParticipationFred = _createUserWithSharedCampaignParticipation('Fred', campaignId, new Date(), false);
           const fredId = userWithCampaignParticipationFred.userId;
 
           _.each([
@@ -296,15 +299,15 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const afterCampaignParticipationShareDate = new Date('2019-05-01');
 
           // Alice
-          const userWithCampaignParticipationAlice = _createUserWithSharedCampaignParticipation('Alice', campaignId, campaignParticipationShareDate);
+          const userWithCampaignParticipationAlice = _createUserWithSharedCampaignParticipation('Alice', campaignId, campaignParticipationShareDate, false);
           const aliceId = userWithCampaignParticipationAlice.userId;
 
           // Bob
-          const userWithCampaignParticipationBob = _createUserWithSharedCampaignParticipation('Bob', campaignId, campaignParticipationShareDate);
+          const userWithCampaignParticipationBob = _createUserWithSharedCampaignParticipation('Bob', campaignId, campaignParticipationShareDate, false);
           const bobId = userWithCampaignParticipationBob.userId;
 
           // Charlie
-          const userWithCampaignParticipationCharlie = _createUserWithSharedCampaignParticipation('Charlie', campaignId, campaignParticipationShareDate);
+          const userWithCampaignParticipationCharlie = _createUserWithSharedCampaignParticipation('Charlie', campaignId, campaignParticipationShareDate, false);
           const charlieId = userWithCampaignParticipationCharlie.userId;
 
           // Dan (did not share his campaign participation)
@@ -313,7 +316,7 @@ describe('Integration | Repository | Campaign collective result repository', fun
 
           // Elo (participated in another campaign)
           const anotherCampaignId = databaseBuilder.factory.buildCampaign().id;
-          const userWithCampaignParticipationElo = _createUserWithSharedCampaignParticipation('Elo', anotherCampaignId, campaignParticipationShareDate);
+          const userWithCampaignParticipationElo = _createUserWithSharedCampaignParticipation('Elo', anotherCampaignId, campaignParticipationShareDate, false);
           const eloId = userWithCampaignParticipationElo.id;
 
           /* KNOWLEDGE ELEMENTS */
@@ -411,6 +414,43 @@ describe('Integration | Repository | Campaign collective result repository', fun
         });
       });
 
+      context('when there is one participant who shared his participation and try to improve it', function() {
+
+        beforeEach(async function() {
+          const { id: userId } = databaseBuilder.factory.buildUser();
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            userId,
+            isShared: true,
+            sharedAt: new Date('2020-01-01'),
+            isImproved: true,
+          });
+          databaseBuilder.factory.buildCampaignParticipation({
+            campaignId,
+            userId,
+            isShared: true,
+            sharedAt: new Date('2020-01-04'),
+            isImproved: false,
+          });
+
+          databaseBuilder.factory.buildKnowledgeElement({ userId, competenceId: 'recCompetenceA', skillId: 'recUrl1', status: 'validated', createdAt: new Date('2020-01-03') });
+
+          await databaseBuilder.commit();
+        });
+
+        it('should return a correct aggregated synthesis of the participant\'s result', async function() {
+          // when
+          const result = await campaignCollectiveResultRepository.getCampaignCollectiveResult(campaignId, targetProfile);
+
+          // then
+          expect(result).to.be.an.instanceof(CampaignCollectiveResult);
+          expect(result.id).to.equal(campaignId);
+          const competenceACollectiveResult = result.campaignCompetenceCollectiveResults[0];
+          expect(competenceACollectiveResult.averageValidatedSkills).to.deep.equal(1);
+          expect(competenceACollectiveResult.targetedSkillsCount).to.deep.equal(5);
+        });
+      });
+
       context('when there are multiple participants with validated skills on old competences', function() {
 
         beforeEach(function() {
@@ -419,11 +459,11 @@ describe('Integration | Repository | Campaign collective result repository', fun
           const beforeCampaignParticipationShareDate = new Date('2019-02-01');
 
           // Alice
-          const userWithCampaignParticipationAlice = _createUserWithSharedCampaignParticipation('Alice', campaignId, campaignParticipationShareDate);
+          const userWithCampaignParticipationAlice = _createUserWithSharedCampaignParticipation('Alice', campaignId, campaignParticipationShareDate, false);
           const aliceId = userWithCampaignParticipationAlice.userId;
 
           // Bob
-          const userWithCampaignParticipationBob = _createUserWithSharedCampaignParticipation('Bob', campaignId, campaignParticipationShareDate);
+          const userWithCampaignParticipationBob = _createUserWithSharedCampaignParticipation('Bob', campaignId, campaignParticipationShareDate, false);
           const bobId = userWithCampaignParticipationBob.userId;
 
           /* KNOWLEDGE ELEMENTS */
