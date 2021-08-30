@@ -25,25 +25,48 @@ module('Integration | Component | Banner::Information', function(hooks) {
           // then
           assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
           assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').exists();
-          assert.dom('.pix-banner').includesText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
+          assert.dom('.pix-banner').includesText('Rentrée 2021 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
         });
       });
+    });
 
-      module('when prescriber has already imported students', function() {
-        test('should not render the banner', async function(assert) {
+    module('when prescriber’s organization is of type SCO that manages AGRI students', function() {
+      module('when prescriber has not imported student yet', function() {
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: false }
+          isSCOManagingStudents = true;
+          isAgriculture = true;
+        }
+
+        test('should  render the banner', async function(assert) {
           // given
-          class CurrentUserStub extends Service {
-            prescriber = { areNewYearSchoolingRegistrationsImported: true }
-            isSCOManagingStudents = true;
-          }
           this.owner.register('service:current-user', CurrentUserStub);
 
           // when
           await render(hbs`<Banner::Information />`);
 
           // then
-          assert.dom('.pix-banner').doesNotIncludeText('Rentrée 2020 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
+          assert.dom('a[href="https://view.genial.ly/5f295b80302a810d2ff9fa60/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').doesNotExist();
+          assert.dom('a[href="https://view.genial.ly/5f46390591252c0d5246bb63/?idSlide=cd748a12-ef8e-4683-8139-eb851bd0eb23"]').doesNotExist();
+          assert.dom('.pix-banner').includesText('Rentrée 2021 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
         });
+      });
+    });
+
+    module('when prescriber has already imported students', function() {
+      test('should not render the banner', async function(assert) {
+        // given
+        class CurrentUserStub extends Service {
+          prescriber = { areNewYearSchoolingRegistrationsImported: true }
+          isSCOManagingStudents = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+
+        // when
+        await render(hbs`<Banner::Information />`);
+
+        // then
+        assert.dom('.pix-banner').doesNotIncludeText('Rentrée 2021 : l’administrateur doit importer ou ré-importer la base élèves pour initialiser Pix Orga. Plus d’info collège et lycée (GT et Pro)');
       });
     });
 
