@@ -9,6 +9,7 @@ const ChallengeNeutralized = require('./ChallengeNeutralized');
 const ChallengeDeneutralized = require('./ChallengeDeneutralized');
 const CertificationJuryDone = require('./CertificationJuryDone');
 const { checkEventTypes } = require('./check-event-types');
+const { featureToggles } = require('../../config');
 
 const eventTypes = [ChallengeNeutralized, ChallengeDeneutralized, CertificationJuryDone];
 const EMITTER = 'PIX-ALGO-NEUTRALIZATION';
@@ -35,11 +36,13 @@ async function handleCertificationRescoring({
 
     await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
-    await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
-      certificationCourseId: certificationAssessment.certificationCourseId,
-      hasEnoughNonNeutralizedChallengesToBeTrusted: certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
-      certificationCourseRepository,
-    });
+    if (featureToggles.isManageUncompletedCertifEnabled) {
+      await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
+        certificationCourseId: certificationAssessment.certificationCourseId,
+        hasEnoughNonNeutralizedChallengesToBeTrusted: certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
+        certificationCourseRepository,
+      });
+    }
 
     return new CertificationRescoringCompleted({
       userId: certificationAssessment.userId,
