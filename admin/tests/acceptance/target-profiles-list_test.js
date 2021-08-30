@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { currentURL, click, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -72,14 +73,26 @@ module('Acceptance | Target Profiles List', function(hooks) {
 
     test('it should redirect to target profile details on click', async function(assert) {
       // given
+      server.create('target-profile', { id: 1, name: 'Mon Super Profil Cible' });
+      await visit('/target-profiles/list');
+
+      // when
+      await clickByLabel('Mon Super Profil Cible');
+
+      // then
+      assert.equal(currentURL(), '/target-profiles/1');
+    });
+
+    test('it should redirect to target profile creation form on click "Nouveau profil cible', async function(assert) {
+      // given
       server.create('target-profile', { id: 1 });
       await visit('/target-profiles/list');
 
       // when
-      await click('[aria-label="Profil cible"]');
+      await clickByLabel('Nouveau profil cible');
 
       // then
-      assert.equal(currentURL(), '/target-profiles/1');
+      assert.equal(currentURL(), '/target-profiles/new');
     });
   });
 });
