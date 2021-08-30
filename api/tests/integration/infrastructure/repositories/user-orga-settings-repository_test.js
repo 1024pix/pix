@@ -131,4 +131,78 @@ describe('Integration | Repository | UserOrgaSettings', function() {
       expect(foundUserOrgaSettings).to.deep.equal({});
     });
   });
+
+  describe('#createOrUpdate', function() {
+
+    describe('when user orga setting does not exist', function() {
+
+      it('should return an UserOrgaSettings domain object', async function() {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+
+        // when
+        const userOrgaSettingsSaved = await userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });
+
+        // then
+        expect(userOrgaSettingsSaved).to.be.an.instanceof(UserOrgaSettings);
+        expect(userOrgaSettingsSaved.id).to.not.be.undefined;
+        expect(userOrgaSettingsSaved.user.id).to.be.equal(userId);
+        expect(userOrgaSettingsSaved.currentOrganization.id).to.be.equal(organizationId);
+      });
+
+      it('should add a row in the table "user-orga-settings"', async function() {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        await databaseBuilder.commit();
+        const nbBeforeCreation = await BookshelfUserOrgaSettings.count();
+
+        // when
+        await userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });
+
+        // then
+        const nbAfterCreation = await BookshelfUserOrgaSettings.count();
+        expect(nbAfterCreation).to.equal(nbBeforeCreation + 1);
+      });
+    });
+
+    describe('when user orga setting does already exist', function() {
+
+      it('should return the UserOrgaSettings updated', async function() {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const newOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: otherOrganizationId });
+        await databaseBuilder.commit();
+
+        // when
+        const userOrgaSettingsSaved = await userOrgaSettingsRepository.createOrUpdate({ userId, organizationId: newOrganizationId });
+
+        // then
+        expect(userOrgaSettingsSaved).to.be.an.instanceof(UserOrgaSettings);
+        expect(userOrgaSettingsSaved.user.id).to.be.equal(userId);
+        expect(userOrgaSettingsSaved.currentOrganization.id).to.be.equal(newOrganizationId);
+      });
+
+      it('should not add a row in the table "user-orga-settings"', async function() {
+        // given
+        const userId = databaseBuilder.factory.buildUser().id;
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        databaseBuilder.factory.buildUserOrgaSettings({ userId, currentOrganizationId: organizationId });
+        await databaseBuilder.commit();
+        const nbBeforeUpdate = await BookshelfUserOrgaSettings.count();
+
+        // when
+        await userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });
+
+        // then
+        const nbAfterUpdate = await BookshelfUserOrgaSettings.count();
+        expect(nbAfterUpdate).to.equal(nbBeforeUpdate);
+      });
+    });
+  });
+
 });
