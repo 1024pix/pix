@@ -57,7 +57,7 @@ module('Acceptance | authenticated', function(hooks) {
 
       // then
       assert.dom('.pix-banner--information').exists();
-      assert.dom('.pix-banner--information').hasText('La certification en collège et lycée est possible jusqu\'au 25 juin. Pour reporter des sessions déjà programmées, il vous suffit de changer la date de la session en cliquant sur « modifier ». En savoir plus');
+      assert.dom('.pix-banner--information').hasText('La certification Pix se déroulera du 29/11/21 au 04/03/22 pour les lycées et du 07/03/22 au 20/05/22 pour les collèges. Les sessions passées hors période ne seront pas traitées. En savoir plus');
     });
 
     test('it should not display the banner when User is NOT SCO isManagingStudent', async function(assert) {
