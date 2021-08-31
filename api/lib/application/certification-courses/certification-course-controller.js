@@ -77,4 +77,10 @@ module.exports = {
     const cancelledCertificationCourse = await usecases.cancelCertificationCourse({ certificationCourseId });
     return certificationCourseSerializer.serialize(cancelledCertificationCourse);
   },
+
+  async uncancel(request, h) {
+    const certificationCourseId = request.params.id;
+    await usecases.uncancelCertificationCourse({ certificationCourseId });
+    return h.response().code(200);
+  },
 };

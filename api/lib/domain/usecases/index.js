@@ -316,6 +316,7 @@ module.exports = injectDependencies({
   updateExpiredPassword: require('./update-expired-password'),
   updateMembership: require('./update-membership'),
   updateOrganizationInformation: require('./update-organization-information'),
+  uncancelCertificationCourse: require('./uncancel-certification-course'),
   updateSchoolingRegistrationDependentUserPassword: require('./update-schooling-registration-dependent-user-password'),
   updateSession: require('./update-session'),
   updateStage: require('./update-stage'),

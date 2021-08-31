@@ -126,6 +126,23 @@ exports.register = async function(server) {
         tags: ['api'],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/uncancel',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: certificationCourseController.uncancel,
+        tags: ['api'],
+      },
+    },
   ]);
 };
 
