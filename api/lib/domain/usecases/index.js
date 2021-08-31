@@ -123,6 +123,7 @@ const dependencies = {
 const { injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 
 module.exports = injectDependencies({
+  abortCertificationCourse: require('./abort-certification-course'),
   acceptOrganizationInvitation: require('./accept-organization-invitation'),
   acceptPixLastTermsOfService: require('./accept-pix-last-terms-of-service'),
   acceptPixCertifTermsOfService: require('./accept-pix-certif-terms-of-service'),

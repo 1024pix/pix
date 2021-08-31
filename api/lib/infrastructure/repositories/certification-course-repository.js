@@ -159,6 +159,7 @@ function _pickUpdatableProperties(certificationCourse) {
     'birthCountry',
     'birthINSEECode',
     'birthPostalCode',
+    'abortReason',
     'completedAt',
   ]);
 }
