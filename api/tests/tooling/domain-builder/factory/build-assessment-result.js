@@ -139,4 +139,36 @@ buildAssessmentResult.started = function({
   });
 };
 
+buildAssessmentResult.notTrustable = function({
+  pixScore,
+  status,
+  assessmentId,
+  juryId,
+  emitter,
+} = {}) {
+  return AssessmentResult.buildNotTrustableAssessmentResult({
+    pixScore,
+    status,
+    assessmentId,
+    juryId,
+    emitter,
+  });
+};
+
+buildAssessmentResult.standard = function({
+  pixScore,
+  status,
+  assessmentId,
+  juryId,
+  emitter,
+} = {}) {
+  return AssessmentResult.buildStandardAssessmentResult({
+    pixScore,
+    status,
+    assessmentId,
+    juryId,
+    emitter,
+  });
+};
+
 module.exports = buildAssessmentResult;

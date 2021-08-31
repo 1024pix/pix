@@ -89,6 +89,10 @@ class CertificationCourse {
     this._isCancelled = true;
   }
 
+  uncancel() {
+    this._isCancelled = false;
+  }
+
   complete({ now }) {
     this._completedAt = now;
   }
