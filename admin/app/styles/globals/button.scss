@@ -19,12 +19,12 @@
 
 .btn-primary {
   text-align: center;
-  background-color: $pix-blue;
+  background-color: $blue;
   color: $white;
   transition: background-color 0.2s ease;
 
   &:hover, &:active, &:focus {
-    background-color: darken($pix-blue, 10%);
+    background-color: darken($blue, 10%);
   }
 }
 
