@@ -19,6 +19,8 @@ class JurySession {
     resultsSentToPrescriberAt,
     publishedAt,
     assignedCertificationOfficer,
+    juryComment,
+    juryCommentedAt,
   } = {}) {
     this.id = id;
     this.certificationCenterName = certificationCenterName;
@@ -37,6 +39,8 @@ class JurySession {
     this.resultsSentToPrescriberAt = resultsSentToPrescriberAt;
     this.publishedAt = publishedAt;
     this.assignedCertificationOfficer = assignedCertificationOfficer;
+    this.juryComment = juryComment;
+    this.juryCommentedAt = juryCommentedAt;
   }
 
   get status() {
