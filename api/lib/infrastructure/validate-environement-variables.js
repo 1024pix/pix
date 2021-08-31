@@ -26,6 +26,7 @@ const schema = Joi.object({
   AUTH_SECRET: Joi.string().required(),
   SCO_ACCOUNT_RECOVERY_KEY_LIFETIME_MINUTES: Joi.number().integer().min(1).optional(),
   CACHE_RELOAD_TIME: Joi.string().optional(),
+  FT_VALIDATE_EMAIL: Joi.string().optional().valid('true', 'false'),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function() {
