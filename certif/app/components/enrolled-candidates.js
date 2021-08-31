@@ -15,10 +15,6 @@ export default class EnrolledCandidates extends Component {
   @tracked certificationCandidateInDetailsModal = null;
   @tracked showNewCertificationCandidateModal = false;
 
-  get isCandidateBeingAdded() {
-    return this.candidatesInStaging.length > 0;
-  }
-
   @action
   async deleteCertificationCandidate(certificationCandidate) {
     this.notifications.clearAll();
@@ -38,19 +34,10 @@ export default class EnrolledCandidates extends Component {
 
   @action
   addCertificationCandidateInStaging() {
-    if (!this.args.isNewCpfDataToggleEnabled) {
-      this.candidatesInStaging.pushObject(EmberObject.create({
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthProvinceCode: '', birthCountry: '', email: '', externalId: '',
-        extraTimePercentage: '' }));
-    }
-
-    if (this.args.isNewCpfDataToggleEnabled) {
-      this.newCandidate = EmberObject.create({
-        firstName: '', lastName: '', birthdate: '', birthCity: '',
-        birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
-        birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
-    }
+    this.newCandidate = EmberObject.create({
+      firstName: '', lastName: '', birthdate: '', birthCity: '',
+      birthCountry: 'FRANCE', email: '', externalId: '', resultRecipientEmail: '',
+      birthPostalCode: '', birthInseeCode: '', sex: '', extraTimePercentage: '' });
   }
 
   @action
@@ -72,6 +59,7 @@ export default class EnrolledCandidates extends Component {
   @action
   updateCertificationCandidateInStagingFieldFromEvent(candidateInStaging, field, ev) {
     const { value } = ev.target;
+
     candidateInStaging.set(field, value);
   }
 
