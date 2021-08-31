@@ -62,7 +62,7 @@ describe('Integration | Component | Tooltip', function() {
 
     it('should render the tooltip with a confirmation button', async function() {
       // then
-      expect(find(tooltip)).to.exist;
+      expect(find(tooltip)).to.be.displayed;
       expect(find(confirmationButton)).to.exist;
     });
 
@@ -71,7 +71,7 @@ describe('Integration | Component | Tooltip', function() {
       await click('.tooltip-tag-information__button');
 
       // then
-      expect(find(tooltip)).to.not.exist;
+      expect(find(tooltip)).not.to.be.displayed;
     });
   });
 
@@ -100,7 +100,7 @@ describe('Integration | Component | Tooltip', function() {
     describe('when the challenge starts', function() {
       it('should not render the tooltip', async function() {
         // then
-        expect(find(tooltip)).to.not.exist;
+        expect(find(tooltip)).not.to.be.displayed;
       });
     });
 
@@ -111,7 +111,7 @@ describe('Integration | Component | Tooltip', function() {
           await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
 
           // then
-          expect(find(tooltip)).to.exist;
+          expect(find(tooltip)).to.be.displayed;
           expect(find(confirmationButton)).to.not.exist;
         });
 
@@ -121,7 +121,7 @@ describe('Integration | Component | Tooltip', function() {
           await triggerEvent('.tooltip-tag__icon-button', 'mouseleave');
 
           // then
-          expect(find(tooltip)).to.not.exist;
+          expect(find(tooltip)).not.to.be.displayed;
         });
       });
 
@@ -129,14 +129,14 @@ describe('Integration | Component | Tooltip', function() {
         it('should hide the tooltip button when escaping', async function() {
           // given
           await triggerEvent('.tooltip-tag__icon-button', 'mouseenter');
-          expect(find(tooltip)).to.exist;
+          expect(find(tooltip)).to.be.displayed;
 
           // when
           const escapeKeyCode = 27;
           await triggerKeyEvent('.tooltip-tag__icon-button', 'keyup', escapeKeyCode);
 
           // then
-          expect(find(tooltip)).to.not.exist;
+          expect(find(tooltip)).not.to.be.displayed;
         });
       });
     });
@@ -147,7 +147,7 @@ describe('Integration | Component | Tooltip', function() {
         await click('.tooltip-tag__icon-button');
 
         // then
-        expect(find(tooltip)).to.exist;
+        expect(find(tooltip)).to.be.displayed;
         expect(find(confirmationButton)).to.not.exist;
       });
     });
