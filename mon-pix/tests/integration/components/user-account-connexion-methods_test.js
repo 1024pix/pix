@@ -1,13 +1,54 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../helpers/contains';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 describe('Integration | Component | user-account-connexion-methods', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
+
+  beforeEach(function() {
+    const featureTogglesStub = Service.extend({
+      featureToggles: {
+        isEmailValidationEnabled: false,
+      },
+    });
+    this.owner.register('service:featureToggles', featureTogglesStub);
+  });
+
+  context('when isEmailValidationEnabled feature toggle is enabled', function() {
+
+    it('should display edit button', async function() {
+      // given
+      const featureTogglesStub = Service.extend({
+        featureToggles: {
+          isEmailValidationEnabled: true,
+        },
+      });
+
+      this.owner.register('service:featureToggles', featureTogglesStub);
+
+      const user = {
+        firstName: 'John',
+        lastName: 'DOE',
+        email: 'john.doe@example.net',
+        lang: 'fr',
+      };
+      this.set('user', user);
+
+      // when
+      await render(hbs`<UserAccountConnexionMethods @user={{user}} />`);
+
+      // then
+      expect(find('.user-account-panel-item__edit-button')).to.exist;
+      expect(find('.user-account-panel-item__button')).to.not.exist;
+    });
+  });
 
   it('should display user\'s email and username', async function() {
     // given
