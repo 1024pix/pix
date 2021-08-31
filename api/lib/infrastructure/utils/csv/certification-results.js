@@ -156,7 +156,7 @@ function _formatPixPlusDroitExpertCertificationResult(certificationResult) {
 }
 
 function _formatPixScore(certificationResult) {
-  if (certificationResult.isCancelled()) return '-';
+  if (certificationResult.isCancelled() || certificationResult.isInError()) return '-';
   if (certificationResult.isRejected()) return '0';
   return certificationResult.pixScore;
 }
@@ -190,7 +190,7 @@ function _getCompetenceLevel({ certificationResult, competenceIndex }) {
   const competence = levelByCompetenceCode[competenceIndex];
   const notTestedCompetence = !competence;
 
-  if (notTestedCompetence || certificationResult.isCancelled()) {
+  if (notTestedCompetence || certificationResult.isCancelled() || certificationResult.isInError()) {
     return '-';
   }
   if (certificationResult.isRejected() || _isCompetenceFailed(competence)) {
