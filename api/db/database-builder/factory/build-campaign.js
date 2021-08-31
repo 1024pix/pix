@@ -25,10 +25,12 @@ module.exports = function buildCampaign({
   customResultPageButtonText = null,
   customResultPageButtonUrl = null,
   multipleSendings = false,
+  assessmentMethod,
 } = {}) {
 
   if (type === Campaign.types.ASSESSMENT) {
     targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ ownerOrganizationId: organizationId }).id : targetProfileId;
+    assessmentMethod = Campaign.assessmentMethods.SMART_RANDOM;
   }
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
@@ -54,6 +56,7 @@ module.exports = function buildCampaign({
     customResultPageButtonText,
     customResultPageButtonUrl,
     multipleSendings,
+    assessmentMethod,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'campaigns',
