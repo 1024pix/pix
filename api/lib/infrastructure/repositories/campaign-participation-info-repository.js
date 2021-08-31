@@ -23,7 +23,7 @@ module.exports = {
             this.on('schooling-registrations.userId', 'campaign-participations.userId')
               .andOn('schooling-registrations.organizationId', 'campaigns.organizationId');
           })
-          .where({ campaignId: campaignId });
+          .where({ campaignId: campaignId, isImproved: false });
       })
       .from('campaignParticipationWithUserAndRankedAssessment')
       .where({ rank: 1 });
