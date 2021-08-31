@@ -32,6 +32,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         knowledgeElements: knowledgeElements,
         acquiredBadgeIds: [3],
         participantExternalId: 'greg@lafleche.fr',
+        masteryRate: 0.5,
       };
 
       const competences = [
@@ -71,7 +72,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           attributes: {
             'is-completed': true,
             'is-shared': true,
-            'mastery-percentage': 50,
+            'mastery-rate': 0.5,
             'tested-skills-count': 2,
             'total-skills-count': 2,
             'validated-skills-count': 1,
@@ -172,5 +173,4 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
       expect(json).to.deep.equal(expectedSerializedCampaignParticipationResult);
     });
   });
-
 });
