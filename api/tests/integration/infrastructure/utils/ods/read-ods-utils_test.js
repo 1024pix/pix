@@ -273,7 +273,7 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
 
   describe('#getSheetDataRowsFromOdsBuffer', function() {
 
-    const candidatesRange = { range: 'B8:K9' };
+    const candidatesRange = { range: 'B12:M13' };
 
     before(async function() {
       odsBuffer = await readFile(SIMPLE_ATTENDANCE_ODS_FILE_PATH);
@@ -297,16 +297,18 @@ describe('Integration | Infrastructure | Utils | Ods | read-ods-utils', function
       // given
       const jsonOptions = { ...candidatesRange, dateNF: 'dd/mm/yyyy;@', raw: false };
       const expectedData = {
-        'Nom de naissance': 'DELARUE',
-        'Prénom': 'Sophie',
-        'Date de naissance (format : jj/mm/aaaa)': '05/10/1988',
-        'Commune de naissance': 'Paris',
-        'Code du département de naissance': '75',
-        'Pays de naissance': 'FRANCE',
-        'Adresse e-mail de convocation': 's.d@gmail.com',
-        'Adresse e-mail du destinataire des résultats': 'destinataire@example.net',
-        'Identifiant local': '12345678',
-        'Temps majoré ?': '33 %',
+        '* Date de naissance (format : jj/mm/aaaa)': '05/10/88',
+        '* Nom de naissance': 'Delarue',
+        '* Prénom': 'Sophie',
+        '* Sexe (M ou F)': 'F',
+        'Code Insee': ' ',
+        'Code postal': '75001',
+        'E-mail de convocation': 'convocation@example.net',
+        'E-mail du destinataire des résultats (formateur, enseignant…)': 's.d@example.net',
+        'Identifiant local': '1',
+        'Nom de la commune': 'Paris',
+        'Pays': 'France',
+        'Temps majoré ?': '30 %',
       };
 
       // when

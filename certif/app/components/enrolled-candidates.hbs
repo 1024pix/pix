@@ -2,67 +2,41 @@
   <div class="panel-header">
     <div class="panel-header__title">
       Liste des candidats ({{@certificationCandidates.length}})
-      {{#if this.isCandidateBeingAdded}}
-        <div class="panel-header__mandatory-warning">Les champs marqués de * sont obligatoires</div>
-      {{/if}}
     </div>
     {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
       <LinkTo @route="authenticated.sessions.add-student" @model={{@sessionId}} class="button button--link enrolled-candidate__add-students" aria-label="Ajouter des candidats">
         Ajouter des candidats
       </LinkTo>
     {{else}}
-      {{#if @isNewCpfDataToggleEnabled}}
-        <PixButton
-          id="add-candidate"
-          class="certification-candidates-add-button__text"
-          @triggerAction={{fn this.openNewCertificationCandidateModal}}
-          @size="small"
-        >
-          Ajouter un candidat
-        </PixButton>
-      {{else}}
-        <div data-test-id="add-certification-candidate-staging__button" class="panel-header__action" {{on 'click' this.addCertificationCandidateInStaging}} >
-          <div id="add-candidate" class="certification-candidates-add-button__text">Ajouter un candidat</div>
-          <PixIconButton aria-describedby="add-candidate" @icon='plus' @withBackground={{true}} />
-        </div>
-      {{/if}}
+      <PixButton
+        id="add-candidate"
+        class="certification-candidates-add-button__text"
+        @triggerAction={{fn this.openNewCertificationCandidateModal}}
+        @size="small"
+      >
+        Ajouter un candidat
+      </PixButton>
     {{/if}}
   </div>
   <div class="table content-text content-text--small certification-candidates-table">
     {{#if (or @certificationCandidates this.candidatesInStaging)}}
-      {{#if @isNewCpfDataToggleEnabled}}
-        <table class="certification-candidates-table-cpf-toggle-enabled">
+      <table class="certification-candidates-table-cpf-toggle-enabled">
           <thead>
           <tr>
             <th class="certification-candidates-table__column-last-name">
-              {{#if this.isCandidateBeingAdded}}
-                *
-              {{/if}}
               Nom de naissance
             </th>
             <th class="certification-candidates-table__column-first-name">
-              {{#if this.isCandidateBeingAdded}}
-                *
-              {{/if}}
               Prénom
             </th>
             <th class="certification-candidates-table__column-birthdate">
-              {{#if this.isCandidateBeingAdded}}
-                *
-              {{/if}}
               Date de naissance
             </th>
             {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
               <th class="certification-candidates-table__birth-city">
-                {{#if this.isCandidateBeingAdded}}
-                  *
-                {{/if}}
                 Commune de naissance
               </th>
               <th>
-                {{#if this.isCandidateBeingAdded}}
-                  *
-                {{/if}}
                 Pays de naissance
               </th>
             {{/if }}
@@ -76,17 +50,6 @@
           </tr>
           </thead>
           <tbody>
-          {{#unless @isNewCpfDataToggleEnabled}}
-            {{#each this.candidatesInStaging as |candidateInStaging|}}
-              <CertificationCandidateInStagingItem
-                      @candidateData={{candidateInStaging}}
-                      @onClickSave={{this.addCertificationCandidate}}
-                      @onClickCancel={{this.removeCertificationCandidateFromStaging}}
-                      @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingFieldFromValue}}
-                      @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
-              />
-            {{/each}}
-          {{/unless}}
           {{#each @certificationCandidates as |candidate|}}
             <tr>
               <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
@@ -105,20 +68,18 @@
               <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
               <td>
                 <div class="certification-candidates-actions">
-                  {{#if @isNewCpfDataToggleEnabled}}
-                    {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                      <div class="certification-candidates-actions__display-details">
-                        <button
-                          type="button"
-                          class="button--showed-as-link"
-                          {{on 'click' (fn this.openCertificationCandidateDetailsModal candidate)}}
-                          aria-label="Voir le détail du candidat {{candidate.firstName}} {{candidate.lastName}}"
-                        >
-                          Voir le détail
-                        </button>
-                      </div>
-                    {{/unless}}
-                  {{/if}}
+                  {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
+                    <div class="certification-candidates-actions__display-details">
+                      <button
+                        type="button"
+                        class="button--showed-as-link"
+                        {{on 'click' (fn this.openCertificationCandidateDetailsModal candidate)}}
+                        aria-label="Voir le détail du candidat {{candidate.firstName}} {{candidate.lastName}}"
+                      >
+                        Voir le détail
+                      </button>
+                    </div>
+                  {{/unless}}
                   <div class="certification-candidates-actions__delete">
                     {{#if candidate.isLinked}}
                       <PixIconButton
@@ -147,122 +108,6 @@
           {{/each}}
           </tbody>
         </table>
-      {{else}}
-        <table>
-          <thead>
-          <tr>
-            <th class="certification-candidates-table__column-last-name">
-              {{#if this.isCandidateBeingAdded}}
-                *
-              {{/if}}
-              Nom de naissance
-            </th>
-            <th class="certification-candidates-table__column-first-name">
-              {{#if this.isCandidateBeingAdded}}
-                *
-              {{/if}}
-              Prénom
-            </th>
-            <th class="certification-candidates-table__column-birthdate">
-              {{#if this.isCandidateBeingAdded}}
-                *
-              {{/if}}
-              Date de naissance
-            </th>
-            {{#unless @isNewCpfDataToggleEnabled}}
-              <th>
-                {{#if this.isCandidateBeingAdded}}
-                  *
-                {{/if}}
-                Commune de naissance
-              </th>
-              <th>
-                {{#if this.isCandidateBeingAdded}}
-                  *
-                {{/if}}
-                Département de naissance
-              </th>
-              <th>
-                {{#if this.isCandidateBeingAdded}}
-                  *
-                {{/if}}
-                Pays de naissance
-              </th>
-              {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <th>Adresse e-mail de convocation</th>
-              {{/unless}}
-            {{/unless}}
-            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <th>Adresse e-mail du destinataire des résultats</th>
-            {{/unless}}
-            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <th>Identifiant externe</th>
-            {{/unless}}
-            <th class="certification-candidates-table__column-time">Temps majoré</th>
-            <th width="185"></th>
-          </tr>
-          </thead>
-        <tbody>
-        {{#each this.candidatesInStaging as |candidateInStaging|}}
-          <CertificationCandidateInStagingItem
-                  @candidateData={{candidateInStaging}}
-                  @onClickSave={{this.addCertificationCandidate}}
-                  @onClickCancel={{this.removeCertificationCandidateFromStaging}}
-                  @updateCandidateBirthdate={{this.updateCertificationCandidateInStagingFieldFromValue}}
-                  @updateCandidateData={{this.updateCertificationCandidateInStagingFieldFromEvent}}
-          />
-        {{/each}}
-        {{#each @certificationCandidates as |candidate|}}
-          <tr>
-            <td data-test-id='panel-candidate__lastName__{{candidate.id}}'>{{candidate.lastName}}</td>
-            <td data-test-id='panel-candidate__firstName__{{candidate.id}}'>{{candidate.firstName}}</td>
-            <td data-test-id='panel-candidate__birthdate__{{candidate.id}}'>{{moment-format candidate.birthdate 'DD/MM/YYYY'}}</td>
-            {{#unless @isNewCpfDataToggleEnabled}}
-              <td data-test-id='panel-candidate__birthCity__{{candidate.id}}'>{{candidate.birthCity}}</td>
-              <td data-test-id='panel-candidate__birthProvinceCode__{{candidate.id}}'>{{candidate.birthProvinceCode}}</td>
-              <td data-test-id='panel-candidate__birthCountry__{{candidate.id}}'>{{candidate.birthCountry}}</td>
-              {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-                <td data-test-id='panel-candidate__email__{{candidate.id}}'>{{candidate.email}}</td>
-              {{/unless}}
-            {{/unless}}
-            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <td data-test-id='panel-candidate__result-recipient-email__{{candidate.id}}'>{{candidate.resultRecipientEmail}}</td>
-            {{/unless}}
-            {{#unless @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-              <td data-test-id='panel-candidate__externalId__{{candidate.id}}'>{{candidate.externalId}}</td>
-            {{/unless}}
-            <td data-test-id='panel-candidate__extraTimePercentage__{{candidate.id}}'>{{format-percentage candidate.extraTimePercentage}}</td>
-            <td>
-              <div class="certification-candidates-actions">
-                <div class="certification-candidates-actions__delete">
-                  {{#if candidate.isLinked}}
-                    <PixIconButton
-                      @icon="trash-alt"
-                      class="certification-candidates-actions__delete-button--disabled"
-                      data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
-                      @withBackground={{true}}
-                    />
-                    <div class="certification-candidates-actions__delete-tooltip">
-                      Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
-                    </div>
-                  {{else}}
-                    <PixIconButton
-                      @icon="trash-alt"
-                      {{on 'click' (fn this.deleteCertificationCandidate candidate)}}
-                      aria-label="Supprimer un élève"
-                      class="certification-candidates-actions__delete-button"
-                      data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
-                      @withBackground={{true}}
-                    />
-                  {{/if}}
-                </div>
-              </div>
-            </td>
-          </tr>
-        {{/each}}
-        </tbody>
-        </table>
-      {{/if}}
     {{else}}
       <div class="table__empty content-text">
         <p>En attente de candidats</p>

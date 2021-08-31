@@ -34,10 +34,6 @@ export default class CertificationCandidatesController extends Controller {
     return certificationCandidatesCount > 0;
   }
 
-  get isNewCpfDataToggleEnabled() {
-    return this.featureToggles.featureToggles.isNewCpfDataEnabled;
-  }
-
   @action
   async reloadCertificationCandidateInController() {
     await this.reloadCertificationCandidate();
