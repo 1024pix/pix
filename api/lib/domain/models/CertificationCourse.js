@@ -2,6 +2,8 @@ const _ = require('lodash');
 const Joi = require('joi').extend(require('@joi/date'));
 const { EntityValidationError } = require('../errors');
 
+const ABORT_REASONS = ['candidate', 'technical'];
+
 class CertificationCourse {
   constructor(
     {
@@ -28,6 +30,7 @@ class CertificationCourse {
       sessionId,
       maxReachableLevelOnCertificationDate,
       isCancelled = false,
+      abortReason,
     } = {}) {
     this._id = id;
     this._firstName = firstName;
@@ -52,6 +55,7 @@ class CertificationCourse {
     this._sessionId = sessionId;
     this._maxReachableLevelOnCertificationDate = maxReachableLevelOnCertificationDate;
     this._isCancelled = isCancelled;
+    this._abortReason = abortReason;
   }
 
   static from({ certificationCandidate, challenges, verificationCode, maxReachableLevelOnCertificationDate }) {
@@ -95,6 +99,18 @@ class CertificationCourse {
 
   complete({ now }) {
     this._completedAt = now;
+  }
+
+  abort(reason) {
+    const { error } = Joi.string().valid(...ABORT_REASONS).validate(reason);
+    if (error) throw new EntityValidationError({
+      invalidAttributes: [{ attribute: 'abortReason', message: error.message }],
+    });
+    this._abortReason = reason;
+  }
+
+  unabort() {
+    this._abortReason = null;
   }
 
   correctFirstName(modifiedFirstName) {
@@ -197,6 +213,7 @@ class CertificationCourse {
       sessionId: this._sessionId,
       maxReachableLevelOnCertificationDate: this._maxReachableLevelOnCertificationDate,
       isCancelled: this._isCancelled,
+      abortReason: this._abortReason,
     };
   }
 }

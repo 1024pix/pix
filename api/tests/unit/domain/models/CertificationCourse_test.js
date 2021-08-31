@@ -66,6 +66,51 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
+  describe('#abort', function() {
+
+    it('should abort a certification course', function() {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        abortReason: null,
+      });
+
+      // when
+      certificationCourse.abort('technical');
+
+      // then
+      expect(certificationCourse.toDTO().abortReason).to.equal('technical');
+    });
+
+    it('should fail if abort reason is unknown', async function() {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        abortReason: null,
+      });
+
+      // then
+      expect(() => {
+        certificationCourse.abort('some random stuff');
+      }).to.throw(EntityValidationError);
+    });
+
+  });
+
+  describe('#unabort', function() {
+
+    it('should unabort a certification course', function() {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        abortReason: 'technical',
+      });
+
+      // when
+      certificationCourse.unabort();
+
+      // then
+      expect(certificationCourse.toDTO().abortReason).to.be.null;
+    });
+  });
+
   describe('#correctBirthdate', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['2000-13-01', null, undefined, '', 'invalid']
