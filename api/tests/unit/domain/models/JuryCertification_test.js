@@ -1,13 +1,13 @@
 const { expect, domainBuilder } = require('../../../test-helper');
-const CertificationResultInformation = require('../../../../lib/domain/read-models/CertificationResultInformation');
+const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
 const GeneralCertificationInformation = require('../../../../lib/domain/read-models/GeneralCertificationInformation');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
-describe('Unit | Domain | Read-Models | CertificationResultInformation', function() {
+describe('Unit | Domain | Models | JuryCertification', function() {
 
   describe('#from', function() {
 
-    it('should return an instance of CertificationResultInformation', function() {
+    it('should return an instance of JuryCertification', function() {
       // given
       const generalCertificationInformation = domainBuilder.buildGeneralCertificationInformation({
         certificationCourseId: 123,
@@ -44,7 +44,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', functio
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
 
       // when
-      const certificationResultInformation = CertificationResultInformation.from({
+      const certificationResultInformation = JuryCertification.from({
         generalCertificationInformation,
         assessmentResult,
         cleaCertificationResult,
@@ -81,12 +81,13 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', functio
         pixPlusDroitMaitreCertificationResult,
         pixPlusDroitExpertCertificationResult,
       };
-      expect(certificationResultInformation).to.be.instanceOf(CertificationResultInformation);
+      expect(certificationResultInformation).to.be.instanceOf(JuryCertification);
       expect(certificationResultInformation).to.deep.equal(expectedCertificationResultInformation);
     });
 
     describe('when certification course is cancelled', function() {
-      it('should return CertificationResultInformation with status cancelled', function() {
+
+      it('should return JuryCertification with status cancelled', function() {
         // given
         const generalCertificationInformation = new GeneralCertificationInformation({
           certificationCourseId: 123,
@@ -119,7 +120,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', functio
         const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
 
         // when
-        const certificationResultInformation = CertificationResultInformation.from({
+        const certificationResultInformation = JuryCertification.from({
           generalCertificationInformation,
           assessmentResult,
           cleaCertificationResult,
@@ -128,7 +129,7 @@ describe('Unit | Domain | Read-Models | CertificationResultInformation', functio
         });
 
         // then
-        expect(certificationResultInformation).to.be.instanceOf(CertificationResultInformation);
+        expect(certificationResultInformation).to.be.instanceOf(JuryCertification);
         expect(certificationResultInformation.status).to.equal('cancelled');
       });
     });

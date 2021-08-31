@@ -63,7 +63,7 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
-        handler: certificationCourseController.getCertificationResultInformation,
+        handler: certificationCourseController.getJuryCertification,
         tags: ['api'],
       },
     },
