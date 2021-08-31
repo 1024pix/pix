@@ -179,6 +179,41 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
+
+      it('should return a cancelled clea certification when certification pix is cancelled', async function() {
+        // given
+        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+        const certifResult = domainBuilder.buildCertificationResult.cancelled({
+          id: 123,
+          lastName: 'Oxford',
+          firstName: 'Lili',
+          birthdate: '1990-01-04',
+          birthplace: 'Torreilles',
+          externalId: 'LOLORD',
+          createdAt: new Date('2020-01-01'),
+          pixScore: 55,
+          commentForOrganization: 'RAS',
+          competencesWithMark: competencesWithMark,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        });
+
+        const certificationResults = [ certifResult ];
+
+        // when
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+
+        // then
+        const expectedResult = '\uFEFF' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification CléA numérique";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
+        expect(result).to.equal(expectedResult);
+      });
     });
 
     context('when at least one candidate has passed Pix plus maitre certification', function() {
@@ -217,6 +252,41 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Rejetée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
+
+      it('should return a cancelled Pix plus maitre certification when certification pix is cancelled', async function() {
+        // given
+        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+        const certifResult = domainBuilder.buildCertificationResult.cancelled({
+          id: 123,
+          lastName: 'Oxford',
+          firstName: 'Lili',
+          birthdate: '1990-01-04',
+          birthplace: 'Torreilles',
+          externalId: 'LOLORD',
+          createdAt: new Date('2020-01-01'),
+          pixScore: 55,
+          commentForOrganization: 'RAS',
+          competencesWithMark: competencesWithMark,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.rejected(),
+          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        });
+
+        const certificationResults = [ certifResult ];
+
+        // when
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+
+        // then
+        const expectedResult = '\uFEFF' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Maître";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
+        expect(result).to.equal(expectedResult);
+      });
     });
 
     context('when at least one candidate has passed Pix plus expert certification', function() {
@@ -253,6 +323,41 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         const expectedResult = '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
           '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Validée";"Validée";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
+        expect(result).to.equal(expectedResult);
+      });
+
+      it('should return a cancelled Pix plus expert certification when certification pix is cancelled', async function() {
+        // given
+        const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
+        const competencesWithMark = [
+          domainBuilder.buildCompetenceMark({ competence_code: '5.1', level: 3 }),
+          domainBuilder.buildCompetenceMark({ competence_code: '5.2', level: -1 }),
+        ];
+        const certifResult = domainBuilder.buildCertificationResult.cancelled({
+          id: 123,
+          lastName: 'Oxford',
+          firstName: 'Lili',
+          birthdate: '1990-01-04',
+          birthplace: 'Torreilles',
+          externalId: 'LOLORD',
+          createdAt: new Date('2020-01-01'),
+          pixScore: 55,
+          commentForOrganization: 'RAS',
+          competencesWithMark: competencesWithMark,
+          cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          pixPlusDroitMaitreCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+          pixPlusDroitExpertCertificationResult: domainBuilder.buildCleaCertificationResult.acquired(),
+        });
+
+        const certificationResults = [ certifResult ];
+
+        // when
+        const result = await getSessionCertificationResultsCsv({ session, certificationResults });
+
+        // then
+        const expectedResult = '\uFEFF' +
+          '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Certification Pix+ Droit Expert";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"Annulée";"Annulée";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
     });

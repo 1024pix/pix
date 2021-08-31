@@ -139,16 +139,19 @@ const _getRowItemsFromSessionAndResults = (session) => (certificationResult) => 
 
 function _formatCleaCertificationResult(certificationResult) {
   if (!certificationResult.hasTakenClea()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
   return certificationResult.hasAcquiredClea() ? 'Validée' : 'Rejetée';
 }
 
 function _formatPixPlusDroitMaitreCertificationResult(certificationResult) {
   if (!certificationResult.hasTakenPixPlusDroitMaitre()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
   return certificationResult.hasAcquiredPixPlusDroitMaitre() ? 'Validée' : 'Rejetée';
 }
 
 function _formatPixPlusDroitExpertCertificationResult(certificationResult) {
   if (!certificationResult.hasTakenPixPlusDroitExpert()) return 'Non passée';
+  if (certificationResult.isCancelled()) return 'Annulée';
   return certificationResult.hasAcquiredPixPlusDroitExpert() ? 'Validée' : 'Rejetée';
 }
 
