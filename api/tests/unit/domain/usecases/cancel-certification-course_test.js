@@ -3,42 +3,16 @@ const cancelCertificationCourse = require('../../../../lib/domain/usecases/cance
 
 describe('Unit | UseCase | cancel-certification-course', function() {
 
-  it('should update certification course cancelled status', async function() {
+  it('should cancel the certification course', async function() {
     // given
-    const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: false });
-    const cancelledCertificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: true });
-
+    const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123 });
+    sinon.spy(certificationCourse, 'cancel');
     const certificationCourseRepository = {
       update: sinon.stub(),
       get: sinon.stub(),
     };
-
     certificationCourseRepository.get.withArgs(123).resolves(certificationCourse);
-    certificationCourseRepository.update.resolves(cancelledCertificationCourse);
-
-    // when
-    const actualCertificationCourse = await cancelCertificationCourse({
-      certificationCourseId: 123,
-      certificationCourseRepository,
-    });
-
-    // then
-    expect(actualCertificationCourse.toDTO().isCancelled).to.be.true;
-    expect(certificationCourseRepository.update).to.have.been.calledWith(certificationCourse);
-  });
-
-  it('should not cancel an already cancelled certification course', async function() {
-    // given
-    const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: false });
-    const cancelledCertificationCourse = domainBuilder.buildCertificationCourse({ id: 123, isCancelled: true });
-
-    const certificationCourseRepository = {
-      update: sinon.stub(),
-      get: sinon.stub(),
-    };
-
-    certificationCourseRepository.get.withArgs(123).resolves(certificationCourse);
-    certificationCourseRepository.update.resolves(cancelledCertificationCourse);
+    certificationCourseRepository.update.resolves();
 
     // when
     await cancelCertificationCourse({
@@ -46,12 +20,8 @@ describe('Unit | UseCase | cancel-certification-course', function() {
       certificationCourseRepository,
     });
 
-    const actualCertificationCourse = await cancelCertificationCourse({
-      certificationCourseId: 123,
-      certificationCourseRepository,
-    });
-
     // then
-    expect(actualCertificationCourse.toDTO().isCancelled).to.be.true;
+    expect(certificationCourse.cancel).to.have.been.calledOnce;
+    expect(certificationCourseRepository.update).to.have.been.calledWith(certificationCourse);
   });
 });

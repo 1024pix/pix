@@ -956,41 +956,22 @@ describe('Acceptance | API | Certification Course', function() {
 
   describe('POST /api/admin/certification-courses/{id}/cancel', function() {
 
-    context('when user has no pixMaster role', function() {
-      it('should return 403 HTTP status code', async function() {
-        const options = {
-          method: 'POST',
-          url: '/api/admin/certification-courses/1/cancel',
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        };
+    it('should respond with a 200', async function() {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
+      const options = {
+        method: 'POST',
+        url: '/api/admin/certification-courses/123/cancel',
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+      await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
 
-        // when
-        const response = await server.inject(options);
+      // when
+      const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
-    });
-
-    context('when user is pixMaster', function() {
-
-      it('should respond with a 200', async function() {
-        // given
-        const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
-        const options = {
-          method: 'POST',
-          url: `/api/admin/certification-courses/${certificationCourse.id}/cancel`,
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        };
-        await insertUserWithRolePixMaster();
-        await databaseBuilder.commit();
-
-        // when
-        const response = await server.inject(options);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 

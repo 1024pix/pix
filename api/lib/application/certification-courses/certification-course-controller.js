@@ -72,10 +72,10 @@ module.exports = {
     return certifiedProfileSerializer.serialize(certifiedProfile);
   },
 
-  async cancel(request) {
+  async cancel(request, h) {
     const certificationCourseId = request.params.id;
-    const cancelledCertificationCourse = await usecases.cancelCertificationCourse({ certificationCourseId });
-    return certificationCourseSerializer.serialize(cancelledCertificationCourse);
+    await usecases.cancelCertificationCourse({ certificationCourseId });
+    return h.response().code(200);
   },
 
   async uncancel(request, h) {
