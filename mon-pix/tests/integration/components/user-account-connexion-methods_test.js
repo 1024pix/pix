@@ -3,11 +3,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../helpers/contains';
 import sinon from 'sinon';
 import Service from '@ember/service';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | user-account-connexion-methods', function() {
   setupIntlRenderingTest();
@@ -45,8 +46,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
       await render(hbs`<UserAccountConnexionMethods @user={{user}} />`);
 
       // then
-      expect(find('.user-account-panel-item__edit-button')).to.exist;
-      expect(find('.user-account-panel-item__button')).to.not.exist;
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.edit-button'))).to.exist;
     });
   });
 
@@ -85,7 +85,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
       await render(hbs`<UserAccountConnexionMethods @user={{user}} />`);
 
       // then
-      expect(find('p[data-test-email]')).to.not.exist;
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.not.exist;
     });
   });
 
@@ -105,7 +105,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
       await render(hbs`<UserAccountConnexionMethods @user={{this.user}} />`);
 
       // then
-      expect(find('p[data-test-username]')).to.not.exist;
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.username'))).to.not.exist;
     });
   });
 
@@ -125,7 +125,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
     await render(hbs `<UserAccountConnexionMethods @user={{this.user}} @enableEmailEditionMode={{this.enableEmailEditionMode}} />`);
 
     // when
-    await click('button[data-test-edit-email]');
+    await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
 
     // then
     sinon.assert.called(enableEmailEditionMode);
