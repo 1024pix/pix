@@ -72,6 +72,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           userId,
           campaignId,
           sharedAt: new Date('2020-01-02'),
+          masteryPercentage: '0.4',
         });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
         await databaseBuilder.commit();
@@ -89,6 +90,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
+          masteryPercentage: '0.4',
           sharedAt: new Date('2020-01-02'),
         });
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
@@ -130,7 +132,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings: true }).id;
         const userId = databaseBuilder.factory.buildUser().id;
         databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, masteryPercentage: '0.1' }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
 
         const otherUserId = databaseBuilder.factory.buildUser().id;
@@ -149,7 +151,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId, isDisabled: true });
         const campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId, multipleSendings: true }).id;
-        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId }).id;
+        const campaignParticipationId = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId, masteryPercentage: '0.1' }).id;
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId });
 
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -199,14 +201,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           status: KnowledgeElement.StatusType.VALIDATED,
         },
       ];
-      databaseBuilder
-        .factory
-        .knowledgeElementSnapshotFactory
-        .buildSnapshot({
-          userId,
-          snappedAt: new Date('2020-01-02'),
-          knowledgeElementsAttributes,
-        });
+      knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+
       await databaseBuilder.commit();
       const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
@@ -245,14 +241,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           status: KnowledgeElement.StatusType.VALIDATED,
         },
       ];
-      databaseBuilder
-        .factory
-        .knowledgeElementSnapshotFactory
-        .buildSnapshot({
-          userId,
-          snappedAt: new Date('2020-01-02'),
-          knowledgeElementsAttributes,
-        });
+      knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+
       await databaseBuilder.commit();
       const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
 
@@ -306,14 +296,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         },
       ];
 
-      databaseBuilder
-        .factory
-        .knowledgeElementSnapshotFactory
-        .buildSnapshot({
-          userId,
-          snappedAt: new Date('2020-01-02'),
-          knowledgeElementsAttributes,
-        });
+      knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+
       await databaseBuilder.commit();
       const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
       const competenceResult1 = participantResult.competenceResults.find(({ id }) => id === 'rec1');
@@ -342,54 +326,6 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
       });
     });
 
-    context('when there is no snapshot because the participant did not share his results', function() {
-      it('compute results by using knowledge elements', async function() {
-        const { id: userId } = databaseBuilder.factory.buildUser();
-        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
-        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
-          userId,
-          campaignId,
-          isShared: false,
-          sharedAt: null,
-        });
-
-        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
-        const knowledgeElementsAttributes = [
-          {
-            userId,
-            skillId: 'skill1',
-            competenceId: 'rec1',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
-          },
-          {
-            userId,
-            skillId: 'skill2',
-            competenceId: 'rec1',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.INVALIDATED,
-          },
-          {
-            userId,
-            skillId: 'skill5',
-            competenceId: 'rec2',
-            createdAt: new Date('2020-01-01'),
-            status: KnowledgeElement.StatusType.VALIDATED,
-          },
-        ];
-        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
-        await databaseBuilder.commit();
-        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
-
-        expect(participantResult).to.deep.include({
-          id: campaignParticipationId,
-          testedSkillsCount: 2,
-          totalSkillsCount: 4,
-          validatedSkillsCount: 1,
-        });
-      });
-    });
-
     context('when the target profile has some stages', function() {
       it('returns the stage reached', async function() {
         const { id: otherTargetProfileId } = databaseBuilder.factory.buildTargetProfile();
@@ -399,6 +335,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           userId,
           campaignId,
           isShared: true,
+          masteryPercentage: '0.65',
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -440,14 +377,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           },
         ];
 
-        databaseBuilder
-          .factory
-          .knowledgeElementSnapshotFactory
-          .buildSnapshot({
-            userId,
-            snappedAt: new Date('2020-01-02'),
-            knowledgeElementsAttributes,
-          });
+        knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+
         await databaseBuilder.commit();
         const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
         expect(participantResult.reachedStage).to.deep.include({
@@ -498,15 +429,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
-        databaseBuilder
-          .factory
-          .knowledgeElementSnapshotFactory
-          .buildSnapshot({
-            userId,
-            snappedAt: new Date('2020-01-02'),
-            knowledgeElementsAttributes: [],
-          });
         await databaseBuilder.commit();
+
         const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
         const badgeResult1 = participantResult.badgeResults.find(({ id }) => id === 1);
         const badgeResult2 = participantResult.badgeResults.find(({ id }) => id === 2);
@@ -575,15 +499,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
-        databaseBuilder
-          .factory
-          .knowledgeElementSnapshotFactory
-          .buildSnapshot({
-            userId,
-            snappedAt: new Date('2020-01-02'),
-            knowledgeElementsAttributes: [],
-          });
         await databaseBuilder.commit();
+
         const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
         const badgeResult1 = participantResult.badgeResults.find(({ id }) => id === badgeObtainedInAnotherCampaign.badgeId);
         const badgeResult2 = participantResult.badgeResults.find(({ id }) => id === badgeObtainedInThisCampaign.badgeId);
@@ -656,14 +573,8 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
             },
           ];
 
-          databaseBuilder
-            .factory
-            .knowledgeElementSnapshotFactory
-            .buildSnapshot({
-              userId,
-              snappedAt: new Date('2020-01-02'),
-              knowledgeElementsAttributes,
-            });
+          knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
+
           await databaseBuilder.commit();
           badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
           const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
@@ -700,6 +611,45 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
         const error = await catchErr(participantResultRepository.getByUserIdAndCampaignId)({ userId, campaignId, locale: 'FR' });
 
         expect(error).to.be.instanceOf(NotFoundError);
+      });
+    });
+
+    context('when the participation is shared', function() {
+      it('returns the mastery rate for the participation using the mastery rate stocked', async function() {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+          masteryPercentage: 0.6,
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+        await databaseBuilder.commit();
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
+        expect(participantResult.masteryRate).to.equal(0.6);
+      });
+    });
+
+    context('when the participation is not shared', function() {
+      it('returns the mastery rate for the participation using knowledge elements', async function() {
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
+        const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          campaignId,
+          isShared: false,
+          sharedAt: null,
+        });
+
+        databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
+
+        await databaseBuilder.commit();
+        const participantResult = await participantResultRepository.getByUserIdAndCampaignId({ userId, campaignId, locale: 'FR' });
+        expect(participantResult.masteryRate).to.equal(0);
       });
     });
   });
