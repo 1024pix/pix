@@ -1,6 +1,5 @@
 const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
 const createServer = require('../../../server');
-
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const Assessment = require('../../../lib/domain/models/Assessment');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');

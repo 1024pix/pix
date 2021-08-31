@@ -2,7 +2,7 @@ const status = {
   CANCELLED: 'cancelled',
 };
 
-class CertificationResultInformation {
+class JuryCertification {
   constructor({
     certificationCourseId,
     sessionId,
@@ -66,7 +66,7 @@ class CertificationResultInformation {
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
   }) {
-    return new CertificationResultInformation({
+    return new JuryCertification({
       certificationCourseId: generalCertificationInformation.certificationCourseId,
       sessionId: generalCertificationInformation.sessionId,
       status: _getStatus(assessmentResult.status, generalCertificationInformation.isCancelled),
@@ -102,4 +102,4 @@ function _getStatus(assessmentResultStatus, isCourseCancelled) {
   return assessmentResultStatus;
 }
 
-module.exports = CertificationResultInformation;
+module.exports = JuryCertification;

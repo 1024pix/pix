@@ -1,13 +1,12 @@
 const { sinon, expect, domainBuilder } = require('../../../test-helper');
-const CertificationResultInformation = require('../../../../lib/domain/read-models/CertificationResultInformation');
-const getCertificationResultInformation = require('../../../../lib/domain/usecases/get-certification-result-information');
+const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
+const getJuryCertification = require('../../../../lib/domain/usecases/get-jury-certification');
 
-describe('Unit | Usecase | get-certification-result-information', function() {
+describe('Unit | Usecase | get-jury-certification', function() {
 
-  it('should get the certificationResultInformation', async function() {
+  it('should get the jury certification', async function() {
     // given
     const certificationCourseId = 777;
-
     const generalCertificationInformationRepository = { get: sinon.stub() };
     const generalCertificationInformation = {};
     generalCertificationInformationRepository.get
@@ -36,8 +35,8 @@ describe('Unit | Usecase | get-certification-result-information', function() {
       .withArgs({ certificationCourseId })
       .resolves(pixPlusDroitExpertCertificationResult);
 
-    const certificationResultInformation = Symbol('Certification result information');
-    sinon.stub(CertificationResultInformation, 'from')
+    const juryCertification = Symbol('Jury Certification');
+    sinon.stub(JuryCertification, 'from')
       .withArgs({
         generalCertificationInformation,
         assessmentResult,
@@ -45,10 +44,10 @@ describe('Unit | Usecase | get-certification-result-information', function() {
         pixPlusDroitMaitreCertificationResult,
         pixPlusDroitExpertCertificationResult,
       })
-      .resolves(certificationResultInformation);
+      .resolves(juryCertification);
 
     // when
-    const result = await getCertificationResultInformation({
+    const result = await getJuryCertification({
       certificationCourseId,
       generalCertificationInformationRepository,
       assessmentResultRepository,
@@ -58,6 +57,6 @@ describe('Unit | Usecase | get-certification-result-information', function() {
     });
 
     // then
-    expect(result).to.be.equal(certificationResultInformation);
+    expect(result).to.be.equal(juryCertification);
   });
 });

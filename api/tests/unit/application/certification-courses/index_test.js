@@ -49,7 +49,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
     it('should exist', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-      sinon.stub(certificationCoursesController, 'getCertificationResultInformation').returns('ok');
+      sinon.stub(certificationCoursesController, 'getJuryCertification').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 

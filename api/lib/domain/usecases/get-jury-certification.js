@@ -1,6 +1,6 @@
-const CertificationResultInformation = require('../read-models/CertificationResultInformation');
+const JuryCertification = require('../models/JuryCertification');
 
-module.exports = async function getCertificationResultInformation({
+module.exports = async function getJuryCertification({
   certificationCourseId,
   generalCertificationInformationRepository,
   assessmentResultRepository,
@@ -13,7 +13,7 @@ module.exports = async function getCertificationResultInformation({
   const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId });
   const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId });
   const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId });
-  return CertificationResultInformation.from({
+  return JuryCertification.from({
     generalCertificationInformation,
     assessmentResult,
     cleaCertificationResult,

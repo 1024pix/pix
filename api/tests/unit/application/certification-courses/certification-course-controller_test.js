@@ -1,6 +1,6 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const certificationResultInformationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
+const juryCertificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -95,9 +95,9 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
   });
 
-  describe('#getCertificationResultInformation', function() {
+  describe('#getJuryCertification', function() {
 
-    it('should return certification result', async function() {
+    it('should return serialized jury certification', async function() {
       // given
       const certificationCourseId = 1;
       const request = {
@@ -106,20 +106,20 @@ describe('Unit | Controller | certification-course-controller', function() {
         },
       };
 
-      const certificationResultInformation = Symbol('aCertifResultInfo');
-      sinon.stub(usecases, 'getCertificationResultInformation')
-        .withArgs({ certificationCourseId }).resolves(certificationResultInformation);
+      const juryCertification = Symbol('aJuryCertif');
+      sinon.stub(usecases, 'getJuryCertification')
+        .withArgs({ certificationCourseId }).resolves(juryCertification);
 
-      const certificationResultInformationSerialized = Symbol('a full certification results');
-      sinon.stub(certificationResultInformationSerializer, 'serialize')
-        .withArgs(certificationResultInformation)
-        .resolves(certificationResultInformationSerialized);
+      const juryCertificationSerialized = Symbol('a full certification results');
+      sinon.stub(juryCertificationSerializer, 'serialize')
+        .withArgs(juryCertification)
+        .resolves(juryCertificationSerialized);
 
       // when
-      const result = await certificationCourseController.getCertificationResultInformation(request, hFake);
+      const result = await certificationCourseController.getJuryCertification(request, hFake);
 
       // then
-      expect(result).to.deep.equal(certificationResultInformationSerialized);
+      expect(result).to.deep.equal(juryCertificationSerialized);
     });
   });
 

@@ -2,16 +2,16 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(certificationResultInformation) {
+  serialize(juryCertification) {
     return new Serializer('certifications', {
-      transform(certificationResultInformation) {
+      transform(juryCertification) {
         return {
-          id: certificationResultInformation.certificationCourseId,
-          ...certificationResultInformation,
-          competencesWithMark: certificationResultInformation.competenceMarks,
-          cleaCertificationStatus: certificationResultInformation.cleaCertificationResult.status,
-          pixPlusDroitMaitreCertificationStatus: certificationResultInformation.pixPlusDroitMaitreCertificationResult.status,
-          pixPlusDroitExpertCertificationStatus: certificationResultInformation.pixPlusDroitExpertCertificationResult.status,
+          id: juryCertification.certificationCourseId,
+          ...juryCertification,
+          competencesWithMark: juryCertification.competenceMarks,
+          cleaCertificationStatus: juryCertification.cleaCertificationResult.status,
+          pixPlusDroitMaitreCertificationStatus: juryCertification.pixPlusDroitMaitreCertificationResult.status,
+          pixPlusDroitExpertCertificationStatus: juryCertification.pixPlusDroitExpertCertificationResult.status,
         };
       },
       attributes: [
@@ -53,6 +53,6 @@ module.exports = {
           'resolution',
         ],
       },
-    }).serialize(certificationResultInformation);
+    }).serialize(juryCertification);
   },
 };

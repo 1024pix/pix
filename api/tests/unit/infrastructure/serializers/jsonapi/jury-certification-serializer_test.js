@@ -1,13 +1,13 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
-const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
-const CertificationResultInformation = require('../../../../../lib/domain/read-models/CertificationResultInformation');
+const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
+const JuryCertification = require('../../../../../lib/domain/models/JuryCertification');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 
-describe('Unit | Serializer | JSONAPI | certification-result-information-serializer', function() {
+describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function() {
 
   describe('#serialize', function() {
 
-    it('should serialize results of a certification', function() {
+    it('should serialize a JuryCertification', function() {
       // given
       const certificationCourseId = 123;
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport.impactful({
@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
-      const certificationResultInformationDTO = {
+      const juryCertificationDTO = {
         certificationCourseId,
         sessionId: 11,
         status: Assessment.states.COMPLETED,
@@ -48,10 +48,10 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
         pixScore: 555,
         competenceMarks,
       };
-      const certificationResultInformation = new CertificationResultInformation(certificationResultInformationDTO);
+      const juryCertification = new JuryCertification(juryCertificationDTO);
 
       // when
-      const serializedCertificationCourse = serializer.serialize(certificationResultInformation);
+      const serializedJuryCertification = serializer.serialize(juryCertification);
 
       // then
       const expectedSerializedCertification = {
@@ -59,30 +59,30 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
           id: certificationCourseId.toString(),
           type: 'certifications',
           attributes: {
-            'session-id': certificationResultInformationDTO.sessionId,
-            status: certificationResultInformationDTO.status,
+            'session-id': juryCertificationDTO.sessionId,
+            status: juryCertificationDTO.status,
             'created-at': new Date('2020-02-20T10:30:00Z'),
             'completed-at': new Date('2020-02-20T11:00:00Z'),
-            'is-published': certificationResultInformationDTO.isPublished,
+            'is-published': juryCertificationDTO.isPublished,
             'clea-certification-status': 'not_taken',
             'pix-plus-droit-maitre-certification-status': 'acquired',
             'pix-plus-droit-expert-certification-status': 'rejected',
-            'first-name': certificationResultInformationDTO.firstName,
-            'last-name': certificationResultInformationDTO.lastName,
-            birthdate: certificationResultInformationDTO.birthdate,
-            birthplace: certificationResultInformationDTO.birthplace,
-            'birth-country': certificationResultInformationDTO.birthCountry,
-            'birth-insee-code': certificationResultInformationDTO.birthINSEECode,
+            'first-name': juryCertificationDTO.firstName,
+            'last-name': juryCertificationDTO.lastName,
+            birthdate: juryCertificationDTO.birthdate,
+            birthplace: juryCertificationDTO.birthplace,
+            'birth-country': juryCertificationDTO.birthCountry,
+            'birth-insee-code': juryCertificationDTO.birthINSEECode,
             'birth-postal-code': null,
             sex: 'M',
-            'user-id': certificationResultInformationDTO.userId,
-            'assessment-id': certificationResultInformationDTO.assessmentId,
-            'comment-for-candidate': certificationResultInformationDTO.commentForCandidate,
-            'comment-for-jury': certificationResultInformationDTO.commentForJury,
-            'comment-for-organization': certificationResultInformationDTO.commentForOrganization,
-            'jury-id': certificationResultInformationDTO.juryId,
-            'pix-score': certificationResultInformationDTO.pixScore,
-            'competences-with-mark': certificationResultInformationDTO.competenceMarks,
+            'user-id': juryCertificationDTO.userId,
+            'assessment-id': juryCertificationDTO.assessmentId,
+            'comment-for-candidate': juryCertificationDTO.commentForCandidate,
+            'comment-for-jury': juryCertificationDTO.commentForJury,
+            'comment-for-organization': juryCertificationDTO.commentForOrganization,
+            'jury-id': juryCertificationDTO.juryId,
+            'pix-score': juryCertificationDTO.pixScore,
+            'competences-with-mark': juryCertificationDTO.competenceMarks,
           },
           relationships: {
             'certification-issue-reports': {
@@ -107,7 +107,7 @@ describe('Unit | Serializer | JSONAPI | certification-result-information-seriali
           },
         }],
       };
-      expect(serializedCertificationCourse).to.deep.equal(expectedSerializedCertification);
+      expect(serializedJuryCertification).to.deep.equal(expectedSerializedCertification);
     });
   });
 });
