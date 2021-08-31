@@ -4,12 +4,21 @@
       <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.connexion-methods.email'}}</p>
       <p class="user-account-panel-item__value" data-test-email>{{@user.email}}</p>
     </div>
-    <PixButton
-            class="user-account-panel-item__button"
+    {{#if this.isEmailValidationEnabled}}
+      <PixButton
+            class="user-account-panel-item__edit-button"
             @triggerAction={{@enableEmailEditionMode}}
             data-test-edit-email>
       {{t 'pages.user-account.connexion-methods.edit-button'}}
-    </PixButton>
+      </PixButton>
+    {{else}}
+      <PixButton
+              class="user-account-panel-item__button"
+              @triggerAction={{@enableEmailEditionMode}}
+              data-test-edit-email>
+        {{t 'pages.user-account.connexion-methods.edit-button'}}
+      </PixButton>
+    {{/if}}
   </div>
 {{/if}}
 
