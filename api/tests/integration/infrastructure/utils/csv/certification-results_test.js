@@ -106,7 +106,6 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
 
     context('when at least one certification course is in error', function() {
 
-      // TODO erreur ne devrait pas afficher de score et de niveaux
       it('should return correct csvContent with error status and dashes as Pix scores', async function() {
         // given
         const session = domainBuilder.buildSession({ id: 777, certificationCenter: 'CentreCertif' });
@@ -138,7 +137,7 @@ describe('Integration | Infrastructure | Utils | csv | certification-results', f
         // then
         const expectedResult = '\uFEFF' +
           '"Numéro de certification";"Prénom";"Nom";"Date de naissance";"Lieu de naissance";"Identifiant Externe";"Statut";"Nombre de Pix";"1.1";"1.2";"1.3";"2.1";"2.2";"2.3";"2.4";"3.1";"3.2";"3.3";"3.4";"4.1";"4.2";"4.3";"5.1";"5.2";"Commentaire jury pour l’organisation";"Session";"Centre de certification";"Date de passage de la certification"\n' +
-          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"En erreur";55;"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";3;0;"RAS";777;"CentreCertif";"01/01/2020"';
+          '123;"Lili";"Oxford";"04/01/1990";"Torreilles";"LOLORD";"En erreur";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"-";"RAS";777;"CentreCertif";"01/01/2020"';
         expect(result).to.equal(expectedResult);
       });
     });
