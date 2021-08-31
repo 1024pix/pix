@@ -34,6 +34,38 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
+  describe('#cancel #uncancelled', function() {
+
+    it('should uncancel a certification course', function() {
+      // given
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        isCancelled: true,
+      });
+
+      // when
+      certificationCourse.uncancel();
+
+      // then
+      expect(certificationCourse.toDTO().isCancelled).to.be.false;
+    });
+
+    describe('when certification course is not cancelled', function() {
+      it('should not change isCancelled value', function() {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          isCancelled: true,
+        });
+
+        // when
+        certificationCourse.uncancel();
+        certificationCourse.uncancel();
+
+        // then
+        expect(certificationCourse.toDTO().isCancelled).to.be.false;
+      });
+    });
+  });
+
   describe('#correctBirthdate', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['2000-13-01', null, undefined, '', 'invalid']

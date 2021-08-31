@@ -5,9 +5,11 @@ class CertificationAssessmentScore {
   constructor({
     competenceMarks = [],
     percentageCorrectAnswers = 0,
+    hasEnoughNonNeutralizedChallengesToBeTrusted,
   } = {}) {
     this.competenceMarks = competenceMarks;
     this.percentageCorrectAnswers = percentageCorrectAnswers;
+    this.hasEnoughNonNeutralizedChallengesToBeTrusted = hasEnoughNonNeutralizedChallengesToBeTrusted;
   }
 
   get nbPix() {
