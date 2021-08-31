@@ -4,6 +4,11 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   const app = new EmberApp(defaults, {
+    sassOptions: {
+      includePaths: [
+        'node_modules/pix-ui/addon/styles',
+      ],
+    },
     sourcemaps: { enabled: true },
     babel: {
       sourceMaps: 'inline',
@@ -37,6 +42,5 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
-
   return app.toTree();
 };
