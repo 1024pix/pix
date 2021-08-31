@@ -92,23 +92,34 @@ async function _saveResultAfterCertificationComputeError({
   await assessmentResultRepository.save(assessmentResult);
 }
 
+async function _saveAssessmentResult(certificationAssessmentScore, certificationAssessment, event, assessmentResultRepository) {
+  let assessmentResult;
+  if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted && featureToggles.isManageUncompletedCertifEnabled) {
+    assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
+      pixScore: certificationAssessmentScore.nbPix,
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: EMITTER,
+      juryId: event.juryId,
+    });
+  } else {
+    assessmentResult = AssessmentResult.buildStandardAssessmentResult({
+      pixScore: certificationAssessmentScore.nbPix,
+      status: certificationAssessmentScore.status,
+      assessmentId: certificationAssessment.id,
+      emitter: EMITTER,
+      juryId: event.juryId,
+    });
+  }
+  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
+  return assessmentResultId;
+}
+
 async function _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository) {
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
     const competenceMarkDomain = new CompetenceMark({ ...competenceMark, assessmentResultId });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
-}
-
-async function _saveAssessmentResult(certificationAssessmentScore, certificationAssessment, event, assessmentResultRepository) {
-  const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
-    pixScore: certificationAssessmentScore.nbPix,
-    status: certificationAssessmentScore.status,
-    assessmentId: certificationAssessment.id,
-    emitter: EMITTER,
-    juryId: event.juryId,
-  });
-  const { id: assessmentResultId } = await assessmentResultRepository.save(assessmentResult);
-  return assessmentResultId;
 }
 
 handleCertificationRescoring.eventTypes = eventTypes;
