@@ -14,7 +14,29 @@ const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME = 'Centre SCO NO MANAGING STUD
 const SCO_EXTERNAL_ID = '1237457A';
 const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
 
+const { PIX_EMPLOI_CLEA_BADGE_ID, PIX_DROIT_MAITRE_BADGE_ID, PIX_DROIT_EXPERT_BADGE_ID } = require('../badges-builder');
+
 function certificationCentersBuilder({ databaseBuilder }) {
+
+  const cleaAccreditationId = databaseBuilder.factory.buildAccreditation({
+    name: 'CléA Numérique',
+  }).id;
+  databaseBuilder.factory.buildAccreditedBadge({
+    badgeId: PIX_EMPLOI_CLEA_BADGE_ID,
+    accreditationId: cleaAccreditationId,
+  });
+
+  const pixDroitAccreditationId = databaseBuilder.factory.buildAccreditation({
+    name: 'Pix+ Droit',
+  }).id;
+  databaseBuilder.factory.buildAccreditedBadge({
+    badgeId: PIX_DROIT_MAITRE_BADGE_ID,
+    accreditationId: pixDroitAccreditationId,
+  });
+  databaseBuilder.factory.buildAccreditedBadge({
+    badgeId: PIX_DROIT_EXPERT_BADGE_ID,
+    accreditationId: pixDroitAccreditationId,
+  });
 
   databaseBuilder.factory.buildCertificationCenter({
     id: SCO_CERTIF_CENTER_ID,
@@ -35,11 +57,23 @@ function certificationCentersBuilder({ databaseBuilder }) {
     name: PRO_CERTIF_CENTER_NAME,
     type: 'PRO',
   });
+  databaseBuilder.factory.buildGrantedAccreditation({
+    certificationCenterId: PRO_CERTIF_CENTER_ID,
+    accreditationId: cleaAccreditationId,
+  });
 
   databaseBuilder.factory.buildCertificationCenter({
     id: SUP_CERTIF_CENTER_ID,
     name: SUP_CERTIF_CENTER_NAME,
     type: 'SUP',
+  });
+  databaseBuilder.factory.buildGrantedAccreditation({
+    certificationCenterId: SUP_CERTIF_CENTER_ID,
+    accreditationId: cleaAccreditationId,
+  });
+  databaseBuilder.factory.buildGrantedAccreditation({
+    certificationCenterId: SUP_CERTIF_CENTER_ID,
+    accreditationId: pixDroitAccreditationId,
   });
 
   databaseBuilder.factory.buildCertificationCenter({
