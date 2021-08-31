@@ -5,6 +5,10 @@ const types = {
   PROFILES_COLLECTION: 'PROFILES_COLLECTION',
 };
 
+const assessmentMethods = {
+  SMART_RANDOM: 'SMART_RANDOM',
+};
+
 class Campaign {
   constructor({
     id,
@@ -26,6 +30,7 @@ class Campaign {
     customResultPageButtonText,
     customResultPageButtonUrl,
     multipleSendings,
+    assessmentMethod,
   } = {}) {
     this.id = id;
     this.name = name;
@@ -46,6 +51,7 @@ class Campaign {
     this.customResultPageButtonText = customResultPageButtonText;
     this.customResultPageButtonUrl = customResultPageButtonUrl;
     this.multipleSendings = multipleSendings;
+    this.assessmentMethod = assessmentMethod;
   }
 
   get organizationId() {
@@ -70,5 +76,6 @@ class Campaign {
 }
 
 Campaign.types = types;
+Campaign.assessmentMethods = assessmentMethods;
 
 module.exports = Campaign;
