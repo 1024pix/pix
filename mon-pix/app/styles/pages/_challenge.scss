@@ -65,9 +65,17 @@
     box-shadow: 0 10px 20px 0 rgba($blue, 0.06);
     background-color: rgba($blue-10, 0.9);
     color: $blue-60;
+    opacity: 0;
+    height: 0;
 
     @include device-is('tablet') {
       padding: 24px 98px;
+    }
+
+    &.challenge__info-alert--show,
+    &:focus.challenge__info-alert--could-show {
+      opacity: 1;
+      height: auto;
     }
   }
 }

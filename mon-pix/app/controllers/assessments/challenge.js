@@ -35,8 +35,12 @@ export default class ChallengeController extends Controller {
     return this.model.challenge.focused && this.hasFocusedOutOfChallenge && !this.model.answer;
   }
 
-  get shouldDisplayInfoAlert() {
-    return this.hasFocusedOutOfChallenge && !this.hasFocusedOutOfWindow && !this.model.answer;
+  get couldDisplayInfoAlert() {
+    return !this.hasFocusedOutOfWindow && !this.model.answer && this.model.challenge.focused;
+  }
+
+  get displayInfoAlertForFocusOut() {
+    return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
   }
 
   get isFocusedChallengeAndTooltipIsDisplayed() {
