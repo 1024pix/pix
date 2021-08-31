@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.94.0 (31/08/2021)
+
+- [#3414](https://github.com/1024pix/pix/pull/3414) [FEATURE] Mettre à jour la bannière des parcours de rentrée SCO pour la rentrée 2021 (PIX-3101).
+- [#3415](https://github.com/1024pix/pix/pull/3415) [FEATURE] Mise à jour du bandeau d'import SCO pour la rentrée 2021 (PIX-3100).
+- [#3409](https://github.com/1024pix/pix/pull/3409) [BUGFIX] Corriger le message d'erreur lorsque l'adresse e-mail existe déjà sur Pix App (PIX-3111).
+- [#3407](https://github.com/1024pix/pix/pull/3407) [BUGFIX] Corriger la redirection du lien pour créer un Profil Cible (PIX-3115).
+- [#3349](https://github.com/1024pix/pix/pull/3349) [TECH] Remplacer Bookshelf par Knex dans l'authentication-method-repository (PIX-3042)
+- [#3417](https://github.com/1024pix/pix/pull/3417) [TECH] Remplacement des modules de log `good` et associés par les versions à jour sous `@hapi`
+- [#3410](https://github.com/1024pix/pix/pull/3410) [TECH] Supprimer les indexes de la table account-recovery-demands (PIX-2983).
+- [#3411](https://github.com/1024pix/pix/pull/3411) [TECH] Supprimer le feature toggle IsScoAccountRecoveryEnabled (PIX-3059).
+- [#3399](https://github.com/1024pix/pix/pull/3399) [TECH] Réutiliser le champ résultat pour la page "mes parcours" (PIX-3085)
+
 ## v3.93.0 (30/08/2021)
 
 - [#3396](https://github.com/1024pix/pix/pull/3396) [FEATURE] Afficher la dernière participation dans l'export d'une campagne de collecte(PIX-2967)
