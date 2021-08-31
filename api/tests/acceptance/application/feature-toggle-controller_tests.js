@@ -25,6 +25,7 @@ describe('Acceptance | Controller | feature-toggle-controller', function() {
           attributes: {
             'is-download-certification-attestation-by-division-enabled': false,
             'is-manage-uncompleted-certif-enabled': false,
+            'is-email-validation-enabled': false,
           },
           type: 'feature-toggles',
         },
