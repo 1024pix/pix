@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const CompetenceMark = require('./CompetenceMark');
+
 const status = {
   CANCELLED: 'cancelled',
 };
@@ -6,93 +9,99 @@ class JuryCertification {
   constructor({
     certificationCourseId,
     sessionId,
-    status,
-    createdAt,
-    completedAt,
-    isPublished,
-    cleaCertificationResult,
-    pixPlusDroitMaitreCertificationResult,
-    pixPlusDroitExpertCertificationResult,
+    userId,
+    assessmentId,
     firstName,
     lastName,
     birthdate,
-    birthplace,
     sex,
+    birthplace,
     birthINSEECode,
     birthCountry,
     birthPostalCode,
-    userId,
-    certificationIssueReports,
-    assessmentId,
-    commentForCandidate,
-    commentForOrganization,
-    commentForJury,
+    createdAt,
+    completedAt,
+    status,
+    isPublished,
     juryId,
     pixScore,
     competenceMarks,
-  } = {}) {
+    commentForCandidate,
+    commentForOrganization,
+    commentForJury,
+    cleaCertificationResult,
+    pixPlusDroitMaitreCertificationResult,
+    pixPlusDroitExpertCertificationResult,
+    certificationIssueReports,
+  }) {
     this.certificationCourseId = certificationCourseId;
     this.sessionId = sessionId;
-    this.status = status;
-    this.createdAt = createdAt;
-    this.completedAt = completedAt;
-    this.isPublished = isPublished;
-    this.cleaCertificationResult = cleaCertificationResult;
-    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
-    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    this.userId = userId;
+    this.assessmentId = assessmentId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthdate = birthdate;
-    this.birthplace = birthplace;
     this.sex = sex;
+    this.birthplace = birthplace;
     this.birthINSEECode = birthINSEECode;
     this.birthCountry = birthCountry;
     this.birthPostalCode = birthPostalCode;
-    this.certificationIssueReports = certificationIssueReports;
-    this.userId = userId;
-    this.assessmentId = assessmentId;
-    this.commentForCandidate = commentForCandidate;
-    this.commentForOrganization = commentForOrganization;
-    this.commentForJury = commentForJury;
+    this.createdAt = createdAt;
+    this.completedAt = completedAt;
+    this.status = status;
+    this.isPublished = isPublished;
     this.juryId = juryId;
     this.pixScore = pixScore;
     this.competenceMarks = competenceMarks;
+    this.commentForCandidate = commentForCandidate;
+    this.commentForOrganization = commentForOrganization;
+    this.commentForJury = commentForJury;
+    this.cleaCertificationResult = cleaCertificationResult;
+    this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
+    this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
+    this.certificationIssueReports = certificationIssueReports;
   }
 
   static from({
-    generalCertificationInformation,
-    assessmentResult,
+    juryCertificationDTO,
+    certificationIssueReports,
     cleaCertificationResult,
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
   }) {
+    const competenceMarkDTOs = JSON.parse(juryCertificationDTO.competenceMarksJson);
+    const competenceMarks = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
+      ...competenceMarkDTO,
+      area_code: competenceMarkDTO.area_code.toString(),
+      competence_code: competenceMarkDTO.competence_code.toString(),
+    }));
     return new JuryCertification({
-      certificationCourseId: generalCertificationInformation.certificationCourseId,
-      sessionId: generalCertificationInformation.sessionId,
-      status: _getStatus(assessmentResult.status, generalCertificationInformation.isCancelled),
-      createdAt: generalCertificationInformation.createdAt,
-      completedAt: generalCertificationInformation.completedAt,
-      isPublished: generalCertificationInformation.isPublished,
+      certificationCourseId: juryCertificationDTO.certificationCourseId,
+      sessionId: juryCertificationDTO.sessionId,
+      userId: juryCertificationDTO.userId,
+      assessmentId: juryCertificationDTO.assessmentId,
+      firstName: juryCertificationDTO.firstName,
+      lastName: juryCertificationDTO.lastName,
+      birthdate: juryCertificationDTO.birthdate,
+      sex: juryCertificationDTO.sex,
+      birthplace: juryCertificationDTO.birthplace,
+      birthINSEECode: juryCertificationDTO.birthINSEECode,
+      birthCountry: juryCertificationDTO.birthCountry,
+      birthPostalCode: juryCertificationDTO.birthPostalCode,
+      createdAt: juryCertificationDTO.createdAt,
+      completedAt: juryCertificationDTO.completedAt,
+      status: _getStatus(juryCertificationDTO.assessmentResultStatus, juryCertificationDTO.isCancelled),
+      isPublished: juryCertificationDTO.isPublished,
+      juryId: juryCertificationDTO.juryId,
+      pixScore: juryCertificationDTO.pixScore,
+      competenceMarks,
+      commentForCandidate: juryCertificationDTO.commentForCandidate,
+      commentForOrganization: juryCertificationDTO.commentForOrganization,
+      commentForJury: juryCertificationDTO.commentForJury,
       cleaCertificationResult,
       pixPlusDroitMaitreCertificationResult,
       pixPlusDroitExpertCertificationResult,
-      firstName: generalCertificationInformation.firstName,
-      lastName: generalCertificationInformation.lastName,
-      birthdate: generalCertificationInformation.birthdate,
-      birthplace: generalCertificationInformation.birthplace,
-      sex: generalCertificationInformation.sex,
-      birthINSEECode: generalCertificationInformation.birthINSEECode,
-      birthCountry: generalCertificationInformation.birthCountry,
-      birthPostalCode: generalCertificationInformation.birthPostalCode,
-      userId: generalCertificationInformation.userId,
-      certificationIssueReports: generalCertificationInformation.certificationIssueReports,
-      assessmentId: assessmentResult.assessmentId,
-      commentForCandidate: assessmentResult.commentForCandidate,
-      commentForOrganization: assessmentResult.commentForOrganization,
-      commentForJury: assessmentResult.commentForJury,
-      juryId: assessmentResult.juryId,
-      pixScore: assessmentResult.pixScore,
-      competenceMarks: assessmentResult.competenceMarks,
+      certificationIssueReports,
     });
   }
 }
