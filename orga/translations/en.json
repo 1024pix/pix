@@ -178,7 +178,6 @@
     "assessment-individual-results": {
       "title": "Results of {firstName} {lastName}",
       "badges": "Thematic results",
-      "mastery-percentage": "Result",
       "progression": "Progression",
       "result": "Result",
       "stages": {
