@@ -44,7 +44,7 @@ describe('Unit | Domain | Models | JuryCertification', function() {
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
 
       // when
-      const certificationResultInformation = JuryCertification.from({
+      const juryCertification = JuryCertification.from({
         generalCertificationInformation,
         assessmentResult,
         cleaCertificationResult,
@@ -53,7 +53,7 @@ describe('Unit | Domain | Models | JuryCertification', function() {
       });
 
       // then
-      const expectedCertificationResultInformation = {
+      const expectedJuryCertification = domainBuilder.buildJuryCertification({
         certificationCourseId: 123,
         sessionId: 1000,
         createdAt: new Date('2020-01-30T12:00:00Z'),
@@ -80,9 +80,8 @@ describe('Unit | Domain | Models | JuryCertification', function() {
         cleaCertificationResult,
         pixPlusDroitMaitreCertificationResult,
         pixPlusDroitExpertCertificationResult,
-      };
-      expect(certificationResultInformation).to.be.instanceOf(JuryCertification);
-      expect(certificationResultInformation).to.deep.equal(expectedCertificationResultInformation);
+      });
+      expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
 
     describe('when certification course is cancelled', function() {
@@ -120,7 +119,7 @@ describe('Unit | Domain | Models | JuryCertification', function() {
         const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
 
         // when
-        const certificationResultInformation = JuryCertification.from({
+        const juryCertification = JuryCertification.from({
           generalCertificationInformation,
           assessmentResult,
           cleaCertificationResult,
@@ -129,8 +128,8 @@ describe('Unit | Domain | Models | JuryCertification', function() {
         });
 
         // then
-        expect(certificationResultInformation).to.be.instanceOf(JuryCertification);
-        expect(certificationResultInformation.status).to.equal('cancelled');
+        expect(juryCertification).to.be.instanceOf(JuryCertification);
+        expect(juryCertification.status).to.equal('cancelled');
       });
     });
   });

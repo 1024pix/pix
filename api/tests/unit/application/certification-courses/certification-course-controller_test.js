@@ -1,6 +1,5 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const juryCertificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -97,7 +96,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
   describe('#getJuryCertification', function() {
 
-    it('should return serialized jury certification', async function() {
+    it('should return serialized jury certification returned by the usecase', async function() {
       // given
       const certificationCourseId = 1;
       const request = {
@@ -106,20 +105,76 @@ describe('Unit | Controller | certification-course-controller', function() {
         },
       };
 
-      const juryCertification = Symbol('aJuryCertif');
+      const juryCertification = domainBuilder.buildJuryCertification({
+        certificationCourseId: 123,
+        sessionId: 456,
+        userId: 789,
+        assessmentId: 159,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthplace: 'Torreilles',
+        birthdate: '2000-08-30',
+        birthINSEECode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'France',
+        sex: 'F',
+        status: 'rejected',
+        isPublished: true,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-02-01'),
+        pixScore: 55,
+        juryId: 66,
+        commentForCandidate: 'comment candidate',
+        commentForOrganization: 'comment organization',
+        commentForJury: 'comment jury',
+        competenceMarks: [],
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
+        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
+        certificationIssueReports: [],
+      });
       sinon.stub(usecases, 'getJuryCertification')
         .withArgs({ certificationCourseId }).resolves(juryCertification);
 
-      const juryCertificationSerialized = Symbol('a full certification results');
-      sinon.stub(juryCertificationSerializer, 'serialize')
-        .withArgs(juryCertification)
-        .resolves(juryCertificationSerialized);
-
       // when
-      const result = await certificationCourseController.getJuryCertification(request, hFake);
+      const response = await certificationCourseController.getJuryCertification(request, hFake);
 
       // then
-      expect(result).to.deep.equal(juryCertificationSerialized);
+      expect(response.data).to.deep.equal({
+        type: 'certifications',
+        id: '123',
+        attributes: {
+          'session-id': 456,
+          'user-id': 789,
+          'assessment-id': 159,
+          'first-name': 'Buffy',
+          'last-name': 'Summers',
+          'birthdate': '2000-08-30',
+          'birthplace': 'Torreilles',
+          sex: 'F',
+          'birth-insee-code': '66212',
+          'birth-postal-code': null,
+          'birth-country': 'France',
+          status: 'rejected',
+          'is-published': true,
+          'created-at': new Date('2020-01-01'),
+          'completed-at': new Date('2020-02-01'),
+          'pix-score': 55,
+          'jury-id': 66,
+          'competences-with-mark': [],
+          'comment-for-candidate': 'comment candidate',
+          'comment-for-jury': 'comment jury',
+          'comment-for-organization': 'comment organization',
+          'clea-certification-status': 'not_taken',
+          'pix-plus-droit-expert-certification-status': 'not_taken',
+          'pix-plus-droit-maitre-certification-status': 'not_taken',
+        },
+        relationships: {
+          'certification-issue-reports': {
+            data: [],
+          },
+        },
+      });
     });
   });
 

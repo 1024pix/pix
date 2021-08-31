@@ -1,7 +1,5 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
-const JuryCertification = require('../../../../../lib/domain/models/JuryCertification');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
 
 describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function() {
 
@@ -20,35 +18,34 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
       const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
       const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
-      const juryCertificationDTO = {
+      const juryCertification = domainBuilder.buildJuryCertification({
         certificationCourseId,
         sessionId: 11,
-        status: Assessment.states.COMPLETED,
-        createdAt: new Date('2020-02-20T10:30:00Z'),
-        completedAt: new Date('2020-02-20T11:00:00Z'),
-        isPublished: true,
-        cleaCertificationResult,
-        pixPlusDroitMaitreCertificationResult,
-        pixPlusDroitExpertCertificationResult,
+        userId: 867,
+        assessmentId: 44,
         firstName: 'James',
         lastName: 'Watt',
-        birthdate: '07-11-1950',
+        birthdate: '1990-01-04',
+        birthplace: 'Somewhere',
         sex: 'M',
         birthCountry: 'ENGLAND',
         birthINSEECode: '99124',
         birthPostalCode: null,
-        birthplace: 'Somewhere',
-        userI: 867,
-        certificationIssueReports,
-        assessmentId: 44,
-        commentForCandidate: null,
-        commentForOrganization: null,
-        commentForJury: null,
+        status: 'validated',
+        createdAt: new Date('2020-02-20T10:30:00Z'),
+        completedAt: new Date('2020-02-20T11:00:00Z'),
+        isPublished: true,
         juryId: 1,
         pixScore: 555,
+        commentForCandidate: 'coucou',
+        commentForOrganization: 'comment',
+        commentForJury: 'ça va',
         competenceMarks,
-      };
-      const juryCertification = new JuryCertification(juryCertificationDTO);
+        cleaCertificationResult,
+        pixPlusDroitMaitreCertificationResult,
+        pixPlusDroitExpertCertificationResult,
+        certificationIssueReports,
+      });
 
       // when
       const serializedJuryCertification = serializer.serialize(juryCertification);
@@ -59,30 +56,30 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
           id: certificationCourseId.toString(),
           type: 'certifications',
           attributes: {
-            'session-id': juryCertificationDTO.sessionId,
-            status: juryCertificationDTO.status,
+            'session-id': 11,
+            'user-id': 867,
+            'assessment-id': 44,
+            'first-name': 'James',
+            'last-name': 'Watt',
+            birthdate: '1990-01-04',
+            birthplace: 'Somewhere',
+            sex: 'M',
+            'birth-country': 'ENGLAND',
+            'birth-insee-code': '99124',
+            'birth-postal-code': null,
             'created-at': new Date('2020-02-20T10:30:00Z'),
             'completed-at': new Date('2020-02-20T11:00:00Z'),
-            'is-published': juryCertificationDTO.isPublished,
+            status: 'validated',
+            'is-published': true,
+            'jury-id': 1,
+            'pix-score': 555,
+            'competences-with-mark': juryCertification.competenceMarks,
+            'comment-for-candidate': 'coucou',
+            'comment-for-jury': 'ça va',
+            'comment-for-organization': 'comment',
             'clea-certification-status': 'not_taken',
             'pix-plus-droit-maitre-certification-status': 'acquired',
             'pix-plus-droit-expert-certification-status': 'rejected',
-            'first-name': juryCertificationDTO.firstName,
-            'last-name': juryCertificationDTO.lastName,
-            birthdate: juryCertificationDTO.birthdate,
-            birthplace: juryCertificationDTO.birthplace,
-            'birth-country': juryCertificationDTO.birthCountry,
-            'birth-insee-code': juryCertificationDTO.birthINSEECode,
-            'birth-postal-code': null,
-            sex: 'M',
-            'user-id': juryCertificationDTO.userId,
-            'assessment-id': juryCertificationDTO.assessmentId,
-            'comment-for-candidate': juryCertificationDTO.commentForCandidate,
-            'comment-for-jury': juryCertificationDTO.commentForJury,
-            'comment-for-organization': juryCertificationDTO.commentForOrganization,
-            'jury-id': juryCertificationDTO.juryId,
-            'pix-score': juryCertificationDTO.pixScore,
-            'competences-with-mark': juryCertificationDTO.competenceMarks,
           },
           relationships: {
             'certification-issue-reports': {
