@@ -5,6 +5,7 @@
 @import 'ember-power-select';
 @import 'ember-power-select/themes/bootstrap';
 
+
 /* global */
 @import 'globals/palette';
 @import 'globals/global';
@@ -51,6 +52,7 @@
 @import 'components/organization-members-section';
 @import 'components/pagination-control';
 @import 'components/publish-session-button';
+
 @import 'components/sessions/list-items.scss';
 @import 'components/user-detail-personal-information-section';
 @import 'components/target-profiles/badges';
@@ -60,3 +62,4 @@
 @import 'components/target-profiles/organizations';
 @import 'components/target-profiles/stages';
 @import 'components/badges/badge';
+
