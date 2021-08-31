@@ -63,6 +63,7 @@ module.exports = {
   buildFinalizedSession: require('./build-finalized-session'),
   buildHint: require('./build-hint'),
   buildHigherSchoolingRegistration: require('./build-higher-schooling-registration'),
+  buildJuryCertification: require('./build-jury-certification'),
   buildJurySession: require('./build-jury-session'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildMembership: require('./build-membership'),
