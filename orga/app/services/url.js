@@ -25,7 +25,7 @@ export default class Url extends Service {
   }
 
   get homeUrl() {
-    const currentLanguage = this.intl.t('current-lang');
+    const currentLanguage = this.intl.get('primaryLocale');
     return `${this.definedHomeUrl}?lang=${currentLanguage}`;
   }
 
