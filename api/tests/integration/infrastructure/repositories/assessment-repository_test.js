@@ -393,7 +393,6 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         expect(assessment).to.equal(null);
       });
     });
-
   });
 
   describe('#getLatestByCampaignParticipationId', () => {
