@@ -24,7 +24,7 @@ module.exports = function(defaults) {
     },
     sassOptions: {
       includePaths: [
-        'node_modules/pix-ui/addon',
+        'node_modules/pix-ui/addon/styles',
       ],
     },
   });
