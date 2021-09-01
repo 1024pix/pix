@@ -177,7 +177,7 @@ module('Acceptance | authentication', function(hooks) {
         await visit('/');
 
         // then
-        assert.dom('.logged-user-summary__organization').hasText('BRO & Evil Associates (EXTBRO)');
+        assert.contains('BRO & Evil Associates (EXTBRO)');
       });
 
       test('it should redirect prescriber to the campaigns list on root url', async function(assert) {
