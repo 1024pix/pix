@@ -1,3 +1,10 @@
-<li class="dropdown__item" role="button" {{on 'click' @onClick}} ...attributes>
+<li
+  class="dropdown__item"
+  role="button"
+  tabindex="0"
+  {{on 'click' @onClick}}
+  {{on 'keydown' this.handleKeyDown}}
+  ...attributes
+>
   {{yield}}
 </li>

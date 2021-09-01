@@ -61,9 +61,7 @@ Then(`je suis redirigé vers le profil de {string}`, (firstName) => {
 
 Then(`je suis redirigé vers le compte Orga de {string}`, (fullName) => {
   cy.url().should('include', '/campagnes');
-  cy.get('.logged-user-summary__name').should((userName) => {
-    expect(userName.text()).to.contains(fullName);
-  });
+  cy.contains(fullName).should('be.visible');
   cy.get('.list-campaigns-page').should((list) => {
     expect(list).to.exist;
   });
@@ -82,8 +80,8 @@ When(`je me déconnecte`, () => {
 });
 
 When(`je me déconnecte de Pix Orga`, () => {
-  cy.get('.topbar__user-logged-menu').click();
-  cy.get('.logged-user-menu-item:last-of-type').click();
+  cy.get('[aria-label="Ouvrir le menu utilisateur"]').click();
+  cy.contains('Se déconnecter').click();
 });
 
 When(`je me déconnecte de Pix Certif`, () => {

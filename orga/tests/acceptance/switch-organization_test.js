@@ -30,18 +30,19 @@ module('Acceptance | Switch Organization', function(hooks) {
       await visit('/');
 
       // then
-      assert.dom('.logged-user-summary__organization').hasText('BRO & Evil Associates (EXTBRO)');
+      assert.contains('BRO & Evil Associates (EXTBRO)');
     });
 
-    test('should have no organization in menu', async function(assert) {
+    test('should only have disconnect item in menu', async function(assert) {
       // given
       await visit('/');
 
       // when
-      await clickByLabel('Résumé utilisateur');
+      await clickByLabel('Ouvrir le menu utilisateur');
 
       // then
-      assert.dom('.logged-user-menu-item__organization-name').doesNotExist();
+      assert.dom('.user-logged-menu > li').exists({ count: 1 });
+      assert.dom('.user-logged-menu > li').hasText('Se déconnecter');
     });
   });
 
@@ -58,35 +59,33 @@ module('Acceptance | Switch Organization', function(hooks) {
 
     test('should have an organization in menu', async function(assert) {
       // when
-      await clickByLabel('Résumé utilisateur');
+      await clickByLabel('Ouvrir le menu utilisateur');
 
       // then
-      assert.dom('.logged-user-menu-item__organization-name').exists();
-      assert.dom('.logged-user-menu-item__organization-name').hasText('My Heaven Company');
-      assert.dom('.logged-user-menu-item__organization-externalId').hasText('(HEAVEN)');
+      assert.dom('.user-logged-menu > li').exists({ count: 2 });
+      assert.dom('.user-logged-menu > li').hasText('My Heaven Company (HEAVEN)');
     });
 
     module('When prescriber click on an organization', function() {
 
       test('should change main organization in summary', async function(assert) {
         // when
-        await clickByLabel('Résumé utilisateur');
+        await clickByLabel('Ouvrir le menu utilisateur');
         await clickByLabel('My Heaven Company');
 
         // then
-        assert.dom('.logged-user-summary__organization').hasText('My Heaven Company (HEAVEN)');
+        assert.contains('My Heaven Company (HEAVEN)');
       });
 
       test('should have the old main organization in the menu', async function(assert) {
         // when
-        await clickByLabel('Résumé utilisateur');
+        await clickByLabel('Ouvrir le menu utilisateur');
         await clickByLabel('My Heaven Company');
-        await clickByLabel('Résumé utilisateur');
+        await clickByLabel('Ouvrir le menu utilisateur');
 
         // then
-        assert.dom('.logged-user-menu-item__organization-name').exists();
-        assert.dom('.logged-user-menu-item__organization-name').hasText('BRO & Evil Associates');
-        assert.dom('.logged-user-menu-item__organization-externalId').hasText('(EXTBRO)');
+        assert.dom('.user-logged-menu > li').exists({ count: 2 });
+        assert.dom('.user-logged-menu > li').hasText('BRO & Evil Associates (EXTBRO)');
       });
 
       module('When prescriber is on campaign page with pagination', function() {
@@ -96,7 +95,7 @@ module('Acceptance | Switch Organization', function(hooks) {
           await visit('/campagnes?pageNumber=2&pageSize=10&name=test&status=archived');
 
           // when
-          await clickByLabel('Résumé utilisateur');
+          await clickByLabel('Ouvrir le menu utilisateur');
           await clickByLabel('My Heaven Company');
 
           // then
@@ -108,7 +107,7 @@ module('Acceptance | Switch Organization', function(hooks) {
 
         test('it should display student menu item', async function(assert) {
           // when
-          await clickByLabel('Résumé utilisateur');
+          await clickByLabel('Ouvrir le menu utilisateur');
           await clickByLabel('My Heaven Company');
 
           // then

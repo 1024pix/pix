@@ -1,33 +1,43 @@
-.logged-user-container{
-  position: relative;
-}
+.user-logged-button {
+  color: $grey-60;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  background-color: transparent;
+  border-width: 0;
+  border-left: 1px solid $grey-20;
 
-.logged-user-summary {
-  letter-spacing: 0.03125rem;
-  text-align: right;
+  &:hover,
+  &:active,
+  &:focus {
+    color: $grey-70;
+    text-decoration: none;
+  }
 
-  &__link {
-    color: $grey-60;
-    cursor: pointer;
+  &:focus {
+    border-radius: 4px;
+    box-shadow: inset 0px 0px 0px 1.6px $blue;
+    outline: none;
+  }
+
+  &__text {
     display: flex;
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $grey-70;
-      text-decoration: none;
-    }
-  }
-
-  &__name {
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
     font-size: 0.875rem;
-    font-weight: bold;
-    height: 19px;
+    font-weight: 700;
+    letter-spacing: .03125rem;
+    height: 100%;
     text-transform: capitalize;
+    line-height: 1.1rem;
   }
 
-  &__organization {
-    height: 18px;
+  &__text > *:last-child {
+    font-weight: normal;
+    font-size: 0.8125rem;
   }
 
   &__chevron {
@@ -35,57 +45,26 @@
     margin-left: 18px;
     vertical-align: middle;
 
-    &-up {
+    &--up {
       color: $blue;
     }
   }
 }
 
-.logged-user-menu {
+.user-logged-menu {
   right: 0;
-  top: 49px;
+  top: 60px;
   width: 400px;
   max-width: 100%;
 
-  &-item {
-    color: $grey-60;
-    text-decoration: none;
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $grey-60;
-      text-decoration: none;
-    }
-
-    &__icon {
-      margin-right: 8px;
-    }
-
-    &__last:not(:first-child) {
-      border-top: 1px solid $grey-20;
-    }
-
-    &__organization-name {
-      margin-right: 3px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &__organization-externalId {
-      flex: 0;
-    }
+  &__icon {
+    margin-right: 8px;
   }
 }
 
 @include device-is('mobile') {
-  .logged-user-summary {
-    &__name {
-      overflow: hidden;
-    }
-  
-    &__organization {
+  .user-logged-summary {
+    &__text {
       overflow: hidden;
     }
   }
