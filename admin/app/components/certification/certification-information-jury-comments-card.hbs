@@ -1,0 +1,28 @@
+<Certification::CertificationInformationCard
+    @title='Commentaires jury'
+    @editingCandidateResults={{@editingCandidateResults}}
+>
+  <Certification::CertificationInfoField
+      @value={{@certification.commentForCandidate}}
+      @edition={{@editingCandidateResults}}
+      @label="Pour le candidat :"
+      @fieldId="certification-commentForCandidate"
+      @isTextarea={{true}} />
+  <Certification::CertificationInfoField
+      @value={{@certification.commentForOrganization}}
+      @edition={{@editingCandidateResults}}
+      @label="Pour l'organisation :"
+      @fieldId="certification-commentForOrganization"
+      @isTextarea={{true}} />
+  <Certification::CertificationInfoField
+      @value={{@certification.commentForJury}}
+      @edition={{@editingCandidateResults}}
+      @label="Pour le jury :"
+      @fieldId="certification-commentForJury"
+      @isTextarea={{true}} />
+  <Certification::CertificationInfoField
+      @value={{@certification.juryId}}
+      @edition={{false}}
+      @label="Identifiant jury :"
+      @isTextarea={{true}} />
+</Certification::CertificationInformationCard>

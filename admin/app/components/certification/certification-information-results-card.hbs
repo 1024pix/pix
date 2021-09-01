@@ -1,0 +1,17 @@
+<Certification::CertificationInformationCard
+    @title='Résultats'
+    @editingCandidateResults={{@editingCandidateResults}}
+>
+  <Certification::CertificationInfoField
+      @value={{@certification.pixScore}}
+      @edition={{@editingCandidateResults}}
+      @label="Score :"
+      @fieldId="certification-pixScore"
+      @suffix=" Pix" />
+  <p></p>
+  <Certification::CertificationCompetenceList
+      @competences={{@certification.competences}}
+      @edition={{@editingCandidateResults}}
+      @onUpdateScore={{@onUpdateScore}}
+      @onUpdateLevel={{@onUpdateLevel}} />
+</Certification::CertificationInformationCard>

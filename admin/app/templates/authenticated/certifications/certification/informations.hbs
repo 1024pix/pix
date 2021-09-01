@@ -18,6 +18,7 @@
       Annuler la certification
       </PixButton>
   </div>
+
   <div class="row">
     <div class="col">
       <div class="card {{if this.editingCandidateResults 'border-primary'}}">
@@ -65,59 +66,20 @@
 
   <div class="row">
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
-        <div class="card-body">
-          <h5 class="card-title">Commentaires jury</h5>
-          <div class="card-text">
-            <Certification::CertificationInfoField
-              @value={{this.certification.commentForCandidate}}
-              @edition={{this.editingCandidateResults}}
-              @label="Pour le candidat :"
-              @fieldId="certification-commentForCandidate"
-              @isTextarea={{true}} />
-            <Certification::CertificationInfoField
-              @value={{this.certification.commentForOrganization}}
-              @edition={{this.editingCandidateResults}}
-              @label="Pour l'organisation :"
-              @fieldId="certification-commentForOrganization"
-              @isTextarea={{true}} />
-            <Certification::CertificationInfoField
-              @value={{this.certification.commentForJury}}
-              @edition={{this.editingCandidateResults}}
-              @label="Pour le jury :"
-              @fieldId="certification-commentForJury"
-              @isTextarea={{true}} />
-            <Certification::CertificationInfoField
-              @value={{this.certification.juryId}}
-              @edition={{false}}
-              @label="Identifiant jury :"
-              @isTextarea={{true}} />
-          </div>
-        </div>
-      </div>
+      <Certification::CertificationInformationJuryCommentsCard
+          @editingCandidateResults={{this.editingCandidateResults}}
+          @certification={{this.certification}}
+      />
     </div>
   </div>
   <div class="row">
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
-        <div class="card-body">
-          <h5 class="card-title">Résultats</h5>
-          <div class="card-text">
-            <Certification::CertificationInfoField
-              @value={{this.certification.pixScore}}
-              @edition={{this.editingCandidateResults}}
-              @label="Score :"
-              @fieldId="certification-pixScore"
-              @suffix=" Pix" />
-            <p></p>
-            <Certification::CertificationCompetenceList
-                    @competences={{this.certification.competences}}
-                    @edition={{this.editingCandidateResults}}
-                    @onUpdateScore={{this.onUpdateScore}}
-                    @onUpdateLevel={{this.onUpdateLevel}} />
-          </div>
-        </div>
-      </div>
+      <Certification::CertificationInformationResultsCard
+            @editingCandidateResults={{this.editingCandidateResults}}
+            @certification={{this.certification}}
+            @onUpdateScore={{this.onUpdateScore}}
+            @onUpdateLevel={{this.onUpdateLevel}}
+      />
     </div>
   </div>
   {{#if this.isValid}}
