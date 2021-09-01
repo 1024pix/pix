@@ -2,6 +2,7 @@ const { knex, expect, databaseBuilder, catchErr } = require('../../../test-helpe
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Integration | Repository | KnowledgeElementSnapshotRepository', function() {
 
@@ -49,6 +50,51 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
 
       // then
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+    });
+
+    context('when a transaction is given transaction', function() {
+      it('saves knowledge elements snapshot using a transaction', async function() {
+        const snappedAt = new Date('2019-04-01');
+        const userId = databaseBuilder.factory.buildUser().id;
+        const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
+        const knowledgeElements = [knowledgeElement1];
+        await databaseBuilder.commit();
+
+        await DomainTransaction.execute((domainTransaction) => {
+          return knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements, domainTransaction });
+        });
+
+        const actualUserSnapshot = await knex.select('*').from('knowledge-element-snapshots').first();
+        expect(actualUserSnapshot.userId).to.deep.equal(userId);
+        expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
+        const actualKnowledgeElements = [];
+        for (const knowledgeElementData of actualUserSnapshot.snapshot) {
+          actualKnowledgeElements.push(new KnowledgeElement({
+            ...knowledgeElementData,
+            createdAt: new Date(knowledgeElementData.createdAt),
+          }));
+        }
+        expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);
+      });
+
+      it('does not save knowledge elements snapshot using a transaction', async function() {
+        const snappedAt = new Date('2019-04-01');
+        const userId = databaseBuilder.factory.buildUser().id;
+        const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
+        const knowledgeElements = [knowledgeElement1];
+        await databaseBuilder.commit();
+
+        try {
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements, domainTransaction });
+            throw new Error();
+          });
+        // eslint-disable-next-line no-empty
+        } catch (error) {}
+
+        const snapshots = await knex.select('*').from('knowledge-element-snapshots');
+        expect(snapshots).to.be.empty;
+      });
     });
   });
 

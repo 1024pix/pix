@@ -85,6 +85,20 @@ describe('Integration | Repository | Campaign Participation', function() {
       expect(assessmentIds).to.exactlyContain(expectedAssessmentIds);
     });
 
+    it('returns the assessments of campaignParticipation using the transaction', async function() {
+      //given
+      const expectedAssessmentIds = campaignParticipationAssessments.map(({ id }) => id);
+
+      // when
+      const foundCampaignParticipation = await DomainTransaction.execute((domainTransaction) => {
+        return campaignParticipationRepository.get(campaignParticipationId, {}, domainTransaction);
+      });
+      const assessmentIds = foundCampaignParticipation.assessments.map(({ id }) => id);
+
+      // then
+      expect(assessmentIds).to.exactlyContain(expectedAssessmentIds);
+    });
+
   });
 
   describe('#save', function() {
@@ -721,6 +735,36 @@ describe('Integration | Repository | Campaign Participation', function() {
       // then
       const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
       expect(snapshotInDB).to.have.length(1);
+    });
+
+    context('when there is a transaction', function() {
+      it('should save a snapshot using a transaction', async function() {
+        campaignParticipation.sharedAt = new Date();
+
+        await DomainTransaction.execute((domainTransaction) => {
+          return campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
+        });
+
+        const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
+        expect(snapshotInDB).to.have.length(1);
+      });
+
+      it('does not save a snapshot when there is an error', async function() {
+        campaignParticipation.sharedAt = new Date();
+
+        try {
+          await DomainTransaction.execute(async (domainTransaction) => {
+            await campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
+            throw new Error();
+          });
+        // eslint-disable-next-line no-empty
+        } catch (error) {}
+
+        const snapshotInDB = await knex.select('id').from('knowledge-element-snapshots');
+        const participations = await knex.select('sharedAt').from('campaign-participations');
+        expect(participations.sharedAt).to.be.undefined;
+        expect(snapshotInDB).to.be.empty;
+      });
     });
   });
 

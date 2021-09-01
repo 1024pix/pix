@@ -34,10 +34,14 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = request.params.id;
 
-    const event = await usecases.shareCampaignResult({
-      userId,
-      campaignParticipationId,
+    const event = await DomainTransaction.execute((domainTransaction) => {
+      return usecases.shareCampaignResult({
+        userId,
+        campaignParticipationId,
+        domainTransaction,
+      });
     });
+
     events.eventDispatcher.dispatch(event).catch((error) => performanceTool.logErrorWithCorrelationId(error));
     return null;
   },

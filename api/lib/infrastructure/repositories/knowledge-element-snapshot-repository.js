@@ -4,6 +4,7 @@ const BookshelfKnowledgeElementSnapshot = require('../orm-models/KnowledgeElemen
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
 const bookshelfUtils = require('../utils/knex-utils');
+const DomainTransaction = require('../DomainTransaction');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
@@ -14,13 +15,13 @@ function _toKnowledgeElementCollection({ snapshot } = {}) {
 }
 
 module.exports = {
-  async save({ userId, snappedAt, knowledgeElements }) {
+  async save({ userId, snappedAt, knowledgeElements, domainTransaction = DomainTransaction.emptyTransaction() }) {
     try {
       await new BookshelfKnowledgeElementSnapshot({
         userId,
         snappedAt,
         snapshot: JSON.stringify(knowledgeElements),
-      }).save();
+      }).save(null, { transacting: domainTransaction.knexTransaction });
     } catch (error) {
       if (bookshelfUtils.isUniqConstraintViolated(error)) {
         throw new AlreadyExistingEntityError(`A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`);
