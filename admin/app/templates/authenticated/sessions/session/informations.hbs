@@ -130,6 +130,14 @@
   </div>
 </section>
 
+{{#if this.sessionModel.juryComment}}
+  <Sessions::JuryComment
+    @author={{this.sessionModel.juryCommentAuthor.fullName}}
+    @date={{this.sessionModel.juryCommentedAt}}
+    @comment={{this.sessionModel.juryComment}}
+  />
+{{/if}}
+
 {{#if this.isShowingAssignmentModal}}
   <ModalDialog
     @targetAttachment="center"
