@@ -260,7 +260,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         it('should add the masteryPercentage to the url', function() {
           // given
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.masteryPercentage = 56;
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
 
           // when
           const url = component.customButtonUrl;
@@ -274,7 +274,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
         it('should add the masteryPercentage to the url', function() {
           // given
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
-          component.args.model.campaignParticipationResult.masteryPercentage = 0;
+          component.args.model.campaignParticipationResult.masteryRate = '0.0';
 
           // when
           const url = component.customButtonUrl;
@@ -305,7 +305,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
           reachedStage.get.withArgs('threshold').returns(6);
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats';
           component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-          component.args.model.campaignParticipationResult.masteryPercentage = 56;
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
           component.args.model.campaignParticipationResult.reachedStage = reachedStage;
 
           // when
@@ -324,7 +324,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/resultats?foo=bar';
           component.args.model.campaignParticipationResult.reachedStage = reachedStage;
           component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-          component.args.model.campaignParticipationResult.masteryPercentage = 56;
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
 
           // when
           const url = component.customButtonUrl;
@@ -342,7 +342,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
           component.args.model.campaign.customResultPageButtonUrl = 'http://www.my-url.net/#page1';
           component.args.model.campaignParticipationResult.reachedStage = reachedStage;
           component.args.model.campaignParticipationResult.participantExternalId = '1234F56';
-          component.args.model.campaignParticipationResult.masteryPercentage = 56;
+          component.args.model.campaignParticipationResult.masteryRate = '0.56';
 
           // when
           const url = component.customButtonUrl;

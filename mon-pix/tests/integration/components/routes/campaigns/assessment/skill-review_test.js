@@ -155,7 +155,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             };
             const campaignParticipationResult = {
               isShared: true,
-              masteryPercentage: 50,
+              masteryRate: '0.5',
               participantExternalId: '1234G56',
               reachedStage,
               campaignParticipationBadges: [],
@@ -183,7 +183,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             };
             const campaignParticipationResult = {
               isShared: true,
-              masteryPercentage: null,
+              masteryRate: null,
               participantExternalId: null,
               reachedStage: null,
               campaignParticipationBadges: [],
