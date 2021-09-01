@@ -6,6 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { run } from '@ember/runloop';
 import sinon from 'sinon';
 import { certificationIssueReportCategories } from 'pix-certif/models/certification-issue-report';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | SessionFinalization::UnUncompletedReportsInformationStep', function(hooks) {
   setupRenderingTest(hooks);
@@ -54,13 +55,18 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
       certificationIssueReports: [certificationIssueReport],
       hasSeenEndTestScreen: null,
     }));
+
+    const abortStub = sinon.stub();
+
     this.set('certificationReports', [certificationReport]);
+    this.set('abort', abortStub);
 
     // when
     await render(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
         />
       `);
 
@@ -85,13 +91,17 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
       certificationIssueReports: [certificationIssueReport1, certificationIssueReport2],
       hasSeenEndTestScreen: null,
     }));
+    const abortStub = sinon.stub();
+
     this.set('certificationReports', [certificationReport]);
+    this.set('abort', abortStub);
 
     // when
     await render(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
           @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
         />
       `);
 
@@ -99,28 +109,95 @@ module('Integration | Component | SessionFinalization::UnUncompletedReportsInfor
     assert.dom(`[data-test-id="finalization-report-has-examiner-comment_${certificationReport.certificationCourseId}"]`).hasText('2 signalements');
   });
 
-  test('it calls onChangeAbortReason on select update', async function(assert) {
+  test('it calls certificationReport.abort on select update', async function(assert) {
     // given
     const certificationReport = run(() => store.createRecord('certification-report', {
+      id: 1234,
       isCompleted: false,
+      abort: sinon.stub(),
     }));
+
+    const abortStub = sinon.stub();
+
     this.set('certificationReports', [certificationReport]);
-    const onChangeAbortReason = sinon.stub().returns();
-    this.set('onChangeAbortReason', onChangeAbortReason);
+    this.set('abort', abortStub);
 
     // when
     await render(hbs`
         <SessionFinalization::UncompletedReportsInformationStep
           @certificationReports={{this.certificationReports}}
-          @onChangeAbortReason={{this.onChangeAbortReason}}
+          @onChangeAbortReason = {{this.abort}}
         />
       `);
 
-    const select = await find('#finalization-report-abort-reason__select');
+    const select = await find(`#finalization-report-abort-reason__select${certificationReport.id}`);
     await fillIn(select, 'technical');
 
     // then
-    sinon.assert.calledWith(onChangeAbortReason, 'technical');
+    sinon.assert.called(abortStub);
     assert.true(true);
+  });
+
+  test('it should open add modal when Add button is clicked', async function(assert) {
+    // given
+    const certificationIssueReport = run(() => store.createRecord('certification-issue-report', {
+      description: 'Coucou',
+      category: certificationIssueReportCategories.OTHER,
+    }));
+    const certificationReport = run(() => store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      firstName: 'Alice',
+      lastName: 'Alister',
+      certificationIssueReports: [certificationIssueReport],
+      hasSeenEndTestScreen: null,
+    }));
+
+    const abortStub = sinon.stub();
+
+    this.set('certificationReports', [certificationReport]);
+    this.set('abort', abortStub);
+
+    // when
+    await render(hbs`
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
+        />
+      `);
+    await clickByLabel('Ajouter / modifier');
+
+    // then
+    assert.contains('Mes signalements (1)');
+  });
+
+  test('it should open the issue modal', async function(assert) {
+    // given
+    const certificationReport = run(() => store.createRecord('certification-report', {
+      certificationCourseId: 1234,
+      firstName: 'Alice',
+      lastName: 'Alister',
+      certificationIssueReports: [],
+      hasSeenEndTestScreen: null,
+    }));
+
+    const abortStub = sinon.stub();
+
+    this.set('certificationReports', [certificationReport]);
+    this.set('abort', abortStub);
+
+    // when
+    await render(hbs`
+        <SessionFinalization::UncompletedReportsInformationStep
+          @certificationReports={{this.certificationReports}}
+          @issueReportDescriptionMaxLength={{this.issueReportDescriptionMaxLength}}
+          @onChangeAbortReason = {{this.abort}}
+        />
+      `);
+
+    await clickByLabel('Ajouter');
+
+    // then
+    assert.contains('Retard, absence ou départ');
   });
 });

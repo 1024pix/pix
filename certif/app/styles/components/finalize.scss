@@ -41,3 +41,14 @@
     outline: 0;
   }
 }
+
+.finalization-report-abort-reason {
+
+  select:invalid {
+    border: $red 1px solid;
+  }
+
+  .pix-select {
+    max-width: 210px;
+  }
+}

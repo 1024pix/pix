@@ -42,11 +42,5 @@ export default class UncompletedReportsInformationStep extends Component {
   closeIssueReportsModal() {
     this.showIssueReportsModal = false;
   }
-
-  @action
-  onChangeAbortReason(event) {
-    if (event.target.value) {
-      this.args.onChangeAbortReason(event.target.value);
-    }
-  }
 }
+

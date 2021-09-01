@@ -13,6 +13,7 @@ module.exports = {
         'hasSeenEndTestScreen',
         'certificationIssueReports',
         'isCompleted',
+        'abortReason',
       ],
       certificationIssueReports: {
         ref: 'id',

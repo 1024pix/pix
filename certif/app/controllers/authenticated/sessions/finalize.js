@@ -41,8 +41,8 @@ export default class SessionsFinalizeController extends Controller {
     return this.uncheckedHasSeenEndTestScreenCount > 0;
   }
 
-  showErrorNotification(message) {
-    this.notifications.error(message);
+  showErrorNotification(message, options = {}) {
+    this.notifications.error(message, options);
   }
 
   showSuccessNotification(message) {
@@ -50,8 +50,30 @@ export default class SessionsFinalizeController extends Controller {
   }
 
   @action
+  async abort(certificationReport, event) {
+
+    const { value: abortReason } = event.target;
+
+    try {
+      await certificationReport.abort(abortReason);
+
+      certificationReport.abortReason = abortReason;
+    } catch (error) {
+
+      const select = document.getElementById(`finalization-report-abort-reason__select${certificationReport.id}`);
+
+      if (certificationReport.abortReason) {
+        select.value = certificationReport.abortReason;
+      } else {
+        select.options[0].selected = true;
+      }
+    }
+  }
+
+  @action
   async finalizeSession() {
     try {
+
       await this.session.save({ adapterOptions: { finalization: true } });
       this.showSuccessNotification('Les informations de la session ont été transmises avec succès.');
     } catch (err) {
@@ -92,7 +114,9 @@ export default class SessionsFinalizeController extends Controller {
 
   @action
   openModal() {
-    this.showConfirmModal = true;
+    if (this.isValid()) {
+      this.showConfirmModal = true;
+    }
   }
 
   @action
@@ -104,8 +128,18 @@ export default class SessionsFinalizeController extends Controller {
     return isEmpty(trim(str)) ? null : str;
   }
 
-  @action
-  onChangeAbortReason(value) {
-    throw new Error('Not implemented', value);
+  isValid() {
+    const invalidCertificationReports = this.session.certificationReports
+      .filter((certificationReport) => !certificationReport.isCompleted && certificationReport.abortReason === null);
+
+    if (invalidCertificationReports.length) {
+      const select = document.getElementById(`finalization-report-abort-reason__select${invalidCertificationReports.firstObject.id}`);
+
+      this.showErrorNotification('Une ou plusieurs certification(s) non terminée(s) n\'ont pas de motif d\'abandon. Veuillez les renseigner.', { autoClear: true });
+      select.scrollIntoView();
+    }
+
+    return invalidCertificationReports.length === 0;
   }
+
 }
