@@ -85,7 +85,6 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
         certificationCourseId: 1,
         sessionId: 456,
         userId: 789,
-        assessmentId: 159,
         firstName: 'Buffy',
         lastName: 'Summers',
         birthdate: '1981-01-19',

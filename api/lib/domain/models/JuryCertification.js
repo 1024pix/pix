@@ -10,7 +10,6 @@ class JuryCertification {
     certificationCourseId,
     sessionId,
     userId,
-    assessmentId,
     firstName,
     lastName,
     birthdate,
@@ -37,7 +36,6 @@ class JuryCertification {
     this.certificationCourseId = certificationCourseId;
     this.sessionId = sessionId;
     this.userId = userId;
-    this.assessmentId = assessmentId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthdate = birthdate;
