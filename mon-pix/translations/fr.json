@@ -1315,6 +1315,10 @@
       "account-update-email-validation": {
         "title": "Modification de votre adresse e-mail",
         "fields": {
+          "errors": {
+            "empty-password": "Votre mot de passe ne peut pas être vide.",
+            "wrong-email-format": "Votre adresse e-mail n’est pas valide."
+          },
           "new-email": {
             "label": "Nouvelle adresse e-mail"
           },

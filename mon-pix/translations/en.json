@@ -1315,6 +1315,10 @@
       "account-update-email-validation": {
         "title": "Change your email address",
         "fields": {
+          "errors": {
+            "empty-password": "Your password can't be empty.",
+            "wrong-email-format": "Your email address is invalid."
+          },
           "new-email": {
             "label": "New email address"
           },
