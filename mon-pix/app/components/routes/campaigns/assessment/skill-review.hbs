@@ -23,7 +23,7 @@
         <ReachedStage
                 @stageCount={{this.stageCount}}
                 @starCount={{this.reachedStage.starCount}}
-                @percentage={{@model.campaignParticipationResult.masteryPercentage}}
+                @masteryRate={{this.masteryRate}}
                 @imageUrl={{@model.campaign.targetProfileImageUrl}}
         />
       {{/if}}
@@ -41,7 +41,7 @@
           </div>
         {{else}}
           <p class="rounded-panel-title skill-review-result-abstract__text">
-            {{t 'pages.skill-review.abstract' percentage=@model.campaignParticipationResult.masteryPercentage htmlSafe=true}}
+            {{t 'pages.skill-review.abstract' rate=this.masteryRate htmlSafe=true}}
           </p>
         {{/if}}
         <h2 class="sr-only">{{t 'pages.skill-review.send-title'}}</h2>
@@ -131,7 +131,6 @@
     <SkillReviewImprove @improve={{this.improve}}/>
   {{/if}}
 
-
   {{#unless @model.campaign.isForAbsoluteNovice}}
 
   <main class="skill-review-result-detail__content">
@@ -139,9 +138,9 @@
       <h2 class="skill-review-result-detail__subtitle">
         {{t 'pages.skill-review.details.title'}}
       </h2>
-      <CircleChart @value={{@model.campaignParticipationResult.masteryPercentage}}>
+      <CircleChart @value={{this.masteryPercentage}}>
           <span aria-label="{{t "pages.skill-review.details.result"}}" class="skill-review-table-header__circle-chart-value">
-            {{@model.campaignParticipationResult.masteryPercentage}}%
+            {{t "pages.skill-review.details.percentage" rate=this.masteryRate}}
           </span>
       </CircleChart>
     </div>
