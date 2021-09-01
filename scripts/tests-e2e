@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 CYPRESS_ARGS="run --browser=chrome"
 DC_CYPRESS_ARGS=""
 if [ "$1" == "open" ]; then
@@ -11,8 +13,8 @@ npm run ci:all
 cd high-level-tests/e2e
 docker-compose stop
 docker-compose up -d postgres redis api monpix certif orga
-docker-compose run --rm api npm run db:prepare
+docker-compose run --name pix-e2e-run-prepare --rm api npm run db:prepare
 docker-compose exec redis redis-cli flushdb
-docker-compose run --rm cypress npx wait-on http://api:3000/api http://monpix:4200 http://orga:4201 http://certif:4203
-docker-compose run --rm $DC_CYPRESS_ARGS cypress bash -c "npm ci && npx cypress $CYPRESS_ARGS --config baseUrl=http://monpix:4200 --env API_URL=http://api:3000,ORGA_URL=http://orga:4201,CERTIF_URL=http://certif:4203"
+docker-compose run --name pix-e2e-run-wait --rm cypress npx wait-on http://api:3000/api http://monpix:4200 http://orga:4201 http://certif:4203
+docker-compose run --name pix-e2e-run-cypress --rm $DC_CYPRESS_ARGS cypress bash -c "npm ci && npx cypress $CYPRESS_ARGS --config baseUrl=http://monpix:4200 --env API_URL=http://api:3000,ORGA_URL=http://orga:4201,CERTIF_URL=http://certif:4203"
 docker-compose down
