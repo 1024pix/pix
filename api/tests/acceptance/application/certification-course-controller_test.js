@@ -204,7 +204,6 @@ describe('Acceptance | API | Certification Course', function() {
         attributes: {
           'session-id': 456,
           'user-id': 789,
-          'assessment-id': 159,
           'first-name': 'Buffy',
           'last-name': 'Summers',
           'birthdate': '2000-08-30',

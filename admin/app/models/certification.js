@@ -24,23 +24,19 @@ export const certificationStatuses = [
 export default class Certification extends Model {
 
   @attr() sessionId;
-  @attr() assessmentId;
+  @attr() userId;
   @attr() firstName;
   @attr() lastName;
   @attr('date-only') birthdate;
+  @attr() sex;
   @attr() birthplace;
   @attr() birthCountry;
   @attr() birthInseeCode;
   @attr() birthPostalCode;
-  @attr() sex;
-  @attr() userId;
-  @attr() externalId;
   @attr() createdAt;
   @attr() completedAt;
   @attr() status;
   @attr() juryId;
-  @attr('boolean') hasSeenEndTestScreen;
-  @attr('string') examinerComment;
   @attr('string') commentForCandidate;
   @attr('string') commentForOrganization;
   @attr('string') commentForJury;
