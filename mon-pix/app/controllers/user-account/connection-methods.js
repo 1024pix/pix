@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 export default class ConnectionMethodsController extends Controller {
 
   @tracked isEmailEditionMode = false;
+  @tracked isEmailValidationEditionMode = false;
 
   @action
   enableEmailEditionMode() {
@@ -12,8 +13,18 @@ export default class ConnectionMethodsController extends Controller {
   }
 
   @action
+  enableEmailValidationEditionMode() {
+    this.isEmailValidationEditionMode = true;
+  }
+
+  @action
   disableEmailEditionMode() {
     this.isEmailEditionMode = false;
+  }
+
+  @action
+  disableEmailValidationEditionMode() {
+    this.isEmailValidationEditionMode = false;
   }
 
   @action
