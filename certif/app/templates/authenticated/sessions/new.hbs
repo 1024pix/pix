@@ -81,8 +81,19 @@
     </div>
 
     <div class="session-form__validation">
-      <button data-test-id="session-form__cancel-button" class="button button--no-color" type="button" {{on 'click' this.cancel}}>Annuler</button>
-      <button data-test-id="session-form__submit-button" class="button" type="submit">Créer la session</button>
+      <PixButton
+        data-test-id="session-form__cancel-button"
+        @backgroundColor="transparent-light"
+        @triggerAction={{this.cancel}}
+      >
+        Annuler
+      </PixButton>
+      <PixButton
+        data-test-id="session-form__submit-button"
+        @type="submit"
+      >
+        Créer la session
+      </PixButton>
     </div>
 
   </form>

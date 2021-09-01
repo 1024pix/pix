@@ -23,15 +23,15 @@
     <div class="session-details-content session-details-content--multiple">
       <h4 class="label-text session-details-content__label">Code d'accès</h4>
       <div class="session-details-content__clipboard">
-        <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>
-
+        <span class="content-text content-text--bold session-details-content__text">{{this.session.accessCode}}</span>e
         {{#if (is-clipboard-supported)}}
-            <div class="tooltip">
-                <span class="tooltip__text tooltip-text session-details-content__tooltip-text">{{this.tooltipText}}</span>
-                <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
-                  <FaIcon @icon='copy' prefix='far' />
-                </CopyButton>
-            </div>
+          <PixTooltip
+            @text={{this.tooltipText}}
+          >
+            <CopyButton @clipboardText={{this.session.accessCode}} @success={{this.clipboardSuccess}} {{on 'mouseLeave' this.clipboardOut}} @classNames="icon-button session-details-content__clipboard-button">
+              <FaIcon @icon='copy' prefix='far' />
+            </CopyButton>
+          </PixTooltip>
         {{/if}}
       </div>
     </div>
@@ -49,23 +49,30 @@
   <div class="session-details-row">
     {{#if this.sessionHasStarted}}
       <div class="session-details-buttons">
-        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--grey button--link">
+        <PixButtonLink
+          @route="authenticated.sessions.update"
+          @model={{this.session.id}}
+          @backgroundColor="grey"
+        >
             Modifier
-        </LinkTo>
+        </PixButtonLink>
       </div>
       <div class="session-details-buttons session-details-buttons--push-right {{if this.session.isFinalized "button--disabled"}}">
-        <LinkTo @route="authenticated.sessions.finalize" @model={{this.session.id}} class="button button--regular button--link push-right">
+        <PixButtonLink
+          @route="authenticated.sessions.finalize"
+          @model={{this.session.id}}
+          class="push-right"
+        >
             Finaliser la session
-        </LinkTo>
+        </PixButtonLink>
       </div>
     {{else}}
       <div class="session-details-buttons">
-        <LinkTo @route="authenticated.sessions.update" @model={{this.session.id}} class="button button--regular button--link">
-            Modifier
-        </LinkTo>
+        <PixButtonLink @route="authenticated.sessions.update" @model={{this.session.id}}>
+          Modifier
+        </PixButtonLink>
       </div>
     {{/if}}
   </div>
 
 </div>
-

@@ -4,9 +4,13 @@
       Liste des candidats ({{@certificationCandidates.length}})
     </div>
     {{#if @shouldDisplayPrescriptionScoStudentRegistrationFeature}}
-      <LinkTo @route="authenticated.sessions.add-student" @model={{@sessionId}} class="button button--link enrolled-candidate__add-students" aria-label="Ajouter des candidats">
+      <PixButtonLink
+        @route="authenticated.sessions.add-student"
+        @model={{@sessionId}}
+        class="enrolled-candidate__add-students"
+      >
         Ajouter des candidats
-      </LinkTo>
+      </PixButtonLink>
     {{else}}
       <PixButton
         id="add-candidate"
@@ -82,15 +86,18 @@
                   {{/unless}}
                   <div class="certification-candidates-actions__delete">
                     {{#if candidate.isLinked}}
-                      <PixIconButton
-                        @icon="trash-alt"
-                        class="certification-candidates-actions__delete-button--disabled"
-                        data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
-                        @withBackground={{true}}
-                      />
-                      <div class="certification-candidates-actions__delete-tooltip">
-                        Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer.
-                      </div>
+                      <PixTooltip
+                        @text="Ce candidat a déjà rejoint la session. Vous ne pouvez pas le supprimer."
+                        @position="left"
+                        @isInline={{true}}
+                      >
+                        <PixIconButton
+                          @icon="trash-alt"
+                          class="certification-candidates-actions__delete-button--disabled"
+                          data-test-id="panel-candidate__actions__delete__{{candidate.id}}"
+                          @withBackground={{true}}
+                        />
+                      </PixTooltip>
                     {{else}}
                       <PixIconButton
                         @icon="trash-alt"
