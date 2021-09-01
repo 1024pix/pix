@@ -77,10 +77,4 @@ module.exports = {
     const cancelledCertificationCourse = await usecases.cancelCertificationCourse({ certificationCourseId });
     return certificationCourseSerializer.serialize(cancelledCertificationCourse);
   },
-
-  async abort(request) {
-    const certificationCourseId = request.params.id;
-    const abortReason = request.payload.data.attributes['abort-reason'];
-    return usecases.abortCertificationCourse({ certificationCourseId, abortReason });
-  },
 };

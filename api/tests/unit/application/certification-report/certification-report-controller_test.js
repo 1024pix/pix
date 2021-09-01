@@ -56,5 +56,36 @@ describe('Unit | Controller | certification-report-controller', function() {
       });
       expect(response.statusCode).to.equal(201);
     });
+
+  });
+
+  describe('#abort', function() {
+
+    it('should return a 200 status code', async function() {
+    // given
+      const certificationCourseId = 123;
+      const request = {
+        params: {
+          id: certificationCourseId,
+        },
+        payload: {
+          data: {
+            attributes: {
+              reason: 'technical',
+            },
+          },
+        },
+      };
+
+      sinon.stub(usecases, 'abortCertificationCourse')
+        .withArgs({ certificationCourseId, abortReason: 'technical' })
+        .resolves();
+
+      // when
+      const response = await certificationReportController.abort(request, hFake);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
   });
 });

@@ -21,6 +21,19 @@ exports.register = async (server) => {
         ],
       },
     },
+    {
+      method: 'POST',
+      path: '/api/certification-reports/{id}/abort',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        handler: certificationReportController.abort,
+        tags: ['api'],
+      },
+    },
   ]);
 };
 
