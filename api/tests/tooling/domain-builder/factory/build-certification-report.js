@@ -10,6 +10,7 @@ module.exports = function buildCertificationReport({
   isCompleted,
   certificationIssueReports,
   certificationCourseId = 456,
+  abortReason = null,
 } = {}) {
 
   return new CertificationReport({
@@ -23,5 +24,6 @@ module.exports = function buildCertificationReport({
     certificationIssueReports: certificationIssueReports
       ? certificationIssueReports
       : [buildCertificationIssueReport({ certificationCourseId })],
+    abortReason,
   });
 };

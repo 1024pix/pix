@@ -6,6 +6,8 @@ import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label'
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
+const CONFIRMATION_TEXT = 'Vous êtes sur le point de finaliser cette session.';
+
 module('Acceptance | Session Finalization', function(hooks) {
 
   setupApplicationTest(hooks);
@@ -128,6 +130,7 @@ module('Acceptance | Session Finalization', function(hooks) {
         test('it should not show the uncompleted reports table', async function(assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: true });
+          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
           session.update({ certificationReports: [certificationReport] });
 
           // when
@@ -135,6 +138,22 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           // then
           assert.notContains('Ces candidats n\'ont pas fini leur test de certification');
+        });
+      });
+
+      module('when there is no completed report', function() {
+        test('it should not show the completed reports table', async function(assert) {
+          // given
+          const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: null });
+          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+          session.update({ certificationReports: [certificationReport] });
+
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+
+          // then
+          assert.notContains('Certification(s) terminée(s)\n');
+          assert.notContains('Écran de fin du test vu\n');
         });
       });
 
@@ -150,6 +169,42 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           // then
           assert.contains('Ces candidats n\'ont pas fini leur test de certification');
+        });
+
+        module('without any selected reason', function() {
+
+          test('it should invalidate the form', async function(assert) {
+            // given
+            const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: null });
+            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+            session.update({ certificationReports: [certificationReport] });
+
+            // when
+            await visit(`/sessions/${session.id}/finalisation`);
+
+            await clickByLabel('Finaliser');
+
+            // then
+            assert.notContains(CONFIRMATION_TEXT);
+          });
+        });
+
+        module('with a selected reason', function() {
+
+          test('it should validate the form', async function(assert) {
+            // given
+            const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: 'technical' });
+            server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
+            session.update({ certificationReports: [certificationReport] });
+
+            // when
+            await visit(`/sessions/${session.id}/finalisation`);
+
+            await clickByLabel('Finaliser');
+
+            // then
+            assert.contains(CONFIRMATION_TEXT);
+          });
         });
       });
     });
