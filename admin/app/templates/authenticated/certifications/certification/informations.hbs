@@ -21,23 +21,10 @@
 
   <div class="row">
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
-        <div class="card-body">
-          <h5 class="card-title">
-            <Certification::CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
-          </h5>
-          <div class="card-text">
-            <Certification::CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
-            <Certification::CertificationStatusSelect @certification={{this.certification}} @edition={{this.editingCandidateResults}} />
-            <Certification::CertificationInfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
-            <Certification::CertificationInfoField @value={{this.certification.completionDate}} @edition={{false}} @label="Terminée le :" />
-            <Certification::CertificationInfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
-            <Certification::CertificationInfoField @value={{this.certification.cleaCertificationStatusLabel}} @edition={{false}} @label="Certification CléA numérique :" @class="certification-informations__complementary-certification--{{this.certification.cleaCertificationStatus}}" />
-            <Certification::CertificationInfoField @value={{this.certification.pixPlusDroitMaitreCertificationStatusLabel}} @edition={{false}} @label="Certification Pix+ Droit Maître :" @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitMaitreCertificationStatus}}" />
-            <Certification::CertificationInfoField @value={{this.certification.pixPlusDroitExpertCertificationStatusLabel}} @edition={{false}} @label="Certification Pix+ Droit Expert :" @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitExpertCertificationStatus}}" />
-          </div>
-        </div>
-      </div>
+      <Certification::CertificationInformationStatusCard
+        @certification={{this.certification}}
+        @editingCandidateResults={{this.editingCandidateResults}}
+      />
     </div>
 
     <div class="col">
@@ -51,17 +38,12 @@
   </div>
 
   {{#if this.hasIssueReports}}
-    <section class="card certification-informations__certification-issue-reports">
-      <div class="card-body">
-        <h1 class="card-title certification-informations__certification-issue-reports__title">Signalements</h1>
-        <Certification::CertificationIssueReports
+    <Certification::CertificationInformationIssueReportsCard
           @hasImpactfulIssueReports={{this.hasImpactfulIssueReports}}
           @hasUnimpactfulIssueReports={{this.hasUnimpactfulIssueReports}}
           @impactfulCertificationIssueReports={{this.impactfulCertificationIssueReports}}
           @unimpactfulCertificationIssueReports={{this.unimpactfulCertificationIssueReports}}
-        />
-      </div>
-    </section>
+    />
   {{/if}}
 
   <div class="row">

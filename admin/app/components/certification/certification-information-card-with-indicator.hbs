@@ -1,7 +1,12 @@
 <section class="card certification-information__card {{if @editingCandidateResults 'border-primary'}}">
   <div class="card-body certification-information__card__body">
     <h1 class="card-title certification-information__card__title">
-        {{@title}}
+      <div class="certification-information__card__indicator">
+        <svg height="16" width="16">
+          <circle cx="8" cy="8" r="7" stroke="#fff" stroke-width="1" fill={{if @isOn "#39B97A" "#8090A5"}} />
+        </svg>
+      </div>
+      {{@title}}
     </h1>
     <div class="card-text certification-information__card__text">
       {{yield}}

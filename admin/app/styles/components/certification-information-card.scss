@@ -1,3 +1,12 @@
 .certification-information__card {
+  padding:0;
   margin-bottom: 20px;
+
+  &__title {
+    font-size: 1.25rem;
+  }
+
+  &__indicator {
+    float: right;
+  }
 }

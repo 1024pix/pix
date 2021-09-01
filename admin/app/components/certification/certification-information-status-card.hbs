@@ -1,0 +1,14 @@
+<Certification::CertificationInformationCardWithIndicator
+    @title='État'
+    @editingCandidateResults={{@editingCandidateResults}}
+    @isOn={{@certification.isPublished}}
+>
+  <Certification::CertificationInfoField @value={{@certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
+  <Certification::CertificationStatusSelect @certification={{@certification}} @edition={{@editingCandidateResults}} />
+  <Certification::CertificationInfoField @value={{@certification.creationDate}} @edition={{false}} @label="Créée le :" />
+  <Certification::CertificationInfoField @value={{@certification.completionDate}} @edition={{false}} @label="Terminée le :" />
+  <Certification::CertificationInfoField @value={{@certification.publishedText}} @edition={{false}} @label="Publiée :" />
+  <Certification::CertificationInfoField @value={{@certification.cleaCertificationStatusLabel}} @edition={{false}} @label="Certification CléA numérique :" @class="certification-informations__complementary-certification--{{@certification.cleaCertificationStatus}}" />
+  <Certification::CertificationInfoField @value={{@certification.pixPlusDroitMaitreCertificationStatusLabel}} @edition={{false}} @label="Certification Pix+ Droit Maître :" @class="certification-informations__complementary-certification--{{@certification.pixPlusDroitMaitreCertificationStatus}}" />
+  <Certification::CertificationInfoField @value={{@certification.pixPlusDroitExpertCertificationStatusLabel}} @edition={{false}} @label="Certification Pix+ Droit Expert :" @class="certification-informations__complementary-certification--{{@certification.pixPlusDroitExpertCertificationStatus}}" />
+</Certification::CertificationInformationCardWithIndicator>
