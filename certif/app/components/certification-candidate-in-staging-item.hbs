@@ -110,14 +110,14 @@
   </td>
   <td>
     <div class="certification-candidates-input-wrapper certification-candidates-row-actions">
-      <button data-test-id='panel-candidate__action__save'
-        disabled={{if this.isDisabled true null}}
-        class="button button--row-item {{if this.isDisabled 'button--disabled'}}"
-        type="button"
-        {{on "click" (fn @onClickSave @candidateData)}}
+      <PixButton
+        data-test-id='panel-candidate__action__save'
+        @isDisabled={{this.isDisabled}}
+        class="button--row-item"
+        @triggerAction={{fn @onClickSave @candidateData}}
       >
-          Enregistrer
-      </button>
+        Enregistrer
+      </PixButton>
       <PixIconButton
         @icon='times'
         class="certification-candidates-row-actions__close"

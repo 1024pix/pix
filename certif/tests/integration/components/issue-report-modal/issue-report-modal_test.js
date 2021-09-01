@@ -4,6 +4,7 @@ import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | issue-report-modal', function(hooks) {
   setupRenderingTest(hooks);
@@ -173,7 +174,7 @@ module('Integration | Component | issue-report-modal', function(hooks) {
       />
     `);
 
-    await click('[aria-label="Ajouter un signalement"]');
+    await clickByLabel('Ajouter un signalement');
 
     // then
     sinon.assert.calledOnce(onClickIssueReport);

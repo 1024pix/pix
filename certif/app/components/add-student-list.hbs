@@ -87,13 +87,12 @@
       </div>
 
       <div class="bottom-action-bar__actions">
-        <PixButton
-          @isLink={{true}}
+        <PixButtonLink
           @backgroundColor="transparent-light"
           @route='authenticated.sessions.details.certification-candidates'
           @model={{@session.id}}>
           Annuler
-        </PixButton>
+        </PixButtonLink>
         <PixButton
           @triggerAction={{this.enrollStudents}}
           type="button"

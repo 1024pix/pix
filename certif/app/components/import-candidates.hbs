@@ -17,10 +17,15 @@
         </div>
       </div>
       <div class="panel-actions__button">
-        <a class="button button--link button--with-icon"
-          href="{{@session.urlToDownloadCandidatesImportTemplate}}" target="_blank" rel="noopener noreferrer" download>
-          Télécharger (.ods)<FaIcon @icon='file-download' />
-        </a>
+        <PixButtonLink
+          href="{{@session.urlToDownloadCandidatesImportTemplate}}"
+          target="_blank"
+          rel="noopener noreferrer"
+          download
+        >
+          Télécharger (.ods)&nbsp;
+          <FaIcon @icon='file-download' />
+        </PixButtonLink>
       </div>
     </div>
     <div class="panel-actions__action-row">
@@ -40,11 +45,9 @@
         </div>
         <div class="panel-actions__button">
           <FileUpload @name="file-upload" @for="upload-attendance-sheet" @accept=".ods" @multiple={{false}} @onfileadd={{this.importCertificationCandidates}}>
-            <span class="button button--with-icon"
-                  role="button"
-                  tabindex="0">
-              Importer (.ods)<FaIcon @icon='cloud-upload-alt' />
-            </span>
+            <PixButtonLink role="button" tabindex="0">
+              Importer (.ods)&nbsp;<FaIcon @icon='cloud-upload-alt' />
+            </PixButtonLink>
           </FileUpload>
         </div>
       {{else}}

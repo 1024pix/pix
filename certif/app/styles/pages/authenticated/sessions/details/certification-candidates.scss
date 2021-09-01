@@ -216,23 +216,6 @@
       }
     }
   }
-
-  &__delete-tooltip {
-      visibility: hidden;
-      position: absolute;
-      right: calc(16px + 38px + 4px); // padding-right parent + width button + petite marge
-      min-width: 120px;
-      z-index: 99;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.65rem;
-      color: $white;
-      background-color: rgba(118, 118, 118, 0.9);
-  }
-
-  &__delete-button--disabled:hover + &__delete-tooltip {
-    visibility: visible;
-  }
 }
 
 .certification-candidates-notification {
