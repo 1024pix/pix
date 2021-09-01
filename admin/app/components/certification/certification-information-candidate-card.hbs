@@ -1,0 +1,42 @@
+<Certification::CertificationInformationCard
+    @title='Candidat'
+    @editingCandidateResults={{@editingCandidateResults}}
+>
+  <div>
+    Prénom : {{@certification.firstName}}
+  </div>
+  <div>
+    Nom de famille : {{@certification.lastName}}
+  </div>
+  <div>
+    Date de naissance : {{moment-format @certification.birthdate 'DD/MM/YYYY' allow-empty=true}}
+  </div>
+  <div>
+    Sexe : {{@certification.sex}}
+  </div>
+  <div>
+    Commune de naissance : {{@certification.birthplace}}
+  </div>
+  <div>
+    Code postal de naissance : {{@certification.birthPostalCode}}
+  </div>
+  <div>
+    Code INSEE de naissance : {{@certification.birthInseeCode}}
+  </div>
+  <div>
+    Pays de naissance : {{@certification.birthCountry}}
+  </div>
+  <div class="candidate-informations__actions">
+    <PixButton
+        @size="small"
+        @triggerAction={{@onEditButtonClick}}
+        aria-label="Modifier les informations du candidat"
+        @isDisabled={{@isModifyButtonDisabled}}
+    >
+      Modifier
+    </PixButton>
+    {{#if @certification.wasRegisteredBeforeCPF}}
+      <span class="candidate-informations__warning-cpf-message">Voir avec PO/Dev pour modifier les infos candidat.</span>
+    {{/if}}
+  </div>
+</Certification::CertificationInformationCard>

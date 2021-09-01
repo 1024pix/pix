@@ -1,0 +1,10 @@
+<div class="card certification-information__card {{if @editingCandidateResults 'border-primary'}}">
+  <div class="card-body certification-information__card__body">
+    <h5 class="card-title certification-information__card__title">
+        {{@title}}
+    </h5>
+    <div class="certification-information__card__text">
+      {{yield}}
+    </div>
+  </div>
+</div>

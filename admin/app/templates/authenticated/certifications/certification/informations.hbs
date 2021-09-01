@@ -38,51 +38,14 @@
         </div>
       </div>
     </div>
+
     <div class="col">
-      <div class="card {{if this.editingCandidateInformations 'border-primary'}}">
-        <div class="card-body candidate-informations">
-          <h5 class="card-title">Candidat</h5>
-          <div class="card-text">
-            <div>
-              Prénom : {{this.certification.firstName}}
-            </div>
-            <div>
-              Nom de famille : {{this.certification.lastName}}
-            </div>
-            <div>
-              Date de naissance : {{moment-format this.certification.birthdate 'DD/MM/YYYY' allow-empty=true}}
-            </div>
-            <div>
-              Sexe : {{this.certification.sex}}
-            </div>
-            <div>
-              Commune de naissance : {{this.certification.birthplace}}
-            </div>
-            <div>
-              Code postal de naissance : {{this.certification.birthPostalCode}}
-            </div>
-            <div>
-              Code INSEE de naissance : {{this.certification.birthInseeCode}}
-            </div>
-            <div>
-              Pays de naissance : {{this.certification.birthCountry}}
-            </div>
-            <div class="candidate-informations__actions">
-              <PixButton
-                @size="small"
-                @triggerAction={{this.openCandidateEditModal}}
-                aria-label="Modifier les informations du candidat"
-                @isDisabled={{this.isModifyButtonDisabled}}
-              >
-                Modifier
-              </PixButton>
-              {{#if this.certification.wasRegisteredBeforeCPF}}
-                <span class="candidate-informations__warning-cpf-message">Voir avec PO/Dev pour modifier les infos candidat.</span>
-              {{/if}}
-            </div>
-          </div>
-        </div>
-      </div>
+      <Certification::CertificationInformationCandidateCard
+          @editingCandidateResults={{this.editingCandidateResults}}
+          @certification={{this.certification}}
+          @onEditButtonClick={{this.openCandidateEditModal}}
+          @isModifyButtonDisabled={{this.isModifyButtonDisabled}}
+      />
     </div>
   </div>
 
