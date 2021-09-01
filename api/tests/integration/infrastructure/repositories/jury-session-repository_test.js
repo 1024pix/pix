@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { databaseBuilder, expect, catchErr } = require('../../../test-helper');
+const { databaseBuilder, expect, catchErr, domainBuilder } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const JurySession = require('../../../../lib/domain/models/JurySession');
 const { statuses } = require('../../../../lib/domain/models/JurySession');
@@ -14,25 +14,32 @@ describe('Integration | Repository | JurySession', function() {
       let sessionId;
       let certificationCenterId;
       let assignedCertificationOfficer;
+      let juryCommentAuthor;
 
       beforeEach(function() {
         assignedCertificationOfficer = databaseBuilder.factory.buildUser({
           firstName: 'Pix',
           lastName: 'Doe',
         });
+        juryCommentAuthor = databaseBuilder.factory.buildUser({
+          firstName: 'Lili',
+          lastName: 'Raton',
+        });
         certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EXT_ID' }).id;
-        sessionId = databaseBuilder.factory.buildSession({ assignedCertificationOfficerId: assignedCertificationOfficer.id, certificationCenterId }).id;
+        sessionId = databaseBuilder.factory.buildSession({
+          assignedCertificationOfficerId: assignedCertificationOfficer.id,
+          certificationCenterId,
+          juryComment: 'Les mecs ils font des sessions de certif dans le jardin ??',
+          juryCommentAuthorId: juryCommentAuthor.id,
+          juryCommentedAt: new Date('2020-02-28T14:30:25Z'),
+        }).id;
 
         return databaseBuilder.commit();
       });
 
       it('should return the session', async function() {
-        // when
-        const expectedJurySession = await jurySessionRepository.get(sessionId);
-
-        // then
-        expect(expectedJurySession).to.be.an.instanceOf(JurySession);
-        expect(expectedJurySession).to.deep.equal({
+        // given
+        const expectedJurySession = domainBuilder.buildJurySession({
           id: sessionId,
           certificationCenterName: 'Centre de certif Pix',
           certificationCenterType: 'SUP',
@@ -49,12 +56,26 @@ describe('Integration | Repository | JurySession', function() {
           finalizedAt: null,
           resultsSentToPrescriberAt: null,
           publishedAt: null,
+          juryComment: 'Les mecs ils font des sessions de certif dans le jardin ??',
+          juryCommentAuthorId: juryCommentAuthor.id,
+          juryCommentedAt: new Date('2020-02-28T14:30:25Z'),
           assignedCertificationOfficer: {
             id: assignedCertificationOfficer.id,
             firstName: assignedCertificationOfficer.firstName,
             lastName: assignedCertificationOfficer.lastName,
           },
+          juryCommentAuthor: {
+            id: juryCommentAuthor.id,
+            firstName: juryCommentAuthor.firstName,
+            lastName: juryCommentAuthor.lastName,
+          },
         });
+
+        // when
+        const jurySession = await jurySessionRepository.get(sessionId);
+
+        // then
+        expect(jurySession).to.deepEqualInstance(expectedJurySession);
       });
 
     });
