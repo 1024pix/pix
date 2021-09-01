@@ -12,13 +12,18 @@
         <span>{{@title}}</span>
         {{#if @info}}
           <PixTooltip
-            role="tooltip"
+            @id={{@title}}
             @text={{@info}}
             @position="top"
             @isWide={{true}}
             class="indicator-card__tooltip hide-on-mobile"
           >
-            <FaIcon @icon="question-circle" class="indicator-card__tooltip-icon"/>
+            <FaIcon
+              @icon="question-circle"
+              class="indicator-card__tooltip-icon"
+              tabindex="0"
+              aria-describedby={{@title}}
+            />
           </PixTooltip>
         {{/if}}
       </label>

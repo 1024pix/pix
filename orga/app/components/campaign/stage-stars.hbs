@@ -8,14 +8,18 @@
   />
   {{#if this.displayTooltip}}
     <PixTooltip
-      role="tooltip"
+      @id="stage-tooltip-{{this.reachedStage.id}}"
       @text={{this.tooltipText}}
       @position={{@tooltipPosition}}
       @isWide={{true}}
-      @isLight={{true}}
       class="hide-on-mobile"
     >
-      <FaIcon @icon="info-circle" class="stage-stars__info-icon"/>
+      <FaIcon
+        @icon="info-circle"
+        class="stage-stars__info-icon"
+        tabindex="0"
+        aria-describedby="stage-tooltip-{{this.reachedStage.id}}"
+      />
     </PixTooltip>
   {{/if}}
 </div>
