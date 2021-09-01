@@ -1,5 +1,5 @@
 require('dotenv').config();
-const validateEnvironmentVariables = require('./lib/infrastructure/validate-environement-variables');
+
 const Hapi = require('@hapi/hapi');
 
 const preResponseUtils = require('./lib/application/pre-response-utils');
@@ -66,7 +66,6 @@ const createServer = async function() {
 };
 
 const loadConfiguration = function() {
-  validateEnvironmentVariables();
   config = require('./lib/config');
 };
 
