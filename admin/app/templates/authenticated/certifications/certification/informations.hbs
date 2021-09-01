@@ -16,7 +16,7 @@
       data-test-id="Annuler la certification"
     >
       Annuler la certification
-    </PixButton>
+      </PixButton>
   </div>
   <div class="row">
     <div class="col">
@@ -87,47 +87,17 @@
   </div>
 
   {{#if this.hasIssueReports}}
-    <div class="row">
-      <div class="col">
-        <div class="card {{if this.editingCandidateResults 'border-primary'}}">
-          <div class="card-body">
-            <h5 class="card-title">Signalements</h5>
-
-            {{#if this.hasImpactfulIssueReports}}
-              <div class="card-text">
-                <h6 class="certification-informations__certification-issue-report-title--with-required-action">Signalement(s) impactant(s)</h6>
-                <ul class="certification-informations__certification-issue-reports-list">
-                  {{#each this.impactfulCertificationIssueReports as |issueReport| }}
-                    <li class={{if issueReport.resolvedAt "certification-informations__certification-issue-report--resolved" "certification-informations__certification-issue-report--unresolved"}}>
-                      {{issueReport.categoryLabel}}
-                      {{#if issueReport.subcategoryLabel}}: {{issueReport.subcategoryLabel}}{{/if}}
-                      {{#if issueReport.description}}- {{issueReport.description}}{{/if}}
-                      {{#if issueReport.questionNumber}}- Question {{issueReport.questionNumber}}{{/if}}
-                    </li>
-                  {{/each}}
-                </ul>
-              </div>
-            {{/if}}
-
-            {{#if this.hasUnimpactfulIssueReports}}
-              <div class="card-text">
-                <h6>Signalement(s) non impactant(s)</h6>
-                <ul>
-                  {{#each this.unimpactfulCertificationIssueReports as |issueReport| }}
-                    <li>
-                      {{issueReport.categoryLabel}}
-                      {{#if issueReport.subcategoryLabel}}: {{issueReport.subcategoryLabel}}{{/if}}
-                      {{#if issueReport.description}}- {{issueReport.description}}{{/if}}
-                    </li>
-                  {{/each}}
-                </ul>
-              </div>
-            {{/if}}
-
-          </div>
-        </div>
+    <section class="card certification-informations__certification-issue-reports">
+      <div class="card-body">
+        <h1 class="card-title certification-informations__certification-issue-reports__title">Signalements</h1>
+        <Certification::CertificationIssueReports
+          @hasImpactfulIssueReports={{this.hasImpactfulIssueReports}}
+          @hasUnimpactfulIssueReports={{this.hasUnimpactfulIssueReports}}
+          @impactfulCertificationIssueReports={{this.impactfulCertificationIssueReports}}
+          @unimpactfulCertificationIssueReports={{this.unimpactfulCertificationIssueReports}}
+        />
       </div>
-    </div>
+    </section>
   {{/if}}
 
   <div class="row">

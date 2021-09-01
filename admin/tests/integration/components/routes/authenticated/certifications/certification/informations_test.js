@@ -185,8 +185,9 @@ module('Integration | Component | routes/authenticated/certifications/certificat
           await visit(`/certifications/${certification.id}`);
 
           // then
+          //await this.pauseTest();
           assert.contains('Signalement(s) impactant(s)');
-          assert.dom('.card-text ul li').hasText('Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement impactant');
+          assert.dom('.certification-issue-report__details__label').hasText('Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement impactant');
           assert.notContains('Signalement(s) non impactant(s)');
         });
 
@@ -210,8 +211,8 @@ module('Integration | Component | routes/authenticated/certifications/certificat
             await visit(`/certifications/${certification.id}`);
 
             // then
-            assert.dom('.certification-informations__certification-issue-report--resolved').exists();
-            assert.dom('.certification-informations__certification-issue-report--unresolved').doesNotExist();
+            assert.dom('.certification-issue-report__resolution-status--resolved').exists();
+            assert.dom('.certification-issue-report__resolution-status--unresolved').doesNotExist();
           });
         });
 
@@ -235,8 +236,8 @@ module('Integration | Component | routes/authenticated/certifications/certificat
             await visit(`/certifications/${certification.id}`);
 
             // then
-            assert.dom('.certification-informations__certification-issue-report--unresolved').exists();
-            assert.dom('.certification-informations__certification-issue-report--resolved').doesNotExist();
+            assert.dom('.certification-issue-report__resolution-status--unresolved').exists();
+            assert.dom('.certification-issue-report__resolution-status--resolved').doesNotExist();
           });
         });
       });
@@ -281,7 +282,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
 
           // then
           assert.contains('Signalement(s) non impactant(s)');
-          assert.dom('.card-text ul li').hasText('Modification infos candidat : Ajout/modification du temps majoré - Un signalement non impactant');
+          assert.dom('.certification-issue-report__details__label').hasText('Modification infos candidat : Ajout/modification du temps majoré - Un signalement non impactant');
           assert.notContains('Signalement(s) impactant(s)');
         });
       });
@@ -324,7 +325,7 @@ module('Integration | Component | routes/authenticated/certifications/certificat
         await visit(`/certifications/${certification.id}`);
 
         // then
-        assert.dom('.card-text ul li').hasText('Problème technique sur une question : L\'image ne s\'affiche pas - image disparue - Question 666');
+        assert.dom('.certification-issue-report__details__label').hasText('Problème technique sur une question : L\'image ne s\'affiche pas - image disparue - Question 666');
       });
 
     });
