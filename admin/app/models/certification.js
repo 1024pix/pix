@@ -1,6 +1,4 @@
 /* eslint-disable ember/no-computed-properties-in-native-classes */
-
-import { set } from '@ember/object';
 import { computed } from '@ember/object';
 import Model, { attr, hasMany } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
@@ -144,9 +142,10 @@ export default class Certification extends Model {
   cancel = memberAction({
     type: 'post',
     urlType: 'cancel',
+  });
 
-    after() {
-      set(this, 'status', 'cancelled');
-    },
+  uncancel = memberAction({
+    type: 'post',
+    urlType: 'uncancel',
   });
 }

@@ -44,8 +44,8 @@ export default class Certification extends ApplicationAdapter {
     requestType,
     query,
   ) {
-    if (requestType === 'cancel') {
-      return `${this.host}/${this.namespace}/admin/certification-courses/${id}/cancel`;
+    if (['cancel', 'uncancel'].includes(requestType)) {
+      return `${this.host}/${this.namespace}/admin/certification-courses/${id}/${requestType}`;
     } else {
       return super.buildURL(
         modelName,
