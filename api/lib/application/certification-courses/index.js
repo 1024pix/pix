@@ -126,23 +126,6 @@ exports.register = async function(server) {
         tags: ['api'],
       },
     },
-    {
-      method: 'POST',
-      path: '/api/admin/certification-courses/{id}/abort',
-      config: {
-        validate: {
-          params: Joi.object({
-            id: identifiersType.certificationCourseId,
-          }),
-        },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
-        handler: certificationCourseController.abort,
-        tags: ['api'],
-      },
-    },
   ]);
 };
 

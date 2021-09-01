@@ -504,6 +504,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions', 'certification-candidates'],
       },
     },
+
   ]);
 };
 
