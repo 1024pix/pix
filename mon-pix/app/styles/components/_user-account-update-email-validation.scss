@@ -1,0 +1,69 @@
+.user-account-update-email-validation {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 40px 0;
+
+  @include device-is('desktop') {
+    padding: 20px 0 60px 30px;
+  }
+
+  &__cancel-button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  h3 {
+    text-align: center;
+    line-height: 2rem;
+    font-size: 1.5rem;
+    font-weight: 500;
+    padding-bottom: 30px;
+
+    @include device-is('desktop') {
+      text-align: start;
+      line-height: 3.375rem;
+    }
+  }
+
+  &__input {
+    max-width: 300px;
+    padding-bottom: 25px;
+
+    @include device-is('desktop') {
+      padding-bottom: 35px;
+    }
+  }
+
+  &__informations {
+    font-size: 0.875rem;
+    border-top: 1px solid $grey-20;
+    padding: 20px 0;
+    text-align: center;
+    color: $grey-70;
+    font-family: $font-roboto;
+    line-height: 1.5rem;
+
+    @include device-is('tablet') {
+      max-width: 520px;
+      text-align: start;
+      letter-spacing: 0.13px;
+      line-height: 1.2rem;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__confirm-button {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+
+    @include device-is('tablet') {
+      padding-top: 0;
+      justify-content: flex-start;
+    }
+  }
+}
