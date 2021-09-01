@@ -142,6 +142,7 @@ module.exports = (function() {
     },
 
     featureToggles: {
+      isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
       isDownloadCertificationAttestationByDivisionEnabled: isFeatureEnabled(process.env.FT_IS_DOWNLOAD_CERTIFICATION_ATTESTATION_BY_DIVISION_ENABLED),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
     },

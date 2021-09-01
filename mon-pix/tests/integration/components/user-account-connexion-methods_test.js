@@ -1,13 +1,54 @@
+/* eslint ember/no-classic-classes: 0 */
+
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
-import { find, render, click } from '@ember/test-helpers';
+import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { contains } from '../../helpers/contains';
 import sinon from 'sinon';
+import Service from '@ember/service';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | user-account-connexion-methods', function() {
-  setupRenderingTest();
+  setupIntlRenderingTest();
+
+  beforeEach(function() {
+    const featureTogglesStub = Service.extend({
+      featureToggles: {
+        isEmailValidationEnabled: false,
+      },
+    });
+    this.owner.register('service:featureToggles', featureTogglesStub);
+  });
+
+  context('when isEmailValidationEnabled feature toggle is enabled', function() {
+
+    it('should display edit button', async function() {
+      // given
+      const featureTogglesStub = Service.extend({
+        featureToggles: {
+          isEmailValidationEnabled: true,
+        },
+      });
+
+      this.owner.register('service:featureToggles', featureTogglesStub);
+
+      const user = {
+        firstName: 'John',
+        lastName: 'DOE',
+        email: 'john.doe@example.net',
+        lang: 'fr',
+      };
+      this.set('user', user);
+
+      // when
+      await render(hbs`<UserAccountConnexionMethods @user={{user}} />`);
+
+      // then
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.edit-button'))).to.exist;
+    });
+  });
 
   it('should display user\'s email and username', async function() {
     // given
@@ -44,7 +85,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
       await render(hbs`<UserAccountConnexionMethods @user={{user}} />`);
 
       // then
-      expect(find('p[data-test-email]')).to.not.exist;
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.not.exist;
     });
   });
 
@@ -64,7 +105,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
       await render(hbs`<UserAccountConnexionMethods @user={{this.user}} />`);
 
       // then
-      expect(find('p[data-test-username]')).to.not.exist;
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.username'))).to.not.exist;
     });
   });
 
@@ -84,7 +125,7 @@ describe('Integration | Component | user-account-connexion-methods', function() 
     await render(hbs `<UserAccountConnexionMethods @user={{this.user}} @enableEmailEditionMode={{this.enableEmailEditionMode}} />`);
 
     // when
-    await click('button[data-test-edit-email]');
+    await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
 
     // then
     sinon.assert.called(enableEmailEditionMode);
