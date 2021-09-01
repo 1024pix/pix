@@ -1312,6 +1312,22 @@
         "password-information": "Enter your password to confirm",
         "save-button": "Confirm"
       },
+      "account-update-email-validation": {
+        "title": "Change your email address",
+        "fields": {
+          "new-email": {
+            "label": "New email address"
+          },
+          "password": {
+            "label": "Password",
+            "security-information": "La sécurité de vos informations personnelles est essentielle. Nous vérifions donc que vous êtes bien à l'origine de cette demande. Saisissez votre mot de passe pour recevoir un code de vérification."
+          }
+        },
+        "cancel-button": {
+          "aria-label": "Close"
+        },
+        "save-button": "Recevoir un code de vérification"
+      },
       "connexion-methods": {
         "edit-button": "Edit",
         "email": "Email address",

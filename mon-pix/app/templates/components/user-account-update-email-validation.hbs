@@ -1,0 +1,36 @@
+<div class="user-account-update-email-validation">
+  <div class="user-account-update-email-validation__cancel-button">
+    <PixIconButton
+      @icon="times"
+      aria-label={{t 'pages.user-account.account-update-email-validation.cancel-button.aria-label'}}
+      @triggerAction={{@disableEmailValidationEditionMode}}
+    />
+  </div>
+  <h3>{{t 'pages.user-account.account-update-email-validation.title'}}</h3>
+  <form>
+    <div class="user-account-update-email-validation__input">
+      <PixInput
+         @id="newEmailValidation"
+        @label={{t 'pages.user-account.account-update-email-validation.fields.new-email.label'}}
+      />
+    </div>
+    <div class="user-account-update-email-validation__informations">
+      <p>{{t 'pages.user-account.account-update-email-validation.fields.password.security-information'}}</p>
+    </div>
+    <div class="user-account-update-email-validation__input">
+      <PixInput
+        @id="password"
+        @label={{t 'pages.user-account.account-update-email-validation.fields.password.label'}}
+      />
+    </div>
+    <div class="user-account-update-email-validation__confirm-button">
+      <PixButton
+        class="user-account-update-email-validation-actions__confirm-button"
+        @type="submit"
+        @triggerAction={{this.onSubmit}}
+      >
+        {{t 'pages.user-account.account-update-email-validation.save-button'}}
+      </PixButton>
+    </div>
+  </form>
+</div>
