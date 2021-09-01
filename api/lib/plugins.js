@@ -4,7 +4,7 @@ const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 
-const isProduction = ['production', 'staging'].includes(process.env.NODE_ENV);
+const isProduction = process.env.NODE_ENV === 'production';
 
 const consoleReporters =
   isProduction ?
