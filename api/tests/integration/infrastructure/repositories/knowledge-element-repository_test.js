@@ -39,19 +39,9 @@ describe('Integration | Repository | knowledgeElementRepository', function () {
 
       // then
       let actualKnowledgeElement = await knex.select('*').from('knowledge-elements').first();
-      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'intId', 'answer_bigintId', 'createdAt', 'updatedAt']);
-      const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'createdAt', 'updatedAt']);
+      actualKnowledgeElement = _.omit(actualKnowledgeElement, ['id', 'intId', 'answer_intId', 'createdAt', 'updatedAt']);
+      const expectedKnowledgeElement = _.omit(knowledgeElementToSave, ['id', 'answer_intId', 'createdAt', 'updatedAt']);
       expect(actualKnowledgeElement).to.deep.equal(expectedKnowledgeElement);
-    });
-
-    it('should trigger filling of answer_bigintId column', async function() {
-      // when
-      const { id } = await knowledgeElementRepository.save(knowledgeElementToSave);
-
-      // then
-      const actualKnowledgeElement = await knex.select('answerId', 'answer_bigintId').from('knowledge-elements').where({ id }).first();
-      expect(actualKnowledgeElement.answer_bigintId).to.exist;
-      expect(actualKnowledgeElement.answer_bigintId).to.equal(actualKnowledgeElement.answerId);
     });
 
   });
