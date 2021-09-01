@@ -25,7 +25,7 @@ module.exports = function buildCertificationCourse({
   sessionId,
   maxReachableLevelOnCertificationDate = 5,
   isCancelled = false,
-  abortReason = undefined,
+  abortReason = null,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
