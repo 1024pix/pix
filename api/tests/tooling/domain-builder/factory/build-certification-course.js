@@ -27,6 +27,7 @@ module.exports = function buildCertificationCourse({
   userId = 456,
   sessionId = 789,
   isCancelled = false,
+  abortReason = undefined,
 } = {}) {
 
   const certificationIssueReports = [];
@@ -66,5 +67,6 @@ module.exports = function buildCertificationCourse({
     sessionId,
     userId,
     isCancelled,
+    abortReason,
   });
 };
