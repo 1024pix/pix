@@ -36,7 +36,9 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       sinon.stub(usecases, 'shareCampaignResult');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(performanceTool, 'logErrorWithCorrelationId');
-
+      sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
+        return callback();
+      });
     });
 
     it('should call the use case to share campaign result', async function() {
