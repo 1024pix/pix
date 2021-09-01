@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { setupApplicationTest } from 'ember-qunit';
-import { currentURL, click, visit } from '@ember/test-helpers';
+import { currentURL, visit } from '@ember/test-helpers';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
-import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
@@ -29,6 +28,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     });
 
     certification = this.server.create('certification', {
+      id: 123,
       firstName: 'Bora Horza',
       lastName: 'Gobuchul',
       birthdate: '1987-07-24',
@@ -37,8 +37,10 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
       sex: 'M',
       birthCountry: 'JAPON',
       birthInseeCode: '99217',
+      birthPostalCode: null,
       competencesWithMark: [],
       listChallengesAndAnswers: [],
+      createdAt: new Date('2020-01-01'),
     });
   });
 
@@ -47,161 +49,355 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
     await visit(`/certifications/${certification.id}`);
 
     // then
-    assert.contains('Bora Horza');
-    assert.contains('Gobuchul');
-    assert.contains('24/07/1987');
-    assert.contains('M');
-    assert.contains('Sorpen');
-    assert.contains('99217');
-    assert.contains('JAPON');
-    assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
-    assert.dom('[aria-label="Modifier les résultats du candidat"]').exists().isEnabled();
+    assert.contains('Prénom : Bora Horza');
+    assert.contains('Nom de famille : Gobuchul');
+    assert.contains('Date de naissance : 24/07/1987');
+    assert.contains('Sexe : M');
+    assert.contains('Commune de naissance : Sorpen');
+    assert.contains('Code INSEE de naissance : 99217');
+    assert.contains('Code postal de naissance : ');
+    assert.contains('Pays de naissance : JAPON');
   });
 
-  module('when candidate information form is submitted', function() {
+  module('Candidate information edition', function() {
 
-    test('it closes the modal when candidate info are successfully saved', async function(assert) {
-      // given
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier');
-      await fillInByLabel('Nom de famille', 'Tic');
-      await fillInByLabel('Prénom', 'Toc');
-      setFlatpickrDate('#birthdate', new Date('2012-12-12'));
-      await click('#male');
-      await fillInByLabel('Pays de naissance', '99430');
-      await fillInByLabel('Commune de naissance', 'Pôle nord');
+    module('when candidate certification was enrolled before the CPF feature was enabled', function() {
 
-      // when
-      await clickByLabel('Enregistrer');
+      test('should prevent user from editing candidate information', async function(assert) {
+        // given
+        this.server.create('certification', {
+          id: 456,
+          firstName: 'Bora Horza',
+          lastName: 'Gobuchul',
+          birthdate: '1987-07-24',
+          birthplace: 'Sorpen',
+          userId: 888,
+          sex: null,
+          birthCountry: null,
+          birthInseeCode: null,
+          birthPostalCode: null,
+          competencesWithMark: [],
+          listChallengesAndAnswers: [],
+          createdAt: new Date('2020-01-01'),
+        });
 
-      // then
-      assert.notContains('Editer les informations du candidat');
+        // when
+        await visit('/certifications/456');
+
+        // then
+        assert.contains('Voir avec PO/Dev pour modifier les infos candidat.');
+        assert.dom('button[aria-label="Modifier les informations du candidat"]').isDisabled();
+      });
     });
 
-    test('it should display a success notification when data is valid', async function(assert) {
-      // given
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier');
-      await fillInByLabel('Nom de famille', 'Tic');
-      await fillInByLabel('Prénom', 'Toc');
-      setFlatpickrDate('#birthdate', new Date('2012-12-12'));
-      await click('#male');
-      await fillInByLabel('Pays de naissance', '99430');
-      await fillInByLabel('Commune de naissance', 'Pôle nord');
+    module('when candidate certification was enrolled with CPF data', function() {
 
-      // when
-      await clickByLabel('Enregistrer');
+      module('when editing candidate information succeeds', function() {
 
-      // then
-      assert.contains('Les informations du candidat ont bien été enregistrées.');
-    });
+        test('should save the candidate information data when modifying them', async function(assert) {
+          // given
+          await visit('/certifications/123');
+          await clickByLabel('Modifier les informations du candidat');
 
-    test('it should display an error notification when data is invalid', async function(assert) {
-      // given
-      this.server.patch('/certification-courses/:id', () => ({
-        'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
-      }), 422);
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier');
-      await fillInByLabel('Nom de famille', 'Tic');
-      await fillInByLabel('Prénom', 'Toc');
-      setFlatpickrDate('#birthdate', new Date('2012-12-12'));
-      await click('#male');
-      await fillInByLabel('Pays de naissance', '99430');
-      await fillInByLabel('Commune de naissance', 'Pôle nord');
+          // when
+          await fillInByLabel('* Nom de famille', 'Summers');
+          await fillInByLabel('Commune de naissance', 'Sunnydale');
+          await clickByLabel('Enregistrer');
 
-      // when
-      await clickByLabel('Enregistrer');
+          // then
+          assert.contains('Prénom : Bora Horza');
+          assert.contains('Nom de famille : Summers');
+          assert.contains('Date de naissance : 24/07/1987');
+          assert.contains('Sexe : M');
+          assert.contains('Commune de naissance : Sunnydale');
+          assert.contains('Code INSEE de naissance : 99217');
+          assert.contains('Code postal de naissance : ');
+          assert.contains('Pays de naissance : JAPON');
+        });
 
-      // then
-      assert.contains('Editer les informations du candidat');
-      assert.contains('Candidate\'s first name must not be blank or empty');
-    });
+        test('should display a success notification', async function(assert) {
+          // given
+          await visit('/certifications/123');
+          await clickByLabel('Modifier les informations du candidat');
 
-    test('it should update candidat information', async function(assert) {
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier');
-      await fillInByLabel('Nom de famille', 'Tic');
-      await fillInByLabel('Prénom', 'Toc');
-      setFlatpickrDate('#birthdate', new Date('2012-12-12'));
-      await click('#female');
-      await fillInByLabel('Pays de naissance', '99430');
-      await fillInByLabel('Commune de naissance', 'Pôle nord');
+          // when
+          await fillInByLabel('* Nom de famille', 'Summers');
+          await fillInByLabel('Commune de naissance', 'Sunnydale');
+          await clickByLabel('Enregistrer');
 
-      // when
-      await clickByLabel('Enregistrer');
+          // then
+          assert.contains('Les informations du candidat ont bien été enregistrées.');
+        });
 
-      // then
-      assert.contains('Tic');
-      assert.contains('Toc');
-      assert.contains('12/12/2012');
-      assert.contains('F');
-      assert.contains('GROENLAND');
-      assert.contains('99430');
-      assert.contains('Pôle nord');
-    });
+        test('should close the modal', async function(assert) {
+          // given
+          await visit('/certifications/123');
+          await clickByLabel('Modifier les informations du candidat');
 
-    test('it should not update candidate info on save failure', async function(assert) {
-      // given
-      this.server.patch('/certification-courses/:id', () => ({
-        'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
-      }), 422);
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier');
-      await fillInByLabel('Nom de famille', 'Tic');
-      await fillInByLabel('Prénom', 'Toc');
-      setFlatpickrDate('#birthdate', new Date('2012-12-12'));
-      await click('#male');
-      await fillInByLabel('Pays de naissance', '99430');
-      await fillInByLabel('Commune de naissance', 'Pôle nord');
-      await clickByLabel('Enregistrer');
+          // when
+          await fillInByLabel('* Nom de famille', 'Summers');
+          await fillInByLabel('Commune de naissance', 'Sunnydale');
+          await clickByLabel('Enregistrer');
 
-      // when
-      await click('button[data-test-id="close-certification-candidate-edition-modal"]');
+          // then
+          assert.notContains('Editer les informations du candidat');
+        });
+      });
 
-      // then
-      assert.contains('Bora Horza');
-      assert.contains('Gobuchul');
-      assert.contains('24/07/1987');
-      assert.contains('M');
-      assert.contains('Sorpen');
-      assert.contains('99217');
-      assert.contains('JAPON');
+      module('when editing candidate information fails', function() {
+
+        test('should display an error notification', async function(assert) {
+          // given
+          this.server.patch('/certification-courses/:id', () => ({
+            'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
+          }), 422);
+          await visit(`/certifications/${certification.id}`);
+          await clickByLabel('Modifier les informations du candidat');
+          await fillInByLabel('* Nom de famille', 'Summers');
+
+          // when
+          await clickByLabel('Enregistrer');
+
+          // then
+          assert.contains('Candidate\'s first name must not be blank or empty');
+        });
+
+        test('should leave the modal opened', async function(assert) {
+          // given
+          this.server.patch('/certification-courses/:id', () => ({
+            'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
+          }), 422);
+          await visit(`/certifications/${certification.id}`);
+          await clickByLabel('Modifier les informations du candidat');
+          await fillInByLabel('* Nom de famille', 'Summers');
+
+          // when
+          await clickByLabel('Enregistrer');
+
+          // then
+          assert.contains('Editer les informations du candidat');
+        });
+
+        test('should leave candidate information untouched when aborting the edition', async function(assert) {
+          // given
+          this.server.patch('/certification-courses/:id', () => ({
+            'errors': [{ 'detail': 'Candidate\'s first name must not be blank or empty' }],
+          }), 422);
+          await visit(`/certifications/${certification.id}`);
+          await clickByLabel('Modifier les informations du candidat');
+          await fillInByLabel('* Nom de famille', 'Summers');
+          await clickByLabel('Enregistrer');
+
+          // when
+          await clickByLabel('Fermer');
+
+          // then
+          assert.contains('Prénom : Bora Horza');
+          assert.contains('Nom de famille : Gobuchul');
+          assert.contains('Date de naissance : 24/07/1987');
+          assert.contains('Sexe : M');
+          assert.contains('Commune de naissance : Sorpen');
+          assert.contains('Code INSEE de naissance : 99217');
+          assert.contains('Code postal de naissance : ');
+          assert.contains('Pays de naissance : JAPON');
+        });
+      });
     });
   });
 
-  module('when candidate results edit button is clicked', function() {
-    test('it disables candidate informations edit button', async function(assert) {
-      // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les résultats du candidat');
+  module('Certification results edition', function() {
 
-      // then
-      assert.dom('[aria-label="Modifier les informations du candidat"]').isDisabled();
+    module('when candidate results edit button is clicked', function() {
+
+      test('it disables candidate informations edit button', async function(assert) {
+        // when
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Modifier les résultats du candidat');
+
+        // then
+        assert.dom('[aria-label="Modifier les informations du candidat"]').isDisabled();
+      });
+    });
+
+    module('when candidate results form cancel button is clicked', function() {
+
+      test('it re-enables candidate informations edit button', async function(assert) {
+        // when
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Modifier les résultats du candidat');
+        await clickByLabel('Annuler la modification des résultats du candidat');
+
+        // then
+        assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
+      });
+    });
+
+    module('when candidate results form is submitted', function() {
+
+      test('it also re-enables candidate informations edit button', async function(assert) {
+        // when
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Modifier les résultats du candidat');
+        await clickByLabel('Annuler la modification des résultats du candidat');
+
+        // then
+        assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
+      });
     });
   });
 
-  module('when candidate results form cancel button is clicked', function() {
-    test('it re-enables candidate informations edit button', async function(assert) {
+  module('Certification issue reports section', function() {
+
+    test('should not render the "Signalements" section when certification has no issue reports', async function(assert) {
+      // given
+      certification.update({ certificationIssueReports: [] });
+
       // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les résultats du candidat');
-      await clickByLabel('Annuler la modification des résultats du candidat');
+      await visit('/certifications/123');
 
       // then
-      assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
+      assert.notContains('Signalements');
     });
-  });
 
-  module('when candidate results form is submitted', function() {
-    test('it also re-enables candidate informations edit button', async function(assert) {
+    test('should render the "Signalements" section when certification has issue reports', async function(assert) {
+      // given
+      const certificationIssueReport = this.server.create('certification-issue-report', {
+        category: 'OTHER',
+        description: 'Un signalement impactant',
+        isImpactful: true,
+      });
+      certification.update({ certificationIssueReports: [certificationIssueReport] });
+
       // when
-      await visit(`/certifications/${certification.id}`);
-      await clickByLabel('Modifier les résultats du candidat');
-      await clickByLabel('Annuler la modification des résultats du candidat');
+      await visit('/certifications/123');
 
       // then
-      assert.dom('[aria-label="Modifier les informations du candidat"]').exists().isEnabled();
+      assert.contains('Signalements');
+    });
+
+    test('should display the issue reports, impactful and non impactful', async function(assert) {
+      // given
+      const certificationIssueReportNonImpactful = this.server.create('certification-issue-report', {
+        category: 'CANDIDATE_INFORMATIONS_CHANGES',
+        subcategory: 'EXTRA_TIME_PERCENTAGE',
+        description: 'Un signalement pas du tout impactant',
+        isImpactful: false,
+      });
+      const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
+        category: 'OTHER',
+        description: 'Un signalement super impactant',
+        isImpactful: true,
+      });
+      certification.update({ certificationIssueReports: [certificationIssueReportImpactful, certificationIssueReportNonImpactful] });
+
+      // when
+      await visit('/certifications/123');
+
+      // then
+      assert.contains('Signalement(s) impactant(s)');
+      assert.contains('Un signalement super impactant');
+      assert.contains('Signalement(s) non impactant(s)');
+      assert.contains('Un signalement pas du tout impactant');
+    });
+
+    test('should hide "Signalement(s) non impactant(s)" sub-section when no not impactful issue reports exist', async function(assert) {
+      // given
+      const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
+        category: 'OTHER',
+        description: 'Un signalement super impactant',
+        isImpactful: true,
+      });
+      certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
+
+      // when
+      await visit('/certifications/123');
+
+      // then
+      assert.contains('Signalement(s) impactant(s)');
+      assert.contains('Un signalement super impactant');
+      assert.notContains('Signalement(s) non impactant(s)');
+    });
+
+    test('should hide "Signalement(s) impactant(s)" sub-section when no impactful issue reports exist', async function(assert) {
+      // given
+      const certificationIssueReportNonImpactful = this.server.create('certification-issue-report', {
+        category: 'CANDIDATE_INFORMATIONS_CHANGES',
+        subcategory: 'EXTRA_TIME_PERCENTAGE',
+        description: 'Un signalement pas du tout impactant',
+        isImpactful: false,
+      });
+      certification.update({ certificationIssueReports: [certificationIssueReportNonImpactful] });
+
+      // when
+      await visit('/certifications/123');
+
+      // then
+      assert.contains('Signalement(s) non impactant(s)');
+      assert.contains('Un signalement pas du tout impactant');
+      assert.notContains('Signalement(s) impactant(s)');
+    });
+
+    module('Impactful issue reports resolution', function() {
+
+      test('should display a resolved issue report when resolved', async function(assert) {
+        // given
+        const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
+          category: 'OTHER',
+          description: 'Un signalement super impactant',
+          isImpactful: true,
+          resolvedAt: new Date('2020-01-01'),
+        });
+        certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
+
+        // when
+        await visit('/certifications/123');
+
+        // then
+        assert.dom('.certification-informations__certification-issue-report--resolved').exists();
+        assert.dom('.certification-informations__certification-issue-report--unresolved').doesNotExist();
+      });
+
+      test('should display a non-resolved issue report when not resolved', async function(assert) {
+        // given
+        const certificationIssueReportImpactful = this.server.create('certification-issue-report', {
+          category: 'OTHER',
+          description: 'Un signalement super impactant',
+          isImpactful: true,
+          resolvedAt: null,
+        });
+        certification.update({ certificationIssueReports: [certificationIssueReportImpactful] });
+
+        // when
+        await visit('/certifications/123');
+
+        // then
+        assert.dom('.certification-informations__certification-issue-report--resolved').doesNotExist();
+        assert.dom('.certification-informations__certification-issue-report--unresolved').exists();
+      });
+    });
+
+    module('IN_CHALLENGE issue report', function() {
+
+      test('should display a "in challenge" issue report with its challenge number', async function(assert) {
+        // given
+        const certificationIssueReport = this.server.create('certification-issue-report', {
+          category: 'IN_CHALLENGE',
+          subcategory: 'IMAGE_NOT_DISPLAYING',
+          description: 'image disparue',
+          questionNumber: 666,
+          isImpactful: true,
+        });
+        certification.update({ certificationIssueReports: [certificationIssueReport] });
+
+        // when
+        await visit('/certifications/123');
+
+        // then
+        assert.contains('Problème technique sur une question');
+        assert.contains('L\'image ne s\'affiche pas');
+        assert.contains('image disparue');
+        assert.contains('Question 666');
+      });
     });
   });
 
@@ -216,6 +412,97 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
 
       // then
       assert.equal(currentURL(), '/users/888');
+    });
+  });
+
+  module('Certification cancellation', function() {
+
+    module('Cancel', function(hooks) {
+
+      hooks.beforeEach(async function() {
+        certification.update({ status: 'validated' });
+      });
+
+      test('should display confirmation popup for cancellation when certification is not yet cancelled and cancellation button is clicked', async function(assert) {
+        // given
+        await visit(`/certifications/${certification.id}`);
+
+        // when
+        await clickByLabel('Annuler la certification');
+
+        // then
+        assert.contains('Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre');
+      });
+
+      test('should not cancel the certification when aborting action in the confirmation popup', async function(assert) {
+        // given
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Annuler la certification');
+
+        // when
+        await clickByLabel('Close');
+
+        // then
+        assert.contains('Validée');
+        assert.contains('Annuler la certification');
+      });
+
+      test('should cancel the certification when confirming action in the confirmation popup', async function(assert) {
+        // given
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Annuler la certification');
+
+        // when
+        await clickByLabel('Confirmer');
+
+        // then
+        assert.contains('Annulée');
+        assert.contains('Désannuler la certification');
+      });
+    });
+
+    module('Uncancel', function(hooks) {
+
+      hooks.beforeEach(async function() {
+        certification.update({ status: 'cancelled' });
+      });
+
+      test('should display confirmation popup for uncancellation when certification is cancelled and uncancellation button is clicked', async function(assert) {
+        // given
+        await visit(`/certifications/${certification.id}`);
+
+        // when
+        await clickByLabel('Désannuler la certification');
+
+        // then
+        assert.contains('Êtes vous sur de vouloir désannuler cette certification ? Cliquer sur confirmer pour poursuivre');
+      });
+
+      test('should not uncancel the certification when aborting action in the confirmation popup', async function(assert) {
+        // given
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Désannuler la certification');
+
+        // when
+        await clickByLabel('Close');
+
+        // then
+        assert.contains('Annulée');
+        assert.contains('Désannuler la certification');
+      });
+
+      test('should uncancel the certification when confirming action in the confirmation popup', async function(assert) {
+        // given
+        await visit(`/certifications/${certification.id}`);
+        await clickByLabel('Désannuler la certification');
+
+        // when
+        await clickByLabel('Confirmer');
+
+        // then
+        assert.contains('Validée');
+        assert.contains('Annuler la certification');
+      });
     });
   });
 });
