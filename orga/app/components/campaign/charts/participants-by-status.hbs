@@ -14,8 +14,18 @@
       {{#each this.datasets as |dataset|}}
         <li class="participants-by-status__legend--{{dataset.key}}">
           <span>{{dataset.legend}}</span>
-          <PixTooltip @text={{dataset.legendTooltip}} @isWide="true" @position="top-left">
-            <FaIcon @icon="question-circle" class="participants-by-status__legend-tooltip" />
+          <PixTooltip
+            @id="legend-tooltip-{{dataset.key}}"
+            @text={{dataset.legendTooltip}}
+            @isWide="true"
+            @position="top-left"
+          >
+            <FaIcon
+              @icon="question-circle"
+              class="participants-by-status__legend-tooltip"
+              tabindex="0"
+              aria-describedby="legend-tooltip-{{dataset.key}}"
+            />
           </PixTooltip>
         </li>
       {{/each}}
