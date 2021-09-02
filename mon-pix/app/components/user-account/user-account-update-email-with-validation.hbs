@@ -1,0 +1,52 @@
+<div class="user-account-update-email-with-validation">
+  <div class="user-account-update-email-with-validation__cancel-button">
+    <PixIconButton
+      @icon="times"
+      aria-label={{t 'pages.user-account.account-update-email-validation.cancel-button.aria-label'}}
+      @color="dark-grey"
+      @triggerAction={{@disableEmailWithValidationEditionMode}}
+      data-test-id="user-account-update-email-with-validation__cancel-button"
+    />
+  </div>
+  <h2>{{t 'pages.user-account.account-update-email-validation.title'}}</h2>
+  <form>
+    <div class="user-account-update-email-with-validation__email-input">
+      <PixInput
+        @id="newEmail"
+        @label={{t 'pages.user-account.account-update-email-validation.fields.new-email.label'}}
+        @errorMessage={{this.newEmailValidationMessage}}
+        {{on "focusout" this.validateNewEmail}}
+        autocomplete="off"
+      />
+    </div>
+    <div class="user-account-update-email-with-validation__informations">
+      <p>{{t 'pages.user-account.account-update-email-validation.fields.password.security-information'}}</p>
+    </div>
+    <div class="user-account-update-email-with-validation__password-input">
+      <PixInput
+        @id="password"
+        @label={{t 'pages.user-account.account-update-email-validation.fields.password.label'}}
+        @errorMessage="{{this.passwordValidationMessage}}"
+        {{on "focusout" this.validatePassword}}
+        autocomplete="off"
+        type={{this.passwordInputType}}
+      />
+      <PixIconButton
+        @icon="{{if this.isPasswordVisible 'eye' 'eye-slash'}}"
+        aria-label={{t 'pages.user-account.account-update-email-validation.fields.password.password-visible-aria-label'}}
+        @triggerAction={{this.togglePasswordVisibility}}
+        @withBackground={{false}}
+        @color="dark-grey"
+      />
+    </div>
+    <div class="user-account-update-email-with-validation__confirm-button">
+      <PixButton
+        class="user-account-update-email-with-validation-actions__confirm-button"
+        @type="submit"
+        @triggerAction={{this.onSubmit}}
+      >
+        {{t 'pages.user-account.account-update-email-validation.save-button'}}
+      </PixButton>
+    </div>
+  </form>
+</div>

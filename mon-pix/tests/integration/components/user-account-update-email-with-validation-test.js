@@ -12,7 +12,7 @@ import { contains } from '../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-describe('Integration | Component | User account update email validation', () => {
+describe('Integration | Component | user-account-update-email-with-validation', () => {
 
   setupIntlRenderingTest();
 
@@ -20,7 +20,7 @@ describe('Integration | Component | User account update email validation', () =>
 
     it('should display save and cancel button', async function() {
       // when
-      await render(hbs`<UserAccountUpdateEmailValidation/>`);
+      await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation/>`);
 
       // then
       expect(find('[data-test-id="user-account-update-email-validation__cancel-button"]')).to.exist;
@@ -28,18 +28,18 @@ describe('Integration | Component | User account update email validation', () =>
     });
 
     context('when the user cancel edition', function() {
-      it('should call disableEmailValidationEditionMethod', async function() {
+      it('should call disableEmailWithValidationEditionMode', async function() {
         // given
-        const disableEmailValidationEditionMode = sinon.stub();
-        this.set('disableEmailValidationEditionMode', disableEmailValidationEditionMode);
+        const disableEmailWithValidationEditionMode = sinon.stub();
+        this.set('disableEmailWithValidationEditionMode', disableEmailWithValidationEditionMode);
 
-        await render(hbs`<UserAccountUpdateEmailValidation @disableEmailValidationEditionMode={{this.disableEmailValidationEditionMode}} />`);
+        await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation @disableEmailWithValidationEditionMode={{this.disableEmailWithValidationEditionMode}} />`);
 
         // when
         await clickByLabel(this.intl.t('pages.user-account.account-update-email-validation.cancel-button.aria-label'));
 
         // then
-        sinon.assert.called(disableEmailValidationEditionMode);
+        sinon.assert.called(disableEmailWithValidationEditionMode);
       });
     });
 
@@ -51,7 +51,7 @@ describe('Integration | Component | User account update email validation', () =>
           // given
           const invalidEmail = 'invalidEmail';
 
-          await render(hbs`<UserAccountUpdateEmailValidation />`);
+          await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email-validation.fields.new-email.label'), invalidEmail);
@@ -69,7 +69,7 @@ describe('Integration | Component | User account update email validation', () =>
           const newEmail = 'newEmail@example.net';
           const emptyPassword = '';
 
-          await render(hbs`<UserAccountUpdateEmailValidation />`);
+          await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email-validation.fields.new-email.label'), newEmail);
