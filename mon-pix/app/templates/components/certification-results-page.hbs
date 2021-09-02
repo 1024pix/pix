@@ -1,7 +1,5 @@
 {{!-- template-lint-disable require-input-label no-unknown-arguments-for-builtin-components --}}
-<div class="certification-results__certification-banner">
-  <CertificationBanner @certificationNumber={{@certificationNumber}} />
-</div>
+<CertificationBanner @certificationNumber={{@certificationNumber}} />
 
 <div class="certification-results__content rounded-panel result-content">
   {{#if this.notFinishedYet}}
