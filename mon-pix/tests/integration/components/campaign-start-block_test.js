@@ -60,8 +60,8 @@ describe('Integration | Component | campaign-start-block template', function() {
       />`);
 
     // then
-    expect(find('.campaign-landing-page__logo .campaign-landing-page__image').getAttribute('src')).to.equal('http://orga.com/logo.png');
-    expect(find('.campaign-landing-page__logo .campaign-landing-page__image').getAttribute('alt')).to.equal('My organisation');
+    expect(find('div[data-test-id="campaign-landing-page__logo"] .campaign-landing-page__image').getAttribute('src')).to.equal('http://orga.com/logo.png');
+    expect(find('div[data-test-id="campaign-landing-page__logo"] .campaign-landing-page__image').getAttribute('alt')).to.equal('My organisation');
     expect(find('.campaign-landing-page__start__custom-text').textContent).to.contain('My campaign text');
   });
 });
