@@ -9,6 +9,7 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
   let userRepository;
   let membershipRepository;
   let organizationInvitationRepository;
+  let userOrgaSettingsRepository;
 
   beforeEach(function() {
     userRepository = {
@@ -22,6 +23,9 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
     organizationInvitationRepository = {
       getByIdAndCode: sinon.stub(),
       markAsAccepted: sinon.stub(),
+    };
+    userOrgaSettingsRepository = {
+      createOrUpdate: sinon.stub(),
     };
   });
 
@@ -78,6 +82,30 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
       userRepository.getByEmail.withArgs(email).resolves(userToInvite);
     });
 
+    it('should update user organization settings', async function() {
+      // given
+      const expectedUserId = userToInvite.id;
+      const { id: organizationInvitationId, organizationId, code } = pendingOrganizationInvitation;
+      membershipRepository.findByOrganizationId.withArgs({ organizationId }).resolves([{ user: { id: 2 } }]);
+
+      // when
+      await acceptOrganizationInvitation({
+        organizationInvitationId,
+        code,
+        email,
+        userRepository,
+        membershipRepository,
+        organizationInvitationRepository,
+        userOrgaSettingsRepository,
+      });
+
+      // then
+      expect(userOrgaSettingsRepository.createOrUpdate).to.have.been.calledWith({
+        userId: expectedUserId,
+        organizationId,
+      });
+    });
+
     context('when the user is the first one to join the organization', function() {
 
       it('should create a membership with ADMIN role', async function() {
@@ -87,8 +115,13 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
 
         // when
         await acceptOrganizationInvitation({
-          organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository,
+          organizationInvitationId,
+          code,
+          email,
+          userRepository,
+          membershipRepository,
+          organizationInvitationRepository,
+          userOrgaSettingsRepository,
         });
 
         // then
@@ -106,8 +139,13 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
 
         // when
         await acceptOrganizationInvitation({
-          organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository,
+          organizationInvitationId,
+          code,
+          email,
+          userRepository,
+          membershipRepository,
+          organizationInvitationRepository,
+          userOrgaSettingsRepository,
         });
 
         // then
@@ -126,8 +164,13 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
 
         // when
         await acceptOrganizationInvitation({
-          organizationInvitationId, code, email,
-          userRepository, membershipRepository, organizationInvitationRepository,
+          organizationInvitationId,
+          code,
+          email,
+          userRepository,
+          membershipRepository,
+          organizationInvitationRepository,
+          userOrgaSettingsRepository,
         });
 
         // then
@@ -172,8 +215,13 @@ describe('Unit | UseCase | accept-organization-invitation', function() {
 
           // when
           await acceptOrganizationInvitation({
-            organizationInvitationId, code, email,
-            userRepository, membershipRepository, organizationInvitationRepository,
+            organizationInvitationId,
+            code,
+            email,
+            userRepository,
+            membershipRepository,
+            organizationInvitationRepository,
+            userOrgaSettingsRepository,
           });
 
           // then
