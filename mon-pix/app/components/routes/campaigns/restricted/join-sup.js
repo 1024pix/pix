@@ -39,7 +39,6 @@ export default class JoinSup extends Component {
   @tracked yearOfBirth = '';
   @tracked studentNumber = '';
 
-  @tracked isLoading = false;
   errors = new Errors();
 
   get birthdate() {
@@ -101,8 +100,6 @@ export default class JoinSup extends Component {
 
     if (!this.isValidForm) return;
 
-    this.isLoading = true;
-
     const schoolingRegistration = this.store.createRecord('schooling-registration-user-association', {
       id: `${this.args.campaignCode}_${this.lastName}`,
       studentNumber: this.studentNumber,
@@ -118,7 +115,6 @@ export default class JoinSup extends Component {
       schoolingRegistration.unloadRecord();
       this._setErrorMessage(errorResponse);
     }
-    this.isLoading = false;
   }
 
   _setErrorMessage(errorResponse) {
