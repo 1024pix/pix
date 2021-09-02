@@ -145,7 +145,7 @@ chai.use(function(chai) {
 
   Assertion.addMethod('exactlyContain', function(expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain [${expectedElements}]`;
-    new Assertion(this._obj, errorMessage).to.have.members(expectedElements);
+    new Assertion(this._obj, errorMessage).to.deep.have.members(expectedElements);
   });
 });
 

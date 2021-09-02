@@ -9,6 +9,8 @@ import {
   createPrescriberByUser,
 } from '../helpers/test-init';
 
+import setupIntl from '../helpers/setup-intl';
+
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 const pageSize = 25;
@@ -18,6 +20,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
 
   setupApplicationTest(hooks);
   setupMirage(hooks);
+  setupIntl(hooks);
 
   hooks.beforeEach(async () => {
     const user = createUserWithMembershipAndTermsOfServiceAccepted();
@@ -43,7 +46,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
       await visit('/campagnes/1/resultats-evaluation');
 
       // then
-      assert.dom('table tbody tr').exists({ count: pageSize });
+      assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: pageSize });
       assert.contains('Page 1 / 4');
       assert.dom('.page-size option:checked').hasText('25');
     });
@@ -57,7 +60,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
       await visit(`/campagnes/1/resultats-evaluation?pageNumber=${changedPageNumber}&pageSize=${changedPageSize}`);
 
       // then
-      assert.dom('table tbody tr').exists({ count: changedPageSize });
+      assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: changedPageSize });
       assert.contains('Page 2 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
@@ -85,7 +88,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
       await fillInByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
-      assert.dom('table tbody tr').exists({ count: changedPageSize });
+      assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
@@ -96,7 +99,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
 
       await visit('/campagnes/1/resultats-evaluation');
       await fillInByLabel('Sélectionner une pagination', changedPageSize);
-      const someElementFromPage1 = this.element.querySelector('table tbody tr:nth-child(5)').textContent;
+      const someElementFromPage1 = this.element.querySelector('[aria-label="Participant"]:nth-child(5)').textContent;
 
       // when
       await clickByLabel('Aller à la page suivante');
@@ -116,7 +119,7 @@ module('Acceptance | Campaign Assessment Results', function(hooks) {
       await fillInByLabel('Sélectionner une pagination', changedPageSize);
 
       // then
-      assert.dom('table tbody tr').exists({ count: changedPageSize });
+      assert.dom(`[aria-label="${this.intl.t('pages.campaign-results.table.row-title')}"]`).exists({ count: changedPageSize });
       assert.contains('Page 1 / 2');
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
