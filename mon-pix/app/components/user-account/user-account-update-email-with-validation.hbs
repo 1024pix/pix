@@ -23,20 +23,11 @@
       <p>{{t 'pages.user-account.account-update-email-validation.fields.password.security-information'}}</p>
     </div>
     <div class="user-account-update-email-with-validation__password-input">
-      <PixInput
-        @id="password"
-        @label={{t 'pages.user-account.account-update-email-validation.fields.password.label'}}
-        @errorMessage="{{this.passwordValidationMessage}}"
-        {{on "focusout" this.validatePassword}}
-        autocomplete="off"
-        type={{this.passwordInputType}}
-      />
-      <PixIconButton
-        @icon="{{if this.isPasswordVisible 'eye' 'eye-slash'}}"
-        aria-label={{t 'pages.user-account.account-update-email-validation.fields.password.password-visible-aria-label'}}
-        @triggerAction={{this.togglePasswordVisibility}}
-        @withBackground={{false}}
-        @color="dark-grey"
+      <FormTextfield
+        @label={{t 'pages.user-account.account-update-email-validation.fields.password.label'}} @textfieldName="password"
+        @inputBindingValue={{this.password}} @onValidate={{this.validatePassword}}
+        @validationMessage={{this.passwordValidation.message}} @validationStatus={{this.passwordValidation.status}}
+        @autocomplete="new-password"
       />
     </div>
     <div class="user-account-update-email-with-validation__confirm-button">
