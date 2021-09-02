@@ -1312,7 +1312,7 @@
         "password-information": "Enter your password to confirm",
         "save-button": "Confirm"
       },
-      "account-update-email-validation": {
+      "account-update-email-with-validation": {
         "title": "Change your email address",
         "fields": {
           "errors": {
@@ -1324,13 +1324,13 @@
           },
           "password": {
             "label": "Password",
-            "security-information": "La sécurité de vos informations personnelles est essentielle. Nous vérifions donc que vous êtes bien à l'origine de cette demande. Saisissez votre mot de passe pour recevoir un code de vérification."
+            "security-information": "The security of your personal information is essential. We will therefore check that it’s really you who made the request. Please enter your password to get a verification code."
           }
         },
         "cancel-button": {
           "aria-label": "Close"
         },
-        "save-button": "Recevoir un code de vérification"
+        "save-button": "Get a verification code"
       },
       "connexion-methods": {
         "edit-button": "Edit",

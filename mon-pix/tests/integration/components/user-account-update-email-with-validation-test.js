@@ -23,8 +23,8 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation/>`);
 
       // then
-      expect(find('[data-test-id="user-account-update-email-validation__cancel-button"]')).to.exist;
-      expect(contains(this.intl.t('pages.user-account.account-update-email-validation.save-button'))).to.exist;
+      expect(find('[data-test-id="user-account-update-email-with-validation__cancel-button"]')).to.exist;
+      expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'))).to.exist;
     });
 
     context('when the user cancel edition', function() {
@@ -36,7 +36,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
         await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation @disableEmailWithValidationEditionMode={{this.disableEmailWithValidationEditionMode}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.account-update-email-validation.cancel-button.aria-label'));
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.cancel-button.aria-label'));
 
         // then
         sinon.assert.called(disableEmailWithValidationEditionMode);
@@ -54,11 +54,11 @@ describe('Integration | Component | user-account-update-email-with-validation', 
           await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation />`);
 
           // when
-          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-validation.fields.new-email.label'), invalidEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), invalidEmail);
           await triggerEvent('#newEmail', 'focusout');
 
           // then
-          expect(contains(this.intl.t('pages.user-account.account-update-email-validation.fields.errors.wrong-email-format'))).to.exist;
+          expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.wrong-email-format'))).to.exist;
         });
       });
 
@@ -72,12 +72,12 @@ describe('Integration | Component | user-account-update-email-with-validation', 
           await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation />`);
 
           // when
-          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-validation.fields.new-email.label'), newEmail);
-          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-validation.fields.password.label'), emptyPassword);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
+          await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), emptyPassword);
           await triggerEvent('#password', 'focusout');
 
           // then
-          expect(contains(this.intl.t('pages.user-account.account-update-email-validation.fields.errors.empty-password'))).to.exist;
+          expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'))).to.exist;
         });
       });
     });
