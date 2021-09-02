@@ -2,6 +2,8 @@ const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-convert
 const BookshelfUserOrgaSettings = require('../orm-models/UserOrgaSettings');
 const bookshelfUtils = require('../utils/knex-utils');
 const { UserOrgaSettingsCreationError } = require('../../domain/errors');
+const { knex } = require('../bookshelf');
+const UserOrgaSettings = require('../../domain/models/UserOrgaSettings');
 
 module.exports = {
 
@@ -38,5 +40,27 @@ module.exports = {
     await bookshelfUserOrgaSettings.related('user').fetch();
     await bookshelfUserOrgaSettings.related('currentOrganization').fetch();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUserOrgaSettings);
+  },
+
+  async createOrUpdate({ userId, organizationId }) {
+    const knexUserOrgaSetting = (await knex('user-orga-settings')
+      .insert({ userId, currentOrganizationId: organizationId })
+      .onConflict('userId')
+      .merge()
+      .returning('*'))[0];
+
+    const user = await knex('users')
+      .where({ id: knexUserOrgaSetting.userId })
+      .first();
+
+    const organization = await knex('organizations')
+      .where({ id: knexUserOrgaSetting.currentOrganizationId })
+      .first();
+
+    return new UserOrgaSettings({
+      id: knexUserOrgaSetting.id,
+      user,
+      currentOrganization: organization,
+    });
   },
 };

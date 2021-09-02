@@ -13,6 +13,10 @@ describe('Acceptance | Application | organization-invitation-controller', functi
     server = await createServer();
   });
 
+  afterEach(async function() {
+    await knex('user-orga-settings').delete();
+  });
+
   describe('POST /api/organization-invitations/{id}/response', function() {
 
     let organizationId;

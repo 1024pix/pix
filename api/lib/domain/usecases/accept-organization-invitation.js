@@ -7,8 +7,13 @@ function _pickDefaultRole(existingMemberships) {
 }
 
 module.exports = async function acceptOrganizationInvitation({
-  organizationInvitationId, code, email,
-  userRepository, membershipRepository, organizationInvitationRepository,
+  organizationInvitationId,
+  code,
+  email,
+  userRepository,
+  membershipRepository,
+  organizationInvitationRepository,
+  userOrgaSettingsRepository,
 }) {
   const foundOrganizationInvitation = await organizationInvitationRepository.getByIdAndCode({
     id: organizationInvitationId,
@@ -35,6 +40,8 @@ module.exports = async function acceptOrganizationInvitation({
       const organizationRole = invitationRole || _pickDefaultRole(memberships);
       await membershipRepository.create(userFound.id, organizationId, organizationRole);
     }
+
+    await userOrgaSettingsRepository.createOrUpdate({ userId: userFound.id, organizationId });
 
     return organizationInvitationRepository.markAsAccepted(organizationInvitationId);
   }
