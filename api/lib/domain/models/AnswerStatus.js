@@ -3,6 +3,7 @@ const OK = 'ok';
 const KO = 'ko';
 const SKIPPED = 'aband';
 const TIMEDOUT = 'timedout';
+const UNFOCUS = 'unfocus';
 const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';
 
@@ -21,6 +22,7 @@ class AnswerStatus {
   isKO() { return this.status === KO; }
   isSKIPPED() { return this.status === SKIPPED; }
   isTIMEDOUT() { return this.status === TIMEDOUT; }
+  isUNFOCUS() { return this.status === UNFOCUS; }
   isPARTIALLY() { return this.status === PARTIALLY; }
   isUNIMPLEMENTED() { return this.status === UNIMPLEMENTED; }
 
@@ -29,6 +31,7 @@ class AnswerStatus {
   static get KO() { return new AnswerStatus({ status: KO }); }
   static get SKIPPED() { return new AnswerStatus({ status: SKIPPED }); }
   static get TIMEDOUT() { return new AnswerStatus({ status: TIMEDOUT }); }
+  static get UNFOCUS() { return new AnswerStatus({ status: UNFOCUS }); }
   static get PARTIALLY() { return new AnswerStatus({ status: PARTIALLY }); }
   static get UNIMPLEMENTED() { return new AnswerStatus({ status: UNIMPLEMENTED }); }
 
