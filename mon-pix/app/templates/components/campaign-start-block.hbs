@@ -16,9 +16,9 @@
     <h2 class="campaign-landing-page__start__text__announcement">{{{@announcementText}}}</h2>
     <PixButton
       @type="submit"
-      class="campaign-landing-page__start-button button button--big"
+      class="campaign-landing-page__start-button"
       @triggerAction={{action @startCampaignParticipation on="submit"}}
-      @loading-color='white'>
+    >
       {{@buttonText}}
     </PixButton>
     <p class="campaign-landing-page__start__text__legal">{{@legalText}}</p>
