@@ -149,7 +149,7 @@ module.exports = injectDependencies({
   cancelCertificationCourse: require('./cancel-certification-course'),
   changeUserLang: require('./change-user-lang'),
   checkScoAccountRecovery: require('./check-sco-account-recovery'),
-  commentSessionAsJury: true,
+  commentSessionAsJury: require('./comment-session-as-jury'),
   completeAssessment: require('./complete-assessment'),
   computeCampaignAnalysis: require('./compute-campaign-analysis'),
   computeCampaignCollectiveResult: require('./compute-campaign-collective-result'),
