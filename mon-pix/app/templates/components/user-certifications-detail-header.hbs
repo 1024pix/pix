@@ -46,14 +46,14 @@
               <PixTooltip
                 @text={{this.tooltipText}}
                 @position='bottom'
-                @inline={{true}}
-                >
-                  <CopyButton
-                    @clipboardText={{@certification.verificationCode}}
-                    @success={{this.clipboardSuccess}}
-                    @classNames="icon-button">
-                      <FaIcon class="verification-code__copy-button" @icon="copy" @prefix="far" alt={{t "pages.certificate.verification-code.alt"}} />
-                  </CopyButton>
+                @isInline={{true}}
+              >
+                <CopyButton
+                  @clipboardText={{@certification.verificationCode}}
+                  @success={{this.clipboardSuccess}}
+                  @classNames="icon-button">
+                    <FaIcon class="verification-code__copy-button" @icon="copy" @prefix="far" alt={{t "pages.certificate.verification-code.alt"}} />
+                </CopyButton>
               </PixTooltip>
             {{/if}}
           </span>
