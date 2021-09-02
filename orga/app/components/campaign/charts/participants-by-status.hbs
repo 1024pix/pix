@@ -13,7 +13,7 @@
     <ul class="participants-by-status__legend" aria-hidden="true">
       {{#each this.datasets as |dataset|}}
         <li class="participants-by-status__legend--{{dataset.key}}">
-          <span>{{dataset.legend}}</span>
+          <p>{{dataset.legend}}</p>
           <PixTooltip
             @id="legend-tooltip-{{dataset.key}}"
             @text={{dataset.legendTooltip}}

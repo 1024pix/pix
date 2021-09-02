@@ -237,7 +237,8 @@
           "status": "Status"
         },
         "empty": "No participants",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "title": "List of participants"
       },
       "status": {
         "started-assessment": "In progress",
