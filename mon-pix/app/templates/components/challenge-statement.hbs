@@ -34,7 +34,7 @@
 
       {{#if @challenge.hasMultipleAttachments}}
         <p class="challenge-statement__text">
-          <span class="challenge-statement__text-content">{{t 'pages.challenge.statement.file-download.actions.choose-type'}}</span>
+          <span data-test-id="challenge-statement__text-content">{{t 'pages.challenge.statement.file-download.actions.choose-type'}}</span>
         <div class="challenge-statement__help-icon">
           <FaIcon @icon="info-circle" />
           <div class="challenge-statement__help-tooltip">

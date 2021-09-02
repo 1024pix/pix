@@ -424,7 +424,7 @@ describe('Integration | Component | ChallengeStatement', function() {
         await renderChallengeStatement(this);
 
         // then
-        expect(find('.challenge-statement__text-content').textContent.trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
+        expect(find('span[data-test-id="challenge-statement__text-content"]').textContent.trim()).to.equal('Choisissez le type de fichier que vous voulez utiliser');
       });
 
       it('should display help icon next to attachements paragraph', async function() {
