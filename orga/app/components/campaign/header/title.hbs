@@ -8,30 +8,30 @@
     {{@campaign.name}}
   </Ui::PreviousPageButton>
 
-  <div class="campaign-header-title__infos">
+  <dl class="campaign-header-title__infos">
     <div class="campaign-header-title__info-item hide-on-mobile">
-      <h4 class="label-text">
+      <dt class="label-text">
         {{t 'pages.campaign.created-on'}}
-      </h4>
-      <span class="content-text">
+      </dt>
+      <dd class="content-text">
         {{moment-format @campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}
-      </span>
+      </dd>
     </div>
 
     <div class="campaign-header-title__info-item">
-      <h4 class="label-text">
+      <dt class="label-text">
         {{t 'pages.campaign.created-by'}}
-      </h4>
-      <span class="content-text">
+      </dt>
+      <dd class="content-text">
         {{@campaign.creatorFullName}}
-      </span>
+      </dd>
     </div>
 
     <div class="campaign-header-title__info-item">
-      <h4 class="label-text">
+      <dt class="label-text">
         {{t 'pages.campaign.code'}}
-      </h4>
-      <span class="content-text campaign-header-title__campaign-code">
+      </dt>
+      <dd class="content-text campaign-header-title__campaign-code">
         <span>{{@campaign.code}}</span>
         <Campaign::CopyPasteButton
           @clipBoardtext={{@campaign.code}}
@@ -39,7 +39,7 @@
           @defaultMessage={{t 'pages.campaign.copy.code.default'}}
           class="hide-on-mobile"
         />
-      </span>
+      </dd>
     </div>
-  </div>
+  </dl>
 </div>

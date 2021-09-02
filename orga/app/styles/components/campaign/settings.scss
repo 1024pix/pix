@@ -1,12 +1,15 @@
 .campaign-settings {
   display: flex;
   flex-direction: column;
+
+  > dl {
+    margin:0
+  }
 }
 
 .campaign-settings-row {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  display: flex;
 
   &:not(:last-child) {
     border-bottom: 1px solid $grey-20;
@@ -14,12 +17,15 @@
 }
 
 .campaign-settings-content {
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 24px;
-  width: 100%;
 
   &--single {
+    flex-basis: 100%;
+    border-left: none;
+
     &:first-child {
       width: 55%;
     }
@@ -42,6 +48,7 @@
   }
 
   &__clipboard {
+    margin: 0;
     display: flex;
     flex-direction: row;
   }
@@ -51,6 +58,7 @@
   display: flex;
   padding: 24px;
   width: 100%;
+  box-sizing: border-box;
 
   > *:first-child {
     margin-right: 32px;
@@ -65,5 +73,9 @@
   .campaign-settings-row {
     flex-direction: column;
     justify-content: flex-start;
+  }
+
+  .campaign-settings-content {
+    border-left: none;
   }
 }
