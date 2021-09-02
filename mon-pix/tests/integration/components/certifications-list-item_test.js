@@ -12,8 +12,8 @@ describe('Integration | Component | certifications list item', function() {
   const UNPUBLISH_CLASS = '.certifications-list-item__unpublished-item';
   const CERTIFICATION_CELL_SELECTOR = '.certifications-list-item__cell';
   const STATUS_SELECTOR = '.certifications-list-item__cell-double-width';
-  const IMG_FOR_STATUS_SELECTOR = 'img.certifications-list-item__cross-img';
-  const IMG_FOR_WAITING_STATUS_SELECTOR = 'img.certifications-list-item__hourglass-img';
+  const IMG_FOR_STATUS_SELECTOR = 'img[data-test-id="certifications-list-item__cross-img"]';
+  const IMG_FOR_WAITING_STATUS_SELECTOR = 'img[data-test-id="certifications-list-item__hourglass-img"]';
   const PIX_SCORE_CELL_SELECTOR = '.certifications-list-item__pix-score';
   const DETAIL_SELECTOR = '.certifications-list-item__cell-detail';
   const REJECTED_DETAIL_SELECTOR = `${DETAIL_SELECTOR} button`;
@@ -170,7 +170,7 @@ describe('Integration | Component | certifications list item', function() {
     });
 
     it('should show Certification obtenue', function() {
-      expect(find('img.certifications-list-item__green-check-img')).to.exist;
+      expect(find('img[data-test-id="certifications-list-item__green-check-img"]')).to.exist;
       expect(find(STATUS_SELECTOR).textContent).to.include('Certification obtenue');
     });
 
