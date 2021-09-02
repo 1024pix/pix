@@ -219,7 +219,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // when
               await click('#pix-cgu');
-              await click('.terms-of-service-form-actions__submit');
+              await clickByLabel(this.intl.t('pages.terms-of-service-pe.form.button'));
 
               // then
               expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`.toLowerCase());
