@@ -24,7 +24,7 @@ describe('Integration | Component | challenge-illustration', function() {
     await render(hbs`<ChallengeIllustration/>`);
 
     // then
-    expect(find('.challenge-illustration')).to.exist;
+    expect(find('div[data-test-id="challenge-illustration"]')).to.exist;
   });
 
   it('should display placeholder and hidden image, then only image when it has loaded', async function() {
