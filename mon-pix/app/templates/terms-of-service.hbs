@@ -29,8 +29,11 @@
     </div>
 
     <div class="terms-of-service-form__actions">
-      <LinkTo @route="logout" class="button terms-of-service-form-actions__cancel">{{t 'common.actions.back'}}</LinkTo>
-      <button type="submit" class="button terms-of-service-form-actions__submit" {{on 'click' this.submit}}>{{t 'pages.terms-of-service.form.button'}}</button>
+      <PixButtonLink @route="logout" @backgroundColor="grey">{{t 'common.actions.back'}}</PixButtonLink>
+
+      <PixButton @type="submit" @triggerAction={{this.submit}} class="terms-of-service-form-actions__submit">
+        {{t 'pages.terms-of-service-pe.form.button'}}
+      </PixButton>
     </div>
 
   </div>
