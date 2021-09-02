@@ -11,8 +11,8 @@ const STATUS_MAP = {
 };
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  wrongEmailFormat: 'pages.user-account.account-update-email-validation.fields.errors.wrong-email-format',
-  emptyPassword: 'pages.user-account.account-update-email-validation.fields.errors.empty-password',
+  wrongEmailFormat: 'pages.user-account.account-update-email-with-validation.fields.errors.wrong-email-format',
+  emptyPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.empty-password',
 };
 
 class PasswordValidation {
