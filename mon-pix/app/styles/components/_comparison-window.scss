@@ -41,20 +41,6 @@
   }
 }
 
-/* Modal Close button */
-
-.routable-modal--close-button {
-  position: absolute;
-  top: -25px;
-  right: -10px; /* XXX : right alignment, found no other way to achieve it; */
-  margin-right: 0;
-  height: 17px;
-  font-size: 0.875rem;
-  border: none;
-  background-color: transparent;
-  color: $white;
-}
-
 /* Modal Header */
 .comparison-window__header {
   background: white;
