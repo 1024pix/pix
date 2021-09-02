@@ -90,5 +90,5 @@ When(`je retourne au détail de la campagne`, () => {
 });
 
 When('je clique sur le bouton "Associer"', () => {
-  cy.get('[aria-label="Associer"]').click();
+  cy.contains('button', 'Associer').click();
 });
