@@ -2,12 +2,21 @@ const { Client } = require('pg');
 
 class PgClient {
   constructor(databaseUrl) {
-    this.client = new Client(databaseUrl);
-    this.client.connect();
+    this.client = new Client({ connectionString: databaseUrl, connectionTimeoutMillis: 10000 });
+  }
+
+  static async getClient(databaseUrl) {
+    const instance = new PgClient(databaseUrl);
+    try {
+      await instance.client.connect();
+    } catch (error) {
+      console.error('Database error', error);
+    }
+    return instance;
   }
 
   end() {
-    this.client.end();
+    return this.client.end();
   }
 
   query_and_log(query) {
