@@ -17,6 +17,8 @@
     "arti:cmd": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-competence-evaluation.yml",
     "arti:local:campaign": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-campaign-participation.yml",
     "arti:dev:campaign": "artillery run --config config/common.yml -e development -o report/index.json scenarios/signup-and-campaign-participation.yml",
+    "arti:local:profil": "artillery run --config config/common.yml -e localhost -o report/index.json scenarios/signup-and-profil.yml",
+    "arti:dev:profil": "artillery run --config config/common.yml -e development -o report/index.json scenarios/signup-and-profil.yml",
     "arti:cmd:dev": "artillery run --config config/common.yml -e development -o report/index.json scenarios/signup-and-competence-evaluation.yml",
     "arti:run": "npm run db:initialize && npm run arti:cmd",
     "arti:run:local": "DATABASE_URL=postgresql://postgres@localhost/pix npm run arti:run",

@@ -1,0 +1,69 @@
+config:
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: Warm up
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: Ramp up load
+    - duration: 300
+      arrivalRate: 25
+      name: Sustained load
+
+scenarios:
+  - name: "Inscription et page Profil"
+    flow:
+      - function: "setupSignupFormData"
+
+      ### ---------------------- ###
+      ### From page /inscription ###
+      ### ---------------------- ###
+
+      # Submit user form
+      - post:
+          url: "/api/users"
+          json:
+            data:
+              attributes:
+                cgu: true
+                email: "{{ email }}"
+                first-name: "{{ firstName }}"
+                last-name: "{{ lastName }}"
+                password: "{{ password }}"
+
+      # Authenticate user
+      - post:
+          url: "/api/token"
+          headers:
+            content-type: "application/x-www-form-urlencoded"
+          body: "grant_type=password&scope=mon-pix&username={{ email }}&password={{ password }}"
+          capture:
+            - json: "$.access_token"
+              as: "accessToken"
+            - json: "$.user_id"
+              as: "userId"
+
+      # Get user data
+      - get:
+          url: "/api/users/me"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      # Fetch campaign participation overviews
+      - get:
+          url: "/api/users/{{ userId }}/campaign-participation-overviews?filter[states]=ONGOING&filter[states]=TO_SHARE&page[number]=1&page[size]=9"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      # Get user profile
+      - get:
+          url: "/api/users/{{ userId }}/profile"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+
+      # Fetch campaign participations
+      - get:
+          url: "/api/users/{{ userId }}/campaign-participations"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
