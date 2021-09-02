@@ -24,11 +24,13 @@ async function handleAutoJury({
     challengeRepository,
   });
 
-  const certificationJuryDoneEvents = await Promise.all(certificationCourses.map(async(certificationCourse) => {
+  const certificationJuryDoneEvents = [];
+
+  for (const certificationCourse of certificationCourses) {
 
     const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 
-    return _autoNeutralizeChallenges({
+    const certificationJuryDoneEvent = await _autoNeutralizeChallenges({
       certificationCourse,
       certificationAssessment,
       certificationIssueReportRepository,
@@ -36,7 +38,9 @@ async function handleAutoJury({
       resolutionStrategies,
       logger,
     });
-  }));
+
+    certificationJuryDoneEvents.push(certificationJuryDoneEvent);
+  }
 
   const filteredCertificationJuryDoneEvents = certificationJuryDoneEvents.filter((certificationJuryDoneEvent) => Boolean(certificationJuryDoneEvent));
 
