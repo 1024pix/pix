@@ -137,7 +137,7 @@
     display: flex;
     justify-content: center;
 
-    > .button {
+    > button {
       margin: 0 8px;
     }
   }
@@ -148,15 +148,6 @@
   &__title {
     display: flex;
     align-items: center;
-  }
-
-  &__close {
-    border: none;
-    background-color: transparent;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 }
 

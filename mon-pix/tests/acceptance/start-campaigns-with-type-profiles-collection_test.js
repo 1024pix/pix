@@ -104,7 +104,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('.button');
-              await click('button[aria-label="Associer"]');
+              await clickByLabel(this.intl.t('pages.join.sco.associate'));
               await click('.campaign-landing-page__start-button');
             });
 
@@ -185,7 +185,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
-            await click('button[aria-label="Associer"]');
+            await clickByLabel(this.intl.t('pages.join.sco.associate'));
             await clickByLabel(this.intl.t('pages.campaign-landing.profiles-collection.action'));
             await fillIn('#id-pix-label', 'truc');
 
@@ -233,7 +233,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#yearOfBirth', '2000');
 
               await click('.button');
-              await click('button[aria-label="Continuer avec mon compte Pix"]');
+              await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
               //then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification?displayRegisterForm=false`);

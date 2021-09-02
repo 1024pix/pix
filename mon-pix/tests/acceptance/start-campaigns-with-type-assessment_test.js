@@ -102,12 +102,14 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           });
 
           context('When campaign is restricted', function() {
-            beforeEach(async function() {
+
+            it('should redirect to assessment', async function() {
+              // given
               campaign = server.create('campaign', 'restricted', { idPixLabel: 'toto', organizationType: 'SCO', type: ASSESSMENT });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
+              // when
               await click('#login-button');
 
               await fillIn('#login', prescritUser.email);
@@ -120,11 +122,9 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('.button');
-              await click('button[aria-label="Associer"]');
+              await clickByLabel(this.intl.t('pages.join.sco.associate'));
               await click('.campaign-landing-page__start-button');
-            });
 
-            it('should redirect to assessment', async function() {
               // then
               expect(currentURL()).to.contains('/didacticiel');
             });
@@ -215,7 +215,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
-            await click('button[aria-label="Associer"]');
+            await clickByLabel(this.intl.t('pages.join.sco.associate'));
             await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
             await fillIn('#id-pix-label', 'truc');
 
