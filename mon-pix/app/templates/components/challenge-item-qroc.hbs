@@ -29,7 +29,8 @@
                     @options={{block.options}}
                     data-uid="qroc-proposal-uid"
                     @onChange={{this.answerChanged}}
-                    />
+                    @size="big"
+                  />
                 </div>
             {{else if (eq @challenge.format 'paragraphe')}}
               <textarea class="challenge-response__proposal challenge-response__proposal--paragraph"
