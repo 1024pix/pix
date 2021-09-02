@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
+const Oppsy = require('@hapi/oppsy');
 
 const preResponseUtils = require('./lib/application/pre-response-utils');
 
@@ -22,11 +23,15 @@ Request.prototype._execute = function(...args) {
 
 let config;
 
+const isProduction = ['production'].includes(process.env.NODE_ENV);
+
 const setupServer = async () => {
 
   loadConfiguration();
 
   const server = await createServer();
+
+  if (isProduction) await enableOpsMetrics(server);
 
   setupErrorHandling(server);
 
@@ -43,6 +48,7 @@ const createServer = async function() {
 
   const serverConfiguration = {
     compression: false,
+    debug: { request: false, log: false },
     routes: {
       validate: {
         failAction: handleFailAction,
@@ -63,6 +69,18 @@ const createServer = async function() {
   };
 
   return new Hapi.server(serverConfiguration);
+};
+
+const enableOpsMetrics = async function(server) {
+
+  const oppsy = new Oppsy(server);
+
+  oppsy.on('ops', (data) => {
+    server.log(['ops'], data);
+  });
+
+  oppsy.start(config.logging.emitOpsEventEachSeconds * 1000);
+
 };
 
 const loadConfiguration = function() {

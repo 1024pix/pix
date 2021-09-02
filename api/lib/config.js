@@ -65,6 +65,7 @@ module.exports = (function() {
       shouldLog5XXErrors: isFeatureEnabled(process.env.SHOULD_LOG_5XX_ERRORS),
       logLevel: (process.env.LOG_LEVEL || 'info'),
       enableLogKnexQueriesWithCorrelationId: isFeatureEnabled(process.env.LOG_KNEX_QUERIES_WITH_CORRELATION_ID),
+      emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
     },
 
     mailing: {
