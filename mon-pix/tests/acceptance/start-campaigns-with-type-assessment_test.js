@@ -121,7 +121,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.associate'));
               await click('.campaign-landing-page__start-button');
 
@@ -206,6 +206,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
         });
 
         context('When association is not already done', function() {
+
           it('should redirect to tutoriel page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
@@ -214,7 +215,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
             await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
             await fillIn('#id-pix-label', 'truc');

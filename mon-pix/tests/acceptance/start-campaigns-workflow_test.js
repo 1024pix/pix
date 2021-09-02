@@ -360,6 +360,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('#submit-connexion');
 
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
+
             // when
             await fillIn('#firstName', 'Jane');
             await fillIn('#lastName', 'Acme');
@@ -367,8 +368,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
 
-            await click('.button');
-
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
@@ -731,9 +731,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-
-            await click('.button');
-
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
@@ -748,7 +746,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             // when
@@ -993,7 +991,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.join.button'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -1077,8 +1075,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
-
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
@@ -1108,8 +1105,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
-
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
@@ -1141,8 +1137,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
-
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
@@ -1166,8 +1161,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
-
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
@@ -1214,7 +1208,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
               await fillIn('#login', userShouldChangePassword.username);
               await fillIn('#password', userShouldChangePassword.password);

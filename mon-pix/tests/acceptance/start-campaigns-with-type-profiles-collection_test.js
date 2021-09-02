@@ -86,12 +86,15 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           });
 
           context('When campaign is restricted', function() {
-            beforeEach(async function() {
+
+            it('should redirect to send profile page', async function() {
+              //given
               campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto', organizationType: 'SCO' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
 
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
+              // when
               await click('#login-button');
 
               await fillIn('#login', campaignParticipant.email);
@@ -103,12 +106,10 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.associate'));
               await click('.campaign-landing-page__start-button');
-            });
 
-            it('should redirect to send profile page', async function() {
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
             });
@@ -184,7 +185,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
             await clickByLabel(this.intl.t('pages.campaign-landing.profiles-collection.action'));
             await fillIn('#id-pix-label', 'truc');
@@ -214,8 +215,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
-
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.join.button'));
 
               //then
               expect(find('.join-error-modal')).to.exist;
@@ -231,8 +231,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
-
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
               //then
