@@ -322,6 +322,16 @@ export default function() {
     };
   });
 
+  this.get('/campaigns/:campaignId/stats/participations-by-mastery-rate', () => {
+    return {
+      data: {
+        attributes: {
+          'result-distribution': [],
+        },
+      },
+    };
+  });
+
   this.delete('/schooling-registration-user-associations/:id', (schema, request) => {
     const studentId = request.params.id;
 
