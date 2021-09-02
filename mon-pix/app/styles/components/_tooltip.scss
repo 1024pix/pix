@@ -101,3 +101,7 @@
     margin-top: 16px;
   }
 }
+
+.tooltip-tag__icon-button[aria-expanded="false"] + .tooltip-tag__information {
+  display: none;
+}
