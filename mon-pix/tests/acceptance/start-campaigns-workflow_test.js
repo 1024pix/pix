@@ -369,7 +369,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
             await click('.button');
 
-            await click('button[aria-label="Associer"]');
+            await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -395,7 +395,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal('/inscription');
           });
 
-          it('should be redirect to join page after login', async () => {
+          it('should be redirect to join page after login', async function() {
             // given
             await visit(`/campagnes/${campaign.code}`);
             // when
@@ -734,7 +734,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
             await click('.button');
 
-            await click('button[aria-label="Associer"]');
+            await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
@@ -749,7 +749,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
-            await click('button[aria-label="Associer"]');
+            await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             // when
             await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
@@ -795,14 +795,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
         });
 
-        it('should be redirected to join page', async () => {
+        it('should be redirected to join page', async function() {
           // when
           await visit(`/campagnes/${campaign.code}`);
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
         });
 
-        it('the student has been associated with its student number', async () => {
+        it('the student has been associated with its student number', async function() {
           // given
           await visit(`/campagnes/${campaign.code}`);
 
@@ -1047,7 +1047,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           const externalUserToken = 'aaa.' + btoa('{"first_name":"JeanPrescrit","last_name":"Campagne","saml_id":"SamlId","source":"external","iat":1545321469,"exp":4702193958}') + '.bbb';
 
           beforeEach(async function() {
-            server.post('/schooling-registration-dependent-users/external-user-token', async () => {
+            server.post('/schooling-registration-dependent-users/external-user-token', async function() {
               return new Response(409, {}, {
                 errors: [{
                   status: '409',
@@ -1066,7 +1066,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
-          it('should land on start campaign page if GAR authentication method has been added', async () => {
+          it('should land on start campaign page if GAR authentication method has been added', async function() {
             // given
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
@@ -1079,7 +1079,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
 
-            await click('button[aria-label="Continuer avec mon compte Pix"]');
+            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
             await fillIn('#login', prescritUser.email);
@@ -1094,7 +1094,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(contains('Commencez votre parcours')).to.exist;
           });
 
-          it('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async () => {
+          it('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async function() {
             // given
             const expectedErrorMessage = 'Les données que vous avez soumises ne sont pas au bon format.';
             const errorsApi = new Response(400, {}, {
@@ -1110,7 +1110,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
 
-            await click('button[aria-label="Continuer avec mon compte Pix"]');
+            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
             await fillIn('#login', prescritUser.email);
@@ -1122,7 +1122,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
           });
 
-          it('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async () => {
+          it('should display an specific error message if GAR authentication method adding has failed due to wrong connected account', async function() {
             // given
             const expectedErrorMessage = 'L\'adresse e-mail ou l\'identifiant est incorrect. Pour continuer, vous devez vous connecter à votre compte qui est sous la forme : ';
             const expectedObfuscatedConnectionMethod = 't***@example.net';
@@ -1143,7 +1143,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
 
-            await click('button[aria-label="Continuer avec mon compte Pix"]');
+            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
             await fillIn('#login', prescritUser.email);
@@ -1155,7 +1155,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage + expectedObfuscatedConnectionMethod);
           });
 
-          it('should display the default error message if GAR authentication method adding has failed with others http statusCode', async () => {
+          it('should display the default error message if GAR authentication method adding has failed with others http statusCode', async function() {
             // given
             const expectedErrorMessage = 'Une erreur interne est survenue, nos équipes sont en train de résoudre le problème. Veuillez réessayer ultérieurement.';
             server.post('/token-from-external-user', () => new Response(500));
@@ -1168,7 +1168,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
 
-            await click('button[aria-label="Continuer avec mon compte Pix"]');
+            await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
 
             // when
             await fillIn('#login', prescritUser.email);
@@ -1187,7 +1187,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
 
-              server.post('/schooling-registration-dependent-users/external-user-token', async () => {
+              server.post('/schooling-registration-dependent-users/external-user-token', async function() {
                 return new Response(409, {}, {
                   errors: [{
                     status: '409',
@@ -1215,7 +1215,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
               await click('.button');
-              await click('button[aria-label="Continuer avec mon compte Pix"]');
+              await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
               await fillIn('#login', userShouldChangePassword.username);
               await fillIn('#password', userShouldChangePassword.password);
               await click('#submit-connexion');
