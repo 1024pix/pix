@@ -67,22 +67,17 @@
   &__alert-message {
     display: flex;
     align-items: center;
+    max-width: 600px;
     color: $grey-90;
     font-family: $font-roboto;
     font-size: 0.875rem;
     font-weight: $font-normal;
     letter-spacing: 0.009rem;
     line-height: 1.375rem;
-    margin-right: 0;
-    margin-bottom: 24px;
+    margin: 0 auto 24px 12px;
 
     @include device-is('tablet') {
       margin-bottom: 0;
-      margin-right: auto;
-    }
-
-    &--focused-out-of-window {
-      max-width: 600px;
     }
   }
 }
