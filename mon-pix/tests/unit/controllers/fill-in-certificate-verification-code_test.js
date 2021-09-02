@@ -25,9 +25,10 @@ describe('Unit | Controller | Fill in certificate verification Code', function()
     it('should set error when certificateVerificationCode code is empty', async () => {
       // given
       controller.set('certificateVerificationCode', '');
+      const event = { preventDefault: sinon.stub() };
 
       // when
-      await controller.actions.checkCertificate.call(controller);
+      await controller.actions.checkCertificate.call(controller, event);
 
       // then
       expect(controller.get('errorMessage')).to.equal('Merci de renseigner le code de vérification.');
@@ -36,9 +37,10 @@ describe('Unit | Controller | Fill in certificate verification Code', function()
     it('should set error when certificateVerificationCode code is not matching the right format', async () => {
       // given
       controller.set('certificateVerificationCode', 'P-879888');
+      const event = { preventDefault: sinon.stub() };
 
       // when
-      await controller.actions.checkCertificate.call(controller);
+      await controller.actions.checkCertificate.call(controller, event);
 
       // then
       expect(controller.get('errorMessage')).to.equal('Veuillez vérifier le format de votre code (P-XXXXXXX).');
@@ -48,9 +50,10 @@ describe('Unit | Controller | Fill in certificate verification Code', function()
       // given
       controller.set('certificateVerificationCode', 'P-222BBB78');
       storeStub.queryRecord.rejects({ errors: [{ status: '404' }] });
+      const event = { preventDefault: sinon.stub() };
 
       // when
-      await controller.actions.checkCertificate.call(controller);
+      await controller.actions.checkCertificate.call(controller, event);
 
       // then
       expect(controller.get('showNotFoundCertificationErrorMessage')).to.equal(true);
@@ -60,9 +63,10 @@ describe('Unit | Controller | Fill in certificate verification Code', function()
       // given
       controller.set('certificateVerificationCode', 'P-222BBBDD');
       storeStub.queryRecord.resolves({ result: { status: '200' } });
+      const event = { preventDefault: sinon.stub() };
 
       // when
-      await controller.actions.checkCertificate.call(controller);
+      await controller.actions.checkCertificate.call(controller, event);
 
       // then
       expect(controller.get('showNotFoundCertificationErrorMessage')).to.equal(false);
