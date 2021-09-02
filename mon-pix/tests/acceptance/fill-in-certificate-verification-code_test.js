@@ -1,21 +1,25 @@
 import { describe, it, context } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
-import { click, visit, fillIn, currentURL, find } from '@ember/test-helpers';
+import { visit, fillIn, currentURL, find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Certificate verification', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   context('when certificate verification code is valid', function() {
+
     it('redirects to certificate details page', async function() {
       // Given
       await visit('/verification-certificat');
       await fillIn('#certificate-verification-code', 'P-123VALID');
 
       // When
-      await click('button[type=submit]');
+      await clickByLabel(this.intl.t('pages.fill-in-certificate-verification-code.verify'));
 
       // Then
       expect(currentURL()).to.equal('/partage-certificat/200');
@@ -29,7 +33,7 @@ describe('Acceptance | Certificate verification', function() {
       await fillIn('#certificate-verification-code', 'P-12345678');
 
       // When
-      await click('button[type=submit]');
+      await clickByLabel(this.intl.t('pages.fill-in-certificate-verification-code.verify'));
 
       // Then
       expect(currentURL()).to.equal('/verification-certificat');
@@ -41,7 +45,7 @@ describe('Acceptance | Certificate verification', function() {
       await fillIn('#certificate-verification-code', 'P-12345678');
 
       // When
-      await click('button[type=submit]');
+      await clickByLabel(this.intl.t('pages.fill-in-certificate-verification-code.verify'));
 
       // Then
       expect(find('.form__error--not-found')).to.exist;
