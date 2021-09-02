@@ -12,11 +12,6 @@
   display: flex;
   align-items: center;
 
-  &--success {
-    border: 1px solid $green;
-    background-color: $green;
-  }
-
   &--danger {
     border: 1px solid $dark-error;
     background-color: $dark-error;
