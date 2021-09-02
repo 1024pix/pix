@@ -1,5 +1,23 @@
 # Pix Changelog
 
+## v3.95.0 (02/09/2021)
+
+- [#3419](https://github.com/1024pix/pix/pull/3419) [FEATURE] Ne récupérer que la dernière participation d'une campagne pour chaque utilisateur dans l'onglet analyse (partie compétences) (PIX-2966).
+- [#3426](https://github.com/1024pix/pix/pull/3426) [FEATURE] Ajout du endpoint pour l'abandon d'une certification (pix-3063)
+- [#3361](https://github.com/1024pix/pix/pull/3361) [FEATURE] Création d'un champ `assessmentMethod` dans les campagnes 'flash' (PIX-2778).
+- [#3406](https://github.com/1024pix/pix/pull/3406) [FEATURE] Ajout de la règle de scoring global lors du scoring d'une certification (PIX-3045)
+- [#3439](https://github.com/1024pix/pix/pull/3439) [BUGFIX] Eviter les dépassements mémoire lors de finalisation de session avec beaucoup de candidats (PIX-3136)
+- [#3431](https://github.com/1024pix/pix/pull/3431) [BUGFIX] Le titre de la page d'épreuve n'était pas mise à jour en cas de timeout.
+- [#3420](https://github.com/1024pix/pix/pull/3420) [BUGFIX] Les certifications complémentaires ne sont pas affichées comme "Annulées" lorsque la certification Pix est annulée (PIX-3117)
+- [#3429](https://github.com/1024pix/pix/pull/3429) [TECH] Expliciter la configuration de NODE_ENV.
+- [#3423](https://github.com/1024pix/pix/pull/3423) [TECH] Activer à chaud la validation de l'adresse e-mail sur Pix App (PIX-3121).
+- [#3422](https://github.com/1024pix/pix/pull/3422) [TECH] Importer les variables CSS de pix-ui dans admin
+- [#3398](https://github.com/1024pix/pix/pull/3398) [TECH] Ne sélectionner que les derniers résultats d'un prescrit à une campagne dans l'export d'une collecte de profils (PIX-2968).
+- [#3412](https://github.com/1024pix/pix/pull/3412) [TECH] Supprimer le feature toggle pour les données CPF (pix-3105)
+- [#3418](https://github.com/1024pix/pix/pull/3418) [A11Y] Donner plus de sémantique à la page paramètre de la campage (PIX-3055)
+- [#3397](https://github.com/1024pix/pix/pull/3397) [INFRA] Aligner Pix Certif avec les composants Pix UI (PIX-3013)
+- [#3421](https://github.com/1024pix/pix/pull/3421) [CLEANUP] Refonte UX de l'affichage des signalement dans Pix Admin (PIX-3088)
+
 ## v3.94.0 (31/08/2021)
 
 - [#3414](https://github.com/1024pix/pix/pull/3414) [FEATURE] Mettre à jour la bannière des parcours de rentrée SCO pour la rentrée 2021 (PIX-3101).
