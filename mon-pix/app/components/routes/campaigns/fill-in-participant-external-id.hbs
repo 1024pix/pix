@@ -27,8 +27,14 @@
       <img class="fill-in-participant-external-id__help" src={{@campaign.externalIdHelpImageUrl}} alt={{@campaign.alternativeTextToExternalIdHelpImage}}/>
     {{/if}}
 
-    <button type="button" disabled={{this.isLoading}} {{on 'click' this.cancel}} class="button button--regular button--no-color fill-in-participant-external-id__cancel-button">
+    <PixButton
+      @backgroundColor="transparent-light"
+      @triggerAction={{this.cancel}}
+      @size="big"
+      @loadingColor="white"
+      class="fill-in-participant-external-id__cancel-button"
+    >
       {{t 'pages.fill-in-participant-external-id.buttons.cancel'}}
-    </button>
+    </PixButton>
   </form>
 </main>
