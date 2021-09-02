@@ -5,28 +5,29 @@ import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
 import isEmpty from 'lodash/isEmpty';
 
+const STATUS_MAP = {
+  defaultStatus: 'default',
+  errorStatus: 'error',
+};
+
 const ERROR_INPUT_MESSAGE_MAP = {
   wrongEmailFormat: 'pages.user-account.account-update-email-validation.fields.errors.wrong-email-format',
   emptyPassword: 'pages.user-account.account-update-email-validation.fields.errors.empty-password',
 };
+
+class PasswordValidation {
+  @tracked status = STATUS_MAP['defaultStatus'];
+  @tracked message = null;
+}
 
 export default class UserAccountUpdateEmailWithValidation extends Component {
 
   @service intl;
   @tracked newEmail = '';
   @tracked password = '';
-  @tracked isPasswordVisible = false;
   @tracked newEmailValidationMessage = null;
-  @tracked passwordValidationMessage = null;
 
-  get passwordInputType() {
-    return this.isPasswordVisible ? 'text' : 'password';
-  }
-
-  @action
-  togglePasswordVisibility() {
-    this.isPasswordVisible = !this.isPasswordVisible;
-  }
+  @tracked passwordValidation = new PasswordValidation();
 
   @action
   validateNewEmail(event) {
@@ -41,14 +42,15 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
   }
 
   @action
-  validatePassword(event) {
-    this.password = event.target.value;
+  validatePassword() {
     const isInvalidInput = isEmpty(this.password);
 
-    this.passwordValidationMessage = null;
+    this.passwordValidation.status = STATUS_MAP['defaultStatus'];
+    this.passwordValidation.message = null;
 
     if (isInvalidInput) {
-      this.passwordValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
+      this.passwordValidation.status = STATUS_MAP['errorStatus'];
+      this.passwordValidation.message = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
     }
   }
 }
