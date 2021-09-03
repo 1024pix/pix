@@ -1,6 +1,7 @@
 const Bookshelf = require('../bookshelf');
 
 require('./CertificationCenter');
+require('./User');
 
 const modelName = 'CertificationCenterMembership';
 
