@@ -30,7 +30,6 @@
   margin: 6px;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
   flex-direction: column;
 
   @include device-is('tablet') {
