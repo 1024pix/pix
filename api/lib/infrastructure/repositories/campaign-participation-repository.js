@@ -44,7 +44,7 @@ function _toDomain(bookshelfCampaignParticipation) {
 
 module.exports = {
 
-  async get(id, options = {}) {
+  async get(id, options = {}, domainTransaction = DomainTransaction.emptyTransaction()) {
     if (options.include) {
       options.withRelated = _.union(options.include, ['assessments']);
     } else {
@@ -53,7 +53,7 @@ module.exports = {
 
     const campaignParticipation = await BookshelfCampaignParticipation
       .where({ id })
-      .fetch({ ...options, require: false });
+      .fetch({ ...options, require: false, transacting: domainTransaction.knexTransaction });
     return _toDomain(campaignParticipation);
   },
 
@@ -63,10 +63,10 @@ module.exports = {
       .then(_toDomain);
   },
 
-  async update(campaignParticipation) {
+  async update(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
     const attributes = _getAttributes(campaignParticipation);
 
-    await BookshelfCampaignParticipation.forge(attributes).save();
+    await BookshelfCampaignParticipation.forge(attributes).save(null, { transacting: domainTransaction });
   },
 
   async markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -157,11 +157,11 @@ module.exports = {
       .then(_convertToDomainWithSkills);
   },
 
-  async updateWithSnapshot(campaignParticipation) {
-    await this.update(campaignParticipation);
+  async updateWithSnapshot(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
+    await this.update(campaignParticipation, domainTransaction);
 
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt });
-    await knowledgeElementSnapshotRepository.save({ userId: campaignParticipation.userId, snappedAt: campaignParticipation.sharedAt, knowledgeElements });
+    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: campaignParticipation.userId, limitDate: campaignParticipation.sharedAt, domainTransaction });
+    await knowledgeElementSnapshotRepository.save({ userId: campaignParticipation.userId, snappedAt: campaignParticipation.sharedAt, knowledgeElements, domainTransaction });
   },
 
   count(filters = {}) {
