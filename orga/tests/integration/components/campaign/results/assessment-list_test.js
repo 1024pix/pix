@@ -77,7 +77,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
 
     test('it should display badge and tooltip', async function(assert) {
       // given
-      const badge = store.createRecord('badge', { imageUrl: 'url-badge' });
+      const badge = store.createRecord('badge', { id: 1, imageUrl: 'url-badge' });
       const campaign = store.createRecord('campaign', {
         badges: [badge],
       });
@@ -93,7 +93,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
 
       // then
-      assert.dom('.pix-tooltip__content').exists();
+      assert.dom('[aria-describedby="badge-tooltip-1"]').exists();
       assert.dom('img[src="url-badge"]').exists();
     });
   });

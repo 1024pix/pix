@@ -2,7 +2,7 @@
   {{#if this.loading}}
     <Campaign::Charts::ParticipantsByStageLoader />
   {{else}}
-    {{#each this.data as |stage|}}
+    {{#each this.data as |stage index|}}
       <div class="participants-by-stage">
         <PixStars
           @count={{stage.index}}
@@ -15,14 +15,19 @@
         </div>
         {{#if stage.displayTooltip}}
           <PixTooltip
-            role="tooltip"
+            @id="chart-stage-{{index}}"
             @text={{stage.tooltip}}
             @position="bottom-right"
             @isWide={{true}}
-            @isLight={{true}}
             class="participants-by-stage__container"
-            >
-              <Campaign::Charts::ParticipantsByStageBar @onClickBar={{this.onClickBar}} @stageId={{stage.id}} @barWidth={{stage.barWidth}}>
+          >
+              <Campaign::Charts::ParticipantsByStageBar
+                @onClickBar={{this.onClickBar}}
+                @stageId={{stage.id}}
+                @barWidth={{stage.barWidth}}
+                tabindex="0"
+                aria-describedby="chart-stage-{{index}}"
+              >
                 {{t 'charts.participants-by-stage.percentage' percentage=stage.percentage}}
               </Campaign::Charts::ParticipantsByStageBar>
           </PixTooltip>

@@ -60,7 +60,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
   test('should display the chevron-up icon when menu is open', async function(assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
-    await clickByLabel('Résumé utilisateur');
+    await clickByLabel('Ouvrir le menu utilisateur');
 
     // then
     assert.dom('.fa-chevron-up').exists();
@@ -70,7 +70,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
   test('should display the disconnect link when menu is open', async function(assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
-    await clickByLabel('Résumé utilisateur');
+    await clickByLabel('Ouvrir le menu utilisateur');
 
     // then
     assert.contains('Se déconnecter');
@@ -79,7 +79,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
   test('should display the organizations name and externalId when menu is open', async function(assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu  />`);
-    await clickByLabel('Résumé utilisateur');
+    await clickByLabel('Ouvrir le menu utilisateur');
 
     // then
     assert.contains(organization2.name);
