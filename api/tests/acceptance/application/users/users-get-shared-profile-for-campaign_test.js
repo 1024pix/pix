@@ -8,6 +8,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
   const createdAt = new Date('2019-01-01');
   const createdAfterAt = new Date('2019-01-03');
   const sharedAt = new Date('2019-01-02');
+  const pixScore = 2;
 
   let campaignParticipation;
   let options;
@@ -43,7 +44,7 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
       databaseBuilder.factory.buildUser({ id: userId });
 
       const campaign = databaseBuilder.factory.buildCampaign();
-      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isShared: true, sharedAt });
+      campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, campaignId: campaign.id, isShared: true, sharedAt, pixScore });
 
       const knowledgeElements = [
         { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt, userId },
