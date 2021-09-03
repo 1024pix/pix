@@ -521,7 +521,7 @@
       }
     },
     "profiles-list": {
-      "title": "Participants",
+      "title": "Profils reçus",
       "table": {
         "column": {
           "certifiable": "Certifiable",
@@ -538,7 +538,8 @@
           }
         },
         "empty": "En attente de profils",
-        "row-title": "Profil"
+        "row-title": "Profil",
+        "title": "Liste des profils reçus"
       }
     },
     "students-sco": {
