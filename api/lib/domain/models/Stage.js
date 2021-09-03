@@ -17,10 +17,6 @@ class Stage {
     this.prescriberDescription = prescriberDescription;
     this.targetProfileId = targetProfileId;
   }
-
-  getMinSkillsCountToReachStage(totalSkills) {
-    return Math.floor(totalSkills * (this.threshold / 100));
-  }
 }
 
 module.exports = Stage;
