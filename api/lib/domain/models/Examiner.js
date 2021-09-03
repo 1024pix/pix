@@ -33,8 +33,7 @@ class Examiner {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
     }
 
-    // TODO BEFORE MERGE : limit to certificationEvaluation
-    if (isCorrectAnswer && answer.focusedOut && (isCertificationEvaluation || !isCertificationEvaluation)) {
+    if (isCorrectAnswer && answer.focusedOut && isCertificationEvaluation) {
       correctedAnswer.result = AnswerStatus.FOCUSEDOUT;
     }
 
