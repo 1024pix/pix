@@ -2,13 +2,15 @@
   {{#if this.loading}}
     <Campaign::Charts::ParticipantsByStageLoader />
   {{else}}
+    <ul class="participants-by-stage__wrapper">
     {{#each this.data as |stage index|}}
-      <div class="participants-by-stage">
+      <li class="participants-by-stage">
         <PixStars
           @count={{stage.index}}
           @total={{this.totalStage}}
           @color="blue"
           class="participants-by-stage__stars"
+          aria-hidden="true"
         />
         <div class="participants-by-stage__values">
           {{t 'charts.participants-by-stage.participants' count=stage.value}}
@@ -38,7 +40,8 @@
             </Campaign::Charts::ParticipantsByStageBar>
           </div>
         {{/if}}
-      </div>
+      </li>
     {{/each}}
+    </ul>
   {{/if}}
 </Ui::ChartCard>

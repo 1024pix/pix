@@ -340,7 +340,8 @@
           }
         },
         "empty": "No participants",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "title": "List of submitted results"
       },
       "tested-items": "Items assessed",
       "title": "Results",
