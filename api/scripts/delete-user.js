@@ -2,20 +2,20 @@
 /* eslint no-console: ["off"] */
 const PgClient = require('./PgClient');
 
-function initialize() {
-  const client = new PgClient(process.env.DATABASE_URL);
+async function initialize() {
+  const client = await PgClient.getClient(process.env.DATABASE_URL);
 
   const user_email = process.argv[2];
   return { client, user_email };
 }
 
-function terminate(client) {
-  client.end();
+async function terminate(client) {
+  await client.end();
   console.log('END');
 }
 
-function main() {
-  const { client, user_email } = initialize();
+async function main() {
+  const { client, user_email } = await initialize();
   const queryBuilder = new ScriptQueryBuilder();
   const clientQueryAdapter = new ClientQueryAdapter();
   const userEraser = new UserEraser(client, queryBuilder, clientQueryAdapter);

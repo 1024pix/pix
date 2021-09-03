@@ -2,20 +2,20 @@
 /* eslint no-console: ["off"] */
 const PgClient = require('./PgClient');
 
-function initialize() {
-  const client = new PgClient(process.env.DATABASE_URL);
+async function initialize() {
+  const client = await PgClient.getClient(process.env.DATABASE_URL);
 
   const assessment_id = process.argv[2];
   return { client, assessment_id };
 }
 
-function terminate(client) {
-  client.end();
+async function terminate(client) {
+  await client.end();
   console.log('END');
 }
 
-function main() {
-  const { client, assessment_id } = initialize();
+async function main() {
+  const { client, assessment_id } = await initialize();
 
   const queryBuilder = new ScriptQueryBuilder();
   const userEraser = new AssessmentEraser(client, queryBuilder, assessment_id);
@@ -54,9 +54,9 @@ class AssessmentEraser {
         this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessment_id),
       ])
       .then((queries) => Promise.all(
-        queries.map((query) => {
-          this.client.query_and_log(query);
-        }),
+        queries.map((query) =>
+          this.client.query_and_log(query),
+        ),
       ))
       .then(() => this.queryBuilder.delete_assessment_results_from_assessment_ids(this.assessment_id))
       .then((query) => this.client.query_and_log(query));
