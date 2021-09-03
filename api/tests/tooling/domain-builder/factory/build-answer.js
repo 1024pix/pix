@@ -10,6 +10,7 @@ function buildAnswer({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
+  focusedOut = false,
 } = {}) {
   return new Answer({
     id,
@@ -20,6 +21,7 @@ function buildAnswer({
     assessmentId,
     challengeId,
     timeSpent,
+    focusedOut,
   });
 }
 
@@ -29,6 +31,7 @@ buildAnswer.uncorrected = function({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 10,
+  focusedOut = false,
 } = {}) {
   return new Answer({
     timeout,
@@ -36,6 +39,7 @@ buildAnswer.uncorrected = function({
     assessmentId,
     challengeId,
     timeSpent,
+    focusedOut,
   });
 };
 
@@ -47,6 +51,7 @@ buildAnswer.ok = function({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
+  focusedOut = false,
 } = {}) {
 
   return buildAnswer({
@@ -58,6 +63,7 @@ buildAnswer.ok = function({
     assessmentId,
     challengeId,
     timeSpent,
+    focusedOut,
   });
 };
 
@@ -69,6 +75,7 @@ buildAnswer.ko = function({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
+  focusedOut = false,
 } = {}) {
 
   return buildAnswer({
@@ -80,6 +87,7 @@ buildAnswer.ko = function({
     assessmentId,
     challengeId,
     timeSpent,
+    focusedOut,
   });
 };
 
@@ -91,6 +99,7 @@ buildAnswer.skipped = function({
   assessmentId = 456,
   challengeId = 'recChallenge123',
   timeSpent = 20,
+  focusedOut = false,
 } = {}) {
 
   return buildAnswer({
@@ -102,6 +111,7 @@ buildAnswer.skipped = function({
     assessmentId,
     challengeId,
     timeSpent,
+    focusedOut,
   });
 };
 
