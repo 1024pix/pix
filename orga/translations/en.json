@@ -519,7 +519,8 @@
           "skill": "Competence"
         },
         "empty": "Pending results",
-        "row-title": "Competence"
+        "row-title": "Competence",
+        "title": "Results by competence"
       }
     },
     "profiles-list": {

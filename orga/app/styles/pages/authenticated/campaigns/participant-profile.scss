@@ -1,4 +1,6 @@
 .profile {
+  display: flex;
+  flex-flow: column;
   width: 100%;
 }
 
@@ -9,7 +11,7 @@
 }
 
 .profile-competences {
-  margin: 24px 0;
+  margin-bottom: 24px;
   padding: 0;
 }
 
