@@ -48,6 +48,7 @@
         @onChange={{this.setSelectedTargetProfile}}
         @options={{this.targetProfilesOptions}}
         @emptyOptionLabel=""
+        @size="big"
       />
       {{#if @campaign.errors.targetProfile}}
         <div class='form__error error-message'>

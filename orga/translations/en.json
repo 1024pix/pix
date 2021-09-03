@@ -171,7 +171,7 @@
     "pix-orga": "Pix Orga",
     "user-logged-menu": {
       "logout": "Log out",
-      "summary": "User summary"
+      "button": "Open user menu"
     }
   },
   "pages": {

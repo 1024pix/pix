@@ -33,6 +33,7 @@
             />
             {{#if (is-clipboard-supported)}}
               <PixTooltip
+                @id="copy-email-tooltip"
                 @text={{this.tooltipTextEmail}}
                 @position='top'
                 @isInline={{true}}
@@ -42,7 +43,9 @@
                   @clipboardText={{@student.email}}
                   @success={{this.clipboardSuccessEmail}}
                   {{ on 'mouseout' this.clipboardOutEmail}}
-                  @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button">
+                  @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                  aria-describedby="copy-email-tooltip"
+                >
                   <FaIcon @icon="copy" @prefix="far" />
                 </CopyButton>
               </PixTooltip>
@@ -79,6 +82,7 @@
                 />
                 {{#if (is-clipboard-supported)}}
                   <PixTooltip
+                    @id="copy-username-tooltip"
                     @text={{this.tooltipTextUsername}}
                     @position='top'
                     @isInline={{true}}
@@ -88,7 +92,9 @@
                       @clipboardText={{@student.username}}
                       @success={{this.clipboardSuccessUsername}}
                       {{ on 'mouseout' this.clipboardOutUsername}}
-                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button">
+                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                      aria-describedby="copy-username-tooltip"
+                    >
                       <FaIcon @icon="copy" @prefix="far" />
                     </CopyButton>
                   </PixTooltip>
@@ -117,6 +123,7 @@
                 />
                 {{#if (is-clipboard-supported)}}
                   <PixTooltip
+                    @id="copy-password-tooltip"
                     @text={{this.tooltipTextGeneratedPassword}}
                     @position='top'
                     @isInline={{true}}
@@ -126,7 +133,9 @@
                       @clipboardText={{this.generatedPassword}}
                       @success={{this.clipboardSuccessGeneratedPassword}}
                       {{on 'mouseout' this.clipboardOutGeneratedPassword}}
-                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button">
+                      @classNames="pix-icon-button pix-icon-button--small pix-icon-button--dark-grey manage-authentication-window__clipboard-button"
+                      aria-describedby="copy-password-tooltip"
+                    >
                       <FaIcon @icon="copy" @prefix="far" class="fa-inverse" />
                     </CopyButton>
                   </PixTooltip>

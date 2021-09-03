@@ -189,7 +189,7 @@ module('Acceptance | join', function(hooks) {
         // then
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
 
-        assert.dom('.logged-user-summary__name').hasText('Harry Cover');
+        assert.contains('Harry Cover');
       });
     });
 
