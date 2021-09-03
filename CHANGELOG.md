@@ -1,5 +1,22 @@
 # Pix Changelog
 
+## v3.96.0 (03/09/2021)
+
+- [#3445](https://github.com/1024pix/pix/pull/3445) [FEATURE] Ajouter un titre de page spécifique pour les épreuves focus (PIX-3149). 
+- [#3424](https://github.com/1024pix/pix/pull/3424) [FEATURE] Sauvegarder la dernière date de connexion dans la table users (PIX-2736).
+- [#3370](https://github.com/1024pix/pix/pull/3370) [FEATURE] Afficher un graphique de répartition par résultat pour les campagnes sans palier (PIX-2894).
+- [#3425](https://github.com/1024pix/pix/pull/3425) [FEATURE] Afficher le message d'alerte des focus via le clavier (PIX-3074).
+- [#3436](https://github.com/1024pix/pix/pull/3436) [BUGFIX] Créer la base de données lors de la configuration du repo.
+- [#3438](https://github.com/1024pix/pix/pull/3438) [BUGFIX] Corriger la méthode app.services.url.homeUrl dans Pix Orga (PIX-3134).
+- [#3416](https://github.com/1024pix/pix/pull/3416) [BUGFIX] Rediriger vers l'organisation rejointe au moment d'accepter l'invitation (PIX-3109).
+- [#3365](https://github.com/1024pix/pix/pull/3365) [TECH] Migrer la colonne knowledge_elements.id de INTEGER en BIG INTEGER (partie 3).
+- [#3433](https://github.com/1024pix/pix/pull/3433) [TECH] Améliorer l'accessibilité de la navigation et des tooltip dans Pix Orga (PIX-2955)
+- [#3380](https://github.com/1024pix/pix/pull/3380) [TECH] Remplacer les plugins good, good-console, good-squeeze qui ont été dépréciées par hapi-pino (Pix-3051).
+- [#3435](https://github.com/1024pix/pix/pull/3435) [TECH] Encapsuler les requêtes BDD dans une transaction lors du partage d'une participation (PIX-3093).
+- [#3408](https://github.com/1024pix/pix/pull/3408) [TECH] Création du scénario Inscription et page Profil dans Pix Load-Testing (PIX-3114).
+- [#3441](https://github.com/1024pix/pix/pull/3441) [A11Y] Utiliser des balises HTML sémantiques dans la page "Activité" de Pix Orga (PIX-3056).
+- [#3440](https://github.com/1024pix/pix/pull/3440) [A11Y] Amélioration de l'accessibilité de la tooltip des épreuves "focus" (PIX-3073).
+
 ## v3.95.0 (02/09/2021)
 
 - [#3419](https://github.com/1024pix/pix/pull/3419) [FEATURE] Ne récupérer que la dernière participation d'une campagne pour chaque utilisateur dans l'onglet analyse (partie compétences) (PIX-2966).
