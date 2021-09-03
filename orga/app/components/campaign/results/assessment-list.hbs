@@ -1,17 +1,19 @@
-<Campaign::Filter::ParticipationFilters
-  @campaign={{@campaign}}
-  @selectedDivisions={{@selectedDivisions}}
-  @selectedBadges={{@selectedBadges}}
-  @selectedStages={{@selectedStages}}
-  @rowCount={{@participations.meta.rowCount}}
+<section ...attributes>
+  <h3 class="sr-only">{{t 'pages.campaign-results.table.title'}}</h3>
 
-  @onResetFilter={{@onResetFilter}}
-  @onFilter={{@onFilter}}
-/>
+  <Campaign::Filter::ParticipationFilters
+    @campaign={{@campaign}}
+    @selectedDivisions={{@selectedDivisions}}
+    @selectedBadges={{@selectedBadges}}
+    @selectedStages={{@selectedStages}}
+    @rowCount={{@participations.meta.rowCount}}
 
-<div class="panel">
-  <div class="table content-text content-text--small">
-    <table>
+    @onResetFilter={{@onResetFilter}}
+    @onFilter={{@onFilter}}
+  />
+
+  <div class="panel">
+    <table class="table content-text content-text--small">
       <thead>
         <tr>
           <th>{{t 'pages.campaign-results.table.column.last-name'}}</th>
@@ -41,20 +43,20 @@
             {{#if @campaign.idPixLabel}}
               <td>{{participation.participantExternalId}}</td>
             {{/if}}
-            <td>
-              {{#if @campaign.hasStages}}
+            {{#if @campaign.hasStages}}
+              <td>
                 <Campaign::StageStars
                   @result={{multiply participation.masteryPercentage 100}}
                   @stages={{@campaign.stages}}
                   @withTooltip={{true}}
                   @tooltipPosition="bottom-left"
                 />
-              {{else}}
-                <span class="participant-list__mastery-percentage">
-                  {{t 'pages.campaign-results.table.column.results.value' percentage=participation.masteryPercentage}}
-                </span>
-              {{/if}}
-            </td>
+              </td>
+            {{else}}
+              <td class="participant-list__mastery-percentage">
+                {{t 'pages.campaign-results.table.column.results.value' percentage=participation.masteryPercentage}}
+              </td>
+            {{/if}}
             {{#if @campaign.hasBadges}}
               <td class="participant-list__badges">
                 <Campaign::Badges @badges={{participation.badges}} />
@@ -67,11 +69,11 @@
     </table>
 
     {{#unless @participations}}
-      <div class="table__empty content-text">{{t 'pages.campaign-results.table.empty'}}</div>
+      <p class="table__empty content-text">{{t 'pages.campaign-results.table.empty'}}</p>
     {{/unless}}
   </div>
-</div>
 
-{{#if @participations}}
-  <Table::PaginationControl @pagination={{@participations.meta}}/>
-{{/if}}
+  {{#if @participations}}
+    <Table::PaginationControl @pagination={{@participations.meta}}/>
+  {{/if}}
+</section>

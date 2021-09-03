@@ -5,6 +5,11 @@
   justify-content: space-between;
   margin-bottom: 8px;
 
+  &__wrapper {
+    margin: 0;
+    padding: 0;
+  }
+
   &__stars {
     svg {
       width: 18px;

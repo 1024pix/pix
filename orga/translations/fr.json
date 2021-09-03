@@ -339,7 +339,8 @@
           }
         },
         "empty": "Aucune participation",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "title": "Liste des résultats reçus"
       },
       "tested-items": "Acquis évalués",
       "title": "Résultats",
