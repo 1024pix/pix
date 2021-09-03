@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const certificationReportController = require('./certification-report-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
+const certificationSessionAuthorization = require('../preHandlers/certification-session-authorization');
 
 exports.register = async (server) => {
   server.route([
@@ -30,6 +31,12 @@ exports.register = async (server) => {
             id: identifiersType.certificationCourseId,
           }),
         },
+        pre: [
+          {
+            method: certificationSessionAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: certificationReportController.abort,
         tags: ['api'],
       },
