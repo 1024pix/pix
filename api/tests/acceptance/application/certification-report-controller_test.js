@@ -17,7 +17,6 @@ describe('Acceptance | Controller | certification-report-controller', function()
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
     certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
       sessionId,
-      userId,
       isPublished: false,
       maxReachableLevelOnCertificationDate: 3,
     }).id;
