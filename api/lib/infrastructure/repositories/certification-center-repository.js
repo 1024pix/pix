@@ -1,18 +1,24 @@
 const _ = require('lodash');
-
 const BookshelfCertificationCenter = require('../orm-models/CertificationCenter');
 const CertificationCenter = require('../../domain/models/CertificationCenter');
+const Accreditation = require('../../domain/models/Accreditation');
 const { NotFoundError } = require('../../domain/errors');
 
 function _toDomain(bookshelfCertificationCenter) {
   const dbCertificationCenter = bookshelfCertificationCenter.toJSON();
-  return new CertificationCenter(_.pick(dbCertificationCenter, [
-    'id',
-    'name',
-    'type',
-    'externalId',
-    'createdAt',
-  ]));
+  const accreditations = _.map(dbCertificationCenter.accreditations, (dbAccreditation) => {
+    return new Accreditation({ id: dbAccreditation.id, name: dbAccreditation.name });
+  });
+  return new CertificationCenter({
+    ..._.pick(dbCertificationCenter, [
+      'id',
+      'name',
+      'type',
+      'externalId',
+      'createdAt',
+    ]),
+    accreditations,
+  });
 }
 
 function _setSearchFiltersForQueryBuilder(filters, qb) {
@@ -37,7 +43,12 @@ module.exports = {
   async get(id) {
     const certificationCenterBookshelf = await BookshelfCertificationCenter
       .where({ id })
-      .fetch({ require: false });
+      .fetch({
+        require: false,
+        withRelated: [
+          { accreditations: function(query) { query.orderBy('id'); } },
+        ],
+      });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);
@@ -60,7 +71,7 @@ module.exports = {
   },
 
   async save(certificationCenter) {
-    const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt']);
+    const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'accreditations']);
     const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter)
       .save();
     return _toDomain(certificationCenterBookshelf);

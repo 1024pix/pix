@@ -6,6 +6,7 @@ module.exports = function buildCertificationCenter({
   type = CertificationCenter.types.SUP,
   externalId = 'externalId',
   createdAt = new Date('2020-01-01'),
+  accreditations = [],
 } = {}) {
   return new CertificationCenter({
     id,
@@ -13,5 +14,6 @@ module.exports = function buildCertificationCenter({
     type,
     externalId,
     createdAt,
+    accreditations,
   });
 };
