@@ -5,10 +5,13 @@ import visit from '../helpers/visit';
 import { authenticateByEmail } from '../helpers/authentication';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Challenge page banner', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let user;
   let campaign;
 
@@ -24,7 +27,7 @@ describe('Acceptance | Challenge page banner', function() {
       // when
       await visit(`campagnes/${campaign.code}`);
       await click('.campaign-landing-page__start-button');
-      await click('.campaign-tutorial__ignore-button');
+      await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
       // then
       find('.assessment-banner');
@@ -37,7 +40,7 @@ describe('Acceptance | Challenge page banner', function() {
 
       // when
       await visit(`campagnes/${campaign.code}`);
-      await click('.campaign-tutorial__ignore-button');
+      await clickByLabel(this.intl.t('pages.tutorial.pass'));
       const title = find('.assessment-banner__title');
       const a11yText = title.firstChild.textContent;
 
@@ -52,7 +55,7 @@ describe('Acceptance | Challenge page banner', function() {
 
       // when
       await visit(`campagnes/${campaign.code}`);
-      await click('.campaign-tutorial__ignore-button');
+      await clickByLabel(this.intl.t('pages.tutorial.pass'));
       const title = find('.assessment-banner__title');
       const campaignName = title.lastChild.textContent;
 

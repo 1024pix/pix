@@ -65,7 +65,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           it('should redirect to assessment after completion of external id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-
             await clickByLabel('Continuer');
 
             // then
@@ -205,7 +204,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', type: ASSESSMENT, organizationType: 'SCO' });
         });
 
-        context('When association is not already done', function() {
+        describe('When association is not already done', function() {
 
           it('should redirect to tutoriel page', async function() {
             // given
@@ -251,7 +250,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
             await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
-            await click('.campaign-tutorial__ignore-button');
+            await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
             // then
             expect(currentURL()).to.contains(/assessments/);
@@ -284,7 +283,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           it('should start the assessment when the user has seen tutorial', async function() {
             // when
-            await click('.campaign-tutorial__ignore-button');
+            await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
             // then
             expect(currentURL()).to.contains(/assessments/);
