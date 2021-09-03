@@ -24,6 +24,18 @@ function logKnexQueriesWithCorrelationId(data, msg) {
       },
     }, msg);
   }
+function logInfoWithCorrelationIds(message) {
+  const request = asyncLocalStorage.getStore();
+  logger.info({
+    user_id: extractUserIdFromRequest(request),
+    request_id: `${get(request, 'info.id', '-')}`,
+    http: {
+      method: get(request, 'method', '-'),
+      url_detail: {
+        path: get(request, 'path', '-'),
+      },
+    },
+  }, message);
 }
 
 function logErrorWithCorrelationId(error) {
@@ -40,18 +52,25 @@ function logErrorWithCorrelationId(error) {
   }, error);
 }
 
-function logInfoWithCorrelationId(message) {
-  const request = asyncLocalStorage.getStore();
-  logger.info({
-    user_id: extractUserIdFromRequest(request),
-    request_id: `${get(request, 'info.id', '-')}`,
-    http: {
-      method: get(request, 'method', '-'),
-      url_detail: {
-        path: get(request, 'path', '-'),
+function logKnexQueriesWithCorrelationId(data, msg) {
+  if (logging.enableLogKnexQueriesWithCorrelationId) {
+    const request = asyncLocalStorage.getStore();
+    const knexQueryId = data.__knexQueryUid;
+    logger.info({
+      request_id: `${get(request, 'info.id', '-')}`,
+      knex_query_id: knexQueryId,
+      knex_query_position: get(request, ['knexQueryPosition', knexQueryId ], '-'),
+      knex_query_sql: data.sql,
+      knex_query_params: [(data.bindings) ? data.bindings.join(',') : ''],
+      duration: get(data, 'duration', '-'),
+      http: {
+        method: get(request, 'method', '-'),
+        url_detail: {
+          path: get(request, 'path', '-'),
+        },
       },
-    },
-  }, message);
+    }, msg);
+  }
 }
 
 function addPositionToQuerieAndIncrementQueriesCounter(knexQueryId) {
@@ -76,5 +95,5 @@ module.exports = {
   extractUserIdFromRequest,
   logKnexQueriesWithCorrelationId,
   logErrorWithCorrelationId,
-  logInfoWithCorrelationId,
+  logInfoWithCorrelationIds,
 };
