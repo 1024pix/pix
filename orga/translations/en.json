@@ -522,7 +522,7 @@
       }
     },
     "profiles-list": {
-      "title": "Participants",
+      "title": "Submitted profiles",
       "table": {
         "column": {
           "certifiable": "Eligible for certification",
@@ -539,7 +539,8 @@
           }
         },
         "empty": "No profiles yet",
-        "row-title": "Profile"
+        "row-title": "Profile",
+        "title": "List of submitted profiles"
       }
     },
     "students-sco": {
