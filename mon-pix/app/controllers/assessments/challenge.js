@@ -3,8 +3,8 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 import { action } from '@ember/object';
-const defaultPageTitle = 'pages.challenge.title';
-const timedOutPageTitle = 'pages.challenge.timed-out-title';
+const defaultPageTitle = 'pages.challenge.title.default';
+const timedOutPageTitle = 'pages.challenge.title.timed-out';
 import ENV from 'mon-pix/config/environment';
 import isInteger from 'lodash/isInteger';
 

@@ -35,7 +35,7 @@ describe('Unit | Controller | Assessments | Challenge', function() {
       controller.pageTitle;
 
       // then
-      sinon.assert.calledWith(intl.t, 'pages.challenge.title', { stepNumber: 2, totalChallengeNumber: 5 });
+      sinon.assert.calledWith(intl.t, 'pages.challenge.title.default', { stepNumber: 2, totalChallengeNumber: 5 });
     });
   });
 

@@ -314,7 +314,10 @@
       }
     },
     "challenge": {
-      "title": "Question {stepNumber} of {totalChallengeNumber}",
+      "title": {
+        "default": "Question {stepNumber} of {totalChallengeNumber}",
+        "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}"
+      },
       "actions": {
         "continue": "Continue",
         "go-to-next": " and go to the next question",
@@ -492,8 +495,7 @@
       },
       "timed": {
         "cannot-answer": "You've run out of time."
-      },
-      "timed-out-title": "Timed out - Question {stepNumber} of {totalChallengeNumber}"
+      }
     },
     "checkpoint": {
       "title": {
