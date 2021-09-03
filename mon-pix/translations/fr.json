@@ -550,6 +550,10 @@
           "title": "Vous n’avez pas la bonne réponse",
           "tooltip": "Réponse incorrecte"
         },
+        "focusedOut": {
+          "title": "Vous êtes sorti de l'épreuve",
+          "tooltip": "Épreuve échouée"
+        },
         "koAutoReply": {
           "title": "Vous n’avez pas réussi l’épreuve",
           "tooltip": "Épreuve non réussie"
