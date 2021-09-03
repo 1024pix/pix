@@ -62,7 +62,12 @@ module.exports = {
       .query((qb) => {
         qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
       })
-      .fetch({ require: false });
+      .fetch({
+        require: false,
+        withRelated: [
+          { accreditations: function(query) { query.orderBy('id'); } },
+        ],
+      });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);
