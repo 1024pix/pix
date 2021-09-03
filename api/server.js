@@ -11,7 +11,7 @@ const swaggers = require('./lib/swaggers');
 const authentication = require('./lib/infrastructure/authentication');
 
 const { handleFailAction } = require('./lib/validate');
-const { asyncLocalStorage } = require('./lib/infrastructure/performance-tools');
+const { asyncLocalStorage } = require('./lib/infrastructure/monitoring-tools');
 
 const Request = require('@hapi/hapi/lib/request');
 const originalMethod = Request.prototype._execute;
