@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
-const { logInfoWithCorrelationIds, logErrorWithCorrelationId } = require('../monitoring-tools');
+const { logInfoWithCorrelationIds, logErrorWithCorrelationIds } = require('../monitoring-tools');
 
 class HttpResponse {
   constructor({
@@ -41,7 +41,7 @@ module.exports = {
         data = httpErr.message;
       }
 
-      logErrorWithCorrelationId(`End POST request to ${url} error: ${code} ${data.toString()}`);
+      logErrorWithCorrelationIds(`End POST request to ${url} error: ${code} ${data.toString()}`);
 
       return new HttpResponse({
         code,
