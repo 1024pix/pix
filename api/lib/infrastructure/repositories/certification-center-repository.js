@@ -96,7 +96,12 @@ module.exports = {
   async findByExternalId({ externalId }) {
     const certificationCenterBookshelf = await BookshelfCertificationCenter
       .where({ externalId })
-      .fetch({ require: false });
+      .fetch({
+        require: false,
+        withRelated: [
+          { accreditations: function(query) { query.orderBy('id'); } },
+        ],
+      });
 
     return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
   },
