@@ -447,7 +447,7 @@
       },
       "is-focused-challenge": {
         "info-alert": {
-          "title": "Répondez à cette question sans chercher sur internet ni utiliser vos propres outils.",
+          "title": "Répondez à cette question sans chercher sur internet ni utiliser de logiciels.",
           "subtitle": "En certification, si vous changez de page, votre réponse ne sera pas validée."
         }
       },
@@ -490,7 +490,7 @@
         "tooltip": {
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
-          "focused": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser vos propres outils pour répondre à cette question.",
+          "focused": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser de logiciels pour répondre à cette question.",
           "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes."
         }
       },
