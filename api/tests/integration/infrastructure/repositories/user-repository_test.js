@@ -1519,7 +1519,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
     });
   });
 
-  describe('#updateLastLoginDate', function() {
+  describe('#updateLastLoggedAt', function() {
 
     let clock;
     const now = new Date('2020-01-02');
@@ -1539,11 +1539,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
       await databaseBuilder.commit();
 
       // when
-      await userRepository.updateLastLoginDate({ userId });
+      await userRepository.updateLastLoggedAt({ userId });
 
       // then
       const userUpdated = await knex('users').select().where({ id: userId }).first();
-      expect(userUpdated.lastLoginDate).to.deep.equal(now);
+      expect(userUpdated.lastLoggedAt).to.deep.equal(now);
     });
   });
 

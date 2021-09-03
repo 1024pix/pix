@@ -32,7 +32,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
-      updateLastLoginDate: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
     };
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
   });
@@ -84,7 +84,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     });
 
     // then
-    expect(userRepository.updateLastLoginDate).to.have.been.calledWithExactly({ userId: user.id });
+    expect(userRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
   });
 
   it('should rejects an error when given username (email) does not match an existing one', async function() {

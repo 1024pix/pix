@@ -400,12 +400,12 @@ module.exports = {
       .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
   },
 
-  async updateLastLoginDate({ userId }) {
+  async updateLastLoggedAt({ userId }) {
     const now = new Date();
 
     await knex('users')
       .where({ id: userId })
-      .update({ lastLoginDate: now });
+      .update({ lastLoggedAt: now });
   },
 };
 
