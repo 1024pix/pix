@@ -31,7 +31,7 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   }
 
   const challenge = await challengeRepository.get(answer.challengeId);
-  const correctedAnswer = _evaluateAnswer(challenge, answer);
+  const correctedAnswer = _evaluateAnswer({ challenge, answer, assessment });
   const now = dateUtils.getNowDate();
   const lastQuestionDate = assessment.lastQuestionDate || now;
   correctedAnswer.setTimeSpentFrom({ now, lastQuestionDate });
@@ -85,9 +85,9 @@ module.exports = async function correctAnswerThenUpdateAssessment(
   return answerSaved;
 };
 
-function _evaluateAnswer(challenge, answer) {
+function _evaluateAnswer({ challenge, answer, assessment }) {
   const examiner = new Examiner({ validator: challenge.validator });
-  return examiner.evaluate({ answer, challengeFormat: challenge.format });
+  return examiner.evaluate({ answer, challengeFormat: challenge.format, isCertificationEvaluation: assessment.isCertification() });
 }
 
 async function _getKnowledgeElements({ assessment, answer, challenge, skillRepository, targetProfileRepository, knowledgeElementRepository }) {
