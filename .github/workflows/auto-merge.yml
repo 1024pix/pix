@@ -13,7 +13,7 @@ jobs:
       - name: automerge
         uses: "pascalgn/automerge-action@v0.8.3"
         env:
-          GITHUB_TOKEN: "${{ secrets.PIX_SERVICE_ACTIONS_TOKEN }}"
+          GITHUB_TOKEN: "${{ github.token }}"
           MERGE_LABELS: ":rocket: Ready to Merge"
           MERGE_COMMIT_MESSAGE: "pull-request-title"
           UPDATE_LABELS: ":rocket: Ready to Merge"
