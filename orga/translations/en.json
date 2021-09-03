@@ -178,7 +178,6 @@
     "assessment-individual-results": {
       "title": "Results of {firstName} {lastName}",
       "badges": "Thematic results",
-      "mastery-percentage": "Result",
       "progression": "Progression",
       "result": "Result",
       "stages": {
@@ -238,7 +237,8 @@
           "status": "Status"
         },
         "empty": "No participants",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "title": "List of participants"
       },
       "status": {
         "started-assessment": "In progress",

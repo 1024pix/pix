@@ -1,8 +1,8 @@
-<div class="panel empty-state">
+<section class="panel empty-state">
     <img src="{{this.rootURL}}/images/empty-state.svg" alt="" role="none">
 
     <div class="empty-state__text">
-        <span>{{t 'pages.campaign.empty-state'}}</span>
+        <p>{{t 'pages.campaign.empty-state'}}</p>
 
         <Campaign::CopyPasteButton
             @clipBoardtext={{this.campaignUrl}}
@@ -10,4 +10,4 @@
             @defaultMessage={{t 'pages.campaign.copy.link.default'}}
         />
     </div>
-</div>
+</section>

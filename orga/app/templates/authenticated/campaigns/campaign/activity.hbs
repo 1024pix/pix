@@ -1,4 +1,5 @@
 {{page-title (t 'pages.campaign-activity.title')}}
+<h2 class="sr-only">{{t 'pages.campaign-activity.title'}}</h2>
 
 {{#if @model.campaign.hasParticipations}}
   <Campaign::Activity::Dashboard
@@ -6,6 +7,7 @@
     class="activity__dashboard"
   />
 
+  <h3 class="sr-only">{{t 'pages.campaign-activity.table.title'}}</h3>
   <Campaign::Filter::ParticipationFilters
     @campaign={{@model.campaign}}
     @selectedDivisions={{this.divisions}}
