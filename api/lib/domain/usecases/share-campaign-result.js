@@ -5,13 +5,14 @@ module.exports = async function shareCampaignResult({
   userId,
   campaignParticipationId,
   campaignParticipationRepository,
+  domainTransaction,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, { include: ['campaign'] });
+  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, { include: ['campaign'] }, domainTransaction);
 
   _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId);
 
   campaignParticipation.share();
-  await campaignParticipationRepository.updateWithSnapshot(campaignParticipation);
+  await campaignParticipationRepository.updateWithSnapshot(campaignParticipation, domainTransaction);
 
   return new CampaignParticipationResultsShared({
     campaignParticipationId: campaignParticipation.id,
