@@ -5,6 +5,7 @@ import progressInAssessment from 'mon-pix/utils/progress-in-assessment';
 import { action } from '@ember/object';
 const defaultPageTitle = 'pages.challenge.title.default';
 const timedOutPageTitle = 'pages.challenge.title.timed-out';
+const focusedPageTitle = 'pages.challenge.title.focused';
 import ENV from 'mon-pix/config/environment';
 import isInteger from 'lodash/isInteger';
 
@@ -14,7 +15,7 @@ export default class ChallengeController extends Controller {
   @service currentUser;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
-  @tracked challengeTitle = defaultPageTitle;
+  @tracked challengeTitle = this.model.challenge.focused ? focusedPageTitle : defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = false;
   @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
