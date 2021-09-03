@@ -3,6 +3,16 @@ const settings = require('./config');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
+const { asyncLocalStorage, extractUserIdFromRequest } = require('./infrastructure/monitoring-tools');
+
+function requestSerializer(req) {
+  const request = asyncLocalStorage.getStore();
+
+  return {
+    ...req,
+    user_id: extractUserIdFromRequest(request),
+  };
+}
 
 const plugins = [
   Inert,
@@ -23,6 +33,9 @@ const plugins = [
   {
     plugin: require('hapi-pino'),
     options: {
+      serializers: {
+        req: requestSerializer,
+      },
       instance: require('./infrastructure/logger'),
       logQueryParams: true,
     },
