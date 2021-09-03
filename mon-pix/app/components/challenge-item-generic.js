@@ -59,7 +59,7 @@ export default class ChallengeItemGeneric extends Component {
 
     this.errorMessage = null;
 
-    return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout())
+    return this.args.answerValidated(this.args.challenge, this.args.assessment, this._getAnswerValue(), this._getTimeout(), this.args.hasFocusedOutOfWindow)
       .finally(() => {
         this.args.finishChallenge();
       });
@@ -73,8 +73,7 @@ export default class ChallengeItemGeneric extends Component {
   @action
   skipChallenge() {
     this.errorMessage = null;
-
-    return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout())
+    return this.args.answerValidated(this.args.challenge, this.args.assessment, '#ABAND#', this._getTimeout(), this.args.hasFocusedOutOfWindow)
       .finally(() => {
         this.args.finishChallenge();
       });
