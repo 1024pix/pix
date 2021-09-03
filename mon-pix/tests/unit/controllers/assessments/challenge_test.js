@@ -27,6 +27,9 @@ describe('Unit | Controller | Assessments | Challenge', function() {
       controller.model = {
         assessment: {},
         answer: null,
+        challenge: {
+          focused: false,
+        },
       };
       sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(2);
       sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
@@ -36,6 +39,25 @@ describe('Unit | Controller | Assessments | Challenge', function() {
 
       // then
       sinon.assert.calledWith(intl.t, 'pages.challenge.title.default', { stepNumber: 2, totalChallengeNumber: 5 });
+    });
+
+    it('should return focused title when challenge is focused', function() {
+      // given
+      controller.model = {
+        assessment: {},
+        answer: null,
+        challenge: {
+          focused: true,
+        },
+      };
+      sinon.stub(progressInAssessment, 'getCurrentStepNumber').returns(2);
+      sinon.stub(progressInAssessment, 'getMaxStepsNumber').returns(5);
+
+      // when
+      controller.pageTitle;
+
+      // then
+      sinon.assert.calledWith(intl.t, 'pages.challenge.title.focused', { stepNumber: 2, totalChallengeNumber: 5 });
     });
   });
 

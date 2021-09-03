@@ -316,7 +316,8 @@
     "challenge": {
       "title": {
         "default": "Épreuve {stepNumber} sur {totalChallengeNumber}",
-        "timed-out": "Temps écoulé - Épreuve {stepNumber} sur {totalChallengeNumber}"
+        "timed-out": "Temps écoulé - Épreuve {stepNumber} sur {totalChallengeNumber}",
+        "focused": "Épreuve de savoir - Épreuve {stepNumber} sur {totalChallengeNumber}"
       },
       "actions": {
         "continue": "Poursuivre",

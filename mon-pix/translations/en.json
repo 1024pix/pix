@@ -316,7 +316,8 @@
     "challenge": {
       "title": {
         "default": "Question {stepNumber} of {totalChallengeNumber}",
-        "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}"
+        "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}",
+        "focused": "Knowledge Question - Question {stepNumber} of {totalChallengeNumber}"
       },
       "actions": {
         "continue": "Continue",
