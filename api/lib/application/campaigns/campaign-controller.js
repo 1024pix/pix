@@ -144,23 +144,6 @@ module.exports = {
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
   },
 
-  async findAssessmentParticipations(request) {
-    const campaignId = request.params.id;
-    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
-    if (filters.divisions && !Array.isArray(filters.divisions)) {
-      filters.divisions = [filters.divisions];
-    }
-    if (filters.badges && !Array.isArray(filters.badges)) {
-      filters.badges = [filters.badges];
-    }
-    if (filters.stages && !Array.isArray(filters.stages)) {
-      filters.stages = [filters.stages];
-    }
-    const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
-    const campaignAssessmentParticipationSummariesPaginated = await usecases.findPaginatedCampaignAssessmentParticipationSummaries({ userId: currentUserId, campaignId, page, filters });
-    return campaignAssessmentParticipationSummarySerializer.serializeForPaginatedList(campaignAssessmentParticipationSummariesPaginated);
-  },
-
   async findProfilesCollectionParticipations(request) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
