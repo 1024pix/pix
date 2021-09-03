@@ -6,6 +6,8 @@ set -o pipefail
 EXPECTED_NODE_VERSION="v14.17.0"
 EXPECTED_NPM_VERSION="6.14.13"
 
+function timeout() { perl -e 'alarm shift; exec @ARGV' "$@"; }
+
 function display_banner() {
   echo "                                                    "
   echo "                                                    "
@@ -95,19 +97,24 @@ function install_apps_dependencies() {
 function setup_and_run_infrastructure() {
   echo "Starting infrastructure building blocks…"
 
-  docker-compose up -d
-  (cd api && npm run db:migrate)
+  docker-compose up -d --force-recreate
 
   echo "✅ PostgreSQL and Redis servers started (using Docker Compose)."
   echo ""
-}
 
-function load_seed() {
-  echo "Loading seed data"
+  echo "Waiting for PostgreSQL server to be ready…"
 
-  (cd api && npm run db:seed)
+  timeout 20s bash -c "until docker exec pix_postgres_1 pg_isready ; do sleep 1 ; done"
 
-  echo "✅ Seed data loaded"
+  echo "✅ PostgreSQL server is ready."
+  echo ""
+
+  echo "Creating database"
+
+  # It drops and creates database then load the seed.
+  (cd api && npm run db:reset)
+
+  echo "✅ Database created"
   echo ""
 }
 
@@ -147,6 +154,5 @@ verify_prerequesite_programs
 generate_environment_config_file
 install_apps_dependencies
 setup_and_run_infrastructure
-load_seed
 execute_apps_tests
 display_footer

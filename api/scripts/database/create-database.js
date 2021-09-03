@@ -10,20 +10,18 @@ const DB_TO_CREATE_NAME = url.pathname.slice(1);
 
 url.pathname = '/postgres';
 
-const client = new PgClient(url.href);
-
-client.query_and_log(`CREATE DATABASE ${DB_TO_CREATE_NAME};`)
-  .then(function() {
+PgClient.getClient(url.href).then(async (client) => {
+  try {
+    await client.query_and_log(`CREATE DATABASE ${DB_TO_CREATE_NAME};`);
     console.log('Database created');
-    client.end();
+    await client.end();
     process.exit(0);
-  }).catch((error) => {
+  } catch (error) {
     if (error.code === PGSQL_DUPLICATE_DATABASE_ERROR) {
       console.log(`Database ${DB_TO_CREATE_NAME} already created`);
-      client.end();
+      await client.end();
       process.exit(0);
     }
-    else {
-      throw error;
-    }
-  });
+  }
+});
+
