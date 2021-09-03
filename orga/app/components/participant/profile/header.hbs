@@ -22,28 +22,28 @@
   </header>
 
   <div class="panel-header__body">
-    <ul class="panel-header__data">
+    <dl class="panel-header__data">
       {{#if @campaignProfile.externalId}}
-        <li class="panel-header-data__content">
-          <div class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</div>
-          <div class="value-text panel-header-data-content__value">{{@campaignProfile.externalId}}</div>
-        </li>
-      {{/if}}
-      <li class="panel-header-data__content">
-        <div class="label-text panel-header-data-content__label">
-          {{t "pages.campaign-individual-results.start-date"}}
+        <div class="panel-header-data__content">
+          <dt class="label-text panel-header-data-content__label">{{@campaign.idPixLabel}}</dt>
+          <dd class="value-text panel-header-data-content__value">{{@campaignProfile.externalId}}</dd>
         </div>
-        <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.createdAt 'DD MMM YYYY'}}</div>
-      </li>
-      {{#if @campaignProfile.isShared}}
-        <li class="panel-header-data__content">
-          <div class="label-text panel-header-data-content__label">
-            {{t "pages.campaign-individual-results.shared-date"}}
-          </div>
-            <div class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</div>
-        </li>
       {{/if}}
-    </ul>
+      <div class="panel-header-data__content">
+        <dt class="label-text panel-header-data-content__label">
+          {{t "pages.campaign-individual-results.start-date"}}
+        </dt>
+        <dd class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.createdAt 'DD MMM YYYY'}}</dd>
+      </div>
+      {{#if @campaignProfile.isShared}}
+        <div class="panel-header-data__content">
+          <dt class="label-text panel-header-data-content__label">
+            {{t "pages.campaign-individual-results.shared-date"}}
+          </dt>
+            <dd class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</dd>
+        </div>
+      {{/if}}
+    </dl>
 
     {{#if @campaignProfile.isShared}}
       <ul class="panel-header__data panel-header__data--highlight">
