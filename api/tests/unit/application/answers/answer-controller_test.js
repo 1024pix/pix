@@ -25,6 +25,7 @@ describe('Unit | Controller | answer-controller', function() {
     const challengeId = 'recdTpx4c0kPPDTtf';
     const result = null;
     const timeout = null;
+    const focusedOut = false;
     const resultDetails = null;
     const value = 'NumA = "4", NumB = "1", NumC = "3", NumD = "2"';
     const locale = 'fr-fr';
@@ -40,6 +41,7 @@ describe('Unit | Controller | answer-controller', function() {
           'result-details': 'resultDetails_value',
           timeout: null,
           result: 'result_value',
+          'focused-out': focusedOut,
         },
         relationships: {
           assessment: {
@@ -69,6 +71,7 @@ describe('Unit | Controller | answer-controller', function() {
               value: value,
               result: result,
               timeout: timeout,
+              'focused-out': focusedOut,
               'result-details': resultDetails,
             },
             relationships: {
@@ -96,6 +99,7 @@ describe('Unit | Controller | answer-controller', function() {
         value,
         assessmentId,
         challengeId,
+        focusedOut,
       });
       deserializedAnswer.id = undefined;
     });
