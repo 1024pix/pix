@@ -399,6 +399,14 @@ module.exports = {
       .fetchAll()
       .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
   },
+
+  async updateLastLoggedAt({ userId }) {
+    const now = new Date();
+
+    await knex('users')
+      .where({ id: userId })
+      .update({ lastLoggedAt: now });
+  },
 };
 
 function _toUserDetailsForAdminDomain(bookshelfUser) {

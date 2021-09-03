@@ -4,7 +4,14 @@ const each = require('lodash/each');
 const map = require('lodash/map');
 const times = require('lodash/times');
 
-const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
+const {
+  expect,
+  knex,
+  databaseBuilder,
+  domainBuilder,
+  catchErr,
+  sinon,
+} = require('../../../test-helper');
 
 const {
   AlreadyExistingEntityError,
@@ -1509,6 +1516,34 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
 
       // then
       expect(foundUsers).to.be.an('array').that.is.empty;
+    });
+  });
+
+  describe('#updateLastLoggedAt', function() {
+
+    let clock;
+    const now = new Date('2020-01-02');
+
+    beforeEach(function() {
+      clock = sinon.useFakeTimers(now);
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('should update the last login date to now', async function() {
+      // given
+      const user = databaseBuilder.factory.buildUser();
+      const userId = user.id;
+      await databaseBuilder.commit();
+
+      // when
+      await userRepository.updateLastLoggedAt({ userId });
+
+      // then
+      const userUpdated = await knex('users').select().where({ id: userId }).first();
+      expect(userUpdated.lastLoggedAt).to.deep.equal(now);
     });
   });
 
