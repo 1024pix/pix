@@ -34,6 +34,7 @@ describe('Acceptance | API | Campaign Assessment Result', function() {
       userId: user.id,
       sharedAt: recentDate,
       isShared: true,
+      masteryPercentage: 0.38,
     });
     assessment = databaseBuilder.factory.buildAssessment({
       campaignParticipationId: campaignParticipation.id,
@@ -182,7 +183,7 @@ describe('Acceptance | API | Campaign Assessment Result', function() {
           type: 'campaign-participation-results',
           id: campaignParticipation.id.toString(),
           attributes: {
-            'mastery-percentage': 38,
+            'mastery-rate': 0.38,
             'total-skills-count': 8,
             'tested-skills-count': 5,
             'validated-skills-count': 3,
