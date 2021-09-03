@@ -12,7 +12,7 @@ const CampaignParticipationResultsShared = require('../../../../lib/domain/event
 const CampaignParticipationStarted = require('../../../../lib/domain/events/CampaignParticipationStarted');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
-const performanceTool = require('../../../../lib/infrastructure/performance-tools');
+const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
 
 describe('Unit | Application | Controller | Campaign-Participation', function() {
 
@@ -35,7 +35,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
     beforeEach(function() {
       sinon.stub(usecases, 'shareCampaignResult');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
-      sinon.stub(performanceTool, 'logErrorWithCorrelationId');
+      sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
         return callback();
       });
@@ -83,7 +83,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
-      expect(performanceTool.logErrorWithCorrelationId).to.have.been.calledWith(errorInHandler);
+      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(errorInHandler);
 
     });
 
@@ -115,7 +115,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       sinon.stub(usecases, 'startCampaignParticipation');
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(events.eventDispatcher, 'dispatch');
-      sinon.stub(performanceTool, 'logErrorWithCorrelationId');
+      sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
       request = {
         headers: { authorization: 'token' },
         auth: { credentials: { userId } },
@@ -221,7 +221,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       const response = await campaignParticipationController.save(request, hFake);
 
       // then
-      expect(performanceTool.logErrorWithCorrelationId).to.have.been.calledWith(errorInHandler);
+      expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(errorInHandler);
       expect(campaignParticipationSerializer.serialize).to.have.been.calledWith(campaignParticipation);
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);

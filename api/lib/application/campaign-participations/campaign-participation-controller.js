@@ -1,4 +1,4 @@
-const performanceTool = require('../../infrastructure/performance-tools');
+const monitoringTools = require('../../infrastructure/monitoring-tools');
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
 
@@ -25,7 +25,7 @@ module.exports = {
     } = await DomainTransaction.execute((domainTransaction) => {
       return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
     });
-    events.eventDispatcher.dispatch(event).catch((error) => performanceTool.logErrorWithCorrelationId(error));
+    events.eventDispatcher.dispatch(event).catch((error) => monitoringTools.logErrorWithCorrelationIds(error));
 
     return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
   },
@@ -42,7 +42,7 @@ module.exports = {
       });
     });
 
-    events.eventDispatcher.dispatch(event).catch((error) => performanceTool.logErrorWithCorrelationId(error));
+    events.eventDispatcher.dispatch(event).catch((error) => monitoringTools.logErrorWithCorrelationIds(error));
     return null;
   },
 
