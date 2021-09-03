@@ -10,10 +10,10 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 
 module.exports = {
 
-  save(request) {
+  async save(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
-    return usecases.saveCertificationCenter({ certificationCenter })
-      .then(certificationCenterSerializer.serialize);
+    const savedCertificationCenter = await usecases.saveCertificationCenter({ certificationCenter });
+    return certificationCenterSerializer.serialize(savedCertificationCenter);
   },
 
   getById(request) {

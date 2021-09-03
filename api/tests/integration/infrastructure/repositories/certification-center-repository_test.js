@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -16,8 +16,19 @@ describe('Integration | Repository | Certification Center', function() {
           id: 1,
           name: 'certificationCenterName',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
         });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
+
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
 
         await databaseBuilder.commit();
 
@@ -25,11 +36,61 @@ describe('Integration | Repository | Certification Center', function() {
         const certificationCenter = await certificationCenterRepository.get(1);
 
         // then
-        expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
-        expect(certificationCenter.id).to.equal(1);
-        expect(certificationCenter.name).to.equal('certificationCenterName');
-        expect(certificationCenter.createdAt).to.deep.equal(new Date('2018-01-01T05:43:10Z'));
-        expect(certificationCenter).to.have.all.keys(['id', 'name', 'type', 'externalId', 'createdAt']);
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
+      });
+
+      it('should return accreditations along with certification centers if there is any', async function() {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 12345,
+          name: 'Accreditation test 1',
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 6789,
+          name: 'Accreditation test 2',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 12345,
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 6789,
+        });
+
+        const expectedAccreditation1 = domainBuilder.buildAccreditation({
+          id: 12345,
+          name: 'Accreditation test 1',
+        });
+        const expectedAccreditation2 = domainBuilder.buildAccreditation({
+          id: 6789,
+          name: 'Accreditation test 2',
+        });
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation2,
+            expectedAccreditation1,
+          ],
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenter = await certificationCenterRepository.get(1);
+
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
     });
 
