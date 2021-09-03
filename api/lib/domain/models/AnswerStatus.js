@@ -3,7 +3,7 @@ const OK = 'ok';
 const KO = 'ko';
 const SKIPPED = 'aband';
 const TIMEDOUT = 'timedout';
-const UNFOCUS = 'unfocus';
+const FOCUSEDOUT = 'focusedOut';
 const PARTIALLY = 'partially';
 const UNIMPLEMENTED = 'unimplemented';
 
@@ -22,7 +22,7 @@ class AnswerStatus {
   isKO() { return this.status === KO; }
   isSKIPPED() { return this.status === SKIPPED; }
   isTIMEDOUT() { return this.status === TIMEDOUT; }
-  isUNFOCUS() { return this.status === UNFOCUS; }
+  isFOCUSEDOUT() { return this.status === FOCUSEDOUT; }
   isPARTIALLY() { return this.status === PARTIALLY; }
   isUNIMPLEMENTED() { return this.status === UNIMPLEMENTED; }
 
@@ -31,7 +31,7 @@ class AnswerStatus {
   static get KO() { return new AnswerStatus({ status: KO }); }
   static get SKIPPED() { return new AnswerStatus({ status: SKIPPED }); }
   static get TIMEDOUT() { return new AnswerStatus({ status: TIMEDOUT }); }
-  static get UNFOCUS() { return new AnswerStatus({ status: UNFOCUS }); }
+  static get FOCUSEDOUT() { return new AnswerStatus({ status: FOCUSEDOUT }); }
   static get PARTIALLY() { return new AnswerStatus({ status: PARTIALLY }); }
   static get UNIMPLEMENTED() { return new AnswerStatus({ status: UNIMPLEMENTED }); }
 
@@ -41,6 +41,7 @@ class AnswerStatus {
   static isKO(otherResult) { return AnswerStatus.from(otherResult).isKO(); }
   static isSKIPPED(otherResult) { return AnswerStatus.from(otherResult).isSKIPPED(); }
   static isPARTIALLY(otherResult) { return AnswerStatus.from(otherResult).isPARTIALLY(); }
+  static isFOCUSEDOUT(otherResult) { return AnswerStatus.from(otherResult).isFOCUSEDOUT(); }
 
   /* PRIVATE */
   static from(other) {

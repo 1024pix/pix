@@ -1,5 +1,6 @@
 const UNIMPLEMENTED = 'unimplemented';
 const TIMEDOUT = 'timedout';
+const FOCUSEDOUT = 'focusedOut';
 const PARTIALLY = 'partially';
 const SKIPPED = 'aband';
 const OK = 'ok';
@@ -18,6 +19,8 @@ const AnswerStatusJsonApiAdapter = {
       return PARTIALLY;
     } else if (answerStatus.isTIMEDOUT()) {
       return TIMEDOUT;
+    } else if (answerStatus.isFOCUSEDOUT()) {
+      return FOCUSEDOUT;
     } else {
       return UNIMPLEMENTED;
     }
