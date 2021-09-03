@@ -12,14 +12,14 @@ export async function startCampaignByCodeAndExternalId(campaignCode, externalId 
   await click('.campaign-landing-page__start-button');
 }
 
-export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId) {
+export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId, intl) {
   await visit(`/campagnes/${campaignCode}`);
   await click('.campaign-landing-page__start-button');
   if (hasExternalParticipantId) {
     await fillIn('#id-pix-label', 'monmail@truc.fr');
     await click('.button');
   }
-  await click('.campaign-tutorial__ignore-button');
+  await clickByLabel(intl.t('pages.tutorial.pass'));
   await click('.challenge-actions__action-skip');
 }
 

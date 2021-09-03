@@ -80,12 +80,8 @@
 
   &__next-button {
     display: flex;
-    justify-content: center;
+    align-items: center;
     flex-direction: column;
-    margin: auto;
-  }
-
-  &__next-page-tutorial {
     margin: auto;
   }
 
@@ -93,7 +89,8 @@
     margin: auto auto 50px auto;
   }
 
-  &__ignore-button {
-    margin: 10px auto;
+  &__buttons {
+    width: 180px;
+    margin-top: 10px;
   }
 }
