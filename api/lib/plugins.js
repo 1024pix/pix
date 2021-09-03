@@ -5,11 +5,10 @@ const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const { asyncLocalStorage, extractUserIdFromRequest } = require('./infrastructure/monitoring-tools');
 
-function requestSerializer(req) {
+function logObjectSerializer(obj) {
   const request = asyncLocalStorage.getStore();
-
   return {
-    ...req,
+    ...obj,
     user_id: extractUserIdFromRequest(request),
   };
 }
@@ -34,7 +33,8 @@ const plugins = [
     plugin: require('hapi-pino'),
     options: {
       serializers: {
-        req: requestSerializer,
+        req: logObjectSerializer,
+        err: logObjectSerializer,
       },
       instance: require('./infrastructure/logger'),
       logQueryParams: true,
