@@ -32,6 +32,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     };
     userRepository = {
       getByUsernameOrEmailWithRoles: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
     };
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
   });
@@ -62,6 +63,28 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     });
     expect(tokenService.createAccessTokenFromUser)
       .to.have.been.calledWithExactly(user.id, source);
+  });
+
+  it('should save the last date of login when authentication succeeded', async function() {
+    // given
+    const accessToken = 'jwt.access.token';
+    const source = 'pix';
+    const user = domainBuilder.buildUser({ email: userEmail });
+
+    authenticationService.getUserByUsernameAndPassword.resolves(user);
+    tokenService.createAccessTokenFromUser.returns(accessToken);
+
+    // when
+    await authenticateUser({
+      username: userEmail,
+      password,
+      source,
+      tokenService,
+      userRepository,
+    });
+
+    // then
+    expect(userRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
   });
 
   it('should rejects an error when given username (email) does not match an existing one', async function() {
