@@ -1,7 +1,7 @@
 const createServer = require('../../../../server');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
-describe('Acceptance | API | Campaign Participations | Analyses', function() {
+describe('Acceptance | API | Campaign Participations | Results', function() {
 
   let server;
 
@@ -9,7 +9,7 @@ describe('Acceptance | API | Campaign Participations | Analyses', function() {
     server = await createServer();
   });
 
-  describe('GET /api/campaigns/{id}/assessment-participations', function() {
+  describe('GET /api/campaigns/{id}/assessment-results', function() {
 
     const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
     const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
