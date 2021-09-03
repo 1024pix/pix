@@ -1,5 +1,3 @@
-const config = require('../config');
-const logger = require('../infrastructure/logger');
 const errorManager = require('./error-manager');
 const { BaseHttpError, UnauthorizedError } = require('./http-errors');
 const { DomainError } = require('../domain/errors');
@@ -16,15 +14,7 @@ function handleDomainAndHttpErrors(request, h) {
     return errorManager.handle(request, h, new UnauthorizedError(undefined, 401));
   }
 
-  if (_is5XXError(response) && config.logging.shouldLog5XXErrors) {
-    logger.error(response);
-  }
-
   return h.continue;
-}
-
-function _is5XXError(response) {
-  return response.isBoom && response.output && response.output.statusCode >= 500;
 }
 
 module.exports = {

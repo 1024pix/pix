@@ -42,6 +42,8 @@ module.exports = (function() {
 
     environment: (process.env.NODE_ENV || 'development'),
 
+    isProduction: 'production' === process.env.NODE_ENV,
+
     hapi: {
       options: {},
     },
@@ -62,9 +64,9 @@ module.exports = (function() {
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: false,
-      shouldLog5XXErrors: isFeatureEnabled(process.env.SHOULD_LOG_5XX_ERRORS),
       logLevel: (process.env.LOG_LEVEL || 'info'),
       enableLogKnexQueriesWithCorrelationId: isFeatureEnabled(process.env.LOG_KNEX_QUERIES_WITH_CORRELATION_ID),
+      emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
     },
 
     mailing: {
@@ -207,7 +209,6 @@ module.exports = (function() {
   if (config.environment === 'development') {
     config.enabled = true;
     config.logging.colorEnabled = true;
-    config.logging.shouldLog5XXErrors = true;
   } else if (process.env.NODE_ENV === 'test') {
     config.port = 0;
 
