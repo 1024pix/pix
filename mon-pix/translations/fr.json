@@ -314,7 +314,10 @@
       }
     },
     "challenge": {
-      "title": "Épreuve {stepNumber} sur {totalChallengeNumber}",
+      "title": {
+        "default": "Épreuve {stepNumber} sur {totalChallengeNumber}",
+        "timed-out": "Temps écoulé - Épreuve {stepNumber} sur {totalChallengeNumber}"
+      },
       "actions": {
         "continue": "Poursuivre",
         "go-to-next": " et je vais à la prochaine question",
@@ -492,8 +495,7 @@
       },
       "timed": {
         "cannot-answer": "Le temps imparti est écoulé."
-      },
-      "timed-out-title": "Temps écoulé - Épreuve {stepNumber} sur {totalChallengeNumber}"
+      }
     },
     "checkpoint": {
       "title": {
