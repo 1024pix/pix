@@ -10,12 +10,12 @@ export default class ConvertToHtml extends Helper {
       return '';
     }
 
+    const converter = new showdown.Converter();
     const text = args[0];
-    const filteredOutHtml = xss(text, {
+    const rawHtml = converter.makeHtml(text);
+
+    return xss(rawHtml, {
       stripIgnoreTagBody: ['style'],
     });
-
-    const converter = new showdown.Converter();
-    return converter.makeHtml(filteredOutHtml);
   }
 }
