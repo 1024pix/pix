@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const moment = require('moment');
 const constants = require('../constants');
 
@@ -6,6 +5,7 @@ class SharedProfileForCampaign {
   constructor({
     id,
     sharedAt,
+    pixScore,
     campaignAllowsRetry,
     isRegistrationActive,
     scorecards = [],
@@ -13,7 +13,7 @@ class SharedProfileForCampaign {
     this.id = id;
     this.sharedAt = sharedAt;
     this.scorecards = scorecards;
-    this.pixScore = _.sumBy(this.scorecards, 'earnedPix') || 0;
+    this.pixScore = pixScore || 0;
     this.canRetry = this._computeCanRetry(campaignAllowsRetry, sharedAt, isRegistrationActive);
   }
 
