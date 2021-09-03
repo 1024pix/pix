@@ -1,17 +1,33 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import { convertToHtml } from 'mon-pix/helpers/convert-to-html';
+import ConvertToHtml from 'mon-pix/helpers/convert-to-html';
 
-describe('Unit | Helpers | ConvertToHtmlHelper', function() {
+describe('Unit | Helper | ConvertToHtml', function() {
 
-  it('works', function() {
-    const boldSentence = convertToHtml(['**a bold sentence**']);
-    expect(boldSentence).to.equal('<p><strong>a bold sentence</strong></p>');
+  describe('#compute', function() {
+
+    let helper;
+
+    beforeEach(function() {
+      helper = new ConvertToHtml();
+    });
+
+    it('should return html formatted result', function() {
+      const boldSentence = new Array(['**a bold sentence**']);
+      const result = helper.compute(boldSentence);
+      expect(result).to.equal('<p><strong>a bold sentence</strong></p>');
+    });
+
+    it('should return an empty string when called with an argument that is not an array', function() {
+      const badArgument = 'bad argument';
+      const result = helper.compute(badArgument);
+      expect(result).to.equal('');
+    });
+
+    it('should return an empty string when called with an empty argument', function() {
+      const emptyArgument = new Array(['']);
+      const result = helper.compute(emptyArgument);
+      expect(result).to.equal('');
+    });
   });
-
-  it('skip call with bad arg', function() {
-    expect(convertToHtml('bad argument')).to.equal('');
-    expect(convertToHtml([])).to.equal('');
-  });
-
 });
