@@ -1,5 +1,7 @@
-<div class="panel panel--light-shadow participant-results__details content-text content-text--small">
-  <table>
+<section class="panel panel--light-shadow participant-results__details">
+  <h3 class="sr-only">{{t 'pages.assessment-individual-results.table.title'}}</h3>
+
+  <table class="content-text content-text--small">
     <thead>
     <tr>
       <th class="table__column--wide">{{t 'pages.assessment-individual-results.table.column.competences' count=@results.sortedCompetenceResults.length}}</th>
@@ -10,7 +12,7 @@
     {{#if @displayResults}}
       <tbody>
       {{#each @results.sortedCompetenceResults as |competenceResult|}}
-        <tr aria-label={{t 'pages.assessment-individual-results.table.title'}}>
+        <tr aria-label={{t 'pages.assessment-individual-results.table.row-title'}}>
           <td class="competences-col__name">
             <span class="competences-col__border competences-col__border--{{competenceResult.areaColor}}"></span>
             <span>
@@ -30,6 +32,6 @@
   </table>
 
   {{#unless @displayResults}}
-    <div class="table__empty content-text">{{t 'pages.assessment-individual-results.table.empty'}}</div>
+    <p class="table__empty content-text">{{t 'pages.assessment-individual-results.table.empty'}}</p>
   {{/unless}}
-</div>
+</section>
