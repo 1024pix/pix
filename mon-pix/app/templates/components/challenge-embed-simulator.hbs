@@ -9,7 +9,9 @@
   <div class="embed rounded-panel {{if this.isLoadingEmbed 'hidden-visibility' ''}}">
     {{#unless this.isSimulatorLaunched}}
       <div class="embed__acknowledgment-overlay">
-        <button class="embed__launch-simulator-button" type="button" {{on 'click' this.launchSimulator}}>{{t "pages.challenge.embed-simulator.actions.launch"}}</button>
+        <PixButton @triggerAction={{this.launchSimulator}}>
+          {{t "pages.challenge.embed-simulator.actions.launch"}}
+        </PixButton>
       </div>
     {{/unless}}
 
