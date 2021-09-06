@@ -3,6 +3,7 @@ const settings = require('./config');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
+const { get } = require('lodash');
 const { asyncLocalStorage, extractUserIdFromRequest } = require('./infrastructure/monitoring-tools');
 
 function logObjectSerializer(obj) {
@@ -10,6 +11,7 @@ function logObjectSerializer(obj) {
   return {
     ...obj,
     user_id: extractUserIdFromRequest(request),
+    knexQueries: get(request, 'knexQueries', '-'),
   };
 }
 
