@@ -2,12 +2,13 @@ import { expect } from 'chai';
 import { describe, it, beforeEach } from 'mocha';
 import { resolve, reject } from 'rsvp';
 
-import { click, fillIn, find, render, triggerEvent } from '@ember/test-helpers';
+import { fillIn, find, render, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
@@ -57,7 +58,7 @@ describe('Integration | Component | update-expired-password-form', function() {
       await fillIn(PASSWORD_INPUT_CLASS, newPassword);
       await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
 
-      await click('.button');
+      await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
       expect(isSaveMethodCalled).to.be.true;
@@ -83,7 +84,7 @@ describe('Integration | Component | update-expired-password-form', function() {
       await fillIn(PASSWORD_INPUT_CLASS, newPassword);
       await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
 
-      await click('.button');
+      await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
       // then
       expect(isSaveMethodCalled).to.be.true;
