@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { clickByLabel } from '../../helpers/click-by-label';
 
 import {
-  click, fillIn, find, findAll,
+  fillIn, find, findAll,
   render, settled, triggerEvent,
   waitUntil,
 } from '@ember/test-helpers';
@@ -16,6 +16,7 @@ import hbs from 'htmlbars-inline-precompile';
 
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import { contains } from '../../helpers/contains';
 
 const FORM_CONTAINER = '.sign-form__container';
 const FORM_HEADER_CONTAINER = '.sign-form__header';
@@ -31,7 +32,6 @@ const CHECKBOX_CGU_LABEL = '.signup-form__cgu-label';
 const CGU_LINKS = '.signup-form__cgu-label .link';
 
 const SUBMIT_BUTTON_CONTAINER = '.sign-form-body__bottom-button';
-const SUBMIT_BUTTON = '.button';
 
 const userEmpty = EmberObject.create({});
 
@@ -107,10 +107,8 @@ describe('Integration | Component | SignupForm', function() {
       expect(findAll(CGU_LINKS)).to.have.length(2);
     });
 
-    it('should render a submit button', function() {
-      expect(findAll(SUBMIT_BUTTON)).to.have.length(1);
-      expect(find(SUBMIT_BUTTON).textContent.trim()).to.equal(this.intl.t('pages.sign-up.actions.submit'));
-      expect(find(SUBMIT_BUTTON).nodeName).to.equal('button'.toUpperCase());
+    it('should render a submit button', async function() {
+      expect(contains(this.intl.t('pages.sign-up.actions.submit')));
     });
 
   });
@@ -141,7 +139,7 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} />`);
 
       // when
-      await click(SUBMIT_BUTTON);
+      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
       expect(find('.sign-form__notification-message--error')).to.exist;
@@ -170,7 +168,7 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} />`);
 
       // when
-      await click(SUBMIT_BUTTON);
+      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
       expect(find('.sign-form__notification-message--error')).to.exist;
@@ -198,7 +196,7 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} />`);
 
       // when
-      await click(SUBMIT_BUTTON);
+      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
       expect(find('.sign-form__notification-message--error')).to.exist;
@@ -226,7 +224,7 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} />`);
 
       // when
-      await click(SUBMIT_BUTTON);
+      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
       expect(find('.sign-form__notification-message--error')).to.exist;
@@ -254,7 +252,7 @@ describe('Integration | Component | SignupForm', function() {
       await render(hbs `<SignupForm @user={{this.user}} />`);
 
       // when
-      await click(SUBMIT_BUTTON);
+      await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
       // then
       expect(find('.sign-form__notification-message--error')).to.exist;
@@ -287,7 +285,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} @signup="signup" @authenticateUser={{action this.authenticateUser}} />`);
 
         // when
-        await click(SUBMIT_BUTTON);
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {
@@ -315,7 +313,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} @signup="signup" @authenticateUser={{action this.authenticateUser}} />`);
 
         // when
-        await click(SUBMIT_BUTTON);
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {
@@ -436,7 +434,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} />`);
 
         // when
-        await click('.button');
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {
@@ -470,7 +468,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} />`);
 
         // when
-        await click('button[type=submit]');
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         expect(find('#validationMessage-email').textContent).to.equal(expectedMaxLengthEmailError);
@@ -494,7 +492,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} />`);
 
         // when
-        await click('.button');
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {
@@ -599,7 +597,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
 
         // when
-        await click('.button');
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {
@@ -625,7 +623,7 @@ describe('Integration | Component | SignupForm', function() {
         await render(hbs `<SignupForm @user={{this.user}} @authenticateUser={{action this.authenticateUser}} />`);
 
         // when
-        await click('.button');
+        await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
 
         // then
         return settled().then(() => {

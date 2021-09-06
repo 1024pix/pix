@@ -52,7 +52,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
             await fillIn('#email', campaignParticipant.email);
             await fillIn('#password', campaignParticipant.password);
             await click('.signup-form__cgu');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
           });
 
           it('should redirect to send profile page after completion of external id', async function() {
@@ -76,7 +76,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#email', campaignParticipant.email);
               await fillIn('#password', campaignParticipant.password);
               await click('.signup-form__cgu');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
             });
 
             it('should redirect to send profile page', async function() {
@@ -126,7 +126,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           await fillIn('#email', campaignParticipant.email);
           await fillIn('#password', campaignParticipant.password);
           await click('.signup-form__cgu');
-          await click('.button');
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
         it('should redirect to send profile page after signup', async function() {
@@ -144,7 +144,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
           await fillIn('#email', campaignParticipant.email);
           await fillIn('#password', campaignParticipant.password);
           await click('.signup-form__cgu');
-          await click('.button');
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
         it('should redirect to send profile page after signup', async function() {

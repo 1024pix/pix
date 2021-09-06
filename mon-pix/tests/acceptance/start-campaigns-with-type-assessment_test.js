@@ -59,7 +59,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#email', prescritUser.email);
             await fillIn('#password', prescritUser.password);
             await click('.signup-form__cgu');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
           });
 
           it('should redirect to assessment after completion of external id', async function() {
@@ -91,7 +91,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await fillIn('#email', prescritUser.email);
               await fillIn('#password', prescritUser.password);
               await click('.signup-form__cgu');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
             });
 
             it('should redirect to assessment', async function() {
@@ -140,7 +140,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
           await click('.signup-form__cgu');
-          await click('.button');
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
         it('should redirect to assessment after signup', async function() {
@@ -158,7 +158,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
           await click('.signup-form__cgu');
-          await click('.button');
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
         it('should redirect to assessment after signup', async function() {
