@@ -10,7 +10,6 @@ const campaignAnalysisSerializer = require('../../infrastructure/serializers/jso
 const campaignReportSerializer = require('../../infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
 const campaignProfilesCollectionParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-profiles-collection-participation-summary-serializer');
-const campaignAssessmentParticipationSummarySerializer = require('../../infrastructure/serializers/jsonapi/campaign-assessment-participation-summary-serializer');
 const campaignParticipantsActivitySerializer = require('../../infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
 
@@ -142,23 +141,6 @@ module.exports = {
 
     const campaignAnalysis = await usecases.computeCampaignAnalysis({ userId, campaignId, locale });
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
-  },
-
-  async findAssessmentParticipations(request) {
-    const campaignId = request.params.id;
-    const { page, filter: filters } = queryParamsUtils.extractParameters(request.query);
-    if (filters.divisions && !Array.isArray(filters.divisions)) {
-      filters.divisions = [filters.divisions];
-    }
-    if (filters.badges && !Array.isArray(filters.badges)) {
-      filters.badges = [filters.badges];
-    }
-    if (filters.stages && !Array.isArray(filters.stages)) {
-      filters.stages = [filters.stages];
-    }
-    const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
-    const campaignAssessmentParticipationSummariesPaginated = await usecases.findPaginatedCampaignAssessmentParticipationSummaries({ userId: currentUserId, campaignId, page, filters });
-    return campaignAssessmentParticipationSummarySerializer.serializeForPaginatedList(campaignAssessmentParticipationSummariesPaginated);
   },
 
   async findProfilesCollectionParticipations(request) {
