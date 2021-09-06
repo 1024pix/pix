@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   max-width: 360px;
+  padding: 4px;
 
   &__login-options {
     margin-bottom: 5px;
@@ -44,7 +45,7 @@
   .register-button-container {
     display: flex;
 
-    .button {
+    button {
       flex-grow: 1;
       margin-top: 25px;
     }

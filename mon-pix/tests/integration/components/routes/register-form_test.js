@@ -9,6 +9,7 @@ import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { clickByLabel } from '../../../helpers/click-by-label';
 
 const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
@@ -73,14 +74,14 @@ describe('Integration | Component | routes/register-form', function() {
       await fillIn('#monthOfBirth', '10');
       await fillIn('#yearOfBirth', '2010');
 
-      await click('#submit-search');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
       await click('.pix-toggle__off');
 
       await fillIn('#email', 'shi@fu.me');
       await fillIn('#password', 'Mypassword1');
 
       // when
-      await click('#submit-registration');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
@@ -102,12 +103,12 @@ describe('Integration | Component | routes/register-form', function() {
       await fillIn('#monthOfBirth', '10');
       await fillIn('#yearOfBirth', '2010');
 
-      await click('#submit-search');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       await fillIn('#password', 'Mypassword1');
 
       // when
-      await click('#submit-registration');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
@@ -138,11 +139,11 @@ describe('Integration | Component | routes/register-form', function() {
         await fillIn('#monthOfBirth', '10');
         await fillIn('#yearOfBirth', '2010');
 
-        await click('#submit-search');
+        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         await fillIn('#password', 'Mypassword1');
 
-        await click('#submit-registration');
+        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // then
         expect(find('.register-form__error')).to.exist;
@@ -257,7 +258,7 @@ describe('Integration | Component | routes/register-form', function() {
         await fillIn('#dayOfBirth', '10');
         await fillIn('#monthOfBirth', '10');
         await fillIn('#yearOfBirth', '2010');
-        await click('#submit-search');
+        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // when
         await click('.pix-toggle__off');
@@ -279,13 +280,13 @@ describe('Integration | Component | routes/register-form', function() {
       await fillIn('#dayOfBirth', '10');
       await fillIn('#monthOfBirth', '10');
       await fillIn('#yearOfBirth', '2010');
-      await click('#submit-search');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // when
       await click('.pix-toggle__off');
       await fillIn('#email', 'shi.fu');
       await triggerEvent('#email', 'focusout');
-      await click('#submit-registration');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
       expect(find('#register-email-container #validationMessage-email').textContent).to.equal(EMPTY_EMAIL_ERROR_MESSAGE);
@@ -308,7 +309,7 @@ describe('Integration | Component | routes/register-form', function() {
         await fillIn('#dayOfBirth', '10');
         await fillIn('#monthOfBirth', '10');
         await fillIn('#yearOfBirth', '2010');
-        await click('#submit-search');
+        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // when
         await fillIn('#password', stringFilledIn);
@@ -329,12 +330,12 @@ describe('Integration | Component | routes/register-form', function() {
       await fillIn('#dayOfBirth', '10');
       await fillIn('#monthOfBirth', '10');
       await fillIn('#yearOfBirth', '2010');
-      await click('#submit-search');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // when
       await fillIn('#password', 'toto');
       await triggerEvent('#password', 'focusout');
-      await click('#submit-registration');
+      await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
       // then
       expect(find('#register-password-container #validationMessage-password').textContent).to.equal(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE);
@@ -359,7 +360,7 @@ describe('Integration | Component | routes/register-form', function() {
         await fillIn('#yearOfBirth', '2010');
 
         // when
-        await click('#submit-search');
+        await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
         // then
         expect(find('.register-form__error').innerHTML).to.equal(errorMessage);
@@ -389,7 +390,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -418,7 +419,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -447,7 +448,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -476,7 +477,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -505,7 +506,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -534,7 +535,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -563,7 +564,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -596,7 +597,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -625,7 +626,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -654,7 +655,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -683,7 +684,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -712,7 +713,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -741,7 +742,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
 
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
@@ -770,7 +771,7 @@ describe('Integration | Component | routes/register-form', function() {
           await fillInputReconciliationForm();
 
           // when
-          await click('#submit-search');
+          await clickByLabel(this.intl.t('pages.login-or-register.register-form.button-form'));
           // then
           expect(find('.register-form__error').innerHTML).to.equal(expectedErrorMessage);
         });
