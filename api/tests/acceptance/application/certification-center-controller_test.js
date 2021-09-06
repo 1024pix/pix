@@ -25,9 +25,6 @@ describe('Acceptance | API | Certification Center', function() {
         method: 'GET',
         url: '/api/certification-centers',
       };
-
-      _.times(5, databaseBuilder.factory.buildCertificationCenter);
-      await databaseBuilder.commit();
     });
 
     context('when user is Pix Master', function() {
@@ -35,21 +32,102 @@ describe('Acceptance | API | Certification Center', function() {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 200 HTTP status', async function() {
+      it('should return a list of certificationCenter, with their name and id', async function() {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'Centres des tests jolis',
+          type: 'SUP',
+          externalId: '12345',
+          createdAt: new Date('2020-01-01'),
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 2,
+          name: 'Centres des tests pas moches',
+          type: 'SCO',
+          externalId: '222',
+          createdAt: new Date('2020-01-05'),
+          accreditations: [],
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 12,
+          name: 'Pix+Edu',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 12,
+        });
+        await databaseBuilder.commit();
+
         // when
         const response = await server.inject(request);
 
         // then
         expect(response.statusCode).to.equal(200);
-      });
-
-      it('should return a list of certificationCenter, with their name and id', async function() {
-        // when
-        const response = await server.inject(request);
-
-        // then
-        expect(response.result.data).to.have.lengthOf(5);
-        expect(_.keys(response.result.data[0].attributes)).to.have.members(['id', 'name', 'type', 'external-id', 'created-at']);
+        expect(response.result).to.deep.equal({
+          'data': [
+            {
+              'id': '1',
+              'type': 'certification-centers',
+              'attributes': {
+                'created-at': new Date('2020-01-01'),
+                'external-id': '12345',
+                'name': 'Centres des tests jolis',
+                'type': 'SUP',
+              },
+              'relationships': {
+                'accreditations': {
+                  'data': [
+                    {
+                      'id': '12',
+                      'type': 'accreditations',
+                    },
+                  ],
+                },
+                'certification-center-memberships': {
+                  'links': {
+                    'related': '/api/certification-centers/1/certification-center-memberships',
+                  },
+                },
+              },
+            },
+            {
+              'id': '2',
+              'type': 'certification-centers',
+              'attributes': {
+                'created-at': new Date('2020-01-05'),
+                'external-id': '222',
+                'name': 'Centres des tests pas moches',
+                'type': 'SCO',
+              },
+              'relationships': {
+                'accreditations': {
+                  'data': [],
+                },
+                'certification-center-memberships': {
+                  'links': {
+                    'related': '/api/certification-centers/2/certification-center-memberships',
+                  },
+                },
+              },
+            },
+          ],
+          'included': [
+            {
+              'id': '12',
+              'type': 'accreditations',
+              'attributes': {
+                'name': 'Pix+Edu',
+              },
+            },
+          ],
+          'meta': {
+            'page': 1,
+            'pageCount': 1,
+            'pageSize': 10,
+            'rowCount': 2,
+          },
+        });
       });
     });
 
@@ -118,7 +196,7 @@ describe('Acceptance | API | Certification Center', function() {
 
         // then
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
-        expect(response.result.data.attributes.id).to.be.ok;
+        expect(response.result.data.id).to.be.ok;
       });
 
     });
