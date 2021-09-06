@@ -9,7 +9,6 @@ export default class CertificationJoiner extends Component {
   @service currentUser;
   @service intl;
 
-  @tracked isLoading = false;
   @tracked inputAccessCode = null;
   @tracked errorMessage = null;
   @tracked classNames = [];
@@ -27,7 +26,6 @@ export default class CertificationJoiner extends Component {
       this.errorMessage = this.intl.t('pages.certification-start.error-messages.access-code-error');
       return;
     }
-    this.isLoading = true;
 
     const newCertificationCourse = this.store.createRecord('certification-course', {
       accessCode: this.accessCode,
@@ -45,7 +43,6 @@ export default class CertificationJoiner extends Component {
       } else {
         this.errorMessage = this.intl.t('pages.certification-start.error-messages.generic');
       }
-      this.isLoading = false;
     }
   }
 }
