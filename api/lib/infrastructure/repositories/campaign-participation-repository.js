@@ -18,6 +18,7 @@ const ATTRIBUTES_TO_SAVE = [
   'isShared',
   'participantExternalId',
   'sharedAt',
+  'status',
   'campaignId',
   'userId',
   'validatedSkillsCount',
