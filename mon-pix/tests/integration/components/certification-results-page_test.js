@@ -3,6 +3,7 @@ import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | certification results template', function() {
   setupIntlRenderingTest();
@@ -27,7 +28,7 @@ describe('Integration | Component | certification results template', function() 
       // when
       await render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       await click('#validSupervisor');
-      await click('.result-content__validation-button');
+      await clickByLabel(this.intl.t('pages.certification-results.action.confirm'));
 
       // then
       expect(find('.result-content__panel-description').textContent).to.contains('Vos résultats seront prochainement disponibles depuis votre compte.');
@@ -37,7 +38,7 @@ describe('Integration | Component | certification results template', function() 
       // when
       await render(hbs`{{certification-results-page certificationNumber=certificationNumber}}`);
       await click('#validSupervisor');
-      await click('.result-content__validation-button');
+      await clickByLabel(this.intl.t('pages.certification-results.action.confirm'));
 
       // then
       expect(find('.result-content__logout-button')).to.exist;
