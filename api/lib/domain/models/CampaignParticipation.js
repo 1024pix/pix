@@ -16,6 +16,7 @@ class CampaignParticipation {
     campaignId,
     userId,
     validatedSkillsCount,
+    pixScore,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -29,6 +30,7 @@ class CampaignParticipation {
     this.campaignId = campaignId;
     this.userId = userId;
     this.validatedSkillsCount = validatedSkillsCount;
+    this.pixScore = pixScore;
   }
 
   getTargetProfileId() {

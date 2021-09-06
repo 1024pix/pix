@@ -41,6 +41,7 @@ module.exports = async function getUserProfileSharedForCampaign({
   return new SharedProfileForCampaign({
     id: campaignParticipation.id,
     sharedAt: campaignParticipation.sharedAt,
+    pixScore: campaignParticipation.pixScore,
     campaignAllowsRetry,
     isRegistrationActive,
     scorecards,
