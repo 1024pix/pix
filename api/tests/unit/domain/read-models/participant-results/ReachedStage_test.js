@@ -11,7 +11,7 @@ describe('Unit | Domain | Read-Models | ParticipantResults | ReachedStage', func
       { id: 3, title: 'Stage3', message: 'message3', threshold: 90 },
     ];
 
-    const profileStage = new ReachedStage(66, stages);
+    const profileStage = new ReachedStage(0.66, stages);
 
     expect(profileStage).to.deep.equal({
       id: 2,
