@@ -4,13 +4,13 @@ import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import {
-  click,
   find,
   fillIn,
   render,
   triggerEvent,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 const PASSWORD_INPUT_CLASS = '.form-textfield__input';
 
@@ -33,7 +33,6 @@ describe('Integration | Component | reset password form', function() {
         { item: '.sign-form__body' },
         { item: '.form-textfield__label' },
         { item: '.form-textfield__input-field-container' },
-        { item: '.button' },
       ].forEach(({ item }) => {
         it(`should contains a item with class: ${item}`, async function() {
           // when
@@ -60,77 +59,65 @@ describe('Integration | Component | reset password form', function() {
 
     describe('A submit button', () => {
 
-      it('should be rendered', async function() {
-        // when
-        await render(hbs`<ResetPasswordForm />`);
+      let isSaveMethodCalled, saveMethodOptions;
 
-        // then
-        expect(find('.button')).to.exist;
+      const save = (options) => {
+        isSaveMethodCalled = true;
+        saveMethodOptions = options;
+        return resolve();
+      };
+
+      const saveWithRejection = () => {
+        isSaveMethodCalled = true;
+        return reject({ errors: [{ status: '400' }] });
+      };
+
+      beforeEach(function() {
+        isSaveMethodCalled = false;
       });
 
-      describe('Saving behavior', function() {
+      it('should save the new password, when button is clicked', async function() {
+        // given
+        const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
+        this.set('user', user);
+        this.set('temporaryKey', 'temp-key');
+        const validPassword = 'Pix 1 2 3!';
 
-        let isSaveMethodCalled, saveMethodOptions;
+        await render(hbs `<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
 
-        const save = (options) => {
-          isSaveMethodCalled = true;
-          saveMethodOptions = options;
-          return resolve();
-        };
+        // when
+        await fillIn(PASSWORD_INPUT_CLASS, validPassword);
+        await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
 
-        const saveWithRejection = () => {
-          isSaveMethodCalled = true;
-          return reject({ errors: [{ status: '400' }] });
-        };
+        await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
-        beforeEach(function() {
-          isSaveMethodCalled = false;
-        });
+        // then
+        expect(isSaveMethodCalled).to.be.true;
+        expect(saveMethodOptions).to.eql({ adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
+        expect(this.user.password).to.eql(null);
+        expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
+        expect(find('.password-reset-demand-form__body')).to.exist;
+      });
 
-        it('should save the new password, when button is clicked', async function() {
-          // given
-          const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save });
-          this.set('user', user);
-          this.set('temporaryKey', 'temp-key');
-          const validPassword = 'Pix 1 2 3!';
+      it('should get an error, when button is clicked and saving return error', async function() {
+        // given
+        const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
+        this.set('user', user);
+        const validPassword = 'Pix 1 2 3!';
 
-          await render(hbs `<ResetPasswordForm @user={{this.user}} @temporaryKey={{this.temporaryKey}} />`);
+        await render(hbs `<ResetPasswordForm @user={{this.user}} />`);
 
-          // when
-          await fillIn(PASSWORD_INPUT_CLASS, validPassword);
-          await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
+        // when
+        await fillIn(PASSWORD_INPUT_CLASS, validPassword);
+        await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
 
-          await click('.button');
+        await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
-          // then
-          expect(isSaveMethodCalled).to.be.true;
-          expect(saveMethodOptions).to.eql({ adapterOptions: { updatePassword: true, temporaryKey: 'temp-key' } });
-          expect(this.user.password).to.eql(null);
-          expect(find(PASSWORD_INPUT_CLASS)).to.not.exist;
-          expect(find('.password-reset-demand-form__body')).to.exist;
-        });
-
-        it('should get an error, when button is clicked and saving return error', async function() {
-          // given
-          const user = EmberObject.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
-          this.set('user', user);
-          const validPassword = 'Pix 1 2 3!';
-
-          await render(hbs `<ResetPasswordForm @user={{this.user}} />`);
-
-          // when
-          await fillIn(PASSWORD_INPUT_CLASS, validPassword);
-          await triggerEvent(PASSWORD_INPUT_CLASS, 'change');
-
-          await click('.button');
-
-          // then
-          expect(isSaveMethodCalled).to.be.true;
-          expect(this.user.password).to.eql(validPassword);
-          expect(find(PASSWORD_INPUT_CLASS).value).to.equal(validPassword);
-          expect(find('.form-textfield__message--error')).to.exist;
-        });
-
+        // then
+        expect(isSaveMethodCalled).to.be.true;
+        expect(this.user.password).to.eql(validPassword);
+        expect(find(PASSWORD_INPUT_CLASS).value).to.equal(validPassword);
+        expect(find('.form-textfield__message--error')).to.exist;
       });
 
     });
