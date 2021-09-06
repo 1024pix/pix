@@ -250,7 +250,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           });
         });
 
-        describe('when user has already unfocus the challenge', function() {
+        describe('when user has already focusedout the challenge', function() {
           beforeEach(async () => {
             // given
             const user = server.create('user', 'withEmail', {
@@ -271,7 +271,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
           });
 
-          it('should display the warning alert to say it has been unfocused', async function() {
+          it('should display the warning alert to say it has been focusedouted', async function() {
             // then
             expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
           });

@@ -7,7 +7,7 @@ import ENV from 'mon-pix/config/environment';
 export default class Item extends Component {
 
   @service currentUser;
-  @tracked hasFocusedOutOfWindow = false || this.args.assessment.hasUnfocusChallenge;
+  @tracked hasFocusedOutOfWindow = false || this.args.assessment.hasFocusedOutChallenge;
   @tracked hasFocusedOutOfChallenge = false;
 
   constructor() {
