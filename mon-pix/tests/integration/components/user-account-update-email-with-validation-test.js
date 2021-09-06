@@ -47,7 +47,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
 
       context('in new email input', function() {
 
-        it('should display a wrong format error message when focus-out', async function() {
+        it('should display an invalid error message when focus-out', async function() {
           // given
           const invalidEmail = 'invalidEmail';
 
@@ -58,7 +58,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
           await triggerEvent('#newEmail', 'focusout');
 
           // then
-          expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.wrong-email-format'))).to.exist;
+          expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.invalid-email'))).to.exist;
         });
       });
 

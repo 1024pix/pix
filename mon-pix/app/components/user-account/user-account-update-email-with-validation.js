@@ -11,7 +11,7 @@ const STATUS_MAP = {
 };
 
 const ERROR_INPUT_MESSAGE_MAP = {
-  wrongEmailFormat: 'pages.user-account.account-update-email-with-validation.fields.errors.wrong-email-format',
+  invalidEmail: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-email',
   emptyPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.empty-password',
 };
 
@@ -37,7 +37,7 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
     this.newEmailValidationMessage = null;
 
     if (isInvalidInput) {
-      this.newEmailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['wrongEmailFormat']);
+      this.newEmailValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
     }
   }
 
