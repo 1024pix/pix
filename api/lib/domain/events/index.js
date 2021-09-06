@@ -56,16 +56,26 @@ const handlersToBeInjected = {
 
 function buildEventDispatcher(handlersStubs) {
   const eventDispatcher = new EventDispatcher();
+
+  const handlersNames = _.map(handlersToBeInjected, (handler) => handler.name);
+
+  if (_.some(handlersNames, (name) => _.isEmpty(name))) {
+    throw new Error('All handlers must have a name. Handlers : ' + handlersNames.join(', '));
+  }
+  if (_.uniq(handlersNames).length !== handlersNames.length) {
+    throw new Error('All handlers must have a unique name. Handlers : ' + handlersNames.join(', '));
+  }
+
   const handlers = { ...handlersToBeInjected, ...handlersStubs };
 
   for (const key in handlers) {
     const inject = _.partial(injectDefaults, dependencies);
     const injectedHandler = inject(handlers[key]);
+    injectedHandler.handlerName = handlers[key].name;
     for (const eventType of handlersToBeInjected[key].eventTypes) {
       eventDispatcher.subscribe(eventType, injectedHandler);
     }
   }
-
   return eventDispatcher;
 }
 
