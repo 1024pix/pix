@@ -1,13 +1,21 @@
-import { helper } from '@ember/component/helper';
+import Helper from '@ember/component/helper';
 import showdown from 'showdown';
+import xss from 'xss';
 import isArray from 'lodash/isArray';
 
-export function convertToHtml(params) {
-  if (isArray(params) && params.length > 0) {
-    const converter = new showdown.Converter();
-    return converter.makeHtml(params[0]);
-  }
-  return '';
-}
+export default class ConvertToHtml extends Helper {
 
-export default helper(convertToHtml);
+  compute(args) {
+    if (!isArray(args) || args.length <= 0) {
+      return '';
+    }
+
+    const converter = new showdown.Converter();
+    const text = args[0];
+    const rawHtml = converter.makeHtml(text);
+
+    return xss(rawHtml, {
+      stripIgnoreTagBody: ['style'],
+    });
+  }
+}
