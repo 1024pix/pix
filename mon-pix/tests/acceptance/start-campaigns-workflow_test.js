@@ -1219,7 +1219,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // when
               await fillIn('#password', 'newPass12345!');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
