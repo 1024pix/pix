@@ -26,8 +26,12 @@ module.exports = {
         'finalizedAt',
         'resultsSentToPrescriberAt',
         'publishedAt',
+        'juryComment',
+        'juryCommentAuthorId',
+        'juryCommentedAt',
         // included
         'assignedCertificationOfficer',
+        'juryCommentAuthor',
         // links
         'juryCertificationSummaries',
       ],
@@ -46,6 +50,11 @@ module.exports = {
         included: true,
         attributes: ['firstName', 'lastName'],
       },
+      juryCommentAuthor: {
+        ref: 'id',
+        included: true,
+        attributes: ['firstName', 'lastName'],
+      },
       transform(jurySession) {
         const transformedJurySession = Object.assign({}, jurySession);
         transformedJurySession.status = jurySession.status;
@@ -53,6 +62,9 @@ module.exports = {
       },
       typeForAttribute: function(attribute) {
         if (attribute === 'assignedCertificationOfficer') {
+          return 'user';
+        }
+        if (attribute === 'juryCommentAuthor') {
           return 'user';
         }
         return attribute;

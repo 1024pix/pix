@@ -78,6 +78,9 @@ function certificationSessionsBuilder({ databaseBuilder }) {
     examinerGlobalComment: 'Une météorite est tombée sur le centre de certification pendant la session !!',
     finalizedAt: new Date('2020-05-05T15:00:34Z'),
     assignedCertificationOfficerId: PIX_MASTER_ID,
+    juryComment: 'Tu te rends compte, si on n’avait pas perdu une heure et quart, on serait là depuis une heure et quart !',
+    juryCommentAuthorId: PIX_MASTER_ID,
+    juryCommentedAt: new Date('2021-04-28T00:42:03Z'),
   });
 
   databaseBuilder.factory.buildFinalizedSession({
