@@ -1,14 +1,17 @@
-import { click, fillIn, currentURL, find } from '@ember/test-helpers';
+import { fillIn, currentURL, find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Competence Evaluations | Resume Competence Evaluations', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let user;
 
   beforeEach(function() {
@@ -31,7 +34,7 @@ describe('Acceptance | Competence Evaluations | Resume Competence Evaluations',
         // when
         await fillIn('#login', user.email);
         await fillIn('#password', user.password);
-        await click('.button');
+        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         expect(currentURL()).to.contains('/assessments');
       });
