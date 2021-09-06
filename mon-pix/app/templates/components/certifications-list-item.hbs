@@ -21,7 +21,7 @@
       <div class="certifications-list-item__cell-detail">
       </div>
     </div>
-  {{ else if this.isRejected}}
+  {{else if this.isRejected}}
   <CpPanel as |panel|>
     <panel.toggle @class="certifications-list-item__row-presentation" @role="tab">
 
@@ -55,7 +55,7 @@
     {{/if}}
 
   </CpPanel>
-  {{ else if this.isValidated}}
+  {{else if this.isValidated}}
     <LinkTo @route="user-certifications.get" @model={{@certification.id}} class="certifications-list-item__row-presentation">
       <div class="certifications-list-item__cell">
         {{moment-format @certification.date 'DD/MM/YYYY'}}
