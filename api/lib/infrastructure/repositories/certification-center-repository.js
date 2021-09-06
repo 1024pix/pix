@@ -88,6 +88,9 @@ module.exports = {
       .fetchPage({
         page: page.number,
         pageSize: page.size,
+        withRelated: [
+          { accreditations: function(query) { query.orderBy('id'); } },
+        ],
       });
     const { models, pagination } = certificationCenterBookshelf;
     return { models: models.map(_toDomain), pagination };
