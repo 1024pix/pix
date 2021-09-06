@@ -35,7 +35,7 @@
       <div class="challenge-actions__focused-out-of-window" role="alert" aria-live="assertive">
         <FaIcon @icon="info-circle" class="challenge-actions-focused-out__icon"/>
         {{#if @isCertification}}
-          <span data-test="certification-focused-out-error-message">{{t 'pages.challenge.has-focused-out-of-window.certification'}}</span>
+          <span data-test="certification-focused-out-error-message">{{t 'pages.challenge.has-focused-out-of-window.certification' htmlSafe=true }}</span>
         {{else}}
           <span data-test="default-focused-out-error-message">{{t 'pages.challenge.has-focused-out-of-window.default' htmlSafe=true }}</span>
         {{/if}}

@@ -452,8 +452,8 @@
         }
       },
       "has-focused-out-of-window": {
-        "certification": "We have detected a page/tab switch. Your answer will not be validated.",
-        "default": "We have detected a page/tab switch.'<br>'During a certification test, your answer would not be validated."
+        "certification": "We have detected a page switch.'<br>'Your answer will not be validated.",
+        "default": "We have detected a page switch.'<br>'During a certification test, your answer would not be validated."
       },
       "parts": {
         "answer-input": "Your answer",
