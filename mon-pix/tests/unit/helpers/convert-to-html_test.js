@@ -18,6 +18,12 @@ describe('Unit | Helper | ConvertToHtml', function() {
       expect(result).to.equal('<p><strong>a bold sentence</strong></p>');
     });
 
+    it('should return a string without html/css artifacts', function() {
+      const input = new Array(['**a bold sentence**<style>width:10px</style>']);
+      const result = helper.compute(input);
+      expect(result).to.equal('<p><strong>a bold sentence</strong></p>');
+    });
+
     it('should return an empty string when called with an argument that is not an array', function() {
       const badArgument = 'bad argument';
       const result = helper.compute(badArgument);
