@@ -123,21 +123,6 @@ form .challenge-response {
 
 form .challenge-response.challenge-response--locked {
 
-  .challenge-proposals {
-    opacity: 0.33;
-    transition: 0.3s ease;
-
-    .qroc_input-label {
-      display: inline;
-    }
-
-    ul,
-    ol,
-    p {
-      margin: 0;
-    }
-  }
-
   &:hover {
 
     .challenge-response__locked-overlay {

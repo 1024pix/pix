@@ -498,7 +498,7 @@
         }
       },
       "timed": {
-        "cannot-answer": "You've run out of time."
+        "cannot-answer": "You've run out of time. Your answer will not be validated."
       }
     },
     "checkpoint": {

@@ -1,6 +1,6 @@
 <form {{on "submit" this.validateAnswer}}>
 
-  <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}  {{if this.hasChallengeTimedOut 'challenge-response--locked'}}">
+  <div class="rounded-panel__row challenge-response {{if @answer 'challenge-response--locked'}}">
     <h2 class="sr-only">{{t 'pages.challenge.parts.answer-input'}}</h2>
     <div class="challenge-proposals">
       <QcmProposals @answer={{@answer}}
@@ -14,11 +14,6 @@
     {{#if @answer}}
       <div class="challenge-response__locked-overlay">
         <FaIcon @icon='lock' class='challenge-response-locked__icon' />
-      </div>
-    {{/if}}
-    {{#if this.hasChallengeTimedOut}}
-      <div class="challenge-response__locked-overlay">
-        <FaIcon @icon='hourglass-end' class='challenge-response-locked__icon' />
       </div>
     {{/if}}
 

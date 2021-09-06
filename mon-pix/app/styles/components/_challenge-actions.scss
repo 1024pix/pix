@@ -64,7 +64,7 @@
     margin-right: 20px;
   }
 
-  &__focused-out-of-window {
+  &__alert-message {
     display: flex;
     align-items: center;
     max-width: 600px;
@@ -74,26 +74,15 @@
     font-weight: $font-normal;
     letter-spacing: 0.009rem;
     line-height: 1.375rem;
-    margin-right: 0;
-    margin-bottom: 24px;
+    margin: 0 auto 24px 12px;
 
     @include device-is('tablet') {
       margin-bottom: 0;
-      margin-right: auto;
     }
-  }
-
-  &__timed-out {
-    font-family: $font-roboto;
-    font-size: 1rem;
-    font-weight: 600;
-    color: $grey-70;
-    letter-spacing: 0.031rem;
-    margin-right: 20px;
   }
 }
 
-.challenge-actions-focused-out {
+.challenge-actions-alert-message {
 
   &__icon {
     font-size: 1rem;
