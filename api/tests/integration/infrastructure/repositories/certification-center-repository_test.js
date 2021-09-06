@@ -230,7 +230,51 @@ describe('Integration | Repository | Certification Center', function() {
 
       it('should return an Array of CertificationCenters', async function() {
         // given
-        _.times(3, databaseBuilder.factory.buildCertificationCenter);
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          externalId: '1',
+          type: 'SUP',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          type: CertificationCenter.types.SUP,
+          externalId: '1',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          externalId: '2',
+          type: 'SCO',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          type: CertificationCenter.types.SCO,
+          externalId: '2',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          externalId: '3',
+          type: 'PRO',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          type: CertificationCenter.types.PRO,
+          externalId: '3',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+          accreditations: [],
+        });
         await databaseBuilder.commit();
 
         const filter = {};
@@ -241,9 +285,7 @@ describe('Integration | Repository | Certification Center', function() {
         const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(matchingCertificationCenters).to.exist;
-        expect(matchingCertificationCenters).to.have.lengthOf(3);
-        expect(matchingCertificationCenters[0]).to.be.an.instanceOf(CertificationCenter);
+        expect(matchingCertificationCenters).to.deepEqualArray([expectedCertificationCenter1, expectedCertificationCenter2, expectedCertificationCenter3]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
