@@ -12,7 +12,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const campaignId = Symbol('campaign id');
-  const expectedCampaignParticipation = { id: '1', sharedAt };
+  const expectedCampaignParticipation = { id: '1', sharedAt, pixScore: 15 };
   const locale = 'fr';
 
   let campaignParticipationRepository;
