@@ -95,6 +95,7 @@
     }
 
     .form-textfield__message--error {
+      position: absolute;
       font-size: 0.75rem;
       color: $red;
       margin-top: 4px;

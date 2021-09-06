@@ -9,7 +9,7 @@
     />
   </div>
   <h2>{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
-  <form>
+  <form onSubmit={{this.onSubmit}}>
     <div class="user-account-update-email-with-validation__email-input">
       <PixInput
         @id="newEmail"
@@ -27,14 +27,13 @@
         @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}} @textfieldName="password"
         @inputBindingValue={{this.password}} @onValidate={{this.validatePassword}}
         @validationMessage={{this.passwordValidation.message}} @validationStatus={{this.passwordValidation.status}}
-        @autocomplete="new-password"
+        @autocomplete="off"
       />
     </div>
     <div class="user-account-update-email-with-validation__confirm-button">
       <PixButton
         class="user-account-update-email-with-validation-actions__confirm-button"
         @type="submit"
-        @triggerAction={{this.onSubmit}}
       >
         {{t 'pages.user-account.account-update-email-with-validation.save-button'}}
       </PixButton>

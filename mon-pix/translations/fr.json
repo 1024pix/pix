@@ -1317,7 +1317,7 @@
         "fields": {
           "errors": {
             "empty-password": "Votre mot de passe ne peut pas être vide.",
-            "wrong-email-format": "Votre adresse e-mail n’est pas valide."
+            "invalid-email": "Votre adresse e-mail n’est pas valide."
           },
           "new-email": {
             "label": "Nouvelle adresse e-mail"
