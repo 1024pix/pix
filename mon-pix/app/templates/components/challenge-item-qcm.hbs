@@ -39,6 +39,7 @@
   {{#if @assessment}}
     <ChallengeActions @challenge={{@challenge}}
                       @answer={{@answer}}
+                      @isCertification={{@assessment.isCertification}}
                       @resumeAssessment={{this.resumeAssessment}}
                       @validateAnswer={{this.validateAnswer}}
                       @skipChallenge={{this.skipChallenge}}

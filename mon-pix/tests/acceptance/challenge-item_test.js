@@ -179,6 +179,62 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           expect(find('.challenge-actions__already-answered')).to.exist;
         });
       });
+
+      describe('when user has focused out of the window', function() {
+
+        beforeEach(async function() {
+          // given
+          const user = server.create('user', 'withEmail', {
+            hasSeenFocusedChallengeTooltip: true,
+          });
+          await authenticateByEmail(user);
+        });
+
+        describe('when assessment is of type certification', function() {
+
+          it('should display the certification warning alert', async function() {
+            // given
+            assessment = server.create('assessment', 'ofCertificationType');
+            server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
+
+            const certificationCourse = server.create('certification-course', {
+              accessCode: 'ABCD12',
+              sessionId: 1,
+              nbChallenges: 1,
+              firstName: 'Laura',
+              lastName: 'Bravo',
+            });
+            assessment = certificationCourse.assessment;
+
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+
+            // when
+            await triggerEvent(window, 'blur');
+
+            // then
+            expect(find('[data-test="certification-focused-out-error-message"]')).to.exist;
+            expect(find('[data-test="default-focused-out-error-message"]')).not.to.exist;
+          });
+        });
+
+        describe('when assessment is not of type certification', function() {
+
+          it('should display the default warning alert', async function() {
+            // given
+            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+            server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+
+            // when
+            await triggerEvent(window, 'blur');
+
+            // then
+            expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
+            expect(find('[data-test="certification-focused-out-error-message"]')).not.to.exist;
+          });
+        });
+      });
     });
 
     describe(`when ${data.challengeType} challenge is not focused`, function() {
