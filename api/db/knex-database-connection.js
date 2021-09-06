@@ -1,6 +1,7 @@
 const types = require('pg').types;
 const { addPositionToQuerieAndIncrementQueriesCounter, logKnexQueriesWithCorrelationId } = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
+const { performance } = require('perf_hooks');
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -46,7 +47,7 @@ const queries = new Map();
 
 knex.on('query', function(data) {
   if (logging.enableLogKnexQueriesWithCorrelationId) {
-    const queryStartedTime = new Date();
+    const queryStartedTime = performance.now();
     queries.set(data.__knexQueryUid, queryStartedTime);
     addPositionToQuerieAndIncrementQueriesCounter(data.__knexQueryUid);
   }
@@ -55,7 +56,7 @@ knex.on('query', function(data) {
 knex.on('query-response', function(response, obj) {
   if (logging.enableLogKnexQueriesWithCorrelationId) {
     const queryStartedTime = queries.get(obj.__knexQueryUid);
-    const duration = new Date() - queryStartedTime;
+    const duration = performance.now() - queryStartedTime;
     obj.duration = duration;
     logKnexQueriesWithCorrelationId(obj, 'Knex Query');
     queries.delete(obj.__knexQueryUid);
