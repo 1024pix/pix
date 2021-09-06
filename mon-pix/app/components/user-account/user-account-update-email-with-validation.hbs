@@ -1,0 +1,42 @@
+<div class="user-account-update-email-with-validation">
+  <div class="user-account-update-email-with-validation__cancel-button">
+    <PixIconButton
+      @icon="times"
+      aria-label={{t 'pages.user-account.account-update-email-with-validation.cancel-button.aria-label'}}
+      @color="dark-grey"
+      @triggerAction={{@disableEmailWithValidationEditionMode}}
+      data-test-id="user-account-update-email-with-validation__cancel-button"
+    />
+  </div>
+  <h2>{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
+  <form onSubmit={{this.onSubmit}}>
+    <div class="user-account-update-email-with-validation__email-input">
+      <PixInput
+        @id="newEmail"
+        @label={{t 'pages.user-account.account-update-email-with-validation.fields.new-email.label'}}
+        @errorMessage={{this.newEmailValidationMessage}}
+        {{on "focusout" this.validateNewEmail}}
+        autocomplete="off"
+      />
+    </div>
+    <div class="user-account-update-email-with-validation__informations">
+      <p>{{t 'pages.user-account.account-update-email-with-validation.fields.password.security-information'}}</p>
+    </div>
+    <div class="user-account-update-email-with-validation__password-input">
+      <FormTextfield
+        @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}} @textfieldName="password"
+        @inputBindingValue={{this.password}} @onValidate={{this.validatePassword}}
+        @validationMessage={{this.passwordValidation.message}} @validationStatus={{this.passwordValidation.status}}
+        @autocomplete="off"
+      />
+    </div>
+    <div class="user-account-update-email-with-validation__confirm-button">
+      <PixButton
+        class="user-account-update-email-with-validation-actions__confirm-button"
+        @type="submit"
+      >
+        {{t 'pages.user-account.account-update-email-with-validation.save-button'}}
+      </PixButton>
+    </div>
+  </form>
+</div>

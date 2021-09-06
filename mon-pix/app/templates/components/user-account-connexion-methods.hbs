@@ -7,7 +7,7 @@
     {{#if this.isEmailValidationEnabled}}
       <PixButton
             class="user-account-panel-item__edit-button"
-            @triggerAction={{@enableEmailEditionMode}}
+            @triggerAction={{@enableEmailWithValidationEditionMode}}
             data-test-edit-email>
       {{t 'pages.user-account.connexion-methods.edit-button'}}
       </PixButton>
@@ -15,6 +15,7 @@
       <PixButton
               class="user-account-panel-item__button"
               @triggerAction={{@enableEmailEditionMode}}
+              @backgroundColor="transparent-light"
               data-test-edit-email>
         {{t 'pages.user-account.connexion-methods.edit-button'}}
       </PixButton>

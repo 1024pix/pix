@@ -214,7 +214,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#yearOfBirth', '2000');
             await click('.button');
             await click('button[aria-label="Associer"]');
-            await click('.button');
+            await click('.campaign-landing-page__start-button');
             await fillIn('#id-pix-label', 'truc');
 
             // when
