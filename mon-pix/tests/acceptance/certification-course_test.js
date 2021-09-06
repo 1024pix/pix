@@ -6,10 +6,12 @@ import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { fillCertificationJoiner, fillCertificationStarter } from '../helpers/certification';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Certification | Start Certification Course', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   let user;
 
@@ -58,8 +60,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
             await visit('/certifications');
 
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: '', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: '',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should display an error message', function() {
@@ -71,8 +80,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when no candidate with given info has been registered in the given session', function() {
           beforeEach(async function() {
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: 'PasInscrite', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'PasInscrite',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should display an error message', function() {
@@ -84,8 +100,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when several candidates with given info are found in the given session', function() {
           beforeEach(async function() {
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: 'PlusieursMatchs', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'PlusieursMatchs',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should display an error message', function() {
@@ -97,8 +120,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when user has already been linked to another candidate in the session', function() {
           beforeEach(async function() {
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: 'UtilisateurLiéAutre', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'UtilisateurLiéAutre',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should display an error message', function() {
@@ -110,8 +140,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when candidate has already been linked to another user in the session', function() {
           beforeEach(async function() {
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: 'CandidatLiéAutre', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'CandidatLiéAutre',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should display an error message', function() {
@@ -131,8 +168,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
               birthdate: '1990-01-04',
             });
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: 'CandidatLiéUtilisateur', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'CandidatLiéUtilisateur',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should render the component to provide the access code', function() {
@@ -144,8 +188,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
         context('when user is successfuly linked to the candidate', function() {
           beforeEach(async function() {
             // when
-            await fillCertificationJoiner(
-              { sessionId: '1', firstName: 'Laura', lastName: 'Bravo', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+            await fillCertificationJoiner({
+              sessionId: '1',
+              firstName: 'Laura',
+              lastName: 'Bravo',
+              dayOfBirth: '04',
+              monthOfBirth: '01',
+              yearOfBirth: '1990',
+              intl: this.intl,
+            });
           });
 
           it('should render the component to provide the access code', function() {
@@ -176,8 +227,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
           context('when user enter a correct code session', function() {
             beforeEach(async function() {
               // when
-              await fillCertificationJoiner(
-                { sessionId: '1', firstName: 'Laura', lastName: 'Bravo', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+              await fillCertificationJoiner({
+                sessionId: '1',
+                firstName: 'Laura',
+                lastName: 'Bravo',
+                dayOfBirth: '04',
+                monthOfBirth: '01',
+                yearOfBirth: '1990',
+                intl: this.intl,
+              });
               await fillCertificationStarter({ accessCode: 'ABCD12' });
             });
 
@@ -211,8 +269,15 @@ describe('Acceptance | Certification | Start Certification Course', function() {
 
             it('should be redirected directly on the certification course', async function() {
               // given
-              await fillCertificationJoiner(
-                { sessionId: '1', firstName: 'Laura', lastName: 'Bravo', dayOfBirth: '04', monthOfBirth: '01', yearOfBirth: '1990' });
+              await fillCertificationJoiner({
+                sessionId: '1',
+                firstName: 'Laura',
+                lastName: 'Bravo',
+                dayOfBirth: '04',
+                monthOfBirth: '01',
+                yearOfBirth: '1990',
+                intl: this.intl,
+              });
               await fillCertificationStarter({ accessCode: 'ABCD12' });
 
               await click('.challenge-actions__action-skip');
