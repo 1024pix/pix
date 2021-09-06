@@ -69,13 +69,13 @@ function addKnexMetricsToRequestContext(data) {
 }
 
 function addEventDispatchLogToRequestContext(data) {
-  const request = asyncLocalStorage.getStore();
-  if (logging.logEventDispatchWithCorrelationId && request) {
-    request.eventsDispatch = request.eventsDispatch || [];
+  const store = asyncLocalStorage.getStore();
+  if (logging.logEventDispatchWithCorrelationId && store.metrics) { // TODO : & store.request ??
+    store.metrics.eventsDispatch = store.metrics.eventsDispatch || [];
     const errorMessage = get(data, 'error.message') ?
       (data.error.message + ' (see dedicated error log entry for more information)')
       : '-';
-    request.eventsDispatch.push({
+    store.metrics.eventsDispatch.push({
       message: data.message,
       event_name: data.eventName,
       event_content: data.eventContent,

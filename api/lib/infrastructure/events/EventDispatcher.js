@@ -1,4 +1,6 @@
 const _ = require('lodash');
+const { addEventDispatchLogToRequestContext, logErrorWithCorrelationIds } = require('../monitoring-tools');
+const { performance } = require('perf_hooks');
 
 class EventDispatcher {
   constructor() {
@@ -21,8 +23,16 @@ class EventDispatcher {
     const subscriptions = this._subscriptions.filter(({ event }) => dispatchedEvent instanceof event);
 
     for (const { eventHandler } of subscriptions) {
-      const returnedEventOrEvents = await eventHandler({ domainTransaction, event: dispatchedEvent });
-      await this._dispatchEventOrEvents(returnedEventOrEvents, domainTransaction);
+      const dispatchStartTime = performance.now();
+      let error;
+      try {
+        const returnedEventOrEvents = await eventHandler({ domainTransaction, event: dispatchedEvent });
+        this._logEventDispatchWithCorrelationId({ event: dispatchedEvent, eventHandler: eventHandler.handlerName, dispatchStartTime });
+        await this._dispatchEventOrEvents(returnedEventOrEvents, domainTransaction);
+      } catch (e) {
+        error = e;
+        this._logEventDispatchWithCorrelationId({ event: dispatchedEvent, eventHandler: eventHandler.handlerName, error, dispatchStartTime });
+      }
     }
   }
 
@@ -34,6 +44,16 @@ class EventDispatcher {
         await this.dispatch(event, domainTransaction);
       }
     }
+  }
+
+  _logEventDispatchWithCorrelationId({ event, eventHandler, error, dispatchStartTime }) {
+    let message = 'EventDispatcher : dispatched event successfully';
+    if (error) {
+      message = 'EventDispatcher : an error occurred while dispatching an event';
+      logErrorWithCorrelationIds(error);
+    }
+    const duration = performance.now() - dispatchStartTime;
+    addEventDispatchLogToRequestContext({ eventName: event.constructor.name, eventContent: event, eventHandler, error, duration, message });
   }
 }
 
