@@ -66,6 +66,7 @@ module.exports = (function() {
       colorEnabled: false,
       logLevel: (process.env.LOG_LEVEL || 'info'),
       enableLogKnexQueriesWithCorrelationId: isFeatureEnabled(process.env.LOG_KNEX_QUERIES_WITH_CORRELATION_ID),
+      logEventDispatchWithCorrelationId: isFeatureEnabled(process.env.LOG_EVENT_DISPATCH_WITH_CORRELATION_ID),
       emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
     },
 
@@ -259,6 +260,7 @@ module.exports = (function() {
 
     config.logging.enabled = false;
     config.logging.enableLogKnexQueriesWithCorrelationId = false;
+    config.logging.logEventDispatchWithCorrelationId = false;
 
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
