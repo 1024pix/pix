@@ -10,7 +10,7 @@ export default class PasswordResetDemandForm extends Component {
 
   @tracked hasFailed = false;
   @tracked hasSucceeded = false;
-  @tracked isButtonEnabled = true;
+  @tracked isButtonDisabled = false;
 
   email = '';
 
@@ -31,7 +31,7 @@ export default class PasswordResetDemandForm extends Component {
     event && event.preventDefault();
     this.hasFailed = false;
     this.hasSucceeded = false;
-    this.isButtonEnabled = false;
+    this.isButtonDisabled = true;
 
     if (!this.email) {
       return;
@@ -43,7 +43,7 @@ export default class PasswordResetDemandForm extends Component {
       this.hasSucceeded = true;
     } catch (error) {
       this.hasFailed = true;
-      this.isButtonEnabled = true;
+      this.isButtonDisabled = false;
     }
   }
 }
