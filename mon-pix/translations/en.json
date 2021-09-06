@@ -447,11 +447,11 @@
       },
       "is-focused-challenge": {
         "info-alert": {
-          "title": "Answer this question without searching the internet or using your own tools.",
+          "title": "Answer this question without searching the internet or using any piece of software.",
           "subtitle": "If you switch pages or tabs during a certification test, you answer will not be validated."
         }
       },
-      "has-focused-out-of-window": "We have detected a page/tab switch. During a certification test, your answer would not be validated.",
+      "has-focused-out-of-window": "We have detected a page/tab switch.'<br>'During a certification test, your answer would not be validated.",
       "parts": {
         "answer-input": "Your answer",
         "feedback": "Report a problem",
@@ -490,7 +490,7 @@
         "tooltip": {
           "aria-label": "Show question's warning",
           "close": "Ok, got it",
-          "focused": "Stay on this page! To answer this question, you should neither search the internet, nor use your own tools.",
+          "focused": "Stay on this page! To answer this question, you should neither search the internet, nor use any piece of software.",
           "regular": ""
         }
       },
