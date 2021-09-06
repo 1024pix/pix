@@ -114,7 +114,7 @@ describe('Integration | Component | User account update email', () => {
           expect(contains(this.intl.t('pages.user-account.account-update-email.fields.errors.empty-password'))).to.exist;
         });
 
-        it('should have the autocomplete attribute set to "new-password" in order to prevent the web browsers to autocomplete the password and email fields', async () => {
+        it('should have the autocomplete attribute set to "new-password" in order to prevent the web browsers to autocomplete the password and email fields', async function() {
           // given
           const expectedAutocompleteValue = 'new-password';
 
@@ -122,7 +122,7 @@ describe('Integration | Component | User account update email', () => {
           await render(hbs`<UserAccountUpdateEmail />`);
 
           // then
-          expect(find('#password').autocomplete).to.equal(expectedAutocompleteValue);
+          expect(find('#password').attributes.autocomplete.value).to.equal(expectedAutocompleteValue);
         });
       });
 
