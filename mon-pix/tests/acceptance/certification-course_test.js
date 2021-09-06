@@ -236,7 +236,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
                 yearOfBirth: '1990',
                 intl: this.intl,
               });
-              await fillCertificationStarter({ accessCode: 'ABCD12' });
+              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
             });
 
             it('should be redirected on the first challenge of an assessment', async function() {
@@ -278,7 +278,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
                 yearOfBirth: '1990',
                 intl: this.intl,
               });
-              await fillCertificationStarter({ accessCode: 'ABCD12' });
+              await fillCertificationStarter({ accessCode: 'ABCD12', intl: this.intl });
 
               await click('.challenge-actions__action-skip');
               await visit('/');

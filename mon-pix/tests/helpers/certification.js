@@ -1,4 +1,4 @@
-import { click, fillIn } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import { clickByLabel } from './click-by-label';
 
 export async function fillCertificationJoiner({ sessionId, firstName, lastName, dayOfBirth, monthOfBirth, yearOfBirth, intl }) {
@@ -11,7 +11,7 @@ export async function fillCertificationJoiner({ sessionId, firstName, lastName, 
   await clickByLabel(intl.t('pages.certification-joiner.form.actions.submit'));
 }
 
-export async function fillCertificationStarter({ accessCode }) {
+export async function fillCertificationStarter({ accessCode, intl }) {
   await fillIn('#certificationStarterSessionCode', accessCode);
-  await click('.certification-course-page__submit_button');
+  await clickByLabel(intl.t('pages.certification-start.actions.submit'));
 }

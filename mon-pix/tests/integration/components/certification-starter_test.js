@@ -1,11 +1,12 @@
 import { expect } from 'chai';
 import Service from '@ember/service';
 import { describe, it } from 'mocha';
-import { render, fillIn, click } from '@ember/test-helpers';
+import { render, fillIn } from '@ember/test-helpers';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 import { contains } from '../../helpers/contains';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | certification-starter', function() {
   setupIntlRenderingTest();
@@ -20,7 +21,7 @@ describe('Integration | Component | certification-starter', function() {
         await render(hbs`<CertificationStarter @sessionId={{this.sessionId}}/>`);
 
         // when
-        await click('[type="submit"]');
+        await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
         // then
         expect(contains('Merci de saisir un code d’accès valide.'));
@@ -55,7 +56,7 @@ describe('Integration | Component | certification-starter', function() {
           replaceWithStub.returns('ok');
 
           // when
-          await click('[type="submit"]');
+          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
           sinon.assert.calledWithExactly(createRecordStub, 'certification-course', { accessCode: 'ABC123', sessionId: '123' });
@@ -90,7 +91,7 @@ describe('Integration | Component | certification-starter', function() {
           certificationCourse.save.rejects({ errors: [ { status: '404' }] });
 
           // when
-          await click('[type="submit"]');
+          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
           expect(contains('Ce code n’existe pas ou n’est plus valide.'));
@@ -120,7 +121,7 @@ describe('Integration | Component | certification-starter', function() {
           certificationCourse.save.rejects({ errors: [ { status: '412' }] });
 
           // when
-          await click('[type="submit"]');
+          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
           expect(contains('La session de certification n\'est plus accessible.'));
@@ -150,7 +151,7 @@ describe('Integration | Component | certification-starter', function() {
           certificationCourse.save.rejects({ errors: [ { status: 'other' }] });
 
           // when
-          await click('[type="submit"]');
+          await clickByLabel(this.intl.t('pages.certification-start.actions.submit'));
 
           // then
           expect(contains('Une erreur serveur inattendue vient de se produire.'));
