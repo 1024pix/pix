@@ -17,15 +17,9 @@
       {{t "pages.send-profile.form.continue"}}
     </LinkTo>
   {{else}}
-    {{#if @isLoading}}
-      <button type="button" disabled class="button button--big">
-        <span class="loader-in-button">&nbsp;</span>
-      </button>
-    {{else}}
-      <button type="submit" class="button button--big">
-        {{t "pages.send-profile.form.send"}}
-      </button>
-    {{/if}}
+    <PixButton @type="submit">
+      {{t "pages.send-profile.form.send"}}
+    </PixButton>
 
     <p class="send-profile-header__warning">
       <FaIcon @icon="exclamation-circle"></FaIcon>

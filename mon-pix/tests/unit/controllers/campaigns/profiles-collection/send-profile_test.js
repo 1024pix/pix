@@ -46,7 +46,6 @@ describe('Unit | Controller | campaigns/profiles-collection/send-profile', funct
       await controller.actions.sendProfile.call(controller);
 
       // then
-      expect(controller.isLoading).to.equal(false);
       expect(controller.errorMessage).to.equal(null);
     });
   });
