@@ -68,6 +68,24 @@ function addKnexMetricsToRequestContext(data) {
   }
 }
 
+function addEventDispatchLogToRequestContext(data) {
+  const request = asyncLocalStorage.getStore();
+  if (logging.logEventDispatchWithCorrelationId && request) {
+    request.eventsDispatch = request.eventsDispatch || [];
+    const errorMessage = get(data, 'error.message') ?
+      (data.error.message + ' (see dedicated error log entry for more information)')
+      : '-';
+    request.eventsDispatch.push({
+      message: data.message,
+      event_name: data.eventName,
+      event_content: data.eventContent,
+      event_handler: data.eventHandler,
+      error_message: errorMessage,
+      duration: data.duration,
+    });
+  }
+}
+
 function extractUserIdFromRequest(request) {
   let userId = get(request, 'auth.credentials.userId');
   if (!userId && get(request, 'headers.authorization')) userId = requestUtils.extractUserIdFromRequest(request);
@@ -86,4 +104,5 @@ module.exports = {
   logKnexQueriesWithCorrelationId,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
+  addEventDispatchLogToRequestContext,
 };

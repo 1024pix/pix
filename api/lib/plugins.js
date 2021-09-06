@@ -12,6 +12,7 @@ function logObjectSerializer(obj) {
     ...obj,
     user_id: get(store, 'request') ? extractUserIdFromRequest(store.request) : '-',
     knexQueries: get(store, 'metrics.knexQueries', '-'),
+    eventsDispatch: get(store, 'metrics.eventsDispatch', '-'),
   };
 }
 
