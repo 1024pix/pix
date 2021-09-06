@@ -25,8 +25,8 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
 
     // then
     assert.contains('Commentaire de l\'équipe Certification');
-    assert.dom('.session-jury-comment__author').hasText('Vernon Sanders Law');
-    assert.dom('.session-jury-comment__date').hasText(expectedDate);
-    assert.dom('.session-jury-comment__content').hasText('L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
+    assert.dom('.jury-comment__author').hasText('Vernon Sanders Law');
+    assert.dom('.jury-comment__date').hasText(expectedDate);
+    assert.dom('.jury-comment__content').hasText('L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
   });
 });
