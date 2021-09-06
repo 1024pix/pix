@@ -40,7 +40,7 @@ export default Factory.extend({
   }),
 
   withCurrentChallengeUnfocus: trait({
-    lastQuestionState: 'unfocus',
+    lastQuestionState: 'focusedout',
   }),
 
 });
