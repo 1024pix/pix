@@ -498,7 +498,7 @@
         }
       },
       "timed": {
-        "cannot-answer": "Le temps imparti est écoulé."
+        "cannot-answer": "Le temps imparti est écoulé. Votre réponse ne sera pas validée."
       }
     },
     "checkpoint": {
