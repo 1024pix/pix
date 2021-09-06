@@ -121,6 +121,7 @@
   {{#if @assessment}}
     <ChallengeActions @challenge={{@challenge}}
                       @answer={{@answer}}
+                      @isCertification={{@assessment.isCertification}}
                       @resumeAssessment={{this.resumeAssessment}}
                       @isDisabled={{this.isAnswerFieldDisabled}}
                       @validateAnswer={{this.validateAnswer}}
