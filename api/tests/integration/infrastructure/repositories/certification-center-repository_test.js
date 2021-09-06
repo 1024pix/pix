@@ -289,6 +289,109 @@ describe('Integration | Repository | Certification Center', function() {
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
+      it('should return an Array of CertificationCenters and their accreditations', async function() {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          externalId: '1',
+          type: 'SUP',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 11,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 11,
+        });
+        const expectedAccreditation1 = domainBuilder.buildAccreditation({
+          id: 11,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          type: CertificationCenter.types.SUP,
+          externalId: '1',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation1,
+          ],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          externalId: '2',
+          type: 'SCO',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 22,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 2,
+          accreditationId: 22,
+        });
+        const expectedAccreditation2 = domainBuilder.buildAccreditation({
+          id: 22,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          type: CertificationCenter.types.SCO,
+          externalId: '2',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation2,
+          ],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          externalId: '3',
+          type: 'PRO',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 33,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 3,
+          accreditationId: 33,
+        });
+        const expectedAccreditation3 = domainBuilder.buildAccreditation({
+          id: 33,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          type: CertificationCenter.types.PRO,
+          externalId: '3',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation3,
+          ],
+        });
+        await databaseBuilder.commit();
+
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+        // when
+        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingCertificationCenters).to.deepEqualArray([expectedCertificationCenter1, expectedCertificationCenter2, expectedCertificationCenter3]);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+
     });
 
     context('when there are lots of CertificationCenters (> 10) in the database', function() {
