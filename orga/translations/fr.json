@@ -179,7 +179,7 @@
       "title": "Résultats de {firstName} {lastName}",
       "badges": "Résultats Thématiques",
       "progression": "Avancement",
-      "result":  "Résultat",
+      "result": "Résultat",
       "stages": {
         "label": "Paliers",
         "value": "{count} étoiles sur {total}"
@@ -208,7 +208,7 @@
       },
       "archived": "Campagne archivée",
       "code": "Code",
-      "copy" : {
+      "copy": {
         "code": {
           "success": "Copié !",
           "default": "Copier le code"
@@ -371,6 +371,7 @@
               "aria-label": "Afficher la liste des tutos"
             },
             "tutorial-count": {
+              "aria-label": "Nombre de tutoriels recommandés",
               "value": "{count, plural, =1 {1 tuto} other {{count} tutos}}"
             }
           },
