@@ -51,7 +51,7 @@
     }
 
     @include device-is('mobile') {
-      flex-flow: column;
+      flex-direction: column;
       margin: 10px 20px 0 20px;
     }
   }
