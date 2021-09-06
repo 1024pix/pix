@@ -1,14 +1,17 @@
-import { click, currentURL, fillIn, find } from '@ember/test-helpers';
+import { currentURL, fillIn, find } from '@ember/test-helpers';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Reset Password Form', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   it('can visit /changer-mot-de-passe when temporaryKey exists', async function() {
     // given
@@ -51,7 +54,7 @@ describe('Acceptance | Reset Password Form', function() {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.reset-password.actions.submit'));
 
     // then
     expect(currentURL()).to.equal('/changer-mot-de-passe/brandone-reset-key');
