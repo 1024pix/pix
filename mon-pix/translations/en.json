@@ -1312,6 +1312,26 @@
         "password-information": "Enter your password to confirm",
         "save-button": "Confirm"
       },
+      "account-update-email-with-validation": {
+        "title": "Change your email address",
+        "fields": {
+          "errors": {
+            "empty-password": "Your password can't be empty.",
+            "invalid-email": "Your email address is invalid."
+          },
+          "new-email": {
+            "label": "New email address"
+          },
+          "password": {
+            "label": "Password",
+            "security-information": "The security of your personal information is essential. We will therefore check that it’s really you who made the request. Please enter your password to get a verification code."
+          }
+        },
+        "cancel-button": {
+          "aria-label": "Close"
+        },
+        "save-button": "Get a verification code"
+      },
       "connexion-methods": {
         "edit-button": "Edit",
         "email": "Email address",

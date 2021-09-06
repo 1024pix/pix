@@ -1312,6 +1312,26 @@
         "password-information": "Saisissez votre mot de passe pour confirmer",
         "save-button": "Confirmer"
       },
+      "account-update-email-with-validation": {
+        "title": "Modification de votre adresse e-mail",
+        "fields": {
+          "errors": {
+            "empty-password": "Votre mot de passe ne peut pas être vide.",
+            "invalid-email": "Votre adresse e-mail n’est pas valide."
+          },
+          "new-email": {
+            "label": "Nouvelle adresse e-mail"
+          },
+          "password": {
+            "label": "Mot de passe",
+            "security-information": "La sécurité de vos informations personnelles est essentielle. Nous vérifions donc que vous êtes bien à l'origine de cette demande. Saisissez votre mot de passe pour recevoir un code de vérification."
+          }
+        },
+        "cancel-button": {
+          "aria-label": "Fermer"
+        },
+        "save-button": "Recevoir un code de vérification"
+      },
       "connexion-methods": {
         "edit-button": "Modifier",
         "email": "Adresse e-mail",

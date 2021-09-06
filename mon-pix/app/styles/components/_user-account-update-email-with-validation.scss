@@ -1,0 +1,134 @@
+.user-account-update-email-with-validation {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0 40px 0;
+
+  @include device-is('desktop') {
+    padding: 20px 0 60px 30px;
+  }
+
+  &__cancel-button {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  h2 {
+    text-align: center;
+    line-height: 2rem;
+    font-size: 1.5rem;
+    color: $grey-90;
+    font-family: $font-open-sans;
+    font-weight: 400;
+    padding-bottom: 30px;
+
+    @include device-is('tablet') {
+      text-align: start;
+      line-height: 3.375rem;
+    }
+  }
+
+  &__password-input,
+  &__email-input {
+    max-width: 300px;
+    padding-bottom: 25px;
+  }
+
+  &__email-input {
+    @include device-is('desktop') {
+      padding-bottom: 30px;
+    }
+
+    .pix-input > svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__password-input {
+    @include device-is('desktop') {
+      padding-bottom: 40px;
+    }
+
+    .form-textfield label {
+      color: $grey-70;
+      font-weight: 400;
+      font-size: 0.875rem;
+      letter-spacing: 0;
+    }
+
+    .form-textfield__input-field-container {
+      margin-top: 4px;
+      border: 1px solid $grey-40;
+      border-radius: 4px;
+      height: 37px;
+
+      &:hover {
+        box-shadow: inset 0 0 0 0.6px $grey-40;
+      }
+
+      &:focus {
+        box-shadow: inset 0 0 0 0.6px $blue;
+      }
+
+      input {
+        height: auto;
+        color: $grey-90;
+        font-size: 0.875rem;
+        margin-left: 1px;
+        padding-left: 16px;
+        width: 100%;
+      }
+
+      div {
+        margin: 0;
+
+        button {
+          margin: 0 10px;
+        }
+      }
+    }
+
+    .form-textfield__input-container--error {
+      border-color: $red;
+      box-shadow: inset 0 0 0 0.6px $red;
+    }
+
+    .form-textfield__message--error {
+      position: absolute;
+      font-size: 0.75rem;
+      color: $red;
+      margin-top: 4px;
+    }
+  }
+
+  &__informations {
+    font-size: 0.875rem;
+    border-top: 1px solid $grey-20;
+    padding: 20px 0;
+    text-align: center;
+    color: $grey-70;
+    font-family: $font-roboto;
+    line-height: 1.5rem;
+
+    @include device-is('tablet') {
+      max-width: 520px;
+      text-align: start;
+      letter-spacing: 0.13px;
+      line-height: 1.2rem;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__confirm-button {
+    display: flex;
+    padding-top: 10px;
+
+    @include device-is('tablet') {
+      padding-top: 0;
+    }
+  }
+}

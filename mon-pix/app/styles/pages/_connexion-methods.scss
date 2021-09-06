@@ -36,19 +36,7 @@
   margin: 0;
 }
 
-.user-account-panel-item__button {
-  margin-left: auto;
-  background-color: transparent;
-  color: $blue;
-  padding: 0 20px;
-
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: transparent;
-  }
-}
-
+.user-account-panel-item__button,
 .user-account-panel-item__edit-button {
   margin-left: auto;
   padding: 0 20px;

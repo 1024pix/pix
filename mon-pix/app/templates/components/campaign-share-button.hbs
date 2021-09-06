@@ -11,10 +11,12 @@
   {{/if}}
 {{else}}
   <PixButton
-          class="button button--green button--round skill-review-share__button"
+          class="skill-review-share__button"
+          @backgroundColor="green"
+          @shape="rounded"
           aria-hidden="true"
           @triggerAction={{@shareCampaignParticipation}}
-          @loading-color="white">
+  >
     {{t 'pages.skill-review.actions.send'}}
   </PixButton>
 

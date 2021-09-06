@@ -750,7 +750,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('button[aria-label="Associer"]');
 
             // when
-            await click('.button');
+            await click('.campaign-landing-page__start-button');
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
@@ -779,7 +779,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
             // when
-            await click('.button');
+            await click('.campaign-landing-page__start-button');
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
