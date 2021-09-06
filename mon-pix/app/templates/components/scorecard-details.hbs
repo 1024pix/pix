@@ -91,10 +91,17 @@
         </LinkTo>
       {{/if}}
       {{#if this.displayResetButton}}
-        <button id="reset-button" class="link link--underline scorecard-details__reset-button" {{on 'click' this.openModal}} type="button">
+        <PixButton
+          id="reset-button"
+          class="scorecard-details__reset-button"
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @shape="rounded"
+          @triggerAction={{this.openModal}}
+        >
           {{t 'pages.competence-details.actions.reset.label'}}
           <div class="sr-only">{{t 'pages.competence-details.for-competence' competence=@scorecard.name}}</div>
-        </button>
+        </PixButton>
       {{else if this.displayWaitSentence}}
         <p class="scorecard-details-content-right__reset-message">{{t 'pages.competence-details.actions.reset.description'
                                                                       daysBeforeReset=@scorecard.remainingDaysBeforeReset}}</p>
@@ -159,12 +166,20 @@
       </div>
 
       <div class="pix-modal-footer pix-modal-footer--with-centered-buttons">
-        <button class="button button--big button--extra-thin button--red" {{on 'click' this.reset}} type="button">
+        <PixButton
+          id="pix-mdoal-footer__button-reset"
+          @backgroundColor="red"
+          @triggerAction={{this.reset}}
+        >
           {{t 'pages.competence-details.actions.reset.label'}}
-        </button>
-        <button class="button button--regular button--extra-thin button--grey" {{on 'click' this.closeModal}} type="button">
+        </PixButton>
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @triggerAction={{this.closeModal}}
+        >
           {{t 'common.actions.cancel'}}
-        </button>
+        </PixButton>
       </div>
     </div>
   </PixModal>
