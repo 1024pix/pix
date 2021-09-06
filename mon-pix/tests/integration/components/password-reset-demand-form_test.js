@@ -4,10 +4,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { fillIn, find, render, click } from '@ember/test-helpers';
+import { fillIn, find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve, reject } from 'rsvp';
 import Service from '@ember/service';
+import { clickByLabel } from '../../helpers/click-by-label';
+import { contains } from '../../helpers/contains';
 
 describe('Integration | Component | password reset demand form', function() {
   setupIntlRenderingTest();
@@ -28,10 +30,10 @@ describe('Integration | Component | password reset demand form', function() {
     expect(find('.sign-form__body')).to.exist;
     expect(find('.form-textfield__label')).to.exist;
     expect(find('.form-textfield__input-field-container')).to.exist;
-    expect(find('.button')).to.exist;
+    expect(contains(this.intl.t('pages.password-reset-demand.actions.reset')));
   });
 
-  it('should display error message and re enable the button when there is an error on password reset demand', async function() {
+  it('should display error message when there is an error on password reset demand', async function() {
     // given
     const storeStub = Service.extend({
       createRecord() {
@@ -48,11 +50,10 @@ describe('Integration | Component | password reset demand form', function() {
 
     // when
     await fillIn('#email', 'test@example.net');
-    await click('.sign-form-body__bottom-button .button');
+    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
     // then
     expect(find('.sign-form__notification-message--error')).to.exist;
-    expect(find('.button').textContent.trim()).to.equal('Réinitialiser mon mot de passe');
   });
 
   it('should display success message when there is no error on password reset demand', async function() {
@@ -72,7 +73,7 @@ describe('Integration | Component | password reset demand form', function() {
 
     // when
     await fillIn('#email', 'test@example.net');
-    await click('.sign-form-body__bottom-button .button');
+    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
     // then
     expect(find('.password-reset-demand-form__body')).to.exist;
