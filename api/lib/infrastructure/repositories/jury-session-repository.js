@@ -6,16 +6,26 @@ const { statuses } = require('../../domain/models/JurySession');
 const CertificationOfficer = require('../../domain/models/CertificationOfficer');
 const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-errors');
 
-const COLUMNS = Object.freeze(['sessions.*', 'certification-centers.type', 'certification-centers.externalId', 'users.firstName', 'users.lastName']);
+const COLUMNS = Object.freeze([
+  'sessions.*',
+  'certification-centers.type', 'certification-centers.externalId',
+  'users.firstName', 'users.lastName',
+]);
+const ALIASED_COLUMNS = Object.freeze({
+  juryCommentAuthorFirstName: 'jury-comment-authors.firstName',
+  juryCommentAuthorLastName: 'jury-comment-authors.lastName',
+});
 
 module.exports = {
 
   async get(id) {
     const jurySessionDTO = await knex
       .select(COLUMNS)
+      .select(ALIASED_COLUMNS)
       .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+      .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
       .where('sessions.id', '=', id)
       .first();
     if (!jurySessionDTO) {
@@ -27,9 +37,11 @@ module.exports = {
   async findPaginatedFiltered({ filters, page }) {
     const query = knex
       .select(COLUMNS)
+      .select(ALIASED_COLUMNS)
       .from('sessions')
       .leftJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId')
       .leftJoin('users', 'users.id', 'sessions.assignedCertificationOfficerId')
+      .leftJoin({ 'jury-comment-authors': 'users' }, 'jury-comment-authors.id', 'sessions.juryCommentAuthorId')
       .modify(_setupFilters, filters)
       .orderByRaw('?? ASC NULLS FIRST', 'publishedAt')
       .orderByRaw('?? ASC', 'finalizedAt')
@@ -61,20 +73,33 @@ module.exports = {
 };
 
 function _toDomain(jurySessionFromDB) {
-  const jurySession = new JurySession({
-    ...jurySessionFromDB,
-    certificationCenterName: jurySessionFromDB.certificationCenter,
-    certificationCenterType: jurySessionFromDB.type,
-    certificationCenterExternalId: jurySessionFromDB.externalId,
-  });
 
+  let assignedCertificationOfficer = null;
   if (jurySessionFromDB.assignedCertificationOfficerId) {
-    jurySession.assignedCertificationOfficer = new CertificationOfficer({
+    assignedCertificationOfficer = new CertificationOfficer({
       id: jurySessionFromDB.assignedCertificationOfficerId,
       firstName: jurySessionFromDB.firstName,
       lastName: jurySessionFromDB.lastName,
     });
   }
+
+  let juryCommentAuthor = null;
+  if (jurySessionFromDB.juryCommentAuthorId) {
+    juryCommentAuthor = new CertificationOfficer({
+      id: jurySessionFromDB.juryCommentAuthorId,
+      firstName: jurySessionFromDB.juryCommentAuthorFirstName,
+      lastName: jurySessionFromDB.juryCommentAuthorLastName,
+    });
+  }
+
+  const jurySession = new JurySession({
+    ...jurySessionFromDB,
+    certificationCenterName: jurySessionFromDB.certificationCenter,
+    certificationCenterType: jurySessionFromDB.type,
+    certificationCenterExternalId: jurySessionFromDB.externalId,
+    assignedCertificationOfficer,
+    juryCommentAuthor,
+  });
 
   return jurySession;
 }

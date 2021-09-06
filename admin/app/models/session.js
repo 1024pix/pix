@@ -45,9 +45,12 @@ export default class Session extends Model {
   @attr() finalizedAt;
   @attr() resultsSentToPrescriberAt;
   @attr() publishedAt;
+  @attr() juryComment;
+  @attr() juryCommentedAt;
 
   @hasMany('jury-certification-summary') juryCertificationSummaries;
   @belongsTo('user') assignedCertificationOfficer;
+  @belongsTo('user') juryCommentAuthor;
 
   @computed('status')
   get isFinalized() {
