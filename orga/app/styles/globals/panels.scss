@@ -82,6 +82,10 @@
 
   &__label {
     margin-bottom: 8px;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
   }
 
   &__value {
