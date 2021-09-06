@@ -55,13 +55,21 @@ function logKnexQueriesWithCorrelationId(data, msg) {
   }
 }
 
-function addPositionToQuerieAndIncrementQueriesCounter(knexQueryId) {
+function addKnexMetricsToRequestContext(data) {
   const request = asyncLocalStorage.getStore();
   if (request) {
     request.knexQueryPosition = request.knexQueryPosition || [];
+    request.knexQueries = request.knexQueries || [];
     request.queriesCounter = request.queriesCounter || 0;
     request.queriesCounter++;
-    request.knexQueryPosition[knexQueryId] = request.queriesCounter;
+    request.knexQueryPosition[data.__knexQueryUid] = request.queriesCounter;
+    request.knexQueries.push({
+      knex_query_id: data.__knexQueryUid,
+      knex_query_position: request.queriesCounter,
+      knex_query_sql: data.sql,
+      knex_query_params: [(data.bindings) ? data.bindings.join(',') : ''],
+      duration: get(data, 'duration', '-'),
+    });
   }
 }
 
@@ -71,10 +79,15 @@ function extractUserIdFromRequest(request) {
   return userId || '-';
 }
 
+function doesStoreContainsRequest() {
+  return (asyncLocalStorage.getStore() !== undefined);
+}
+
 module.exports = {
   asyncLocalStorage,
-  addPositionToQuerieAndIncrementQueriesCounter,
+  addKnexMetricsToRequestContext,
   extractUserIdFromRequest,
+  doesStoreContainsRequest,
   logKnexQueriesWithCorrelationId,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,

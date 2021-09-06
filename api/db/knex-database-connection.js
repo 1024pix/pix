@@ -1,5 +1,5 @@
 const types = require('pg').types;
-const { addPositionToQuerieAndIncrementQueriesCounter, logKnexQueriesWithCorrelationId } = require('../lib/infrastructure/monitoring-tools');
+const { addKnexMetricsToRequestContext, doesStoreContainsRequest, asyncLocalStorage } = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
 const { performance } = require('perf_hooks');
 /*
@@ -46,19 +46,18 @@ const knex = require('knex')(knexConfig);
 const queries = new Map();
 
 knex.on('query', function(data) {
-  if (logging.enableLogKnexQueriesWithCorrelationId) {
+  if (logging.enableLogKnexQueriesWithCorrelationId && doesStoreContainsRequest()) {
     const queryStartedTime = performance.now();
     queries.set(data.__knexQueryUid, queryStartedTime);
-    addPositionToQuerieAndIncrementQueriesCounter(data.__knexQueryUid);
   }
 });
 
 knex.on('query-response', function(response, obj) {
-  if (logging.enableLogKnexQueriesWithCorrelationId) {
+  if (logging.enableLogKnexQueriesWithCorrelationId && doesStoreContainsRequest()) {
     const queryStartedTime = queries.get(obj.__knexQueryUid);
     const duration = performance.now() - queryStartedTime;
     obj.duration = duration;
-    logKnexQueriesWithCorrelationId(obj, 'Knex Query');
+    addKnexMetricsToRequestContext(obj);
     queries.delete(obj.__knexQueryUid);
   }
 });
