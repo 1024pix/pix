@@ -58,12 +58,13 @@
                     {{this.emptyTextBoxMessageError}}
                   </div>
                 {{/if}}
-                <button
-                  type="submit"
-                  class="feedback-panel__button feedback-panel__button--send"
-                  disabled={{this.isSendButtonDisabled}}>
+                <PixButton
+                  @type="submit"
+                  @backgroundColor="grey"
+                  @isDisabled={{this.isSendButtonDisabled}}
+                >
                   {{t 'pages.challenge.feedback-panel.form.actions.submit'}}
-                </button>
+                </PixButton>
               {{/if}}
             </form>
           </div>

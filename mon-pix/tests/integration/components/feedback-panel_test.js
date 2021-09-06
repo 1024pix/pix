@@ -12,6 +12,8 @@ import {
   render,
 } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { clickByLabel } from '../../helpers/click-by-label';
+import { contains } from '../../helpers/contains';
 
 const OPEN_FEEDBACK_BUTTON = '.feedback-panel__open-button';
 const BUTTON_SEND = '.feedback-panel__button--send';
@@ -71,7 +73,7 @@ describe('Integration | Component | feedback-panel', function() {
       await setContent(CONTENT_VALUE);
 
       // when
-      await click(BUTTON_SEND);
+      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
       expect(find('.feedback-panel__view--form')).to.not.exist;
@@ -96,7 +98,7 @@ describe('Integration | Component | feedback-panel', function() {
         // then
         expect(findAll(DROPDOWN).length).to.equal(1);
         expect(find(TEXTAREA)).to.exist;
-        expect(findAll(BUTTON_SEND).length).to.equal(1);
+        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
       });
 
       it('should directly display the tuto without the textbox or the send button when category has a tutorial', async function() {
@@ -117,7 +119,7 @@ describe('Integration | Component | feedback-panel', function() {
         // then
         expect(findAll(DROPDOWN).length).to.equal(1);
         expect(find(TUTORIAL_AREA)).to.not.exist;
-        expect(find(BUTTON_SEND)).to.exist;
+        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
         expect(find(TEXTAREA)).to.exist;
       });
 
@@ -129,7 +131,7 @@ describe('Integration | Component | feedback-panel', function() {
         // then
         expect(findAll(DROPDOWN).length).to.equal(1);
         expect(find(TUTORIAL_AREA)).to.not.exist;
-        expect(find(BUTTON_SEND)).to.exist;
+        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
         expect(find(TEXTAREA)).to.exist;
       });
 
@@ -143,7 +145,7 @@ describe('Integration | Component | feedback-panel', function() {
         expect(findAll(DROPDOWN).length).to.equal(2);
         expect(find(TUTORIAL_AREA)).to.exist;
         expect(find(TEXTAREA)).to.exist;
-        expect(find(BUTTON_SEND)).to.exist;
+        expect(contains(this.intl.t('pages.challenge.feedback-panel.form.actions.submit')));
       });
     });
   });
@@ -258,7 +260,7 @@ describe('Integration | Component | feedback-panel', function() {
       await fillIn(CATEGORY_DROPDOWN, PICK_SELECT_OPTION_WITH_TEXTAREA);
 
       // when
-      await click(BUTTON_SEND);
+      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
       expect(find('.alert')).to.exist;
@@ -269,7 +271,7 @@ describe('Integration | Component | feedback-panel', function() {
       await setContent('');
 
       // when
-      await click(BUTTON_SEND);
+      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // then
       expect(find('.alert')).to.exist;
@@ -278,7 +280,7 @@ describe('Integration | Component | feedback-panel', function() {
     it('should not display error if "form" view (with error) was closed and re-opened', async function() {
       // given
       await setContent('   ');
-      await click(BUTTON_SEND);
+      await clickByLabel(this.intl.t('pages.challenge.feedback-panel.form.actions.submit'));
 
       // when
       await click(OPEN_FEEDBACK_BUTTON);
