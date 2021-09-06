@@ -452,8 +452,8 @@
         }
       },
       "has-focused-out-of-window": {
-        "certification": "Nous avons détecté un changement de page/d'onglet. Votre réponse sera comptée comme fausse.",
-        "default": "Nous avons détecté un changement de page/d'onglet.'<br>'En certification, votre réponse ne serait pas validée."
+        "certification": "Nous avons détecté un changement de page.'<br>'Votre réponse sera comptée comme fausse.",
+        "default": "Nous avons détecté un changement de page.'<br>'En certification, votre réponse ne serait pas validée."
       },
       "parts": {
         "answer-input": "Votre réponse",
