@@ -135,6 +135,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
 
     let answerValue = 'example';
     const answerTimeout = 120;
+    const answerFocusedOut = false;
     const challengeOne = EmberObject.create({ id: 'recChallengeOne' });
     const nextChallenge = EmberObject.create({ id: 'recNextChallenge' });
 
@@ -193,7 +194,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       queryRecordStub.resolves(nextChallenge);
 
       // when
-      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
+      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerFocusedOut);
 
       // then
       sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
@@ -201,6 +202,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValue,
         timeout: answerTimeout,
+        focusedOut: answerFocusedOut,
       });
     });
 
@@ -213,7 +215,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       queryRecordStub.resolves(nextChallenge);
 
       // when
-      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
+      route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerFocusedOut);
 
       // then
       sinon.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
@@ -221,6 +223,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
       sinon.assert.calledWith(answerToChallengeOne.setProperties, {
         value: answerValueWithoutUselessChar,
         timeout: answerTimeout,
+        focusedOut: answerFocusedOut,
       });
     });
 
@@ -232,7 +235,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
         const assessment = EmberObject.create({ answers: [answerToChallengeOne] });
 
         // when
-        await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
+        await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerFocusedOut);
 
         // then
         sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), { queryParams: {} });
@@ -256,7 +259,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           } };
 
           // when
-          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerFocusedOut);
 
           // then
           sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
@@ -269,7 +272,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           const expectedQueryParams = { queryParams: { } };
 
           // when
-          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerFocusedOut);
 
           // then
           sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);
@@ -281,7 +284,7 @@ describe('Unit | Route | Assessments | Challenge', function() {
           const expectedQueryParams = { queryParams: { } };
 
           // when
-          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout);
+          await route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerFocusedOut);
 
           // then
           sinon.assert.calledWithExactly(route.transitionTo, 'assessments.resume', assessment.get('id'), expectedQueryParams);

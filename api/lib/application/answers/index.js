@@ -18,6 +18,7 @@ exports.register = async (server) => {
                 result: Joi.string().allow(null),
                 'result-details': Joi.string().allow(null),
                 timeout: Joi.number().allow(null),
+                'focused-out': Joi.boolean().allow(null),
               }).required(),
               relationships: Joi.object().required(),
               assessment: Joi.object(),

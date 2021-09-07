@@ -86,6 +86,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
             result: null,
             'result-details': null,
             timeout: null,
+            'focused-out': true,
           },
           relationships: {
             assessment: {
@@ -114,6 +115,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
       expect(answer.result).to.deep.equal(AnswerStatus.from(null));
       expect(answer.resultDetails).to.equal(null);
       expect(answer.timeout).to.equal(null);
+      expect(answer.focusedOut).to.equal(true);
       expect(answer.assessmentId).to.equal(assessmentId);
       expect(answer.challengeId).to.equal(challengeId);
     });

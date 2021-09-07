@@ -10,6 +10,10 @@ const contentReference = {
     icon: 'times-circle',
     color: 'red',
   },
+  focusedOut: {
+    icon: 'times-circle',
+    color: 'red',
+  },
   aband: {
     icon: 'times-circle',
     color: 'grey',

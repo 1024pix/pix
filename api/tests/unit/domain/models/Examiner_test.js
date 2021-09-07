@@ -80,7 +80,7 @@ describe('Unit | Domain | Models | Examiner', function() {
       });
     });
 
-    context('when answer is partially correct and TIMEOUT', function() {
+    context('when answer is correct and FOCUSEDOUT', function() {
 
       let uncorrectedAnswer;
       let correctedAnswer;
@@ -89,19 +89,34 @@ describe('Unit | Domain | Models | Examiner', function() {
 
       beforeEach(function() {
         // given
-        validation = domainBuilder.buildValidation({ result: AnswerStatus.PARTIALLY });
+        validation = domainBuilder.buildValidation({ result: AnswerStatus.OK });
         validator.assess.returns(validation);
-        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ timeout: -12 });
+        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ focusedOut: true });
         examiner = new Examiner({ validator });
-
-        // when
-        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat });
       });
 
-      it('should return an answer with TIMEOUT as result, and the correct resultDetails', function() {
+      it('should return an answer with FOCUSED as result when the assessment is a certification, and the correct resultDetails', function() {
+        // given
         const expectedAnswer = new Answer(uncorrectedAnswer);
-        expectedAnswer.result = AnswerStatus.TIMEDOUT;
+        expectedAnswer.result = AnswerStatus.FOCUSEDOUT;
         expectedAnswer.resultDetails = validation.resultDetails;
+
+        // when
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat, isCertificationEvaluation: true });
+
+        // then
+        expect(correctedAnswer).to.be.an.instanceOf(Answer);
+        expect(correctedAnswer).to.deep.equal(expectedAnswer);
+      });
+
+      it('should return an answer with OK as result when the assessment is a certification, and the correct resultDetails', function() {
+        // given
+        const expectedAnswer = new Answer(uncorrectedAnswer);
+        expectedAnswer.result = AnswerStatus.OK;
+        expectedAnswer.resultDetails = validation.resultDetails;
+
+        // when
+        correctedAnswer = examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat, isCertificationEvaluation: false });
 
         // then
         expect(correctedAnswer).to.be.an.instanceOf(Answer);
@@ -109,6 +124,9 @@ describe('Unit | Domain | Models | Examiner', function() {
       });
 
       it('should call validator.assess with answer to assess validity of answer', function() {
+        // when
+        examiner.evaluate({ answer: uncorrectedAnswer, challengeFormat, isCertificationEvaluation: true });
+
         // then
         expect(validator.assess).to.have.been.calledWithExactly({ answer: uncorrectedAnswer, challengeFormat });
       });

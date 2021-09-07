@@ -12,7 +12,7 @@ class Examiner {
     this.validator = validator;
   }
 
-  evaluate({ answer, challengeFormat }) {
+  evaluate({ answer, challengeFormat, isCertificationEvaluation }) {
 
     const correctedAnswer = new Answer(answer);
 
@@ -27,10 +27,14 @@ class Examiner {
     correctedAnswer.result = answerValidation.result;
     correctedAnswer.resultDetails = answerValidation.resultDetails;
 
-    const isPartiallyOrCorrectAnswer = answerValidation.result.isOK() || answerValidation.result.isPARTIALLY();
+    const isCorrectAnswer = answerValidation.result.isOK();
 
-    if (isPartiallyOrCorrectAnswer && answer.hasTimedOut) {
+    if (isCorrectAnswer && answer.hasTimedOut) {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
+    }
+
+    if (isCorrectAnswer && answer.focusedOut && isCertificationEvaluation) {
+      correctedAnswer.result = AnswerStatus.FOCUSEDOUT;
     }
 
     return correctedAnswer;
