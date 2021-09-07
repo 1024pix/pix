@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.98.0 (07/09/2021)
+
+- [#3462](https://github.com/1024pix/pix/pull/3462) [FEATURE] Modification du fichier d'import Fregata (PIX-3140)
+
 ## v3.97.0 (07/09/2021)
 
 - [#3444](https://github.com/1024pix/pix/pull/3444) [FEATURE] Les épreuves focus sont échouées en certification en cas de perte du focus (PIX-3147).
