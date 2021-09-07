@@ -70,6 +70,11 @@ export default class IndexController extends Controller {
     window.setTimeout(() => this._hideTooltip(), 2000);
   }
 
+  @action
+  async saveComment(comment) {
+    await this.sessionModel.comment({ 'jury-comment': comment });
+  }
+
   _displaySuccessTooltip() {
     this.copyButtonText = 'Copié';
     this.isCopyButtonClicked = true;

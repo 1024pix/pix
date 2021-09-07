@@ -37,24 +37,6 @@ module('Acceptance | authenticated/sessions/session/informations', function(hook
       assert.equal(currentURL(), '/sessions/1');
     });
 
-    module('When session has a no jury comment', function() {
-      test('it should not display a jury comment for session', async function(assert) {
-        // given
-        server.create('session', {
-          id: '2',
-          juryComment: null,
-          juryCommentedAt: null,
-          juryCommentAuthor: null,
-        });
-
-        // when
-        await visit('/sessions/2');
-
-        // then
-        assert.notContains('Commentaire de l\'équipe Certification');
-      });
-    });
-
     module('When session has a jury comment', function() {
       test('it should display a jury comment for session', async function(assert) {
         // given
