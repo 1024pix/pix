@@ -6,23 +6,26 @@ describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip'
   let server;
   let user;
   let options;
+  let challengeType;
 
   beforeEach(async function() {
-    const challengeType = 'focused';
     server = await createServer();
-
-    user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
-
-    options = {
-      method: 'PATCH',
-      url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
-      headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-    };
-
-    return databaseBuilder.commit();
   });
 
   describe('Resource access management', function() {
+
+    beforeEach(function() {
+      challengeType = 'focused';
+      user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
+
+      options = {
+        method: 'PATCH',
+        url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      return databaseBuilder.commit();
+    });
 
     it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
       // given
@@ -48,14 +51,44 @@ describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip'
     });
   });
 
-  describe('Success case', function() {
+  describe('Success cases', function() {
 
-    it('should return the user with has seen challenge tooltips', async function() {
+    it('should return the user with has seen challenge tooltip', async function() {
+      // given
+      challengeType = 'focused';
+      user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
+
+      options = {
+        method: 'PATCH',
+        url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      await databaseBuilder.commit();
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.result.data.attributes['has-seen-focused-challenge-tooltip']).to.be.true;
+    });
+
+    it('should return the user with has seen other challenges tooltip', async function() {
+      // given
+      challengeType = 'other';
+      user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
+
+      options = {
+        method: 'PATCH',
+        url: `/api/users/${user.id}/has-seen-challenge-tooltip/${challengeType}`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+      };
+
+      await databaseBuilder.commit();
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.result.data.attributes['has-seen-other-challenges-tooltip']).to.be.true;
     });
   });
 });
