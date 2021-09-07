@@ -5,7 +5,7 @@ const Assessment = require('../../domain/models/Assessment');
 const Skill = require('../../domain/models/Skill');
 const User = require('../../domain/models/User');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const { knex } = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../DomainTransaction');
@@ -13,7 +13,6 @@ const DomainTransaction = require('../DomainTransaction');
 const _ = require('lodash');
 
 const ATTRIBUTES_TO_SAVE = [
-  'id',
   'createdAt',
   'isShared',
   'participantExternalId',
@@ -23,6 +22,7 @@ const ATTRIBUTES_TO_SAVE = [
   'userId',
   'validatedSkillsCount',
   'pixScore',
+  'status',
   'masteryPercentage',
 ];
 
@@ -37,6 +37,7 @@ function _toDomain(bookshelfCampaignParticipation) {
     sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
     createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
+    status: bookshelfCampaignParticipation.get('status'),
     userId: bookshelfCampaignParticipation.get('userId'),
     user: new User(bookshelfCampaignParticipation.related('user').toJSON()),
     validatedSkillsCount: bookshelfCampaignParticipation.get('validatedSkillsCount'),
@@ -58,16 +59,24 @@ module.exports = {
     return _toDomain(campaignParticipation);
   },
 
-  save(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return new BookshelfCampaignParticipation(_adaptModelToDb(campaignParticipation))
-      .save(null, { transacting: domainTransaction.knexTransaction })
-      .then(_toDomain);
+  async save(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const [newCampaignParticipation] = await knexConn('campaign-participations')
+      .insert(_adaptModelToDb(campaignParticipation))
+      .returning('*');
+
+    return new CampaignParticipation(newCampaignParticipation);
   },
 
   async update(campaignParticipation, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction.knexTransaction || knex;
     const attributes = _getAttributes(campaignParticipation);
 
-    await BookshelfCampaignParticipation.forge(attributes).save(null, { transacting: domainTransaction });
+    const updatedCampaignParticipation = await knexConn.from('campaign-participations')
+      .where({ id: campaignParticipation.id })
+      .update(attributes);
+
+    return new CampaignParticipation(updatedCampaignParticipation);
   },
 
   async markPreviousParticipationsAsImproved(campaignId, userId, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -297,6 +306,7 @@ function _adaptModelToDb(campaignParticipation) {
     campaignId: campaignParticipation.campaignId,
     participantExternalId: campaignParticipation.participantExternalId,
     userId: campaignParticipation.userId,
+    status: campaignParticipation.status,
   };
 }
 

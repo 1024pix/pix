@@ -179,4 +179,33 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
       });
     });
   });
+
+  describe('#start', function() {
+    it('should return an instance of CampaignParticipation', function() {
+      const campaign = domainBuilder.buildCampaignToJoin();
+      const campaignParticipation = CampaignParticipation.start({ campaign });
+
+      expect(campaignParticipation instanceof CampaignParticipation).to.be.true;
+    });
+
+    context('status', function() {
+      context('when the campaign as the type PROFILES_COLLECTION', function() {
+        it('status to TO_SHARE', function() {
+          const campaign = domainBuilder.buildCampaignToJoin({ type: Campaign.types.PROFILES_COLLECTION });
+          const campaignParticipation = CampaignParticipation.start({ campaign });
+
+          expect(campaignParticipation.status).to.be.equal(CampaignParticipation.statuses.TO_SHARE);
+        });
+      });
+
+      context('when the campaign as the type ASSESSMENT', function() {
+        it('status to STARTED', function() {
+          const campaign = domainBuilder.buildCampaignToJoin({ type: Campaign.types.ASSESSMENT });
+          const campaignParticipation = CampaignParticipation.start({ campaign });
+
+          expect(campaignParticipation.status).to.be.equal(CampaignParticipation.statuses.STARTED);
+        });
+      });
+    });
+  });
 });

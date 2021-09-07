@@ -11,6 +11,7 @@ module.exports = async function startCampaignParticipation({
   campaignToJoinRepository,
   domainTransaction,
 }) {
+
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
 
   await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
@@ -32,13 +33,13 @@ module.exports = async function startCampaignParticipation({
   let createdCampaignParticipation;
   if (hasAlreadyParticipated) {
     await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignToJoin.id, userId, domainTransaction);
-    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
+    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignToJoin, campaignParticipationRepository, domainTransaction);
     if (campaignToJoin.isAssessment) {
       const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
       await assessmentRepository.save({ assessment, domainTransaction });
     }
   } else {
-    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction);
+    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignToJoin, campaignParticipationRepository, domainTransaction);
     if (campaignToJoin.isAssessment) {
       const assessment = Assessment.createForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
       await assessmentRepository.save({ assessment, domainTransaction });
@@ -51,8 +52,9 @@ module.exports = async function startCampaignParticipation({
   };
 };
 
-async function _saveCampaignParticipation(campaignParticipation, userId, campaignParticipationRepository, domainTransaction) {
+async function _saveCampaignParticipation(campaignParticipation, userId, campaign, campaignParticipationRepository, domainTransaction) {
 
-  const userParticipation = new CampaignParticipation({ ...campaignParticipation, userId });
+  const userParticipation = CampaignParticipation.start({ ...campaignParticipation, campaign, userId });
+
   return campaignParticipationRepository.save(userParticipation, domainTransaction);
 }
