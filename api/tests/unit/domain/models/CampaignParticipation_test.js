@@ -179,28 +179,4 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
       });
     });
   });
-
-  describe('canComputeValidatedSkillsCount', function() {
-    context('when the campaign as the type PROFILES_COLLECTION', function() {
-      it('returns false', function() {
-        const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-        const campaignParticipation = new CampaignParticipation({ campaign });
-
-        const canComputeValidatedSkillsCount = campaignParticipation.canComputeValidatedSkillsCount();
-
-        expect(canComputeValidatedSkillsCount).to.be.false;
-      });
-    });
-
-    context('when the campaign as the type ASSESSMENT', function() {
-      it('returns true', function() {
-        const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
-        const campaignParticipation = new CampaignParticipation({ campaign });
-
-        const canComputeValidatedSkillsCount = campaignParticipation.canComputeValidatedSkillsCount();
-
-        expect(canComputeValidatedSkillsCount).to.be.true;
-      });
-    });
-  });
 });

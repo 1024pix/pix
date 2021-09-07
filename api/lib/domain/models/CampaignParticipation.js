@@ -21,6 +21,7 @@ class CampaignParticipation {
     assessmentId,
     campaignId,
     userId,
+    status,
     validatedSkillsCount,
     pixScore,
   } = {}) {
@@ -35,6 +36,7 @@ class CampaignParticipation {
     this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
+    this.status = status;
     this.validatedSkillsCount = validatedSkillsCount;
     this.pixScore = pixScore;
   }
@@ -77,10 +79,6 @@ class CampaignParticipation {
     if (this.campaign.isAssessment() && lastAssessmentNotCompleted(this)) {
       throw new AssessmentNotCompletedError();
     }
-  }
-
-  canComputeValidatedSkillsCount() {
-    return this.campaign.isAssessment();
   }
 }
 
