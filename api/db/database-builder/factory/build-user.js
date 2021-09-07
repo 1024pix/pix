@@ -62,6 +62,7 @@ const buildUser = function buildUser({
   hasSeenAssessmentInstructions = false,
   hasSeenNewDashboardInfo = false,
   hasSeenFocusedChallengeTooltip = false,
+  hasSeenOtherChallengesTooltip = false,
   isAnonymous = false,
   createdAt = new Date(),
   updatedAt = new Date(),
@@ -74,7 +75,7 @@ const buildUser = function buildUser({
     cgu, lang,
     lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
     pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    hasSeenNewDashboardInfo, hasSeenFocusedChallengeTooltip, isAnonymous,
+    hasSeenNewDashboardInfo, hasSeenFocusedChallengeTooltip, hasSeenOtherChallengesTooltip, isAnonymous,
     createdAt, updatedAt,
   };
 

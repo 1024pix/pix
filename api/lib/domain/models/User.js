@@ -18,6 +18,7 @@ class User {
     hasSeenAssessmentInstructions,
     hasSeenNewDashboardInfo,
     hasSeenFocusedChallengeTooltip,
+    hasSeenOtherChallengesTooltip,
     mustValidateTermsOfService,
     lang,
     isAnonymous,
@@ -41,6 +42,7 @@ class User {
     this.pixOrgaTermsOfServiceAccepted = pixOrgaTermsOfServiceAccepted;
     this.pixCertifTermsOfServiceAccepted = pixCertifTermsOfServiceAccepted;
     this.hasSeenAssessmentInstructions = hasSeenAssessmentInstructions;
+    this.hasSeenOtherChallengesTooltip = hasSeenOtherChallengesTooltip;
     this.hasSeenNewDashboardInfo = hasSeenNewDashboardInfo;
     this.hasSeenFocusedChallengeTooltip = hasSeenFocusedChallengeTooltip;
     this.knowledgeElements = knowledgeElements;
