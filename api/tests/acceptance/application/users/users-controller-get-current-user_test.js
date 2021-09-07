@@ -50,6 +50,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
             'has-seen-assessment-instructions': user.hasSeenAssessmentInstructions,
             'has-seen-new-dashboard-info': user.hasSeenNewDashboardInfo,
             'has-seen-focused-challenge-tooltip': user.hasSeenFocusedChallengeTooltip,
+            'has-seen-other-challenges-tooltip': user.hasSeenOtherChallengesTooltip,
           },
           relationships: {
             memberships: {
