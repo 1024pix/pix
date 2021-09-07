@@ -78,6 +78,8 @@ export default class ChallengeController extends Controller {
   finishChallenge() {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
+    this.hasFocusedOutOfChallenge = false;
+    this.hasFocusedOutOfWindow = false;
   }
 
   get displayHomeLink() {

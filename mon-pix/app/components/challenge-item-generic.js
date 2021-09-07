@@ -67,6 +67,7 @@ export default class ChallengeItemGeneric extends Component {
 
   @action
   resumeAssessment() {
+    this.args.finishChallenge();
     return this.args.resumeAssessment(this.args.assessment);
   }
 
