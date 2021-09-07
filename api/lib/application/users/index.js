@@ -444,7 +444,7 @@ exports.register = async function(server) {
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
-            challengeType: Joi.string(),
+            challengeType: Joi.string().valid('focused', 'other'),
           }),
         },
         handler: userController.rememberUserHasSeenChallengeTooltip,
