@@ -185,7 +185,6 @@ module('Integration | Component | routes/authenticated/certifications/certificat
           await visit(`/certifications/${certification.id}`);
 
           // then
-          //await this.pauseTest();
           assert.contains('Signalement(s) impactant(s)');
           assert.dom('.certification-issue-report__details__label').hasText('Autre (si aucune des catégories ci-dessus ne correspond au signalement) - Un signalement impactant');
           assert.notContains('Signalement(s) non impactant(s)');
