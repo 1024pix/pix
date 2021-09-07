@@ -66,6 +66,22 @@ describe('Unit | Domain | Models | CertificationReport', function() {
         expect(error.message).contains(_getFieldName(invalidData));
       }),
     );
+
+    it('should throw an error if not completed and abortReason is empty', async function() {
+      // given
+      const certificationReport = new CertificationReport({
+        ...validCertificationReportData,
+        isCompleted: false,
+        abortReason: null,
+      });
+
+      // when
+      const error = await catchErr(certificationReport.validateForFinalization, certificationReport)();
+
+      // then
+      expect(error).to.be.instanceOf(InvalidCertificationReportForFinalization);
+      expect(error.message).to.equal('Abort reason is required if certificationReport is not completed');
+    });
   });
 
   describe('#fromCertificationCourse', function() {
