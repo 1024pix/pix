@@ -23,4 +23,17 @@
     background-color: $grey-10;
     padding: 8px 24px;
   }
+
+  &__field {
+    height: 80px;
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    display: flex;
+
+    .pix-button {
+      margin-right: 16px;
+    }
+  }
 }
