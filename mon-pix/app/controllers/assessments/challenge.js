@@ -6,6 +6,7 @@ import { action } from '@ember/object';
 const defaultPageTitle = 'pages.challenge.title.default';
 const timedOutPageTitle = 'pages.challenge.title.timed-out';
 const focusedPageTitle = 'pages.challenge.title.focused';
+const focusedOutPageTitle = 'pages.challenge.title.focused-out';
 import ENV from 'mon-pix/config/environment';
 import isInteger from 'lodash/isInteger';
 
@@ -68,6 +69,10 @@ export default class ChallengeController extends Controller {
   @action
   focusedOutOfWindow() {
     this.hasFocusedOutOfWindow = true;
+
+    if (this.model.challenge.focused && this.model.assessment.isCertification) {
+      this.challengeTitle = focusedOutPageTitle;
+    }
   }
 
   @action
