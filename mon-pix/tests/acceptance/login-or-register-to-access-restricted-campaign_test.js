@@ -1,14 +1,18 @@
-import { click, find } from '@ember/test-helpers';
+import { find } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', function() {
 
   setupApplicationTest();
   setupMirage();
+  setupIntl();
+
   let campaign;
 
   beforeEach(function() {
@@ -36,7 +40,7 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
   it('should open the login panel and close the register panel when clicking on login button', async function() {
     // when
     await visit(`/campagnes/${campaign.code}/privee/identification`);
-    await click('#login-button');
+    await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
     // then
     expect(find('.register-form')).to.not.exist;
@@ -47,8 +51,8 @@ describe('Acceptance | Campaigns | Restricted | login-or-register-to-access', fu
     // when
     await visit(`/campagnes/${campaign.code}/privee/identification`);
 
-    await click('#login-button');
-    await click('#register-button');
+    await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
+    await clickByLabel(this.intl.t('pages.login-or-register.register-form.button'));
 
     // then
     expect(find('.register-form')).to.exist;
