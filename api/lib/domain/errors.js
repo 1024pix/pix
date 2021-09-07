@@ -133,6 +133,12 @@ class AlreadySharedCampaignParticipationError extends DomainError {
   }
 }
 
+class CantImproveCampaignParticipationError extends DomainError {
+  constructor(message = 'Une campagne de collecte de profils ne peut pas être retentée.') {
+    super(message);
+  }
+}
+
 class NoCampaignParticipationForUserAndCampaign extends DomainError {
   constructor(message = 'L\'utilisateur n\'a pas encore participé à la campagne') {
     super(message);
@@ -965,6 +971,7 @@ module.exports = {
   MissingOrInvalidCredentialsError,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   NoCampaignParticipationForUserAndCampaign,
+  CantImproveCampaignParticipationError,
   NoCertificationResultForDivision,
   NoStagesForCampaign,
   NoOrganizationToAttach,

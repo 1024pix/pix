@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError } = require('../errors');
+const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError, CantImproveCampaignParticipationError } = require('../errors');
 
 const statuses = {
   STARTED: 'STARTED',
@@ -53,6 +53,18 @@ class CampaignParticipation {
     this.isShared = true;
     this.sharedAt = new Date();
     this.status = statuses.SHARED;
+  }
+
+  improve() {
+    this._canBeImproved();
+
+    this.status = statuses.STARTED;
+  }
+
+  _canBeImproved() {
+    if (this.campaign.isProfilesCollection()) {
+      throw new CantImproveCampaignParticipationError();
+    }
   }
 
   _canBeShared() {
