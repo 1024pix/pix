@@ -38,7 +38,39 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(key).to.exist;
     });
 
-    it('should save key valu with a defined ttl in seconds', async function() {
+    it('should return a key from passed key parameter if valid', function() {
+      // given
+      const keyParameter = 'KEY-PARAMETER';
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const returnedKey = inMemoryTemporaryStorage.save({
+        key: keyParameter,
+        value: {},
+        expirationDelaySeconds: 1000,
+      });
+
+      // then
+      expect(returnedKey).to.be.equal(keyParameter);
+    });
+
+    it('should return a generated key if key parameter is not valid', function() {
+      // given
+      const keyParameter = '  ';
+      const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
+
+      // when
+      const returnedKey = inMemoryTemporaryStorage.save({
+        key: keyParameter,
+        value: {},
+        expirationDelaySeconds: 1000,
+      });
+
+      // then
+      expect(returnedKey).not.be.equal(keyParameter);
+    });
+
+    it('should save key value with a defined ttl in seconds', async function() {
       // given
       const TWO_MINUTES_IN_SECONDS = 2 * 60;
       const TWO_MINUTES_IN_MILLISECONDS = 2 * 60 * 1000;
