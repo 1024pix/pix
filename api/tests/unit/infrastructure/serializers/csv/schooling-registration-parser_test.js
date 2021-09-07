@@ -7,6 +7,8 @@ const { getI18n } = require('../../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
 const schoolingRegistrationCsvColumns = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
+const COL_TO_REMOVE = 'Code sexe*';
+const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).filter((col) => col !== COL_TO_REMOVE).join(';');
 
 describe('Unit | Infrastructure | SchoolingRegistrationParser', function() {
   context('when the header is not correctly formed', function() {
@@ -119,11 +121,6 @@ describe('Unit | Infrastructure | SchoolingRegistrationParser', function() {
         });
 
         context('when csv does not have \'Sex code\' column', function() {
-
-          const COL_TO_REMOVE = 'Sexe*';
-          // TODO: Fix this the next time the file is edited.
-          // eslint-disable-next-line mocha/no-setup-in-describe
-          const schoolingRegistrationCsvColumnsWithoutSexCode = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).filter((col) => col !== COL_TO_REMOVE).join(';');
 
           it('returns a schooling registration for each line', function() {
             const input = `${schoolingRegistrationCsvColumnsWithoutSexCode}
