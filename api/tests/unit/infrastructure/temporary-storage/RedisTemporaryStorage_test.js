@@ -32,6 +32,46 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
 
   describe('#save', function() {
 
+    it('should generated key if key parameter is not valid', async function() {
+      // given
+      const keyParameter = '  ';
+      const value = { name: 'name' };
+      const expirationDelaySeconds = 1000;
+      sinon.spy(RedisTemporaryStorage, 'generateKey');
+
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.save({
+        key: keyParameter,
+        value,
+        expirationDelaySeconds,
+      });
+
+      // then
+      expect(RedisTemporaryStorage.generateKey).to.have.been.called;
+    });
+
+    it('should use passed key parameter if valid', async function() {
+      // given
+      const keyParameter = 'KEY-PARAMETER';
+      const value = { name: 'name' };
+      const expirationDelaySeconds = 1000;
+      sinon.spy(RedisTemporaryStorage, 'generateKey');
+
+      const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
+
+      // when
+      await redisTemporaryStorage.save({
+        key: keyParameter,
+        value,
+        expirationDelaySeconds,
+      });
+
+      // then
+      expect(RedisTemporaryStorage.generateKey).not.have.been.called;
+    });
+
     it('should call client set with value and EX parameters', async function() {
       // given
       const EXPIRATION_PARAMETER = 'ex';
