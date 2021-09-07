@@ -27,11 +27,11 @@ module.exports = {
     return assessment;
   },
 
-  async get(id) {
+  async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     try {
       const bookshelfAssessment = await BookshelfAssessment
         .where({ id })
-        .fetch();
+        .fetch({ transacting: domainTransaction.knexTransaction });
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
     } catch (err) {

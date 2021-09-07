@@ -4,32 +4,27 @@ const completeAssessment = require('../../../../lib/domain/usecases/complete-ass
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { AlreadyRatedAssessmentError } = require('../../../../lib/domain/errors');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
 describe('Unit | UseCase | complete-assessment', function() {
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const scoringCertificationService = { calculateCertificationAssessmentScore: _.noop };
-  const assessmentRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    get: _.noop,
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    completeByAssessmentId: _.noop,
-  };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const assessmentResultRepository = { save: _.noop };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationCourseRepository = { changeCompletionDate: _.noop };
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const competenceMarkRepository = { save: _.noop };
+  let assessmentRepository;
+  let campaignParticipationRepository;
+  let domainTransaction;
   const now = new Date('2019-01-01T05:06:07Z');
   let clock;
 
   beforeEach(function() {
+    domainTransaction = Symbol('domainTransaction');
+    assessmentRepository = {
+      get: _.noop,
+      completeByAssessmentId: _.noop,
+    };
+
+    campaignParticipationRepository = {
+      get: _.noop,
+      update: _.noop,
+    };
+
     clock = sinon.useFakeTimers(now);
   });
 
@@ -45,18 +40,16 @@ describe('Unit | UseCase | complete-assessment', function() {
         id: assessmentId,
         state: 'completed',
       });
-      sinon.stub(assessmentRepository, 'get').withArgs(assessmentId).resolves(completedAssessment);
+      sinon.stub(assessmentRepository, 'get').withArgs(assessmentId, domainTransaction).resolves(completedAssessment);
     });
 
     it('should return an AlreadyRatedAssessmentError', async function() {
       // when
       const err = await catchErr(completeAssessment)({
         assessmentId,
+        domainTransaction,
         assessmentRepository,
-        assessmentResultRepository,
-        certificationCourseRepository,
-        competenceMarkRepository,
-        scoringCertificationService,
+        campaignParticipationRepository,
       });
 
       // then
@@ -81,7 +74,7 @@ describe('Unit | UseCase | complete-assessment', function() {
         context(`common behavior when assessment is of type ${assessment.type}`, function() {
 
           beforeEach(function() {
-            sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+            sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
             sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
           });
 
@@ -89,26 +82,22 @@ describe('Unit | UseCase | complete-assessment', function() {
             // when
             await completeAssessment({
               assessmentId: assessment.id,
+              domainTransaction,
               assessmentRepository,
-              assessmentResultRepository,
-              certificationCourseRepository,
-              competenceMarkRepository,
-              scoringCertificationService,
+              campaignParticipationRepository,
             });
 
             // then
-            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id)).to.be.true;
+            expect(assessmentRepository.completeByAssessmentId.calledWithExactly(assessment.id, domainTransaction)).to.be.true;
           });
 
           it('should return a AssessmentCompleted event', async function() {
             // when
             const result = await completeAssessment({
               assessmentId: assessment.id,
+              domainTransaction,
               assessmentRepository,
-              assessmentResultRepository,
-              certificationCourseRepository,
-              competenceMarkRepository,
-              scoringCertificationService,
+              campaignParticipationRepository,
             });
 
             // then
@@ -123,20 +112,39 @@ describe('Unit | UseCase | complete-assessment', function() {
       it('should return a AssessmentCompleted event with a userId and targetProfileId', async function() {
         const assessment = _buildCampaignAssessment();
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+        sinon.stub(campaignParticipationRepository, 'get').resolves({ id: 1 });
+        sinon.stub(campaignParticipationRepository, 'update').resolves();
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
+          domainTransaction,
           assessmentRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          competenceMarkRepository,
-          scoringCertificationService,
+          campaignParticipationRepository,
         });
 
         // then
         expect(result.campaignParticipationId).to.equal(assessment.campaignParticipationId);
+      });
+
+      it('should call update campaign participation status', async function() {
+        const assessment = _buildCampaignAssessment();
+        const { TO_SHARE } = CampaignParticipation.statuses;
+
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
+        sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+        sinon.stub(campaignParticipationRepository, 'update').resolves();
+        // when
+        await completeAssessment({
+          assessmentId: assessment.id,
+          domainTransaction,
+          assessmentRepository,
+          campaignParticipationRepository,
+        });
+
+        // then
+        expect(campaignParticipationRepository.update.calledWithExactly({ id: assessment.campaignParticipationId, status: TO_SHARE }, domainTransaction)).to.be.true;
       });
     });
 
@@ -144,19 +152,19 @@ describe('Unit | UseCase | complete-assessment', function() {
       it('should return a AssessmentCompleted event with certification flag', async function() {
         const assessment = _buildCertificationAssessment();
 
-        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id).resolves(assessment);
+        sinon.stub(assessmentRepository, 'get').withArgs(assessment.id, domainTransaction).resolves(assessment);
         sinon.stub(assessmentRepository, 'completeByAssessmentId').resolves();
+        sinon.stub(campaignParticipationRepository, 'update').resolves();
         // when
         const result = await completeAssessment({
           assessmentId: assessment.id,
+          domainTransaction,
           assessmentRepository,
-          assessmentResultRepository,
-          certificationCourseRepository,
-          competenceMarkRepository,
-          scoringCertificationService,
+          campaignParticipationRepository,
         });
 
         // then
+        expect(campaignParticipationRepository.update).to.not.have.been.called;
         expect(result.isCertificationType).to.equal(true);
       });
     });
@@ -171,7 +179,7 @@ function _buildCompetenceEvaluationAssessment() {
 }
 
 function _buildCampaignAssessment() {
-  return domainBuilder.buildAssessment(
+  return domainBuilder.buildAssessment.ofTypeCampaign(
     {
       id: Symbol('assessmentId'),
       state: 'started',

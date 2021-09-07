@@ -4,6 +4,7 @@ const usecases = require('../../../../lib/domain/usecases');
 const events = require('../../../../lib/domain/events');
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
+const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
 describe('Unit | Controller | assessment-controller', function() {
 
@@ -141,10 +142,15 @@ describe('Unit | Controller | assessment-controller', function() {
   });
 
   describe('#completeAssessment', function() {
+    let domainTransaction;
     const assessmentId = 2;
     const assessmentCompletedEvent = new AssessmentCompleted();
 
     beforeEach(function() {
+      domainTransaction = Symbol('domainTransaction');
+
+      DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
+
       sinon.stub(usecases, 'completeAssessment');
       usecases.completeAssessment.resolves(assessmentCompletedEvent);
       sinon.stub(events.eventDispatcher, 'dispatch');
@@ -155,7 +161,7 @@ describe('Unit | Controller | assessment-controller', function() {
       await assessmentController.completeAssessment({ params: { id: assessmentId } });
 
       // then
-      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId });
+      expect(usecases.completeAssessment).to.have.been.calledWithExactly({ assessmentId, domainTransaction });
     });
 
     it('should dispatch the assessment completed event', async function() {
