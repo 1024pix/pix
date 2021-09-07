@@ -10,6 +10,7 @@ export default Model.extend(ValueAsArrayOfString, {
   result: attr('string'),
   resultDetails: attr('string'),
   timeout: attr('number'),
+  focusedOut: attr('boolean'),
   assessment: belongsTo('assessment'),
   challenge: belongsTo('challenge'),
   correction: belongsTo('correction'),

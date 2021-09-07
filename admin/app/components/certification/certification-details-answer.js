@@ -8,6 +8,7 @@ const options = [
   { value: 'ko', label: 'Échec' },
   { value: 'partially', label: 'Succès partiel' },
   { value: 'timedout', label: 'Temps écoulé' },
+  { value: 'focusedOut', label: 'Focus échoué' },
   { value: 'aband', label: 'Abandon' },
   { value: 'skip', label: 'Neutralisée' },
 ];
