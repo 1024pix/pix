@@ -5,24 +5,21 @@ const { beginCampaignParticipationImprovement } = require('../../../../lib/domai
 const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError, CantImproveCampaignParticipationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', function() {
+  let dependencies;
+  let campaignParticipationRepository;
+  let assessmentRepository;
 
-  const campaignParticipationRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    get: sinon.stub(),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    update: sinon.stub(),
-  };
-  const assessmentRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    save: sinon.stub(),
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getLatestByCampaignParticipationId: sinon.stub(),
-  };
-  const dependencies = { campaignParticipationRepository, assessmentRepository };
+  beforeEach(function() {
+    campaignParticipationRepository = {
+      get: sinon.stub(),
+      update: sinon.stub(),
+    };
+    assessmentRepository = {
+      save: sinon.stub(),
+      getLatestByCampaignParticipationId: sinon.stub(),
+    };
+    dependencies = { campaignParticipationRepository, assessmentRepository };
+  });
 
   it('should throw an error if the campaign participation is not linked to user', async function() {
     // given
