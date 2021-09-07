@@ -1,7 +1,7 @@
 const get = require('lodash/get');
 const moment = require('moment');
 const querystring = require('querystring');
-const performanceTool = require('../../performance-tools');
+const monitoringTools = require('../../monitoring-tools');
 const authenticationMethodRepository = require('../../repositories/authentication-method-repository');
 const AuthenticationMethod = require('../../../domain/models/AuthenticationMethod');
 const httpAgent = require('../../http/http-agent');
@@ -34,7 +34,7 @@ module.exports = {
 
       if (!tokenResponse.isSuccessful) {
         const errorMessage = _getErrorMessage(tokenResponse.data);
-        performanceTool.logErrorWithCorrelationId(errorMessage);
+        monitoringTools.logErrorWithCorrelationIds(errorMessage);
         return {
           isSuccessful: tokenResponse.isSuccessful,
           code: tokenResponse.code || '500',
@@ -62,7 +62,7 @@ module.exports = {
 
     if (!httpResponse.isSuccessful) {
       const errorMessage = _getErrorMessage(httpResponse.data);
-      performanceTool.logErrorWithCorrelationId(errorMessage);
+      monitoringTools.logErrorWithCorrelationIds(errorMessage);
     }
 
     return {

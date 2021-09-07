@@ -1,5 +1,5 @@
 const types = require('pg').types;
-const { addPositionToQuerieAndIncrementQueriesCounter, logKnexQueriesWithCorrelationId } = require('../lib/infrastructure/performance-tools');
+const { addPositionToQuerieAndIncrementQueriesCounter, logKnexQueriesWithCorrelationId } = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
