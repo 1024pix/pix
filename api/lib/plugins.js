@@ -7,11 +7,11 @@ const { get } = require('lodash');
 const { asyncLocalStorage, extractUserIdFromRequest } = require('./infrastructure/monitoring-tools');
 
 function logObjectSerializer(obj) {
-  const request = asyncLocalStorage.getStore();
+  const store = asyncLocalStorage.getStore();
   return {
     ...obj,
-    user_id: extractUserIdFromRequest(request),
-    knexQueries: get(request, 'knexQueries', '-'),
+    user_id: get(store, 'request') ? extractUserIdFromRequest(store.request) : '-',
+    knexQueries: get(store, 'metrics.knexQueries', '-'),
   };
 }
 

@@ -18,7 +18,8 @@ const originalMethod = Request.prototype._execute;
 
 Request.prototype._execute = function(...args) {
   const request = this;
-  return asyncLocalStorage.run(request, () => originalMethod.call(request, args));
+  const store = { request, metrics: { knexQueries: [], queriesCounter: 0 }, knexQueriesUUIDs: {} };
+  return asyncLocalStorage.run(store, () => originalMethod.call(request, args));
 };
 
 let config;
