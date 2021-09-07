@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.97.0 (07/09/2021)
+
+- [#3444](https://github.com/1024pix/pix/pull/3444) [FEATURE] Les épreuves focus sont échouées en certification en cas de perte du focus (PIX-3147).
+- [#3432](https://github.com/1024pix/pix/pull/3432) [FEATURE] Création du formulaire pour la validation de l'adresse e-mail sur Pix App (PIX-3120).
+- [#3452](https://github.com/1024pix/pix/pull/3452) [FEATURE] Supprimer l'affichage de html/css dans les instructions en checkpoint (PIX-2792).
+- [#3454](https://github.com/1024pix/pix/pull/3454) [FEATURE] Réutiliser le champ résultat pour la page "profil déjà envoyé" sur Pix App (PIX-3124).
+- [#3427](https://github.com/1024pix/pix/pull/3427) [FEATURE] Afficher le commentaire jury d'une session dans Pix Admin (PIX-3130)
+- [#3450](https://github.com/1024pix/pix/pull/3450) [FEATURE] Nouveau message de sortie d'épreuve focus pour la certification (PIX-3069).
+- [#3451](https://github.com/1024pix/pix/pull/3451) [FEATURE] Modification des messages sur les épreuves focus (PIX-3148).
+- [#3442](https://github.com/1024pix/pix/pull/3442) [TECH] Ajouter une colonne de statut sur la table "compaign-participations" (PIX-2998).
+- [#3449](https://github.com/1024pix/pix/pull/3449) [TECH] Suppression de la route GET `/campaigns/id/assessment-participations` qui est dépréciée (PIX-3161).
+- [#3405](https://github.com/1024pix/pix/pull/3405) [FEAT] Suppression du champ grisé après la fin du temps imparti sur une question timée.
+
 ## v3.96.0 (03/09/2021)
 
 - [#3445](https://github.com/1024pix/pix/pull/3445) [FEATURE] Ajouter un titre de page spécifique pour les épreuves focus (PIX-3149). 
