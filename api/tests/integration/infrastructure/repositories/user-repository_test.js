@@ -1407,7 +1407,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
 
     beforeEach(function() {
       userId = databaseBuilder.factory
-        .buildUser({ hasSeenFocusedChallengeTooltip: false })
+        .buildUser({ hasSeenFocusedChallengeTooltip: false, hasSeenOtherChallengesTooltip: false })
         .id;
       return databaseBuilder.commit();
     });
@@ -1419,6 +1419,15 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
 
       // then
       expect(actualUser.hasSeenFocusedChallengeTooltip).to.be.true;
+    });
+
+    it('should return the model with hasSeenOtherChallengesTooltip flag updated to true', async function() {
+      // when
+      const challengeType = 'other';
+      const actualUser = await userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
+
+      // then
+      expect(actualUser.hasSeenOtherChallengesTooltip).to.be.true;
     });
   });
 
