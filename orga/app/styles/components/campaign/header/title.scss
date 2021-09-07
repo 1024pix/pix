@@ -29,6 +29,10 @@
   }
 
   &__info-item {
+    color: $grey-60;
+    font-family: $roboto;
+    font-size: 1rem;
+
     & > dt {
       display: block;
       margin-bottom: 8px;
@@ -54,7 +58,7 @@
       justify-content: center;
       width: 100%;
     }
-  
+
     &__infos {
       justify-content: center;
     }
