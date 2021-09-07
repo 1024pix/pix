@@ -1,4 +1,4 @@
-const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
+const { expect, knex, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const certificationCenterRepository = require('../../../../lib/infrastructure/repositories/certification-center-repository');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -16,8 +16,19 @@ describe('Integration | Repository | Certification Center', function() {
           id: 1,
           name: 'certificationCenterName',
           createdAt: new Date('2018-01-01T05:43:10Z'),
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
         });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
+
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
 
         await databaseBuilder.commit();
 
@@ -25,11 +36,61 @@ describe('Integration | Repository | Certification Center', function() {
         const certificationCenter = await certificationCenterRepository.get(1);
 
         // then
-        expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
-        expect(certificationCenter.id).to.equal(1);
-        expect(certificationCenter.name).to.equal('certificationCenterName');
-        expect(certificationCenter.createdAt).to.deep.equal(new Date('2018-01-01T05:43:10Z'));
-        expect(certificationCenter).to.have.all.keys(['id', 'name', 'type', 'externalId', 'createdAt']);
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
+      });
+
+      it('should return accreditations along with certification centers if there is any', async function() {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 12345,
+          name: 'Accreditation test 1',
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 6789,
+          name: 'Accreditation test 2',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 12345,
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 6789,
+        });
+
+        const expectedAccreditation1 = domainBuilder.buildAccreditation({
+          id: 12345,
+          name: 'Accreditation test 1',
+        });
+        const expectedAccreditation2 = domainBuilder.buildAccreditation({
+          id: 6789,
+          name: 'Accreditation test 2',
+        });
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation2,
+            expectedAccreditation1,
+          ],
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenter = await certificationCenterRepository.get(1);
+
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
     });
 
@@ -53,20 +114,71 @@ describe('Integration | Repository | Certification Center', function() {
       it('should return the certification center of the given sessionId', async function() {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'Given session center',
           externalId: '123456',
           type: 'SCO',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
         }).id;
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'Given session center',
+          type: 'SCO',
+          externalId: '123456',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
+
         await databaseBuilder.commit();
 
         // when
         const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
 
         // then
-        expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
-        expect(certificationCenter.id).to.equal(certificationCenterId);
-        expect(certificationCenter.externalId).to.equal('123456');
-        expect(certificationCenter.type).to.equal('SCO');
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
+      });
+
+      it('should return the certification center and accreditations of the given sessionId', async function() {
+        // given
+        const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        }).id;
+        databaseBuilder.factory.buildAccreditation({
+          id: 1234,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 1234,
+        });
+
+        const expectedAccreditation = domainBuilder.buildAccreditation({
+          id: 1234,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'certificationCenterName',
+          type: CertificationCenter.types.SUP,
+          externalId: 'externalId',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation,
+          ],
+        });
+        const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenter = await certificationCenterRepository.getBySessionId(sessionId);
+
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
     });
 
@@ -118,7 +230,51 @@ describe('Integration | Repository | Certification Center', function() {
 
       it('should return an Array of CertificationCenters', async function() {
         // given
-        _.times(3, databaseBuilder.factory.buildCertificationCenter);
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          externalId: '1',
+          type: 'SUP',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          type: CertificationCenter.types.SUP,
+          externalId: '1',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          externalId: '2',
+          type: 'SCO',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          type: CertificationCenter.types.SCO,
+          externalId: '2',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          externalId: '3',
+          type: 'PRO',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          type: CertificationCenter.types.PRO,
+          externalId: '3',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+          accreditations: [],
+        });
         await databaseBuilder.commit();
 
         const filter = {};
@@ -129,9 +285,110 @@ describe('Integration | Repository | Certification Center', function() {
         const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(matchingCertificationCenters).to.exist;
-        expect(matchingCertificationCenters).to.have.lengthOf(3);
-        expect(matchingCertificationCenters[0]).to.be.an.instanceOf(CertificationCenter);
+        expect(matchingCertificationCenters).to.deepEqualArray([expectedCertificationCenter1, expectedCertificationCenter2, expectedCertificationCenter3]);
+        expect(pagination).to.deep.equal(expectedPagination);
+      });
+
+      it('should return an Array of CertificationCenters and their accreditations', async function() {
+        // given
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          externalId: '1',
+          type: 'SUP',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 11,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 11,
+        });
+        const expectedAccreditation1 = domainBuilder.buildAccreditation({
+          id: 11,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter1 = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'First certification center',
+          type: CertificationCenter.types.SUP,
+          externalId: '1',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation1,
+          ],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          externalId: '2',
+          type: 'SCO',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 22,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 2,
+          accreditationId: 22,
+        });
+        const expectedAccreditation2 = domainBuilder.buildAccreditation({
+          id: 22,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter2 = domainBuilder.buildCertificationCenter({
+          id: 2,
+          name: 'Second certification center',
+          type: CertificationCenter.types.SCO,
+          externalId: '2',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation2,
+          ],
+        });
+        databaseBuilder.factory.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          externalId: '3',
+          type: 'PRO',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 33,
+          name: 'Accreditation name',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 3,
+          accreditationId: 33,
+        });
+        const expectedAccreditation3 = domainBuilder.buildAccreditation({
+          id: 33,
+          name: 'Accreditation name',
+        });
+        const expectedCertificationCenter3 = domainBuilder.buildCertificationCenter({
+          id: 3,
+          name: 'Third certification center',
+          type: CertificationCenter.types.PRO,
+          externalId: '3',
+          createdAt: new Date('2018-04-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation3,
+          ],
+        });
+        await databaseBuilder.commit();
+
+        const filter = {};
+        const page = { number: 1, size: 10 };
+        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+
+        // when
+        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+
+        // then
+        expect(matchingCertificationCenters).to.deepEqualArray([expectedCertificationCenter1, expectedCertificationCenter2, expectedCertificationCenter3]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
@@ -278,15 +535,69 @@ describe('Integration | Repository | Certification Center', function() {
       it('should return the certification center', async function() {
         // given
         const externalId = 'EXTERNAL_ID';
-        databaseBuilder.factory.buildCertificationCenter({ externalId });
+        databaseBuilder.factory.buildCertificationCenter({
+          externalId,
+          id: 1,
+          name: 'Certif center to return by external Id',
+          type: 'SUP',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'Certif center to return by external Id',
+          type: CertificationCenter.types.SUP,
+          externalId: 'EXTERNAL_ID',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
         await databaseBuilder.commit();
 
         // when
         const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
 
         // then
-        expect(certificationCenter).to.be.an.instanceOf(CertificationCenter);
-        expect(certificationCenter.externalId).to.equal(externalId);
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
+      });
+
+      it('should return the certification center and accreditation', async function() {
+        // given
+        const externalId = 'EXTERNAL_ID';
+        databaseBuilder.factory.buildCertificationCenter({
+          externalId,
+          id: 1,
+          name: 'Certif center to return by external Id',
+          type: 'SUP',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+        });
+        databaseBuilder.factory.buildAccreditation({
+          id: 123,
+          name: 'Accreditation test',
+        });
+        databaseBuilder.factory.buildGrantedAccreditation({
+          certificationCenterId: 1,
+          accreditationId: 123,
+        });
+        const expectedAccreditation = domainBuilder.buildAccreditation({
+          id: 123,
+          name: 'Accreditation test',
+        });
+        const expectedCertificationCenter = domainBuilder.buildCertificationCenter({
+          id: 1,
+          name: 'Certif center to return by external Id',
+          type: CertificationCenter.types.SUP,
+          externalId: 'EXTERNAL_ID',
+          createdAt: new Date('2018-01-01T05:43:10Z'),
+          accreditations: [
+            expectedAccreditation,
+          ],
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
+
+        // then
+        expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
     });
 

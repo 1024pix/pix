@@ -1,5 +1,7 @@
 module.exports = {
   buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
+  buildAccreditation: require('./build-accreditation'),
+  buildAccreditedBadge: require('./build-accredited-badge'),
   buildAnswer: require('./build-answer'),
   buildAnsweredNotCompletedCertificationAssessment: require('./build-answered-not-completed-certification-assessment'),
   buildAssessment: require('./build-assessment'),
@@ -33,6 +35,7 @@ module.exports = {
   buildCorrectAnswersAndKnowledgeElementsForLearningContent: require('./build-correct-answers-and-knowledge-elements-for-learning-content'),
   buildCorrectAnswerAndKnowledgeElement: require('./build-correct-answer-and-knowledge-element'),
   buildFinalizedSession: require('./build-finalized-session'),
+  buildGrantedAccreditation: require('./build-granted-accreditation'),
   buildKnowledgeElement: require('./build-knowledge-element'),
   buildKnowledgeElementSnapshot: require('./build-knowledge-element-snapshot'),
   buildOrganization: require('./build-organization'),

@@ -1,4 +1,5 @@
 const pick = require('lodash/pick');
+const omit = require('lodash/omit');
 
 const { expect, knex, databaseBuilder, catchErr } = require('../../../test-helper');
 
@@ -145,7 +146,7 @@ describe('Integration | Repository | Certification Center Membership', function(
       } = foundCertificationCenterMembership;
 
       expect(associatedCertificationCenter).to.be.an.instanceof(CertificationCenter);
-      expect(associatedCertificationCenter).to.deep.equal(certificationCenter);
+      expect(omit(associatedCertificationCenter, ['accreditations'])).to.deep.equal(certificationCenter);
 
       expect(associatedUser).to.be.an.instanceOf(User);
       expect(pick(associatedUser, ['id', 'firstName', 'lastName', 'email']))

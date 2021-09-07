@@ -1,8 +1,10 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 
 export default class CertificationCenter extends Model {
 
   @attr() name;
   @attr() type;
   @attr() externalId;
+
+  @hasMany('accreditation') accreditations;
 }
