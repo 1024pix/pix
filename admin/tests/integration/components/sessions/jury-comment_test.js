@@ -3,7 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import moment from 'moment';
+import sinon from 'sinon';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import queryByLabel from '../../../helpers/extended-ember-test-helpers/query-by-label';
+import getByLabel from '../../../helpers/extended-ember-test-helpers/get-by-label';
 
 module('Integration | Component | Sessions::JuryComment', function(hooks) {
   setupRenderingTest(hooks);
@@ -30,14 +34,39 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
       assert.dom(getByLabel('Enregistrer')).exists();
       assert.dom(queryByLabel('Annuler')).doesNotExist();
     });
+
+    module('when the form is submitted', function() {
+      test('it saves the new comment', async function(assert) {
+        // given
+        this.author = null;
+        this.date = null;
+        this.comment = null;
+        this.onFormSubmit = sinon.stub().resolves();
+
+        // when
+        await render(hbs`
+          <Sessions::JuryComment
+            @author={{this.author}}
+            @date={{this.date}}
+            @comment={{this.comment}}
+            @onFormSubmit={{this.onFormSubmit}}
+          />
+        `);
+        await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
+        await clickByLabel('Enregistrer');
+
+        // then
+        assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
+      });
+    });
   });
 
   module('when there is a comment', function() {
     test('it renders the comment', async function(assert) {
       // given
-      this.set('author', 'Vernon Sanders Law');
-      this.set('date', new Date('2021-06-21T14:30:21Z'));
-      this.set('comment', 'L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
+      this.author = 'Vernon Sanders Law';
+      this.date = new Date('2021-06-21T14:30:21Z');
+      this.comment = 'L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.';
       const expectedDate = moment(this.date).format('DD/MM/YYYY à HH:mm');
 
       // when
@@ -51,17 +80,18 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
 
       // then
       assert.contains('Commentaire de l\'équipe Certification');
-      assert.dom('.jury-comment__author').hasText('Vernon Sanders Law');
-      assert.dom('.jury-comment__date').hasText(expectedDate);
-      assert.dom('.jury-comment__content').hasText('L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
+      assert.contains('Vernon Sanders Law');
+      assert.contains(expectedDate);
+      assert.contains('L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
+      assert.dom(getByLabel('Modifier')).exists();
     });
 
     module('when the "Modifier" button is clicked', function() {
       test('it renders a prefilled form', async function(assert) {
         // given
-        this.set('author', 'Vernon Sanders Law');
-        this.set('date', new Date('2021-06-21T14:30:21Z'));
-        this.set('comment', 'L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
+        this.author = 'Vernon Sanders Law';
+        this.date = new Date('2021-06-21T14:30:21Z');
+        this.comment = 'L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.';
 
         // when
         await render(hbs`

@@ -4,11 +4,18 @@ import { action } from '@ember/object';
 
 export default class CertificationStatusSelect extends Component {
   @tracked editingMode = false;
+  @tracked commentText;
+
+  constructor() {
+    super(...arguments);
+    this.commentText = this.args.comment;
+  }
 
   @action
   submitForm(event) {
     event.preventDefault();
     this.exitEditingMode();
+    this.args.onFormSubmit(this.commentText);
   }
 
   @action
