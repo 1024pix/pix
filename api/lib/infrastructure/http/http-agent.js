@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-restricted-modules
 const axios = require('axios');
-const { logInfoWithCorrelationId, logErrorWithCorrelationId } = require('../../infrastructure/performance-tools');
+const { logInfoWithCorrelationIds, logErrorWithCorrelationIds } = require('../monitoring-tools');
 
 class HttpResponse {
   constructor({
@@ -16,14 +16,14 @@ class HttpResponse {
 
 module.exports = {
   async post({ url, payload, headers }) {
-    logInfoWithCorrelationId(`Starting POST request to ${url}`);
+    logInfoWithCorrelationIds(`Starting POST request to ${url}`);
 
     try {
       const httpResponse = await axios.post(url, payload, {
         headers,
       });
 
-      logInfoWithCorrelationId(`End POST request to ${url} success: ${httpResponse.status}`);
+      logInfoWithCorrelationIds(`End POST request to ${url} success: ${httpResponse.status}`);
 
       return new HttpResponse({
         code: httpResponse.status,
@@ -41,7 +41,7 @@ module.exports = {
         data = httpErr.message;
       }
 
-      logErrorWithCorrelationId(`End POST request to ${url} error: ${code} ${data.toString()}`);
+      logErrorWithCorrelationIds(`End POST request to ${url} error: ${code} ${data.toString()}`);
 
       return new HttpResponse({
         code,
@@ -51,13 +51,13 @@ module.exports = {
     }
   },
   async get({ url, payload, headers }) {
-    logInfoWithCorrelationId(`Starting GET request to ${url}`);
+    logInfoWithCorrelationIds(`Starting GET request to ${url}`);
 
     try {
       const config = { data: payload, headers };
       const httpResponse = await axios.get(url, config);
 
-      logInfoWithCorrelationId(`End GET request to ${url} success: ${httpResponse.status}`);
+      logInfoWithCorrelationIds(`End GET request to ${url} success: ${httpResponse.status}`);
 
       return new HttpResponse({
         code: httpResponse.status,
@@ -78,7 +78,7 @@ module.exports = {
         data = null;
       }
 
-      logInfoWithCorrelationId(`End GET request to ${url} error: ${code}`);
+      logInfoWithCorrelationIds(`End GET request to ${url} error: ${code}`);
 
       return new HttpResponse({
         code,
