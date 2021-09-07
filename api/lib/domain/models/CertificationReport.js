@@ -45,8 +45,13 @@ class CertificationReport {
 
   validateForFinalization() {
     const { error } = certificationReportSchemaForFinalization.validate(this);
+
     if (error) {
       throw new InvalidCertificationReportForFinalization(error);
+    }
+
+    if (!this.isCompleted && !this.abortReason) {
+      throw new InvalidCertificationReportForFinalization('Abort reason is required if certificationReport is not completed');
     }
   }
 
