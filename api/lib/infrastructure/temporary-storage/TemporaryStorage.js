@@ -1,6 +1,13 @@
+const { v4: uuidv4 } = require('uuid');
+
 class TemporaryStorage {
-  async save(/* value, expirationDelaySeconds */) {
-    throw new Error('Method #save({ value, expirationDelaySeconds }) must be overridden');
+
+  static generateKey() {
+    return uuidv4();
+  }
+
+  async save(/* key, value, expirationDelaySeconds */) {
+    throw new Error('Method #save({ key, value, expirationDelaySeconds }) must be overridden');
   }
 
   async get(/* key */) {
