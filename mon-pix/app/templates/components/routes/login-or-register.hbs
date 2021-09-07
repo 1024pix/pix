@@ -9,9 +9,14 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">{{t 'pages.login-or-register.register-form.title'}}</h1>
         {{#unless @displayRegisterForm}}
-          <button id="register-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">
+          <PixButton
+            id="register-button"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{@toggleFormsVisibility}}
+          >
             {{t 'pages.login-or-register.register-form.button'}}
-          </button>
+          </PixButton>
         {{/unless}}
         <div class={{concat "login-or-register-panel-form__expandable" (if @displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#if @displayRegisterForm}}
@@ -23,7 +28,14 @@
       <div class="login-or-register-panel__form">
         <h1 class="form-title">{{t 'pages.login-or-register.login-form.title'}}</h1>
         {{#if @displayRegisterForm}}
-          <button id="login-button" {{action @toggleFormsVisibility}} class="button button--white button--bordered button--uppercase" type="button">{{t 'pages.login-or-register.login-form.button'}}</button>
+          <PixButton
+            id="login-button"
+            @backgroundColor="transparent-light"
+            @isBorderVisible={{true}}
+            @triggerAction={{@toggleFormsVisibility}}
+          >
+            {{t 'pages.login-or-register.login-form.button'}}
+          </PixButton>
         {{/if}}
         <div class={{concat "login-or-register-panel-form__expandable" (unless @displayRegisterForm " login-or-register-panel-form__expandable--expanded")}}>
           {{#unless @displayRegisterForm}}
