@@ -7,7 +7,7 @@ module.exports = {
   serialize(certificationCenters, meta) {
     return new Serializer('certification-center', {
       attributes: [
-        'id', 'name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships',
+        'name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'accreditations',
       ],
       certificationCenterMemberships: {
         ref: 'id',
@@ -19,6 +19,11 @@ module.exports = {
           },
         },
       },
+      accreditations: {
+        include: true,
+        ref: 'id',
+        attributes: ['name'],
+      },
       meta,
     }).serialize(certificationCenters);
   },
@@ -29,6 +34,8 @@ module.exports = {
       name: jsonAPI.data.attributes.name,
       type: jsonAPI.data.attributes.type,
       externalId: jsonAPI.data.attributes['external-id'],
+      createdAt: null,
+      accreditations: [],
     });
   },
 };

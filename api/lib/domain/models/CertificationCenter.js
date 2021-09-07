@@ -16,12 +16,14 @@ class CertificationCenter {
     externalId,
     type,
     createdAt,
+    accreditations = [],
   } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
     this.type = type;
     this.createdAt = createdAt;
+    this.accreditations = accreditations;
   }
 
   get isSco() {

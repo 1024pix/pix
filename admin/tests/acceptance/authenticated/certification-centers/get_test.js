@@ -65,6 +65,20 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains(certificationCenter.type);
   });
 
+  test('should display Certification center accreditations', async function(assert) {
+    // given
+    const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
+    const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
+    certificationCenter.update({ accreditations: [accreditation1, accreditation2] });
+
+    // when
+    await visit(`/certification-centers/${certificationCenter.id}`);
+
+    // then
+    assert.contains('Pix+Edu');
+    assert.contains('Pix+Surf');
+  });
+
   test('should display Certification center memberships', async function(assert) {
     // given
     const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
