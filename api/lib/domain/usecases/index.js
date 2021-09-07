@@ -1,5 +1,6 @@
 const dependencies = {
   accountRecoveryDemandRepository: require('../../infrastructure/repositories/account-recovery-demand-repository'),
+  accreditationRepository: require('../../infrastructure/repositories/accreditation-repository'),
   answerRepository: require('../../infrastructure/repositories/answer-repository'),
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
   assessmentResultRepository: require('../../infrastructure/repositories/assessment-result-repository'),
