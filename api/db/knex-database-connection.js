@@ -43,22 +43,21 @@ try {
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 
-const queries = new Map();
-
 knex.on('query', function(data) {
   if (logging.enableLogKnexQueriesWithCorrelationId && doesStoreContainsRequest()) {
+    const store = asyncLocalStorage.getStore();
     const queryStartedTime = performance.now();
-    queries.set(data.__knexQueryUid, queryStartedTime);
+    store.knexQueriesUUIDs[data.__knexQueryUid] = queryStartedTime;
   }
 });
 
 knex.on('query-response', function(response, obj) {
   if (logging.enableLogKnexQueriesWithCorrelationId && doesStoreContainsRequest()) {
-    const queryStartedTime = queries.get(obj.__knexQueryUid);
+    const store = asyncLocalStorage.getStore();
+    const queryStartedTime = store.knexQueriesUUIDs[obj.__knexQueryUid];
     const duration = performance.now() - queryStartedTime;
     obj.duration = duration;
     addKnexMetricsToRequestContext(obj);
-    queries.delete(obj.__knexQueryUid);
   }
 });
 

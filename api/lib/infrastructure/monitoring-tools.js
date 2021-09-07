@@ -56,18 +56,13 @@ function logKnexQueriesWithCorrelationId(data, msg) {
 }
 
 function addKnexMetricsToRequestContext(data) {
-  const request = asyncLocalStorage.getStore();
-  if (request) {
-    request.knexQueryPosition = request.knexQueryPosition || [];
-    request.knexQueries = request.knexQueries || [];
-    request.queriesCounter = request.queriesCounter || 0;
-    request.queriesCounter++;
-    request.knexQueryPosition[data.__knexQueryUid] = request.queriesCounter;
-    request.knexQueries.push({
-      knex_query_id: data.__knexQueryUid,
-      knex_query_position: request.queriesCounter,
-      knex_query_sql: data.sql,
-      knex_query_params: [(data.bindings) ? data.bindings.join(',') : ''],
+  const store = asyncLocalStorage.getStore();
+  if (store && store.request && store.metrics) {
+    store.metrics.queriesCounter++;
+    store.metrics.knexQueries.push({
+      id: data.__knexQueryUid,
+      sql: data.sql,
+      params: [(data.bindings) ? data.bindings.join(',') : ''],
       duration: get(data, 'duration', '-'),
     });
   }
