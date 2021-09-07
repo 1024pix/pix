@@ -2,7 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases');
-const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError, CantImproveCampaignParticipationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Usecase | begin-campaign-participation-improvement', function() {
 
@@ -10,6 +10,9 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function()
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     get: sinon.stub(),
+    // TODO: Fix this the next time the file is edited.
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    update: sinon.stub(),
   };
   const assessmentRepository = {
     // TODO: Fix this the next time the file is edited.
@@ -51,6 +54,28 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function()
 
     // then
     expect(error).to.be.instanceOf(AlreadySharedCampaignParticipationError);
+  });
+
+  it('should throw an error if the campaign is of type profiles collection', async function() {
+    // given
+    const userId = 1;
+    const campaignParticipationId = 2;
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: false, campaign: domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION' }) });
+    campaignParticipationRepository.get
+      .withArgs(campaignParticipationId, {})
+      .resolves(campaignParticipation);
+    const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
+    latestAssessment.state = Assessment.states.COMPLETED;
+    assessmentRepository.getLatestByCampaignParticipationId
+      .withArgs(campaignParticipationId)
+      .resolves(latestAssessment);
+    assessmentRepository.save.resolves({});
+
+    // when
+    const error = await catchErr(beginCampaignParticipationImprovement)({ campaignParticipationId, userId, ...dependencies });
+
+    // then
+    expect(error).to.be.instanceOf(CantImproveCampaignParticipationError);
   });
 
   it('should not start another assessment when the current assessment of the campaign is of improving type and still ongoing', async function() {
