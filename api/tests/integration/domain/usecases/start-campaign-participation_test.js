@@ -5,6 +5,8 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const campaignParticipationRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-repository');
 const campaignToJoinRepository = require('../../../../lib/infrastructure/repositories/campaign-to-join-repository');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
+const Campaign = require('../../../../lib/domain/models/Campaign');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 
 describe('Integration | UseCases | start-campaign-participation', function() {
 
@@ -28,7 +30,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
 
   it('should save a campaign participation and its assessment when campaign is of type ASSESSMENT', async function() {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'ASSESSMENT', organizationId }).id;
+    campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.ASSESSMENT, organizationId }).id;
     await databaseBuilder.commit();
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
@@ -40,13 +42,14 @@ describe('Integration | UseCases | start-campaign-participation', function() {
     // then
     const campaignParticipations = await knex('campaign-participations');
     expect(campaignParticipations).to.have.lengthOf(1);
+    expect(campaignParticipations[0].status).to.equal(CampaignParticipation.statuses.STARTED);
     const assessments = await knex('assessments');
     expect(assessments).to.have.lengthOf(1);
   });
 
   it('should save only a campaign participation when campaign is of type PROFILES_COLLECTION', async function() {
     // given
-    campaignId = databaseBuilder.factory.buildCampaign({ type: 'PROFILES_COLLECTION', organizationId }).id;
+    campaignId = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION, organizationId }).id;
     await databaseBuilder.commit();
     const campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId });
 
@@ -58,6 +61,7 @@ describe('Integration | UseCases | start-campaign-participation', function() {
     // then
     const campaignParticipations = await knex('campaign-participations');
     expect(campaignParticipations).to.have.lengthOf(1);
+    expect(campaignParticipations[0].status).to.equal(CampaignParticipation.statuses.TO_SHARE);
     const assessments = await knex('assessments');
     expect(assessments).to.have.lengthOf(0);
   });
