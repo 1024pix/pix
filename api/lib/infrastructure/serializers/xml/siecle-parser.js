@@ -29,6 +29,8 @@ class SiecleParser {
 
     await this._parseStudents();
 
+    await this.siecleFileStreamer.close();
+
     return this.schoolingRegistrationsSet.schoolingRegistrations.filter((schoolingRegistration) => !isUndefined(schoolingRegistration.division));
   }
 
