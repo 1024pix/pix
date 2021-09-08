@@ -82,6 +82,14 @@
 
   &__label {
     margin-bottom: 8px;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+
+  &__value {
+    margin: 0;
   }
 
 
@@ -165,7 +173,7 @@
   .panel-header__body {
     flex-direction: column;
   }
-  
+
   .panel-header__data {
     flex-direction: column;
     align-items: flex-start;

@@ -189,7 +189,6 @@
         "review": "Analyse"
       },
       "table": {
-        "title": "Résultats par compétence",
         "column": {
           "competences": "Compétences ({count, plural, =0 {-} other {{count}}})",
           "results": {
@@ -197,7 +196,9 @@
             "tooltip": "<span class=\"sr-only\">Ce participant a validé</span> {result, number, ::percent} <span class=\"sr-only\">de la compétence {competence}.</span>"
           }
         },
-        "empty": "En attente de résultats"
+        "empty": "En attente de résultats",
+        "row-title": "Compétence",
+        "title": "Résultats par compétence"
       }
     },
     "campaign": {
@@ -339,7 +340,8 @@
           }
         },
         "empty": "Aucune participation",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "title": "Liste des résultats reçus"
       },
       "tested-items": "Acquis évalués",
       "title": "Résultats",
@@ -517,11 +519,12 @@
           "skill": "Compétence"
         },
         "empty": "En attente de résultats",
-        "row-title": "Compétence"
+        "row-title": "Compétence",
+        "title": "Résultats par compétence"
       }
     },
     "profiles-list": {
-      "title": "Participants",
+      "title": "Profils reçus",
       "table": {
         "column": {
           "certifiable": "Certifiable",
@@ -538,7 +541,8 @@
           }
         },
         "empty": "En attente de profils",
-        "row-title": "Profil"
+        "row-title": "Profil",
+        "title": "Liste des profils reçus"
       }
     },
     "students-sco": {
