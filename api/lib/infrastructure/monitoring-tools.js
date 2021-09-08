@@ -34,27 +34,6 @@ function logErrorWithCorrelationIds(error) {
   }, error);
 }
 
-function logKnexQueriesWithCorrelationId(data, msg) {
-  if (logging.enableLogKnexQueriesWithCorrelationId) {
-    const request = asyncLocalStorage.getStore();
-    const knexQueryId = data.__knexQueryUid;
-    logger.info({
-      request_id: `${get(request, 'info.id', '-')}`,
-      knex_query_id: knexQueryId,
-      knex_query_position: get(request, ['knexQueryPosition', knexQueryId ], '-'),
-      knex_query_sql: data.sql,
-      knex_query_params: [(data.bindings) ? data.bindings.join(',') : ''],
-      duration: get(data, 'duration', '-'),
-      http: {
-        method: get(request, 'method', '-'),
-        url_detail: {
-          path: get(request, 'path', '-'),
-        },
-      },
-    }, msg);
-  }
-}
-
 function addKnexMetricsToRequestContext(data) {
   const store = asyncLocalStorage.getStore();
   if (store && store.request && store.metrics) {
@@ -83,7 +62,6 @@ module.exports = {
   addKnexMetricsToRequestContext,
   extractUserIdFromRequest,
   doesStoreContainsRequest,
-  logKnexQueriesWithCorrelationId,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
 };
