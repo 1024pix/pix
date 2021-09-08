@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const certificationReportController = require('./certification-report-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
-const certificationSessionAuthorization = require('../preHandlers/certification-session-authorization');
+const authorization = require('../preHandlers/authorization');
 
 exports.register = async (server) => {
   server.route([
@@ -33,7 +33,7 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: certificationSessionAuthorization.verify,
+            method: authorization.verifyCertificationSessionAuthorization,
             assign: 'authorizationCheck',
           },
         ],

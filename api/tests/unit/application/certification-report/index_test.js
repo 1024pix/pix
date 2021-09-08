@@ -1,7 +1,7 @@
 const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const certificationReportController = require('../../../../lib/application/certification-reports/certification-report-controller');
 const { NotFoundError } = require('../../../../lib/application/http-errors');
-const certificationSessionAuthorization = require('../../../../lib/application/preHandlers/certification-session-authorization');
+const authorization = require('../../../../lib/application/preHandlers/authorization');
 const moduleUnderTest = require('../../../../lib/application/certification-reports');
 
 describe('Unit | Application | Certifications Report | Route', function() {
@@ -23,7 +23,7 @@ describe('Unit | Application | Certifications Report | Route', function() {
 
     it('Returns HTTP 200 if the logged user has access to the session', async function() {
       // given
-      sinon.stub(certificationSessionAuthorization, 'verify').returns('ok');
+      sinon.stub(authorization, 'verifyCertificationSessionAuthorization').returns('ok');
       sinon.stub(certificationReportController, 'abort').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -37,7 +37,7 @@ describe('Unit | Application | Certifications Report | Route', function() {
 
     it('Returns HTTP 404 if the logged user is not allowed to access the session', async function() {
       // given
-      sinon.stub(certificationSessionAuthorization, 'verify').throws(new NotFoundError('coucou'));
+      sinon.stub(authorization, 'verifyCertificationSessionAuthorization').throws(new NotFoundError('coucou'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
