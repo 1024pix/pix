@@ -1,6 +1,12 @@
 const _ = require('lodash');
 const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError } = require('../errors');
 
+const statuses = {
+  STARTED: 'STARTED',
+  TO_SHARE: 'TO_SHARE',
+  SHARED: 'SHARED',
+};
+
 class CampaignParticipation {
 
   constructor({
@@ -46,6 +52,7 @@ class CampaignParticipation {
 
     this.isShared = true;
     this.sharedAt = new Date();
+    this.status = statuses.SHARED;
   }
 
   _canBeShared() {
@@ -68,5 +75,7 @@ class CampaignParticipation {
 function lastAssessmentNotCompleted(campaignParticipation) {
   return !campaignParticipation.lastAssessment || !campaignParticipation.lastAssessment.isCompleted();
 }
+
+CampaignParticipation.statuses = statuses;
 
 module.exports = CampaignParticipation;
