@@ -1,5 +1,5 @@
 const { sinon, expect, domainBuilder } = require('../../../../test-helper');
-const dataFetcher = require('../../../../../lib/domain/services/smart-random/data-fetcher');
+const dataFetcher = require('../../../../../lib/domain/services/algorithm-methods/data-fetcher');
 
 describe('Unit | Domain | services | smart-random | dataFetcher', function() {
 

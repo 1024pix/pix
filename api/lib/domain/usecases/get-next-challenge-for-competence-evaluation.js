@@ -4,8 +4,8 @@ const {
   UserNotAuthorizedToAccessEntityError,
 } = require('../errors');
 
-const smartRandom = require('../services/smart-random/smart-random');
-const dataFetcher = require('../services/smart-random/data-fetcher');
+const smartRandom = require('../services/algorithm-methods/smart-random');
+const dataFetcher = require('../services/algorithm-methods/data-fetcher');
 
 module.exports = async function getNextChallengeForCompetenceEvaluation({
   knowledgeElementRepository,

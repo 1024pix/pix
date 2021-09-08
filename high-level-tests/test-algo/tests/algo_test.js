@@ -1,6 +1,6 @@
 const { expect, sinon } = require('./test-helpers');
 const { answerTheChallenge, _getReferentiel } = require('../algo');
-const DataFetcher = require('../../../api/lib/domain/services/smart-random/data-fetcher');
+const DataFetcher = require('../../../api/lib/domain/services/algorithm-methods/data-fetcher');
 const KnowledgeElement = require('../../../api/lib/domain/models/KnowledgeElement');
 
 describe('#answerTheChallenge', () => {

@@ -1,7 +1,7 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
-const smartRandom = require('../../../../lib/domain/services/smart-random/smart-random');
+const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function() {
