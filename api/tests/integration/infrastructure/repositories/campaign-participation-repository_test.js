@@ -168,6 +168,7 @@ describe('Integration | Repository | Campaign Participation', function() {
         ...campaignParticipationToUpdate,
         isShared: true,
         sharedAt: new Date('2021-01-01'),
+        status: CampaignParticipation.statuses.SHARED,
         validatedSkillsCount: 10,
         pixScore: 10,
         masteryPercentage: 0.9,
@@ -176,6 +177,7 @@ describe('Integration | Repository | Campaign Participation', function() {
 
       expect(campaignParticipation.isShared).to.equals(true);
       expect(campaignParticipation.sharedAt).to.deep.equals(new Date('2021-01-01'));
+      expect(campaignParticipation.status).to.equals(CampaignParticipation.statuses.SHARED);
       expect(campaignParticipation.validatedSkillsCount).to.equals(10);
       expect(campaignParticipation.pixScore).to.equals(10);
       expect(campaignParticipation.masteryPercentage).to.equals('0.90');
@@ -714,6 +716,7 @@ describe('Integration | Repository | Campaign Participation', function() {
       campaignParticipation.user = {};
       campaignParticipation.assessmentId = {};
       campaignParticipation.isShared = true;
+      campaignParticipation.status = CampaignParticipation.statuses.SHARED;
       campaignParticipation.participantExternalId = 'Laura';
 
       // when
@@ -722,6 +725,7 @@ describe('Integration | Repository | Campaign Participation', function() {
       const updatedCampaignParticipation = await knex('campaign-participations').where({ id: campaignParticipation.id }).first();
       // then
       expect(updatedCampaignParticipation.isShared).to.be.true;
+      expect(updatedCampaignParticipation.status).to.equals(CampaignParticipation.statuses.SHARED);
       expect(updatedCampaignParticipation.participantExternalId).to.equals('Laura');
     });
 

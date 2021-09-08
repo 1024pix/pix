@@ -91,6 +91,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
 
           expect(campaignParticipation.isShared).to.be.true;
           expect(campaignParticipation.sharedAt).to.deep.equals(now);
+          expect(campaignParticipation.status).to.equals(CampaignParticipation.statuses.SHARED);
         });
       });
 
@@ -136,6 +137,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
 
             expect(campaignParticipation.isShared).to.be.true;
             expect(campaignParticipation.sharedAt).to.deep.equals(now);
+            expect(campaignParticipation.status).to.equals(CampaignParticipation.statuses.SHARED);
           });
         });
       });
