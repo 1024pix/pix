@@ -1,4 +1,5 @@
 {{page-title (t 'pages.profiles-list.title')}}
+<h2 class="sr-only">{{t 'pages.profiles-list.title'}}</h2>
 
 {{#if @model.campaign.hasSharedParticipations}}
   <Campaign::Results::ProfileList
@@ -8,6 +9,7 @@
     @onClickParticipant={{this.goToProfilePage}}
     @onFilter={{this.triggerFiltering}}
     @onReset={{this.resetFiltering}}
+    class="profile-results__list"
   />
 {{else}}
   <Campaign::EmptyState @campaignCode={{@model.campaign.code}} />

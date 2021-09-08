@@ -50,7 +50,7 @@ When(`je vois {int} résultats par compétence`, (numberOfResultsByCompetence) =
   if(numberOfResultsByCompetence === 0) {
     cy.get('.table__empty').should('contain', 'En attente de résultat');
   } else {
-    cy.get('[aria-label="Résultats par compétence"]').should('have.lengthOf', numberOfResultsByCompetence);
+    cy.get('[aria-label="Compétence"]').should('have.lengthOf', numberOfResultsByCompetence);
   }
 });
 

@@ -189,7 +189,6 @@
         "review": "Review"
       },
       "table": {
-        "title": "Results by competence",
         "column": {
           "competences": "Competences ({count, plural, =0 {-} other {{count}}})",
           "results": {
@@ -197,7 +196,9 @@
             "tooltip": "<span class=\"sr-only\">This participant has validated</span> {result, number, ::percent} <span class=\"sr-only\">of the competence {competence}.</span>"
           }
         },
-        "empty": "Pending results"
+        "empty": "Pending results",
+        "row-title": "Competence",
+        "title": "Results by competence"
       }
     },
     "campaign": {
@@ -340,7 +341,8 @@
           }
         },
         "empty": "No participants",
-        "row-title": "Participant"
+        "row-title": "Participant",
+        "title": "List of submitted results"
       },
       "tested-items": "Items assessed",
       "title": "Results",
@@ -518,11 +520,12 @@
           "skill": "Competence"
         },
         "empty": "Pending results",
-        "row-title": "Competence"
+        "row-title": "Competence",
+        "title": "Results by competence"
       }
     },
     "profiles-list": {
-      "title": "Participants",
+      "title": "Submitted profiles",
       "table": {
         "column": {
           "certifiable": "Eligible for certification",
@@ -539,7 +542,8 @@
           }
         },
         "empty": "No profiles yet",
-        "row-title": "Profile"
+        "row-title": "Profile",
+        "title": "List of submitted profiles"
       }
     },
     "students-sco": {

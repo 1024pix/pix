@@ -1,4 +1,5 @@
 <section class="profile-competences panel">
+  <h3 class="sr-only">{{t "pages.profiles-individual-results.table.title"}}</h3>
   <table>
     <thead>
       <tr>
@@ -33,9 +34,9 @@
     </tbody>
   </table>
 
-  {{#unless @isShared }}
-    <div class="table__empty content-text">
+  {{#unless @isShared}}
+    <p class="table__empty content-text">
       {{t "pages.profiles-individual-results.table.empty"}}
-    </div>
+    </p>
   {{/unless}}
 </section>

@@ -41,8 +41,8 @@ module('Integration | Component | Participant::Assessment::Results', function(ho
     await render(hbs`<Participant::Assessment::Results @results={{campaignAssessmentParticipationResult}} @displayResults={{true}} />`);
 
     // then
-    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.title')}"]`).exists({ count: 1 });
-    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.title')}"]`).containsText('Compétence 1');
-    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.title')}"]`).containsText('50 %');
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).exists({ count: 1 });
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).containsText('Compétence 1');
+    assert.dom(`[aria-label="${t('pages.assessment-individual-results.table.row-title')}"]`).containsText('50 %');
   });
 });

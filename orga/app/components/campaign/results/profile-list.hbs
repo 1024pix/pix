@@ -1,14 +1,16 @@
-<Campaign::Filter::ParticipationFilters
-  @campaign={{@campaign}}
-  @selectedDivisions={{@selectedDivisions}}
-  @rowCount={{@profiles.meta.rowCount}}
-  @onFilter={{@onFilter}}
-  @onReset={{@onReset}}
-/>
+<section ...attributes>
+  <h3 class="sr-only">{{t 'pages.profiles-list.table.title'}}</h3>
 
-<div class="panel">
-  <div class="table content-text content-text--small">
-    <table>
+  <Campaign::Filter::ParticipationFilters
+    @campaign={{@campaign}}
+    @selectedDivisions={{@selectedDivisions}}
+    @rowCount={{@profiles.meta.rowCount}}
+    @onFilter={{@onFilter}}
+    @onReset={{@onReset}}
+  />
+
+  <div class="panel">
+    <table class="table content-text content-text--small">
       <thead>
         <tr>
           <th>{{t 'pages.profiles-list.table.column.last-name'}}</th>
@@ -67,11 +69,12 @@
     </table>
 
     {{#unless @profiles}}
-      <div class="table__empty content-text">{{t 'pages.profiles-list.table.empty'}}</div>
+      <p class="table__empty content-text">{{t 'pages.profiles-list.table.empty'}}</p>
     {{/unless}}
   </div>
-</div>
 
-{{#if (gt @profiles.length 0)}}
-  <Table::PaginationControl @pagination={{@profiles.meta}}/>
-{{/if}}
+  {{#if (gt @profiles.length 0)}}
+    <Table::PaginationControl @pagination={{@profiles.meta}}/>
+  {{/if}}
+
+</section>
