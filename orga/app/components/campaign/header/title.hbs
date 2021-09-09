@@ -13,7 +13,7 @@
       <dt class="label-text">
         {{t 'pages.campaign.created-on'}}
       </dt>
-      <dd class="content-text">
+      <dd>
         {{moment-format @campaign.createdAt 'DD/MM/YYYY' allow-empty=true}}
       </dd>
     </div>
@@ -22,7 +22,7 @@
       <dt class="label-text">
         {{t 'pages.campaign.created-by'}}
       </dt>
-      <dd class="content-text">
+      <dd>
         {{@campaign.creatorFullName}}
       </dd>
     </div>
@@ -31,7 +31,7 @@
       <dt class="label-text">
         {{t 'pages.campaign.code'}}
       </dt>
-      <dd class="content-text campaign-header-title__campaign-code">
+      <dd class="campaign-header-title__campaign-code">
         <span>{{@campaign.code}}</span>
         <Campaign::CopyPasteButton
           @clipBoardtext={{@campaign.code}}
