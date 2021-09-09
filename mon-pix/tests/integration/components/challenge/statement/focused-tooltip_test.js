@@ -33,9 +33,9 @@ describe('Integration | Component | Tooltip', function() {
       await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
     });
 
-    it('should not render the tooltip', async function() {
+    it('should render the tooltip', async function() {
       // then
-      expect(find(tooltip)).to.not.exist;
+      expect(find(tooltip)).to.exist;
     });
   });
 
