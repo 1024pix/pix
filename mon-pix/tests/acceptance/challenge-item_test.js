@@ -52,7 +52,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should display an overlay and tooltip', async () => {
             // then
-            expect(find('.challenge__focused-overlay')).to.exist;
+            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
@@ -90,7 +90,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             it('should hide an overlay and tooltip', async () => {
               // then
-              expect(find('.challenge__focused-overlay')).to.not.exist;
+              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
@@ -156,7 +156,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should hide the overlay and tooltip', async function() {
             // then
-            expect(find('.challenge__focused-overlay')).to.not.exist;
+            expect(find('.challenge__overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 
@@ -292,7 +292,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should display an overlay and tooltip', async () => {
             // then
-            expect(find('.challenge__focused-overlay')).to.exist;
+            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
@@ -319,7 +319,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             it('should hide an overlay and tooltip', async () => {
               // then
-              expect(find('.challenge__focused-overlay')).to.not.exist;
+              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
@@ -347,7 +347,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should hide the overlay and tooltip', async function() {
             // then
-            expect(find('.challenge__focused-overlay')).to.not.exist;
+            expect(find('.challenge__overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 

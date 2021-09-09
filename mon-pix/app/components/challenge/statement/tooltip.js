@@ -17,7 +17,8 @@ export default class Tooltip extends Component {
   }
 
   _showTooltip() {
-    if (this.isFocusedChallenge && this._hasCurrentUserNotSeenFocusedChallengeTooltip() || !this.isFocusedChallenge && this._hasCurrentUserNotSeenOtherChallengesTooltip()) {
+    if (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()
+      || !this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
       this.shouldDisplayTooltip = true;
     } else {
       this.shouldDisplayTooltip = false;
@@ -25,19 +26,43 @@ export default class Tooltip extends Component {
     }
   }
 
-  _hasCurrentUserSeenFocusedChallengeTooltip() {
+  @action
+  displayTooltip(value) {
+    if (this.isFocusedChallenge) {
+      if (this._hasUserSeenFocusedChallengeTooltip() || !this._isUserConnected()) {
+        this.shouldDisplayTooltip = value;
+      }
+    }
+    else if (!this.isFocusedChallenge) {
+      if (this._hasUserSeenOtherChallengesTooltip() || !this._isUserConnected()) {
+        this.shouldDisplayTooltip = value;
+      }
+    }
+  }
+
+  get shouldDisplayButton() {
+    if (this.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()) {
+      return true;
+    }
+    else if (!this.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
+      return true;
+    }
+    return false;
+  }
+
+  _hasUserSeenFocusedChallengeTooltip() {
     return this._isUserConnected() && this.currentUser.user.hasSeenFocusedChallengeTooltip;
   }
 
-  _hasCurrentUserNotSeenFocusedChallengeTooltip() {
+  _hasUserNotSeenFocusedChallengeTooltip() {
     return this._isUserConnected() && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
   }
 
-  _hasCurrentUserSeenOtherChallengesTooltip() {
+  _hasUserSeenOtherChallengesTooltip() {
     return this._isUserConnected() && this.currentUser.user.hasSeenOtherChallengesTooltip;
   }
 
-  _hasCurrentUserNotSeenOtherChallengesTooltip() {
+  _hasUserNotSeenOtherChallengesTooltip() {
     return this._isUserConnected() && !this.currentUser.user.hasSeenOtherChallengesTooltip;
   }
 
@@ -53,29 +78,5 @@ export default class Tooltip extends Component {
 
   _notifyChallengeTooltipIsClosed() {
     this.args.onTooltipClose();
-  }
-
-  @action
-  displayTooltip(value) {
-    if (this.isFocusedChallenge) {
-      if (this._hasCurrentUserSeenFocusedChallengeTooltip() || !this._isUserConnected()) {
-        this.shouldDisplayTooltip = value;
-      }
-    }
-    else if (!this.isFocusedChallenge) {
-      if (this._hasCurrentUserSeenOtherChallengesTooltip() || !this._isUserConnected()) {
-        this.shouldDisplayTooltip = value;
-      }
-    }
-  }
-
-  get shouldDisplayButton() {
-    if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      return true;
-    }
-    else if (!this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
-      return true;
-    }
-    return false;
   }
 }

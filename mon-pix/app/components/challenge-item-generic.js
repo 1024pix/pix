@@ -19,11 +19,19 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isAnswerFieldDisabled() {
-    if (this.args.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip
-        || !this.args.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+    if (this.args.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()
+      || !this.args.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
       return this.args.answer || !this.args.isTooltipClosed;
     }
     return this.args.answer;
+  }
+
+  _hasUserNotSeenFocusedChallengeTooltip() {
+    return this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+  }
+
+  _hasUserNotSeenOtherChallengesTooltip() {
+    return this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip;
   }
 
   get isTimedChallengeWithoutAnswer() {
@@ -53,8 +61,7 @@ export default class ChallengeItemGeneric extends Component {
     event.preventDefault();
 
     if (this._hasError() && !this.hasChallengeTimedOut) {
-      const errorMessage = this._getErrorMessage();
-      this.errorMessage = errorMessage;
+      this.errorMessage = this._getErrorMessage();
       return;
     }
 
