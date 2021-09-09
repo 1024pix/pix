@@ -300,7 +300,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           isImproving: false,
           lastQuestionDate,
           lastChallengeId: null,
-          lastQuestionState: 'asked',
+          lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
@@ -714,7 +714,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should update updateLastQuestionState', async function() {
       // given
       const assessment = databaseBuilder.factory.buildAssessment({
-        updateLastQuestionState: 'asked',
+        updateLastQuestionState: Assessment.statesOfLastQuestion.ASKED,
       });
       await databaseBuilder.commit();
 
