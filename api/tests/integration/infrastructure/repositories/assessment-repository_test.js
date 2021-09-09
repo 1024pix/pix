@@ -680,21 +680,23 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#updateLastChallengeIdAsked', function() {
+  describe('#updateWhenNewChallengeIsAsked', function() {
     it('should update lastChallengeId', async function() {
       // given
       const lastChallengeId = 'recLastChallenge';
       const assessment = databaseBuilder.factory.buildAssessment({
-        lastChallengeId: null,
+        lastChallengeId: 'recPreviousChallenge',
+        lastQuestionState: 'focusedout',
       });
       await databaseBuilder.commit();
 
       // when
-      await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId });
+      await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessment.id, lastChallengeId });
 
       // then
-      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastChallengeId');
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first();
       expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
+      expect(assessmentsInDb.lastQuestionState).to.deep.equal(Assessment.statesOfLastQuestion.ASKED);
     });
 
     context('when assessment does not exist', function() {
@@ -702,7 +704,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const notExistingAssessmentId = 1;
 
         // when
-        const result = await assessmentRepository.updateLastChallengeIdAsked({ id: notExistingAssessmentId, lastChallengeId: 'test' });
+        const result = await assessmentRepository.updateWhenNewChallengeIsAsked({ id: notExistingAssessmentId, lastChallengeId: 'test' });
 
         // then
         expect(result).to.equal(null);
@@ -714,7 +716,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     it('should update updateLastQuestionState', async function() {
       // given
       const assessment = databaseBuilder.factory.buildAssessment({
-        updateLastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+        lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
       });
       await databaseBuilder.commit();
 
@@ -725,7 +727,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
 
       // then
       const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionState');
-      expect(assessmentsInDb.lastQuestionState).to.deep.equal(lastQuestionState);
+      expect(assessmentsInDb.lastQuestionState).to.equal(lastQuestionState);
     });
 
     context('when assessment does not exist', function() {
