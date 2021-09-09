@@ -3,6 +3,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import isInteger from 'lodash/isInteger';
+import ENV from 'mon-pix/config/environment';
 
 export default class ChallengeItemGeneric extends Component {
 
@@ -19,9 +20,11 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isAnswerFieldDisabled() {
-    if (this.args.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()
-      || !this.args.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
-      return this.args.answer || !this.args.isTooltipClosed;
+    if (ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
+      if (this.args.isFocusedChallenge && this._hasUserNotSeenFocusedChallengeTooltip()
+        || !this.args.isFocusedChallenge && this._hasUserNotSeenOtherChallengesTooltip()) {
+        return this.args.answer || !this.args.isTooltipClosed;
+      }
     }
     return this.args.answer;
   }

@@ -191,5 +191,6 @@ module.exports = function(environment) {
       ENV.matomo.url = process.env.WEB_ANALYTICS_URL;
     }
   }
+
   return ENV;
 };
