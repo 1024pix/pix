@@ -1,31 +1,31 @@
-{{#if this.isChallengeWithTooltip}}
-  <div class="tooltip__tag tooltip__tag{{if this.isFocusedChallenge "--focused" "--regular"}}">
-    <button type="button"
-            aria-controls="tooltip-tag-info"
-            aria-expanded="{{this.shouldDisplayTooltip}}"
-            aria-label={{t 'pages.challenge.statement.tooltip.aria-label'}}
-            class="tooltip-tag__icon-button"
-            {{on 'mouseenter' (fn this.displayTooltip true)}}
-            {{on 'mouseleave' (fn this.displayTooltip false)}}
-            {{on 'click' (fn this.displayTooltip true)}} />
+<div class="tooltip__tag tooltip__tag{{if this.isFocusedChallenge "--focused" "--regular"}}">
+  <button type="button"
+          aria-controls="tooltip-tag-info"
+          aria-expanded="{{this.shouldDisplayTooltip}}"
+          aria-label={{t 'pages.challenge.statement.tooltip.aria-label'}}
+          class="tooltip-tag__icon-button"
+          {{on 'mouseenter' (fn this.displayTooltip true)}}
+          {{on 'mouseleave' (fn this.displayTooltip false)}}
+          {{on 'click' (fn this.displayTooltip true)}} />
 
-    <div id="tooltip-tag-info"
-         class="tooltip-tag__information"
-         tabindex="0"
-         {{on-key 'Escape' (fn this.displayTooltip false) event='keyup'}}
-         {{on 'focusout' (fn this.displayTooltip false)}}>
+  <div id="tooltip-tag-info"
+       class="tooltip-tag__information"
+       tabindex="0"
+       {{on-key 'Escape' (fn this.displayTooltip false) event='keyup'}}
+       {{on 'focusout' (fn this.displayTooltip false)}}>
+    <p class="tooltip-tag-information__text">
       {{#if this.isFocusedChallenge}}
-        <p class="tooltip-tag-information__text">
-          {{t 'pages.challenge.statement.tooltip.focused'}}
-        </p>
+        {{t 'pages.challenge.statement.tooltip.focused'}}
+      {{else}}
+        {{t 'pages.challenge.statement.tooltip.focused'}}
       {{/if}}
-      {{#if this.shouldDisplayButton}}
-        <PixButton class="tooltip-tag-information__button"
-                   @size="small"
-                   @triggerAction={{this.confirmInformationIsRead}}>
-          {{t 'pages.challenge.statement.tooltip.close'}}
-        </PixButton>
-      {{/if}}
-    </div>
+    </p>
+    {{#if this.shouldDisplayButton}}
+      <PixButton class="tooltip-tag-information__button"
+                 @size="small"
+                 @triggerAction={{this.confirmInformationIsRead}}>
+        {{t 'pages.challenge.statement.tooltip.close'}}
+      </PixButton>
+    {{/if}}
   </div>
-{{/if}}
+</div>

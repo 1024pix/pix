@@ -19,8 +19,15 @@ export default class ChallengeController extends Controller {
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = false;
-  @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
   @tracked hasUserConfirmedWarning = false;
+  @tracked hasClicked = false;
+
+  get isTooltipOverlayDisplayed() {
+    if (this.model.challenge) {
+      return !this.hasClicked;
+    }
+    return false;
+  }
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -56,16 +63,26 @@ export default class ChallengeController extends Controller {
 
   get isFocusedChallengeAndTooltipIsDisplayed() {
     if (ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
-      return this.model.challenge.focused && this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+      if (this.model.challenge.focused) {
+        return this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+      }
+      else if (!this.model.challenge.focused) {
+        return this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip;
+      }
     }
     return false;
   }
 
   @action
   async removeTooltipOverlay() {
-    if (this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      this.isTooltipOverlayDisplayed = false;
-      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+    if (this.currentUser.user) {
+      if (this.model.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+        await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+        console.log('save', this.currentUser.user);
+        this.hasClicked = true;
+      } else if (!this.model.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+        await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'other' } });
+      }
     }
   }
 

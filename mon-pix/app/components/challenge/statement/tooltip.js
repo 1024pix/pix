@@ -9,21 +9,15 @@ export default class Tooltip extends Component {
 
   constructor() {
     super(...arguments);
-    if (this.isFocusedChallenge) {
-      this._showTooltip();
-    }
+    this._showTooltip();
   }
 
   get isFocusedChallenge() {
     return this.args.challenge.focused;
   }
 
-  get isChallengeWithTooltip() {
-    return this.isFocusedChallenge;
-  }
-
   _showTooltip() {
-    if (this._hasCurrentUserNotSeenFocusedChallengeTooltip()) {
+    if (this.isFocusedChallenge && this._hasCurrentUserNotSeenFocusedChallengeTooltip() || !this.isFocusedChallenge && this._hasCurrentUserNotSeenOtherChallengesTooltip()) {
       this.shouldDisplayTooltip = true;
     } else {
       this.shouldDisplayTooltip = false;
@@ -37,6 +31,14 @@ export default class Tooltip extends Component {
 
   _hasCurrentUserNotSeenFocusedChallengeTooltip() {
     return this._isUserConnected() && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+  }
+
+  _hasCurrentUserSeenOtherChallengesTooltip() {
+    return this._isUserConnected() && this.currentUser.user.hasSeenOtherChallengesTooltip;
+  }
+
+  _hasCurrentUserNotSeenOtherChallengesTooltip() {
+    return this._isUserConnected() && !this.currentUser.user.hasSeenOtherChallengesTooltip;
   }
 
   _isUserConnected() {
@@ -60,9 +62,28 @@ export default class Tooltip extends Component {
         this.shouldDisplayTooltip = value;
       }
     }
+    else if (!this.isFocusedChallenge) {
+      if (this._hasCurrentUserSeenOtherChallengesTooltip() || !this._isUserConnected()) {
+        this.shouldDisplayTooltip = value;
+      }
+    }
+  }
+
+  get shouldDisplayFocusedChallengeButton() {
+    return this._hasCurrentUserNotSeenFocusedChallengeTooltip();
+  }
+
+  get shouldDisplayOtherChallengesButton() {
+    return this._hasCurrentUserNotSeenOtherChallengesTooltip();
   }
 
   get shouldDisplayButton() {
-    return this._hasCurrentUserNotSeenFocusedChallengeTooltip();
+    if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+      return true;
+    }
+    else if (!this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+      return true;
+    }
+    return false;
   }
 }
