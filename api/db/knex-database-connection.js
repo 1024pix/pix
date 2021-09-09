@@ -1,5 +1,5 @@
 const types = require('pg').types;
-const { addKnexMetricsToRequestContext, doesStoreContainsRequest, asyncLocalStorage } = require('../lib/infrastructure/monitoring-tools');
+const monitoringTools = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
 const { performance } = require('perf_hooks');
 /*
@@ -44,20 +44,25 @@ const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 
 knex.on('query', function(data) {
-  if (logging.enableLogKnexQueriesWithCorrelationId && doesStoreContainsRequest()) {
-    const store = asyncLocalStorage.getStore();
-    const queryStartedTime = performance.now();
-    store.knexQueriesUUIDs[data.__knexQueryUid] = queryStartedTime;
+  if (logging.enableLogKnexQueries) {
+    monitoringTools.setInContext(`knexQueryStartTimes.${data.__knexQueryUid}`, performance.now());
   }
 });
 
 knex.on('query-response', function(response, obj) {
-  if (logging.enableLogKnexQueriesWithCorrelationId && doesStoreContainsRequest()) {
-    const store = asyncLocalStorage.getStore();
-    const queryStartedTime = store.knexQueriesUUIDs[obj.__knexQueryUid];
-    const duration = performance.now() - queryStartedTime;
-    obj.duration = duration;
-    addKnexMetricsToRequestContext(obj);
+  if (logging.enableLogKnexQueries) {
+    const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${obj.__knexQueryUid}`);
+    if (queryStartedTime) {
+      const duration = performance.now() - queryStartedTime;
+
+      monitoringTools.incrementInContext('metrics.knexQueryCount');
+      monitoringTools.pushInContext('metrics.knexQueries', {
+        id: obj.__knexQueryUid,
+        sql: obj.sql,
+        params: [(obj.bindings) ? obj.bindings.join(',') : ''],
+        duration,
+      });
+    }
   }
 });
 
