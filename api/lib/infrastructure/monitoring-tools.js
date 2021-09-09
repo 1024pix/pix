@@ -1,6 +1,5 @@
 const { get } = require('lodash');
 const logger = require('../infrastructure/logger');
-const { logging } = require('../config');
 const requestUtils = require('../infrastructure/utils/request-response-utils');
 
 const { AsyncLocalStorage } = require('async_hooks');
@@ -11,12 +10,6 @@ function logInfoWithCorrelationIds(message) {
   logger.info({
     user_id: extractUserIdFromRequest(request),
     request_id: `${get(request, 'info.id', '-')}`,
-    http: {
-      method: get(request, 'method', '-'),
-      url_detail: {
-        path: get(request, 'path', '-'),
-      },
-    },
   }, message);
 }
 
@@ -25,12 +18,6 @@ function logErrorWithCorrelationIds(error) {
   logger.error({
     user_id: extractUserIdFromRequest(request),
     request_id: `${get(request, 'info.id', '-')}`,
-    http: {
-      method: get(request, 'method', '-'),
-      url_detail: {
-        path: get(request, 'path', '-'),
-      },
-    },
   }, error);
 }
 
