@@ -18,6 +18,7 @@ Fonctionnalité: Campagne d'évaluation
     Alors je vois la page de "didacticiel" de la campagne
     Lorsque je clique sur "Ignorer"
     Alors je vois l'épreuve "Quelle est la capitale de la Lettonie ?"
+    Lorsque je clique sur "J'ai compris"
     Lorsque je saisis "Riga" dans le champ "Réponse :"
     Et je clique sur "Je valide"
     Alors je vois l'épreuve "Qui a dit « Toute méchanceté a sa source dans la faiblesse » ?"
