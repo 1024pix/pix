@@ -79,6 +79,21 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains('Pix+Surf');
   });
 
+  test('should highlight the accreditations of the current certification center', async function(assert) {
+    // given
+    const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
+    const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
+    server.create('accreditation', { name: 'Pix+Autre' });
+    certificationCenter.update({ accreditations: [accreditation1, accreditation2] });
+
+    // when
+    await visit(`/certification-centers/${certificationCenter.id}`);
+
+    // then
+    const grantedAccreditations = findAll('.certification-center__data > ul > li > svg[data-icon="check-circle"]');
+    assert.equal(grantedAccreditations.length, 2);
+  });
+
   test('should display Certification center memberships', async function(assert) {
     // given
     const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');

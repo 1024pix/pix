@@ -15,11 +15,20 @@
         Type : <span>{{@model.certificationCenter.type}}</span><br>
         Identifiant externe : <span>{{@model.certificationCenter.externalId}}</span><br>
       </p>
+      <h3 class="certification-center__subtitle">Habilitations aux certifications complémentaires</h3>
       <ul>
-      {{#each @model.certificationCenter.accreditations as |accreditation|}}
-        <li>{{accreditation.name}}</li>
-      {{/each}}
+        {{#each @model.accreditations as |accreditation|}}
+          <li>
+            {{#if (contains accreditation @model.certificationCenter.accreditations)}}
+              <FaIcon class="granted-accreditation-icon" @icon="check-circle" />
+            {{else}}
+              <FaIcon class="not-granted-accreditation-icon" @icon="times-circle" />
+            {{/if}}
+            {{accreditation.name}}
+          </li>
+        {{/each}}
       </ul>
+
     </div>
   </section>
 
