@@ -5,7 +5,7 @@
 
   &__filters {
     background-color: $white;
-    color: $blue-zodia;
+    color: $blue-zodiac;
     padding: 18px 24px;
 
     label {
@@ -17,7 +17,7 @@
 
       &__list-button {
         display: flex;
-        color: $blue-zodia;
+        color: $blue-zodiac;
       }
     }
   }
@@ -90,7 +90,7 @@
     bottom: 0;
     box-shadow: -2px 2px 9px 0 rgba(0, 0, 0, 0.22);
     background-color: $white;
-    color: $blue-zodia;
+    color: $blue-zodiac;
     font-family: $roboto;
 
     .bottom-action-bar__informations {

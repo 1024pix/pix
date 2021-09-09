@@ -16,13 +16,16 @@ module.exports = function(defaults) {
     addons: {
       blacklist: pluginsToBlacklist,
     },
-
     flatpickr: {
       locales: ['fr'],
     },
-
     'ember-cli-template-lint': {
       testGenerator: 'qunit',
+    },
+    sassOptions: {
+      includePaths: [
+        'node_modules/pix-ui/addon/styles',
+      ],
     },
   });
 
