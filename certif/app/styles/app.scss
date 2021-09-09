@@ -3,8 +3,9 @@
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
 
+@import 'colors';
+
 @import "globals/breakpoints";
-@import "globals/colors";
 @import "globals/errors";
 @import "globals/fonts";
 @import "globals/forms";
