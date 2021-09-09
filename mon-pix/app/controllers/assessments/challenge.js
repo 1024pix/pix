@@ -76,7 +76,7 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  finishChallenge() {
+  resetChallengeInfo() {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
     this.hasFocusedOutOfChallenge = false;
