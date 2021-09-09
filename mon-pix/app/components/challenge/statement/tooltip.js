@@ -69,14 +69,6 @@ export default class Tooltip extends Component {
     }
   }
 
-  get shouldDisplayFocusedChallengeButton() {
-    return this._hasCurrentUserNotSeenFocusedChallengeTooltip();
-  }
-
-  get shouldDisplayOtherChallengesButton() {
-    return this._hasCurrentUserNotSeenOtherChallengesTooltip();
-  }
-
   get shouldDisplayButton() {
     if (this.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
       return true;
