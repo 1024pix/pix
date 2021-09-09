@@ -30,7 +30,9 @@ export default class Item extends Component {
   @action
   enableFocusedChallenge() {
     this.isTooltipClosed = true;
-    this._setOnBlurEventToWindow();
+    if (this.isFocusedChallenge) {
+      this._setOnBlurEventToWindow();
+    }
     this.args.onTooltipClose();
   }
 
