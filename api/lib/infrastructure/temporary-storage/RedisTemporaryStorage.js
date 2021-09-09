@@ -1,4 +1,4 @@
-const { v4: uuidv4 } = require('uuid');
+const trim = require('lodash/trim');
 
 const TemporaryStorage = require('./TemporaryStorage');
 const RedisClient = require('../utils/RedisClient');
@@ -16,11 +16,12 @@ class RedisTemporaryStorage extends TemporaryStorage {
     return new RedisClient(redisUrl, 'temporary-storage');
   }
 
-  async save({ value, expirationDelaySeconds }) {
-    const key = uuidv4();
+  async save({ key, value, expirationDelaySeconds }) {
+    const storageKey = trim(key) || RedisTemporaryStorage.generateKey();
+
     const objectAsString = JSON.stringify(value);
-    await this._client.set(key, objectAsString, EXPIRATION_PARAMETER, expirationDelaySeconds);
-    return key;
+    await this._client.set(storageKey, objectAsString, EXPIRATION_PARAMETER, expirationDelaySeconds);
+    return storageKey;
   }
 
   async get(key) {

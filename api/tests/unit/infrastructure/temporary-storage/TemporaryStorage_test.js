@@ -31,4 +31,14 @@ describe('Unit | Infrastructure | temporary-storage | TemporaryStorage', functio
     });
   });
 
+  describe('#generateKey', function() {
+
+    it('should return a key from static method', function() {
+      // when
+      const result = TemporaryStorage.generateKey();
+
+      // then
+      expect(result).to.be.ok;
+    });
+  });
 });
