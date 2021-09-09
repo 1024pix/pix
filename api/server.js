@@ -11,16 +11,9 @@ const swaggers = require('./lib/swaggers');
 const authentication = require('./lib/infrastructure/authentication');
 
 const { handleFailAction } = require('./lib/validate');
-const { asyncLocalStorage } = require('./lib/infrastructure/monitoring-tools');
+const monitoringTools = require('./lib/infrastructure/monitoring-tools');
 
-const Request = require('@hapi/hapi/lib/request');
-const originalMethod = Request.prototype._execute;
-
-Request.prototype._execute = function(...args) {
-  const request = this;
-  const store = { request, metrics: { knexQueries: [], queriesCounter: 0 }, knexQueriesUUIDs: {} };
-  return asyncLocalStorage.run(store, () => originalMethod.call(request, args));
-};
+monitoringTools.installHapiHook();
 
 let config;
 
