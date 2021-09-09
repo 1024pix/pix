@@ -83,7 +83,7 @@ module.exports = function(environment) {
     },
 
     pagination: {
-      debounce: 250,
+      debounce: _getEnvironmentVariableAsNumber({ environmentVariableName: 'RESEARCH_DEBOUNCE_TIMEOUT', defaultValue: 500, minValue: 250 }),
     },
 
   };
