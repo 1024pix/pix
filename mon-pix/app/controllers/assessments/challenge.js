@@ -15,7 +15,7 @@ export default class ChallengeController extends Controller {
   @service currentUser;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
-  @tracked challengeTitle = this.model.challenge.focused ? focusedPageTitle : defaultPageTitle;
+  @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = false;
   @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
@@ -28,8 +28,9 @@ export default class ChallengeController extends Controller {
   get pageTitle() {
     const stepNumber = progressInAssessment.getCurrentStepNumber(this.model.assessment, this.model.currentChallengeNumber);
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
+    const title = this.model.challenge.focused ? focusedPageTitle : this.challengeTitle;
 
-    return this.intl.t(this.challengeTitle, { stepNumber, totalChallengeNumber });
+    return this.intl.t(title, { stepNumber, totalChallengeNumber });
   }
 
   get isFocusedChallengeAndUserHasFocusedOutOfChallenge() {
@@ -75,9 +76,11 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  finishChallenge() {
+  resetChallengeInfo() {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
+    this.hasFocusedOutOfChallenge = false;
+    this.hasFocusedOutOfWindow = false;
   }
 
   get displayHomeLink() {
