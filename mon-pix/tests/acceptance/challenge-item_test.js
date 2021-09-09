@@ -1,6 +1,7 @@
 import { beforeEach, describe, it } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { getPageTitle } from 'ember-page-title/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { expect } from 'chai';
@@ -19,6 +20,18 @@ describe('Acceptance | Displaying a challenge of any type', () => {
     { challengeType: 'QCU' },
   ].forEach(function(data) {
     describe(`when ${data.challengeType} challenge is focused`, function() {
+
+      it('should display a specific page title', async function() {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+        server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        expect(getPageTitle()).to.contain('Épreuve de savoir');
+      });
 
       describe('when user has not answered the question', function() {
 
@@ -192,7 +205,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
         describe('when assessment is of type certification', function() {
 
-          it('should display the certification warning alert', async function() {
+          beforeEach(async function() {
             // given
             assessment = server.create('assessment', 'ofCertificationType');
             server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
@@ -210,16 +223,23 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             // when
             await triggerEvent(window, 'blur');
+          });
 
+          it('should display the certification warning alert', async function() {
             // then
             expect(find('[data-test="certification-focused-out-error-message"]')).to.exist;
             expect(find('[data-test="default-focused-out-error-message"]')).not.to.exist;
+          });
+
+          it('should add failure to the page title', async function() {
+            // then
+            expect(getPageTitle()).to.contain('Échoué');
           });
         });
 
         describe('when assessment is not of type certification', function() {
 
-          it('should display the default warning alert', async function() {
+          beforeEach(async function() {
             // given
             assessment = server.create('assessment', 'ofCompetenceEvaluationType');
             server.create('challenge', 'forCompetenceEvaluation', data.challengeType, 'withFocused');
@@ -228,10 +248,17 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             // when
             await triggerEvent(window, 'blur');
+          });
 
+          it('should display the default warning alert', async function() {
             // then
             expect(find('[data-test="default-focused-out-error-message"]')).to.exist;
             expect(find('[data-test="certification-focused-out-error-message"]')).not.to.exist;
+          });
+
+          it('should not add failure to the page title', async function() {
+            // then
+            expect(getPageTitle()).to.not.contain('Échoué');
           });
         });
       });

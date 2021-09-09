@@ -29,9 +29,17 @@ export default class ChallengeController extends Controller {
   get pageTitle() {
     const stepNumber = progressInAssessment.getCurrentStepNumber(this.model.assessment, this.model.currentChallengeNumber);
     const totalChallengeNumber = progressInAssessment.getMaxStepsNumber(this.model.assessment);
-    const title = this.model.challenge.focused ? focusedPageTitle : this.challengeTitle;
+
+    const title = this.model.challenge.focused ? this._focusedPageTitle() : this.challengeTitle;
 
     return this.intl.t(title, { stepNumber, totalChallengeNumber });
+  }
+
+  _focusedPageTitle() {
+    if (this.model.assessment.isCertification && this.hasFocusedOutOfWindow) {
+      return focusedOutPageTitle;
+    }
+    return focusedPageTitle;
   }
 
   get isFocusedChallengeAndUserHasFocusedOutOfChallenge() {
@@ -69,10 +77,6 @@ export default class ChallengeController extends Controller {
   @action
   focusedOutOfWindow() {
     this.hasFocusedOutOfWindow = true;
-
-    if (this.model.challenge.focused && this.model.assessment.isCertification) {
-      this.challengeTitle = focusedOutPageTitle;
-    }
   }
 
   @action
