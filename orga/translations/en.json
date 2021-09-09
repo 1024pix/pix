@@ -208,7 +208,7 @@
       },
       "archived": "Archived campaign",
       "code": "Code",
-      "copy" : {
+      "copy": {
         "code": {
           "success": "Copied!",
           "default": "Copy code"
@@ -347,7 +347,7 @@
       "tested-items": "Items assessed",
       "title": "Results",
       "validated-items": "Items successfully completed"
-     },
+    },
     "campaign-review": {
       "title": "Review",
       "description": "According to the target profile selected and the results of your campaign, Pix recommends focusing on the following topics, sorted by relevance ({bubble}).",
@@ -371,6 +371,7 @@
               "aria-label": "Show all tutorials"
             },
             "tutorial-count": {
+              "aria-label": "Number of recommended tutorials",
               "value": "{count, plural, =1 {1 tutorial} other {{count} tutorials}}"
             }
           },
@@ -437,7 +438,6 @@
       "documentation-link-notice": "Follow this link to find indications on how to interpret the results: ",
       "download-button": "Export the results",
       "download-attestations-button": "Download attestations",
-
       "errors": {
         "invalid-division": "The class {selectedDivision} does not exist.",
         "no-results": "No certification results for the class {selectedDivision}.",

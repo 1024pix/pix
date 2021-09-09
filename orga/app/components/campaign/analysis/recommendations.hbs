@@ -1,12 +1,10 @@
-<h4 class="campaign-details-analysis campaign-details-analysis__header">{{t 'pages.campaign-review.sub-title'}}</h4>
+<section class="campaign-details-analysis-section">
+  <h3 class="campaign-details-analysis campaign-details-analysis__header">{{t 'pages.campaign-review.sub-title'}}</h3>
+  <p class="campaign-details-analysis campaign-details-analysis__text">
+    {{this.description}}
+  </p>
 
-<p class="campaign-details-analysis campaign-details-analysis__text">
-  {{this.description}}
-</p>
-
-<div class="panel panel--light-shadow content-text content-text--small campaign-details-analysis__table">
-
-  <table aria-label={{t 'pages.campaign-review.table.analysis.title'}}>
+  <table class="panel panel--light-shadow content-text content-text--small campaign-details-analysis__table" aria-label={{t 'pages.campaign-review.table.analysis.title'}}>
     <thead>
       <tr>
         <Table::Header @size="wide">{{t 'pages.campaign-review.table.analysis.column.subjects' count=this.sortedRecommendations.length}}</Table::Header>
@@ -19,7 +17,7 @@
         >
           {{t 'pages.campaign-review.table.analysis.column.relevance'}}
         </Table::HeaderSort>
-        <Table::Header @size="small" @align="center" />
+        <Table::Header @size="small" @align="center" aria-label="{{t 'pages.campaign-review.table.analysis.column.tutorial-count.aria-label'}}"/>
         <Table::Header @size="small" />
       </tr>
     </thead>
@@ -35,4 +33,4 @@
   {{#unless @displayAnalysis}}
     <div class="table__empty content-text">{{t 'pages.campaign-review.table.empty'}}</div>
   {{/unless}}
-</div>
+</section>
