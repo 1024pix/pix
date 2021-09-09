@@ -25,6 +25,12 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = [
   types.CAMPAIGN,
 ];
 
+const statesOfLastQuestion = {
+  ASKED: 'asked',
+  TIMEOUT: 'timeout',
+  FOCUSEDOUT: 'focusedout',
+};
+
 class Assessment {
   constructor({
     id,
@@ -163,5 +169,6 @@ class Assessment {
 Assessment.courseIdMessage = courseIdMessage;
 Assessment.states = states;
 Assessment.types = types;
+Assessment.statesOfLastQuestion = statesOfLastQuestion;
 
 module.exports = Assessment;

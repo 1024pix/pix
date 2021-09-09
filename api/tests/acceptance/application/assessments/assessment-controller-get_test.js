@@ -69,7 +69,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'title': 'Preview',
           'type': Assessment.types.PREVIEW,
           'certification-number': null,
-          'last-question-state': 'asked',
+          'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           'competence-id': 'recCompetenceId',
         },
         'relationships': {
@@ -190,7 +190,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'type': Assessment.types.PREVIEW,
           'certification-number': null,
           'competence-id': 'recCompetenceId',
-          'last-question-state': 'asked',
+          'last-question-state': Assessment.statesOfLastQuestion.ASKED,
         },
         'relationships': {
           'course': { 'data': { 'type': 'courses', 'id': courseId } },
@@ -288,7 +288,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
           'certification-number': null,
           'code-campaign': 'TESTCODE',
           'competence-id': 'recCompetenceId',
-          'last-question-state': 'asked',
+          'last-question-state': Assessment.statesOfLastQuestion.ASKED,
         },
         'relationships': {
           'course': { 'data': { 'type': 'courses', 'id': 'anyFromLearningContent' } },

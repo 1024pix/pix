@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             type: assessment.type,
             title: assessment.courseId.toString(),
             'competence-id': assessment.competenceId,
-            'last-question-state': 'asked',
+            'last-question-state': Assessment.statesOfLastQuestion.ASKED,
           },
           relationships: {
             answers: {

@@ -4,6 +4,7 @@ const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
 const events = require('../../domain/events');
+const Assessment = require('../../domain/models/Assessment');
 const logger = require('../../infrastructure/logger');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const assessmentSerializer = require('../../infrastructure/serializers/jsonapi/assessment-serializer');
@@ -133,7 +134,7 @@ async function _getChallenge(assessment, request) {
   if (challenge) {
     if (challenge.id !== assessment.currentChallengeId) {
       await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
-      await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState: 'asked' });
+      await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState: Assessment.statesOfLastQuestion.ASKED });
     }
   }
 

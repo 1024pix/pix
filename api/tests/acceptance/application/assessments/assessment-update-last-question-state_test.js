@@ -1,5 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader, knex, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Controller | update-last-question-state', function() {
 
@@ -13,7 +14,7 @@ describe('Acceptance | Controller | update-last-question-state', function() {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser();
-    assessment = databaseBuilder.factory.buildAssessment({ lastQuestionState: 'asked', userId: user.id });
+    assessment = databaseBuilder.factory.buildAssessment({ lastQuestionState: Assessment.statesOfLastQuestion.ASKED, userId: user.id });
     newState = 'timeout';
     options = {
       method: 'PATCH',
