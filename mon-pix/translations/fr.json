@@ -495,7 +495,7 @@
           "aria-label": "Afficher l'indication sur l'épreuve.",
           "close": "J'ai compris",
           "focused": "Restez sur cette page ! Vous ne devez pas faire une recherche sur internet ni utiliser de logiciels pour répondre à cette question.",
-          "regular": "<p>Question libre :</p>Vous pouvez vous aider d'internet et d'applications externes."
+          "other": "Essayez de répondre à cette question en recherchant sur internet ou avec l'aide d'une application externe."
         }
       },
       "timed": {
