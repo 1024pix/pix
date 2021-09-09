@@ -181,6 +181,11 @@ module.exports = (function() {
       poleEmploiIdentityProvider: (process.env.POLE_EMPLOI_IDENTITY_PROVIDER || 'POLE_EMPLOI'),
     },
 
+    temporaryStorage: {
+      expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
+      redisUrl: process.env.REDIS_URL,
+    },
+
     graviteeRegisterApplicationsCredentials: [
       {
         clientId: process.env.LSU_CLIENT_ID,
