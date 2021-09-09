@@ -78,10 +78,10 @@ export default class ChallengeController extends Controller {
     if (this.currentUser.user) {
       if (this.model.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
         await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
-        console.log('save', this.currentUser.user);
         this.hasClicked = true;
       } else if (!this.model.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
         await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'other' } });
+        this.hasClicked = true;
       }
     }
   }
