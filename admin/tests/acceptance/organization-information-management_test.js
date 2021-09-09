@@ -25,7 +25,7 @@ module('Acceptance | organization information management', function(hooks) {
 
       // when
       await fillInByLabel('Nom', 'newOrganizationName');
-      await clickByLabel('Ajouter');
+      await clickByLabel('Ajouter', { exact: true });
 
       // then
       assert.contains('newOrganizationName');

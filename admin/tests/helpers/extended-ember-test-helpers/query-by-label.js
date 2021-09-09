@@ -1,7 +1,10 @@
 import { findAll } from '@ember/test-helpers';
 
-export default function queryByLabel(labelText) {
-  const labelElement = _findLabelElement(labelText);
+export default function queryByLabel(labelText, options = {}) {
+
+  options.exact = options.exact ?? false;
+
+  const labelElement = _findLabelElement(labelText, options);
   if (labelElement) {
     return _getElementControlledByLabel(labelElement, labelText);
   }
@@ -14,8 +17,14 @@ export default function queryByLabel(labelText) {
   return labelledElement;
 }
 
-function _findLabelElement(labelText) {
-  return findAll('label').find((label) => label.innerText.includes(labelText));
+function _findLabelElement(labelText, options) {
+  return findAll('label').find((label) => {
+    if (options.exact) {
+      return label.innerText === labelText;
+    }
+
+    return label.innerText.includes(labelText);
+  });
 }
 
 function _getElementControlledByLabel(label, labelText) {
