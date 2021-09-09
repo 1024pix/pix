@@ -46,7 +46,7 @@
   </div>
     {{#if @model.challenge.focused}}
       <div
-          class="challenge__info-alert
+          class="challenge__info-alert challenge__info-alert--hide
           {{if this.displayInfoAlertForFocusOut 'challenge__info-alert--show'}}
           {{if this.couldDisplayInfoAlert 'challenge__info-alert--could-show'}}"
         tabindex="0"
