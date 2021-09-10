@@ -50,11 +50,14 @@ module.exports = {
     const userId = request.auth.credentials.userId;
     const campaignParticipationId = request.params.id;
 
-    await usecases.beginCampaignParticipationImprovement({
-      campaignParticipationId,
-      userId,
+    return DomainTransaction.execute(async (domainTransaction) => {
+      await usecases.beginCampaignParticipationImprovement({
+        campaignParticipationId,
+        userId,
+        domainTransaction,
+      });
+      return null;
     });
-    return null;
   },
 
   async getAnalysis(request) {
