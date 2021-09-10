@@ -11,6 +11,7 @@ module.exports = function buildSchoolingRegistrationForAdmin({
   organizationName = 'name',
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-01'),
+  isDisabled = false,
 } = {}) {
   return new SchoolingRegistrationForAdmin({
     id,
@@ -23,5 +24,6 @@ module.exports = function buildSchoolingRegistrationForAdmin({
     organizationName,
     createdAt,
     updatedAt,
+    isDisabled,
   });
 };

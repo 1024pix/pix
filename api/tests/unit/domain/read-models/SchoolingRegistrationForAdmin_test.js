@@ -18,6 +18,7 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
         organizationName: 'School',
         createdAt: new Date('2020-09-05'),
         updatedAt: new Date('2020-09-08'),
+        isDisabled: false,
       };
     });
 
@@ -104,6 +105,14 @@ describe('Unit | Domain | Read-models | SchoolingRegistrationForAdmin', function
       expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, updatedAt: 'not_valid' }))
         .to.throw(ObjectValidationError);
       expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, updatedAt: undefined }))
+        .to.throw(ObjectValidationError);
+    });
+
+    it('should throw an ObjectValidationError when isDisabled is not valid', function() {
+      // when
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, isDisabled: 'not_valid' }))
+        .to.throw(ObjectValidationError);
+      expect(() => new SchoolingRegistrationForAdmin({ ...validArguments, isDisabled: undefined }))
         .to.throw(ObjectValidationError);
     });
   });

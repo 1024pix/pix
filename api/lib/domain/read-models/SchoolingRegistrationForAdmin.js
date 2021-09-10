@@ -13,6 +13,7 @@ const validationSchema = Joi.object({
   organizationName: Joi.string().required(),
   createdAt: Joi.date().required(),
   updatedAt: Joi.date().required(),
+  isDisabled: Joi.boolean().required(),
 });
 
 class SchoolingRegistrationForAdmin {
@@ -28,6 +29,7 @@ class SchoolingRegistrationForAdmin {
     organizationName,
     createdAt,
     updatedAt,
+    isDisabled,
   }) {
     this.id = id;
     this.firstName = firstName;
@@ -39,10 +41,10 @@ class SchoolingRegistrationForAdmin {
     this.organizationName = organizationName;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
+    this.isDisabled = isDisabled;
 
     validateEntity(validationSchema, this);
   }
 }
 
 module.exports = SchoolingRegistrationForAdmin;
-
