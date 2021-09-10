@@ -12,6 +12,7 @@
   animation-name: slidein;
   user-select: none;
   background-color: rgba(255, 255, 255, 0.92);
+  z-index: 100;
 
   @include device-is('tablet') {
     width: 362px;
