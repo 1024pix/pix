@@ -6,20 +6,33 @@ const requestUtils = require('../infrastructure/utils/request-response-utils');
 const { AsyncLocalStorage } = require('async_hooks');
 const asyncLocalStorage = new AsyncLocalStorage();
 
-function logInfoWithCorrelationIds(message) {
-  const request = asyncLocalStorage.getStore();
-  logger.info({
-    user_id: extractUserIdFromRequest(request),
-    request_id: `${get(request, 'info.id', '-')}`,
-  }, message);
+function logInfoWithCorrelationIds(data) {
+  if (settings.hapi.enableRequestMonitoring) {
+    const context = asyncLocalStorage.getStore();
+    const request = get(context, 'request');
+    logger.info({
+      user_id: extractUserIdFromRequest(request),
+      request_id: `${get(request, 'info.id', '-')}`,
+      ...get(data, 'metrics', {}),
+    }, get(data, 'message', '-'));
+  } else {
+    logger.info({
+      ...get(data, 'metrics', {}),
+    }, get(data, 'message', '-'));
+  }
 }
 
 function logErrorWithCorrelationIds(error) {
-  const request = asyncLocalStorage.getStore();
-  logger.error({
-    user_id: extractUserIdFromRequest(request),
-    request_id: `${get(request, 'info.id', '-')}`,
-  }, error);
+  if (settings.hapi.enableRequestMonitoring) {
+    const context = asyncLocalStorage.getStore();
+    const request = get(context, 'request');
+    logger.error({
+      user_id: extractUserIdFromRequest(request),
+      request_id: `${get(request, 'info.id', '-')}`,
+    }, error);
+  } else {
+    logger.error(error);
+  }
 }
 
 function extractUserIdFromRequest(request) {
