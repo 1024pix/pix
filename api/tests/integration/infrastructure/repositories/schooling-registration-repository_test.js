@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
+const { expect, domainBuilder, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 const UserWithSchoolingRegistration = require('../../../../lib/domain/models/UserWithSchoolingRegistration');
@@ -689,6 +689,65 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
           expect(expectedEnabled.isDisabled).to.be.false;
         });
+      });
+    });
+
+    context('when a schoolingRegistration is saved with a userId already present in organization', function() {
+      it('should save the schooling registration with userId as null', async function() {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE1',
+          userId,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE2',
+          organizationId: organizationId,
+          userId,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE1' });
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration], organizationId, domainTransaction);
+        });
+
+        // then
+        const expected = await knex('schooling-registrations').where({ nationalStudentId: 'INE1', organizationId: organizationId }).first();
+
+        expect(expected.userId).to.be.null;
+      });
+
+      it('should update the schooling registration with userId as null', async function() {
+        const { id: organizationId } = databaseBuilder.factory.buildOrganization();
+        const { id: userId } = databaseBuilder.factory.buildUser();
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE1',
+          userId,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE2',
+          organizationId: organizationId,
+          userId,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          nationalStudentId: 'INE1',
+          organizationId: organizationId,
+          userId: null,
+        });
+        await databaseBuilder.commit();
+
+        // when
+        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId: 'INE1' });
+        await DomainTransaction.execute((domainTransaction) => {
+          return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration], organizationId, domainTransaction);
+        });
+
+        // then
+        const expected = await knex('schooling-registrations').where({ nationalStudentId: 'INE1', organizationId: organizationId }).first();
+
+        expect(expected.userId).to.be.null;
       });
     });
 

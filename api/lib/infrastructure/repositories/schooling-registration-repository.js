@@ -191,7 +191,7 @@ module.exports = {
       });
 
       if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
-        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
+        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId && !currentSchoolingRegistrations.some(({ userId }) => userId === student.account.userId));
         if (student) {
           schoolingRegistration.userId = student.account.userId;
         }
