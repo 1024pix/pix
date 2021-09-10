@@ -1177,7 +1177,7 @@
     },
     "skill-review": {
       "title": "Result",
-      "abstract": "You have mastered '<strong>'{percentage}%'</strong><br>' of the competences tested.",
+      "abstract": "You have mastered '<strong>'{rate, number, ::percent}'</strong><br>' of the competences tested.",
       "abstract-title": "Your result for this customised test",
       "actions": {
         "continue": "Continue my Pix experience",
@@ -1192,7 +1192,8 @@
         "header-result": "Results",
         "header-skill": "Competences tested",
         "result": "Overall result",
-        "result-by-skill": "Your results for the competence"
+        "result-by-skill": "Your results for the competence",
+        "percentage": "{rate, number, ::percent}"
       },
       "improve": {
         "title": "Want to improve your results?",
@@ -1211,7 +1212,7 @@
       },
       "send-title": "Submit your results",
       "stage": {
-        "masteryPercentage": "Success rate: {percentage} %",
+        "masteryPercentage": "Success rate: {rate, number, ::percent}",
         "starsAcquired": "{acquired, plural, =0 {no star} other {# stars}} acquired over {total}"
       }
     },

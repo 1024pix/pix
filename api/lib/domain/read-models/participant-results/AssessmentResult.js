@@ -18,22 +18,25 @@ class AssessmentResult {
     this.totalSkillsCount = competences.flatMap(({ skillIds }) => skillIds).length;
     this.testedSkillsCount = knowledgeElements.length;
     this.validatedSkillsCount = knowledgeElements.filter(({ isValidated }) => isValidated).length;
-    this.masteryPercentage = this._computeMasteryPercentage();
+    this.masteryRate = this._computeMasteryRate(participationResults.masteryRate);
 
     this.competenceResults = competences.map((competence) => _buildCompetenceResults(competence, knowledgeElements));
     this.badgeResults = targetProfile.badges.map((badge) => new BadgeResult(badge, participationResults));
 
     this.stageCount = targetProfile.stages.length;
     if (targetProfile.stages.length > 0) {
-      this.reachedStage = new ReachedStage(this.masteryPercentage, targetProfile.stages);
+      this.reachedStage = new ReachedStage(this.masteryRate, targetProfile.stages);
     }
     this.canImprove = this._computeCanImprove(knowledgeElements, assessmentCreatedAt);
     this.canRetry = this._computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive);
   }
 
-  _computeMasteryPercentage() {
-    if (this.totalSkillsCount !== 0) {
-      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+  _computeMasteryRate(masteryRate) {
+    if (this.isShared) {
+      return masteryRate;
+    } else if (this.totalSkillsCount > 0) {
+      const rate = (this.validatedSkillsCount / this.totalSkillsCount).toPrecision(2);
+      return parseFloat(rate);
     } else {
       return 0;
     }
@@ -51,7 +54,7 @@ class AssessmentResult {
   _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive) {
     return isCampaignMultipleSendings
       && this._timeBeforeRetryingPassed(sharedAt)
-      && this.masteryPercentage < constants.MAX_MASTERY_POURCENTAGE
+      && this.masteryRate < constants.MAX_MASTERY_RATE
       && isRegistrationActive;
   }
 

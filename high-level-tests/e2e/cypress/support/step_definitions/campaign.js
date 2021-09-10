@@ -63,7 +63,10 @@ Then(`je vois la moyenne des résultats à {int}%`, (averageResult) => {
 });
 
 Then(`je vois un résultat global à {int}%`, (globalResult) => {
-  cy.get('[aria-label="Résultat global"]').contains(`${globalResult}%`);
+  cy.get('[aria-label="Résultat global"]').invoke('text').then((text) => {
+    //TODO: update cypress to handle insecable space https://glebbahmutov.com/cypress-examples/6.5.0/recipes/non-breaking-space.html#via-cy-contains
+    expect(text.replace(/\u00a0/g, ' ')).contains(`${globalResult} %`);
+  });
 });
 
 Then(`je vois que j'ai partagé mon profil`, () => {

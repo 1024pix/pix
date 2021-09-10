@@ -258,6 +258,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
 
     beforeEach(function() {
       campaignForNovice = server.create('campaign', { isForAbsoluteNovice: true, isSimplifiedAccess: true });
+      server.create('campaign-participation-result', { masteryRate: '1.0' });
       campaignParticipation = server.create('campaign-participation', { campaign: campaignForNovice });
     });
 
@@ -277,6 +278,8 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
       await currentSession().authenticate('authenticator:anonymous', { campaignCode: campaign.code });
 
       await visit(`/campagnes/${campaignForNovice.code}`);
+      //TODO: locale is UNDEFINED after using visit
+      this.intl.setLocale(['fr']);
       await clickByLabel(this.intl.t('pages.checkpoint.actions.next-page.results'));
       await clickByLabel(this.intl.t('pages.skill-review.actions.continue'));
 
