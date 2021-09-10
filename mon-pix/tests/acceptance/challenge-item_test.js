@@ -278,6 +278,18 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
       });
 
+      it('should not display warning block', async function() {
+        // given
+        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+        server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+
+        // when
+        await visit(`/assessments/${assessment.id}/challenges/0`);
+
+        // then
+        expect(find('.challenge__info-alert')).to.not.exist;
+      });
+
       describe('when user has focused out of document', function() {
         beforeEach(async function() {
           // given
