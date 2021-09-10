@@ -127,6 +127,19 @@
     },
     "subject": "Email change confirmation"
   },
+  "verification-code-email": {
+    "subject": "You’ve recently changed your email address",
+    "body": {
+      "doNotAnswer": "This is an automated email message, please do not reply.",
+      "context": "You’ve requested to change the email address linked to your account. To continue, enter the following verification code on Pix:",
+      "warningMessage" : "If this wasn’t you, please reset your password as soon as possible in order to secure your account.",
+      "greeting": "Hi,",
+      "moreOn": "More on",
+      "pixPresentation": "Pix is the online service to assess, develop and certify your digital skills.",
+      "signing": "— The Pix Team",
+      "seeYouSoon": "See you soon on Pix."
+    }
+  },
   "entity-validation-errors": {
     "ACCEPT_CGU": "Please agree to the terms and conditions of use.",
     "ALREADY_REGISTERED_EMAIL": "This email address is already registered, please log in.",

@@ -710,4 +710,115 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
+  describe('#sendVerificationCodeEmail', function() {
+
+    let translationsMapping;
+    let testCases;
+    let code;
+    let userEmail;
+
+    before(function() {
+      userEmail = 'user@example.net';
+      code = '999999';
+
+      translationsMapping = {
+        fr: mainTranslationsMapping.fr['verification-code-email'],
+        en: mainTranslationsMapping.en['verification-code-email'],
+      };
+
+      testCases = [
+        {
+          locale: FRENCH_SPOKEN,
+          expected: {
+            from: 'ne-pas-repondre@pix.fr',
+            to: userEmail,
+            subject: translationsMapping.fr.subject,
+            template: 'test-email-verification-code-template-id',
+            tags: ['EMAIL_VERIFICATION_CODE'],
+            variables: {
+              homeName: 'pix.org',
+              homeUrl: 'https://pix.org/fr/',
+              displayNationalLogo: false,
+              code,
+              ...translationsMapping.fr.body,
+            },
+          },
+        },
+        {
+          locale: FRENCH_FRANCE,
+          expected: {
+            from: 'ne-pas-repondre@pix.fr',
+            to: userEmail,
+            subject: translationsMapping.fr.subject,
+            template: 'test-email-verification-code-template-id',
+            tags: ['EMAIL_VERIFICATION_CODE'],
+            variables: {
+              homeName: 'pix.fr',
+              homeUrl: 'https://pix.fr',
+              displayNationalLogo: true,
+              code,
+              ...translationsMapping.fr.body,
+            },
+          },
+        },
+        {
+          locale: ENGLISH_SPOKEN,
+          expected: {
+            from: 'ne-pas-repondre@pix.fr',
+            to: userEmail,
+            subject: translationsMapping.en.subject,
+            tags: ['EMAIL_VERIFICATION_CODE'],
+            template: 'test-email-verification-code-template-id',
+            variables: {
+              homeName: 'pix.org',
+              homeUrl: 'https://pix.org/en-gb/',
+              displayNationalLogo: false,
+              code,
+              ...translationsMapping.en.body,
+            },
+          },
+        },
+      ];
+    });
+
+    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function() {
+      // given
+      const testCase = testCases[0];
+
+      // when
+      await mailService.sendVerificationCodeEmail({ code, email: userEmail, locale: testCase.locale });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options.subject).to.equal(testCase.expected.subject);
+      expect(options.variables).to.include(testCase.expected.variables);
+    });
+
+    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function() {
+      // given
+      const testCase = testCases[1];
+
+      // when
+      await mailService.sendVerificationCodeEmail({ code, email: userEmail, locale: testCase.locale });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options.subject).to.equal(testCase.expected.subject);
+      expect(options.variables).to.include(testCase.expected.variables);
+    });
+
+    it(`should call sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function() {
+      // given
+      const testCase = testCases[2];
+
+      // when
+      await mailService.sendVerificationCodeEmail({ code, email: userEmail, locale: testCase.locale });
+
+      // then
+      const options = mailer.sendEmail.firstCall.args[0];
+      expect(options.subject).to.equal(testCase.expected.subject);
+      expect(options.variables).to.include(testCase.expected.variables);
+    });
+  });
+
 });
