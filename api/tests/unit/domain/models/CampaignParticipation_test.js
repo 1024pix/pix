@@ -2,7 +2,7 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 const { expect, domainBuilder, sinon, catchErr } = require('../../../test-helper');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
-const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError } = require('../../../../lib/domain/errors');
+const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError, CantImproveCampaignParticipationError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Domain | Models | CampaignParticipation', function() {
 
@@ -57,6 +57,30 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
 
   });
 
+  describe('improve', function() {
+    context('when the campaign has the type PROFILES_COLLECTION', function() {
+      it('throws an CantImproveCampaignParticipationError', async function() {
+        const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
+        const campaignParticipation = new CampaignParticipation({ campaign });
+
+        const error = await catchErr(campaignParticipation.improve, campaignParticipation)();
+
+        expect(error).to.be.an.instanceOf(CantImproveCampaignParticipationError);
+      });
+    });
+
+    context('when the campaign participation status is different from STARTED', function() {
+      it('changes the status to STARTED', async function() {
+        const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
+        const campaignParticipation = new CampaignParticipation({ campaign, status: 'TO_SHARE' });
+
+        campaignParticipation.improve();
+
+        expect(campaignParticipation.status).to.equal('STARTED');
+      });
+    });
+  });
+
   describe('share', function() {
 
     context('when the campaign is not archived', function() {
@@ -82,7 +106,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
         });
       });
 
-      context('when the campaign as the type PROFILES_COLLECTION', function() {
+      context('when the campaign has the type PROFILES_COLLECTION', function() {
         it('share the CampaignParticipation', function() {
           const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
           const campaignParticipation = new CampaignParticipation({ campaign });

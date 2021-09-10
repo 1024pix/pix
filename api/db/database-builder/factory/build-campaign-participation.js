@@ -14,6 +14,7 @@ module.exports = function buildCampaignParticipation({
   validatedSkillsCount,
   masteryPercentage,
   pixScore,
+  status,
   isImproved = false,
 } = {}) {
 
@@ -32,6 +33,7 @@ module.exports = function buildCampaignParticipation({
     validatedSkillsCount,
     masteryPercentage,
     pixScore,
+    status,
     isImproved,
   };
   return databaseBuffer.pushInsertable({

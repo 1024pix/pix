@@ -239,7 +239,10 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
         params: { id: campaignParticipationId },
         auth: { credentials: { userId } },
       };
+      const domainTransaction = Symbol();
+
       sinon.stub(usecases, 'beginCampaignParticipationImprovement');
+      DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
       usecases.beginCampaignParticipationImprovement
         .resolves();
 
@@ -247,7 +250,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       await campaignParticipationController.beginImprovement(request);
 
       // then
-      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({ campaignParticipationId, userId });
+      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({ campaignParticipationId, userId, domainTransaction });
     });
   });
 
