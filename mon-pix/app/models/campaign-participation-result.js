@@ -3,7 +3,7 @@ import Model, { attr, belongsTo, hasMany } from '@ember-data/model';
 export default class CampaignParticipationResult extends Model {
 
   // attributes
-  @attr('number') masteryPercentage;
+  @attr('number') masteryRate;
   @attr('number') totalSkillsCount;
   @attr('number') testedSkillsCount;
   @attr('number') validatedSkillsCount;

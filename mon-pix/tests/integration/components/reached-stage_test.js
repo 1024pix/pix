@@ -10,17 +10,17 @@ describe('Integration | Component | reached-stage', function() {
   beforeEach(function() {
     // given
     this.set('reachedStageStarCount', 3);
-    this.set('percentage', 50);
+    this.set('rate', 0.5);
     this.set('stageCount', 5);
   });
 
   it('should render the reached stage', async function() {
     // when
-    await render(hbs`<ReachedStage @starCount={{this.reachedStageStarCount}} @percentage={{this.percentage}} @stageCount={{this.stageCount}} />`);
+    await render(hbs`<ReachedStage @starCount={{this.reachedStageStarCount}} @masteryRate={{this.rate}} @stageCount={{this.stageCount}} />`);
 
     // then
     expect(find('.reached-stage-score__stars')).to.exist;
-    expect(find('.reached-stage-score__percentage-text').textContent.trim()).to.equal('50 % de réussite');
+    expect(find('.reached-stage-score__percentage-text').textContent.trim()).to.equal('50\u00A0% de réussite');
     _expectStars(this.reachedStageStarCount, this.stageCount);
   });
 
@@ -39,7 +39,7 @@ describe('Integration | Component | reached-stage', function() {
         this.set('stageCount', stageCount);
 
         // when
-        await render(hbs`<ReachedStage @starCount={{this.reachedStageStarCount}} @percentage={{this.percentage}} @stageCount={{this.stageCount}} />`);
+        await render(hbs`<ReachedStage @starCount={{this.reachedStageStarCount}} @masteryRate={{this.rate}} @stageCount={{this.stageCount}} />`);
 
         // then
         _expectStars(starCount, stageCount);

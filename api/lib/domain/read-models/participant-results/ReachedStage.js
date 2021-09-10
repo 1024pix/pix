@@ -1,8 +1,8 @@
 class ReachedStage {
 
-  constructor(masteryPercentage, stages) {
+  constructor(masteryRate, stages) {
     const stagesOrdered = stages.sort((a, b) => a.threshold - b.threshold);
-    const stagesReached = stagesOrdered.filter(({ threshold }) => threshold <= masteryPercentage);
+    const stagesReached = stagesOrdered.filter(({ threshold }) => threshold <= (masteryRate * 100));
     const lastStageReached = stagesReached[stagesReached.length - 1];
 
     this.id = lastStageReached.id;

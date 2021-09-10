@@ -4,7 +4,7 @@ module.exports = {
     return new Serializer('campaign-participation-results', {
       transform,
       attributes: [
-        'masteryPercentage',
+        'masteryRate',
         'totalSkillsCount',
         'testedSkillsCount',
         'validatedSkillsCount',
