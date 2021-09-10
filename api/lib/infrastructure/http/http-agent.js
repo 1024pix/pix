@@ -17,7 +17,6 @@ class HttpResponse {
 
 module.exports = {
   async post({ url, payload, headers }) {
-    logInfoWithCorrelationIds({ message: `Starting POST request to ${url}` });
     const startTime = performance.now();
     try {
       const httpResponse = await axios.post(url, payload, {
@@ -52,7 +51,6 @@ module.exports = {
     }
   },
   async get({ url, payload, headers }) {
-    logInfoWithCorrelationIds({ message: `Starting GET request to ${url}` });
     const startTime = performance.now();
     try {
       const config = { data: payload, headers };
