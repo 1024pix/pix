@@ -1,6 +1,6 @@
-const { get } = require('lodash');
+const settings = require('../config');
+const { get, set, update } = require('lodash');
 const logger = require('../infrastructure/logger');
-const { logging } = require('../config');
 const requestUtils = require('../infrastructure/utils/request-response-utils');
 
 const { AsyncLocalStorage } = require('async_hooks');
@@ -11,12 +11,6 @@ function logInfoWithCorrelationIds(message) {
   logger.info({
     user_id: extractUserIdFromRequest(request),
     request_id: `${get(request, 'info.id', '-')}`,
-    http: {
-      method: get(request, 'method', '-'),
-      url_detail: {
-        path: get(request, 'path', '-'),
-      },
-    },
   }, message);
 }
 
@@ -25,44 +19,7 @@ function logErrorWithCorrelationIds(error) {
   logger.error({
     user_id: extractUserIdFromRequest(request),
     request_id: `${get(request, 'info.id', '-')}`,
-    http: {
-      method: get(request, 'method', '-'),
-      url_detail: {
-        path: get(request, 'path', '-'),
-      },
-    },
   }, error);
-}
-
-function logKnexQueriesWithCorrelationId(data, msg) {
-  if (logging.enableLogKnexQueriesWithCorrelationId) {
-    const request = asyncLocalStorage.getStore();
-    const knexQueryId = data.__knexQueryUid;
-    logger.info({
-      request_id: `${get(request, 'info.id', '-')}`,
-      knex_query_id: knexQueryId,
-      knex_query_position: get(request, ['knexQueryPosition', knexQueryId ], '-'),
-      knex_query_sql: data.sql,
-      knex_query_params: [(data.bindings) ? data.bindings.join(',') : ''],
-      duration: get(data, 'duration', '-'),
-      http: {
-        method: get(request, 'method', '-'),
-        url_detail: {
-          path: get(request, 'path', '-'),
-        },
-      },
-    }, msg);
-  }
-}
-
-function addPositionToQuerieAndIncrementQueriesCounter(knexQueryId) {
-  const request = asyncLocalStorage.getStore();
-  if (request) {
-    request.knexQueryPosition = request.knexQueryPosition || [];
-    request.queriesCounter = request.queriesCounter || 0;
-    request.queriesCounter++;
-    request.knexQueryPosition[knexQueryId] = request.queriesCounter;
-  }
 }
 
 function extractUserIdFromRequest(request) {
@@ -71,11 +28,70 @@ function extractUserIdFromRequest(request) {
   return userId || '-';
 }
 
+function getInContext(path, value) {
+  const store = asyncLocalStorage.getStore();
+  if (!store) return;
+  return get(store, path, value);
+}
+
+function setInContext(path, value) {
+  const store = asyncLocalStorage.getStore();
+  if (!store) return;
+  set(store, path, value);
+}
+
+function incrementInContext(path) {
+  const store = asyncLocalStorage.getStore();
+  if (!store) return;
+  update(store, path, (v) => (v ?? 0) + 1);
+}
+
+function getContext() {
+  return asyncLocalStorage.getStore();
+}
+
+function pushInContext(path, value) {
+  const store = asyncLocalStorage.getStore();
+  if (!store) return;
+  let array = get(store, path);
+  if (!array) {
+    array = [value];
+    set(store, path, array);
+  } else {
+    array.push(value);
+  }
+}
+
+function installHapiHook() {
+  if (!settings.hapi.enableRequestMonitoring) return;
+
+  if (require('@hapi/hapi/package.json').version !== '20.1.3') {
+    throw new Error('Hapi version changed, please check if patch still works');
+  }
+
+  const Request = require('@hapi/hapi/lib/request');
+
+  const originalMethod = Request.prototype._execute;
+
+  if (!originalMethod) {
+    throw new Error('Hapi method Request.prototype._execute not found while patch');
+  }
+
+  Request.prototype._execute = function(...args) {
+    const request = this;
+    const context = { request };
+    return asyncLocalStorage.run(context, () => originalMethod.call(request, args));
+  };
+}
+
 module.exports = {
-  asyncLocalStorage,
-  addPositionToQuerieAndIncrementQueriesCounter,
   extractUserIdFromRequest,
-  logKnexQueriesWithCorrelationId,
+  getContext,
+  getInContext,
+  incrementInContext,
+  installHapiHook,
   logErrorWithCorrelationIds,
   logInfoWithCorrelationIds,
+  pushInContext,
+  setInContext,
 };

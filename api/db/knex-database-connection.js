@@ -1,6 +1,7 @@
 const types = require('pg').types;
-const { addPositionToQuerieAndIncrementQueriesCounter, logKnexQueriesWithCorrelationId } = require('../lib/infrastructure/monitoring-tools');
+const monitoringTools = require('../lib/infrastructure/monitoring-tools');
 const { logging } = require('../lib/config');
+const { performance } = require('perf_hooks');
 /*
 By default, node-postgres casts a DATE value (PostgreSQL type) as a Date Object (JS type).
 But, when dealing with dates with no time (such as birthdate for example), we want to
@@ -42,23 +43,26 @@ try {
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 
-const queries = new Map();
-
 knex.on('query', function(data) {
-  if (logging.enableLogKnexQueriesWithCorrelationId) {
-    const queryStartedTime = new Date();
-    queries.set(data.__knexQueryUid, queryStartedTime);
-    addPositionToQuerieAndIncrementQueriesCounter(data.__knexQueryUid);
+  if (logging.enableLogKnexQueries) {
+    monitoringTools.setInContext(`knexQueryStartTimes.${data.__knexQueryUid}`, performance.now());
   }
 });
 
 knex.on('query-response', function(response, obj) {
-  if (logging.enableLogKnexQueriesWithCorrelationId) {
-    const queryStartedTime = queries.get(obj.__knexQueryUid);
-    const duration = new Date() - queryStartedTime;
-    obj.duration = duration;
-    logKnexQueriesWithCorrelationId(obj, 'Knex Query');
-    queries.delete(obj.__knexQueryUid);
+  if (logging.enableLogKnexQueries) {
+    const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${obj.__knexQueryUid}`);
+    if (queryStartedTime) {
+      const duration = performance.now() - queryStartedTime;
+
+      monitoringTools.incrementInContext('metrics.knexQueryCount');
+      monitoringTools.pushInContext('metrics.knexQueries', {
+        id: obj.__knexQueryUid,
+        sql: obj.sql,
+        params: [(obj.bindings) ? obj.bindings.join(',') : ''],
+        duration,
+      });
+    }
   }
 });
 
