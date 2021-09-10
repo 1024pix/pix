@@ -3,14 +3,20 @@ const settings = require('./config');
 const Blipp = require('blipp');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
-const { asyncLocalStorage, extractUserIdFromRequest } = require('./infrastructure/monitoring-tools');
+const { get } = require('lodash');
+const monitoringTools = require('./infrastructure/monitoring-tools');
 
 function logObjectSerializer(obj) {
-  const request = asyncLocalStorage.getStore();
-  return {
-    ...obj,
-    user_id: extractUserIdFromRequest(request),
-  };
+  if (settings.hapi.enableRequestMonitoring) {
+    const context = monitoringTools.getContext();
+    return {
+      ...obj,
+      user_id: get(context, 'request') ? monitoringTools.extractUserIdFromRequest(context.request) : '-',
+      metrics: get(context, 'metrics'),
+    };
+  } else {
+    return { ... obj };
+  }
 }
 
 const plugins = [
@@ -34,7 +40,6 @@ const plugins = [
     options: {
       serializers: {
         req: logObjectSerializer,
-        err: logObjectSerializer,
       },
       instance: require('./infrastructure/logger'),
       logQueryParams: true,

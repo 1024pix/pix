@@ -46,6 +46,7 @@ module.exports = (function() {
 
     hapi: {
       options: {},
+      enableRequestMonitoring: isFeatureEnabled(process.env.ENABLE_REQUEST_MONITORING),
     },
 
     domain: {
@@ -65,7 +66,7 @@ module.exports = (function() {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: false,
       logLevel: (process.env.LOG_LEVEL || 'info'),
-      enableLogKnexQueriesWithCorrelationId: isFeatureEnabled(process.env.LOG_KNEX_QUERIES_WITH_CORRELATION_ID),
+      enableLogKnexQueries: isFeatureEnabled(process.env.LOG_KNEX_QUERIES),
       emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
     },
 
@@ -258,7 +259,7 @@ module.exports = (function() {
     config.jwtConfig.poleEmploi = { secret: 'secretPoleEmploi', tokenLifespan: '1h' };
 
     config.logging.enabled = false;
-    config.logging.enableLogKnexQueriesWithCorrelationId = false;
+    config.logging.enableLogKnexQueries = false;
 
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
