@@ -1,5 +1,24 @@
 # Pix Changelog
 
+## v3.99.0 (10/09/2021)
+
+- [#3468](https://github.com/1024pix/pix/pull/3468) [FEATURE] Indiquer à l'utilisateur qu'il est sorti d'une épreuve Focus en certification (PIX-3075).
+- [#3472](https://github.com/1024pix/pix/pull/3472) [FEATURE] Minimiser le nombre d'appels lors de la recherche dans les composants Pix Admin (PIX-3116).
+- [#3463](https://github.com/1024pix/pix/pull/3463) [FEATURE] Marquer la participation "STARTED" au moment du "retenter". (PIX-3155)
+- [#3453](https://github.com/1024pix/pix/pull/3453) [FEATURE][A11Y] Utiliser des balises HTML sémantiques dans la page "Analyse" de Pix Orga (PIX-3058).
+- [#3455](https://github.com/1024pix/pix/pull/3455) [FEATURE][A11Y] Utiliser des balises HTML sémantiques dans la page "Résultats" et "Résultat individuel" de Pix Orga (PIX-3057).
+- [#3457](https://github.com/1024pix/pix/pull/3457) [FEATURE] Changer le status de la participation au partage (PIX-3139)
+- [#3430](https://github.com/1024pix/pix/pull/3430) [FEATURE] Pouvoir voir les habilitations des centres de certification aux certifications complémentaires sur leur page de détails dans PixAdmin (PIX-3128)
+- [#3475](https://github.com/1024pix/pix/pull/3475) [BUGFIX] Le bloc d'alerte de sorti d'épreuve focus ne doit pas bloquer l'utilisation de certains boutons (PIX-3179).
+- [#3466](https://github.com/1024pix/pix/pull/3466) [BUGFIX] Ne plus avoir l'écran grisé sur des épreuves focus (PIX-3167).
+- [#3467](https://github.com/1024pix/pix/pull/3467) [BUGFIX] L'affichage du code d'une campagne se fait sur deux lignes (PIX-2858).
+- [#3458](https://github.com/1024pix/pix/pull/3458) [TECH] Mesurer les temps de réponses API des appels externes à Pix via un métrique duration (PIX-3171).
+- [#3456](https://github.com/1024pix/pix/pull/3456) [TECH] Corréler et enrichir la sortie de log Hapi d'un appel API avec des métriques concernant les queries Knex associées (PIX-3168).
+- [#3443](https://github.com/1024pix/pix/pull/3443) [TECH] Réutiliser le champ résultat pour la page "résultats" sur Pix App(PIX-3123)
+- [#3471](https://github.com/1024pix/pix/pull/3471) [TECH] Création d'un utilitaire générateur de code aléatoire numérique (PIX-3122).
+- [#3465](https://github.com/1024pix/pix/pull/3465) [TECH] Ajour des variables CSS de Pix-ui (PIX-3186)
+- [#3447](https://github.com/1024pix/pix/pull/3447) [TECH] Identifier rapidement les problèmes de nos utilisateurs via Datadog en cherchant via leur identifiant toute requête les concernant (PIX-3153).
+
 ## v3.98.0 (07/09/2021)
 
 - [#3462](https://github.com/1024pix/pix/pull/3462) [FEATURE] Modification du fichier d'import Fregata (PIX-3140)
