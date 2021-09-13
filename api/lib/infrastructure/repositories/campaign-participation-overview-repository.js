@@ -31,7 +31,6 @@ function _findByUserId({ userId }) {
       qb.select({
         id: 'campaign-participations.id',
         createdAt: 'campaign-participations.createdAt',
-        isShared: 'campaign-participations.isShared',
         status: 'campaign-participations.status',
         sharedAt: 'campaign-participations.sharedAt',
         masteryPercentage: 'campaign-participations.masteryPercentage',
