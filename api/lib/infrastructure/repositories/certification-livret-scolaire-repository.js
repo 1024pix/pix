@@ -20,9 +20,14 @@ module.exports = {
         isPublished: 'certification-courses.isPublished',
         status: 'assessment-results.status',
         pixScore: 'assessment-results.pixScore',
+        competenceResults: knex.raw(`
+        json_agg(
+          json_build_object('level', "competence-marks".level, 'competenceId', "competence-marks"."competence_code")
+          ORDER BY "competence-marks"."competence_code" asc
+        )`,
+        ),
       },
     )
-      .select(knex.raw('\'[\' || (string_agg(\'{ "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\')) || \']\' as "competenceResultsJson"'))
       .from('certification-courses')
       .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
       .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
