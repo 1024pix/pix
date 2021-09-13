@@ -37,23 +37,5 @@ describe('Acceptance | Application | Account-Recovery | Routes', function() {
       expect(response.result.data.attributes['first-name']).to.equal(firstName);
       expect(response.result.data.id).to.equal(id.toString());
     });
-
-    it('should return 404 http status code when the feature disabled', async function() {
-      // given
-      const temporaryKey = 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=';
-      const server = await createServer();
-
-      const options = {
-        method: 'GET',
-        url: '/api/account-recovery/' + temporaryKey,
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(404);
-    });
-
   });
 });
