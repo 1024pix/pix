@@ -26,7 +26,7 @@ describe('Integration | Domain | Use Cases | get-next-challenge-for-campaign-as
       answerRepository = { findByAssessment: sinon.stub().resolves([lastAnswer]) };
       challenges = [];
       challengeRepository = { findOperativeBySkills: sinon.stub().resolves(challenges) };
-      assessment = { id: assessmentId, userId, campaignParticipationId, isImproving: false };
+      assessment = domainBuilder.buildAssessment.ofTypeCampaign({ id: assessmentId, userId, campaignParticipationId, isImproving: false });
       skills = [];
       targetProfile = { skills };
       targetProfileRepository = { getByCampaignParticipationId: sinon.stub().resolves(targetProfile) };
