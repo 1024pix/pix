@@ -149,9 +149,10 @@ module.exports = {
       ...schoolingRegistrationData,
       organizationId,
     }));
-    const currentSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
+    const existingSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
 
-    const [schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate] = await this._getStudentsListToUpdateOrCreate(schoolingRegistrationsFromFile, currentSchoolingRegistrations);
+    const reconciledSchoolingRegistrationsToImport = await this._reconcileSchoolingRegistrations(schoolingRegistrationsFromFile, existingSchoolingRegistrations);
+    const [schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate] = await this._getStudentsListToUpdateOrCreate(reconciledSchoolingRegistrationsToImport, existingSchoolingRegistrations);
 
     try {
       await Promise.all([
@@ -180,22 +181,31 @@ module.exports = {
     }
   },
 
-  async _getStudentsListToUpdateOrCreate(schoolingRegistrationStudent, currentSchoolingRegistrations) {
-    const nationalStudentIdsFromFile = schoolingRegistrationStudent.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
+  async _reconcileSchoolingRegistrations(schoolingRegistrationsToImport, existingSchoolingRegistrations) {
+    const nationalStudentIdsFromFile = schoolingRegistrationsToImport.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
     const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
 
-    return _.partition(schoolingRegistrationStudent, (schoolingRegistration) => {
-
-      const currentSchoolingRegistration = currentSchoolingRegistrations.find((currentSchoolingRegistration) => {
+    return _.map(schoolingRegistrationsToImport, (schoolingRegistration) => {
+      const currentSchoolingRegistration = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
         return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
       });
 
       if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
-        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId);
+        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId && !existingSchoolingRegistrations.some(({ userId }) => userId === student.account.userId));
         if (student) {
           schoolingRegistration.userId = student.account.userId;
         }
       }
+      return schoolingRegistration;
+    });
+  },
+
+  async _getStudentsListToUpdateOrCreate(schoolingRegistrationsToImport, existingSchoolingRegistrations) {
+    return _.partition(schoolingRegistrationsToImport, (schoolingRegistration) => {
+
+      const currentSchoolingRegistration = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
+      });
 
       return !!currentSchoolingRegistration;
     });
