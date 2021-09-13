@@ -1,4 +1,7 @@
 const Assessment = require('../models/Assessment');
+const CampaignParticipation = require('../models/CampaignParticipation');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignAssessmentParticipation {
 
@@ -12,7 +15,7 @@ class CampaignAssessmentParticipation {
     assessmentState,
     masteryPercentage,
     sharedAt,
-    isShared,
+    status,
     createdAt,
     targetedSkillsCount,
     testedSkillsCount,
@@ -25,7 +28,7 @@ class CampaignAssessmentParticipation {
     this.campaignId = campaignId;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
-    this.isShared = isShared;
+    this.isShared = status === SHARED;
     this.createdAt = createdAt;
     this.progression = this._computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount);
     this.badges = badges;
