@@ -673,15 +673,16 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       context('when a schooling registration disabled already exists', function() {
         it('should enable the updated schooling registration', async function() {
           // given
-          const { id, organizationId, nationalStudentId } = databaseBuilder.factory.buildSchoolingRegistration({
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: 'INE1',
             isDisabled: true,
           });
+          const { id, organizationId } = schoolingRegistration;
           await databaseBuilder.commit();
 
           // when
           await DomainTransaction.execute((domainTransaction) => {
-            return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([{ nationalStudentId }], organizationId, domainTransaction);
+            return schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations([schoolingRegistration], organizationId, domainTransaction);
           });
 
           // then
@@ -923,11 +924,22 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         return knex('schooling-registrations').delete();
       });
 
-      it('should return a SchoolingRegistrationsCouldNotBeSavedError', async function() {
+      it('should return a SchoolingRegistrationsCouldNotBeSavedError on unicity errors', async function() {
         // when
         let error;
         await DomainTransaction.execute(async (domainTransaction) => {
           error = await catchErr(schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations, schoolingRegistrationRepository)(schoolingRegistrations, organizationId, domainTransaction);
+        });
+
+        // then
+        expect(error).to.be.instanceof(SchoolingRegistrationsCouldNotBeSavedError);
+      });
+
+      it('should return a SchoolingRegistrationsCouldNotBeSavedError', async function() {
+        // when
+        let error;
+        await DomainTransaction.execute(async (domainTransaction) => {
+          error = await catchErr(schoolingRegistrationRepository.addOrUpdateOrganizationSchoolingRegistrations, schoolingRegistrationRepository)([{ nationalStudentId: 'something' }], organizationId, domainTransaction);
         });
 
         // then
