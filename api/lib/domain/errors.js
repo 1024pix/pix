@@ -169,24 +169,8 @@ class AccountRecoveryUserAlreadyConfirmEmail extends DomainError {
 }
 
 class SchoolingRegistrationsCouldNotBeSavedError extends DomainError {
-  constructor() {
-    super('An error occurred during process');
-  }
-}
-
-class SameNationalStudentIdInOrganizationError extends DomainError {
-  constructor(errorDetail) {
-    let message = 'INE already in use for this organization.';
-    let nationalStudentId;
-    const regex = /([a-zA-Z0-9]+)\)/;
-    if (errorDetail) {
-      const regexMatches = errorDetail.match(regex);
-      nationalStudentId = regexMatches[1];
-      message = `The INE ${nationalStudentId} is already in use for this organization.`;
-    }
-
+  constructor(message = 'An error occurred during process') {
     super(message);
-    this.nationalStudentId = errorDetail ? nationalStudentId : null;
   }
 }
 
@@ -985,7 +969,6 @@ module.exports = {
   OrganizationWithoutEmailError,
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
-  SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationAlreadyLinkedToUserError,
   SchoolingRegistrationDisabledError,
   SchoolingRegistrationNotFound,

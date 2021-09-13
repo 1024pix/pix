@@ -3,7 +3,6 @@ const bluebird = require('bluebird');
 
 const {
   NotFoundError,
-  SameNationalStudentIdInOrganizationError,
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
   UserCouldNotBeReconciledError,
@@ -20,7 +19,6 @@ const { knex } = require('../../../db/knex-database-connection');
 const BookshelfSchoolingRegistration = require('../orm-models/SchoolingRegistration');
 
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
 
 function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
@@ -174,9 +172,6 @@ module.exports = {
         knexConn.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
       ]);
     } catch (err) {
-      if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        throw new SameNationalStudentIdInOrganizationError(err.detail);
-      }
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
   },
