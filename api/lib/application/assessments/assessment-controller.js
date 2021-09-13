@@ -1,3 +1,5 @@
+const DomainTransaction = require('../../infrastructure/DomainTransaction');
+
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 const { AssessmentEndedError } = require('../../domain/errors');
 const usecases = require('../../domain/usecases');
@@ -91,7 +93,12 @@ module.exports = {
 
   async completeAssessment(request) {
     const assessmentId = request.params.id;
-    const event = await usecases.completeAssessment({ assessmentId });
+
+    let event;
+    await DomainTransaction.execute(async (domainTransaction) => {
+      event = await usecases.completeAssessment({ assessmentId, domainTransaction });
+    });
+
     await events.eventDispatcher.dispatch(event);
 
     return null;

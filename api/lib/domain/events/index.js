@@ -40,6 +40,7 @@ const partnerCertificationScoringRepository = injectDependencies(
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
 const handlersToBeInjected = {
+  computeCampaignParticipationResults: require('./compute-campaign-participation-results'),
   handleAutoJury: require('./handle-auto-jury'),
   handleBadgeAcquisition: require('./handle-badge-acquisition'),
   handleCertificationScoring: require('./handle-certification-scoring'),
@@ -50,7 +51,6 @@ const handlersToBeInjected = {
   handlePoleEmploiParticipationFinished: require('./handle-pole-emploi-participation-finished'),
   handlePoleEmploiParticipationShared: require('./handle-pole-emploi-participation-shared'),
   handlePoleEmploiParticipationStarted: require('./handle-pole-emploi-participation-started'),
-  computeCampaignParticipationResults: require('./compute-campaign-participation-results'),
   handleSessionFinalized: require('./handle-session-finalized'),
 };
 

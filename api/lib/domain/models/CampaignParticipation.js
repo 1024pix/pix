@@ -21,6 +21,7 @@ class CampaignParticipation {
     assessmentId,
     campaignId,
     userId,
+    status,
     validatedSkillsCount,
     pixScore,
   } = {}) {
@@ -35,8 +36,18 @@ class CampaignParticipation {
     this.assessmentId = assessmentId;
     this.campaignId = campaignId;
     this.userId = userId;
+    this.status = status;
     this.validatedSkillsCount = validatedSkillsCount;
     this.pixScore = pixScore;
+  }
+
+  static start(campaignParticipation) {
+    const { isAssessment } = campaignParticipation.campaign;
+    const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
+
+    const status = isAssessment ? STARTED : TO_SHARE;
+
+    return new CampaignParticipation({ ...campaignParticipation, status });
   }
 
   getTargetProfileId() {
@@ -77,10 +88,6 @@ class CampaignParticipation {
     if (this.campaign.isAssessment() && lastAssessmentNotCompleted(this)) {
       throw new AssessmentNotCompletedError();
     }
-  }
-
-  canComputeValidatedSkillsCount() {
-    return this.campaign.isAssessment();
   }
 }
 
