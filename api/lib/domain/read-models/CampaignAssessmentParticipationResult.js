@@ -1,18 +1,22 @@
+const CampaignParticipation = require('../models/CampaignParticipation');
 const CampaignAssessmentParticipationCompetenceResult = require('./CampaignAssessmentParticipationCompetenceResult');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignAssessmentParticipationResult {
   constructor({
     campaignParticipationId,
     campaignId,
-    isShared,
+    status,
     targetedCompetences,
     targetProfile,
     validatedTargetedKnowledgeElementsCountByCompetenceId = {},
   }) {
     this.campaignParticipationId = campaignParticipationId;
     this.campaignId = campaignId;
-    this.isShared = isShared;
-    if (!this.isShared) {
+    this.isShared = status === SHARED;
+
+    if (status !== SHARED) {
       this.competenceResults = [];
     } else {
       this.competenceResults = targetedCompetences
