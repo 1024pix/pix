@@ -5,6 +5,7 @@ const {
 } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
+const featureToggles = require('../../../../lib/application/preHandlers/feature-toggles');
 const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
@@ -573,6 +574,134 @@ describe('Unit | Router | user-router', function() {
 
       // then
       expect(result.statusCode).to.equal(400);
+    });
+  });
+
+  describe('POST /api/users/{id}/verification-code', function() {
+
+    it('should return HTTP code 204', async function() {
+      // given
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon.stub(featureToggles, 'isEmailValidationEnabled').resolves(true);
+      sinon.stub(userController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/verification-code';
+      const payload = {
+        data: {
+          type: 'users',
+          attributes: {
+            newEmail: 'user@example.net',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(204);
+    });
+
+    it('should return 422 when id is not a number', async function() {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/wrongId/verification-code';
+
+      const payload = {
+        data: {
+          type: 'users',
+          attributes: {
+            newEmail: 'user@example.net',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"id" must be a number');
+    });
+
+    it('should return 422 when type is not users', async function() {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/verification-code';
+
+      const payload = {
+        data: {
+          type: 'WRONG-TYPE',
+          attributes: {
+            newEmail: 'user@example.net',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.type" must be [users]');
+    });
+
+    it('should return 422 when email is not valid', async function() {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/verification-code';
+
+      const payload = {
+        data: {
+          type: 'users',
+          attributes: {
+            newEmail: 'newEmail',
+            password: 'Password123',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.attributes.newEmail" must be a valid email');
+    });
+
+    it('should return 422 when password is not provided', async function() {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/verification-code';
+
+      const payload = {
+        data: {
+          type: 'users',
+          attributes: {
+            newEmail: 'user@example.net',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.attributes.password" is required');
     });
   });
 });
