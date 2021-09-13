@@ -1,4 +1,3 @@
-const _ = require('lodash');
 const { expect, databaseBuilder, mockLearningContent, knex } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
@@ -74,7 +73,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
         expect(campaignAssessmentParticipation).to.be.instanceOf(CampaignAssessmentParticipation);
-        expect(_.omit(campaignAssessmentParticipation, ['campaignAnalysis', 'campaignAssessmentParticipationResult'])).to.deep.equal(expectedResult);
+        expect(campaignAssessmentParticipation).to.deep.contains(expectedResult);
       });
     });
 
