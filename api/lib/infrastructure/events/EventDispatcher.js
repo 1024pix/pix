@@ -29,9 +29,9 @@ class EventDispatcher {
 
       for (const eventHandler of eventHandlers) {
         try {
-          this._logger.onEventDispatchStarted(eventToDispatch, eventHandler.handlerName);
+          const context = this._logger.onEventDispatchStarted(eventToDispatch, eventHandler.handlerName);
           const resultingEventOrEvents = await eventHandler({ domainTransaction, event: eventToDispatch });
-          this._logger.onEventDispatchSuccess(eventToDispatch, eventHandler.handlerName);
+          this._logger.onEventDispatchSuccess(eventToDispatch, eventHandler.handlerName, context);
 
           eventQueue.push(resultingEventOrEvents);
         } catch (error) {
