@@ -3,7 +3,6 @@ const {
   databaseBuilder,
   generateValidRequestAuthorizationHeader,
   mockLearningContent,
-  insertUserWithRolePixMaster,
   learningContentBuilder,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
@@ -537,44 +536,6 @@ describe('Acceptance | API | Certifications', function() {
         expect(response.headers['content-disposition']).to.include('filename=attestation-pix');
         expect(response.file).not.to.be.null;
       });
-    });
-  });
-
-  describe('GET /api/admin/certification-courses/:id/abort', function() {
-
-    it('should return 200 HTTP status code if certification course is updated', async function() {
-      const pixMaster = await insertUserWithRolePixMaster();
-      databaseBuilder.commit();
-      // given
-      const options = {
-        method: 'POST',
-        url: `/api/admin/certification-courses/${certificationCourse.id}/abort`,
-        payload: { data: { attributes: { 'abort-reason': 'technical' } } },
-        headers: { authorization: generateValidRequestAuthorizationHeader(pixMaster.id) },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(200);
-    });
-
-    it('should return 403 HTTP status code if user is not PixMaster', async function() {
-      databaseBuilder.commit();
-      // given
-      const options = {
-        method: 'POST',
-        url: `/api/admin/certification-courses/${certificationCourse.id}/abort`,
-        payload: { data: { attributes: { 'abort-reason': 'technical' } } },
-        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
-      };
-
-      // when
-      const response = await server.inject(options);
-
-      // then
-      expect(response.statusCode).to.equal(403);
     });
   });
 });

@@ -9,6 +9,7 @@ module.exports = function buildCertificationReport({
   hasSeenEndTestScreen = false,
   certificationCourseId,
   sessionId,
+  abortReason = null,
 } = {}) {
 
   certificationCourseId = _.isUndefined(certificationCourseId)
@@ -24,6 +25,7 @@ module.exports = function buildCertificationReport({
     isCompleted,
     hasSeenEndTestScreen,
     certificationCourseId,
+    abortReason,
   };
   return values;
 };

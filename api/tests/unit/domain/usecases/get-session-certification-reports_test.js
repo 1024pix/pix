@@ -4,17 +4,12 @@ const getSessionCertificationReports = require('../../../../lib/domain/usecases/
 
 describe('Unit | Domain | Use Cases | get-session-certification-reports', function() {
 
-  const sessionId = 'sessionId';
-  // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const certificationReports = Symbol('some certification candidates');
-
-  beforeEach(function() {
-    // given
-    sinon.stub(certificationReportRepository, 'findBySessionId').withArgs(sessionId).resolves(certificationReports);
-  });
-
   it('should return the certification reports', async function() {
+    // given
+    const sessionId = 'sessionId';
+    const certificationReports = Symbol('some certification candidates');
+    sinon.stub(certificationReportRepository, 'findBySessionId').withArgs(sessionId).resolves(certificationReports);
+
     // when
     const actualCandidates = await getSessionCertificationReports({ sessionId, certificationReportRepository });
 

@@ -13,29 +13,8 @@ describe('Integration | Repository | Certification Course', function() {
     beforeEach(function() {
       const userId = databaseBuilder.factory.buildUser().id;
       const sessionId = databaseBuilder.factory.buildSession().id;
-      certificationCourse = new CertificationCourse({
-        firstName: 'Antoine',
-        lastName: 'Griezmann',
-        birthplace: 'Macon',
-        birthdate: '1991-03-21',
-        sex: 'F',
-        birthPostalCode: null,
-        birthINSEECode: '65550',
-        birthCountry: 'FRANCE',
-        externalId: 'xenoverse2',
-        isPublished: false,
-        hasSeenEndTestScreen: false,
-        isV2Certification: false,
-        sessionId,
-        userId,
-        challenges: [
-          domainBuilder.buildCertificationChallenge(),
-          domainBuilder.buildCertificationChallenge(),
-          domainBuilder.buildCertificationChallenge(),
-        ],
-        verificationCode: null,
-        maxReachableLevelOnCertificationDate: 5,
-      });
+
+      certificationCourse = domainBuilder.buildCertificationCourse.unpersisted({ userId, sessionId });
 
       return databaseBuilder.commit();
     });
@@ -58,6 +37,7 @@ describe('Integration | Repository | Certification Course', function() {
         'completedAt',
         'createdAt',
         'certificationIssueReports',
+        'maxReachableLevelOnCertificationDate',
       ];
 
       expect(
@@ -69,6 +49,7 @@ describe('Integration | Repository | Certification Course', function() {
       const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
       const certificationChallengeToBeSaved = _.map(certificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
       const savedCertificationChallenge = _.map(savedCertificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
 
       expect(

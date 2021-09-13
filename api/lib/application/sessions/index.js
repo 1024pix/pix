@@ -2,7 +2,7 @@ const Joi = require('joi');
 const securityPreHandlers = require('../security-pre-handlers');
 const sessionController = require('./session-controller');
 const finalizedSessionController = require('./finalized-session-controller');
-const sessionAuthorization = require('../preHandlers/session-authorization');
+const authorization = require('../preHandlers/authorization');
 const identifiersType = require('../../domain/types/identifiers-type');
 
 exports.register = async (server) => {
@@ -50,7 +50,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.get,
@@ -139,7 +139,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.finalize,
@@ -165,7 +165,7 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 10, // 10MB
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.importCertificationCandidatesFromCandidatesImportSheet,
@@ -186,7 +186,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.update,
@@ -208,7 +208,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.getCertificationCandidates,
@@ -229,7 +229,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.addCertificationCandidate,
@@ -251,7 +251,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.deleteCertificationCandidate,
@@ -340,7 +340,7 @@ exports.register = async (server) => {
           }),
         },
         pre: [{
-          method: sessionAuthorization.verify,
+          method: authorization.verifySessionAuthorization,
           assign: 'authorizationCheck',
         }],
         handler: sessionController.getCertificationReports,
@@ -492,7 +492,7 @@ exports.register = async (server) => {
         },
         pre: [
           {
-            method: sessionAuthorization.verify,
+            method: authorization.verifySessionAuthorization,
             assign: 'authorizationCheck',
           },
         ],
@@ -504,6 +504,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions', 'certification-candidates'],
       },
     },
+
   ]);
 };
 

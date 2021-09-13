@@ -8,6 +8,22 @@ const createServer = require('../../../server');
 
 describe('Acceptance | Controller | certification-report-controller', function() {
 
+  let server, certificationCourseId, userId, sessionId, certificationCenterId;
+
+  beforeEach(async function() {
+    server = await createServer();
+    userId = databaseBuilder.factory.buildUser().id;
+    ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());
+    databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
+    certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+      sessionId,
+      isPublished: false,
+      maxReachableLevelOnCertificationDate: 3,
+    }).id;
+
+    return databaseBuilder.commit();
+  });
+
   describe('POST /api/certification-reports/{id}/certification-issue-reports', function() {
 
     afterEach(function() {
@@ -16,12 +32,6 @@ describe('Acceptance | Controller | certification-report-controller', function()
 
     it('should return 201 HTTP status code', async function() {
       // given
-      const server = await createServer();
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId }).id;
-      const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId }).id;
       const request = {
         method: 'POST',
         url: `/api/certification-reports/${certificationCourseId}/certification-issue-reports`,
@@ -58,4 +68,24 @@ describe('Acceptance | Controller | certification-report-controller', function()
       expect(response.result.data.attributes.description).to.equal('Houston nous avons un problème');
     });
   });
+
+  describe('POST /api/certification-reports/${id}/abort', function() {
+
+    it('should return 200 HTTP status code if certification course is updated', async function() {
+      // given
+      const options = {
+        method: 'POST',
+        url: `/api/certification-reports/${certificationCourseId}/abort`,
+        payload: { data: { attributes: { 'abort-reason': 'technical' } } },
+        headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
+

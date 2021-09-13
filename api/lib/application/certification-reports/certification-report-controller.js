@@ -10,4 +10,11 @@ module.exports = {
 
     return h.response(certificationIssueReportSerializer.serialize(certificationIssueReportSaved)).created();
   },
+
+  async abort(request, h) {
+    const certificationCourseId = request.params.id;
+    const abortReason = request.payload.data.reason;
+    await usecases.abortCertificationCourse({ certificationCourseId, abortReason });
+    return h.response().code(200);
+  },
 };

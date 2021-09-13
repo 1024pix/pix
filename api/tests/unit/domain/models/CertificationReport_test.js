@@ -1,6 +1,8 @@
-const { expect, EMPTY_BLANK_AND_NULL, domainBuilder } = require('../../../test-helper');
+const { expect, EMPTY_BLANK_AND_NULL, domainBuilder, catchErr } = require('../../../test-helper');
 const CertificationReport = require('../../../../lib/domain/models/CertificationReport');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const { InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
+const keys = require('lodash/keys');
 
 describe('Unit | Domain | Models | CertificationReport', function() {
 
@@ -14,6 +16,71 @@ describe('Unit | Domain | Models | CertificationReport', function() {
         // then
         expect(certificationReport.examinerComment).to.equal(CertificationReport.NO_EXAMINER_COMMENT);
       });
+    });
+  });
+
+  describe('#validateForFinalization', function() {
+    it('should validate valid fields without throwing an error', function() {
+      // given
+      const certificationReport = domainBuilder.buildCertificationReport({
+        certificationCourseId: 1,
+        certificationIssueReports: [],
+        hasSeenEndTestScreen: true,
+        isCompleted: true,
+        abortReason: 'technical',
+      });
+
+      // when
+      certificationReport.validateForFinalization();
+
+      // then
+      expect(true).to.be.true;
+    });
+
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      {
+        certificationCourseId: null,
+      },
+      {
+        certificationIssueReports: null,
+      },
+      {
+        hasSeenEndTestScreen: null,
+      },
+      {
+        isCompleted: null,
+      },
+    ].forEach((invalidData) =>
+      it(`should throw an error if ${_getFieldName(invalidData)} is missing`, async function() {
+        // given
+        const certificationReport = new CertificationReport({
+          ...validCertificationReportData, ...invalidData,
+        });
+
+        // when
+        const error = await catchErr(certificationReport.validateForFinalization, certificationReport)();
+
+        // then
+        expect(error).to.be.instanceOf(InvalidCertificationReportForFinalization);
+        expect(error.message).contains(_getFieldName(invalidData));
+      }),
+    );
+
+    it('should throw an error if not completed and abortReason is empty', async function() {
+      // given
+      const certificationReport = new CertificationReport({
+        ...validCertificationReportData,
+        isCompleted: false,
+        abortReason: null,
+      });
+
+      // when
+      const error = await catchErr(certificationReport.validateForFinalization, certificationReport)();
+
+      // then
+      expect(error).to.be.instanceOf(InvalidCertificationReportForFinalization);
+      expect(error.message).to.equal('Abort reason is required if certificationReport is not completed');
     });
   });
 
@@ -67,3 +134,15 @@ describe('Unit | Domain | Models | CertificationReport', function() {
     });
   });
 });
+
+const validCertificationReportData = {
+  certificationCourseId: 1,
+  certificationIssueReports: [],
+  hasSeenEndTestScreen: true,
+  isCompleted: true,
+  abortReason: 'technical',
+};
+
+function _getFieldName(wrongData) {
+  return keys(wrongData)[0];
+}

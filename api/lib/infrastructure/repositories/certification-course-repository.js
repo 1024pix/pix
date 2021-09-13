@@ -132,6 +132,7 @@ function toDomain(bookshelfCertificationCourse) {
       'isCancelled',
       'maxReachableLevelOnCertificationDate',
       'verificationCode',
+      'abortReason',
     ]),
   });
 }

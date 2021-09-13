@@ -2,6 +2,7 @@
 
 import Model, { attr, hasMany } from '@ember-data/model';
 import { computed } from '@ember/object';
+import { memberAction } from 'ember-api-actions';
 
 export default class CertificationReport extends Model {
   @attr('number') certificationCourseId;
@@ -9,6 +10,7 @@ export default class CertificationReport extends Model {
   @attr('string') lastName;
   @attr('boolean') hasSeenEndTestScreen;
   @attr('boolean') isCompleted;
+  @attr('string') abortReason;
 
   @hasMany('certification-issue-report') certificationIssueReports;
 
@@ -17,4 +19,16 @@ export default class CertificationReport extends Model {
     const firstIssueReport = this.certificationIssueReports.firstObject;
     return firstIssueReport ? firstIssueReport.description : '';
   }
+
+  abort = memberAction({
+    type: 'post',
+    urlType: 'abort-certification',
+    before(reason) {
+      return {
+        data: {
+          reason,
+        },
+      };
+    },
+  });
 }
