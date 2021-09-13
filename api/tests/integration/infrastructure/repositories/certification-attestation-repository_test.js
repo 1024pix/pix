@@ -294,8 +294,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
 
       // then
       const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestation);
-      expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(certificationAttestation).to.deep.equal(expectedCertificationAttestation);
+      expect(certificationAttestation).to.deepEqualInstance(expectedCertificationAttestation);
     });
 
     it('should get the clea certification result if badge V1 taken', async function() {
