@@ -8,7 +8,6 @@ const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/mo
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
-const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 module.exports = {
 
@@ -47,8 +46,13 @@ function _selectShareableCertificates() {
       maxReachableLevelOnCertificationDate: 'certification-courses.maxReachableLevelOnCertificationDate',
       pixScore: 'assessment-results.pixScore',
       assessmentResultId: 'assessment-results.id',
+      competenceMarks: knex.raw(`
+        json_agg(
+          json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
+          ORDER BY "competence-marks"."competence_code" asc
+        )`,
+      ),
     })
-    .select(knex.raw('\'[\' || (string_agg(\'{ "score":\' || "competence-marks".score::VARCHAR || \', "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\')) || \']\' as "competenceResultsJson"'))
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
@@ -102,18 +106,9 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
 }
 
 function _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {
-
-  const competenceResults = JSON .parse(shareableCertificateDTO.competenceResultsJson);
-
-  const competenceMarks = competenceResults.map((competenceMark) => new CompetenceMark({
-    score: competenceMark.score,
-    level: competenceMark.level,
-    competence_code: competenceMark.competenceId,
-  }));
-
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
     competenceTree,
-    competenceMarks,
+    competenceMarks: _.compact(shareableCertificateDTO.competenceMarks),
     certificationId: shareableCertificateDTO.id,
     assessmentResultId: shareableCertificateDTO.assessmentResultId,
   });
