@@ -142,7 +142,7 @@ class Assessment {
     });
   }
 
-  static createForCampaign({ userId, campaignParticipationId }) {
+  static createForCampaign({ userId, campaignParticipationId, method }) {
     return new Assessment({
       userId,
       campaignParticipationId,
@@ -150,11 +150,12 @@ class Assessment {
       type: Assessment.types.CAMPAIGN,
       courseId: Assessment.courseIdMessage.CAMPAIGN,
       isImproving: false,
+      method,
     });
   }
 
-  static createImprovingForCampaign({ userId, campaignParticipationId }) {
-    const assessment = this.createForCampaign({ userId, campaignParticipationId });
+  static createImprovingForCampaign({ userId, campaignParticipationId, method }) {
+    const assessment = this.createForCampaign({ userId, campaignParticipationId, method });
     assessment.isImproving = true;
     return assessment;
   }

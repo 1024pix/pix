@@ -35,13 +35,13 @@ module.exports = async function startCampaignParticipation({
     await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignToJoin.id, userId, domainTransaction);
     createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignToJoin, campaignParticipationRepository, domainTransaction);
     if (campaignToJoin.isAssessment) {
-      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
+      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id, method: campaignToJoin.assessmentMethod });
       await assessmentRepository.save({ assessment, domainTransaction });
     }
   } else {
     createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignToJoin, campaignParticipationRepository, domainTransaction);
     if (campaignToJoin.isAssessment) {
-      const assessment = Assessment.createForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id });
+      const assessment = Assessment.createForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id, method: campaignToJoin.assessmentMethod });
       await assessmentRepository.save({ assessment, domainTransaction });
     }
   }

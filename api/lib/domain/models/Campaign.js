@@ -7,6 +7,7 @@ const types = {
 
 const assessmentMethods = {
   SMART_RANDOM: 'SMART_RANDOM',
+  FLASH: 'FLASH',
 };
 
 class Campaign {
