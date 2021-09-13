@@ -97,11 +97,7 @@
     <div class="join-restricted-campaign__error" aria-live="polite">{{this.errors.global}}</div>
   {{/if}}
 
-  <button type="submit" disabled={{this.isLoading}} class="button button--big join-restricted-campaign__button" {{on 'click' this.submit}}>
-    {{#if this.isLoading}}
-      <span class="loader-in-button">&nbsp;</span>
-    {{else}}
-      {{t 'pages.join.button'}}
-    {{/if}}
-  </button>
+  <PixButton @type="submit" @triggerAction={{this.submit}} class="join-restricted-campaign__button">
+    {{t 'pages.join.button'}}
+  </PixButton>
 </form>

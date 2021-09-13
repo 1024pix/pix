@@ -35,7 +35,6 @@ export default class JoinSco extends Component {
 
   validation = new Validation();
 
-  @tracked isLoading = false;
   @tracked errorMessage;
 
   @tracked displayInformationModal = false;
@@ -83,7 +82,6 @@ export default class JoinSco extends Component {
   @action
   async submit(event) {
     event.preventDefault();
-    this.isLoading = true;
     this.errorMessage = null;
     this.displayInformationModal = false;
     this.reconciliationError = null;
@@ -91,7 +89,7 @@ export default class JoinSco extends Component {
 
     this._validateForm();
     if (this.isFormNotValid) {
-      return this.isLoading = false;
+      return;
     }
 
     const externalUserToken = this.session.get('data.externalUser');
@@ -104,34 +102,29 @@ export default class JoinSco extends Component {
         reconciliationRecord.unloadRecord();
         this._displayWarningMessage();
       }
-      this.isLoading = false;
     } catch (errorResponse) {
       reconciliationRecord.unloadRecord();
       this._setErrorMessageForAttemptNextAction(errorResponse);
-      this.isLoading = false;
     }
   }
 
   @action
   async associate(event) {
     event.preventDefault();
-    this.isLoading = true;
     this.errorMessage = null;
 
     this._validateForm();
     if (this.isFormNotValid) {
-      return this.isLoading = false;
+      return;
     }
 
     const reconciliationRecord = this._getReconciliationRecord();
     try {
       await this.args.onSubmitToReconcile(reconciliationRecord, { withReconciliation: true });
-      this.isLoading = false;
       this.closeModal();
     } catch (errorResponse) {
       reconciliationRecord.unloadRecord();
       this._setErrorMessageForAttemptNextAction(errorResponse);
-      this.isLoading = false;
     }
   }
 

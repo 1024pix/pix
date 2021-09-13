@@ -1,18 +1,19 @@
-import { click, fillIn } from '@ember/test-helpers';
+import { fillIn } from '@ember/test-helpers';
 import visit from './visit';
+import { clickByLabel } from './click-by-label';
 
 export async function authenticateByEmail(user) {
   await visit('/connexion');
   await fillIn('#login', user.email);
   await fillIn('#password', user.password);
-  await click('.button');
+  await clickByLabel('Je me connecte');
 }
 
 export async function authenticateByUsername(user) {
   await visit('/connexion');
   await fillIn('#login', user.username);
   await fillIn('#password', user.password);
-  await click('.button');
+  await clickByLabel('Je me connecte');
 }
 
 export async function authenticateByGAR(user) {

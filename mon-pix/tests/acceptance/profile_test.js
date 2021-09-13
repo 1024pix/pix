@@ -7,10 +7,13 @@ import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Profile', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let user;
 
   beforeEach(function() {
@@ -84,7 +87,7 @@ describe('Acceptance | Profile', function() {
       await fillIn('#password', 'Pix20!!');
 
       // when
-      await click('.button');
+      await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // then
       expect(currentURL()).to.equal('/connexion');

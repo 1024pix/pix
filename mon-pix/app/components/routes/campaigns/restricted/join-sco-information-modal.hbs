@@ -3,9 +3,13 @@
     <div class="join-error-modal-header__title">
       <h1 class="join-error-modal-header-title__text">{{t 'pages.join.sco.login-information-title'}}</h1>
     </div>
-    <button id="pix-modal__close-button" class="join-error-modal-header__close" type="button" aria-label={{t "common.actions.close"}} {{on 'click' @closeModal}}>
-      <img src="/images/icons/icon-croix.svg" alt={{t 'common.actions.close'}} class="join-error-modal-header-close__icon">
-    </button>
+    <PixIconButton
+      id="pix-modal__close-button"
+      @withBackground={{true}}
+      @ariaLabel={{t "common.actions.close"}}
+      @icon="times"
+      @triggerAction={{@closeModal}}
+    />
   </div>
 
   <div class="join-error-modal__body" {{on-key 'Escape' @closeModal}}>
@@ -14,15 +18,29 @@
 
   <div class="join-error-modal__footer">
     {{#if this.isInformationMode}}
-      <button class="button button--grey" type="button" {{on 'click' this.goToHome}}>{{t 'common.actions.sign-out'}}</button>
-      <button class="button" type="button" aria-label={{t 'pages.join.sco.associate'}} {{on 'click' @associate}}>{{t 'pages.join.sco.associate'}}</button>
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.goToHome}}
+      >
+        {{t 'common.actions.sign-out'}}
+      </PixButton>
+
+      <PixButton @triggerAction={{@associate}}>
+        {{t 'pages.join.sco.associate'}}
+      </PixButton>
     {{else}}
-      <button class="button {{if this.displayContinueButton "button--grey"}}" type="button" {{on 'click' this.goToHome}}>
-        {{t 'common.actions.quit'}}</button>
+      <PixButton
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+        @triggerAction={{this.goToHome}}
+      >
+        {{t 'common.actions.quit'}}
+      </PixButton>
       {{#if this.displayContinueButton}}
-        <button class="button" type="button" aria-label={{t 'pages.join.sco.continue-with-pix'}} {{on 'click' this.goToCampaignConnectionForm}}>
+        <PixButton @triggerAction={{this.goToCampaignConnectionForm}}>
           {{t 'pages.join.sco.continue-with-pix'}}
-        </button>
+        </PixButton>
       {{/if}}
     {{/if}}
   </div>

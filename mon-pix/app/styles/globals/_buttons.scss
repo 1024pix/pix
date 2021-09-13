@@ -139,18 +139,6 @@
     }
   }
 
-  &--bordered {
-    border: 1px solid $blue;
-    color: $blue;
-
-    &:hover,
-    &:active,
-    &:focus {
-      background-color: $blue;
-      color: $white;
-    }
-  }
-
   &--no-color {
     background-color: transparent;
     color: $grey-100;

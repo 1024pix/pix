@@ -18,7 +18,8 @@ export default class FillInCertificateVerificationCode extends Controller {
   showNotFoundCertificationErrorMessage = false;
 
   @action
-  async checkCertificate() {
+  async checkCertificate(e) {
+    e.preventDefault();
     this.clearErrors();
 
     if (!this.certificateVerificationCode) {

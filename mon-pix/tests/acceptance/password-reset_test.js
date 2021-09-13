@@ -1,13 +1,16 @@
-import { click, fillIn, find, currentURL } from '@ember/test-helpers';
+import { fillIn, find, currentURL } from '@ember/test-helpers';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Reset Password', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   it('can visit /mot-passe-oublie', async function() {
     // when
@@ -38,7 +41,7 @@ describe('Acceptance | Reset Password', function() {
     await fillIn('#email', 'brandone.martins@pix.com');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
     expect(currentURL()).to.equal('/mot-de-passe-oublie');
     expect(find('.password-reset-demand-form__body')).to.exist;
@@ -57,7 +60,7 @@ describe('Acceptance | Reset Password', function() {
     await fillIn('#email', 'unexisting@user.com');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.password-reset-demand.actions.reset'));
 
     expect(currentURL()).to.equal('/mot-de-passe-oublie');
     expect(find('.sign-form__notification-message--error')).to.exist;

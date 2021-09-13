@@ -1,8 +1,10 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { click, find, render } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { contains } from '../../helpers/contains';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | Challenge Embed Simulator', function() {
 
@@ -17,14 +19,6 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
       // then
       expect(find('.embed__acknowledgment-overlay')).to.exist;
     });
-
-    it('should contain a button to launch the simulator', async function() {
-      // when
-      await render(hbs`<ChallengeEmbedSimulator />`);
-
-      // then
-      expect(find('.embed__acknowledgment-overlay .embed__launch-simulator-button')).to.exist;
-    });
   });
 
   describe('Launch simulator button', () => {
@@ -34,7 +28,7 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // then
-      expect(find('.embed__acknowledgment-overlay .embed__launch-simulator-button').textContent).to.equal('Je lance l’application');
+      expect(contains(this.intl.t('pages.challenge.embed-simulator.actions.launch')));
     });
 
     it('should close the acknowledgment overlay when clicked', async function() {
@@ -42,7 +36,7 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // when
-      await click('.embed__launch-simulator-button');
+      await clickByLabel(this.intl.t('pages.challenge.embed-simulator.actions.launch'));
 
       // then
       expect(find('.embed__acknowledgment-overlay')).to.not.exist;
@@ -75,7 +69,7 @@ describe('Integration | Component | Challenge Embed Simulator', function() {
       await render(hbs`<ChallengeEmbedSimulator />`);
 
       // when
-      await click('.embed__launch-simulator-button');
+      await clickByLabel(this.intl.t('pages.challenge.embed-simulator.actions.launch'));
 
       // then
       expect(find('.embed__simulator').classList.contains('blurred')).to.be.false;

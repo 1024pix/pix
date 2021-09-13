@@ -105,13 +105,13 @@
     </fieldset>
     <div class="sign-form-body__bottom-button">
       {{#if this.isLoading}}
-        <button type="button" disabled class="button button--uppercase button--thin button--big button--round button--border-focus">
+        <button type="button" disabled class="button button--thin button--big button--round button--border-focus">
           <span class="loader-in-button">&nbsp;</span>
         </button>
       {{else}}
-        <button type="submit" class="button button--uppercase button--thin button--round button--border-focus">
+        <PixButton @type="submit" @shape="rounded">
           {{t 'pages.sign-up.actions.submit'}}
-        </button>
+        </PixButton>
       {{/if}}
     </div>
 

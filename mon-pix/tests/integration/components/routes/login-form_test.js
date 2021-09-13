@@ -7,6 +7,7 @@ import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
+import { clickByLabel } from '../../../helpers/click-by-label';
 
 describe('Integration | Component | routes/login-form', function() {
 
@@ -40,7 +41,7 @@ describe('Integration | Component | routes/login-form', function() {
     await render(hbs`<Routes::LoginForm/>`);
     await fillIn('#login', 'pix@example.net');
     await fillIn('#password', 'Mauvais mot de passe');
-    await click('#submit-connexion');
+    await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
     // then
     expect(find('#login-form-error-message')).to.exist;
@@ -90,7 +91,7 @@ describe('Integration | Component | routes/login-form', function() {
       await render(hbs`<Routes::LoginForm/>`);
       await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'JeMeLoggue1024');
-      await click('#submit-connexion');
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
@@ -117,7 +118,7 @@ describe('Integration | Component | routes/login-form', function() {
       await render(hbs`<Routes::LoginForm/>`);
       await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'JeMeLoggue1024');
-      await click('#submit-connexion');
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
       expect(find('.form-textfield__input--error')).to.not.exist;
@@ -160,7 +161,7 @@ describe('Integration | Component | routes/login-form', function() {
       await render(hbs`<Routes::LoginForm/>`);
       await fillIn('#login', 'pix@example.net');
       await fillIn('#password', 'Mauvais mot de passe');
-      await click('#submit-connexion');
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
       sinon.assert.calledWith(routerObserver.replaceWith, 'update-expired-password');
@@ -209,7 +210,7 @@ describe('Integration | Component | routes/login-form', function() {
       await fillIn('#password', 'JeMeLoggue1024');
 
       // when
-      await click('#submit-connexion');
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
       expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
@@ -234,7 +235,7 @@ describe('Integration | Component | routes/login-form', function() {
       await fillIn('#password', 'JeMeLoggue1024');
 
       // when
-      await click('#submit-connexion');
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
       expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);
@@ -263,7 +264,7 @@ describe('Integration | Component | routes/login-form', function() {
       await fillIn('#password', 'JeMeLoggue1024');
 
       // when
-      await click('#submit-connexion');
+      await clickByLabel(this.intl.t('pages.login-or-register.login-form.button'));
 
       // then
       expect(find('#update-form-error-message').textContent).to.equal(expectedErrorMessage);

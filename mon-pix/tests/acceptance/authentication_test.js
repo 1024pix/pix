@@ -1,15 +1,18 @@
 import { expect } from 'chai';
 import { beforeEach, describe, it } from 'mocha';
 import { setupApplicationTest } from 'ember-mocha';
-import { click, fillIn, currentURL } from '@ember/test-helpers';
+import { fillIn, currentURL } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import visit from '../helpers/visit';
 import { authenticateByEmail, authenticateByUsername } from '../helpers/authentication';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Authentication', function() {
 
   setupApplicationTest();
   setupMirage();
+  setupIntl();
 
   let user;
 
@@ -50,7 +53,7 @@ describe('Acceptance | Authentication', function() {
       await fillIn('#password', 'Pix20!!');
 
       // when
-      await click('.button');
+      await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // then
       expect(currentURL()).to.equal('/connexion');

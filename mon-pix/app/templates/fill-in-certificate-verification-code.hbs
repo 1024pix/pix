@@ -34,12 +34,13 @@
           </div>
           {{/if}}
 
-          <button
-            type="submit"
-            class="button button--extra-big form__start-button form__actions"
-            {{action 'checkCertificate'}}>
+          <PixButton
+            @type="submit"
+            @triggerAction={{this.checkCertificate}}
+            class="form__actions"
+          >
             {{t "pages.fill-in-certificate-verification-code.verify"}}
-          </button>
+          </PixButton>
 
           {{#if this.showNotFoundCertificationErrorMessage}}
           <PixMessage @type='alert' class="form__error--not-found">

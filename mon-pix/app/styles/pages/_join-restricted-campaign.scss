@@ -105,6 +105,11 @@
   &__no-student-number {
     margin: 10px 8px 0 0;
   }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .ember-modal-overlay.translucent {
@@ -137,7 +142,7 @@
     display: flex;
     justify-content: center;
 
-    > .button {
+    > button {
       margin: 0 8px;
     }
   }
@@ -148,15 +153,6 @@
   &__title {
     display: flex;
     align-items: center;
-  }
-
-  &__close {
-    border: none;
-    background-color: transparent;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 }
 

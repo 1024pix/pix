@@ -1,7 +1,7 @@
 {{!-- template-lint-disable require-input-label no-triple-curlies no-unknown-arguments-for-builtin-components --}}
 <div class="join-restricted-campaign__title">{{t 'pages.join.sco.first-title' organizationName=@organizationName}}</div>
 <div class="join-restricted-campaign__subtitle">{{t 'pages.join.sco.subtitle'}}</div>
-<form>
+<form onSubmit={{this.submit}}>
   <div class="join-restricted-campaign__row">
     <label class="join-restricted-campaign__label">{{t 'pages.join.fields.firstname.label'}}</label>
     <Input
@@ -57,13 +57,9 @@
   {{#if this.errorMessage}}
     <div class="join-restricted-campaign__error" aria-live="polite">{{{this.errorMessage}}}</div>
   {{/if}}
-  {{#if this.isLoading}}
-    <button type="button" disabled class="button button--big join-restricted-campaign__button"><span class="loader-in-button">&nbsp;</span></button>
-  {{else}}
-    <button type="submit" class="button button--big join-restricted-campaign__button" {{on 'click' this.submit}}>
-      {{t 'pages.join.button'}}
-    </button>
-  {{/if}}
+  <div class="join-restricted-campaign__actions">
+    <PixButton @type="submit">{{t 'pages.join.button'}}</PixButton>
+  </div>
 </form>
 {{#if this.displayInformationModal}}
   <Routes::Campaigns::Restricted::JoinScoInformationModal

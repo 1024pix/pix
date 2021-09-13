@@ -6,13 +6,11 @@ import { tracked } from '@glimmer/tracking';
 export default class SendProfileController extends Controller {
   @service intl;
 
-  @tracked isLoading = false;
   @tracked errorMessage = null;
 
   @action
   async sendProfile() {
     this.errorMessage = null;
-    this.isLoading = true;
 
     const campaignParticipation = this.model.campaignParticipation;
     campaignParticipation.isShared = true;
@@ -23,7 +21,6 @@ export default class SendProfileController extends Controller {
       campaignParticipation.rollbackAttributes();
       this._handleCampaignParticipationSaveErrors(errorResponse.errors);
     }
-    this.isLoading = false;
   }
 
   _handleCampaignParticipationSaveErrors(errors) {
