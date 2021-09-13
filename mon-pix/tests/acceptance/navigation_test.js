@@ -6,10 +6,12 @@ import { setupApplicationTest } from 'ember-mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeAssessmentByCode } from '../helpers/campaign';
 import visit from '../helpers/visit';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Navbar', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let user;
 
   beforeEach(function() {
@@ -53,7 +55,7 @@ describe('Acceptance | Navbar', function() {
       const campaign = server.create('campaign', 'withOneChallenge');
 
       // when
-      await resumeCampaignOfTypeAssessmentByCode(campaign.code, false);
+      await resumeCampaignOfTypeAssessmentByCode(campaign.code, false, this.intl);
 
       // then
       expect(find('.navbar-desktop-header')).to.not.exist;

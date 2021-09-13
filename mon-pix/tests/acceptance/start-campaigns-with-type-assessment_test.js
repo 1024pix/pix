@@ -10,12 +10,14 @@ import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 const ASSESSMENT = 'ASSESSMENT';
 
 describe('Acceptance | Campaigns | Start Campaigns with type Assessment', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let campaign;
 
   beforeEach(function() {
@@ -57,13 +59,12 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#email', prescritUser.email);
             await fillIn('#password', prescritUser.password);
             await click('.signup-form__cgu');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
           });
 
           it('should redirect to assessment after completion of external id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-
             await clickByLabel('Continuer');
 
             // then
@@ -90,7 +91,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await fillIn('#email', prescritUser.email);
               await fillIn('#password', prescritUser.password);
               await click('.signup-form__cgu');
-              await click('.button');
+              await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
             });
 
             it('should redirect to assessment', async function() {
@@ -100,12 +101,14 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           });
 
           context('When campaign is restricted', function() {
-            beforeEach(async function() {
+
+            it('should redirect to assessment', async function() {
+              // given
               campaign = server.create('campaign', 'restricted', { idPixLabel: 'toto', organizationType: 'SCO', type: ASSESSMENT });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
+              // when
               await click('#login-button');
 
               await fillIn('#login', prescritUser.email);
@@ -117,12 +120,10 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
               await fillIn('#yearOfBirth', '2000');
-              await click('.button');
-              await click('button[aria-label="Associer"]');
+              await clickByLabel(this.intl.t('pages.join.button'));
+              await clickByLabel(this.intl.t('pages.join.sco.associate'));
               await click('.campaign-landing-page__start-button');
-            });
 
-            it('should redirect to assessment', async function() {
               // then
               expect(currentURL()).to.contains('/didacticiel');
             });
@@ -139,7 +140,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
           await click('.signup-form__cgu');
-          await click('.button');
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
         it('should redirect to assessment after signup', async function() {
@@ -157,7 +158,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           await fillIn('#email', prescritUser.email);
           await fillIn('#password', prescritUser.password);
           await click('.signup-form__cgu');
-          await click('.button');
+          await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
         });
 
         it('should redirect to assessment after signup', async function() {
@@ -203,7 +204,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', type: ASSESSMENT, organizationType: 'SCO' });
         });
 
-        context('When association is not already done', function() {
+        describe('When association is not already done', function() {
+
           it('should redirect to tutoriel page', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
@@ -212,13 +214,13 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
-            await click('.button');
-            await click('button[aria-label="Associer"]');
-            await click('.campaign-landing-page__start-button');
+            await clickByLabel(this.intl.t('pages.join.button'));
+            await clickByLabel(this.intl.t('pages.join.sco.associate'));
+            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
             await fillIn('#id-pix-label', 'truc');
 
             // when
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -238,7 +240,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           it('should go to the tutorial when the user fill in his id', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
@@ -247,8 +249,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
           it('should start the assessment when the user has seen tutorial', async function() {
             // when
             await fillIn('#id-pix-label', 'monmail@truc.fr');
-            await click('.button');
-            await click('.campaign-tutorial__ignore-button');
+            await clickByLabel(this.intl.t('pages.fill-in-participant-external-id.buttons.continue'));
+            await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
             // then
             expect(currentURL()).to.contains(/assessments/);
@@ -281,7 +283,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
 
           it('should start the assessment when the user has seen tutorial', async function() {
             // when
-            await click('.campaign-tutorial__ignore-button');
+            await clickByLabel(this.intl.t('pages.tutorial.pass'));
 
             // then
             expect(currentURL()).to.contains(/assessments/);

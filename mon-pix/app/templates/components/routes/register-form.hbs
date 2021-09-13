@@ -57,7 +57,9 @@
         {{#if this.isLoading}}
           <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
         {{else}}
-          <button id="submit-search" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.register-form.button-form'}}</button>
+          <PixButton id="submit-search" @type="submit">
+            {{t 'pages.login-or-register.register-form.button-form'}}
+          </PixButton>
         {{/if}}
       </div>
     {{/unless}}
@@ -114,7 +116,9 @@
         {{#if this.isLoading}}
           <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
         {{else}}
-          <button id="submit-registration" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.register-form.button-form'}}</button>
+          <PixButton id="submit-registration" @type="submit">
+            {{t 'pages.login-or-register.register-form.button-form'}}
+          </PixButton>
         {{/if}}
       </div>
 

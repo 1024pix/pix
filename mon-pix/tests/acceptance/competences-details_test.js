@@ -5,10 +5,12 @@ import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | Competence details | Afficher la page de détails d\'une compétence', () => {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let user;
   let server;
 
@@ -153,13 +155,13 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
           expect(find('.scorecard-details-reset-modal__important-message').textContent).to.contain(`Votre niveau ${scorecardWithPoints.level} et vos ${scorecardWithPoints.earnedPix} Pix vont être supprimés.`);
         });
 
-        it('should reset competence when user clicks on reset', async () => {
+        it('should reset competence when user clicks on reset', async function() {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
           await click('.scorecard-details__reset-button');
 
           // when
-          await click('.button--red');
+          await click('#pix-mdoal-footer__button-reset');
 
           // then
           expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);
@@ -167,13 +169,13 @@ describe('Acceptance | Competence details | Afficher la page de détails d\'une
           expect(findAll('.scorecard-details-content-right__level-info')).to.have.lengthOf(0);
         });
 
-        it('should reset competence when user clicks on reset from results page', async () => {
+        it('should reset competence when user clicks on reset from results page', async function() {
           // given
           await visit(`/competences/${scorecardWithPoints.competenceId}/details`);
           await click('.scorecard-details__reset-button');
 
           // when
-          await click('.button--red');
+          await click('#pix-mdoal-footer__button-reset');
 
           // then
           expect(findAll('.competence-card__level .score-value')).to.have.lengthOf(0);

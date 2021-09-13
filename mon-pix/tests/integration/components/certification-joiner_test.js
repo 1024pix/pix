@@ -1,10 +1,12 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
-import { render, fillIn, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
+import { fillInByLabel } from '../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 describe('Integration | Component | certification-joiner', function() {
   setupIntlRenderingTest();
@@ -15,19 +17,19 @@ describe('Integration | Component | certification-joiner', function() {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123456');
-      await fillIn('#certificationJoinerFirstName', 'Robert  ');
-      await fillIn('#certificationJoinerLastName', '  de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '02');
-      await fillIn('#certificationJoinerMonthOfBirth', '01');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert  ');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), '  de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
       createRecordMock.returns({ save: function() {} });
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       sinon.assert.calledWith(createRecordMock, 'certification-candidate', {
@@ -42,19 +44,19 @@ describe('Integration | Component | certification-joiner', function() {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123456');
-      await fillIn('#certificationJoinerFirstName', 'Robert  ');
-      await fillIn('#certificationJoinerLastName', '  de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '2');
-      await fillIn('#certificationJoinerMonthOfBirth', '1');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert  ');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), '  de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '2');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '1');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
       createRecordMock.returns({ save: function() {} });
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       sinon.assert.calledWith(createRecordMock, 'certification-candidate', {
@@ -70,19 +72,19 @@ describe('Integration | Component | certification-joiner', function() {
       const stepChangeStub = sinon.stub();
       this.set('onStepChange', stepChangeStub);
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123456');
-      await fillIn('#certificationJoinerFirstName', 'Robert  ');
-      await fillIn('#certificationJoinerLastName', '  de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '2');
-      await fillIn('#certificationJoinerMonthOfBirth', '1');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert  ');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), '  de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '2');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '1');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
       createRecordMock.returns({ save: function() {} });
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       sinon.assert.calledWith(stepChangeStub, '123456');
@@ -92,19 +94,19 @@ describe('Integration | Component | certification-joiner', function() {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123AAA456AAA');
-      await fillIn('#certificationJoinerFirstName', 'Robert');
-      await fillIn('#certificationJoinerLastName', 'de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '02');
-      await fillIn('#certificationJoinerMonthOfBirth', '01');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123AAA456AAA');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), 'de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const createRecordMock = sinon.mock();
       createRecordMock.returns({ save: function() {} });
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       expect(contains('Le numéro de session est composé uniquement de chiffres.')).to.exist;
@@ -114,12 +116,12 @@ describe('Integration | Component | certification-joiner', function() {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123456');
-      await fillIn('#certificationJoinerFirstName', 'Robert');
-      await fillIn('#certificationJoinerLastName', 'de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '02');
-      await fillIn('#certificationJoinerMonthOfBirth', '01');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), 'de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
       saveStub
@@ -138,7 +140,7 @@ describe('Integration | Component | certification-joiner', function() {
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       expect(contains('Oups ! Il semble que vous n’utilisiez pas le bon compte Pix pour rejoindre cette session de certification.\nPour continuer, connectez-vous au bon compte Pix ou demandez de l’aide au surveillant.')).to.exist;
@@ -148,12 +150,12 @@ describe('Integration | Component | certification-joiner', function() {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123456');
-      await fillIn('#certificationJoinerFirstName', 'Robert');
-      await fillIn('#certificationJoinerLastName', 'de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '02');
-      await fillIn('#certificationJoinerMonthOfBirth', '01');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), 'de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
       saveStub
@@ -164,7 +166,7 @@ describe('Integration | Component | certification-joiner', function() {
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       expect(contains('Oups ! Nous ne parvenons pas à vous trouver.\nVérifiez vos informations afin de continuer ou prévenez le surveillant.')).to.exist;
@@ -174,12 +176,12 @@ describe('Integration | Component | certification-joiner', function() {
       // given
       this.set('onStepChange', sinon.stub());
       await render(hbs`<CertificationJoiner @onStepChange={{this.onStepChange}}/>`);
-      await fillIn('#certificationJoinerSessionId', '123456');
-      await fillIn('#certificationJoinerFirstName', 'Robert');
-      await fillIn('#certificationJoinerLastName', 'de Pix');
-      await fillIn('#certificationJoinerDayOfBirth', '02');
-      await fillIn('#certificationJoinerMonthOfBirth', '01');
-      await fillIn('#certificationJoinerYearOfBirth', '2000');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.session-number'), '123456');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.first-name'), 'Robert');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-name'), 'de Pix');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-day'), '02');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-month'), '01');
+      await fillInByLabel(this.intl.t('pages.certification-joiner.form.fields.birth-year'), '2000');
       const store = this.owner.lookup('service:store');
       const saveStub = sinon.stub();
       saveStub
@@ -190,7 +192,7 @@ describe('Integration | Component | certification-joiner', function() {
       store.createRecord = createRecordMock;
 
       // when
-      await click('[type="submit"]');
+      await clickByLabel(this.intl.t('pages.certification-joiner.form.actions.submit'));
 
       // then
       expect(contains('Oups ! La session est en cours de traitement par les équipes Pix et n\'est plus accessible.')).to.exist;

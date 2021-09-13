@@ -44,22 +44,6 @@
   justify-content: center;
 }
 
-.embed__launch-simulator-button {
-  background-color: $blue;
-  color: #FFFFFF;
-  box-shadow: 0 2px 6px 0 rgba(12, 22, 58, 0.11), 0 1px 3px 0 rgba(0, 0, 0, 0.08);
-  border: none;
-  border-radius: 5px;
-  font-family: $font-roboto;
-  font-size: 0.938rem;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
-  height: 56px;
-  padding: 0 36px;
-  cursor: pointer;
-}
-
 .embed__simulator {
   -webkit-overflow-scrolling: touch;
   height: calc(100% + 5px);

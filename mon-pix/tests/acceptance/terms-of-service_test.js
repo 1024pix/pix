@@ -4,10 +4,13 @@ import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { clickByLabel } from '../helpers/click-by-label';
+import setupIntl from '../helpers/setup-intl';
 
 describe('Acceptance | terms-of-service', function() {
   setupApplicationTest();
   setupMirage();
+  setupIntl();
   let user;
 
   beforeEach(function() {
@@ -37,7 +40,7 @@ describe('Acceptance | terms-of-service', function() {
 
       // when
       await click('#pix-cgu');
-      await click('.terms-of-service-form-actions__submit');
+      await clickByLabel(this.intl.t('pages.terms-of-service-pe.form.button'));
 
       // then
       expect(currentURL()).to.equal('/accueil');

@@ -587,7 +587,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           sinon.assert.calledOnce(record.unloadRecord);
           expect(component.displayInformationModal).to.be.true;
           expect(component.reconciliationError).to.equal(error);
-          expect(component.isLoading).to.be.false;
           sinon.assert.calledWith(sessionStub.set, 'data.expectedUserId', error.meta.userId);
         });
 
@@ -638,7 +637,6 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           // then
           expect(component.displayInformationModal).to.be.true;
           expect(component.reconciliationError).to.be.null;
-          expect(component.isLoading).to.be.false;
         });
       });
     });

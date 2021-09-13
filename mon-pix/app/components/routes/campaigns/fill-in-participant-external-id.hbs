@@ -5,7 +5,7 @@
     {{t 'pages.fill-in-participant-external-id.announcement'}}
   </p>
 
-  <form class="fill-in-participant-external-id__form">
+  <form {{on 'submit' this.submit}} class="fill-in-participant-external-id__form">
     <div class="fill-in-participant-external-id-form__section">
       <div class="fill-in-participant-external-id__form-field">
         <label for="id-pix-label">{{@campaign.idPixLabel}}</label>
@@ -14,9 +14,7 @@
 
       <PixButton
         @type="submit"
-        class="button button--big fill-in-participant-external-id__button"
-        @triggerAction={{action this.submit}}
-        @loading-color="white">
+        class="fill-in-participant-external-id__button">
           {{t 'pages.fill-in-participant-external-id.buttons.continue'}}
       </PixButton>
       {{#if this.errorMessage}}
@@ -28,8 +26,14 @@
       <img class="fill-in-participant-external-id__help" src={{@campaign.externalIdHelpImageUrl}} alt={{@campaign.alternativeTextToExternalIdHelpImage}}/>
     {{/if}}
 
-    <button type="button" disabled={{this.isLoading}} {{on 'click' this.cancel}} class="button button--regular button--no-color fill-in-participant-external-id__cancel-button">
+    <PixButton
+      @backgroundColor="transparent-light"
+      @triggerAction={{this.cancel}}
+      @size="big"
+      @loadingColor="white"
+      class="fill-in-participant-external-id__cancel-button"
+    >
       {{t 'pages.fill-in-participant-external-id.buttons.cancel'}}
-    </button>
+    </PixButton>
   </form>
 </main>

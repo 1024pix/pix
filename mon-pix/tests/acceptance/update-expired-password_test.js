@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { currentURL, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { Response } from 'ember-cli-mirage';
@@ -9,6 +9,7 @@ import { Response } from 'ember-cli-mirage';
 import { authenticateByUsername } from '../helpers/authentication';
 import setupIntl from '../helpers/setup-intl';
 import { contains } from '../helpers/contains';
+import { clickByLabel } from '../helpers/click-by-label';
 
 describe('Acceptance | Update Expired Password', function() {
 
@@ -26,7 +27,7 @@ describe('Acceptance | Update Expired Password', function() {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
     expect(currentURL()).to.equal('/accueil');
@@ -45,7 +46,7 @@ describe('Acceptance | Update Expired Password', function() {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
@@ -65,7 +66,7 @@ describe('Acceptance | Update Expired Password', function() {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
     // then
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
@@ -81,7 +82,7 @@ describe('Acceptance | Update Expired Password', function() {
     await fillIn('#password', 'newPass12345!');
 
     // when
-    await click('.button');
+    await clickByLabel(this.intl.t('pages.update-expired-password.button'));
     // then
     expect(currentURL()).to.equal('/mise-a-jour-mot-de-passe-expire');
     expect(contains(expectedErrorMessage)).to.exist;

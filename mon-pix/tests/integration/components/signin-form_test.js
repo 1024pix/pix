@@ -5,7 +5,6 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { describe, it } from 'mocha';
 import {
-  click,
   fillIn,
   find,
   render,
@@ -18,6 +17,7 @@ import Service from '@ember/service';
 import ENV from '../../../config/environment';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { contains } from '../../helpers/contains';
+import { clickByLabel } from '../../helpers/click-by-label';
 
 const ApiErrorMessages = ENV.APP.API_ERROR_MESSAGES;
 
@@ -48,7 +48,7 @@ describe('Integration | Component | signin form', function() {
       await render(hbs`<SigninForm />`);
 
       // then
-      expect(document.querySelector('button.button')).to.exist;
+      expect(contains(this.intl.t('pages.sign-in.actions.submit')));
     });
 
     it('should display a link to password reset view', async function() {
@@ -78,7 +78,7 @@ describe('Integration | Component | signin form', function() {
         // when
         await fillIn('input#login', 'usernotexist@example.net');
         await fillIn('input#password', 'password');
-        await click('button.button');
+        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
         expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
@@ -93,7 +93,7 @@ describe('Integration | Component | signin form', function() {
         // when
         await fillIn('input#login', 'usernotexist@example.net');
         await fillIn('input#password', 'password');
-        await click('button.button');
+        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
         expect(find('.sign-form__notification-message--error').textContent.trim()).to.equal(this.intl.t(expectedErrorMessage));
@@ -108,7 +108,7 @@ describe('Integration | Component | signin form', function() {
         // when
         await fillIn('input#login', 'johnharry@example.net');
         await fillIn('input#password', 'password123');
-        await click('button.button');
+        await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
         // then
         expect(document.querySelector('div.sign-form__notification-message--error')).to.exist;
@@ -185,7 +185,7 @@ describe('Integration | Component | signin form', function() {
       await triggerEvent('input#password', 'change');
 
       // when
-      await click('button.button');
+      await clickByLabel(this.intl.t('pages.sign-in.actions.submit'));
 
       // Then
       expect(actualEmail).to.equal(expectedEmail);

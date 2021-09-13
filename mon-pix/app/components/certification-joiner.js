@@ -24,7 +24,6 @@ export default class CertificationJoiner extends Component {
 
   SESSION_ID_VALIDATION_PATTERN = '^[0-9]*$';
 
-  @tracked isLoading = false;
   @tracked errorMessage = null;
   @tracked sessionIdIsNotANumberError = null;
   @tracked validationClassName = '';
@@ -80,7 +79,6 @@ export default class CertificationJoiner extends Component {
       return;
     }
     try {
-      this.isLoading = true;
       currentCertificationCandidate = this.createCertificationCandidate();
       await currentCertificationCandidate.save({ adapterOptions: { joinSession: true, sessionId: this.sessionId } });
       this.args.onStepChange(this.sessionId);
@@ -88,7 +86,6 @@ export default class CertificationJoiner extends Component {
       if (currentCertificationCandidate) {
         currentCertificationCandidate.deleteRecord();
       }
-      this.isLoading = false;
 
       if (_isMatchingReconciledStudentNotFoundError(err)) {
         this.errorMessage = this.intl.t('pages.certification-joiner.error-messages.wrong-account');

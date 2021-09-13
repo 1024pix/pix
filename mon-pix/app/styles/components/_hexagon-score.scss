@@ -132,7 +132,11 @@
   }
 }
 
-.hexagon-score-content-pix-total__button {
+.pix-button.hexagon-score-content-pix-total__button {
   padding: 0 0 0 4px;
   border: none;
+
+  &:hover {
+    background-color: transparent;
+  }
 }

@@ -27,11 +27,13 @@
                      @autocomplete="current-password" />
     </div>
 
-    <div class="login-button-container">
+    <div class="login-button-container pix-form__actions">
       {{#if this.isLoading}}
         <button type="button" disabled class="button"><span class="loader-in-button">&nbsp;</span></button>
       {{else}}
-        <button id="submit-connexion" type="submit" class="button button--uppercase">{{t 'pages.login-or-register.login-form.button'}}</button>
+        <PixButton id="submit-connexion" @type="submit">
+          {{t 'pages.login-or-register.login-form.button'}}
+        </PixButton>
       {{/if}}
     </div>
 
