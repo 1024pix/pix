@@ -22,6 +22,7 @@ module.exports = function buildCampaignToJoin({
   targetProfileName = 'Le profil cible',
   targetProfileImageUrl = 'targetProfileImageUrl',
   multipleSendings = false,
+  assessmentMethod = 'SMART_RANDOM',
 } = {}) {
   return new CampaignToJoin({
     id,
@@ -43,5 +44,6 @@ module.exports = function buildCampaignToJoin({
     targetProfileName,
     targetProfileImageUrl,
     multipleSendings,
+    assessmentMethod,
   });
 };

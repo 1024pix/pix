@@ -323,9 +323,10 @@ describe('Unit | Domain | Models | Assessment', function() {
       // given
       const userId = 123;
       const campaignParticipationId = 456;
+      const method = 'FLASH';
 
       // when
-      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
+      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId, method });
 
       // then
       expect(assessment.userId).to.equal(userId);
@@ -334,6 +335,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.type).to.equal(Assessment.types.CAMPAIGN);
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.CAMPAIGN);
       expect(assessment.isImproving).to.be.true;
+      expect(assessment.isFlash()).to.be.true;
     });
   });
 
