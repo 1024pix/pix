@@ -11,6 +11,7 @@ module.exports = function buildCampaignParticipation({
   campaignId = campaign.id,
   assessmentId = null,
   userId = 123,
+  status,
   validatedSkillsCount,
 } = {}) {
 
@@ -24,6 +25,7 @@ module.exports = function buildCampaignParticipation({
     campaignId,
     assessmentId,
     userId,
+    status,
     validatedSkillsCount,
   });
 };
