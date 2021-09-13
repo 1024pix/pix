@@ -1,5 +1,12 @@
 # Pix Changelog
 
+## v3.100.0 (13/09/2021)
+
+- [#3479](https://github.com/1024pix/pix/pull/3479) [BUGFIX] Pouvoir ajouter un élève qui est lié à un compte déjà lié à un élève de mon établissement (PIX-3447)
+- [#3478](https://github.com/1024pix/pix/pull/3478) [BUGFIX] La notification de passage de niveau doit cacher le bouton Quitter (PIX-3176).
+- [#3473](https://github.com/1024pix/pix/pull/3473) [TECH] Monter de version caniuse-lite
+- [#3477](https://github.com/1024pix/pix/pull/3477) [INFRA] Ajouter des helpers de tests getByLabel et queryByLabel à Pix Admin
+
 ## v3.99.0 (10/09/2021)
 
 - [#3468](https://github.com/1024pix/pix/pull/3468) [FEATURE] Indiquer à l'utilisateur qu'il est sorti d'une épreuve Focus en certification (PIX-3075).
