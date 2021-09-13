@@ -12,8 +12,8 @@ class CampaignParticipation {
   constructor({
     id,
     createdAt,
-    isShared,
     participantExternalId,
+    status,
     sharedAt,
     assessments,
     campaign,
@@ -21,13 +21,12 @@ class CampaignParticipation {
     assessmentId,
     campaignId,
     userId,
-    status,
     validatedSkillsCount,
     pixScore,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
-    this.isShared = isShared;
+    this.status = status;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
     this.campaign = campaign;
@@ -50,25 +49,26 @@ class CampaignParticipation {
     return new CampaignParticipation({ ...campaignParticipation, status });
   }
 
-  getTargetProfileId() {
-    return _.get(this, 'campaign.targetProfileId', null);
+  get isShared() {
+    return this.status === statuses.SHARED;
   }
 
   get lastAssessment() {
     return _.maxBy(this.assessments, 'createdAt');
   }
 
+  getTargetProfileId() {
+    return _.get(this, 'campaign.targetProfileId', null);
+  }
+
   share() {
     this._canBeShared();
-
-    this.isShared = true;
     this.sharedAt = new Date();
     this.status = statuses.SHARED;
   }
 
   improve() {
     this._canBeImproved();
-
     this.status = statuses.STARTED;
   }
 

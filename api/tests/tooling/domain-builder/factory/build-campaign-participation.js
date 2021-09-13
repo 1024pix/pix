@@ -1,5 +1,6 @@
 const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const buildCampaign = require('./build-campaign');
+const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 module.exports = function buildCampaignParticipation({
   id = 1,
@@ -11,21 +12,20 @@ module.exports = function buildCampaignParticipation({
   campaignId = campaign.id,
   assessmentId = null,
   userId = 123,
-  status,
+  status = STARTED,
   validatedSkillsCount,
 } = {}) {
 
   return new CampaignParticipation({
     id,
     campaign,
-    isShared,
+    status: isShared ? SHARED : status,
     sharedAt,
     createdAt,
     participantExternalId,
     campaignId,
     assessmentId,
     userId,
-    status,
     validatedSkillsCount,
   });
 };

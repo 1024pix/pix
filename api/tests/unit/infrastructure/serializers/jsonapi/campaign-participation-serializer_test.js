@@ -1,6 +1,7 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-serializer');
 const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
+const { SHARED } = CampaignParticipation.statuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', function() {
 
@@ -61,7 +62,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
     const campaignAnalysis = {};
     const campaignParticipation = new CampaignParticipation({
       id: 5,
-      isShared: true,
+      status: SHARED,
       participantExternalId: 'mail pro',
       sharedAt: new Date('2018-02-06T14:12:44Z'),
       createdAt: new Date('2018-02-05T14:12:44Z'),
