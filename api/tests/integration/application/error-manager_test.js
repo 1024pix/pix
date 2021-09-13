@@ -257,14 +257,6 @@ describe('Integration | API | Controller Error', function() {
       expect(responseDetail(response)).to.equal('L\'élève est déjà rattaché à un compte utilisateur.');
     });
 
-    it('responds Conflict when a SameNationalStudentIdInOrganizationError error occurs', async function() {
-      routeHandler.throws(new DomainErrors.SameNationalStudentIdInOrganizationError('(ABC123)'));
-      const response = await server.requestObject(request);
-
-      expect(response.statusCode).to.equal(CONFLICT_ERROR);
-      expect(responseDetail(response)).to.equal('The INE ABC123 is already in use for this organization.');
-    });
-
     it('responds Conflict when a AccountRecoveryUserAlreadyConfirmEmail error occurs', async function() {
       routeHandler.throws(new DomainErrors.AccountRecoveryUserAlreadyConfirmEmail());
       const response = await server.requestObject(request);

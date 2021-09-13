@@ -7,7 +7,6 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const ERRORS = {
   EMPTY: 'EMPTY',
-  INE_UNIQUE: 'INE_UNIQUE',
   INVALID_FILE_EXTENSION: 'INVALID_FILE_EXTENSION',
 };
 
@@ -22,7 +21,7 @@ module.exports = async function importSchoolingRegistrationsFromSIECLEFormat({ o
   } else if (format === 'csv') {
     schoolingRegistrationData = await schoolingRegistrationsCsvService.extractSchoolingRegistrationsInformation(path, organization, i18n);
   } else {
-    throw new FileValidationError('INVALID_FILE_EXTENSION', { fileExtension: format });
+    throw new FileValidationError(ERRORS.INVALID_FILE_EXTENSION, { fileExtension: format });
   }
 
   fs.unlink(payload.path);

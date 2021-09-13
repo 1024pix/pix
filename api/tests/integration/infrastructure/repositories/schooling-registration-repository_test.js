@@ -8,7 +8,7 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 
 const {
   NotFoundError,
-  SameNationalStudentIdInOrganizationError,
+  SchoolingRegistrationsCouldNotBeSavedError,
   SchoolingRegistrationNotFound,
   UserCouldNotBeReconciledError,
   UserNotFoundError,
@@ -889,7 +889,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       });
     });
 
-    context('when the same nationalStudentId is twice in schoolingRegistrations to create', function() {
+    context('when an error occurs', function() {
 
       let schoolingRegistrations;
       let organizationId;
@@ -923,7 +923,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         return knex('schooling-registrations').delete();
       });
 
-      it('should return a SameNationalStudentIdInOrganizationError', async function() {
+      it('should return a SchoolingRegistrationsCouldNotBeSavedError', async function() {
         // when
         let error;
         await DomainTransaction.execute(async (domainTransaction) => {
@@ -931,7 +931,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
         // then
-        expect(error).to.be.instanceof(SameNationalStudentIdInOrganizationError);
+        expect(error).to.be.instanceof(SchoolingRegistrationsCouldNotBeSavedError);
       });
     });
 
