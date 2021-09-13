@@ -11,6 +11,11 @@
       font-weight: 600;
       margin-bottom: 20px;
     }
+
+    .certification-center__subtitle {
+      font-size: 1.2rem;
+      font-waight: 600;
+    }
   }
 
   .certification-center {
@@ -31,4 +36,24 @@
     color: $error;
     font-size: .85rem;
   }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+
+  li {
+    float: left;
+    width: 200px;
+  }
+
+  .granted-accreditation-icon {
+    color: $green;
+  }
+
+  .not-granted-accreditation-icon {
+    color: $grey-35;
+  }
 }
+
