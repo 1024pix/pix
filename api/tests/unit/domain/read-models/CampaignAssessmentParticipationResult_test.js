@@ -1,5 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const CampaignAssessmentParticipationResult = require('../../../../lib/domain/read-models/CampaignAssessmentParticipationResult');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function() {
   describe('constructor', function() {
@@ -24,7 +27,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
           campaignParticipationId: 1,
           campaignId: 2,
           targetedCompetences: [targetedCompetence],
-          isShared: false,
+          status: TO_SHARE,
           targetProfile,
         });
 
@@ -46,7 +49,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
           campaignParticipationId: 1,
           campaignId: 2,
           targetedCompetences: [targetedCompetence],
-          isShared: true,
+          status: SHARED,
           validatedTargetedKnowledgeElementsByCompetenceId,
           targetProfile,
         });
