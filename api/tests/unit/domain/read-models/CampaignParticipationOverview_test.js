@@ -2,7 +2,10 @@ const Stage = require('../../../../lib/domain/models/Stage');
 const Skill = require('../../../../lib/domain/models/Skill');
 const TargetProfileWithLearningContent = require('../../../../lib/domain/models/TargetProfileWithLearningContent');
 const CampaignParticipationOverview = require('../../../../lib/domain/read-models/CampaignParticipationOverview');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const { expect } = require('../../../test-helper');
+
+const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function() {
   describe('constructor', function() {
@@ -14,7 +17,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       const campaignParticipationOverview = new CampaignParticipationOverview({
         id: 3,
         createdAt: new Date('2020-02-15T15:00:34Z'),
-        isShared: true,
+        status: SHARED,
         sharedAt: new Date('2020-03-15T15:00:34Z'),
         targetProfile: targetProfile,
         organizationName: 'Pix',
@@ -56,7 +59,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
           });
           const targetProfile = new TargetProfileWithLearningContent({ stages: [ stage3, stage1, stage2, stage4], skills: [new Skill(), new Skill()] });
           const campaignParticipationOverview = new CampaignParticipationOverview({
-            isShared: true,
+            status: SHARED,
             validatedSkillsCount: 1,
             targetProfile,
             masteryPercentage: '0.5',
@@ -70,7 +73,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         it('should return null', function() {
           const targetProfile = new TargetProfileWithLearningContent();
           const campaignParticipationOverview = new CampaignParticipationOverview({
-            isShared: true,
+            status: SHARED,
             validatedSkillsCount: 2,
             totalSkillsCount: 3,
             targetProfile,
@@ -94,7 +97,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         });
         const targetProfile = new TargetProfileWithLearningContent({ stages: [ stage3, stage1, stage2] });
         const campaignParticipationOverview = new CampaignParticipationOverview({
-          isShared: false,
+          status: STARTED,
           validatedSkillsCount: 2,
           totalSkillsCount: 3,
           targetProfile,
@@ -128,7 +131,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         });
         const targetProfileWithLearningContent = new TargetProfileWithLearningContent({ stages: [ stage1, stage2, stage3, stage4, stage5, stage6] });
         const campaignParticipationOverview = new CampaignParticipationOverview({
-          isShared: true,
+          status: SHARED,
           targetProfile: targetProfileWithLearningContent,
         });
 
@@ -140,7 +143,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       it('should return 0', function() {
         const targetProfileWithLearningContent = new TargetProfileWithLearningContent();
         const campaignParticipationOverview = new CampaignParticipationOverview({
-          isShared: true,
+          status: SHARED,
           targetProfile: targetProfileWithLearningContent,
         });
 
