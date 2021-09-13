@@ -245,4 +245,8 @@ export default function() {
   this.get('/countries', (schema, _) => {
     return schema.countries.all();
   });
+
+  this.get('/accreditations', (schema, _) => {
+    return schema.accreditations.all();
+  });
 }

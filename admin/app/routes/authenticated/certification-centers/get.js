@@ -12,10 +12,12 @@ export default class CertificationCentersGetRoute extends Route {
         certificationCenterId: certificationCenter.id,
       },
     });
+    const accreditations = await this.store.findAll('accreditation');
 
     return RSVP.hash({
       certificationCenterMemberships,
       certificationCenter,
+      accreditations,
     });
   }
 
