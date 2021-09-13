@@ -1,5 +1,8 @@
 const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
+const EventDispatcherLogger = require('../../infrastructure/events/EventDispatcherLogger');
+const MonitoringTools = require('../../infrastructure/monitoring-tools');
+const settings = require('../../config');
 const _ = require('lodash');
 
 const dependencies = {
@@ -55,7 +58,7 @@ const handlersToBeInjected = {
 };
 
 function buildEventDispatcher(handlersStubs) {
-  const eventDispatcher = new EventDispatcher();
+  const eventDispatcher = new EventDispatcher(new EventDispatcherLogger(MonitoringTools, settings));
 
   const handlersNames = _.map(handlersToBeInjected, (handler) => handler.name);
 

@@ -1,8 +1,9 @@
 const _ = require('lodash');
 
 class EventDispatcher {
-  constructor() {
+  constructor(logger) {
     this._subscriptions = [];
+    this._logger = logger;
   }
 
   subscribe(event, eventHandler) {
@@ -27,8 +28,16 @@ class EventDispatcher {
       const eventHandlers = this._findEventHandlersByEventType(eventToDispatch);
 
       for (const eventHandler of eventHandlers) {
-        const resultingEventOrEvents = await eventHandler({ domainTransaction, event: eventToDispatch });
-        eventQueue.push(resultingEventOrEvents);
+        try {
+          this._logger.onEventDispatchStarted(eventToDispatch, eventHandler.handlerName);
+          const resultingEventOrEvents = await eventHandler({ domainTransaction, event: eventToDispatch });
+          this._logger.onEventDispatchSuccess(eventToDispatch, eventHandler.handlerName);
+
+          eventQueue.push(resultingEventOrEvents);
+        } catch (error) {
+          this._logger.onEventDispatchFailure(eventToDispatch, eventHandler.handlerName, error);
+          throw error;
+        }
       }
     }
   }
