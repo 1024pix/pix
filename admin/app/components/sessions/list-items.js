@@ -4,7 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import { statusToDisplayName } from 'pix-admin/models/session';
 import map from 'lodash/map';
 
-export default class CertificationStatusSelect extends Component {
+export default class ListItems extends Component {
 
   @tracked selectedCertificationCenterTypeOption = null;
   @tracked selectedSessionResultsSentToPrescriberOption = null;

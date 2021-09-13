@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 
-export default class CertificationStatusSelect extends Component {
+export default class JuryComment extends Component {
   @tracked editingMode = false;
   @tracked commentText;
 
