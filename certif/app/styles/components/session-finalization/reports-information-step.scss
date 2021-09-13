@@ -31,9 +31,13 @@
       width: 20%;
     }
 
+    th:nth-child(2){
+      width: 10%;
+    }
+
     th:nth-child(3),
     th:nth-child(4) {
-      width: 15%;
+      width: 20%;
     }
   }
 
@@ -78,12 +82,5 @@
       }
     }
 
-  }
-
-  .finalization-report-abort-reason {
-
-    .pix-select {
-      max-width: 210px;
-    }
   }
 }

@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import ArrayProxy from '@ember/array/proxy';
+import sinon from 'sinon';
 
 const FINALIZE_PATH = 'authenticated/sessions/finalize';
 
@@ -207,6 +208,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     test('it should set flag showConfirmModal to true', function(assert) {
       // given
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      const session = {
+        certificationReports: [
+          { isCompleted: true },
+          { isCompleted: true },
+        ],
+      };
+      controller.model = session;
 
       // when
       controller.send('openModal');
@@ -227,6 +235,29 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
       // then
       assert.false(controller.showConfirmModal);
+    });
+  });
+
+  module('#abort', function() {
+    test('should abort a certification report', function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const certificationReport = store.createRecord('certification-report');
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      certificationReport.abort = sinon.stub();
+      certificationReport.abort.resolves('ok');
+      const event = {
+        target: {
+          value: ('coucou'),
+        },
+      };
+
+      // when
+      controller.abort(certificationReport, event);
+
+      // then
+      sinon.assert.calledWithExactly(certificationReport.abort, 'coucou');
+      assert.ok(true);
     });
   });
 });

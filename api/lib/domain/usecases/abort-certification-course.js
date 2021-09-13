@@ -5,5 +5,5 @@ module.exports = async function abortCertificationCourse({
 }) {
   const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
   certificationCourse.abort(abortReason);
-  return certificationCourseRepository.update(certificationCourse);
+  await certificationCourseRepository.update(certificationCourse);
 };

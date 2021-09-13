@@ -14,6 +14,7 @@ const certificationReportSchemaForFinalization = Joi.object({
   certificationIssueReports: Joi.array().required(),
   hasSeenEndTestScreen: Joi.boolean().required(),
   isCompleted: Joi.boolean().required(),
+  abortReason: Joi.string().allow(null),
 });
 
 class CertificationReport {
@@ -26,6 +27,7 @@ class CertificationReport {
       certificationIssueReports = [],
       certificationCourseId,
       isCompleted,
+      abortReason,
     } = {}) {
     this.id = CertificationReport.idFromCertificationCourseId(certificationCourseId);
     this.firstName = firstName;
@@ -38,12 +40,18 @@ class CertificationReport {
     if (_.isEmpty(_.trim(this.examinerComment))) {
       this.examinerComment = NO_EXAMINER_COMMENT;
     }
+    this.abortReason = abortReason;
   }
 
   validateForFinalization() {
     const { error } = certificationReportSchemaForFinalization.validate(this);
+
     if (error) {
       throw new InvalidCertificationReportForFinalization(error);
+    }
+
+    if (!this.isCompleted && !this.abortReason) {
+      throw new InvalidCertificationReportForFinalization('Abort reason is required if certificationReport is not completed');
     }
   }
 
@@ -56,6 +64,7 @@ class CertificationReport {
       certificationIssueReports: certificationCourseDTO.certificationIssueReports,
       hasSeenEndTestScreen: certificationCourseDTO.hasSeenEndTestScreen,
       isCompleted: certificationCourseDTO.assessment.isCompleted(),
+      abortReason: certificationCourseDTO.abortReason,
     });
   }
 

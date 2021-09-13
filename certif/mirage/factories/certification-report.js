@@ -22,4 +22,12 @@ export default Factory.extend({
   hasSeenEndTestScreen() {
     return faker.random.boolean();
   },
+
+  isCompleted() {
+    return faker.random.boolean();
+  },
+
+  abortReason() {
+    return faker.random.word();
+  },
 });

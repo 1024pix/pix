@@ -2,7 +2,8 @@ const CertificationCourse = require('../../../../lib/domain/models/Certification
 const buildAssessment = require('./build-assessment');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
-module.exports = function buildCertificationCourse({
+
+function buildCertificationCourse({
   id = 123,
   firstName = 'Gandhi',
   lastName = 'Matmatah',
@@ -27,7 +28,7 @@ module.exports = function buildCertificationCourse({
   userId = 456,
   sessionId = 789,
   isCancelled = false,
-  abortReason = undefined,
+  abortReason = null,
 } = {}) {
 
   const certificationIssueReports = [];
@@ -69,4 +70,60 @@ module.exports = function buildCertificationCourse({
     isCancelled,
     abortReason,
   });
+}
+
+buildCertificationCourse.unpersisted = function({
+  firstName = 'Gandhi',
+  lastName = 'Matmatah',
+  birthplace = 'Perpignan',
+  birthdate = '1985-01-20',
+  sex = 'F',
+  birthPostalCode = '75005',
+  birthINSEECode = null,
+  birthCountry = 'FRANCE',
+  createdAt = new Date('2020-01-01'),
+  completedAt = new Date('2020-02-01'),
+  externalId = 'externalId',
+  hasSeenEndTestScreen = false,
+  nbChallenges = 15,
+  isV2Certification = false,
+  isPublished = false,
+  verificationCode = 'P-ABCD1234',
+  acquiredPartnerCertifications = [],
+  assessment = buildAssessment({ certificationCourseId: this.id }),
+  challenges = [],
+  userId = 456,
+  sessionId = 789,
+  isCancelled = false,
+  abortReason = null,
+} = {}) {
+
+  return new CertificationCourse({
+    firstName,
+    lastName,
+    birthdate,
+    birthplace,
+    birthPostalCode,
+    birthINSEECode,
+    birthCountry,
+    sex,
+    createdAt,
+    completedAt,
+    externalId,
+    certificationIssueReports: [],
+    hasSeenEndTestScreen,
+    nbChallenges,
+    isV2Certification,
+    isPublished,
+    verificationCode,
+    acquiredPartnerCertifications,
+    assessment,
+    challenges,
+    sessionId,
+    userId,
+    isCancelled,
+    abortReason,
+  });
 };
+
+module.exports = buildCertificationCourse;

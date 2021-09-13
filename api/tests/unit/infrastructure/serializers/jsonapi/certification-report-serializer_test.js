@@ -1,5 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-report-serializer');
+const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
 describe('Unit | Serializer | JSONAPI | certification-report-serializer', function() {
 
@@ -7,18 +8,28 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
 
     it('should convert a CertificationReport model object into JSON API data', function() {
       // given
-      const certificationReport = domainBuilder.buildCertificationReport({ certificationIssueReports: [] });
+      const certificationReport = domainBuilder.buildCertificationReport({
+        certificationCourseId: 123,
+        firstName: 'Joe',
+        lastName: 'Lerigolo',
+        isCompleted: false,
+        examinerComment: 'Certification non terminée...',
+        hasSeenEndTestScreen: false,
+        abortReason: 'technical',
+        certificationIssueReports: [],
+      });
       const jsonApiData = {
         data: {
           type: 'certification-reports',
           id: certificationReport.id.toString(),
           attributes: {
-            'certification-course-id': certificationReport.certificationCourseId,
-            'first-name': certificationReport.firstName,
-            'last-name': certificationReport.lastName,
-            'is-completed': certificationReport.isCompleted,
-            'examiner-comment': certificationReport.examinerComment,
-            'has-seen-end-test-screen': certificationReport.hasSeenEndTestScreen,
+            'certification-course-id': 123,
+            'first-name': 'Joe',
+            'last-name': 'Lerigolo',
+            'is-completed': false,
+            'examiner-comment': 'Certification non terminée...',
+            'has-seen-end-test-screen': false,
+            'abort-reason': 'technical',
           },
           relationships: {
             'certification-issue-reports': {
@@ -37,22 +48,32 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
 
     it('should include CertificationIssueReports if any into JSON API data', function() {
       // given
-      const certificationReport = domainBuilder.buildCertificationReport();
-      const certificationIssueReport = certificationReport.certificationIssueReports[0];
+      const certificationReport = domainBuilder.buildCertificationReport({
+        id: 123,
+        certificationIssueReports: [
+          domainBuilder.buildCertificationIssueReport({
+            category: CertificationIssueReportCategories.IN_CHALLENGE,
+            description: 'Pas content',
+            subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+            questionNumber: '6',
+          }),
+        ],
+      });
+
       const jsonApiDataRelationship = {
         data: [{
           type: 'certificationIssueReports',
-          id: certificationIssueReport.id.toString(),
+          id: '123',
         }],
       };
       const jsonApiDataIncluded = [{
         type: 'certificationIssueReports',
-        id: certificationIssueReport.id.toString(),
+        id: '123',
         attributes: {
-          category: certificationIssueReport.category,
-          description: certificationIssueReport.description,
-          subcategory: certificationIssueReport.subcategory,
-          'question-number': certificationIssueReport.questionNumber,
+          category: CertificationIssueReportCategories.IN_CHALLENGE,
+          description: 'Pas content',
+          subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+          'question-number': '6',
         },
       }];
 
@@ -67,18 +88,28 @@ describe('Unit | Serializer | JSONAPI | certification-report-serializer', functi
 
   describe('#deserialize()', function() {
     it('should convert a JSON API data into a CertificationReport', async function() {
-      const certificationReport = domainBuilder.buildCertificationReport({ certificationIssueReports: [], isCompleted: true });
+      const certificationReport = domainBuilder.buildCertificationReport({
+        certificationCourseId: 123,
+        firstName: 'Joe',
+        lastName: 'Lerigolo',
+        isCompleted: true,
+        examinerComment: 'Trop bien.',
+        hasSeenEndTestScreen: true,
+        abortReason: null,
+        certificationIssueReports: [],
+      });
       const jsonApiData = {
         data: {
           type: 'certification-reports',
           id: certificationReport.id.toString(),
           attributes: {
-            'certification-course-id': certificationReport.certificationCourseId,
-            'first-name': certificationReport.firstName,
-            'last-name': certificationReport.lastName,
-            'is-completed': certificationReport.isCompleted,
-            'examiner-comment': certificationReport.examinerComment,
-            'has-seen-end-test-screen': certificationReport.hasSeenEndTestScreen,
+            'certification-course-id': 123,
+            'first-name': 'Joe',
+            'last-name': 'Lerigolo',
+            'is-completed': true,
+            'examiner-comment': 'Trop bien.',
+            'has-seen-end-test-screen': true,
+            'abort-reason': null,
           },
         },
       };
