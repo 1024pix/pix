@@ -32,6 +32,7 @@ function _findByUserId({ userId }) {
         id: 'campaign-participations.id',
         createdAt: 'campaign-participations.createdAt',
         isShared: 'campaign-participations.isShared',
+        status: 'campaign-participations.status',
         sharedAt: 'campaign-participations.sharedAt',
         masteryPercentage: 'campaign-participations.masteryPercentage',
         campaignCode: 'campaigns.code',
@@ -64,7 +65,7 @@ function _computeCampaignParticipationState() {
   CASE
     WHEN campaigns."archivedAt" IS NOT NULL THEN 'ARCHIVED'
     WHEN assessments.state = ? THEN 'ONGOING'
-    WHEN "isShared" IS true THEN 'ENDED'
+    WHEN "campaign-participations"."status" = 'SHARED' THEN 'ENDED'
     ELSE 'TO_SHARE'
   END`, Assessment.states.STARTED) ;
 }

@@ -12,6 +12,8 @@ const DomainTransaction = require('../DomainTransaction');
 
 const _ = require('lodash');
 
+const { SHARED } = CampaignParticipation.statuses;
+
 const ATTRIBUTES_TO_SAVE = [
   'createdAt',
   'isShared',
@@ -178,7 +180,7 @@ module.exports = {
   },
 
   countSharedParticipationOfCampaign(campaignId) {
-    return this.count({ campaignId, isShared: true });
+    return this.count({ campaignId, status: SHARED });
   },
 
   async isAssessmentCompleted(campaignParticipationId) {

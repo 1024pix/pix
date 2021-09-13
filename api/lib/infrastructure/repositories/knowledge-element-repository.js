@@ -3,10 +3,13 @@ const bluebird = require('bluebird');
 const constants = require('../constants');
 const { knex } = require('../bookshelf');
 const KnowledgeElement = require('../../domain/models/KnowledgeElement');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const BookshelfKnowledgeElement = require('../orm-models/KnowledgeElement');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const knowledgeElementSnapshotRepository = require('./knowledge-element-snapshot-repository');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 function _getUniqMostRecents(knowledgeElements) {
   return _(knowledgeElements)
@@ -118,7 +121,7 @@ module.exports = {
   async findByCampaignIdAndUserIdForSharedCampaignParticipation({ campaignId, userId }) {
     const [sharedCampaignParticipation] = await knex('campaign-participations')
       .select('sharedAt')
-      .where({ campaignId, isShared: 'true', userId })
+      .where({ campaignId, status: SHARED, userId })
       .limit(1);
 
     if (!sharedCampaignParticipation) {
@@ -134,7 +137,7 @@ module.exports = {
   async findByCampaignIdForSharedCampaignParticipation(campaignId) {
     const sharedCampaignParticipations = await knex('campaign-participations')
       .select('userId', 'sharedAt')
-      .where({ campaignId, isShared: 'true' });
+      .where({ campaignId, status: SHARED });
 
     const knowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations,
       async ({ userId, sharedAt }) => {
