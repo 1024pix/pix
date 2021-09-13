@@ -1,6 +1,9 @@
 const { expect } = require('../../../test-helper');
 const CampaignParticipantActivity = require('../../../../lib/domain/read-models/CampaignParticipantActivity');
 const Assessment = require('../../../../lib/domain/models/Assessment');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { SHARED, TO_SHARED, STARTED } = CampaignParticipation.statuses;
 
 describe('Unit | Domain | Models | CampaignParticipantActivity', function() {
 
@@ -8,7 +11,7 @@ describe('Unit | Domain | Models | CampaignParticipantActivity', function() {
     context('when isShared is true', function() {
       it('returns SHARED as status', function() {
         const campaignParticipantActivity = new CampaignParticipantActivity({
-          isShared: true,
+          status: SHARED,
         });
 
         expect(campaignParticipantActivity.status).equal(CampaignParticipantActivity.statuses.SHARED);
@@ -19,7 +22,7 @@ describe('Unit | Domain | Models | CampaignParticipantActivity', function() {
       context('when assessment is completed', function() {
         it('returns COMPLETED as status', function() {
           const campaignParticipantActivity = new CampaignParticipantActivity({
-            isShared: false,
+            status: TO_SHARED,
             assessmentState: Assessment.states.COMPLETED,
           });
 
@@ -29,7 +32,7 @@ describe('Unit | Domain | Models | CampaignParticipantActivity', function() {
         context('when assessment is started', function() {
           it('returns STARTED as status', function() {
             const campaignParticipantActivity = new CampaignParticipantActivity({
-              isShared: false,
+              status: STARTED,
               assessmentState: Assessment.states.STARTED,
             });
 
