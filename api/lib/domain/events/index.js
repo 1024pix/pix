@@ -4,6 +4,7 @@ const EventDispatcherLogger = require('../../infrastructure/events/EventDispatch
 const MonitoringTools = require('../../infrastructure/monitoring-tools');
 const settings = require('../../config');
 const _ = require('lodash');
+const { performance } = require('perf_hooks');
 
 const dependencies = {
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
@@ -58,7 +59,7 @@ const handlersToBeInjected = {
 };
 
 function buildEventDispatcher(handlersStubs) {
-  const eventDispatcher = new EventDispatcher(new EventDispatcherLogger(MonitoringTools, settings));
+  const eventDispatcher = new EventDispatcher(new EventDispatcherLogger(MonitoringTools, settings, performance));
 
   const handlersNames = _.map(handlersToBeInjected, (handler) => handler.name);
 
