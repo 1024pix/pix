@@ -2,6 +2,8 @@ import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -57,6 +59,41 @@ module('Acceptance | authenticated/sessions/session/informations', function(hook
 
         // then
         assert.contains('Commentaire de l\'équipe Certification');
+      });
+    });
+
+    module('When a new comment is submitted', function() {
+      module('When server successfully saves the comment', function() {
+        test('it should display the new comment', async function(assert) {
+          // given
+          server.create('session', { id: '4', juryComment: null, juryCommentedAt: null, juryCommentAuthor: null });
+
+          // when
+          await visit('/sessions/4');
+          await fillInByLabel('Texte du commentaire', 'Le surveillant prétend qu\'une météorite est tombée sur le centre.');
+          await clickByLabel('Enregistrer');
+
+          // then
+          assert.contains('Le surveillant prétend qu\'une météorite est tombée sur le centre.');
+        });
+      });
+
+      module('When server respond with an error', function() {
+        test('it should display an error notification', async function(assert) {
+          // given
+          server.create('session', { id: '5', juryComment: null, juryCommentedAt: null, juryCommentAuthor: null });
+          this.server.put('/admin/sessions/5/comment', () => ({
+            errors: [{ detail: 'Votre commentaire n\'interesse personne.' }],
+          }), 422);
+
+          // when
+          await visit('/sessions/5');
+          await fillInByLabel('Texte du commentaire', 'Le surveillant prétend qu\'une météorite est tombée sur le centre.');
+          await clickByLabel('Enregistrer');
+
+          // then
+          assert.contains('Une erreur est survenue pendant l\'enregistrement du commentaire.');
+        });
       });
     });
   });

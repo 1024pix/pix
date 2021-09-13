@@ -36,15 +36,16 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
     });
 
     module('when the form is submitted', function() {
-      test('it saves the new comment', async function(assert) {
-        // given
-        this.author = null;
-        this.date = null;
-        this.comment = null;
-        this.onFormSubmit = sinon.stub().resolves();
+      module('when form submission succeeds', function() {
+        test('it calls onFormSubmit callback and exits edit mode', async function(assert) {
+          // given
+          this.author = null;
+          this.date = null;
+          this.comment = null;
+          this.onFormSubmit = sinon.stub().resolves();
 
-        // when
-        await render(hbs`
+          // when
+          await render(hbs`
           <Sessions::JuryComment
             @author={{this.author}}
             @date={{this.date}}
@@ -52,11 +53,39 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
             @onFormSubmit={{this.onFormSubmit}}
           />
         `);
-        await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
-        await clickByLabel('Enregistrer');
+          await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
+          await clickByLabel('Enregistrer');
 
-        // then
-        assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
+          // then
+          assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
+          assert.ok(_isNotInEditMode());
+        });
+      });
+
+      module('when form submission fails', function() {
+        test('it stays in edit mode', async function(assert) {
+          // given
+          this.author = null;
+          this.date = null;
+          this.comment = null;
+          this.onFormSubmit = sinon.stub().rejects();
+
+          // when
+          await render(hbs`
+          <Sessions::JuryComment
+            @author={{this.author}}
+            @date={{this.date}}
+            @comment={{this.comment}}
+            @onFormSubmit={{this.onFormSubmit}}
+          />
+        `);
+          await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
+          await clickByLabel('Enregistrer');
+
+          // then
+          assert.ok(this.onFormSubmit.calledWith('Un nouveau commentaire'));
+          assert.ok(_isInEditMode());
+        });
       });
     });
   });
@@ -130,7 +159,7 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
         await clickByLabel('Annuler');
 
         // then
-        assert.dom(getByLabel('Modifier')).exists();
+        assert.ok(_isNotInEditMode());
       });
 
       test('it should keep the comment unchanged', async function(assert) {
@@ -152,9 +181,26 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
         await clickByLabel('Annuler');
 
         // then
-        assert.dom(getByLabel('Modifier')).exists();
         assert.contains('Qui promène son chien est au bout de la laisse.');
       });
     });
   });
 });
+
+async function _isInEditMode() {
+  try {
+    await getByLabel('Enregistrer');
+    return true;
+  } catch (_error) {
+    throw new Error('Component should be in edit mode, but it is not.');
+  }
+}
+
+async function _isNotInEditMode() {
+  try {
+    await getByLabel('Modifier');
+    return true;
+  } catch (_error) {
+    throw new Error('Component should not be in edit mode, but it is.');
+  }
+}

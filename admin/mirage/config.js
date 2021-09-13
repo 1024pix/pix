@@ -249,4 +249,6 @@ export default function() {
   this.get('/accreditations', (schema, _) => {
     return schema.accreditations.all();
   });
+
+  this.put('/admin/sessions/:id/comment', () => new Response(204));
 }
