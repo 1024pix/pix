@@ -1,5 +1,4 @@
 .table-admin {
-
   a:not(.pix-button) {
     color: $blue;
   }
@@ -12,14 +11,16 @@
     background-color: rgba(0, 0, 0, 0.03);
   }
 
-  tbody > tr, thead > tr {
+  tbody > tr,
+  thead > tr {
     border-bottom: 1px solid $grey-22;
 
     &:first-child {
       border-top: 1px solid $grey-22;
     }
 
-    td, th {
+    td,
+    th {
       padding: 6px 18px;
       border-left: 1px solid $grey-22;
 
@@ -47,4 +48,3 @@
   margin: 48px auto 36px auto;
   text-align: center;
 }
-
