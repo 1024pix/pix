@@ -3,7 +3,10 @@ const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const CampaignAnalysis = require('../../domain/read-models/CampaignAnalysis');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const constants = require('../constants');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 module.exports = {
 
@@ -38,7 +41,7 @@ module.exports = {
 async function _getSharedParticipationsWithUserIdsAndDates(campaignId) {
   const results = await knex('campaign-participations')
     .select('userId', 'sharedAt')
-    .where({ campaignId, isShared: true, isImproved: false });
+    .where({ campaignId, status: SHARED, isImproved: false });
 
   const userIdsAndDates = [];
   for (const result of results) {
