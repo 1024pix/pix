@@ -25,6 +25,7 @@ function buildAssessment({
   lastQuestionDate = new Date('1992-06-12T01:02:03Z'),
   lastChallengeId = null,
   lastQuestionState = Assessment.statesOfLastQuestion.ASKED,
+  method,
 } = {}) {
   return new Assessment({
     // attributes
@@ -46,6 +47,7 @@ function buildAssessment({
     answers,
     course,
     campaignParticipation,
+    method,
   });
 }
 
@@ -67,6 +69,7 @@ buildAssessment.ofTypeCampaign = function({
   campaignParticipation = null,
   campaignParticipationId = null,
   title = 'campaignTitle',
+  method,
 } = {}) {
   if (!_.isNil(campaignParticipation) && _.isNil(campaignParticipationId)) {
     campaignParticipationId = campaignParticipation.id;
@@ -100,6 +103,7 @@ buildAssessment.ofTypeCampaign = function({
     course,
     targetProfile,
     campaignParticipation,
+    method,
   });
 };
 

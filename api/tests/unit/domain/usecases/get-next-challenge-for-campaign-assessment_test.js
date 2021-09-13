@@ -1,0 +1,73 @@
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
+
+const getNextChallengeForCampaignAssessment = require('../../../../lib/domain/usecases/get-next-challenge-for-campaign-assessment');
+const smartRandom = require('../../../../lib/domain/services/algorithm-methods/smart-random');
+const flash = require('../../../../lib/domain/services/algorithm-methods/flash');
+const dataFetcher = require('../../../../lib/domain/services/algorithm-methods/data-fetcher');
+
+describe('Unit | Domain | Use Cases | get-next-challenge-for-campaign-assessment', function() {
+
+  describe('#get-next-challenge-for-campaign-assessment', function() {
+
+    let knowledgeElementRepository;
+    let targetProfileRepository;
+    let challengeRepository;
+    let answerRepository;
+    let pickChallengeService;
+
+    let assessment;
+    let firstChallenge;
+    let secondChallenge;
+
+    beforeEach(function() {
+      firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge' });
+      secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge' });
+      assessment = domainBuilder.buildAssessment({ id: 1165 });
+
+      answerRepository = { findByAssessment: sinon.stub() };
+      challengeRepository = { get: sinon.stub() };
+      challengeRepository.get.withArgs('first_challenge').resolves(firstChallenge);
+      challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
+      pickChallengeService = { pickChallenge: sinon.stub() };
+    });
+
+    it('should use smart-random algorithm', async function() {
+      // given
+      sinon.stub(smartRandom, 'getPossibleSkillsForNextChallenge').resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true });
+      sinon.stub(dataFetcher, 'fetchForCampaigns').resolves({});
+
+      // when
+      await getNextChallengeForCampaignAssessment({
+        knowledgeElementRepository,
+        targetProfileRepository,
+        challengeRepository,
+        answerRepository,
+        pickChallengeService,
+        assessment,
+      });
+
+      // then
+      expect(smartRandom.getPossibleSkillsForNextChallenge).to.have.been.called;
+    });
+
+    it('should use flash algorithm', async function() {
+      // given
+      assessment.method = 'FLASH';
+      sinon.stub(flash, 'getPossibleSkillsForNextChallenge').resolves({ possibleSkillsForNextChallenge: [], hasAssessmentEnded: true });
+      sinon.stub(dataFetcher, 'fetchForCampaigns').resolves({});
+
+      // when
+      await getNextChallengeForCampaignAssessment({
+        knowledgeElementRepository,
+        targetProfileRepository,
+        challengeRepository,
+        answerRepository,
+        pickChallengeService,
+        assessment,
+      });
+
+      // then
+      expect(flash.getPossibleSkillsForNextChallenge).to.have.been.called;
+    });
+  });
+});

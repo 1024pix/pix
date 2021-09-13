@@ -25,6 +25,11 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = [
   types.CAMPAIGN,
 ];
 
+const methods = {
+  SMART_RANDOM: 'SMART_RANDOM',
+  FLASH: 'FLASH',
+};
+
 const statesOfLastQuestion = {
   ASKED: 'asked',
   TIMEOUT: 'timeout',
@@ -52,6 +57,7 @@ class Assessment {
     userId,
     competenceId,
     campaignParticipationId,
+    method,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -72,6 +78,7 @@ class Assessment {
     this.userId = userId;
     this.competenceId = competenceId;
     this.campaignParticipationId = campaignParticipationId;
+    this.method = method;
   }
 
   isCompleted() {
@@ -119,6 +126,10 @@ class Assessment {
 
   hasKnowledgeElements() {
     return this.isCompetenceEvaluation() || this.isForCampaign();
+  }
+
+  isFlash() {
+    return this.method === methods.FLASH;
   }
 
   static createForCertificationCourse({ userId, certificationCourseId }) {

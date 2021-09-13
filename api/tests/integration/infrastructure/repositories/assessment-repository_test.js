@@ -305,6 +305,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
           assessmentResults: [],
+          method: 'SMART_RANDOM',
         }),
       ];
 
