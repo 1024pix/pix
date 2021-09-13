@@ -132,6 +132,29 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
         // then
         assert.dom(getByLabel('Modifier')).exists();
       });
+
+      test('it should keep the comment unchanged', async function(assert) {
+        // given
+        this.author = 'Serge Gainsbourg';
+        this.date = new Date('2021-06-21T14:30:21Z');
+        this.comment = 'Qui promène son chien est au bout de la laisse.';
+
+        // when
+        await render(hbs`
+          <Sessions::JuryComment
+            @author={{this.author}}
+            @date={{this.date}}
+            @comment={{this.comment}}
+          />
+        `);
+        await clickByLabel('Modifier');
+        await fillInByLabel('Texte du commentaire', 'Qui promène son chat est au bout de la laisse.');
+        await clickByLabel('Annuler');
+
+        // then
+        assert.dom(getByLabel('Modifier')).exists();
+        assert.contains('Qui promène son chien est au bout de la laisse.');
+      });
     });
   });
 });
