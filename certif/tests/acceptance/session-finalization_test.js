@@ -141,7 +141,23 @@ module('Acceptance | Session Finalization', function(hooks) {
         });
       });
 
-      module('when there is no completed report', function() {
+      module('when there are no completed report', function() {
+
+        test('it should not display end test screen warning', async function(assert) {
+          // given
+          const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: 'technical' });
+
+          session.update({ certificationReports: [certificationReport] });
+
+          // when
+          await visit(`/sessions/${session.id}/finalisation`);
+          await clickByLabel('Finaliser');
+
+          // then
+          assert.contains(CONFIRMATION_TEXT);
+          assert.notContains('La case "Écran de fin du test vu" n\'est pas cochée pour 1 candidat(s)');
+        });
+
         test('it should not show the completed reports table', async function(assert) {
           // given
           const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: null });
