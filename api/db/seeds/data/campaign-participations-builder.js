@@ -1,5 +1,6 @@
 const moment = require('moment');
 const Assessment = require('../../../lib/domain/models/Assessment');
+const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const {
   CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID,
@@ -7,6 +8,15 @@ const {
 } = require('./certification/users');
 const { PRO_BASICS_BADGE_ID, PRO_TOOLS_BADGE_ID } = require('./badges-builder');
 const { DEFAULT_PASSWORD } = require('./users-builder');
+
+const { SHARED, TO_SHARE, STARTED } = CampaignParticipation.statuses;
+
+function _mapAssessmentStateFromParticipationStatus(status) {
+  if (status === STARTED) {
+    return Assessment.states.STARTED;
+  }
+  return Assessment.states.COMPLETED;
+}
 
 module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   const buildUsers = (users) => users.map((user) => {
@@ -36,33 +46,27 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
   const usersNotShared = [users[4], users[5], users[6], users[7], users[8]];
   const usersCompletedShared = [users[0], users[9], users[10], users[11], users[12]];
 
-  const participateToCampaignOfAssessment = (campaignId, user, isShared, isImproved = false) => {
+  const participateToCampaignOfAssessment = (campaignId, user, status, isImproved = false) => {
     const createdAt = user.createdAt;
-    const sharedAt = isShared ? moment(createdAt).add(1, 'days').toDate() : null;
+    const sharedAt = status === SHARED ? moment(createdAt).add(1, 'days').toDate() : null;
     const participantExternalId = user.firstName.toLowerCase() + user.lastName.toLowerCase();
-    return databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId: user.id, participantExternalId, createdAt, isShared, sharedAt, isImproved });
+    return databaseBuilder.factory.buildCampaignParticipation({
+      campaignId,
+      userId: user.id,
+      participantExternalId,
+      createdAt,
+      isShared: status === SHARED,
+      status,
+      sharedAt,
+      isImproved,
+    });
   };
 
-  const participateComplexAssessmentCampaign = (campaignId, user, state, isShared, isImproved = false) => {
-    const { id: userId } = user;
-    const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared, isImproved);
-
-    if (['Stéphan', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
-    if (['Jaune', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
-
-    buildAssessmentAndAnswer(userId, campaignParticipationId, state);
-
-    if (isImproved) {
-      const { id: newCampaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, isShared);
-      buildAssessmentAndAnswer(userId, newCampaignParticipationId, state, true);
-    }
-  };
-
-  const buildAssessmentAndAnswer = (userId, campaignParticipationId, state, addInferredKE = false) => {
+  const buildAssessmentAndAnswer = (userId, campaignParticipationId, status, addInferredKE = false) => {
     const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
       userId,
       type: Assessment.types.CAMPAIGN,
-      state: Assessment.states[state],
+      state: _mapAssessmentStateFromParticipationStatus(status),
       campaignParticipationId,
     });
 
@@ -108,51 +112,68 @@ module.exports = function addCampaignWithParticipations({ databaseBuilder }) {
     }
   };
 
-  const participateToCampaignOfTypeProfilesCollection = (campaignId, userId, isShared, isImproved = false) => {
+  const participateComplexAssessmentCampaign = (campaignId, user, status, isImproved = false) => {
+    const { id: userId } = user;
+    const { id: campaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, status, isImproved);
+
+    if (['Stéphan', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_BASICS_BADGE_ID, campaignParticipationId });
+    if (['Jaune', 'Antoine'].includes(user.firstName)) databaseBuilder.factory.buildBadgeAcquisition({ userId, badgeId: PRO_TOOLS_BADGE_ID, campaignParticipationId });
+
+    buildAssessmentAndAnswer(userId, campaignParticipationId, status);
+
+    if (isImproved) {
+      const { id: newCampaignParticipationId } = participateToCampaignOfAssessment(campaignId, user, status);
+      buildAssessmentAndAnswer(userId, newCampaignParticipationId, status, true);
+    }
+  };
+
+  const participateToCampaignOfTypeProfilesCollection = (campaignId, userId, status, isImproved = false) => {
     const today = new Date();
 
-    const sharedAt = isShared ? today : null;
+    const sharedAt = status === SHARED ? today : null;
 
     databaseBuilder.factory.buildCampaignParticipation({
       campaignId,
       userId,
       participantExternalId: userId,
-      isShared,
+      isShared: status === SHARED,
+      status,
       sharedAt,
     });
 
     if (isImproved) {
       const yesterday = new Date();
       yesterday.setDate(today.getDate() - 1);
-      const oldSharedAt = isShared ? yesterday : null;
+      const oldSharedAt = status === SHARED ? yesterday : null;
 
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         userId,
         participantExternalId: userId,
-        isShared,
+        isShared: status === SHARED,
+        status: status,
         sharedAt: oldSharedAt,
         isImproved,
       });
     }
   };
 
-  usersNotCompleted.forEach((user) => participateComplexAssessmentCampaign(1, user, 'STARTED', false));
-  usersNotShared.forEach((user) => participateComplexAssessmentCampaign(1, user, 'COMPLETED', false));
-  usersCompletedShared.forEach((user) => participateComplexAssessmentCampaign(1, user, 'COMPLETED', true));
+  usersNotCompleted.forEach((user) => participateComplexAssessmentCampaign(1, user, STARTED));
+  usersNotShared.forEach((user) => participateComplexAssessmentCampaign(1, user, TO_SHARE));
+  usersCompletedShared.forEach((user) => participateComplexAssessmentCampaign(1, user, SHARED));
 
-  participateComplexAssessmentCampaign(2, users[0], 'STARTED', false);
-  participateComplexAssessmentCampaign(12, users[0], 'COMPLETED', false);
-  participateComplexAssessmentCampaign(13, users[0], 'COMPLETED', true);
-  participateComplexAssessmentCampaign(14, users[0], 'STARTED', false);
-  participateComplexAssessmentCampaign(15, users[0], 'COMPLETED', true);
-  participateComplexAssessmentCampaign(16, users[0], 'COMPLETED', true, true);
+  participateComplexAssessmentCampaign(2, users[0], STARTED);
+  participateComplexAssessmentCampaign(12, users[0], TO_SHARE);
+  participateComplexAssessmentCampaign(13, users[0], SHARED);
+  participateComplexAssessmentCampaign(14, users[0], STARTED);
+  participateComplexAssessmentCampaign(15, users[0], SHARED);
+  participateComplexAssessmentCampaign(16, users[0], SHARED, true);
 
-  participateToCampaignOfTypeProfilesCollection(18, users[0].id, true, true);
+  participateToCampaignOfTypeProfilesCollection(18, users[0].id, SHARED, true);
 
-  usersNotCompleted.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, false));
-  usersNotShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, false));
-  usersCompletedShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, true));
-  [CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(6, userId, true));
-  [CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(6, userId, false));
+  usersNotCompleted.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, TO_SHARE));
+  usersNotShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, TO_SHARE));
+  usersCompletedShared.forEach((user) => participateToCampaignOfTypeProfilesCollection(6, user.id, SHARED));
+  [CERTIF_REGULAR_USER1_ID, CERTIF_REGULAR_USER2_ID, CERTIF_REGULAR_USER3_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(6, userId, SHARED));
+  [CERTIF_REGULAR_USER4_ID, CERTIF_REGULAR_USER5_ID].forEach((userId) => participateToCampaignOfTypeProfilesCollection(6, userId, TO_SHARE));
 };
