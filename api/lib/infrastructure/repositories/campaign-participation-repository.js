@@ -16,7 +16,6 @@ const { SHARED } = CampaignParticipation.statuses;
 
 const ATTRIBUTES_TO_SAVE = [
   'createdAt',
-  'isShared',
   'participantExternalId',
   'sharedAt',
   'status',

@@ -1,6 +1,9 @@
 const createServer = require('../../../server');
 const Assessment = require('../../../lib/domain/models/Assessment');
+const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader, knex } = require('../../test-helper');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 describe('Acceptance | API | Campaign Participations', function() {
 
@@ -42,18 +45,11 @@ describe('Acceptance | API | Campaign Participations', function() {
         method: 'PATCH',
         url: `/api/campaign-participations/${campaignParticipationId}`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: {
-          data: {
-            isShared: true,
-          },
-        },
       };
-
     });
 
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-sibling-hooks
-    beforeEach(function() {
+    it('shares the campaign participation', async function() {
+      // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recAcquisWeb1' });
       const campaign = databaseBuilder.factory.buildCampaign({ targetProfileId: targetProfile.id });
@@ -71,17 +67,15 @@ describe('Acceptance | API | Campaign Participations', function() {
         state: Assessment.states.COMPLETED,
       });
 
-      return databaseBuilder.commit();
-    });
+      await databaseBuilder.commit();
 
-    it('shares the campaign participation', async function() {
       // when
       const response = await server.inject(options);
-      const campaignParticipation = await knex('campaign-participations').first();
+      const result = await knex('campaign-participations').first();
 
       // then
       expect(response.statusCode).to.equal(204);
-      expect(campaignParticipation.isShared).to.equal(true);
+      expect(result.status).to.equal(SHARED);
     });
   });
 
