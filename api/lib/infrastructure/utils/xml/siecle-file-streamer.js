@@ -1,151 +1,164 @@
-const { noop, isObject } = require('lodash');
+const { isObject, values } = require('lodash');
 const { FileValidationError, SiecleXmlImportError } = require('../../../domain/errors');
 const fs = require('fs');
-const readline = require('readline');
-const Stream = require('stream');
+const fsPromises = fs.promises;
+const Path = require('path');
+const os = require('os');
+const { Buffer } = require('buffer');
 const StreamZip = require('node-stream-zip');
 const FileType = require('file-type');
 const iconv = require('iconv-lite');
 const sax = require('sax');
 const xmlEncoding = require('xml-buffer-tostring').xmlEncoding;
-
+/*
+  https://github.com/1024pix/pix/pull/3470#discussion_r707319744
+  Démonstration et explication sur https://regex101.com/r/Z0V2s7/5
+  On cherche 0 ou plusieurs fois un nom de répertoire (ne commençant pas par un point, se terminant par /),
+  puis un nom de fichier ne commençant pas par un point et se terminant par .xml.
+ */
+const VALID_FILE_NAME_REGEX = /^([^.][^/]*\/)*[^./][^/]*\.xml$/;
+const logger = require('../../logger');
 const ERRORS = {
   INVALID_FILE: 'INVALID_FILE',
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
+  PARSING_ERROR: 'PARSING_ERROR',
+  UNZIP_ERROR: 'UNZIP_ERROR',
+  NO_VALID_FILE_TO_EXTRACT: 'NO_VALID_FILE_TO_EXTRACT',
 };
-
 const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
-const BOM = '\uFEFF';
-const BOM_LENGTH = 3;
-
-class StreamPipe extends Stream.Transform {
-  _transform(chunk, enc, cb) {
-    this.push(chunk);
-    cb();
-  }
-}
-
-class StreamWithoutBOM extends Stream.Transform {
-  _transform(chunk, enc, cb) {
-    if (chunk.includes(BOM)) {
-      const chunkWithoutBOM = removeBOM(chunk);
-      this.push(chunkWithoutBOM);
-
-    } else {
-      this.push(chunk);
-    }
-    cb();
-  }
-}
-
-function removeBOM(chunk) {
-  return chunk.subarray(BOM_LENGTH);
-}
-
-function _unzippedStream(path) {
-  const zip = new StreamZip({ file: path });
-  const stream = new StreamPipe();
-  zip.on('error', noop);
-  zip.on('entry', (entry) => {
-    zip.stream(entry, (err, stm) => {
-      if (err) {
-        throw new FileValidationError(ERRORS.INVALID_FILE);
-      } else if (!entry.name.includes('/')) {
-        stm.on('error', noop);
-
-        stm.pipe(stream);
-      }
-    });
-  });
-  return stream;
-}
 
 class SiecleFileStreamer {
   static async create(path) {
-    const stream = new SiecleFileStreamer(path);
-    await stream._detectEncoding();
-
+    let filePath = path;
+    let directory = undefined;
+    if (await _isFileZipped(path)) {
+      directory = await _createTempDir();
+      filePath = await _unzipFile(directory, path);
+    }
+    const encoding = await _detectEncoding(filePath);
+    const stream = new SiecleFileStreamer(filePath, encoding, directory);
     return stream;
   }
 
-  constructor(path) {
+  constructor(path, encoding, directory) {
     this.path = path;
-  }
-
-  async _detectEncoding() {
-    const firstLine = await this._readFirstLine();
-    this.encoding = xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
-  }
-
-  async _getStream() {
-    this.stream = await this._getRawStream();
-    const saxParser = sax.createStream(true);
-    let decodeStream;
-    try {
-      decodeStream = iconv.decodeStream(this.encoding);
-    } catch (err) {
-      throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
-    }
-    return this.stream.pipe(decodeStream).pipe(saxParser);
-  }
-
-  async _getRawStream() {
-    let stream;
-    if (await this._isFileZipped()) {
-      stream = _unzippedStream(this.path);
-    } else {
-      stream = fs.createReadStream(this.path);
-    }
-    return stream;
-  }
-
-  async _isFileZipped() {
-    const fileType = await FileType.fromStream(this._getStreamWithoutBOM());
-
-    return isObject(fileType) && fileType.mime === ZIP;
-  }
-
-  async _readFirstLine() {
-    const stream = await this._getRawStream();
-    const firstLineReader = readline.createInterface({ input: stream });
-
-    return await new Promise((resolve) => {
-      firstLineReader.on('line', (line) => {
-        firstLineReader.close();
-        resolve(line);
-      });
-    });
-  }
-
-  _getStreamWithoutBOM() {
-    const streamWithoutBOM = new StreamWithoutBOM();
-
-    return fs.createReadStream(this.path).pipe(streamWithoutBOM);
-  }
-
-  _destroyStream() {
-    this.stream.destroy();
+    this.encoding = encoding;
+    this.directory = directory;
   }
 
   async perform(callback) {
-    try {
-      await this._callbackAsPromise(callback);
-    } finally {
-      this._destroyStream();
-    }
+    await this._callbackAsPromise(callback);
   }
 
   async _callbackAsPromise(callback) {
-    const siecleFileStream = await this._getStream();
 
     return new Promise((resolve, reject) => {
-      siecleFileStream.on('error', () => {
-        reject(new FileValidationError(ERRORS.INVALID_FILE));
-      });
-      callback(siecleFileStream, resolve, reject);
+      const saxStream = _getSaxStream(this.path, this.encoding, reject);
+      callback(saxStream, resolve, reject);
     });
+  }
+
+  async close() {
+    if (this.directory) {
+      await fsPromises.rmdir(this.directory, { recursive: true });
+    }
+  }
+}
+
+async function _isFileZipped(path) {
+  const fileType = await FileType.fromFile(path);
+  return isObject(fileType) && fileType.mime === ZIP;
+}
+function _createTempDir() {
+  const tmpDir = os.tmpdir();
+  const directory = Path.join(tmpDir, 'import-siecle-');
+  return fsPromises.mkdtemp(directory);
+}
+async function _unzipFile(directory, path) {
+  const extractedFileName = Path.join(directory, 'registrations.xml');
+  const zip = new StreamZip.async({ file: path });
+  const fileName = await _getFileToExtractName(zip);
+  try {
+    await zip.extract(fileName, extractedFileName);
+  } catch (error) {
+    await zip.close();
+    throw new FileValidationError(ERRORS.UNZIP_ERROR);
+  }
+  await zip.close();
+  return extractedFileName;
+}
+
+async function _getFileToExtractName(zipStream) {
+  const entries = await zipStream.entries();
+  const fileNames = values(entries).map((entry) => entry.name);
+  const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
+  if (validFiles.length != 1) {
+    zipStream.close();
+    logger.error({ ERROR: ERRORS.NO_VALID_FILE_TO_EXTRACT, entries });
+    throw new FileValidationError(ERRORS.NO_VALID_FILE_TO_EXTRACT);
+  }
+  return validFiles[0];
+}
+
+async function _detectEncoding(path) {
+  const firstLine = await _readFirstLine(path);
+  return xmlEncoding(Buffer.from(firstLine)) || DEFAULT_FILE_ENCODING;
+}
+
+async function _readFirstLine(path) {
+  const buffer = Buffer.alloc(128);
+
+  try {
+    const file = await fsPromises.open(path);
+    await file.read(buffer, 0, 128, 0);
+    file.close();
+  } catch (err) {
+    console.log(err);
+    logger.error(err);
+    throw new FileValidationError(ERRORS.INVALID_FILE);
+  }
+
+  return buffer;
+}
+
+function _getSaxStream(path, encoding, reject) {
+
+  let inputStream;
+  try {
+    inputStream = fs.createReadStream(path);
+  } catch (error) {
+    reject(new FileValidationError(ERRORS.INVALID_FILE));
+  }
+
+  inputStream.on('error', (err) => {
+    logger.error(err);
+    return reject(new FileValidationError(ERRORS.INVALID_FILE));
+  });
+
+  const decodeStream = getDecodingStream(encoding);
+  decodeStream.on('error', (err) => {
+    logger.error(err);
+    return reject(new FileValidationError(ERRORS.ENCODING_NOT_SUPPORTED));
+  });
+
+  const saxParser = sax.createStream(true);
+  saxParser.on('error', (err) => {
+    logger.error(err);
+    reject(new FileValidationError(ERRORS.PARSING_ERROR));
+  });
+
+  return inputStream.pipe(decodeStream).pipe(saxParser);
+}
+
+function getDecodingStream(encoding) {
+  try {
+    return iconv.decodeStream(encoding);
+  } catch (err) {
+    logger.error(err);
+    throw new SiecleXmlImportError(ERRORS.ENCODING_NOT_SUPPORTED);
   }
 }
 
 module.exports = SiecleFileStreamer;
+
