@@ -1,5 +1,5 @@
 const SessionJuryComment = require('../../../../lib/domain/models/SessionJuryComment');
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 
 const SESSION_JURY_COMMENT_PROPS = [
@@ -27,5 +27,43 @@ describe('Unit | Domain | Models | SessionJuryComment', function() {
 
   it('should create a session with all the requires properties', function() {
     expect(_.keys(comment)).to.have.deep.members(SESSION_JURY_COMMENT_PROPS);
+  });
+
+  context('#update', function() {
+
+    let clock;
+
+    beforeEach(function() {
+      clock = sinon.useFakeTimers(new Date('2003-04-05T03:04:05Z'));
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('should update the comment', function() {
+      // given
+      const comment = domainBuilder.buildSessionJuryComment({
+        id: 789,
+        comment: 'Le commentaire original',
+        authorId: 321,
+        updatedAt: new Date('2001-02-03T01:02:03Z'),
+      });
+
+      // when
+      comment.update({
+        comment: 'Un autre commentaire',
+        authorId: 456,
+      });
+
+      // then
+      const expectedComment = domainBuilder.buildSessionJuryComment({
+        id: 789,
+        comment: 'Un autre commentaire',
+        authorId: 456,
+        updatedAt: new Date('2003-04-05T03:04:05Z'),
+      });
+      expect(comment).to.deepEqualInstance(expectedComment);
+    });
   });
 });
