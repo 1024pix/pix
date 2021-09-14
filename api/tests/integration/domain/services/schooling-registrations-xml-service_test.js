@@ -1,5 +1,5 @@
 const { expect, catchErr } = require('../../../test-helper');
-const { FileValidationError, SiecleXmlImportError } = require('../../../../lib/domain/errors');
+const { SiecleXmlImportError } = require('../../../../lib/domain/errors');
 const schoolingRegistrationsXmlService = require('../../../../lib/domain/services/schooling-registrations-xml-service');
 
 describe('Integration | Services | schooling-registrations-xml-service', function() {
@@ -52,50 +52,6 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       expect(result).to.deep.equal(expectedSchoolingRegistrations);
     });
 
-    it('should parse the file when there is a BOM character in the file', async function() {
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-bom.xml`;
-      const expectedSchoolingRegistrations = [{
-        lastName: 'COVERT',
-        preferredLastName: 'COJAUNE',
-        firstName: 'Harry',
-        middleName: 'Coco',
-        thirdName: '',
-        sex: 'M',
-        birthdate: '1994-12-31',
-        birthCityCode: '33318',
-        birthCity: null,
-        birthCountryCode: '100',
-        birthProvinceCode: '033',
-        MEFCode: null,
-        status: 'AP',
-        nationalStudentId: '00000000123',
-        division: '4A',
-      }];
-
-      // when
-      const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
-
-      //then
-      expect(result).to.deep.equal(expectedSchoolingRegistrations);
-    });
-
-    it('when the encoding is not supported it throws an error', async function() {
-
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-with-unknown-encoding.xml`;
-      // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
-
-      //then
-      expect(error).to.be.instanceof(SiecleXmlImportError);
-      expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
-    });
-
     it('should not parse schoolingRegistrations who are no longer in the school', async function() {
       // given
       const validUAIFromSIECLE = '123ABC';
@@ -136,34 +92,6 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
       expect(error.code).to.equal('UAI_MISMATCHED');
-    });
-
-    it('should abort parsing and reject with XML error if file is malformed while scanning for UAI', async function() {
-
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-broken.xml`;
-      // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
-
-      //then
-      expect(error).to.be.instanceof(FileValidationError);
-      expect(error.code).to.equal('INVALID_FILE');
-    });
-
-    it('should abort parsing and reject with XML error if file is malformed while scanning students', async function() {
-
-      // given
-      const validUAIFromSIECLE = '123ABC';
-      const organization = { externalId: validUAIFromSIECLE };
-      const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-broken-after-uai.xml`;
-      // when
-      const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
-
-      //then
-      expect(error).to.be.instanceof(FileValidationError);
-      expect(error.code).to.equal('INVALID_FILE');
     });
 
     it('should abort parsing and reject with duplicate national student id error', async function() {
@@ -208,52 +136,6 @@ describe('Integration | Services | schooling-registrations-xml-service', functio
       //then
       expect(error).to.be.instanceof(SiecleXmlImportError);
       expect(error.code).to.equal('INE_REQUIRED');
-    });
-
-    context('when the file is zipped', function() {
-      it('unzip the file', async function() {
-        // given
-        const organization = { externalId: '1237457A' };
-        const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/siecle-zipped-file.xml.zip`;
-        const expectedSchoolingRegistrations = [{
-          lastName: 'Grubber',
-          preferredLastName: null,
-          firstName: 'Hans',
-          middleName: '',
-          thirdName: '',
-          sex: null,
-          birthdate: '1950-01-01',
-          birthCityCode: '24322',
-          birthCity: '',
-          birthCountryCode: '100',
-          birthProvinceCode: '024',
-          MEFCode: null,
-          status: 'AP',
-          nationalStudentId: '56789',
-          division: '3EME NEW',
-        }];
-
-        // when
-        const result = await schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE(path, organization);
-
-        //then
-        expect(result).to.deep.equal(expectedSchoolingRegistrations);
-      });
-
-      context('when the file is corrupted', function() {
-        it('throws an error', async function() {
-          // given
-          const organization = { externalId: '1237457A' };
-          const path = `${process.cwd()}/tests/tooling/fixtures/siecle-file/corrupt_entry.zip`;
-
-          // when
-          const error = await catchErr(schoolingRegistrationsXmlService.extractSchoolingRegistrationsInformationFromSIECLE)(path, organization);
-
-          //then
-          expect(error).to.be.instanceof(FileValidationError);
-          expect(error.code).to.equal('INVALID_FILE');
-        });
-      });
     });
   });
 });
