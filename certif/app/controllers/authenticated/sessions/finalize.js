@@ -2,7 +2,7 @@
 
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
-import { action, computed } from '@ember/object';
+import { action } from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { tracked } from '@glimmer/tracking';
 import sumBy from 'lodash/sumBy';
@@ -29,10 +29,9 @@ export default class SessionsFinalizeController extends Controller {
     return this.featureToggles.featureToggles.isManageUncompletedCertifEnabled;
   }
 
-  @computed('session.certificationReports.@each.hasSeenEndTestScreen')
   get uncheckedHasSeenEndTestScreenCount() {
     return sumBy(
-      this.session.certificationReports.toArray(),
+      this.session.completedCertificationReports.toArray(),
       (reports) => Number(!reports.hasSeenEndTestScreen),
     );
   }
