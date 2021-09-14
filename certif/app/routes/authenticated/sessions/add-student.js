@@ -14,6 +14,10 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     divisions: { refreshModel: true, type: 'array' },
   };
 
+  beforeModel() {
+    this.currentUser.checkRestrictedAccess();
+  }
+
   async model(params) {
     const session = await this.store.findRecord('session', params.session_id);
     const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;

@@ -56,6 +56,20 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
     });
 
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit(`/sessions/${session.id}/ajout-eleves`);
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
+    });
+
     test('it should be possible to access student add page', async function(assert) {
       // when
       await visit(`/sessions/${session.id}/candidats`);

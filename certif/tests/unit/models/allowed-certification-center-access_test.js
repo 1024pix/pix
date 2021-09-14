@@ -67,4 +67,51 @@ module('Unit | Model | allowed-certification-center-access', function(hooks) {
       assert.true(model.isScoManagingStudents);
     });
   });
+
+  module('#get isAccessRestricted', function() {
+
+    test('should return false when neither college or lycee access is blocked', function(assert) {
+      // when
+      const model = store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      });
+
+      // then
+      assert.false(model.isAccessRestricted);
+    });
+
+    test('should return true when college access is blocked', function(assert) {
+      // when
+      const model = store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: true,
+        isAccessBlockedLycee: false,
+      });
+
+      // then
+      assert.true(model.isAccessRestricted);
+    });
+
+    test('should return true when lycee access is blocked', function(assert) {
+      // when
+      const model = store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: true,
+      });
+
+      // then
+      assert.true(model.isAccessRestricted);
+    });
+
+    test('should return true when both college and lycee accesses are blocked', function(assert) {
+      // when
+      const model = store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: true,
+        isAccessBlockedLycee: true,
+      });
+
+      // then
+      assert.true(model.isAccessRestricted);
+    });
+  });
 });

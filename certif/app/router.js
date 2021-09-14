@@ -18,6 +18,7 @@ Router.map(function() {
 
   this.route('terms-of-service', { path: '/cgu' });
   this.route('authenticated', { path: '' }, function() {
+    this.route('restricted-access', { path: '/espace-ferme' });
     this.route('sessions', function() {
       this.route('list', { path: '/liste' });
       this.route('new', { path: '/creation' });
