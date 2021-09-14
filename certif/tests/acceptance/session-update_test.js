@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -9,10 +9,21 @@ module('Acceptance | Session Update', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async () => {
-    const user = createCertificationPointOfContactWithTermsOfServiceAccepted();
+  let allowedCertificationCenterAccess;
+  let certificationPointOfContact;
 
-    await authenticateSession(user.id);
+  hooks.beforeEach(async function() {
+    allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+      isAccessBlockedCollege: false,
+      isAccessBlockedLycee: false,
+    });
+    certificationPointOfContact = server.create('certification-point-of-contact', {
+      firstName: 'Buffy',
+      lastName: 'Summers',
+      pixCertifTermsOfServiceAccepted: true,
+      allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+    });
+    await authenticateSession(certificationPointOfContact.id);
   });
 
   test('it should fill the updating form with the current values of the session', async function(assert) {

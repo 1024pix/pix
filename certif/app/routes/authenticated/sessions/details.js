@@ -13,7 +13,7 @@ export default class SessionsDetailsRoute extends Route {
       sessionId: params.session_id,
     });
     const certificationCandidates = await loadCertificationCandidates();
-    const shouldDisplayPrescriptionScoStudentRegistrationFeature = this.currentUser.currentCertificationCenter.isScoManagingStudents;
+    const shouldDisplayPrescriptionScoStudentRegistrationFeature = this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
 
     return EmberObject.create({
       session,
