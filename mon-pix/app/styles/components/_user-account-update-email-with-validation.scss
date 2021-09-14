@@ -50,55 +50,9 @@
       padding-bottom: 40px;
     }
 
-    .form-textfield label {
-      color: $grey-70;
-      font-weight: 400;
-      font-size: 0.875rem;
-      letter-spacing: 0;
-    }
-
-    .form-textfield__input-field-container {
-      margin-top: 4px;
-      border: 1px solid $grey-40;
-      border-radius: 4px;
-      height: 37px;
-
-      &:hover {
-        box-shadow: inset 0 0 0 0.6px $grey-40;
-      }
-
-      &:focus {
-        box-shadow: inset 0 0 0 0.6px $blue;
-      }
-
-      input {
-        height: auto;
-        color: $grey-90;
-        font-size: 0.875rem;
-        margin-left: 1px;
-        padding-left: 16px;
-        width: 100%;
-      }
-
-      div {
-        margin: 0;
-
-        button {
-          margin: 0 10px;
-        }
-      }
-    }
-
-    .form-textfield__input-container--error {
-      border-color: $red;
-      box-shadow: inset 0 0 0 0.6px $red;
-    }
-
-    .form-textfield__message--error {
-      position: absolute;
-      font-size: 0.75rem;
-      color: $red;
-      margin-top: 4px;
+    .pix-input-password > svg {
+      width: 18px;
+      height: 18px;
     }
   }
 
