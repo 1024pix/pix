@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const path = require('path');
 const moment = require('moment');
 
@@ -10,6 +11,14 @@ function parseJSONEnv(varName) {
 
 function isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
+}
+
+function _getArrayOfStrings(commaSeparatedStrings) {
+  return _(commaSeparatedStrings)
+    .split(',')
+    .map(_.trim)
+    .map(_.toUpper)
+    .value();
 }
 
 function _getNumber(numberAsString, defaultIntNumber) {
@@ -145,6 +154,9 @@ module.exports = (function() {
       garAccessV2: isFeatureEnabled(process.env.GAR_ACCESS_V2),
       maxReachableLevel: _getNumber(process.env.MAX_REACHABLE_LEVEL, 5),
       newYearSchoolingRegistrationsImportDate: _getDate(process.env.NEW_YEAR_SCHOOLING_REGISTRATIONS_IMPORT_DATE),
+      pixCertifScoBlockedAccessWhitelist: _getArrayOfStrings(process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_WHITELIST),
+      pixCertifScoBlockedAccessDateLycee: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_LYCEE,
+      pixCertifScoBlockedAccessDateCollege: process.env.PIX_CERTIF_SCO_BLOCKED_ACCESS_DATE_COLLEGE,
     },
 
     featureToggles: {
