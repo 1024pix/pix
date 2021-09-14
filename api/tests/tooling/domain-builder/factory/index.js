@@ -1,6 +1,7 @@
 module.exports = {
   buildAccountRecoveryDemand: require('./build-account-recovery-demand'),
   buildAccreditation: require('./build-accreditation'),
+  buildAllowedCertificationCenterAccess: require('./build-allowed-certification-center-access'),
   buildAnswer: require('./build-answer'),
   buildArea: require('./build-area'),
   buildAssessment: require('./build-assessment'),
