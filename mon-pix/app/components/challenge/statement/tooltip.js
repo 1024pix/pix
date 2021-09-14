@@ -28,15 +28,12 @@ export default class Tooltip extends Component {
 
   @action
   displayTooltip(value) {
-    if (this.isFocusedChallenge) {
-      if (this._hasUserSeenFocusedChallengeTooltip() || !this._isUserConnected()) {
-        this.shouldDisplayTooltip = value;
-      }
-    }
-    else if (!this.isFocusedChallenge) {
-      if (this._hasUserSeenOtherChallengesTooltip() || !this._isUserConnected()) {
-        this.shouldDisplayTooltip = value;
-      }
+    if (this.isFocusedChallenge && this._hasUserSeenFocusedChallengeTooltip()) {
+      this.shouldDisplayTooltip = value;
+    } else if (!this.isFocusedChallenge && this._hasUserSeenOtherChallengesTooltip()) {
+      this.shouldDisplayTooltip = value;
+    } else if (!this._isUserConnected()) {
+      this.shouldDisplayTooltip = value;
     }
   }
 

@@ -30,11 +30,10 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   _hasUserNotSeenFocusedChallengeTooltip() {
-    return this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+    return this.args.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
   }
-
   _hasUserNotSeenOtherChallengesTooltip() {
-    return this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip;
+    return !this.args.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip;
   }
 
   get isTimedChallengeWithoutAnswer() {
