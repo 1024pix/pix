@@ -22,4 +22,20 @@ module.exports = {
 
     return new SessionJuryComment(result);
   },
+
+  async save(sessionJuryComment) {
+    const columnsToSave = {
+      juryComment: sessionJuryComment.comment,
+      juryCommentAuthorId: sessionJuryComment.authorId,
+      juryCommentedAt: sessionJuryComment.updatedAt,
+    };
+    const updatedSessionIds = await knex('sessions')
+      .update(columnsToSave)
+      .where({ id: sessionJuryComment.id })
+      .returning('id');
+
+    if (updatedSessionIds.length === 0) {
+      throw new NotFoundError(`La session ${sessionJuryComment.id} n'existe pas ou son accès est restreint.`);
+    }
+  },
 };

@@ -4,7 +4,7 @@ const sessionJuryCommentRepository = require('../../../../lib/infrastructure/rep
 
 describe('Integration | Infrastructure | Repository | session-jury-comment-repository', function() {
 
-  describe('#get', function() {
+  context('#get', function() {
 
     context('when there is a SessionJuryComment for the given id', function() {
 
@@ -68,6 +68,67 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
 
         // when
         const error = await catchErr(sessionJuryCommentRepository.get)(456);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('La session 456 n\'existe pas ou son accès est restreint.');
+      });
+    });
+  });
+
+  context('#save', function() {
+
+    context('when the session exists', function() {
+
+      it('should update the session comment', async function() {
+        // given
+        databaseBuilder.factory.buildUser({ id: 456 });
+        databaseBuilder.factory.buildUser({ id: 789 });
+        databaseBuilder.factory.buildSession({
+          id: 123,
+          juryComment: 'commentaire initial',
+          juryCommentAuthorId: 456,
+          juryCommentedAt: new Date('2018-01-12T09:29:16Z'),
+        });
+        await databaseBuilder.commit();
+        const sessionJuryCommentToSave = domainBuilder.buildSessionJuryComment({
+          id: 123,
+          updatedAt: new Date('2020-01-12T10:29:16Z'),
+          authorId: 789,
+          comment: 'commentaire final',
+        });
+
+        // when
+        await sessionJuryCommentRepository.save(sessionJuryCommentToSave);
+
+        // then
+        const expectedSessionJuryComment = await sessionJuryCommentRepository.get(123);
+        expect(sessionJuryCommentToSave).to.deepEqualInstance(expectedSessionJuryComment);
+      });
+    });
+
+    context('when the session does not exist', function() {
+
+      it('should throw a NotFoundError', async function() {
+        // given
+        databaseBuilder.factory.buildUser({ id: 456 });
+        databaseBuilder.factory.buildUser({ id: 789 });
+        databaseBuilder.factory.buildSession({
+          id: 123,
+          juryComment: 'commentaire initial',
+          juryCommentAuthorId: 456,
+          juryCommentedAt: new Date('2018-01-12T09:29:16Z'),
+        });
+        await databaseBuilder.commit();
+        const sessionJuryCommentToSave = domainBuilder.buildSessionJuryComment({
+          id: 456,
+          updatedAt: new Date('2020-01-12T10:29:16Z'),
+          authorId: 789,
+          comment: 'commentaire final',
+        });
+
+        // when
+        const error = await catchErr(sessionJuryCommentRepository.save)(sessionJuryCommentToSave);
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
