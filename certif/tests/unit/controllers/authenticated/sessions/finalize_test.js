@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import ArrayProxy from '@ember/array/proxy';
+import { run } from '@ember/runloop';
+import Service from '@ember/service';
 import sinon from 'sinon';
 
 const FINALIZE_PATH = 'authenticated/sessions/finalize';
@@ -12,11 +13,17 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
 
     test('it should count no unchecked box if no report', function(assert) {
       // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isManageUncompletedCertifEnabled: false,
+        };
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = ArrayProxy.create({
+      controller.model = run(() => store.createRecord('session', {
         certificationReports: [],
-      });
-      controller.model = session;
+      }));
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
@@ -26,59 +33,57 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
 
     test('it should count unchecked boxes', function(assert) {
-
       // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isManageUncompletedCertifEnabled: false,
+        };
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = ArrayProxy.create({
-        certificationReports: [
-          { hasSeenEndTestScreen: true },
-          { hasSeenEndTestScreen: false },
-          { hasSeenEndTestScreen: false },
-          { hasSeenEndTestScreen: false },
-          { hasSeenEndTestScreen: true },
-        ],
-      });
-      controller.model = session;
+      const certificationReportA = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      }));
+      const certificationReportB = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: false,
+      }));
+      const certificationReportC = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: false,
+      }));
+      controller.model = run(() => store.createRecord('session', {
+        certificationReports: [certificationReportA, certificationReportB, certificationReportC],
+      }));
 
       // when
       const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
 
       // then
-      assert.equal(uncheckedHasSeenEndTestScreenCount, 3);
-    });
-
-    test('it should count 1 unchecked box if only one box (unchecked)', function(assert) {
-
-      // given
-      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = ArrayProxy.create({
-        certificationReports: [
-          { hasSeenEndTestScreen: false },
-        ],
-      });
-      controller.model = session;
-
-      // when
-      const uncheckedHasSeenEndTestScreenCount = controller.uncheckedHasSeenEndTestScreenCount;
-
-      // then
-      assert.strictEqual(uncheckedHasSeenEndTestScreenCount, 1);
+      assert.equal(uncheckedHasSeenEndTestScreenCount, 2);
     });
   });
 
   module('#computed hasUncheckedHasSeenEndTestScreen', function() {
 
     test('it should be false if no unchecked certification reports', function(assert) {
-
       // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isManageUncompletedCertifEnabled: false,
+        };
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = ArrayProxy.create({
-        certificationReports: [
-          { hasSeenEndTestScreen: true },
-          { hasSeenEndTestScreen: true },
-        ],
-      });
-      controller.model = session;
+      const certificationReportA = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      }));
+      const certificationReportB = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      }));
+      controller.model = run(() => store.createRecord('session', {
+        certificationReports: [certificationReportA, certificationReportB],
+      }));
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
@@ -88,16 +93,24 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
     });
 
     test('it should be true if at least one unchecked certification reports', function(assert) {
-
       // given
+      class FeatureTogglesStub extends Service {
+        featureToggles = {
+          isManageUncompletedCertifEnabled: false,
+        };
+      }
+      this.owner.register('service:feature-toggles', FeatureTogglesStub);
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
-      const session = ArrayProxy.create({
-        certificationReports: [
-          { hasSeenEndTestScreen: false },
-          { hasSeenEndTestScreen: true },
-        ],
-      });
-      controller.model = session;
+      const certificationReportA = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: true,
+      }));
+      const certificationReportB = run(() => store.createRecord('certification-report', {
+        hasSeenEndTestScreen: false,
+      }));
+      controller.model = run(() => store.createRecord('session', {
+        certificationReports: [certificationReportA, certificationReportB],
+      }));
 
       // when
       const hasUncheckedHasSeenEndTestScreen = controller.hasUncheckedHasSeenEndTestScreen;
