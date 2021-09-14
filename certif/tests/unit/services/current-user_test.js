@@ -13,20 +13,25 @@ module('Unit | Service | current-user', function(hooks) {
 
     test('should load the current certification point of contact', async function(assert) {
       // given
-      const originalStore = this.owner.lookup('service:store');
-      const certificationPointOfContact = run(() => originalStore.createRecord('certification-point-of-contact', {
-        id: 123,
-        allowedCertificationCenterAccesses: [],
+      const store = this.owner.lookup('service:store');
+      const allowedCertificationCenterAccesseA = run(() => store.createRecord('allowed-certification-center-access', {
+        id: 789,
       }));
-      class StoreStub extends Service {
-        findRecord = () => resolve(certificationPointOfContact);
-      }
+      const allowedCertificationCenterAccesseB = run(() => store.createRecord('allowed-certification-center-access', {
+        id: 456,
+      }));
+      const certificationPointOfContact = run(() => store.createRecord('certification-point-of-contact', {
+        id: 124,
+        allowedCertificationCenterAccesses: [
+          allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB,
+        ],
+      }));
+      sinon.stub(store, 'findRecord').resolves(certificationPointOfContact);
+
       class SessionStub extends Service {
         isAuthenticated = true;
         data = { authenticated: { user_id: 123 } };
       }
-      this.owner.unregister('service:store');
-      this.owner.register('service:store', StoreStub);
       this.owner.register('service:session', SessionStub);
       const currentUser = this.owner.lookup('service:currentUser');
 
@@ -35,6 +40,7 @@ module('Unit | Service | current-user', function(hooks) {
 
       // then
       assert.equal(currentUser.certificationPointOfContact, certificationPointOfContact);
+      assert.equal(currentUser.currentAllowedCertificationCenterAccess, allowedCertificationCenterAccesseA);
     });
   });
 

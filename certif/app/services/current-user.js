@@ -13,7 +13,7 @@ export default class CurrentUserService extends Service {
     if (this.session.isAuthenticated) {
       try {
         this.certificationPointOfContact = await this.store.findRecord('certification-point-of-contact', this.session.data.authenticated.user_id);
-        this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact.hasMany('allowedCertificationCenterAccesses').value().objectAt(0);
+        this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact.hasMany('allowedCertificationCenterAccesses').value().firstObject;
       } catch (error) {
         this.certificationPointOfContact = null;
         this.currentAllowedCertificationCenterAccess = null;
