@@ -1,24 +1,25 @@
 const { expect } = require('../../../test-helper');
 const CampaignProfile = require('../../../../lib/domain/read-models/CampaignProfile');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
+
+const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Unit | Domain | Read-Models | CampaignProfile', function() {
   describe('#isCertifiable', function() {
     describe('when the  campaign participation is shared', function() {
       it('compute the number of certifiable competence', function() {
-        const params = { isShared: true };
         const placementProfile = { isCertifiable: () => true };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: SHARED, placementProfile });
 
         expect(campaignProfile.isCertifiable).to.equal(true);
       });
     });
     describe('when the campaign participation is not Shared', function() {
       it('does not give information about certification status', function() {
-        const params = { isShared: false };
         const placementProfile = { isCertifiable: () => true };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: TO_SHARE, placementProfile });
 
         expect(campaignProfile.isCertifiable).to.equal(null);
       });
@@ -28,10 +29,9 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
   describe('#certifiableCompetencesCount', function() {
     context('when the campaign participation is shared', function() {
       it('compute the number of certifiable competence', function() {
-        const params = { isShared: true };
         const placementProfile = { getCertifiableCompetencesCount: () => 2 };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: SHARED, placementProfile });
 
         expect(campaignProfile.certifiableCompetencesCount).to.equal(2);
       });
@@ -39,10 +39,9 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
 
     context('when the campaign participation is not shared', function() {
       it('does not compute the number of certifiable competences', function() {
-        const params = { isShared: false };
         const placementProfile = { getCertifiableCompetencesCount: () => 2 };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: TO_SHARE, placementProfile });
 
         expect(campaignProfile.certifiableCompetencesCount).to.equal(null);
       });
@@ -52,10 +51,9 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
   describe('#competencesCount', function() {
     context('when the campaign participation is shared', function() {
       it('compute the number of competence', function() {
-        const params = { isShared: true };
         const placementProfile = { getCompetencesCount: () => 3 };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: SHARED, placementProfile });
 
         expect(campaignProfile.competencesCount).to.equal(3);
       });
@@ -63,10 +61,9 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
 
     context('when the campaign participation is not shared', function() {
       it('does not compute the number of competence', function() {
-        const params = { isShared: false };
         const placementProfile = { getCompetencesCount: () => 2 };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: TO_SHARE, placementProfile });
 
         expect(campaignProfile.competencesCount).to.equal(null);
       });
@@ -76,7 +73,6 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
   describe('#competences', function() {
     context('when the campaign participation is shared', function() {
       it('returns user competences', function() {
-        const params = { isShared: true };
         const competence = {
           id: 1,
           name: 'competence1',
@@ -87,7 +83,7 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
         };
         const placementProfile = { userCompetences: [competence] };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: SHARED, placementProfile });
 
         expect(campaignProfile.competences).to.deep.equal([{
           id: 1,
@@ -102,10 +98,9 @@ describe('Unit | Domain | Read-Models | CampaignProfile', function() {
 
     context('when the campaign participation is not shared', function() {
       it('does not compute the number of competence', function() {
-        const params = { isShared: false };
         const placementProfile = { userCompetences: [{ name: 'competence1' }] };
 
-        const campaignProfile = new CampaignProfile({ ...params, placementProfile });
+        const campaignProfile = new CampaignProfile({ status: TO_SHARE, placementProfile });
 
         expect(campaignProfile.competences).to.be.empty;
       });
