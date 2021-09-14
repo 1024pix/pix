@@ -20,11 +20,12 @@ export default class ResumeRoute extends Route {
       return this._routeToResults(assessment);
     }
     const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
+    const assessmentHasNoMoreQuestions = nextChallenge == null;
 
     if (assessment.hasCheckpoints) {
-      return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
+      return this._resumeAssessmentWithCheckpoint(assessment, assessmentHasNoMoreQuestions);
     } else {
-      return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
+      return this._resumeAssessmentWithoutCheckpoint(assessment, assessmentHasNoMoreQuestions);
     }
   }
 
@@ -34,11 +35,10 @@ export default class ResumeRoute extends Route {
     return originRoute._router.currentRouteName !== 'assessments.challenge';
   }
 
-  _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
+  _resumeAssessmentWithoutCheckpoint(assessment, assessmentHasNoMoreQuestions) {
     const {
-      assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
-    } = this._parseState(assessment, nextChallenge);
+    } = this._parseState(assessment);
 
     if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
       return this._rateAssessment(assessment);
@@ -46,13 +46,12 @@ export default class ResumeRoute extends Route {
     return this._routeToNextChallenge(assessment);
   }
 
-  _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
+  _resumeAssessmentWithCheckpoint(assessment, assessmentHasNoMoreQuestions) {
     const {
-      assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint,
-    } = this._parseState(assessment, nextChallenge);
+    } = this._parseState(assessment);
 
     if (assessmentIsCompleted) {
       return this._rateAssessment(assessment);
@@ -72,8 +71,7 @@ export default class ResumeRoute extends Route {
     return this._routeToNextChallenge(assessment);
   }
 
-  _parseState(assessment, nextChallenge) {
-    const assessmentHasNoMoreQuestions = !nextChallenge;
+  _parseState(assessment) {
     const userHasSeenCheckpoint = this.hasSeenCheckpoint;
 
     const quantityOfAnswersInAssessment = assessment.get('answers.length');
@@ -82,10 +80,8 @@ export default class ResumeRoute extends Route {
     const assessmentIsCompleted = assessment.isCompleted;
 
     return {
-      assessmentHasNoMoreQuestions,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint,
-      nextChallenge,
       assessmentIsCompleted,
     };
   }
