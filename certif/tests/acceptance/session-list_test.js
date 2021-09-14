@@ -48,6 +48,20 @@ module('Acceptance | Session List', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
     });
 
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit('/sessions/liste');
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
+    });
+
     test('it should be accessible', async function(assert) {
       // when
       await visit('/sessions/liste');

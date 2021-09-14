@@ -16,7 +16,8 @@ export default class AuthenticatedController extends Controller {
     const isOnFinalizationPage = this.router.currentRouteName === 'authenticated.sessions.finalize';
     return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents
       && this.isBannerVisible
-      && !isOnFinalizationPage;
+      && !isOnFinalizationPage
+      && !this.currentUser.currentAllowedCertificationCenterAccess.isAccessRestricted;
   }
 
   get documentationLink() {
@@ -24,6 +25,10 @@ export default class AuthenticatedController extends Controller {
       return LINK_SCO;
     }
     return LINK_OTHER;
+  }
+
+  get showLinkToSessions() {
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isAccessRestricted;
   }
 
   @action

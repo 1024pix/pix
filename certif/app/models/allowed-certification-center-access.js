@@ -16,4 +16,8 @@ export default class AllowedCertificationCenterAccess extends Model {
   get isScoManagingStudents() {
     return this.type === 'SCO' && this.isRelatedToManagingStudentsOrganization;
   }
+
+  get isAccessRestricted() {
+    return this.isAccessBlockedCollege || this.isAccessBlockedLycee;
+  }
 }

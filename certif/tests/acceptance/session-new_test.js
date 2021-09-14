@@ -38,6 +38,20 @@ module('Acceptance | Session creation', function(hooks) {
       await authenticateSession(certificationPointOfContact.id);
     });
 
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit('/sessions/creation');
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
+    });
+
     test('it should create a session and redirect to session details', async function(assert) {
       // given
       const sessionDate = '2029-12-25';

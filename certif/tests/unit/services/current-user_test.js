@@ -3,6 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { reject, resolve } from 'rsvp';
 import { run } from '@ember/runloop';
 import Service from '@ember/service';
+import sinon from 'sinon';
 
 module('Unit | Service | current-user', function(hooks) {
 
@@ -78,6 +79,54 @@ module('Unit | Service | current-user', function(hooks) {
 
       // Then
       assert.equal(result, 'invalidate');
+    });
+  });
+
+  module('#checkRestrictedAccess', function() {
+
+    test('should redirect to restricted access route when current certification center has restricted access', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: true,
+      }));
+      const replaceWithStub = sinon.stub();
+      class RouterStub extends Service {
+        replaceWith = replaceWithStub;
+      }
+      this.owner.register('service:router', RouterStub);
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+
+      // when
+      currentUser.checkRestrictedAccess();
+
+      // then
+      sinon.assert.calledWithExactly(replaceWithStub, 'authenticated.restricted-access');
+      assert.true(true);
+    });
+
+    test('should not redirect to restricted access route when current certification center has no restricted access', async function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      }));
+      const replaceWithStub = sinon.stub();
+      class RouterStub extends Service {
+        replaceWith = replaceWithStub;
+      }
+      this.owner.register('service:router', RouterStub);
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+
+      // when
+      currentUser.checkRestrictedAccess();
+
+      // then
+      sinon.assert.notCalled(replaceWithStub);
+      assert.true(true);
     });
   });
 });

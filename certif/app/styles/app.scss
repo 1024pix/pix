@@ -2,9 +2,7 @@
 
 @import "ember-modal-dialog/ember-modal-structure";
 @import "ember-modal-dialog/ember-modal-appearance";
-
 @import 'colors';
-
 @import "globals/breakpoints";
 @import "globals/errors";
 @import "globals/fonts";
@@ -15,9 +13,9 @@
 @import "globals/tables";
 @import "globals/texts";
 @import "globals/titles";
-
 @import "pages/login";
 @import "pages/authenticated";
+@import "pages/authenticated/restricted-access";
 @import "pages/authenticated/sessions";
 @import "pages/authenticated/sessions/add-student";
 @import "pages/authenticated/sessions/details";
@@ -25,8 +23,7 @@
 @import "pages/authenticated/sessions/no-session-panel";
 @import "pages/authenticated/sessions/details/certification-candidates";
 @import "pages/authenticated/sessions/details/certification-candidates-sco";
-@import "pages/authenticated/terms-of-service";
-
+@import "pages/terms-of-service";
 @import "components/add-student-list";
 @import "components/certif-checkbox";
 @import "components/ember-cli-notifications-ie-fallback";

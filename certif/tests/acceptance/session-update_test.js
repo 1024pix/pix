@@ -26,6 +26,21 @@ module('Acceptance | Session Update', function(hooks) {
     await authenticateSession(certificationPointOfContact.id);
   });
 
+  module('when current certification center is blocked', function() {
+
+    test('should redirect to espace-ferme URL', async function(assert) {
+      // given
+      const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
+      allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+      // when
+      await visit(`/sessions/${session.id}/modification`);
+
+      // then
+      assert.equal(currentURL(), '/espace-ferme');
+    });
+  });
+
   test('it should fill the updating form with the current values of the session', async function(assert) {
     // given
     const session = server.create('session');

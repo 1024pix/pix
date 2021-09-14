@@ -61,6 +61,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         id: 123,
         name: 'Sunnydale',
         type: 'NOT_SCO',
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -88,6 +90,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -115,6 +119,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -142,6 +148,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         name: 'Sunnydale',
         type: 'SCO',
         isRelatedToManagingStudentsOrganization: true,
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -159,6 +167,51 @@ module('Unit | Controller | authenticated', function(hooks) {
 
       // then
       assert.true(showBanner);
+    });
+  });
+
+  module('#get showLinkToSessions', function() {
+
+    test('should return false when certif center is blocked', function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        isAccessBlockedCollege: true,
+        isAccessBlockedLycee: false,
+      }));
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const controller = this.owner.lookup('controller:authenticated');
+
+      // when
+      const showLinkToSessions = controller.showLinkToSessions;
+
+      // then
+      assert.false(showLinkToSessions);
+    });
+
+    test('should return true when certif center is not blocked', function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
+        id: 123,
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      }));
+      class CurrentUserStub extends Service {
+        currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+      }
+      this.owner.register('service:current-user', CurrentUserStub);
+      const controller = this.owner.lookup('controller:authenticated');
+
+      // when
+      const showLinkToSessions = controller.showLinkToSessions;
+
+      // then
+      assert.true(showLinkToSessions);
     });
   });
 });
