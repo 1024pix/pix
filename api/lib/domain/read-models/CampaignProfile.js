@@ -1,4 +1,7 @@
 const CampaignProfileCompetence = require('./CampaignProfileCompetence');
+const CampaignParticipation = require('../models/CampaignParticipation');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignProfile {
 
@@ -10,7 +13,7 @@ class CampaignProfile {
     campaignId,
     participantExternalId,
     sharedAt,
-    isShared,
+    status,
     createdAt,
     pixScore,
 
@@ -21,7 +24,7 @@ class CampaignProfile {
     this.campaignId = campaignId;
     this.externalId = participantExternalId;
     this.sharedAt = sharedAt;
-    this.isShared = isShared;
+    this.isShared = status === SHARED;
     this.createdAt = createdAt;
     this.placementProfile = placementProfile;
     this.pixScore = pixScore;
