@@ -10,17 +10,30 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
       sinon.stub(usecases, 'getCertificationPointOfContact');
     });
 
-    it('should return a serialized CertificationReferent', async function() {
+    it('should return a serialized CertificationPointOfContact', async function() {
       // given
-      const userId = 123;
-      const certificationCenter = { id: 1, name: 'Serre tiff', type: 'SCO', externalId: 'externalId', isRelatedOrganizationManagingStudents: false };
-      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({ certificationCenters: [certificationCenter] });
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        id: 123,
+        name: 'Sunnydale Center',
+        externalId: 'BUFFY_SLAYER',
+        type: 'PRO',
+        isRelatedToManagingStudentsOrganization: false,
+        relatedOrganizationTags: [],
+      });
+      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+        id: 789,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'buffy.summers@example.net',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+      });
       const request = {
         auth: {
-          credentials: { userId },
+          credentials: { userId: 123 },
         },
       };
-      usecases.getCertificationPointOfContact.withArgs({ userId }).resolves(certificationPointOfContact);
+      usecases.getCertificationPointOfContact.withArgs({ userId: 123 }).resolves(certificationPointOfContact);
 
       // when
       const response = await certificationPointOfContactController.get(request, hFake);
@@ -28,21 +41,20 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
       // then
       expect(response).to.deep.equal({
         data: {
-          type: 'certification-point-of-contacts',
-          id: certificationPointOfContact.id.toString(),
+          'id': '789',
+          'type': 'certification-point-of-contact',
           attributes: {
-            'first-name': certificationPointOfContact.firstName,
-            'last-name': certificationPointOfContact.lastName,
-            email: certificationPointOfContact.email,
-            'pix-certif-terms-of-service-accepted': certificationPointOfContact.pixCertifTermsOfServiceAccepted,
-            'current-certification-center-id': certificationPointOfContact.currentCertificationCenterId,
+            'first-name': 'Buffy',
+            'last-name': 'Summers',
+            email: 'buffy.summers@example.net',
+            'pix-certif-terms-of-service-accepted': true,
           },
           relationships: {
-            'certification-centers': {
+            'allowed-certification-center-accesses': {
               data: [
                 {
-                  type: 'certificationCenters',
-                  id: certificationCenter.id.toString(),
+                  id: '123',
+                  type: 'allowed-certification-center-access',
                 },
               ],
             },
@@ -50,13 +62,16 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
         },
         included: [
           {
-            type: 'certificationCenters',
-            id: certificationCenter.id.toString(),
+            id: '123',
+            type: 'allowed-certification-center-access',
             attributes: {
-              name: certificationCenter.name,
-              type: certificationCenter.type,
-              'external-id': certificationCenter.externalId,
-              'is-related-organization-managing-students': certificationCenter.isRelatedOrganizationManagingStudents,
+              'name': 'Sunnydale Center',
+              'external-id': 'BUFFY_SLAYER',
+              'type': 'PRO',
+              'is-access-blocked-college': false,
+              'is-access-blocked-lycee': false,
+              'is-related-to-managing-students-organization': false,
+              'related-organization-tags': [],
             },
           },
         ],
