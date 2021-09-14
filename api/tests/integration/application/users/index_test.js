@@ -308,7 +308,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return ', async function() {
+    it('should return 200 when challengeType is valid', async function() {
       // given
       const url = '/api/users/1/has-seen-challenge-tooltip/other';
 
