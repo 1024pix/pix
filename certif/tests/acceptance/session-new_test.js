@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import { setFlatpickrDate } from 'ember-flatpickr/test-support/helpers';
@@ -20,12 +20,22 @@ module('Acceptance | Session creation', function(hooks) {
   });
 
   module('when the user is authenticated', (hooks) => {
-    let user;
 
-    hooks.beforeEach(async () => {
-      user = createCertificationPointOfContactWithTermsOfServiceAccepted();
+    let allowedCertificationCenterAccess;
+    let certificationPointOfContact;
 
-      await authenticateSession(user.id);
+    hooks.beforeEach(async function() {
+      allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      });
+      certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+      });
+      await authenticateSession(certificationPointOfContact.id);
     });
 
     test('it should create a session and redirect to session details', async function(assert) {

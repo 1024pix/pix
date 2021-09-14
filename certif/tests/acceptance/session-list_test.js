@@ -2,9 +2,8 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createCertificationPointOfContactWithTermsOfServiceAccepted,
   createCertificationPointOfContactWithCustomCenters,
-  createCertificationCenter,
+  createAllowedCertificationCenterAccess,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -30,11 +29,21 @@ module('Acceptance | Session List', function(hooks) {
   });
 
   module('When certificationPointOfContact is authenticated', function(hooks) {
-    let certificationCenterId;
+
+    let allowedCertificationCenterAccess;
 
     hooks.beforeEach(async function() {
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      certificationCenterId = certificationPointOfContact.currentCertificationCenterId;
+      allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 123,
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      });
+      certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+      });
 
       await authenticateSession(certificationPointOfContact.id);
     });
@@ -59,7 +68,7 @@ module('Acceptance | Session List', function(hooks) {
 
       test('it should list the sessions', async function(assert) {
         // given
-        server.createList('session-summary', 5, { certificationCenterId, date: '2019-01-01' });
+        server.createList('session-summary', 5, { certificationCenterId: 123, date: '2019-01-01' });
 
         // when
         await visit('/sessions/liste');
@@ -70,8 +79,8 @@ module('Acceptance | Session List', function(hooks) {
 
       test('it should redirect to detail page of clicked session-summary', async function(assert) {
         // given
-        server.create('session-summary', { id: 123, address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
-        server.create('session', { id: 123, address: 'Adresse', certificationCenterId, date: '2020-01-01', time: '14:00' });
+        server.create('session-summary', { id: 123, address: 'Adresse', certificationCenterId: 123, date: '2020-01-01', time: '14:00' });
+        server.create('session', { id: 123, address: 'Adresse', certificationCenterId: 123, date: '2020-01-01', time: '14:00' });
         await visit('/sessions/liste');
 
         // when
@@ -83,13 +92,12 @@ module('Acceptance | Session List', function(hooks) {
 
       test('it should update message display when selected certif center changes', async function(assert) {
         // given
-        const centerManagingStudents = createCertificationCenter({ certificationCenterName: 'Centre SCO isM', certificationCenterType: 'SCO', isRelatedOrganizationManagingStudents: true });
-        const centerNotManagingStudents = createCertificationCenter({ certificationCenterName: 'Centre SCO isNotM', certificationCenterType: 'SCO', isRelatedOrganizationManagingStudents: false });
+        const centerManagingStudents = createAllowedCertificationCenterAccess({ certificationCenterName: 'Centre SCO isM', certificationCenterType: 'SCO', isRelatedOrganizationManagingStudents: true });
+        const centerNotManagingStudents = createAllowedCertificationCenterAccess({ certificationCenterName: 'Centre SCO isNotM', certificationCenterType: 'SCO', isRelatedOrganizationManagingStudents: false });
         certificationPointOfContact = createCertificationPointOfContactWithCustomCenters({
           pixCertifTermsOfServiceAccepted: true,
-          certificationCenters: [centerNotManagingStudents, centerManagingStudents],
+          allowedCertificationCenterAccesses: [centerNotManagingStudents, centerManagingStudents],
         });
-        certificationCenterId = certificationPointOfContact.certificationCenterId;
         await authenticateSession(certificationPointOfContact.id);
         server.create('session-summary', { certificationCenterId: centerManagingStudents.id });
 

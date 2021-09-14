@@ -7,45 +7,41 @@ QUnit.assert.contains = contains;
 QUnit.assert.notContains = notContains;
 
 export function createCertificationPointOfContact(pixCertifTermsOfServiceAccepted = false, certificationCenterType, certificationCenterName = 'Centre de certification du pix', isRelatedOrganizationManagingStudents = false, certificationCenterCount = 1) {
-  const certificationCenters = _createCertificationCenters(certificationCenterCount, { certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
-  return createCertificationPointOfContactWithCustomCenters({ pixCertifTermsOfServiceAccepted, certificationCenters });
+  const allowedCertificationCenterAccesses = _createCertificationCenters(certificationCenterCount, { certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents });
+  return createCertificationPointOfContactWithCustomCenters({ pixCertifTermsOfServiceAccepted, allowedCertificationCenterAccesses });
 }
 
 export function createCertificationPointOfContactWithCustomCenters({
   pixCertifTermsOfServiceAccepted = false,
-  certificationCenters = [],
+  allowedCertificationCenterAccesses = [],
 }) {
-  const certificationPointOfContact = server.create('certification-point-of-contact', {
+  return server.create('certification-point-of-contact', {
     firstName: 'Harry',
     lastName: 'Cover',
     email: 'harry@cover.com',
     pixCertifTermsOfServiceAccepted,
-    certificationCenters,
-    currentCertificationCenterId: parseInt(certificationCenters[0].id),
+    allowedCertificationCenterAccesses,
   });
-  certificationPointOfContact.save();
-
-  return certificationPointOfContact;
 }
 
 function _createCertificationCenters(certificationCenterCount, certificationCenterTemplate) {
   const certificationCenters = [];
   times(certificationCenterCount, () => {
-    const certificationCenter = createCertificationCenter(certificationCenterTemplate);
+    const certificationCenter = createAllowedCertificationCenterAccess(certificationCenterTemplate);
     certificationCenters.push(certificationCenter);
   });
   return certificationCenters;
 }
 
-export function createCertificationCenter({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
-  const certificationCenter = server.create('certification-center', {
+export function createAllowedCertificationCenterAccess({ certificationCenterName, certificationCenterType, isRelatedOrganizationManagingStudents }) {
+  return server.create('allowed-certification-center-access', {
     name: certificationCenterName,
     type: certificationCenterType,
     externalId: 'ABC123',
-    isRelatedOrganizationManagingStudents,
+    isRelatedToManagingStudentsOrganization: isRelatedOrganizationManagingStudents,
+    isAccessBlockedCollege: false,
+    isAccessBlockedLycee: false,
   });
-  certificationCenter.save();
-  return certificationCenter;
 }
 
 export function createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted() {
@@ -58,10 +54,6 @@ export function createCertificationPointOfContactWithTermsOfServiceAccepted(cert
 
 export function createCertificationPointOfContactWithTermsOfServiceNotAccepted() {
   return createCertificationPointOfContact(false);
-}
-
-export function createCertificationPointOfContactWithTermsOfServiceAcceptedWithMultipleCertificationCenters(certificationCenterCount) {
-  return createCertificationPointOfContact(true, 'SUP', 'Centre de certification SUP du pix', false, certificationCenterCount);
 }
 
 export function authenticateSession(userId) {

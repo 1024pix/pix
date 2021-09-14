@@ -7,7 +7,7 @@ export default class SessionsNewRoute extends Route {
   @service currentUser;
 
   model() {
-    return this.store.createRecord('session', { certificationCenterId: this.currentUser.certificationPointOfContact.currentCertificationCenterId });
+    return this.store.createRecord('session', { certificationCenterId: parseInt(this.currentUser.currentAllowedCertificationCenterAccess.id) });
   }
 
   deactivate() {

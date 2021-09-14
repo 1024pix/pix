@@ -14,18 +14,21 @@ export default class AuthenticatedController extends Controller {
 
   get showBanner() {
     const isOnFinalizationPage = this.router.currentRouteName === 'authenticated.sessions.finalize';
-    return this.currentUser.currentCertificationCenter.isScoManagingStudents && this.isBannerVisible && !isOnFinalizationPage;
+    return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents
+      && this.isBannerVisible
+      && !isOnFinalizationPage;
   }
 
   get documentationLink() {
-    if (this.currentUser.currentCertificationCenter.isScoManagingStudents) {
+    if (this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents) {
       return LINK_SCO;
     }
     return LINK_OTHER;
   }
 
   @action
-  async closeBanner() {
-    this.isBannerVisible = false;
+  async changeCurrentCertificationCenterAccess(certificationCenterAccess) {
+    this.currentUser.currentAllowedCertificationCenterAccess = certificationCenterAccess;
+    this.router.replaceWith('authenticated');
   }
 }
