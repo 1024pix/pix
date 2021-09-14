@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { reject, resolve } from 'rsvp';
-import { run } from '@ember/runloop';
+import { resolve } from 'rsvp';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
@@ -14,18 +13,18 @@ module('Unit | Service | current-user', function(hooks) {
     test('should load the current certification point of contact', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const allowedCertificationCenterAccesseA = run(() => store.createRecord('allowed-certification-center-access', {
+      const allowedCertificationCenterAccesseA = store.createRecord('allowed-certification-center-access', {
         id: 789,
-      }));
-      const allowedCertificationCenterAccesseB = run(() => store.createRecord('allowed-certification-center-access', {
+      });
+      const allowedCertificationCenterAccesseB = store.createRecord('allowed-certification-center-access', {
         id: 456,
-      }));
-      const certificationPointOfContact = run(() => store.createRecord('certification-point-of-contact', {
+      });
+      const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
         id: 124,
         allowedCertificationCenterAccesses: [
           allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB,
         ],
-      }));
+      });
       sinon.stub(store, 'findRecord').resolves(certificationPointOfContact);
 
       class SessionStub extends Service {
@@ -67,16 +66,14 @@ module('Unit | Service | current-user', function(hooks) {
     test('should redirect to login', async function(assert) {
       // Given
 
-      class StoreStub extends Service {
-        findRecord = () => reject({ errors: [{ code: 401 }] });
-      }
+      const store = this.owner.lookup('service:store');
+      sinon.stub(store, 'findRecord').rejects({ errors: [{ code: 401 }] });
+
       class SessionStub extends Service {
         isAuthenticated = true;
         data = { authenticated: { user_id: 123 } };
         invalidate = () => resolve('invalidate');
       }
-      this.owner.unregister('service:store');
-      this.owner.register('service:store', StoreStub);
       this.owner.register('service:session', SessionStub);
       const currentUser = this.owner.lookup('service:currentUser');
 
@@ -93,9 +90,9 @@ module('Unit | Service | current-user', function(hooks) {
     test('should redirect to restricted access route when current certification center has restricted access', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: true,
-      }));
+      });
       const replaceWithStub = sinon.stub();
       class RouterStub extends Service {
         replaceWith = replaceWithStub;
@@ -115,10 +112,10 @@ module('Unit | Service | current-user', function(hooks) {
     test('should not redirect to restricted access route when current certification center has no restricted access', async function(assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const currentAllowedCertificationCenterAccess = run(() => store.createRecord('allowed-certification-center-access', {
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
-      }));
+      });
       const replaceWithStub = sinon.stub();
       class RouterStub extends Service {
         replaceWith = replaceWithStub;
