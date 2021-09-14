@@ -1,8 +1,13 @@
 // Usage: node compute-participation-results.js
 /* eslint-disable no-restricted-syntax */
+require('dotenv').config({ path: `${__dirname}/../../.env` });
+
 const knowlegeElementSnapshotRepository = require('../../lib/infrastructure/repositories/knowledge-element-snapshot-repository');
 const skillDatasource = require('../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const ParticipantResultsShared = require('../../lib/domain/models/ParticipantResultsShared');
+const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 const { knex } = require('../../db/knex-database-connection');
 const _ = require('lodash');
@@ -18,7 +23,7 @@ async function computeParticipantResultsShared(concurrency = 1, log = true) {
     .distinct('campaigns.id')
     .select('campaigns.id')
     .join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')
-    .where({ isShared: true, pixScore: null });
+    .where({ status: SHARED, pixScore: null });
   count = 0;
   total = campaigns.length;
   _log(`Campagnes à traiter ${total}`);
@@ -55,7 +60,7 @@ async function _getCampaignParticipationChunks(campaign) {
     .where({
       campaignId: campaign.id,
       pixScore: null,
-      isShared: true,
+      status: SHARED,
     });
 
   return _.chunk(campaignParticipations, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
