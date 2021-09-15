@@ -35,6 +35,7 @@
       <PixButton
         class="user-account-update-email-with-validation-actions__confirm-button"
         @type="submit"
+        @isDisabled={{not this.isFormValid}}
       >
         {{t 'pages.user-account.account-update-email-with-validation.save-button'}}
       </PixButton>
