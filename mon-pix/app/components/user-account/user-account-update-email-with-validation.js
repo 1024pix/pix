@@ -4,10 +4,13 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
 import isEmpty from 'lodash/isEmpty';
+import get from 'lodash/get';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   invalidEmail: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-email',
   emptyPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.empty-password',
+  emailAlreadyExist: 'pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist',
+  invalidPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-password',
 };
 
 export default class UserAccountUpdateEmailWithValidation extends Component {
@@ -17,6 +20,7 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
   @tracked password = '';
   @tracked newEmailValidationMessage = null;
   @tracked passwordValidationMessage = null;
+  @tracked errorMessage = null;
 
   get isFormValid() {
     return isEmailValid(this.newEmail) && !isEmpty(this.password);
@@ -49,6 +53,8 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
   @action
   async onSubmit(event) {
     event && event.preventDefault();
+    this.errorMessage = null;
+
     if (this.isFormValid) {
       try {
         await this.args.sendVerificationCode({
@@ -56,7 +62,22 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
           password: this.password,
         });
       } catch (response) {
-        console.log(response);
+        const status = get(response, 'errors[0].status');
+        if (status === '422') {
+          const pointer = get(response, 'errors[0].source.pointer');
+          if (pointer.endsWith('email')) {
+            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
+          }
+          if (pointer.endsWith('password')) {
+            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
+          }
+        } else if (status === '400') {
+          const code = get(response, 'errors[0].code');
+          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
+          if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
+            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
+          }
+        }
       }
     }
   }
