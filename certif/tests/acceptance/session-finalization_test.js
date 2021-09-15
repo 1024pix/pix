@@ -145,7 +145,8 @@ module('Acceptance | Session Finalization', function(hooks) {
 
         test('it should not display end test screen warning', async function(assert) {
           // given
-          const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: 'technical' });
+          const certificationReport = server.create('certification-report', { hasSeenEndTestScreen: false, isCompleted: false, abortReason: 'technical' });
+          server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
 
           session.update({ certificationReports: [certificationReport] });
 
