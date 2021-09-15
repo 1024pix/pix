@@ -82,4 +82,27 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       });
     });
   });
+
+  context('when the user submit new email and password', function() {
+
+    it('should call send verification code method', async function() {
+      // given
+      const newEmail = 'newEmail@example.net';
+      const password = 'password';
+
+      const sendVerificationCode = sinon.stub();
+      this.set('sendVerificationCode', sendVerificationCode);
+
+      await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation @sendVerificationCode={{this.sendVerificationCode}} />`);
+
+      // when
+      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
+      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await triggerEvent('#password', 'focusout');
+      await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
+
+      // then
+      sinon.assert.calledWith(sendVerificationCode, { newEmail, password });
+    });
+  });
 });

@@ -18,6 +18,10 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
   @tracked newEmailValidationMessage = null;
   @tracked passwordValidationMessage = null;
 
+  get isFormValid() {
+    return isEmailValid(this.newEmail) && !isEmpty(this.password);
+  }
+
   @action
   validateNewEmail(event) {
     this.newEmail = event.target.value;
@@ -31,13 +35,29 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
   }
 
   @action
-  validatePassword() {
+  validatePassword(event) {
+    this.password = event.target.value;
     const isInvalidInput = isEmpty(this.password);
 
     this.passwordValidationMessage = null;
 
     if (isInvalidInput) {
       this.passwordValidationMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
+    }
+  }
+
+  @action
+  async onSubmit(event) {
+    event && event.preventDefault();
+    if (this.isFormValid) {
+      try {
+        await this.args.sendVerificationCode({
+          newEmail: this.newEmail,
+          password: this.password,
+        });
+      } catch (response) {
+        console.log(response);
+      }
     }
   }
 }
