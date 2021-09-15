@@ -79,49 +79,6 @@ describe('Unit | Domain | Errors', function() {
     expect(errors.SessionNotAccessible).to.exist;
   });
 
-  describe('#SameNationalStudentIdInOrganizationError', function() {
-
-    context('When errorDetail is provided', function() {
-
-      it('should return a message with given nationalStudentId', function() {
-        // given
-        const expectedErrorMessage = 'The INE 123INE456 is already in use for this organization.';
-        const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
-
-        // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError(errorMessage);
-
-        // then
-        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
-      });
-
-      it('should set a nationalStudentId property', function() {
-        // given
-        const errorMessage = 'Key ("organizationId", "nationalStudentId")=(ORGAID, 123INE456) already exists.';
-
-        // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError(errorMessage);
-
-        // then
-        expect(sameNationalStudentIdInOrganizationError.nationalStudentId).to.equal('123INE456');
-      });
-    });
-
-    context('When errorDetail is not provided', function() {
-
-      it('should return a generic message', function() {
-        // given
-        const expectedErrorMessage = 'INE already in use for this organization.';
-
-        // when
-        const sameNationalStudentIdInOrganizationError = new errors.SameNationalStudentIdInOrganizationError();
-
-        // then
-        expect(sameNationalStudentIdInOrganizationError.message).to.equal(expectedErrorMessage);
-      });
-    });
-  });
-
   describe('#UserNotFoundError', function() {
     it('should export a UserNotFoundError', function() {
       expect(errors.UserNotFoundError).to.exist;
