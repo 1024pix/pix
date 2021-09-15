@@ -31,9 +31,7 @@ module.exports = {
 
   async findPaginatedSessionSummaries(request) {
     const certificationCenterId = request.params.id;
-    // As route is authenticated, token always contains an userId, so parseInt in useless
-    // eslint-disable-next-line no-restricted-syntax
-    const userId = parseInt(request.auth.credentials.userId);
+    const userId = request.auth.credentials.userId;
     const options = queryParamsUtils.extractParameters(request.query);
 
     const { models: sessionSummaries, meta } = await usecases.findPaginatedCertificationCenterSessionSummaries({
