@@ -31,6 +31,11 @@
         autocomplete="off"
       />
     </div>
+    {{#if this.errorMessage}}
+      <PixMessage @type='alert' class="user-account-update-email-with-validation__error-message">
+        {{this.errorMessage}}
+      </PixMessage>
+    {{/if}}
     <div class="user-account-update-email-with-validation__confirm-button">
       <PixButton
         class="user-account-update-email-with-validation-actions__confirm-button"

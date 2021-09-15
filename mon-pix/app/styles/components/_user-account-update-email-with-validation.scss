@@ -47,7 +47,7 @@
 
   &__password-input {
     @include device-is('desktop') {
-      padding-bottom: 40px;
+      padding-bottom: 20px;
     }
 
     .pix-input-password > svg {
@@ -77,12 +77,19 @@
     }
   }
 
+  &__error-message {
+    @include device-is('tablet') {
+      max-width: 520px;
+      margin-bottom: 10px;
+    }
+  }
+
   &__confirm-button {
     display: flex;
     padding-top: 10px;
 
     @include device-is('tablet') {
-      padding-top: 0;
+      padding-top: 20px;
     }
   }
 }

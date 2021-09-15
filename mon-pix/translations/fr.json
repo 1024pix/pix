@@ -1323,7 +1323,9 @@
         "fields": {
           "errors": {
             "empty-password": "Votre mot de passe ne peut pas être vide.",
-            "invalid-email": "Votre adresse e-mail n’est pas valide."
+            "invalid-email": "Votre adresse e-mail n’est pas valide.",
+            "new-email-already-exist": "Cette adresse e-mail est déjà utilisée.",
+            "invalid-password": "Le mot de passe que vous avez saisi est invalide."
           },
           "new-email": {
             "label": "Nouvelle adresse e-mail"
