@@ -26,6 +26,13 @@ export default class ChallengeRoute extends Route {
       }
     }
 
+    if (!challenge) {
+      return RSVP.hash({
+        assessment,
+        challenge,
+      });
+    }
+
     return RSVP.hash({
       assessment,
       challenge,
@@ -37,7 +44,12 @@ export default class ChallengeRoute extends Route {
         return this.transitionTo('index');
       }
     });
+  }
 
+  async redirect(model) {
+    if (!model.challenge) {
+      return this.replaceWith('assessments.resume', model.assessment.id, { queryParams: { assessmentHasNoMoreQuestions: true } });
+    }
   }
 
   serialize(model) {
