@@ -50,7 +50,7 @@ function buildLogBody({ event, eventHandlerName, error, duration }) {
       event_handler_name: eventHandlerName,
       event_error: error?.message ?
         error.message + ' (see dedicated log for more information)'
-        : '-',
+        : undefined,
       event_handling_duration: duration,
     },
   };
