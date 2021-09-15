@@ -5,7 +5,6 @@ import { render, click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
-import { t } from 'ember-intl/test-support';
 
 module('Integration | Component | Campaign::Results::AssessmentList', function (hooks) {
   setupIntlRenderingTest(hooks);
@@ -78,9 +77,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       assert.notContains('Aucun participant');
       assert.contains('Doe');
       assert.contains('John');
-      assert.contains(
-        t('pages.campaign-results.table.column.results.value', { percentage: participations[0].masteryPercentage })
-      );
+      assert.contains('80 %');
     });
 
     test('it should display badge and tooltip', async function (assert) {

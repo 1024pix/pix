@@ -14,6 +14,6 @@ module('Integration | Component | Campaign::Cards::ResultAverage', function (hoo
     await render(hbs`<Campaign::Cards::ResultAverage @value={{averageResult}} />`);
 
     assert.contains(t('cards.participants-average-results.title'));
-    assert.contains(t('common.percentage', { value: this.averageResult }));
+    assert.contains('91 %');
   });
 });
