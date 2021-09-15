@@ -1,8 +1,9 @@
 const _ = require('lodash');
 
 class EventDispatcher {
-  constructor() {
+  constructor(logger) {
     this._subscriptions = [];
+    this._logger = logger;
   }
 
   subscribe(event, eventHandler) {
@@ -18,22 +19,57 @@ class EventDispatcher {
   }
 
   async dispatch(dispatchedEvent, domainTransaction) {
-    const subscriptions = this._subscriptions.filter(({ event }) => dispatchedEvent instanceof event);
 
-    for (const { eventHandler } of subscriptions) {
-      const returnedEventOrEvents = await eventHandler({ domainTransaction, event: dispatchedEvent });
-      await this._dispatchEventOrEvents(returnedEventOrEvents, domainTransaction);
+    const eventQueue = new EventQueue();
+    eventQueue.push(dispatchedEvent);
+
+    while (!eventQueue.isEmpty()) {
+      const eventToDispatch = eventQueue.shift();
+      const eventHandlers = this._findEventHandlersByEventType(eventToDispatch);
+
+      for (const eventHandler of eventHandlers) {
+        try {
+          const context = this._logger.onEventDispatchStarted(eventToDispatch, eventHandler.handlerName);
+          const resultingEventOrEvents = await eventHandler({ domainTransaction, event: eventToDispatch });
+          this._logger.onEventDispatchSuccess(eventToDispatch, eventHandler.handlerName, context);
+
+          eventQueue.push(resultingEventOrEvents);
+        } catch (error) {
+          this._logger.onEventDispatchFailure(eventToDispatch, eventHandler.handlerName, error);
+          throw error;
+        }
+      }
     }
   }
 
-  async _dispatchEventOrEvents(eventOrEvents, domainTransaction) {
-    if (!Array.isArray(eventOrEvents)) {
-      await this.dispatch(eventOrEvents, domainTransaction);
-    } else {
-      for (const event of eventOrEvents) {
-        await this.dispatch(event, domainTransaction);
+  _findEventHandlersByEventType(eventToDispatch) {
+    return this._subscriptions
+      .filter(({ event: subscribedEvent }) => eventToDispatch instanceof subscribedEvent)
+      .map((subscription) => subscription.eventHandler);
+  }
+}
+
+class EventQueue {
+  constructor() {
+    this.events = [];
+  }
+
+  push(eventOrEvents) {
+    if (eventOrEvents) {
+      if (!Array.isArray(eventOrEvents)) {
+        this.events.push(eventOrEvents);
+      } else {
+        this.events.push(...eventOrEvents);
       }
     }
+  }
+
+  shift() {
+    return this.events.shift();
+  }
+
+  isEmpty() {
+    return this.events.length <= 0;
   }
 }
 

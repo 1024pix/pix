@@ -67,6 +67,8 @@ module.exports = (function() {
       colorEnabled: false,
       logLevel: (process.env.LOG_LEVEL || 'info'),
       enableLogKnexQueries: isFeatureEnabled(process.env.LOG_KNEX_QUERIES),
+      enableLogStartingEventDispatch: isFeatureEnabled(process.env.LOG_STARTING_EVENT_DISPATCH),
+      enableLogEndingEventDispatch: isFeatureEnabled(process.env.LOG_ENDING_EVENT_DISPATCH),
       emitOpsEventEachSeconds: isFeatureEnabled(process.env.OPS_EVENT_EACH_SECONDS) || 15,
     },
 
@@ -260,6 +262,8 @@ module.exports = (function() {
 
     config.logging.enabled = false;
     config.logging.enableLogKnexQueries = false;
+    config.logging.enableLogStartingEventDispatch = false;
+    config.logging.enableLogEndingEventDispatch = false;
 
     config.caching.redisUrl = null;
     config.caching.redisCacheKeyLockTTL = 0;
