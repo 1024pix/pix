@@ -7,26 +7,25 @@ export default class ResumeRoute extends Route {
   campaignCode = null;
   newLevel = null;
   competenceLeveled = null;
+  assessmentHasNoMoreQuestions = false;
 
   beforeModel(transition) {
     this.hasSeenCheckpoint = transition.to.queryParams.hasSeenCheckpoint;
     this.campaignCode = transition.to.queryParams.campaignCode;
     this.newLevel = transition.to.queryParams.newLevel || null;
     this.competenceLeveled = transition.to.queryParams.competenceLeveled || null;
+    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions || false;
   }
 
   async redirect(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }
-    const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
-    const assessmentHasNoMoreQuestions = nextChallenge == null;
-
     if (assessment.hasCheckpoints) {
-      return this._resumeAssessmentWithCheckpoint(assessment, assessmentHasNoMoreQuestions);
-    } else {
-      return this._resumeAssessmentWithoutCheckpoint(assessment, assessmentHasNoMoreQuestions);
+      return this._resumeAssessmentWithCheckpoint(assessment);
     }
+
+    return this._resumeAssessmentWithoutCheckpoint(assessment);
   }
 
   @action
@@ -35,18 +34,18 @@ export default class ResumeRoute extends Route {
     return originRoute._router.currentRouteName !== 'assessments.challenge';
   }
 
-  _resumeAssessmentWithoutCheckpoint(assessment, assessmentHasNoMoreQuestions) {
+  _resumeAssessmentWithoutCheckpoint(assessment) {
     const {
       assessmentIsCompleted,
     } = this._parseState(assessment);
 
-    if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
+    if (this.assessmentHasNoMoreQuestions || assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
     return this._routeToNextChallenge(assessment);
   }
 
-  _resumeAssessmentWithCheckpoint(assessment, assessmentHasNoMoreQuestions) {
+  _resumeAssessmentWithCheckpoint(assessment) {
     const {
       assessmentIsCompleted,
       userHasSeenCheckpoint,
@@ -56,10 +55,10 @@ export default class ResumeRoute extends Route {
     if (assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
-    if (assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
+    if (this.assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
       return this._rateAssessment(assessment);
     }
-    if (assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
+    if (this.assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
       return this._routeToFinalCheckpoint(assessment);
     }
     if (userHasReachedCheckpoint && !userHasSeenCheckpoint) {

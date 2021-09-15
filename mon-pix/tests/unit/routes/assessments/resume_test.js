@@ -35,28 +35,6 @@ describe('Unit | Route | Assessments | Resume', function() {
       assessment.save = sinon.stub().resolves();
     });
 
-    it('should not query next challenge if assessment is completed', function() {
-      assessment.isCompleted = true;
-
-      route.redirect(assessment);
-
-      sinon.assert.notCalled(queryRecordStub);
-    });
-
-    it('should get the next challenge of the assessment', function() {
-      // given
-      queryRecordStub.resolves();
-
-      // when
-      const promise = route.redirect(assessment);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(queryRecordStub);
-        sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: 123 });
-      });
-    });
-
     context('when the next challenge exists', function() {
 
       let nextChallenge;
@@ -64,6 +42,7 @@ describe('Unit | Route | Assessments | Resume', function() {
       beforeEach(function() {
         nextChallenge = EmberObject.create({ id: 456 });
         queryRecordStub.resolves(nextChallenge);
+        route.assessmentHasNoMoreQuestions = false;
       });
 
       context('when assessment is a CAMPAIGN', function() {
@@ -153,6 +132,7 @@ describe('Unit | Route | Assessments | Resume', function() {
 
       beforeEach(function() {
         queryRecordStub.resolves(null);
+        route.assessmentHasNoMoreQuestions = true;
       });
 
       context('when assessment is a CAMPAIGN', function() {
