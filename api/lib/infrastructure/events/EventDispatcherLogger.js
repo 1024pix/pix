@@ -6,7 +6,7 @@ class EventDispatcherLogger {
   }
 
   onEventDispatchStarted(event, eventHandlerName) {
-    if (this._settings.logging.enableLogStartingEventDispatch) {
+    if (this._settings?.logging?.enableLogStartingEventDispatch) {
       this._monitoringTools.logInfoWithCorrelationIds({
         ...buildLogBody({ event, eventHandlerName }),
         message: 'EventDispatcher : Event dispatch started',
@@ -18,7 +18,7 @@ class EventDispatcherLogger {
   }
 
   onEventDispatchSuccess(event, eventHandlerName, loggingContext) {
-    if (this._settings.logging.enableLogEndingEventDispatch) {
+    if (this._settings?.logging?.enableLogEndingEventDispatch) {
       this._monitoringTools.logInfoWithCorrelationIds({
         ...buildLogBody({ event, eventHandlerName, duration: this._duration(loggingContext) }),
         message: 'EventDispatcher : Event dispatched successfully',
@@ -27,7 +27,7 @@ class EventDispatcherLogger {
   }
 
   onEventDispatchFailure(event, eventHandlerName, error) {
-    if (this._settings.logging.enableLogEndingEventDispatch) {
+    if (this._settings?.logging?.enableLogEndingEventDispatch) {
       this._monitoringTools.logInfoWithCorrelationIds({
         ...buildLogBody({ event, eventHandlerName, error }),
         message: 'EventDispatcher : An error occurred while dispatching the event',
