@@ -108,7 +108,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
         this.campaign = {};
 
         await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
-        assert.contains('/\u00a012');
+        assert.contains('/ 12');
       });
 
       test('it displays the total number of certifiable competence', async function (assert) {

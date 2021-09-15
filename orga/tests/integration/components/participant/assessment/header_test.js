@@ -43,7 +43,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
     await render(hbs`<Participant::Assessment::Header @participation={{participation}} @campaign={{campaign}} />`);
 
     assert.contains(t('pages.assessment-individual-results.progression'));
-    assert.contains(t('common.percentage', { value: this.participation.progression }));
+    assert.contains('75 %');
   });
 
   module('is shared', function () {
@@ -146,7 +146,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             hbs`<Participant::Assessment::Header @participation={{participation}} @campaign={{campaign}} />`
           );
 
-          assert.contains(t('common.percentage', { value: this.participation.masteryPercentage }));
+          assert.contains('65 %');
         });
       });
 

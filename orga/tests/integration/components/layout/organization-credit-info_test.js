@@ -23,44 +23,19 @@ module('Integration | Component | Layout::OrganizationCreditInfo', function (hoo
   test('should display organization credit info', async function (assert) {
     // when
     await render(hbs`<Layout::OrganizationCreditInfo />`);
-    const displayedCreditInfo = document.querySelector('.organization-credit-info').textContent;
 
     // then
-    assert.contains(displayedCreditInfo.trim());
-  });
-
-  test('should display credit number label', async function (assert) {
-    // when
-    await render(hbs`<Layout::OrganizationCreditInfo />`);
-    const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
-    const expectedCredit = '10 000 crédits';
-
-    // then
-    assert.contains(expectedCredit);
-    assert.equal(displayedCredit, expectedCredit);
+    assert.contains('10 000 crédits');
   });
 
   test('should display tooltip info', async function (assert) {
     // when
     await render(hbs`<Layout::OrganizationCreditInfo />`);
-    const displayedContentTooltip = document.querySelector('.pix-tooltip__content').textContent;
 
     // then
-    assert.contains(displayedContentTooltip.trim());
-  });
-
-  test('should change the credit value when changing organization that has credits ', async function (assert) {
-    // given
-    currentUserStub.organization.credit = 500;
-
-    // when
-    await render(hbs`<Layout::OrganizationCreditInfo />`);
-    const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
-    const expectedCredit = currentUserStub.organization.credit.toLocaleString() + ' crédits';
-
-    // then
-    assert.contains(expectedCredit);
-    assert.equal(displayedCredit, expectedCredit);
+    assert.contains(
+      'Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse pro@pix.fr'
+    );
   });
 
   test('should display "credit" when credit is equal 1', async function (assert) {
@@ -69,12 +44,9 @@ module('Integration | Component | Layout::OrganizationCreditInfo', function (hoo
 
     // when
     await render(hbs`<Layout::OrganizationCreditInfo />`);
-    const displayedCredit = document.querySelector('.organization-credit-info__label').textContent;
-    const expectedCredit = currentUserStub.organization.credit.toLocaleString() + ' crédit';
 
     // then
-    assert.contains(expectedCredit);
-    assert.equal(displayedCredit, expectedCredit);
+    assert.contains('1 crédit');
   });
 
   test('should be hidden when credit is less than 1', async function (assert) {
@@ -98,6 +70,5 @@ module('Integration | Component | Layout::OrganizationCreditInfo', function (hoo
     // then
     assert.notContains('crédit');
     assert.notContains('crédits');
-    assert.false(currentUserStub.isAdminInOrganization);
   });
 });
