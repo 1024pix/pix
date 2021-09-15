@@ -91,7 +91,7 @@ export default class ChallengeRoute extends Route {
         };
       }
 
-      return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
+      this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
     }
     catch (error) {
       answer.rollbackAttributes();
