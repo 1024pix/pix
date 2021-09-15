@@ -1,6 +1,10 @@
 const { injectDefaults, injectDependencies } = require('../../infrastructure/utils/dependency-injection');
 const EventDispatcher = require('../../infrastructure/events/EventDispatcher');
+const EventDispatcherLogger = require('../../infrastructure/events/EventDispatcherLogger');
+const MonitoringTools = require('../../infrastructure/monitoring-tools');
+const settings = require('../../config');
 const _ = require('lodash');
+const { performance } = require('perf_hooks');
 
 const dependencies = {
   assessmentRepository: require('../../infrastructure/repositories/assessment-repository'),
@@ -55,17 +59,27 @@ const handlersToBeInjected = {
 };
 
 function buildEventDispatcher(handlersStubs) {
-  const eventDispatcher = new EventDispatcher();
+  const eventDispatcher = new EventDispatcher(new EventDispatcherLogger(MonitoringTools, settings, performance));
+
+  const handlersNames = _.map(handlersToBeInjected, (handler) => handler.name);
+
+  if (_.some(handlersNames, (name) => _.isEmpty(name))) {
+    throw new Error('All handlers must have a name. Handlers : ' + handlersNames.join(', '));
+  }
+  if (_.uniq(handlersNames).length !== handlersNames.length) {
+    throw new Error('All handlers must have a unique name. Handlers : ' + handlersNames.join(', '));
+  }
+
   const handlers = { ...handlersToBeInjected, ...handlersStubs };
 
   for (const key in handlers) {
     const inject = _.partial(injectDefaults, dependencies);
     const injectedHandler = inject(handlers[key]);
+    injectedHandler.handlerName = handlers[key].name;
     for (const eventType of handlersToBeInjected[key].eventTypes) {
       eventDispatcher.subscribe(eventType, injectedHandler);
     }
   }
-
   return eventDispatcher;
 }
 
