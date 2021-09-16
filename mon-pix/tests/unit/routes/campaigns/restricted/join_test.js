@@ -30,7 +30,7 @@ describe('Unit | Route | campaigns/restricted/join', function() {
       await route.afterModel(campaign);
 
       // then
-      sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaign.code, { queryParams: { associationDone: true } });
+      sinon.assert.calledWith(route.replaceWith, 'campaigns.start-or-resume', campaign.code);
     });
   });
 

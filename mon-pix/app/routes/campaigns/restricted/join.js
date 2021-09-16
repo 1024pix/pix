@@ -9,6 +9,7 @@ const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_
 export default class JoinRoute extends Route {
   @service currentUser;
   @service session;
+  @service campaignStorage;
 
   model() {
     return this.modelFor('campaigns');
@@ -30,9 +31,8 @@ export default class JoinRoute extends Route {
       }
 
       if (!isEmpty(schoolingRegistration)) {
-        this.replaceWith('campaigns.start-or-resume', campaign.code, {
-          queryParams: { associationDone: true },
-        });
+        this.campaignStorage.set(campaign.code, 'associationDone', true);
+        this.replaceWith('campaigns.start-or-resume', campaign.code);
       }
     }
   }
