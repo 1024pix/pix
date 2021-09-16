@@ -42,6 +42,8 @@ module('Acceptance | Sup Student Import', function(hooks) {
 
         // then
         assert.dom('[data-test-notification-message="success"]').hasText('La liste a été importée avec succès.');
+        assert.dom('[data-test-notification-message="warning"]').doesNotExist();
+
         assert.dom('[aria-label="Étudiant"]').exists({ count: 1 });
         assert.contains('Cover');
         assert.contains('Harry');
