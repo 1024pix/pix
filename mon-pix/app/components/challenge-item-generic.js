@@ -19,9 +19,6 @@ export default class ChallengeItemGeneric extends Component {
   }
 
   get isAnswerFieldDisabled() {
-    if (this.args.isFocusedChallenge && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      return this.args.answer || !this.args.isTooltipClosed;
-    }
     return this.args.answer;
   }
 
