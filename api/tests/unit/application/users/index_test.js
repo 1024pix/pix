@@ -577,20 +577,20 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('POST /api/users/{id}/verification-code', function() {
+  describe('PUT /api/users/{id}/email/verification-code', function() {
 
     it('should return HTTP code 204', async function() {
       // given
       sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
-      sinon.stub(featureToggles, 'isEmailValidationEnabled').resolves(true);
+      sinon.stub(featureToggles, 'checkIfEmailValidationIsEnabled').resolves(true);
       sinon.stub(userController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const url = '/api/users/1/verification-code';
+      const url = '/api/users/1/email/verification-code';
       const payload = {
         data: {
-          type: 'users',
+          type: 'email-verification-code',
           attributes: {
             newEmail: 'user@example.net',
             password: 'Password123',
@@ -599,7 +599,7 @@ describe('Unit | Router | user-router', function() {
       };
 
       // when
-      const result = await httpTestServer.request('POST', url, payload);
+      const result = await httpTestServer.request('PUT', url, payload);
 
       // then
       expect(result.statusCode).to.equal(204);
@@ -610,11 +610,11 @@ describe('Unit | Router | user-router', function() {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const url = '/api/users/wrongId/verification-code';
+      const url = '/api/users/wrongId/email/verification-code';
 
       const payload = {
         data: {
-          type: 'users',
+          type: 'email-verification-code',
           attributes: {
             newEmail: 'user@example.net',
             password: 'Password123',
@@ -623,7 +623,7 @@ describe('Unit | Router | user-router', function() {
       };
 
       // when
-      const result = await httpTestServer.request('POST', url, payload);
+      const result = await httpTestServer.request('PUT', url, payload);
 
       // then
       expect(result.statusCode).to.equal(422);
@@ -635,7 +635,7 @@ describe('Unit | Router | user-router', function() {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const url = '/api/users/1/verification-code';
+      const url = '/api/users/1/email/verification-code';
 
       const payload = {
         data: {
@@ -648,11 +648,11 @@ describe('Unit | Router | user-router', function() {
       };
 
       // when
-      const result = await httpTestServer.request('POST', url, payload);
+      const result = await httpTestServer.request('PUT', url, payload);
 
       // then
       expect(result.statusCode).to.equal(422);
-      expect(result.result.errors[0].detail).to.equal('"data.type" must be [users]');
+      expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-code]');
     });
 
     it('should return 422 when email is not valid', async function() {
@@ -660,11 +660,11 @@ describe('Unit | Router | user-router', function() {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const url = '/api/users/1/verification-code';
+      const url = '/api/users/1/email/verification-code';
 
       const payload = {
         data: {
-          type: 'users',
+          type: 'email-verification-code',
           attributes: {
             newEmail: 'newEmail',
             password: 'Password123',
@@ -673,7 +673,7 @@ describe('Unit | Router | user-router', function() {
       };
 
       // when
-      const result = await httpTestServer.request('POST', url, payload);
+      const result = await httpTestServer.request('PUT', url, payload);
 
       // then
       expect(result.statusCode).to.equal(422);
@@ -685,11 +685,11 @@ describe('Unit | Router | user-router', function() {
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
-      const url = '/api/users/1/verification-code';
+      const url = '/api/users/1/email/verification-code';
 
       const payload = {
         data: {
-          type: 'users',
+          type: 'email-verification-code',
           attributes: {
             newEmail: 'user@example.net',
           },
@@ -697,7 +697,7 @@ describe('Unit | Router | user-router', function() {
       };
 
       // when
-      const result = await httpTestServer.request('POST', url, payload);
+      const result = await httpTestServer.request('PUT', url, payload);
 
       // then
       expect(result.statusCode).to.equal(422);

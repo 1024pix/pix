@@ -637,7 +637,7 @@ exports.register = async function(server) {
     },
     {
       method: 'PUT',
-      path: '/api/users/{id}/verification-code',
+      path: '/api/users/{id}/email/verification-code',
       config: {
         validate: {
           params: Joi.object({
@@ -645,7 +645,7 @@ exports.register = async function(server) {
           }),
           payload: Joi.object({
             data: {
-              type: Joi.string().valid('email-verification-code-demand').required(),
+              type: Joi.string().valid('email-verification-code').required(),
               attributes: {
                 newEmail: Joi.string().email().required(),
                 password: Joi.string().required(),
@@ -662,13 +662,13 @@ exports.register = async function(server) {
             assign: 'requestedUserIsAuthenticatedUser',
           },
           {
-            method: featureToggles.isEmailValidationEnabled,
+            method: featureToggles.checkIfEmailValidationIsEnabled,
             assign: 'isEmailValidationEnabled',
           },
         ],
         handler: userController.sendVerificationCode,
         notes: [
-          '- Permet à un utilisateur de recevoir un code de vérification pour la validation de sa nouvelle adresse e-mail.',
+          '- Permet à un utilisateur de recevoir un code de vérification pour la validation de son adresse mail.',
         ],
         tags: ['api', 'user', 'verification-code'],
       },

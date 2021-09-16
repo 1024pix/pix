@@ -8,7 +8,7 @@ const { featureToggles } = require('../../../../lib/config');
 
 describe('Acceptance | Route | Users', function() {
 
-  describe('PUT /api/users/{id}/verification-code', function() {
+  describe('PUT /api/users/{id}/email/verification-code', function() {
 
     it('should return 204 HTTP status code', async function() {
       // given
@@ -27,7 +27,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code-demand',
+          type: 'email-verification-code',
           attributes: {
             newEmail,
             password: rawPassword,
@@ -37,7 +37,7 @@ describe('Acceptance | Route | Users', function() {
 
       const options = {
         method: 'PUT',
-        url: `/api/users/${user.id}/verification-code`,
+        url: `/api/users/${user.id}/email/verification-code`,
         payload,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(user.id),
@@ -69,7 +69,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code-demand',
+          type: 'email-verification-code',
           attributes: {
             newEmail,
             password: rawPassword,
@@ -79,7 +79,7 @@ describe('Acceptance | Route | Users', function() {
 
       const options = {
         method: 'PUT',
-        url: `/api/users/${user.id}/verification-code`,
+        url: `/api/users/${user.id}/email/verification-code`,
         payload,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(user.id),
@@ -111,7 +111,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code-demand',
+          type: 'email-verification-code',
           attributes: {
             newEmail: user.email,
             password: rawPassword,
@@ -121,7 +121,7 @@ describe('Acceptance | Route | Users', function() {
 
       const options = {
         method: 'PUT',
-        url: `/api/users/${user.id}/verification-code`,
+        url: `/api/users/${user.id}/email/verification-code`,
         payload,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(user.id),
@@ -154,7 +154,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code-demand',
+          type: 'email-verification-code',
           attributes: {
             newEmail: user.email,
             password: rawPassword,
@@ -164,7 +164,7 @@ describe('Acceptance | Route | Users', function() {
 
       const options = {
         method: 'PUT',
-        url: '/api/users/999/verification-code',
+        url: '/api/users/999/email/verification-code',
         payload,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(user.id),
@@ -196,7 +196,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code-demand',
+          type: 'email-verification-code',
           attributes: {
             newEmail,
             password: 'WRONG-PASSWORD',
@@ -206,7 +206,7 @@ describe('Acceptance | Route | Users', function() {
 
       const options = {
         method: 'PUT',
-        url: `/api/users/${user.id}/verification-code`,
+        url: `/api/users/${user.id}/email/verification-code`,
         payload,
         headers: {
           authorization: generateValidRequestAuthorizationHeader(user.id),
