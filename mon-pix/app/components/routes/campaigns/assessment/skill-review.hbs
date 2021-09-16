@@ -116,12 +116,13 @@
       </h2>
     {{/unless}}
     <div class="badge-acquired-container">
-      {{#each this.acquiredBadges as |badge|}}
+      {{#each this.orderedBadges as |badge|}}
         <BadgeAcquiredCard
-                @title={{badge.title}}
-                @message={{badge.message}}
-                @imageUrl={{badge.imageUrl}}
-                @altMessage={{badge.altMessage}}
+          @title={{badge.title}}
+          @message={{badge.message}}
+          @imageUrl={{badge.imageUrl}}
+          @altMessage={{badge.altMessage}}
+          @isAcquired={{badge.isAcquired}}
         />
       {{/each}}
     </div>
