@@ -84,12 +84,12 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       sinon.assert.calledWithExactly(adapter.beginImprovement, 12345);
     });
 
-    it('should redirect to campaigns.start-or-resume', async function() {
+    it('should redirect to campaigns.entry-point', async function() {
       // when
       await component.actions.improve.call(component);
 
       // then
-      sinon.assert.calledWith(component.router.transitionTo, 'campaigns.start-or-resume');
+      sinon.assert.calledWith(component.router.transitionTo, 'campaigns.entry-point');
     });
   });
 

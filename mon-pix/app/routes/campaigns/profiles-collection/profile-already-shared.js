@@ -17,7 +17,7 @@ export default class ProfileAlreadySharedRoute extends Route.extend(SecuredRoute
       };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {
-        return this.transitionTo('campaigns.start-or-resume', campaign.code);
+        return this.transitionTo('campaigns.entry-point', campaign.code);
       } else throw error;
     }
   }
