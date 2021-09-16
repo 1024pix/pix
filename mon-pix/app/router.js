@@ -84,7 +84,7 @@ Router.map(function() {
     this.route('assessment', { path: '/evaluation' }, function() {
       this.route('start-or-resume', { path: '/' });
       this.route('tutorial', { path: '/didacticiel' });
-      this.route('skill-review', { path: '/resultats' });
+      this.route('results', { path: '/resultats' });
     });
   });
 

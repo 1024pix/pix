@@ -3,10 +3,10 @@ import { describe, it, beforeEach } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
-import createGlimmerComponent from '../../../../helpers/create-glimmer-component';
+import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 import Service from '@ember/service';
 
-describe('Unit | component | Campaigns | Evaluation | Skill Review', function() {
+describe('Unit | Component | Campaigns | Assessment | Skill Review', function() {
 
   setupTest();
 
@@ -19,7 +19,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
       campaignParticipationResult: EmberObject.create({ id: 12345 }),
     };
 
-    component = createGlimmerComponent('component:routes/campaigns/assessment/skill-review', {
+    component = createGlimmerComponent('component:campaigns/assessment/skill-review', {
       model,
     });
 

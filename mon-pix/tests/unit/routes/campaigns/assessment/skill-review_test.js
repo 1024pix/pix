@@ -14,7 +14,7 @@ describe('Unit | Route | Campaign | Assessment | Skill review', function() {
   const currentUserStub = { user };
 
   beforeEach(function() {
-    route = this.owner.lookup('route:campaigns.assessment.skill-review');
+    route = this.owner.lookup('route:campaigns.assessment.results');
     route.modelFor = sinon.stub().returns(campaign);
     route.transitionTo = sinon.stub();
     route.store = storeStub;

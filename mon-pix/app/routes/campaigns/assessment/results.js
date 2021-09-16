@@ -1,7 +1,7 @@
 import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 
-export default class SkillReviewRoute extends Route.extend(SecuredRouteMixin) {
+export default class ResultsRoute extends Route.extend(SecuredRouteMixin) {
   async model() {
     const user = this.currentUser.user;
     const campaign = this.modelFor('campaigns');

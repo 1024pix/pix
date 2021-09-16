@@ -1,13 +1,13 @@
 import { expect } from 'chai';
-import { contains } from '../../../../../helpers/contains';
-import { clickByLabel } from '../../../../../helpers/click-by-label';
+import { contains } from '../../../../helpers/contains';
+import { clickByLabel } from '../../../../helpers/click-by-label';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import sinon from 'sinon';
 
-describe('Integration | Component | routes/campaigns/assessment/skill-review', function() {
+describe.only('Integration | Component | Campaigns | Assessment | Skill-review', function() {
 
   setupIntlRenderingTest();
 
@@ -20,7 +20,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
 
         // Then
         expect(contains(this.intl.t('pages.skill-review.actions.send'))).to.exist;
@@ -40,7 +40,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         adapter.share = sinon.stub().rejects();
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
         await clickByLabel(this.intl.t('pages.skill-review.actions.send'));
 
         // Then
@@ -60,7 +60,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
       this.set('model', { campaign, campaignParticipationResult });
 
       // When
-      await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+      await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
     });
 
     it('should show a link to main page instead of the shared button ', function() {
@@ -87,7 +87,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
           });
 
           it('should display the block for the message', function() {
@@ -110,7 +110,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
           });
 
           it('should display the block for the message', function() {
@@ -133,7 +133,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           this.set('model', { campaign, campaignParticipationResult });
 
           // When
-          await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+          await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
         it('should display customResultPageText', function() {
@@ -163,7 +163,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
           });
 
           it('should display the button with all params', function() {
@@ -191,7 +191,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
             this.set('model', { campaign, campaignParticipationResult });
 
             // When
-            await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+            await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
           });
 
           it('should display the button', function() {
@@ -217,7 +217,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           this.set('model', { campaign, campaignParticipationResult });
 
           // When
-          await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+          await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
         it('should not display the button', function() {
@@ -242,7 +242,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
           this.set('model', { campaign, campaignParticipationResult });
 
           // When
-          await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+          await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
         });
 
         it('should not display the block for the message', function() {
@@ -264,7 +264,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
       it('should not display the block for the message', function() {
@@ -286,7 +286,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
       it('should display retry block', function() {
@@ -305,7 +305,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
       it('should not display retry block', function() {
@@ -326,7 +326,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
       it('should display improve block', function() {
@@ -345,7 +345,7 @@ describe('Integration | Component | routes/campaigns/assessment/skill-review', f
         this.set('model', { campaign, campaignParticipationResult });
 
         // When
-        await render(hbs`<Routes::Campaigns::Assessment::SkillReview @model={{model}} />`);
+        await render(hbs`<Campaigns::Assessment::SkillReview @model={{model}} />`);
       });
 
       it('should not display improve block', function() {

@@ -40,7 +40,7 @@ export default Route.extend(ApplicationRouteMixin, {
 
   async _checkAnonymousAccess(transition) {
 
-    const allowedRoutesForAnonymousAccess = ['fill-in-campaign-code', 'campaigns.assessment.tutorial', 'campaigns.start-or-resume', 'campaigns.campaign-landing-page', 'assessments.challenge', 'campaigns.assessment.skill-review', 'assessments.checkpoint'];
+    const allowedRoutesForAnonymousAccess = ['fill-in-campaign-code', 'campaigns.assessment.tutorial', 'campaigns.start-or-resume', 'campaigns.campaign-landing-page', 'assessments.challenge', 'campaigns.assessment.results', 'assessments.checkpoint'];
     const isUserAnonymous = get(this.session, 'data.authenticated.authenticator') === 'authenticator:anonymous';
     const isRouteAccessNotAllowedForAnonymousUser = !allowedRoutesForAnonymousAccess.includes(get(transition, 'to.name'));
 
