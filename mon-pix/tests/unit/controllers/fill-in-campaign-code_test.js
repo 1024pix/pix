@@ -16,10 +16,11 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:fill-in-campaign-code');
-    controller.transitionToRoute = sinon.stub();
+    const routerStub = { transitionTo: sinon.stub() };
     sessionStub = { invalidate: sinon.stub() };
     eventStub = { preventDefault: sinon.stub() };
     currentUserStub = { user: { firstName: 'John', lastname: 'Doe' } };
+    controller.set('router', routerStub);
     controller.set('session', sessionStub);
     controller.set('currentUser', currentUserStub);
     controller.set('errorMessage', null);
@@ -40,7 +41,7 @@ describe('Unit | Controller | Fill in Campaign Code', function() {
       await controller.actions.startCampaign.call(controller, eventStub);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', campaign);
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.entry-point', campaign);
     });
 
     it('should set error when campaign code is empty', async () => {
