@@ -182,17 +182,6 @@ module.exports = {
     return schoolingRegistrationsToImport;
   },
 
-  async _getStudentsListToUpdateOrCreate(schoolingRegistrationsToImport, existingSchoolingRegistrations) {
-    return _.partition(schoolingRegistrationsToImport, (schoolingRegistration) => {
-
-      const currentSchoolingRegistration = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
-      });
-
-      return !!currentSchoolingRegistration;
-    });
-  },
-
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
     const schoolingRegistrations = await BookshelfSchoolingRegistration
       .query((qb) => {
