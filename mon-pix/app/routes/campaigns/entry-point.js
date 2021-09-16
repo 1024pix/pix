@@ -11,9 +11,12 @@ export default class EntryPoint extends Route {
   }
 
   async redirect(campaign, transition) {
-    const participantExternalId = transition.to.queryParams.participantExternalId;
-    if (participantExternalId) {
+    const queryParams = transition.to.queryParams;
+    if (queryParams.participantExternalId) {
       this.campaignStorage.set(campaign.code, 'participantExternalId', transition.to.queryParams.participantExternalId);
+    }
+    if (queryParams.retry) {
+      this.campaignStorage.set(campaign.code, 'retry', transition.to.queryParams.retry);
     }
 
     const currentUserId = get(this.currentUser, 'user.id', null);

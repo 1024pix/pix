@@ -184,5 +184,39 @@ describe('Unit | Route | Entry Point', function() {
         });
       });
     });
+
+    describe('retry', function() {
+      describe('when there are retry', function() {
+        it('sets the current retry', async function() {
+          //given
+          const transition = { to: { queryParams: { retry: 'true' } } };
+          route.currentUser = { user: {
+            id: 12,
+          } };
+
+          //when
+          await route.redirect(campaign, transition);
+
+          //then
+          sinon.assert.calledWith(route.campaignStorage.set, campaign.code, 'retry', 'true');
+        });
+      });
+
+      describe('when there is no retry', function() {
+        it('does not set the retry', async function() {
+          //given
+          const transition = { to: { queryParams: { } } };
+          route.currentUser = { user: {
+            id: 12,
+          } };
+
+          //when
+          await route.redirect(campaign, transition);
+
+          //then
+          sinon.assert.notCalled(route.campaignStorage.set);
+        });
+      });
+    });
   });
 });

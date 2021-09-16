@@ -72,7 +72,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     return this.modelFor('campaigns');
   }
 
-  async afterModel(campaign, transition) {
+  async afterModel(campaign) {
     await this._findOngoingCampaignParticipationAndUpdateState(campaign);
 
     if (this._shouldVisitLandingPageAsLoggedUser && !campaign.isForAbsoluteNovice) {
@@ -83,7 +83,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
     }
 
-    if (this._shouldStartCampaignParticipation(campaign, transition.to.queryParams)) {
+    if (this._shouldStartCampaignParticipation(campaign)) {
       await this._createCampaignParticipation(campaign);
     }
   }
@@ -238,8 +238,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       && !this.state.doesUserHaveOngoingParticipation;
   }
 
-  _shouldStartCampaignParticipation(campaign, queryParams) {
-    return !this.state.doesUserHaveOngoingParticipation || (campaign.multipleSendings && queryParams.retry);
+  _shouldStartCampaignParticipation(campaign) {
+    const retry = this.campaignStorage.get(campaign.code, 'retry');
+    return !this.state.doesUserHaveOngoingParticipation || (campaign.multipleSendings && retry);
   }
 
   _handleQueryParamBoolean(value, defaultValue) {
