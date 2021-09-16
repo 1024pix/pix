@@ -56,7 +56,7 @@ export default class ImportController extends Controller {
   _sendNotifications(response) {
     const warningsArray = get(response, 'data.attributes.warnings', []);
     if (isEmpty(warningsArray)) {
-      this.notifications.sendSuccess(this.intl.t('pages.students-sup-import.global-success'));
+      return this.notifications.sendSuccess(this.intl.t('pages.students-sup-import.global-success'));
     }
 
     const warnings = groupBy(warningsArray, 'field');
