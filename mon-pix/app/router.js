@@ -69,7 +69,9 @@ Router.map(function() {
   this.route('fill-in-campaign-code', { path: '/campagnes' });
 
   this.route('campaigns', { path: '/campagnes/:code' }, function() {
-    this.route('start-or-resume', { path: '/' });
+    this.route('entry-point', { path: '/' });
+    this.route('campaign-not-found', { path: '/oups' });
+    this.route('start-or-resume', { path: '/startOrResume' });
     this.route('campaign-landing-page', { path: '/presentation' });
     this.route('fill-in-participant-external-id', { path: '/identifiant' });
     this.route('restricted', { path: '/privee' }, function() {
