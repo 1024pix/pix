@@ -175,6 +175,7 @@ module.exports = injectDependencies({
   createUserAndReconcileToSchoolingRegistrationFromExternalUser: require('./create-user-and-reconcile-to-schooling-registration-from-external-user'),
   createUserFromPoleEmploi: require('./create-user-from-pole-emploi'),
   deleteCertificationIssueReport: require('./delete-certification-issue-report'),
+  deleteSessionJuryComment: require('./delete-session-jury-comment'),
   deleteUnlinkedCertificationCandidate: require('./delete-unlinked-certification-candidate'),
   deneutralizeChallenge: require('./deneutralize-challenge'),
   disableMembership: require('./disable-membership'),
