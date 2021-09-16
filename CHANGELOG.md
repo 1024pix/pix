@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.101.0 (16/09/2021)
+
+- [#3480](https://github.com/1024pix/pix/pull/3480) [FEATURE] Distinguer les Schooling registration désactivées sur PixAdmin en utilisant la colonne 'isDisabled' (PIX-3098).
+- [#3448](https://github.com/1024pix/pix/pull/3448) [FEATURE] Justifier un abandon de session depuis Pix Certif (PIX-3133)
+- [#3474](https://github.com/1024pix/pix/pull/3474) [FEATURE] Créer une route permettant de lister les habilitations et mettre à jour l'affichage des habilitations d'un centre de certification dans Pix Admin (PIX-3174).
+- [#3367](https://github.com/1024pix/pix/pull/3367) [FEATURE] Mettre à jour les PixButton dans Pix App (PIX-3012).
+- [#3490](https://github.com/1024pix/pix/pull/3490) [BUGFIX] Force une valeur pour eviter un flaky test (PIX-3471)
+- [#3470](https://github.com/1024pix/pix/pull/3470) [BUGFIX] Lors de l'import siecle si une archive zip contient plusieurs fichiers il y a une erreur (PIX-3177).
+- [#3483](https://github.com/1024pix/pix/pull/3483) [BUGFIX] Ne pas afficher le warning d'écran de fin test si pas de certification terminée (PIX-3449)
+- [#3486](https://github.com/1024pix/pix/pull/3486) [TECH] Logger le dispatch de Domain Events (PIX-3175)
+- [#3485](https://github.com/1024pix/pix/pull/3485) [TECH] Supprimer la gestion des erreurs sur les doublons d'INE dans la base de données (Pix-3189).
+- [#3481](https://github.com/1024pix/pix/pull/3481) [TECH] Migration des status de campagne participations (PIX-3000)
+- [#3460](https://github.com/1024pix/pix/pull/3460) [TECH] Associer un statut à un participation de campagne à la création et finalisation (PIX-3138)
+- [#3493](https://github.com/1024pix/pix/pull/3493) [CLEAN]  Corrige des typos
+
 ## v3.100.0 (13/09/2021)
 
 - [#3479](https://github.com/1024pix/pix/pull/3479) [BUGFIX] Pouvoir ajouter un élève qui est lié à un compte déjà lié à un élève de mon établissement (PIX-3447)
