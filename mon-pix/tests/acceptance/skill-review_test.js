@@ -135,7 +135,6 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           isAcquired: true,
         });
         campaignParticipationResult.update({ campaignParticipationBadges: [badge] });
-
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
@@ -151,7 +150,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
       });
 
-      it('should display only one badge when badge is acquired', async function() {
+      it('should display all badges whether acquired or not', async function() {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -171,7 +170,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(findAll('.badge-acquired-card').length).to.equal(1);
+        expect(findAll('.badge-acquired-card').length).to.equal(2);
       });
 
       describe('when campaign has stages', async function() {
