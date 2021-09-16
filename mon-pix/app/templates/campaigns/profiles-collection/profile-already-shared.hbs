@@ -18,7 +18,7 @@
     {{#if this.model.sharedProfile.canRetry}}
       <div class="profile-already-shared-retry">
         <p class="profile-already-shared-retry__message">{{t 'pages.profile-already-shared.retry.message' organization=this.model.campaign.organizationName}}</p>
-        <LinkTo @route="campaigns.start-or-resume"
+        <LinkTo @route="campaigns.entry-point"
                 @model={{@model.campaign.code}}
                 @query={{hash retry=true}}
                 class="button button--link profile-already-shared-retry__button">{{t 'pages.profile-already-shared.retry.button'}}</LinkTo>
