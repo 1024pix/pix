@@ -7,6 +7,7 @@ export default class FillInCampaignCodeController extends Controller {
 
   @service store;
   @service intl;
+  @service router;
   @service session;
   @service currentUser;
 
@@ -52,7 +53,7 @@ export default class FillInCampaignCodeController extends Controller {
       const campaign = await this.store.queryRecord('campaign', {
         filter: { code: campaignCode },
       });
-      this.transitionToRoute('campaigns.start-or-resume', campaign);
+      this.router.transitionTo('campaigns.entry-point', campaign);
     } catch (error) {
       this.onStartCampaignError(error);
     }
