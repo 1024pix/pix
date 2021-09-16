@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { authenticateByEmail } from '../helpers/authentication';
 import { resumeCampaignOfTypeProfilesCollectionByCode, completeCampaignOfTypeProfilesCollectionByCode } from '../helpers/campaign';
 import visit from '../helpers/visit';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { contains } from '../helpers/contains';

@@ -10,6 +10,7 @@ const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_
 export default class LogoutRoute extends Route {
   @service session;
   @service url;
+  @service campaignStorage;
 
   beforeModel() {
     const session = this.session;
@@ -21,6 +22,7 @@ export default class LogoutRoute extends Route {
         return session.singleLogout(id_token);
       }
 
+      this.campaignStorage.clear();
       return session.invalidate();
     }
   }

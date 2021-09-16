@@ -1,6 +1,6 @@
 import { currentURL, click, find } from '@ember/test-helpers';
 import { setupMirage } from 'ember-cli-mirage/test-support';
-import { invalidateSession } from 'ember-simple-auth/test-support';
+import { invalidateSession } from '../helpers/invalidate-session';
 import { setupApplicationTest } from 'ember-mocha';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
@@ -53,11 +53,9 @@ describe('Acceptance | User dashboard page', function() {
     describe('when user is doing a campaign of type assessment', function() {
 
       context('when user has not completed the campaign', () => {
-        let uncompletedCampaign;
-        let uncompletedCampaignParticipationOverview;
 
         beforeEach(async function() {
-          uncompletedCampaign = server.create('campaign', {
+          const uncompletedCampaign = server.create('campaign', {
             idPixLabel: 'email',
             type: ASSESSMENT,
             isArchived: false,
@@ -65,7 +63,7 @@ describe('Acceptance | User dashboard page', function() {
             code: '123',
           }, 'withThreeChallenges');
 
-          uncompletedCampaignParticipationOverview = server.create('campaign-participation-overview', {
+          server.create('campaign-participation-overview', {
             assessmentState: 'started',
             campaignCode: uncompletedCampaign.code,
             campaignTitle: uncompletedCampaign.title,
@@ -87,30 +85,19 @@ describe('Acceptance | User dashboard page', function() {
           expect(resumeButton).to.exist;
           expect(resumeButton.textContent.trim()).to.equal('Reprendre');
         });
-
-        it('should redirect to the unfinished campaign where it stopped when clicking on resume button ', async function() {
-        // when
-          await visit('/accueil');
-          await click('.campaign-participation-overview-card-content__action');
-
-          // then
-          expect(currentURL()).to.equal(`/campagnes/${uncompletedCampaignParticipationOverview.campaignCode}/presentation`);
-        });
       });
 
       context('when user has completed the campaign but not shared his/her results', () => {
-        let unsharedCampaign;
-        let unsharedCampaignParticipationOverview;
 
         beforeEach(async function() {
-          unsharedCampaign = server.create('campaign', {
+          const unsharedCampaign = server.create('campaign', {
             idPixLabel: 'email',
             type: ASSESSMENT,
             isArchived: false,
             code: '123',
           }, 'withThreeChallenges');
 
-          unsharedCampaignParticipationOverview = server.create('campaign-participation-overview', {
+          server.create('campaign-participation-overview', {
             assessmentState: 'completed',
             campaignCode: unsharedCampaign.code,
             createdAt: new Date('2020-04-20T04:05:06Z'),
@@ -132,15 +119,6 @@ describe('Acceptance | User dashboard page', function() {
           const shareButton = find('.campaign-participation-overview-card-content__action');
           expect(shareButton).to.exist;
           expect(shareButton.textContent.trim()).to.equal('Envoyer mes résultats');
-        });
-
-        it('should redirect to the unshared campaign results page when clicking on share button', async function() {
-        // when
-          await visit('/accueil');
-          await click('.campaign-participation-overview-card-content__action');
-
-          // then
-          expect(currentURL()).to.equal(`/campagnes/${unsharedCampaignParticipationOverview.campaignCode}/presentation`);
         });
       });
     });
