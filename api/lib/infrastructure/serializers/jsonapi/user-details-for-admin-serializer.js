@@ -14,7 +14,7 @@ module.exports = {
         ref: 'id',
         includes: true,
         attributes: ['firstName', 'lastName', 'birthdate', 'division', 'organizationId', 'organizationExternalId',
-          'organizationName', 'createdAt', 'updatedAt'],
+          'organizationName', 'createdAt', 'updatedAt', 'isDisabled'],
       },
       authenticationMethods: {
         ref: 'id',

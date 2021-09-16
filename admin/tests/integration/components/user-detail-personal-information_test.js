@@ -177,6 +177,34 @@ module('Integration | Component | user-detail-personal-information', function(ho
           // then
           assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
         });
+
+        module('Display the schooling registrations status', function() {
+
+          test('Should display a green tick mark on the table when "isDisabled = false"', async function(assert) {
+            // given
+            this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
+
+            // when
+            await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+            // then
+            assert.dom('[aria-label="Inscription activée"]').exists();
+
+          });
+
+          test('Should display a red cross on the table when "isDisabled= true"', async function(assert) {
+            // given
+            this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
+
+            // when
+            await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+
+            // then
+            assert.dom('[aria-label="Inscription désactivée"]').exists();
+
+          });
+
+        });
       });
     });
 
