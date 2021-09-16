@@ -8,6 +8,7 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
+  @service campaignStorage;
 
   state = null;
 
@@ -23,7 +24,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       this._resetState();
     }
 
-    this._updateStateFrom({ campaign, queryParams: transition.to.queryParams, session: this.session });
+    this._updateStateFrom({ campaign, session: this.session });
 
     if (this._shouldVisitPoleEmploiLoginPage) {
       return this._redirectToPoleEmploiLoginPage(transition);
@@ -60,7 +61,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     if (this._shouldVisitLandingPageAsVisitor) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign, { queryParams: transition.to.queryParams });
+      return this.replaceWith('campaigns.campaign-landing-page', campaign);
     }
 
     super.beforeModel(...arguments);
@@ -72,11 +73,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async afterModel(campaign, transition) {
-    if (campaign.isArchived) {
-      this.isLoading = false;
-      return;
-    }
-
     await this._findOngoingCampaignParticipationAndUpdateState(campaign);
 
     if (this._shouldVisitLandingPageAsLoggedUser && !campaign.isForAbsoluteNovice) {
@@ -103,6 +99,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   _resetState() {
+    if (this?.state?.campaignCode) {
+      this.campaignStorage.clear(this.state.campaignCode);
+    }
     this.state = {
       campaignCode: null,
       isCampaignRestricted: false,
@@ -122,14 +121,12 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     };
   }
 
-  _updateStateFrom({ campaign = {}, queryParams = {}, ongoingCampaignParticipation = null, session }) {
-    const hasUserCompletedRestrictedCampaignAssociation = this._handleQueryParamBoolean(queryParams.associationDone, this.state.hasUserCompletedRestrictedCampaignAssociation);
+  _updateStateFrom({ campaign = {}, ongoingCampaignParticipation = null, session }) {
+    const hasUserCompletedRestrictedCampaignAssociation = this.campaignStorage.get(campaign.code, 'associationDone') || false;
     const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser);
-    const hasUserSeenJoinPage = this._handleQueryParamBoolean(queryParams.hasUserSeenJoinPage, this.state.hasUserSeenJoinPage);
-
-    const hasUserNotSeenLandingPage = queryParams.hasUserSeenLandingPage == null ? this.state.shouldDisplayLandingPage : !this._handleQueryParamBoolean(queryParams.hasUserSeenLandingPage, false);
-    const shouldDisplayLandingPage = isCampaignForNoviceUser ? false : hasUserNotSeenLandingPage;
-
+    const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
+    const participantExternalId = this.campaignStorage.get(campaign.code, 'participantExternalId');
+    const shouldDisplayLandingPage = isCampaignForNoviceUser ? false : !this.campaignStorage.get(campaign.code, 'landingPageShown');
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
@@ -141,7 +138,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isUserLogged: this.session.isAuthenticated,
       doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),
       doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
-      participantExternalId: get(queryParams, 'participantExternalId', this.state.participantExternalId),
+      participantExternalId,
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
       isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
@@ -154,7 +151,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       campaignId: campaign.id,
       userId: this.currentUser.user.id,
     });
-    this._updateStateFrom({ ongoingCampaignParticipation });
+    this._updateStateFrom({ campaign, ongoingCampaignParticipation });
   }
 
   async _createCampaignParticipation(campaign) {
@@ -162,7 +159,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
 
     try {
       await campaignParticipation.save();
-      this._updateStateFrom({ ongoingCampaignParticipation: campaignParticipation });
+      this._updateStateFrom({ campaign, ongoingCampaignParticipation: campaignParticipation });
     } catch (err) {
       const error = get(err, 'errors[0]', {});
       campaignParticipation.deleteRecord();
