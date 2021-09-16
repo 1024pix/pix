@@ -10,7 +10,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function() {
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns/campaign-landing-page');
-    controller.transitionToRoute = sinon.stub();
+    controller.router = { transitionTo: sinon.stub() };
   });
 
   describe('#startCampaignParticipation', () => {
@@ -23,11 +23,7 @@ describe('Unit | Controller | Campaigns | Landing Page', function() {
       controller.actions.startCampaignParticipation.call(controller);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', 'konami', {
-        queryParams: {
-          hasUserSeenLandingPage: true,
-        },
-      });
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume', 'konami');
     });
   });
 });
