@@ -10,7 +10,11 @@ export default class SkillReviewRoute extends Route.extend(SecuredRouteMixin) {
         campaignId: campaign.id,
         userId: user.id,
       });
-      return { campaign, campaignParticipationResult };
+      return {
+        campaign,
+        campaignParticipationResult,
+        badges: campaignParticipationResult.campaignParticipationBadges,
+      };
     } catch (error) {
       if (error.errors?.[0]?.status === '412') {
         return this.transitionTo('campaigns.start-or-resume', campaign.code);

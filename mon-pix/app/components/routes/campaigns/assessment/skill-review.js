@@ -2,6 +2,7 @@ import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import isNil from 'lodash/isNil';
+import orderBy from 'lodash/orderBy';
 
 import Component from '@glimmer/component';
 
@@ -15,6 +16,7 @@ export default class SkillReview extends Component {
   @service store;
 
   @tracked displayErrorMessage = false;
+  @tracked badges = this.args.model.badges;
 
   get showCleaCompetences() {
     const cleaBadge = this.args.model.campaignParticipationResult.cleaBadge;
@@ -35,12 +37,11 @@ export default class SkillReview extends Component {
   }
 
   get acquiredBadges() {
-    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
-    return badges.filter((badge) => badge.isAcquired);
+    return this.badges.filter((badge) => badge.isAcquired);
   }
 
   get orderedBadges() {
-    return this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return orderBy(this.badges, ['isAcquired'], ['desc']);
   }
 
   get showStages() {

@@ -124,7 +124,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should show badges when acquired', function() {
       // given
       const badges = [{ id: 33, isAcquired: true }];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+      component.args.model.badges = badges;
 
       // when
       const shouldShowBadges = component.showBadges;
@@ -136,7 +136,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should not show badges when not acquired', function() {
       // given
       const badges = [{ id: 33, isAcquired: false }];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+      component.args.model.badges = badges;
 
       // when
       const shouldShowBadges = component.showBadges;
@@ -148,7 +148,7 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should not show badges when none', function() {
       // given
       const badges = [];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+      component.args.model.badges = badges;
 
       // when
       const shouldShowBadges = component.showBadges;
@@ -160,16 +160,40 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
   describe('#acquiredBadges', function() {
 
-    it('should only display acquired badges', function() {
+    it('should only return acquired badges', function() {
       // given
       const badges = [{ id: 33, isAcquired: true }, { id: 34, isAcquired: false }];
-      component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
+      component.args.model.badges = badges;
 
       // when
       const acquiredBadges = component.acquiredBadges;
 
       // then
       expect(acquiredBadges).to.deep.equal([{ id: 33, isAcquired: true }]);
+    });
+
+  });
+
+  describe('#orderedBadges', function() {
+
+    it('should return badges ordered by if it is acquired or not', function() {
+      // given
+      // const badges = [{ id: 33, isAcquired: true }, { id: 34, isAcquired: false }, { id: 35, isAcquired: true }];
+      component.args.model.badges = [
+        { id: 33, isAcquired: true },
+        { id: 34, isAcquired: false },
+        { id: 35, isAcquired: true },
+      ];
+
+      // when
+      const orderedBadges = component.orderedBadges;
+
+      // then
+      expect(orderedBadges).to.deep.equal([
+        { id: 33, isAcquired: true },
+        { id: 35, isAcquired: true },
+        { id: 34, isAcquired: false },
+      ]);
     });
 
   });
