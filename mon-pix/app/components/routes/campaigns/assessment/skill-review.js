@@ -39,6 +39,10 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => badge.isAcquired);
   }
 
+  get orderedBadges() {
+    return this.args.model.campaignParticipationResult.campaignParticipationBadges;
+  }
+
   get showStages() {
     return this.stageCount && !this._isCleaBadgeAcquired;
   }
