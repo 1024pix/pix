@@ -353,8 +353,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await visit('/certifications/123');
 
         // then
-        assert.dom('.certification-informations__certification-issue-report--resolved').exists();
-        assert.dom('.certification-informations__certification-issue-report--unresolved').doesNotExist();
+        assert.dom('.certification-issue-report__resolution-status--resolved').exists();
+        assert.dom('.certification-issue-report__resolution-status--unresolved').doesNotExist();
       });
 
       test('should display a non-resolved issue report when not resolved', async function(assert) {
@@ -371,8 +371,8 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await visit('/certifications/123');
 
         // then
-        assert.dom('.certification-informations__certification-issue-report--resolved').doesNotExist();
-        assert.dom('.certification-informations__certification-issue-report--unresolved').exists();
+        assert.dom('.certification-issue-report__resolution-status--resolved').doesNotExist();
+        assert.dom('.certification-issue-report__resolution-status--unresolved').exists();
       });
     });
 
