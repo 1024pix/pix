@@ -31,3 +31,22 @@ jobs:
       with:
         issue: ${{ steps.find.outputs.issue }}
         transition: "Move to 'Deployed in Integration'"
+
+  notify-if-config-file-change:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+      - name: Check config file change
+        run: |
+          echo "DIFF_RESULT=$(git diff HEAD~  HEAD --shortstat api/lib/config.js)" >> $GITHUB_ENV
+
+      - name: Send notification
+        uses: slackapi/slack-github-action@v1.14.0
+        with:
+          payload: "{\"environment\":\"INTÉGRATION\",\"scalingo_url\":\"https://dashboard.scalingo.com/apps/osc-fr1/pix-api-integration/environment\"}"
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: env.DIFF_RESULT
