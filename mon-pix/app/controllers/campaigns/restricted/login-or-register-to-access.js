@@ -6,8 +6,10 @@ import { action } from '@ember/object';
 export default class LoginOrRegisterToAccessRoute extends Controller {
 
   @service currentUser;
+  @service campaignStorage;
   @service session;
   @service store;
+  @service router;
 
   @tracked displayRegisterForm = true;
 
@@ -31,9 +33,8 @@ export default class LoginOrRegisterToAccessRoute extends Controller {
     await this.currentUser.load();
     await this._reconcileUser();
 
-    this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
-    });
+    this.campaignStorage.set(this.model.code, 'associationDone', true);
+    this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 
   _reconcileUser() {
