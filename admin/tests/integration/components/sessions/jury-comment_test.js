@@ -113,6 +113,7 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
       assert.contains(expectedDate);
       assert.contains('L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
       assert.dom(getByLabel('Modifier')).exists();
+      assert.dom(getByLabel('Supprimer')).exists();
     });
 
     module('when the "Modifier" button is clicked', function() {
@@ -182,6 +183,30 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
 
         // then
         assert.contains('Qui promène son chien est au bout de la laisse.');
+      });
+    });
+
+    module('when the "Supprimer" button is clicked', function() {
+      test('it calls the onDeleteButtonClicked callback', async function(assert) {
+        // given
+        this.author = 'Frederic Brown';
+        this.date = new Date('2006-11-21T15:32:12Z');
+        this.comment = 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
+        this.onDeleteButtonClicked = sinon.stub();
+
+        // when
+        await render(hbs`
+          <Sessions::JuryComment
+            @author={{this.author}}
+            @date={{this.date}}
+            @comment={{this.comment}}
+            @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+          />
+        `);
+        await clickByLabel('Supprimer');
+
+        // then
+        assert.ok(this.onDeleteButtonClicked.calledOnce);
       });
     });
   });
