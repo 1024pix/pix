@@ -5,7 +5,7 @@ import { getPageTitle } from 'ember-page-title/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { expect } from 'chai';
-import { click, find, findAll, triggerEvent } from '@ember/test-helpers';
+import { click, find, triggerEvent } from '@ember/test-helpers';
 
 describe('Acceptance | Displaying a challenge of any type', () => {
   setupApplicationTest();
@@ -53,16 +53,6 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           it('should display a tooltip', async () => {
             // then
             expect(find('.tooltip-tag__information')).to.exist;
-          });
-
-          it('should disable input and buttons', async () => {
-            // then
-            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
-            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
-
-            const responseFields = findAll('[data-test="challenge-response-proposal-selector"]');
-            expect(responseFields).to.have.lengthOf.at.least(1);
-            responseFields.forEach((input) => expect(input.disabled).to.equal(true));
           });
 
           it('should not display an info alert with dashed border and overlay', async function() {
@@ -290,16 +280,6 @@ describe('Acceptance | Displaying a challenge of any type', () => {
           it('should display a tooltip', async () => {
             // then
             expect(find('.tooltip-tag__information')).to.exist;
-          });
-
-          it('should disable input and buttons', async () => {
-            // then
-            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
-            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
-
-            const responseFields = findAll('[data-test="challenge-response-proposal-selector"]');
-            expect(responseFields).to.have.lengthOf.at.least(1);
-            responseFields.forEach((input) => expect(input.disabled).to.equal(true));
           });
 
           describe('when user closes tooltip', () => {
