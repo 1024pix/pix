@@ -20,6 +20,20 @@
   margin-top: 20px;
 }
 
+.schooling-registrations-table__status {
+  p {
+    margin: 0;
+  }
+
+  &--isEnabled {
+    color: $success;
+  }
+
+  &--isDisabled {
+    color: $error;
+  }
+}
+
 .user-authentication-method {
 
   &__item {

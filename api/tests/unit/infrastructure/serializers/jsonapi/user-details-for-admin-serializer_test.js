@@ -55,6 +55,7 @@ describe('Unit | Serializer | JSONAPI | user-details-for-admin-serializer', func
             'organization-name': modelObject.schoolingRegistrations[0].organizationName,
             'created-at': modelObject.schoolingRegistrations[0].createdAt,
             'updated-at': modelObject.schoolingRegistrations[0].updatedAt,
+            'is-disabled': modelObject.schoolingRegistrations[0].isDisabled,
           },
           'id': `${modelObject.schoolingRegistrations[0].id}`,
           'type': 'schoolingRegistrations',

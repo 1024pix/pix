@@ -443,6 +443,7 @@ function _toSchoolingRegistrationsForAdmin(schoolingRegistrations) {
       organizationName: schoolingRegistration.organization.name,
       createdAt: schoolingRegistration.createdAt,
       updatedAt: schoolingRegistration.updatedAt,
+      isDisabled: schoolingRegistration.isDisabled,
     });
   });
 }
