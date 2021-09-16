@@ -621,4 +621,21 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(403);
     });
   });
+
+  describe('DELETE /api/admin/sessions/{id}/comment', function() {
+    it('should call appropriate use case and ensure user has the Pix Master role', async function() {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(sessionController, 'deleteJuryComment').returns('ok');
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      // when
+      await httpTestServer.request('DELETE', '/api/admin/sessions/1/comment');
+
+      // then
+      expect(securityPreHandlers.checkUserHasRolePixMaster).to.be.calledOnce;
+      expect(sessionController.deleteJuryComment).to.be.calledOnce;
+    });
+  });
 });

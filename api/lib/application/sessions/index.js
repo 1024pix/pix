@@ -503,6 +503,27 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'DELETE',
+      path: '/api/admin/sessions/{id}/comment',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.sessionId,
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: sessionController.deleteJuryComment,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
+          '- Supprime le commentaire d\'un membre du pôle certification (certification-officer)',
+        ],
+        tags: ['api', 'session', 'assignment'],
+      },
+    },
+    {
       method: 'PUT',
       path: '/api/sessions/{id}/enroll-students-to-session',
       config: {
