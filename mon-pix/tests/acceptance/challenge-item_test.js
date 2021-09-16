@@ -50,9 +50,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should display an overlay and tooltip', async () => {
+          it('should display a tooltip', async () => {
             // then
-            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
@@ -88,9 +87,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await click('.tooltip-tag-information__button');
             });
 
-            it('should hide an overlay and tooltip', async () => {
+            it('should hide a tooltip', async () => {
               // then
-              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
@@ -154,9 +152,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should hide the overlay and tooltip', async function() {
+          it('should hide the tooltip', async function() {
             // then
-            expect(find('.challenge__overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 
@@ -290,9 +287,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should display an overlay and tooltip', async () => {
+          it('should display a tooltip', async () => {
             // then
-            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
@@ -317,9 +313,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await click('.tooltip-tag-information__button');
             });
 
-            it('should hide an overlay and tooltip', async () => {
+            it('should hide a tooltip', async () => {
               // then
-              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
