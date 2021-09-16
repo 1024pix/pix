@@ -166,8 +166,8 @@ describe('Integration | Component | comparison-window', function() {
         // then
         expect(find('.comparison-windows__default-message-container')).to.exist;
         expect(find('.comparison-windows__default-message-title')).to.exist;
-        expect(find('div[data-test-id="comparison-windows__default-message-picto-container"]')).to.exist;
-        expect(find('img[data-test-id="comparison-windows__default-message-picto"]')).to.exist;
+        expect(find('div.comparison-windows__default-message-container div')).to.exist;
+        expect(find('div.comparison-windows__default-message-container img')).to.exist;
       });
     });
 
