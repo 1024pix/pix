@@ -19,14 +19,6 @@ export default class ChallengeController extends Controller {
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = false;
   @tracked hasUserConfirmedWarning = false;
-  @tracked shouldRemoveTooltipOverlay = false;
-
-  get isTooltipOverlayDisplayed() {
-    if (this.model.challenge) {
-      return !this.shouldRemoveTooltipOverlay;
-    }
-    return false;
-  }
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -73,7 +65,6 @@ export default class ChallengeController extends Controller {
 
   async _updateUserAndTriggerOverlayRemoval(tooltipChallengeType) {
     await this.currentUser.user.save({ adapterOptions: tooltipChallengeType });
-    this.shouldRemoveTooltipOverlay = true;
   }
 
   @action

@@ -55,15 +55,15 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
-          it('should not display an info alert with dashed border and overlay', async function() {
+          it('should display an info alert with dashed border and overlay', async function() {
             // when
             const challengeItem = find('.challenge-item');
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
-            expect(find('.challenge__info-alert--show')).to.not.exist;
-            expect(find('.challenge-item__container--focused')).to.not.exist;
-            expect(find('.challenge__focused-out-overlay')).to.not.exist;
+            expect(find('.challenge__info-alert--show')).to.exist;
+            expect(find('.challenge-item__container--focused')).to.exist;
+            expect(find('.challenge__focused-out-overlay')).to.exist;
           });
 
           describe('when user closes tooltip', () => {
