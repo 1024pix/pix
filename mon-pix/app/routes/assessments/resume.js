@@ -86,7 +86,7 @@ export default class ResumeRoute extends Route {
   }
 
   _routeToNextChallenge(assessment) {
-    return this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 
   async _rateAssessment(assessment) {
@@ -97,22 +97,24 @@ export default class ResumeRoute extends Route {
 
   _routeToResults(assessment) {
     if (assessment.isCertification) {
-      return this.replaceWith('certifications.results', assessment.certificationNumber);
+      this.replaceWith('certifications.results', assessment.certificationNumber);
     }
-    if (assessment.isForCampaign) {
-      return this.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
+    else if (assessment.isForCampaign) {
+      this.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
     }
-    if (assessment.isCompetenceEvaluation) {
-      return this.replaceWith('competences.results', assessment.competenceId, assessment.id);
+    else if (assessment.isCompetenceEvaluation) {
+      this.replaceWith('competences.results', assessment.competenceId, assessment.id);
     }
-    return this.replaceWith('assessments.results', assessment.id);
+    else {
+      this.replaceWith('assessments.results', assessment.id);
+    }
   }
 
   _routeToCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 
   _routeToFinalCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 }
