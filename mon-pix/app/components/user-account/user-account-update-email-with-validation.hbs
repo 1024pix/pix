@@ -17,23 +17,32 @@
         @errorMessage={{this.newEmailValidationMessage}}
         {{on "focusout" this.validateNewEmail}}
         autocomplete="off"
+        required
       />
     </div>
     <div class="user-account-update-email-with-validation__informations">
       <p>{{t 'pages.user-account.account-update-email-with-validation.fields.password.security-information'}}</p>
     </div>
     <div class="user-account-update-email-with-validation__password-input">
-      <FormTextfield
-        @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}} @textfieldName="password"
-        @inputBindingValue={{this.password}} @onValidate={{this.validatePassword}}
-        @validationMessage={{this.passwordValidation.message}} @validationStatus={{this.passwordValidation.status}}
-        @autocomplete="off"
+      <PixInputPassword
+        @id="password"
+        @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}}
+        @errorMessage={{this.passwordValidationMessage}}
+        {{on "input" this.validatePassword}}
+        autocomplete="off"
+        required
       />
     </div>
+    {{#if this.errorMessage}}
+      <PixMessage @type='alert' class="user-account-update-email-with-validation__error-message">
+        {{this.errorMessage}}
+      </PixMessage>
+    {{/if}}
     <div class="user-account-update-email-with-validation__confirm-button">
       <PixButton
         class="user-account-update-email-with-validation-actions__confirm-button"
         @type="submit"
+        @isDisabled={{not this.isFormValid}}
       >
         {{t 'pages.user-account.account-update-email-with-validation.save-button'}}
       </PixButton>
