@@ -5,6 +5,7 @@
         <tr>
           <th>ID</th>
           <th>Nom</th>
+          <th class="col-status">Statut</th>
         </tr>
         <tr>
           <th>
@@ -15,6 +16,7 @@
             <input id="name" type="text" value={{@name}} oninput={{perform @triggerFiltering 'name' }}
               class="table-admin-input" />
           </th>
+          <th></th>
         </tr>
       </thead>
 
@@ -25,6 +27,9 @@
           class="tr--clickable">
           <td>{{targetProfile.id}}</td>
           <td>{{targetProfile.name}}</td>
+          <td class="target-profile-table-column__status">
+            {{if targetProfile.outdated "Obsolète" "Actif"}}
+          </td>
         </tr>
         {{/each}}
       </tbody>
