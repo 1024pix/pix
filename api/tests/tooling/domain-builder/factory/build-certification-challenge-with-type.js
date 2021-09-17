@@ -8,6 +8,7 @@ module.exports = function buildCertificationChallengeWithType({
   type = Challenge.Type.QCU,
   associatedSkillName = 'cueillir des fleurs',
   isNeutralized = false,
+  isSkipped = false,
   certifiableBadgeKey = null,
 } = {}) {
 
@@ -18,6 +19,7 @@ module.exports = function buildCertificationChallengeWithType({
     associatedSkillName,
     type,
     isNeutralized,
+    isSkipped,
     certifiableBadgeKey,
   });
 };
