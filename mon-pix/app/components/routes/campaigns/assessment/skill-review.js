@@ -31,7 +31,7 @@ export default class SkillReview extends Component {
   }
 
   get showBadges() {
-    return this.acquiredBadges.length > 0;
+    return this.orderedBadges.length > 0;
   }
 
   get acquiredBadges() {
@@ -39,8 +39,16 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => badge.isAcquired);
   }
 
+  get notAcquiredBadges() {
+    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return badges.filter((badge) => !badge.isAcquired);
+  }
+
   get orderedBadges() {
-    return this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return [
+      ...this.acquiredBadges,
+      ...this.notAcquiredBadges,
+    ];
   }
 
   get showStages() {
