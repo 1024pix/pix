@@ -180,6 +180,10 @@ class CertificationCourse {
     return this._abortReason === 'candidate';
   }
 
+  isAbortReasonTechnical() {
+    return this._abortReason === 'technical';
+  }
+
   isPublished() {
     return this._isPublished;
   }
