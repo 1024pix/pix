@@ -256,6 +256,96 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
       expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'recChal456').isSkipped).to.be.false;
     });
 
+    it('should save certification assessment', async function() {
+      // given
+      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+      const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({
+        id: 123,
+        associatedSkillName: 'cueillir des fleurs',
+        challengeId: 'recChal123',
+        type: 'QCU',
+        competenceId: 'recCOMP',
+        isNeutralized: false,
+        isSkipped: true,
+        certifiableBadgeKey: null,
+      });
+      const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({
+        id: 123,
+        associatedSkillName: 'cueillir des fleurs',
+        challengeId: 'recChal456',
+        type: 'QCU',
+        competenceId: 'recCOMP',
+        isNeutralized: false,
+        isSkipped: false,
+        certifiableBadgeKey: null,
+      });
+      const answeredChallenge = domainBuilder.buildAnswer({
+        challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
+      });
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationAnswersByDate: [answeredChallenge],
+        certificationChallenges: [challengeToBeConsideredAsSkipped, challengeNotToBeConsideredAsSkipped],
+      });
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        completedAt: null,
+        abortReason: 'candidate',
+      });
+      certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+      const event = new SessionFinalized({
+        sessionId: 1234,
+        finalizedAt: new Date(),
+        hasExaminerGlobalComment: false,
+        certificationCenterName: 'A certification center name',
+        sessionDate: '2021-01-29',
+        sessionTime: '14:00',
+      });
+
+      // when
+      await handleAutoJury({
+        event,
+        certificationIssueReportRepository,
+        certificationAssessmentRepository,
+        certificationCourseRepository,
+      });
+
+      // then
+      const expectedCertificationAssessment = domainBuilder.buildCertificationAssessment({
+        id: 123,
+        userId: 123,
+        certificationCourseId: 123,
+        createdAt: new Date('2020-01-01T00:00:00Z'),
+        completedAt: new Date('2020-01-01T00:00:00Z'),
+        state: 'started',
+        isV2Certification: true,
+        certificationChallenges: [
+          domainBuilder.buildCertificationChallengeWithType({
+            ...challengeToBeConsideredAsSkipped,
+            isSkipped: true,
+          }),
+          challengeNotToBeConsideredAsSkipped,
+        ],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({
+            id: 123,
+            result: 'ok',
+            resultDetails: null,
+            timeout: null,
+            focusedOut: false,
+            value: '1',
+            levelup: undefined,
+            assessmentId: 456,
+            challengeId: 'recChal456',
+            timeSpent: 20,
+          }),
+        ],
+      });
+      expect(certificationAssessmentRepository.save).to.have.been.calledWithExactly(expectedCertificationAssessment);
+    });
+
   });
   context('when certificationCourse is completed', function() {
 
