@@ -81,6 +81,10 @@ async function _autoCompleteUnfinishedTest({
     certificationAssessment.skipUnpassedChallenges();
   }
 
+  if (certificationCourse.isAbortReasonTechnical()) {
+    certificationAssessment.neutralizeUnpassedChallenges();
+  }
+
   await certificationAssessmentRepository.save(certificationAssessment);
 
   return true;
