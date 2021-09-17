@@ -1323,7 +1323,9 @@
         "fields": {
           "errors": {
             "empty-password": "Your password can't be empty.",
-            "invalid-email": "Your email address is invalid."
+            "invalid-email": "Your email address is invalid.",
+            "new-email-already-exist": "This email address is already in use.",
+            "invalid-password": "There was an error in the password entered."
           },
           "new-email": {
             "label": "New email address"
