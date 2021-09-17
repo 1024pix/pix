@@ -23,6 +23,13 @@
     min-height: 200px;
   }
 
+  &__status {
+
+    p {
+      margin-top: 0;
+    }
+  }
+
   &__text {
     display: flex;
     flex-direction: column;
@@ -71,5 +78,22 @@
     img {
       width: 90px;
     }
+
+    &--not-acquired {
+      filter: grayscale(1);
+    }
+  }
+}
+
+.badge-card-status {
+
+  &__acquired-icon {
+    color: $green;
+    margin-right: 4px;
+  }
+
+  &__not-acquired-icon {
+    color: $grey-45;
+    margin-right: 4px;
   }
 }
