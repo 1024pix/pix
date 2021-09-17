@@ -111,6 +111,14 @@ class CertificationAssessment {
   getChallengeRecIdByQuestionNumber(questionNumber) {
     return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
   }
+
+  skipUnpassedChallenges() {
+    this.certificationChallenges.map((certificationChallenge) => {
+      if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
+        return certificationChallenge.skip();
+      }
+    });
+  }
 }
 
 function _isAnswerKoOrSkippedOrPartially(answerStatus) {

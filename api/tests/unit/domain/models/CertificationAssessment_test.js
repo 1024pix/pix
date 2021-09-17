@@ -536,4 +536,30 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       expect(recId).to.equal(null);
     });
   });
+
+  describe('#skipUnpassedChallenges', function() {
+    it('should skip unanswered challenges', function() {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', isSkipped: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', isSkipped: false });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', isSkipped: false });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge1.challengeId, result: AnswerStatus.KO.status }),
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge3.challengeId, result: AnswerStatus.KO.status }),
+        ],
+      });
+
+      // when
+      certificationAssessment.skipUnpassedChallenges();
+
+      // then
+      expect(certificationAssessment.certificationChallenges[1].isSkipped).to.be.true;
+      expect(certificationAssessment.certificationChallenges[1].challengeId).to.equal('rec456');
+      expect(certificationAssessment.certificationChallenges[0].isSkipped).to.be.false;
+      expect(certificationAssessment.certificationChallenges[2].isSkipped).to.be.false;
+    });
+  });
 });
