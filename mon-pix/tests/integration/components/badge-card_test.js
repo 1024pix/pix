@@ -4,7 +4,7 @@ import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
 import { find, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-describe('Integration | Component | Badge Acquired Card', function() {
+describe('Integration | Component | Badge Card', function() {
   setupIntlRenderingTest();
 
   beforeEach(function() {
@@ -16,11 +16,11 @@ describe('Integration | Component | Badge Acquired Card', function() {
 
   it('should render the badge acquired card', async function() {
     // when
-    await render(hbs`<BadgeAcquiredCard @message={{this.message}} @title={{this.title}} @imageUrl={{this.imageUrl}} @altMessage={{this.altMessage}} />`);
+    await render(hbs`<BadgeCard @message={{this.message}} @title={{this.title}} @imageUrl={{this.imageUrl}} @altMessage={{this.altMessage}} />`);
 
     // then
-    expect(find('.badge-acquired-card')).to.exist;
-    expect(find('.badge-acquired-card-text__title').textContent.trim()).to.equal('Badge de winner');
-    expect(find('.badge-acquired-card-text__message').textContent.trim()).to.equal('Bravo ! Tu as ton badge !');
+    expect(find('.badge-card')).to.exist;
+    expect(find('.badge-card-text__title').textContent.trim()).to.equal('Badge de winner');
+    expect(find('.badge-card-text__message').textContent.trim()).to.equal('Bravo ! Tu as ton badge !');
   });
 });

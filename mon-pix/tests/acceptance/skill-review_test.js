@@ -170,7 +170,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);
 
         // then
-        expect(findAll('.badge-acquired-card').length).to.equal(2);
+        expect(findAll('.badge-card').length).to.equal(2);
       });
 
       describe('when campaign has stages', async function() {
