@@ -17,6 +17,7 @@
         @errorMessage={{this.newEmailValidationMessage}}
         {{on "focusout" this.validateNewEmail}}
         autocomplete="off"
+        required
       />
     </div>
     <div class="user-account-update-email-with-validation__informations">
@@ -27,8 +28,9 @@
         @id="password"
         @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}}
         @errorMessage={{this.passwordValidationMessage}}
-        {{on "focusout" this.validatePassword}}
+        {{on "input" this.validatePassword}}
         autocomplete="off"
+        required
       />
     </div>
     {{#if this.errorMessage}}

@@ -70,7 +70,6 @@ describe('Integration | Component | user-account-update-email-with-validation', 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), emptyPassword);
-          await triggerEvent('#password', 'focusout');
 
           // then
           expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.fields.errors.empty-password'))).to.exist;
@@ -92,7 +91,6 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
-      await triggerEvent('#password', 'focusout');
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
@@ -112,7 +110,6 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), emailAlreadyExist);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
-      await triggerEvent('#password', 'focusout');
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
@@ -132,7 +129,6 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
-      await triggerEvent('#password', 'focusout');
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
@@ -152,7 +148,6 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
-      await triggerEvent('#password', 'focusout');
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
@@ -172,7 +167,6 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
-      await triggerEvent('#password', 'focusout');
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
