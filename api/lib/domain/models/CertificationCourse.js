@@ -172,6 +172,10 @@ class CertificationCourse {
     this._birthdate = modifiedBirthdate;
   }
 
+  isCompleted() {
+    return Boolean(this._completedAt);
+  }
+
   isPublished() {
     return this._isPublished;
   }
