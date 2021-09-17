@@ -176,6 +176,10 @@ class CertificationCourse {
     return Boolean(this._completedAt);
   }
 
+  isAbortReasonCandidate() {
+    return this._abortReason === 'candidate';
+  }
+
   isPublished() {
     return this._isPublished;
   }
