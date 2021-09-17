@@ -33,6 +33,7 @@ async function handleAutoJury({
     const hasAutoCompleteAnEffectOnScoring = await _autoCompleteUnfinishedTest({
       certificationCourse,
       certificationAssessment,
+      certificationAssessmentRepository,
     });
 
     const hasAutoResolutionAnEffectOnScoring = await _autoResolveCertificationIssueReport({
@@ -66,9 +67,10 @@ async function handleAutoJury({
   ];
 }
 
-function _autoCompleteUnfinishedTest({
+async function _autoCompleteUnfinishedTest({
   certificationCourse,
   certificationAssessment,
+  certificationAssessmentRepository,
 }) {
 
   if (certificationCourse.isCompleted()) {
@@ -76,6 +78,8 @@ function _autoCompleteUnfinishedTest({
   }
 
   certificationAssessment.skipUnpassedChallenges();
+
+  await certificationAssessmentRepository.save(certificationAssessment);
 
   return true;
 }
