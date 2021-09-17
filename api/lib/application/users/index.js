@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const XRegExp = require('xregexp');
-
+const featureToggles = require('../preHandlers/feature-toggles');
 const securityPreHandlers = require('../security-pre-handlers');
 const userController = require('./user-controller');
 const { sendJsonApiError, BadRequestError } = require('../http-errors');
@@ -633,6 +633,44 @@ exports.register = async function(server) {
           'des inscriptions scolaires qui lui sont rattachées.',
         ],
         tags: ['api', 'administration', 'user'],
+      },
+    },
+    {
+      method: 'PUT',
+      path: '/api/users/{id}/email/verification-code',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.userId,
+          }),
+          payload: Joi.object({
+            data: {
+              type: Joi.string().valid('email-verification-code').required(),
+              attributes: {
+                newEmail: Joi.string().email().required(),
+                password: Joi.string().required(),
+              },
+            },
+          }),
+          failAction: (request, h, error) => {
+            return EntityValidationError.fromJoiErrors(error.details);
+          },
+        },
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+          {
+            method: featureToggles.checkIfEmailValidationIsEnabled,
+            assign: 'isEmailValidationEnabled',
+          },
+        ],
+        handler: userController.sendVerificationCode,
+        notes: [
+          '- Permet à un utilisateur de recevoir un code de vérification pour la validation de son adresse mail.',
+        ],
+        tags: ['api', 'user', 'verification-code'],
       },
     },
   ]);

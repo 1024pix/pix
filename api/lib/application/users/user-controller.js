@@ -266,4 +266,13 @@ module.exports = {
     return h.response().code(204);
   },
 
+  async sendVerificationCode(request, h) {
+    const locale = extractLocaleFromRequest(request);
+    const userId = request.params.id;
+    const { newEmail, password } = request.payload.data.attributes;
+
+    await usecases.sendVerificationCode({ locale, newEmail, password, userId });
+    return h.response().code(204);
+  },
+
 };

@@ -875,4 +875,52 @@ describe('Unit | Controller | user-controller', function() {
     });
   });
 
+  describe('#sendVerificationCode', function() {
+
+    beforeEach(function() {
+      sinon.stub(usecases, 'sendVerificationCode');
+    });
+
+    it('should call the usecase to send verification code with code, email and locale', async function() {
+      // given
+      usecases.sendVerificationCode.resolves();
+      const userId = 1;
+      const locale = 'fr';
+      const newEmail = 'user@example.net';
+      const password = 'Password123';
+
+      const request = {
+        headers: { 'accept-language': locale },
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        payload: {
+          data: {
+            type: 'users',
+            attributes: {
+              newEmail,
+              password,
+            },
+          },
+        },
+      };
+
+      // when
+      await userController.sendVerificationCode(request, hFake);
+
+      // then
+      expect(usecases.sendVerificationCode).to.have.been.calledWith({
+        locale,
+        newEmail,
+        password,
+        userId,
+      });
+    });
+  });
+
 });

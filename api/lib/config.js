@@ -85,6 +85,7 @@ module.exports = (function() {
           certificationResultTemplateId: process.env.SENDINBLUE_CERTIFICATION_RESULT_TEMPLATE_ID,
           emailChangeTemplateId: process.env.SENDINBLUE_EMAIL_CHANGE_TEMPLATE_ID,
           accountRecoveryTemplateId: process.env.SENDINBLUE_ACCOUNT_RECOVERY_TEMPLATE_ID,
+          emailVerificationCodeTemplateId: process.env.SENDINBLUE_EMAIL_VERIFICATION_CODE_TEMPLATE_ID,
         },
       },
     },
@@ -181,6 +182,11 @@ module.exports = (function() {
       poleEmploiIdentityProvider: (process.env.POLE_EMPLOI_IDENTITY_PROVIDER || 'POLE_EMPLOI'),
     },
 
+    temporaryStorage: {
+      expirationDelaySeconds: parseInt(process.env.TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 600,
+      redisUrl: process.env.REDIS_URL,
+    },
+
     graviteeRegisterApplicationsCredentials: [
       {
         clientId: process.env.LSU_CLIENT_ID,
@@ -239,6 +245,7 @@ module.exports = (function() {
     config.mailing.sendinblue.templates.passwordResetTemplateId = 'test-password-reset-template-id';
     config.mailing.sendinblue.templates.emailChangeTemplateId = 'test-email-change-template-id';
     config.mailing.sendinblue.templates.accountRecoveryTemplateId = 'test-account-recovery-template-id';
+    config.mailing.sendinblue.templates.emailVerificationCodeTemplateId = 'test-email-verification-code-template-id';
 
     config.authentication.secret = 'test-jwt-key';
     config.authentication.tokenLifespan = '1d';
