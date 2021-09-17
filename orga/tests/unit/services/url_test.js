@@ -137,4 +137,48 @@ module('Unit | Service | url', function(hooks) {
       assert.equal(url, expectedUrl);
     });
   });
+
+  module('#accessibilityUrl', function() {
+
+    test('should get "pix.fr" when current domain contains pix.fr', function(assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedUrl = 'https://pix.fr/accessibilite-pix-orga';
+      service.currentDomain = { getExtension: sinon.stub().returns('fr') };
+
+      // when
+      const url = service.accessibilityUrl;
+
+      // then
+      assert.equal(url, expectedUrl);
+    });
+
+    test('should get "pix.org" in english when current language is en', function(assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedUrl = 'https://pix.org/en-gb/accessibility-pix-orga';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('en') };
+
+      // when
+      const url = service.accessibilityUrl;
+
+      // then
+      assert.equal(url, expectedUrl);
+    });
+
+    test('should get "pix.org" in french when current language is fr', function(assert) {
+      // given
+      const service = this.owner.lookup('service:url');
+      const expectedUrl = 'https://pix.org/accessibilite-pix-orga';
+      service.currentDomain = { getExtension: sinon.stub().returns('org') };
+      service.intl = { t: sinon.stub().returns('fr') };
+
+      // when
+      const url = service.accessibilityUrl;
+
+      // then
+      assert.equal(url, expectedUrl);
+    });
+  });
 });
