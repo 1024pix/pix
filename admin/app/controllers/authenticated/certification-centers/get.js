@@ -26,6 +26,8 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   @tracked isEditMode = false;
   @tracked selectedCertificationCenterType;
 
+  @tracked isEditMode = false;
+
   get isDisabled() {
     return !this.userEmailToAdd || !!this.errorMessage;
   }

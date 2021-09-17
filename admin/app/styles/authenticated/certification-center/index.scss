@@ -42,14 +42,6 @@
     }
   }
 
-  .accreditations-checkbox-list {
-    display: flex;
-
-    ul {
-      list-style-type: none;
-    }
-  }
-
   .certification-center {
 
     &__section {
@@ -76,10 +68,18 @@
   ul {
     list-style-type: none;
     margin: 8px;
-    padding: 0px;
+    padding: 0;
   }
 
   .accreditation-entry {
     display: block;
+  }
+
+  .accreditations-checkbox-list {
+    display: flex;
+
+    ul {
+      list-style-type: none;
+    }
   }
 }
