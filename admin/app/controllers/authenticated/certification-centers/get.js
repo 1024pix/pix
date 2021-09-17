@@ -48,6 +48,16 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     }
   }
 
+  @action
+  updateGrantedAccreditation(accreditation) {
+    const accreditations = this.model.certificationCenter.accreditations;
+    if (accreditations.includes(accreditation)) {
+      accreditations.removeObject(accreditation);
+    } else {
+      accreditations.addObject(accreditation);
+    }
+  }
+
   _getEmailErrorMessage(email) {
     return email && !isEmailValid(email) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
   }

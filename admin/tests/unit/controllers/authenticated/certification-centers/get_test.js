@@ -26,11 +26,14 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
     });
 
     const store = this.owner.lookup('service:store');
+    const testAccreditation = store.createRecord('accreditation', { name: 'Accreditation test' });
+
     certificationCenter = store.createRecord('certification-center', {
       id: 1,
       name: 'Centre des Anne-Etoiles',
       type: 'PRO',
       externalId: 'ex123',
+      accreditations: [testAccreditation],
     });
 
     controller.store = Service.create({
@@ -201,6 +204,44 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
           assert.ok(true);
         });
       });
+    });
+  });
+
+  module('#updateGrantedAccreditation', function () {
+    test('it should add the accreditation to the certification center', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const cleaAccreditation = store.createRecord('accreditation', { name: 'Pix+clea' });
+
+      // when
+      controller.updateGrantedAccreditation(cleaAccreditation);
+
+      // then
+      assert.true(controller.model.certificationCenter.accreditations.includes(cleaAccreditation));
+    });
+
+    test('it should remove the accreditation from the certification center', function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const pixSurfAccreditation = store.createRecord('accreditation', { name: 'Pix+Surf' });
+
+      certificationCenter = store.createRecord('certification-center', {
+        id: 2,
+        name: 'Centre des Anne-surfeuses',
+        type: 'PRO',
+        externalId: 'ex313',
+        accreditations: [pixSurfAccreditation],
+      });
+
+      controller.model = {
+        certificationCenter,
+      };
+
+      // when
+      controller.updateGrantedAccreditation(pixSurfAccreditation);
+
+      // then
+      assert.false(controller.model.certificationCenter.accreditations.includes(pixSurfAccreditation));
     });
   });
 });
