@@ -82,7 +82,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
     await visit(`/certification-centers/${certificationCenter.id}`);
 
     // then
-    const grantedAccreditations = findAll('.certification-center__data > ul > li > svg[data-icon="check-circle"]');
+    const grantedAccreditations = findAll('.accreditations-list > ul > li > svg[data-icon="check-circle"]');
     assert.equal(grantedAccreditations.length, 2);
   });
 
@@ -112,7 +112,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       // then
       assert.contains('Ajouter un membre');
       assert.dom('[aria-label="Adresse e-mail du nouveau membre"]').exists();
-      assert.dom('button').hasText('Valider');
+      assert.contains('Valider');
       assert.dom('.error').notExists;
     });
 
