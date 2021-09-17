@@ -21,6 +21,8 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   @tracked userEmailToAdd;
   @tracked errorMessage;
 
+  @tracked isEditMode = false;
+
   get isDisabled() {
     return !this.userEmailToAdd || !!this.errorMessage;
   }
@@ -33,7 +35,6 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   @action
   async addCertificationCenterMembership(event) {
     event && event.preventDefault();
-
     this.errorMessage = this._getEmailErrorMessage(this.userEmailToAdd);
     if (!this.userEmailToAdd) {
       this.errorMessage = this.EMAIL_REQUIRED_ERROR_MESSAGE;
@@ -49,6 +50,11 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   }
 
   @action
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
+  }
+
+  @action
   updateGrantedAccreditation(accreditation) {
     const accreditations = this.model.certificationCenter.accreditations;
     if (accreditations.includes(accreditation)) {
@@ -58,13 +64,25 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     }
   }
 
+  @action
+  async submitForm(event) {
+    event.preventDefault();
+    try {
+      await this.model.certificationCenter.save();
+      this.notifications.success('Centre de certification mis à jour avec succès.');
+    } catch (e) {
+      this.notifications.error("Une erreur est survenue, le centre de certification n'a pas été mis à jour.");
+    }
+
+    this.toggleEditMode();
+  }
+
   _getEmailErrorMessage(email) {
     return email && !isEmailValid(email) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
   }
 
   async _createCertificationCenterMembership() {
     const { certificationCenter } = this.model;
-
     await this.store.createRecord('certification-center-membership').save({
       adapterOptions: {
         createByEmail: true,
