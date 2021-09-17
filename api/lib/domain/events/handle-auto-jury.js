@@ -77,12 +77,12 @@ async function _autoCompleteUnfinishedTest({
     return false;
   }
 
-  if (certificationCourse.isAbortReasonCandidate()) {
-    certificationAssessment.skipUnpassedChallenges();
+  if (certificationCourse.isAbortReasonCandidateRelated()) {
+    certificationAssessment.skipUnansweredChallenges();
   }
 
-  if (certificationCourse.isAbortReasonTechnical()) {
-    certificationAssessment.neutralizeUnpassedChallenges();
+  if (certificationCourse.isAbortReasonCandidateUnrelated()) {
+    certificationAssessment.neutralizeUnansweredChallenges();
   }
 
   await certificationAssessmentRepository.save(certificationAssessment);

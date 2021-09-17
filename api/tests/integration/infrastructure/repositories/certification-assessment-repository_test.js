@@ -275,22 +275,22 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
 
       const certificationChallenge1RecId = 'rec1234';
       const certificationChallenge2RecId = 'rec567' ;
-      dbf.buildCertificationChallenge({ challengeId: certificationChallenge1RecId, courseId: certificationCourseId, isSkipped: false });
-      dbf.buildCertificationChallenge({ challengeId: certificationChallenge2RecId, courseId: certificationCourseId, isSkipped: false });
-      dbf.buildCertificationChallenge({ challengeId: 'rec8910', courseId: certificationCourseId, isSkipped: false });
+      dbf.buildCertificationChallenge({ challengeId: certificationChallenge1RecId, courseId: certificationCourseId, hasBeenSkippedAutomatically: false });
+      dbf.buildCertificationChallenge({ challengeId: certificationChallenge2RecId, courseId: certificationCourseId, hasBeenSkippedAutomatically: false });
+      dbf.buildCertificationChallenge({ challengeId: 'rec8910', courseId: certificationCourseId, hasBeenSkippedAutomatically: false });
 
       await databaseBuilder.commit();
       const certificationAssessmentToBeSaved = await certificationAssessmentRepository.get(certificationAssessmentId);
 
       // when
-      certificationAssessmentToBeSaved.skipUnpassedChallenges();
+      certificationAssessmentToBeSaved.skipUnansweredChallenges();
       await certificationAssessmentRepository.save(certificationAssessmentToBeSaved);
 
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
-      expect(persistedCertificationAssessment.certificationChallenges[0].isSkipped).to.be.false;
-      expect(persistedCertificationAssessment.certificationChallenges[1].isSkipped).to.be.true;
-      expect(persistedCertificationAssessment.certificationChallenges[2].isSkipped).to.be.true;
+      expect(persistedCertificationAssessment.certificationChallenges[0].hasBeenSkippedAutomatically).to.be.false;
+      expect(persistedCertificationAssessment.certificationChallenges[1].hasBeenSkippedAutomatically).to.be.true;
+      expect(persistedCertificationAssessment.certificationChallenges[2].hasBeenSkippedAutomatically).to.be.true;
     });
   });
 });

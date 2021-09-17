@@ -537,12 +537,12 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
     });
   });
 
-  describe('#skipUnpassedChallenges', function() {
+  describe('#skipUnansweredChallenges', function() {
     it('should skip unanswered challenges', function() {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', isSkipped: false });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', isSkipped: false });
-      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', isSkipped: false });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', hasBeenSkippedAutomatically: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', hasBeenSkippedAutomatically: false });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', hasBeenSkippedAutomatically: false });
 
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3],
@@ -553,17 +553,17 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       });
 
       // when
-      certificationAssessment.skipUnpassedChallenges();
+      certificationAssessment.skipUnansweredChallenges();
 
       // then
-      expect(certificationAssessment.certificationChallenges[1].isSkipped).to.be.true;
+      expect(certificationAssessment.certificationChallenges[1].hasBeenSkippedAutomatically).to.be.true;
       expect(certificationAssessment.certificationChallenges[1].challengeId).to.equal('rec456');
-      expect(certificationAssessment.certificationChallenges[0].isSkipped).to.be.false;
-      expect(certificationAssessment.certificationChallenges[2].isSkipped).to.be.false;
+      expect(certificationAssessment.certificationChallenges[0].hasBeenSkippedAutomatically).to.be.false;
+      expect(certificationAssessment.certificationChallenges[2].hasBeenSkippedAutomatically).to.be.false;
     });
   });
 
-  describe('#neutralizeUnpassedChallenges', function() {
+  describe('#neutralizeUnansweredChallenges', function() {
     it('should neutralize unanswered challenges', function() {
       // given
       const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', isNeutralized: false });
@@ -579,7 +579,7 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       });
 
       // when
-      certificationAssessment.neutralizeUnpassedChallenges();
+      certificationAssessment.neutralizeUnansweredChallenges();
 
       // then
       expect(certificationAssessment.certificationChallenges[1].isNeutralized).to.be.true;

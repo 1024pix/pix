@@ -112,15 +112,15 @@ class CertificationAssessment {
     return this.certificationAnswersByDate[questionNumber - 1]?.challengeId || null;
   }
 
-  skipUnpassedChallenges() {
+  skipUnansweredChallenges() {
     this.certificationChallenges.map((certificationChallenge) => {
       if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
-        return certificationChallenge.skip();
+        return certificationChallenge.skipAutomatically();
       }
     });
   }
 
-  neutralizeUnpassedChallenges() {
+  neutralizeUnansweredChallenges() {
     this.certificationChallenges.map((certificationChallenge) => {
       if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
         return certificationChallenge.neutralize();

@@ -214,8 +214,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
         const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
         const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
         const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-        const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false, isSkipped: false });
-        const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false, isSkipped: false });
+        const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false, hasBeenSkippedAutomatically: false });
+        const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false, hasBeenSkippedAutomatically: false });
         const answeredChallenge = domainBuilder.buildAnswer({
           challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
         });
@@ -249,9 +249,9 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
         });
 
         // then
-        expect(certificationAssessment.certificationChallenges[0].isSkipped).to.be.true;
+        expect(certificationAssessment.certificationChallenges[0].hasBeenSkippedAutomatically).to.be.true;
         expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal('recChal123');
-        expect(certificationAssessment.certificationChallenges[1].isSkipped).to.be.false;
+        expect(certificationAssessment.certificationChallenges[1].hasBeenSkippedAutomatically).to.be.false;
       });
     });
 
@@ -261,8 +261,8 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
         const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
         const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
         const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-        const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false, isSkipped: false });
-        const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false, isSkipped: false });
+        const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false, hasBeenSkippedAutomatically: false });
+        const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false, hasBeenSkippedAutomatically: false });
         const answeredChallenge = domainBuilder.buildAnswer({
           challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
         });
@@ -314,7 +314,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
         type: 'QCU',
         competenceId: 'recCOMP',
         isNeutralized: false,
-        isSkipped: true,
+        hasBeenSkippedAutomatically: true,
         certifiableBadgeKey: null,
       });
       const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({
@@ -324,7 +324,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
         type: 'QCU',
         competenceId: 'recCOMP',
         isNeutralized: false,
-        isSkipped: false,
+        hasBeenSkippedAutomatically: false,
         certifiableBadgeKey: null,
       });
       const answeredChallenge = domainBuilder.buildAnswer({
@@ -370,7 +370,7 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
         certificationChallenges: [
           domainBuilder.buildCertificationChallengeWithType({
             ...challengeToBeConsideredAsSkipped,
-            isSkipped: true,
+            hasBeenSkippedAutomatically: true,
           }),
           challengeNotToBeConsideredAsSkipped,
         ],
