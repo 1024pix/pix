@@ -77,7 +77,9 @@ async function _autoCompleteUnfinishedTest({
     return false;
   }
 
-  certificationAssessment.skipUnpassedChallenges();
+  if (certificationCourse.isAbortReasonCandidate()) {
+    certificationAssessment.skipUnpassedChallenges();
+  }
 
   await certificationAssessmentRepository.save(certificationAssessment);
 

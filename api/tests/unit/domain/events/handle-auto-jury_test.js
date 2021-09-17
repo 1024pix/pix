@@ -208,49 +208,51 @@ describe('Unit | Domain | Events | handle-auto-jury', function() {
       }));
     });
 
-    it('should skip unpassed challenges', async function() {
-      // given
-      const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
-      const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
-      const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false, isSkipped: false });
-      const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false, isSkipped: false });
-      const answeredChallenge = domainBuilder.buildAnswer({
-        challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
-      });
-      const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationAnswersByDate: [answeredChallenge],
-        certificationChallenges: [challengeToBeConsideredAsSkipped, challengeNotToBeConsideredAsSkipped],
-      });
-      const certificationCourse = domainBuilder.buildCertificationCourse({
-        completedAt: null,
-        abortReason: 'candidate',
-      });
-      certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
-      certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
-      certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
-      certificationAssessmentRepository.save.resolves();
-      const event = new SessionFinalized({
-        sessionId: 1234,
-        finalizedAt: new Date(),
-        hasExaminerGlobalComment: false,
-        certificationCenterName: 'A certification center name',
-        sessionDate: '2021-01-29',
-        sessionTime: '14:00',
-      });
+    context('when abort reason is candidate', function() {
+      it('should skip unpassed challenges', async function() {
+        // given
+        const certificationCourseRepository = { findCertificationCoursesBySessionId: sinon.stub() };
+        const certificationIssueReportRepository = { findByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const certificationAssessmentRepository = { getByCertificationCourseId: sinon.stub(), save: sinon.stub() };
+        const challengeToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal123', isNeutralized: false, isSkipped: false });
+        const challengeNotToBeConsideredAsSkipped = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recChal456', isNeutralized: false, isSkipped: false });
+        const answeredChallenge = domainBuilder.buildAnswer({
+          challengeId: challengeNotToBeConsideredAsSkipped.challengeId,
+        });
+        const certificationAssessment = domainBuilder.buildCertificationAssessment({
+          certificationAnswersByDate: [answeredChallenge],
+          certificationChallenges: [challengeToBeConsideredAsSkipped, challengeNotToBeConsideredAsSkipped],
+        });
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          completedAt: null,
+          abortReason: 'candidate',
+        });
+        certificationCourseRepository.findCertificationCoursesBySessionId.withArgs({ sessionId: 1234 }).resolves([ certificationCourse ]);
+        certificationIssueReportRepository.findByCertificationCourseId.withArgs(certificationCourse.getId()).resolves([]);
+        certificationAssessmentRepository.getByCertificationCourseId.withArgs({ certificationCourseId: certificationCourse.getId() }).resolves(certificationAssessment);
+        certificationAssessmentRepository.save.resolves();
+        const event = new SessionFinalized({
+          sessionId: 1234,
+          finalizedAt: new Date(),
+          hasExaminerGlobalComment: false,
+          certificationCenterName: 'A certification center name',
+          sessionDate: '2021-01-29',
+          sessionTime: '14:00',
+        });
 
-      // when
-      await handleAutoJury({
-        event,
-        certificationIssueReportRepository,
-        certificationAssessmentRepository,
-        certificationCourseRepository,
-      });
+        // when
+        await handleAutoJury({
+          event,
+          certificationIssueReportRepository,
+          certificationAssessmentRepository,
+          certificationCourseRepository,
+        });
 
-      // then
-      expect(certificationAssessment.certificationChallenges[0].isSkipped).to.be.true;
-      expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal('recChal123');
-      expect(certificationAssessment.certificationChallenges[1].isSkipped).to.be.false;
+        // then
+        expect(certificationAssessment.certificationChallenges[0].isSkipped).to.be.true;
+        expect(certificationAssessment.certificationChallenges[0].challengeId).to.equal('recChal123');
+        expect(certificationAssessment.certificationChallenges[1].isSkipped).to.be.false;
+      });
     });
 
     it('should save certification assessment', async function() {
