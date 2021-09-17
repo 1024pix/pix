@@ -119,6 +119,14 @@ class CertificationAssessment {
       }
     });
   }
+
+  neutralizeUnansweredChallenges() {
+    this.certificationChallenges.forEach((certificationChallenge) => {
+      if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
+        certificationChallenge.neutralize();
+      }
+    });
+  }
 }
 
 function _isAnswerKoOrSkippedOrPartially(answerStatus) {
