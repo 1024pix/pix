@@ -16,6 +16,38 @@
       font-size: 1.2rem;
       font-weight: 600;
     }
+
+    .accreditations-list {
+      background-color: #F4F5F7;
+      border-radius: 16px;
+      display: flex;
+      padding: 8px;
+
+      li {
+        float: left;
+        width: 200px;
+      }
+
+      .granted-accreditation-icon {
+        color: $green;
+      }
+
+      .not-granted-accreditation-icon {
+        color: $grey-35;
+      }
+    }
+
+    button {
+      margin: 16px 0;
+    }
+  }
+
+  .accreditations-checkbox-list {
+    display: flex;
+
+    ul {
+      list-style-type: none;
+    }
   }
 
   .certification-center {
@@ -29,6 +61,10 @@
         width: 310px;
       }
     }
+
+    &__edit-form {
+      width: 500px;
+    }
   }
 
   .error {
@@ -38,21 +74,12 @@
   }
 
   ul {
-    padding: 0;
-    margin: 0;
     list-style-type: none;
+    margin: 8px;
+    padding: 0px;
   }
 
-  li {
-    float: left;
-    width: 200px;
-  }
-
-  .granted-accreditation-icon {
-    color: $green;
-  }
-
-  .not-granted-accreditation-icon {
-    color: $grey-35;
+  .accreditation-entry {
+    display: block;
   }
 }
