@@ -30,7 +30,9 @@ async function handleAutoJury({
 
     const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
 
-    const certificationJuryDoneEvent = await _autoNeutralizeChallenges({
+    const hasAutoCompleteAnEffectOnScoring = await _autoCompleteUnfinishedTest();
+
+    const hasAutoResolutionAnEffectOnScoring = await _autoResolveCertificationIssueReport({
       certificationCourse,
       certificationAssessment,
       certificationIssueReportRepository,
@@ -39,13 +41,17 @@ async function handleAutoJury({
       logger,
     });
 
-    certificationJuryDoneEvents.push(certificationJuryDoneEvent);
+    if (hasAutoResolutionAnEffectOnScoring || hasAutoCompleteAnEffectOnScoring) {
+
+      const certificationJuryDoneEvent = new CertificationJuryDone({ certificationCourseId: certificationCourse.getId() });
+
+      certificationJuryDoneEvents.push(certificationJuryDoneEvent);
+    }
+
   }
 
-  const filteredCertificationJuryDoneEvents = certificationJuryDoneEvents.filter((certificationJuryDoneEvent) => Boolean(certificationJuryDoneEvent));
-
   return [
-    ...filteredCertificationJuryDoneEvents,
+    ...certificationJuryDoneEvents,
     new AutoJuryDone({
       sessionId: event.sessionId,
       finalizedAt: event.finalizedAt,
@@ -57,7 +63,11 @@ async function handleAutoJury({
   ];
 }
 
-async function _autoNeutralizeChallenges({
+function _autoCompleteUnfinishedTest() {
+  return false;
+}
+
+async function _autoResolveCertificationIssueReport({
   certificationCourse,
   certificationAssessment,
   certificationIssueReportRepository,
@@ -81,10 +91,10 @@ async function _autoNeutralizeChallenges({
 
   if (resolutionAttempts.some((attempt) => attempt.isResolvedWithEffect())) {
     await certificationAssessmentRepository.save(certificationAssessment);
-    return new CertificationJuryDone({ certificationCourseId: certificationCourse.getId() });
+    return true;
   }
 
-  return null;
+  return false;
 }
 
 handleAutoJury.eventTypes = eventTypes;
