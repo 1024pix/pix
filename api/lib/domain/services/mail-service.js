@@ -23,6 +23,7 @@ const HELPDESK_ENGLISH_SPOKEN = 'https://pix.org/en-gb/contact-form';
 const HELPDESK_FRENCH_SPOKEN = 'https://pix.org/fr/formulaire-aide';
 
 const EMAIL_CHANGE_TAG = 'EMAIL_CHANGE';
+const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
@@ -341,12 +342,62 @@ function sendAccountRecoveryEmail({
   });
 }
 
+function sendVerificationCodeEmail({ code, email, locale }) {
+
+  const options = {
+    from: EMAIL_ADDRESS_NO_RESPONSE,
+    fromName: PIX_NAME_FR,
+    to: email,
+    template: mailer.emailVerificationCodeTemplateId,
+    tags: [EMAIL_VERIFICATION_CODE_TAG],
+  };
+
+  if (locale === FRENCH_SPOKEN) {
+    options.subject = frTranslations['verification-code-email'].subject;
+
+    options.variables = {
+      code,
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/fr/`,
+      displayNationalLogo: false,
+      ...frTranslations['verification-code-email'].body,
+    };
+
+  }
+  else if (locale === FRENCH_FRANCE) {
+    options.subject = frTranslations['verification-code-email'].subject;
+
+    options.variables = {
+      code,
+      homeName: `pix${settings.domain.tldFr}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
+      displayNationalLogo: true,
+      ...frTranslations['verification-code-email'].body,
+    };
+
+  }
+  else if (locale === ENGLISH_SPOKEN) {
+    options.subject = enTranslations['verification-code-email'].subject;
+
+    options.variables = {
+      code,
+      homeName: `pix${settings.domain.tldOrg}`,
+      homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
+      displayNationalLogo: false,
+      ...enTranslations['verification-code-email'].body,
+    };
+  }
+
+  return mailer.sendEmail(options);
+}
+
 module.exports = {
   sendAccountCreationEmail,
+  sendAccountRecoveryEmail,
   sendCertificationResultEmail,
   sendOrganizationInvitationEmail,
   sendScoOrganizationInvitationEmail,
   sendResetPasswordDemandEmail,
+  sendVerificationCodeEmail,
   notifyEmailChange,
-  sendAccountRecoveryEmail,
 };
