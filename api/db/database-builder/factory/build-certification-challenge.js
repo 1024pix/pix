@@ -12,7 +12,7 @@ module.exports = function buildCertificationChallenge({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
   isNeutralized = false,
-  isSkipped = false,
+  hasBeenSkippedAutomatically = false,
   certifiableBadgeKey = null,
 } = {}) {
 
@@ -28,7 +28,7 @@ module.exports = function buildCertificationChallenge({
     createdAt,
     updatedAt,
     isNeutralized,
-    isSkipped,
+    hasBeenSkippedAutomatically,
     certifiableBadgeKey,
   };
   return databaseBuffer.pushInsertable({

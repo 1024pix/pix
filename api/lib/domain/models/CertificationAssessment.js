@@ -115,13 +115,13 @@ class CertificationAssessment {
   skipUnansweredChallenges() {
     this.certificationChallenges.forEach((certificationChallenge) => {
       if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
-        certificationChallenge.skip();
+        certificationChallenge.skipAutomatically();
       }
     });
   }
 
   neutralizeUnansweredChallenges() {
-    this.certificationChallenges.forEach((certificationChallenge) => {
+    this.certificationChallenges.map((certificationChallenge) => {
       if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
         certificationChallenge.neutralize();
       }
