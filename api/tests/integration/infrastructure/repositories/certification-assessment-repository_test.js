@@ -284,15 +284,15 @@ describe('Integration | Infrastructure | Repositories | certification-assessment
       // when
       certificationAssessmentToBeSaved.certificationChallenges.map((certificationChallenge) => {
         if (certificationChallenge.challengeId === 'rec567') {
-          certificationChallenge.isSkipped = true;
+          certificationChallenge.hasBeenSkippedAutomatically = true;
         }
       });
       await certificationAssessmentRepository.save(certificationAssessmentToBeSaved);
 
       // then
       const persistedCertificationAssessment = await certificationAssessmentRepository.get(certificationAssessmentId);
-      expect(persistedCertificationAssessment.certificationChallenges[0].isSkipped).to.be.false;
-      expect(persistedCertificationAssessment.certificationChallenges[1].isSkipped).to.be.true;
+      expect(persistedCertificationAssessment.certificationChallenges[0].hasBeenSkippedAutomatically).to.be.false;
+      expect(persistedCertificationAssessment.certificationChallenges[1].hasBeenSkippedAutomatically).to.be.true;
     });
   });
 });

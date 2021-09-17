@@ -176,11 +176,11 @@ class CertificationCourse {
     return Boolean(this._completedAt);
   }
 
-  isAbortReasonCandidate() {
+  isAbortReasonCandidateRelated() {
     return this._abortReason === 'candidate';
   }
 
-  isAbortReasonTechnical() {
+  isAbortReasonCandidateUnrelated() {
     return this._abortReason === 'technical';
   }
 

@@ -540,9 +540,9 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
   describe('#skipUnansweredChallenges', function() {
     it('should skip unanswered challenges', function() {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', isSkipped: false });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', isSkipped: false });
-      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', isSkipped: false });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', hasBeenSkippedAutomatically: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', hasBeenSkippedAutomatically: false });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', hasBeenSkippedAutomatically: false });
 
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3],
