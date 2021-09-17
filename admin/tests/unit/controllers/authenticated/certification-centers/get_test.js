@@ -25,7 +25,13 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       save: saveStub,
     });
 
-    certificationCenter = { id: 1 };
+    const store = this.owner.lookup('service:store');
+    certificationCenter = store.createRecord('certification-center', {
+      id: 1,
+      name: 'Centre des Anne-Etoiles',
+      type: 'PRO',
+      externalId: 'ex123',
+    });
 
     controller.store = Service.create({
       createRecord: createRecordStub,
