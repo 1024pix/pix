@@ -240,8 +240,10 @@
     background-color: transparent;
     cursor: pointer;
 
-    &:hover {
-      color: $dark-blue-pro;
+    &:hover,
+    &:focus,
+    &:active {
+      color: $white;
     }
   }
 
