@@ -182,7 +182,7 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onCancelCertificationButtonClick() {
-    const confirmMessage = 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre';
+    const confirmMessage = 'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.';
     this.confirmAction = 'onCancelCertificationConfirmation';
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
@@ -190,7 +190,7 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onUncancelCertificationButtonClick() {
-    const confirmMessage = 'Êtes vous sur de vouloir désannuler cette certification ? Cliquer sur confirmer pour poursuivre';
+    const confirmMessage = 'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
     this.confirmAction = 'onUncancelCertificationConfirmation';
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
