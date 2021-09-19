@@ -431,7 +431,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await clickByLabel('Annuler la certification');
 
         // then
-        assert.contains('Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre');
+        assert.contains('Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.');
       });
 
       test('should not cancel the certification when aborting action in the confirmation popup', async function(assert) {
@@ -475,7 +475,7 @@ module('Acceptance | Route | routes/authenticated/certifications/certification |
         await clickByLabel('Désannuler la certification');
 
         // then
-        assert.contains('Êtes vous sur de vouloir désannuler cette certification ? Cliquer sur confirmer pour poursuivre');
+        assert.contains('Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.');
       });
 
       test('should not uncancel the certification when aborting action in the confirmation popup', async function(assert) {
