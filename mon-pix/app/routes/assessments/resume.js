@@ -7,25 +7,25 @@ export default class ResumeRoute extends Route {
   campaignCode = null;
   newLevel = null;
   competenceLeveled = null;
+  assessmentHasNoMoreQuestions = false;
 
   beforeModel(transition) {
     this.hasSeenCheckpoint = transition.to.queryParams.hasSeenCheckpoint;
     this.campaignCode = transition.to.queryParams.campaignCode;
     this.newLevel = transition.to.queryParams.newLevel || null;
     this.competenceLeveled = transition.to.queryParams.competenceLeveled || null;
+    this.assessmentHasNoMoreQuestions = transition.to.queryParams.assessmentHasNoMoreQuestions || false;
   }
 
   async redirect(assessment) {
     if (assessment.isCompleted) {
       return this._routeToResults(assessment);
     }
-    const nextChallenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
-
     if (assessment.hasCheckpoints) {
-      return this._resumeAssessmentWithCheckpoint(assessment, nextChallenge);
-    } else {
-      return this._resumeAssessmentWithoutCheckpoint(assessment, nextChallenge);
+      return this._resumeAssessmentWithCheckpoint(assessment);
     }
+
+    return this._resumeAssessmentWithoutCheckpoint(assessment);
   }
 
   @action
@@ -34,33 +34,31 @@ export default class ResumeRoute extends Route {
     return originRoute._router.currentRouteName !== 'assessments.challenge';
   }
 
-  _resumeAssessmentWithoutCheckpoint(assessment, nextChallenge) {
+  _resumeAssessmentWithoutCheckpoint(assessment) {
     const {
-      assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
-    } = this._parseState(assessment, nextChallenge);
+    } = this._parseState(assessment);
 
-    if (assessmentHasNoMoreQuestions || assessmentIsCompleted) {
+    if (this.assessmentHasNoMoreQuestions || assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
     return this._routeToNextChallenge(assessment);
   }
 
-  _resumeAssessmentWithCheckpoint(assessment, nextChallenge) {
+  _resumeAssessmentWithCheckpoint(assessment) {
     const {
-      assessmentHasNoMoreQuestions,
       assessmentIsCompleted,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint,
-    } = this._parseState(assessment, nextChallenge);
+    } = this._parseState(assessment);
 
     if (assessmentIsCompleted) {
       return this._rateAssessment(assessment);
     }
-    if (assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
+    if (this.assessmentHasNoMoreQuestions && userHasSeenCheckpoint) {
       return this._rateAssessment(assessment);
     }
-    if (assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
+    if (this.assessmentHasNoMoreQuestions && !userHasSeenCheckpoint) {
       return this._routeToFinalCheckpoint(assessment);
     }
     if (userHasReachedCheckpoint && !userHasSeenCheckpoint) {
@@ -72,8 +70,7 @@ export default class ResumeRoute extends Route {
     return this._routeToNextChallenge(assessment);
   }
 
-  _parseState(assessment, nextChallenge) {
-    const assessmentHasNoMoreQuestions = !nextChallenge;
+  _parseState(assessment) {
     const userHasSeenCheckpoint = this.hasSeenCheckpoint;
 
     const quantityOfAnswersInAssessment = assessment.get('answers.length');
@@ -82,16 +79,14 @@ export default class ResumeRoute extends Route {
     const assessmentIsCompleted = assessment.isCompleted;
 
     return {
-      assessmentHasNoMoreQuestions,
       userHasSeenCheckpoint,
       userHasReachedCheckpoint,
-      nextChallenge,
       assessmentIsCompleted,
     };
   }
 
   _routeToNextChallenge(assessment) {
-    return this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.challenge', assessment.id, assessment.currentChallengeNumber, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 
   async _rateAssessment(assessment) {
@@ -102,22 +97,24 @@ export default class ResumeRoute extends Route {
 
   _routeToResults(assessment) {
     if (assessment.isCertification) {
-      return this.replaceWith('certifications.results', assessment.certificationNumber);
+      this.replaceWith('certifications.results', assessment.certificationNumber);
     }
-    if (assessment.isForCampaign) {
-      return this.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
+    else if (assessment.isForCampaign) {
+      this.replaceWith('campaigns.assessment.skill-review', assessment.codeCampaign);
     }
-    if (assessment.isCompetenceEvaluation) {
-      return this.replaceWith('competences.results', assessment.competenceId, assessment.id);
+    else if (assessment.isCompetenceEvaluation) {
+      this.replaceWith('competences.results', assessment.competenceId, assessment.id);
     }
-    return this.replaceWith('assessments.results', assessment.id);
+    else {
+      this.replaceWith('assessments.results', assessment.id);
+    }
   }
 
   _routeToCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 
   _routeToFinalCheckpoint(assessment) {
-    return this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
+    this.replaceWith('assessments.checkpoint', assessment.id, { queryParams: { finalCheckpoint: true, newLevel: this.newLevel, competenceLeveled: this.competenceLeveled } });
   }
 }

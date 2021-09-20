@@ -82,7 +82,6 @@ describe('Unit | Route | Assessments | Challenge', function() {
           isPreview: true,
         };
         route.modelFor.returns(assessmentForPreview);
-        storeStub.findRecord.resolves({ id: 'recId' });
       });
 
       it('should call findRecord to find the asked challenge', async function() {
@@ -91,12 +90,27 @@ describe('Unit | Route | Assessments | Challenge', function() {
           challengeId: 'recId',
           challenge_number: 0,
         };
+        storeStub.findRecord.resolves({ id: 'recId' });
 
         // when
         await route.model(params);
 
         // then
         sinon.assert.calledWith(findRecordStub, 'challenge', 'recId');
+      });
+
+      it('should not call for next challenge', async function() {
+        // given
+        const params = {
+          challengeId: null,
+          challenge_number: 0,
+        };
+
+        // when
+        await route.model(params);
+
+        // then
+        sinon.assert.notCalled(findRecordStub);
       });
     });
 

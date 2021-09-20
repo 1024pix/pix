@@ -19,11 +19,18 @@ export default class ChallengeRoute extends Route {
       const challengeId = answers[currentChallengeNumber].challenge.get('id');
       challenge = await this.store.findRecord('challenge', challengeId);
     } else {
-      if (assessment.isPreview) {
+      if (assessment.isPreview && params.challengeId) {
         challenge = await this.store.findRecord('challenge', params.challengeId);
-      } else {
+      } else if (!assessment.isPreview) {
         challenge = await this.store.queryRecord('challenge', { assessmentId: assessment.id });
       }
+    }
+
+    if (!challenge) {
+      return RSVP.hash({
+        assessment,
+        challenge,
+      });
     }
 
     return RSVP.hash({
@@ -37,7 +44,12 @@ export default class ChallengeRoute extends Route {
         return this.transitionTo('index');
       }
     });
+  }
 
+  async redirect(model) {
+    if (!model.challenge) {
+      return this.replaceWith('assessments.resume', model.assessment.id, { queryParams: { assessmentHasNoMoreQuestions: true } });
+    }
   }
 
   serialize(model) {
@@ -79,7 +91,7 @@ export default class ChallengeRoute extends Route {
         };
       }
 
-      return this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
+      this.transitionTo('assessments.resume', assessment.get('id'), queryParams);
     }
     catch (error) {
       answer.rollbackAttributes();
