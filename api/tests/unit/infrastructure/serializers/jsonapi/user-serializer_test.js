@@ -24,6 +24,8 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function() {
         pixOrgaTermsOfServiceAccepted: false,
         pixCertifTermsOfServiceAccepted: false,
         hasSeenAssessmentInstructions: false,
+        hasSeenFocusedChallengeTooltip: false,
+        hasSeenOtherChallengesTooltip: false,
       });
     });
 
@@ -50,6 +52,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', function() {
               'has-seen-assessment-instructions': userModelObject.hasSeenAssessmentInstructions,
               'has-seen-new-dashboard-info': userModelObject.hasSeenNewDashboardInfo,
               'has-seen-focused-challenge-tooltip': userModelObject.hasSeenFocusedChallengeTooltip,
+              'has-seen-other-challenges-tooltip': userModelObject.hasSeenOtherChallengesTooltip,
             },
             relationships: {
               memberships: {

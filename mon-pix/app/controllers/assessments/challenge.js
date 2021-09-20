@@ -19,8 +19,15 @@ export default class ChallengeController extends Controller {
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = false;
-  @tracked isTooltipOverlayDisplayed = !(this.currentUser.user && this.currentUser.user.hasSeenFocusedChallengeTooltip)
   @tracked hasUserConfirmedWarning = false;
+  @tracked shouldRemoveTooltipOverlay = false;
+
+  get isTooltipOverlayDisplayed() {
+    if (this.model.challenge) {
+      return !this.shouldRemoveTooltipOverlay;
+    }
+    return false;
+  }
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -54,19 +61,32 @@ export default class ChallengeController extends Controller {
     return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
   }
 
-  get isFocusedChallengeAndTooltipIsDisplayed() {
+  get isTooltipWithConfirmationButtonDisplayed() {
     if (ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
-      return this.model.challenge.focused && this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+      if (this.model.challenge.focused) {
+        return this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
+      }
+      else if (!this.model.challenge.focused) {
+        return this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip;
+      }
     }
     return false;
   }
 
   @action
   async removeTooltipOverlay() {
-    if (this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-      this.isTooltipOverlayDisplayed = false;
-      await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+    if (this.currentUser.user) {
+      if (this.model.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+        await this._updateUserAndTriggerOverlayRemoval({ tooltipChallengeType: 'focused' });
+      } else if (!this.model.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+        await this._updateUserAndTriggerOverlayRemoval({ tooltipChallengeType: 'other' });
+      }
     }
+  }
+
+  async _updateUserAndTriggerOverlayRemoval(tooltipChallengeType) {
+    await this.currentUser.user.save({ adapterOptions: tooltipChallengeType });
+    this.shouldRemoveTooltipOverlay = true;
   }
 
   @action
