@@ -5,7 +5,14 @@ class CertificationContract {
 
   /* PUBLIC INTERFACE */
   static assertThatWeHaveEnoughAnswers(listAnswers, listChallenges) {
-    if (listAnswers.length < listChallenges.length) {
+    const someUnansweredChallenges = _.some(listChallenges,
+      (challenge) => {
+        return !challenge.hasBeenSkippedAutomatically
+        && !challenge.isNeutralized
+        && !listAnswers.find((answer) => answer.challengeId === challenge.challengeId);
+      });
+
+    if (someUnansweredChallenges) {
       throw new CertificationComputeError('L’utilisateur n’a pas répondu à toutes les questions');
     }
   }
