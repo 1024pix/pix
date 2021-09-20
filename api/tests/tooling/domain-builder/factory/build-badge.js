@@ -19,6 +19,7 @@ module.exports = function buildBadge({
     buildBadgePartnerCompetence(),
     buildBadgePartnerCompetence({ id: 2 }),
   ],
+  isAlwaysVisible = false,
 } = {}) {
   return new Badge({
     id,
@@ -31,5 +32,6 @@ module.exports = function buildBadge({
     targetProfileId,
     badgeCriteria,
     badgePartnerCompetences,
+    isAlwaysVisible,
   });
 };

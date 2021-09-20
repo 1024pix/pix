@@ -10,6 +10,7 @@ class BadgeResult {
     this.key = badge.key;
     this.imageUrl = badge.imageUrl;
     this.isAcquired = acquiredBadgeIds.includes(badge.id);
+    this.isAlwaysVisible = badge.isAlwaysVisible;
 
     this.partnerCompetenceResults = badge.badgeCompetences.map((competence) => _buildCompetenceResults(competence, knowledgeElements));
   }

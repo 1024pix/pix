@@ -10,6 +10,7 @@ module.exports = function buildBadge({
   key = 'key',
   isCertifiable = false,
   targetProfileId,
+  isAlwaysVisible = false,
 } = {}) {
   targetProfileId = targetProfileId ? targetProfileId : buildTargetProfile().id;
 
@@ -22,6 +23,7 @@ module.exports = function buildBadge({
     key,
     isCertifiable,
     targetProfileId,
+    isAlwaysVisible,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'badges',

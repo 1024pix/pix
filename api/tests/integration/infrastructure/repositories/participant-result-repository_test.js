@@ -421,6 +421,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           imageUrl: 'Badge2 ImgUrl',
           key: 'Badge2 Key',
           targetProfileId,
+          isAlwaysVisible: true,
         });
 
         databaseBuilder.factory.buildBadge();
@@ -442,6 +443,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           imageUrl: 'Badge1 ImgUrl',
           key: 'Badge1 Key',
           isAcquired: true,
+          isAlwaysVisible: false,
         });
         expect(badgeResult2).to.deep.include({
           id: 2,
@@ -451,6 +453,7 @@ describe('Integration | Repository | ParticipantResultRepository', function() {
           imageUrl: 'Badge2 ImgUrl',
           key: 'Badge2 Key',
           isAcquired: false,
+          isAlwaysVisible: true,
         });
       });
 
