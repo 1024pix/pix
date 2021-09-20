@@ -29,7 +29,7 @@ describe('Acceptance | Route | Users', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail,
+            'new-email': newEmail,
             password: rawPassword,
           },
         },
@@ -71,7 +71,7 @@ describe('Acceptance | Route | Users', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail,
+            'new-email': newEmail,
             password: rawPassword,
           },
         },
@@ -113,7 +113,7 @@ describe('Acceptance | Route | Users', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail: user.email,
+            'new-email': user.email,
             password: rawPassword,
           },
         },
@@ -156,7 +156,7 @@ describe('Acceptance | Route | Users', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail: user.email,
+            'new-email': user.email,
             password: rawPassword,
           },
         },
@@ -198,7 +198,7 @@ describe('Acceptance | Route | Users', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail,
+            'new-email': newEmail,
             password: 'WRONG-PASSWORD',
           },
         },
