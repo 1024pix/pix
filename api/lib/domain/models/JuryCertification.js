@@ -67,12 +67,11 @@ class JuryCertification {
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
   }) {
-    const competenceMarkDTOs = JSON.parse(juryCertificationDTO.competenceMarksJson);
-    const competenceMarks = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
-      ...competenceMarkDTO,
-      area_code: competenceMarkDTO.area_code.toString(),
-      competence_code: competenceMarkDTO.competence_code.toString(),
-    }));
+    const competenceMarkDTOs = _.compact(juryCertificationDTO.competenceMarks)
+      .map((competenceMarkDTO) => new CompetenceMark({
+        ...competenceMarkDTO,
+      }));
+
     return new JuryCertification({
       certificationCourseId: juryCertificationDTO.certificationCourseId,
       sessionId: juryCertificationDTO.sessionId,
@@ -92,7 +91,7 @@ class JuryCertification {
       isPublished: juryCertificationDTO.isPublished,
       juryId: juryCertificationDTO.juryId,
       pixScore: juryCertificationDTO.pixScore,
-      competenceMarks,
+      competenceMarks: competenceMarkDTOs,
       commentForCandidate: juryCertificationDTO.commentForCandidate,
       commentForOrganization: juryCertificationDTO.commentForOrganization,
       commentForJury: juryCertificationDTO.commentForJury,
