@@ -95,6 +95,27 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
       // then
       expect(numberOfChallenges).to.equal(0);
     });
+
+    it('counts automatically skipped challenges as wrong answers', function() {
+      // given
+      const challenge1 = _buildDecoratedCertificationChallenge({ isNeutralized: true, challengeId: 'chal1', type: 'QCM' });
+      const challenge2 = _buildDecoratedCertificationChallenge({ challengeId: 'chal2', type: 'QCM' });
+      const challenge3 = _buildDecoratedCertificationChallenge({ challengeId: 'chal3', type: 'QCM' });
+      const challenge4 = _buildDecoratedCertificationChallenge({ challengeId: 'chal4', type: 'QCM', hasBeenSkippedAutomatically: true });
+      const answer1 = domainBuilder.buildAnswer({ challengeId: challenge1.challengeId });
+      const answer2 = domainBuilder.buildAnswer({ challengeId: challenge2.challengeId });
+      const answer3 = domainBuilder.buildAnswer({ challengeId: challenge3.challengeId });
+      const answerCollection = AnswerCollectionForScoring.from({
+        answers: [answer1, answer2, answer3],
+        challenges: [challenge1, challenge2, challenge3, challenge4],
+      });
+
+      // when
+      const numberOfChallenges = answerCollection.numberOfNonNeutralizedChallenges();
+
+      // then
+      expect(numberOfChallenges).to.equal(3);
+    });
   });
 
   context('#numberOfCorrectAnswers', function() {
