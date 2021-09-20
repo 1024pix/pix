@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.102.0 (20/09/2021)
+
+- [#3469](https://github.com/1024pix/pix/pull/3469) [FEATURE] Blocage des espaces Pix Certif pour les établissements scolaires / Rentrée 2021-2022 (PIX-3162)
+- [#3501](https://github.com/1024pix/pix/pull/3501) [FEATURE] Simplifier la visibilité de l'épreuve et des tooltips (PIX-3483).
+- [#3476](https://github.com/1024pix/pix/pull/3476) [FEATURE] Ajout de l'infobulle sur les épreuves non-focus (PIX-2882).
+- [#3495](https://github.com/1024pix/pix/pull/3495) [FEATURE] Envoyer un code de vérification par mail lors d'un changement d'adresse e-mail (PIX-3453).
+- [#3482](https://github.com/1024pix/pix/pull/3482) [FEATURE] Envoyer un code de vérification par mail lors d'un changement d'adresse e-mail - API (PIX-2945).
+- [#3498](https://github.com/1024pix/pix/pull/3498) [BUGFIX] Correction des notifications d'import SUP (PIX-3455)
+- [#3404](https://github.com/1024pix/pix/pull/3404) [BUGFIX] Vérification du timeout et du unfocus en cas de rechargement.
+- [#3511](https://github.com/1024pix/pix/pull/3511) [BUGFIX] Problème de contraste sur le bouton de texte alternatif d'une épreuve (PIX-3490).
+- [#3491](https://github.com/1024pix/pix/pull/3491) [BUGFIX] Supprimer le double appel à getNextChallenge (PIX-2760).
+- [#3492](https://github.com/1024pix/pix/pull/3492) [TECH] Suppression des parseInt autour de request.auth.credentials.userId
+- [#3488](https://github.com/1024pix/pix/pull/3488) [TECH]  Refacto des requetes avec JSON_AGG (PIX-3452)
+- [#3499](https://github.com/1024pix/pix/pull/3499) [CLEANUP] Uniformiser les url des badges (PIX-3479). 
+
 ## v3.101.0 (16/09/2021)
 
 - [#3480](https://github.com/1024pix/pix/pull/3480) [FEATURE] Distinguer les Schooling registration désactivées sur PixAdmin en utilisant la colonne 'isDisabled' (PIX-3098).
