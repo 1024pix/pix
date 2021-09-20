@@ -464,6 +464,7 @@ describe('Integration | Repository | answerRepository', function() {
         assessmentId: 123,
         challengeId: 'recChallenge123',
         timeSpent: 20,
+        isFocusedOut: true,
       });
       databaseBuilder.factory.buildAssessment({ id: 123 });
       await databaseBuilder.commit();

@@ -91,7 +91,7 @@ describe('Unit | Domain | Models | Examiner', function() {
         // given
         validation = domainBuilder.buildValidation({ result: AnswerStatus.OK });
         validator.assess.returns(validation);
-        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ focusedOut: true });
+        uncorrectedAnswer = domainBuilder.buildAnswer.uncorrected({ isFocusedOut: true });
         examiner = new Examiner({ validator });
       });
 
