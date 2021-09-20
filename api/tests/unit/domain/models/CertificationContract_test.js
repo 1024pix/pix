@@ -7,7 +7,7 @@ describe('Unit | Domain | Models | CertificationContract', function() {
 
   context('#assertThatWeHaveEnoughAnswers', function() {
 
-    context('when there is less answers than challenges', function() {
+    context('when there are unanswered challenges', function() {
 
       it('should throw', async function() {
         // given
@@ -32,6 +32,28 @@ describe('Unit | Domain | Models | CertificationContract', function() {
         // then
         expect(error).to.be.instanceOf(CertificationComputeError);
         expect(error.message).to.equal('L’utilisateur n’a pas répondu à toutes les questions');
+      });
+
+      it('should not throw', async function() {
+        // given
+        const answers = _.map([
+          { challengeId: 'challenge_A_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_B_for_competence_1', result: 'ok' },
+          { challengeId: 'challenge_D_for_competence_2', result: 'ok' },
+          { challengeId: 'challenge_E_for_competence_2', result: 'ok' },
+        ], domainBuilder.buildAnswer);
+
+        const challenges = _.map([
+          { challengeId: 'challenge_A_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeA_1', type: 'QCM' },
+          { challengeId: 'challenge_B_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeB_1', type: 'QCM' },
+          { challengeId: 'challenge_C_for_competence_1', competenceId: 'competence_1', associatedSkillName: '@skillChallengeC_1', type: 'QCM', hasBeenSkippedAutomatically: true },
+          { challengeId: 'challenge_D_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeD_2', type: 'QCM' },
+          { challengeId: 'challenge_E_for_competence_2', competenceId: 'competence_2', associatedSkillName: '@skillChallengeE_2', type: 'QCM' },
+        ], domainBuilder.buildCertificationChallengeWithType);
+
+        // when
+        // then
+        expect(()=> CertificationContract.assertThatWeHaveEnoughAnswers(answers, challenges)).not.to.throw();
       });
     });
   });
