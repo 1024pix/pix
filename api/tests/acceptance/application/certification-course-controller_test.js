@@ -392,19 +392,6 @@ describe('Acceptance | API | Certification Course', function() {
 
     describe('Resource access management', function() {
 
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
-      });
-
       it('should respond with a 403 - forbidden access - if user is not linked to the certification course', function() {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
