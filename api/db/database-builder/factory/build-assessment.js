@@ -19,6 +19,7 @@ module.exports = function buildAssessment({
   campaignParticipationId = null,
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
+  method,
 } = {}) {
 
   if (type !== Assessment.types.DEMO) {
@@ -44,6 +45,7 @@ module.exports = function buildAssessment({
     updatedAt,
     competenceId,
     campaignParticipationId,
+    method,
   };
   return databaseBuffer.pushInsertable({
     tableName: 'assessments',
