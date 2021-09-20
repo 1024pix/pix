@@ -75,8 +75,13 @@ function _selectPrivateCertificates() {
       commentForCandidate: 'assessment-results.commentForCandidate',
       assessmentResultStatus: 'assessment-results.status',
       assessmentResultId: 'assessment-results.id',
+      competenceMarks: knex.raw(`
+        json_agg(
+          json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
+          ORDER BY "competence-marks"."competence_code" asc
+        )`,
+      ),
     })
-    .select(knex.raw('\'[\' || (string_agg(\'{ "score":\' || "competence-marks".score::VARCHAR || \', "level":\' || "competence-marks".level::VARCHAR || \', "competenceId":"\' || "competence-marks"."competence_code" || \'"}\', \',\')) || \']\' as "competenceResultsJson"'))
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
@@ -129,13 +134,8 @@ function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationRe
 
   if (competenceTree) {
 
-    const competenceResults = JSON .parse(certificationCourseDTO.competenceResultsJson);
-
-    const competenceMarks = _.map(competenceResults, (competenceMark) => new CompetenceMark({
-      score: competenceMark.score,
-      level: competenceMark.level,
-      competence_code: competenceMark.competenceId,
-    }));
+    const competenceMarks = _.compact(certificationCourseDTO.competenceMarks)
+      .map((competenceMark) => new CompetenceMark({ ...competenceMark }));
 
     const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
       competenceTree,

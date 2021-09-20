@@ -28,7 +28,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
         juryId: 159,
-        competenceMarksJson: '[{ "id":123, "score":10, "level":4, "area_code":2, "competence_code":2.3, "assessmentResultId":753, "competenceId":"recComp23"}]',
+        competenceMarks: [{ 'id': 123, 'score': 10, 'level': 4, 'area_code': 2, 'competence_code': '2.3', 'assessmentResultId': 753, 'competenceId': 'recComp23' }],
       };
     });
 

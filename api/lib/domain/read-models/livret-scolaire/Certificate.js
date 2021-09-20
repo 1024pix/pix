@@ -1,5 +1,4 @@
 const { VALIDATED, PENDING } = require('./CertificateStatus');
-const sortBy = require('lodash/sortBy');
 
 class Certificate {
 
@@ -50,13 +49,13 @@ class Certificate {
     date,
     deliveredAt,
     certificationCenter,
-    competenceResultsJson,
+    competenceResults,
   } = {}) {
     const isValidated = _isValidated(status);
     const displayScore = _displayScore({ isPublished, isValidated });
     const updatedStatus = (isPublished) ? status : PENDING;
     const updatedScore = displayScore ? pixScore : 0;
-    const competenceResults = displayScore ? _getExtractValidatedCompetenceResults(competenceResultsJson) : [];
+    const updatedCompetenceResults = displayScore ? competenceResults : [];
 
     return new Certificate({ id,
       firstName,
@@ -72,7 +71,7 @@ class Certificate {
       date,
       deliveredAt,
       certificationCenter,
-      competenceResults,
+      competenceResults: updatedCompetenceResults,
     });
   }
 }
@@ -81,12 +80,6 @@ module.exports = Certificate;
 
 function _isValidated(status) {
   return status === VALIDATED;
-}
-
-function _getExtractValidatedCompetenceResults(competenceResultsJson) {
-  const competenceResults = JSON
-    .parse(competenceResultsJson);
-  return sortBy(competenceResults, 'competenceId');
 }
 
 function _displayScore({ isPublished, isValidated }) {

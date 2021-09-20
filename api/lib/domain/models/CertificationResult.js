@@ -57,7 +57,7 @@ class CertificationResult {
     } else {
       certificationStatus = certificationResultDTO?.assessmentResultStatus ?? status.STARTED;
     }
-    const competenceMarkDTOs = JSON.parse(certificationResultDTO.competenceMarksJson);
+    const competenceMarkDTOs = _.compact(certificationResultDTO.competenceMarks);
     const competencesWithMark = _.map(competenceMarkDTOs, (competenceMarkDTO) => new CompetenceMark({
       ...competenceMarkDTO,
       area_code: competenceMarkDTO.area_code.toString(),
