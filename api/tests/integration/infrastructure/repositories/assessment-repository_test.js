@@ -163,57 +163,32 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     let johnAssessmentToRemember;
 
     const PLACEMENT = 'PLACEMENT';
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const limitDate = moment.utc().toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const afterLimiteDate = moment(limitDate).add(1, 'day').toDate();
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const johnAssessmentResultDateToRemember = moment(limitDate).subtract(1, 'month').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const johnAssessmentDateToRemember = moment(limitDate).subtract(2, 'month').toDate();
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentBefore1 = moment(johnAssessmentDateToRemember).subtract(1, 'month').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentBefore2 = moment(johnAssessmentDateToRemember).subtract(2, 'month').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentBefore3 = moment(johnAssessmentDateToRemember).subtract(3, 'month').toDate();
-    const dateAssessmentAfter = afterLimiteDate;
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentResultBefore1 = moment(johnAssessmentResultDateToRemember).subtract(1, 'month').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentResultBefore2 = moment(johnAssessmentResultDateToRemember).subtract(2, 'month').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentResultBefore3 = moment(johnAssessmentResultDateToRemember).subtract(3, 'month').toDate();
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentResultAfter1 = moment(afterLimiteDate).add(1, 'month').toDate();
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const dateAssessmentResultAfter2 = moment(afterLimiteDate).add(2, 'month').toDate();
-
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    const lastQuestionDate = moment('2021-03-10').toDate();
+    let lastQuestionDate;
+    let limitDate;
 
     // TODO: test with malformed data, e.g.:
     // - completed assessments without an AssessmentResult
 
     before(async function() {
+      limitDate = moment.utc().toDate();
+
+      const afterLimiteDate = moment(limitDate).add(1, 'day').toDate();
+      const johnAssessmentResultDateToRemember = moment(limitDate).subtract(1, 'month').toDate();
+      const johnAssessmentDateToRemember = moment(limitDate).subtract(2, 'month').toDate();
+      const dateAssessmentBefore1 = moment(johnAssessmentDateToRemember).subtract(1, 'month').toDate();
+      const dateAssessmentBefore2 = moment(johnAssessmentDateToRemember).subtract(2, 'month').toDate();
+      const dateAssessmentBefore3 = moment(johnAssessmentDateToRemember).subtract(3, 'month').toDate();
+      const dateAssessmentAfter = afterLimiteDate;
+
+      const dateAssessmentResultBefore1 = moment(johnAssessmentResultDateToRemember).subtract(1, 'month').toDate();
+      const dateAssessmentResultBefore2 = moment(johnAssessmentResultDateToRemember).subtract(2, 'month').toDate();
+      const dateAssessmentResultBefore3 = moment(johnAssessmentResultDateToRemember).subtract(3, 'month').toDate();
+
+      const dateAssessmentResultAfter1 = moment(afterLimiteDate).add(1, 'month').toDate();
+      const dateAssessmentResultAfter2 = moment(afterLimiteDate).add(2, 'month').toDate();
+
+      lastQuestionDate = moment('2021-03-10').toDate();
+
       johnUserId = databaseBuilder.factory.buildUser().id;
       laylaUserId = databaseBuilder.factory.buildUser().id;
 
@@ -325,6 +300,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
           isImproving: false,
           lastQuestionDate,
           lastChallengeId: null,
+          lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
           campaignParticipationId: null,
           certificationCourseId: null,
           competenceId: johnAssessmentToRemember.competenceId,
@@ -704,21 +680,23 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     });
   });
 
-  describe('#updateLastChallengeIdAsked', function() {
+  describe('#updateWhenNewChallengeIsAsked', function() {
     it('should update lastChallengeId', async function() {
       // given
       const lastChallengeId = 'recLastChallenge';
       const assessment = databaseBuilder.factory.buildAssessment({
-        lastChallengeId: null,
+        lastChallengeId: 'recPreviousChallenge',
+        lastQuestionState: 'focusedout',
       });
       await databaseBuilder.commit();
 
       // when
-      await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId });
+      await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessment.id, lastChallengeId });
 
       // then
-      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastChallengeId');
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first();
       expect(assessmentsInDb.lastChallengeId).to.deep.equal(lastChallengeId);
+      expect(assessmentsInDb.lastQuestionState).to.deep.equal(Assessment.statesOfLastQuestion.ASKED);
     });
 
     context('when assessment does not exist', function() {
@@ -726,7 +704,38 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
         const notExistingAssessmentId = 1;
 
         // when
-        const result = await assessmentRepository.updateLastChallengeIdAsked({ id: notExistingAssessmentId, lastChallengeId: 'test' });
+        const result = await assessmentRepository.updateWhenNewChallengeIsAsked({ id: notExistingAssessmentId, lastChallengeId: 'test' });
+
+        // then
+        expect(result).to.equal(null);
+      });
+    });
+  });
+
+  describe('#updateLastQuestionState', function() {
+    it('should update updateLastQuestionState', async function() {
+      // given
+      const assessment = databaseBuilder.factory.buildAssessment({
+        lastQuestionState: Assessment.statesOfLastQuestion.ASKED,
+      });
+      await databaseBuilder.commit();
+
+      const lastQuestionState = 'timeout';
+
+      // when
+      await assessmentRepository.updateLastQuestionState({ id: assessment.id, lastQuestionState });
+
+      // then
+      const assessmentsInDb = await knex('assessments').where('id', assessment.id).first('lastQuestionState');
+      expect(assessmentsInDb.lastQuestionState).to.equal(lastQuestionState);
+    });
+
+    context('when assessment does not exist', function() {
+      it('should return null', async function() {
+        const notExistingAssessmentId = 1;
+
+        // when
+        const result = await assessmentRepository.updateLastQuestionState({ id: notExistingAssessmentId, lastQuestionState: 'timeout' });
 
         // then
         expect(result).to.equal(null);

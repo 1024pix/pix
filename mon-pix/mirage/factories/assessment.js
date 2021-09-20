@@ -35,4 +35,12 @@ export default Factory.extend({
     type: 'CAMPAIGN',
   }),
 
+  withCurrentChallengeTimeout: trait({
+    lastQuestionState: 'timeout',
+  }),
+
+  withCurrentChallengeUnfocus: trait({
+    lastQuestionState: 'focusedout',
+  }),
+
 });

@@ -9,6 +9,13 @@ export default class Assessment extends ApplicationAdapter {
       return url + '/complete-assessment';
     }
 
+    if (adapterOptions && adapterOptions.updateLastQuestionsState) {
+      const state = adapterOptions.state;
+      delete adapterOptions.updateLastQuestionsState;
+      delete adapterOptions.state;
+      return url + '/last-challenge-state/' + state;
+    }
+
     return url;
   }
 }

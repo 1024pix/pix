@@ -12,6 +12,7 @@ import isInteger from 'lodash/isInteger';
 export default class ChallengeController extends Controller {
   queryParams = ['newLevel', 'competenceLeveled', 'challengeId'];
   @service intl;
+  @service store;
   @service currentUser;
   @tracked newLevel = null;
   @tracked competenceLeveled = null;
@@ -45,7 +46,7 @@ export default class ChallengeController extends Controller {
   }
 
   get couldDisplayInfoAlert() {
-    return !this.hasFocusedOutOfWindow && !this.model.answer && this.model.challenge.focused;
+    return !this.hasFocusedOutOfWindow && !this.model.answer && this.model.challenge.focused && !this.model.assessment.hasFocusedOutChallenge;
   }
 
   get displayInfoAlertForFocusOut() {
@@ -68,8 +69,11 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  setFocusedOutOfChallenge(value) {
+  async setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
+    if (this.hasFocusedOutOfChallenge) {
+      await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
+    }
   }
 
   @action
@@ -78,8 +82,9 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  timeoutChallenge() {
+  async timeoutChallenge() {
     this.challengeTitle = timedOutPageTitle;
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } });
   }
 
   @action
@@ -88,6 +93,7 @@ export default class ChallengeController extends Controller {
     this.hasUserConfirmedWarning = false;
     this.hasFocusedOutOfChallenge = false;
     this.hasFocusedOutOfWindow = false;
+    this.model.assessment.lastQuestionState = 'asked';
   }
 
   get displayHomeLink() {
@@ -100,7 +106,7 @@ export default class ChallengeController extends Controller {
     }
 
     if (this._isTimedChallenge) {
-      if (this.hasUserConfirmedWarning || this.model.answer) return true;
+      if (this.hasUserConfirmedWarning || this.model.answer || this.model.assessment.hasTimeoutChallenge) return true;
     }
 
     return false;
@@ -120,6 +126,6 @@ export default class ChallengeController extends Controller {
   }
 
   get displayTimedChallengeInstructions() {
-    return this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning;
+    return this.isTimedChallengeWithoutAnswer && !this.hasUserConfirmedWarning && !this.model.assessment.hasTimeoutChallenge;
   }
 }

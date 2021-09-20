@@ -11,6 +11,7 @@ export default class Assessment extends Model {
   @attr('string') state;
   @attr('string') title;
   @attr('string') type;
+  @attr('string') lastQuestionState;
 
   // references
   @attr('string') competenceId;
@@ -31,6 +32,9 @@ export default class Assessment extends Model {
   @equal('state', 'aborted') isAborted;
   @equal('state', 'completed') isCompleted;
   @equal('state', 'started') isStarted;
+
+  @equal('lastQuestionState', 'timeout') hasTimeoutChallenge;
+  @equal('lastQuestionState', 'focusedout') hasFocusedOutChallenge;
 
   @or('isCompetenceEvaluation', 'isForCampaign') hasCheckpoints;
   @or('isCompetenceEvaluation', 'isForCampaign') showLevelup;
