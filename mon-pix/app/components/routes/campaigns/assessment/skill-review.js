@@ -39,15 +39,15 @@ export default class SkillReview extends Component {
     return badges.filter((badge) => badge.isAcquired);
   }
 
-  get notAcquiredBadges() {
+  get notAcquiredButVisibleBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
-    return badges.filter((badge) => !badge.isAcquired);
+    return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible);
   }
 
   get orderedBadges() {
     return [
       ...this.acquiredBadges,
-      ...this.notAcquiredBadges,
+      ...this.notAcquiredButVisibleBadges,
     ];
   }
 

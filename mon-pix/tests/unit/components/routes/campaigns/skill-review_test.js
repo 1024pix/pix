@@ -174,18 +174,22 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
   });
 
-  describe('#notAcquiredBadges', function() {
+  describe('#notAcquiredButVisibleBadges', function() {
 
     it('should only return not acquired badges', function() {
       // given
-      const badges = [{ id: 33, isAcquired: true }, { id: 34, isAcquired: false }];
+      const badges = [
+        { id: 33, isAcquired: true },
+        { id: 34, isAcquired: false, isAlwaysVisible: true },
+        { id: 35, isAcquired: false, isAlwaysVisible: false },
+      ];
       component.args.model.campaignParticipationResult.campaignParticipationBadges = badges;
 
       // when
-      const notAcquiredBadges = component.notAcquiredBadges;
+      const notAcquiredBadges = component.notAcquiredButVisibleBadges;
 
       // then
-      expect(notAcquiredBadges).to.deep.equal([{ id: 34, isAcquired: false }]);
+      expect(notAcquiredBadges).to.deep.equal([{ id: 34, isAcquired: false, isAlwaysVisible: true }]);
     });
 
   });
@@ -195,9 +199,9 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
     it('should return badges ordered by if it is acquired or not', function() {
       // given
       component.args.model.campaignParticipationResult.campaignParticipationBadges = [
-        { id: 33, isAcquired: true },
-        { id: 34, isAcquired: false },
-        { id: 35, isAcquired: true },
+        { id: 33, isAcquired: true, isAlwaysVisible: true },
+        { id: 34, isAcquired: false, isAlwaysVisible: true },
+        { id: 35, isAcquired: true, isAlwaysVisible: true },
       ];
 
       // when
@@ -205,9 +209,9 @@ describe('Unit | component | Campaigns | Evaluation | Skill Review', function() 
 
       // then
       expect(orderedBadges).to.deep.equal([
-        { id: 33, isAcquired: true },
-        { id: 35, isAcquired: true },
-        { id: 34, isAcquired: false },
+        { id: 33, isAcquired: true, isAlwaysVisible: true },
+        { id: 35, isAcquired: true, isAlwaysVisible: true },
+        { id: 34, isAcquired: false, isAlwaysVisible: true },
       ]);
     });
 
