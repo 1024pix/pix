@@ -185,6 +185,7 @@ class Assessment {
       type: Assessment.types.COMPETENCE_EVALUATION,
       courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
       isImproving: false,
+      method: methods.SMART_RANDOM,
     });
   }
 

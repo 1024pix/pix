@@ -294,6 +294,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.state).to.equal(Assessment.states.STARTED);
       expect(assessment.type).to.equal(Assessment.types.CERTIFICATION);
       expect(assessment.isImproving).to.be.false;
+      expect(assessment.method).to.equal('CERTIFICATION_DETERMINED');
     });
   });
 
@@ -356,6 +357,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
       expect(assessment.isImproving).to.be.false;
+      expect(assessment.method).to.equal('SMART_RANDOM');
     });
   });
 
@@ -376,6 +378,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
       expect(assessment.isImproving).to.be.true;
+      expect(assessment.method).to.equal('SMART_RANDOM');
     });
   });
 
