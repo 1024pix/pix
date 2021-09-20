@@ -20,6 +20,6 @@ export default class ListController extends Controller {
   }
 
   get shouldDisplayResultRecipientInfoMessage() {
-    return !this.currentUser.currentCertificationCenter.isScoManagingStudents;
+    return !this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
   }
 }

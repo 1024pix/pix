@@ -5,10 +5,32 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
 
   describe('#serialize()', function() {
 
-    it('should convert a CertificationReferent model object into JSON API data', function() {
+    it('should convert a CertificationPointOfContact model into JSON API data', function() {
       // given
-      const certificationCenter = { id: 1, name: 'Serre tiff', type: 'SCO', externalId: 'externalId', isRelatedOrganizationManagingStudents: false };
-      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({ certificationCenters: [certificationCenter] });
+      const allowedCertificationCenterAccess1 = domainBuilder.buildAllowedCertificationCenterAccess({
+        id: 123,
+        name: 'Sunnydale Center',
+        externalId: 'BUFFY_SLAYER',
+        type: 'PRO',
+        isRelatedToManagingStudentsOrganization: false,
+        relatedOrganizationTags: [],
+      });
+      const allowedCertificationCenterAccess2 = domainBuilder.buildAllowedCertificationCenterAccess({
+        id: 456,
+        name: 'Hellmouth',
+        externalId: 'SPIKE',
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['tag1'],
+      });
+      const certificationPointOfContact = domainBuilder.buildCertificationPointOfContact({
+        id: 789,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        email: 'buffy.summers@example.net',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess1, allowedCertificationCenterAccess2],
+      });
 
       // when
       const jsonApi = certificationPointOfContactSerializer.serialize(certificationPointOfContact);
@@ -16,21 +38,24 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
       // then
       expect(jsonApi).to.deep.equal({
         data: {
-          type: 'certification-point-of-contacts',
-          id: certificationPointOfContact.id.toString(),
+          'id': '789',
+          'type': 'certification-point-of-contact',
           attributes: {
-            'first-name': certificationPointOfContact.firstName,
-            'last-name': certificationPointOfContact.lastName,
-            email: certificationPointOfContact.email,
-            'pix-certif-terms-of-service-accepted': certificationPointOfContact.pixCertifTermsOfServiceAccepted,
-            'current-certification-center-id': certificationPointOfContact.currentCertificationCenterId,
+            'first-name': 'Buffy',
+            'last-name': 'Summers',
+            email: 'buffy.summers@example.net',
+            'pix-certif-terms-of-service-accepted': true,
           },
           relationships: {
-            'certification-centers': {
+            'allowed-certification-center-accesses': {
               data: [
                 {
-                  type: 'certificationCenters',
-                  id: certificationCenter.id.toString(),
+                  id: '123',
+                  type: 'allowed-certification-center-access',
+                },
+                {
+                  id: '456',
+                  type: 'allowed-certification-center-access',
                 },
               ],
             },
@@ -38,13 +63,31 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
         },
         included: [
           {
-            type: 'certificationCenters',
-            id: certificationCenter.id.toString(),
+            id: '123',
+            type: 'allowed-certification-center-access',
             attributes: {
-              name: certificationCenter.name,
-              type: certificationCenter.type,
-              'external-id': certificationCenter.externalId,
-              'is-related-organization-managing-students': certificationCenter.isRelatedOrganizationManagingStudents,
+              'name': 'Sunnydale Center',
+              'external-id': 'BUFFY_SLAYER',
+              'type': 'PRO',
+              'is-related-to-managing-students-organization': false,
+              'is-access-blocked-college': false,
+              'is-access-blocked-lycee': false,
+              'related-organization-tags': [],
+            },
+          },
+          {
+            id: '456',
+            type: 'allowed-certification-center-access',
+            attributes: {
+              'name': 'Hellmouth',
+              'external-id': 'SPIKE',
+              'type': 'SCO',
+              'is-related-to-managing-students-organization': true,
+              'is-access-blocked-college': false,
+              'is-access-blocked-lycee': false,
+              'related-organization-tags': [
+                'tag1',
+              ],
             },
           },
         ],

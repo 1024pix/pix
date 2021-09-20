@@ -6,7 +6,7 @@ export default class CompetenceEvaluation extends ApplicationAdapter {
   @service currentUser;
 
   urlForQuery(_) {
-    const certificationCenterId = this.currentUser.currentCertificationCenter.id;
+    const certificationCenterId = this.currentUser.currentAllowedCertificationCenterAccess.id;
     return `${this.host}/${this.namespace}/certification-centers/${certificationCenterId}/session-summaries`;
   }
 }

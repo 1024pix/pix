@@ -57,6 +57,8 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_MIDDLE_SCHOOL_ID, tagId: 8 });
+
   const disabledUserId = databaseBuilder.factory.buildUser.withRawPassword({
     id: 6,
     firstName: 'Mance',

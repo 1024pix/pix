@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -11,13 +11,25 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let allowedCertificationCenterAccess;
   let certificationPointOfContact;
   let session;
 
   hooks.beforeEach(function() {
     server.create('feature-toggle', { id: 0, certifPrescriptionSco: true });
-    certificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted('SCO');
-    session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+    allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+      type: 'SCO',
+      isRelatedToManagingStudentsOrganization: true,
+      isAccessBlockedCollege: false,
+      isAccessBlockedLycee: false,
+    });
+    certificationPointOfContact = server.create('certification-point-of-contact', {
+      firstName: 'Buffy',
+      lastName: 'Summers',
+      allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+      pixCertifTermsOfServiceAccepted: true,
+    });
+    session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
     server.createList('country', 3);
   });
 
@@ -40,23 +52,39 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
   module('When certificationPointOfContact is logged in', function(hooks) {
 
     hooks.beforeEach(async () => {
+      allowedCertificationCenterAccess.update({ isAccessBlockedCollege: false });
       await authenticateSession(certificationPointOfContact.id);
+    });
+
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit(`/sessions/${session.id}/ajout-eleves`);
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
     });
 
     test('it should be possible to access student add page', async function(assert) {
       // when
       await visit(`/sessions/${session.id}/candidats`);
-      await click('.certification-candidates-sco-actions a');
+      await clickByLabel('Ajouter des candidats');
 
       // then
       assert.equal(currentURL(), `/sessions/${session.id}/ajout-eleves`);
       assert.dom('.add-student__title').hasText('Ajouter des candidats');
     });
 
-    test('it should be possible to return to candidates page', async function(assert) {
+    test('it should be possible to return to candidates page from add student page', async function(assert) {
       // when
-      await visit(`/sessions/${session.id}/ajout-eleves`);
-      await click('.add-student__return-to');
+      await visit(`/sessions/${session.id}/candidats`);
+      await clickByLabel('Ajouter des candidats');
+      await clickByLabel('Retour à la session');
 
       // then
       assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
@@ -66,7 +94,8 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
 
       test('it should show a empty list', async function(assert) {
         // when
-        await visit(`/sessions/${session.id}/ajout-eleves`);
+        await visit(`/sessions/${session.id}/candidats`);
+        await clickByLabel('Ajouter des candidats');
 
         // then
         assert.dom('.add-student-list').doesNotExist();
@@ -87,9 +116,10 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
         server.create('division', { name: '3B' });
 
         // when
-        await visit(`/sessions/${session.id}/ajout-eleves`);
+        await visit(`/sessions/${session.id}/candidats`);
+        await clickByLabel('Ajouter des candidats');
         await click('.pix-multi-select-header__search-input');
-        await click('#add-student-list__multi-select-3A');
+        await clickByLabel('3A');
 
         // then
         const studentRows = document.querySelectorAll(rowSelector);
@@ -104,7 +134,8 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
           server.createList('student', DEFAULT_PAGE_SIZE + 2, { isSelected: false, isEnrolled: false });
 
           // when
-          await visit(`/sessions/${session.id}/ajout-eleves`);
+          await visit(`/sessions/${session.id}/candidats`);
+          await clickByLabel('Ajouter des candidats');
 
           // then
           const allRow = document.querySelectorAll(rowSelector);
@@ -119,7 +150,8 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
           test('it should be possible to select 3 students', async function(assert) {
             // given
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-            await visit(`/sessions/${session.id}/ajout-eleves`);
+            await visit(`/sessions/${session.id}/candidats`);
+            await clickByLabel('Ajouter des candidats');
 
             // when
             const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
@@ -139,7 +171,8 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
           test('it should be possible to cancel enrolling students', async function(assert) {
             // given
             server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-            await visit(`/sessions/${session.id}/ajout-eleves`);
+            await visit(`/sessions/${session.id}/candidats`);
+            await clickByLabel('Ajouter des candidats');
 
             // given
             const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
@@ -156,13 +189,13 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
             test('it redirect to previous page', async function(assert) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-              await visit(`/sessions/${session.id}/ajout-eleves`);
+              await visit(`/sessions/${session.id}/candidats`);
+              await clickByLabel('Ajouter des candidats');
               const checkbox = document.querySelector(rowSelector + ' ' + checkboxSelector);
               await click(checkbox);
 
               // when
-              const addButton = document.querySelector('.add-student-list__bottom-action-bar button');
-              await click(addButton);
+              await clickByLabel('Ajouter');
 
               // then
               assert.equal(currentURL(), `/sessions/${session.id}/candidats`);
@@ -171,7 +204,8 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
             test('it should add students as certification candidates', async function(assert) {
               // given
               server.createList('student', DEFAULT_PAGE_SIZE, { isSelected: false, isEnrolled: false });
-              await visit(`/sessions/${session.id}/ajout-eleves`);
+              await visit(`/sessions/${session.id}/candidats`);
+              await clickByLabel('Ajouter des candidats');
               const firstCheckbox = document.querySelector(rowSelector + ':nth-child(1) ' + checkboxSelector);
               const secondCheckbox = document.querySelector(rowSelector + ':nth-child(2) ' + checkboxSelector);
               const thirdCheckbox = document.querySelector(rowSelector + ':nth-child(3) ' + checkboxSelector);
@@ -181,8 +215,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
               const detailController = this.owner.lookup('controller:authenticated.sessions.details');
 
               // when
-              const addButton = document.querySelector('.add-student-list__bottom-action-bar button');
-              await click(addButton);
+              await clickByLabel('Ajouter');
 
               // then
               const certificationCandidates = await detailController.model.certificationCandidates;
@@ -203,10 +236,11 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
           server.create('student', { isSelected: false, isEnrolled: false });
           const enrolledStudent = server.create('student', { isSelected: false, isEnrolled: true });
           server.create('certification-candidate', { schoolingRegistrationId: enrolledStudent.id, sessionId: sessionWithEnrolledStudent.id });
-          await visit(`/sessions/${sessionWithEnrolledStudent.id}/ajout-eleves`);
+          await visit(`/sessions/${sessionWithEnrolledStudent.id}/candidats`);
+          await clickByLabel('Ajouter des candidats');
         });
 
-        test('it should show "1 candidat sélectionné | 2 candidats déjà ajoutés à la session"', async function(assert) {
+        test('it should show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function(assert) {
           // given
           const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
           const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
@@ -237,7 +271,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
         });
 
         module('when toggle all click', function() {
-          test('it should show "1 candidat sélectionné | 1 candidats déjà ajoutés à la session"', async function(assert) {
+          test('it should still show "1 candidat sélectionné | 1 candidat déjà ajouté à la session"', async function(assert) {
             // given
             const candidatesEnrolledSelector = '.bottom-action-bar__informations--candidates-already-added';
             const candidatesSelectedSelector = '.bottom-action-bar__informations--candidates-selected';
