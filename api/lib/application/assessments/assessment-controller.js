@@ -104,6 +104,16 @@ module.exports = {
     return null;
   },
 
+  async updateLastChallengeState(request) {
+    const assessmentId = request.params.id;
+    const lastQuestionState = request.params.state;
+    await assessmentRepository.updateLastQuestionState({
+      id: assessmentId,
+      lastQuestionState,
+    });
+    return null;
+  },
+
   async findCompetenceEvaluations(request) {
     const userId = request.auth.credentials.userId;
     const assessmentId = request.params.id;
@@ -121,7 +131,9 @@ async function _getChallenge(assessment, request) {
   const challenge = await _getChallengeByAssessmentType({ assessment, request });
 
   if (challenge) {
-    await assessmentRepository.updateLastChallengeIdAsked({ id: assessment.id, lastChallengeId: challenge.id });
+    if (challenge.id !== assessment.currentChallengeId) {
+      await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessment.id, lastChallengeId: challenge.id });
+    }
   }
 
   return challenge;

@@ -7,7 +7,7 @@ import isInteger from 'lodash/isInteger';
 export default class ChallengeItemGeneric extends Component {
 
   @service currentUser;
-  @tracked hasChallengeTimedOut = false;
+  @tracked hasChallengeTimedOut = this.args.assessment.hasTimeoutChallenge || false;
   @tracked errorMessage = null;
 
   get displayTimer() {

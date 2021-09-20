@@ -156,11 +156,24 @@ module.exports = {
     }
   },
 
-  async updateLastChallengeIdAsked({ id, lastChallengeId }) {
+  async updateWhenNewChallengeIsAsked({ id, lastChallengeId }) {
     try {
       await BookshelfAssessment
         .where({ id })
-        .save({ lastChallengeId }, { require: true, patch: true, method: 'update' });
+        .save({ lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED }, { require: true, patch: true, method: 'update' });
+    } catch (err) {
+      if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
+        return null;
+      }
+      throw err;
+    }
+  },
+
+  async updateLastQuestionState({ id, lastQuestionState }) {
+    try {
+      await BookshelfAssessment
+        .where({ id })
+        .save({ lastQuestionState }, { require: true, patch: true, method: 'update' });
     } catch (err) {
       if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;

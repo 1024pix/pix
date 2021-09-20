@@ -32,6 +32,15 @@ describe('Unit | Adapters | assessment', function() {
       expect(url.endsWith('/assessments/123/complete-assessment')).to.be.true;
     });
 
+    it('should redirect to update last-question-state', async function() {
+      // when
+      const options = { adapterOptions: { updateLastQuestionsState: true, state: 'timeout' } };
+      const url = await adapter.urlForUpdateRecord(123, 'assessment', options);
+
+      // then
+      expect(url.endsWith('/assessments/123/last-challenge-state/timeout')).to.be.true;
+    });
+
   });
 
 });
