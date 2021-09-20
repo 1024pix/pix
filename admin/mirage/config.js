@@ -251,6 +251,7 @@ export default function() {
   });
 
   this.put('/admin/sessions/:id/comment', () => new Response(204));
+  this.delete('/admin/sessions/:id/comment', () => new Response(204));
 
   this.post('/admin/certification-courses/:id/cancel', (schema, request) => {
     const certificationId = request.params.id;

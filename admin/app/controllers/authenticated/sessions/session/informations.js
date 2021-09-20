@@ -79,6 +79,12 @@ export default class IndexController extends Controller {
     }
   }
 
+  @action
+  async deleteComment() {
+    await this.sessionModel.deleteComment();
+    await this.sessionModel.reload();
+  }
+
   _displaySuccessTooltip() {
     this.copyButtonText = 'Copié';
     this.isCopyButtonClicked = true;
