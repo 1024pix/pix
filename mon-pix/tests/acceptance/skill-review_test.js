@@ -150,7 +150,7 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
         expect(contains(this.intl.t('pages.skill-review.badges-title'))).to.not.exist;
       });
 
-      it('should display all badges whether acquired or not', async function() {
+      it('should display acquired badges + non acquired but isAlwaysDisplayed badges', async function() {
         // given
         const acquiredBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a Yellow badge',
@@ -158,13 +158,21 @@ describe('Acceptance | Campaigns | Campaigns Result', function() {
           message: 'Congrats, you won a Yellow badge',
           isAcquired: true,
         });
-        const unacquiredBadge = server.create('campaign-participation-badge', {
+        const unacquiredDisplayedBadge = server.create('campaign-participation-badge', {
           altMessage: 'Yon won a green badge',
           imageUrl: '/images/badges/green.svg',
           message: 'Congrats, you won a Green badge',
           isAcquired: false,
+          isAlwaysVisible: true,
         });
-        campaignParticipationResult.update({ campaignParticipationBadges: [acquiredBadge, unacquiredBadge] });
+        const unacquiredHiddenBadge = server.create('campaign-participation-badge', {
+          altMessage: 'Yon won a pink badge',
+          imageUrl: '/images/badges/pink.svg',
+          message: 'Congrats, you won a pink badge',
+          isAcquired: false,
+          isAlwaysVisible: false,
+        });
+        campaignParticipationResult.update({ campaignParticipationBadges: [acquiredBadge, unacquiredDisplayedBadge, unacquiredHiddenBadge] });
 
         // when
         await visit(`/campagnes/${campaign.code}/evaluation/resultats`);

@@ -7,6 +7,7 @@ export default ApplicationSerializer.extend({
     'message',
     'key',
     'isAcquired',
+    'isAlwaysVisible',
   ],
   include: [
     'partnerCompetenceResults',
