@@ -29,4 +29,19 @@ export default class Url extends Service {
     return `${this.definedHomeUrl}?lang=${currentLanguage}`;
   }
 
+  get legalNoticeUrl() {
+    const currentLanguage = this.intl.t('current-lang');
+    if (currentLanguage === 'en') {
+      return 'https://pix.org/en-gb/legal-notice';
+    }
+    return `https://pix.${this.currentDomain.getExtension()}/mentions-legales`;
+  }
+
+  get accessibilityUrl() {
+    const currentLanguage = this.intl.t('current-lang');
+    if (currentLanguage === 'en') {
+      return 'https://pix.org/en-gb/accessibility-pix-orga';
+    }
+    return `https://pix.${this.currentDomain.getExtension()}/accessibilite-pix-orga`;
+  }
 }
