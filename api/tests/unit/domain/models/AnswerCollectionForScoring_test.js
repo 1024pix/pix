@@ -628,6 +628,6 @@ describe('Unit | Domain | Models | AnswerCollectionForScoring', function() {
   });
 });
 
-function _buildDecoratedCertificationChallenge({ challengeId, type, isNeutralized, competenceId }) {
-  return domainBuilder.buildCertificationChallengeWithType({ type, challengeId, isNeutralized, competenceId });
+function _buildDecoratedCertificationChallenge({ challengeId, type, isNeutralized, competenceId, hasBeenSkippedAutomatically }) {
+  return domainBuilder.buildCertificationChallengeWithType({ type, challengeId, isNeutralized, competenceId, hasBeenSkippedAutomatically });
 }
