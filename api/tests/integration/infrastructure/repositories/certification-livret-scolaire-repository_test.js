@@ -270,10 +270,10 @@ describe('Integration | Repository | Certification-ls ', function() {
       buildValidatedPublishedCertificationData(
         {
           user, schoolingRegistration, verificationCode, pixScore, competenceMarks: [{
-            code: '1.1', level: 0,
-          }, {
             code: '5.2', level: -1,
-          }],
+          }, {
+            code: '1.1', level: 0,
+          } ],
         },
       );
 

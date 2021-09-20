@@ -17,7 +17,13 @@ module.exports = {
       )
         .select(knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS asr_row_number',
           ['certification-courses.id', 'assessment-results.createdAt']))
-        .select(knex.raw('\'[\' || (string_agg(\'{ "acquired":\' || "partner-certifications".acquired::VARCHAR || \', "partnerKey":"\' || "partner-certifications"."partnerKey" || \'"}\', \',\') over (partition by "certification-courses".id)) || \']\' as "partnerCertifications"'))
+        .select(knex.raw(`
+        json_agg(
+          json_build_object('acquired', "partner-certifications".acquired, 'partnerKey', "partner-certifications"."partnerKey")
+
+        ) over (partition by "certification-courses".id)
+         as "partnerCertifications"`,
+        ))
         .from('certification-courses')
         .leftJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
         .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
@@ -75,10 +81,9 @@ function _toDomain(juryCertificationSummaryDTO) {
   });
 }
 
-function _getPartnerCertificationsResult(partnerCertificationsJSON) {
-  const partnerCertifications = JSON.parse(partnerCertificationsJSON) || [];
-  const cleaCertificationCertification =
-    _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV1 }) || _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV2 });
+function _getPartnerCertificationsResult(partnerCertificationsSource) {
+  const partnerCertifications = _.compact(partnerCertificationsSource);
+  const cleaCertificationCertification = _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV1 }) || _.find(partnerCertifications, { partnerKey: CleaCertificationResult.badgeKeyV2 });
   const pixPlusDroitMaitreCertification = _.find(partnerCertifications, { partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey });
   const pixPlusDroitExpertCertification = _.find(partnerCertifications, { partnerKey: PixPlusDroitExpertCertificationResult.badgeKey });
 

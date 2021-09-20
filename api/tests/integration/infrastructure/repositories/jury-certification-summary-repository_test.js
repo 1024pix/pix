@@ -96,8 +96,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           })],
         });
         expect(juryCertificationSummaries).to.have.length(3);
-        expect(juryCertificationSummaries[0]).to.be.instanceOf(JuryCertificationSummary);
-        expect(juryCertificationSummaries[0]).to.deep.equal(expectedJuryCertificationSummary);
+        expect(juryCertificationSummaries[0]).to.deepEqualInstance(expectedJuryCertificationSummary);
         expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
       });
 

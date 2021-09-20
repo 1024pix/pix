@@ -1,7 +1,6 @@
 const { expect, databaseBuilder, domainBuilder, catchErr, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
-const ShareableCertificate = require('../../../../lib/domain/models/ShareableCertificate');
 const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
 const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
@@ -312,8 +311,6 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         ...shareableCertificateData,
         resultCompetenceTree,
       });
-      expect(shareableCertificate).to.be.instanceOf(ShareableCertificate);
-      expect(shareableCertificate).to.deep.equal(expectedShareableCertificate);
       expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
     });
 
