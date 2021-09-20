@@ -36,7 +36,7 @@ module.exports = class AnswerCollectionForScoring {
     let numberOfNonNeutralizedChallenges = 0;
     this.challengesWithAnswers.forEach((challengeWithAnswer) => {
 
-      if (!challengeWithAnswer.isNeutralized() && !challengeWithAnswer.isEmpty()) {
+      if (!challengeWithAnswer.isNeutralized() && challengeWithAnswer.isAnswered()) {
         numberOfNonNeutralizedChallenges++;
       }
     });
@@ -96,6 +96,10 @@ class ChallengeWithAnswer {
     this._challenge = challenge;
   }
 
+  isAnswered() {
+    return this._answer || this._challenge.hasBeenSkippedAutomatically;
+  }
+
   isQROCMdep() {
     const challengeType = this._challenge ? this._challenge.type : '';
     return challengeType === qrocmDepChallenge;
@@ -103,10 +107,6 @@ class ChallengeWithAnswer {
 
   isCorrect() {
     return Boolean(this._answer?.isOk());
-  }
-
-  isEmpty() {
-    return !this._answer;
   }
 
   isAFullyCorrectQROCMdep() {
