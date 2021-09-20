@@ -9,7 +9,7 @@ describe('Acceptance | Route | CertificationPointOfContact', function() {
     server = await createServer();
   });
 
-  describe('GET /api/certification-point-of-contacts/:userId', function() {
+  describe('GET /api/certification-point-of-contacts/me', function() {
 
     it('should 200 HTTP status code', async function() {
       // given
@@ -22,7 +22,7 @@ describe('Acceptance | Route | CertificationPointOfContact', function() {
       await databaseBuilder.commit();
       const options = {
         method: 'GET',
-        url: `/api/certification-point-of-contacts/${userId}`,
+        url: '/api/certification-point-of-contacts/me',
         headers: { authorization: generateValidRequestAuthorizationHeader(userId) },
       };
 
