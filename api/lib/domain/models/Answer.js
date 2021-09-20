@@ -8,7 +8,7 @@ class Answer {
     result,
     resultDetails,
     timeout,
-    focusedOut,
+    isFocusedOut,
     value,
     levelup,
     assessmentId,
@@ -20,7 +20,7 @@ class Answer {
     this.result = AnswerStatus.from(result);
     this.resultDetails = resultDetails;
     this.timeout = timeout;
-    this.focusedOut = focusedOut || this.result.isFOCUSEDOUT();
+    this.isFocusedOut = isFocusedOut || this.result.isFOCUSEDOUT();
     this.value = value;
     this.levelup = levelup;
     this.assessmentId = assessmentId;
