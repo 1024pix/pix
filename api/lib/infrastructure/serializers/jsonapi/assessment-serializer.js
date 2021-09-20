@@ -84,6 +84,7 @@ module.exports = {
 
   deserialize(json) {
     const type = json.data.attributes.type;
+    const method = Assessment.computeMethodFromType(type);
 
     let courseId = null;
     if (type !== Assessment.types.CAMPAIGN && type !== Assessment.types.PREVIEW) {
@@ -94,6 +95,7 @@ module.exports = {
       id: json.data.id,
       type,
       courseId,
+      method,
     });
   },
 };
