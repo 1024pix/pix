@@ -27,6 +27,9 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = [
 
 const methods = {
   SMART_RANDOM: 'SMART_RANDOM',
+  CERTIFICATION_DETERMINED: 'CERTIFICATION_DETERMINED',
+  COURSE_DETERMINED: 'COURSE_DETERMINED',
+  CHOSEN: 'CHOSEN',
   FLASH: 'FLASH',
 };
 
@@ -132,6 +135,19 @@ class Assessment {
     return this.method === methods.FLASH;
   }
 
+  static computeMethodFromType(type) {
+    switch (type) {
+      case Assessment.types.CERTIFICATION:
+        return methods.CERTIFICATION_DETERMINED;
+      case Assessment.types.DEMO:
+        return methods.COURSE_DETERMINED;
+      case Assessment.types.PREVIEW:
+        return methods.CHOSEN;
+      default:
+        return methods.SMART_RANDOM;
+    }
+  }
+
   static createForCertificationCourse({ userId, certificationCourseId }) {
     return new Assessment({
       userId,
@@ -139,6 +155,7 @@ class Assessment {
       state: Assessment.states.STARTED,
       type: Assessment.types.CERTIFICATION,
       isImproving: false,
+      method: methods.CERTIFICATION_DETERMINED,
     });
   }
 

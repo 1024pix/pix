@@ -378,4 +378,23 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.isImproving).to.be.true;
     });
   });
+
+  describe('#computeMethod', function() {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { assessmentType: 'PREVIEW', expectedMethod: 'CHOSEN' },
+      { assessmentType: 'CERTIFICATION', expectedMethod: 'CERTIFICATION_DETERMINED' },
+      { assessmentType: 'DEMO', expectedMethod: 'COURSE_DETERMINED' },
+      { assessmentType: 'COMPETENCE_EVALUATION', expectedMethod: 'SMART_RANDOM' },
+      { assessmentType: 'CAMPAIGN', expectedMethod: 'SMART_RANDOM' },
+    ].forEach(function({ assessmentType, expectedMethod }) {
+      it(`should return "${expectedMethod}" if assessment type is "${assessmentType}"`, function() {
+        // when
+        const method = Assessment.computeMethodFromType(assessmentType);
+
+        // then
+        expect(method).to.equal(expectedMethod);
+      });
+    });
+  });
 });

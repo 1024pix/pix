@@ -170,6 +170,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.id).to.equal(jsonAssessment.data.id);
       expect(assessment.type).to.equal(jsonAssessment.data.attributes.type);
       expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
+      expect(assessment.method).to.equal('CERTIFICATION_DETERMINED');
     });
 
     it('should have a null courseId for type CAMPAIGN', function() {
