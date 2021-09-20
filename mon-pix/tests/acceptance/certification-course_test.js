@@ -50,7 +50,7 @@ describe('Acceptance | Certification | Start Certification Course', function() {
       context('When user is certifiable', function() {
 
         beforeEach(async function() {
-          user = server.create('user', 'withEmail', 'certifiable');
+          user = server.create('user', 'withEmail', 'certifiable', { hasSeenOtherChallengesTooltip: true });
           await authenticateByEmail(user);
           return visit('/certifications');
         });

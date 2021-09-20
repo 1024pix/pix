@@ -173,31 +173,5 @@ describe('Unit | Controller | Assessments | Challenge', function() {
         });
       });
     });
-
-    context('when challenge is focused', function() {
-      [
-        { answer: undefined, expectedResult: true },
-        { answer: 'banana', expectedResult: true },
-      ].forEach((data) => {
-
-        it(`should be ${data.expectedResult} when answer = ${data.answer}`, function() {
-          // given
-          const challenge = {
-            id: 'rec_123',
-            focused: true,
-          };
-
-          const answer = data.answer;
-
-          controller.model = { challenge, answer };
-
-          // when
-          const result = controller.displayChallenge;
-
-          // then
-          expect(result).to.equal(data.expectedResult);
-        });
-      });
-    });
   });
 });

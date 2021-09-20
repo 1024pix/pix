@@ -52,7 +52,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should display an overlay and tooltip', async () => {
             // then
-            expect(find('.challenge__focused-overlay')).to.exist;
+            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
@@ -90,7 +90,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             it('should hide an overlay and tooltip', async () => {
               // then
-              expect(find('.challenge__focused-overlay')).to.not.exist;
+              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
@@ -156,7 +156,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           it('should hide the overlay and tooltip', async function() {
             // then
-            expect(find('.challenge__focused-overlay')).to.not.exist;
+            expect(find('.challenge__overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 
@@ -263,19 +263,125 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         });
       });
     });
+  });
 
+  [
+    { challengeType: 'QROC' },
+    { challengeType: 'QROCM' },
+    { challengeType: 'QCM' },
+    { challengeType: 'QCU' },
+  ].forEach(function(data) {
     describe(`when ${data.challengeType} challenge is not focused`, function() {
-      it('should not display an overlay nor a tooltip', async function() {
-        // given
-        assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-        server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
 
-        // when
-        await visit(`/assessments/${assessment.id}/challenges/0`);
+      describe('when user has not answered the question', function() {
 
-        // then
-        expect(find('.challenge__focused-overlay')).to.not.exist;
-        expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+        describe('when user has not seen the challenge tooltip yet', function() {
+          beforeEach(async () => {
+            // given
+            const user = server.create('user', 'withEmail', {
+              hasSeenOtherChallengesTooltip: false,
+            });
+            await authenticateByEmail(user);
+
+            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+            server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+
+            // when
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+          });
+
+          it('should display an overlay and tooltip', async () => {
+            // then
+            expect(find('.challenge__overlay')).to.exist;
+            expect(find('.tooltip-tag__information')).to.exist;
+          });
+
+          it('should disable input and buttons', async () => {
+            // then
+            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
+            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
+
+            const responseFields = findAll('[data-test="challenge-response-proposal-selector"]');
+            expect(responseFields).to.have.lengthOf.at.least(1);
+            responseFields.forEach((input) => expect(input.disabled).to.equal(true));
+          });
+
+          describe('when user closes tooltip', () => {
+            beforeEach(async function() {
+              // given
+              assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+              server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+
+              // when
+              await visit(`/assessments/${assessment.id}/challenges/0`);
+              await click('.tooltip-tag-information__button');
+            });
+
+            it('should hide an overlay and tooltip', async () => {
+              // then
+              expect(find('.challenge__overlay')).to.not.exist;
+              expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+            });
+
+            it('should enable input and buttons', async () => {
+              // then
+              expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
+              expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
+              expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
+            });
+          });
+        });
+
+        describe('when user has already seen challenge tooltip', function() {
+          beforeEach(async () => {
+            const user = server.create('user', 'withEmail', {
+              hasSeenOtherChallengesTooltip: true,
+            });
+            await authenticateByEmail(user);
+
+            assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+            server.create('challenge', 'forCompetenceEvaluation', data.challengeType);
+
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+          });
+
+          it('should hide the overlay and tooltip', async function() {
+            // then
+            expect(find('.challenge__overlay')).to.not.exist;
+            expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
+          });
+
+          it('should enable input and buttons', async function() {
+            // then
+            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.not.exist;
+            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.not.exist;
+            expect(find('[data-test="challenge-response-proposal-selector"]').getAttribute('disabled')).to.not.exist;
+          });
+        });
+      });
+
+      describe('when user has already answered the question', function() {
+        it('should not display the overlay, dashed-border and warning messages', async function() {
+          // given
+          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
+          server.create('answer', {
+            value: 'Reponse',
+            result: 'ko',
+            assessment,
+            challenge: server.create('challenge', 'forCompetenceEvaluation', `${data.challengeType}`, 'withFocused'),
+          });
+
+          // when
+          await visit(`/assessments/${assessment.id}/challenges/0`);
+          const challengeItem = find('.challenge-item');
+          await triggerEvent(challengeItem, 'mouseleave');
+
+          // then
+          expect(find('.challenge__info-alert--could-show')).to.not.exist;
+          expect(find('.challenge__focused-out-overlay')).to.not.exist;
+          expect(find('.challenge-actions__focused-out-of-window')).to.not.exist;
+          expect(find('.challenge-actions__already-answered')).to.exist;
+        });
       });
 
       it('should not display warning block', async function() {

@@ -67,7 +67,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.challenge-statement-instruction__text').textContent.trim()).to.equal('La consigne de mon test');
     });
 
-    it('should render a tag for challenge with tooltip', async function() {
+    it('should render a tag for focused challenge with tooltip', async function() {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
@@ -83,19 +83,20 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(find('.tooltip__tag')).to.exist;
     });
 
-    it('should not render a tag for challenge without tooltip', async function() {
+    it('should render a tag for other challenge with tooltip', async function() {
       // given
       addAssessmentToContext(this, { id: '267845' });
       addChallengeToContext(this, {
         instruction: 'La consigne de mon test',
         id: 'rec_challenge',
+        focused: false,
       });
 
       // when
       await renderChallengeStatement(this);
 
       // then
-      expect(find('.tooltip__tag')).to.not.exist;
+      expect(find('.tooltip__tag')).to.exist;
     });
 
     it('should not render challenge instruction if it does not exist', async function() {
@@ -174,8 +175,8 @@ describe('Integration | Component | ChallengeStatement', function() {
       await renderChallengeStatement(this);
 
       // then
+      expect(find('.tooltip__tag--regular')).to.exist;
       expect(find('.tooltip__tag--focused')).to.not.exist;
-      expect(find('.tooltip__tag--regular')).to.not.exist;
     });
   });
 

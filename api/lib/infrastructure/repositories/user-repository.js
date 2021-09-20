@@ -285,6 +285,9 @@ module.exports = {
     if (challengeType === 'focused') {
       await user.save({ 'hasSeenFocusedChallengeTooltip': true }, { patch: true, method: 'update' });
     }
+    if (challengeType === 'other') {
+      await user.save({ 'hasSeenOtherChallengesTooltip': true }, { patch: true, method: 'update' });
+    }
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 

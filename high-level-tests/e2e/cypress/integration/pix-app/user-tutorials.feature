@@ -21,6 +21,7 @@ Fonctionnalité: Tutoriels utilisateur
     Alors la page "Compétence non commencée" est correctement affichée
     Lorsque je clique sur "Commencer"
     Alors la page "Mathématiques - 1ere question" est correctement affichée
+    Lorsque je clique sur "J'ai compris"
     Lorsque je clique sur "Je passe"
     Alors la page "Mathématiques - 2eme question" est correctement affichée
     Lorsque je clique sur "Je passe"
