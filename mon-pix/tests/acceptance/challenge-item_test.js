@@ -30,7 +30,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
         await visit(`/assessments/${assessment.id}/challenges/0`);
 
         // then
-        expect(getPageTitle()).to.contain('Épreuve de savoir');
+        expect(getPageTitle()).to.contain('Mode focus');
       });
 
       describe('when user has not answered the question', function() {
