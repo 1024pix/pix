@@ -57,8 +57,7 @@ module.exports = {
 
   async updatePassword(request, h) {
     const payload = request.payload.data.attributes;
-    // eslint-disable-next-line no-restricted-syntax
-    const userId = parseInt(request.auth.credentials.userId);
+    const userId = request.auth.credentials.userId;
     const organizationId = payload['organization-id'];
     const schoolingRegistrationId = payload['schooling-registration-id'];
 
