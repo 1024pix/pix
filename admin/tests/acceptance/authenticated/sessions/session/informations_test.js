@@ -60,6 +60,33 @@ module('Acceptance | authenticated/sessions/session/informations', function(hook
         // then
         assert.contains('Commentaire de l\'équipe Certification');
       });
+
+      module('When the comment is deleted', function() {
+        module('When server successfully deletes the comment', function() {
+          test('it should have removed the comment', async function(assert) {
+            // given
+            const author = server.create('user', {
+              firstName: 'Jernau',
+              lastName: 'Gurgeh',
+              fullName: 'Jernau Gurgeh',
+            });
+            server.create('session', {
+              id: '6',
+              juryComment: 'Le surveillant prétend qu\'une météorite est tombée sur le centre.',
+              juryCommentedAt: new Date('2012-12-21T00:12:21Z'),
+              juryCommentAuthor: author,
+            });
+
+            // when
+            await visit('/sessions/6');
+            await clickByLabel('Supprimer');
+            await clickByLabel('Confirmer');
+
+            // then
+            assert.notContains('Le surveillant prétend qu\'une météorite est tombée sur le centre.');
+          });
+        });
+      });
     });
 
     module('When a new comment is submitted', function() {

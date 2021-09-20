@@ -133,4 +133,10 @@ export default class Session extends Model {
       this.reload();
     },
   })
+
+  deleteComment = memberAction({
+    path: 'comment',
+    type: 'delete',
+    urlType: 'updateRecord',
+  })
 }
