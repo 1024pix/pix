@@ -7,7 +7,6 @@ const defaultPageTitle = 'pages.challenge.title.default';
 const timedOutPageTitle = 'pages.challenge.title.timed-out';
 const focusedPageTitle = 'pages.challenge.title.focused';
 const focusedOutPageTitle = 'pages.challenge.title.focused-out';
-import ENV from 'mon-pix/config/environment';
 import isInteger from 'lodash/isInteger';
 
 export default class ChallengeController extends Controller {
@@ -20,14 +19,6 @@ export default class ChallengeController extends Controller {
   @tracked hasFocusedOutOfChallenge = false;
   @tracked hasFocusedOutOfWindow = false;
   @tracked hasUserConfirmedWarning = false;
-  @tracked shouldRemoveTooltipOverlay = false;
-
-  get isTooltipOverlayDisplayed() {
-    if (this.model.challenge) {
-      return !this.shouldRemoveTooltipOverlay;
-    }
-    return false;
-  }
 
   get showLevelup() {
     return this.model.assessment.showLevelup && this.newLevel;
@@ -61,18 +52,6 @@ export default class ChallengeController extends Controller {
     return this.hasFocusedOutOfChallenge && this.couldDisplayInfoAlert;
   }
 
-  get isTooltipWithConfirmationButtonDisplayed() {
-    if (ENV.APP.FT_FOCUS_CHALLENGE_ENABLED) {
-      if (this.model.challenge.focused) {
-        return this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenFocusedChallengeTooltip;
-      }
-      else if (!this.model.challenge.focused) {
-        return this.isTooltipOverlayDisplayed && this.currentUser.user && !this.currentUser.user.hasSeenOtherChallengesTooltip;
-      }
-    }
-    return false;
-  }
-
   @action
   async removeTooltipOverlay() {
     if (this.currentUser.user) {
@@ -86,7 +65,6 @@ export default class ChallengeController extends Controller {
 
   async _updateUserAndTriggerOverlayRemoval(tooltipChallengeType) {
     await this.currentUser.user.save({ adapterOptions: tooltipChallengeType });
-    this.shouldRemoveTooltipOverlay = true;
   }
 
   @action

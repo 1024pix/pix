@@ -5,7 +5,7 @@ import { getPageTitle } from 'ember-page-title/test-support';
 import { authenticateByEmail } from '../helpers/authentication';
 import visit from '../helpers/visit';
 import { expect } from 'chai';
-import { click, find, findAll, triggerEvent } from '@ember/test-helpers';
+import { click, find, triggerEvent } from '@ember/test-helpers';
 
 describe('Acceptance | Displaying a challenge of any type', () => {
   setupApplicationTest();
@@ -50,31 +50,20 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should display an overlay and tooltip', async () => {
+          it('should display a tooltip', async () => {
             // then
-            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
           });
 
-          it('should disable input and buttons', async () => {
-            // then
-            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
-            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
-
-            const responseFields = findAll('[data-test="challenge-response-proposal-selector"]');
-            expect(responseFields).to.have.lengthOf.at.least(1);
-            responseFields.forEach((input) => expect(input.disabled).to.equal(true));
-          });
-
-          it('should not display an info alert with dashed border and overlay', async function() {
+          it('should display an info alert with dashed border and overlay', async function() {
             // when
             const challengeItem = find('.challenge-item');
             await triggerEvent(challengeItem, 'mouseleave');
 
             // then
-            expect(find('.challenge__info-alert--show')).to.not.exist;
-            expect(find('.challenge-item__container--focused')).to.not.exist;
-            expect(find('.challenge__focused-out-overlay')).to.not.exist;
+            expect(find('.challenge__info-alert--show')).to.exist;
+            expect(find('.challenge-item__container--focused')).to.exist;
+            expect(find('.challenge__focused-out-overlay')).to.exist;
           });
 
           describe('when user closes tooltip', () => {
@@ -88,9 +77,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await click('.tooltip-tag-information__button');
             });
 
-            it('should hide an overlay and tooltip', async () => {
+            it('should hide a tooltip', async () => {
               // then
-              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
@@ -154,9 +142,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should hide the overlay and tooltip', async function() {
+          it('should hide the tooltip', async function() {
             // then
-            expect(find('.challenge__overlay')).to.not.exist;
             expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
           });
 
@@ -290,20 +277,9 @@ describe('Acceptance | Displaying a challenge of any type', () => {
             await visit(`/assessments/${assessment.id}/challenges/0`);
           });
 
-          it('should display an overlay and tooltip', async () => {
+          it('should display a tooltip', async () => {
             // then
-            expect(find('.challenge__overlay')).to.exist;
             expect(find('.tooltip-tag__information')).to.exist;
-          });
-
-          it('should disable input and buttons', async () => {
-            // then
-            expect(find('.challenge-actions__action-skip').getAttribute('disabled')).to.exist;
-            expect(find('.challenge-actions__action-validate').getAttribute('disabled')).to.exist;
-
-            const responseFields = findAll('[data-test="challenge-response-proposal-selector"]');
-            expect(responseFields).to.have.lengthOf.at.least(1);
-            responseFields.forEach((input) => expect(input.disabled).to.equal(true));
           });
 
           describe('when user closes tooltip', () => {
@@ -317,9 +293,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               await click('.tooltip-tag-information__button');
             });
 
-            it('should hide an overlay and tooltip', async () => {
+            it('should hide a tooltip', async () => {
               // then
-              expect(find('.challenge__overlay')).to.not.exist;
               expect(find('#challenge-statement-tag--tooltip')).to.not.exist;
             });
 
