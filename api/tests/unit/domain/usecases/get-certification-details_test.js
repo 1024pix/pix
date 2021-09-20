@@ -107,6 +107,7 @@ describe('Unit | UseCase | get-certification-details', function() {
           {
             challengeId: 'rec123',
             competence: '1.1',
+            hasBeenSkippedAutomatically: false,
             isNeutralized: false,
             result: 'ok',
             skill: 'manger une mangue',
@@ -206,6 +207,7 @@ describe('Unit | UseCase | get-certification-details', function() {
           {
             challengeId: 'rec123',
             competence: '1.1',
+            hasBeenSkippedAutomatically: false,
             isNeutralized: false,
             result: 'ok',
             skill: 'manger une mangue',
