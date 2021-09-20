@@ -304,6 +304,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
               totalSkillsCount: 3,
               validatedSkillsCount: 1,
             }],
+            isAlwaysVisible: false,
           }],
           reachedStage: null,
           stageCount: null,
@@ -436,6 +437,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
               index: undefined,
             }],
             targetProfileId: 1,
+            isAlwaysVisible: false,
           }, {
             id: 2,
             isAcquired: true,
@@ -454,6 +456,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
             badgePartnerCompetences: [],
             partnerCompetenceResults: [],
             targetProfileId: 1,
+            isAlwaysVisible: false,
           }],
           reachedStage: null,
           stageCount: null,
@@ -590,6 +593,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
               validatedSkillsCount: 1,
             }],
             targetProfileId: 1,
+            isAlwaysVisible: false,
           }, {
             id: 2,
             isAcquired: false,
@@ -625,6 +629,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
               validatedSkillsCount: 0,
             }],
             targetProfileId: targetProfile.id,
+            isAlwaysVisible: false,
           }],
           competenceResults: [{
             id: 1,
@@ -730,6 +735,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
             badgePartnerCompetences: [],
             partnerCompetenceResults: [],
             targetProfileId: 1,
+            isAlwaysVisible: false,
           }, {
             id: 2,
             isAcquired: true,
@@ -748,6 +754,7 @@ describe('Unit | Domain | Models | CampaignParticipationResult', function() {
             badgePartnerCompetences: [],
             partnerCompetenceResults: [],
             targetProfileId: 1,
+            isAlwaysVisible: false,
           }],
           competenceResults: [{
             id: 1,
