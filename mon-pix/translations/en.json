@@ -317,8 +317,8 @@
       "title": {
         "default": "Question {stepNumber} of {totalChallengeNumber}",
         "timed-out": "Timed out - Question {stepNumber} of {totalChallengeNumber}",
-        "focused": "Knowledge Question - Question {stepNumber} of {totalChallengeNumber}",
-        "focused-out": "Challenge failed - Knowledge Question - Question {stepNumber} of {totalChallengeNumber}"
+        "focused": "Focus Mode - Question {stepNumber} of {totalChallengeNumber}",
+        "focused-out": "Failed - Focus Mode - Question {stepNumber} of {totalChallengeNumber}"
       },
       "actions": {
         "continue": "Continue",
