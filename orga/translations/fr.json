@@ -160,6 +160,12 @@
       "number": "{count, plural, =0 {0 crédit} =1 {1 crédit} other {{count, number} crédits}}",
       "tooltip-text": "Le nombre de crédits affichés correspond au nombre de crédits acquis par l’organisation et en cours de validité (indépendamment de leur activation). Pour plus d’information contactez-nous à l’adresse <a href=mailto:pro@pix.fr>pro@pix.fr</a>"
     },
+    "footer": {
+      "a11y": "Accessibilité : non conforme",
+      "copyrights": "©",
+      "legal-notice": "Mentions légales",
+      "pix": "Pix"
+    },
     "main": {
       "campaigns": "Campagnes",
       "certifications": "Certifications",

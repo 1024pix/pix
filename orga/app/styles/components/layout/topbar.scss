@@ -2,6 +2,7 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-shrink: 0;
   background-color: $white;
   min-height: 60px;
 
