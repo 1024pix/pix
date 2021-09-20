@@ -117,8 +117,6 @@ describe('Acceptance | API | Certification Course', function() {
           state: CertificationAssessment.states.STARTED,
           userId: user.id,
         }).id;
-        const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({ assessmentId }).id;
-        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId, competenceId: 'competence_id' });
 
         challenges.forEach(({ id: challengeId }) => {
           databaseBuilder.factory.buildCertificationChallenge({
