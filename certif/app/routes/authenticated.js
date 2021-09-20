@@ -22,6 +22,6 @@ export default class AuthenticatedRoute extends Route {
   }
 
   model() {
-    return this.currentUser.currentCertificationCenter;
+    return this.currentUser.currentAllowedCertificationCenterAccess;
   }
 }

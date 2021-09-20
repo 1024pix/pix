@@ -9,12 +9,14 @@
 
     <nav class="sidebar-menu">
       <ul>
-        <li>
-          <LinkTo @route="authenticated.sessions.list" class="sidebar-menu__item" type="button" aria-label="Sessions de certification">
-            <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="presentation" class="sidebar-menu__item-icon">
-            Sessions
-          </LinkTo>
-        </li>
+        {{#if this.showLinkToSessions}}
+          <li>
+            <LinkTo @route="authenticated.sessions.list" class="sidebar-menu__item" type="button" aria-label="Sessions de certification">
+              <img src="{{this.rootURL}}/icons/chevron-square-right.svg" alt="" role="presentation" class="sidebar-menu__item-icon">
+              Sessions
+            </LinkTo>
+          </li>
+        {{/if}}
         <li>
           <a class="sidebar-menu__item" href="{{this.documentationLink}}" target="_blank" rel="noopener noreferrer">
             <FaIcon @icon='book' @class="sidebar-menu__item-icon" />
@@ -29,7 +31,7 @@
   <div class="app__main-content main-content">
 
     <div class="main-content__topbar topbar">
-      <div class="topbar__user-logged-menu"><UserLoggedMenu /></div>
+      <div class="topbar__user-logged-menu"><UserLoggedMenu @onCertificationCenterAccessChanged={{this.changeCurrentCertificationCenterAccess}}/></div>
     </div>
 
     {{#if this.showBanner}}

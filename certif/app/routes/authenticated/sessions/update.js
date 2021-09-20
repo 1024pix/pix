@@ -2,8 +2,14 @@
 
 import Route from '@ember/routing/route';
 import moment from 'moment';
+import { inject as service } from '@ember/service';
 
 export default class SessionsUpdateRoute extends Route {
+  @service currentUser;
+
+  beforeModel() {
+    this.currentUser.checkRestrictedAccess();
+  }
 
   async model({ session_id }) {
     const session = await this.store.findRecord('session', session_id);

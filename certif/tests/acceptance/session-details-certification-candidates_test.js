@@ -3,7 +3,6 @@ import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import moment from 'moment';
 import {
-  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 import { upload } from 'ember-file-upload/test-support';
@@ -37,13 +36,37 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
   module('when certificationPointOfContact is logged in', function(hooks) {
 
+    let allowedCertificationCenterAccess;
     let certificationPointOfContact;
     let session;
 
     hooks.beforeEach(async () => {
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      session = server.create('session', { certificationCenterId: certificationPointOfContact.currentCertificationCenterId });
+      allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      });
+      certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+        pixCertifTermsOfServiceAccepted: true,
+      });
+      session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
       await authenticateSession(certificationPointOfContact.id);
+    });
+
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit(`/sessions/${session.id}/candidats`);
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
     });
 
     module('when there is no candidates yet', function() {

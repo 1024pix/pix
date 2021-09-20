@@ -13,11 +13,11 @@
 </div>
 
 <Dropdown::Content @display={{this.isMenuOpen}} @close={{this.closeMenu}} class="logged-user-menu" aria-label="Menu utilisateur">
-  {{#each this.eligibleCertificationCenters as |certificationCenter|}}
-    <Dropdown::Item @onClick={{fn this.onCertificationCenterChange certificationCenter}} title="{{certificationCenter.name}}" class="logged-user-menu-item">
-      <span class="logged-user-menu-item__certification-center-name">{{certificationCenter.name}}</span>
-      {{#if certificationCenter.externalId}}
-        <span class="logged-user-menu-item__certification-center-externalId">({{certificationCenter.externalId}})</span>
+  {{#each this.eligibleCertificationCenterAccesses as |certificationCenterAccess|}}
+    <Dropdown::Item @onClick={{fn this.onCertificationCenterAccessChanged certificationCenterAccess}} title="{{certificationCenterAccess.name}}" class="logged-user-menu-item">
+      <span class="logged-user-menu-item__certification-center-name">{{certificationCenterAccess.name}}</span>
+      {{#if certificationCenterAccess.externalId}}
+        <span class="logged-user-menu-item__certification-center-externalId">({{certificationCenterAccess.externalId}})</span>
       {{/if}}
     </Dropdown::Item>
   {{/each}}

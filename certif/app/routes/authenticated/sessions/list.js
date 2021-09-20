@@ -14,6 +14,10 @@ export default class ListRoute extends Route {
 
   @service currentUser;
 
+  beforeModel() {
+    this.currentUser.checkRestrictedAccess();
+  }
+
   model(params) {
     return this.store.query('session-summary', {
       page: {

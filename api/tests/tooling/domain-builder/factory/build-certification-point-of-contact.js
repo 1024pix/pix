@@ -1,4 +1,5 @@
 const CertificationPointOfContact = require('../../../../lib/domain/read-models/CertificationPointOfContact');
+const buildAllowedCertificationCenterAccess = require('./build-allowed-certification-center-access');
 
 module.exports = function buildCertificationPointOfContact({
   id = 123,
@@ -6,8 +7,7 @@ module.exports = function buildCertificationPointOfContact({
   lastName = 'Brebis',
   email = 'chevre.brebis@example.net',
   pixCertifTermsOfServiceAccepted = true,
-  currentCertificationCenterId = 456,
-  certificationCenters,
+  allowedCertificationCenterAccesses = [buildAllowedCertificationCenterAccess()],
 } = {}) {
   return new CertificationPointOfContact({
     id,
@@ -15,7 +15,6 @@ module.exports = function buildCertificationPointOfContact({
     lastName,
     email,
     pixCertifTermsOfServiceAccepted,
-    currentCertificationCenterId,
-    certificationCenters,
+    allowedCertificationCenterAccesses,
   });
 };

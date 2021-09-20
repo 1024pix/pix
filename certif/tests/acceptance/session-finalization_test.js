@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createCertificationPointOfContactWithTermsOfServiceAccepted, authenticateSession } from '../helpers/test-init';
+import { authenticateSession } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -13,15 +13,26 @@ module('Acceptance | Session Finalization', function(hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
+  let allowedCertificationCenterAccess;
   let certificationPointOfContact;
   let session;
 
   hooks.beforeEach(function() {
-    certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-    const certificationCenterId = certificationPointOfContact.certificationCenterId;
-    session = server.create('session', { certificationCenterId });
-
+    allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+      isAccessBlockedCollege: false,
+      isAccessBlockedLycee: false,
+    });
+    certificationPointOfContact = server.create('certification-point-of-contact', {
+      firstName: 'Buffy',
+      lastName: 'Summers',
+      allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+      pixCertifTermsOfServiceAccepted: true,
+    });
     const certificationReports = server.createList('certification-report', 2, { hasSeenEndTestScreen: false });
+    session = server.create('session', {
+      certificationCenterId: allowedCertificationCenterAccess.id,
+      certificationReports,
+    });
     session.update({ certificationReports });
   });
 
@@ -45,6 +56,20 @@ module('Acceptance | Session Finalization', function(hooks) {
 
     hooks.beforeEach(async () => {
       await authenticateSession(certificationPointOfContact.id);
+    });
+
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit(`/sessions/${session.id}/finalisation`);
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
     });
 
     test('it should be accessible for an authenticated certificationPointOfContact', async function(assert) {

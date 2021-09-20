@@ -11,12 +11,12 @@ export default class UserLoggedMenu extends Component {
   @tracked isMenuOpen = false;
 
   get certificationCenterNameAndExternalId() {
-    const certificationCenter = this.currentUser.currentCertificationCenter;
+    const allowedCertificationCenterAccess = this.currentUser.currentAllowedCertificationCenterAccess;
 
-    if (certificationCenter.externalId) {
-      return `${certificationCenter.name} (${certificationCenter.externalId})`;
+    if (allowedCertificationCenterAccess.externalId) {
+      return `${allowedCertificationCenterAccess.name} (${allowedCertificationCenterAccess.externalId})`;
     }
-    return certificationCenter.name;
+    return allowedCertificationCenterAccess.name;
   }
 
   get userFullName() {
@@ -24,15 +24,15 @@ export default class UserLoggedMenu extends Component {
     return `${certificationPointOfContact.firstName} ${certificationPointOfContact.lastName}`;
   }
 
-  get eligibleCertificationCenters() {
-    const certificationCenters = this.currentUser.certificationPointOfContact.certificationCenters;
+  get eligibleCertificationCenterAccesses() {
+    const allowedCertificationCenterAccesses = this.currentUser.certificationPointOfContact.allowedCertificationCenterAccesses;
 
-    if (!certificationCenters) {
+    if (!allowedCertificationCenterAccesses) {
       return [];
     }
-    return certificationCenters
-      .filter((certificationCenter) => {
-        return parseInt(certificationCenter.id) !== this.currentUser.certificationPointOfContact.currentCertificationCenterId;
+    return allowedCertificationCenterAccesses
+      .filter((allowedCertificationCenterAccess) => {
+        return allowedCertificationCenterAccess.id !== this.currentUser.currentAllowedCertificationCenterAccess.id;
       })
       .sortBy('name');
   }
@@ -43,11 +43,8 @@ export default class UserLoggedMenu extends Component {
   }
 
   @action
-  async onCertificationCenterChange(certificationCenter) {
-    this.currentUser.certificationPointOfContact.currentCertificationCenterId = parseInt(certificationCenter.id);
-
+  onCertificationCenterAccessChanged(certificationCenterAccess) {
     this.closeMenu();
-
-    this.router.replaceWith('authenticated');
+    return this.args.onCertificationCenterAccessChanged(certificationCenterAccess);
   }
 }

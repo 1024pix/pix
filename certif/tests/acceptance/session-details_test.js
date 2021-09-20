@@ -2,7 +2,6 @@ import { module, test } from 'qunit';
 import { click, currentURL, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import {
-  createCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
 
@@ -35,14 +34,37 @@ module('Acceptance | Session Details', function(hooks) {
   });
 
   module('when certificationPointOfContact is logged in', function(hooks) {
-
+    let allowedCertificationCenterAccess;
     let certificationPointOfContact;
     let session;
 
     hooks.beforeEach(async () => {
-      certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+      allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+      });
+      certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        allowedCertificationCenterAccesses: [allowedCertificationCenterAccess],
+        pixCertifTermsOfServiceAccepted: true,
+      });
+      session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
       await authenticateSession(certificationPointOfContact.id);
+    });
+
+    module('when current certification center is blocked', function() {
+
+      test('should redirect to espace-ferme URL', async function(assert) {
+        // given
+        allowedCertificationCenterAccess.update({ isAccessBlockedCollege: true });
+
+        // when
+        await visit(`/sessions/${session.id}`);
+
+        // then
+        assert.equal(currentURL(), '/espace-ferme');
+      });
     });
 
     test('it should redirect to session list on click on return button', async function(assert) {

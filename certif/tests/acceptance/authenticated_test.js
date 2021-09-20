@@ -6,6 +6,7 @@ import {
   createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted,
   authenticateSession,
 } from '../helpers/test-init';
+import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -15,6 +16,7 @@ module('Acceptance | authenticated', function(hooks) {
   setupMirage(hooks);
 
   module('When user clicks the sidebar logo', function() {
+
     test('it should redirect to the sessions list page', async function(assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
@@ -31,6 +33,7 @@ module('Acceptance | authenticated', function(hooks) {
   });
 
   module('When user clicks the sessions sidebar menu entry', function() {
+
     test('it should also redirect to the sessions list page', async function(assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
@@ -46,7 +49,8 @@ module('Acceptance | authenticated', function(hooks) {
     });
   });
 
-  module('Sco temporary banner', function() {
+  module('SCO temporary banner', function() {
+
     test('it should display the banner when User is SCO isManagingStudent', async function(assert) {
       // given
       const certificationPointOfContact = createScoIsManagingStudentsCertificationPointOfContactWithTermsOfServiceAccepted();
@@ -73,4 +77,134 @@ module('Acceptance | authenticated', function(hooks) {
     });
   });
 
+  module('When user changes current certification center', function() {
+
+    test('should display the new current certification center in the logged menu', async function(assert) {
+      // given
+      const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        name: 'Bibiche',
+        externalId: 'ABC123',
+      });
+      const anotherAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        name: 'Poupoune',
+        externalId: 'DEF456',
+      });
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess, anotherAllowedCertificationCenterAccess],
+      });
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      await visit('/');
+      await clickByLabel('Buffy');
+      await clickByLabel('Poupoune');
+
+      // then
+      assert.contains('Poupoune (DEF456)');
+    });
+
+    test('should redirect to sessions/liste URL when changing the current certification center', async function(assert) {
+      // given
+      const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 123,
+        name: 'Bibiche',
+        externalId: 'ABC123',
+      });
+      const anotherAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 456,
+        name: 'Poupoune',
+        externalId: 'DEF456',
+      });
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess, anotherAllowedCertificationCenterAccess],
+      });
+      server.create('session', {
+        id: 555,
+        certificationCenterId: 123,
+      });
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      await visit('/sessions/555');
+      await clickByLabel('Buffy');
+      await clickByLabel('Poupoune');
+
+      // then
+      assert.equal(currentURL(), '/sessions/liste');
+    });
+
+    test('should redirect to espace-ferme URL when changing the current certification center to a blocked one', async function(assert) {
+      // given
+      const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 123,
+        name: 'Bibiche',
+        externalId: 'ABC123',
+      });
+      const anotherAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 456,
+        name: 'Poupoune',
+        externalId: 'DEF456',
+        isAccessBlockedCollege: true,
+      });
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess, anotherAllowedCertificationCenterAccess],
+      });
+      server.create('session', {
+        id: 555,
+        certificationCenterId: 123,
+      });
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      await visit('/sessions/555');
+      await clickByLabel('Buffy');
+      await clickByLabel('Poupoune');
+
+      // then
+      assert.equal(currentURL(), '/espace-ferme');
+    });
+
+    test('should redirect to sessions/liste URL when changing from a blocked certification center to a not blocked one', async function(assert) {
+      // given
+      const currentAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 123,
+        name: 'Bibiche',
+        externalId: 'ABC123',
+        isAccessBlockedCollege: true,
+      });
+      const anotherAllowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
+        id: 456,
+        name: 'Poupoune',
+        externalId: 'DEF456',
+      });
+      const certificationPointOfContact = server.create('certification-point-of-contact', {
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        pixCertifTermsOfServiceAccepted: true,
+        allowedCertificationCenterAccesses: [currentAllowedCertificationCenterAccess, anotherAllowedCertificationCenterAccess],
+      });
+      server.create('session', {
+        id: 555,
+        certificationCenterId: 123,
+      });
+      await authenticateSession(certificationPointOfContact.id);
+
+      // when
+      await visit('/');
+      await clickByLabel('Buffy');
+      await clickByLabel('Poupoune');
+
+      // then
+      assert.equal(currentURL(), '/sessions/liste');
+    });
+  });
 });

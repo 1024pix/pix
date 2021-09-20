@@ -5,8 +5,7 @@ export default class CertificationPointOfContact extends Model {
   @attr() lastName;
   @attr() email;
   @attr() pixCertifTermsOfServiceAccepted;
-  @attr() currentCertificationCenterId;
-  @hasMany('certification-center') certificationCenters;
+  @hasMany('allowed-certification-center-access') allowedCertificationCenterAccesses;
 
   get fullName() {
     return `${this.firstName} ${this.lastName}`;
