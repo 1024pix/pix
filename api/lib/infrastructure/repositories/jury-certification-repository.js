@@ -49,8 +49,8 @@ function _selectJuryCertifications() {
       commentForCandidate: 'assessment-results.commentForCandidate',
       commentForOrganization: 'assessment-results.commentForOrganization',
       commentForJury: 'assessment-results.commentForJury',
+      competenceMarks: knex.raw('json_agg("competence-marks".* ORDER BY "competence-marks"."competence_code" asc)'),
     })
-    .select(knex.raw('\'[\' || (string_agg(\'{ "id":\' || "competence-marks"."id"::VARCHAR || \', "score":\' || "competence-marks".score::VARCHAR || \', "level":\' || "competence-marks".level::VARCHAR || \', "area_code":\' || "competence-marks"."area_code"::VARCHAR || \', "competence_code":\' || "competence-marks"."competence_code"::VARCHAR || \', "assessmentResultId":\' || "competence-marks"."assessmentResultId"::VARCHAR || \', "competenceId":"\' || "competence-marks"."competenceId" || \'"}\', \',\')) || \']\' as "competenceMarksJson"'))
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
     .leftJoin('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
