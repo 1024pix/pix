@@ -647,7 +647,7 @@ exports.register = async function(server) {
             data: {
               type: Joi.string().valid('email-verification-code').required(),
               attributes: {
-                newEmail: Joi.string().email().required(),
+                'new-email': Joi.string().email().required(),
                 password: Joi.string().required(),
               },
             },
