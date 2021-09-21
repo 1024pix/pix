@@ -24,7 +24,9 @@ describe('Acceptance | Displaying a challenge of any type', () => {
     describe(`when ${data.challengeType} challenge is focused`, function() {
 
       class FocusServiceMock extends Service {
-        start(initialValue = false) { this.currentWindowHasFocus = !initialValue; }
+        start(initialValue = false) {
+          //this.currentWindowHasFocus = !initialValue;
+        }
         stop() {}
 
         @tracked
