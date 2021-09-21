@@ -2,9 +2,10 @@ const _ = require('lodash');
 const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
-
 const {
-  NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError, AlreadyRegisteredUsernameError,
+  NotFoundError,
+  SchoolingRegistrationAlreadyLinkedToUserError,
+  AlreadyRegisteredUsernameError,
 } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
