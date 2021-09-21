@@ -69,16 +69,14 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  async setFocusedOutOfChallenge(value) {
+  setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
-    if (this.hasFocusedOutOfChallenge) {
-      await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
-    }
   }
 
   @action
-  focusedOutOfWindow() {
+  async focusedOutOfWindow() {
     this.hasFocusedOutOfWindow = true;
+    await this.model.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
   }
 
   @action
