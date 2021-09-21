@@ -78,26 +78,6 @@ describe('Unit | Domain | Models | CertificationContract', function() {
     });
   });
 
-  context('#assertThatCompetenceHasAtLeastOneAnswer', function() {
-
-    context('when there is not enough answers for one competence', function() {
-
-      it('should throw', async function() {
-        // given
-        const competenceIndex = '1.1';
-
-        const competenceChallenges = [];
-
-        // when
-        const error = await catchErr(CertificationContract.assertThatCompetenceHasAtLeastOneAnswer)(competenceChallenges, competenceIndex);
-
-        // then
-        expect(error).to.be.instanceOf(CertificationComputeError);
-        expect(error.message).to.equal('Pas assez de réponses pour la compétence 1.1');
-      });
-    });
-  });
-
   context('#assertThatScoreIsCoherentWithReproducibilityRate', function() {
 
     context('when score is < 1 and reproductibility rate is > 50%', function() {
