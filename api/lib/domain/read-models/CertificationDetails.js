@@ -149,6 +149,7 @@ function _buildListChallengesAndAnswers({
       };
     })
     .compact()
+    .sortBy('competence')
     .value();
 
   return answeredChallengesAndAnswers.concat(unansweredChallengesAndAnswers);
