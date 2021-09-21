@@ -8,7 +8,7 @@ const scoCertificationCandidateValidationJoiSchema = Joi.object({
   birthdate: Joi.date().format('YYYY-MM-DD').greater('1900-01-01').required().empty(null),
   birthINSEECode: Joi.string().allow(null).optional(),
   birthCountry: Joi.string().allow(null).optional(),
-  birthCity: Joi.string().allow(null).optional(),
+  birthCity: Joi.string().allow(null, '').optional(),
   sex: Joi.string().allow(null).optional(),
   sessionId: Joi.number().required().empty(null),
   schoolingRegistrationId: Joi.number().required().empty(null),
