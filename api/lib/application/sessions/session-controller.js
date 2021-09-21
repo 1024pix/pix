@@ -271,6 +271,14 @@ module.exports = {
     return jurySessionSerializer.serialize(jurySession);
   },
 
+  async commentAsJury(request, h) {
+    const sessionId = request.params.id;
+    const juryCommentAuthorId = request.auth.credentials.userId;
+    const juryComment = request.payload['jury-comment'];
+    await usecases.commentSessionAsJury({ sessionId, juryCommentAuthorId, juryComment });
+
+    return h.response().code(204);
+  },
 };
 
 function _logSessionBatchPublicationErrors(result) {

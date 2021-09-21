@@ -130,13 +130,12 @@
   </div>
 </section>
 
-{{#if this.sessionModel.juryComment}}
-  <Sessions::JuryComment
-    @author={{this.sessionModel.juryCommentAuthor.fullName}}
-    @date={{this.sessionModel.juryCommentedAt}}
-    @comment={{this.sessionModel.juryComment}}
-  />
-{{/if}}
+<Sessions::JuryComment
+  @author={{this.sessionModel.juryCommentAuthor.fullName}}
+  @date={{this.sessionModel.juryCommentedAt}}
+  @comment={{this.sessionModel.juryComment}}
+  @onFormSubmit={{this.saveComment}}
+/>
 
 {{#if this.isShowingAssignmentModal}}
   <ModalDialog

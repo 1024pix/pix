@@ -1,0 +1,39 @@
+.jury-comment {
+  color: $grey-70;
+  font-family: $roboto;
+
+  &__title {
+    font-family: $open-sans;
+    font-weight: normal;
+    font-size: 1.25rem;
+    margin-bottom: 16px;
+  }
+
+  &__author {
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  &__date {
+    color: $grey-40;
+    font-size: 0.9rem;
+  }
+
+  &__content {
+    background-color: $grey-10;
+    padding: 8px 24px;
+  }
+
+  &__field {
+    height: 80px;
+    margin-bottom: 20px;
+  }
+
+  &__actions {
+    display: flex;
+
+    .pix-button {
+      margin-right: 16px;
+    }
+  }
+}
