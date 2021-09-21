@@ -124,4 +124,13 @@ export default class Session extends Model {
       return response.sessionResultsLink;
     },
   })
+
+  comment = memberAction({
+    path: 'comment',
+    type: 'put',
+    urlType: 'updateRecord',
+    after() {
+      this.reload();
+    },
+  })
 }
