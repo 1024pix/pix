@@ -1,0 +1,22 @@
+<div class="user-account-update-email-with-validation">
+  <div class="user-account-update-email-with-validation__cancel-button">
+    <PixIconButton
+      @icon="times"
+      aria-label={{t 'pages.user-account.account-update-email-with-validation.cancel-button.aria-label'}}
+      @color="dark-grey"
+      @triggerAction={{@disableEmailWithValidationEditionMode}}
+      data-test-id="user-account-update-email-with-validation__cancel-button"
+    />
+  </div>
+
+  <h2>{{t 'pages.email-verification.title'}}</h2>
+  <p>{{t 'pages.email-verification.description'}}</p>
+  <p>{{@email}}</p>
+  <span id="email-verification__code">
+    <PixInputCode
+      @ariaLabel="Champ du code de vérification"
+      @numInputs={{6}}
+      @onAllInputsFilled={{this.submitInputCode}}
+    />
+  </span>
+</div>
