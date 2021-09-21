@@ -64,6 +64,30 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.contains('Succès partiel');
   });
 
+  module('when chalenge has been skipped automatically', function() {
+    test('info are correctly displayed ', async function(assert) {
+      // given
+      const skippedAnswerData = {
+        ...answerData,
+        hasBeenSkippedAutomatically: true,
+      };
+      this.setProperties({
+        answer: skippedAnswerData,
+        onUpdateRate: () => {},
+      });
+
+      // when
+      await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+
+      // then
+      assert.contains('5');
+      assert.contains('@skill6');
+      assert.contains('rec1234');
+      assert.contains('coucou');
+      assert.contains('Abandon');
+    });
+  });
+
   test('jury class is set when answer is modified', async function(assert) {
     // given
     this.setProperties({
