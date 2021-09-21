@@ -32,7 +32,6 @@ function _getCompetenceMarksWithCertifiedLevelAndScore(answers, listCompetences,
 
     if (!continueOnError) {
       CertificationContract.assertThatCompetenceHasAtLeastOneChallenge(challengesForCompetence, competence.index);
-      CertificationContract.assertThatCompetenceHasAtLeastOneAnswer(answersForCompetence, competence.index);
       CertificationContract.assertThatEveryAnswerHasMatchingChallenge(answersForCompetence, challengesForCompetence);
       CertificationContract.assertThatNoChallengeHasMoreThanOneAnswer(answersForCompetence, challengesForCompetence);
     }
