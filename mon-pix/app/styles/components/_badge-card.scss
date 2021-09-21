@@ -1,10 +1,10 @@
-.badge-acquired-container {
+.badge-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.badge-acquired-card {
+.badge-card {
   flex: 1 1 90%;
   margin: 10px;
   display: flex;
@@ -21,6 +21,13 @@
     min-width: 420px;
     max-width: 420px;
     min-height: 200px;
+  }
+
+  &__status {
+
+    p {
+      margin-top: 0;
+    }
   }
 
   &__text {
@@ -71,5 +78,22 @@
     img {
       width: 90px;
     }
+
+    &--not-acquired {
+      filter: grayscale(1);
+    }
+  }
+}
+
+.badge-card-status {
+
+  &__acquired-icon {
+    color: $green;
+    margin-right: 4px;
+  }
+
+  &__not-acquired-icon {
+    color: $grey-45;
+    margin-right: 4px;
   }
 }

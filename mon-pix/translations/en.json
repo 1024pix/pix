@@ -1187,6 +1187,10 @@
       },
       "already-shared": "Thank you, your results have been submitted!",
       "archived": "This customised test has been archived by the organiser.'<br>' It is no longer possible to submit results.",
+      "badge-card": {
+        "acquired": "Awarded",
+        "not-acquired": "Not awarded"
+      },
       "badges-title": "Your thematic results",
       "details": {
         "title": "Your results by competence",

@@ -59,6 +59,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         imageUrl: 'Badge2 ImgUrl',
         key: 'Badge2 Key',
         badgeCompetences: [{ id: 31, name: 'BadgeC1', color: 'BadgeColor', skillIds: ['skill1'] }],
+        isAlwaysVisible: true,
       }];
 
       const targetProfile = { competences, stages, badges };
@@ -127,6 +128,7 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
               'image-url': 'Badge2 ImgUrl',
               key: 'Badge2 Key',
               'is-acquired': true,
+              'is-always-visible': true,
             },
             id: '3',
             type: 'campaignParticipationBadges',

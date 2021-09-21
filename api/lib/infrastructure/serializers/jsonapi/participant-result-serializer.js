@@ -29,6 +29,7 @@ module.exports = {
           'key',
           'isAcquired',
           'partnerCompetenceResults',
+          'isAlwaysVisible',
         ],
         partnerCompetenceResults: {
           ref: 'id',

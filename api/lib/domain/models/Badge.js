@@ -10,6 +10,7 @@ class Badge {
     badgeCriteria = [],
     badgePartnerCompetences = [],
     targetProfileId,
+    isAlwaysVisible = false,
   } = {}) {
     this.id = id;
     this.altMessage = altMessage;
@@ -21,6 +22,7 @@ class Badge {
     this.badgeCriteria = badgeCriteria;
     this.badgePartnerCompetences = badgePartnerCompetences;
     this.targetProfileId = targetProfileId;
+    this.isAlwaysVisible = isAlwaysVisible;
   }
 }
 

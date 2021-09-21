@@ -237,6 +237,7 @@ describe('Acceptance | API | Campaign Assessment Result', function() {
             'alt-message': 'Banana',
             'image-url': '/img/banana.svg',
             'is-acquired': false,
+            'is-always-visible': false,
             key: 'PIX_BANANA',
             title: 'Banana',
             message: 'You won a Banana Badge',
