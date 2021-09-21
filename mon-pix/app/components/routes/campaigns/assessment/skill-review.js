@@ -31,12 +31,24 @@ export default class SkillReview extends Component {
   }
 
   get showBadges() {
-    return this.acquiredBadges.length > 0;
+    return this.orderedBadges.length > 0;
   }
 
   get acquiredBadges() {
     const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
     return badges.filter((badge) => badge.isAcquired);
+  }
+
+  get notAcquiredButVisibleBadges() {
+    const badges = this.args.model.campaignParticipationResult.campaignParticipationBadges;
+    return badges.filter((badge) => !badge.isAcquired && badge.isAlwaysVisible);
+  }
+
+  get orderedBadges() {
+    return [
+      ...this.acquiredBadges,
+      ...this.notAcquiredButVisibleBadges,
+    ];
   }
 
   get showStages() {

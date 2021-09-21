@@ -8,6 +8,7 @@ export default class CampaignParticipationBadge extends Badge {
 
   // attributes
   @attr('boolean') isAcquired;
+  @attr('boolean') isAlwaysVisible;
 
   // includes
   @hasMany('partnerCompetenceResult') partnerCompetenceResults;

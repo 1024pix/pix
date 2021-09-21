@@ -115,13 +115,14 @@
         {{t 'pages.skill-review.badges-title'}}
       </h2>
     {{/unless}}
-    <div class="badge-acquired-container">
-      {{#each this.acquiredBadges as |badge|}}
-        <BadgeAcquiredCard
-                @title={{badge.title}}
-                @message={{badge.message}}
-                @imageUrl={{badge.imageUrl}}
-                @altMessage={{badge.altMessage}}
+    <div class="badge-container">
+      {{#each this.orderedBadges as |badge|}}
+        <BadgeCard
+          @title={{badge.title}}
+          @message={{badge.message}}
+          @imageUrl={{badge.imageUrl}}
+          @altMessage={{badge.altMessage}}
+          @isAcquired={{badge.isAcquired}}
         />
       {{/each}}
     </div>
