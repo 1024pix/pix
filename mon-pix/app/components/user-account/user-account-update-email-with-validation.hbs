@@ -1,16 +1,16 @@
-<div class="user-account-update-email-with-validation">
-  <div class="user-account-update-email-with-validation__cancel-button">
+<div class="update-email-with-validation">
+  <div class="user-account__header">
+    <h2 class="user-account__validation-title">{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
     <PixIconButton
       @icon="times"
       @ariaLabel={{t 'pages.user-account.account-update-email-with-validation.cancel-button.aria-label'}}
       @color="dark-grey"
       @triggerAction={{@disableEmailWithValidationEditionMode}}
-      data-test-id="user-account-update-email-with-validation__cancel-button"
+      data-test-id="user-account__cancel-button"
     />
   </div>
-  <h2>{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
   <form onSubmit={{this.onSubmit}}>
-    <div class="user-account-update-email-with-validation__email-input">
+    <div class="update-email-with-validation__email-input">
       <PixInput
         @id="newEmail"
         @label={{t 'pages.user-account.account-update-email-with-validation.fields.new-email.label'}}
@@ -20,10 +20,10 @@
         required
       />
     </div>
-    <div class="user-account-update-email-with-validation__informations">
+    <div class="update-email-with-validation__informations">
       <p>{{t 'pages.user-account.account-update-email-with-validation.fields.password.security-information'}}</p>
     </div>
-    <div class="user-account-update-email-with-validation__password-input">
+    <div class="update-email-with-validation__password-input">
       <PixInputPassword
         @id="password"
         @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}}
@@ -34,13 +34,13 @@
       />
     </div>
     {{#if this.errorMessage}}
-      <PixMessage @type='alert' class="user-account-update-email-with-validation__error-message">
+      <PixMessage @type='alert' class="user-account__error-message">
         {{this.errorMessage}}
       </PixMessage>
     {{/if}}
-    <div class="user-account-update-email-with-validation__confirm-button">
+    <div class="update-email-with-validation__confirm-button">
       <PixButton
-        class="user-account-update-email-with-validation-actions__confirm-button"
+        class="update-email-with-validation-actions__confirm-button"
         @type="submit"
         @isDisabled={{not this.isFormValid}}
       >

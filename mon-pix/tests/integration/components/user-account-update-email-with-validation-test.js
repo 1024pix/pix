@@ -19,7 +19,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation/>`);
 
       // then
-      expect(find('[data-test-id="user-account-update-email-with-validation__cancel-button"]')).to.exist;
+      expect(find('[data-test-id="user-account__cancel-button"]')).to.exist;
       expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'))).to.exist;
     });
 
