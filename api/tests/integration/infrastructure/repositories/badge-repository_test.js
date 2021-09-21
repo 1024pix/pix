@@ -1,9 +1,10 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
 const omit = require('lodash/omit');
+const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Badge', function() {
 
@@ -371,6 +372,57 @@ describe('Integration | Repository | Badge', function() {
 
       expect(myBadge.badgeCriteria.length).to.equal(1);
       expect(myBadge.badgePartnerCompetences.length).to.equal(1);
+    });
+  });
+
+  describe('#save', function() {
+    it('should persist badge in database', async function() {
+      // given
+      const badge = {
+        altMessage: 'You won the Toto badge!',
+        imageUrl: 'data:,',
+        message: 'Congrats, you won the Toto badge!',
+        key: 'TOTO230',
+        badgeCriteria: [],
+        badgePartnerCompetences: [],
+        targetProfileId: null,
+        isCertifiable: false,
+        isAlwaysVisible: false,
+        title: 'title',
+      };
+
+      // when
+      const result = await badgeRepository.save(badge);
+
+      // then
+      expect(result).to.be.instanceOf(Badge);
+      expect(omit(result, 'id')).to.deep.equal(omit(badge, 'id'));
+    });
+
+    describe('when the badge key already exists', function() {
+      it('should throw an AlreadyExistingEntityError', async function() {
+        // given
+        const alreadyExistingBadge = {
+          altMessage: 'You won the Toto badge!',
+          imageUrl: 'data:,',
+          message: 'Congrats, you won the Toto badge!',
+          key: 'TOTO28',
+          badgeCriteria: [],
+          badgePartnerCompetences: [],
+          targetProfileId: null,
+          isCertifiable: false,
+          isAlwaysVisible: true,
+          title: 'title',
+        };
+        databaseBuilder.factory.buildBadge(alreadyExistingBadge);
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(badgeRepository.save)(alreadyExistingBadge);
+
+        // then
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+      });
     });
   });
 });
