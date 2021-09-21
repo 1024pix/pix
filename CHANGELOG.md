@@ -1,5 +1,9 @@
 # Pix Changelog
 
+## v3.104.0 (21/09/2021)
+
+- [#3517](https://github.com/1024pix/pix/pull/3517) [BUGFIX] Sauvegarde l'état de la question focus seulement en cas de sortie de la fenêtre
+
 ## v3.103.0 (21/09/2021)
 
 - [#3459](https://github.com/1024pix/pix/pull/3459) [FEATURE] Ajouter/modifier le commentaire jury d'une session dans Pix Admin (PIX-3131)
