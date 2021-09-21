@@ -1,5 +1,11 @@
 # Pix Changelog
 
+## v3.103.0 (21/09/2021)
+
+- [#3459](https://github.com/1024pix/pix/pull/3459) [FEATURE] Ajouter/modifier le commentaire jury d'une session dans Pix Admin (PIX-3131)
+- [#3515](https://github.com/1024pix/pix/pull/3515) [FEATURE] Changement de titre de page pour les épreuves focus (PIX-3484).
+- [#3510](https://github.com/1024pix/pix/pull/3510) [FEATURE] Ajout d'un pied de page (footer) dans Pix Orga (PIX-3487).
+
 ## v3.102.0 (20/09/2021)
 
 - [#3469](https://github.com/1024pix/pix/pull/3469) [FEATURE] Blocage des espaces Pix Certif pour les établissements scolaires / Rentrée 2021-2022 (PIX-3162)
