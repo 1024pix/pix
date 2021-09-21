@@ -17,6 +17,7 @@ const {
   UserShouldChangePasswordError,
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
+  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -292,6 +293,19 @@ describe('Unit | Application | ErrorManager', function() {
 
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate BadRequestError when SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function() {
+      // given
+      const error = new SchoolingRegistrationAlreadyLinkedToInvalidUserError();
+      sinon.stub(HttpErrors, 'BadRequestError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
   });
 

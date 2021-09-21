@@ -6,9 +6,10 @@ const {
 } = require('../../../test-helper');
 const userReconciliationService = require('../../../../lib/domain/services/user-reconciliation-service');
 const {
+  AlreadyRegisteredUsernameError,
   NotFoundError,
   SchoolingRegistrationAlreadyLinkedToUserError,
-  AlreadyRegisteredUsernameError,
+  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
 } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-reconciliation-service', function() {
@@ -774,6 +775,31 @@ describe('Unit | Service | user-reconciliation-service', function() {
           expect(error.meta.value).to.equal(null);
           expect(error.meta.userId).to.equal(user.id);
         });
+      });
+    });
+
+    context('When student has an invalid reconciliation', function() {
+
+      it('should return a SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function() {
+        // given
+        const nationalStudentId = 'nationalStudentId';
+        const user = domainBuilder.buildUser({
+          email: null,
+          username: null,
+          authenticationMethods: [],
+        });
+        const schoolingRegistration = domainBuilder.buildSchoolingRegistration({ nationalStudentId, userId: user.id });
+
+        studentRepositoryStub.getReconciledStudentByNationalStudentId.withArgs(nationalStudentId).resolves({ account: { userId: user.id } });
+        userRepositoryStub.getForObfuscation.withArgs(user.id).resolves(user);
+        obfuscationServiceStub.getUserAuthenticationMethodWithObfuscation.withArgs(user).rejects(new NotFoundError());
+
+        // when
+        const error = await catchErr(userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount)(schoolingRegistration, userRepositoryStub, obfuscationServiceStub, studentRepositoryStub);
+
+        // then
+        expect(error).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToInvalidUserError);
+        expect(error.message).to.equal('Élève rattaché avec un compte invalide.');
       });
     });
   });

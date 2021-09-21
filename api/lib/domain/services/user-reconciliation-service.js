@@ -3,9 +3,10 @@ const { pipe } = require('lodash/fp');
 const randomString = require('randomstring');
 const { STUDENT_RECONCILIATION_ERRORS } = require('../constants');
 const {
+  AlreadyRegisteredUsernameError,
   NotFoundError,
   SchoolingRegistrationAlreadyLinkedToUserError,
-  AlreadyRegisteredUsernameError,
+  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
 } = require('../errors');
 const { areTwoStringsCloseEnough, isOneStringCloseEnoughFromMultipleStrings } = require('./string-comparison-service');
 const { normalizeAndRemoveAccents, removeSpecialCharacters } = require('./validation-treatments');
@@ -77,7 +78,12 @@ async function checkIfStudentHasAnAlreadyReconciledAccount(schoolingRegistration
 
 async function _buildStudentReconciliationError(userId, errorContext, userRepository, obfuscationService) {
   const user = await userRepository.getForObfuscation(userId);
-  const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+  let authenticationMethod;
+  try {
+    authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
+  } catch (error) {
+    throw new SchoolingRegistrationAlreadyLinkedToInvalidUserError();
+  }
 
   const detailWhenSameOrganization = 'Un compte existe déjà pour l‘élève dans le même établissement.';
   const detailWhenOtherOrganization = 'Un compte existe déjà pour l‘élève dans un autre établissement.';

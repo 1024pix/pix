@@ -1,8 +1,14 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const {
+  expect,
+  sinon,
+  domainBuilder,
+  catchErr,
+} = require('../../../test-helper');
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function() {
 
@@ -146,6 +152,18 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
         value: 'j***@example.net',
       };
       expect(value).to.be.deep.equal(expectedResult);
+    });
+
+    it('should throw NotFoundError when user authentication is neither username, email nor samlId', async function() {
+      // given
+      const user = domainBuilder.buildUser({ username: null, email: null, authenticationMethods: [] });
+
+      // when
+      const error = await catchErr(obfuscationService.getUserAuthenticationMethodWithObfuscation)(user);
+
+      // then
+      expect(error).to.be.instanceof(NotFoundError);
+      expect(error.message).to.equal('La méthode d\'autentification trouvé n\'est ni GAR ni PIX.');
     });
   });
 });
