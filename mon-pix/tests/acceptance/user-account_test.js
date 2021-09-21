@@ -1,4 +1,4 @@
-import { click, currentURL, fillIn } from '@ember/test-helpers';
+import { currentURL } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { authenticateByEmail } from '../helpers/authentication';
 import { expect } from 'chai';
@@ -41,23 +41,6 @@ describe('Acceptance | User account page', function() {
 
       // then
       expect(currentURL()).to.equal('/mon-compte/informations-personnelles');
-    });
-
-    it('should be able to edit the email', async function() {
-      // given
-      const newEmail = 'new-email@example.net';
-      await visit('/mon-compte');
-
-      // when
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.menu-link-title'));
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
-      await fillIn('#newEmail', newEmail);
-      await fillIn('#newEmailConfirmation', newEmail);
-      await fillIn('#password', user.password);
-      await click('button[data-test-submit-email]');
-
-      // then
-      expect(user.email).to.equal(newEmail);
     });
 
     describe('My account menu', function() {
