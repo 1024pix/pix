@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const authenticationMethodRepository = require('../../infrastructure/repositories/authentication-method-repository');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
+const { NotFoundError } = require('../errors');
 
 const CONNEXION_TYPES = {
   username: 'username',
@@ -24,6 +25,9 @@ async function getUserAuthenticationMethodWithObfuscation(user) {
   if (user.email) {
     const email = emailObfuscation(user.email);
     return { authenticatedBy: CONNEXION_TYPES.email, value: email };
+  }
+  else {
+    throw new NotFoundError('La méthode d\'autentification trouvé n\'est ni GAR ni PIX.');
   }
 }
 
