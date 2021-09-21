@@ -185,6 +185,28 @@ describe('Integration | Repository | Campaign Participant activity', function() 
       });
     });
 
+    context('when there is a filter on status', function() {
+      it('returns participants which have the correct status', async function() {
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+
+        databaseBuilder.factory.buildAssessmentFromParticipation({ participantExternalId: 'The good', campaignId: campaign.id, isShared: false, status: 'STARTED' }, { id: 1 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 1 });
+
+        databaseBuilder.factory.buildAssessmentFromParticipation({ participantExternalId: 'The bad', campaignId: campaign.id, isShared: false, status: 'TO_SHARE' }, { id: 2 });
+        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 2 });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, filters: { status: 'STARTED' } });
+
+        const participantExternalIds = campaignParticipantsActivities.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['The good']);
+      });
+    });
+
     context('pagination', function() {
 
       beforeEach(async function() {
