@@ -39,13 +39,20 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
     })
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
-    .modify(_filterByDivisions, filters);
+    .modify(_filterByDivisions, filters)
+    .modify(_filterByStatus, filters);
 }
 
 function _filterByDivisions(qb, filters) {
   if (filters.divisions) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
+  }
+}
+
+function _filterByStatus(qb, filters) {
+  if (filters.status) {
+    qb.where('campaign-participations.status', filters.status);
   }
 }
 
