@@ -5,6 +5,8 @@ import { action } from '@ember/object';
 export default class ConnectionMethodsController extends Controller {
   @tracked isEmailEditionMode = false;
   @tracked isEmailWithValidationEditionMode = false;
+  @tracked showEmailVerificationCode = false;
+  @tracked newEmail = '';
 
   @action
   enableEmailEditionMode() {
@@ -37,10 +39,14 @@ export default class ConnectionMethodsController extends Controller {
 
   @action
   async sendVerificationCode({ newEmail, password }) {
+    this.newEmail = newEmail.trim().toLowerCase();
     const emailVerificationCode = this.store.createRecord('email-verification-code', {
       password,
       newEmail: newEmail.trim().toLowerCase(),
     });
     await emailVerificationCode.send();
+
+    this.isEmailWithValidationEditionMode = false;
+    this.showEmailVerificationCode = true;
   }
 }
