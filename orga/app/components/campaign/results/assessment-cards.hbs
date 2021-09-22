@@ -1,4 +1,4 @@
-<div class="assessment-cards" >
+<div class="assessment-cards">
   {{#if @hasStages}}
     <Campaign::Cards::StageAverage
       @value={{@averageResult}}
@@ -6,14 +6,8 @@
       class="assessment-cards__average-card"
     />
   {{else}}
-    <Campaign::Cards::ResultAverage
-      @value={{@averageResult}}
-      class="assessment-cards__average-card"
-    />
+    <Campaign::Cards::ResultAverage @value={{@averageResult}} class="assessment-cards__average-card" />
   {{/if}}
 
-  <Campaign::Cards::SharedCount
-    @value={{@sharedParticipationsCount}}
-    @isTypeAssessment={{true}}
-  />
+  <Campaign::Cards::SharedCount @value={{@sharedParticipationsCount}} @isTypeAssessment={{true}} />
 </div>

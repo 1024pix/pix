@@ -3,48 +3,58 @@
     <table class="table content-text content-text--small">
       <thead>
         <tr>
-          <th>{{t 'pages.campaign-activity.table.column.last-name'}}</th>
-          <th>{{t 'pages.campaign-activity.table.column.first-name'}}</th>
+          <th>{{t "pages.campaign-activity.table.column.last-name"}}</th>
+          <th>{{t "pages.campaign-activity.table.column.first-name"}}</th>
           {{#if @campaign.idPixLabel}}
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
-          <th>{{t 'pages.campaign-activity.table.column.status'}}</th>
+          <th>{{t "pages.campaign-activity.table.column.status"}}</th>
         </tr>
       </thead>
 
       {{#if @participations}}
         <tbody>
-        {{#each @participations as |participation|}}
-          <tr aria-label={{t 'pages.campaign-activity.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
-            <td>
-              <LinkTo
-                @route={{if @campaign.isTypeAssessment 'authenticated.campaigns.participant-assessment' 'authenticated.campaigns.participant-profile'}}
-                @models={{array @campaign.id participation.id}}>
-              {{participation.lastName}}
-              </LinkTo>
-            </td>
-            <td>{{participation.firstName}}</td>
-            {{#if @campaign.idPixLabel}}
-              <td>{{participation.participantExternalId}}</td>
-            {{/if}}
-            <td>
-              <Campaign::Activity::ParticipationStatus
-                @status={{participation.status}}
-                @isTypeAssessment={{@campaign.isTypeAssessment}}
-              />
-            </td>
-          </tr>
-        {{/each}}
+          {{#each @participations as |participation|}}
+            <tr
+              aria-label={{t "pages.campaign-activity.table.row-title"}}
+              role="button"
+              {{on "click" (fn @onClickParticipant @campaign.id participation.id)}}
+              class="tr--clickable"
+            >
+              <td>
+                <LinkTo
+                  @route={{if
+                    @campaign.isTypeAssessment
+                    "authenticated.campaigns.participant-assessment"
+                    "authenticated.campaigns.participant-profile"
+                  }}
+                  @models={{array @campaign.id participation.id}}
+                >
+                  {{participation.lastName}}
+                </LinkTo>
+              </td>
+              <td>{{participation.firstName}}</td>
+              {{#if @campaign.idPixLabel}}
+                <td>{{participation.participantExternalId}}</td>
+              {{/if}}
+              <td>
+                <Campaign::Activity::ParticipationStatus
+                  @status={{participation.status}}
+                  @isTypeAssessment={{@campaign.isTypeAssessment}}
+                />
+              </td>
+            </tr>
+          {{/each}}
         </tbody>
       {{/if}}
     </table>
 
     {{#unless @participations}}
-      <p class="table__empty content-text">{{t 'pages.campaign-activity.table.empty'}}</p>
+      <p class="table__empty content-text">{{t "pages.campaign-activity.table.empty"}}</p>
     {{/unless}}
   </div>
 
   {{#if @participations}}
-    <Table::PaginationControl @pagination={{@participations.meta}}/>
+    <Table::PaginationControl @pagination={{@participations.meta}} />
   {{/if}}
 </section>

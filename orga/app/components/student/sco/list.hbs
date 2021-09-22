@@ -7,7 +7,7 @@
         <Table::Header>{{t "pages.students-sco.table.column.date-of-birth"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.division"}}</Table::Header>
         <Table::Header>{{t "pages.students-sco.table.column.login-method"}}</Table::Header>
-        <Table::Header @size="small" class="hide-on-mobile"/>
+        <Table::Header @size="small" class="hide-on-mobile" />
       </tr>
       <tr class="hide-on-mobile">
         <Table::HeaderFilterInput
@@ -24,7 +24,7 @@
           @ariaLabel={{t "pages.students-sco.table.filter.first-name.aria-label"}}
           @triggerFiltering={{@onFilter}}
         />
-        <Table::Header/>
+        <Table::Header />
         <Table::HeaderFilterInput
           @field="division"
           @value={{@divisionFilter}}
@@ -40,46 +40,46 @@
           @ariaLabel={{t "pages.students-sco.table.filter.login-method.aria-label"}}
           @emptyOptionLabel={{t "pages.students-sco.table.filter.login-method.empty-option"}}
         />
-        <Table::Header/>
+        <Table::Header />
       </tr>
     </thead>
 
     {{#if @students}}
       <tbody>
-      {{#each @students as |student|}}
-        <tr aria-label={{t "pages.students-sco.table.row-title"}}>
-          <td>{{student.lastName}}</td>
-          <td>{{student.firstName}}</td>
-          <td>{{moment-format student.birthdate 'DD/MM/YYYY' allow-empty=true}}</td>
-          <td>{{student.division}}</td>
-          <td class="list-students-page__authentication-methods">
-            {{#each student.authenticationMethods as |authenticationMethod|}}
-              <p>{{t authenticationMethod}}</p>
-            {{/each}}
-          </td>
-          <td class="list-students-page__actions hide-on-mobile">
-            {{#if student.isStudentAssociated}}
-              <Dropdown::IconTrigger
-                @icon="ellipsis-v"
-                @dropdownButtonClass="list-students-page__dropdown-button"
-                @dropdownContentClass="list-students-page__dropdown-content"
-                @ariaLabel={{t "pages.students-sco.actions.show-actions"}}
-              >
-                <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
-                  {{t "pages.students-sco.actions.manage-account"}}
-                </Dropdown::Item>
-                {{#if this.currentUser.isAdminInOrganization}}
-                  {{#if this.isDissociateButtonEnabled}}
-                  <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
-                    Dissocier le compte
+        {{#each @students as |student|}}
+          <tr aria-label={{t "pages.students-sco.table.row-title"}}>
+            <td>{{student.lastName}}</td>
+            <td>{{student.firstName}}</td>
+            <td>{{moment-format student.birthdate "DD/MM/YYYY" allow-empty=true}}</td>
+            <td>{{student.division}}</td>
+            <td class="list-students-page__authentication-methods">
+              {{#each student.authenticationMethods as |authenticationMethod|}}
+                <p>{{t authenticationMethod}}</p>
+              {{/each}}
+            </td>
+            <td class="list-students-page__actions hide-on-mobile">
+              {{#if student.isStudentAssociated}}
+                <Dropdown::IconTrigger
+                  @icon="ellipsis-v"
+                  @dropdownButtonClass="list-students-page__dropdown-button"
+                  @dropdownContentClass="list-students-page__dropdown-content"
+                  @ariaLabel={{t "pages.students-sco.actions.show-actions"}}
+                >
+                  <Dropdown::Item @onClick={{fn this.openAuthenticationMethodModal student}}>
+                    {{t "pages.students-sco.actions.manage-account"}}
                   </Dropdown::Item>
+                  {{#if this.currentUser.isAdminInOrganization}}
+                    {{#if this.isDissociateButtonEnabled}}
+                      <Dropdown::Item @onClick={{fn this.openDissociateModal student}}>
+                        Dissocier le compte
+                      </Dropdown::Item>
+                    {{/if}}
                   {{/if}}
-                {{/if}}
-              </Dropdown::IconTrigger>
-            {{/if}}
-          </td>
-        </tr>
-      {{/each}}
+                </Dropdown::IconTrigger>
+              {{/if}}
+            </td>
+          </tr>
+        {{/each}}
 
       </tbody>
     {{/if}}
@@ -105,4 +105,4 @@
   @onSubmit={{@onDissociateUser}}
 />
 
-<Table::PaginationControl @pagination={{@students.meta}}/>
+<Table::PaginationControl @pagination={{@students.meta}} />
