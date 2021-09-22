@@ -14,12 +14,12 @@ const CampaignParticipationsStatsRepository = {
 
   async countParticipationsByMasteryRate({ campaignId }) {
     return knex('campaign-participations')
-      .select('masteryPercentage AS  masteryRate')
+      .select('masteryRate')
       .count()
       .where({ campaignId, status: SHARED, isImproved: false })
-      .whereNotNull('masteryPercentage')
-      .groupBy('masteryPercentage')
-      .orderBy('masteryPercentage', 'ASC');
+      .whereNotNull('masteryRate')
+      .groupBy('masteryRate')
+      .orderBy('masteryRate', 'ASC');
   },
 };
 
