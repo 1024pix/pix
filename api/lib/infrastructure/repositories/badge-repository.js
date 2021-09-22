@@ -6,6 +6,8 @@ const omit = require('lodash/omit');
 const bookshelfUtils = require('../utils/knex-utils');
 const { AlreadyExistingEntityError } = require('../../domain/errors');
 
+const TABLE_NAME = 'badges';
+
 module.exports = {
 
   findByTargetProfileId(targetProfileId) {
@@ -67,7 +69,7 @@ module.exports = {
 
   async save(badge) {
     try {
-      const [savedBadge] = await knex('badges').insert(_adaptModelToDb(badge)).returning('*');
+      const [savedBadge] = await knex(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
       return new Badge(savedBadge);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
@@ -75,6 +77,14 @@ module.exports = {
       }
       throw err;
     }
+  },
+
+  async isKeyAvailable(key) {
+    const result = await knex(TABLE_NAME).select('key').where('key', key);
+    if (result.length) {
+      throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
+    }
+    return true;
   },
 };
 
