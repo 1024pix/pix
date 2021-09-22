@@ -13,7 +13,6 @@ async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }
   const { results, pagination } = await _getResultListPaginated(campaignId, targetProfile, filters, page);
 
   const participations = await _buildCampaignAssessmentParticipationResultList(results);
-
   return {
     participations,
     pagination,
@@ -37,7 +36,7 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
     knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
     'campaign-participations.participantExternalId',
-    'campaign-participations.masteryPercentage',
+    'campaign-participations.masteryRate',
     'campaign-participations.id AS campaignParticipationId',
     'users.id AS userId',
   )
@@ -90,7 +89,7 @@ function _filterByStage(qb, targetProfile, filters) {
   }));
   qb.where((builder) => {
     thresholdRateBoundaries.forEach((boundary) => {
-      builder.orWhereBetween('campaign-participations.masteryPercentage', [boundary.from, boundary.to]);
+      builder.orWhereBetween('campaign-participations.masteryRate', [boundary.from, boundary.to]);
     });
   });
 }

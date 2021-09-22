@@ -1,17 +1,19 @@
+const _ = require('lodash');
+
 class CampaignAssessmentParticipationResultMinimal {
   constructor({
     campaignParticipationId,
     firstName,
     lastName,
     participantExternalId,
-    masteryPercentage,
+    masteryRate,
     badges = [],
   } = {}) {
     this.campaignParticipationId = campaignParticipationId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.participantExternalId = participantExternalId;
-    this.masteryPercentage = masteryPercentage;
+    this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
     this.badges = badges;
   }
 }
