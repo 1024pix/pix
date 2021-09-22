@@ -13,7 +13,7 @@ export default class Item extends Component {
   constructor() {
     super(...arguments);
     if (this.isFocusedChallenge) {
-      this.focus.start(this.args.assessment.hasFocusedOutChallenge);
+      this.focus.start(this.args.assessment);
     }
   }
 

@@ -5,10 +5,15 @@ export default class Focus extends Service {
 
   @tracked
   currentWindowHasFocus = true;
+  assessment;
 
-  start(hasFocusedOutOfChallenge = false) {
-    this.currentWindowHasFocus = !hasFocusedOutOfChallenge;
-    this._checkFocus();
+  start(assessment) {
+    this.assessment = assessment;
+    if (this.assessment.hasFocusedOutChallenge) {
+      this.currentWindowHasFocus = false;
+    } else {
+      this._checkFocus();
+    }
   }
 
   stop() {
@@ -23,6 +28,13 @@ export default class Focus extends Service {
       this.timeout = setTimeout(()=> {
         this._checkFocus();
       }, 1000);
+    } else {
+      this._saveFocusedOut();
+      clearTimeout(this.timeout);
     }
+  }
+
+  async _saveFocusedOut() {
+    await this.assessment.save({ adapterOptions: { updateLastQuestionsState: true, state: 'focusedout' } });
   }
 }

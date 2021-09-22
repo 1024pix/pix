@@ -87,8 +87,10 @@ export default class ChallengeController extends Controller {
     this.challengeTitle = defaultPageTitle;
     this.hasUserConfirmedWarning = false;
     this.hasFocusedOutOfChallenge = false;
-    this.hasFocusedOutOfWindow = false;
     this.model.assessment.lastQuestionState = 'asked';
+    console.log('IN RESET');
+    console.log(this.model.assessment.lastQuestionState);
+    console.log(this.model.assessment.hasFocusedOutChallenge);
   }
 
   get displayHomeLink() {
