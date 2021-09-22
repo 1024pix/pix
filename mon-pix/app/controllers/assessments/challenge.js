@@ -41,7 +41,7 @@ export default class ChallengeController extends Controller {
   }
 
   get hasFocusedOutOfWindow() {
-    return !this.focus.currentWindowHasFocus;
+    return this.focus.failed;
   }
 
   get isFocusedChallengeAndUserHasFocusedOutOfChallenge() {

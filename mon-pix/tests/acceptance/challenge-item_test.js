@@ -24,13 +24,16 @@ describe('Acceptance | Displaying a challenge of any type', () => {
     describe(`when ${data.challengeType} challenge is focused`, function() {
 
       class FocusServiceMock extends Service {
-        start(initialValue = false) {
-          //this.currentWindowHasFocus = !initialValue;
+        start(assessmentValue = { hasFocusedOutChallenge: false }) {
+          console.log('in this start')
+          this.currentWindowHasFocus = !assessmentValue.hasFocusedOutChallenge;
         }
         stop() {}
 
         @tracked
         currentWindowHasFocus = true;
+        @tracked
+        failed = false;
       }
 
       beforeEach(function() {
@@ -65,6 +68,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             // when
             await visit(`/assessments/${assessment.id}/challenges/0`);
+
           });
 
           it('should display a tooltip', async () => {
@@ -112,6 +116,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
               // when
               serviceFocus.currentWindowHasFocus = false;
+              serviceFocus.failed = true;
               await settled();
 
               // then
@@ -133,21 +138,15 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               // given
               const serviceFocus = this.owner.lookup('service:focus');
               const challengeItem = find('.challenge-item');
-              await triggerEvent(challengeItem, 'mouseleave');
-
-              expect(find('.challenge__info-alert--could-show')).to.exist;
-              expect(find('.challenge-item__container--focused')).to.exist;
-              expect(find('.challenge__focused-out-overlay')).to.exist;
-
               // when
+              await triggerEvent(challengeItem, 'mouseleave');
               serviceFocus.currentWindowHasFocus = false;
+              serviceFocus.failed = true;
               await settled();
 
               // then
               expect(find('.challenge__info-alert--could-show')).to.not.exist;
               expect(find('[data-test="alert-message-focused-out-of-window"]')).to.exist;
-              expect(find('.challenge-item__container--focused')).to.exist;
-              expect(find('.challenge__focused-out-overlay')).to.exist;
             });
           });
         });
@@ -217,6 +216,8 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
           beforeEach(async function() {
             // given
+            const serviceFocus = this.owner.lookup('service:focus');
+
             assessment = server.create('assessment', 'ofCertificationType');
             server.create('challenge', 'forCertification', data.challengeType, 'withFocused');
 
@@ -228,12 +229,15 @@ describe('Acceptance | Displaying a challenge of any type', () => {
               lastName: 'Bravo',
             });
             assessment = certificationCourse.assessment;
-            const serviceFocus = this.owner.lookup('service:focus');
 
             // when
-            await visit(`/assessments/${assessment.id}/challenges/0`);
             serviceFocus.currentWindowHasFocus = false;
+            serviceFocus.failed = true;
             await settled();
+
+            await visit(`/assessments/${assessment.id}/challenges/0`);
+
+
           });
 
           it('should display the certification warning alert', async function() {
@@ -260,6 +264,7 @@ describe('Acceptance | Displaying a challenge of any type', () => {
 
             // when
             serviceFocus.currentWindowHasFocus = false;
+            serviceFocus.failed = true;
             await settled();
           });
 
