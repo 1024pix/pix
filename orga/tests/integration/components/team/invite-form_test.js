@@ -6,17 +6,17 @@ import hbs from 'htmlbars-inline-precompile';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Team::InviteForm', function(hooks) {
+module('Integration | Component | Team::InviteForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.set('inviteSpy', () => {});
     this.set('cancelSpy', () => {});
   });
 
-  test('it should contain email input and validation button', async function(assert) {
+  test('it should contain email input and validation button', async function (assert) {
     // when
-    await render(hbs `<Team::InviteForm @onSubmit={{inviteSpy}} @onCancel={{cancelSpy}} />`);
+    await render(hbs`<Team::InviteForm @onSubmit={{inviteSpy}} @onCancel={{cancelSpy}} />`);
 
     // then
     assert.dom('#email').exists();
@@ -24,7 +24,7 @@ module('Integration | Component | Team::InviteForm', function(hooks) {
     assert.dom('button[type="submit"]').exists();
   });
 
-  test('it should bind organizationInvitation properties with email form input', async function(assert) {
+  test('it should bind organizationInvitation properties with email form input', async function (assert) {
     // given
     this.set('email', 'toto@org.fr');
     await render(hbs`<Team::InviteForm @email={{email}} @onSubmit={{inviteSpy}} @onCancel={{cancelSpy}}/>`);

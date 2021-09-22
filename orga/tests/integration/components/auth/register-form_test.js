@@ -14,8 +14,7 @@ const EMPTY_LASTNAME_ERROR_MESSAGE = 'pages.login-or-register.register-form.fiel
 const EMPTY_EMAIL_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.email.error';
 const INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'pages.login-or-register.register-form.fields.password.error';
 
-module('Integration | Component | Auth::RegisterForm', function(hooks) {
-
+module('Integration | Component | Auth::RegisterForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   class SessionStub extends Service {}
@@ -28,7 +27,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
   let cguAriaLabel;
   let registerButtonLabel;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.set('user', EmberObject.create({}));
 
     this.owner.register('service:session', SessionStub);
@@ -41,7 +40,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
     registerButtonLabel = this.intl.t('pages.login-or-register.register-form.fields.button.label');
   });
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // when
     await render(hbs`<Auth::RegisterForm/>`);
 
@@ -49,9 +48,8 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
     assert.dom('.register-form').exists();
   });
 
-  module('successful cases', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('successful cases', function (hooks) {
+    hooks.beforeEach(function () {
       this.owner.unregister('service:store');
       this.owner.register('service:store', StoreStub);
       StoreStub.prototype.createRecord = () => {
@@ -64,7 +62,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
           },
         });
       };
-      SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
+      SessionStub.prototype.authenticate = function (authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
@@ -73,7 +71,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
       };
     });
 
-    test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function(assert) {
+    test('it should call authentication service with appropriate parameters, when all things are ok and form is submitted', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
@@ -95,14 +93,10 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
     });
   });
 
-  module('errors management', function() {
-
+  module('errors management', function () {
     module('error display', () => {
-
-      [{ stringFilledIn: '' },
-        { stringFilledIn: ' ' },
-      ].forEach(function({ stringFilledIn }) {
-        test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+      [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
+        test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
           await render(hbs`<Auth::RegisterForm/>`);
 
@@ -111,15 +105,15 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
           await triggerEvent('#register-firstName', 'focusout');
 
           // then
-          assert.dom('#register-firstName-container .alert-input--error').hasText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE));
+          assert
+            .dom('#register-firstName-container .alert-input--error')
+            .hasText(this.intl.t(EMPTY_FIRSTNAME_ERROR_MESSAGE));
           assert.dom('#register-firstName-container .input--error').exists();
         });
       });
 
-      [{ stringFilledIn: '' },
-        { stringFilledIn: ' ' },
-      ].forEach(function({ stringFilledIn }) {
-        test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+      [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
+        test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
           await render(hbs`<Auth::RegisterForm/>`);
 
@@ -128,17 +122,17 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
           await triggerEvent('#register-lastName', 'focusout');
 
           // then
-          assert.dom('#register-lastName-container .alert-input--error').hasText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE));
+          assert
+            .dom('#register-lastName-container .alert-input--error')
+            .hasText(this.intl.t(EMPTY_LASTNAME_ERROR_MESSAGE));
           assert.dom('#register-lastName-container .input--error').exists();
         });
       });
 
-      [{ stringFilledIn: ' ' },
-        { stringFilledIn: 'a' },
-        { stringFilledIn: 'shi.fu' },
-      ].forEach(function({ stringFilledIn }) {
-
-        test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+      [{ stringFilledIn: ' ' }, { stringFilledIn: 'a' }, { stringFilledIn: 'shi.fu' }].forEach(function ({
+        stringFilledIn,
+      }) {
+        test(`it should display an error message on email field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
           await render(hbs`<Auth::RegisterForm/>`);
 
@@ -152,13 +146,13 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         });
       });
 
-      [{ stringFilledIn: ' ' },
+      [
+        { stringFilledIn: ' ' },
         { stringFilledIn: 'password' },
         { stringFilledIn: 'password1' },
         { stringFilledIn: 'Password' },
-      ].forEach(function({ stringFilledIn }) {
-
-        test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+      ].forEach(function ({ stringFilledIn }) {
+        test(`it should display an error message on password field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
           // given
           await render(hbs`<Auth::RegisterForm/>`);
 
@@ -167,18 +161,19 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
           await triggerEvent('#register-password', 'focusout');
 
           // then
-          assert.dom('#register-password-container .alert-input--error').hasText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE));
+          assert
+            .dom('#register-password-container .alert-input--error')
+            .hasText(this.intl.t(INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE));
           assert.dom('#register-password-container .input-password--error').exists();
         });
       });
     });
 
     module('form submission', (hooks) => {
-
       let spy;
       let validUser;
 
-      const fillForm = async function(user) {
+      const fillForm = async function (user) {
         await fillInByLabel(firstNameInputLabel, user.firstName);
         await fillInByLabel(lastNameInputLabel, user.lastName);
         await fillInByLabel(emailInputLabel, user.email);
@@ -188,7 +183,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         }
       };
 
-      hooks.beforeEach(async function() {
+      hooks.beforeEach(async function () {
         validUser = {
           firstName: 'pix',
           lastName: 'pix',
@@ -210,7 +205,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         await render(hbs`<Auth::RegisterForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
       });
 
-      test('it should prevent submission when firstName is not valid', async function(assert) {
+      test('it should prevent submission when firstName is not valid', async function (assert) {
         // given
         await fillForm({ ...validUser, ...{ firstName: '' } });
 
@@ -221,7 +216,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         assert.equal(spy.callCount, 0);
       });
 
-      test('it should prevent submission when lastName is not valid', async function(assert) {
+      test('it should prevent submission when lastName is not valid', async function (assert) {
         // given
         await fillForm({ ...validUser, ...{ lastName: '' } });
 
@@ -232,7 +227,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         assert.equal(spy.callCount, 0);
       });
 
-      test('it should prevent submission when email is not valid', async function(assert) {
+      test('it should prevent submission when email is not valid', async function (assert) {
         // given
         await fillForm({ ...validUser, ...{ email: '' } });
 
@@ -243,7 +238,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         assert.equal(spy.callCount, 0);
       });
 
-      test('it should prevent submission when password is not valid', async function(assert) {
+      test('it should prevent submission when password is not valid', async function (assert) {
         // given
         await fillForm({ ...validUser, ...{ password: '' } });
 
@@ -254,7 +249,7 @@ module('Integration | Component | Auth::RegisterForm', function(hooks) {
         assert.equal(spy.callCount, 0);
       });
 
-      test('it should prevent submission when cgu have not been accepted', async function(assert) {
+      test('it should prevent submission when cgu have not been accepted', async function (assert) {
         // given
         await fillForm({ ...validUser, ...{ cgu: false } });
 

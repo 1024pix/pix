@@ -5,23 +5,19 @@ import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label'
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
-import {
-  createUserMembershipWithRole,
-  createPrescriberByUser,
-} from '../helpers/test-init';
+import { createUserMembershipWithRole, createPrescriberByUser } from '../helpers/test-init';
 import setupIntl from '../helpers/setup-intl';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Team Creation', function(hooks) {
-
+module('Acceptance | Team Creation', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   setupIntl(hooks);
 
   const email = 'user.to.invite@example.net';
 
-  test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
+  test('it should not be accessible by an unauthenticated prescriber', async function (assert) {
     // when
     await visit('/equipe/creation');
 
@@ -29,18 +25,16 @@ module('Acceptance | Team Creation', function(hooks) {
     assert.equal(currentURL(), '/connexion');
   });
 
-  module('When prescriber is logged in', function(hooks) {
-
+  module('When prescriber is logged in', function (hooks) {
     let organizationId;
     let user;
 
-    hooks.afterEach(function() {
+    hooks.afterEach(function () {
       const notificationMessagesService = this.owner.lookup('service:notifications');
       notificationMessagesService.clearAll();
     });
 
-    module('When prescriber is a member', function(hooks) {
-
+    module('When prescriber is a member', function (hooks) {
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
         createPrescriberByUser(user);
@@ -48,7 +42,7 @@ module('Acceptance | Team Creation', function(hooks) {
         await authenticateSession(user.id);
       });
 
-      test('it should not be accessible', async function(assert) {
+      test('it should not be accessible', async function (assert) {
         // when
         await visit('/equipe/creation');
 
@@ -57,13 +51,12 @@ module('Acceptance | Team Creation', function(hooks) {
       });
     });
 
-    module('When prescriber is an admin', function(hooks) {
-
+    module('When prescriber is an admin', function (hooks) {
       let inputLabel;
       let cancelButton;
       let inviteButton;
 
-      hooks.beforeEach(async function() {
+      hooks.beforeEach(async function () {
         user = createUserMembershipWithRole('ADMIN');
         createPrescriberByUser(user);
 
@@ -76,7 +69,7 @@ module('Acceptance | Team Creation', function(hooks) {
         cancelButton = this.intl.t('common.actions.cancel');
       });
 
-      test('it should be accessible', async function(assert) {
+      test('it should be accessible', async function (assert) {
         // when
         await visit('/equipe/creation');
 
@@ -84,7 +77,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(currentURL(), '/equipe/creation');
       });
 
-      test('it should allow to invite a prescriber and redirect to team page', async function(assert) {
+      test('it should allow to invite a prescriber and redirect to team page', async function (assert) {
         // given
         const ariaLabelMember = this.intl.t('pages.team-members.table.row-title');
 
@@ -111,7 +104,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom(`[aria-label="${ariaLabelMember}"]`).exists({ count: 1 });
       });
 
-      test('it should not allow to invite a prescriber when an email is not given', async function(assert) {
+      test('it should not allow to invite a prescriber when an email is not given', async function (assert) {
         // given
         await visit('/equipe/creation');
         await fillInByLabel(inputLabel, '');
@@ -123,7 +116,7 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.equal(currentURL(), '/equipe/creation');
       });
 
-      test('should display an empty input field after cancel and before add a team member', async function(assert) {
+      test('should display an empty input field after cancel and before add a team member', async function (assert) {
         // given
         await visit('/equipe/creation');
         await fillInByLabel(inputLabel, email);
@@ -136,18 +129,24 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('#email').hasText('');
       });
 
-      test('it should display error on global form when error 500 is returned from backend', async function(assert) {
+      test('it should display error on global form when error 500 is returned from backend', async function (assert) {
         // given
         const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.500');
 
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`, {
-          errors: [{
-            detail: '[Object object]',
-            status: '500',
-            title: 'Internal Server Error',
-          }],
-        }, 500);
+        server.post(
+          `/organizations/${organizationId}/invitations`,
+          {
+            errors: [
+              {
+                detail: '[Object object]',
+                status: '500',
+                title: 'Internal Server Error',
+              },
+            ],
+          },
+          500
+        );
         await fillInByLabel(inputLabel, email);
 
         // when
@@ -159,18 +158,24 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
       });
 
-      test('it should display error on global form when error 412 is returned from backend', async function(assert) {
+      test('it should display error on global form when error 412 is returned from backend', async function (assert) {
         // given
         const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.412');
 
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`, {
-          errors: [{
-            detail: '',
-            status: '412',
-            title: 'Precondition Failed',
-          }],
-        }, 412);
+        server.post(
+          `/organizations/${organizationId}/invitations`,
+          {
+            errors: [
+              {
+                detail: '',
+                status: '412',
+                title: 'Precondition Failed',
+              },
+            ],
+          },
+          412
+        );
         await fillInByLabel(inputLabel, email);
 
         // when
@@ -182,18 +187,24 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
       });
 
-      test('it should display error on global form when error 404 is returned from backend', async function(assert) {
+      test('it should display error on global form when error 404 is returned from backend', async function (assert) {
         // given
         const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.404');
 
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`, {
-          errors: [{
-            detail: '',
-            status: '404',
-            title: 'Not Found',
-          }],
-        }, 404);
+        server.post(
+          `/organizations/${organizationId}/invitations`,
+          {
+            errors: [
+              {
+                detail: '',
+                status: '404',
+                title: 'Not Found',
+              },
+            ],
+          },
+          404
+        );
         await fillInByLabel(inputLabel, email);
 
         // when
@@ -205,18 +216,24 @@ module('Acceptance | Team Creation', function(hooks) {
         assert.dom('[data-test-notification-message="error"]').hasText(expectedErrorMessage);
       });
 
-      test('it should display error on global form when error 400 is returned from backend', async function(assert) {
+      test('it should display error on global form when error 400 is returned from backend', async function (assert) {
         // given
         const expectedErrorMessage = this.intl.t('pages.team-new.errors.status.400');
 
         await visit('/equipe/creation');
-        server.post(`/organizations/${organizationId}/invitations`, {
-          errors: [{
-            detail: '',
-            status: '400',
-            title: 'Bad Request',
-          }],
-        }, 400);
+        server.post(
+          `/organizations/${organizationId}/invitations`,
+          {
+            errors: [
+              {
+                detail: '',
+                status: '400',
+                title: 'Bad Request',
+              },
+            ],
+          },
+          400
+        );
         await fillInByLabel(inputLabel, email);
 
         // when

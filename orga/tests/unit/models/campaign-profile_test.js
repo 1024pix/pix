@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | campaign-profile', function(hooks) {
+module('Unit | Model | campaign-profile', function (hooks) {
   setupTest(hooks);
 
-  test('it should return the campaign-profile sorted competences', function(assert) {
+  test('it should return the campaign-profile sorted competences', function (assert) {
     const store = this.owner.lookup('service:store');
 
     const competence1 = store.createRecord('campaign-profile-competence', { index: '1.2' });

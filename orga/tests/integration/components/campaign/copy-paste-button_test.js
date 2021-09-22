@@ -4,13 +4,13 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupRenderingTest } from 'ember-qunit';
 import { setupIntl } from 'ember-intl/test-support';
 
-module('Integration | Component | Campaign::CopyPasteButton', function(hooks) {
+module('Integration | Component | Campaign::CopyPasteButton', function (hooks) {
   setupRenderingTest(hooks);
   setupIntl(hooks);
 
   const successMessage = 'Ouiiiiiii !';
   const defaultMessage = 'Ivre il clique sur le bouton et ....';
-  test('it displays the default message', async function(assert) {
+  test('it displays the default message', async function (assert) {
     this.successMessage = successMessage;
     this.defaultMessage = defaultMessage;
 

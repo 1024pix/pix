@@ -13,7 +13,7 @@ export default class ActivityRoute extends Route {
     divisions: {
       refreshModel: true,
     },
-  }
+  };
 
   model(params) {
     const campaign = this.modelFor('authenticated.campaigns.campaign');

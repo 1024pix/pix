@@ -2,13 +2,11 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | application', function(hooks) {
-
+module('Unit | Route | application', function (hooks) {
   setupTest(hooks);
 
-  module('beforeModel', function() {
-
-    test('should load feature toggles', async function(assert) {
+  module('beforeModel', function () {
+    test('should load feature toggles', async function (assert) {
       // given
       const transition = { to: { queryParams: {} } };
       const route = this.owner.lookup('route:application');
@@ -26,9 +24,8 @@ module('Unit | Route | application', function(hooks) {
       assert.ok(route.featureToggles.load.called);
     });
 
-    module('When lang parameter exist', function() {
-
-      test('should use lang parameter with session service method', async function(assert) {
+    module('When lang parameter exist', function () {
+      test('should use lang parameter with session service method', async function (assert) {
         // given
         const transition = { to: { queryParams: { lang: 'fr' } } };
         const route = this.owner.lookup('route:application');
@@ -43,9 +40,7 @@ module('Unit | Route | application', function(hooks) {
         await route.beforeModel(transition);
 
         // then
-        assert.ok(
-          route.session.handlePrescriberLanguageAndLocale.calledWith('fr'),
-        );
+        assert.ok(route.session.handlePrescriberLanguageAndLocale.calledWith('fr'));
       });
     });
   });

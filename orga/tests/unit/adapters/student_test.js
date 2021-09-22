@@ -3,20 +3,20 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'pix-orga/config/environment';
 
-module('Unit | Adapters | student', function(hooks) {
+module('Unit | Adapters | student', function (hooks) {
   setupTest(hooks);
 
   let adapter;
   let ajaxStub;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:student');
     ajaxStub = sinon.stub();
     adapter.set('ajax', ajaxStub);
   });
 
   module('#urlForQuery', () => {
-    test('should build query url from organization id', async function(assert) {
+    test('should build query url from organization id', async function (assert) {
       const query = { filter: { organizationId: 'organizationId1' } };
       const url = await adapter.urlForQuery(query);
 
@@ -25,9 +25,8 @@ module('Unit | Adapters | student', function(hooks) {
     });
   });
 
-  module('#dissociateUser', function() {
-
-    test('it performs the request to dissociate user from student', async function(assert) {
+  module('#dissociateUser', function () {
+    test('it performs the request to dissociate user from student', async function (assert) {
       // given
       const student = { id: 12345 };
       const url = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations/${student.id}`;
@@ -40,8 +39,8 @@ module('Unit | Adapters | student', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
-    test('it performs the request to update the student number', async function(assert) {
+  module('#updateRecord', function () {
+    test('it performs the request to update the student number', async function (assert) {
       // given
       const studentId = 10;
       const studentNumber = 54321;
@@ -49,7 +48,7 @@ module('Unit | Adapters | student', function(hooks) {
       const snapshot = {
         id: studentId,
         adapterOptions: { updateStudentNumber: true, studentNumber, organizationId },
-        attr: function() {
+        attr: function () {
           return studentNumber;
         },
       };

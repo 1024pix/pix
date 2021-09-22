@@ -8,12 +8,12 @@ import Service from '@ember/service';
 import { setupRenderingTest } from 'ember-qunit';
 import { setupIntl, t } from 'ember-intl/test-support';
 
-module('Integration | Component | Campaign::CreateForm', function(hooks) {
+module('Integration | Component | Campaign::CreateForm', function (hooks) {
   setupRenderingTest(hooks);
   setupIntl(hooks);
   let receivedCampaign;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.set('createCampaignSpy', (event) => {
       event.preventDefault();
       receivedCampaign = this.campaign;
@@ -25,12 +25,14 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('it should contain inputs, attributes and validation button', async function(assert) {
+  test('it should contain inputs, attributes and validation button', async function (assert) {
     // given
     this.campaign = EmberObject.create({});
 
     // when
-    await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+    await render(
+      hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+    );
 
     // then
     assert.contains(t('pages.campaign-creation.name.label'));
@@ -39,26 +41,29 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     assert.dom('textarea').hasAttribute('maxLength', '350');
   });
 
-  module('when user cannot create campaign of type PROFILES_COLLECTION', function() {
-
-    test('it should display fields for campaign title and target profile by default', async function(assert) {
+  module('when user cannot create campaign of type PROFILES_COLLECTION', function () {
+    test('it should display fields for campaign title and target profile by default', async function (assert) {
       // given
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
 
       // then
       assert.contains(t('pages.campaign-creation.test-title.label'));
       assert.contains(t('pages.campaign-creation.target-profiles-list.label'));
     });
 
-    test('it should not contain field to select campaign type', async function(assert) {
+    test('it should not contain field to select campaign type', async function (assert) {
       // given
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
 
       // then
       assert.notContains(t('pages.campaign-creation.purpose.assessment'));
@@ -66,9 +71,8 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     });
   });
 
-  module('when user choose to create a campaign of type ASSESSMENT', function() {
-
-    test('it should display fields for campaign title and target profile', async function(assert) {
+  module('when user choose to create a campaign of type ASSESSMENT', function () {
+    test('it should display fields for campaign title and target profile', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
@@ -77,7 +81,9 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
       await clickByLabel(t('pages.campaign-creation.purpose.assessment'));
 
       // then
@@ -87,8 +93,7 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
   });
 
   module('when user choose to create a campaign of type PROFILES_COLLECTION', () => {
-
-    test('it should not display fields for campaign title and target profile', async function(assert) {
+    test('it should not display fields for campaign title and target profile', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
@@ -97,7 +102,9 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
       await clickByLabel(t('pages.campaign-creation.purpose.profiles-collection'));
 
       // then
@@ -106,64 +113,76 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     });
   });
 
-  module('when user‘s organization is SCO and is managing student and user is creating an assessment campaign', function() {
+  module(
+    'when user‘s organization is SCO and is managing student and user is creating an assessment campaign',
+    function () {
+      test('it should display comment for target profile selection', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: false });
+          isSCOManagingStudents = true;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.campaign = EmberObject.create({});
 
-    test('it should display comment for target profile selection', async function(assert) {
-      // given
-      class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: false });
-        isSCOManagingStudents = true;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-      this.campaign = EmberObject.create({});
+        // when
+        await render(
+          hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+        );
 
-      // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+        // then
+        assert.contains(t('pages.campaign-creation.target-profile-informations'));
+      });
+    }
+  );
 
-      // then
-      assert.contains(t('pages.campaign-creation.target-profile-informations'));
-    });
-  });
+  module(
+    'when user‘s organization is not (SCO and managing student) user is creating an assessment campaign',
+    function () {
+      test('it should not display comment for target profile selection', async function (assert) {
+        // given
+        class CurrentUserStub extends Service {
+          organization = EmberObject.create({ canCollectProfiles: false });
+          isSCOManagingStudents = false;
+        }
+        this.owner.register('service:current-user', CurrentUserStub);
+        this.campaign = EmberObject.create({});
 
-  module('when user‘s organization is not (SCO and managing student) user is creating an assessment campaign', function() {
+        // when
+        await render(
+          hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+        );
 
-    test('it should not display comment for target profile selection', async function(assert) {
-      // given
-      class CurrentUserStub extends Service {
-        organization = EmberObject.create({ canCollectProfiles: false });
-        isSCOManagingStudents = false;
-      }
-      this.owner.register('service:current-user', CurrentUserStub);
-      this.campaign = EmberObject.create({});
+        // then
+        assert.notContains(t('pages.campaign-creation.target-profile-informations'));
+      });
+    }
+  );
 
-      // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
-
-      // then
-      assert.notContains(t('pages.campaign-creation.target-profile-informations'));
-    });
-  });
-
-  module('when user has not chosen yet to ask or not an external user ID', function() {
-    test('it should not display gdpr footnote', async function(assert) {
+  module('when user has not chosen yet to ask or not an external user ID', function () {
+    test('it should not display gdpr footnote', async function (assert) {
       //given
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
 
       // then
       assert.notContains(t('pages.campaign-creation.legal-warning'));
     });
   });
 
-  module('when user choose not to ask an external user ID', function() {
-    test('it should not display gdpr footnote either', async function(assert) {
+  module('when user choose not to ask an external user ID', function () {
+    test('it should not display gdpr footnote either', async function (assert) {
       //given
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
       await clickByLabel(t('pages.campaign-creation.no'));
 
       // then
@@ -171,13 +190,15 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     });
   });
 
-  module('when user choose to ask an external user ID', function() {
-    test('it should display gdpr footnote', async function(assert) {
+  module('when user choose to ask an external user ID', function () {
+    test('it should display gdpr footnote', async function (assert) {
       //given
       this.campaign = EmberObject.create({});
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
       await clickByLabel(t('pages.campaign-creation.yes'));
 
       // then
@@ -185,10 +206,12 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     });
   });
 
-  test('it should send campaign creation action when submitted', async function(assert) {
+  test('it should send campaign creation action when submitted', async function (assert) {
     // given
     this.campaign = EmberObject.create({});
-    await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+    await render(
+      hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+    );
     await fillInByLabel(t('pages.campaign-creation.name.label'), 'Ma campagne');
 
     // when
@@ -198,35 +221,40 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
     assert.deepEqual(receivedCampaign.name, 'Ma campagne');
   });
 
-  module('when there are errors', function() {
-    test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty ', async function(assert) {
+  module('when there are errors', function () {
+    test('it should display errors messages when the name, the campaign purpose and the external user id fields are empty ', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         organization = EmberObject.create({ canCollectProfiles: true });
       }
       this.owner.register('service:current-user', CurrentUserStub);
-      this.set('campaign', EmberObject.create({
-        errors: {
-          name: [
-            {
-              message: 'CAMPAIGN_NAME_IS_REQUIRED',
-            },
-          ],
-          idPixLabel: [
-            {
-              message: 'EXTERNAL_USER_ID_IS_REQUIRED',
-            },
-          ],
-          type: [
-            {
-              message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
-            },
-          ],
-        },
-      }));
+      this.set(
+        'campaign',
+        EmberObject.create({
+          errors: {
+            name: [
+              {
+                message: 'CAMPAIGN_NAME_IS_REQUIRED',
+              },
+            ],
+            idPixLabel: [
+              {
+                message: 'EXTERNAL_USER_ID_IS_REQUIRED',
+              },
+            ],
+            type: [
+              {
+                message: 'CAMPAIGN_PURPOSE_IS_REQUIRED',
+              },
+            ],
+          },
+        })
+      );
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
       await clickByLabel(t('pages.campaign-creation.yes'));
 
       // then
@@ -235,20 +263,25 @@ module('Integration | Component | Campaign::CreateForm', function(hooks) {
       assert.contains(t('api-errors-messages.campaign-creation.external-user-id-required'));
     });
 
-    test('it should display errors messages when the target profile field is empty', async function(assert) {
+    test('it should display errors messages when the target profile field is empty', async function (assert) {
       // given
-      this.set('campaign', EmberObject.create({
-        errors: {
-          targetProfile: [
-            {
-              message: 'TARGET_PROFILE_IS_REQUIRED',
-            },
-          ],
-        },
-      }));
+      this.set(
+        'campaign',
+        EmberObject.create({
+          errors: {
+            targetProfile: [
+              {
+                message: 'TARGET_PROFILE_IS_REQUIRED',
+              },
+            ],
+          },
+        })
+      );
 
       // when
-      await render(hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`);
+      await render(
+        hbs`<Campaign::CreateForm @campaign={{campaign}} @onSubmit={{createCampaignSpy}} @onCancel={{cancelSpy}}/>`
+      );
 
       // then
       assert.contains(t('api-errors-messages.campaign-creation.target-profile-required'));

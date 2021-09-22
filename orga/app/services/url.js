@@ -5,7 +5,6 @@ import ENV from 'pix-orga/config/environment';
 const FRENCH_DOMAIN_EXTENSION = 'fr';
 
 export default class Url extends Service {
-
   @service currentDomain;
   @service intl;
 

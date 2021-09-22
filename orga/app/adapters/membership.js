@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class MembershipAdapter extends ApplicationAdapter {
-
   urlForQuery(query) {
     if (query.filter.organizationId) {
       const { organizationId } = query.filter;

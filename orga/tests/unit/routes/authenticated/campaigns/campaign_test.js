@@ -3,13 +3,13 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Route | authenticated/campaigns/campaign', function(hooks) {
+module('Unit | Route | authenticated/campaigns/campaign', function (hooks) {
   setupTest(hooks);
 
   let route, params;
   let findRecordStub;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/campaigns/campaign');
     params = { campaign_id: 'liste' };
 
@@ -20,7 +20,7 @@ module('Unit | Route | authenticated/campaigns/campaign', function(hooks) {
     route.set('store', storeStub);
   });
 
-  test('should redirect to not-found page', async function(assert) {
+  test('should redirect to not-found page', async function (assert) {
     assert.expect(1);
     // given
     findRecordStub.rejects({ errors: [{ status: '400' }] });
@@ -28,11 +28,7 @@ module('Unit | Route | authenticated/campaigns/campaign', function(hooks) {
     // then
     const expectedRedirection = 'not-found';
     route.replaceWith = (redirection) => {
-      assert.equal(
-        redirection,
-        expectedRedirection,
-        `expect transition to ${expectedRedirection}, got ${redirection}`,
-      );
+      assert.equal(redirection, expectedRedirection, `expect transition to ${expectedRedirection}, got ${redirection}`);
     };
 
     // when

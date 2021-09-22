@@ -1,7 +1,5 @@
 import Response from 'ember-cli-mirage/response';
-import {
-  findPaginatedCampaignProfilesCollectionParticipationSummaries,
-} from './handlers/find-paginated-campaign-participation-summaries';
+import { findPaginatedCampaignProfilesCollectionParticipationSummaries } from './handlers/find-paginated-campaign-participation-summaries';
 import { findPaginatedOrganizationMemberships } from './handlers/find-paginated-organization-memberships';
 import { findFilteredPaginatedStudents } from './handlers/find-filtered-paginated-students';
 import { findPaginatedAssessmentResults } from './handlers/find-paginated-assessment-results';
@@ -22,7 +20,7 @@ function parseQueryString(queryString) {
 }
 
 /* eslint ember/no-get: off */
-export default function() {
+export default function () {
   this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
@@ -36,12 +34,18 @@ export default function() {
       return {
         token_type: '',
         expires_in: '',
-        access_token: 'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
+        access_token:
+          'aaa.' + btoa(`{"user_id":${foundUser.id},"source":"pix","iat":1545321469,"exp":4702193958}`) + '.bbb',
         user_id: foundUser.id,
       };
     } else {
-      return new Response([{ 'status': '401', 'title': 'Unauthorized', 'detail': 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.' }],
-      );
+      return new Response([
+        {
+          status: '401',
+          title: 'Unauthorized',
+          detail: "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.",
+        },
+      ]);
     }
   });
 
@@ -100,7 +104,10 @@ export default function() {
     const code = 'ABCDEFGH01';
 
     schema.organizationInvitations.create({
-      organizationId, email: email, status: 'PENDING', code,
+      organizationId,
+      email: email,
+      status: 'PENDING',
+      code,
       createdAt: new Date(),
     });
 
@@ -111,14 +118,17 @@ export default function() {
     const organizationInvitationId = request.params.id;
     const organizationInvitationCode = request.queryParams.code;
     if (!organizationInvitationCode) {
-      return new Response(400, {}, { errors: [ { status: '400', detail: '' } ] });
+      return new Response(400, {}, { errors: [{ status: '400', detail: '' }] });
     }
-    const organizationInvitation = schema.organizationInvitations.findBy({ id: organizationInvitationId, code: organizationInvitationCode });
+    const organizationInvitation = schema.organizationInvitations.findBy({
+      id: organizationInvitationId,
+      code: organizationInvitationCode,
+    });
     if (!organizationInvitation) {
-      return new Response(404, {}, { errors: [ { status: '404', detail: '' } ] });
+      return new Response(404, {}, { errors: [{ status: '404', detail: '' }] });
     }
     if (organizationInvitation.status === 'accepted') {
-      return new Response(412, {}, { errors: [ { status: '412', detail: '' } ] });
+      return new Response(412, {}, { errors: [{ status: '412', detail: '' }] });
     }
 
     return organizationInvitation;
@@ -157,11 +167,37 @@ export default function() {
     const organization = schema.organizations.findBy({ externalId: uai });
 
     if (!organization || organization.type !== 'SCO') {
-      return new Response(404, {}, { errors: [ { status: '404', title: 'OrganizationNotFoundError', detail: 'L\'UAI/RNE de l\'établissement ne correspond à aucun établissement dans la base de données Pix. Merci de contacter le support.' } ] });
+      return new Response(
+        404,
+        {},
+        {
+          errors: [
+            {
+              status: '404',
+              title: 'OrganizationNotFoundError',
+              detail:
+                "L'UAI/RNE de l'établissement ne correspond à aucun établissement dans la base de données Pix. Merci de contacter le support.",
+            },
+          ],
+        }
+      );
     }
 
     if (!organization.email) {
-      return new Response(412, {}, { errors: [ { status: '412', title: 'OrganizationWithoutEmailError', detail: 'Nous n\'avons pas d\'adresse e-mail de contact associé à votre établissement, merci de contacter le support pour récupérer votre accès.' } ] });
+      return new Response(
+        412,
+        {},
+        {
+          errors: [
+            {
+              status: '412',
+              title: 'OrganizationWithoutEmailError',
+              detail:
+                "Nous n'avons pas d'adresse e-mail de contact associé à votre établissement, merci de contacter le support pour récupérer votre accès.",
+            },
+          ],
+        }
+      );
     }
 
     return schema.scoOrganizationInvitations.create({ uai, firstName, lastName });
@@ -174,7 +210,13 @@ export default function() {
 
     if (type === 'invalid-file') {
       return new Promise((resolve) => {
-        resolve(new Response(422, {}, { errors: [ { status: '422', detail: '422 - Le détail affiché est envoyé par le back' } ] }));
+        resolve(
+          new Response(
+            422,
+            {},
+            { errors: [{ status: '422', detail: '422 - Le détail affiché est envoyé par le back' }] }
+          )
+        );
       });
     } else if (type === 'valid-file') {
       const organizationId = request.params.id;
@@ -191,20 +233,30 @@ export default function() {
     } else if (type === 'valid-file-with-warnings') {
       const organizationId = request.params.id;
       await schema.students.create({ organizationId: organizationId, firstName: 'Harry', lastName: 'Cover' });
-      return Promise.resolve(new Response(200, {}, { data: { attributes: { warnings: [{ field: 'diploma', value: 'BAD', code: 'unknown' }] } } }));
+      return Promise.resolve(
+        new Response(
+          200,
+          {},
+          { data: { attributes: { warnings: [{ field: 'diploma', value: 'BAD', code: 'unknown' }] } } }
+        )
+      );
     } else if (type === 'invalid-file') {
       return new Promise((resolve) => {
-        resolve(new Response(412, {}, { errors: [ { status: '412', detail: 'Erreur d’import' } ] }));
+        resolve(new Response(412, {}, { errors: [{ status: '412', detail: 'Erreur d’import' }] }));
       });
     }
   });
 
   this.patch('/organizations/:id/schooling-registration-user-associations/:studentId', (schema, request) => {
     const { studentId } = request.params;
-    const { data: { attributes: { ['student-number']: studentNumber } } } = JSON.parse(request.requestBody);
+    const {
+      data: {
+        attributes: { ['student-number']: studentNumber },
+      },
+    } = JSON.parse(request.requestBody);
 
     if (schema.students.all().models.find((student) => student.studentNumber === studentNumber)) {
-      return new Response(412, {}, { errors: [ { status: '412', detail: 'STUDENT_NUMBER_EXISTS' } ] });
+      return new Response(412, {}, { errors: [{ status: '412', detail: 'STUDENT_NUMBER_EXISTS' }] });
     }
     const student = schema.students.find(studentId);
     return student.update({ studentNumber });
@@ -246,7 +298,10 @@ export default function() {
     return campaign.campaignAnalysis;
   });
 
-  this.get('/campaigns/:id/profiles-collection-participations', findPaginatedCampaignProfilesCollectionParticipationSummaries);
+  this.get(
+    '/campaigns/:id/profiles-collection-participations',
+    findPaginatedCampaignProfilesCollectionParticipationSummaries
+  );
 
   this.get('/campaign-participations/:id/analyses', (schema, request) => {
     return schema.campaignAnalyses.findBy({ ...request.params });
@@ -337,7 +392,6 @@ export default function() {
 
     const student = schema.students.find(studentId);
     return student.update({ email: null, username: null, isAuthenticatedFromGAR: false });
-
   });
 
   this.get('feature-toggles', (schema) => {

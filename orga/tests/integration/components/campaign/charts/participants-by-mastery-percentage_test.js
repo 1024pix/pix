@@ -4,12 +4,12 @@ import sinon from 'sinon';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercentage', function(hooks) {
+module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercentage', function (hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
   let dataFetcher;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     // given
     this.set('campaignId', campaignId);
 
@@ -18,7 +18,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByMasteryPercent
     dataFetcher = sinon.stub(adapter, 'getParticipationsByMasteryRate');
   });
 
-  test('it should display chart for participation distribution', async function(assert) {
+  test('it should display chart for participation distribution', async function (assert) {
     // given
     dataFetcher.withArgs(campaignId).resolves({
       data: {

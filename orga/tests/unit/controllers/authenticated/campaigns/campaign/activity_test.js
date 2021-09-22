@@ -2,17 +2,16 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../../helpers/setup-intl-rendering';
 
-module('Unit | Controller | authenticated/campaigns/campaign/activity', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/campaign/activity', function (hooks) {
   setupIntlRenderingTest(hooks);
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/activity');
   });
 
-  module('#action goToParticipantPage', function() {
-
-    test('it should call transitionToRoute with appropriate arguments for profiles collection', function(assert) {
+  module('#action goToParticipantPage', function () {
+    test('it should call transitionToRoute with appropriate arguments for profiles collection', function (assert) {
       // given
       controller.transitionToRoute = sinon.stub();
       controller.model = { campaign: { isTypeAssessment: false } };
@@ -24,7 +23,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-profile', 123, 456));
     });
 
-    test('it should call transitionToRoute with appropriate arguments for assessment', function(assert) {
+    test('it should call transitionToRoute with appropriate arguments for assessment', function (assert) {
       // given
       controller.transitionToRoute = sinon.stub();
       controller.model = { campaign: { isTypeAssessment: true } };

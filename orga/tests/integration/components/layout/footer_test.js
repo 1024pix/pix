@@ -4,10 +4,10 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import sinon from 'sinon';
 
-module('Integration | Component | Layout::Footer', function(hooks) {
+module('Integration | Component | Layout::Footer', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('should display copyright', async function(assert) {
+  test('should display copyright', async function (assert) {
     //given
     const date = new Date();
     const expectedYear = date.getFullYear().toString();
@@ -19,7 +19,7 @@ module('Integration | Component | Layout::Footer', function(hooks) {
     assert.contains(`© ${expectedYear} Pix`);
   });
 
-  test('should display legal notice link', async function(assert) {
+  test('should display legal notice link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };
@@ -32,7 +32,7 @@ module('Integration | Component | Layout::Footer', function(hooks) {
     assert.dom('a[href="https://pix.fr/mentions-legales"]').exists();
   });
 
-  test('should display accessibility link', async function(assert) {
+  test('should display accessibility link', async function (assert) {
     // given
     const service = this.owner.lookup('service:url');
     service.currentDomain = { getExtension: sinon.stub().returns('fr') };

@@ -1,7 +1,6 @@
 import { Factory, trait } from 'ember-cli-mirage';
 
 export default Factory.extend({
-
   withCompetenceCollectiveResults: trait({
     afterCreate(campaignCollectiveResult, server) {
       const competenceCollectiveResult_1 = server.create('campaign-competence-collective-result', {
@@ -20,8 +19,10 @@ export default Factory.extend({
         averageValidatedSkills: '0',
         targetedSkillsCount: '34',
       });
-      campaignCollectiveResult.campaignCompetenceCollectiveResults = [competenceCollectiveResult_1, competenceCollectiveResult_2];
+      campaignCollectiveResult.campaignCompetenceCollectiveResults = [
+        competenceCollectiveResult_1,
+        competenceCollectiveResult_2,
+      ];
     },
   }),
-
 });

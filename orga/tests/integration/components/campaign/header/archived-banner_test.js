@@ -5,17 +5,17 @@ import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Header::ArchivedBanner', function(hooks) {
+module('Integration | Component | Campaign::Header::ArchivedBanner', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
   module('When campaign is active', () => {
-    test('it should not display unarchive banner', async function(assert) {
+    test('it should not display unarchive banner', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,
@@ -31,7 +31,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function(ho
   });
 
   module('When campaign is archived', () => {
-    test('it should display unarchive banner', async function(assert) {
+    test('it should display unarchive banner', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,
@@ -45,7 +45,7 @@ module('Integration | Component | Campaign::Header::ArchivedBanner', function(ho
       assert.contains('Désarchiver la campagne');
     });
 
-    test('it should unarchive campaign on button click', async function(assert) {
+    test('it should unarchive campaign on button click', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,

@@ -1,4 +1,4 @@
-module.exports = function() {
+module.exports = function () {
   return {
     'free-solid-svg-icons': [
       'archive',
@@ -27,12 +27,7 @@ module.exports = function() {
       'share-square',
       'times',
       'users',
-
     ],
-    'free-regular-svg-icons': [
-      'check-circle',
-      'copy',
-      'trash-alt',
-    ],
+    'free-regular-svg-icons': ['check-circle', 'copy', 'trash-alt'],
   };
 };

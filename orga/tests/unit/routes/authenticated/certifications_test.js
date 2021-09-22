@@ -5,12 +5,11 @@ import EmberObject from '@ember/object';
 
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/certifications', function(hooks) {
+module('Unit | Route | authenticated/certifications', function (hooks) {
   setupTest(hooks);
 
-  module('beforeModel', function() {
-
-    test('should redirect to application when currentUser.isAdminInOrganization is true && currentUser.isSCOManagingStudents is false', function(assert) {
+  module('beforeModel', function () {
+    test('should redirect to application when currentUser.isAdminInOrganization is true && currentUser.isSCOManagingStudents is false', function (assert) {
       // given
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
@@ -30,7 +29,7 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       assert.ok(true);
     });
 
-    test('should redirect to application when currentUser.isAdminInOrganization is false & currentUser.isSCOManagingStudents is true', function(assert) {
+    test('should redirect to application when currentUser.isAdminInOrganization is false & currentUser.isSCOManagingStudents is true', function (assert) {
       // given
       class CurrentUserStub extends Service {
         isAdminInOrganization = false;
@@ -50,7 +49,7 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       assert.ok(true);
     });
 
-    test('should redirect to application when currentUser.isAdminInOrganization is false', function(assert) {
+    test('should redirect to application when currentUser.isAdminInOrganization is false', function (assert) {
       // given
       class CurrentUserStub extends Service {
         isAdminInOrganization = false;
@@ -70,7 +69,7 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       assert.ok(true);
     });
 
-    test('should not redirect to application when currentUser.isAdminInOrganization and currentUser.isSCOManagingStudents are true', function(assert) {
+    test('should not redirect to application when currentUser.isAdminInOrganization and currentUser.isSCOManagingStudents are true', function (assert) {
       // given
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
@@ -91,16 +90,15 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
     });
   });
 
-  module('#model', function() {
-
-    test('it should return a list of options based on organization divisions', async function(assert) {
+  module('#model', function () {
+    test('it should return a list of options based on organization divisions', async function (assert) {
       // given
       class CurrentUserStub extends Service {
         isAdminInOrganization = true;
         isSCOManagingStudents = true;
         organization = {
           id: 12345,
-        }
+        };
       }
 
       this.owner.register('service:current-user', CurrentUserStub);
@@ -115,20 +113,18 @@ module('Unit | Route | authenticated/certifications', function(hooks) {
       const actualOptions = await route.model();
 
       // then
-      assert.deepEqual(actualOptions,
-        {
-          options: [
-            {
-              label: '3èmeA',
-              value: '3èmeA',
-            },
-            {
-              label: '2ndE',
-              value: '2ndE',
-            },
-          ],
-        },
-      );
+      assert.deepEqual(actualOptions, {
+        options: [
+          {
+            label: '3èmeA',
+            value: '3èmeA',
+          },
+          {
+            label: '2ndE',
+            value: '2ndE',
+          },
+        ],
+      });
     });
   });
 });

@@ -4,18 +4,15 @@ import { render, triggerEvent } from '@ember/test-helpers';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Auth::JoinRequestForm', function(hooks) {
+module('Integration | Component | Auth::JoinRequestForm', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('when are not fill correctly', function() {
-
+  module('when are not fill correctly', function () {
     const EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
     const EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
 
-    [{ stringFilledIn: '' },
-      { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
-      test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+    [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
+      test(`it should display an error message on firstName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Auth::JoinRequestForm />`);
 
@@ -28,10 +25,8 @@ module('Integration | Component | Auth::JoinRequestForm', function(hooks) {
       });
     });
 
-    [{ stringFilledIn: '' },
-      { stringFilledIn: ' ' },
-    ].forEach(function({ stringFilledIn }) {
-      test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function(assert) {
+    [{ stringFilledIn: '' }, { stringFilledIn: ' ' }].forEach(function ({ stringFilledIn }) {
+      test(`it should display an error message on lastName field, when '${stringFilledIn}' is typed and focused out`, async function (assert) {
         // given
         await render(hbs`<Auth::JoinRequestForm />`);
 
@@ -43,6 +38,5 @@ module('Integration | Component | Auth::JoinRequestForm', function(hooks) {
         assert.contains(EMPTY_LASTNAME_ERROR_MESSAGE);
       });
     });
-
   });
 });

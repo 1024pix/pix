@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import get from 'lodash/get';
 
 export default class LoginForm extends Component {
-
   @service intl;
   @service session;
   @service store;
@@ -42,7 +41,11 @@ export default class LoginForm extends Component {
 
     if (this.args.isWithInvitation) {
       try {
-        await this._acceptOrganizationInvitation(this.args.organizationInvitationId, this.args.organizationInvitationCode, email);
+        await this._acceptOrganizationInvitation(
+          this.args.organizationInvitationId,
+          this.args.organizationInvitationCode,
+          email
+        );
       } catch (errorResponse) {
         errorResponse.errors.forEach((error) => {
           if (error.status === '412') {
@@ -79,11 +82,13 @@ export default class LoginForm extends Component {
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, email) {
-    return this.store.createRecord('organization-invitation-response', {
-      id: organizationInvitationId + '_' + organizationInvitationCode,
-      code: organizationInvitationCode,
-      email,
-    }).save({ adapterOptions: { organizationInvitationId } });
+    return this.store
+      .createRecord('organization-invitation-response', {
+        id: organizationInvitationId + '_' + organizationInvitationCode,
+        code: organizationInvitationCode,
+        email,
+      })
+      .save({ adapterOptions: { organizationInvitationId } });
   }
 
   _handleResponseError(errorResponse) {

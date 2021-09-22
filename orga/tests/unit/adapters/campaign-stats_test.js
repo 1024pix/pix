@@ -3,20 +3,20 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import ENV from 'pix-orga/config/environment';
 
-module('Unit | Adapter | campaign-stats', function(hooks) {
+module('Unit | Adapter | campaign-stats', function (hooks) {
   setupTest(hooks);
 
   let adapter;
   let ajaxStub;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:campaign-stats');
     ajaxStub = sinon.stub();
     adapter.set('ajax', ajaxStub);
   });
 
-  module('getParticipationsByStage', function() {
-    test('it request participations by stage', async function(assert) {
+  module('getParticipationsByStage', function () {
+    test('it request participations by stage', async function (assert) {
       const campaignId = 12;
       const url = `${ENV.APP.API_HOST}/api/campaigns/${campaignId}/stats/participations-by-stage`;
       const expectedStats = Symbol('participations-by-stage');
@@ -27,8 +27,8 @@ module('Unit | Adapter | campaign-stats', function(hooks) {
     });
   });
 
-  module('getParticipationsByStatus', function() {
-    test('it request participations by status', async function(assert) {
+  module('getParticipationsByStatus', function () {
+    test('it request participations by status', async function (assert) {
       const campaignId = 12;
       const url = `${ENV.APP.API_HOST}/api/campaigns/${campaignId}/stats/participations-by-status`;
       const expectedStats = Symbol('participations-by-status');
@@ -39,8 +39,8 @@ module('Unit | Adapter | campaign-stats', function(hooks) {
     });
   });
 
-  module('getParticipationsByDay', function() {
-    test('it request participations by day', async function(assert) {
+  module('getParticipationsByDay', function () {
+    test('it request participations by day', async function (assert) {
       const campaignId = 12;
       const url = `${ENV.APP.API_HOST}/api/campaigns/${campaignId}/stats/participations-by-day`;
       const expectedStats = Symbol('participations-by-day');
@@ -51,8 +51,8 @@ module('Unit | Adapter | campaign-stats', function(hooks) {
     });
   });
 
-  module('getParticipationsByMasteryRate', function() {
-    test('it request participations by mastery percentage', async function(assert) {
+  module('getParticipationsByMasteryRate', function () {
+    test('it request participations by mastery percentage', async function (assert) {
       const campaignId = 12;
       const url = `${ENV.APP.API_HOST}/api/campaigns/${campaignId}/stats/participations-by-mastery-rate`;
       const expectedStats = Symbol('result-distribution');

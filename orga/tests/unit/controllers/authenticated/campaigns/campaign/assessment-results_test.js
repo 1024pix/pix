@@ -2,23 +2,23 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/campaigns/campaign/assessment-results', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/campaign/assessment-results', function (hooks) {
   setupTest(hooks);
   let controller;
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/campaigns/campaign/assessment-results');
   });
 
-  module('triggerFiltering', function() {
-    module('division filter', function() {
-      test('update the division filter', function(assert) {
+  module('triggerFiltering', function () {
+    module('division filter', function () {
+      test('update the division filter', function (assert) {
         // given
         controller.triggerFiltering({ divisions: ['6eme'] });
         // then
         assert.deepEqual(controller.divisions, ['6eme']);
       });
 
-      test('should keep other filters when division is updated', function(assert) {
+      test('should keep other filters when division is updated', function (assert) {
         // when
         controller.set('badges', ['badge1']);
         // given
@@ -28,15 +28,15 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
       });
     });
 
-    module('badge filter', function() {
-      test('update the badge filter', function(assert) {
+    module('badge filter', function () {
+      test('update the badge filter', function (assert) {
         // given
         controller.triggerFiltering({ badges: ['badge1'] });
         // then
         assert.deepEqual(controller.badges, ['badge1']);
       });
 
-      test('should keep other filters when is badge updated', function(assert) {
+      test('should keep other filters when is badge updated', function (assert) {
         // when
         controller.set('divisions', ['division1']);
         // given
@@ -46,15 +46,15 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
       });
     });
 
-    module('stage filter', function() {
-      test('update the stage filter', function(assert) {
+    module('stage filter', function () {
+      test('update the stage filter', function (assert) {
         // given
         controller.triggerFiltering({ stages: ['stage1'] });
         // then
         assert.deepEqual(controller.stages, ['stage1']);
       });
 
-      test('should keep other filters when is stage updated', function(assert) {
+      test('should keep other filters when is stage updated', function (assert) {
         // when
         controller.set('divisions', ['division1']);
         // given
@@ -65,8 +65,8 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     });
   });
 
-  module('resetFiltering', function() {
-    test('reset the filters', function(assert) {
+  module('resetFiltering', function () {
+    test('reset the filters', function (assert) {
       //given
       controller.set('pageNumber', 1);
       controller.set('divisions', ['3eme']);
@@ -84,8 +84,8 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     });
   });
 
-  module('filterByStage', function() {
-    test('set the stage filter', function(assert) {
+  module('filterByStage', function () {
+    test('set the stage filter', function (assert) {
       // given
       controller.filterByStage(123);
       // then
@@ -93,8 +93,8 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
     });
   });
 
-  module('#action goToAssessmentPage', function() {
-    test('it should call transitionToRoute with appropriate arguments', function(assert) {
+  module('#action goToAssessmentPage', function () {
+    test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
       const event = {
         stopPropagation: sinon.stub(),

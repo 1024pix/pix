@@ -2,15 +2,15 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | file-saver', function(hooks) {
+module('Unit | Service | file-saver', function (hooks) {
   setupTest(hooks);
   let fileSaver;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     fileSaver = this.owner.lookup('service:file-saver');
   });
 
-  module('#save', function(hooks) {
+  module('#save', function (hooks) {
     const id = 123456;
     const url = `/attestation/${id}`;
     const token = 'mytoken';
@@ -22,17 +22,19 @@ module('Unit | Service | file-saver', function(hooks) {
     let downloadFileForIEBrowserStub;
     let downloadFileForModernBrowsersStub;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       fileSaver = this.owner.lookup('service:file-saver');
       blobStub = sinon.stub().resolves(responseContent);
       downloadFileForIEBrowserStub = sinon.stub().returns();
       downloadFileForModernBrowsersStub = sinon.stub().returns();
     });
 
-    module('when response has a status 200', function() {
-      test('should use fileName and fileContent from response', async function(assert) {
+    module('when response has a status 200', function () {
+      test('should use fileName and fileContent from response', async function (assert) {
         // given
-        const headers = { get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`) };
+        const headers = {
+          get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`),
+        };
         const jsonStub = sinon.stub().resolves('a json');
 
         const response = { headers, blob: blobStub, status: 200, json: jsonStub };
@@ -53,10 +55,12 @@ module('Unit | Service | file-saver', function(hooks) {
       });
     });
 
-    module('when response has not a status 200', function() {
-      test('should throw', async function(assert) {
+    module('when response has not a status 200', function () {
+      test('should throw', async function (assert) {
         // given
-        const headers = { get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`) };
+        const headers = {
+          get: sinon.stub().withArgs('Content-Disposition').returns(`attachment; filename=${responseFileName}`),
+        };
         const jsonStub = sinon.stub().resolves({ errors: [] });
         const response = { headers, blob: blobStub, status: 403, json: jsonStub };
         fetchStub = sinon.stub().resolves(response);
@@ -75,5 +79,4 @@ module('Unit | Service | file-saver', function(hooks) {
       });
     });
   });
-
 });

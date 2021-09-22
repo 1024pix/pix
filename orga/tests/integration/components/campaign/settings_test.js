@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | Campaign::Settings', function(hooks) {
+module('Integration | Component | Campaign::Settings', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
@@ -12,14 +12,14 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
     campaignsRootUrl = 'root-url/';
   }
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
     this.owner.register('service:url', UrlStub);
   });
 
-  module('on TargetProfile display', function() {
-    module('when type is ASSESSMENT', function() {
-      test('it should display target profile related to campaign', async function(assert) {
+  module('on TargetProfile display', function () {
+    module('when type is ASSESSMENT', function () {
+      test('it should display target profile related to campaign', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
@@ -34,8 +34,8 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
       });
     });
 
-    module('when type is PROFILES_COLLECTION', function() {
-      test('it should not display target profile', async function(assert) {
+    module('when type is PROFILES_COLLECTION', function () {
+      test('it should not display target profile', async function (assert) {
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
         });
@@ -49,9 +49,9 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
     });
   });
 
-  module('on idPixLabel display', function() {
-    module('when idPixLabel is set', function() {
-      test('it should display the idPixLabel', async function(assert) {
+  module('on idPixLabel display', function () {
+    module('when idPixLabel is set', function () {
+      test('it should display the idPixLabel', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           idPixLabel: 'idPixLabel',
@@ -65,8 +65,8 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
       });
     });
 
-    module('when idPixLabel is not set', function() {
-      test('it should not display the idPixLabel', async function(assert) {
+    module('when idPixLabel is not set', function () {
+      test('it should not display the idPixLabel', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           idPixLabel: null,
@@ -76,13 +76,13 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
         await render(hbs`<Campaign::Settings @campaign={{campaign}}/>`);
 
         // then
-        assert.notContains('Libellé de l\'identifiant');
+        assert.notContains("Libellé de l'identifiant");
       });
     });
   });
 
-  module('on campaign url display', function() {
-    test('it should display the campaign url', async function(assert) {
+  module('on campaign url display', function () {
+    test('it should display the campaign url', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', { code: '1234' });
 
@@ -94,9 +94,9 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
     });
   });
 
-  module('on campaign title display', function() {
-    module('when type is ASSESSMENT', function() {
-      test('it should display the campaign title', async function(assert) {
+  module('on campaign title display', function () {
+    module('when type is ASSESSMENT', function () {
+      test('it should display the campaign title', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'ASSESSMENT',
@@ -111,8 +111,8 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
       });
     });
 
-    module('when type is PROFILES_COLLECTION', function() {
-      test('it should not display the campaign title', async function(assert) {
+    module('when type is PROFILES_COLLECTION', function () {
+      test('it should not display the campaign title', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', {
           type: 'PROFILES_COLLECTION',
@@ -127,8 +127,8 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
     });
   });
 
-  module('on Archived action display', function() {
-    test('it should display the button archived', async function(assert) {
+  module('on Archived action display', function () {
+    test('it should display the button archived', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', { isArchived: false });
 
@@ -140,9 +140,9 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
     });
   });
 
-  module('on Modify action display', function() {
-    module('when the campaign is not archived', function() {
-      test('it should display the button modify', async function(assert) {
+  module('on Modify action display', function () {
+    module('when the campaign is not archived', function () {
+      test('it should display the button modify', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', { isArchived: false });
 
@@ -154,8 +154,8 @@ module('Integration | Component | Campaign::Settings', function(hooks) {
       });
     });
 
-    module('when the campaign is archived', function() {
-      test('it should not display the button modify', async function(assert) {
+    module('when the campaign is archived', function () {
+      test('it should not display the button modify', async function (assert) {
         // given
         this.campaign = store.createRecord('campaign', { isArchived: true });
 

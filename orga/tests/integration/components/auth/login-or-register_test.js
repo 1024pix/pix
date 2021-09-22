@@ -4,17 +4,16 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Auth::LoginOrRegister', function(hooks) {
-
+module('Integration | Component | Auth::LoginOrRegister', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let loginButton;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     loginButton = this.intl.t('pages.login-or-register.login-form.button');
   });
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // when
     await render(hbs`<Auth::LoginOrRegister/>`);
 
@@ -22,7 +21,7 @@ module('Integration | Component | Auth::LoginOrRegister', function(hooks) {
     assert.dom('.login-or-register').exists();
   });
 
-  test('it display the organization name the user is invited to', async function(assert) {
+  test('it display the organization name the user is invited to', async function (assert) {
     // when
     const invitationMessage = this.intl.t('pages.login-or-register.title', { organizationName: 'Organization Aztec' });
 
@@ -32,7 +31,7 @@ module('Integration | Component | Auth::LoginOrRegister', function(hooks) {
     assert.dom('.login-or-register-panel__invitation').hasText(`${invitationMessage}`);
   });
 
-  test('it toggle the register form by default', async function(assert) {
+  test('it toggle the register form by default', async function (assert) {
     // when
     await render(hbs`<Auth::LoginOrRegister/>`);
 
@@ -40,7 +39,7 @@ module('Integration | Component | Auth::LoginOrRegister', function(hooks) {
     assert.dom('.register-form').exists();
   });
 
-  test('it toggle the login form on click on login button', async function(assert) {
+  test('it toggle the login form on click on login button', async function (assert) {
     // given
     await render(hbs`<Auth::LoginOrRegister/>`);
 
@@ -51,7 +50,7 @@ module('Integration | Component | Auth::LoginOrRegister', function(hooks) {
     assert.dom('.login-form').exists();
   });
 
-  test('it toggle the register form on click on register button', async function(assert) {
+  test('it toggle the register form on click on register button', async function (assert) {
     // given
     const registerButtonLabel = this.intl.t('pages.login-or-register.register-form.button');
 

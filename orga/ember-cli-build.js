@@ -2,7 +2,7 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sourcemaps: { enabled: true },
     babel: {
@@ -30,15 +30,11 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
   app.import('node_modules/chart.js/dist/chart.js', {
-    using: [
-      { transformation: 'amd', as: 'chart.js' },
-    ],
+    using: [{ transformation: 'amd', as: 'chart.js' }],
   });
 
   app.import('node_modules/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.js', {
-    using: [
-      { transformation: 'amd', as: 'chartjs-adapter-date-fns.js' },
-    ],
+    using: [{ transformation: 'amd', as: 'chartjs-adapter-date-fns.js' }],
   });
 
   return app.toTree();
