@@ -8,15 +8,25 @@
     >
       Voir les détails de l'utilisateur
     </PixButton>
-    <PixButton
-      @backgroundColor="red"
-      @isDisabled={{this.isCertificationCancelled}}
-      @size="small"
-      @triggerAction={{this.onCancelCourseButtonClick}}
-      data-test-id="Annuler la certification"
-    >
-      Annuler la certification
+    {{#if this.isCertificationCancelled}}
+      <PixButton
+        @backgroundColor="red"
+        @size="small"
+        @triggerAction={{this.onUncancelCertificationButtonClick}}
+        data-test-id="Désannuler la certification"
+      >
+        Désannuler la certification
+        </PixButton>
+    {{else}}
+      <PixButton
+              @backgroundColor="red"
+              @size="small"
+              @triggerAction={{this.onCancelCertificationButtonClick}}
+              data-test-id="Annuler la certification"
+      >
+        Annuler la certification
       </PixButton>
+    {{/if}}
   </div>
   <div class="row">
     <div class="col">

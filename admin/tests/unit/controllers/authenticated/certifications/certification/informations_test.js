@@ -438,37 +438,6 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#onCancelCourseButtonClick', () => {
-    test('should enable cancel course confirm dialog', async function(assert) {
-      // when
-      await controller.onCancelCourseButtonClick();
-
-      // then
-      assert.equal(controller.confirmAction, 'onCancelCourseConfirmation');
-      assert.true(controller.displayConfirm);
-      assert.equal(controller.confirmMessage, 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre');
-    });
-  });
-
-  module('#onCancelCourseConfirmation', () => {
-    test('should cancel course', async function(assert) {
-      // given
-      const store = this.owner.lookup('service:store');
-      const certification = store.createRecord('certification');
-      const cancel = sinon.stub().resolves();
-      certification.cancel = cancel;
-      controller.certification = certification;
-      controller.send = sinon.stub().resolves();
-
-      // when
-      await controller.onCancelCourseConfirmation();
-
-      // then
-      sinon.assert.called(certification.cancel);
-      assert.notOk(controller.displayConfirm);
-    });
-  });
-
   module('#onCandidateInformationSave', () => {
     test('it closes the modal', async function(assert) {
       // given

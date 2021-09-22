@@ -9,7 +9,6 @@ export default class Certification extends JSONAPISerializer {
       this.serializeAttribute(snapshot, data, 'lastName', 'last-name');
       this.serializeAttribute(snapshot, data, 'birthplace', 'birthplace');
       this.serializeAttribute(snapshot, data, 'birthdate', 'birthdate');
-      this.serializeAttribute(snapshot, data, 'externalId', 'external-id');
       this.serializeAttribute(snapshot, data, 'isPublished', 'is-published');
       this.serializeAttribute(snapshot, data, 'sex', 'sex');
       this.serializeAttribute(snapshot, data, 'birthCountry', 'birth-country');
@@ -24,5 +23,4 @@ export default class Certification extends JSONAPISerializer {
       return super.serialize(...arguments);
     }
   }
-
 }

@@ -1,6 +1,5 @@
 const { sinon, expect, hFake, generateValidRequestAuthorizationHeader, domainBuilder } = require('../../../test-helper');
 const certificationCourseController = require('../../../../lib/application/certification-courses/certification-course-controller');
-const certificationResultInformationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-result-information-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 const certifiedProfileRepository = require('../../../../lib/infrastructure/repositories/certified-profile-repository');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -95,9 +94,9 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
   });
 
-  describe('#getCertificationResultInformation', function() {
+  describe('#getJuryCertification', function() {
 
-    it('should return certification result', async function() {
+    it('should return serialized jury certification returned by the usecase', async function() {
       // given
       const certificationCourseId = 1;
       const request = {
@@ -106,20 +105,74 @@ describe('Unit | Controller | certification-course-controller', function() {
         },
       };
 
-      const certificationResultInformation = Symbol('aCertifResultInfo');
-      sinon.stub(usecases, 'getCertificationResultInformation')
-        .withArgs({ certificationCourseId }).resolves(certificationResultInformation);
-
-      const certificationResultInformationSerialized = Symbol('a full certification results');
-      sinon.stub(certificationResultInformationSerializer, 'serialize')
-        .withArgs(certificationResultInformation)
-        .resolves(certificationResultInformationSerialized);
+      const juryCertification = domainBuilder.buildJuryCertification({
+        certificationCourseId: 123,
+        sessionId: 456,
+        userId: 789,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthplace: 'Torreilles',
+        birthdate: '2000-08-30',
+        birthINSEECode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'France',
+        sex: 'F',
+        status: 'rejected',
+        isPublished: true,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-02-01'),
+        pixScore: 55,
+        juryId: 66,
+        commentForCandidate: 'comment candidate',
+        commentForOrganization: 'comment organization',
+        commentForJury: 'comment jury',
+        competenceMarks: [],
+        cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
+        pixPlusDroitMaitreCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken(),
+        pixPlusDroitExpertCertificationResult: domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken(),
+        certificationIssueReports: [],
+      });
+      sinon.stub(usecases, 'getJuryCertification')
+        .withArgs({ certificationCourseId }).resolves(juryCertification);
 
       // when
-      const result = await certificationCourseController.getCertificationResultInformation(request, hFake);
+      const response = await certificationCourseController.getJuryCertification(request, hFake);
 
       // then
-      expect(result).to.deep.equal(certificationResultInformationSerialized);
+      expect(response.data).to.deep.equal({
+        type: 'certifications',
+        id: '123',
+        attributes: {
+          'session-id': 456,
+          'user-id': 789,
+          'first-name': 'Buffy',
+          'last-name': 'Summers',
+          'birthdate': '2000-08-30',
+          'birthplace': 'Torreilles',
+          sex: 'F',
+          'birth-insee-code': '66212',
+          'birth-postal-code': null,
+          'birth-country': 'France',
+          status: 'rejected',
+          'is-published': true,
+          'created-at': new Date('2020-01-01'),
+          'completed-at': new Date('2020-02-01'),
+          'pix-score': 55,
+          'jury-id': 66,
+          'competences-with-mark': [],
+          'comment-for-candidate': 'comment candidate',
+          'comment-for-jury': 'comment jury',
+          'comment-for-organization': 'comment organization',
+          'clea-certification-status': 'not_taken',
+          'pix-plus-droit-expert-certification-status': 'not_taken',
+          'pix-plus-droit-maitre-certification-status': 'not_taken',
+        },
+        relationships: {
+          'certification-issue-reports': {
+            data: [],
+          },
+        },
+      });
     });
   });
 
@@ -457,47 +510,41 @@ describe('Unit | Controller | certification-course-controller', function() {
 
   describe('#cancelCertificationCourse', function() {
 
-    it('should cancel certification course', async function() {
+    it('should call cancel-certification-course usecase', async function() {
       // given
       sinon.stub(usecases, 'cancelCertificationCourse');
-      const certificationCourseId = 1234;
       const request = {
         params: {
-          id: certificationCourseId,
+          id: 123,
         },
       };
-      const cancelledCertificationCourse = domainBuilder.buildCertificationCourse({
-        id: certificationCourseId,
-        isCancelled: true,
-      });
-      usecases.cancelCertificationCourse
-        .withArgs({ certificationCourseId })
-        .resolves(cancelledCertificationCourse);
+      usecases.cancelCertificationCourse.resolves();
 
       // when
-      const response = await certificationCourseController.cancel(request, hFake);
+      await certificationCourseController.cancel(request, hFake);
 
       // then
-      expect(response).to.deep.equal({
-        data: {
-          attributes: {
-            'examiner-comment': 'A cassé le clavier',
-            'first-name': 'Gandhi',
-            'has-seen-end-test-screen': false,
-            'last-name': 'Matmatah',
-            'nb-challenges': 0,
-          },
-          id: '1234',
-          relationships: {
-            assessment: {
-              links: {
-                related: '/api/assessments/123',
-              },
-            },
-          },
-          type: 'certification-courses',
+      expect(usecases.cancelCertificationCourse).to.have.been.calledWith({ certificationCourseId: 123 });
+    });
+  });
+
+  describe('#uncancelCertificationCourse', function() {
+
+    it('should call uncancel-certification-course usecase', async function() {
+      // given
+      sinon.stub(usecases, 'uncancelCertificationCourse');
+      const request = {
+        params: {
+          id: 123,
         },
-      });
+      };
+      usecases.uncancelCertificationCourse.resolves();
+
+      // when
+      await certificationCourseController.uncancel(request, hFake);
+
+      // then
+      expect(usecases.uncancelCertificationCourse).to.have.been.calledWith({ certificationCourseId: 123 });
     });
   });
 });

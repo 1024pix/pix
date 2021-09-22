@@ -251,4 +251,20 @@ export default function() {
   });
 
   this.put('/admin/sessions/:id/comment', () => new Response(204));
+
+  this.post('/admin/certification-courses/:id/cancel', (schema, request) => {
+    const certificationId = request.params.id;
+    const certificationToUpdate = schema.certifications.find(certificationId);
+    certificationToUpdate.update({ status: 'cancelled' });
+
+    return new Response(200);
+  });
+
+  this.post('/admin/certification-courses/:id/uncancel', (schema, request) => {
+    const certificationId = request.params.id;
+    const certificationToUpdate = schema.certifications.find(certificationId);
+    certificationToUpdate.update({ status: 'validated' });
+
+    return new Response(200);
+  });
 }

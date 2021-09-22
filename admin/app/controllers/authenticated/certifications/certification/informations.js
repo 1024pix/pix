@@ -181,19 +181,38 @@ export default class CertificationInformationsController extends Controller {
   }
 
   @action
-  onCancelCourseButtonClick() {
-    const confirmMessage = 'Êtes vous sur de vouloir annuler cette certification ? Cliquer sur confirmer pour poursuivre';
-
-    this.confirmAction = 'onCancelCourseConfirmation';
+  onCancelCertificationButtonClick() {
+    const confirmMessage = 'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.';
+    this.confirmAction = 'onCancelCertificationConfirmation';
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
   }
 
   @action
-  async onCancelCourseConfirmation() {
+  onUncancelCertificationButtonClick() {
+    const confirmMessage = 'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
+    this.confirmAction = 'onUncancelCertificationConfirmation';
+    this.confirmMessage = confirmMessage;
+    this.displayConfirm = true;
+  }
 
+  @action
+  async onCancelCertificationConfirmation() {
     try {
       await this.certification.cancel();
+      await this.certification.reload();
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue.');
+    }
+
+    this.displayConfirm = false;
+  }
+
+  @action
+  async onUncancelCertificationConfirmation() {
+    try {
+      await this.certification.uncancel();
+      await this.certification.reload();
     } catch (error) {
       this.notifications.error('Une erreur est survenue.');
     }

@@ -63,7 +63,7 @@ exports.register = async function(server) {
           method: securityPreHandlers.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster',
         }],
-        handler: certificationCourseController.getCertificationResultInformation,
+        handler: certificationCourseController.getJuryCertification,
         tags: ['api'],
       },
     },
@@ -123,6 +123,23 @@ exports.register = async function(server) {
           assign: 'hasRolePixMaster',
         }],
         handler: certificationCourseController.cancel,
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/api/admin/certification-courses/{id}/uncancel',
+      config: {
+        validate: {
+          params: Joi.object({
+            id: identifiersType.certificationCourseId,
+          }),
+        },
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        handler: certificationCourseController.uncancel,
         tags: ['api'],
       },
     },

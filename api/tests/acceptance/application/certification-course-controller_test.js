@@ -1,8 +1,6 @@
 const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
 const createServer = require('../../../server');
-
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
-const Assessment = require('../../../lib/domain/models/Assessment');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
@@ -153,232 +151,88 @@ describe('Acceptance | API | Certification Course', function() {
   });
 
   describe('GET /api/admin/certifications/{id}', function() {
-    let options;
-    let certificationCourseId;
 
-    context('when certification course has no assessment', function() {
+    it('should return 200 HTTP status code along with serialized certification', async function() {
+      // given
+      databaseBuilder.factory.buildUser({ id: 789 });
+      databaseBuilder.factory.buildSession({ id: 456 });
+      databaseBuilder.factory.buildCertificationCourse({
+        id: 123,
+        sessionId: 456,
+        userId: 789,
+        firstName: 'Buffy',
+        lastName: 'Summers',
+        birthplace: 'Torreilles',
+        birthdate: '2000-08-30',
+        birthINSEECode: '66212',
+        birthPostalCode: null,
+        birthCountry: 'France',
+        sex: 'F',
+        isPublished: true,
+        createdAt: new Date('2020-01-01'),
+        completedAt: new Date('2020-02-01'),
+      });
+      databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 123 });
+      databaseBuilder.factory.buildUser({ id: 66 });
+      databaseBuilder.factory.buildAssessmentResult({
+        assessmentId: 159,
+        pixScore: 55,
+        juryId: 66,
+        commentForCandidate: 'comment candidate',
+        commentForOrganization: 'comment organization',
+        commentForJury: 'comment jury',
+        status: 'rejected',
+      });
+      const user = await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
+      const options = {
+        method: 'GET',
+        url: '/api/admin/certifications/123',
+        headers: {
+          authorization: generateValidRequestAuthorizationHeader(user.id),
+        },
+      };
 
-      beforeEach(async function() {
-        ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
-          createdAt: new Date('2017-12-21T15:44:38Z'),
-          completedAt: new Date('2017-12-21T15:48:38Z'),
-          isPublished: false,
+      // when
+      const response = await server.inject(options);
+
+      // then
+      expect(response.statusCode).to.equal(200);
+      expect(response.result.data).to.deep.equal({
+        type: 'certifications',
+        id: '123',
+        attributes: {
+          'session-id': 456,
+          'user-id': 789,
+          'first-name': 'Buffy',
+          'last-name': 'Summers',
+          'birthdate': '2000-08-30',
+          'birthplace': 'Torreilles',
           sex: 'F',
-          birthINSEECode: '99407',
-          birthCountry: 'CUBA',
-          birthPostalCode: null,
-        }));
-
-        options = {
-          method: 'GET',
-          url: `/api/admin/certifications/${certificationCourseId}`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(),
+          'birth-insee-code': '66212',
+          'birth-postal-code': null,
+          'birth-country': 'France',
+          status: 'rejected',
+          'is-published': true,
+          'created-at': new Date('2020-01-01'),
+          'completed-at': new Date('2020-02-01'),
+          'pix-score': 55,
+          'jury-id': 66,
+          'competences-with-mark': [],
+          'comment-for-candidate': 'comment candidate',
+          'comment-for-jury': 'comment jury',
+          'comment-for-organization': 'comment organization',
+          'clea-certification-status': 'not_taken',
+          'pix-plus-droit-expert-certification-status': 'not_taken',
+          'pix-plus-droit-maitre-certification-status': 'not_taken',
+        },
+        relationships: {
+          'certification-issue-reports': {
+            data: [],
           },
-        };
-        return databaseBuilder.commit();
-      });
-
-      context('when user has no pixMaster role', function() {
-        it('should return 403 HTTP status code', async function() {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-
-      context('when user is pixMaster', function() {
-
-        beforeEach(async function() {
-          await insertUserWithRolePixMaster();
-          return databaseBuilder.commit();
-        });
-
-        it('should return 200 HTTP status code', async function() {
-        // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(200);
-        });
-
-        it('should return application/json', async function() {
-        // when
-          const response = await server.inject(options);
-
-          // then
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
-
-        it('should retrieve the certification total pix score and certified competences levels', async function() {
-        // when
-          const response = await server.inject(options);
-
-          // then
-          const result = response.result.data;
-          expect(result.attributes['competences-with-mark']).to.have.lengthOf(0);
-          expect(result.attributes['status']).to.equal('started');
-        });
-
+        },
       });
     });
-
-    context('when certification course has an assessment', function() {
-      beforeEach(async function() {
-        ({ id: certificationCourseId } = databaseBuilder.factory.buildCertificationCourse({
-          createdAt: new Date('2017-12-21T15:44:38Z'),
-          completedAt: new Date('2017-12-21T15:48:38Z'),
-          isPublished: false,
-          sex: 'F',
-          birthINSEECode: '99407',
-          birthPostalCode: null,
-          birthCountry: 'CUBA',
-        }));
-
-        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
-          certificationCourseId: certificationCourseId,
-          state: 'completed',
-          type: Assessment.types.CERTIFICATION,
-        });
-        const { id: assessmentResultId } = databaseBuilder.factory.buildAssessmentResult({
-          level: 2,
-          pixScore: 42,
-          createdAt: new Date('2017-12-21T16:44:38Z'),
-          status: 'validated',
-          emitter: 'PIX-ALGO',
-          commentForJury: 'Computed',
-          assessmentId,
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          level: 2,
-          score: 20,
-          area_code: 4,
-          competence_code: 4.3,
-          assessmentResultId,
-        });
-        databaseBuilder.factory.buildCompetenceMark({
-          level: 4,
-          score: 35,
-          area_code: 2,
-          competence_code: 2.1,
-          assessmentResultId,
-        });
-        options = {
-          method: 'GET',
-          url: `/api/admin/certifications/${certificationCourseId}`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(),
-          },
-        };
-        return databaseBuilder.commit();
-      });
-
-      context('when user has no pixMaster role', function() {
-        it('should return 403 HTTP status code', async function() {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(403);
-        });
-      });
-
-      context('when user is pixMaster', function() {
-        beforeEach(async function() {
-          await insertUserWithRolePixMaster();
-          return databaseBuilder.commit();
-        });
-        it('should return 200 HTTP status code', async function() {
-        // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(200);
-        });
-
-        it('should return application/json', async function() {
-        // when
-          const response = await server.inject(options);
-
-          // then
-          const contentType = response.headers['content-type'];
-          expect(contentType).to.contain('application/json');
-        });
-
-        it('should retrieve the certification total pix score and certified competences levels', async function() {
-        // given
-          const expectedCreatedAt = new Date('2017-12-21T15:44:38Z');
-          const expectedCompletedAt = new Date('2017-12-21T15:48:38Z');
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          const result = response.result.data;
-
-          expect(result.attributes['pix-score']).to.equal(42);
-          expect(result.attributes['created-at']).to.deep.equal(expectedCreatedAt);
-          expect(result.attributes['completed-at']).to.deep.equal(expectedCompletedAt);
-          expect(result.attributes['is-published']).to.not.be.ok;
-          expect(result.attributes['competences-with-mark']).to.have.lengthOf(2);
-
-          const firstCertifiedCompetence = result.attributes['competences-with-mark'][0];
-          expect(firstCertifiedCompetence.level).to.equal(2);
-          expect(firstCertifiedCompetence.competence_code).to.equal('4.3');
-
-          const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
-          expect(secondCertifiedCompetence.level).to.equal(4);
-          expect(secondCertifiedCompetence.competence_code).to.equal('2.1');
-        });
-
-        it('should return 404 HTTP status code if certification not found', async function() {
-        // given
-          const options = {
-            method: 'GET',
-            url: '/api/admin/certifications/200',
-            headers: { authorization: generateValidRequestAuthorizationHeader() },
-          };
-
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-        });
-
-        describe('Resource access management', function() {
-
-          it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
-          // given
-            options.headers.authorization = 'invalid.access.token';
-
-            // when
-            const response = await server.inject(options);
-
-            // then
-            expect(response.statusCode).to.equal(401);
-          });
-
-          it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
-          // given
-            const nonPixMAsterUserId = 9999;
-            options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
-
-            // when
-            const response = await server.inject(options);
-
-            // then
-            expect(response.statusCode).to.equal(403);
-          });
-
-        });
-
-      });
-    });
-
   });
 
   describe('PATCH /api/certification-courses/{id}', function() {
@@ -537,19 +391,6 @@ describe('Acceptance | API | Certification Course', function() {
     });
 
     describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
-        // given
-        options.headers.authorization = 'invalid.access.token';
-
-        // when
-        const promise = server.inject(options);
-
-        // then
-        return promise.then((response) => {
-          expect(response.statusCode).to.equal(401);
-        });
-      });
 
       it('should respond with a 403 - forbidden access - if user is not linked to the certification course', function() {
         // given
@@ -952,46 +793,47 @@ describe('Acceptance | API | Certification Course', function() {
       });
 
     });
-
   });
 
   describe('POST /api/admin/certification-courses/{id}/cancel', function() {
 
-    context('when user has no pixMaster role', function() {
-      it('should return 403 HTTP status code', async function() {
-        const options = {
-          method: 'POST',
-          url: '/api/admin/certification-courses/1/cancel',
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        };
+    it('should respond with a 200', async function() {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
+      const options = {
+        method: 'POST',
+        url: '/api/admin/certification-courses/123/cancel',
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+      await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
 
-        // when
-        const response = await server.inject(options);
+      // when
+      const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(403);
-      });
+      // then
+      expect(response.statusCode).to.equal(200);
     });
+  });
 
-    context('when user is pixMaster', function() {
+  describe('POST /api/admin/certification-courses/{id}/uncancel', function() {
 
-      it('should respond with a 200', async function() {
-        // given
-        const certificationCourse = databaseBuilder.factory.buildCertificationCourse();
-        const options = {
-          method: 'POST',
-          url: `/api/admin/certification-courses/${certificationCourse.id}/cancel`,
-          headers: { authorization: generateValidRequestAuthorizationHeader() },
-        };
-        await insertUserWithRolePixMaster();
-        await databaseBuilder.commit();
+    it('should respond with a 200', async function() {
+      // given
+      databaseBuilder.factory.buildCertificationCourse({ id: 123 });
+      const options = {
+        method: 'POST',
+        url: '/api/admin/certification-courses/123/uncancel',
+        headers: { authorization: generateValidRequestAuthorizationHeader() },
+      };
+      await insertUserWithRolePixMaster();
+      await databaseBuilder.commit();
 
-        // when
-        const response = await server.inject(options);
+      // when
+      const response = await server.inject(options);
 
-        // then
-        expect(response.statusCode).to.equal(200);
-      });
+      // then
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
