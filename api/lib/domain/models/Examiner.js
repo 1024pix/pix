@@ -33,7 +33,7 @@ class Examiner {
       correctedAnswer.result = AnswerStatus.TIMEDOUT;
     }
 
-    if (isCorrectAnswer && answer.focusedOut && isCertificationEvaluation) {
+    if (isCorrectAnswer && answer.isFocusedOut && isCertificationEvaluation) {
       correctedAnswer.result = AnswerStatus.FOCUSEDOUT;
     }
 
