@@ -1,11 +1,14 @@
 const _ = require('lodash');
+const CampaignParticipation = require('../models/CampaignParticipation');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignParticipationOverview {
 
   constructor({
     id,
     createdAt,
-    isShared,
+    status,
     sharedAt,
     organizationName,
     assessmentState,
@@ -17,7 +20,7 @@ class CampaignParticipationOverview {
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
-    this.isShared = isShared;
+    this.isShared = status === SHARED;
     this.sharedAt = sharedAt;
     this.targetProfileId = targetProfile.id;
     this.organizationName = organizationName;

@@ -1,7 +1,10 @@
 const buildCampaign = require('./build-campaign');
 const buildUser = require('./build-user');
 const databaseBuffer = require('../database-buffer');
+const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
 const _ = require('lodash');
+
+const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 module.exports = function buildCampaignParticipation({
   id = databaseBuffer.getNextId(),
@@ -14,13 +17,14 @@ module.exports = function buildCampaignParticipation({
   validatedSkillsCount,
   masteryPercentage,
   pixScore,
-  status,
+  status = STARTED,
   isImproved = false,
 } = {}) {
 
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
   sharedAt = isShared ? sharedAt : null;
+  status = isShared ? SHARED : status;
 
   const values = {
     id,

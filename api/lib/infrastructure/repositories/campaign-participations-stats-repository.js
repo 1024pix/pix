@@ -1,4 +1,7 @@
 const { knex } = require('../../../db/knex-database-connection');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 const CampaignParticipationsStatsRepository = {
   async getParticipationsActivityByDate(campaignId) {
@@ -13,7 +16,7 @@ const CampaignParticipationsStatsRepository = {
     return knex('campaign-participations')
       .select('masteryPercentage AS  masteryRate')
       .count()
-      .where({ campaignId, isShared: true, isImproved: false })
+      .where({ campaignId, status: SHARED, isImproved: false })
       .whereNotNull('masteryPercentage')
       .groupBy('masteryPercentage')
       .orderBy('masteryPercentage', 'ASC');

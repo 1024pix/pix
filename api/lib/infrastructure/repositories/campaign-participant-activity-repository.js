@@ -1,6 +1,5 @@
 const { knex } = require('../../../db/knex-database-connection');
 const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity');
-const Campaign = require('../../domain/models/Campaign');
 
 const campaignParticipantActivityRepository = {
 
@@ -10,7 +9,7 @@ const campaignParticipantActivityRepository = {
     const results = await _fetchParticipationsWithAssessment(knex, campaignId, filters, pagination);
 
     const campaignParticipantsActivities = results.map((result) => {
-      return _buildCampaignParticipationActivity(result);
+      return new CampaignParticipantActivity(result);
     });
 
     return {
@@ -28,7 +27,7 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
     knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
     'campaign-participations.participantExternalId',
     'campaign-participations.sharedAt',
-    'campaign-participations.isShared',
+    'campaign-participations.status',
     'campaigns.type AS campaignType',
   )
     .from('campaign-participations')
@@ -48,14 +47,6 @@ function _filterByDivisions(qb, filters) {
     const divisionsLowerCase = filters.divisions.map((division) => division.toLowerCase());
     qb.whereRaw('LOWER("schooling-registrations"."division") = ANY(:divisionsLowerCase)', { divisionsLowerCase });
   }
-}
-
-function _buildCampaignParticipationActivity(result) {
-  if (result.campaignType === Campaign.types.PROFILES_COLLECTION) {
-    return new CampaignParticipantActivity(result);
-  }
-
-  return new CampaignParticipantActivity({ ...result });
 }
 
 function _buildParticipationsPage(queryBuilder, campaignId, filters, { page, pageSize }) {

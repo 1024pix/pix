@@ -23,7 +23,7 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
         'campaign-participations.id AS campaignParticipationId',
         'campaign-participations.campaignId',
         'campaign-participations.sharedAt',
-        'campaign-participations.isShared',
+        'campaign-participations.status',
       ])
         .from('campaign-participations')
         .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')

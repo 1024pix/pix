@@ -2,8 +2,11 @@ const _ = require('lodash');
 const bluebird = require('bluebird');
 const { knex } = require('../bookshelf');
 const CampaignCollectiveResult = require('../../domain/read-models/CampaignCollectiveResult');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const knowledgeElementRepository = require('./knowledge-element-repository');
 const constants = require('../constants');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 module.exports = {
 
@@ -28,7 +31,7 @@ module.exports = {
 async function _getChunksSharedParticipationsWithUserIdsAndDates(campaignId) {
   const results = await knex('campaign-participations')
     .select('userId', 'sharedAt')
-    .where({ campaignId, isShared: true, isImproved: false });
+    .where({ campaignId, status: SHARED, isImproved: false });
 
   const userIdsAndDates = [];
   for (const result of results) {

@@ -1,9 +1,12 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participation-overview-serializer');
 const CampaignParticipationOverview = require('../../../../../lib/domain/read-models/CampaignParticipationOverview');
+const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
 const Stage = require('../../../../../lib/domain/models/Stage');
 const Skill = require('../../../../../lib/domain/models/Skill');
 const TargetProfileWithLearningContent = require('../../../../../lib/domain/models/TargetProfileWithLearningContent');
+
+const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializer', function() {
 
@@ -20,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
     const targetProfile = new TargetProfileWithLearningContent({ stages: [stage1, stage2, stage3], skills: [new Skill(), new Skill()] });
     const campaignParticipationOverview = new CampaignParticipationOverview({
       id: 5,
-      isShared: true,
+      status: SHARED,
       sharedAt: new Date('2018-02-06T14:12:44Z'),
       createdAt: new Date('2018-02-05T14:12:44Z'),
       organizationName: 'My organization',
@@ -73,7 +76,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       const campaignParticipationOverviews = [
         new CampaignParticipationOverview({
           id: 6,
-          isShared: false,
+          status: STARTED,
           sharedAt: new Date('2018-02-07T17:15:44Z'),
           createdAt: new Date('2018-02-06T17:15:44Z'),
           organizationName: 'My organization 1',
@@ -86,7 +89,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
         }),
         new CampaignParticipationOverview({
           id: 7,
-          isShared: false,
+          status: STARTED,
           sharedAt: new Date('2018-02-10T17:30:44Z'),
           createdAt: new Date('2018-02-09T13:15:44Z'),
           organizationName: 'My organization 2',

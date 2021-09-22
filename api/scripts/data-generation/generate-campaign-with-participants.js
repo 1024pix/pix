@@ -1,14 +1,20 @@
+require('dotenv').config({ path: `${__dirname}/../../.env` });
+
 const _ = require('lodash');
 const { knex } = require('../../db/knex-database-connection');
 const moment = require('moment');
 const competenceRepository = require('../../lib/infrastructure/repositories/competence-repository');
 const skillRepository = require('../../lib/infrastructure/repositories/skill-repository');
 const targetProfileRepository = require('../../lib/infrastructure/repositories/target-profile-repository');
+const CampaignParticipation = require('../../lib/domain/models/CampaignParticipation');
 const computeParticipationResults = require('../prod/compute-participation-results');
 const {
   getEligibleCampaignParticipations,
   generateKnowledgeElementSnapshots,
 } = require('../prod/generate-knowledge-element-snapshots-for-campaigns');
+
+const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
+
 const firstKECreatedAt = new Date('2020-05-01');
 const secondKECreatedAt = new Date('2020-05-02');
 const baseDate = new Date('2020-05-03');
@@ -312,7 +318,7 @@ async function _createCampaignParticipations({ campaignId, userIds, trx }) {
     participationData.push({
       campaignId,
       createdAt,
-      isShared,
+      status: isShared ? SHARED : TO_SHARE,
       sharedAt,
       userId,
     });

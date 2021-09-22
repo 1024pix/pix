@@ -1,7 +1,10 @@
 const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const { computeCampaignParticipationAnalysis } = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
+
+const { TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Unit | UseCase | compute-campaign-participation-analysis', function() {
 
@@ -63,7 +66,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
       it('should returns null', async function() {
         // given
         campaignParticipation.userId = userId;
-        campaignParticipation.isShared = false;
+        campaignParticipation.status = TO_SHARE;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
 

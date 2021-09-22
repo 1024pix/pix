@@ -12,9 +12,10 @@ const DomainTransaction = require('../DomainTransaction');
 
 const _ = require('lodash');
 
+const { SHARED } = CampaignParticipation.statuses;
+
 const ATTRIBUTES_TO_SAVE = [
   'createdAt',
-  'isShared',
   'participantExternalId',
   'sharedAt',
   'status',
@@ -33,11 +34,10 @@ function _toDomain(bookshelfCampaignParticipation) {
     assessments: bookshelfCampaignParticipation.related('assessments').map((attributes) => new Assessment(attributes.toJSON())),
     campaign: new Campaign(bookshelfCampaignParticipation.related('campaign').toJSON()),
     campaignId: bookshelfCampaignParticipation.get('campaignId'),
-    isShared: Boolean(bookshelfCampaignParticipation.get('isShared')),
+    status: bookshelfCampaignParticipation.get('status'),
     sharedAt: bookshelfCampaignParticipation.get('sharedAt'),
     createdAt: new Date(bookshelfCampaignParticipation.get('createdAt')),
     participantExternalId: bookshelfCampaignParticipation.get('participantExternalId'),
-    status: bookshelfCampaignParticipation.get('status'),
     userId: bookshelfCampaignParticipation.get('userId'),
     user: new User(bookshelfCampaignParticipation.related('user').toJSON()),
     validatedSkillsCount: bookshelfCampaignParticipation.get('validatedSkillsCount'),
@@ -179,7 +179,7 @@ module.exports = {
   },
 
   countSharedParticipationOfCampaign(campaignId) {
-    return this.count({ campaignId, isShared: true });
+    return this.count({ campaignId, status: SHARED });
   },
 
   async isAssessmentCompleted(campaignParticipationId) {
@@ -339,7 +339,7 @@ function _rowToResult(row) {
   return {
     id: row.id,
     createdAt: new Date(row.createdAt),
-    isShared: Boolean(row.isShared),
+    isShared: row.status === CampaignParticipation.statuses.SHARED,
     sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
     participantExternalId: row.participantExternalId,
     userId: row.userId,

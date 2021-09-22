@@ -1,4 +1,5 @@
 const Assessment = require('../models/Assessment');
+const CampaignParticipation = require('../models/CampaignParticipation');
 
 const statuses = {
   SHARED: 'shared',
@@ -15,7 +16,7 @@ class CampaignParticipantActivity {
     participantExternalId,
     sharedAt,
     assessmentState,
-    isShared,
+    status,
   } = {}) {
     this.campaignParticipationId = campaignParticipationId;
     this.userId = userId;
@@ -23,6 +24,8 @@ class CampaignParticipantActivity {
     this.lastName = lastName;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
+
+    const isShared = status === CampaignParticipation.statuses.SHARED;
     this.status = this._getStatus(isShared, assessmentState);
   }
 
