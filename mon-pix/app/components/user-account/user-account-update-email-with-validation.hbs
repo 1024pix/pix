@@ -1,14 +1,5 @@
 <div class="update-email-with-validation">
-  <div class="user-account__header">
-    <h2 class="user-account__validation-title">{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
-    <PixIconButton
-      @icon="times"
-      @ariaLabel={{t 'pages.user-account.account-update-email-with-validation.cancel-button.aria-label'}}
-      @color="dark-grey"
-      @triggerAction={{@disableEmailWithValidationEditionMode}}
-      data-test-id="user-account__cancel-button"
-    />
-  </div>
+  <h2 class="user-account__validation-title">{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
   <form onSubmit={{this.onSubmit}}>
     <div class="update-email-with-validation__email-input">
       <PixInput
@@ -38,7 +29,14 @@
         {{this.errorMessage}}
       </PixMessage>
     {{/if}}
-    <div class="update-email-with-validation__confirm-button">
+    <div class="update-email-with-validation__action-buttons">
+      <PixButton
+        @isBorderVisible={{true}}
+        @triggerAction={{@disableEmailWithValidationEditionMode}}
+        @backgroundColor="transparent-light"
+      >
+        {{t 'common.actions.cancel'}}
+      </PixButton>
       <PixButton
         class="update-email-with-validation-actions__confirm-button"
         @type="submit"

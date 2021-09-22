@@ -26,6 +26,7 @@ export default class ConnectionMethodsController extends Controller {
   @action
   disableEmailWithValidationEditionMode() {
     this.isEmailWithValidationEditionMode = false;
+    this.showEmailVerificationCode = false;
   }
 
   @action

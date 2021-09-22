@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
-import { find, render, triggerEvent } from '@ember/test-helpers';
+import { render, triggerEvent } from '@ember/test-helpers';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { contains } from '../../helpers/contains';
@@ -19,7 +19,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation/>`);
 
       // then
-      expect(find('[data-test-id="user-account__cancel-button"]')).to.exist;
+      expect(contains(this.intl.t('common.actions.cancel'))).to.exist;
       expect(contains(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'))).to.exist;
     });
 
@@ -32,7 +32,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
         await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation @disableEmailWithValidationEditionMode={{this.disableEmailWithValidationEditionMode}} />`);
 
         // when
-        await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.cancel-button.aria-label'));
+        await clickByLabel(this.intl.t('common.actions.cancel'));
 
         // then
         sinon.assert.called(disableEmailWithValidationEditionMode);
