@@ -2,7 +2,6 @@ import Service from '@ember/service';
 import fetch from 'fetch';
 
 export default class FileSaverService extends Service {
-
   async save({
     url,
     token,
@@ -30,7 +29,7 @@ export default class FileSaverService extends Service {
 
 function _fetchData({ url, token }) {
   return fetch(url, {
-    headers: { 'Authorization': `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` },
   });
 }
 

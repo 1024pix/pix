@@ -2,15 +2,12 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | session', function(hooks) {
-
+module('Unit | Service | session', function (hooks) {
   setupTest(hooks);
 
-  module('#handlePrescriberLanguageAndLocale', function() {
-
-    module('when there is not prescriber', function() {
-
-      test('should call current user and set fr locale by default', async function(assert) {
+  module('#handlePrescriberLanguageAndLocale', function () {
+    module('when there is not prescriber', function () {
+      test('should call current user and set fr locale by default', async function (assert) {
         // given
         const service = this.owner.lookup('service:session');
 
@@ -36,9 +33,8 @@ module('Unit | Service | session', function(hooks) {
         assert.ok(service.moment.setLocale.calledWith('fr'));
       });
 
-      module('when domain extension is not .fr', function() {
-
-        test('should set locale to en when language parameter is en', async function(assert) {
+      module('when domain extension is not .fr', function () {
+        test('should set locale to en when language parameter is en', async function (assert) {
           // given
           const service = this.owner.lookup('service:session');
 
@@ -66,9 +62,8 @@ module('Unit | Service | session', function(hooks) {
       });
     });
 
-    module('when there is a prescriber', function() {
-
-      test('should update prescriber lang when it is different of language parameter', async function(assert) {
+    module('when there is a prescriber', function () {
+      test('should update prescriber lang when it is different of language parameter', async function (assert) {
         // given
         const service = this.owner.lookup('service:session');
 
@@ -93,18 +88,19 @@ module('Unit | Service | session', function(hooks) {
         await service.handlePrescriberLanguageAndLocale('en');
 
         // then
-        assert.ok(service.currentUser.prescriber.save.calledWith({
-          adapterOptions: {
-            lang: 'en',
-          },
-        }));
+        assert.ok(
+          service.currentUser.prescriber.save.calledWith({
+            adapterOptions: {
+              lang: 'en',
+            },
+          })
+        );
       });
     });
   });
 
-  module('#handleAuthentication', function() {
-
-    test('should override handleAuthentication method', function(assert) {
+  module('#handleAuthentication', function () {
+    test('should override handleAuthentication method', function (assert) {
       // when
       const service = this.owner.lookup('service:session');
 
@@ -113,9 +109,8 @@ module('Unit | Service | session', function(hooks) {
     });
   });
 
-  module('#handleInvalidation', function() {
-
-    test('should override handleInvalidation method', function(assert) {
+  module('#handleInvalidation', function () {
+    test('should override handleInvalidation method', function (assert) {
       // when
       const service = this.owner.lookup('service:session');
 

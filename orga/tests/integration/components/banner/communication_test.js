@@ -4,18 +4,18 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import ENV from 'pix-orga/config/environment';
 
-module('Integration | Component | Banner::Communication', function(hooks) {
+module('Integration | Component | Banner::Communication', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   const originalBannerContent = ENV.APP.BANNER_CONTENT;
   const originalBannerType = ENV.APP.BANNER_TYPE;
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     ENV.APP.BANNER_CONTENT = originalBannerContent;
     ENV.APP.BANNER_TYPE = originalBannerType;
   });
 
-  test('should not display the banner when no banner content', async function(assert) {
+  test('should not display the banner when no banner content', async function (assert) {
     // given
     ENV.APP.BANNER_CONTENT = '';
     ENV.APP.BANNER_TYPE = '';
@@ -27,7 +27,7 @@ module('Integration | Component | Banner::Communication', function(hooks) {
     assert.dom('.pix-banner').doesNotExist();
   });
 
-  test('should display the information banner', async function(assert) {
+  test('should display the information banner', async function (assert) {
     // given
     ENV.APP.BANNER_CONTENT = 'information banner text ...';
     ENV.APP.BANNER_TYPE = 'information';

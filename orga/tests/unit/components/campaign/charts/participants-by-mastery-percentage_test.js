@@ -8,13 +8,13 @@ module('Unit | Component | Campaign::Charts::ParticipantsByMasteryPercentage', (
 
   let component, dataFetcher;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     const store = this.owner.lookup('service:store');
     const adapter = store.adapterFor('campaign-stats');
     dataFetcher = sinon.stub(adapter, 'getParticipationsByMasteryRate');
   });
 
-  test('it fills the dataset', async function(assert) {
+  test('it fills the dataset', async function (assert) {
     dataFetcher.resolves({
       data: {
         attributes: {
@@ -39,7 +39,7 @@ module('Unit | Component | Campaign::Charts::ParticipantsByMasteryPercentage', (
     assert.deepEqual(component.data.datasets[0].data, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 
-  test('it counts the number of participation by range of 10%', async function(assert) {
+  test('it counts the number of participation by range of 10%', async function (assert) {
     dataFetcher.resolves({
       data: {
         attributes: {
@@ -61,12 +61,11 @@ module('Unit | Component | Campaign::Charts::ParticipantsByMasteryPercentage', (
     assert.deepEqual(component.data.datasets[0].data, [3, 2, 0, 0, 0, 4, 0, 0, 1, 5]);
   });
 
-  test('it creates labels for each range', async function(assert) {
+  test('it creates labels for each range', async function (assert) {
     dataFetcher.resolves({
       data: {
         attributes: {
-          'result-distribution': [
-          ],
+          'result-distribution': [],
         },
       },
     });

@@ -16,9 +16,9 @@ function _isChildrenContainsText(element, text) {
 export function contains(text) {
   const result = _isChildrenContainsText(getRootElement(), text);
 
-  let message = `There is no elements with "${ text }"`;
+  let message = `There is no elements with "${text}"`;
   if (result) {
-    message = `Element with "${ text }" found`;
+    message = `Element with "${text}" found`;
   }
 
   this.pushResult({ result, message });
@@ -27,9 +27,9 @@ export function contains(text) {
 export function notContains(text) {
   const result = !_isChildrenContainsText(getRootElement(), text);
 
-  let message = `Element with "${ text }" found`;
+  let message = `Element with "${text}" found`;
   if (result) {
-    message = `There is no elements with "${ text }"`;
+    message = `There is no elements with "${text}"`;
   }
 
   this.pushResult({ result, message });

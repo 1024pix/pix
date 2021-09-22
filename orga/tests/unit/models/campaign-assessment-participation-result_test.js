@@ -1,12 +1,11 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | campaignAssessmentParticipationResult', function(hooks) {
+module('Unit | Model | campaignAssessmentParticipationResult', function (hooks) {
   setupTest(hooks);
 
-  module('sortedCompetenceResults', function() {
-
-    test('should sort competence results', function(assert) {
+  module('sortedCompetenceResults', function () {
+    test('should sort competence results', function (assert) {
       const store = this.owner.lookup('service:store');
       const competenceResult1 = store.createRecord('campaign-assessment-participation-competence-result', {
         index: '1.1',

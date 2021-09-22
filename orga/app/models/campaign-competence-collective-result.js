@@ -23,6 +23,6 @@ export default class CampaignCompetenceCollectiveResult extends Model {
   campaignCollectiveResult;
 
   get validatedSkillsPercentage() {
-    return Math.round(this.averageValidatedSkills * 100 / this.targetedSkillsCount);
+    return Math.round((this.averageValidatedSkills * 100) / this.targetedSkillsCount);
   }
 }

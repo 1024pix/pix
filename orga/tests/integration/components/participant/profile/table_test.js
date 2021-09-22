@@ -3,11 +3,11 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Participant::Profile::Table', function(hooks) {
+module('Integration | Component | Participant::Profile::Table', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('when profile is not shared', function() {
-    test('it displays empty table message', async function(assert) {
+  module('when profile is not shared', function () {
+    test('it displays empty table message', async function (assert) {
       this.isShared = false;
       this.competences = [];
 
@@ -17,8 +17,8 @@ module('Integration | Component | Participant::Profile::Table', function(hooks) 
     });
   });
 
-  module('when profile is shared', function() {
-    test('it displays area color as border', async function(assert) {
+  module('when profile is shared', function () {
+    test('it displays area color as border', async function (assert) {
       this.competences = [{ name: 'name1', areaColor: 'jaffa' }];
       this.isShared = true;
 
@@ -27,7 +27,7 @@ module('Integration | Component | Participant::Profile::Table', function(hooks) 
       assert.dom('.competences-col__border--jaffa').exists();
     });
 
-    test('it displays multiple competences in the table', async function(assert) {
+    test('it displays multiple competences in the table', async function (assert) {
       this.competences = [{ name: 'name1' }, { name: 'name2' }];
       this.isShared = true;
 
@@ -37,7 +37,7 @@ module('Integration | Component | Participant::Profile::Table', function(hooks) 
       assert.contains('name2');
     });
 
-    test('it displays the table with competence informations', async function(assert) {
+    test('it displays the table with competence informations', async function (assert) {
       this.competences = [{ estimatedLevel: 999, pixScore: 666 }];
       this.isShared = true;
 

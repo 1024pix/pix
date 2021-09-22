@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class CampaignProfilesCollectionParticipationSummaryAdapter extends ApplicationAdapter {
-
   urlForQuery(query) {
     if (query.filter.campaignId) {
       const { campaignId } = query.filter;
@@ -11,5 +10,4 @@ export default class CampaignProfilesCollectionParticipationSummaryAdapter exten
     }
     return super.urlForQuery(...arguments);
   }
-
 }

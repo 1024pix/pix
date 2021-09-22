@@ -12,8 +12,7 @@ import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-
 
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Auth::LoginForm', function(hooks) {
-
+module('Integration | Component | Auth::LoginForm', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   class SessionStub extends Service {}
@@ -23,7 +22,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
   let passwordInputLabel;
   let loginLabel;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.owner.register('service:session', SessionStub);
     this.owner.unregister('service:store');
     this.owner.register('service:store', StoreStub);
@@ -33,7 +32,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     passwordInputLabel = this.intl.t('pages.login-form.password');
   });
 
-  test('it should ask for email and password', async function(assert) {
+  test('it should ask for email and password', async function (assert) {
     // when
     await render(hbs`<Auth::LoginForm/>`);
 
@@ -42,7 +41,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     assert.dom('#login-password').exists();
   });
 
-  test('it should not display error message', async function(assert) {
+  test('it should not display error message', async function (assert) {
     // when
     await render(hbs`<Auth::LoginForm/>`);
 
@@ -50,10 +49,9 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     assert.dom('#login-form-error-message').doesNotExist();
   });
 
-  module('When there is no invitation', function(hooks) {
-
-    hooks.beforeEach(function() {
-      SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
+  module('When there is no invitation', function (hooks) {
+    hooks.beforeEach(function () {
+      SessionStub.prototype.authenticate = function (authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
@@ -62,7 +60,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
       };
     });
 
-    test('it should call authentication service with appropriate parameters', async function(assert) {
+    test('it should call authentication service with appropriate parameters', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
       await render(hbs`<Auth::LoginForm @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
@@ -81,9 +79,8 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     });
   });
 
-  module('When there is an invitation', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('When there is an invitation', function (hooks) {
+    hooks.beforeEach(function () {
       StoreStub.prototype.createRecord = () => {
         return EmberObject.create({
           save() {
@@ -91,7 +88,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
           },
         });
       };
-      SessionStub.prototype.authenticate = function(authenticator, email, password, scope) {
+      SessionStub.prototype.authenticate = function (authenticator, email, password, scope) {
         this.authenticator = authenticator;
         this.email = email;
         this.password = password;
@@ -100,10 +97,12 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
       };
     });
 
-    test('it should be ok and call authentication service with appropriate parameters', async function(assert) {
+    test('it should be ok and call authentication service with appropriate parameters', async function (assert) {
       // given
       const sessionServiceObserver = this.owner.lookup('service:session');
-      await render(hbs`<Auth::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`);
+      await render(
+        hbs`<Auth::LoginForm @isWithInvitation=true @organizationInvitationId=1 @organizationInvitationCode='C0D3'/>`
+      );
       await fillInByLabel(emailInputLabel, 'pix@example.net');
       await fillInByLabel(passwordInputLabel, 'JeMeLoggue1024');
 
@@ -119,7 +118,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     });
   });
 
-  test('it should display an invalid credentials message when authentication fails', async function(assert) {
+  test('it should display an invalid credentials message when authentication fails', async function (assert) {
     // given
     const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.401');
     const errorResponse = {
@@ -142,7 +141,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
   });
 
-  test('it should display an not linked organisation message when authentication fails', async function(assert) {
+  test('it should display an not linked organisation message when authentication fails', async function (assert) {
     // given
     const expectedErrorMessages = this.intl.t('pages.login-form.errors.status.403');
     const errorResponse = {
@@ -165,21 +164,20 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     assert.dom('#login-form-error-message').hasText(expectedErrorMessages);
   });
 
-  test('it should not display context message', async function(assert) {
+  test('it should not display context message', async function (assert) {
     assert.dom('login-form__information').doesNotExist();
   });
 
-  module('when password is hidden', function(hooks) {
-
+  module('when password is hidden', function (hooks) {
     let showButtonText;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async function () {
       // given
       showButtonText = this.intl.t('pages.login-form.show-password');
       await render(hbs`<Auth::LoginForm/>`);
     });
 
-    test('it should display password when user click', async function(assert) {
+    test('it should display password when user click', async function (assert) {
       // when
       await clickByLabel(showButtonText);
 
@@ -187,7 +185,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
       assert.dom('#login-password').hasAttribute('type', 'text');
     });
 
-    test('it should change icon when user click on it', async function(assert) {
+    test('it should change icon when user click on it', async function (assert) {
       // when
       await clickByLabel(showButtonText);
 
@@ -195,7 +193,7 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
       assert.dom('.fa-eye').exists();
     });
 
-    test('it should not change icon when user keeps typing his password', async function(assert) {
+    test('it should not change icon when user keeps typing his password', async function (assert) {
       // given
       await fillInByLabel(passwordInputLabel, 'début du mot de passe');
 
@@ -208,9 +206,8 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     });
   });
 
-  module('when domain is pix.org', function() {
-
-    test('should not display recovery link', async function(assert) {
+  module('when domain is pix.org', function () {
+    test('should not display recovery link', async function (assert) {
       //given
       class UrlStub extends Service {
         get isFrenchDomainExtension() {
@@ -227,9 +224,8 @@ module('Integration | Component | Auth::LoginForm', function(hooks) {
     });
   });
 
-  module('when domain is pix.fr', function() {
-
-    test('should display recovery link', async function(assert) {
+  module('when domain is pix.fr', function () {
+    test('should display recovery link', async function (assert) {
       //given
       class UrlStub extends Service {
         get isFrenchDomainExtension() {

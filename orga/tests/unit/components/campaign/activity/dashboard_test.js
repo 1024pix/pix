@@ -7,7 +7,7 @@ module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
   setupTest(hooks);
   let component, dataFetcher;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     const store = this.owner.lookup('service:store');
     const adapter = store.adapterFor('campaign-stats');
     dataFetcher = sinon.stub(adapter, 'getParticipationsByStatus');
@@ -23,7 +23,7 @@ module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
     });
   });
 
-  test('should fill data', async function(assert) {
+  test('should fill data', async function (assert) {
     // when
     component = await createGlimmerComponent('component:campaign/activity/dashboard', {
       campaign: { id: 1 },
@@ -32,6 +32,10 @@ module('Unit | Component | Campaign::Activity::Dashboard', (hooks) => {
     // then
     assert.equal(component.total, 3);
     assert.equal(component.shared, 1);
-    assert.deepEqual(component.participantCountByStatus, [['started', 1], ['completed', 1], ['shared', 1]]);
+    assert.deepEqual(component.participantCountByStatus, [
+      ['started', 1],
+      ['completed', 1],
+      ['shared', 1],
+    ]);
   });
 });

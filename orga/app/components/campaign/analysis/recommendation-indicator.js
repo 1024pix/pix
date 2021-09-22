@@ -5,7 +5,6 @@ const HIGHLY_RECOMMENDED = 50;
 const STRONGLY_RECOMMENDED = 25;
 
 export default class RecommendationIndicator extends Component {
-
   get bubblesCount() {
     const value = this.args.value;
     if (value <= STRONGLY_RECOMMENDED) return 4;

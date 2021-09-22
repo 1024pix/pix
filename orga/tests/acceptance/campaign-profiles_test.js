@@ -8,8 +8,7 @@ import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUs
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Profiles', function(hooks) {
-
+module('Acceptance | Campaign Profiles', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -26,9 +25,8 @@ module('Acceptance | Campaign Profiles', function(hooks) {
     server.createList('campaign-profiles-collection-participation-summary', rowCount);
   });
 
-  module('When user arrives on profiles page', function() {
-
-    test('it should display profile list with default settings for pagination', async function(assert) {
+  module('When user arrives on profiles page', function () {
+    test('it should display profile list with default settings for pagination', async function (assert) {
       // when
       await visit('/campagnes/1/profils');
 
@@ -38,7 +36,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
       assert.dom('.page-size option:checked').hasText(pageSize.toString());
     });
 
-    test('it should display profile list with settings in url for pagination', async function(assert) {
+    test('it should display profile list with settings in url for pagination', async function (assert) {
       // given
       const changedPageSize = 50;
       const changedPageNumber = 2;
@@ -53,9 +51,8 @@ module('Acceptance | Campaign Profiles', function(hooks) {
     });
   });
 
-  module('When user is already on profiles page and changes pagination', function() {
-
-    test('it should display profile list with updated page size', async function(assert) {
+  module('When user is already on profiles page and changes pagination', function () {
+    test('it should display profile list with updated page size', async function (assert) {
       // given
       const changedPageSize = 50;
 
@@ -69,7 +66,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
       assert.dom('.page-size option:checked').hasText(changedPageSize.toString());
     });
 
-    test('it should change profile list page when user clicks on next page', async function(assert) {
+    test('it should change profile list page when user clicks on next page', async function (assert) {
       // given
       const changedPageSize = 10;
 
@@ -85,7 +82,7 @@ module('Acceptance | Campaign Profiles', function(hooks) {
       assert.dom('table tbody').doesNotContainText(someElementFromPage1);
     });
 
-    test('it should go back to first page when user changes page size', async function(assert) {
+    test('it should go back to first page when user changes page size', async function (assert) {
       // given
       const changedPageSize = 50;
       const startPage = 2;

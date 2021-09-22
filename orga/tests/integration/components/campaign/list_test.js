@@ -3,16 +3,16 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Campaign::List', function(hooks) {
+module('Integration | Component | Campaign::List', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.set('triggerFilteringSpy', () => {});
     this.set('goToCampaignPageSpy', () => {});
   });
 
-  module('When there are no campaigns to display', function() {
-    test('it should display an empty list message', async function(assert) {
+  module('When there are no campaigns to display', function () {
+    test('it should display an empty list message', async function (assert) {
       // given
       const campaigns = [];
       campaigns.meta = { rowCount: 0 };
@@ -29,8 +29,8 @@ module('Integration | Component | Campaign::List', function(hooks) {
     });
   });
 
-  module('When there are campaigns to display', function() {
-    test('it should display a list of campaigns', async function(assert) {
+  module('When there are campaigns to display', function () {
+    test('it should display a list of campaigns', async function (assert) {
       // given
       const campaigns = [
         { name: 'campagne 1', code: 'AAAAAA111' },
@@ -52,7 +52,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.dom('[aria-label="Campagne"]').exists({ count: 2 });
     });
 
-    test('it should display a link to access campaign detail', async function(assert) {
+    test('it should display a link to access campaign detail', async function (assert) {
       // given
       this.owner.setupRouter();
 
@@ -79,7 +79,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.dom('a[href="/campagnes/1"]').exists();
     });
 
-    test('it should display the name of the campaigns', async function(assert) {
+    test('it should display the name of the campaigns', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
 
@@ -109,7 +109,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.contains('campagne 2');
     });
 
-    test('it should display the creator of the campaigns', async function(assert) {
+    test('it should display the creator of the campaigns', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
@@ -137,7 +137,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.dom('[aria-label="Campagne"]:last-child').containsText('Mathilde Bonnin de La Bonninière de Beaumont');
     });
 
-    test('it must display the creation date of the campaigns', async function(assert) {
+    test('it must display the creation date of the campaigns', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
@@ -168,7 +168,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.contains('02/02/2020');
     });
 
-    test('it should display the participations count', async function(assert) {
+    test('it should display the participations count', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
@@ -191,7 +191,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.dom('[aria-label="Campagne"]').containsText('10');
     });
 
-    test('it should display the shared participations count', async function(assert) {
+    test('it should display the shared participations count', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const campaign1 = store.createRecord('campaign', {
@@ -214,7 +214,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.dom('[aria-label="Campagne"]').containsText('4');
     });
 
-    test('it should display the placeholder of the filter by campaign field', async function(assert) {
+    test('it should display the placeholder of the filter by campaign field', async function (assert) {
       // given
       const campaigns = [];
       campaigns.meta = { rowCount: 0 };
@@ -230,7 +230,7 @@ module('Integration | Component | Campaign::List', function(hooks) {
       assert.dom('[placeholder="Rechercher une campagne"]').exists();
     });
 
-    test('it should display the placeholder of the filter by creator field', async function(assert) {
+    test('it should display the placeholder of the filter by creator field', async function (assert) {
       // given
       const campaigns = [];
       campaigns.meta = { rowCount: 0 };

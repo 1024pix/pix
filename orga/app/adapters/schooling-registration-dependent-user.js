@@ -1,9 +1,7 @@
 import ApplicationAdapter from './application';
 
 export default class SchoolingRegistrationDependentUserAdapter extends ApplicationAdapter {
-
   urlForCreateRecord(modelName, { adapterOptions }) {
-
     const url = super.urlForCreateRecord(...arguments);
 
     if (adapterOptions && adapterOptions.generateUsernameAndTemporaryPassword) {

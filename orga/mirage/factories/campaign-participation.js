@@ -13,5 +13,4 @@ export default Factory.extend({
   isShared() {
     return faker.random.boolean();
   },
-
 });

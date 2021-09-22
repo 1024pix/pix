@@ -4,7 +4,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class UserLoggedMenu extends Component {
-
   @service currentUser;
   @service router;
   @service store;
@@ -24,7 +23,8 @@ export default class UserLoggedMenu extends Component {
     if (!memberships) {
       return [];
     }
-    return memberships.toArray()
+    return memberships
+      .toArray()
       .map((membership) => membership.organization)
       .filter((organization) => organization.get('id') !== this.currentUser.organization.id)
       .sort((a, b) => a.get('name').localeCompare(b.get('name')));
@@ -56,7 +56,7 @@ export default class UserLoggedMenu extends Component {
     this.closeMenu();
 
     const queryParams = {};
-    Object.keys(this.router.currentRoute.queryParams).forEach((key) => queryParams[key] = undefined);
+    Object.keys(this.router.currentRoute.queryParams).forEach((key) => (queryParams[key] = undefined));
     this.router.replaceWith('authenticated', { queryParams });
   }
 }

@@ -69,10 +69,12 @@ export default class ImportController extends Controller {
       const studySchemes = uniq(warnings['study-scheme'].map((warning) => warning.value)).join(', ');
       warningMessages.push(this.intl.t('pages.students-sup-import.warnings.study-scheme', { studySchemes }));
     }
-    return this.notifications.sendWarning(this.intl.t(
-      'pages.students-sup-import.global-success-with-warnings',
-      { warnings: warningMessages.join(''), htmlSafe: true },
-    ));
+    return this.notifications.sendWarning(
+      this.intl.t('pages.students-sup-import.global-success-with-warnings', {
+        warnings: warningMessages.join(''),
+        htmlSafe: true,
+      })
+    );
   }
 
   _sendErrorNotifications(errorResponse) {
@@ -81,12 +83,18 @@ export default class ImportController extends Controller {
       errorResponse.errors.forEach((error) => {
         if (error.status === '412' || error.status === '413') {
           const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-          return this.notifications.sendError(this.intl.t('pages.students-sup-import.error-wrapper', { message, htmlSafe: true }));
+          return this.notifications.sendError(
+            this.intl.t('pages.students-sup-import.error-wrapper', { message, htmlSafe: true })
+          );
         }
-        return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
+        return this.notifications.sendError(globalErrorMessage, {
+          onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+        });
       });
     } else {
-      return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
+      return this.notifications.sendError(globalErrorMessage, {
+        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+      });
     }
   }
 }

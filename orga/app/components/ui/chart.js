@@ -29,7 +29,6 @@ export const LEGEND_CONFIG = {
 };
 
 export default class EmberChart extends Component {
-
   constructor() {
     super(...arguments);
 

@@ -3,16 +3,16 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Analysis::Competences', function(hooks) {
+module('Integration | Component | Campaign::Analysis::Competences', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display the collective result list of the campaign', async function(assert) {
+  test('it should display the collective result list of the campaign', async function (assert) {
     // given
     const campaignCompetenceCollectiveResult = store.createRecord('campaign-competence-collective-result', {
       id: '1_recCompA',
@@ -33,8 +33,7 @@ module('Integration | Component | Campaign::Analysis::Competences', function(hoo
 
     // when
     await render(hbs`<Campaign::Analysis::Competences
-      @campaignCollectiveResult={{campaignCollectiveResult}}/>`,
-    );
+      @campaignCollectiveResult={{campaignCollectiveResult}}/>`);
 
     // then
     const firstCompetence = '[aria-label="Compétence"]:first-child';

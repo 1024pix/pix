@@ -4,21 +4,16 @@ import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-lab
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser,
-} from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign List', function(hooks) {
-
+module('Acceptance | Campaign List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When prescriber is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
+  module('When prescriber is not logged in', function () {
+    test('it should not be accessible by an unauthenticated prescriber', async function (assert) {
       // when
       await visit('/campagnes');
 
@@ -27,8 +22,7 @@ module('Acceptance | Campaign List', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function(hooks) {
-
+  module('When prescriber is logged in', function (hooks) {
     let user;
 
     hooks.beforeEach(async () => {
@@ -38,7 +32,7 @@ module('Acceptance | Campaign List', function(hooks) {
       await authenticateSession(user.id);
     });
 
-    test('it should be accessible for an authenticated prescriber', async function(assert) {
+    test('it should be accessible for an authenticated prescriber', async function (assert) {
       // when
       await visit('/campagnes');
 
@@ -46,7 +40,7 @@ module('Acceptance | Campaign List', function(hooks) {
       assert.equal(currentURL(), '/campagnes');
     });
 
-    test('it should show title indicate than prescriber can create a campaign', async function(assert) {
+    test('it should show title indicate than prescriber can create a campaign', async function (assert) {
       // when
       await visit('/campagnes');
 
@@ -54,7 +48,7 @@ module('Acceptance | Campaign List', function(hooks) {
       assert.dom('.page-title').hasText('Créez votre première campagne');
     });
 
-    test('it should list the campaigns of the current organization', async function(assert) {
+    test('it should list the campaigns of the current organization', async function (assert) {
       // given
       server.createList('campaign', 12);
 
@@ -65,7 +59,7 @@ module('Acceptance | Campaign List', function(hooks) {
       assert.dom('.campaign-list .table tbody tr').exists({ count: 12 });
     });
 
-    test('it should redirect to campaign details on click', async function(assert) {
+    test('it should redirect to campaign details on click', async function (assert) {
       // given
       server.create('campaign', { id: 1, name: 'CampagneEtPrairie' });
       await visit('/campagnes');
@@ -77,7 +71,7 @@ module('Acceptance | Campaign List', function(hooks) {
       assert.equal(currentURL(), '/campagnes/1');
     });
 
-    module('When using creator filter', function(hooks) {
+    module('When using creator filter', function (hooks) {
       let creator;
 
       hooks.beforeEach(async () => {
@@ -85,7 +79,7 @@ module('Acceptance | Campaign List', function(hooks) {
         server.create('campaign', { creator });
       });
 
-      test('it should update URL with creator first name filter', async function(assert) {
+      test('it should update URL with creator first name filter', async function (assert) {
         // given
         await visit('/campagnes');
 
@@ -96,7 +90,7 @@ module('Acceptance | Campaign List', function(hooks) {
         assert.equal(currentURL(), `/campagnes?creatorName=${creator.firstName}`);
       });
 
-      test('it should remove creator filter in URL', async function(assert) {
+      test('it should remove creator filter in URL', async function (assert) {
         // given
         await visit(`/campagnes?creatorName=${creator.firstName}`);
 

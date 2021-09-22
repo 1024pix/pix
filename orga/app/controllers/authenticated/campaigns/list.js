@@ -30,7 +30,7 @@ export default class ListController extends Controller {
   }
 
   updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
+    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = null;
   }
 

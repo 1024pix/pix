@@ -17,11 +17,11 @@ function getMetaForPage({ pageNumber, rowCount = 50 }) {
   };
 }
 
-module('Integration | Component | Table::PaginationControl', function(hooks) {
+module('Integration | Component | Table::PaginationControl', function (hooks) {
   setupIntlRenderingTest(hooks);
   let replaceWithStub;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     replaceWithStub = sinon.stub();
     class RouterStub extends Service {
       replaceWith = replaceWithStub;
@@ -29,7 +29,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     this.owner.register('service:router', RouterStub);
   });
 
-  test('it should display correct pagination', async function(assert) {
+  test('it should display correct pagination', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
@@ -40,7 +40,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.contains('Page 1 / 2');
   });
 
-  test('it should disable previous button when user is on first page', async function(assert) {
+  test('it should disable previous button when user is on first page', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
@@ -51,7 +51,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.dom('[aria-label="Aller à la page précédente"]').hasAttribute('disabled');
   });
 
-  test('it should disable next button when user is on last page', async function(assert) {
+  test('it should disable next button when user is on last page', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
 
@@ -62,7 +62,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.dom('[aria-label="Aller à la page suivante"]').hasAttribute('disabled');
   });
 
-  test('it should enable next button when user is on first page', async function(assert) {
+  test('it should enable next button when user is on first page', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
 
@@ -73,7 +73,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.dom('[aria-label="Aller à la page suivante"]').hasNoAttribute('disabled');
   });
 
-  test('it should enable previous button when user is on second page', async function(assert) {
+  test('it should enable previous button when user is on second page', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
 
@@ -84,7 +84,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.dom('[aria-label="Aller à la page précédente"]').hasNoAttribute('disabled');
   });
 
-  test('it should re-route to next page when clicking on next page button', async function(assert) {
+  test('it should re-route to next page when clicking on next page button', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 1 }));
     await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
@@ -96,7 +96,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageNumber: 2 } }));
   });
 
-  test('it should re-route to previous page when clicking on previous page button', async function(assert) {
+  test('it should re-route to previous page when clicking on previous page button', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
     await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
@@ -108,7 +108,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageNumber: 1 } }));
   });
 
-  test('it should re-route to page with changed page size', async function(assert) {
+  test('it should re-route to page with changed page size', async function (assert) {
     // given
     this.set('meta', getMetaForPage({ pageNumber: 2 }));
     await render(hbs`<Table::PaginationControl @pagination={{meta}}/>`);
@@ -120,8 +120,8 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
     assert.ok(replaceWithStub.calledWith({ queryParams: { pageSize: '10', pageNumber: 1 } }));
   });
 
-  module('When no results', function() {
-    test('it should disable previous button and next button', async function(assert) {
+  module('When no results', function () {
+    test('it should disable previous button and next button', async function (assert) {
       // given
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));
 
@@ -133,7 +133,7 @@ module('Integration | Component | Table::PaginationControl', function(hooks) {
       assert.dom('[aria-label="Aller à la page suivante"]').hasAttribute('disabled');
     });
 
-    test('it should display default pagination', async function(assert) {
+    test('it should display default pagination', async function (assert) {
       // given
       this.set('meta', getMetaForPage({ pageNumber: 1, rowCount: 0 }));
 

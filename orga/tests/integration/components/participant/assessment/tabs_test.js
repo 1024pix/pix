@@ -3,20 +3,22 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Participant::Assessment::Tabs', function(hooks) {
+module('Integration | Component | Participant::Assessment::Tabs', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.owner.setupRouter();
   });
 
-  test('it should display navigation links for results and analysis pages', async function(assert) {
+  test('it should display navigation links for results and analysis pages', async function (assert) {
     // given
     this.campaignId = 1;
     this.participationId = 2;
 
     // when
-    await render(hbs`<Participant::Assessment::Tabs @campaignId={{campaignId}} @participationId={{participationId}} />`);
+    await render(
+      hbs`<Participant::Assessment::Tabs @campaignId={{campaignId}} @participationId={{participationId}} />`
+    );
 
     // then
     assert.dom('a[href="/campagnes/1/evaluations/2/resultats"]').hasText('Résultats');

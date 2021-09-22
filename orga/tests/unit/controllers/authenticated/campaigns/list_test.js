@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
+module('Unit | Controller | authenticated/campaigns/list', function (hooks) {
   setupIntlRenderingTest(hooks);
   let controller;
 
@@ -11,15 +11,13 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     stopPropagation: sinon.stub(),
   };
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/campaigns/list');
   });
 
-  module('#get isArchived', function() {
-
-    module('when status is archived', function() {
-
-      test('it should returns true', function(assert) {
+  module('#get isArchived', function () {
+    module('when status is archived', function () {
+      test('it should returns true', function (assert) {
         // given
         controller.status = 'archived';
 
@@ -30,24 +28,25 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         assert.true(isArchived);
       });
 
-      test('it should display page title as archived', async function(assert) {
+      test('it should display page title as archived', async function (assert) {
         // given
         const pageTitle = 'Campagnes archivées';
 
-        controller.model = { query: {
-          filter: {
-            status: 'archived',
+        controller.model = {
+          query: {
+            filter: {
+              status: 'archived',
+            },
           },
-        } };
+        };
 
         // then
         assert.equal(controller.pageTitle, pageTitle);
       });
     });
 
-    module('when status is not archived', function() {
-
-      test('it should returns false', function(assert) {
+    module('when status is not archived', function () {
+      test('it should returns false', function (assert) {
         // given
         controller.status = null;
 
@@ -58,15 +57,17 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
         assert.false(isArchived);
       });
 
-      test('it should display page title as active', async function(assert) {
+      test('it should display page title as active', async function (assert) {
         // given
         const pageTitle = 'Campagnes actives';
 
-        controller.model = { query: {
-          filter: {
-            status: null,
+        controller.model = {
+          query: {
+            filter: {
+              status: null,
+            },
           },
-        } };
+        };
 
         // then
         assert.equal(controller.pageTitle, pageTitle);
@@ -74,9 +75,8 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#action updateCampaignStatus', function() {
-
-    test('it should update controller status field', function(assert) {
+  module('#action updateCampaignStatus', function () {
+    test('it should update controller status field', function (assert) {
       // given
       controller.status = 'someStatus';
 
@@ -88,9 +88,8 @@ module('Unit | Controller | authenticated/campaigns/list', function(hooks) {
     });
   });
 
-  module('#action goToCampaignPage', function() {
-
-    test('it should call transitionToRoute with appropriate arguments', function(assert) {
+  module('#action goToCampaignPage', function () {
+    test('it should call transitionToRoute with appropriate arguments', function (assert) {
       // given
       controller.transitionToRoute = sinon.stub();
 

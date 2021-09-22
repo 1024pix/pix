@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import get from 'lodash/get';
 
 export default class AuthenticatedRoute extends Route {
-
   @service currentUser;
   @service router;
   @service session;

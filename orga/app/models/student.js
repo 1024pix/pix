@@ -9,7 +9,7 @@ export const CONNECTION_TYPES = {
 };
 
 export default class Student extends Model {
-  @attr('string')lastName;
+  @attr('string') lastName;
   @attr('string') firstName;
   @attr('date-only') birthdate;
   @attr('string') username;
@@ -49,5 +49,4 @@ export default class Student extends Model {
   get displayAddUsernameAuthentication() {
     return Boolean(!this.hasUsername && (this.isAuthenticatedFromGar || this.hasEmail));
   }
-
 }

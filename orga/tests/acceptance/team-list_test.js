@@ -4,24 +4,19 @@ import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label'
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
-import {
-  createUserMembershipWithRole,
-  createPrescriberByUser,
-} from '../helpers/test-init';
+import { createUserMembershipWithRole, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import times from 'lodash/times';
 
-module('Acceptance | Team List', function(hooks) {
-
+module('Acceptance | Team List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let user;
 
-  module('When prescriber is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When prescriber is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
       await visit('/equipe');
 
@@ -30,10 +25,8 @@ module('Acceptance | Team List', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function() {
-
-    module('When prescriber is a member', function(hooks) {
-
+  module('When prescriber is logged in', function () {
+    module('When prescriber is a member', function (hooks) {
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('MEMBER');
         createPrescriberByUser(user);
@@ -41,7 +34,7 @@ module('Acceptance | Team List', function(hooks) {
         await authenticateSession(user.id);
       });
 
-      test('it should not be accessible', async function(assert) {
+      test('it should not be accessible', async function (assert) {
         // when
         await visit('/equipe');
 
@@ -50,8 +43,7 @@ module('Acceptance | Team List', function(hooks) {
       });
     });
 
-    module('When prescriber is an admin', function(hooks) {
-
+    module('When prescriber is an admin', function (hooks) {
       hooks.beforeEach(async () => {
         user = createUserMembershipWithRole('ADMIN');
         createPrescriberByUser(user);
@@ -59,7 +51,7 @@ module('Acceptance | Team List', function(hooks) {
         await authenticateSession(user.id);
       });
 
-      test('it should be accessible', async function(assert) {
+      test('it should be accessible', async function (assert) {
         // when
         await visit('/equipe/membres');
 
@@ -67,7 +59,7 @@ module('Acceptance | Team List', function(hooks) {
         assert.equal(currentURL(), '/equipe/membres');
       });
 
-      test('it should show title of team page', async function(assert) {
+      test('it should show title of team page', async function (assert) {
         // when
         await visit('/equipe');
 
@@ -77,8 +69,7 @@ module('Acceptance | Team List', function(hooks) {
     });
   });
 
-  module('When the prescriber comes back to this route', function(hooks) {
-
+  module('When the prescriber comes back to this route', function (hooks) {
     hooks.beforeEach(async () => {
       user = createUserMembershipWithRole('ADMIN');
       createPrescriberByUser(user);
@@ -86,7 +77,7 @@ module('Acceptance | Team List', function(hooks) {
       await authenticateSession(user.id);
     });
 
-    test('it should land on first page', async function(assert) {
+    test('it should land on first page', async function (assert) {
       // given
       const organizationId = server.db.organizations[0].id;
       times(10, () => {

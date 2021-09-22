@@ -7,7 +7,6 @@ const ARIA_LABEL_MEMBER_TRANSLATION = 'pages.team-members.actions.select-role.op
 const ARIA_LABEL_ADMIN_TRANSLATION = 'pages.team-members.actions.select-role.options.admin';
 
 export default class MembersListItem extends Component {
-
   @service currentUser;
   @service notifications;
   @service intl;
@@ -94,7 +93,9 @@ export default class MembersListItem extends Component {
       const memberLastName = membership.user.get('lastName');
 
       await this.args.onRemoveMember(membership);
-      this.notifications.success(this.intl.t('pages.team-members.notifications.success', { memberFirstName, memberLastName }));
+      this.notifications.success(
+        this.intl.t('pages.team-members.notifications.success', { memberFirstName, memberLastName })
+      );
     } catch (e) {
       this.notifications.error(this.intl.t('pages.team-members.notifications.error'));
     } finally {

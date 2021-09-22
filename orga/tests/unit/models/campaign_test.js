@@ -1,10 +1,10 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | campaign', function(hooks) {
+module('Unit | Model | campaign', function (hooks) {
   setupTest(hooks);
 
-  test('it should return the right data in the campaign model', function(assert) {
+  test('it should return the right data in the campaign model', function (assert) {
     const store = this.owner.lookup('service:store');
     const model = store.createRecord('campaign', {
       name: 'Fake name',
@@ -14,8 +14,8 @@ module('Unit | Model | campaign', function(hooks) {
     assert.equal(model.code, 'ABC123');
   });
 
-  module('#urlToResult', function() {
-    test('it should construct the url to result of the campaign with type assessment', function(assert) {
+  module('#urlToResult', function () {
+    test('it should construct the url to result of the campaign with type assessment', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
         id: 1,
@@ -27,7 +27,7 @@ module('Unit | Model | campaign', function(hooks) {
       assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-assessment-results?accessToken=token');
     });
 
-    test('it should construct the url to result of the campaign with type profiles collection', function(assert) {
+    test('it should construct the url to result of the campaign with type profiles collection', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
         id: 1,
@@ -36,18 +36,21 @@ module('Unit | Model | campaign', function(hooks) {
         tokenForCampaignResults: 'token',
         type: 'PROFILES_COLLECTION',
       });
-      assert.equal(model.urlToResult, 'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token');
+      assert.equal(
+        model.urlToResult,
+        'http://localhost:3000/api/campaigns/1/csv-profiles-collection-results?accessToken=token'
+      );
     });
   });
 
-  module('#readableType', function(hooks) {
+  module('#readableType', function (hooks) {
     let store;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       store = this.owner.lookup('service:store');
     });
 
-    test('it should compute the readableType property when type is ASSESSMENT', function(assert) {
+    test('it should compute the readableType property when type is ASSESSMENT', function (assert) {
       // when
       const model = store.createRecord('campaign', { type: 'ASSESSMENT' });
 
@@ -55,7 +58,7 @@ module('Unit | Model | campaign', function(hooks) {
       assert.equal(model.readableType, 'Évaluation');
     });
 
-    test('it should compute the readableType property when type is PROFILES_COLLECTION', function(assert) {
+    test('it should compute the readableType property when type is PROFILES_COLLECTION', function (assert) {
       // when
       const model = store.createRecord('campaign', { type: 'PROFILES_COLLECTION' });
 
@@ -64,8 +67,8 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#hasStages', function() {
-    test('returns true while campaign contains stages', function(assert) {
+  module('#hasStages', function () {
+    test('returns true while campaign contains stages', function (assert) {
       const store = this.owner.lookup('service:store');
       const stage = store.createRecord('stage', { threshold: 45 });
       const model = store.createRecord('campaign', {
@@ -75,7 +78,7 @@ module('Unit | Model | campaign', function(hooks) {
       assert.true(model.hasStages);
     });
 
-    test('returns false while campaign does not contain stages', function(assert) {
+    test('returns false while campaign does not contain stages', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
         stages: [],
@@ -85,8 +88,8 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#hasBadges', function() {
-    test('returns true while campaign contains badges', function(assert) {
+  module('#hasBadges', function () {
+    test('returns true while campaign contains badges', function (assert) {
       const store = this.owner.lookup('service:store');
       const badge = store.createRecord('badge', { threshold: 45 });
       const model = store.createRecord('campaign', {
@@ -96,7 +99,7 @@ module('Unit | Model | campaign', function(hooks) {
       assert.true(model.hasBadges);
     });
 
-    test('returns false while campaign does not contain badges', function(assert) {
+    test('returns false while campaign does not contain badges', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', {
         badges: [],
@@ -106,8 +109,8 @@ module('Unit | Model | campaign', function(hooks) {
     });
   });
 
-  module('#creatorFullName', function() {
-    test('it should return the fullname, combination of last and first name', function(assert) {
+  module('#creatorFullName', function () {
+    test('it should return the fullname, combination of last and first name', function (assert) {
       const store = this.owner.lookup('service:store');
       const model = store.createRecord('campaign', { creatorFirstName: 'Jean-Baptiste', creatorLastName: 'Poquelin' });
 
