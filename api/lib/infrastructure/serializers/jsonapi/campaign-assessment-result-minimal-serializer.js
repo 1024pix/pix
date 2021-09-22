@@ -9,7 +9,7 @@ module.exports = {
         'firstName',
         'lastName',
         'participantExternalId',
-        'masteryPercentage',
+        'masteryRate',
         'badges',
       ],
       badges: {
