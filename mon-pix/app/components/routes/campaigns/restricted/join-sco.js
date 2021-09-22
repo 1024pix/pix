@@ -218,6 +218,8 @@ export default class JoinSco extends Component {
         }
       } else if (error.status === '404') {
         this.errorMessage = this.intl.t('pages.join.sco.error-not-found', { htmlSafe: true });
+      } else if (error.status === '400') {
+        this.errorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error', { htmlSafe: true });
       } else {
         this.errorMessage = error.detail;
       }
