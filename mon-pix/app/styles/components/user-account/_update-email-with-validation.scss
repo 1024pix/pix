@@ -9,6 +9,10 @@
   &__password-input,
   &__email-input {
     max-width: 260px;
+
+    @include device-is('mobile') {
+      max-width: 100%;
+    }
   }
 
   &__email-input {
@@ -44,12 +48,21 @@
     }
   }
 
-  &__confirm-button {
+  &__action-buttons {
     display: flex;
-    padding-top: 10px;
+    padding-top: 20px;
 
-    @include device-is('tablet') {
-      padding-top: 20px;
+    button:last-child {
+      margin-left: 24px;
+    }
+
+    @include device-is('mobile') {
+      flex-direction: column-reverse;
+
+      button:last-child {
+        margin-left: 0;
+        margin-bottom: 16px;
+      }
     }
   }
 }

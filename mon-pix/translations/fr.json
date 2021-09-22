@@ -1347,9 +1347,6 @@
             "security-information": "La sécurité de vos informations personnelles est essentielle. Nous vérifions donc que vous êtes bien à l'origine de cette demande. Saisissez votre mot de passe pour recevoir un code de vérification."
           }
         },
-        "cancel-button": {
-          "aria-label": "Fermer"
-        },
         "save-button": "Recevoir un code de vérification"
       },
       "connexion-methods": {
