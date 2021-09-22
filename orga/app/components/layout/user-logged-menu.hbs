@@ -1,9 +1,9 @@
 <button
   type="button"
-  {{on 'click' this.toggleUserMenu}}
+  {{on "click" this.toggleUserMenu}}
   aria-haspopup="listbox"
   aria-expanded="{{this.isMenuOpen}}"
-  aria-label={{t 'navigation.user-logged-menu.button'}}
+  aria-label={{t "navigation.user-logged-menu.button"}}
   class="user-logged-button"
   ...attributes
 >
@@ -12,9 +12,9 @@
     <span>{{this.organizationNameAndExternalId}}</span>
   </span>
   {{#if this.isMenuOpen}}
-    <FaIcon @icon="chevron-up" @class="user-logged-button__chevron user-logged-button__chevron--up"></FaIcon>
+    <FaIcon @icon="chevron-up" @class="user-logged-button__chevron user-logged-button__chevron--up" />
   {{else}}
-    <FaIcon @icon="chevron-down" @class="user-logged-button__chevron"></FaIcon>
+    <FaIcon @icon="chevron-down" @class="user-logged-button__chevron" />
   {{/if}}
 </button>
 
@@ -26,7 +26,7 @@
     </Dropdown::Item>
   {{/each}}
   <Dropdown::ItemLink @linkTo="logout">
-      <FaIcon @icon="power-off" @class="user-logged-menu__icon"></FaIcon>
-      {{t 'navigation.user-logged-menu.logout'}}
+    <FaIcon @icon="power-off" @class="user-logged-menu__icon" />
+    {{t "navigation.user-logged-menu.logout"}}
   </Dropdown::ItemLink>
 </Dropdown::Content>

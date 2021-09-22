@@ -1,4 +1,4 @@
-<Ui::ChartCard @title={{t 'charts.participants-by-day.title'}} ...attributes>
+<Ui::ChartCard @title={{t "charts.participants-by-day.title"}} ...attributes>
   {{#if this.loading}}
     <Campaign::Charts::ParticipantsByDayLoader />
   {{else}}
@@ -14,16 +14,16 @@
       <table class="sr-only">
         <thead>
           <tr>
-            <th>{{t 'charts.participants-by-day.labels-a11y.date'}}</th>
+            <th>{{t "charts.participants-by-day.labels-a11y.date"}}</th>
             <th>{{t dataset.countLabel}}</th>
           </tr>
         </thead>
         <tbody>
           {{#each dataset.entries as |entry|}}
-              <tr>
-                <td>{{moment-format entry.day 'DD/MM/YYYY' }}</td>
-                <td>{{entry.count}}</td>
-              </tr>
+            <tr>
+              <td>{{moment-format entry.day "DD/MM/YYYY"}}</td>
+              <td>{{entry.count}}</td>
+            </tr>
           {{/each}}
         </tbody>
       </table>

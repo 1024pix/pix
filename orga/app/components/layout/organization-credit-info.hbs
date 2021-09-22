@@ -1,20 +1,18 @@
 {{#if this.canShowCredit}}
   <div class="organization-credit-info">
-    <span class="organization-credit-info__label">{{t 'navigation.credits.number' count=this.currentUser.organization.credit}}</span>
-    
+    <span class="organization-credit-info__label">{{t
+        "navigation.credits.number"
+        count=this.currentUser.organization.credit
+      }}</span>
+
     <PixTooltip
       @id="credit-info-tooltip"
-      @text={{t 'navigation.credits.tooltip-text' htmlSafe=true}}
-      @position='bottom-left'
+      @text={{t "navigation.credits.tooltip-text" htmlSafe=true}}
+      @position="bottom-left"
       @isWide={{true}}
       @isLight={{true}}
     >
-        <FaIcon
-          @icon="info-circle"
-          class="info-icon"
-          tabindex="0"
-          aria-describedby="credit-info-tooltip"
-        />
+      <FaIcon @icon="info-circle" class="info-icon" tabindex="0" aria-describedby="credit-info-tooltip" />
     </PixTooltip>
   </div>
 {{/if}}

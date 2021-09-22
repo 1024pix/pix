@@ -1,10 +1,10 @@
-{{page-title (t 'pages.login.title')}}
+{{page-title (t "pages.login.title")}}
 <div class="login-page">
   <div class="panel login-page__panel">
     <div class="panel__image">
-      <img src="/pix-orga.svg" alt="" role="none">
+      <img src="/pix-orga.svg" alt="" role="none" />
     </div>
-    <h3 class="form-title">{{t 'pages.login.title'}}</h3>
+    <h3 class="form-title">{{t "pages.login.title"}}</h3>
     <Auth::LoginForm @isWithInvitation={{false}} @hasInvitationError={{this.hasInvitationError}} />
   </div>
 </div>
