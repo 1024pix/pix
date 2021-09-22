@@ -65,6 +65,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           userId: 123,
           participantFirstName: 'Juan',
           participantLastName: 'Carlitos',
+          pixScore: 13,
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
@@ -108,6 +109,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           userId: 123,
           participantFirstName: 'Juan',
           participantLastName: 'Carlitos',
+          pixScore: 13,
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
@@ -257,6 +259,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           participantLastName: 'Carlitos',
           division: '5me',
           studentNumber: 'studentNumber',
+          pixScore: 13,
         };
 
         const csvExcpectedLine = `"${organization.name}";` +
@@ -309,6 +312,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             participantFirstName: 'Juan',
             participantLastName: 'Carlitos',
             division: null,
+            pixScore: 13,
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
@@ -356,6 +360,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             participantFirstName: 'Juan',
             participantLastName: 'Carlitos',
             division: '3eme',
+            pixScore: 13,
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
@@ -466,6 +471,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             participantFirstName: 'Juan',
             participantLastName: 'Carlitos',
             studentNumber: null,
+            pixScore: 13,
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
@@ -513,6 +519,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             participantFirstName: 'Juan',
             participantLastName: 'Carlitos',
             studentNumber: 'HELLO123',
+            pixScore: 13,
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
@@ -597,4 +604,3 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
   });
 
 });
-
