@@ -26,6 +26,7 @@ describe('Unit | Route | login page', function() {
       beforeEach(async function() {
         sessionStub = Service.create({
           authenticate: authenticateStub,
+          prohibitAuthentication: sinon.stub(),
         });
         const queryRecordStub = sinon.stub().resolves(foundUser);
         storeStub = Service.create({

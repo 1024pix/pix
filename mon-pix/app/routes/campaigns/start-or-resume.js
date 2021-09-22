@@ -3,9 +3,8 @@ import isBoolean from 'lodash/isBoolean';
 import isString from 'lodash/isString';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
+export default class StartOrResumeRoute extends Route {
   @service currentUser;
   @service session;
   @service campaignStorage;
@@ -18,7 +17,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async beforeModel(transition) {
-    this.authenticationRoute = 'inscription';
     const campaign = this.modelFor('campaigns');
     if (this._shouldResetState(campaign.code)) {
       this._resetState();
@@ -64,7 +62,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       return this.replaceWith('campaigns.campaign-landing-page', campaign);
     }
 
-    super.beforeModel(...arguments);
+    this.session.requireAuthentication(transition, 'inscription');
   }
 
   async model() {
