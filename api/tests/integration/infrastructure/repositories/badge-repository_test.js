@@ -3,6 +3,7 @@ const badgeRepository = require('../../../../lib/infrastructure/repositories/bad
 const Badge = require('../../../../lib/domain/models/Badge');
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
+const omit = require('lodash/omit');
 
 describe('Integration | Repository | Badge', function() {
 
@@ -31,7 +32,6 @@ describe('Integration | Repository | Badge', function() {
     targetProfileWithPartnerCompetences = databaseBuilder.factory.buildTargetProfile();
 
     badgeWithBadgePartnerCompetences = databaseBuilder.factory.buildBadge({
-      id: 2,
       altMessage: 'You won the Toto badge!',
       imageUrl: '/img/toto.svg',
       message: 'Congrats, you won the Toto badge!',
@@ -67,7 +67,6 @@ describe('Integration | Repository | Badge', function() {
     targetProfileWithSeveralBadges = databaseBuilder.factory.buildTargetProfile();
 
     badgeWithSameTargetProfile_1 = databaseBuilder.factory.buildBadge({
-      id: 3,
       altMessage: 'You won the YELLOW badge!',
       imageUrl: '/img/toto.svg',
       message: 'Congrats, you won the yellow badge!',
@@ -83,7 +82,6 @@ describe('Integration | Repository | Badge', function() {
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_1, badgeId: badgeWithSameTargetProfile_1.id });
 
     badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
-      id: 4,
       altMessage: 'You won the GREEN badge!',
       imageUrl: '/img/toto.svg',
       message: 'Congrats, you won the green badge!',
@@ -99,10 +97,10 @@ describe('Integration | Repository | Badge', function() {
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_2, badgeId: badgeWithSameTargetProfile_2.id });
   }
 
-  afterEach(function() {
-    knex('badges').delete();
-    knex('badge-criteria').delete();
-    return knex('badge-partner-competences').delete();
+  afterEach(async function() {
+    await knex('badge-partner-competences').delete();
+    await knex('badge-criteria').delete();
+    await knex('badges').delete();
   });
 
   describe('#findByTargetProfileId', function() {
@@ -117,19 +115,19 @@ describe('Integration | Repository | Badge', function() {
       expect(badges.length).to.equal(2);
 
       const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
-      expect(firstBadge).deep.equal({
+      expect(omit(firstBadge, 'id')).deep.equal(omit({
         ...badgeWithSameTargetProfile_1,
         badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
         badgePartnerCompetences: [],
-      });
+      }, 'id'));
 
       const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-      expect(secondBadge).deep.equal(
+      expect(omit(secondBadge, 'id')).deep.equal(omit(
         {
           ...badgeWithSameTargetProfile_2,
           badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
           badgePartnerCompetences: [],
-        });
+        }, 'id'));
 
     });
 
@@ -375,5 +373,4 @@ describe('Integration | Repository | Badge', function() {
       expect(myBadge.badgePartnerCompetences.length).to.equal(1);
     });
   });
-
 });
