@@ -217,6 +217,40 @@ exports.register = async (server) => {
       },
     },
     {
+      method: 'POST',
+      path: '/api/admin/target-profiles/{id}/badges',
+      config: {
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        validate: {
+          params: Joi.object({
+            id: identifiersType.targetProfileId,
+          }),
+          payload: Joi.object({
+            data: Joi.object({
+              attributes: Joi.object({
+                key: Joi.string().required(),
+                'alt-message': Joi.string().required(),
+                'image-url': Joi.string().required(),
+                message: Joi.string().required(),
+                title: Joi.string().required(),
+                'is-certifiable': Joi.boolean().required(),
+                'is-always-visible': Joi.boolean().required(),
+              }).required(),
+            }).required(),
+          }).required(),
+        },
+        handler: targetProfileController.createBadge,
+        tags: ['api', 'badges'],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
+          '- Elle permet de créer un résultat thématique rattaché au profil cible.',
+        ],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/badges',
       config: {
