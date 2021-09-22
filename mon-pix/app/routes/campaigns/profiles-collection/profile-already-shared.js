@@ -1,7 +1,15 @@
-import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-export default class ProfileAlreadySharedRoute extends Route.extend(SecuredRouteMixin) {
+export default class ProfileAlreadySharedRoute extends Route {
+  @service store;
+  @service session;
+  @service currentUser;
+
+  beforeModel(transition) {
+    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
+  }
+
   async model() {
     const user = this.currentUser.user;
     const campaign = this.modelFor('campaigns');

@@ -1,10 +1,14 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default class UpdateExpiredPasswordRoute extends Route.extend(UnauthenticatedRouteMixin) {
+export default class UpdateExpiredPasswordRoute extends Route {
 
   @service store;
+  @service session;
+
+  beforeModel() {
+    this.session.prohibitAuthentication('user-dashboard');
+  }
 
   model() {
     const resetExpiredPasswordDemands = this.store.peekAll('reset-expired-password-demand');
