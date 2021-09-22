@@ -15,6 +15,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
     let assessmentWithScore;
     let scoredAsssessment;
     let updateLastQuestionDateStub;
+    let updateWhenNewChallengeIsAsked;
 
     beforeEach(function() {
 
@@ -38,6 +39,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
       sinon.stub(assessmentRepository, 'get');
       updateLastQuestionDateStub = sinon.stub(assessmentRepository, 'updateLastQuestionDate');
+      updateWhenNewChallengeIsAsked = sinon.stub(assessmentRepository, 'updateWhenNewChallengeIsAsked');
       sinon.stub(challengeRepository, 'get').resolves({});
 
       sinon.stub(usecases, 'getAssessment').resolves(scoredAsssessment);
@@ -95,9 +97,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
     });
 
     describe('when the assessment is not over yet', function() {
+      let newChallenge;
 
       beforeEach(function() {
+        newChallenge = { id: 345 };
+
         assessmentRepository.get.resolves(assessmentWithoutScore);
+        usecases.getNextChallengeForDemo.resolves(newChallenge);
       });
 
       it('should not evaluate assessment score', async function() {
@@ -106,6 +112,26 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
         // then
         expect(usecases.getAssessment).not.to.have.been.called;
+      });
+
+      it('should update information when new challenge is asked', async function() {
+        // when
+        await assessmentController.getNextChallenge({ params: { id: assessmentWithoutScore.id } });
+
+        // then
+        expect(updateWhenNewChallengeIsAsked).to.be.calledWith({ id: assessmentWithoutScore.id, lastChallengeId: newChallenge.id });
+      });
+
+      it('should not update information when new challenge is the same than actual challenge', async function() {
+        // given
+        assessmentWithoutScore.lastChallengeId = newChallenge.id;
+        assessmentRepository.get.resolves(assessmentWithoutScore);
+
+        // when
+        await assessmentController.getNextChallenge({ params: { id: assessmentWithoutScore.id } });
+
+        // then
+        expect(updateWhenNewChallengeIsAsked).to.not.have.been.called;
       });
 
     });
