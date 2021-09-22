@@ -1,6 +1,6 @@
 const certificationDetailsSerializer = require('../../infrastructure/serializers/jsonapi/certification-details-serializer');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
-const certificationResultInformationSerializer = require('../../infrastructure/serializers/jsonapi/certification-result-information-serializer');
+const juryCertificationSerializer = require('../../infrastructure/serializers/jsonapi/jury-certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certifiedProfileRepository = require('../../infrastructure/repositories/certified-profile-repository');
 const certifiedProfileSerializer = require('../../infrastructure/serializers/jsonapi/certified-profile-serializer');
@@ -18,10 +18,10 @@ module.exports = {
     return certificationDetailsSerializer.serialize(certificationDetails);
   },
 
-  async getCertificationResultInformation(request) {
+  async getJuryCertification(request) {
     const certificationCourseId = request.params.id;
-    const certificationResultInformation = await usecases.getCertificationResultInformation({ certificationCourseId });
-    return certificationResultInformationSerializer.serialize(certificationResultInformation);
+    const juryCertification = await usecases.getJuryCertification({ certificationCourseId });
+    return juryCertificationSerializer.serialize(juryCertification);
   },
 
   async update(request) {
@@ -72,9 +72,15 @@ module.exports = {
     return certifiedProfileSerializer.serialize(certifiedProfile);
   },
 
-  async cancel(request) {
+  async cancel(request, h) {
     const certificationCourseId = request.params.id;
-    const cancelledCertificationCourse = await usecases.cancelCertificationCourse({ certificationCourseId });
-    return certificationCourseSerializer.serialize(cancelledCertificationCourse);
+    await usecases.cancelCertificationCourse({ certificationCourseId });
+    return h.response().code(200);
+  },
+
+  async uncancel(request, h) {
+    const certificationCourseId = request.params.id;
+    await usecases.uncancelCertificationCourse({ certificationCourseId });
+    return h.response().code(200);
   },
 };

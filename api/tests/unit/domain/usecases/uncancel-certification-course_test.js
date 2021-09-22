@@ -1,12 +1,12 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
-const cancelCertificationCourse = require('../../../../lib/domain/usecases/cancel-certification-course');
+const uncancelCertificationCourse = require('../../../../lib/domain/usecases/uncancel-certification-course');
 
-describe('Unit | UseCase | cancel-certification-course', function() {
+describe('Unit | UseCase | uncancel-certification-course', function() {
 
-  it('should cancel the certification course', async function() {
+  it('should uncancel the certification course', async function() {
     // given
     const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123 });
-    sinon.spy(certificationCourse, 'cancel');
+    sinon.spy(certificationCourse, 'uncancel');
     const certificationCourseRepository = {
       update: sinon.stub(),
       get: sinon.stub(),
@@ -15,13 +15,13 @@ describe('Unit | UseCase | cancel-certification-course', function() {
     certificationCourseRepository.update.resolves();
 
     // when
-    await cancelCertificationCourse({
+    await uncancelCertificationCourse({
       certificationCourseId: 123,
       certificationCourseRepository,
     });
 
     // then
-    expect(certificationCourse.cancel).to.have.been.calledOnce;
+    expect(certificationCourse.uncancel).to.have.been.calledOnce;
     expect(certificationCourseRepository.update).to.have.been.calledWith(certificationCourse);
   });
 });

@@ -103,7 +103,25 @@ module('Unit | Adapter | certification', function(hooks) {
         sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/certification-courses/123', 'PATCH');
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
+    });
+  });
 
+  module('#buildURL', function() {
+
+    test('it should build specific URL when requestType is "cancel"', function(assert) {
+      // when
+      const url = adapter.buildURL('not_used', 123, 'not_used', 'cancel', 'not_used');
+
+      // then
+      assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/cancel');
+    });
+
+    test('it should build specific URL when requestType is "uncancel"', function(assert) {
+      // when
+      const url = adapter.buildURL('not_used', 123, 'not_used', 'uncancel', 'not_used');
+
+      // then
+      assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/uncancel');
     });
   });
 });
