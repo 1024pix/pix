@@ -72,10 +72,7 @@ class CampaignProfilesCollectionResultLine {
   _getTotalEarnedPixColumn() {
     let totalEarnedPix = this.notShared;
     if (this.campaignParticipationResult.isShared) {
-      totalEarnedPix = 0;
-      this.placementProfile.userCompetences.forEach(({ pixScore }) => {
-        totalEarnedPix += pixScore;
-      });
+      totalEarnedPix = this.campaignParticipationResult.pixScore;
     }
 
     return totalEarnedPix;
