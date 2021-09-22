@@ -9,7 +9,7 @@ module.exports = {
     return new Serializer('campaign-participation',
       {
         transform: (campaignParticipation) => {
-          const campaignParticipationForSerialization = Object.assign({}, campaignParticipation);
+          const campaignParticipationForSerialization = new CampaignParticipation(campaignParticipation);
 
           if (campaignParticipation.lastAssessment) {
             campaignParticipationForSerialization.assessment = { id: campaignParticipation.lastAssessment.id };

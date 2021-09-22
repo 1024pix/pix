@@ -27,7 +27,7 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         'campaign-participations.campaignId',
         'campaign-participations.createdAt',
         'campaign-participations.sharedAt',
-        'campaign-participations.isShared',
+        'campaign-participations.status',
         'campaign-participations.participantExternalId',
         'campaign-participations.pixScore',
       ])

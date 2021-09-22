@@ -1,5 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
+const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
 const CampaignAssessmentParticipation = require('../../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
 
@@ -67,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           participantExternalId: 'someParticipantExternalId',
           assessmentState: Assessment.states.COMPLETED,
           createdAt,
-          isShared: true,
+          status: CampaignParticipation.statuses.SHARED,
           sharedAt,
           targetedSkillsCount: 20,
           testedSkillsCount: 3,
@@ -130,7 +131,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           participantExternalId: 'someParticipantExternalId',
           assessmentState: Assessment.states.COMPLETED,
           createdAt,
-          isShared: true,
+          status: CampaignParticipation.statuses.SHARED,
           sharedAt,
           targetedSkillsCount: 0,
           testedSkillsCount: 0,

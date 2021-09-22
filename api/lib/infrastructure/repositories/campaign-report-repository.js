@@ -1,8 +1,11 @@
 const { knex } = require('../bookshelf');
 
 const CampaignReport = require('../../domain/read-models/CampaignReport');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
 const { fetchPage } = require('../utils/knex-utils');
 const { NotFoundError } = require('../../domain/errors');
+
+const { SHARED } = CampaignParticipation.statuses;
 
 function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorName }) {
   if (name) {
@@ -33,7 +36,7 @@ module.exports = {
       })
       .select(
         knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'),
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isShared" IS TRUE AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
+        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
       )
       .join('users', 'users.id', 'campaigns.creatorId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
@@ -52,7 +55,7 @@ module.exports = {
     const results = await knex('campaign-participations')
       .select('masteryPercentage')
       .where('isImproved', false)
-      .andWhere('isShared', true)
+      .andWhere('status', SHARED)
       .andWhere({ campaignId });
     return results.map((result) => Number(result.masteryPercentage));
   },
@@ -66,7 +69,7 @@ module.exports = {
         'users.firstName AS creatorFirstName',
         'users.lastName AS creatorLastName',
         knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'),
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isShared" IS TRUE AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
+        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
       )
       .join('users', 'users.id', 'campaigns.creatorId')
       .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')

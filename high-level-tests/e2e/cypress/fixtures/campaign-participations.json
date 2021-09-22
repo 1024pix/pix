@@ -2,7 +2,7 @@
   {
     "id": 1,
     "campaignId": 1,
-    "isShared": true,
+    "status": "SHARED",
     "participantExternalId": "Le parricide",
     "sharedAt": "2019-04-22T06:00:00Z",
     "userId": 4,
@@ -12,35 +12,35 @@
   {
     "id": 2,
     "campaignId": 1,
-    "isShared": false,
+    "status": "TO_SHARE",
     "participantExternalId": "Le régicide",
     "userId": 5
   },
   {
     "id": 3,
     "campaignId": 1,
-    "isShared": false,
+    "status": "STARTED",
     "participantExternalId": "La reine",
     "userId": 6
   },
   {
     "id": 4,
     "campaignId": 4,
-    "isShared": false,
+    "status": "STARTED",
     "participantExternalId": "La reine",
     "userId": 6
   },
   {
     "id": 5,
     "campaignId": 4,
-    "isShared": false,
+    "status": "STARTED",
     "participantExternalId": "La régicide",
     "userId": 5
   },
   {
     "id": 6,
     "campaignId": 2,
-    "isShared": false,
+    "status": "TO_SHARE",
     "userId": 5
   }
 ]

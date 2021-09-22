@@ -3,6 +3,7 @@ const { expect, domainBuilder, sinon, catchErr } = require('../../../test-helper
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError, CantImproveCampaignParticipationError } = require('../../../../lib/domain/errors');
+const { TO_SHARE, SHARED } = CampaignParticipation.statuses;
 
 describe('Unit | Domain | Models | CampaignParticipation', function() {
 
@@ -72,7 +73,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
     context('when the campaign participation status is different from STARTED', function() {
       it('changes the status to STARTED', async function() {
         const campaign = domainBuilder.buildCampaign({ type: Campaign.types.ASSESSMENT });
-        const campaignParticipation = new CampaignParticipation({ campaign, status: 'TO_SHARE' });
+        const campaignParticipation = new CampaignParticipation({ campaign, status: TO_SHARE });
 
         campaignParticipation.improve();
 
@@ -98,7 +99,7 @@ describe('Unit | Domain | Models | CampaignParticipation', function() {
       context('when the campaign is already shared', function() {
         it('throws an AlreadySharedCampaignParticipationError error', async function() {
           const campaign = domainBuilder.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          const campaignParticipation = new CampaignParticipation({ campaign, isShared: true });
+          const campaignParticipation = new CampaignParticipation({ campaign, status: SHARED });
 
           const error = await catchErr(campaignParticipation.share, campaignParticipation)();
 
