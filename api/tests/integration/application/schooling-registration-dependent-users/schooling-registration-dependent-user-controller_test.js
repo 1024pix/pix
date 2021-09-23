@@ -43,14 +43,11 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
     context('Success cases', function() {
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const createdUser = domainBuilder.buildUser();
-
       context('When email is used', function() {
 
         it('should return an HTTP response with status code 204', async function() {
           // given
+          const createdUser = domainBuilder.buildUser();
           payload.data.attributes.email = 'toto@example.net';
           delete payload.data.attributes.username;
           payload.data.attributes['with-username'] = false;
@@ -68,6 +65,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
         it('should return an HTTP response with status code 204', async function() {
           // given
+          const createdUser = domainBuilder.buildUser();
           delete payload.data.attributes.email;
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
@@ -118,12 +116,9 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
     context('Success cases', function() {
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const createdUser = domainBuilder.buildUser();
-
       it('should return an HTTP response with status code 200 and access-token in payload', async function() {
         // given
+        const createdUser = domainBuilder.buildUser();
         usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser.resolves(createdUser);
 
         // when
