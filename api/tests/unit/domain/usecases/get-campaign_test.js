@@ -8,7 +8,7 @@ const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
 describe('Unit | UseCase | get-campaign', function() {
 
-  let userId, campaignId, campaign, stages, badges, masteryPercentages;
+  let userId, campaignId, campaign, stages, badges, masteryRates;
   let campaignRepository;
   let campaignReportRepository;
   let stageRepository;
@@ -17,7 +17,7 @@ describe('Unit | UseCase | get-campaign', function() {
   beforeEach(function() {
     badges = Symbol('badges');
     stages = Symbol('stages');
-    masteryPercentages = Symbol('masteryPercentages');
+    masteryRates = Symbol('masteryRates');
 
     campaignId = 1;
     userId = 1;
@@ -35,7 +35,7 @@ describe('Unit | UseCase | get-campaign', function() {
     };
     campaignReportRepository = {
       get: sinon.stub(),
-      findMasteryPercentages: sinon.stub(),
+      findMasteryRates: sinon.stub(),
     };
     stageRepository = {
       findByCampaignId: sinon.stub(),
@@ -44,7 +44,7 @@ describe('Unit | UseCase | get-campaign', function() {
     badgeRepository.findByCampaignId.resolves(badges);
     campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(true);
     campaignReportRepository.get.resolves(campaign);
-    campaignReportRepository.findMasteryPercentages.resolves(masteryPercentages);
+    campaignReportRepository.findMasteryRates.resolves(masteryRates);
     stageRepository.findByCampaignId.resolves(stages);
     sinon.stub(CampaignReport.prototype, 'computeAverageResult');
   });
@@ -108,7 +108,7 @@ describe('Unit | UseCase | get-campaign', function() {
     });
 
     // then
-    sinon.assert.calledWithExactly(CampaignReport.prototype.computeAverageResult, masteryPercentages);
+    sinon.assert.calledWithExactly(CampaignReport.prototype.computeAverageResult, masteryRates);
   });
 
   it('should not compute average results if campaign type is profiles collection', async function() {

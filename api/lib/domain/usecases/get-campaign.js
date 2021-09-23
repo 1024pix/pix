@@ -21,17 +21,17 @@ module.exports = async function getCampaign({
     throw new UserNotAuthorizedToAccessEntityError('User does not belong to the organization that owns the campaign');
   }
 
-  const [campaignReport, badges, stages, masteryPercentages] = await Promise.all([
+  const [campaignReport, badges, stages, masteryRates] = await Promise.all([
     campaignReportRepository.get(integerCampaignId),
     badgeRepository.findByCampaignId(integerCampaignId),
     stageRepository.findByCampaignId(integerCampaignId),
-    campaignReportRepository.findMasteryPercentages(integerCampaignId),
+    campaignReportRepository.findMasteryRates(integerCampaignId),
   ]);
 
   campaignReport.badges = badges;
   campaignReport.stages = stages;
   if (campaignReport.isAssessment) {
-    campaignReport.computeAverageResult(masteryPercentages);
+    campaignReport.computeAverageResult(masteryRates);
   }
   return campaignReport;
 };
