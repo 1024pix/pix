@@ -42,7 +42,7 @@ async function _getParticipationResults(userId, campaignId) {
 
 async function _getParticipationAttributes(userId, campaignId) {
   const participationAttributes = await knex('campaign-participations')
-    .select(['state', 'campaignParticipationId', 'sharedAt', 'assessments.createdAt AS assessmentCreatedAt', 'participantExternalId', knex.raw('CAST("masteryPercentage" AS FLOAT) AS "masteryRate"')])
+    .select(['state', 'campaignParticipationId', 'sharedAt', 'assessments.createdAt AS assessmentCreatedAt', 'participantExternalId', knex.raw('CAST("masteryRate" AS FLOAT)')])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
     .andWhere({ 'campaign-participations.userId': userId })
