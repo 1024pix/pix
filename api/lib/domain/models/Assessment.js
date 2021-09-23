@@ -81,7 +81,7 @@ class Assessment {
     this.userId = userId;
     this.competenceId = competenceId;
     this.campaignParticipationId = campaignParticipationId;
-    this.method = method;
+    this.method = method || Assessment.computeMethodFromType(this.type);
   }
 
   isCompleted() {

@@ -3,6 +3,17 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Domain | Models | Assessment', function() {
 
+  describe('#constuctor', function() {
+    it('should init method when none is defined', function() {
+      const assessment = new Assessment({
+        type: 'COMPETENCE_EVALUATION',
+        method: null,
+      });
+
+      expect(assessment.method).to.equal('SMART_RANDOM');
+    });
+  });
+
   describe('#isCompleted', function() {
 
     it('should return true when its state is completed', function() {
