@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const bluebird = require('bluebird');
 
 const {
   NotFoundError,
@@ -58,8 +57,8 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, studentNumb
   }
 }
 
-function _isReconciled(schoolingRegistration) {
-  return Boolean(schoolingRegistration.userId);
+function _canReconcile(existingRegistrationForUserId, student) {
+  return existingRegistrationForUserId == null || existingRegistrationForUserId.nationalStudentId === student.nationalStudentId;
 }
 
 module.exports = {
@@ -72,12 +71,12 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
-  findByOrganizationId({ organizationId }) {
-    return BookshelfSchoolingRegistration
+  findByOrganizationId({ organizationId }, transaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = transaction.knexTransaction || knex;
+    return knexConn('schooling-registrations')
       .where({ organizationId })
-      .query((qb) => qb.orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC'))
-      .fetchAll()
-      .then((schoolingRegistrations) => bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations));
+      .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
+      .then((schoolingRegistrations) => schoolingRegistrations.map((schoolingRegistration) => new SchoolingRegistration(schoolingRegistration)));
   },
 
   async findByOrganizationIdAndUpdatedAtOrderByDivision({ organizationId, page, filter }) {
@@ -147,63 +146,40 @@ module.exports = {
       ...schoolingRegistrationData,
       organizationId,
     }));
-    const existingSchoolingRegistrations = await this.findByOrganizationId({ organizationId });
+    const existingSchoolingRegistrations = await this.findByOrganizationId({ organizationId }, domainTransaction);
 
-    const reconciledSchoolingRegistrationsToImport = await this._reconcileSchoolingRegistrations(schoolingRegistrationsFromFile, existingSchoolingRegistrations);
-    const [schoolingRegistrationsToUpdate, schoolingRegistrationsToCreate] = await this._getStudentsListToUpdateOrCreate(reconciledSchoolingRegistrationsToImport, existingSchoolingRegistrations);
+    const reconciledSchoolingRegistrationsToImport = await this._reconcileSchoolingRegistrations(schoolingRegistrationsFromFile, existingSchoolingRegistrations, domainTransaction);
 
     try {
-      await Promise.all([
-        bluebird.mapSeries(schoolingRegistrationsToUpdate, async (schoolingRegistrationToUpdate) => {
-          const attributesToUpdate = _.omit(schoolingRegistrationToUpdate, ['id', 'createdAt']);
-          const whereConditions = {
-            'organizationId': organizationId,
-            'nationalStudentId': schoolingRegistrationToUpdate.nationalStudentId,
-          };
+      const schoolingRegistrationsToSave = reconciledSchoolingRegistrationsToImport.map((schoolingRegistration) => ({
+        ..._.omit(schoolingRegistration, ['id', 'createdAt']),
+        updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
+        isDisabled: false,
+      }));
 
-          await knexConn('schooling-registrations')
-            .where(whereConditions)
-            .update({
-              ...attributesToUpdate,
-              isDisabled: false,
-              updatedAt: knexConn.raw('CURRENT_TIMESTAMP'),
-            });
-        }),
-        knexConn.batchInsert('schooling-registrations', schoolingRegistrationsToCreate),
-      ]);
+      await knexConn('schooling-registrations')
+        .insert(schoolingRegistrationsToSave)
+        .onConflict(['organizationId', 'nationalStudentId'])
+        .merge();
     } catch (err) {
       throw new SchoolingRegistrationsCouldNotBeSavedError();
     }
   },
 
-  async _reconcileSchoolingRegistrations(schoolingRegistrationsToImport, existingSchoolingRegistrations) {
+  async _reconcileSchoolingRegistrations(schoolingRegistrationsToImport, existingSchoolingRegistrations, domainTransaction) {
     const nationalStudentIdsFromFile = schoolingRegistrationsToImport.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
-    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile));
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile), domainTransaction);
 
-    return _.map(schoolingRegistrationsToImport, (schoolingRegistration) => {
-      const currentSchoolingRegistration = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
+    _.each(students, (student) => {
+      const schoolingRegistration = _.find(schoolingRegistrationsToImport, { nationalStudentId: student.nationalStudentId });
+      const existingRegistrationForUserId = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
+        return currentSchoolingRegistration.userId === student.account.userId;
       });
-
-      if (!currentSchoolingRegistration || !_isReconciled(currentSchoolingRegistration)) {
-        const student = students.find((student) => student.nationalStudentId === schoolingRegistration.nationalStudentId && !existingSchoolingRegistrations.some(({ userId }) => userId === student.account.userId));
-        if (student) {
-          schoolingRegistration.userId = student.account.userId;
-        }
+      if (_canReconcile(existingRegistrationForUserId, student)) {
+        schoolingRegistration.userId = student.account.userId;
       }
-      return schoolingRegistration;
     });
-  },
-
-  async _getStudentsListToUpdateOrCreate(schoolingRegistrationsToImport, existingSchoolingRegistrations) {
-    return _.partition(schoolingRegistrationsToImport, (schoolingRegistration) => {
-
-      const currentSchoolingRegistration = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
-        return currentSchoolingRegistration.nationalStudentId === schoolingRegistration.nationalStudentId;
-      });
-
-      return !!currentSchoolingRegistration;
-    });
+    return schoolingRegistrationsToImport;
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {

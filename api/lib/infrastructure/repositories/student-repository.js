@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Student = require('../../domain/models/Student');
-const Bookshelf = require('../bookshelf');
+const { knex } = require('../../../db/knex-database-connection');
+const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
 
@@ -14,8 +15,9 @@ module.exports = {
     return students;
   },
 
-  async findReconciledStudentsByNationalStudentId(nationalStudentIds) {
-    const results = await Bookshelf.knex
+  async findReconciledStudentsByNationalStudentId(nationalStudentIds, domainTransaction = DomainTransaction.emptyTransaction()) {
+    const knexConn = domainTransaction.knexTransaction || knex;
+    const results = await knexConn
       .select({
         nationalStudentId: 'schooling-registrations.nationalStudentId',
         userId: 'users.id',
