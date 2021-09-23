@@ -6,8 +6,12 @@ export default class EntryPoint extends Route {
   @service currentUser;
   @service campaignStorage;
 
-  async model() {
+  model() {
     return this.modelFor('campaigns');
+  }
+
+  afterModel(campaign) {
+    this.campaignStorage.clear(campaign.code);
   }
 
   async redirect(campaign, transition) {

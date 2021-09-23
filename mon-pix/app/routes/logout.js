@@ -16,13 +16,14 @@ export default class LogoutRoute extends Route {
     const session = this.session;
     this.source = session.data.authenticated.source;
     delete session.data.externalUser;
+    this.campaignStorage.clearAll();
+
     if (session.isAuthenticated) {
       if (get(session, 'data.authenticated.id_token')) {
         const { id_token } = session.data.authenticated;
         return session.singleLogout(id_token);
       }
 
-      this.campaignStorage.clear();
       return session.invalidate();
     }
   }
