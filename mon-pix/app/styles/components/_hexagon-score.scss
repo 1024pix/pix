@@ -71,15 +71,11 @@
   border-radius: 3px;
   z-index: 300;
   width: 300px;
-  padding: 20px 36px;
+  padding: 32px;
   margin: 150px 0 0 -80px;
-  letter-spacing: 0.12rem;
-  word-spacing: 0.16rem;
 
   @include device-is('large-screen') {
-    height: 270px;
     width: 587px;
-    padding: 20px 36px;
     margin: 135px 0 0 -520px;
   }
 
@@ -102,7 +98,7 @@
 
   p {
     margin-top: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 
     &:last-child {
       margin-bottom: 0;
@@ -113,7 +109,7 @@
 .hexagon-score-information__text {
   font-family: $font-open-sans;
   font-size: 1rem;
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   display: block;
 
   &--strong {
