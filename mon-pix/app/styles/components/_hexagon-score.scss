@@ -65,36 +65,7 @@
 }
 
 .hexagon-score__information {
-  position: absolute;
-  background-color: $white;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-  z-index: 300;
-  width: 300px;
-  padding: 32px;
-  margin: 150px 0 0 -80px;
-
-  @include device-is('large-screen') {
-    width: 587px;
-    margin: 135px 0 0 -520px;
-  }
-
-  &::before {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: -17px;
-    right: 130px;
-    border-bottom: 20px solid white;
-    border-left: 20px solid transparent;
-    border-right: 20px solid transparent;
-
-    @include device-is('large-screen') {
-      right: 0;
-      border-right: none;
-    }
-  }
+  padding: 24px 16px;
 
   p {
     margin-top: 0;
@@ -128,11 +99,6 @@
   }
 }
 
-.pix-button.hexagon-score-content-pix-total__button {
+hexagon-score-content-pix-total__icon {
   padding: 0 0 0 4px;
-  border: none;
-
-  &:hover {
-    background-color: transparent;
-  }
 }
