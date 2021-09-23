@@ -54,6 +54,7 @@ async function authenticateExternalUser({
       throw new UserShouldChangePasswordError();
     }
 
+    await userRepository.updateLastLoggedAt({ userId: userFromCredentials.id });
     return tokenService.createAccessTokenFromExternalUser(userFromCredentials.id);
 
   } catch (error) {
