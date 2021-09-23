@@ -5,7 +5,6 @@ import ENV from 'mon-pix/config/environment';
 import get from 'lodash/get';
 
 const AUTHENTICATED_SOURCE_FROM_MEDIACENTRE = ENV.APP.AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
-const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI;
 
 export default class LogoutRoute extends Route {
   @service session;
@@ -13,7 +12,6 @@ export default class LogoutRoute extends Route {
 
   beforeModel() {
     const session = this.session;
-    this.source = session.data.authenticated.source;
     delete session.data.externalUser;
     if (session.isAuthenticated) {
       if (get(session, 'data.authenticated.id_token')) {
@@ -21,23 +19,12 @@ export default class LogoutRoute extends Route {
         return session.singleLogout(id_token);
       }
 
+      if (session.data.authenticated.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
+        session.alternativeRootURL = '/nonconnecte';
+      } else {
+        session.alternativeRootURL = null;
+      }
       return session.invalidate();
     }
-  }
-
-  afterModel() {
-    if (this.source === AUTHENTICATED_SOURCE_FROM_MEDIACENTRE) {
-      return this._redirectToDisconnectedPage();
-    } else if (this.source !== AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI) {
-      return this._redirectToHome();
-    }
-  }
-
-  _redirectToDisconnectedPage() {
-    return this.transitionTo('not-connected');
-  }
-
-  _redirectToHome() {
-    return window.location.replace(this.url.homeUrl);
   }
 }
