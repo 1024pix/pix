@@ -72,6 +72,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-related-to-managing-students-organization': false,
               'is-access-blocked-college': false,
               'is-access-blocked-lycee': false,
+              'is-access-blocked-aefe': false,
+              'is-access-blocked-agri': false,
               'related-organization-tags': [],
             },
           },
@@ -85,6 +87,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
               'is-related-to-managing-students-organization': true,
               'is-access-blocked-college': false,
               'is-access-blocked-lycee': false,
+              'is-access-blocked-aefe': false,
+              'is-access-blocked-agri': false,
               'related-organization-tags': [
                 'tag1',
               ],

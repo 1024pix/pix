@@ -22,6 +22,8 @@ module.exports = {
           'isRelatedToManagingStudentsOrganization',
           'isAccessBlockedCollege',
           'isAccessBlockedLycee',
+          'isAccessBlockedAEFE',
+          'isAccessBlockedAgri',
           'relatedOrganizationTags',
         ],
       },
@@ -38,6 +40,8 @@ module.exports = {
             ...access,
             isAccessBlockedCollege: access.isAccessBlockedCollege(),
             isAccessBlockedLycee: access.isAccessBlockedLycee(),
+            isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
+            isAccessBlockedAgri: access.isAccessBlockedAgri(),
           };
         });
 
