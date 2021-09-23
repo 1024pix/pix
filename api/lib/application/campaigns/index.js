@@ -4,6 +4,9 @@ const campaignManagementController = require('./campaign-management-controller')
 const campaignStatsController = require('./campaign-stats-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 const identifiersType = require('../../domain/types/identifiers-type');
+const CampaignParticipation = require('../../domain/models/CampaignParticipation');
+
+const campaignParticipationStatuses = Object.values(CampaignParticipation.statuses);
 
 exports.register = async function(server) {
   server.route([
@@ -256,6 +259,7 @@ exports.register = async function(server) {
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
+            'filter[status]': Joi.string().valid(...campaignParticipationStatuses).empty(''),
           }),
         },
         handler: campaignController.findParticipantsActivity,
