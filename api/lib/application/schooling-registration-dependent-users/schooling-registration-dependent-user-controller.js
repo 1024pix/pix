@@ -3,6 +3,7 @@ const schoolingRegistrationDependentUser = require('../../infrastructure/seriali
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 const tokenService = require('../../domain/services/token-service');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
+const userRepository = require('../../infrastructure/repositories/user-repository');
 
 module.exports = {
 
@@ -41,7 +42,9 @@ module.exports = {
       token,
     });
 
+    // todo : refacto, should not call tokenService and userRepository from here
     const accessToken = tokenService.createAccessTokenFromExternalUser(createdUser.id);
+    await userRepository.updateLastLoggedAt({ userId: createdUser.id });
 
     const response = {
       data: {
