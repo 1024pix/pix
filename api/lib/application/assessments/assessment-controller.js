@@ -131,7 +131,7 @@ async function _getChallenge(assessment, request) {
   const challenge = await _getChallengeByAssessmentType({ assessment, request });
 
   if (challenge) {
-    if (challenge.id !== assessment.currentChallengeId) {
+    if (challenge.id !== assessment.lastChallengeId) {
       await assessmentRepository.updateWhenNewChallengeIsAsked({ id: assessment.id, lastChallengeId: challenge.id });
     }
   }
