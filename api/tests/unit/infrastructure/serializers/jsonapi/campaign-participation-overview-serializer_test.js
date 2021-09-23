@@ -32,7 +32,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       campaignTitle: 'My campaign',
       campaignArchivedAt: new Date('2021-01-01'),
       targetProfile,
-      masteryPercentage: '0.50',
+      masteryRate: 0.50,
     });
 
     let expectedSerializedCampaignParticipationOverview;
@@ -51,7 +51,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'campaign-code': '1234',
             'campaign-title': 'My campaign',
             'campaign-archived-at': new Date('2021-01-01'),
-            'mastery-percentage': '0.50',
+            'mastery-rate': 0.50,
             'validated-stages-count': 1,
             'total-stages-count': 2,
           },
@@ -85,7 +85,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 1',
           campaignArchivedAt: null,
           targetProfile,
-          masteryPercentage: null,
+          masteryRate: null,
         }),
         new CampaignParticipationOverview({
           id: 7,
@@ -98,7 +98,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
           campaignTitle: 'My campaign 2',
           campaignArchivedAt: null,
           targetProfile,
-          masteryPercentage: null,
+          masteryRate: null,
         }),
       ];
       const pagination = {
@@ -124,7 +124,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
               'is-shared': false,
               'organization-name': 'My organization 1',
               'shared-at': new Date('2018-02-07T17:15:44Z'),
-              'mastery-percentage': null,
+              'mastery-rate': null,
               'campaign-archived-at': null,
               'validated-stages-count': null,
               'total-stages-count': 0,
@@ -141,7 +141,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
               'is-shared': false,
               'organization-name': 'My organization 2',
               'shared-at': new Date('2018-02-10T17:30:44Z'),
-              'mastery-percentage': null,
+              'mastery-rate': null,
               'campaign-archived-at': null,
               'validated-stages-count': null,
               'total-stages-count': 0,
