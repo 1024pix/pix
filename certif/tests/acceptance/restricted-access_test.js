@@ -61,6 +61,8 @@ module('Acceptance | Restricted access', function(hooks) {
           isRelatedToManagingStudentsOrganization: true,
           isAccessBlockedCollege: true,
           isAccessBlockedLycee: false,
+          isAccessBlockedAEFE: false,
+          isAccessBlockedAgri: false,
         });
         certificationPointOfContact.update({
           allowedCertificationCenterAccesses: [blockedCertificationCenterAccess],

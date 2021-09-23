@@ -7,6 +7,8 @@ export default class AllowedCertificationCenterAccess extends Model {
   @attr() isRelatedToManagingStudentsOrganization;
   @attr() isAccessBlockedCollege;
   @attr() isAccessBlockedLycee;
+  @attr() isAccessBlockedAEFE;
+  @attr() isAccessBlockedAgri;
   @attr() relatedOrganizationTags;
 
   get isSco() {
@@ -18,6 +20,6 @@ export default class AllowedCertificationCenterAccess extends Model {
   }
 
   get isAccessRestricted() {
-    return this.isAccessBlockedCollege || this.isAccessBlockedLycee;
+    return this.isAccessBlockedCollege || this.isAccessBlockedLycee || this.isAccessBlockedAEFE || this.isAccessBlockedAgri;
   }
 }

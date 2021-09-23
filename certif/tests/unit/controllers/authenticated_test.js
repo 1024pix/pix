@@ -63,6 +63,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         type: 'NOT_SCO',
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -92,6 +94,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         isRelatedToManagingStudentsOrganization: true,
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -121,6 +125,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         isRelatedToManagingStudentsOrganization: true,
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -150,6 +156,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         isRelatedToManagingStudentsOrganization: true,
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -179,6 +187,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         id: 123,
         isAccessBlockedCollege: true,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
@@ -200,6 +210,8 @@ module('Unit | Controller | authenticated', function(hooks) {
         id: 123,
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       }));
       class CurrentUserStub extends Service {
         currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
