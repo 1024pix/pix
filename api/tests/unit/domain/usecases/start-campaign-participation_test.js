@@ -60,7 +60,7 @@ describe('Unit | UseCase | start-campaign-participation', function() {
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,
         type: Campaign.types.ASSESSMENT,
-        assessmentMethod: Campaign.assessmentMethods.FLASH,
+        assessmentMethod: Assessment.methods.FLASH,
       });
       campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId, domainTransaction).resolves(campaignToJoin);
       campaignParticipation.campaign = campaignToJoin;

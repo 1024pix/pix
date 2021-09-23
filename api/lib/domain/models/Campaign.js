@@ -5,11 +5,6 @@ const types = {
   PROFILES_COLLECTION: 'PROFILES_COLLECTION',
 };
 
-const assessmentMethods = {
-  SMART_RANDOM: 'SMART_RANDOM',
-  FLASH: 'FLASH',
-};
-
 class Campaign {
   constructor({
     id,
@@ -77,6 +72,5 @@ class Campaign {
 }
 
 Campaign.types = types;
-Campaign.assessmentMethods = assessmentMethods;
 
 module.exports = Campaign;
