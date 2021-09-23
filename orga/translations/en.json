@@ -330,6 +330,10 @@
             "title": "Class",
             "empty": "No class"
           },
+          "status": {
+            "title": "Status",
+            "empty": "All statuses"
+          },
           "stages": "Success rate"
         }
       },

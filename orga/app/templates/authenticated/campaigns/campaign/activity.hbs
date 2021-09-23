@@ -5,20 +5,16 @@
   <Campaign::Activity::Dashboard @campaign={{@model.campaign}} class="activity__dashboard" />
 
   <h3 class="sr-only">{{t "pages.campaign-activity.table.title"}}</h3>
-  <Campaign::Filter::ParticipationFilters
-    @campaign={{@model.campaign}}
-    @selectedDivisions={{this.divisions}}
-    @rowCount={{@model.participations.meta.rowCount}}
-    @isHiddenStages={{true}}
-    @isHiddenBadges={{true}}
-    @onFilter={{this.triggerFiltering}}
-    @onResetFilter={{this.resetFiltering}}
-  />
 
   <Campaign::Activity::ParticipantsList
     @campaign={{@model.campaign}}
-    @participations={{@model.participations}}
     @onClickParticipant={{this.goToParticipantPage}}
+    @participations={{@model.participations}}
+    @selectedStatus={{this.status}}
+    @selectedDivisions={{this.divisions}}
+    @rowCount={{@model.participations.meta.rowCount}}
+    @onFilter={{this.triggerFiltering}}
+    @onResetFilter={{this.resetFiltering}}
     class="activity__participants-list"
   />
 {{else}}
