@@ -31,6 +31,18 @@ class AllowedCertificationCenterAccess {
       && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
   }
 
+  isAccessBlockedAEFE() {
+    return this.isAEFE()
+      && !this.isInWhitelist()
+      && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
+  }
+
+  isAccessBlockedAgri() {
+    return this.isAgri()
+      && !this.isInWhitelist()
+      && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
+  }
+
   hasTag(tagName) {
     return this.relatedOrganizationTags.includes(tagName);
   }
@@ -43,6 +55,15 @@ class AllowedCertificationCenterAccess {
   isLycee() {
     return this.isScoManagingStudents()
       && (this.hasTag('LYCEE') || this.hasTag('LYCEE PRO'));
+  }
+
+  isAEFE() {
+    return this.hasTag('AEFE');
+  }
+
+  isAgri() {
+    return this.isScoManagingStudents()
+    && this.hasTag('AGRICULTURE');
   }
 
   isScoManagingStudents() {
