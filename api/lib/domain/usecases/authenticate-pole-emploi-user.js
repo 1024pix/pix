@@ -43,6 +43,7 @@ module.exports = async function authenticatePoleEmploiUser({
       authenticatedUserId,
       authenticationComplement,
       authenticationMethodRepository,
+      userRepository,
       tokenService,
     });
   } else {
@@ -50,12 +51,15 @@ module.exports = async function authenticatePoleEmploiUser({
 
     if (!user) {
       const authenticationKey = await poleEmploiTokensRepository.save(poleEmploiTokens);
-      return { authenticationKey }; // todo : refacto, should not return differents objects
+      return { authenticationKey }; // todo : refacto, should not return different objects
+      // will be refacto when keycloak will be setup
+      // this return should be replaced by domain error (see controller)
     } else {
       pixAccessToken = await _getPixAccessTokenFromPoleEmploiUser({
         user,
         authenticationComplement,
         authenticationMethodRepository,
+        userRepository,
         tokenService,
       });
     }
@@ -81,6 +85,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   authenticatedUserId,
   authenticationComplement,
   authenticationMethodRepository,
+  userRepository,
   tokenService,
 }) {
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId: authenticatedUserId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
@@ -98,6 +103,7 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   }
   const pixAccessToken = tokenService.createAccessTokenFromUser(authenticatedUserId, 'pole_emploi_connect');
 
+  await userRepository.updateLastLoggedAt({ userId: authenticatedUserId });
   return pixAccessToken;
 }
 
@@ -105,9 +111,12 @@ async function _getPixAccessTokenFromPoleEmploiUser({
   user,
   authenticationComplement,
   authenticationMethodRepository,
+  userRepository,
   tokenService,
 }) {
   await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: user.id });
   const pixAccessToken = tokenService.createAccessTokenFromUser(user.id, 'pole_emploi_connect');
+
+  await userRepository.updateLastLoggedAt({ userId: user.id });
   return pixAccessToken;
 }
