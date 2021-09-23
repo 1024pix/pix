@@ -200,5 +200,6 @@ Assessment.courseIdMessage = courseIdMessage;
 Assessment.states = states;
 Assessment.types = types;
 Assessment.statesOfLastQuestion = statesOfLastQuestion;
+Assessment.methods = methods;
 
 module.exports = Assessment;
