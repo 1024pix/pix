@@ -59,6 +59,7 @@ module.exports = {
   buildCompetenceResult: require('./build-competence-result'),
   buildCompetenceTree: require('./build-competence-tree'),
   buildCourse: require('./build-course'),
+  buildGrantedAccreditation: require('./build-granted-accreditation'),
   buildFinalizedSession: require('./build-finalized-session'),
   buildHint: require('./build-hint'),
   buildHigherSchoolingRegistration: require('./build-higher-schooling-registration'),
