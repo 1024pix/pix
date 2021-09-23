@@ -93,20 +93,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
     it('should call authenticate pole emploi user with code, redirectUri and clientId parameters', async function() {
       // given
-      const poleEmploiTokens = new PoleEmploiTokens({
-        accessToken: 'poleEmploiAccessToken',
-        expiresIn: 60,
-        idToken: 'idToken',
-        refreshToken: 'refreshToken',
-      });
-      const userInfo = {
-        family_name: 'Morris',
-        given_name: 'Tuck',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
-
-      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+      _generatePoleEmploiUserAndToken({ authenticationService });
 
       // when
       await authenticatePoleEmploiUser({
@@ -131,20 +118,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
     it('should call get pole emploi user info with id token parameter', async function() {
       // given
-      const poleEmploiTokens = new PoleEmploiTokens({
-        accessToken: 'poleEmploiAccessToken',
-        expiresIn: 60,
-        idToken: 'idToken',
-        refreshToken: 'refreshToken',
-      });
-      const userInfo = {
-        family_name: 'Morris',
-        given_name: 'Tuck',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
-
-      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+      _generatePoleEmploiUserAndToken({ authenticationService });
 
       // when
       await authenticatePoleEmploiUser({
@@ -169,20 +143,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
       // given
       const user = new User({ id: 1, firstName: 'Tuck', lastName: 'Morris' });
       user.externalIdentityId = '094b83ac-2e20-4aa8-b438-0bc91748e4a6';
-      const poleEmploiTokens = new PoleEmploiTokens({
-        accessToken: 'poleEmploiAccessToken',
-        expiresIn: 60,
-        idToken: 'idToken',
-        refreshToken: 'refreshToken',
-      });
-      const userInfo = {
-        family_name: 'Morris',
-        given_name: 'Tuck',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
 
-      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+      _generatePoleEmploiUserAndToken({ authenticationService });
       userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
 
       // when
@@ -206,26 +168,8 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
     it('should return accessToken and idToken', async function() {
       // given
-      const pixAccessToken = 'pixAccessToken';
-      const poleEmploiTokens = new PoleEmploiTokens({
-        accessToken: 'poleEmploiAccessToken',
-        expiresIn: 60,
-        idToken: 'idToken',
-        refreshToken: 'refreshToken',
-      });
-      const expectedResult = {
-        pixAccessToken,
-        poleEmploiTokens,
-      };
-      const userInfo = {
-        family_name: 'Morris',
-        given_name: 'Tuck',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
-
-      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
-      tokenService.createAccessTokenFromUser.returns(pixAccessToken);
+      const { poleEmploiTokens } = _generatePoleEmploiUserAndToken({ authenticationService });
+      tokenService.createAccessTokenFromUser.returns('pixAccessToken');
 
       // when
       const result = await authenticatePoleEmploiUser({
@@ -243,6 +187,10 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
       });
 
       // then
+      const expectedResult = {
+        pixAccessToken: 'pixAccessToken',
+        poleEmploiTokens,
+      };
       expect(result).to.deep.equal(expectedResult);
     });
 
@@ -251,25 +199,7 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
       it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function() {
         // given
         userRepository.findByPoleEmploiExternalIdentifier.resolves({ id: 1 });
-        const poleEmploiTokens = new PoleEmploiTokens({
-          accessToken: 'poleEmploiAccessToken',
-          expiresIn: 60,
-          idToken: 'idToken',
-          refreshToken: 'refreshToken',
-        });
-        const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-          accessToken: poleEmploiTokens.accessToken,
-          refreshToken: poleEmploiTokens.refreshToken,
-          expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
-        });
-        const userInfo = {
-          family_name: 'Morris',
-          given_name: 'Tuck',
-          externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-        };
-
-        authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-        authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+        const { poleEmploiTokens } = _generatePoleEmploiUserAndToken({ authenticationService });
 
         // when
         await authenticatePoleEmploiUser({
@@ -287,6 +217,11 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
         });
 
         // then
+        const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+          accessToken: poleEmploiTokens.accessToken,
+          refreshToken: poleEmploiTokens.refreshToken,
+          expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
+        });
         expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({
           authenticationComplement: expectedAuthenticationComplement,
           userId: 1,
@@ -300,18 +235,25 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
         it('should call authentication method repository create function with pole emploi authentication method in domain transaction', async function() {
           // given
-          const userInfo = {
-            firstName: 'Tuck',
-            lastName: 'Morris',
-            externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-          };
+          const { poleEmploiTokens } = _generatePoleEmploiUserAndToken({ authenticationService });
+          userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
 
-          const poleEmploiTokens = new PoleEmploiTokens({
-            accessToken: 'poleEmploiAccessToken',
-            expiresIn: 60,
-            idToken: 'idToken',
-            refreshToken: 'refreshToken',
+          // when
+          await authenticatePoleEmploiUser({
+            authenticatedUserId: 1,
+            clientId: 'clientId',
+            code: 'code',
+            redirectUri: 'redirectUri',
+            stateReceived: 'state',
+            stateSent: 'state',
+            authenticationService,
+            tokenService,
+            authenticationMethodRepository,
+            poleEmploiTokensRepository,
+            userRepository,
           });
+
+          // then
           const expectedAuthenticationMethod = new AuthenticationMethod({
             identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
             externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
@@ -322,27 +264,6 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
             }),
             userId: 1,
           });
-
-          userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
-          authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-          authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
-
-          // when
-          await authenticatePoleEmploiUser({
-            authenticatedUserId: 1,
-            clientId: 'clientId',
-            code: 'code',
-            redirectUri: 'redirectUri',
-            stateReceived: 'state',
-            stateSent: 'state',
-            authenticationService,
-            tokenService,
-            authenticationMethodRepository,
-            poleEmploiTokensRepository,
-            userRepository,
-          });
-
-          // then
           expect(authenticationMethodRepository.create).to.have.been.calledWith({
             authenticationMethod: expectedAuthenticationMethod,
           });
@@ -353,28 +274,10 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
         it('should call authentication repository updatePoleEmploiAuthenticationComplementByUserId function', async function() {
           // given
+          const { poleEmploiTokens } = _generatePoleEmploiUserAndToken({ authenticationService });
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
             externalIdentifier: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
           }));
-          const poleEmploiTokens = new PoleEmploiTokens({
-            accessToken: 'poleEmploiAccessToken',
-            expiresIn: 60,
-            idToken: 'idToken',
-            refreshToken: 'refreshToken',
-          });
-          const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
-            accessToken: poleEmploiTokens.accessToken,
-            refreshToken: poleEmploiTokens.refreshToken,
-            expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
-          });
-          const userInfo = {
-            family_name: 'Morris',
-            given_name: 'Tuck',
-            externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-          };
-
-          authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-          authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
 
           // when
           await authenticatePoleEmploiUser({
@@ -392,32 +295,25 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
           });
 
           // then
-          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId)
-            .to.have.been.calledWith({
-              authenticationComplement: expectedAuthenticationComplement,
-              userId: 1,
-            });
+          const expectedAuthenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+            accessToken: poleEmploiTokens.accessToken,
+            refreshToken: poleEmploiTokens.refreshToken,
+            expiredDate: moment().add(poleEmploiTokens.expiresIn, 's').toDate(),
+          });
+          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({
+            authenticationComplement: expectedAuthenticationComplement,
+            userId: 1,
+          });
         });
 
         it('should throw an UnexpectedUserAccountError error if the external identifier does not match the one in the pole emploi id token', async function() {
           // given
-          const poleEmploiTokens = new PoleEmploiTokens({
-            accessToken: 'poleEmploiAccessToken',
-            expiresIn: 60,
-            idToken: 'idToken',
-            refreshToken: 'refreshToken',
-          });
-          const userInfo = {
-            family_name: 'Morris',
-            given_name: 'Tuck',
-            externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-          };
+          _generatePoleEmploiUserAndToken({ authenticationService });
 
-          authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
-            externalIdentifier: 'other_external_identifier',
-          }));
-          authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
+            .resolves(domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+              externalIdentifier: 'other_external_identifier',
+            }));
 
           // when
           const error = await catchErr(authenticatePoleEmploiUser)({
@@ -445,23 +341,10 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
 
     it('should call poleEmploiTokens repository save method', async function() {
       // given
+      const { poleEmploiTokens } = _generatePoleEmploiUserAndToken({ authenticationService });
       const key = 'aaa-bbb-ccc';
       poleEmploiTokensRepository.save.resolves(key);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
-      const poleEmploiTokens = new PoleEmploiTokens({
-        accessToken: 'poleEmploiAccessToken',
-        expiresIn: 60,
-        idToken: 'idToken',
-        refreshToken: 'refreshToken',
-      });
-      const userInfo = {
-        family_name: 'Morris',
-        given_name: 'Tuck',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
-
-      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
 
       // when
       await authenticatePoleEmploiUser({
@@ -485,22 +368,9 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
     it('should return an authenticationKey', async function() {
       // given
       const key = 'aaa-bbb-ccc';
-      const poleEmploiTokens = new PoleEmploiTokens({
-        accessToken: 'poleEmploiAccessToken',
-        expiresIn: 60,
-        idToken: 'idToken',
-        refreshToken: 'refreshToken',
-      });
-      const userInfo = {
-        family_name: 'Morris',
-        given_name: 'Tuck',
-        externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
-      };
-
+      _generatePoleEmploiUserAndToken({ authenticationService });
       poleEmploiTokensRepository.save.resolves(key);
       userRepository.findByPoleEmploiExternalIdentifier.resolves(null);
-      authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
-      authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
 
       // when
       const result = await authenticatePoleEmploiUser({
@@ -522,3 +392,24 @@ describe('Unit | UseCase | authenticate-pole-emploi-user', function() {
     });
   });
 });
+
+function _generatePoleEmploiUserAndToken({
+  authenticationService,
+}) {
+  const poleEmploiTokens = new PoleEmploiTokens({
+    accessToken: 'poleEmploiAccessToken',
+    expiresIn: 60,
+    idToken: 'idToken',
+    refreshToken: 'refreshToken',
+  });
+  const userInfo = {
+    family_name: 'Morris',
+    given_name: 'Tuck',
+    externalIdentityId: '094b83ac-2e20-4aa8-b438-0bc91748e4a6',
+  };
+
+  authenticationService.getPoleEmploiUserInfo.resolves(userInfo);
+  authenticationService.generatePoleEmploiTokens.resolves(poleEmploiTokens);
+
+  return { poleEmploiTokens };
+}
