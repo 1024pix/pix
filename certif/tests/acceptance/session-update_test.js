@@ -16,6 +16,8 @@ module('Acceptance | Session Update', function(hooks) {
     allowedCertificationCenterAccess = server.create('allowed-certification-center-access', {
       isAccessBlockedCollege: false,
       isAccessBlockedLycee: false,
+      isAccessBlockedAEFE: false,
+      isAccessBlockedAgri: false,
     });
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',

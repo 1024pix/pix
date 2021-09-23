@@ -37,6 +37,8 @@ module('Acceptance | Session List', function(hooks) {
         id: 123,
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       });
       certificationPointOfContact = server.create('certification-point-of-contact', {
         firstName: 'Buffy',

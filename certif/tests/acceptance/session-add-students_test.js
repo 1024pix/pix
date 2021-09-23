@@ -22,6 +22,8 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
       isRelatedToManagingStudentsOrganization: true,
       isAccessBlockedCollege: false,
       isAccessBlockedLycee: false,
+      isAccessBlockedAEFE: false,
+      isAccessBlockedAgri: false,
     });
     certificationPointOfContact = server.create('certification-point-of-contact', {
       firstName: 'Buffy',
