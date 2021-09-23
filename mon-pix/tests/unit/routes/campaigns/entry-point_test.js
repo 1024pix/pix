@@ -19,7 +19,7 @@ describe('Unit | Route | Entry Point', function() {
     route.store = { queryRecord: sinon.stub() };
     route.replaceWith = sinon.stub();
     route.modelFor = sinon.stub();
-    route.campaignStorage = { set: sinon.stub() };
+    route.campaignStorage = { set: sinon.stub(), clear: sinon.stub() };
   });
 
   describe('#model', function() {
@@ -29,6 +29,16 @@ describe('Unit | Route | Entry Point', function() {
 
       //then
       sinon.assert.calledWith(route.modelFor, 'campaigns');
+    });
+  });
+
+  describe('#afterModel', function() {
+    it('should erase campaign storage', async function() {
+      //given/when
+      await route.afterModel({ code: 'CODE' });
+
+      //then
+      sinon.assert.calledWith(route.campaignStorage.clear, 'CODE');
     });
   });
 

@@ -15,6 +15,10 @@ export default class CampaignStorage extends Service {
   clear(campaignCode) {
     _setCampaignData(campaignCode, {});
   }
+
+  clearAll() {
+    sessionStorage.setItem('campaigns', JSON.stringify({}));
+  }
 }
 
 function _getCampaignData(campaignCode) {
