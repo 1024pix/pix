@@ -6,7 +6,9 @@ export default class ParticipationFilters extends Component {
   @service currentUser;
 
   get displayFilters() {
-    return this.displayStagesFilter || this.displayBadgesFilter || this.displayDivisionFilter;
+    return (
+      this.displayStagesFilter || this.displayBadgesFilter || this.displayDivisionFilter || this.displayStatusFilter
+    );
   }
 
   get displayStagesFilter() {
@@ -23,25 +25,42 @@ export default class ParticipationFilters extends Component {
     return this.isDivisionsLoaded && this.currentUser.isSCOManagingStudents;
   }
 
+  get displayStatusFilter() {
+    return !this.args.isHiddenStatus;
+  }
+
   get stageOptions() {
-    return this.args.campaign.stages.map(({ id, threshold }) => ({ value: id, threshold }));
+    return this.args.campaign?.stages?.map(({ id, threshold }) => ({ value: id, threshold }));
   }
 
   get badgeOptions() {
-    return this.args.campaign.badges.map(({ id, title }) => ({ value: id, label: title }));
+    return this.args.campaign?.badges?.map(({ id, title }) => ({ value: id, label: title }));
   }
 
   get isDivisionsLoaded() {
-    return this.args.campaign.divisions.content.length > 0;
+    return this.args.campaign?.divisions?.content?.length > 0;
   }
 
   get divisionOptions() {
-    return this.args.campaign.divisions.map(({ name }) => ({ value: name, label: name }));
+    return this.args.campaign?.divisions?.map(({ name }) => ({ value: name, label: name }));
+  }
+
+  get statusOptions() {
+    return [
+      { value: 'STARTED', label: 'Démarrée' },
+      { value: 'TO_SHARE', label: 'A partager' },
+      { value: 'SHARED', label: 'Partagée' },
+    ];
   }
 
   @action
   onSelectStage(stages) {
     this.args.onFilter({ stages });
+  }
+
+  @action
+  onSelectStatus(e) {
+    this.args.onFilter({ status: e.target.value });
   }
 
   @action

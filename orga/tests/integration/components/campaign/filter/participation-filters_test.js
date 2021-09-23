@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
-import { render, click } from '@ember/test-helpers';
+import { render, click, fillIn, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 import sinon from 'sinon';
@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       this.set('campaign', campaign);
 
       // when
-      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} />`);
+      await render(hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @isHiddenStatus={{true}} />`);
 
       // then
       assert.notContains('Filtres');
@@ -96,6 +96,51 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
         // then
         assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
       });
+    });
+  });
+
+  module('status', function () {
+    test('it triggers the filter when a status is selected', async function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        stages: [],
+      });
+
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      await render(
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+      );
+      await fillIn('[aria-label="Statut"]', 'STARTED');
+
+      // then
+      assert.ok(triggerFiltering.calledWith({ status: 'STARTED' }));
+    });
+
+    test('it select the option passed as selectedStatus args', async function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        stages: [],
+      });
+
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      await render(
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}} @selectedStatus="STARTED" />`
+      );
+
+      // then
+      assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
     });
   });
 

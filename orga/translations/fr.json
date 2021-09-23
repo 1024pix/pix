@@ -330,6 +330,10 @@
             "title": "Classes",
             "empty": "Pas de classe"
           },
+          "status": {
+            "title": "Statut",
+            "empty": "Tous les statuts"
+          },
           "stages": "Paliers"
         }
       },
