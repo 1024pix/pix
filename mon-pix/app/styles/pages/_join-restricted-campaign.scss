@@ -35,13 +35,27 @@
     text-align: right;
   }
 
-  &__title {
+  &__title,
+  &__sco-title {
     color: $grey-100;
     font-family: $font-open-sans;
-    font-size: 2.625rem;
     font-weight: $font-light;
     text-align: center;
+  }
+
+  &__title {
+    font-size: 2.625rem;
     margin-bottom: 12px;
+  }
+
+  &__sco-title {
+    font-size: 1.5625rem;
+    margin: 30px 0 12px 0;
+
+    @include device-is('tablet') {
+      font-size: 2.625rem;
+      margin: 0 0 12px 0;
+    }
   }
 
   &__subtitle {
@@ -57,16 +71,17 @@
     font-family: $font-roboto;
     font-size: 0.938rem;
     font-weight: $font-medium;
+    margin: 0;
   }
 
   &__field-error {
-    color: $pure-orange;
+    color: $red;
     font-size: 0.875rem;
   }
 
   &__error {
     text-align: center;
-    color: $pure-orange;
+    color: $red;
     font-size: 0.938rem;
     padding: 4px 10px;
     margin: 8px 0;
