@@ -9,9 +9,10 @@ const { SHARED, STARTED } = CampaignParticipation.statuses;
 
 describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function() {
   describe('constructor', function() {
+    //when
+    const targetProfile = new TargetProfileWithLearningContent({ id: 2, skills: [new Skill()] });
 
     it('should create CampaignParticipationOverview', function() {
-      const targetProfile = new TargetProfileWithLearningContent({ id: 2, skills: [new Skill()] });
 
       // when
       const campaignParticipationOverview = new CampaignParticipationOverview({
@@ -24,7 +25,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
         assessmentState: 'completed',
         campaignCode: 'campaignCode',
         campaignTitle: 'campaignTitle',
-        masteryPercentage: '0.50',
+        masteryRate: 0.50,
       });
 
       // then
@@ -37,7 +38,64 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
       expect(campaignParticipationOverview.assessmentState).to.equal('completed');
       expect(campaignParticipationOverview.campaignCode).to.equal('campaignCode');
       expect(campaignParticipationOverview.campaignTitle).to.equal('campaignTitle');
-      expect(campaignParticipationOverview.masteryPercentage).to.equal('0.50');
+      expect(campaignParticipationOverview.masteryRate).to.equal(0.50);
+    });
+
+    describe('masteryRate', function() {
+      context('when the masteryRate is undefined', function() {
+        it('should return null for the masteryRate', function() {
+
+          // when
+          const campaignParticipationOverview = new CampaignParticipationOverview({
+            targetProfile: targetProfile,
+            masteryRate: undefined,
+          });
+
+          // then
+          expect(campaignParticipationOverview.masteryRate).to.equal(null);
+        });
+      });
+      context('when the masteryRate is null', function() {
+        it('should return null for the masteryRate', function() {
+
+          // when
+          const campaignParticipationOverview = new CampaignParticipationOverview({
+            targetProfile: targetProfile,
+            masteryRate: null,
+          });
+
+          // then
+          expect(campaignParticipationOverview.masteryRate).to.equal(null);
+        });
+      });
+
+      context('when the masteryRate equals to 0', function() {
+        it('should return 0 for the masteryRate', function() {
+
+          // when
+          const campaignParticipationOverview = new CampaignParticipationOverview({
+            targetProfile: targetProfile,
+            masteryRate: 0,
+          });
+
+          // then
+          expect(campaignParticipationOverview.masteryRate).to.equal(0);
+        });
+      });
+
+      context('when the masteryRate is a string', function() {
+        it('should return the number for the masteryRate', function() {
+
+          // when
+          const campaignParticipationOverview = new CampaignParticipationOverview({
+            targetProfile: targetProfile,
+            masteryRate: '0.75',
+          });
+
+          // then
+          expect(campaignParticipationOverview.masteryRate).to.equal(0.75);
+        });
+      });
     });
   });
 
@@ -62,7 +120,7 @@ describe('Unit | Domain | Read-Models | CampaignParticipationOverview', function
             status: SHARED,
             validatedSkillsCount: 1,
             targetProfile,
-            masteryPercentage: '0.5',
+            masteryRate: '0.5',
           });
 
           expect(campaignParticipationOverview.validatedStagesCount).to.equal(2);
