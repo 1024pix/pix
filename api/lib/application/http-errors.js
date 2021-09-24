@@ -75,10 +75,11 @@ class PasswordShouldChangeError extends BaseHttpError {
 }
 
 class ForbiddenError extends BaseHttpError {
-  constructor(message) {
+  constructor(message, code) {
     super(message);
     this.title = 'Forbidden';
     this.status = 403;
+    this.code = code;
   }
 }
 
