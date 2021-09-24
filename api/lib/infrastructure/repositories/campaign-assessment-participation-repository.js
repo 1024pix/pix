@@ -29,7 +29,7 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         'campaign-participations.sharedAt',
         'campaign-participations.status',
         'campaign-participations.participantExternalId',
-        'campaign-participations.masteryPercentage',
+        'campaign-participations.masteryRate',
         'assessments.state AS assessmentState',
         _assessmentRankByCreationDate(),
       ])

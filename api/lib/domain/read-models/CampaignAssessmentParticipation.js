@@ -1,5 +1,6 @@
 const Assessment = require('../models/Assessment');
 const CampaignParticipation = require('../models/CampaignParticipation');
+const _ = require('lodash');
 
 const { SHARED } = CampaignParticipation.statuses;
 
@@ -13,7 +14,7 @@ class CampaignAssessmentParticipation {
     campaignId,
     participantExternalId,
     assessmentState,
-    masteryPercentage,
+    masteryRate,
     sharedAt,
     status,
     createdAt,
@@ -32,7 +33,7 @@ class CampaignAssessmentParticipation {
     this.createdAt = createdAt;
     this.progression = this._computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount);
     this.badges = badges;
-    this.masteryPercentage = Number(masteryPercentage) || 0;
+    this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
   }
 
   _computeProgression(assessmentState, testedSkillsCount, targetedSkillsCount) {
