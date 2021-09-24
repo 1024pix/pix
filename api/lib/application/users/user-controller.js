@@ -269,10 +269,11 @@ module.exports = {
 
   async sendVerificationCode(request, h) {
     const locale = extractLocaleFromRequest(request);
+    const i18n = request.i18n;
     const userId = request.params.id;
     const { newEmail, password } = await emailVerificationSerializer.deserialize(request.payload);
 
-    await usecases.sendVerificationCode({ locale, newEmail, password, userId });
+    await usecases.sendVerificationCode({ i18n, locale, newEmail, password, userId });
     return h.response().code(204);
   },
 

@@ -140,7 +140,7 @@
     "subject": "Vous avez changé votre adresse e-mail"
   },
   "verification-code-email": {
-    "subject": "Vous avez changé votre adresse e-mail",
+    "subject": "Votre code Pix est {{ code }}",
     "body": {
       "doNotAnswer": "Ceci est un e-mail automatique, merci de ne pas y répondre",
       "context": "Vous souhaitez faire une modification de votre adresse e-mail sur votre compte. Pour continuer, entrez le code suivant sur Pix :",

@@ -342,7 +342,7 @@ function sendAccountRecoveryEmail({
   });
 }
 
-function sendVerificationCodeEmail({ code, email, locale }) {
+function sendVerificationCodeEmail({ code, email, locale, translate }) {
 
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
@@ -353,7 +353,7 @@ function sendVerificationCodeEmail({ code, email, locale }) {
   };
 
   if (locale === FRENCH_SPOKEN) {
-    options.subject = frTranslations['verification-code-email'].subject;
+    options.subject = translate(frTranslations['verification-code-email'].subject, { code });
 
     options.variables = {
       code,
@@ -365,7 +365,7 @@ function sendVerificationCodeEmail({ code, email, locale }) {
 
   }
   else if (locale === FRENCH_FRANCE) {
-    options.subject = frTranslations['verification-code-email'].subject;
+    options.subject = translate(frTranslations['verification-code-email'].subject, { code });
 
     options.variables = {
       code,
@@ -377,7 +377,7 @@ function sendVerificationCodeEmail({ code, email, locale }) {
 
   }
   else if (locale === ENGLISH_SPOKEN) {
-    options.subject = enTranslations['verification-code-email'].subject;
+    options.subject = translate(enTranslations['verification-code-email'].subject, { code });
 
     options.variables = {
       code,
