@@ -1,5 +1,17 @@
 # Pix Changelog
 
+## v3.105.0 (24/09/2021)
+
+- [#3508](https://github.com/1024pix/pix/pull/3508) [FEATURE] Afficher le statut d'un profil cible dans la liste des profils cibles dans Pix Admin (Pix-3475).
+- [#3428](https://github.com/1024pix/pix/pull/3428) [FEATURE] Pouvoir désannuler une certification sur PixAdmin (PIX-3132)
+- [#3487](https://github.com/1024pix/pix/pull/3487) [FEATURE] Ne plus utiliser la colonne `isShared` des campagne participations (PIX-3144)
+- [#3504](https://github.com/1024pix/pix/pull/3504) [FEATURE] Ajouter une liste des badges non acquis à ceux acquis en fin de campagne (PIX-2678).
+- [#3521](https://github.com/1024pix/pix/pull/3521) [BUGFIX] Le reload de la page ne doit pas faire oublié qu'on a défocus (PIX-3506).
+- [#3523](https://github.com/1024pix/pix/pull/3523) [TECH] Ajout du support pour le plugin Matomo Session Recordings
+- [#3489](https://github.com/1024pix/pix/pull/3489) [TECH] Refactoring de addOrUpdateOrganizationSchoolingRegistrations pour utiliser upsert (PIX-3450).
+- [#3512](https://github.com/1024pix/pix/pull/3512) [TECH] Ajouter une Github action qui notifie les équipes sur Slack lorsque le fichier de config est modifié.
+- [#3514](https://github.com/1024pix/pix/pull/3514) [TECH] Savoir si la personne a bien répondu mais est quand même sortie (PIX-3079).
+
 ## v3.104.0 (21/09/2021)
 
 - [#3517](https://github.com/1024pix/pix/pull/3517) [BUGFIX] Sauvegarde l'état de la question focus seulement en cas de sortie de la fenêtre
