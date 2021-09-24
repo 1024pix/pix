@@ -60,6 +60,7 @@ describe('Unit | UseCase | start-campaign-participation', function() {
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,
         type: Campaign.types.ASSESSMENT,
+        assessmentMethod: Assessment.methods.FLASH,
       });
       campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId, domainTransaction).resolves(campaignToJoin);
       campaignParticipation.campaign = campaignToJoin;
@@ -91,7 +92,7 @@ describe('Unit | UseCase | start-campaign-participation', function() {
         await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
 
         // then
-        const createdAssessment = Assessment.createForCampaign({ userId, campaignParticipationId: 1 });
+        const createdAssessment = Assessment.createForCampaign({ userId, campaignParticipationId: 1, method: campaignToJoin.assessmentMethod });
         expect(assessmentRepository.save).to.have.been.calledWith({ assessment: createdAssessment, domainTransaction });
       });
     });
@@ -108,7 +109,7 @@ describe('Unit | UseCase | start-campaign-participation', function() {
         await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
 
         // then
-        const createdAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: 1 });
+        const createdAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: 1, method: campaignToJoin.assessmentMethod });
         expect(assessmentRepository.save).to.have.been.calledWith({ assessment: createdAssessment, domainTransaction });
         expect(campaignParticipationRepository.markPreviousParticipationsAsImproved).to.have.been.calledWith(campaignToJoin.id, userId, domainTransaction);
       });

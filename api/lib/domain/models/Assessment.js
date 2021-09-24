@@ -25,6 +25,14 @@ const TYPES_OF_ASSESSMENT_NEEDING_USER = [
   types.CAMPAIGN,
 ];
 
+const methods = {
+  SMART_RANDOM: 'SMART_RANDOM',
+  CERTIFICATION_DETERMINED: 'CERTIFICATION_DETERMINED',
+  COURSE_DETERMINED: 'COURSE_DETERMINED',
+  CHOSEN: 'CHOSEN',
+  FLASH: 'FLASH',
+};
+
 const statesOfLastQuestion = {
   ASKED: 'asked',
   TIMEOUT: 'timeout',
@@ -52,6 +60,7 @@ class Assessment {
     userId,
     competenceId,
     campaignParticipationId,
+    method,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -72,6 +81,7 @@ class Assessment {
     this.userId = userId;
     this.competenceId = competenceId;
     this.campaignParticipationId = campaignParticipationId;
+    this.method = method || Assessment.computeMethodFromType(this.type);
   }
 
   isCompleted() {
@@ -121,6 +131,23 @@ class Assessment {
     return this.isCompetenceEvaluation() || this.isForCampaign();
   }
 
+  isFlash() {
+    return this.method === methods.FLASH;
+  }
+
+  static computeMethodFromType(type) {
+    switch (type) {
+      case Assessment.types.CERTIFICATION:
+        return methods.CERTIFICATION_DETERMINED;
+      case Assessment.types.DEMO:
+        return methods.COURSE_DETERMINED;
+      case Assessment.types.PREVIEW:
+        return methods.CHOSEN;
+      default:
+        return methods.SMART_RANDOM;
+    }
+  }
+
   static createForCertificationCourse({ userId, certificationCourseId }) {
     return new Assessment({
       userId,
@@ -128,10 +155,11 @@ class Assessment {
       state: Assessment.states.STARTED,
       type: Assessment.types.CERTIFICATION,
       isImproving: false,
+      method: methods.CERTIFICATION_DETERMINED,
     });
   }
 
-  static createForCampaign({ userId, campaignParticipationId }) {
+  static createForCampaign({ userId, campaignParticipationId, method }) {
     return new Assessment({
       userId,
       campaignParticipationId,
@@ -139,11 +167,12 @@ class Assessment {
       type: Assessment.types.CAMPAIGN,
       courseId: Assessment.courseIdMessage.CAMPAIGN,
       isImproving: false,
+      method,
     });
   }
 
-  static createImprovingForCampaign({ userId, campaignParticipationId }) {
-    const assessment = this.createForCampaign({ userId, campaignParticipationId });
+  static createImprovingForCampaign({ userId, campaignParticipationId, method }) {
+    const assessment = this.createForCampaign({ userId, campaignParticipationId, method });
     assessment.isImproving = true;
     return assessment;
   }
@@ -156,6 +185,7 @@ class Assessment {
       type: Assessment.types.COMPETENCE_EVALUATION,
       courseId: Assessment.courseIdMessage.COMPETENCE_EVALUATION,
       isImproving: false,
+      method: methods.SMART_RANDOM,
     });
   }
 
@@ -170,5 +200,6 @@ Assessment.courseIdMessage = courseIdMessage;
 Assessment.states = states;
 Assessment.types = types;
 Assessment.statesOfLastQuestion = statesOfLastQuestion;
+Assessment.methods = methods;
 
 module.exports = Assessment;

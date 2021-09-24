@@ -3,6 +3,17 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Unit | Domain | Models | Assessment', function() {
 
+  describe('#constuctor', function() {
+    it('should init method when none is defined', function() {
+      const assessment = new Assessment({
+        type: 'COMPETENCE_EVALUATION',
+        method: null,
+      });
+
+      expect(assessment.method).to.equal('SMART_RANDOM');
+    });
+  });
+
   describe('#isCompleted', function() {
 
     it('should return true when its state is completed', function() {
@@ -294,6 +305,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.state).to.equal(Assessment.states.STARTED);
       expect(assessment.type).to.equal(Assessment.types.CERTIFICATION);
       expect(assessment.isImproving).to.be.false;
+      expect(assessment.method).to.equal('CERTIFICATION_DETERMINED');
     });
   });
 
@@ -323,9 +335,10 @@ describe('Unit | Domain | Models | Assessment', function() {
       // given
       const userId = 123;
       const campaignParticipationId = 456;
+      const method = 'FLASH';
 
       // when
-      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
+      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId, method });
 
       // then
       expect(assessment.userId).to.equal(userId);
@@ -334,6 +347,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.type).to.equal(Assessment.types.CAMPAIGN);
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.CAMPAIGN);
       expect(assessment.isImproving).to.be.true;
+      expect(assessment.isFlash()).to.be.true;
     });
   });
 
@@ -354,6 +368,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
       expect(assessment.isImproving).to.be.false;
+      expect(assessment.method).to.equal('SMART_RANDOM');
     });
   });
 
@@ -374,6 +389,26 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.type).to.equal(Assessment.types.COMPETENCE_EVALUATION);
       expect(assessment.courseId).to.equal(Assessment.courseIdMessage.COMPETENCE_EVALUATION);
       expect(assessment.isImproving).to.be.true;
+      expect(assessment.method).to.equal('SMART_RANDOM');
+    });
+  });
+
+  describe('#computeMethod', function() {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    [
+      { assessmentType: 'PREVIEW', expectedMethod: 'CHOSEN' },
+      { assessmentType: 'CERTIFICATION', expectedMethod: 'CERTIFICATION_DETERMINED' },
+      { assessmentType: 'DEMO', expectedMethod: 'COURSE_DETERMINED' },
+      { assessmentType: 'COMPETENCE_EVALUATION', expectedMethod: 'SMART_RANDOM' },
+      { assessmentType: 'CAMPAIGN', expectedMethod: 'SMART_RANDOM' },
+    ].forEach(function({ assessmentType, expectedMethod }) {
+      it(`should return "${expectedMethod}" if assessment type is "${assessmentType}"`, function() {
+        // when
+        const method = Assessment.computeMethodFromType(assessmentType);
+
+        // then
+        expect(method).to.equal(expectedMethod);
+      });
     });
   });
 });

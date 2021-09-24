@@ -2,6 +2,7 @@ const buildOrganization = require('./build-organization');
 const buildTargetProfile = require('./build-target-profile');
 const buildUser = require('./build-user');
 const Campaign = require('../../../lib/domain/models/Campaign');
+const Assessment = require('../../../lib/domain/models/Assessment');
 const databaseBuffer = require('../database-buffer');
 const _ = require('lodash');
 
@@ -30,7 +31,7 @@ module.exports = function buildCampaign({
 
   if (type === Campaign.types.ASSESSMENT) {
     targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ ownerOrganizationId: organizationId }).id : targetProfileId;
-    assessmentMethod = Campaign.assessmentMethods.SMART_RANDOM;
+    assessmentMethod = Assessment.methods.SMART_RANDOM;
   }
 
   organizationId = _.isNil(organizationId) ? buildOrganization().id : organizationId;
