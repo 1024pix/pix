@@ -64,6 +64,10 @@ export default function() {
 
   this.put('/users/tutorials/:tutorialId/evaluate', putTutorialEvaluation);
 
+  this.put('/users/:id/email/verification-code', () => {
+    return new Response(204);
+  });
+
   this.patch('/users/:id/pix-terms-of-service-acceptance', (schema, request) => {
     const userId = request.params.id;
     const user = schema.users.find(userId);

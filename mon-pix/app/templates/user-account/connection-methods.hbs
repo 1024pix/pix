@@ -9,6 +9,11 @@
       @sendVerificationCode={{this.sendVerificationCode}}
     />
   </div>
+{{else if this.showEmailVerificationCode}}
+  <UserAccount::EmailVerificationCode
+    @disableEmailWithValidationEditionMode={{this.disableEmailWithValidationEditionMode}}
+    @email={{this.newEmail}}
+  />
 {{else}}
   <div class="user-account__connection-methods">
     <UserAccountConnexionMethods

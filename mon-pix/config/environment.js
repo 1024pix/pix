@@ -62,6 +62,7 @@ module.exports = function(environment) {
       LOAD_EXTERNAL_SCRIPT: true,
       NUMBER_OF_CHALLENGES_BETWEEN_TWO_CHECKPOINTS: 5,
       MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
+      MILLISECONDS_BEFORE_MAIL_RESEND: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MILLISECONDS_BEFORE_MAIL_RESEND', defaultValue: 5000, minValue: 0 }),
       BANNER_CONTENT: process.env.BANNER_CONTENT || '',
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       FRENCH_NEW_LEVEL_MESSAGE: process.env.FRENCH_NEW_LEVEL_MESSAGE || '',

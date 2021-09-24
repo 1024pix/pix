@@ -1,0 +1,24 @@
+<div class="email-verification-code">
+  <h2 class="user-account__validation-title">{{t 'pages.email-verification.title'}}</h2>
+  <p class="email-verification-code__description">{{t 'pages.email-verification.description'}}</p>
+  <p class="email-verification-code__email">{{@email}}</p>
+  <div class="email-verification-code__input-code">
+    <PixInputCode
+      @ariaLabel="Champ du code de vérification"
+      @numInputs={{6}}
+      @onAllInputsFilled={{this.submitInputCode}}
+    />
+  </div>
+
+  <div class="email-verification-code__resend {{if this.showResendCode "visible"}}">
+    <p>{{t 'pages.email-verification.did-not-receive'}}</p>
+    <p>{{t 'pages.email-verification.send-back-the-code'}}</p>
+  </div>
+  <PixButton
+    @isBorderVisible={{true}}
+    @triggerAction={{@disableEmailWithValidationEditionMode}}
+    @backgroundColor="transparent-light"
+  >
+    {{t 'common.actions.cancel'}}
+  </PixButton>
+</div>

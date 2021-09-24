@@ -592,7 +592,7 @@ describe('Unit | Router | user-router', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail: 'user@example.net',
+            'new-email': 'user@example.net',
             password: 'Password123',
           },
         },
@@ -616,7 +616,7 @@ describe('Unit | Router | user-router', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail: 'user@example.net',
+            'new-email': 'user@example.net',
             password: 'Password123',
           },
         },
@@ -641,7 +641,7 @@ describe('Unit | Router | user-router', function() {
         data: {
           type: 'WRONG-TYPE',
           attributes: {
-            newEmail: 'user@example.net',
+            'new-email': 'user@example.net',
             password: 'Password123',
           },
         },
@@ -666,7 +666,7 @@ describe('Unit | Router | user-router', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail: 'newEmail',
+            'new-email': 'newEmail',
             password: 'Password123',
           },
         },
@@ -677,7 +677,7 @@ describe('Unit | Router | user-router', function() {
 
       // then
       expect(result.statusCode).to.equal(422);
-      expect(result.result.errors[0].detail).to.equal('"data.attributes.newEmail" must be a valid email');
+      expect(result.result.errors[0].detail).to.equal('"data.attributes.new-email" must be a valid email');
     });
 
     it('should return 422 when password is not provided', async function() {
@@ -691,7 +691,7 @@ describe('Unit | Router | user-router', function() {
         data: {
           type: 'email-verification-code',
           attributes: {
-            newEmail: 'user@example.net',
+            'new-email': 'user@example.net',
           },
         },
       };
