@@ -340,6 +340,7 @@ describe('Acceptance | Controller | target-profile-controller', function() {
         attributes: {
           'alt-message': badge.altMessage,
           'is-certifiable': false,
+          'is-always-visible': false,
           'image-url': badge.imageUrl,
           'key': badge.key,
           'message': badge.message,
