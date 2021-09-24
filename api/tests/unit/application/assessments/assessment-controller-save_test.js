@@ -45,6 +45,7 @@ describe('Unit | Controller | assessment-controller-save', function() {
           type: 'PREVIEW',
           userId: null,
           state: 'started',
+          method: 'CHOSEN',
         });
 
         // when

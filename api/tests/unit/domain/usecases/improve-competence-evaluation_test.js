@@ -35,6 +35,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
       isImproving: true,
       courseId: '[NOT USED] CompetenceId is in Competence Evaluation.',
       type: 'COMPETENCE_EVALUATION',
+      method: 'SMART_RANDOM',
     });
     createdAssessment = { ...expectedAssessment, id: assessmentId };
 

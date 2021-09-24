@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 const { AssessmentEndedError } = require('../errors');
-const smartRandom = require('../services/smart-random/smart-random');
-const dataFetcher = require('../services/smart-random/data-fetcher');
+const smartRandom = require('../services/algorithm-methods/smart-random');
+const flash = require('../services/algorithm-methods/flash');
+const dataFetcher = require('../services/algorithm-methods/data-fetcher');
 
 module.exports = async function getNextChallengeForCampaignAssessment({
   knowledgeElementRepository,
@@ -14,18 +15,21 @@ module.exports = async function getNextChallengeForCampaignAssessment({
   locale,
 }) {
   const inputValues = await dataFetcher.fetchForCampaigns(...arguments);
+  let algoResult;
 
-  const {
-    possibleSkillsForNextChallenge,
-    hasAssessmentEnded,
-  } = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
+  if (assessment.isFlash()) {
+    algoResult = flash.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
+  }
+  else {
+    algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
+  }
 
-  if (hasAssessmentEnded) {
+  if (algoResult.hasAssessmentEnded) {
     throw new AssessmentEndedError();
   }
 
   return pickChallengeService.pickChallenge({
-    skills: possibleSkillsForNextChallenge,
+    skills: algoResult.possibleSkillsForNextChallenge,
     randomSeed: assessment.id,
     locale,
   });

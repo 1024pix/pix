@@ -1,6 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
-const SmartRandom = require('../../../../../lib/domain/services/smart-random/smart-random');
+const Flash = require('../../../../../lib/domain/services/algorithm-methods/flash');
 const _ = require('lodash');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
@@ -19,7 +19,7 @@ function duplicateChallengeOfSameDifficulty(challenge) {
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 
-describe('Integration | Domain | Stategies | SmartRandom', function() {
+describe('Integration | Domain | Algorithm-methods | Flash', function() {
   let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, locale, web1, web2, web3, web4, web5,
     web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
     challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
@@ -82,7 +82,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_1, challengeCnil_2];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements: [],
@@ -108,7 +108,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         challenges = [challenge_defaultLevel_Timed, challenge_notDefaultLevel_Untimed];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements: [],
@@ -131,7 +131,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         challenges = [challengeWeb_1, challengeUrl_3];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements: [],
@@ -154,7 +154,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         challenges = [challengeWeb_4, challengeUrl_5];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements: [],
@@ -178,7 +178,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         challenges = [challenge_AnyLevel_Timed];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements: [],
@@ -225,7 +225,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -258,7 +258,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -313,7 +313,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -365,7 +365,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -401,7 +401,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -429,7 +429,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -460,7 +460,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -501,7 +501,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -535,7 +535,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -583,7 +583,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -618,7 +618,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         ];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -648,7 +648,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         knowledgeElements = [];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -673,7 +673,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         knowledgeElements = [];
 
         // when
-        const { possibleSkillsForNextChallenge } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -701,7 +701,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
         knowledgeElements = [];
 
         // when
-        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInEnglish } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInEnglish } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,
@@ -709,7 +709,7 @@ describe('Integration | Domain | Stategies | SmartRandom', function() {
           allAnswers,
           locale: 'en',
         });
-        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInFrench } = SmartRandom.getPossibleSkillsForNextChallenge({
+        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInFrench } = Flash.getPossibleSkillsForNextChallenge({
           targetSkills,
           challenges,
           knowledgeElements,

@@ -1,6 +1,6 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
-const skillsFilter = require('../../../../../lib/domain/services/smart-random/skills-filter');
+const skillsFilter = require('../../../../../lib/domain/services/algorithm-methods/skills-filter');
 const Tube = require('../../../../../lib/domain/models/Tube');
 
 const KNOWLEDGE_ELEMENT_STATUS = {
