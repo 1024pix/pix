@@ -4,6 +4,7 @@ const { DEFAULT_PASSWORD } = require('./users-builder');
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
 const SCO_AGRI_ID = 7;
+const SCO_AGRI_ID_2 = 12;
 const SCO_AEFE_ID = 9;
 const SCO_STUDENT_ID = 99;
 const CANADA_INSEE_CODE = '401';
@@ -45,6 +46,17 @@ function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_AGRI_ID_2,
+    type: 'SCO',
+    name: 'Lycée agri The Night Watch',
+    isManagingStudents: true,
+    canCollectProfiles: true,
+    email: 'sco.generic.account@example.net',
+    externalId: '1237457D',
+    provinceCode: '12',
+  });
+
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
@@ -58,6 +70,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_MIDDLE_SCHOOL_ID, tagId: 8 });
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID_2, tagId: 1 });
 
   const disabledUserId = databaseBuilder.factory.buildUser.withRawPassword({
     id: 6,
