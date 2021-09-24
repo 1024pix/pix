@@ -12,7 +12,7 @@ const SCO_FOREIGNER_USER_ID = 9912;
 const SCO_FRENCH_USER_ID = 2339213;
 
 function organizationsScoBuilder({ databaseBuilder }) {
-  const SCO_EXTERNAL_ID = '1237457A';
+  const SCO_COLLEGE_EXTERNAL_ID = '1237457A';
 
   /* COLLEGE */
   const scoUser1 = databaseBuilder.factory.buildUser.withRawPassword({
@@ -42,7 +42,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     isManagingStudents: true,
     canCollectProfiles: true,
     email: 'sco.generic.account@example.net',
-    externalId: SCO_EXTERNAL_ID,
+    externalId: SCO_COLLEGE_EXTERNAL_ID,
     provinceCode: '12',
   });
 

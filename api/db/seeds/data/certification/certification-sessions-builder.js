@@ -1,4 +1,4 @@
-const { SCO_CERTIF_CENTER_ID, SCO_CERTIF_CENTER_NAME, DROIT_CERTIF_CENTER_ID, DROIT_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
+const { SCO_COLLEGE_CERTIF_CENTER_ID, SCO_COLLEGE_CERTIF_CENTER_NAME, DROIT_CERTIF_CENTER_ID, DROIT_CERTIF_CENTER_NAME } = require('./certification-centers-builder');
 const { PIX_MASTER_ID } = require('./../users-builder');
 const EMPTY_SESSION_ID = 1;
 const STARTED_SESSION_ID = 2;
@@ -12,8 +12,8 @@ const PIX_DROIT_SESSION_ID = 9;
 const PUBLISHED_SCO_SESSION_ID = 10;
 
 function certificationSessionsBuilder({ databaseBuilder }) {
-  const certificationCenter = SCO_CERTIF_CENTER_NAME;
-  const certificationCenterId = SCO_CERTIF_CENTER_ID;
+  const certificationCenter = SCO_COLLEGE_CERTIF_CENTER_NAME;
+  const certificationCenterId = SCO_COLLEGE_CERTIF_CENTER_ID;
   const address = 'Anne-Star Street';
   const room = 'Salle Anne';
   const examiner = 'Anne';
