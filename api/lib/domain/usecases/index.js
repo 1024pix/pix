@@ -327,5 +327,6 @@ module.exports = injectDependencies({
   updateUserAccount: require('./account-recovery/update-user-account'),
   updateUserDetailsForAdministration: require('./update-user-details-for-administration'),
   updateUserEmail: require('./update-user-email'),
+  updateUserEmailWithValidation: require('./update-user-email-with-validation'),
   updateUserPassword: require('./update-user-password'),
 }, dependencies);

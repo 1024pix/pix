@@ -889,6 +889,18 @@ class NoOrganizationToAttach extends DomainError {
   }
 }
 
+class InvalidVerificationCodeError extends DomainError {
+  constructor(message = 'Le code de vérification renseigné ne correspond pas à celui enregistré.', code = 'INVALID_VERIFICATION_CODE') {
+    super(message, code);
+  }
+}
+
+class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
+  constructor(message = 'La demande de modification d\'adresse e-mail n\'existe pas ou est expirée.', code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND') {
+    super(message, code);
+  }
+}
+
 module.exports = {
   AccountRecoveryDemandNotCreatedError,
   AccountRecoveryDemandExpired,
@@ -938,6 +950,7 @@ module.exports = {
   CsvParsingError,
   DeprecatedCertificationIssueReportSubcategory,
   DomainError,
+  EmailModificationDemandNotFoundOrExpiredError,
   EntityValidationError,
   FileValidationError,
   ForbiddenAccess,
@@ -953,6 +966,7 @@ module.exports = {
   InvalidResultRecipientTokenError,
   InvalidSessionResultError,
   InvalidTemporaryKeyError,
+  InvalidVerificationCodeError,
   ManyOrganizationsFoundError,
   MatchingReconciledStudentNotFoundError,
   MembershipCreationError,
