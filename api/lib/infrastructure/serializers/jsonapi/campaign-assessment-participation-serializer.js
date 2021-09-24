@@ -15,7 +15,7 @@ module.exports = {
         'campaignId',
         'targetedSkillsCount',
         'validatedSkillsCount',
-        'masteryPercentage',
+        'masteryRate',
         'progression',
         'badges',
         'campaignAssessmentParticipationResult',
