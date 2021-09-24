@@ -4,7 +4,19 @@ module.exports = {
   serialize(badge = {}) {
     return new Serializer('badge', {
       ref: 'id',
-      attributes: ['altMessage', 'imageUrl', 'message', 'key', 'title', 'isCertifiable'],
+      attributes: ['altMessage', 'imageUrl', 'message', 'key', 'title', 'isCertifiable', 'isAlwaysVisible'],
     }).serialize(badge);
+  },
+
+  deserialize(json) {
+    return {
+      key: json.data.attributes['key'],
+      altMessage: json.data.attributes['alt-message'],
+      imageUrl: json.data.attributes['image-url'],
+      message: json.data.attributes['message'],
+      title: json.data.attributes['title'],
+      isCertifiable: json.data.attributes['is-certifiable'],
+      isAlwaysVisible: json.data.attributes['is-always-visible'],
+    };
   },
 };

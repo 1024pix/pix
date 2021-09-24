@@ -17,6 +17,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
+        isAlwaysVisible: true,
         badgeCriteria: [
           domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null }),
         ],
@@ -29,6 +30,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
             'is-certifiable': false,
+            'is-always-visible': true,
             message: 'Congrats, you won a banana badge',
             title: 'Banana',
             key: 'BANANA',
@@ -56,6 +58,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
+        isAlwaysVisible: true,
       });
 
       const expectedSerializedBadge = {
@@ -64,6 +67,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
             'is-certifiable': false,
+            'is-always-visible': true,
             message: 'Congrats, you won a banana badge',
             title: 'Banana',
             key: 'BANANA',
@@ -91,6 +95,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
+        isAlwaysVisible: true,
         badgeCriteria: [
           domainBuilder.buildBadgeCriterion({
             scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
@@ -106,6 +111,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
             'alt-message': 'You won a banana badge',
             'image-url': '/img/banana.svg',
             'is-certifiable': false,
+            'is-always-visible': true,
             message: 'Congrats, you won a banana badge',
             title: 'Banana',
             key: 'BANANA',
@@ -123,4 +129,38 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
     });
   });
 
+  describe('#deserialize', function() {
+    it('should convert JSON API data into a Badge model object', function() {
+      // given
+      const jsonBadge = {
+        data: {
+          type: 'badges',
+          attributes: {
+            key: 'BADGE_KEY',
+            'alt-message': 'alt-message',
+            'image-url': 'https://example.net/image.svg',
+            message: 'message',
+            title: 'title',
+            'is-certifiable': false,
+            'is-always-visible': true,
+          },
+        },
+      };
+
+      // when
+      const badge = serializer.deserialize(jsonBadge);
+
+      // then
+      const expectedBadge = {
+        key: 'BADGE_KEY',
+        altMessage: 'alt-message',
+        imageUrl: 'https://example.net/image.svg',
+        message: 'message',
+        title: 'title',
+        isCertifiable: false,
+        isAlwaysVisible: true,
+      };
+      expect(badge).to.deep.equal(expectedBadge);
+    });
+  });
 });
