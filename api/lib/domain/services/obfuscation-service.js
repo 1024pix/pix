@@ -27,7 +27,7 @@ async function getUserAuthenticationMethodWithObfuscation(user) {
     return { authenticatedBy: CONNEXION_TYPES.email, value: email };
   }
   else {
-    throw new NotFoundError('La méthode d\'autentification trouvé n\'est ni GAR ni PIX.');
+    throw new NotFoundError('Aucune méthode d\'authentification trouvée dont le fournisseur d\'identité est GAR ou PIX.');
   }
 }
 
