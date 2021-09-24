@@ -21,7 +21,7 @@ module.exports = async function sendVerificationCode({
     throw new UserNotAuthorizedToUpdateEmailError();
   }
 
-  await userRepository.isEmailAvailable(newEmail);
+  await userRepository.checkIfEmailIsAvailable(newEmail);
 
   const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
     userId,

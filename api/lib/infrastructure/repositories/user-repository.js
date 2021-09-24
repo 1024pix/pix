@@ -190,7 +190,7 @@ module.exports = {
       .update(userAttributes);
   },
 
-  isEmailAvailable(email) {
+  checkIfEmailIsAvailable(email) {
     return BookshelfUser
       .query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
       .fetch({ require: false })

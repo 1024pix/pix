@@ -458,7 +458,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
 
     beforeEach(function() {
       userRepository = {
-        isEmailAvailable: sinon.stub(),
+        checkIfEmailIsAvailable: sinon.stub(),
       };
       accountRecoveryDemandRepository = {
         findByUserId: sinon.stub(),
@@ -481,7 +481,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       };
 
       accountRecoveryDemandRepository.findByTemporaryKey.resolves({ ...expectedResult, createdAt });
-      userRepository.isEmailAvailable.withArgs(newEmail).resolves();
+      userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves();
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
       // when
@@ -496,7 +496,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       const newEmail = 'philippe@example.net';
 
       accountRecoveryDemandRepository.findByTemporaryKey.resolves({ newEmail });
-      userRepository.isEmailAvailable.withArgs(newEmail).rejects(new AlreadyRegisteredEmailError());
+      userRepository.checkIfEmailIsAvailable.withArgs(newEmail).rejects(new AlreadyRegisteredEmailError());
 
       // when
       const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
@@ -512,7 +512,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       const userId = '1234';
 
       accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId });
-      userRepository.isEmailAvailable.resolves();
+      userRepository.checkIfEmailIsAvailable.resolves();
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: true }]);
 
       // when
@@ -531,7 +531,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       createdAt.setDate(createdAt.getDate() - createdTenDaysAgo);
 
       accountRecoveryDemandRepository.findByTemporaryKey.resolves({ userId, createdAt });
-      userRepository.isEmailAvailable.resolves();
+      userRepository.checkIfEmailIsAvailable.resolves();
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
       // when
