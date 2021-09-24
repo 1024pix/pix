@@ -14,7 +14,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
 
   beforeEach(function() {
     userRepository = {
-      isEmailAvailable: sinon.stub(),
+      checkIfEmailIsAvailable: sinon.stub(),
       get: sinon.stub(),
     };
     schoolingRegistrationRepository = {
@@ -35,7 +35,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
 
     it('should throw AlreadyRegisteredEmailError', async function() {
       // given
-      userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+      userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
       const newEmail = 'new_email@example.net';
 
       const studentInformation = {
@@ -78,7 +78,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       const newEmail = 'NEW_EMAIL@example.net';
       const temporaryKey = '1234ADC';
 
-      userRepository.isEmailAvailable.resolves(true);
+      userRepository.checkIfEmailIsAvailable.resolves(true);
       accountRecoveryDemandRepository.save.resolves();
       mailService.sendAccountRecoveryEmail.resolves();
 
@@ -127,7 +127,7 @@ describe('Unit | UseCase | Account-recovery | send-email-for-account-recovery', 
       const oldEmail = 'old_email@example.net';
       const newEmail = 'NEW_EMAIL@example.net';
       const temporaryKey = '1234ADC';
-      userRepository.isEmailAvailable.resolves(true);
+      userRepository.checkIfEmailIsAvailable.resolves(true);
       accountRecoveryDemandRepository.save.resolves();
 
       const studentInformation = {

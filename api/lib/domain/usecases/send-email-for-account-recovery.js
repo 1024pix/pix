@@ -22,7 +22,7 @@ module.exports = async function sendEmailForAccountRecovery({
     userReconciliationService,
   });
 
-  await userRepository.isEmailAvailable(newEmail);
+  await userRepository.checkIfEmailIsAvailable(newEmail);
 
   const accountRecoveryDemand = new AccountRecoveryDemand({
     userId,

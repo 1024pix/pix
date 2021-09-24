@@ -46,7 +46,7 @@ async function retrieveAndValidateAccountRecoveryDemand({
   accountRecoveryDemandRepository,
 }) {
   const { id, userId, newEmail, schoolingRegistrationId, createdAt } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
-  await userRepository.isEmailAvailable(newEmail);
+  await userRepository.checkIfEmailIsAvailable(newEmail);
 
   const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(userId);
 

@@ -37,7 +37,7 @@ module.exports = async function updateUserEmail({
     throw new InvalidPasswordForUpdateEmailError();
   }
 
-  await userRepository.isEmailAvailable(email);
+  await userRepository.checkIfEmailIsAvailable(email);
   await userRepository.updateEmail({ id: userId, email: email.toLowerCase() });
   await mailService.notifyEmailChange({ email, locale });
 };

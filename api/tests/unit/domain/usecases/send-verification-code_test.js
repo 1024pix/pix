@@ -28,7 +28,7 @@ describe('Unit | UseCase | send-verification-code', function() {
       saveEmailModificationDemand: sinon.stub(),
     };
     userRepository = {
-      isEmailAvailable: sinon.stub(),
+      checkIfEmailIsAvailable: sinon.stub(),
       get: sinon.stub(),
     };
     encryptionService = {
@@ -55,7 +55,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     const i18n = getI18n();
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.withArgs(newEmail).resolves(newEmail);
+    userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
@@ -95,7 +95,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     const translate = getI18n().__;
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.withArgs(newEmail).resolves(newEmail);
+    userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
@@ -136,7 +136,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     const locale = 'fr';
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+    userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
 
     // when
     const error = await catchErr(usecases.sendVerificationCode)({
@@ -164,7 +164,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     const locale = 'fr';
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.withArgs(newEmail).resolves(newEmail);
+    userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
