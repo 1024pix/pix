@@ -128,7 +128,7 @@
     "subject": "Email change confirmation"
   },
   "verification-code-email": {
-    "subject": "You’ve recently changed your email address",
+    "subject": "Your Pix code is {{ code }}",
     "body": {
       "doNotAnswer": "This is an automated email message, please do not reply.",
       "context": "You’ve requested to change the email address linked to your account. To continue, enter the following verification code on Pix:",

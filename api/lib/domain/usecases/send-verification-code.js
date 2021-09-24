@@ -4,6 +4,7 @@ const { InvalidPasswordForUpdateEmailError, UserNotAuthorizedToUpdateEmailError 
 const get = require('lodash/get');
 
 module.exports = async function sendVerificationCode({
+  i18n,
   locale,
   newEmail,
   password,
@@ -41,5 +42,5 @@ module.exports = async function sendVerificationCode({
   const code = codeUtils.generateNumericalString(6);
 
   await userEmailRepository.saveEmailModificationDemand({ userId, code, newEmail });
-  await mailService.sendVerificationCodeEmail({ code, locale, email: newEmail });
+  await mailService.sendVerificationCodeEmail({ code, locale, translate: i18n.__, email: newEmail });
 };
