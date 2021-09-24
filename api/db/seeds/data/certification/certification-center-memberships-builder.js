@@ -5,6 +5,7 @@ const {
   NONE_CERTIF_CENTER_ID,
   DROIT_CERTIF_CENTER_ID,
   SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
+  AGRI_SCO_MANAGING_STUDENT_ID,
 } = require('./certification-centers-builder');
 const {
   PIX_SCO_CERTIF_USER_ID,
@@ -27,6 +28,10 @@ module.exports = function certificationCenterMembershipsBuilder({ databaseBuilde
   databaseBuilder.factory.buildCertificationCenterMembership({
     certificationCenterId: SCO_CERTIF_CENTER_ID,
     userId: CERTIF_REGULAR_USER1_ID,
+  });
+  databaseBuilder.factory.buildCertificationCenterMembership({
+    certificationCenterId: AGRI_SCO_MANAGING_STUDENT_ID,
+    userId: PIX_SCO_CERTIF_USER_ID,
   });
 
   databaseBuilder.factory.buildCertificationCenterMembership({ userId: PIX_PRO_CERTIF_USER_ID, certificationCenterId: PRO_CERTIF_CENTER_ID });
