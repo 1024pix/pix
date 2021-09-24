@@ -1,5 +1,6 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, knex, mockLearningContent, learningContentBuilder } = require('../../test-helper');
 const createServer = require('../../../server');
+const omit = require('lodash/omit');
 
 describe('Acceptance | Controller | target-profile-controller', function() {
 
@@ -291,6 +292,59 @@ describe('Acceptance | Controller | target-profile-controller', function() {
     });
   });
 
+  describe('POST /api/admin/target-profiles/{id}/badges', function() {
+    beforeEach(async function() {
+      mockLearningContent(learningContent);
+    });
+
+    afterEach(async function() {
+      await knex('badges').delete();
+    });
+
+    it('should create and return badge', async function() {
+      // given
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+      const badge = {
+        key: 'TOTO23',
+        'alt-message': 'alt-message',
+        'image-url': 'https//images.example.net',
+        message: 'Bravo !',
+        title: 'Le super badge',
+        'is-certifiable': false,
+        'is-always-visible': true,
+      };
+      const options = {
+        method: 'POST',
+        url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: { data: { attributes: badge } },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const expectedResult = {
+        data: {
+          attributes: {
+            'alt-message': 'alt-message',
+            'image-url': 'https//images.example.net',
+            'is-certifiable': false,
+            'is-always-visible': true,
+            key: 'TOTO23',
+            message: 'Bravo !',
+            title: 'Le super badge',
+          },
+          type: 'badges',
+        },
+      };
+      expect(response.statusCode).to.equal(201);
+      expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+    });
+  });
+
   describe('GET /api/admin/target-profiles/{id}/badges', function() {
     let user;
     let targetProfileId;
@@ -340,6 +394,7 @@ describe('Acceptance | Controller | target-profile-controller', function() {
         attributes: {
           'alt-message': badge.altMessage,
           'is-certifiable': false,
+          'is-always-visible': false,
           'image-url': badge.imageUrl,
           'key': badge.key,
           'message': badge.message,

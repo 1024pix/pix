@@ -561,4 +561,85 @@ describe('Integration | Application | Target Profiles | Routes', function() {
 
   });
 
+  describe('POST /api/target-profiles/{id}/badges', function() {
+    it('should return 201 HTTP response', async function() {
+      // given
+      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+      sinon.stub(targetProfileController, 'createBadge').callsFake((request, h) => h.response('ok').code(201));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const method = 'POST';
+      const payload = {
+        data: {
+          attributes: {
+            key: 'KEY',
+            'alt-message': 'alt-message',
+            'image-url': 'https://example.net/image.svg',
+            message: 'message',
+            title: 'title',
+            'is-certifiable': false,
+            'is-always-visible': true,
+          },
+        },
+      };
+      const url = '/api/admin/target-profiles/123/badges';
+
+      // when
+      const response = await httpTestServer.request(method, url, payload);
+
+      // then
+      expect(response.statusCode).to.equal(201);
+    });
+
+    describe('when user does not have a Pix Master role', function() {
+      it('should return a 403 HTTP response', async function() {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const payload = {
+          data: {
+            attributes: {
+              key: 'KEY',
+              'alt-message': 'alt-message',
+              'image-url': 'https://example.net/image.svg',
+              message: 'message',
+              title: 'title',
+              'is-certifiable': false,
+              'is-always-visible': true,
+            },
+          },
+        };
+        const url = '/api/admin/target-profiles/123/badges';
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(403);
+      });
+    });
+
+    describe('when request payload has wrong format', function() {
+      it('should return a 400 HTTP response', async function() {
+        // given
+        sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
+
+        const method = 'POST';
+        const payload = { data: { attributes: { } } };
+        const url = '/api/admin/target-profiles/123/badges';
+
+        // when
+        const response = await httpTestServer.request(method, url, payload);
+
+        // then
+        expect(response.statusCode).to.equal(400);
+      });
+    });
+  });
 });

@@ -1,8 +1,10 @@
-const { expect, databaseBuilder, knex } = require('../../../test-helper');
+const { expect, databaseBuilder, knex, catchErr } = require('../../../test-helper');
 const badgeRepository = require('../../../../lib/infrastructure/repositories/badge-repository');
 const Badge = require('../../../../lib/domain/models/Badge');
 const BadgeCriterion = require('../../../../lib/domain/models/BadgeCriterion');
 const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartnerCompetence');
+const omit = require('lodash/omit');
+const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Badge', function() {
 
@@ -31,7 +33,6 @@ describe('Integration | Repository | Badge', function() {
     targetProfileWithPartnerCompetences = databaseBuilder.factory.buildTargetProfile();
 
     badgeWithBadgePartnerCompetences = databaseBuilder.factory.buildBadge({
-      id: 2,
       altMessage: 'You won the Toto badge!',
       imageUrl: '/img/toto.svg',
       message: 'Congrats, you won the Toto badge!',
@@ -67,7 +68,6 @@ describe('Integration | Repository | Badge', function() {
     targetProfileWithSeveralBadges = databaseBuilder.factory.buildTargetProfile();
 
     badgeWithSameTargetProfile_1 = databaseBuilder.factory.buildBadge({
-      id: 3,
       altMessage: 'You won the YELLOW badge!',
       imageUrl: '/img/toto.svg',
       message: 'Congrats, you won the yellow badge!',
@@ -83,7 +83,6 @@ describe('Integration | Repository | Badge', function() {
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_1, badgeId: badgeWithSameTargetProfile_1.id });
 
     badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
-      id: 4,
       altMessage: 'You won the GREEN badge!',
       imageUrl: '/img/toto.svg',
       message: 'Congrats, you won the green badge!',
@@ -99,10 +98,10 @@ describe('Integration | Repository | Badge', function() {
     databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_2, badgeId: badgeWithSameTargetProfile_2.id });
   }
 
-  afterEach(function() {
-    knex('badges').delete();
-    knex('badge-criteria').delete();
-    return knex('badge-partner-competences').delete();
+  afterEach(async function() {
+    await knex('badge-partner-competences').delete();
+    await knex('badge-criteria').delete();
+    await knex('badges').delete();
   });
 
   describe('#findByTargetProfileId', function() {
@@ -117,19 +116,19 @@ describe('Integration | Repository | Badge', function() {
       expect(badges.length).to.equal(2);
 
       const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
-      expect(firstBadge).deep.equal({
+      expect(omit(firstBadge, 'id')).deep.equal(omit({
         ...badgeWithSameTargetProfile_1,
         badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
         badgePartnerCompetences: [],
-      });
+      }, 'id'));
 
       const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-      expect(secondBadge).deep.equal(
+      expect(omit(secondBadge, 'id')).deep.equal(omit(
         {
           ...badgeWithSameTargetProfile_2,
           badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
           badgePartnerCompetences: [],
-        });
+        }, 'id'));
 
     });
 
@@ -376,4 +375,82 @@ describe('Integration | Repository | Badge', function() {
     });
   });
 
+  describe('#save', function() {
+    it('should persist badge in database', async function() {
+      // given
+      const badge = {
+        altMessage: 'You won the Toto badge!',
+        imageUrl: 'data:,',
+        message: 'Congrats, you won the Toto badge!',
+        key: 'TOTO230',
+        badgeCriteria: [],
+        badgePartnerCompetences: [],
+        targetProfileId: null,
+        isCertifiable: false,
+        isAlwaysVisible: false,
+        title: 'title',
+      };
+
+      // when
+      const result = await badgeRepository.save(badge);
+
+      // then
+      expect(result).to.be.instanceOf(Badge);
+      expect(omit(result, 'id')).to.deep.equal(omit(badge, 'id'));
+    });
+
+    describe('when the badge key already exists', function() {
+      it('should throw an AlreadyExistingEntityError', async function() {
+        // given
+        const alreadyExistingBadge = {
+          altMessage: 'You won the Toto badge!',
+          imageUrl: 'data:,',
+          message: 'Congrats, you won the Toto badge!',
+          key: 'TOTO28',
+          badgeCriteria: [],
+          badgePartnerCompetences: [],
+          targetProfileId: null,
+          isCertifiable: false,
+          isAlwaysVisible: true,
+          title: 'title',
+        };
+        databaseBuilder.factory.buildBadge(alreadyExistingBadge);
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(badgeRepository.save)(alreadyExistingBadge);
+
+        // then
+        expect(error).to.be.instanceOf(AlreadyExistingEntityError);
+      });
+    });
+  });
+
+  describe('#isKeyAvailable', function() {
+    it('should return true', async function() {
+      // given
+      const key = 'NOT_EXISTING_KEY';
+
+      // when
+      const result = await badgeRepository.isKeyAvailable(key);
+
+      // then
+      expect(result).to.be.true;
+    });
+
+    describe('when key is already exists', function() {
+      it('should return AlreadyExistEntityError', async function() {
+        // given
+        const key = 'AN_EXISTING_KEY';
+        databaseBuilder.factory.buildBadge({ key });
+        await databaseBuilder.commit();
+
+        // when
+        const error = await catchErr(badgeRepository.isKeyAvailable)(key);
+
+        // then
+        expect(error).to.instanceOf(AlreadyExistingEntityError);
+      });
+    });
+  });
 });

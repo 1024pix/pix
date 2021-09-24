@@ -1,5 +1,12 @@
+const { knex } = require('../bookshelf');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const BookshelfBadge = require('../orm-models/Badge');
+const Badge = require('../../domain/models/Badge');
+const omit = require('lodash/omit');
+const bookshelfUtils = require('../utils/knex-utils');
+const { AlreadyExistingEntityError } = require('../../domain/errors');
+
+const TABLE_NAME = 'badges';
 
 module.exports = {
 
@@ -60,4 +67,31 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
 
+  async save(badge) {
+    try {
+      const [savedBadge] = await knex(TABLE_NAME).insert(_adaptModelToDb(badge)).returning('*');
+      return new Badge(savedBadge);
+    } catch (err) {
+      if (bookshelfUtils.isUniqConstraintViolated(err)) {
+        throw new AlreadyExistingEntityError(`The badge key ${badge.key} already exists`);
+      }
+      throw err;
+    }
+  },
+
+  async isKeyAvailable(key) {
+    const result = await knex(TABLE_NAME).select('key').where('key', key);
+    if (result.length) {
+      throw new AlreadyExistingEntityError(`The badge key ${key} already exists`);
+    }
+    return true;
+  },
 };
+
+function _adaptModelToDb(badge) {
+  return omit(badge, [
+    'id',
+    'badgeCriteria',
+    'badgePartnerCompetences',
+  ]);
+}

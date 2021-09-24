@@ -157,6 +157,7 @@ module.exports = injectDependencies({
   correctAnswerThenUpdateAssessment: require('./correct-answer-then-update-assessment'),
   correctCandidateIdentityInCertificationCourse: require('./correct-candidate-identity-in-certification-course'),
   createAndReconcileUserToSchoolingRegistration: require('./create-and-reconcile-user-to-schooling-registration'),
+  createBadge: require('./create-badge'),
   createCampaign: require('./create-campaign'),
   createCertificationCenterMembership: require('./create-certification-center-membership'),
   createCertificationCenterMembershipByEmail: require('./create-certification-center-membership-by-email'),
