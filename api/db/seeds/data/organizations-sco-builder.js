@@ -3,6 +3,7 @@ const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationM
 const { DEFAULT_PASSWORD } = require('./users-builder');
 const SCO_MIDDLE_SCHOOL_ID = 3;
 const SCO_HIGH_SCHOOL_ID = 6;
+const SCO_HIGH_SCHOOL_ID_2 = 13;
 const SCO_AGRI_ID = 7;
 const SCO_AGRI_ID_2 = 12;
 const SCO_AEFE_ID = 9;
@@ -57,6 +58,23 @@ function organizationsScoBuilder({ databaseBuilder }) {
     provinceCode: '12',
   });
 
+  databaseBuilder.factory.buildOrganization({
+    id: SCO_HIGH_SCHOOL_ID_2,
+    type: 'SCO',
+    name: 'Lycée Sunnydale',
+    isManagingStudents: true,
+    canCollectProfiles: true,
+    email: 'sco.generic.account@example.net',
+    externalId: '1237457K',
+    provinceCode: '12',
+  });
+
+  databaseBuilder.factory.buildMembership({
+    userId: scoUser1.id,
+    organizationId: SCO_HIGH_SCHOOL_ID_2,
+    organizationRole: Membership.roles.ADMIN,
+  });
+
   databaseBuilder.factory.buildMembership({
     userId: scoUser1.id,
     organizationId: SCO_MIDDLE_SCHOOL_ID,
@@ -69,6 +87,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     organizationRole: Membership.roles.MEMBER,
   });
 
+  databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_HIGH_SCHOOL_ID_2, tagId: 9 });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_MIDDLE_SCHOOL_ID, tagId: 8 });
   databaseBuilder.factory.buildOrganizationTag({ organizationId: SCO_AGRI_ID_2, tagId: 1 });
 
