@@ -1,5 +1,5 @@
 import { describe, it } from 'mocha';
-import { authenticateByEmail } from '../../helpers/authentication';
+import { authenticateByEmail, authenticateByUsername } from '../../helpers/authentication';
 import { expect } from 'chai';
 import visit from '../../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
@@ -13,6 +13,64 @@ describe('Acceptance | user-account | connection-methods', function() {
   setupApplicationTest();
   setupMirage();
   setupIntl();
+
+  context('connection method details', function() {
+
+    it('should display user\'s email and username', async function() {
+      // given
+      const userDetails = {
+        email: 'john.doe@example.net',
+        username: 'john.doe0101',
+      };
+      const user = server.create('user', 'withEmail', userDetails);
+      await authenticateByEmail(user);
+
+      // when
+      await visit('/mon-compte/methodes-de-connexion');
+
+      // then
+      expect(contains(user.email)).to.exist;
+      expect(contains(user.username)).to.exist;
+    });
+
+  });
+
+  context('when user does not have an email', function() {
+
+    it('should not display email', async function() {
+      // given
+      const userDetails = {
+        username: 'john.doe0101',
+      };
+      const user = server.create('user', 'withUsername', userDetails);
+      await authenticateByUsername(user);
+
+      // when
+      await visit('/mon-compte/methodes-de-connexion');
+
+      // then
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.not.exist;
+    });
+
+  });
+
+  context('when user does not have a username', function() {
+
+    it('should not display username', async function() {
+      // given
+      const userDetails = {
+        email: 'john.doe@example.net',
+      };
+      const user = server.create('user', 'withEmail', userDetails);
+      await authenticateByEmail(user);
+
+      // when
+      await visit('/mon-compte/methodes-de-connexion');
+
+      // then
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.username'))).to.not.exist;
+    });
+  });
 
   context('email validation is toggled off', function() {
     it('should be able to edit the email using the old form', async function() {
@@ -35,7 +93,7 @@ describe('Acceptance | user-account | connection-methods', function() {
   });
 
   context('email validation is toggled on', function() {
-    it('should be able to edit the email using the new form', async function() {
+    it('should be able to edit the email using the new form and see the verification code page', async function() {
       // given
       const user = server.create('user', 'withEmail');
       server.create('feature-toggle', { id: 0, isEmailValidationEnabled: true });

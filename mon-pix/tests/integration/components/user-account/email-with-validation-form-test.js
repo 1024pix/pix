@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { render, triggerEvent } from '@ember/test-helpers';
-import { fillInByLabel } from '../../helpers/fill-in-by-label';
-import { clickByLabel } from '../../helpers/click-by-label';
-import { contains } from '../../helpers/contains';
+import { fillInByLabel } from '../../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../../helpers/click-by-label';
+import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-describe('Integration | Component | user-account-update-email-with-validation', () => {
+describe('Integration | Component | user-account | email-with-validation-form', () => {
 
   setupIntlRenderingTest();
 
@@ -16,7 +16,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
 
     it('should display save and cancel button', async function() {
       // when
-      await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation/>`);
+      await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
       // then
       expect(contains(this.intl.t('common.actions.cancel'))).to.exist;
@@ -24,19 +24,21 @@ describe('Integration | Component | user-account-update-email-with-validation', 
     });
 
     context('when the user cancel edition', function() {
-      it('should call disableEmailWithValidationEditionMode', async function() {
-        // given
-        const disableEmailWithValidationEditionMode = sinon.stub();
-        this.set('disableEmailWithValidationEditionMode', disableEmailWithValidationEditionMode);
 
-        await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation @disableEmailWithValidationEditionMode={{this.disableEmailWithValidationEditionMode}} />`);
+      it('should call disableEmailEditionMode', async function() {
+        // given
+        const disableEmailEditionMode = sinon.stub();
+        this.set('disableEmailEditionMode', disableEmailEditionMode);
+
+        await render(hbs`<UserAccount::EmailWithValidationForm @disableEmailEditionMode={{this.disableEmailEditionMode}} />`);
 
         // when
         await clickByLabel(this.intl.t('common.actions.cancel'));
 
         // then
-        sinon.assert.called(disableEmailWithValidationEditionMode);
+        sinon.assert.called(disableEmailEditionMode);
       });
+
     });
 
     context('when the user fills inputs with errors', function() {
@@ -47,7 +49,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
           // given
           const invalidEmail = 'invalidEmail';
 
-          await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation />`);
+          await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), invalidEmail);
@@ -65,7 +67,7 @@ describe('Integration | Component | user-account-update-email-with-validation', 
           const newEmail = 'newEmail@example.net';
           const emptyPassword = '';
 
-          await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation />`);
+          await render(hbs`<UserAccount::EmailWithValidationForm />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
@@ -79,14 +81,20 @@ describe('Integration | Component | user-account-update-email-with-validation', 
   });
 
   context('when the user submits new email and password', function() {
+    let store;
 
-    it('should call the send verification code method', async function() {
+    beforeEach(function() {
+      store = this.owner.lookup('service:store');
+    });
+
+    it('should call the show verification code method', async function() {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
-      this.set('sendVerificationCode', sinon.stub());
+      this.set('showVerificationCode', sinon.stub());
+      store.createRecord = () => ({ send: sinon.stub() });
 
-      await render(hbs`<UserAccount::UserAccountUpdateEmailWithValidation @sendVerificationCode={{this.sendVerificationCode}} />`);
+      await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
@@ -94,18 +102,19 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
-      sinon.assert.calledWith(this.sendVerificationCode, { newEmail, password });
+      sinon.assert.calledOnce(this.showVerificationCode);
     });
 
     it('should display email already exists error if response status is 400', async function() {
       // given
       const emailAlreadyExist = 'email@example.net';
       const password = 'password';
+      store.createRecord = () => ({
+        send: sinon.stub().throws(
+          { errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] }),
+      });
 
-      this.set('sendVerificationCode', sinon.stub());
-      this.sendVerificationCode.rejects({ errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
-
-      await render(hbs `<UserAccount::UserAccountUpdateEmailWithValidation @sendVerificationCode={{this.sendVerificationCode}} />`);
+      await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), emailAlreadyExist);
@@ -120,11 +129,12 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
+      store.createRecord = () => ({
+        send: sinon.stub().throws(
+          { errors: [{ status: '400' }] }),
+      });
 
-      this.set('sendVerificationCode', sinon.stub());
-      this.sendVerificationCode.rejects({ errors: [{ status: '400' }] });
-
-      await render(hbs `<UserAccount::UserAccountUpdateEmailWithValidation @sendVerificationCode={{this.sendVerificationCode}} />`);
+      await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
@@ -139,11 +149,12 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
+      store.createRecord = () => ({
+        send: sinon.stub().throws(
+          { errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
+      });
 
-      this.set('sendVerificationCode', sinon.stub());
-      this.sendVerificationCode.rejects({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] });
-
-      await render(hbs `<UserAccount::UserAccountUpdateEmailWithValidation @sendVerificationCode={{this.sendVerificationCode}} />`);
+      await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
@@ -158,11 +169,12 @@ describe('Integration | Component | user-account-update-email-with-validation', 
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
+      store.createRecord = () => ({
+        send: sinon.stub().throws(
+          { errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
+      });
 
-      this.set('sendVerificationCode', sinon.stub());
-      this.sendVerificationCode.rejects({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] });
-
-      await render(hbs `<UserAccount::UserAccountUpdateEmailWithValidation @sendVerificationCode={{this.sendVerificationCode}} />`);
+      await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
