@@ -1,12 +1,20 @@
 import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default class ConnectionMethodsController extends Controller {
+  @service featureToggles;
+
   @tracked isEmailEditionMode = false;
-  @tracked isEmailWithValidationEditionMode = false;
-  @tracked showEmailVerificationCode = false;
-  @tracked newEmail = '';
+
+  get shouldShowEmail() {
+    return !!this.model.email;
+  }
+
+  get shouldShowUsername() {
+    return !!this.model.username;
+  }
 
   @action
   enableEmailEditionMode() {
@@ -14,19 +22,8 @@ export default class ConnectionMethodsController extends Controller {
   }
 
   @action
-  enableEmailWithValidationEditionMode() {
-    this.isEmailWithValidationEditionMode = true;
-  }
-
-  @action
   disableEmailEditionMode() {
     this.isEmailEditionMode = false;
-  }
-
-  @action
-  disableEmailWithValidationEditionMode() {
-    this.isEmailWithValidationEditionMode = false;
-    this.showEmailVerificationCode = false;
   }
 
   @action
@@ -36,18 +33,5 @@ export default class ConnectionMethodsController extends Controller {
     await this.model.save({ adapterOptions: { updateEmail: true } });
     this.model.password = null;
     this.disableEmailEditionMode();
-  }
-
-  @action
-  async sendVerificationCode({ newEmail, password }) {
-    this.newEmail = newEmail.trim().toLowerCase();
-    const emailVerificationCode = this.store.createRecord('email-verification-code', {
-      password,
-      newEmail: newEmail.trim().toLowerCase(),
-    });
-    await emailVerificationCode.send();
-
-    this.isEmailWithValidationEditionMode = false;
-    this.showEmailVerificationCode = true;
   }
 }

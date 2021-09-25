@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
-import setupIntlRenderingTest from '../../helpers/setup-intl-rendering';
+import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 import { find, render, triggerEvent } from '@ember/test-helpers';
-import { fillInByLabel } from '../../helpers/fill-in-by-label';
-import { clickByLabel } from '../../helpers/click-by-label';
-import { contains } from '../../helpers/contains';
+import { fillInByLabel } from '../../../helpers/fill-in-by-label';
+import { clickByLabel } from '../../../helpers/click-by-label';
+import { contains } from '../../../helpers/contains';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-describe('Integration | Component | User account update email', () => {
+describe('Integration | Component | user-account | update-email', () => {
 
   setupIntlRenderingTest();
 
@@ -16,7 +16,7 @@ describe('Integration | Component | User account update email', () => {
 
     it('should display save and cancel button', async function() {
       // when
-      await render(hbs`<UserAccountUpdateEmail/>`);
+      await render(hbs`<UserAccount::UpdateEmail/>`);
 
       // then
       expect(contains(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'))).to.exist;
@@ -30,7 +30,7 @@ describe('Integration | Component | User account update email', () => {
         const disableEmailEditionMode = sinon.stub();
         this.set('disableEmailEditionMode', disableEmailEditionMode);
 
-        await render(hbs`<UserAccountUpdateEmail @disableEmailEditionMode={{this.disableEmailEditionMode}} />`);
+        await render(hbs`<UserAccount::UpdateEmail @disableEmailEditionMode={{this.disableEmailEditionMode}} />`);
 
         // when
         await clickByLabel(this.intl.t('common.actions.cancel'));
@@ -48,7 +48,7 @@ describe('Integration | Component | User account update email', () => {
           // given
           const invalidEmail = 'invalidEmail';
 
-          await render(hbs`<UserAccountUpdateEmail />`);
+          await render(hbs`<UserAccount::UpdateEmail />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), invalidEmail);
@@ -65,7 +65,7 @@ describe('Integration | Component | User account update email', () => {
           // given
           const invalidEmail = 'invalidEmail';
 
-          await render(hbs`<UserAccountUpdateEmail />`);
+          await render(hbs`<UserAccount::UpdateEmail />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), invalidEmail);
@@ -83,7 +83,7 @@ describe('Integration | Component | User account update email', () => {
           const newEmail = 'new-email@example.net';
           const newEmailConfirmation = 'new-email-confirmation@example.net';
 
-          await render(hbs`<UserAccountUpdateEmail />`);
+          await render(hbs`<UserAccount::UpdateEmail />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
@@ -102,7 +102,7 @@ describe('Integration | Component | User account update email', () => {
           const newEmail = 'newEmail@example.net';
           const emptyPassword = '';
 
-          await render(hbs`<UserAccountUpdateEmail />`);
+          await render(hbs`<UserAccount::UpdateEmail />`);
 
           // when
           await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
@@ -119,7 +119,7 @@ describe('Integration | Component | User account update email', () => {
           const expectedAutocompleteValue = 'new-password';
 
           // when
-          await render(hbs`<UserAccountUpdateEmail />`);
+          await render(hbs`<UserAccount::UpdateEmail />`);
 
           // then
           expect(find('#password').attributes.autocomplete.value).to.equal(expectedAutocompleteValue);
@@ -128,7 +128,7 @@ describe('Integration | Component | User account update email', () => {
 
       it('should disable the confirm button if the form is not valid', async function() {
         // when
-        await render(hbs`<UserAccountUpdateEmail />`);
+        await render(hbs`<UserAccount::UpdateEmail />`);
 
         // then
         expect(find('button[data-test-submit-email]')).to.have.attr('disabled');
@@ -145,7 +145,7 @@ describe('Integration | Component | User account update email', () => {
         const saveNewEmail = sinon.stub();
         this.set('saveNewEmail', saveNewEmail);
 
-        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
@@ -166,7 +166,7 @@ describe('Integration | Component | User account update email', () => {
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({ errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] });
 
-        await render(hbs `<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs `<UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), emailAlreadyExist);
@@ -187,7 +187,7 @@ describe('Integration | Component | User account update email', () => {
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({ errors: [{ status: '400' }] });
 
-        await render(hbs `<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs `<UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
@@ -208,7 +208,7 @@ describe('Integration | Component | User account update email', () => {
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({});
 
-        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
@@ -229,7 +229,7 @@ describe('Integration | Component | User account update email', () => {
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({ errors: [{ status: '422', source: { pointer: 'attributes/email' } }] });
 
-        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
@@ -250,7 +250,7 @@ describe('Integration | Component | User account update email', () => {
         this.set('saveNewEmail', saveNewEmail);
         saveNewEmail.rejects({ errors: [{ status: '422', source: { pointer: 'attributes/password' } }] });
 
-        await render(hbs`<UserAccountUpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
+        await render(hbs`<UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} />`);
 
         // when
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);

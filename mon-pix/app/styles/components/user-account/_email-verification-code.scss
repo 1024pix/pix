@@ -1,10 +1,6 @@
 .email-verification-code {
   color: $grey-70;
 
-  @include device-is('desktop') {
-    padding: 10px 0;
-  }
-
   &__description {
     font-size: 0.875rem;
   }
