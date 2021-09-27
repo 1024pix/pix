@@ -23,7 +23,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
           assessmentState: 'started',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
-          masteryPercentage: null,
+          masteryRate: null,
 
         });
         this.set('campaignParticipationOverview', campaignParticipationOverview);
@@ -49,7 +49,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
           assessmentState: 'completed',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
-          masteryPercentage: '0.56',
+          masteryRate: 0.56,
         });
         this.set('campaignParticipationOverview', campaignParticipationOverview);
 
@@ -71,7 +71,7 @@ describe('Integration | Component | CampaignParticipationOverview | Card | Archi
           assessmentState: 'completed',
           campaignTitle: 'My campaign',
           organizationName: 'My organization',
-          masteryPercentage: '0.56',
+          masteryRate: '0.56',
           totalStagesCount: 3,
           validatedStagesCount: 1,
         });
