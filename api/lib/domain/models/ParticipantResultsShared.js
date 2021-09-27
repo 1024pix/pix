@@ -12,10 +12,10 @@ class ParticipantResultsShared {
     this.validatedSkillsCount = validatedKnowledgeElements.length;
     this.pixScore = calculatePixScore(validatedKnowledgeElements);
     if (targetedSkillIds.length > 0) {
-      this.masteryPercentage = (this.validatedSkillsCount / targetedSkillIds.length);
+      this.masteryRate = (this.validatedSkillsCount / targetedSkillIds.length);
     }
     else {
-      this.masteryPercentage = this.pixScore / MAX_PIX_SCORE;
+      this.masteryRate = this.pixScore / MAX_PIX_SCORE;
     }
   }
 }

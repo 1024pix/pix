@@ -34,7 +34,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         //when
         const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
-        expect(participantResultsShared.masteryPercentage).to.equals(4 / (16 * MAX_REACHABLE_PIX_BY_COMPETENCE));
+        expect(participantResultsShared.masteryRate).to.equals(4 / (16 * MAX_REACHABLE_PIX_BY_COMPETENCE));
         expect(participantResultsShared.id).to.equal(participation.id);
         expect(participantResultsShared.pixScore).to.equals(4);
         expect(participantResultsShared.validatedSkillsCount).to.equals(3);
@@ -70,7 +70,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
         //when
         const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
-        expect(participantResultsShared.masteryPercentage).to.equals(1);
+        expect(participantResultsShared.masteryRate).to.equals(1);
         expect(participantResultsShared.id).to.equal(participation.id);
         expect(participantResultsShared.pixScore).to.equals(5);
         expect(participantResultsShared.validatedSkillsCount).to.equals(2);
@@ -104,7 +104,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
 
           //when
           const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
-          expect(participantResultsShared.masteryPercentage).to.equals(1);
+          expect(participantResultsShared.masteryRate).to.equals(1);
           expect(participantResultsShared.id).to.equal(participation.id);
           expect(participantResultsShared.pixScore).to.equals(4);
           expect(participantResultsShared.validatedSkillsCount).to.equals(2);
@@ -141,7 +141,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
           const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
           expect(participantResultsShared.id).to.equal(participation.id);
-          expect(participantResultsShared.masteryPercentage).to.equals(2 / 3);
+          expect(participantResultsShared.masteryRate).to.equals(2 / 3);
           expect(participantResultsShared.pixScore).to.equals(4);
           expect(participantResultsShared.validatedSkillsCount).to.equals(2);
         });
@@ -166,7 +166,7 @@ describe('Integration | Repository | Campaign Participant Result Shared Reposito
       //when
       const participantResultsShared = await participantResultsSharedRepository.get(participation.id);
 
-      expect(participantResultsShared.masteryPercentage).to.equals(1);
+      expect(participantResultsShared.masteryRate).to.equals(1);
     });
   });
 });
