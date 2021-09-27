@@ -1,7 +1,6 @@
 import { getPaginationFromQueryParams, applyPagination } from './pagination-utils';
 
 export function findPaginatedAssessmentResults(schema, request) {
-
   const queryParams = request.queryParams;
   const results = schema.campaignAssessmentResultMinimals.all().models;
   const rowCount = results.length;
@@ -9,7 +8,10 @@ export function findPaginatedAssessmentResults(schema, request) {
   const pagination = getPaginationFromQueryParams(queryParams);
   const paginatedResults = applyPagination(results, pagination);
 
-  const json = this.serialize({ modelName: 'campaign-assessment-result-minimal', models: paginatedResults }, 'campaign-assessment-result-minimal');
+  const json = this.serialize(
+    { modelName: 'campaign-assessment-result-minimal', models: paginatedResults },
+    'campaign-assessment-result-minimal'
+  );
 
   json.meta = {
     page: pagination.page,

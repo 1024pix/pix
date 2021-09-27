@@ -4,10 +4,10 @@ import { render } from '@ember/test-helpers';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Student::Sup::HeaderActions', function(hooks) {
+module('Integration | Component | Student::Sup::HeaderActions', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should show title', async function(assert) {
+  test('it should show title', async function (assert) {
     // when
     await render(hbs`<Student::Sup::HeaderActions/>`);
 
@@ -15,19 +15,19 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
     assert.contains('Étudiants');
   });
 
-  module('when user is admin', function(hooks) {
-    hooks.beforeEach(function() {
+  module('when user is admin', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         organization = Object.create({ id: 1 });
         isAdminInOrganization = true;
         prescriber = {
           lang: 'fr',
-        }
+        };
       }
       this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    test('it should display download template button', async function(assert) {
+    test('it should display download template button', async function (assert) {
       // when
       await render(hbs`<Student::Sup::HeaderActions/>`);
 
@@ -35,7 +35,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
       assert.contains('Télécharger le modèle');
     });
 
-    test('it displays the import button', async function(assert) {
+    test('it displays the import button', async function (assert) {
       // when
       await render(hbs`<Student::Sup::HeaderActions/>`);
 
@@ -44,15 +44,15 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
     });
   });
 
-  module('when user is only member', function(hooks) {
-    hooks.beforeEach(function() {
+  module('when user is only member', function (hooks) {
+    hooks.beforeEach(function () {
       class CurrentUserStub extends Service {
         isAdminInOrganization = false;
       }
       this.owner.register('service:current-user', CurrentUserStub);
     });
 
-    test('it should not display download template button', async function(assert) {
+    test('it should not display download template button', async function (assert) {
       // when
       await render(hbs`<Student::Sup::HeaderActions/>`);
 
@@ -60,7 +60,7 @@ module('Integration | Component | Student::Sup::HeaderActions', function(hooks) 
       assert.notContains('Télécharger le modèle');
     });
 
-    test('it should not display import button', async function(assert) {
+    test('it should not display import button', async function (assert) {
       // when
       await render(hbs`<Student::Sup::HeaderActions/>`);
 

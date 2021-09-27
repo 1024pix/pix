@@ -63,23 +63,43 @@ function _addUserToOrganization(user, { externalId, canCollectProfiles } = {}) {
 }
 
 export function createUserWithMembership() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': false });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: false,
+  });
 
   return _addUserToOrganization(user);
 }
 
 export function createUserWithMembershipAndTermsOfServiceAccepted() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
   return _addUserToOrganization(user, { externalId: 'EXTBRO' });
 }
 
 export function createUserThatCanCollectProfiles() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
   return _addUserToOrganization(user, { canCollectProfiles: true });
 }
 
 export function createUserMembershipWithRole(organizationRole) {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
 
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
@@ -98,7 +118,12 @@ export function createUserMembershipWithRole(organizationRole) {
 }
 
 export function createUserWithMultipleMemberships() {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
 
   const firstOrganization = server.create('organization', {
     name: 'BRO & Evil Associates',
@@ -129,7 +154,7 @@ export function createUserWithMultipleMemberships() {
 }
 
 export function createPrescriberForOrganization(userAttributes = {}, organizationAttributes = {}, organizationRole) {
-  const user = server.create('user', { ...userAttributes, 'pixOrgaTermsOfServiceAccepted': true });
+  const user = server.create('user', { ...userAttributes, pixOrgaTermsOfServiceAccepted: true });
 
   const organization = server.create('organization', organizationAttributes);
 
@@ -147,7 +172,6 @@ export function createPrescriberForOrganization(userAttributes = {}, organizatio
 }
 
 export function createAdminMembershipWithNbMembers(countMembers) {
-
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',
   });
@@ -168,20 +192,24 @@ export function createAdminMembershipWithNbMembers(countMembers) {
   admin.userOrgaSettings = server.create('user-orga-setting', { user: admin, organization });
   admin.memberships = [adminMemberships];
 
-  server.createList('user', countMembers)
-    .forEach((user) => {
-      server.create('membership', {
-        userId: user.id,
-        organizationId: organization.id,
-        organizationRole: 'MEMBER',
-      });
+  server.createList('user', countMembers).forEach((user) => {
+    server.create('membership', {
+      userId: user.id,
+      organizationId: organization.id,
+      organizationRole: 'MEMBER',
     });
+  });
 
   return admin;
 }
 
 export function createUserManagingStudents(role = 'MEMBER', type = 'SCO') {
-  const user = server.create('user', { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com', 'pixOrgaTermsOfServiceAccepted': true });
+  const user = server.create('user', {
+    firstName: 'Harry',
+    lastName: 'Cover',
+    email: 'harry@cover.com',
+    pixOrgaTermsOfServiceAccepted: true,
+  });
 
   const organization = server.create('organization', {
     name: 'BRO & Evil Associates',

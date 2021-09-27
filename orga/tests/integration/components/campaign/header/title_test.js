@@ -3,10 +3,10 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Header::Title', function(hooks) {
+module('Integration | Component | Campaign::Header::Title', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  test('it should display campaign name', async function(assert) {
+  test('it should display campaign name', async function (assert) {
     // given
     this.campaign = {
       name: 'campagne 1',

@@ -18,31 +18,30 @@ export default class ParticipantsByStage extends Component {
     const { campaignId } = this.args;
 
     const adapter = this.store.adapterFor('campaign-stats');
-    adapter.getParticipationsByStage(campaignId)
-      .then((response) => {
-        const { data } = response.data.attributes;
-        const maxValue = maxBy(data, 'value').value;
-        const totalValues = sumBy(data, 'value');
+    adapter.getParticipationsByStage(campaignId).then((response) => {
+      const { data } = response.data.attributes;
+      const maxValue = maxBy(data, 'value').value;
+      const totalValues = sumBy(data, 'value');
 
-        this.totalStage = data.length - 1;
+      this.totalStage = data.length - 1;
 
-        this.data = data.map((stage, index) => {
-          const percentage = totalValues !== 0 ? Math.round((stage.value / totalValues) * 100) : 0;
-          const width = maxValue !== 0 ? Math.round((stage.value / maxValue) * 100) : 0;
-          return {
-            index,
-            id: stage.id,
-            value: stage.value,
-            title: stage.title,
-            description: stage.description,
-            percentage,
-            barWidth: `width: ${width}%`,
-            tooltip: buildTooltipText(stage.title, stage.description),
-            displayTooltip: stage.title || stage.description,
-          };
-        });
-        this.loading = false;
+      this.data = data.map((stage, index) => {
+        const percentage = totalValues !== 0 ? Math.round((stage.value / totalValues) * 100) : 0;
+        const width = maxValue !== 0 ? Math.round((stage.value / maxValue) * 100) : 0;
+        return {
+          index,
+          id: stage.id,
+          value: stage.value,
+          title: stage.title,
+          description: stage.description,
+          percentage,
+          barWidth: `width: ${width}%`,
+          tooltip: buildTooltipText(stage.title, stage.description),
+          displayTooltip: stage.title || stage.description,
+        };
       });
+      this.loading = false;
+    });
   }
 
   @action

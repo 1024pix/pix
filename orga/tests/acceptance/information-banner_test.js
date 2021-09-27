@@ -5,14 +5,12 @@ import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Information Banner', function(hooks) {
-
+module('Acceptance | Information Banner', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('ImportStudents banner', function() {
-
-    test('should redirect to /eleves when clicking on banner button', async function(assert) {
+  module('ImportStudents banner', function () {
+    test('should redirect to /eleves when clicking on banner button', async function (assert) {
       // given
       const user = server.create('user', { pixOrgaTermsOfServiceAccepted: true });
       const organization = server.create('organization', { type: 'SCO', isManagingStudents: true });

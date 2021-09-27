@@ -1,7 +1,6 @@
 import { tracked } from '@glimmer/tracking';
 
 export default class InputValidator {
-
   defaultMessage;
   validator;
   @tracked hasError = false;

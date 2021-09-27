@@ -1,7 +1,7 @@
-<form {{on 'submit' @onSubmit}} class="form">
+<form {{on "submit" @onSubmit}} class="form">
 
   <div class="form__field">
-    <label for="campaign-name" class="label">{{t 'pages.campaign-creation.name.label'}}</label>
+    <label for="campaign-name" class="label">{{t "pages.campaign-creation.name.label"}}</label>
     <Input
       @id="campaign-name"
       @name="campaign-name"
@@ -11,8 +11,8 @@
       @value={{@campaign.name}}
     />
 
-    {{#if @campaign.errors.name }}
-      <div class='form__error error-message'>
+    {{#if @campaign.errors.name}}
+      <div class="form__error error-message">
         {{display-campaign-errors @campaign.errors.name}}
       </div>
     {{/if}}
@@ -20,19 +20,31 @@
 
   {{#if this.currentUser.organization.canCollectProfiles}}
     <div class="form__field">
-      <p class="label">{{t 'pages.campaign-creation.purpose.label'}}</p>
+      <p class="label">{{t "pages.campaign-creation.purpose.label"}}</p>
       <div class="form__radio-button">
-        <input type="radio" id="assess-participants" name="campaign-goal" value="assess-participants" {{on "change" this.setCampaignGoal}}>
-        <label for="assess-participants">{{t 'pages.campaign-creation.purpose.assessment'}}</label>
+        <input
+          type="radio"
+          id="assess-participants"
+          name="campaign-goal"
+          value="assess-participants"
+          {{on "change" this.setCampaignGoal}}
+        />
+        <label for="assess-participants">{{t "pages.campaign-creation.purpose.assessment"}}</label>
       </div>
 
       <div class="form__radio-button">
-        <input type="radio" id="collect-participants-profile" name="campaign-goal" value="collect-participants-profile" {{on "change" this.setCampaignGoal}}>
-        <label for="collect-participants-profile">{{t 'pages.campaign-creation.purpose.profiles-collection'}}</label>
+        <input
+          type="radio"
+          id="collect-participants-profile"
+          name="campaign-goal"
+          value="collect-participants-profile"
+          {{on "change" this.setCampaignGoal}}
+        />
+        <label for="collect-participants-profile">{{t "pages.campaign-creation.purpose.profiles-collection"}}</label>
       </div>
 
-      {{#if @campaign.errors.type }}
-        <div class='form__error error-message'>
+      {{#if @campaign.errors.type}}
+        <div class="form__error error-message">
           {{display-campaign-errors @campaign.errors.type}}
         </div>
       {{/if}}
@@ -42,7 +54,9 @@
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
-      <label for="campaign-target-profile" class="label">{{t 'pages.campaign-creation.target-profiles-list.label'}}</label>
+      <label for="campaign-target-profile" class="label">{{t
+          "pages.campaign-creation.target-profiles-list.label"
+        }}</label>
       <PixSelect
         id="campaign-target-profile"
         @onChange={{this.setSelectedTargetProfile}}
@@ -51,33 +65,47 @@
         @size="big"
       />
       {{#if @campaign.errors.targetProfile}}
-        <div class='form__error error-message'>
+        <div class="form__error error-message">
           {{display-campaign-errors @campaign.errors.targetProfile}}
         </div>
       {{/if}}
       {{#if this.currentUser.isSCOManagingStudents}}
         <p class="form__comment">
-          {{t 'pages.campaign-creation.target-profile-informations' htmlSafe=true}}
+          {{t "pages.campaign-creation.target-profile-informations" htmlSafe=true}}
         </p>
       {{/if}}
     </div>
   {{/if}}
 
   <div class="form__field">
-    <p class="label">{{t 'pages.campaign-creation.external-id-label.question-label'}}</p>
+    <p class="label">{{t "pages.campaign-creation.external-id-label.question-label"}}</p>
     <div class="form__radio-button">
-      <input type="radio" checked={{not this.wantIdPix}} id="no-external-id" name="external-id-label" {{on 'change' this.doNotAskLabelIdPix}}>
-      <label for="no-external-id">{{t 'pages.campaign-creation.no'}}</label>
+      <input
+        type="radio"
+        checked={{not this.wantIdPix}}
+        id="no-external-id"
+        name="external-id-label"
+        {{on "change" this.doNotAskLabelIdPix}}
+      />
+      <label for="no-external-id">{{t "pages.campaign-creation.no"}}</label>
     </div>
     <div class="form__radio-button">
-      <input type="radio" checked={{this.wantIdPix}} id="ask-external-id" name="external-id-label" {{on 'change' this.askLabelIdPix}}>
-      <label for="ask-external-id">{{t 'pages.campaign-creation.yes'}}</label>
+      <input
+        type="radio"
+        checked={{this.wantIdPix}}
+        id="ask-external-id"
+        name="external-id-label"
+        {{on "change" this.askLabelIdPix}}
+      />
+      <label for="ask-external-id">{{t "pages.campaign-creation.yes"}}</label>
     </div>
   </div>
 
   {{#if this.wantIdPix}}
     <div class="form__field">
-      <label for="external-id-label" class="label sr-only">{{t 'pages.campaign-creation.external-id-label.label'}}</label>
+      <label for="external-id-label" class="label sr-only">{{t
+          "pages.campaign-creation.external-id-label.label"
+        }}</label>
       <Input
         @id="external-id-label"
         @name="external-id-label"
@@ -87,20 +115,20 @@
         @aria-required="true"
         @value={{@campaign.idPixLabel}}
       />
-      {{#if @campaign.errors.idPixLabel }}
-        <div class='form__error error-message'>
+      {{#if @campaign.errors.idPixLabel}}
+        <div class="form__error error-message">
           {{display-campaign-errors @campaign.errors.idPixLabel}}
         </div>
       {{/if}}
       <div class="form__information help-text">
-        {{t 'pages.campaign-creation.external-id-label.suggestion'}}
+        {{t "pages.campaign-creation.external-id-label.suggestion"}}
       </div>
     </div>
   {{/if}}
 
   {{#if this.isCampaignGoalAssessment}}
     <div class="form__field">
-      <label for="campaign-title" class="label">{{t 'pages.campaign-creation.test-title.label'}}</label>
+      <label for="campaign-title" class="label">{{t "pages.campaign-creation.test-title.label"}}</label>
       <Input
         @id="campaign-title"
         @name="campaign-title"
@@ -113,7 +141,7 @@
   {{/if}}
 
   <div class="form__field">
-    <label for="custom-landing-page-text" class="label">{{t 'pages.campaign-creation.landing-page-text.label'}}</label>
+    <label for="custom-landing-page-text" class="label">{{t "pages.campaign-creation.landing-page-text.label"}}</label>
     <PixTextarea
       @id="custom-landing-page-text"
       @maxlength={{350}}
@@ -123,21 +151,18 @@
   </div>
 
   <div class="form__validation">
-    <PixButton
-      @triggerAction={{@onCancel}}
-      @backgroundColor="transparent-light"
-    >
-      {{t 'common.actions.cancel'}}
+    <PixButton @triggerAction={{@onCancel}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton @type="submit">
-      {{t 'pages.campaign-creation.actions.create'}}
+      {{t "pages.campaign-creation.actions.create"}}
     </PixButton>
   </div>
 
- {{#if this.wantIdPix}}
-   <div class="new-item-form__gdpr-information help-text">
-    {{t 'pages.campaign-creation.legal-warning'}}
-   </div>
- {{/if}}
+  {{#if this.wantIdPix}}
+    <div class="new-item-form__gdpr-information help-text">
+      {{t "pages.campaign-creation.legal-warning"}}
+    </div>
+  {{/if}}
 
 </form>

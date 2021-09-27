@@ -6,14 +6,16 @@ function _getEnvironmentVariableAsNumber({ environmentVariableName, defaultValue
   if (!isNaN(number) && number >= minValue) {
     return number;
   }
-  throw new Error(`Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`);
+  throw new Error(
+    `Invalid value '${valueToValidate}' for environment variable '${environmentVariableName}'. It should be a number greater than or equal ${minValue}.`
+  );
 }
 
 function _isFeatureEnabled(environmentVariable) {
   return environmentVariable === 'true';
 }
 
-module.exports = function(environment) {
+module.exports = function (environment) {
   const analyticsEnabled = _isFeatureEnabled(process.env.WEB_ANALYTICS_ENABLED);
   const ENV = {
     modulePrefix: 'pix-orga',
@@ -37,7 +39,11 @@ module.exports = function(environment) {
       BANNER_TYPE: process.env.BANNER_TYPE || '',
       CAMPAIGNS_ROOT_URL: process.env.CAMPAIGNS_ROOT_URL,
       IS_DISSOCIATE_BUTTON_ENABLED: _isFeatureEnabled(process.env.IS_DISSOCIATE_BUTTON_ENABLED),
-      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({ environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS', defaultValue: 8, minValue: 1 }),
+      MAX_CONCURRENT_AJAX_CALLS: _getEnvironmentVariableAsNumber({
+        environmentVariableName: 'MAX_CONCURRENT_AJAX_CALLS',
+        defaultValue: 8,
+        minValue: 1,
+      }),
       PIX_APP_URL_WITHOUT_EXTENSION: process.env.PIX_APP_URL_WITHOUT_EXTENSION || 'https://app.pix.',
     },
 
@@ -56,13 +62,13 @@ module.exports = function(environment) {
 
     // Set or update content security policies
     contentSecurityPolicy: {
-      'default-src': '\'none\'',
-      'script-src': '\'self\' www.google-analytics.com \'unsafe-inline\' \'unsafe-eval\' cdn.ravenjs.com',
-      'font-src': '\'self\' fonts.gstatic.com',
-      'connect-src': '\'self\' www.google-analytics.com',
-      'img-src': '\'self\'',
-      'style-src': '\'self\' fonts.googleapis.com',
-      'media-src': '\'self\'',
+      'default-src': "'none'",
+      'script-src': "'self' www.google-analytics.com 'unsafe-inline' 'unsafe-eval' cdn.ravenjs.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' www.google-analytics.com",
+      'img-src': "'self'",
+      'style-src': "'self' fonts.googleapis.com",
+      'media-src': "'self'",
     },
 
     matomo: {},

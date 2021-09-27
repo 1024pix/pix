@@ -3,61 +3,58 @@
     <div class="campaign-settings-row">
       {{#if @campaign.isTypeAssessment}}
         <div class="campaign-settings-content">
-          <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.target-profile'}}</dt>
+          <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.target-profile"}}</dt>
           <dd class="content-text campaign-settings-content__text">{{@campaign.targetProfileName}}</dd>
         </div>
       {{/if}}
       {{#if @campaign.idPixLabel}}
         <div class="campaign-settings-content">
-          <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.external-user-id-label'}}</dt>
+          <dt class="label-text campaign-settings-content__label">{{t
+              "pages.campaign-settings.external-user-id-label"
+            }}</dt>
           <dd class="content-text campaign-settings-content__text">{{@campaign.idPixLabel}}</dd>
         </div>
       {{/if}}
       <div class="campaign-settings-content">
-        <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.direct-link'}}</dt>
+        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.direct-link"}}</dt>
         <dd class="campaign-settings-content__clipboard">
           <span class="content-text campaign-settings-content__text">{{this.campaignsRootUrl}}</span>
           <Campaign::CopyPasteButton
             @clipBoardtext={{this.campaignsRootUrl}}
-            @successMessage={{t 'pages.campaign.copy.link.success'}}
-            @defaultMessage={{t 'pages.campaign.copy.link.default'}}
+            @successMessage={{t "pages.campaign.copy.link.success"}}
+            @defaultMessage={{t "pages.campaign.copy.link.default"}}
           />
         </dd>
       </div>
     </div>
     {{#if @campaign.isTypeAssessment}}
-    <div class="campaign-settings-row">
-      <div class="campaign-settings-content campaign-settings-content--single">
-        <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.personalised-test-title'}}</dt>
-        <dd class="content-text campaign-settings-content__text">{{@campaign.title}}</dd>
+      <div class="campaign-settings-row">
+        <div class="campaign-settings-content campaign-settings-content--single">
+          <dt class="label-text campaign-settings-content__label">{{t
+              "pages.campaign-settings.personalised-test-title"
+            }}</dt>
+          <dd class="content-text campaign-settings-content__text">{{@campaign.title}}</dd>
+        </div>
       </div>
-    </div>
     {{/if}}
 
     <div class="campaign-settings-row">
-        <div class="campaign-settings-content campaign-settings-content--single">
-          <dt class="label-text campaign-settings-content__label">{{t 'pages.campaign-settings.landing-page-text'}}</dt>
-          <dd class="content-text campaign-settings-content__text">
-            <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
-          </dd>
-        </div>
+      <div class="campaign-settings-content campaign-settings-content--single">
+        <dt class="label-text campaign-settings-content__label">{{t "pages.campaign-settings.landing-page-text"}}</dt>
+        <dd class="content-text campaign-settings-content__text">
+          <MarkdownToHtml @markdown={{@campaign.customLandingPageText}} />
+        </dd>
+      </div>
     </div>
   </dl>
 
   {{#unless @campaign.isArchived}}
     <div class="campaign-settings-buttons">
-      <PixButtonLink
-        @route="authenticated.campaigns.update"
-        @model={{@campaign.id}}
-        @backgroundColor="grey"
-      >
-        {{t 'pages.campaign-settings.actions.edit'}}
+      <PixButtonLink @route="authenticated.campaigns.update" @model={{@campaign.id}} @backgroundColor="grey">
+        {{t "pages.campaign-settings.actions.edit"}}
       </PixButtonLink>
-      <PixButton
-        @triggerAction={{fn this.archiveCampaign @campaign.id}}
-        @backgroundColor="grey"
-      >
-        {{t 'pages.campaign-settings.actions.archive'}}
+      <PixButton @triggerAction={{fn this.archiveCampaign @campaign.id}} @backgroundColor="grey">
+        {{t "pages.campaign-settings.actions.archive"}}
       </PixButton>
     </div>
   {{/unless}}

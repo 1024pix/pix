@@ -11,21 +11,19 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Switch Organization', function(hooks) {
-
+module('Acceptance | Switch Organization', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When connected prescriber is linked to only one organization', function(hooks) {
-
-    hooks.beforeEach(async function() {
+  module('When connected prescriber is linked to only one organization', function (hooks) {
+    hooks.beforeEach(async function () {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
 
       await authenticateSession(user.id);
     });
 
-    test('should display the main organization name and externalId in summary', async function(assert) {
+    test('should display the main organization name and externalId in summary', async function (assert) {
       // when
       await visit('/');
 
@@ -33,7 +31,7 @@ module('Acceptance | Switch Organization', function(hooks) {
       assert.contains('BRO & Evil Associates (EXTBRO)');
     });
 
-    test('should only have disconnect item in menu', async function(assert) {
+    test('should only have disconnect item in menu', async function (assert) {
       // given
       await visit('/');
 
@@ -46,9 +44,8 @@ module('Acceptance | Switch Organization', function(hooks) {
     });
   });
 
-  module('When connected prescriber is linked to multiples organizations', function(hooks) {
-
-    hooks.beforeEach(async function() {
+  module('When connected prescriber is linked to multiples organizations', function (hooks) {
+    hooks.beforeEach(async function () {
       const user = createUserWithMultipleMemberships();
       createPrescriberByUser(user);
 
@@ -57,7 +54,7 @@ module('Acceptance | Switch Organization', function(hooks) {
       await visit('/');
     });
 
-    test('should have an organization in menu', async function(assert) {
+    test('should have an organization in menu', async function (assert) {
       // when
       await clickByLabel('Ouvrir le menu utilisateur');
 
@@ -66,9 +63,8 @@ module('Acceptance | Switch Organization', function(hooks) {
       assert.dom('.user-logged-menu > li').hasText('My Heaven Company (HEAVEN)');
     });
 
-    module('When prescriber click on an organization', function() {
-
-      test('should change main organization in summary', async function(assert) {
+    module('When prescriber click on an organization', function () {
+      test('should change main organization in summary', async function (assert) {
         // when
         await clickByLabel('Ouvrir le menu utilisateur');
         await clickByLabel('My Heaven Company');
@@ -77,7 +73,7 @@ module('Acceptance | Switch Organization', function(hooks) {
         assert.contains('My Heaven Company (HEAVEN)');
       });
 
-      test('should have the old main organization in the menu', async function(assert) {
+      test('should have the old main organization in the menu', async function (assert) {
         // when
         await clickByLabel('Ouvrir le menu utilisateur');
         await clickByLabel('My Heaven Company');
@@ -88,9 +84,8 @@ module('Acceptance | Switch Organization', function(hooks) {
         assert.dom('.user-logged-menu > li').hasText('BRO & Evil Associates (EXTBRO)');
       });
 
-      module('When prescriber is on campaign page with pagination', function() {
-
-        test('it should reset the queryParams when redirecting', async function(assert) {
+      module('When prescriber is on campaign page with pagination', function () {
+        test('it should reset the queryParams when redirecting', async function (assert) {
           // given
           await visit('/campagnes?pageNumber=2&pageSize=10&name=test&status=archived');
 
@@ -103,17 +98,19 @@ module('Acceptance | Switch Organization', function(hooks) {
         });
       });
 
-      module('When user switch from a not managing student organization to a managing student organization', function() {
+      module(
+        'When user switch from a not managing student organization to a managing student organization',
+        function () {
+          test('it should display student menu item', async function (assert) {
+            // when
+            await clickByLabel('Ouvrir le menu utilisateur');
+            await clickByLabel('My Heaven Company');
 
-        test('it should display student menu item', async function(assert) {
-          // when
-          await clickByLabel('Ouvrir le menu utilisateur');
-          await clickByLabel('My Heaven Company');
-
-          // then
-          assert.dom('.sidebar').containsText('Élèves');
-        });
-      });
+            // then
+            assert.dom('.sidebar').containsText('Élèves');
+          });
+        }
+      );
     });
   });
 });

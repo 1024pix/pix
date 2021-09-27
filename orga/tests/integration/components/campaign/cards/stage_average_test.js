@@ -4,11 +4,11 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupIntl, t } from 'ember-intl/test-support';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Campaign::Cards::StageAverage', function(hooks) {
+module('Integration | Component | Campaign::Cards::StageAverage', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupIntl(hooks);
 
-  test('it should display average result card', async function(assert) {
+  test('it should display average result card', async function (assert) {
     this.averageResult = 0.5;
     this.stages = [{ threshold: 20 }, { threshold: 70 }];
 

@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 
 export default class ListRoute extends Route {
-
   queryParams = {
     lastName: { refreshModel: true },
     firstName: { refreshModel: true },

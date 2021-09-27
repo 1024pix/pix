@@ -3,7 +3,6 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class NewController extends Controller {
-
   @service store;
   @service notifications;
   @service intl;
@@ -12,7 +11,8 @@ export default class NewController extends Controller {
   createCampaign(event) {
     event.preventDefault();
     this.notifications.clearAll();
-    return this.model.campaign.save()
+    return this.model.campaign
+      .save()
       .then((campaign) => {
         this.transitionToRoute('authenticated.campaigns.campaign.settings', campaign.id);
       })

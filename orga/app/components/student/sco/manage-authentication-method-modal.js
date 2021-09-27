@@ -5,7 +5,6 @@ import Component from '@glimmer/component';
 import get from 'lodash/get';
 
 export default class ManageAuthenticationMethodModal extends Component {
-
   @service store;
   @service notifications;
   @service intl;

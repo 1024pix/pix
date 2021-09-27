@@ -6,12 +6,12 @@ import hbs from 'htmlbars-inline-precompile';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
+module('Integration | Component | Layout::UserLoggedMenu', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let prescriber, organization, organization2, organization3;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     organization = Object.create({ id: 1, name: 'Main organization', externalId: 'EXT' });
     prescriber = Object.create({
       firstName: 'givenFirstName',
@@ -32,7 +32,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
     this.owner.register('service:current-user', CurrentUserStub);
   });
 
-  test('should display user\'s firstName and lastName', async function(assert) {
+  test("should display user's firstName and lastName", async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
 
@@ -40,7 +40,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
     assert.contains(`${prescriber.firstName} ${prescriber.lastName}`);
   });
 
-  test('should display the user current organization name and externalId', async function(assert) {
+  test('should display the user current organization name and externalId', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
 
@@ -48,7 +48,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
     assert.contains(`${organization.name} (${organization.externalId})`);
   });
 
-  test('should display the chevron-down icon when menu is close', async function(assert) {
+  test('should display the chevron-down icon when menu is close', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
 
@@ -57,7 +57,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
     assert.dom('.fa-chevron-up').doesNotExist();
   });
 
-  test('should display the chevron-up icon when menu is open', async function(assert) {
+  test('should display the chevron-up icon when menu is open', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByLabel('Ouvrir le menu utilisateur');
@@ -67,7 +67,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
     assert.dom('.fa-chevron-down').doesNotExist();
   });
 
-  test('should display the disconnect link when menu is open', async function(assert) {
+  test('should display the disconnect link when menu is open', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu />`);
     await clickByLabel('Ouvrir le menu utilisateur');
@@ -76,7 +76,7 @@ module('Integration | Component | Layout::UserLoggedMenu', function(hooks) {
     assert.contains('Se déconnecter');
   });
 
-  test('should display the organizations name and externalId when menu is open', async function(assert) {
+  test('should display the organizations name and externalId when menu is open', async function (assert) {
     // when
     await render(hbs`<Layout::UserLoggedMenu  />`);
     await clickByLabel('Ouvrir le menu utilisateur');

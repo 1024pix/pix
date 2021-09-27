@@ -5,43 +5,46 @@ import { render, click } from '@ember/test-helpers';
 import sinon from 'sinon';
 import Service from '@ember/service';
 import hbs from 'htmlbars-inline-precompile';
-import { t } from 'ember-intl/test-support';
 
-module('Integration | Component | Campaign::Results::AssessmentList', function(hooks) {
+module('Integration | Component | Campaign::Results::AssessmentList', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  test('it should display a link to access to result page', async function(assert) {
+  test('it should display a link to access to result page', async function (assert) {
     // given
     this.owner.setupRouter();
     const campaign = store.createRecord('campaign', {
       id: 1,
     });
 
-    const participations = [{
-      id: 5,
-      lastName: 'Midoriya',
-      firstName: 'Izoku',
-    }];
+    const participations = [
+      {
+        id: 5,
+        lastName: 'Midoriya',
+        firstName: 'Izoku',
+      },
+    ];
 
     this.set('campaign', campaign);
     this.set('participations', participations);
     this.set('goToAssessmentPage', () => {});
 
     // when
-    await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+    await render(
+      hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+    );
 
     // then
     assert.dom('a[href="/campagnes/1/evaluations/5"]').exists();
   });
 
-  module('when a participant has shared his results', function() {
-    test('it should display the participant’s results', async function(assert) {
+  module('when a participant has shared his results', function () {
+    test('it should display the participant’s results', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
         id: 1,
@@ -66,16 +69,18 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      );
 
       // then
       assert.notContains('Aucun participant');
       assert.contains('Doe');
       assert.contains('John');
-      assert.contains(t('pages.campaign-results.table.column.results.value', { percentage: participations[0].masteryPercentage }));
+      assert.contains('80 %');
     });
 
-    test('it should display badge and tooltip', async function(assert) {
+    test('it should display badge and tooltip', async function (assert) {
       // given
       const badge = store.createRecord('badge', { id: 1, imageUrl: 'url-badge' });
       const campaign = store.createRecord('campaign', {
@@ -90,7 +95,9 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      );
 
       // then
       assert.dom('[aria-describedby="badge-tooltip-1"]').exists();
@@ -98,8 +105,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when the campaign asked for an external id', function() {
-    test('it should display participant\'s results with external id', async function(assert) {
+  module('when the campaign asked for an external id', function () {
+    test("it should display participant's results with external id", async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
         idPixLabel: 'identifiant externe',
@@ -115,7 +122,9 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      );
 
       // then
       assert.contains('identifiant externe');
@@ -123,8 +132,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when nobody shared his results', function() {
-    test('it should display "waiting for participants"', async function(assert) {
+  module('when nobody shared his results', function () {
+    test('it should display "waiting for participants"', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
         name: 'campagne 1',
@@ -146,8 +155,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when the campaign doesn‘t have thematic results', function() {
-    test('it should not display thematic results column', async function(assert) {
+  module('when the campaign doesn‘t have thematic results', function () {
+    test('it should not display thematic results column', async function (assert) {
       // given
       const campaign = store.createRecord('campaign', {
         badges: [],
@@ -161,22 +170,24 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      );
 
       // then
       assert.notContains('Résultats Thématiques');
     });
   });
 
-  module('when the campaign has thematic results', function() {
-    test('it should display thematic results column', async function(assert) {
+  module('when the campaign has thematic results', function () {
+    test('it should display thematic results column', async function (assert) {
       // given
       const badge = store.createRecord('badge');
       const campaign = store.createRecord('campaign', {
         badges: [badge],
       });
 
-      const participations = [{ }];
+      const participations = [{}];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -184,13 +195,15 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      );
 
       // then
       assert.contains('Résultats Thématiques');
     });
 
-    test('it filters the participations when a thematic results is selected', async function(assert) {
+    test('it filters the participations when a thematic results is selected', async function (assert) {
       // given
       const badge = store.createRecord('badge', { id: 'badge1', title: 'Les bases' });
       const campaign = store.createRecord('campaign', {
@@ -207,7 +220,9 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('triggerFiltering', triggerFiltering);
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`
+      );
       await click('[for="badge-badge1"]');
 
       // then
@@ -215,8 +230,8 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when the campaign has stages', function() {
-    test('it should display stars instead of mastery percentage in result column', async function(assert) {
+  module('when the campaign has stages', function () {
+    test('it should display stars instead of mastery percentage in result column', async function (assert) {
       // given
       const stage = store.createRecord('stage', { threshold: 50 });
       const campaign = store.createRecord('campaign', {
@@ -231,7 +246,9 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('goToAssessmentPage', () => {});
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}}/>`
+      );
 
       // then
       assert.notContains('60%');
@@ -239,13 +256,13 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
     });
   });
 
-  module('when user works for a SCO organization which manages students', function() {
+  module('when user works for a SCO organization which manages students', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false }
+      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
     }
 
-    test('it filter the participations when a division is selected', async function(assert) {
+    test('it filter the participations when a division is selected', async function (assert) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // given
@@ -268,22 +285,23 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('triggerFiltering', triggerFiltering);
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}}/>`
+      );
       await click('[for="division-d1"]');
 
       // then
       assert.ok(triggerFiltering.calledWith({ divisions: ['d1'] }));
     });
-
   });
 
-  module('when user reset current filters', function() {
+  module('when user reset current filters', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false }
+      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
     }
 
-    test('it calls the onResetFilter callback', async function(assert) {
+    test('it calls the onResetFilter callback', async function (assert) {
       this.owner.register('service:current-user', CurrentUserStub);
 
       // given
@@ -307,12 +325,13 @@ module('Integration | Component | Campaign::Results::AssessmentList', function(h
       this.set('resetFilters', resetFilters);
 
       // when
-      await render(hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFilters}}/>`);
+      await render(
+        hbs`<Campaign::Results::AssessmentList @campaign={{campaign}} @participations={{participations}} @onClickParticipant={{goToAssessmentPage}} @onFilter={{triggerFiltering}} @onResetFilter={{resetFilters}}/>`
+      );
       await clickByLabel('Effacer les filtres');
 
       // then
       assert.ok(resetFilters.called);
     });
-
   });
 });

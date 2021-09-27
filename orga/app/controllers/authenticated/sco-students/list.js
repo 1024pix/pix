@@ -23,7 +23,7 @@ export default class ListController extends Controller {
   @tracked pageSize = null;
 
   updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
+    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = null;
   }
 
@@ -60,7 +60,6 @@ export default class ListController extends Controller {
       this.refresh();
       this.isLoading = false;
       this.notifications.sendSuccess(this.intl.t('pages.students-sco.import.global-success'));
-
     } catch (errorResponse) {
       this.isLoading = false;
       this._handleError(errorResponse);
@@ -70,15 +69,21 @@ export default class ListController extends Controller {
   _handleError(errorResponse) {
     const globalErrorMessage = this.intl.t('pages.students-sco.import.global-error', { htmlSafe: true });
     if (!errorResponse.errors) {
-      return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
+      return this.notifications.sendError(globalErrorMessage, {
+        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+      });
     }
 
     errorResponse.errors.forEach((error) => {
       if (['422', '412', '413'].includes(error.status)) {
         const message = this.errorMessages.getErrorMessage(error.code, error.meta) || error.detail;
-        return this.notifications.sendError(this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true }));
+        return this.notifications.sendError(
+          this.intl.t('pages.students-sco.import.error-wrapper', { message, htmlSafe: true })
+        );
       }
-      return this.notifications.sendError(globalErrorMessage, { onClick: () => window.open(this.intl.t('common.help-form'), '_blank') });
+      return this.notifications.sendError(globalErrorMessage, {
+        onClick: () => window.open(this.intl.t('common.help-form'), '_blank'),
+      });
     });
   }
 

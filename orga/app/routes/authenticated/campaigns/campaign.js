@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 
 export default class CampaignRoute extends Route {
-
   async model(params) {
     try {
       const campaign = await this.store.findRecord('campaign', params.campaign_id);

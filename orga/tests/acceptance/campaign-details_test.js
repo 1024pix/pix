@@ -3,21 +3,16 @@ import { currentURL, visit } from '@ember/test-helpers';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser,
-} from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Details', function(hooks) {
-
+module('Acceptance | Campaign Details', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When prescriber is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When prescriber is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // given
       server.create('campaign', { id: 1 });
 
@@ -29,8 +24,7 @@ module('Acceptance | Campaign Details', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function(hooks) {
-
+  module('When prescriber is logged in', function (hooks) {
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
@@ -38,7 +32,7 @@ module('Acceptance | Campaign Details', function(hooks) {
       await authenticateSession(user.id);
     });
 
-    test('it should redirect to update page on click on return button', async function(assert) {
+    test('it should redirect to update page on click on return button', async function (assert) {
       // given
       server.create('campaign', { id: 1 });
       server.create('campaign-participant-activity', { firstName: 'toto' });

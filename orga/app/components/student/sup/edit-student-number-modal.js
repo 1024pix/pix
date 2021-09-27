@@ -19,11 +19,16 @@ export default class EditStudentNumberModal extends Component {
   async updateStudentNumber(event) {
     event.preventDefault();
     if (!this.newStudentNumber.trim()) {
-      return this.error = this.intl.t('pages.students-sup.edit-student-number-modal.form.error');
+      return (this.error = this.intl.t('pages.students-sup.edit-student-number-modal.form.error'));
     }
     try {
       await this.args.onSubmit(this.newStudentNumber.trim());
-      this.notifications.sendSuccess(this.intl.t('pages.students-sup.edit-student-number-modal.form.success', { firstName: this.args.student.firstName, lastName: this.args.student.lastName }));
+      this.notifications.sendSuccess(
+        this.intl.t('pages.students-sup.edit-student-number-modal.form.success', {
+          firstName: this.args.student.firstName,
+          lastName: this.args.student.lastName,
+        })
+      );
       this.close();
     } catch (errorResponse) {
       this._handleError(errorResponse);
@@ -39,7 +44,10 @@ export default class EditStudentNumberModal extends Component {
   _handleError(errorResponse) {
     errorResponse.errors.forEach((error) => {
       if (error.detail === 'STUDENT_NUMBER_EXISTS') {
-        return this.error = this.intl.t('api-errors-messages.edit-student-number.student-number-exists', { firstName: this.args.student.firstName, lastName: this.args.student.lastName });
+        return (this.error = this.intl.t('api-errors-messages.edit-student-number.student-number-exists', {
+          firstName: this.args.student.firstName,
+          lastName: this.args.student.lastName,
+        }));
       }
       throw error;
     });

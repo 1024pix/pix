@@ -1,9 +1,7 @@
-{{page-title (t 'pages.students-sco.title')}}
+{{page-title (t "pages.students-sco.title")}}
 
 <div class="list-students-page">
-  <Student::Sco::HeaderActions
-    @onImportStudents={{this.importStudents}}
-  />
+  <Student::Sco::HeaderActions @onImportStudents={{this.importStudents}} />
 
   <Student::Sco::List
     @students={{@model}}

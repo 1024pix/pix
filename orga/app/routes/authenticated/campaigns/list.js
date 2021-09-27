@@ -2,7 +2,6 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 
 export default class ListRoute extends Route {
-
   queryParams = {
     pageNumber: {
       refreshModel: true,
@@ -24,18 +23,22 @@ export default class ListRoute extends Route {
   @service currentUser;
 
   model(params) {
-    return this.store.query('campaign', {
-      filter: {
-        organizationId: this.currentUser.organization.id,
-        name: params.name,
-        status: params.status,
-        creatorName: params.creatorName,
+    return this.store.query(
+      'campaign',
+      {
+        filter: {
+          organizationId: this.currentUser.organization.id,
+          name: params.name,
+          status: params.status,
+          creatorName: params.creatorName,
+        },
+        page: {
+          number: params.pageNumber,
+          size: params.pageSize,
+        },
       },
-      page: {
-        number: params.pageNumber,
-        size: params.pageSize,
-      },
-    }, { reload: true });
+      { reload: true }
+    );
   }
 
   resetController(controller, isExiting) {

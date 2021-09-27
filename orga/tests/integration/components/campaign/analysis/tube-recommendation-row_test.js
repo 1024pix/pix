@@ -3,14 +3,14 @@ import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', function(hooks) {
+module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
   let tutorial1;
   let tutorial2;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
 
     tutorial1 = store.createRecord('tutorial', {
@@ -37,7 +37,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     });
   });
 
-  test('it should display tube details', async function(assert) {
+  test('it should display tube details', async function (assert) {
     // when
     await render(hbs`<Campaign::Analysis::TubeRecommendationRow
       @tubeRecommendation={{tubeRecommendation}}
@@ -49,7 +49,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     assert.dom(firstTube).containsText('Competence A');
   });
 
-  test('it should expand and display one tutorial in the list', async function(assert) {
+  test('it should expand and display one tutorial in the list', async function (assert) {
     // given
     this.tubeRecommendation.tutorials = [tutorial1];
 
@@ -68,10 +68,9 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     assert.dom('[aria-label="Tutoriel"]:first-child').containsText('Par Youtube');
     assert.dom('[aria-expanded="true"]').exists();
     assert.contains('Tube Desc A');
-
   });
 
-  test('it should expand and display 2 tutorials in the list', async function(assert) {
+  test('it should expand and display 2 tutorials in the list', async function (assert) {
     // given
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
@@ -86,7 +85,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
     assert.dom('[aria-hidden="false"]').containsText('2 tutos recommandés par la communauté Pix');
   });
 
-  test('it should collapse and hide tube tutorials list', async function(assert) {
+  test('it should collapse and hide tube tutorials list', async function (assert) {
     // given
     this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 
@@ -104,7 +103,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
   });
 
   module('Testing the number of tutorials', () => {
-    test('it should display "1 tuto" when there is only one tutorial', async function(assert) {
+    test('it should display "1 tuto" when there is only one tutorial', async function (assert) {
       // given
       this.tubeRecommendation.tutorials = [tutorial1];
 
@@ -117,7 +116,7 @@ module('Integration | Component | Campaign::Analysis::TubeRecommendationRow', fu
       assert.dom('[aria-label="Sujet"]').containsText('1 tuto');
     });
 
-    test('it should display "2 tutos" when there are two tutorials', async function(assert) {
+    test('it should display "2 tutos" when there are two tutorials', async function (assert) {
       // given
       this.tubeRecommendation.tutorials = [tutorial1, tutorial2];
 

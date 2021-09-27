@@ -13,7 +13,7 @@ export default class Router extends EmberRouter {
   }
 }
 
-Router.map(function() {
+Router.map(function () {
   this.route('login', { path: 'connexion' });
 
   this.route('join', { path: 'rejoindre' });
@@ -22,31 +22,35 @@ Router.map(function() {
 
   this.route('terms-of-service', { path: '/cgu' });
 
-  this.route('authenticated', { path: '' }, function() {
-    this.route('sco-students', { path: 'eleves' }, function() {
+  this.route('authenticated', { path: '' }, function () {
+    this.route('sco-students', { path: 'eleves' }, function () {
       this.route('list', { path: '/' });
     });
-    this.route('sup-students', { path: 'etudiants' }, function() {
+    this.route('sup-students', { path: 'etudiants' }, function () {
       this.route('list', { path: '/' });
       this.route('import');
     });
-    this.route('team', { path: '/equipe' }, function() {
-      this.route('list', { path: '/' }, function() {
+    this.route('team', { path: '/equipe' }, function () {
+      this.route('list', { path: '/' }, function () {
         this.route('members', { path: '/membres' });
         this.route('invitations');
       });
       this.route('new', { path: '/creation' });
     });
-    this.route('campaigns', { path: '/campagnes' }, function() {
+    this.route('campaigns', { path: '/campagnes' }, function () {
       this.route('list', { path: '/' });
       this.route('new', { path: '/creation' });
       this.route('update', { path: '/:campaign_id/modification' });
-      this.route('participant-assessment', { path: '/:campaign_id/evaluations/:campaign_participation_id' }, function() {
-        this.route('results', { path: '/resultats' });
-        this.route('analysis', { path: '/analyse' });
-      });
+      this.route(
+        'participant-assessment',
+        { path: '/:campaign_id/evaluations/:campaign_participation_id' },
+        function () {
+          this.route('results', { path: '/resultats' });
+          this.route('analysis', { path: '/analyse' });
+        }
+      );
       this.route('participant-profile', { path: '/:campaign_id/profils/:campaign_participation_id' });
-      this.route('campaign', { path: '/:campaign_id' }, function() {
+      this.route('campaign', { path: '/:campaign_id' }, function () {
         this.route('activity', { path: '/' });
         this.route('assessment-results', { path: '/resultats-evaluation' });
         this.route('profile-results', { path: '/profils' });

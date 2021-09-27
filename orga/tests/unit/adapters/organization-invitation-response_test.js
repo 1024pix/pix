@@ -1,18 +1,17 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapters | organization-invitation-response', function(hooks) {
+module('Unit | Adapters | organization-invitation-response', function (hooks) {
   setupTest(hooks);
 
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:organization-invitation-response');
   });
 
-  module('#urlForCreateRecord', function() {
-
-    test('should build update url from organization-invitation-response id', async function(assert) {
+  module('#urlForCreateRecord', function () {
+    test('should build update url from organization-invitation-response id', async function (assert) {
       // given
       const organizationInvitationId = 123;
       const options = {
@@ -26,5 +25,4 @@ module('Unit | Adapters | organization-invitation-response', function(hooks) {
       assert.true(url.endsWith(`/organization-invitations/${organizationInvitationId}/response`));
     });
   });
-
 });

@@ -30,11 +30,18 @@ export default class StageStars extends Component {
   }
 
   get altMessage() {
-    return this.intl.t('pages.assessment-individual-results.stages.value', { count: this.starsAcquired, total: this.starsTotal });
+    return this.intl.t('pages.assessment-individual-results.stages.value', {
+      count: this.starsAcquired,
+      total: this.starsTotal,
+    });
   }
 
   get displayTooltip() {
-    return Boolean(this.withTooltip && this.reachedStage && (this.reachedStage.prescriberTitle || this.reachedStage.prescriberDescription));
+    return Boolean(
+      this.withTooltip &&
+        this.reachedStage &&
+        (this.reachedStage.prescriberTitle || this.reachedStage.prescriberDescription)
+    );
   }
 
   get tooltipText() {

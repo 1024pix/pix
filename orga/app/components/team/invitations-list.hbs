@@ -2,19 +2,20 @@
   <table>
     <thead>
       <tr>
-        <th>{{t 'pages.team-invitations.table.column.email-address'}}</th>
-        <th class="hide-on-mobile">{{t 'pages.team-invitations.table.column.pending-invitation'}}</th>
+        <th>{{t "pages.team-invitations.table.column.email-address"}}</th>
+        <th class="hide-on-mobile">{{t "pages.team-invitations.table.column.pending-invitation"}}</th>
       </tr>
     </thead>
     <tbody>
-    {{#each @invitations as |invitation|}}
-      <tr aria-label="{{t 'pages.team-invitations.table.row.aria-label'}}">
-        <td>{{invitation.email}}</td>
-        <td class="hide-on-mobile" colspan="3">
-          {{t 'pages.team-invitations.table.row.message'}} {{moment-format invitation.updatedAt 'DD/MM/YYYY [-] HH:mm' locale='fr'}}
-        </td>
-      </tr>
-    {{/each}}
+      {{#each @invitations as |invitation|}}
+        <tr aria-label="{{t "pages.team-invitations.table.row.aria-label"}}">
+          <td>{{invitation.email}}</td>
+          <td class="hide-on-mobile" colspan="3">
+            {{t "pages.team-invitations.table.row.message"}}
+            {{moment-format invitation.updatedAt "DD/MM/YYYY [-] HH:mm" locale="fr"}}
+          </td>
+        </tr>
+      {{/each}}
     </tbody>
   </table>
 </div>
