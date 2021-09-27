@@ -17,6 +17,7 @@ const profileSerializer = require('../../../../lib/infrastructure/serializers/js
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
 
 const userController = require('../../../../lib/application/users/user-controller');
 
@@ -938,6 +939,52 @@ describe('Unit | Controller | user-controller', function() {
         password,
         userId,
       });
+    });
+  });
+
+  describe('#updateUserEmailWithValidation', function() {
+
+    it('should call the usecase to update user email', async function() {
+      // given
+      const userId = 1;
+      const updatedEmail = 'new-email@example.net';
+      const code = '999999';
+
+      const responseSerialized = Symbol('an response serialized');
+      sinon.stub(usecases, 'updateUserEmailWithValidation');
+      sinon.stub(updateEmailSerializer, 'serialize');
+
+      usecases.updateUserEmailWithValidation.withArgs({ code, userId }).resolves(updatedEmail);
+      updateEmailSerializer.serialize.withArgs(updatedEmail).returns(responseSerialized);
+
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        payload: {
+          data: {
+            type: 'users',
+            attributes: {
+              code,
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await userController.updateUserEmailWithValidation(request);
+
+      // then
+      expect(usecases.updateUserEmailWithValidation).to.have.been.calledWith({
+        code,
+        userId,
+      });
+      expect(response).to.deep.equal(responseSerialized);
     });
   });
 });
