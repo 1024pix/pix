@@ -24,10 +24,14 @@ export default class ParticipantsByDay extends Component {
     const adapter = this.store.adapterFor('campaign-stats');
 
     adapter.getParticipationsByDay(campaignId).then((response) => {
-      const { 'started-participations': startedParticipations, 'shared-participations': sharedParticipations } = response.data.attributes;
+      const { 'started-participations': startedParticipations, 'shared-participations': sharedParticipations } =
+        response.data.attributes;
 
       if (startedParticipations.length > 0) {
-        this.days = moment(startedParticipations[startedParticipations.length - 1].day).diff(moment(startedParticipations[0].day), 'days');
+        this.days = moment(startedParticipations[startedParticipations.length - 1].day).diff(
+          moment(startedParticipations[0].day),
+          'days'
+        );
       }
 
       const { startedDatasets, sharedDatasets } = this._normalizeDatasets(startedParticipations, sharedParticipations);

@@ -1,7 +1,6 @@
 import { Factory, trait } from 'ember-cli-mirage';
 
 export default Factory.extend({
-
   withTubeRecommendations: trait({
     afterCreate(campaignAnalysis, server) {
       const tubeRecommendation_1 = server.create('campaign-tube-recommendation', {

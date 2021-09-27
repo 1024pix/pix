@@ -5,14 +5,14 @@ import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-
 import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Student::Sup::List', function(hooks) {
+module('Integration | Component | Student::Sup::List', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.set('noop', sinon.stub());
   });
 
-  test('it should display the header labels', async function(assert) {
+  test('it should display the header labels', async function (assert) {
     // given
     this.set('students', []);
 
@@ -26,11 +26,11 @@ module('Integration | Component | Student::Sup::List', function(hooks) {
     assert.contains('Date de naissance');
   });
 
-  test('it should display a list of students', async function(assert) {
+  test('it should display a list of students', async function (assert) {
     // given
     const students = [
       { lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') },
-      { lastName: 'L\'asticot', firstName: 'Gogo', birthdate: new Date('2010-05-10') },
+      { lastName: "L'asticot", firstName: 'Gogo', birthdate: new Date('2010-05-10') },
     ];
 
     this.set('students', students);
@@ -42,9 +42,16 @@ module('Integration | Component | Student::Sup::List', function(hooks) {
     assert.dom('[aria-label="Étudiant"]').exists({ count: 2 });
   });
 
-  test('it should display the student number, firstName, lastName and birthdate of student', async function(assert) {
+  test('it should display the student number, firstName, lastName and birthdate of student', async function (assert) {
     // given
-    const students = [{ studentNumber: 'LATERREURGIGI123', lastName: 'La Terreur', firstName: 'Gigi', birthdate: new Date('2010-02-01') }];
+    const students = [
+      {
+        studentNumber: 'LATERREURGIGI123',
+        lastName: 'La Terreur',
+        firstName: 'Gigi',
+        birthdate: new Date('2010-02-01'),
+      },
+    ];
 
     this.set('students', students);
 
@@ -58,8 +65,8 @@ module('Integration | Component | Student::Sup::List', function(hooks) {
     assert.contains('01/02/2010');
   });
 
-  module('when user is filtering some users', function() {
-    test('it should trigger filtering with lastname', async function(assert) {
+  module('when user is filtering some users', function () {
+    test('it should trigger filtering with lastname', async function (assert) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
@@ -76,7 +83,7 @@ module('Integration | Component | Student::Sup::List', function(hooks) {
       assert.equal(call.args[2].target.value, 'bob');
     });
 
-    test('it should trigger filtering with firstname', async function(assert) {
+    test('it should trigger filtering with firstname', async function (assert) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);
@@ -93,7 +100,7 @@ module('Integration | Component | Student::Sup::List', function(hooks) {
       assert.equal(call.args[2].target.value, 'bob');
     });
 
-    test('it should trigger filtering with student number', async function(assert) {
+    test('it should trigger filtering with student number', async function (assert) {
       const triggerFiltering = sinon.spy();
       this.set('triggerFiltering', triggerFiltering);
       this.set('students', []);

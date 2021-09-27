@@ -2,10 +2,10 @@
   <Ui::PreviousPageButton
     @route="authenticated.campaigns.campaign.activity"
     @routeId={{@campaign.id}}
-    @backButtonAriaLabel={{t 'common.actions.back'}}
-    aria-label={{t 'pages.campaign.name'}}
+    @backButtonAriaLabel={{t "common.actions.back"}}
+    aria-label={{t "pages.campaign.name"}}
   >
-  {{@campaign.name}}
+    {{@campaign.name}}
   </Ui::PreviousPageButton>
 </header>
 
@@ -23,24 +23,30 @@
         </div>
       {{/if}}
       <div class="panel-header-data__content">
-        <dt class="label-text panel-header-data-content__label">{{t 'pages.campaign-individual-results.start-date'}}</dt>
+        <dt class="label-text panel-header-data-content__label">{{t
+            "pages.campaign-individual-results.start-date"
+          }}</dt>
         <dd class="value-text panel-header-data-content__value">
-          {{moment-format @participation.createdAt 'DD MMM YYYY'}}
+          {{moment-format @participation.createdAt "DD MMM YYYY"}}
         </dd>
       </div>
-      {{#unless @participation.isShared }}
+      {{#unless @participation.isShared}}
         <div class="panel-header-data__content">
-          <dt class="label-text panel-header-data-content__label">{{t 'pages.assessment-individual-results.progression'}}</dt>
+          <dt class="label-text panel-header-data-content__label">{{t
+              "pages.assessment-individual-results.progression"
+            }}</dt>
           <dd class="value-text panel-header-data-content__value">
-            {{t 'common.percentage' value=@participation.progression}}
+            {{t "common.percentage" value=@participation.progression}}
           </dd>
         </div>
       {{/unless}}
-      {{#if @participation.isShared }}
+      {{#if @participation.isShared}}
         <div class="panel-header-data__content">
-          <dt class="label-text panel-header-data-content__label">{{t 'pages.campaign-individual-results.shared-date'}}</dt>
+          <dt class="label-text panel-header-data-content__label">{{t
+              "pages.campaign-individual-results.shared-date"
+            }}</dt>
           <dd class="value-text panel-header-data-content__value">
-            {{moment-format @participation.sharedAt 'DD MMM YYYY'}}
+            {{moment-format @participation.sharedAt "DD MMM YYYY"}}
           </dd>
         </div>
       {{/if}}
@@ -49,12 +55,18 @@
     {{#if @participation.isShared}}
       <ul class="panel-header__data panel-header__data--highlight">
         {{#if this.displayBadges}}
-          <li aria-label={{t 'pages.assessment-individual-results.badges'}} class="panel-header-data__content panel-header-data-content__badges">
-            <Campaign::Badges @badges={{@participation.badges}}/>
+          <li
+            aria-label={{t "pages.assessment-individual-results.badges"}}
+            class="panel-header-data__content panel-header-data-content__badges"
+          >
+            <Campaign::Badges @badges={{@participation.badges}} />
           </li>
         {{/if}}
         {{#if @campaign.hasStages}}
-          <li aria-label={{t 'pages.assessment-individual-results.stages.label'}} class="panel-header-data__content panel-header-data-content__stages">
+          <li
+            aria-label={{t "pages.assessment-individual-results.stages.label"}}
+            class="panel-header-data__content panel-header-data-content__stages"
+          >
             <Campaign::StageStars
               @result={{multiply @participation.masteryPercentage 100}}
               @stages={{@campaign.stages}}
@@ -63,12 +75,17 @@
             />
           </li>
         {{else}}
-          <li aria-label={{t 'pages.assessment-individual-results.result'}} class="panel-header-data__content panel-header-data-content__progress-bar">
-            <Ui::ProgressBar @value={{@participation.masteryPercentage}}/>
+          <li
+            aria-label={{t "pages.assessment-individual-results.result"}}
+            class="panel-header-data__content panel-header-data-content__progress-bar"
+          >
+            <Ui::ProgressBar @value={{@participation.masteryPercentage}} />
           </li>
 
-          <li class="panel-header-data__content value-text value-text--highlight panel-header-data-content__mastery-percentage">
-            {{t 'common.percentage' value=@participation.masteryPercentage}}
+          <li
+            class="panel-header-data__content value-text value-text--highlight panel-header-data-content__mastery-percentage"
+          >
+            {{t "common.percentage" value=@participation.masteryPercentage}}
           </li>
         {{/if}}
       </ul>

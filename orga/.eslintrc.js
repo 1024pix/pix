@@ -13,24 +13,25 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: [
-    'ember',
-    'qunit',
-  ],
+  plugins: ['ember', 'qunit'],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
     'plugin:i18n-json/recommended',
     'plugin:qunit/recommended',
+    'plugin:prettier/recommended',
   ],
   env: {
     browser: true,
   },
   rules: {
-    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
-    'i18n-json/sorted-keys': ['warn', {
-      'sortFunctionPath': path.resolve('./config/linter-translation-order.js'),
-    }],
+    'no-restricted-imports': ['error', { paths: ['lodash'] }],
+    'i18n-json/sorted-keys': [
+      'warn',
+      {
+        sortFunctionPath: path.resolve('./config/linter-translation-order.js'),
+      },
+    ],
     'i18n-json/valid-message-syntax': 'warn',
     'no-irregular-whitespace': 'off',
   },

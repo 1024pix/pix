@@ -5,13 +5,12 @@ import hbs from 'htmlbars-inline-precompile';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Team::MembersListItem', function(hooks) {
-
+module('Integration | Component | Team::MembersListItem', function (hooks) {
   setupIntlRenderingTest(hooks);
   let adminMembership;
   let memberMembership;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adminMembership = {
       id: 1,
       displayRole: 'Administrateur',
@@ -37,7 +36,7 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
     };
   });
 
-  test('it should display an administrator firstName, lastName, role and edit button', async function(assert) {
+  test('it should display an administrator firstName, lastName, role and edit button', async function (assert) {
     // given
     this.set('membership', adminMembership);
 
@@ -51,9 +50,8 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
     assert.dom('button[aria-label="Gérer"]').exists;
   });
 
-  module('When edit organization role button is clicked', function() {
-
-    test('it should show update and save button, and show the drop down to select role to update', async function(assert) {
+  module('When edit organization role button is clicked', function () {
+    test('it should show update and save button, and show the drop down to select role to update', async function (assert) {
       // given
       this.set('membership', memberMembership);
 
@@ -69,7 +67,7 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
       assert.dom('#cancel-update-organization-role').exists({ count: 1 });
     });
 
-    test('it should cancel the update if using the cancel button', async function(assert) {
+    test('it should cancel the update if using the cancel button', async function (assert) {
       // given
       this.set('membership', memberMembership);
 
@@ -86,7 +84,7 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
       sinon.assert.notCalled(memberMembership.save);
     });
 
-    test('it should change the value of the drop down to Administrateur and display the modified role', async function(assert) {
+    test('it should change the value of the drop down to Administrateur and display the modified role', async function (assert) {
       // given
       this.set('membership', memberMembership);
 
@@ -103,7 +101,7 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
       sinon.assert.called(memberMembership.save);
     });
 
-    test('it should change the value of the drop down to Membre and display the modified role', async function(assert) {
+    test('it should change the value of the drop down to Membre and display the modified role', async function (assert) {
       // given
       this.set('membership', adminMembership);
 
@@ -122,10 +120,9 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
   });
 
   module('When remove member button is clicked', (hooks) => {
-
     let removeMembershipStub;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async function () {
       // given
       removeMembershipStub = sinon.stub();
       memberMembership.user.get = (attr) => {
@@ -140,34 +137,34 @@ module('Integration | Component | Team::MembersListItem', function(hooks) {
       await clickByLabel('Supprimer');
     });
 
-    test('should display a confirmation modal', function(assert) {
+    test('should display a confirmation modal', function (assert) {
       // then
       assert.contains('Confirmez-vous la suppression ?');
       assert.contains('Annuler');
       assert.contains('Supprimer');
     });
 
-    test('should display the membership first name and last name in the modal', function(assert) {
+    test('should display the membership first name and last name in the modal', function (assert) {
       // then
       assert.contains(memberMembership.user.firstName);
       assert.contains(memberMembership.user.lastName);
     });
 
-    test('should close the modal by clicking on cancel button', async function(assert) {
+    test('should close the modal by clicking on cancel button', async function (assert) {
       // when
       await clickByLabel('Annuler');
 
       // then
-      assert.notContains('Supprimer de l\'équipe');
+      assert.notContains("Supprimer de l'équipe");
     });
 
-    test('should call removeMembership and close modal by clicking on remove button', async function(assert) {
+    test('should call removeMembership and close modal by clicking on remove button', async function (assert) {
       // when
       await click('button[data-test-modal-remove-button]');
 
       // then
       sinon.assert.calledWith(removeMembershipStub, memberMembership);
-      assert.notContains('Supprimer de l\'équipe');
+      assert.notContains("Supprimer de l'équipe");
     });
   });
 });

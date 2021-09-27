@@ -10,16 +10,24 @@ import isPasswordValid from '../../utils/password-validator';
 const isStringValid = (value) => Boolean(value.trim());
 
 export default class RegisterForm extends Component {
-
   @service session;
   @service store;
   @service intl;
 
   validation = {
-    firstName: new InputValidator(isStringValid, this.intl.t('pages.login-or-register.register-form.fields.first-name.error')),
-    lastName: new InputValidator(isStringValid, this.intl.t('pages.login-or-register.register-form.fields.last-name.error')),
+    firstName: new InputValidator(
+      isStringValid,
+      this.intl.t('pages.login-or-register.register-form.fields.first-name.error')
+    ),
+    lastName: new InputValidator(
+      isStringValid,
+      this.intl.t('pages.login-or-register.register-form.fields.last-name.error')
+    ),
     email: new InputValidator(isEmailValid, this.intl.t('pages.login-or-register.register-form.fields.email.error')),
-    password: new InputValidator(isPasswordValid, this.intl.t('pages.login-or-register.register-form.fields.password.error')),
+    password: new InputValidator(
+      isPasswordValid,
+      this.intl.t('pages.login-or-register.register-form.fields.password.error')
+    ),
     cgu: new InputValidator(Boolean, this.intl.t('pages.login-or-register.register-form.fields.cgu.error')),
   };
 
@@ -56,7 +64,11 @@ export default class RegisterForm extends Component {
       return this._updateInputsStatus();
     }
 
-    await this._acceptOrganizationInvitation(this.args.organizationInvitationId, this.args.organizationInvitationCode, this.user.email);
+    await this._acceptOrganizationInvitation(
+      this.args.organizationInvitationId,
+      this.args.organizationInvitationCode,
+      this.user.email
+    );
     await this._authenticate(this.user.email, this.user.password);
 
     this.user.password = null;
@@ -89,16 +101,17 @@ export default class RegisterForm extends Component {
   }
 
   _processFromValidation() {
-    Object.keys(this.validation)
-      .forEach((input) => this.validation[input].validate({ value: this.user[input] }));
+    Object.keys(this.validation).forEach((input) => this.validation[input].validate({ value: this.user[input] }));
   }
 
   _acceptOrganizationInvitation(organizationInvitationId, organizationInvitationCode, createdUserEmail) {
-    return this.store.createRecord('organization-invitation-response', {
-      id: organizationInvitationId + '_' + organizationInvitationCode,
-      code: organizationInvitationCode,
-      email: createdUserEmail,
-    }).save({ adapterOptions: { organizationInvitationId } });
+    return this.store
+      .createRecord('organization-invitation-response', {
+        id: organizationInvitationId + '_' + organizationInvitationCode,
+        code: organizationInvitationCode,
+        email: createdUserEmail,
+      })
+      .save({ adapterOptions: { organizationInvitationId } });
   }
 
   _authenticate(email, password) {

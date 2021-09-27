@@ -1,5 +1,5 @@
 <section ...attributes>
-  <h3 class="sr-only">{{t 'pages.campaign-results.table.title'}}</h3>
+  <h3 class="sr-only">{{t "pages.campaign-results.table.title"}}</h3>
 
   <Campaign::Filter::ParticipationFilters
     @campaign={{@campaign}}
@@ -7,7 +7,6 @@
     @selectedBadges={{@selectedBadges}}
     @selectedStages={{@selectedStages}}
     @rowCount={{@participations.meta.rowCount}}
-
     @onResetFilter={{@onResetFilter}}
     @onFilter={{@onFilter}}
   />
@@ -16,64 +15,70 @@
     <table class="table content-text content-text--small">
       <thead>
         <tr>
-          <th>{{t 'pages.campaign-results.table.column.last-name'}}</th>
-          <th>{{t 'pages.campaign-results.table.column.first-name'}}</th>
+          <th>{{t "pages.campaign-results.table.column.last-name"}}</th>
+          <th>{{t "pages.campaign-results.table.column.first-name"}}</th>
           {{#if @campaign.idPixLabel}}
             <th>{{@campaign.idPixLabel}}</th>
           {{/if}}
-          <th>{{t 'pages.campaign-results.table.column.results.label'}}</th>
+          <th>{{t "pages.campaign-results.table.column.results.label"}}</th>
           {{#if @campaign.hasBadges}}
-            <th>{{t 'pages.campaign-results.table.column.badges'}}</th>
+            <th>{{t "pages.campaign-results.table.column.badges"}}</th>
           {{/if}}
         </tr>
       </thead>
 
       {{#if @participations}}
         <tbody>
-        {{#each @participations as |participation|}}
-          <tr aria-label={{t 'pages.campaign-results.table.row-title'}} role="button" {{on 'click' (fn @onClickParticipant @campaign.id participation.id)}} class="tr--clickable">
-           <td>
-             <LinkTo
-                @route={{'authenticated.campaigns.participant-assessment'}}
-                @models={{array @campaign.id participation.id}}>
-                  {{participation.lastName}}
-              </LinkTo>
-           </td>
-            <td>{{participation.firstName}}</td>
-            {{#if @campaign.idPixLabel}}
-              <td>{{participation.participantExternalId}}</td>
-            {{/if}}
-            {{#if @campaign.hasStages}}
+          {{#each @participations as |participation|}}
+            <tr
+              aria-label={{t "pages.campaign-results.table.row-title"}}
+              role="button"
+              {{on "click" (fn @onClickParticipant @campaign.id participation.id)}}
+              class="tr--clickable"
+            >
               <td>
-                <Campaign::StageStars
-                  @result={{multiply participation.masteryPercentage 100}}
-                  @stages={{@campaign.stages}}
-                  @withTooltip={{true}}
-                  @tooltipPosition="bottom-left"
-                />
+                <LinkTo
+                  @route={{"authenticated.campaigns.participant-assessment"}}
+                  @models={{array @campaign.id participation.id}}
+                >
+                  {{participation.lastName}}
+                </LinkTo>
               </td>
-            {{else}}
-              <td class="participant-list__mastery-percentage">
-                {{t 'pages.campaign-results.table.column.results.value' percentage=participation.masteryPercentage}}
-              </td>
-            {{/if}}
-            {{#if @campaign.hasBadges}}
-              <td class="participant-list__badges">
-                <Campaign::Badges @badges={{participation.badges}} />
-              </td>
-            {{/if}}
-          </tr>
-        {{/each}}
+              <td>{{participation.firstName}}</td>
+              {{#if @campaign.idPixLabel}}
+                <td>{{participation.participantExternalId}}</td>
+              {{/if}}
+              {{#if @campaign.hasStages}}
+                <td>
+                  <Campaign::StageStars
+                    @result={{multiply participation.masteryPercentage 100}}
+                    @stages={{@campaign.stages}}
+                    @withTooltip={{true}}
+                    @tooltipPosition="bottom-left"
+                  />
+                </td>
+              {{else}}
+                <td class="participant-list__mastery-percentage">
+                  {{t "pages.campaign-results.table.column.results.value" percentage=participation.masteryPercentage}}
+                </td>
+              {{/if}}
+              {{#if @campaign.hasBadges}}
+                <td class="participant-list__badges">
+                  <Campaign::Badges @badges={{participation.badges}} />
+                </td>
+              {{/if}}
+            </tr>
+          {{/each}}
         </tbody>
       {{/if}}
     </table>
 
     {{#unless @participations}}
-      <p class="table__empty content-text">{{t 'pages.campaign-results.table.empty'}}</p>
+      <p class="table__empty content-text">{{t "pages.campaign-results.table.empty"}}</p>
     {{/unless}}
   </div>
 
   {{#if @participations}}
-    <Table::PaginationControl @pagination={{@participations.meta}}/>
+    <Table::PaginationControl @pagination={{@participations.meta}} />
   {{/if}}
 </section>

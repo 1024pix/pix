@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import ENV from 'pix-orga/config/environment';
 
 export default class ScoHeaderActions extends Component {
-
   @service currentUser;
   @service session;
   @service intl;

@@ -3,15 +3,14 @@ import Controller from '@ember/controller';
 import { tracked } from '@glimmer/tracking';
 
 export default class UpdateController extends Controller {
-
   @tracked campaignName;
 
   @action
   update(event) {
     event.preventDefault();
-    return this.model.save().then(
-      (campaign) => this.transitionToRoute('authenticated.campaigns.campaign', campaign.id),
-    );
+    return this.model
+      .save()
+      .then((campaign) => this.transitionToRoute('authenticated.campaigns.campaign', campaign.id));
   }
 
   @action

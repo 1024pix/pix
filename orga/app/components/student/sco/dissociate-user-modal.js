@@ -12,9 +12,13 @@ export default class DissociateUserModal extends Component {
 
     try {
       await adapter.dissociateUser(this.args.student);
-      this.notifications.sendSuccess(`La dissociation du compte de l’élève ${this.args.student.lastName} ${this.args.student.firstName} est réussie.`);
+      this.notifications.sendSuccess(
+        `La dissociation du compte de l’élève ${this.args.student.lastName} ${this.args.student.firstName} est réussie.`
+      );
     } catch (e) {
-      this.notifications.sendError(`La dissociation du compte de l’élève ${this.args.student.lastName} ${this.args.student.firstName} a échoué. Veuillez réessayer.`);
+      this.notifications.sendError(
+        `La dissociation du compte de l’élève ${this.args.student.lastName} ${this.args.student.firstName} a échoué. Veuillez réessayer.`
+      );
     }
 
     this.args.onClose();

@@ -4,12 +4,11 @@ import Service from '@ember/service';
 import { run } from '@ember/runloop';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
-module('Unit | Controller | authenticated/certifications', function(hooks) {
+module('Unit | Controller | authenticated/certifications', function (hooks) {
   setupIntlRenderingTest(hooks);
 
-  module('#onSelectDivision', function() {
-
-    test('should change the value of the selected division', async function(assert) {
+  module('#onSelectDivision', function () {
+    test('should change the value of the selected division', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
 
@@ -33,9 +32,8 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
     });
   });
 
-  module('#downloadSessionResultFile', function() {
-
-    test('should call the file-saver service with the right parameters', async function(assert) {
+  module('#downloadSessionResultFile', function () {
+    test('should call the file-saver service with the right parameters', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
 
@@ -76,15 +74,15 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
       await controller.downloadSessionResultFile(event);
 
       // then
-      assert.ok(controller.fileSaver.save.calledWith(
-        {
+      assert.ok(
+        controller.fileSaver.save.calledWith({
           token,
           url: `/api/organizations/${organizationId}/certification-results?division=${selectedDivision}`,
-        },
-      ));
+        })
+      );
     });
 
-    test('it should not call file-save service and display an error if division is invalid', async function(assert) {
+    test('it should not call file-save service and display an error if division is invalid', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
       controller.selectedDivision = 'Banana bread';
@@ -108,20 +106,25 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
 
       // then
       sinon.assert.notCalled(controller.fileSaver.save);
-      sinon.assert.calledWith(errorMock,
+      sinon.assert.calledWith(
+        errorMock,
         this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Banana bread' }),
-        { autoClear: false },
+        { autoClear: false }
       );
       assert.ok(true);
     });
   });
 
-  module('#isCertificationAttestationDownloadEnabled', function() {
-    test('should return true if toggle is enabled', async function(assert) {
+  module('#isCertificationAttestationDownloadEnabled', function () {
+    test('should return true if toggle is enabled', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const featureToggles = run(() => store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: true }));
-      class FeatureTogglesStub extends Service { featureToggles = featureToggles; }
+      const featureToggles = run(() =>
+        store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: true })
+      );
+      class FeatureTogglesStub extends Service {
+        featureToggles = featureToggles;
+      }
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
 
       const controller = this.owner.lookup('controller:authenticated/certifications');
@@ -130,11 +133,15 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
       assert.ok(controller.isCertificationAttestationDownloadEnabled);
     });
 
-    test('should return false if toggle is disabled', async function(assert) {
+    test('should return false if toggle is disabled', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
-      const featureToggles = run(() => store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: false }));
-      class FeatureTogglesStub extends Service { featureToggles = featureToggles; }
+      const featureToggles = run(() =>
+        store.createRecord('feature-toggle', { isDownloadCertificationAttestationByDivisionEnabled: false })
+      );
+      class FeatureTogglesStub extends Service {
+        featureToggles = featureToggles;
+      }
       this.owner.register('service:feature-toggles', FeatureTogglesStub);
 
       const controller = this.owner.lookup('controller:authenticated/certifications');
@@ -144,9 +151,8 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
     });
   });
 
-  module('#downloadAttestation', function() {
-
-    test('should call the file-saver service for downloadAttestation with the right parameters', async function(assert) {
+  module('#downloadAttestation', function () {
+    test('should call the file-saver service for downloadAttestation with the right parameters', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
 
@@ -188,16 +194,16 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
       await controller.downloadAttestation(event);
 
       // then
-      assert.ok(controller.fileSaver.save.calledWith(
-        {
+      assert.ok(
+        controller.fileSaver.save.calledWith({
           token,
           fileName,
           url: `/api/organizations/${organizationId}/certification-attestations?division=${selectedDivision}`,
-        },
-      ));
+        })
+      );
     });
 
-    test('it should not call fileSaver for downloadAttestation service and display an error if division is invalid', async function(assert) {
+    test('it should not call fileSaver for downloadAttestation service and display an error if division is invalid', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications');
       controller.selectedDivision = 'Americaine';
@@ -221,9 +227,10 @@ module('Unit | Controller | authenticated/certifications', function(hooks) {
 
       // then
       sinon.assert.notCalled(controller.fileSaver.save);
-      sinon.assert.calledWith(errorMock,
+      sinon.assert.calledWith(
+        errorMock,
         this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: 'Americaine' }),
-        { autoClear: false },
+        { autoClear: false }
       );
       assert.ok(true);
     });

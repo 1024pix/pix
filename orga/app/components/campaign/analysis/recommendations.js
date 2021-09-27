@@ -17,9 +17,12 @@ export default class Recommendations extends Component {
   }
 
   get description() {
-    return htmlSafe(this.intl.t('pages.campaign-review.description',
-      { bubble: '<svg height="10" width="10"><circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble" /></svg>' },
-    ));
+    return htmlSafe(
+      this.intl.t('pages.campaign-review.description', {
+        bubble:
+          '<svg height="10" width="10"><circle cx="5" cy="5" r="5" class="campaign-details-analysis recommendation-indicator__bubble" /></svg>',
+      })
+    );
   }
 
   @action

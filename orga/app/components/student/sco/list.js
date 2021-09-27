@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import ENV from 'pix-orga/config/environment';
 
 export default class ScoList extends Component {
-
   @service currentUser;
 
   @tracked student = null;

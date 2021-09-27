@@ -62,7 +62,7 @@ function _createOrganizationInvitations(server) {
   server.create('organization-invitation', { email: 'train@example.net', organizationId: organization.id });
 }
 
-export default function(server) {
+export default function (server) {
   _createSignedUpUser(server);
   _createStudents(server);
   _createOrganizationInvitations(server);

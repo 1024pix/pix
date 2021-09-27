@@ -1,22 +1,22 @@
-{{page-title (t 'pages.team-list.title')}}
+{{page-title (t "pages.team-list.title")}}
 
 <div class="list-team-page">
   <div class="list-team-page__header">
-    <div class="page__title page-title">{{t 'pages.team-list.title'}}</div>
+    <div class="page__title page-title">{{t "pages.team-list.title"}}</div>
     <div class="list-team-page-header__add-member-button">
       <PixButtonLink @route="authenticated.team.new">
-        {{t 'pages.team-list.add-member-button'}}
+        {{t "pages.team-list.add-member-button"}}
       </PixButtonLink>
     </div>
   </div>
 
   <nav class="panel navbar list-team-page__tabs">
     <LinkTo @route="authenticated.team.list.members" class="navbar-item">
-      {{t 'pages.team-list.tabs.member' count=@model.memberships.meta.rowCount}}
+      {{t "pages.team-list.tabs.member" count=@model.memberships.meta.rowCount}}
     </LinkTo>
 
     <LinkTo @route="authenticated.team.list.invitations" class="navbar-item">
-      {{t 'pages.team-list.tabs.invitation' count=@model.organization.organizationInvitations.length}}
+      {{t "pages.team-list.tabs.invitation" count=@model.organization.organizationInvitations.length}}
     </LinkTo>
   </nav>
 

@@ -24,7 +24,9 @@ export default class AuthenticatedCertificationsController extends Controller {
 
     try {
       if (_isDivisionInvalid(this.selectedDivision, this.model.options)) {
-        throw new Error(this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision }));
+        throw new Error(
+          this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision })
+        );
       }
 
       const organizationId = this.currentUser.organization.id;
@@ -41,21 +43,21 @@ export default class AuthenticatedCertificationsController extends Controller {
       if (_isErrorNotFound(error)) {
         this.notifications.info(
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
-          { autoClear: false },
+          { autoClear: false }
         );
       } else {
         this.notifications.error(error.message, { autoClear: false });
       }
-
     }
   }
 
   @action
   async downloadAttestation() {
-
     try {
       if (_isDivisionInvalid(this.selectedDivision, this.model.options)) {
-        throw new Error(this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision }));
+        throw new Error(
+          this.intl.t('pages.certifications.errors.invalid-division', { selectedDivision: this.selectedDivision })
+        );
       }
 
       const organizationId = this.currentUser.organization.id;
@@ -73,13 +75,13 @@ export default class AuthenticatedCertificationsController extends Controller {
       if (_isErrorNotFound(error)) {
         this.notifications.info(
           this.intl.t('pages.certifications.errors.no-results', { selectedDivision: this.selectedDivision }),
-          { autoClear: false },
+          { autoClear: false }
         );
       }
       if (_isErrorNoResults(error)) {
         this.notifications.info(
           this.intl.t('pages.certifications.errors.no-certificates', { selectedDivision: this.selectedDivision }),
-          { autoClear: false },
+          { autoClear: false }
         );
       } else {
         this.notifications.error(error.message, { autoClear: false });
@@ -101,9 +103,7 @@ export default class AuthenticatedCertificationsController extends Controller {
 }
 
 function _isDivisionInvalid(selectedDivision, divisions) {
-  return !divisions.some(
-    (division) => division.label.toLowerCase() === selectedDivision.toLowerCase(),
-  );
+  return !divisions.some((division) => division.label.toLowerCase() === selectedDivision.toLowerCase());
 }
 
 function _isErrorNotFound(error) {

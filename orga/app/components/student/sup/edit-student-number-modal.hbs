@@ -1,19 +1,25 @@
-<Modal::Dialog class="edit-student-number-modal" @title={{t "pages.students-sup.edit-student-number-modal.title"}} @display={{@display}} @close={{this.close}}>
-  <form {{on 'submit' (fn this.updateStudentNumber)}}>
+<Modal::Dialog
+  class="edit-student-number-modal"
+  @title={{t "pages.students-sup.edit-student-number-modal.title"}}
+  @display={{@display}}
+  @close={{this.close}}
+>
+  <form {{on "submit" (fn this.updateStudentNumber)}}>
     <Modal::Body class="edit-student-number-modal__content">
       {{#if @student.studentNumber}}
-        <p class="content-text">{{t "pages.students-sup.edit-student-number-modal.form.student-number" firstName=@student.firstName  lastName=@student.lastName }}<span class=" content-text--info">{{@student.studentNumber}}</span></p>
+        <p class="content-text">{{t
+            "pages.students-sup.edit-student-number-modal.form.student-number"
+            firstName=@student.firstName
+            lastName=@student.lastName
+          }}<span class="content-text--info">{{@student.studentNumber}}</span></p>
       {{/if}}
-      <label for="editStudentNumber" class="content-text">{{t "pages.students-sup.edit-student-number-modal.form.new-student-number-label"}}</label>
+      <label for="editStudentNumber" class="content-text">{{t
+          "pages.students-sup.edit-student-number-modal.form.new-student-number-label"
+        }}</label>
       <div class="input-container">
-        <Input
-          id="editStudentNumber"
-          type="text"
-          @value={{this.newStudentNumber}}
-          class="input"
-        />
+        <Input id="editStudentNumber" type="text" @value={{this.newStudentNumber}} class="input" />
 
-        <div class='form__error error-message'>
+        <div class="form__error error-message">
           {{this.error}}
         </div>
       </div>

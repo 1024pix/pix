@@ -5,14 +5,15 @@
     @backButtonAriaLabel={{t "common.actions.back"}}
     aria-label={{t "pages.campaign.name"}}
   >
-  {{@campaign.name}}
+    {{@campaign.name}}
   </Ui::PreviousPageButton>
 </header>
 
 <section class="panel panel--header">
   <header class="panel-header__headline">
     <h2 class="panel-header-title">
-      {{@campaignProfile.firstName}} {{@campaignProfile.lastName}}
+      {{@campaignProfile.firstName}}
+      {{@campaignProfile.lastName}}
     </h2>
     {{#if (and @campaignProfile.isCertifiable @campaignProfile.isShared)}}
       <PixTag @color="green-light" class="profile-user__certifiable">
@@ -33,14 +34,20 @@
         <dt class="label-text panel-header-data-content__label">
           {{t "pages.campaign-individual-results.start-date"}}
         </dt>
-        <dd class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.createdAt 'DD MMM YYYY'}}</dd>
+        <dd class="value-text panel-header-data-content__value">{{moment-format
+            @campaignProfile.createdAt
+            "DD MMM YYYY"
+          }}</dd>
       </div>
       {{#if @campaignProfile.isShared}}
         <div class="panel-header-data__content">
           <dt class="label-text panel-header-data-content__label">
             {{t "pages.campaign-individual-results.shared-date"}}
           </dt>
-            <dd class="value-text panel-header-data-content__value">{{moment-format @campaignProfile.sharedAt 'DD MMM YYYY'}}</dd>
+          <dd class="value-text panel-header-data-content__value">{{moment-format
+              @campaignProfile.sharedAt
+              "DD MMM YYYY"
+            }}</dd>
         </div>
       {{/if}}
     </dl>
@@ -48,7 +55,10 @@
     {{#if @campaignProfile.isShared}}
       <ul class="panel-header__data panel-header__data--highlight">
         <li class="panel-header-data__content">
-          <span class="value-text value-text--highlight">{{t "pages.profiles-individual-results.pix-score" score=@campaignProfile.pixScore}}</span>
+          <span class="value-text value-text--highlight">{{t
+              "pages.profiles-individual-results.pix-score"
+              score=@campaignProfile.pixScore
+            }}</span>
           <span class="label-text label-text--dark label-text--small">
             {{t "pages.profiles-individual-results.pix"}}
           </span>

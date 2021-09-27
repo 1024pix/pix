@@ -1,14 +1,15 @@
-{{page-title (t 'pages.certifications.title')}}
+{{page-title (t "pages.certifications.title")}}
 
 <div class="certifications-page">
-  <h1 class="page__title page-title">{{t 'pages.certifications.title'}}</h1>
+  <h1 class="page__title page-title">{{t "pages.certifications.title"}}</h1>
   <p class="certifications-page__text">
-    {{t 'pages.certifications.description' htmlSafe=true}}
+    {{t "pages.certifications.description" htmlSafe=true}}
   </p>
 
-  <form class="certifications-page__action" {{on 'submit' this.downloadSessionResultFile}}>
-    <label for="certifications-page-action__select">{{t 'pages.certifications.select-label'}}</label>
-    <PixSelect id="certifications-page-action__select"
+  <form class="certifications-page__action" {{on "submit" this.downloadSessionResultFile}}>
+    <label for="certifications-page-action__select">{{t "pages.certifications.select-label"}}</label>
+    <PixSelect
+      id="certifications-page-action__select"
       @options={{@model.options}}
       @selectedOption={{this.selectedDivision}}
       @onChange={{this.onSelectDivision}}
@@ -19,17 +20,19 @@
       autocomplete="off"
     />
     <PixButton @type="submit" id="download_results">
-      {{t 'pages.certifications.download-button'}}
+      {{t "pages.certifications.download-button"}}
     </PixButton>
     {{#if this.isCertificationAttestationDownloadEnabled}}
       <PixButton @triggerAction={{this.downloadAttestation}} id="download_attestations">
-        {{t 'pages.certifications.download-attestations-button'}}
+        {{t "pages.certifications.download-attestations-button"}}
       </PixButton>
     {{/if}}
   </form>
 
   <PixMessage @withIcon={{true}}>
-    {{t 'pages.certifications.documentation-link-notice'}}
-    <a href={{t 'pages.certifications.documentation-link'}} target="_blank" rel="noopener noreferrer">{{t 'pages.certifications.documentation-link-label'}}</a>
+    {{t "pages.certifications.documentation-link-notice"}}
+    <a href={{t "pages.certifications.documentation-link"}} target="_blank" rel="noopener noreferrer">{{t
+        "pages.certifications.documentation-link-label"
+      }}</a>
   </PixMessage>
 </div>

@@ -1,5 +1,5 @@
-{{page-title (t 'pages.campaign-results.title')}}
-<h2 class="sr-only">{{t 'pages.campaign-results.title'}}</h2>
+{{page-title (t "pages.campaign-results.title")}}
+<h2 class="sr-only">{{t "pages.campaign-results.title"}}</h2>
 
 {{#if @model.campaign.hasSharedParticipations}}
   <Campaign::Results::AssessmentCards
@@ -9,10 +9,7 @@
     @averageResult={{@model.campaign.averageResult}}
   />
 
-  <Campaign::Charts::ResultDistribution
-    @campaign={{@model.campaign}}
-    @onSelectStage={{this.filterByStage}}
-  />
+  <Campaign::Charts::ResultDistribution @campaign={{@model.campaign}} @onSelectStage={{this.filterByStage}} />
 
   <Campaign::Results::AssessmentList
     @campaign={{@model.campaign}}

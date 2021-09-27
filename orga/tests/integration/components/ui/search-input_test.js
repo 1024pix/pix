@@ -5,10 +5,10 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
-module('Integration | Component | Ui::SearchInput', function(hooks) {
+module('Integration | Component | Ui::SearchInput', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('should render component', async function(assert) {
+  test('should render component', async function (assert) {
     // when
     await render(hbs`<Ui::SearchInput @inputName="inputName" />`);
 
@@ -17,7 +17,7 @@ module('Integration | Component | Ui::SearchInput', function(hooks) {
     assert.dom('input#inputName').hasAttribute('name', 'inputName');
   });
 
-  test('should set a value', async function(assert) {
+  test('should set a value', async function (assert) {
     // given
     const value = '70';
     this.set('value', value);
@@ -29,7 +29,7 @@ module('Integration | Component | Ui::SearchInput', function(hooks) {
     assert.dom('input').hasValue(value);
   });
 
-  test('should set a placeholder', async function(assert) {
+  test('should set a placeholder', async function (assert) {
     // given
     const placeholder = 'Prénom';
     this.set('placeholder', placeholder);
@@ -41,7 +41,7 @@ module('Integration | Component | Ui::SearchInput', function(hooks) {
     assert.dom('input').hasAttribute('placeholder', placeholder);
   });
 
-  test('should trigger search when user type a text', async function(assert) {
+  test('should trigger search when user type a text', async function (assert) {
     // given
     const onSearch = sinon.stub();
     this.set('onSearch', onSearch);

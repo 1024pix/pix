@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import InputValidator from 'pix-orga/utils/input-validator';
 
-module('Unit | Utils | input validator', function(hooks) {
+module('Unit | Utils | input validator', function (hooks) {
   setupTest(hooks);
 
-  test('should have error when validation fails', function(assert) {
+  test('should have error when validation fails', function (assert) {
     // given
     const validator = new InputValidator(Boolean, 'defaultMessage');
 
@@ -16,7 +16,7 @@ module('Unit | Utils | input validator', function(hooks) {
     assert.true(validator.hasError);
   });
 
-  test('should reset server message if resetServerMessage is true on validate', function(assert) {
+  test('should reset server message if resetServerMessage is true on validate', function (assert) {
     // given
     const validator = new InputValidator(Boolean, 'defaultMessage');
     validator.serverMessage = 'serverMessage';
@@ -27,7 +27,7 @@ module('Unit | Utils | input validator', function(hooks) {
     assert.equal(validator.serverMessage, null);
   });
 
-  test('should return server message rather than default message if it exists', function(assert) {
+  test('should return server message rather than default message if it exists', function (assert) {
     // given
     const validator = new InputValidator(null, 'defaultMessage');
 

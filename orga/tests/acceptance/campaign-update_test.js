@@ -4,15 +4,11 @@ import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-lab
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
-import {
-  createUserWithMembershipAndTermsOfServiceAccepted,
-  createPrescriberByUser,
-} from '../helpers/test-init';
+import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Campaign Update', function(hooks) {
-
+module('Acceptance | Campaign Update', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -23,7 +19,7 @@ module('Acceptance | Campaign Update', function(hooks) {
     await authenticateSession(user.id);
   });
 
-  test('it should allow to update a campaign and redirect to the newly updated campaign', async function(assert) {
+  test('it should allow to update a campaign and redirect to the newly updated campaign', async function (assert) {
     // given
     const campaign = server.create('campaign', { id: 1 });
     const newName = 'New Name';
@@ -31,7 +27,7 @@ module('Acceptance | Campaign Update', function(hooks) {
 
     await visit(`/campagnes/${campaign.id}/modification`);
     await fillInByLabel('Nom de la campagne', newName);
-    await fillInByLabel('Texte de la page d\'accueil', newText);
+    await fillInByLabel("Texte de la page d'accueil", newText);
 
     // when
     await clickByLabel('Modifier');

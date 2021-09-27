@@ -13,16 +13,14 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Sco Student List', function(hooks) {
-
+module('Acceptance | Sco Student List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let organizationId;
 
-  module('When prescriber is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated prescriber', async function(assert) {
+  module('When prescriber is not logged in', function () {
+    test('it should not be accessible by an unauthenticated prescriber', async function (assert) {
       // when
       await visit('/eleves');
 
@@ -31,25 +29,23 @@ module('Acceptance | Sco Student List', function(hooks) {
     });
   });
 
-  module('When prescriber is logged in', function(hooks) {
-
+  module('When prescriber is logged in', function (hooks) {
     let user;
 
-    hooks.afterEach(function() {
+    hooks.afterEach(function () {
       const notificationMessagesService = this.owner.lookup('service:notifications');
       notificationMessagesService.clearAll();
     });
 
-    module('When organization is not managing students or is not SCO', function(hooks) {
-
-      hooks.beforeEach(async function() {
+    module('When organization is not managing students or is not SCO', function (hooks) {
+      hooks.beforeEach(async function () {
         user = createUserWithMembershipAndTermsOfServiceAccepted();
         createPrescriberByUser(user);
 
         await authenticateSession(user.id);
       });
 
-      test('should not be accessible', async function(assert) {
+      test('should not be accessible', async function (assert) {
         // when
         await visit('/eleves');
 
@@ -58,15 +54,15 @@ module('Acceptance | Sco Student List', function(hooks) {
       });
     });
 
-    module('When organization is SCO and managing students', function(hooks) {
-      hooks.beforeEach(async function() {
+    module('When organization is SCO and managing students', function (hooks) {
+      hooks.beforeEach(async function () {
         user = createUserManagingStudents();
         createPrescriberByUser(user);
 
         await authenticateSession(user.id);
       });
 
-      test('it should be accessible', async function(assert) {
+      test('it should be accessible', async function (assert) {
         // when
         await visit('/eleves');
 
@@ -74,16 +70,15 @@ module('Acceptance | Sco Student List', function(hooks) {
         assert.equal(currentURL(), '/eleves');
       });
 
-      module('when admin uploads a file', function(hooks) {
-
-        hooks.beforeEach(async function() {
+      module('when admin uploads a file', function (hooks) {
+        hooks.beforeEach(async function () {
           user = createUserManagingStudents('ADMIN');
           createPrescriberByUser(user);
 
           await authenticateSession(user.id);
         });
 
-        test('it should display success message and reload students', async function(assert) {
+        test('it should display success message and reload students', async function (assert) {
           // given
           await visit('/eleves');
 
@@ -100,7 +95,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           assert.contains('Harry');
         });
 
-        test('it should display an error message when uploading an invalid file', async function(assert) {
+        test('it should display an error message when uploading an invalid file', async function (assert) {
           // given
           await visit('/eleves');
 
@@ -115,15 +110,14 @@ module('Acceptance | Sco Student List', function(hooks) {
         });
       });
 
-      module('when prescriber is looking for students', function(hooks) {
-
-        hooks.beforeEach(async function() {
+      module('when prescriber is looking for students', function (hooks) {
+        hooks.beforeEach(async function () {
           organizationId = user.memberships.models.firstObject.organizationId;
           server.create('student', { organizationId, firstName: 'Chuck', lastName: 'Norris', hasEmail: false });
           server.create('student', { organizationId, firstName: 'John', lastName: 'Rambo', hasEmail: true });
         });
 
-        test('it should display the students list filtered by lastname', async function(assert) {
+        test('it should display the students list filtered by lastname', async function (assert) {
           // when
           await visit('/eleves');
           await fillInByLabel('Entrer un nom', 'ambo');
@@ -133,7 +127,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           assert.notContains('Norris');
         });
 
-        test('it should display the students list filtered by firstname', async function(assert) {
+        test('it should display the students list filtered by firstname', async function (assert) {
           // when
           await visit('/eleves');
           await fillInByLabel('Entrer un prénom', 'Jo');
@@ -144,7 +138,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           assert.notContains('Norris');
         });
 
-        test('it should display the students list filtered by connection type', async function(assert) {
+        test('it should display the students list filtered by connection type', async function (assert) {
           // when
           await visit('/eleves');
           await fillInByLabel('Rechercher par méthode de connexion', 'email');
@@ -155,7 +149,7 @@ module('Acceptance | Sco Student List', function(hooks) {
           assert.notContains('Norris');
         });
 
-        test('it should paginate the students list', async function(assert) {
+        test('it should paginate the students list', async function (assert) {
           // when
           await visit('/eleves?pageSize=1&pageNumber=1');
 
@@ -165,19 +159,18 @@ module('Acceptance | Sco Student List', function(hooks) {
         });
       });
 
-      module('when student is associated', function(hooks) {
-        hooks.beforeEach(async function() {
+      module('when student is associated', function (hooks) {
+        hooks.beforeEach(async function () {
           organizationId = user.memberships.models.firstObject.organizationId;
 
           server.createList('student', 5, { organizationId });
         });
 
-        module('when student authenticated by username and email', function(hooks) {
-
+        module('when student authenticated by username and email', function (hooks) {
           const username = 'firstname.lastname0112';
           const email = 'firstname.lastname0112@example.net';
 
-          hooks.beforeEach(function() {
+          hooks.beforeEach(function () {
             server.create('student', {
               organizationId,
               firstName: 'FirstName',
@@ -187,7 +180,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             });
           });
 
-          test('it should open modal and display password reset button', async function(assert) {
+          test('it should open modal and display password reset button', async function (assert) {
             // given
             await visit('/eleves');
 
@@ -199,7 +192,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             assert.contains('Réinitialiser le mot de passe');
           });
 
-          test('it should display unique password input when reset button is clicked', async function(assert) {
+          test('it should display unique password input when reset button is clicked', async function (assert) {
             // given
             await visit('/eleves');
             await clickByLabel('Afficher les actions');
@@ -213,7 +206,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             assert.dom('#generated-password').exists();
           });
 
-          test('it should open password modal window with email and username value', async function(assert) {
+          test('it should open password modal window with email and username value', async function (assert) {
             // given
             await visit('/eleves');
 
@@ -227,16 +220,15 @@ module('Acceptance | Sco Student List', function(hooks) {
           });
         });
 
-        module('when student authenticated by GAR', function(hooks) {
-
-          hooks.beforeEach(function() {
+        module('when student authenticated by GAR', function (hooks) {
+          hooks.beforeEach(function () {
             server.create('student', {
               organizationId,
               isAuthenticatedFromGar: true,
             });
           });
 
-          test('it should open password modal window with GAR connexion method', async function(assert) {
+          test('it should open password modal window with GAR connexion method', async function (assert) {
             // given
             await visit('/eleves');
 
@@ -249,7 +241,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             assert.contains('Ajouter une connexion avec un identifiant');
           });
 
-          test('it should display username and unique password when add username button is clicked', async function(assert) {
+          test('it should display username and unique password when add username button is clicked', async function (assert) {
             // given
             await visit('/eleves');
             await clickByLabel('Afficher les actions');
@@ -267,9 +259,8 @@ module('Acceptance | Sco Student List', function(hooks) {
           });
         });
 
-        module('when student authenticated by GAR and username', function(hooks) {
-
-          hooks.beforeEach(function() {
+        module('when student authenticated by GAR and username', function (hooks) {
+          hooks.beforeEach(function () {
             server.create('student', {
               organizationId,
               isAuthenticatedFromGar: true,
@@ -277,8 +268,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             });
           });
 
-          test('it should open password modal window with GAR and username connexion method', async function(assert) {
-
+          test('it should open password modal window with GAR and username connexion method', async function (assert) {
             // given
             await visit('/eleves');
 
@@ -291,7 +281,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             assert.contains('Identifiant');
           });
 
-          test('it should open pasword modal and display password reset button', async function(assert) {
+          test('it should open pasword modal and display password reset button', async function (assert) {
             // given
             await visit('/eleves');
 
@@ -303,7 +293,7 @@ module('Acceptance | Sco Student List', function(hooks) {
             assert.contains('Réinitialiser le mot de passe');
           });
 
-          test('it should open password modal and display unique password when reset button is clicked', async function(assert) {
+          test('it should open password modal and display unique password when reset button is clicked', async function (assert) {
             // given
             await visit('/eleves');
             await clickByLabel('Afficher les actions');

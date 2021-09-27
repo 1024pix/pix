@@ -1,6 +1,6 @@
-<form class="form" {{on 'submit' @onSubmit}}>
+<form class="form" {{on "submit" @onSubmit}}>
   <div class="form__field">
-    <label for="campaign-name" class="label">{{ t 'pages.campaign-modification.campaign-name' }}</label>
+    <label for="campaign-name" class="label">{{t "pages.campaign-modification.campaign-name"}}</label>
     <Input
       @id="campaign-name"
       @name="campaign-name"
@@ -13,7 +13,7 @@
 
   {{#if @campaign.isTypeAssessment}}
     <div class="form__field">
-      <label for="campaign-title" class="label">{{ t 'pages.campaign-modification.personalised-test-title' }}</label>
+      <label for="campaign-title" class="label">{{t "pages.campaign-modification.personalised-test-title"}}</label>
       <Input
         @id="campaign-title"
         @name="campaign-title"
@@ -26,7 +26,9 @@
   {{/if}}
 
   <div class="form__field">
-    <label for="campaign-custom-landing-page-text" class="label">{{ t 'pages.campaign-modification.landing-page-text' }}</label>
+    <label for="campaign-custom-landing-page-text" class="label">{{t
+        "pages.campaign-modification.landing-page-text"
+      }}</label>
     <PixTextarea
       @id="campaign-custom-landing-page-text"
       @maxlength={{350}}
@@ -36,14 +38,11 @@
   </div>
 
   <div class="form__validation">
-    <PixButton
-      @triggerAction={{fn @onCancel @campaign.id}}
-      @backgroundColor="transparent-light"
-    >
-      {{ t 'common.actions.cancel' }}
+    <PixButton @triggerAction={{fn @onCancel @campaign.id}} @backgroundColor="transparent-light">
+      {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton @type="submit">
-      {{t 'pages.campaign-modification.actions.edit'}}
+      {{t "pages.campaign-modification.actions.edit"}}
     </PixButton>
   </div>
 </form>

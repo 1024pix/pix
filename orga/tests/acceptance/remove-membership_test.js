@@ -4,9 +4,7 @@ import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label'
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
-import {
-  createPrescriberByUser, createUserMembershipWithRole,
-} from '../helpers/test-init';
+import { createPrescriberByUser, createUserMembershipWithRole } from '../helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -19,13 +17,12 @@ async function createAuthenticatedSession() {
   return user;
 }
 
-module('Acceptance | Remove membership', function(hooks) {
-
+module('Acceptance | Remove membership', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
   let user;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     const adminUser = await createAuthenticatedSession();
     const organizationId = adminUser.memberships.models.firstObject.organizationId;
 
@@ -33,7 +30,7 @@ module('Acceptance | Remove membership', function(hooks) {
     server.create('membership', { userId: user.id, organizationId, organizationRole: 'MEMBER' });
   });
 
-  test('should remove the membership', async function(assert) {
+  test('should remove the membership', async function (assert) {
     // given
     await visit('/equipe');
     await clickByLabel('Gérer');

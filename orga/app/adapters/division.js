@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class DivisionAdapter extends ApplicationAdapter {
-
   urlForQuery(query) {
     const { organizationId } = query;
     if (organizationId) {

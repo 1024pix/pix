@@ -4,12 +4,12 @@ import sinon from 'sinon';
 import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Charts::ParticipantsByStage', function(hooks) {
+module('Integration | Component | Campaign::Charts::ParticipantsByStage', function (hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
   let onSelectStage, dataFetcher;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     // given
     onSelectStage = sinon.stub();
     this.set('onSelectStage', onSelectStage);
@@ -31,32 +31,34 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
     });
 
     // when
-    await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+    await render(
+      hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`
+    );
   });
 
-  test('it should display stage stars', async function(assert) {
+  test('it should display stage stars', async function (assert) {
     assert.dom('[data-test-status=acquired]').isVisible({ count: 1 });
     assert.dom('[data-test-status=unacquired]').isVisible({ count: 1 });
   });
 
-  test('it should display participants number', async function(assert) {
+  test('it should display participants number', async function (assert) {
     // then
     assert.contains('0 participant');
     assert.contains('5 participants');
   });
 
-  test('it should display participants percentage by stages', async function(assert) {
+  test('it should display participants percentage by stages', async function (assert) {
     // then
     assert.contains('0 %');
     assert.contains('100 %');
   });
 
-  test('it should not display empty tooltip', async function(assert) {
+  test('it should not display empty tooltip', async function (assert) {
     // then
     assert.dom('[role="tooltip"]').doesNotExist();
   });
 
-  test('it should call onSelectStage when user click on a bar', async function(assert) {
+  test('it should call onSelectStage when user click on a bar', async function (assert) {
     // when
     await click('[role=button]');
     // then
@@ -64,9 +66,9 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
     sinon.assert.calledWith(onSelectStage, 100498);
   });
 
-  module('when there is tooltip info', function() {
-    module('when there is title and description', function() {
-      test('it should contains tooltip info', async function(assert) {
+  module('when there is tooltip info', function () {
+    module('when there is title and description', function () {
+      test('it should contains tooltip info', async function (assert) {
         // given
         dataFetcher.withArgs(campaignId).resolves({
           data: {
@@ -80,7 +82,9 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
         });
 
         // when
-        await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+        await render(
+          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`
+        );
 
         // then
         assert.dom('[role="tooltip"]').exists();
@@ -91,21 +95,21 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
       });
     });
 
-    module('when there is only title', function() {
-      test('tooltip should contains title', async function(assert) {
+    module('when there is only title', function () {
+      test('tooltip should contains title', async function (assert) {
         // given
         dataFetcher.withArgs(campaignId).resolves({
           data: {
             attributes: {
-              data: [
-                { id: 100498, value: 0, title: 'title1' },
-              ],
+              data: [{ id: 100498, value: 0, title: 'title1' }],
             },
           },
         });
 
         // when
-        await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+        await render(
+          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`
+        );
 
         // then
         assert.dom('[role="tooltip"]').exists();
@@ -113,21 +117,21 @@ module('Integration | Component | Campaign::Charts::ParticipantsByStage', functi
       });
     });
 
-    module('when there is only description', function() {
-      test('tooltip should contains description', async function(assert) {
+    module('when there is only description', function () {
+      test('tooltip should contains description', async function (assert) {
         // given
         dataFetcher.withArgs(campaignId).resolves({
           data: {
             attributes: {
-              data: [
-                { id: 100498, value: 0, description: 'description1' },
-              ],
+              data: [{ id: 100498, value: 0, description: 'description1' }],
             },
           },
         });
 
         // when
-        await render(hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`);
+        await render(
+          hbs`<Campaign::Charts::ParticipantsByStage @campaignId={{campaignId}} @onSelectStage={{onSelectStage}} />`
+        );
 
         // then
         assert.dom('[role="tooltip"]').exists();

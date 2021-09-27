@@ -39,8 +39,9 @@ export default class CreateForm extends Component {
 
   @action
   setSelectedTargetProfile(event) {
-    this.args.campaign.targetProfile = this.args.targetProfiles
-      .find((targetProfile) => targetProfile.id === event.target.value);
+    this.args.campaign.targetProfile = this.args.targetProfiles.find(
+      (targetProfile) => targetProfile.id === event.target.value
+    );
     this.args.campaign.errors.remove('targetProfile');
   }
 
@@ -50,9 +51,9 @@ export default class CreateForm extends Component {
       this.isCampaignGoalAssessment = false;
       this.args.campaign.title = null;
       this.args.campaign.targetProfile = null;
-      return this.args.campaign.type = 'PROFILES_COLLECTION';
+      return (this.args.campaign.type = 'PROFILES_COLLECTION');
     }
     this.isCampaignGoalAssessment = true;
-    return this.args.campaign.type = 'ASSESSMENT';
+    return (this.args.campaign.type = 'ASSESSMENT');
   }
 }

@@ -3,13 +3,13 @@ import { click, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Campaign::Analysis::Recommendations', function(hooks) {
+module('Integration | Component | Campaign::Analysis::Recommendations', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
 
-  module('when the analysis is displayed', function(hooks) {
-    hooks.beforeEach(async function() {
+  module('when the analysis is displayed', function (hooks) {
+    hooks.beforeEach(async function () {
       store = this.owner.lookup('service:store');
 
       const campaignTubeRecommendation_1 = store.createRecord('campaign-tube-recommendation', {
@@ -40,28 +40,28 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     />`);
     });
 
-    test('it should display the tube analysis list of the campaign', async function(assert) {
+    test('it should display the tube analysis list of the campaign', async function (assert) {
       assert.dom('[aria-label="Sujet"]').exists({ count: 2 });
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });
 
-    test('it should display tube details', async function(assert) {
+    test('it should display tube details', async function (assert) {
       const firstTube = '[aria-label="Sujet"]:first-child';
       assert.dom(firstTube).containsText('Tube A');
       assert.dom(firstTube).containsText('Competence A');
     });
 
-    test('it should order by recommendation desc by default', async function(assert) {
+    test('it should order by recommendation desc by default', async function (assert) {
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube A');
     });
 
-    test('it should order by recommendation asc', async function(assert) {
+    test('it should order by recommendation asc', async function (assert) {
       await click('[aria-label="Trier par pertinence"]');
 
       assert.dom('[aria-label="Sujet"]:first-child').containsText('Tube B');
     });
 
-    test('it should order by recommendation desc', async function(assert) {
+    test('it should order by recommendation desc', async function (assert) {
       await click('[aria-label="Trier par pertinence"]');
       await click('[aria-label="Trier par pertinence"]');
 
@@ -69,8 +69,8 @@ module('Integration | Component | Campaign::Analysis::Recommendations', function
     });
   });
 
-  module('when the analysis is not displayed', function() {
-    test('it displays pending results', async function(assert) {
+  module('when the analysis is not displayed', function () {
+    test('it displays pending results', async function (assert) {
       this.campaignTubeRecommendations = [];
 
       await render(hbs`<Campaign::Analysis::Recommendations

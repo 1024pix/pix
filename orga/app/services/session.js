@@ -5,7 +5,6 @@ import get from 'lodash/get';
 const DEFAULT_FRENCH_LOCALE = 'fr';
 
 export default class CurrentSessionService extends SessionService {
-
   @service currentUser;
   @service intl;
   @service moment;
@@ -51,9 +50,7 @@ export default class CurrentSessionService extends SessionService {
     let locale = DEFAULT_FRENCH_LOCALE;
 
     if (!this.url.isFrenchDomainExtension) {
-      locale = this.intl.get('locales').includes(lang)
-        ? lang
-        : DEFAULT_FRENCH_LOCALE;
+      locale = this.intl.get('locales').includes(lang) ? lang : DEFAULT_FRENCH_LOCALE;
     }
 
     this.intl.setLocale([locale, DEFAULT_FRENCH_LOCALE]);

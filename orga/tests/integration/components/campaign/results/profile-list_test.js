@@ -5,17 +5,17 @@ import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import Service from '@ember/service';
 
-module('Integration | Component | Campaign::Results::ProfileList', function(hooks) {
+module('Integration | Component | Campaign::Results::ProfileList', function (hooks) {
   setupIntlRenderingTest(hooks);
 
   let store;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     store = this.owner.lookup('service:store');
   });
 
-  module('when there are profiles', function() {
-    test('it should display the profile list', async function(assert) {
+  module('when there are profiles', function () {
+    test('it should display the profile list', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,
@@ -51,10 +51,10 @@ module('Integration | Component | Campaign::Results::ProfileList', function(hook
       assert.contains('Doe');
       assert.contains('Doe2');
       assert.contains('John');
-      assert.contains('En attente d\'envoi');
+      assert.contains("En attente d'envoi");
     });
 
-    test('it should display the profile list with external id', async function(assert) {
+    test('it should display the profile list with external id', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,
@@ -78,7 +78,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function(hook
       assert.contains('123');
     });
 
-    test('it should display participant certification profile info when shared', async function(assert) {
+    test('it should display participant certification profile info when shared', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,
@@ -113,7 +113,7 @@ module('Integration | Component | Campaign::Results::ProfileList', function(hook
       assert.contains('5');
     });
 
-    test('it should display a link to access participant profile', async function(assert) {
+    test('it should display a link to access participant profile', async function (assert) {
       // given
       this.owner.setupRouter();
       this.campaign = store.createRecord('campaign', {
@@ -122,11 +122,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function(hook
         code: 'AAAAAA111',
         participationsCount: 1,
       });
-      this.profiles = [{
-        id: 7,
-        lastName: 'Todori',
-        firstName: 'Shoto',
-      }];
+      this.profiles = [
+        {
+          id: 7,
+          lastName: 'Todori',
+          firstName: 'Shoto',
+        },
+      ];
       this.onClickParticipant = sinon.stub();
 
       // when
@@ -141,8 +143,8 @@ module('Integration | Component | Campaign::Results::ProfileList', function(hook
     });
   });
 
-  module('when there is no profile', function() {
-    test('it should display no profil when hasParticipations filtered', async function(assert) {
+  module('when there is no profile', function () {
+    test('it should display no profil when hasParticipations filtered', async function (assert) {
       // given
       this.campaign = store.createRecord('campaign', {
         id: 1,
@@ -165,13 +167,13 @@ module('Integration | Component | Campaign::Results::ProfileList', function(hook
     });
   });
 
-  module('when user works for a SCO organization which manages students', function() {
+  module('when user works for a SCO organization which manages students', function () {
     class CurrentUserStub extends Service {
-      prescriber = { areNewYearSchoolingRegistrationsImported: false }
+      prescriber = { areNewYearSchoolingRegistrationsImported: false };
       isSCOManagingStudents = true;
     }
 
-    test('it filters the profiles when a division is selected', async function(assert) {
+    test('it filters the profiles when a division is selected', async function (assert) {
       // given
       this.owner.register('service:current-user', CurrentUserStub);
       const division = store.createRecord('division', {

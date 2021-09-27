@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import get from 'lodash/get';
 
 export default class JoinRequestController extends Controller {
-
   @tracked isSubmit = false;
   @tracked isOrganizationNotFound = false;
   @tracked organizationHasNoEmail = false;
@@ -50,5 +49,4 @@ export default class JoinRequestController extends Controller {
     this.organizationHasNoEmail = false;
     this.hasErrorMessage = false;
   }
-
 }

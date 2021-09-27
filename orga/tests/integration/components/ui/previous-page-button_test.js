@@ -6,11 +6,11 @@ import sinon from 'sinon';
 import Service from '@ember/service';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | Ui::PreviousPageButton', function(hooks) {
+module('Integration | Component | Ui::PreviousPageButton', function (hooks) {
   setupRenderingTest(hooks);
   let transitionToStub;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     transitionToStub = sinon.stub();
     class RouterStub extends Service {
       transitionTo = transitionToStub;
@@ -18,7 +18,7 @@ module('Integration | Component | Ui::PreviousPageButton', function(hooks) {
     this.owner.register('service:router', RouterStub);
   });
 
-  test('it should render previous page button', async function(assert) {
+  test('it should render previous page button', async function (assert) {
     // when
     await render(hbs`<Ui::PreviousPageButton @backButtonAriaLabel="Une instruction"/>`);
 
@@ -26,7 +26,7 @@ module('Integration | Component | Ui::PreviousPageButton', function(hooks) {
     assert.dom('[aria-label="Une instruction"]').exists();
   });
 
-  test('it should render with yielded content', async function(assert) {
+  test('it should render with yielded content', async function (assert) {
     // when
     await render(hbs`<Ui::PreviousPageButton aria-label="Nom de la campagne">Coucou</Ui::PreviousPageButton>`);
 
@@ -35,12 +35,14 @@ module('Integration | Component | Ui::PreviousPageButton', function(hooks) {
     assert.contains('Coucou');
   });
 
-  module('when clicked on', function() {
-    test('it should transition to specified route with provided routeId param if any', async function(assert) {
+  module('when clicked on', function () {
+    test('it should transition to specified route with provided routeId param if any', async function (assert) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`);
+      await render(
+        hbs`<Ui::PreviousPageButton @route={{this.route}} @routeId={{this.routeId}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`
+      );
 
       // when
       await clickByLabel('Une instruction');
@@ -49,11 +51,13 @@ module('Integration | Component | Ui::PreviousPageButton', function(hooks) {
       assert.ok(transitionToStub.calledWith(this.route, this.routeId));
     });
 
-    test('it should transition to specified route without any params if no routeId param provided', async function(assert) {
+    test('it should transition to specified route without any params if no routeId param provided', async function (assert) {
       // given
       this.route = 'someRoute';
       this.routeId = 'someRouteId';
-      await render(hbs`<Ui::PreviousPageButton @route={{this.route}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`);
+      await render(
+        hbs`<Ui::PreviousPageButton @route={{this.route}} @backButtonAriaLabel="Une instruction"></Ui::PreviousPageButton>`
+      );
 
       // when
       await clickByLabel('Une instruction');

@@ -16,14 +16,12 @@ import {
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authentication', function(hooks) {
-
+module('Acceptance | authentication', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
-
-    test('it should redirect user to login page', async function(assert) {
+  module('When user is not logged in', function () {
+    test('it should redirect user to login page', async function (assert) {
       // when
       await visit('/');
 
@@ -33,8 +31,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When prescriber is already logged in', function(hooks) {
-
+  module('When prescriber is already logged in', function (hooks) {
     hooks.beforeEach(async () => {
       const user = createUserWithMembershipAndTermsOfServiceAccepted();
       createPrescriberByUser(user);
@@ -42,7 +39,7 @@ module('Acceptance | authentication', function(hooks) {
       await authenticateSession(user.id);
     });
 
-    test('it should redirect prescriber to campaign list page', async function(assert) {
+    test('it should redirect prescriber to campaign list page', async function (assert) {
       // when
       await visit('/connexion');
 
@@ -52,8 +49,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When prescriber is logging in but has not accepted terms of service yet', function(hooks) {
-
+  module('When prescriber is logging in but has not accepted terms of service yet', function (hooks) {
     let user;
 
     hooks.beforeEach(async () => {
@@ -61,7 +57,7 @@ module('Acceptance | authentication', function(hooks) {
       createPrescriberByUser(user);
     });
 
-    test('it should redirect prescriber to the terms-of-service page', async function(assert) {
+    test('it should redirect prescriber to the terms-of-service page', async function (assert) {
       // given
       await visit('/connexion');
       await fillInByLabel('Adresse e-mail', user.email);
@@ -75,7 +71,7 @@ module('Acceptance | authentication', function(hooks) {
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
-    test('it should not show menu nor top bar', async function(assert) {
+    test('it should not show menu nor top bar', async function (assert) {
       // given
       server.create('campaign');
 
@@ -94,7 +90,7 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When user is logging in and has accepted terms of service', function(hooks) {
+  module('When user is logging in and has accepted terms of service', function (hooks) {
     let user;
 
     hooks.beforeEach(() => {
@@ -102,7 +98,7 @@ module('Acceptance | authentication', function(hooks) {
       createPrescriberByUser(user);
     });
 
-    test('it should redirect user to the campaigns list', async function(assert) {
+    test('it should redirect user to the campaigns list', async function (assert) {
       // given
       server.create('campaign');
 
@@ -118,7 +114,7 @@ module('Acceptance | authentication', function(hooks) {
       assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
     });
 
-    test('it should show user name', async function(assert) {
+    test('it should show user name', async function (assert) {
       // given
       server.create('campaign');
 
@@ -136,26 +132,27 @@ module('Acceptance | authentication', function(hooks) {
     });
   });
 
-  module('When prescriber is already authenticated', function() {
-
-    module('When the organization has not credits and prescriber is ADMIN', function(hooks) {
+  module('When prescriber is already authenticated', function () {
+    module('When the organization has not credits and prescriber is ADMIN', function (hooks) {
       hooks.beforeEach(async () => {
-        const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
+        const user = createPrescriberForOrganization(
+          { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
+          { name: 'BRO & Evil Associates' },
+          'ADMIN'
+        );
 
         await authenticateSession(user.id);
       });
 
-      test('should not show organization credit info', async function(assert) {
+      test('should not show organization credit info', async function (assert) {
         // when
         await visit('/');
         // then
         assert.dom('.organization-credit-info').doesNotExist();
       });
-
     });
 
-    module('When prescriber has already accepted terms of service', function(hooks) {
-
+    module('When prescriber has already accepted terms of service', function (hooks) {
       hooks.beforeEach(async () => {
         const user = createUserWithMembershipAndTermsOfServiceAccepted();
         createPrescriberByUser(user);
@@ -163,7 +160,7 @@ module('Acceptance | authentication', function(hooks) {
         await authenticateSession(user.id);
       });
 
-      test('it should let prescriber access requested page', async function(assert) {
+      test('it should let prescriber access requested page', async function (assert) {
         // when
         await visit('/campagnes/creation');
 
@@ -172,7 +169,7 @@ module('Acceptance | authentication', function(hooks) {
         assert.ok(currentSession(this.application).get('isAuthenticated'), 'The user is authenticated');
       });
 
-      test('it should display the organization linked to the connected prescriber', async function(assert) {
+      test('it should display the organization linked to the connected prescriber', async function (assert) {
         // when
         await visit('/');
 
@@ -180,7 +177,7 @@ module('Acceptance | authentication', function(hooks) {
         assert.contains('BRO & Evil Associates (EXTBRO)');
       });
 
-      test('it should redirect prescriber to the campaigns list on root url', async function(assert) {
+      test('it should redirect prescriber to the campaigns list on root url', async function (assert) {
         // when
         await visit('/');
 
@@ -189,8 +186,7 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
-    module('When prescriber is admin', function(hooks) {
-
+    module('When prescriber is admin', function (hooks) {
       hooks.beforeEach(async () => {
         const user = createUserMembershipWithRole('ADMIN');
         createPrescriberByUser(user);
@@ -198,7 +194,7 @@ module('Acceptance | authentication', function(hooks) {
         await authenticateSession(user.id);
       });
 
-      test('should display team menu', async function(assert) {
+      test('should display team menu', async function (assert) {
         // when
         await visit('/');
         // then
@@ -209,7 +205,7 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-nav a:first-child').hasClass('active');
       });
 
-      test('should redirect to team page', async function(assert) {
+      test('should redirect to team page', async function (assert) {
         // given
         await visit('/');
 
@@ -223,24 +219,26 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
       });
 
-      module('When the organization has credits and prescriber is ADMIN', function(hooks) {
+      module('When the organization has credits and prescriber is ADMIN', function (hooks) {
         hooks.beforeEach(async () => {
-          const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'ADMIN');
+          const user = createPrescriberForOrganization(
+            { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
+            { name: 'BRO & Evil Associates', credit: 10000 },
+            'ADMIN'
+          );
 
           await authenticateSession(user.id);
         });
 
-        test('should show organization credit info', async function(assert) {
+        test('should show organization credit info', async function (assert) {
           // when
           await visit('/');
           // then
           assert.dom('.organization-credit-info').exists();
         });
-
       });
 
-      module('When prescriber belongs to an organization that is managing students', function(hooks) {
-
+      module('When prescriber belongs to an organization that is managing students', function (hooks) {
         hooks.beforeEach(async () => {
           const user = createUserManagingStudents('ADMIN');
           createPrescriberByUser(user);
@@ -248,7 +246,7 @@ module('Acceptance | authentication', function(hooks) {
           await authenticateSession(user.id);
         });
 
-        test('should display team and students menu', async function(assert) {
+        test('should display team and students menu', async function (assert) {
           // when
           await visit('/');
 
@@ -261,7 +259,7 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-nav a:first-child ').hasClass('active');
         });
 
-        test('should redirect to students page', async function(assert) {
+        test('should redirect to students page', async function (assert) {
           await visit('/');
 
           // when
@@ -276,7 +274,7 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
         });
 
-        test('should redirect to certifications page', async function(assert) {
+        test('should redirect to certifications page', async function (assert) {
           // when
           await visit('/');
           await clickByLabel('Certifications');
@@ -287,7 +285,7 @@ module('Acceptance | authentication', function(hooks) {
           assert.dom('.sidebar-nav a:first-child').hasNoClass('active');
         });
 
-        test('should have resources link', async function(assert) {
+        test('should have resources link', async function (assert) {
           // given
           await visit('/');
 
@@ -297,8 +295,7 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
-    module('When user is member', function(hooks) {
-
+    module('When user is member', function (hooks) {
       hooks.beforeEach(async () => {
         const user = createUserMembershipWithRole('MEMBER');
         createPrescriberByUser(user);
@@ -306,7 +303,7 @@ module('Acceptance | authentication', function(hooks) {
         await authenticateSession(user.id);
       });
 
-      test('should not display team menu', async function(assert) {
+      test('should not display team menu', async function (assert) {
         // when
         await visit('/');
 
@@ -317,24 +314,26 @@ module('Acceptance | authentication', function(hooks) {
         assert.dom('.sidebar-nav a:first-child ').hasClass('active');
       });
 
-      module('When the organization has credits and prescriber is MEMBER', function(hooks) {
+      module('When the organization has credits and prescriber is MEMBER', function (hooks) {
         hooks.beforeEach(async () => {
-          const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates', credit: 10000 }, 'MEMBER');
+          const user = createPrescriberForOrganization(
+            { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
+            { name: 'BRO & Evil Associates', credit: 10000 },
+            'MEMBER'
+          );
 
           await authenticateSession(user.id);
         });
 
-        test('should not show credit info', async function(assert) {
+        test('should not show credit info', async function (assert) {
           // when
           await visit('/');
           // then
           assert.dom('.organization-credit-info').doesNotExist();
         });
-
       });
 
-      module('When user belongs to an organization that is managing students', function(hooks) {
-
+      module('When user belongs to an organization that is managing students', function (hooks) {
         hooks.beforeEach(async () => {
           const user = createUserManagingStudents('MEMBER');
           createPrescriberByUser(user);
@@ -342,7 +341,7 @@ module('Acceptance | authentication', function(hooks) {
           await authenticateSession(user.id);
         });
 
-        test('should display students menu', async function(assert) {
+        test('should display students menu', async function (assert) {
           // when
           await visit('/');
 
@@ -355,9 +354,13 @@ module('Acceptance | authentication', function(hooks) {
       });
     });
 
-    test('should redirect to main page when trying to access /certifications URL', async function(assert) {
+    test('should redirect to main page when trying to access /certifications URL', async function (assert) {
       // given
-      const user = createPrescriberForOrganization({ firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' }, { name: 'BRO & Evil Associates' }, 'ADMIN');
+      const user = createPrescriberForOrganization(
+        { firstName: 'Harry', lastName: 'Cover', email: 'harry@cover.com' },
+        { name: 'BRO & Evil Associates' },
+        'ADMIN'
+      );
 
       await authenticateSession(user.id);
 
@@ -367,7 +370,5 @@ module('Acceptance | authentication', function(hooks) {
       // then
       assert.equal(currentURL(), '/campagnes');
     });
-
   });
-
 });

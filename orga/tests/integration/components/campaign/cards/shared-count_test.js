@@ -4,12 +4,12 @@ import hbs from 'htmlbars-inline-precompile';
 import { setupIntl, t } from 'ember-intl/test-support';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
 
-module('Integration | Component | Campaign::Cards::SharedCount', function(hooks) {
+module('Integration | Component | Campaign::Cards::SharedCount', function (hooks) {
   setupIntlRenderingTest(hooks);
   setupIntl(hooks);
 
   module('When campaign is type assessment', () => {
-    test('it should display shared participations count card', async function(assert) {
+    test('it should display shared participations count card', async function (assert) {
       this.sharedCount = 10;
 
       await render(hbs`<Campaign::Cards::SharedCount @value={{sharedCount}} @isTypeAssessment={{true}} />`);
@@ -20,7 +20,7 @@ module('Integration | Component | Campaign::Cards::SharedCount', function(hooks)
   });
 
   module('When campaign is type profile collection', () => {
-    test('it should display shared profiles count card', async function(assert) {
+    test('it should display shared profiles count card', async function (assert) {
       this.sharedCount = 10;
 
       await render(hbs`<Campaign::Cards::SharedCount @value={{sharedCount}} @isTypeAssessment={{false}} />`);

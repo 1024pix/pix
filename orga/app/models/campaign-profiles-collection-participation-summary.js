@@ -22,4 +22,3 @@ export default class CampaignProfilesCollectionParticipationSummary extends Mode
   @attr('number')
   certifiableCompetencesCount;
 }
-

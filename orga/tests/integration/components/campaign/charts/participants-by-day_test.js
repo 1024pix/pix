@@ -4,12 +4,12 @@ import sinon from 'sinon';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaign::Charts::ParticipantsByDay', function(hooks) {
+module('Integration | Component | Campaign::Charts::ParticipantsByDay', function (hooks) {
   setupIntlRenderingTest(hooks);
   const campaignId = 1;
   let dataFetcher;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     // given
     this.set('campaignId', campaignId);
 
@@ -18,7 +18,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     dataFetcher = sinon.stub(adapter, 'getParticipationsByDay');
   });
 
-  test('it should display status for assessment campaign', async function(assert) {
+  test('it should display status for assessment campaign', async function (assert) {
     // given
     dataFetcher.withArgs(campaignId).resolves({
       data: {
@@ -37,7 +37,7 @@ module('Integration | Component | Campaign::Charts::ParticipantsByDay', function
     assert.contains('Total des participants ayant envoyé leurs résultats');
   });
 
-  test('it should display status for profile collection campaign', async function(assert) {
+  test('it should display status for profile collection campaign', async function (assert) {
     // given
     dataFetcher.withArgs(campaignId).resolves({
       data: {

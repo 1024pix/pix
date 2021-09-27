@@ -5,18 +5,16 @@ import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
 module('Unit | Component | Routes | login-form', (hooks) => {
-
   setupTest(hooks);
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:auth/login-form');
   });
 
   module('#authenticate', () => {
-
-    test('should save email without spaces', function(assert) {
+    test('should save email without spaces', function (assert) {
       // given
       const emailWithSpaces = '    user@example.net  ';
       component.email = emailWithSpaces;
@@ -33,5 +31,4 @@ module('Unit | Component | Routes | login-form', (hooks) => {
       assert.ok(_authenticateStub.calledWith(sinon.match.any, expectedEmail));
     });
   });
-
 });

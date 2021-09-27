@@ -12,9 +12,9 @@
         @id="uai"
         @name="uai"
         @type="text"
-        class="input {{if this.validation.uai.hasError 'input--error'}}"
+        class="input {{if this.validation.uai.hasError "input--error"}}"
         @value={{this.uai}}
-        @required='true'
+        @required="true"
       />
     </div>
 
@@ -27,10 +27,10 @@
         @id="firstName"
         @name="firstName"
         @type="text"
-        class="input {{if this.validation.firstName.hasError 'input--error'}}"
+        class="input {{if this.validation.firstName.hasError "input--error"}}"
         @value={{this.firstName}}
         @autocomplete="given-name"
-        @required='true'
+        @required="true"
         {{on "focusout" (fn this.validateInput "firstName" this.firstName)}}
       />
     </div>
@@ -44,10 +44,10 @@
         @id="lastName"
         @name="lastName"
         @type="text"
-        class="input {{if this.validation.lastName.hasError 'input--error'}}"
+        class="input {{if this.validation.lastName.hasError "input--error"}}"
         @value={{this.lastName}}
         @autocomplete="family-name"
-        @required='true'
+        @required="true"
         {{on "focusout" (fn this.validateInput "lastName" this.lastName)}}
       />
     </div>
@@ -61,8 +61,11 @@
   </form>
 
   <p class="join-request-form__legal-information">
-    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre à votre établissement scolaire d'accéder à son espace Pix Orga.
-    Elles sont conservées pendant un an. Elles sont destinées à Pix et ne sont pas communiquées à des tiers en dehors d’un envoi par mail à l'adresse électronique du chef de l'établissement dont vous avez saisi l'identifiant UAI/RNE.
-    Conformément à la loi « informatique et libertés », vous pouvez exercer votre droit d’accès aux données vous concernant et les faire rectifier en envoyant un mail à <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>
+    Les informations recueillies sur ce formulaire sont enregistrées dans un fichier informatisé par Pix pour permettre
+    à votre établissement scolaire d'accéder à son espace Pix Orga. Elles sont conservées pendant un an. Elles sont
+    destinées à Pix et ne sont pas communiquées à des tiers en dehors d’un envoi par mail à l'adresse électronique du
+    chef de l'établissement dont vous avez saisi l'identifiant UAI/RNE. Conformément à la loi « informatique et libertés
+    », vous pouvez exercer votre droit d’accès aux données vous concernant et les faire rectifier en envoyant un mail à
+    <a href="mailto:dpo@pix.fr">dpo@pix.fr</a>
   </p>
 </div>
