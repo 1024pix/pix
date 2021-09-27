@@ -7,6 +7,7 @@ export default class JuryComment extends Component {
   @tracked editingMode = false;
   @tracked comment;
   @tracked commentBeingEdited;
+  @tracked shouldDisplayDeletionConfirmationModal = false;
 
   constructor() {
     super(...arguments);
@@ -36,6 +37,28 @@ export default class JuryComment extends Component {
   exitEditingMode() {
     this.editingMode = false;
     this.commentBeingEdited = '';
+  }
+
+  @action
+  openDeletionConfirmationModal() {
+    this.shouldDisplayDeletionConfirmationModal = true;
+  }
+
+  @action
+  closeDeletionConfirmationModal() {
+    this.shouldDisplayDeletionConfirmationModal = false;
+  }
+
+  @action
+  async confirmDeletion() {
+    try {
+      await this.args.onDeleteButtonClicked();
+      this.comment = null;
+      this.closeDeletionConfirmationModal();
+    } catch {
+      noop();
+    }
+
   }
 
   get commentExists() {

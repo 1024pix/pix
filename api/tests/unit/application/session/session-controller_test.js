@@ -990,6 +990,24 @@ describe('Unit | Controller | sessionController', function() {
       });
     });
   });
+
+  describe('#deleteJuryComment', function() {
+    it('should delete the session comment', async function() {
+      // given
+      const sessionId = 1;
+      sinon.stub(usecases, 'deleteSessionJuryComment');
+      request = { params: { id: sessionId } };
+
+      // when
+      const response = await sessionController.deleteJuryComment(request, hFake);
+
+      // then
+      expect(usecases.deleteSessionJuryComment).to.have.been.calledWithExactly({
+        sessionId,
+      });
+      expect(response.statusCode).to.equal(204);
+    });
+  });
 });
 
 function buildRequest(sessionId, userId, firstName, lastName, birthdate) {

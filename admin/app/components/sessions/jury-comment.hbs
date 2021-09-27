@@ -31,6 +31,22 @@
       <PixButton @triggerAction={{this.enterEditingMode}} @size="small">
         Modifier
       </PixButton>
+      <PixButton
+        @triggerAction={{this.openDeletionConfirmationModal}}
+        @size="small"
+        @backgroundColor="transparent-light"
+        @isBorderVisible={{true}}
+      >
+        Supprimer
+      </PixButton>
     </div>
   {{/if}}
 </section>
+
+<ConfirmPopup
+  @title="Suppression du commentaire"
+  @message="Voulez-vous vraiment supprimer le commentaire de {{@author}} ?"
+  @confirm={{this.confirmDeletion}}
+  @cancel={{this.closeDeletionConfirmationModal}}
+  @show={{this.shouldDisplayDeletionConfirmationModal}}
+/>

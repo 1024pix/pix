@@ -79,6 +79,17 @@ export default class IndexController extends Controller {
     }
   }
 
+  @action
+  async deleteComment() {
+    try {
+      await this.sessionModel.deleteComment();
+      await this.sessionModel.reload();
+    } catch (error) {
+      this.notifications.error('Une erreur est survenue pendant la suppression du commentaire.');
+      throw error;
+    }
+  }
+
   _displaySuccessTooltip() {
     this.copyButtonText = 'Copié';
     this.isCopyButtonClicked = true;

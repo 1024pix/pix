@@ -279,6 +279,13 @@ module.exports = {
 
     return h.response().code(204);
   },
+
+  async deleteJuryComment(request, h) {
+    const sessionId = request.params.id;
+    await usecases.deleteSessionJuryComment({ sessionId });
+
+    return h.response().code(204);
+  },
 };
 
 function _logSessionBatchPublicationErrors(result) {

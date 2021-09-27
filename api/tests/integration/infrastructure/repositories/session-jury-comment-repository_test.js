@@ -136,4 +136,64 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
       });
     });
   });
+
+  context('#delete', function() {
+
+    context('when the session exists', function() {
+
+      it('should remove the session comment', async function() {
+        // given
+        databaseBuilder.factory.buildUser({ id: 456 });
+        databaseBuilder.factory.buildSession({
+          id: 123,
+          juryComment: 'Commentaire à supprimer',
+          juryCommentAuthorId: 456,
+          juryCommentedAt: new Date('2018-01-12T09:29:16Z'),
+        });
+        await databaseBuilder.commit();
+        const expectedSessionJuryComment = domainBuilder.buildSessionJuryComment({
+          id: 123,
+          comment: null,
+          authorId: null,
+          updatedAt: null,
+        });
+
+        // when
+        await sessionJuryCommentRepository.delete(123);
+
+        // then
+        const deletedSessionJuryComment = await sessionJuryCommentRepository.get(123);
+        expect(deletedSessionJuryComment).to.deepEqualInstance(expectedSessionJuryComment);
+      });
+    });
+
+    context('when the session does not exist', function() {
+
+      it('should throw a NotFoundError', async function() {
+        // given
+        databaseBuilder.factory.buildUser({ id: 456 });
+        databaseBuilder.factory.buildUser({ id: 789 });
+        databaseBuilder.factory.buildSession({
+          id: 123,
+          juryComment: 'commentaire initial',
+          juryCommentAuthorId: 456,
+          juryCommentedAt: new Date('2018-01-12T09:29:16Z'),
+        });
+        await databaseBuilder.commit();
+        const sessionJuryCommentToSave = domainBuilder.buildSessionJuryComment({
+          id: 456,
+          updatedAt: new Date('2020-01-12T10:29:16Z'),
+          authorId: 789,
+          comment: 'commentaire final',
+        });
+
+        // when
+        const error = await catchErr(sessionJuryCommentRepository.save)(sessionJuryCommentToSave);
+
+        // then
+        expect(error).to.be.instanceOf(NotFoundError);
+        expect(error.message).to.equal('La session 456 n\'existe pas ou son accès est restreint.');
+      });
+    });
+  });
 });

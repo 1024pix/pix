@@ -47,12 +47,12 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
           // when
           await render(hbs`
           <Sessions::JuryComment
-            @author={{this.author}}
-            @date={{this.date}}
-            @comment={{this.comment}}
-            @onFormSubmit={{this.onFormSubmit}}
-          />
-        `);
+              @author={{this.author}}
+              @date={{this.date}}
+              @comment={{this.comment}}
+              @onFormSubmit={{this.onFormSubmit}}
+            />
+          `);
           await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
           await clickByLabel('Enregistrer');
 
@@ -72,13 +72,13 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
 
           // when
           await render(hbs`
-          <Sessions::JuryComment
-            @author={{this.author}}
-            @date={{this.date}}
-            @comment={{this.comment}}
-            @onFormSubmit={{this.onFormSubmit}}
-          />
-        `);
+            <Sessions::JuryComment
+              @author={{this.author}}
+              @date={{this.date}}
+              @comment={{this.comment}}
+              @onFormSubmit={{this.onFormSubmit}}
+            />
+          `);
           await fillInByLabel('Texte du commentaire', 'Un nouveau commentaire');
           await clickByLabel('Enregistrer');
 
@@ -113,6 +113,7 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
       assert.contains(expectedDate);
       assert.contains('L\'expérience est un professeur cruel car elle vous fait passer l\'examen, avant de vous expliquer la leçon.');
       assert.dom(getByLabel('Modifier')).exists();
+      assert.dom(getByLabel('Supprimer')).exists();
     });
 
     module('when the "Modifier" button is clicked', function() {
@@ -182,6 +183,114 @@ module('Integration | Component | Sessions::JuryComment', function(hooks) {
 
         // then
         assert.contains('Qui promène son chien est au bout de la laisse.');
+      });
+    });
+
+    module('when the "Supprimer" button is clicked', function() {
+      test('it opens a confirmation modal', async function(assert) {
+        // given
+        this.author = 'Frederic Brown';
+        this.date = new Date('2006-11-21T15:32:12Z');
+        this.comment = 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
+
+        // when
+        await render(hbs`
+          <Sessions::JuryComment
+            @author={{this.author}}
+            @date={{this.date}}
+            @comment={{this.comment}}
+          />
+        `);
+        await clickByLabel('Supprimer');
+
+        // then
+        assert.contains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
+      });
+
+      module('when the confirmation modal "Confirmer" button is clicked', function() {
+        module('when the deletion succeeds', function() {
+          test('it calls the onDeleteButtonClicked callback and closes the modal', async function(assert) {
+            // given
+            this.author = 'Frederic Brown';
+            this.date = new Date('2006-11-21T15:32:12Z');
+            this.comment = 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
+            this.onDeleteButtonClicked = sinon.stub().resolves();
+
+            // when
+            await render(hbs`
+              <Sessions::JuryComment
+                @author={{this.author}}
+                @date={{this.date}}
+                @comment={{this.comment}}
+                @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+              />
+            `);
+            await clickByLabel('Supprimer');
+            await clickByLabel('Confirmer');
+
+            // then
+            assert.ok(this.onDeleteButtonClicked.calledOnce);
+            assert.notContains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
+            assert.notContains('Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…');
+            assert.ok(_isInEditMode());
+          });
+        });
+
+        module('when the deletion fails', function() {
+          test('it keeps the comment and the modal open', async function(assert) {
+            // given
+            this.author = 'Frederic Brown';
+            this.date = new Date('2006-11-21T15:32:12Z');
+            this.comment = 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
+            this.onDeleteButtonClicked = sinon.stub().rejects();
+
+            // when
+            await render(hbs`
+              <Sessions::JuryComment
+                @author={{this.author}}
+                @date={{this.date}}
+                @comment={{this.comment}}
+                @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+              />
+            `);
+            await clickByLabel('Supprimer');
+            await clickByLabel('Confirmer');
+
+            // then
+            assert.ok(this.onDeleteButtonClicked.calledOnce);
+            assert.contains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
+            assert.contains('Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…');
+            assert.ok(_isNotInEditMode());
+          });
+        });
+      });
+
+      module('when the confirmation modal "Annuler" button is clicked', function() {
+        test('it does not call the onDeleteButtonClicked callback and closes the modal', async function(assert) {
+          // given
+          this.author = 'Frederic Brown';
+          this.date = new Date('2006-11-21T15:32:12Z');
+          this.comment = 'Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…';
+          this.onDeleteButtonClicked = sinon.stub();
+
+          // when
+          await render(hbs`
+            <Sessions::JuryComment
+              @author={{this.author}}
+              @date={{this.date}}
+              @comment={{this.comment}}
+              @onDeleteButtonClicked={{this.onDeleteButtonClicked}}
+            />
+          `);
+          await clickByLabel('Supprimer');
+          await clickByLabel('Annuler');
+
+          // then
+          assert.ok(this.onDeleteButtonClicked.notCalled);
+          assert.notContains('Voulez-vous vraiment supprimer le commentaire de Frederic Brown ?');
+          assert.contains('Le dernier homme sur la Terre était assis tout seul dans une pièce. Il y eut un coup à la porte…');
+          assert.ok(_isNotInEditMode());
+        });
       });
     });
   });
