@@ -1,8 +1,14 @@
-const { expect, sinon, domainBuilder } = require('../../../test-helper');
+const {
+  expect,
+  sinon,
+  domainBuilder,
+  catchErr,
+} = require('../../../test-helper');
 const obfuscationService = require('../../../../lib/domain/services/obfuscation-service');
 const authenticationMethodRepository = require('../../../../lib/infrastructure/repositories/authentication-method-repository');
 const User = require('../../../../lib/domain/models/User');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | user-authentication-method-obfuscation-service', function() {
 
@@ -17,11 +23,13 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
   describe('#emailObfuscation', function() {
 
     it('should return obfuscated email', function() {
-      // Given
+      // given
       const email = 'johnHarry@example.net';
-      // When
+
+      // when
       const value = obfuscationService.emailObfuscation(email);
-      //Then
+
+      // then
       expect(value).to.be.equal('j***@example.net');
     });
 
@@ -30,11 +38,13 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
   describe('#usernameObfuscation', function() {
 
     it('should return obfuscated username', function() {
-      // Given
+      // given
       const username = 'john.harry0702';
-      // When
+
+      // when
       const value = obfuscationService.usernameObfuscation(username);
-      //Then
+
+      // then
       expect(value).to.be.equal('j***.h***2');
     });
 
@@ -43,15 +53,15 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
   describe('#getUserAuthenticationMethodWithObfuscation', function() {
 
     it('should return authenticated with samlId when user is authenticated with samlId only', async function() {
-      // Given
+      // given
       const user = domainBuilder.buildUser();
       const authenticationMethod = domainBuilder.buildAuthenticationMethod({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
-      // When
+      // when
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-      //Then
+      // then
       const expectedResult = {
         authenticatedBy: 'samlId',
         value: null,
@@ -60,16 +70,16 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
     });
 
     it('should return authenticated with samlId when user is authenticated with samlId and username', async function() {
-      // Given
+      // given
       const username = 'john.harry.0702';
       const user = new User({ username });
       const authenticationMethod = domainBuilder.buildAuthenticationMethod({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
-      // When
+      // when
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-      //Then
+      // then
       const expectedResult = {
         authenticatedBy: 'samlId',
         value: null,
@@ -78,17 +88,17 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
     });
 
     it('should return authenticated with samlId when user is authenticated with samlId, username and email', async function() {
-      // Given
+      // given
       const username = 'john.harry.0702';
       const email = 'john.harry@example.net';
       const user = new User({ username, email });
       const authenticationMethod = domainBuilder.buildAuthenticationMethod({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
-      // When
+      // when
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-      //Then
+      // then
       const expectedResult = {
         authenticatedBy: 'samlId',
         value: null,
@@ -97,13 +107,13 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
     });
 
     it('should return authenticated with username when user is authenticated with username only', async function() {
-      // Given
+      // given
       const username = 'john.harry0702';
       const user = new User({ username });
 
-      // When
+      // when
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
-      //Then
+      // then
       const expectedResult = {
         authenticatedBy: 'username',
         value: 'j***.h***2',
@@ -112,15 +122,15 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
     });
 
     it('should return authenticated with username when user is authenticated with username and email', async function() {
-      // Given
+      // given
       const username = 'john.harry0702';
       const email = 'john.harry@example.net';
       const user = new User({ username, email });
 
-      // When
+      // when
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-      //Then
+      // then
       const expectedResult = {
         authenticatedBy: 'username',
         value: 'j***.h***2',
@@ -129,19 +139,31 @@ describe('Unit | Service | user-authentication-method-obfuscation-service', func
     });
 
     it('should return authenticated with username when user is authenticated with email only', async function() {
-      // Given
+      // given
       const email = 'john.harry@example.net';
       const user = new User({ email });
 
-      // When
+      // when
       const value = await obfuscationService.getUserAuthenticationMethodWithObfuscation(user);
 
-      //Then
+      // then
       const expectedResult = {
         authenticatedBy: 'email',
         value: 'j***@example.net',
       };
       expect(value).to.be.deep.equal(expectedResult);
+    });
+
+    it('should throw NotFoundError when user authentication is neither username, email nor samlId', async function() {
+      // given
+      const user = domainBuilder.buildUser({ username: null, email: null, authenticationMethods: [] });
+
+      // when
+      const error = await catchErr(obfuscationService.getUserAuthenticationMethodWithObfuscation)(user);
+
+      // then
+      expect(error).to.be.instanceof(NotFoundError);
+      expect(error.message).to.equal('Aucune méthode d\'authentification trouvée dont le fournisseur d\'identité est GAR ou PIX.');
     });
   });
 });

@@ -639,6 +639,23 @@ describe('Unit | Component | routes/campaigns/restricted/join-sco', function() {
           expect(component.reconciliationError).to.be.null;
         });
       });
+
+      describe('When user has an invalid reconciliation', () => {
+
+        it('should return a bad request error and display the invalid reconciliation error message', async function() {
+          // given
+          const expectedErrorMessage = this.intl.t('pages.join.sco.invalid-reconciliation-error');
+          const error = { status: '400' };
+
+          onSubmitToReconcileStub.rejects({ errors: [error] });
+
+          // when
+          await component.actions.submit.call(component, eventStub);
+
+          // then
+          expect(component.errorMessage.string).to.equal(expectedErrorMessage);
+        });
+      });
     });
   });
 
