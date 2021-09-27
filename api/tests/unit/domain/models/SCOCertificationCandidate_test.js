@@ -103,6 +103,17 @@ describe('Unit | Domain | Models | SCO Certification Candidate', function() {
       });
     });
 
+    it('should validate when birthCity is an empty string', async function() {
+      try {
+        buildSCOCertificationCandidate({
+          ...validAttributes,
+          birthCity: '',
+        });
+      } catch (e) {
+        expect.fail('scoCertificationCandidate is valid when all required fields are present');
+      }
+    });
+
     it('should throw an error when birthdate is not a date', async function() {
       const error = await catchErr(buildSCOCertificationCandidate)({ ...validAttributes, birthdate: 'je mange des fruits' });
 
