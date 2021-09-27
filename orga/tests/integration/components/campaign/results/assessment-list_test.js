@@ -56,7 +56,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         {
           firstName: 'John',
           lastName: 'Doe',
-          masteryPercentage: 0.8,
+          masteryRate: 0.8,
           isShared: true,
         },
       ];
@@ -211,7 +211,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         badges: [badge],
       });
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60, isShared: true }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryRate: 0.6, isShared: true }];
       participations.meta = { rowCount: 1 };
       const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
@@ -238,7 +238,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
         stages: [stage],
       });
 
-      const participations = [{ masteryPercentage: 60, isShared: true }];
+      const participations = [{ masteryRate: 0.6, isShared: true }];
       participations.meta = { rowCount: 1 };
 
       this.set('campaign', campaign);
@@ -276,7 +276,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       });
       campaign.set('divisions', [division]);
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60 }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryRate: 0.6 }];
       participations.meta = { rowCount: 1 };
       const triggerFiltering = sinon.stub();
       this.set('campaign', campaign);
@@ -315,7 +315,7 @@ module('Integration | Component | Campaign::Results::AssessmentList', function (
       });
       campaign.set('divisions', [division]);
 
-      const participations = [{ firstName: 'John', lastName: 'Doe', masteryPercentage: 60 }];
+      const participations = [{ firstName: 'John', lastName: 'Doe', masteryRate: 0.6 }];
       participations.meta = { rowCount: 1 };
       const resetFilters = sinon.stub();
       this.set('campaign', campaign);
