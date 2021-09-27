@@ -44,7 +44,7 @@ Cypress.Commands.add('loginOrga', (username, password) => {
 
 Cypress.Commands.add('loginCertif', (username, password) => {
   cy.server();
-  cy.route('/api/certification-point-of-contacts/**').as('getCurrentUser');
+  cy.route('/api/certification-point-of-contacts/me').as('getCurrentUser');
   cy.request({
     url: `${Cypress.env('API_URL')}/api/token`,
     method: 'POST',

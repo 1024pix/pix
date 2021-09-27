@@ -12,4 +12,8 @@ export default class CertificationPointOfContactAdapter extends ApplicationAdapt
 
     return url;
   }
+
+  urlForQueryRecord() {
+    return `${this.host}/${this.namespace}/certification-point-of-contacts/me`;
+  }
 }

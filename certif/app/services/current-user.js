@@ -12,7 +12,7 @@ export default class CurrentUserService extends Service {
   async load() {
     if (this.session.isAuthenticated) {
       try {
-        this.certificationPointOfContact = await this.store.findRecord('certification-point-of-contact', this.session.data.authenticated.user_id);
+        this.certificationPointOfContact = await this.store.queryRecord('certification-point-of-contact', {});
         this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact.hasMany('allowedCertificationCenterAccesses').value().firstObject;
       } catch (error) {
         this.certificationPointOfContact = null;

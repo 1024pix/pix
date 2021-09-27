@@ -151,15 +151,10 @@ export default function() {
     return session;
   });
 
-  this.get('/certification-point-of-contacts/:id', (schema, request) => {
-    const certificationPointOfContactId = request.params.id;
+  this.get('/certification-point-of-contacts/me', (schema, request) => {
     const userToken = request.requestHeaders['Authorization'].replace('Bearer ', '');
     const userId = JSON.parse(atob(userToken.split('.')[1])).user_id;
-    if (parseInt(certificationPointOfContactId) !== parseInt(userId)) {
-      return new Response(403, { some: 'header' }, { errors: [{ status: '403', title: 'Forbidden', detail: 'Authenticated user different from the one asked' }] });
-    }
-
-    return schema.certificationPointOfContacts.find(certificationPointOfContactId);
+    return schema.certificationPointOfContacts.find(userId);
   });
 
   this.patch('/users/:id/pix-certif-terms-of-service-acceptance', (schema, request) => {

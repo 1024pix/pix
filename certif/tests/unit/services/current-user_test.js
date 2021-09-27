@@ -25,7 +25,7 @@ module('Unit | Service | current-user', function(hooks) {
           allowedCertificationCenterAccesseA, allowedCertificationCenterAccesseB,
         ],
       });
-      sinon.stub(store, 'findRecord').resolves(certificationPointOfContact);
+      sinon.stub(store, 'queryRecord').resolves(certificationPointOfContact);
 
       class SessionStub extends Service {
         isAuthenticated = true;
