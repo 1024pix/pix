@@ -36,8 +36,8 @@ async function _updateCampaignParticipations(campaign) {
 
   // eslint-disable-next-line knex/avoid-injections
   await knex.raw(`UPDATE "campaign-participations"
-  SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount", "masteryPercentage" = "participationSkillCounts"."masteryPercentage", "pixScore" = "participationSkillCounts"."pixScore"
-  FROM (VALUES ${_toSQLValues(participationResults)}) AS "participationSkillCounts"(id, "validatedSkillsCount", "masteryPercentage", "pixScore")
+  SET "validatedSkillsCount" = "participationSkillCounts"."validatedSkillsCount", "masteryRate" = "participationSkillCounts"."masteryRate", "pixScore" = "participationSkillCounts"."pixScore"
+  FROM (VALUES ${_toSQLValues(participationResults)}) AS "participationSkillCounts"(id, "validatedSkillsCount", "masteryRate", "pixScore")
   WHERE "campaign-participations".id = "participationSkillCounts".id`);
 
   count++;
@@ -97,7 +97,7 @@ async function _getKnowledgeElementsByUser(campaignParticipations) {
 }
 
 function _toSQLValues(participantsResults) {
-  return participantsResults.map(({ id, validatedSkillsCount, masteryPercentage, pixScore }) => `(${id}, ${validatedSkillsCount}, ${masteryPercentage}, ${pixScore})`).join(', ');
+  return participantsResults.map(({ id, validatedSkillsCount, masteryRate, pixScore }) => `(${id}, ${validatedSkillsCount}, ${masteryRate}, ${pixScore})`).join(', ');
 }
 
 module.exports = computeParticipantResultsShared;
