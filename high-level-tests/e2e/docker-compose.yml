@@ -3,14 +3,17 @@ version: '3'
 services:
   postgres:
     image: postgres:12.5-alpine
+    container_name: pix-e2e-postgres
     environment:
       POSTGRES_DB: pix
       POSTGRES_HOST_AUTH_METHOD: trust
 
   redis:
+    container_name: pix-e2e-redis
     image: redis:5.0.7-alpine
 
   cypress:
+    container_name: pix-e2e-cypress
     user: node
     build:
       context: .
@@ -24,6 +27,7 @@ services:
       - certif
 
   orga:
+    container_name: pix-e2e-orga
     user: node
     image: node:14.16.0
     command: npx ember serve --proxy http://api:3000
@@ -34,6 +38,7 @@ services:
       - api
 
   certif:
+    container_name: pix-e2e-certif
     user: node
     image: node:14.16.0
     command: npx ember serve --proxy http://api:3000
@@ -44,6 +49,7 @@ services:
       - api
 
   monpix:
+    container_name: pix-e2e-monpix
     user: node
     image: node:14.16.0
     command: npx ember serve --proxy http://api:3000
@@ -54,6 +60,7 @@ services:
       - api
 
   api:
+    container_name: pix-e2e-api
     user: node
     image: node:14.16.0
     env_file: ./env-api
