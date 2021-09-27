@@ -613,6 +613,12 @@ class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
   }
 }
 
+class SchoolingRegistrationAlreadyLinkedToInvalidUserError extends DomainError {
+  constructor(message = 'Élève rattaché avec un compte invalide.') {
+    super(message);
+  }
+}
+
 class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
   constructor(message = 'Il existe déjà un compte qui possède cette méthode d‘authentification.') {
     super(message);
@@ -970,6 +976,7 @@ module.exports = {
   PasswordNotMatching,
   PasswordResetDemandNotFoundError,
   SchoolingRegistrationAlreadyLinkedToUserError,
+  SchoolingRegistrationAlreadyLinkedToInvalidUserError,
   SchoolingRegistrationDisabledError,
   SchoolingRegistrationNotFound,
   SchoolingRegistrationsCouldNotBeSavedError,
