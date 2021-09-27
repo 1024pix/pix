@@ -29,13 +29,26 @@ module.exports = {
       juryCommentAuthorId: sessionJuryComment.authorId,
       juryCommentedAt: sessionJuryComment.updatedAt,
     };
-    const updatedSessionIds = await knex('sessions')
-      .update(columnsToSave)
-      .where({ id: sessionJuryComment.id })
-      .returning('id');
+    await _persist(sessionJuryComment.id, columnsToSave);
+  },
 
-    if (updatedSessionIds.length === 0) {
-      throw new NotFoundError(`La session ${sessionJuryComment.id} n'existe pas ou son accès est restreint.`);
-    }
+  async delete(sessionJuryCommentId) {
+    const columnsToSave = {
+      juryComment: null,
+      juryCommentAuthorId: null,
+      juryCommentedAt: null,
+    };
+    await _persist(sessionJuryCommentId, columnsToSave);
   },
 };
+
+async function _persist(sessionId, columnsToSave) {
+  const updatedSessionIds = await knex('sessions')
+    .update(columnsToSave)
+    .where({ id: sessionId })
+    .returning('id');
+
+  if (updatedSessionIds.length === 0) {
+    throw new NotFoundError(`La session ${sessionId} n'existe pas ou son accès est restreint.`);
+  }
+}
