@@ -556,9 +556,9 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       certificationAssessment.skipUnansweredChallenges();
 
       // then
-      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec456').isSkipped).to.be.true;
-      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec1234').isSkipped).to.be.false;
-      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec789').isSkipped).to.be.false;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec456').hasBeenSkippedAutomatically).to.be.true;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec1234').hasBeenSkippedAutomatically).to.be.false;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec789').hasBeenSkippedAutomatically).to.be.false;
     });
   });
 
