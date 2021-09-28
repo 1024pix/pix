@@ -4,7 +4,7 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
-module('Acceptance | authenticated/targets-profile/target-profile/insight', function (hooks) {
+module('Acceptance | Target Profiles | Target Profile | Insight', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
