@@ -59,6 +59,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
             userId: campaignParticipation1.userId,
             campaignParticipationId: campaignParticipation1.id,
             isCompleted: false,
+            masteryPercentage: 0,
             participantFirstName: 'First',
             participantLastName: 'Last',
             studentNumber: null,
@@ -69,7 +70,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
       });
     });
 
-    context('when there are several participant', function() {
+    context('when there are several participants', function() {
       let campaign;
       let campaignParticipation1;
       let campaignParticipation2;
@@ -122,6 +123,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           userId: campaignParticipation1.userId,
           campaignParticipationId: campaignParticipation1.id,
           isCompleted: false,
+          masteryPercentage: 0,
           participantFirstName: 'The',
           participantLastName: 'Narrator',
           studentNumber: null,
@@ -136,6 +138,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           userId: campaignParticipation2.userId,
           campaignParticipationId: campaignParticipation2.id,
           isCompleted: true,
+          masteryPercentage: 0,
           participantFirstName: 'Tyler',
           participantLastName: 'Durden',
           studentNumber: null,
@@ -189,6 +192,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           userId: campaignParticipation.userId,
           campaignParticipationId: campaignParticipation.id,
           isCompleted: true,
+          masteryPercentage: 0,
           participantFirstName: 'The',
           participantLastName: 'Narrator',
           studentNumber: null,
@@ -251,6 +255,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           userId: campaignParticipation2.userId,
           campaignParticipationId: campaignParticipation2.id,
           isCompleted: true,
+          masteryPercentage: 0,
           participantFirstName: 'The',
           participantLastName: 'Narrator',
           studentNumber: null,
