@@ -1,6 +1,6 @@
 import sinon from 'sinon';
 import { module, test } from 'qunit';
-import { render } from '@ember/test-helpers';
+import { render, find } from '@ember/test-helpers';
 import fillInByLabel from '../../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 import hbs from 'htmlbars-inline-precompile';
 import setupIntlRenderingTest from '../../../../helpers/setup-intl-rendering';
@@ -14,7 +14,7 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
       {
         firstName: 'Joe',
         lastName: 'La frite',
-        status: 'completed',
+        status: 'TO_SHARE',
         participantExternalId: 'patate',
       },
     ];
@@ -32,21 +32,39 @@ module('Integration | Component | Campaign::Activity::ParticipantsList', functio
     assert.contains("En attente d'envoi");
   });
 
-  test('should filter on participations status', async function (assert) {
-    this.campaign = { type: 'ASSESSMENT' };
-    this.participations = [];
-    this.onClickParticipant = sinon.stub();
-    this.onFilter = sinon.stub();
+  module('status filter', function () {
+    test('should set default', async function (assert) {
+      this.campaign = { type: 'ASSESSMENT' };
+      this.participations = [];
+      this.selectedStatus = 'TO_SHARE';
+      this.onClickParticipant = sinon.stub();
 
-    await render(hbs`<Campaign::Activity::ParticipantsList
+      await render(hbs`<Campaign::Activity::ParticipantsList
         @campaign={{campaign}}
         @participations={{participations}}
+        @selectedStatus={{selectedStatus}}
         @onClickParticipant={{onClickParticipant}}
-        @onFilter={{onFilter}}
       />`);
 
-    await fillInByLabel('Statut', 'SHARED');
+      assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, 'TO_SHARE');
+    });
 
-    assert.ok(this.onFilter.calledWith({ status: 'SHARED' }));
+    test('should filter on participations status', async function (assert) {
+      this.campaign = { type: 'ASSESSMENT' };
+      this.participations = [];
+      this.onClickParticipant = sinon.stub();
+      this.onFilter = sinon.stub();
+
+      await render(hbs`<Campaign::Activity::ParticipantsList
+          @campaign={{campaign}}
+          @participations={{participations}}
+          @onClickParticipant={{onClickParticipant}}
+          @onFilter={{onFilter}}
+        />`);
+
+      await fillInByLabel('Statut', 'SHARED');
+
+      assert.ok(this.onFilter.calledWith({ status: 'SHARED' }));
+    });
   });
 });

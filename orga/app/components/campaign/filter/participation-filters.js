@@ -3,6 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class ParticipationFilters extends Component {
+  @service intl;
   @service currentUser;
 
   get displayFilters() {
@@ -46,11 +47,15 @@ export default class ParticipationFilters extends Component {
   }
 
   get statusOptions() {
-    return [
-      { value: 'STARTED', label: 'Démarrée' },
-      { value: 'TO_SHARE', label: 'A partager' },
-      { value: 'SHARED', label: 'Partagée' },
-    ];
+    const { isTypeAssessment } = this.args.campaign;
+
+    const statuses = isTypeAssessment ? ['STARTED', 'TO_SHARE', 'SHARED'] : ['TO_SHARE', 'SHARED'];
+
+    return statuses.map((status) => {
+      const type = isTypeAssessment ? 'assessment' : 'profile';
+      const label = this.intl.t(`pages.campaign-activity.status.${status}-${type}`);
+      return { value: status, label };
+    });
   }
 
   @action
