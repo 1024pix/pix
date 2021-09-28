@@ -1,17 +1,17 @@
 import get from 'lodash/get';
 
 import Component from '@glimmer/component';
-import { inject } from '@ember/service';
+import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export default class LoginForm extends Component {
 
-  @inject session;
-  @inject store;
-  @inject router;
-  @inject currentUser;
-  @inject intl;
+  @service session;
+  @service store;
+  @service router;
+  @service currentUser;
+  @service intl;
 
   @tracked login = null;
   @tracked password = null;
