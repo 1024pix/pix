@@ -6,4 +6,8 @@ export default class ConnectionMethodsRoute extends Route {
     return this.modelFor('user-account');
   }
 
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    controller.isEmailEditionMode = false;
+  }
 }

@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import isEmailValid from '../utils/email-validator';
+import isEmailValid from '../../utils/email-validator';
 import get from 'lodash/get';
 import isEmpty from 'lodash/isEmpty';
 
@@ -36,7 +36,7 @@ class PasswordValidation {
   @tracked message = null;
 }
 
-export default class UserAccountUpdateEmail extends Component {
+export default class UpdateEmail extends Component {
 
   @service intl;
   @tracked newEmail = '';
