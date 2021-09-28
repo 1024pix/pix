@@ -1,6 +1,7 @@
 const { expect, sinon, hFake } = require('../../../test-helper');
 const targetProfileController = require('../../../../lib/application/target-profiles/target-profile-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
 describe('Unit | Controller | target-profile-controller', function() {
 
@@ -9,7 +10,6 @@ describe('Unit | Controller | target-profile-controller', function() {
     let request;
 
     beforeEach(function() {
-
       sinon.stub(usecases, 'updateTargetProfileName');
 
       request = {
@@ -52,6 +52,7 @@ describe('Unit | Controller | target-profile-controller', function() {
 
     beforeEach(function() {
       sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
+      sinon.stub(targetProfileAttachOrganizationSerializer, 'serialize');
 
       request = {
         params: {
@@ -67,10 +68,15 @@ describe('Unit | Controller | target-profile-controller', function() {
 
       it('should succeed', async function() {
         // when
-        const response = await targetProfileController.attachOrganizations(request, hFake);
+        const serializer = Symbol('targetProfileAttachOrganizationsSerializer');
+        usecases.attachOrganizationsToTargetProfile.resolves();
+        targetProfileAttachOrganizationSerializer.serialize.returns(serializer);
 
+        const response = await targetProfileController.attachOrganizations(request, hFake);
         // then
-        expect(response.statusCode).to.equal(204);
+        expect(targetProfileAttachOrganizationSerializer.serialize).to.have.been.called;
+        expect(response.statusCode).to.equal(200);
+        expect(response.source).to.equal(serializer);
       });
 
       it('should call usecase', async function() {
