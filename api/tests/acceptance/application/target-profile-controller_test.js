@@ -164,8 +164,8 @@ describe('Acceptance | Controller | target-profile-controller', function() {
       return knex('target-profile-shares').delete();
     });
 
-    it('should return 204', async function() {
-      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+    it('should return 200', async function() {
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();
@@ -173,7 +173,7 @@ describe('Acceptance | Controller | target-profile-controller', function() {
 
       const options = {
         method: 'POST',
-        url: `/api/admin/target-profiles/${targetProfile.id}/attach-organizations`,
+        url: `/api/admin/target-profiles/${targetProfileId}/attach-organizations`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
         payload: {
           'organization-ids': [organization1.id, organization2.id],
@@ -185,10 +185,10 @@ describe('Acceptance | Controller | target-profile-controller', function() {
 
       const rows = await knex('target-profile-shares')
         .select('organizationId')
-        .where({ targetProfileId: targetProfile.id });
+        .where({ targetProfileId: targetProfileId });
       const organizationIds = rows.map(({ organizationId }) => organizationId);
       // then
-      expect(response.statusCode).to.equal(204);
+      expect(response.statusCode).to.equal(200);
       expect(organizationIds).to.exactlyContain([organization1.id, organization2.id]);
     });
   });

@@ -4,7 +4,7 @@ const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const Skill = require('../../../../lib/domain/models/Skill');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
-const { NotFoundError, AlreadyExistingEntityError, ObjectValidationError, TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
+const { NotFoundError, ObjectValidationError, TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
 
 describe('Integration | Repository | Target-profile', function() {
   describe('#create', function() {
@@ -471,6 +471,22 @@ describe('Integration | Repository | Target-profile', function() {
       return knex('target-profile-shares').delete();
     });
 
+    it('should return attachedIds', async function() {
+      databaseBuilder.factory.buildTargetProfile({ id: 12 });
+      const organization1 = databaseBuilder.factory.buildOrganization();
+      const organization2 = databaseBuilder.factory.buildOrganization();
+
+      await databaseBuilder.commit();
+
+      const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+
+      targetProfile.addOrganizations([organization1.id, organization2.id]);
+
+      const results = await targetProfileRepository.attachOrganizations(targetProfile);
+
+      expect(results).to.deep.equal({ duplicatedIds: [], attachedIds: [organization1.id, organization2.id] });
+    });
+
     it('add organization to the target profile', async function() {
       databaseBuilder.factory.buildTargetProfile({ id: 12 });
       const organization1 = databaseBuilder.factory.buildOrganization();
@@ -495,37 +511,39 @@ describe('Integration | Repository | Target-profile', function() {
     context('when the organization does not exist', function() {
       it('throws an error', async function() {
         databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const organizationId = databaseBuilder.factory.buildOrganization().id;
+        const unknownOrganizationId = 99999;
 
         await databaseBuilder.commit();
 
         const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
 
-        targetProfile.addOrganizations([10, 12]);
+        targetProfile.addOrganizations([unknownOrganizationId, organizationId]);
 
         const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
 
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.have.string('L\'organization  avec l\'id 10 n\'existe pas');
+        expect(error.message).to.have.string(`L'organization  avec l'id ${unknownOrganizationId} n'existe pas`);
       });
     });
 
     context('when the organization is already attached', function() {
-      it('throws an error', async function() {
+      it('should return inserted organizationId', async function() {
         databaseBuilder.factory.buildTargetProfile({ id: 12 });
-        const organization = databaseBuilder.factory.buildOrganization();
+        const firstOrganization = databaseBuilder.factory.buildOrganization();
+        const secondOrganization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: organization.id });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: firstOrganization.id });
 
         await databaseBuilder.commit();
 
         const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
 
-        targetProfile.addOrganizations([organization.id]);
+        targetProfile.addOrganizations([firstOrganization.id, secondOrganization.id]);
 
-        const error = await catchErr(targetProfileRepository.attachOrganizations)(targetProfile);
+        const result = await targetProfileRepository.attachOrganizations(targetProfile);
 
-        expect(error).to.be.an.instanceOf(AlreadyExistingEntityError);
-        expect(error.message).to.have.string(`Le profil cible 12 est déjà rattaché à l’organisation ${organization.id}.`);
+        expect(result).to.deep.equal({ duplicatedIds: [firstOrganization.id], attachedIds: [secondOrganization.id] });
       });
     });
   });
@@ -569,18 +587,23 @@ describe('Integration | Repository | Target-profile', function() {
     });
 
     context('when the organization is already attached', function() {
-      it('throws an error', async function() {
-        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
-        const organizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId });
+      it('should return inserted organization', async function() {
+        const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const firstOrganization = databaseBuilder.factory.buildOrganization();
+        const secondOrganization = databaseBuilder.factory.buildOrganization();
+
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: firstOrganization.id });
+
         await databaseBuilder.commit();
 
-        const organizationIds = [organizationId];
+        await targetProfileRepository.attachOrganizationIds({ targetProfileId: targetProfile.id, organizationIds: [firstOrganization.id, secondOrganization.id] });
 
-        const error = await catchErr(targetProfileRepository.attachOrganizationIds)({ targetProfileId, organizationIds });
+        const rows = await knex('target-profile-shares')
+          .select('organizationId')
+          .where({ targetProfileId: targetProfile.id });
+        const result = rows.map(({ organizationId }) => organizationId);
 
-        expect(error).to.be.an.instanceOf(AlreadyExistingEntityError);
-        expect(error.message).to.have.string(`Le profil cible ${targetProfileId} est déjà rattaché à l’organisation ${organizationId}.`);
+        expect(result).to.deep.equal([firstOrganization.id, secondOrganization.id]);
       });
     });
   });
