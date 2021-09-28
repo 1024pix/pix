@@ -13,9 +13,9 @@ const ERROR_INPUT_MESSAGE_MAP = {
   invalidPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-password',
 };
 
-export default class UserAccountUpdateEmailWithValidation extends Component {
-
+export default class EmailWithValidationForm extends Component {
   @service intl;
+  @service store;
   @tracked newEmail = '';
   @tracked password = '';
   @tracked newEmailValidationMessage = null;
@@ -57,10 +57,12 @@ export default class UserAccountUpdateEmailWithValidation extends Component {
 
     if (this.isFormValid) {
       try {
-        await this.args.sendVerificationCode({
-          newEmail: this.newEmail,
+        const emailVerificationCode = this.store.createRecord('email-verification-code', {
           password: this.password,
+          newEmail: this.newEmail.trim().toLowerCase(),
         });
+        await emailVerificationCode.send();
+        this.args.showVerificationCode(this.newEmail);
       } catch (response) {
         const status = get(response, 'errors[0].status');
         if (status === '422') {
