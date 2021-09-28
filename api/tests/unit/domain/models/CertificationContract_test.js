@@ -160,8 +160,8 @@ describe('Unit | Domain | Models | CertificationContract', function() {
 
       it('should return true', function() {
         // given
-        const numberOfChallenges = 6;
-        const numberOfNonNeutralizedChallenges = 4;
+        const numberOfChallenges = 15;
+        const numberOfNonNeutralizedChallenges = 10;
 
         // when
         const hasEnoughNonNeutralizedChallengeToBeTrusted = CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(numberOfChallenges, numberOfNonNeutralizedChallenges);
@@ -175,8 +175,8 @@ describe('Unit | Domain | Models | CertificationContract', function() {
 
       it('should return false', function() {
         // given
-        const numberOfChallenges = 6;
-        const numberOfNonNeutralizedChallenges = 2;
+        const numberOfChallenges = 15;
+        const numberOfNonNeutralizedChallenges = 9;
 
         // when
         const hasEnoughNonNeutralizedChallengeToBeTrusted = CertificationContract.hasEnoughNonNeutralizedChallengesToBeTrusted(numberOfChallenges, numberOfNonNeutralizedChallenges);
