@@ -152,7 +152,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         organizationId: organization.id,
         userId: null,
         division: '3A',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
 
       await databaseBuilder.commit();
@@ -170,12 +170,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       );
 
       // then
-      const anySchoolingRegistration = paginatedSchoolingRegistrations.data[0];
-      expect(anySchoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
-
-      expect(anySchoolingRegistration.firstName).to.equal(schoolingRegistration.firstName);
-      expect(anySchoolingRegistration.lastName).to.equal(schoolingRegistration.lastName);
-      expect(anySchoolingRegistration.birthdate).to.deep.equal(schoolingRegistration.birthdate);
+      const expectedSchoolingRegistration = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration, organization });
+      expect(paginatedSchoolingRegistrations.data[0]).to.deepEqualInstance(expectedSchoolingRegistration);
     });
 
     it('should return all the schoolingRegistrations for a given organization ID', async function() {
@@ -185,8 +181,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
 
       const user = databaseBuilder.factory.buildUser();
 
-      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, division: '3A', updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR });
-      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, userId: user.id, division: '3A', updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR });
+      const schoolingRegistration_1 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, division: '3A', updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR) });
+      const schoolingRegistration_2 = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_1.id, userId: user.id, division: '3A', updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR) });
       databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization_2.id });
 
       await databaseBuilder.commit();
@@ -203,7 +199,9 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         });
 
       // then
-      expect(_.map(schoolingRegistrations.data, 'id')).to.have.members([schoolingRegistration_1.id, schoolingRegistration_2.id]);
+      const expectedSchoolingRegistration_1 = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration_1, organization: organization_1 });
+      const expectedSchoolingRegistration_2 = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration_2, organization: organization_1 });
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedSchoolingRegistration_1, expectedSchoolingRegistration_2]);
     });
 
     it('should order schoolingRegistrations by division and last name and then first name with no sensitive case', async function() {
@@ -213,40 +211,40 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistration3B = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: '3b',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
       const schoolingRegistration3ABA = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: '3A',
         lastName: 'B',
         firstName: 'A',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
       const schoolingRegistration3ABB = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: '3A',
         lastName: 'B',
         firstName: 'B',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
       const schoolingRegistrationT2 = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: 'T2',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
       const schoolingRegistrationT1CB = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: 't1',
         lastName: 'C',
         firstName: 'B',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
       const schoolingRegistrationT1CA = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: 't1',
         lastName: 'C',
         firstName: 'A',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
 
       await databaseBuilder.commit();
@@ -264,13 +262,19 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       );
 
       // then
-      expect(_.map(schoolingRegistrations.data, 'id')).to.deep.include.ordered.members([
-        schoolingRegistration3ABA.id,
-        schoolingRegistration3ABB.id,
-        schoolingRegistration3B.id,
-        schoolingRegistrationT1CA.id,
-        schoolingRegistrationT1CB.id,
-        schoolingRegistrationT2.id,
+      const expectedSchoolingRegistration3ABA = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration3ABA, organization });
+      const expectedSchoolingRegistration3ABB = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration3ABB, organization });
+      const expectedSchoolingRegistration3B = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration3B, organization });
+      const expectedSchoolingRegistrationT1CA = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistrationT1CA, organization });
+      const expectedSchoolingRegistrationT1CB = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistrationT1CB, organization });
+      const expectedSchoolingRegistrationT2 = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistrationT2, organization });
+      expect(schoolingRegistrations.data).to.deepEqualArray([
+        expectedSchoolingRegistration3ABA,
+        expectedSchoolingRegistration3ABB,
+        expectedSchoolingRegistration3B,
+        expectedSchoolingRegistrationT1CA,
+        expectedSchoolingRegistrationT1CB,
+        expectedSchoolingRegistrationT2,
       ]);
     });
 
@@ -281,7 +285,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       const schoolingRegistration3B = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: '3b',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
 
       databaseBuilder.factory.buildSchoolingRegistration({
@@ -289,7 +293,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
         division: '3A',
         lastName: 'B',
         firstName: 'A',
-        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+        updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR),
       });
 
       await databaseBuilder.commit();
@@ -307,20 +311,19 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       );
 
       // then
-      expect(_.map(schoolingRegistrations.data, 'id')).to.deep.include.ordered.members([
-        schoolingRegistration3B.id,
-      ]);
+      const expectedSchoolingRegistrationInPage1 = domainBuilder.buildSchoolingRegistration({ ...schoolingRegistration3B, organization });
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedSchoolingRegistrationInPage1]);
     });
 
     it('should filter out students registered after August 15, 2020', async function() {
       // given
-      const organizationId = databaseBuilder.factory.buildOrganization().id;
+      const organization = databaseBuilder.factory.buildOrganization();
 
       const beforeTheDate = new Date('2020-08-14T10:00:00Z');
       const afterTheDate = new Date('2020-08-16T10:00:00Z');
-      databaseBuilder.factory.buildSchoolingRegistration({ organizationId, updatedAt: beforeTheDate });
+      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, updatedAt: beforeTheDate });
       const earlierSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration(
-        { organizationId, updatedAt: afterTheDate },
+        { organizationId: organization.id, updatedAt: afterTheDate },
       );
 
       await databaseBuilder.commit();
@@ -328,7 +331,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       // when
       const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
         {
-          organizationId,
+          organizationId: organization.id,
           page: {
             size: 10,
             number: 1,
@@ -338,8 +341,8 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       );
 
       // then
-      expect(schoolingRegistrations.data, 'id').to.have.length(1);
-      expect(schoolingRegistrations.data[0].id).to.equal(earlierSchoolingRegistration.id);
+      const expectedEarlierSchoolingRegistration = domainBuilder.buildSchoolingRegistration({ ...earlierSchoolingRegistration, organization });
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedEarlierSchoolingRegistration]);
     });
   });
 
