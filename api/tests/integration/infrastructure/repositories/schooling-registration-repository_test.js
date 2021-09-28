@@ -204,6 +204,31 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
       expect(schoolingRegistrations.data).to.deepEqualArray([expectedSchoolingRegistration_1, expectedSchoolingRegistration_2]);
     });
 
+    it('should not return disabled schoolingRegistrations for a given organization ID', async function() {
+      // given
+      const organization = databaseBuilder.factory.buildOrganization();
+      const user = databaseBuilder.factory.buildUser();
+      const notDisabledSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: false, organizationId: organization.id, division: '3A', updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR) });
+      databaseBuilder.factory.buildSchoolingRegistration({ isDisabled: true, organizationId: organization.id, userId: user.id, division: '3A', updatedAt: new Date(AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR) });
+
+      await databaseBuilder.commit();
+
+      // when
+      const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndUpdatedAtOrderByDivision(
+        {
+          organizationId: organization.id,
+          page: {
+            size: 10,
+            number: 1,
+          },
+          filter: { divisions: ['3A'] },
+        });
+
+      // then
+      const expectedNotDisabledSchoolingRegistration = domainBuilder.buildSchoolingRegistration({ ...notDisabledSchoolingRegistration, organization });
+      expect(schoolingRegistrations.data).to.deepEqualArray([expectedNotDisabledSchoolingRegistration]);
+    });
+
     it('should order schoolingRegistrations by division and last name and then first name with no sensitive case', async function() {
       // given
       const organization = databaseBuilder.factory.buildOrganization();

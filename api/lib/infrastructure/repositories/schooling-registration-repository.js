@@ -85,6 +85,7 @@ module.exports = {
       .where((qb) => {
         qb.where({ organizationId });
         qb.where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR);
+        qb.where('isDisabled', false);
       })
       .query((qb) => {
         qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC');
