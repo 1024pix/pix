@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/target-profiles/target-profile | insight', function (hooks) {
+module('Integration | Component | routes/authenticated/target-profiles/target-profile | Insights', function (hooks) {
   setupRenderingTest(hooks);
 
   module('section rendering', function (hooks) {
@@ -20,7 +20,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       this.set('model', model);
 
       // when
-      await render(hbs`<TargetProfiles::Insight @model={{this.model}}/>`);
+      await render(hbs`<TargetProfiles::Insights @model={{this.model}}/>`);
 
       // then
       assert.contains('Résultats thématiques');
@@ -32,7 +32,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       this.set('model', model);
 
       // when
-      await render(hbs`<TargetProfiles::Insight @model={{this.model}}/>`);
+      await render(hbs`<TargetProfiles::Insights @model={{this.model}}/>`);
 
       // then
       assert.contains('Paliers');

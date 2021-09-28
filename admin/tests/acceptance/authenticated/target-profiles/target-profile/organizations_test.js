@@ -2,9 +2,9 @@ import { visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
-import { createAuthenticateSession } from '../../../helpers/test-init';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
+import clickByLabel from 'pix-admin/tests/helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from 'pix-admin/tests/helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | Target Profiles | Target Profile | Organizations', function (hooks) {
   setupApplicationTest(hooks);
