@@ -70,46 +70,69 @@ describe('Acceptance | user-account | connection-methods', function() {
       // then
       expect(contains(this.intl.t('pages.user-account.connexion-methods.username'))).to.not.exist;
     });
+
   });
 
-  context('email validation is toggled off', function() {
-    it('should be able to edit the email using the old form', async function() {
+  context('email editing', function() {
+
+    it('should reset email editing process when changing page', async function() {
       // given
       const user = server.create('user', 'withEmail');
       await authenticateByEmail(user);
-      const newEmail = 'new-email@example.net';
       await visit('/mon-compte/methodes-de-connexion');
+      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
 
       // when
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), user.password);
-      await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
+      await visit('/mon-compte/informations-personnelles');
+      await visit('/mon-compte/methodes-de-connexion');
 
       // then
-      expect(user.email).to.equal(newEmail);
+      expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
     });
-  });
 
-  context('email validation is toggled on', function() {
-    it('should be able to edit the email using the new form and see the verification code page', async function() {
-      // given
-      const user = server.create('user', 'withEmail');
-      server.create('feature-toggle', { id: 0, isEmailValidationEnabled: true });
-      await authenticateByEmail(user);
-      const newEmail = 'new-email@example.net';
-      await visit('/mon-compte/methodes-de-connexion');
+    context('email validation is toggled off', function() {
 
-      // when
-      await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
-      await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), user.password);
-      await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
+      it('should be able to edit the email using the old form', async function() {
+        // given
+        const user = server.create('user', 'withEmail');
+        await authenticateByEmail(user);
+        const newEmail = 'new-email@example.net';
+        await visit('/mon-compte/methodes-de-connexion');
 
-      // then
-      expect(contains(this.intl.t('pages.email-verification.description'))).to.exist;
-      expect(contains(newEmail)).to.exist;
+        // when
+        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.new-email-confirmation.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email.fields.password.label'), user.password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email.save-button'));
+
+        // then
+        expect(user.email).to.equal(newEmail);
+      });
+
+    });
+
+    context('email validation is toggled on', function() {
+
+      it('should be able to edit the email using the new form and see the verification code page', async function() {
+        // given
+        const user = server.create('user', 'withEmail');
+        server.create('feature-toggle', { id: 0, isEmailValidationEnabled: true });
+        await authenticateByEmail(user);
+        const newEmail = 'new-email@example.net';
+        await visit('/mon-compte/methodes-de-connexion');
+
+        // when
+        await clickByLabel(this.intl.t('pages.user-account.connexion-methods.edit-button'));
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
+        await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), user.password);
+        await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
+
+        // then
+        expect(contains(this.intl.t('pages.email-verification.description'))).to.exist;
+        expect(contains(newEmail)).to.exist;
+      });
+
     });
   });
 });
