@@ -17,9 +17,31 @@ export default class Organizations extends Component {
     e.preventDefault();
     const targetProfile = this.args.targetProfile;
     try {
-      await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
+      const response = await targetProfile.attachOrganizations({ 'organization-ids': this._getUniqueOrganizations() });
+
+      const { 'attached-ids': attachedIds, 'duplicated-ids': duplicatedIds } = response.data.attributes;
+
       this.organizationsToAttach = null;
-      await this.notifications.success('Organisation(s) rattaché(es) avec succès.');
+      const hasInsertedOrganizations = attachedIds.length > 0;
+      const hasDuplicatedOrgnizations = duplicatedIds.length > 0;
+      const message = [];
+
+      if (hasInsertedOrganizations) {
+        message.push('Organisation(s) rattaché(es) avec succès.');
+      }
+
+      if (hasInsertedOrganizations && hasDuplicatedOrgnizations) {
+        message.push('<br/>');
+      }
+
+      if (hasDuplicatedOrgnizations) {
+        message.push(
+          `Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : ${duplicatedIds.join(', ')}`
+        );
+      }
+
+      await this.notifications.success(message.join(''), { htmlContent: true });
+
       return this.router.replaceWith('authenticated.target-profiles.target-profile.organizations');
     } catch (responseError) {
       this._handleResponseError(responseError);
