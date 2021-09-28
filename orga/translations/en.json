@@ -248,11 +248,11 @@
         "title": "List of participants"
       },
       "status": {
-        "started-assessment": "In progress",
-        "completed-assessment": "Pending results",
-        "shared-assessment": "Submitted results",
-        "completed-profile": "Pending profile",
-        "shared-profile": "Submitted profile"
+        "STARTED-assessment": "In progress",
+        "TO_SHARE-assessment": "Pending results",
+        "SHARED-assessment": "Submitted results",
+        "TO_SHARE-profile": "Pending profile",
+        "SHARED-profile": "Submitted profile"
       }
     },
     "campaign-creation": {

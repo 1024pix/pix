@@ -1,8 +1,9 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const campaignParticipantActivityRepository = require('../../../../lib/infrastructure/repositories/campaign-participant-activity-repository');
-const Assessment = require('../../../../lib/domain/models/Assessment');
-const CampaignParticipantActivity = require('../../../../lib/domain/read-models/CampaignParticipantActivity');
+const CampaignParticipation = require('../../../../lib/domain/models/CampaignParticipation');
 const Campaign = require('../../../../lib/domain/models/Campaign');
+
+const { STARTED, SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
 describe('Integration | Repository | Campaign Participant activity', function() {
 
@@ -81,23 +82,9 @@ describe('Integration | Repository | Campaign Participant activity', function() 
         beforeEach(async function() {
           campaign = databaseBuilder.factory.buildAssessmentCampaign({});
           const user = databaseBuilder.factory.buildUser();
-          const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          databaseBuilder.factory.buildCampaignParticipation({
             campaignId: campaign.id,
             isShared: false,
-            userId: user.id,
-          });
-
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: campaignParticipation.id,
-            createdAt: new Date(2020, 1, 1),
-            state: Assessment.states.COMPLETED,
-            userId: user.id,
-          });
-
-          databaseBuilder.factory.buildAssessment({
-            campaignParticipationId: campaignParticipation.id,
-            createdAt: new Date(2020, 1, 2),
-            state: Assessment.states.STARTED,
             userId: user.id,
           });
 
@@ -109,7 +96,7 @@ describe('Integration | Repository | Campaign Participant activity', function() 
           const statuses = campaignParticipantsActivities.map((activity) => activity.status);
 
           expect(statuses).to.have.lengthOf(1);
-          expect(statuses).to.exactlyContain([CampaignParticipantActivity.statuses.STARTED]);
+          expect(statuses).to.exactlyContain([STARTED]);
         });
       });
     });
@@ -122,18 +109,18 @@ describe('Integration | Repository | Campaign Participant activity', function() 
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-          expect(campaignParticipantsActivities[0].status).to.equal(CampaignParticipantActivity.statuses.SHARED);
+          expect(campaignParticipantsActivities[0].status).to.equal(SHARED);
         });
       });
 
       context('when the participation is not shared', function() {
-        it('should return status completed', async function() {
+        it('should return status to share', async function() {
           campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, isShared: false });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, isShared: false, status: TO_SHARE });
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id });
-          expect(campaignParticipantsActivities[0].status).to.equal(CampaignParticipantActivity.statuses.COMPLETED);
+          expect(campaignParticipantsActivities[0].status).to.equal(TO_SHARE);
         });
       });
     });
@@ -176,12 +163,13 @@ describe('Integration | Repository | Campaign Participant activity', function() 
         await databaseBuilder.commit();
 
         // when
-        const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, filters: { divisions: ['Good Guys Team', 'Ugly Guys Team'] } });
+        const { campaignParticipantsActivities, pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, filters: { divisions: ['Good Guys Team', 'Ugly Guys Team'] } });
 
         const participantExternalIds = campaignParticipantsActivities.map((result) => result.participantExternalId);
 
         // then
         expect(participantExternalIds).to.exactlyContain(['The good', 'The ugly']);
+        expect(pagination.rowCount).to.equal(2);
       });
     });
 
@@ -198,12 +186,13 @@ describe('Integration | Repository | Campaign Participant activity', function() 
         await databaseBuilder.commit();
 
         // when
-        const { campaignParticipantsActivities } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, filters: { status: 'STARTED' } });
+        const { campaignParticipantsActivities, pagination } = await campaignParticipantActivityRepository.findPaginatedByCampaignId({ campaignId: campaign.id, filters: { status: 'STARTED' } });
 
         const participantExternalIds = campaignParticipantsActivities.map((result) => result.participantExternalId);
 
         // then
         expect(participantExternalIds).to.exactlyContain(['The good']);
+        expect(pagination.rowCount).to.equal(1);
       });
     });
 

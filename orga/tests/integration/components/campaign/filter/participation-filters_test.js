@@ -105,6 +105,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
+        type: 'ASSESSMENT',
         stages: [],
       });
 
@@ -127,6 +128,7 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
       const campaign = store.createRecord('campaign', {
         id: 1,
         name: 'campagne 1',
+        type: 'ASSESSMENT',
         stages: [],
       });
 
@@ -141,6 +143,52 @@ module('Integration | Component | Campaign::Filter::ParticipationFilters', funct
 
       // then
       assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, 'STARTED');
+    });
+
+    test('it should display 3 statuses for assessment campaign', async function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        type: 'ASSESSMENT',
+        stages: [],
+      });
+
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      await render(
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+      );
+
+      // then
+      const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
+      assert.deepEqual(values, ['', 'STARTED', 'TO_SHARE', 'SHARED']);
+    });
+
+    test('it should display 2 statuses for profiles collection campaign', async function (assert) {
+      // given
+      const campaign = store.createRecord('campaign', {
+        id: 1,
+        name: 'campagne 1',
+        type: 'PROFILES_COLLECTION',
+        stages: [],
+      });
+
+      const triggerFiltering = sinon.stub();
+      this.set('campaign', campaign);
+      this.set('triggerFiltering', triggerFiltering);
+
+      // when
+      await render(
+        hbs`<Campaign::Filter::ParticipationFilters @campaign={{campaign}} @onFilter={{triggerFiltering}}/>`
+      );
+
+      // then
+      const values = Array.from(find('[aria-label="Statut"]').options).map((option) => option.value);
+      assert.deepEqual(values, ['', 'TO_SHARE', 'SHARED']);
     });
   });
 
