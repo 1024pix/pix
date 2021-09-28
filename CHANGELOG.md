@@ -1,5 +1,20 @@
 # Pix Changelog
 
+## v3.106.0 (28/09/2021)
+
+- [#3502](https://github.com/1024pix/pix/pull/3502) [FEATURE] Permettre la suppression du commentaire jury d'une session (PIX-3150)
+- [#3484](https://github.com/1024pix/pix/pull/3484) [FEATURE] Pouvoir passer un assessment FLASH (PIX-2779).
+- [#3505](https://github.com/1024pix/pix/pull/3505) [FEATURE] Page de vérification de code pour un changement d'adresse e-mail (PIX-2892).
+- [#3520](https://github.com/1024pix/pix/pull/3520) [FEATURE] Permettre la création de résultat thématique depuis Pix Admin 1/2 (PIX-3480).
+- [#3525](https://github.com/1024pix/pix/pull/3525) [BUGFIX] Améliorer le style de la tooltip d'explication du score Pix (PIX-3482).
+- [#3518](https://github.com/1024pix/pix/pull/3518) [BUGFIX] Retirer la vérification de la ville de naissance lors de l'ajout d'un candidat SCO à une session de certification (PIX-3500)
+- [#3519](https://github.com/1024pix/pix/pull/3519) [BUGFIX] Gérer un cas d'erreur lors d'un accès à une campagne SCO sur Pix App (PIX-3191).
+- [#3531](https://github.com/1024pix/pix/pull/3531) [TECH] Refacto des méthodes de connexion de PixApp (PIX-3503).
+- [#3524](https://github.com/1024pix/pix/pull/3524) [TECH] Mettre à jour Ember Simple Auth en 4.0.0 sur Pix App.
+- [#3239](https://github.com/1024pix/pix/pull/3239) [TECH] Nommer les conteneurs Docker locaux.
+- [#3494](https://github.com/1024pix/pix/pull/3494) [TECH] Formatage des fichiers de pix-orga avec Prettier.
+- [#3516](https://github.com/1024pix/pix/pull/3516) [TECH] Remplace le userId par me dans l'url certification-point-of-contacts (pix-3495)
+
 ## v3.105.0 (24/09/2021)
 
 - [#3508](https://github.com/1024pix/pix/pull/3508) [FEATURE] Afficher le statut d'un profil cible dans la liste des profils cibles dans Pix Admin (Pix-3475).
