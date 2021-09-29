@@ -2,17 +2,17 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/target-profiles/new', function(hooks) {
+module('Unit | Controller | authenticated/target-profiles/new', function (hooks) {
   setupTest(hooks);
 
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/target-profiles/new');
   });
 
-  module('#goBackToTargetProfileList', function() {
-    test('should delete record and go back target profile list page', async function(assert) {
+  module('#goBackToTargetProfileList', function () {
+    test('should delete record and go back target profile list page', async function (assert) {
       controller.store.deleteRecord = sinon.stub();
       controller.transitionToRoute = sinon.stub();
       controller.model = Symbol('targetProfile');
@@ -24,12 +24,12 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
     });
   });
 
-  module('#saveFileObject', function(hooks) {
-    hooks.beforeEach(function() {
+  module('#saveFileObject', function (hooks) {
+    hooks.beforeEach(function () {
       sinon.restore();
     });
 
-    test('should read the file', async function(assert) {
+    test('should read the file', async function (assert) {
       const event = {
         target: {
           files: [Symbol('myFile')],
@@ -43,7 +43,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
       assert.ok(FileReader.prototype.readAsText.calledWith(event.target.files[0]));
     });
 
-    test('should parse the file', async function(assert) {
+    test('should parse the file', async function (assert) {
       controller.model = {};
       const event = {
         target: {
@@ -54,7 +54,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
 
       let onLoadFunction;
       sinon.stub(FileReader.prototype, 'readAsText');
-      sinon.stub(FileReader.prototype, 'onload').set(function(onload) {
+      sinon.stub(FileReader.prototype, 'onload').set(function (onload) {
         onLoadFunction = onload;
       });
 
@@ -65,7 +65,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
       assert.deepEqual(controller.model.skillsId, ['skill1', 'skill2']);
       assert.false(controller.isFileInvalid);
     });
-    test('should cannot parse the file', async function(assert) {
+    test('should cannot parse the file', async function (assert) {
       controller.model = {};
       const event = {
         target: {
@@ -76,7 +76,7 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
 
       let onLoadFunction;
       sinon.stub(FileReader.prototype, 'readAsText');
-      sinon.stub(FileReader.prototype, 'onload').set(function(onload) {
+      sinon.stub(FileReader.prototype, 'onload').set(function (onload) {
         onLoadFunction = onload;
       });
 
@@ -86,11 +86,10 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
 
       assert.true(controller.isFileInvalid);
     });
-
   });
 
-  module('#createTargetProfile', function() {
-    test('it should save model', async function(assert) {
+  module('#createTargetProfile', function () {
+    test('it should save model', async function (assert) {
       controller.model = {
         id: 3,
         save: sinon.stub(),
@@ -115,10 +114,12 @@ module('Unit | Controller | authenticated/target-profiles/new', function(hooks) 
       assert.ok(event.preventDefault.called);
       assert.ok(controller.model.save.called);
       assert.ok(controller.notifications.success.calledWith('Le profil cible a été créé avec succès.'));
-      assert.ok(controller.transitionToRoute.calledWith('authenticated.target-profiles.target-profile', controller.model.id));
+      assert.ok(
+        controller.transitionToRoute.calledWith('authenticated.target-profiles.target-profile', controller.model.id)
+      );
     });
 
-    test('it should display notification Error when model cannot be saved', async function(assert) {
+    test('it should display notification Error when model cannot be saved', async function (assert) {
       controller.model = {
         save: sinon.stub(),
       };

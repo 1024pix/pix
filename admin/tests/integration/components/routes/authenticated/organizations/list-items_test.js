@@ -3,18 +3,17 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/organizations | list-items', function(hooks) {
-
+module('Integration | Component | routes/authenticated/organizations | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function() {
-    const triggerFiltering = function() {};
+  hooks.beforeEach(async function () {
+    const triggerFiltering = function () {};
     this.triggerFiltering = triggerFiltering;
   });
 
-  test('it should display header with id, name, type and externalId', async function(assert) {
+  test('it should display header with id, name, type and externalId', async function (assert) {
     // when
-    await render(hbs `<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table thead tr:first-child th:first-child').hasText('ID');
@@ -23,9 +22,9 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     assert.dom('table thead tr:first-child th:nth-child(4)').hasText('Identifiant externe');
   });
 
-  test('if should display search inputs', async function(assert) {
+  test('if should display search inputs', async function (assert) {
     // when
-    await render(hbs `<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<Organizations::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table thead tr:nth-child(2) input#id').exists();
@@ -34,7 +33,7 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     assert.dom('table thead tr:nth-child(2) input#externalId').exists();
   });
 
-  test('it should display organization list', async function(assert) {
+  test('it should display organization list', async function (assert) {
     // given
     const externalId = '1234567A';
     const organizations = [
@@ -48,7 +47,9 @@ module('Integration | Component | routes/authenticated/organizations | list-item
     this.organizations = organizations;
 
     // when
-    await render(hbs `<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(
+      hbs`<Organizations::ListItems @organizations={{this.organizations}} @triggerFiltering={{this.triggerFiltering}} />`
+    );
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');

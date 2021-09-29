@@ -26,8 +26,7 @@ export default class IndexController extends Controller {
   get isCurrentUserAssignedToSession() {
     const currentUserId = this.currentUser.user.get('id');
     const assignedCertificationOfficerId = this.sessionModel.assignedCertificationOfficer.get('id');
-    return assignedCertificationOfficerId != null
-      && currentUserId === assignedCertificationOfficerId;
+    return assignedCertificationOfficerId != null && currentUserId === assignedCertificationOfficerId;
   }
 
   get isAssigned() {
@@ -75,7 +74,7 @@ export default class IndexController extends Controller {
     try {
       await this.sessionModel.comment({ 'jury-comment': comment });
     } catch (error) {
-      this.notifications.error('Une erreur est survenue pendant l\'enregistrement du commentaire. ');
+      this.notifications.error("Une erreur est survenue pendant l'enregistrement du commentaire. ");
     }
   }
 
@@ -109,7 +108,7 @@ export default class IndexController extends Controller {
       await this.sessionModel.save({ adapterOptions: { certificationOfficerAssignment: true } });
       this.notifications.success('La session vous a correctement été assignée');
     } catch (err) {
-      this.notifications.error('Erreur lors de l\'assignation à la session');
+      this.notifications.error("Erreur lors de l'assignation à la session");
     }
     this.isShowingAssignmentModal = false;
   }

@@ -3,11 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/target-profiles/target-profile | insight', function(hooks) {
-
+module('Integration | Component | routes/authenticated/target-profiles/target-profile | insight', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('section rendering', function(hooks) {
+  module('section rendering', function (hooks) {
     let model;
     hooks.beforeEach(() => {
       model = {
@@ -16,7 +15,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       };
     });
 
-    test('it should display the badges title and an empty list', async function(assert) {
+    test('it should display the badges title and an empty list', async function (assert) {
       // given
       this.set('model', model);
 
@@ -28,7 +27,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
       assert.contains('Aucun résultat thématique associé');
     });
 
-    test('it should display the stages title and an empty list', async function(assert) {
+    test('it should display the stages title and an empty list', async function (assert) {
       // given
       this.set('model', model);
 

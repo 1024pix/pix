@@ -3,7 +3,6 @@ import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 
 export default class CertificationCenterForm extends Component {
-
   certificationCenterTypes = [
     { value: 'PRO', label: 'Organisation professionnelle' },
     { value: 'SCO', label: 'Établissement scolaire' },

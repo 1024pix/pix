@@ -5,8 +5,7 @@ import { getSettledState, settled } from '@ember/test-helpers';
 
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/certifications/certification/informations', function(hooks) {
-
+module('Unit | Controller | authenticated/certifications/certification/informations', function (hooks) {
   setupTest(hooks);
 
   const createCompetence = (code, score, level) => {
@@ -17,12 +16,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     };
   };
 
-  const createMark = ({
-    competence_code,
-    score,
-    level,
-    competenceId,
-  }) => {
+  const createMark = ({ competence_code, score, level, competenceId }) => {
     return {
       competence_code,
       level,
@@ -47,7 +41,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/certifications/certification/informations');
     controller.model = {
       certification: EmberObject.create({
@@ -57,7 +51,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#hasImpactfulIssueReports', () => {
-    test('it should return true when there are some issue reports with required action', async function(assert) {
+    test('it should return true when there are some issue reports with required action', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -76,7 +70,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.true(controller.hasImpactfulIssueReports);
     });
 
-    test('it should return false when there are no issue reports with required action', async function(assert) {
+    test('it should return false when there are no issue reports with required action', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: false }),
@@ -96,7 +90,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#hasUnimpactfulIssueReports', () => {
-    test('it should return true when there are some issue reports without required action', async function(assert) {
+    test('it should return true when there are some issue reports without required action', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: false }),
@@ -114,7 +108,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.true(controller.hasUnimpactfulIssueReports);
     });
 
-    test('it should return false when there are no issue reports without required action', async function(assert) {
+    test('it should return false when there are no issue reports without required action', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -134,7 +128,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#hasIssueReports', () => {
-    test('it should return true when there are some issue reports', async function(assert) {
+    test('it should return true when there are some issue reports', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -152,7 +146,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.true(controller.hasIssueReports);
     });
 
-    test('it should return false when there are no issue reports', async function(assert) {
+    test('it should return false when there are no issue reports', async function (assert) {
       // given
       const certificationIssueReports = [];
       controller.model = {
@@ -166,9 +160,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  module('#isCertificationCancelled', function() {
-
-    test('should return true when certification status is cancelled', function(assert) {
+  module('#isCertificationCancelled', function () {
+    test('should return true when certification status is cancelled', function (assert) {
       // given
       controller.model = {
         certification: EmberObject.create({
@@ -182,7 +175,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#impactfulCertificationIssueReports', () => {
-    test('it should return certification issue reports with action required', async function(assert) {
+    test('it should return certification issue reports with action required', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -202,7 +195,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#unimpactfulCertificationIssueReports', () => {
-    test('it should return certification issue reports without action required', async function(assert) {
+    test('it should return certification issue reports without action required', async function (assert) {
       // given
       const certificationIssueReports = [
         EmberObject.create({ isImpactful: true }),
@@ -223,10 +216,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onUpdateScore', () => {
-
-    module('when there is a given score', function() {
-
-      test('it replaces competence score correctly', async function(assert) {
+    module('when there is a given score', function () {
+      test('it replaces competence score correctly', async function (assert) {
         // When
         await controller.onUpdateScore(anExistingCompetenceCode, '55');
 
@@ -237,9 +228,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when there is no given score and competence has no level', function() {
-
-      test('it removes competence correctly (score)', async function(assert) {
+    module('when there is no given score and competence has no level', function () {
+      test('it removes competence correctly (score)', async function (assert) {
         // When
         await controller.onUpdateScore(anExistingCompetenceWithNoLevelCode, '');
 
@@ -251,9 +241,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when the competence is not present', function() {
-
-      test('it creates competence score correctly', async function(assert) {
+    module('when the competence is not present', function () {
+      test('it creates competence score correctly', async function (assert) {
         // When
         await controller.onUpdateScore(aNewCompetenceCode, '55');
 
@@ -266,10 +255,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onUpdateLevel', () => {
-
-    module('when there is a given level', function() {
-
-      test('it replaces competence level correctly', async function(assert) {
+    module('when there is a given level', function () {
+      test('it replaces competence level correctly', async function (assert) {
         // When
         await controller.onUpdateLevel(anExistingCompetenceCode, '5');
 
@@ -280,9 +267,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when there is no given level and competence has no score', function() {
-
-      test('it removes competence correctly (level)', async function(assert) {
+    module('when there is no given level and competence has no score', function () {
+      test('it removes competence correctly (level)', async function (assert) {
         // When
         await controller.onUpdateLevel(anExistingCompetenceWithNoScoreCode, '');
 
@@ -294,9 +280,8 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       });
     });
 
-    module('when the competence is not present', function() {
-
-      test('it creates competence level correctly', async function(assert) {
+    module('when the competence is not present', function () {
+      test('it creates competence level correctly', async function (assert) {
         // When
         await controller.onUpdateLevel(aNewCompetenceCode, '8');
 
@@ -309,7 +294,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCandidateResultsSave', () => {
-    test('it saves competences info when save is sent', async function(assert) {
+    test('it saves competences info when save is sent', async function (assert) {
       // given
       const save = sinon.stub().resolves();
       const store = this.owner.lookup('service:store');
@@ -331,7 +316,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   module('#onCandidateResultsSaveConfirm', () => {
     module('when there are no error', () => {
-      test('should get no error and enable confirm dialog', async function(assert) {
+      test('should get no error and enable confirm dialog', async function (assert) {
         // when
         await controller.onCandidateResultsSaveConfirm();
 
@@ -344,21 +329,18 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when there are errors', () => {
-      test('should get errors and enable confirm dialog', async function(assert) {
+      test('should get errors and enable confirm dialog', async function (assert) {
         // given
-        controller.certification.competencesWithMark.addObject(
-          {
-            competence_code: anExistingCompetenceCode,
-            level: controller.MAX_REACHABLE_LEVEL + 1,
-            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE,
-          });
-        controller.certification.competencesWithMark.addObject(
-          {
-            competence_code: anotherExistingCompetenceCode,
-            level: controller.MAX_REACHABLE_LEVEL,
-            score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1,
-          },
-        );
+        controller.certification.competencesWithMark.addObject({
+          competence_code: anExistingCompetenceCode,
+          level: controller.MAX_REACHABLE_LEVEL + 1,
+          score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE,
+        });
+        controller.certification.competencesWithMark.addObject({
+          competence_code: anotherExistingCompetenceCode,
+          level: controller.MAX_REACHABLE_LEVEL,
+          score: controller.MAX_REACHABLE_PIX_BY_COMPETENCE + 1,
+        });
 
         // when
         await controller.onCandidateResultsSaveConfirm();
@@ -377,7 +359,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
 
   module('#onCheckMarks', () => {
     module('when there is no mark', () => {
-      test('should not set competencesWithMark', async function(assert) {
+      test('should not set competencesWithMark', async function (assert) {
         // when
         await controller.onCheckMarks();
         // then
@@ -386,7 +368,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
 
     module('when there are marks', () => {
-      test('should set competencesWithMark', async function(assert) {
+      test('should set competencesWithMark', async function (assert) {
         // given
         const score = 100;
         const anExistingCompetence = _getCompetenceWithMark(anExistingCompetenceCode);
@@ -439,7 +421,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
   });
 
   module('#onCandidateInformationSave', () => {
-    test('it closes the modal', async function(assert) {
+    test('it closes the modal', async function (assert) {
       // given
       controller.saveCertificationCourse = sinon.stub().resolves();
       controller.isCandidateEditModalOpen = true;
@@ -451,7 +433,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
       assert.false(controller.isCandidateEditModalOpen);
     });
 
-    test('it saves candidates infos', async function(assert) {
+    test('it saves candidates infos', async function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const certification = store.createRecord('certification', { competencesWithMark });
@@ -467,7 +449,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     });
   });
 
-  test('it restores competences when cancel is sent', async function(assert) {
+  test('it restores competences when cancel is sent', async function (assert) {
     // given
     const rollbackAttributes = sinon.stub().resolves();
     controller.certification.rollbackAttributes = rollbackAttributes;
@@ -479,7 +461,7 @@ module('Unit | Controller | authenticated/certifications/certification/informati
     await controller.onUpdateScore(anotherExistingCompetenceCode, '');
 
     // when
-    await controller.onCandidateResultsCancel() ;
+    await controller.onCandidateResultsCancel();
 
     // then
     const competences = controller.certification.competencesWithMark;

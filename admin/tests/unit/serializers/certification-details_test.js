@@ -3,10 +3,10 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import Service from '@ember/service';
 
-module('Unit | Serializer | certification details', function(hooks) {
+module('Unit | Serializer | certification details', function (hooks) {
   setupTest(hooks);
 
-  test('it serializes records', function(assert) {
+  test('it serializes records', function (assert) {
     class FeatureTogglesMock extends Service {
       featureToggles = {};
     }

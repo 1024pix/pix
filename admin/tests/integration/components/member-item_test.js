@@ -7,15 +7,15 @@ import EmberObject from '@ember/object';
 import sinon from 'sinon';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | member-item', function(hooks) {
+module('Integration | Component | member-item', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     const user = EmberObject.create({ firstName: 'Jojo', lastName: 'La Gringue', email: 'jojo@lagringue.fr' });
     this.membership = EmberObject.create({ id: 1, user, displayedOrganizationRole: 'Administrateur' });
   });
 
-  test('it should display a member', async function(assert) {
+  test('it should display a member', async function (assert) {
     // when
     await render(hbs`<MemberItem @membership={{this.membership}} />`);
 
@@ -29,9 +29,8 @@ module('Integration | Component | member-item', function(hooks) {
     assert.contains('Désactiver');
   });
 
-  module('when editing organization\'s role', function(hooks) {
-
-    hooks.beforeEach(async function() {
+  module("when editing organization's role", function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       this.updateMembership = sinon.spy();
 
@@ -40,13 +39,13 @@ module('Integration | Component | member-item', function(hooks) {
       await clickByLabel('Modifier le rôle');
     });
 
-    test('it should display save and cancel button', async function(assert) {
+    test('it should display save and cancel button', async function (assert) {
       // then
       assert.contains('Enregistrer');
       assert.dom('button[aria-label="Annuler"]');
     });
 
-    test('it should display the options when select is open', async function(assert) {
+    test('it should display the options when select is open', async function (assert) {
       // when
       await click('.ember-power-select-trigger');
 
@@ -55,7 +54,7 @@ module('Integration | Component | member-item', function(hooks) {
       assert.contains('Administrateur');
     });
 
-    test('it should update role on save', async function(assert) {
+    test('it should update role on save', async function (assert) {
       // when
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByLabel('Enregistrer');
@@ -66,7 +65,7 @@ module('Integration | Component | member-item', function(hooks) {
       assert.ok(this.updateMembership.called);
     });
 
-    test('it should not update role on cancel', async function(assert) {
+    test('it should not update role on cancel', async function (assert) {
       // when
       await selectChoose('[data-test-id="editable-cell"]', 'Membre');
       await clickByLabel('Annuler');
@@ -78,9 +77,8 @@ module('Integration | Component | member-item', function(hooks) {
     });
   });
 
-  module('when deactivating membership', function(hooks) {
-
-    hooks.beforeEach(async function() {
+  module('when deactivating membership', function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       this.disableMembership = sinon.spy();
       // when
@@ -88,14 +86,14 @@ module('Integration | Component | member-item', function(hooks) {
       await clickByLabel('Désactiver');
     });
 
-    test('should open confirm modal', function(assert) {
+    test('should open confirm modal', function (assert) {
       // then
       assert.dom('.modal-dialog').exists();
-      assert.contains('Désactivation d\'un membre');
+      assert.contains("Désactivation d'un membre");
       assert.contains('Etes-vous sûr de vouloir désactiver ce membre de cette équipe ?');
     });
 
-    test('should close confirm modal on click on cancel', async function(assert) {
+    test('should close confirm modal on click on cancel', async function (assert) {
       // when
       await click('.modal-footer > button.btn-secondary');
 
@@ -103,7 +101,7 @@ module('Integration | Component | member-item', function(hooks) {
       assert.dom('.modal-dialog').doesNotExist();
     });
 
-    test('should disable membership on click on confirm', async function(assert) {
+    test('should disable membership on click on confirm', async function (assert) {
       // when
       await click('.modal-footer > button.btn-primary');
 

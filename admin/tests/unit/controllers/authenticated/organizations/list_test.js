@@ -1,17 +1,17 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/organizations/list', function(hooks) {
+module('Unit | Controller | authenticated/organizations/list', function (hooks) {
   setupTest(hooks);
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated.organizations.list');
   });
 
-  module('#updateFilters', function() {
-    module('updating name', function() {
-      test('it should update controller name field', async function(assert) {
+  module('#updateFilters', function () {
+    module('updating name', function () {
+      test('it should update controller name field', async function (assert) {
         // given
         controller.name = 'someName';
         const expectedValue = 'someOtherName';
@@ -24,8 +24,8 @@ module('Unit | Controller | authenticated/organizations/list', function(hooks) {
       });
     });
 
-    module('updating type', function() {
-      test('it should update controller type field', async function(assert) {
+    module('updating type', function () {
+      test('it should update controller type field', async function (assert) {
         // given
         controller.type = 'someType';
         const expectedValue = 'someOtherType';
@@ -38,8 +38,8 @@ module('Unit | Controller | authenticated/organizations/list', function(hooks) {
       });
     });
 
-    module('updating externalId', function() {
-      test('it should update controller externalId field', async function(assert) {
+    module('updating externalId', function () {
+      test('it should update controller externalId field', async function (assert) {
         // given
         controller.externalId = 'someExternalId';
         const expectedValue = 'someOtherExternalId';

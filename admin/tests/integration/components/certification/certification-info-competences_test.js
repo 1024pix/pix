@@ -3,13 +3,16 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | <Certification::CertificationCompetenceList/>', function(hooks) {
-
+module('Integration | Component | <Certification::CertificationCompetenceList/>', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display an entry per competence', async function(assert) {
+  test('it should display an entry per competence', async function (assert) {
     // given
-    this.set('competences', [{ index: '1.1', score: '30', level: '3' }, { index: '2.1', score: '30', level: '3' }, { index: '5.2', score: '30', level: '3' }]);
+    this.set('competences', [
+      { index: '1.1', score: '30', level: '3' },
+      { index: '2.1', score: '30', level: '3' },
+      { index: '5.2', score: '30', level: '3' },
+    ]);
 
     // when
     await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} />`);
@@ -20,7 +23,7 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     assert.dom('.certification-info-competence-score').exists({ count: 3 });
   });
 
-  test('it should display competence index, score and level', async function(assert) {
+  test('it should display competence index, score and level', async function (assert) {
     // given
     this.set('competences', [{ index: '1.1', score: '30', level: '3' }]);
 
@@ -33,9 +36,13 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     assert.dom('.certification-info-competence-score').hasText('30 Pix');
   });
 
-  test('it should display 16 entries in edition mode', async function(assert) {
+  test('it should display 16 entries in edition mode', async function (assert) {
     // given
-    this.set('competences', [{ index: '1.1', score: '30', level: '3' }, { index: '2.1', score: '30', level: '3' }, { index: '5.2', score: '30', level: '3' }]);
+    this.set('competences', [
+      { index: '1.1', score: '30', level: '3' },
+      { index: '2.1', score: '30', level: '3' },
+      { index: '5.2', score: '30', level: '3' },
+    ]);
 
     // when
     await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} @edition=true />`);
@@ -44,9 +51,13 @@ module('Integration | Component | <Certification::CertificationCompetenceList/>'
     assert.dom('.certification-info-field').exists({ count: 16 });
   });
 
-  test('it should display competence levels and scores at the right places in edition mode', async function(assert) {
+  test('it should display competence levels and scores at the right places in edition mode', async function (assert) {
     // given
-    this.set('competences', [{ index: '1.1', score: '30', level: '3' }, { index: '2.1', score: '16', level: '2' }, { index: '5.2', score: '42', level: '5' }]);
+    this.set('competences', [
+      { index: '1.1', score: '30', level: '3' },
+      { index: '2.1', score: '16', level: '2' },
+      { index: '5.2', score: '42', level: '5' },
+    ]);
 
     // when
     await render(hbs`<Certification::CertificationCompetenceList @competences={{this.competences}} @edition=true />`);

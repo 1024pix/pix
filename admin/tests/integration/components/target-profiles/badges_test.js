@@ -4,10 +4,10 @@ import { find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::Badges', function(hooks) {
+module('Integration | Component | TargetProfiles::Badges', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display the items', async function(assert) {
+  test('it should display the items', async function (assert) {
     // given
     const badge = EmberObject.create({
       id: 1,
@@ -44,7 +44,7 @@ module('Integration | Component | TargetProfiles::Badges', function(hooks) {
     assert.notContains('Aucun résultat thématique associé');
   });
 
-  test('it should display a message when empty', async function(assert) {
+  test('it should display a message when empty', async function (assert) {
     // given
     this.set('badges', []);
 

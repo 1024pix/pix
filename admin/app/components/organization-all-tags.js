@@ -4,9 +4,7 @@ import sortBy from 'lodash/sortBy';
 import { action } from '@ember/object';
 
 export default class OrganizationAllTags extends Component {
-
   get allTags() {
-
     const organizationTagsNames = map(this.args.model.organization.tags.toArray(), 'name');
     const allTags = sortBy(this.args.model.allTags.toArray(), 'name');
 

@@ -7,7 +7,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
-module('Acceptance | Certification-center Form', function(hooks) {
+module('Acceptance | Certification-center Form', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -16,7 +16,7 @@ module('Acceptance | Certification-center Form', function(hooks) {
     await createAuthenticateSession({ userId });
   });
 
-  test('it should create a certification center', async function(assert) {
+  test('it should create a certification center', async function (assert) {
     const name = 'name';
     const type = { label: 'Organisation professionnelle', value: 'PRO' };
     const externalId = 'externalId';
@@ -35,5 +35,4 @@ module('Acceptance | Certification-center Form', function(hooks) {
     assert.contains(type.value);
     assert.contains(externalId);
   });
-
 });

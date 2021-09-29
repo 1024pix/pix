@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 
 export default class ListRoute extends Route {
-
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },

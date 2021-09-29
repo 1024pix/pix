@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class Certification extends ApplicationAdapter {
-
   urlForFindRecord(id) {
     return `${this.host}/${this.namespace}/admin/certifications/${id}`;
   }
@@ -37,23 +36,11 @@ export default class Certification extends ApplicationAdapter {
     return hash;
   }
 
-  buildURL(
-    modelName,
-    id,
-    snapshot,
-    requestType,
-    query,
-  ) {
+  buildURL(modelName, id, snapshot, requestType, query) {
     if (['cancel', 'uncancel'].includes(requestType)) {
       return `${this.host}/${this.namespace}/admin/certification-courses/${id}/${requestType}`;
     } else {
-      return super.buildURL(
-        modelName,
-        id,
-        snapshot,
-        requestType,
-        query,
-      );
+      return super.buildURL(modelName, id, snapshot, requestType, query);
     }
   }
 }

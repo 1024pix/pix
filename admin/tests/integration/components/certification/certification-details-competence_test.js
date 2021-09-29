@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 
-module('Integration | Component | <Certification::CertificationDetailsCompetence/>', function(hooks) {
+module('Integration | Component | <Certification::CertificationDetailsCompetence/>', function (hooks) {
   setupRenderingTest(hooks);
 
   const answer = (result) => {
@@ -28,37 +28,43 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
     };
   };
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // given
     this.set('competenceData', competence('ok', 'ko', 'partially'));
     this.set('externalAction', () => resolve());
 
     // when
-    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`);
+    await render(
+      hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
+    );
 
     // then
     assert.dom('.certification-details-competence').exists();
   });
 
-  test('it should not render jury values when no jury values are set', async function(assert) {
+  test('it should not render jury values when no jury values are set', async function (assert) {
     // given
     this.set('competenceData', competence('ok', 'ko', 'partially'));
     this.set('externalAction', () => resolve());
 
     // when
-    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`);
+    await render(
+      hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} @juryRate={{false}} @onUpdateRate={{externalAction}}/>`
+    );
 
     // then
     assert.dom('.jury').doesNotExist();
   });
 
-  test('it should render jury values when these values are set', async function(assert) {
+  test('it should render jury values when these values are set', async function (assert) {
     // given
     this.set('competenceData', competence('ok', 'ok', 'ko'));
     this.set('externalAction', resolve());
 
     // when
-    await render(hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`);
+    await render(
+      hbs`<Certification::CertificationDetailsCompetence @competence={{competenceData}} rate={{60}} juryRate={{70}} @onUpdateRate={{externalAction}} />`
+    );
 
     // then
     assert.dom('[data-test-id="jury-competence-level"]').exists();
@@ -67,5 +73,4 @@ module('Integration | Component | <Certification::CertificationDetailsCompetence
     assert.dom('.jury.competence-score').hasText('18 Pix');
     assert.dom('[data-test-id="progress-bar-competence-level-certificate"]').hasText('-1');
   });
-
 });

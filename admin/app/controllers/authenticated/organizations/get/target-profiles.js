@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import Controller from '@ember/controller';
 
 export default class GetTargetProfilesController extends Controller {
-
   @tracked targetProfilesToAttach = [];
 
   @service notifications;

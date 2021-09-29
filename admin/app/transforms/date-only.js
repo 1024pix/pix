@@ -1,7 +1,6 @@
 import Transform from '@ember-data/serializer/transform';
 
 export default class DateOnly extends Transform {
-
   serialize(date) {
     return date;
   }

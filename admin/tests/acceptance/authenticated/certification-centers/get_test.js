@@ -1,21 +1,13 @@
 import moment from 'moment';
 
 import { module, test } from 'qunit';
-import {
-  click,
-  currentURL,
-  fillIn,
-  findAll,
-  triggerEvent,
-  visit,
-} from '@ember/test-helpers';
+import { click, currentURL, fillIn, findAll, triggerEvent, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
-module('Acceptance | authenticated/certification-centers/get', function(hooks) {
-
+module('Acceptance | authenticated/certification-centers/get', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -29,7 +21,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
   let certificationCenterMembership1;
   let currentUser;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
@@ -47,7 +39,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     });
   });
 
-  test('should access Certification center page by URL /certification-centers/:id', async function(assert) {
+  test('should access Certification center page by URL /certification-centers/:id', async function (assert) {
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -55,7 +47,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.equal(currentURL(), '/certification-centers/1');
   });
 
-  test('should display Certification center detail', async function(assert) {
+  test('should display Certification center detail', async function (assert) {
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -65,7 +57,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains(certificationCenter.type);
   });
 
-  test('should display Certification center accreditations', async function(assert) {
+  test('should display Certification center accreditations', async function (assert) {
     // given
     const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
     const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
@@ -79,7 +71,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains('Pix+Surf');
   });
 
-  test('should highlight the accreditations of the current certification center', async function(assert) {
+  test('should highlight the accreditations of the current certification center', async function (assert) {
     // given
     const accreditation1 = server.create('accreditation', { name: 'Pix+Edu' });
     const accreditation2 = server.create('accreditation', { name: 'Pix+Surf' });
@@ -94,7 +86,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.equal(grantedAccreditations.length, 2);
   });
 
-  test('should display Certification center memberships', async function(assert) {
+  test('should display Certification center memberships', async function (assert) {
     // given
     const expectedDate1 = moment(certificationCenterMembership1.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
@@ -104,8 +96,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });
 
-    assert.dom('[aria-label="Membre"]:first-child td:nth-child(2)')
-      .hasText(certificationCenterMembership1.user.id);
+    assert.dom('[aria-label="Membre"]:first-child td:nth-child(2)').hasText(certificationCenterMembership1.user.id);
 
     assert.contains(certificationCenterMembership1.user.firstName);
     assert.contains(certificationCenterMembership1.user.lastName);
@@ -113,9 +104,8 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
     assert.contains(expectedDate1);
   });
 
-  module('To add certification center membership', function() {
-
-    test('should display elements to add certification center membership', async function(assert) {
+  module('To add certification center membership', function () {
+    test('should display elements to add certification center membership', async function (assert) {
       // when
       await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -126,7 +116,7 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
       assert.dom('.error').notExists;
     });
 
-    test('should disable button if email is empty or contains only spaces', async function(assert) {
+    test('should disable button if email is empty or contains only spaces', async function (assert) {
       // given
       const spacesEmail = ' ';
       await visit(`/certification-centers/${certificationCenter.id}`);
@@ -136,11 +126,10 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.dom('button[data-test-add-membership]')
-        .hasAttribute('disabled');
+      assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
     });
 
-    test('should display error message and disable button if email is invalid', async function(assert) {
+    test('should display error message and disable button if email is invalid', async function (assert) {
       // given
       await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -149,12 +138,11 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.contains('L\'adresse e-mail saisie n\'est pas valide.');
-      assert.dom('button[data-test-add-membership]')
-        .hasAttribute('disabled');
+      assert.contains("L'adresse e-mail saisie n'est pas valide.");
+      assert.dom('button[data-test-add-membership]').hasAttribute('disabled');
     });
 
-    test('should enable button and not display error message if email is valid', async function(assert) {
+    test('should enable button and not display error message if email is valid', async function (assert) {
       // given
       await visit(`/certification-centers/${certificationCenter.id}`);
 
@@ -163,12 +151,11 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
       await triggerEvent('#userEmailToAdd', 'focusout');
 
       // then
-      assert.dom('button[data-test-add-membership]')
-        .hasNoAttribute('disabled');
+      assert.dom('button[data-test-add-membership]').hasNoAttribute('disabled');
       assert.dom('.error').notExists;
     });
 
-    test('should display new certification-center-membership', async function(assert) {
+    test('should display new certification-center-membership', async function (assert) {
       // given
       const email = 'test@example.net';
       await visit(`/certification-centers/${certificationCenter.id}`);
@@ -179,10 +166,8 @@ module('Acceptance | authenticated/certification-centers/get', function(hooks) {
       await click('button[data-test-add-membership]');
 
       // then
-      const foundElement = findAll('td[data-test-user-email]')
-        .find((element) => element.innerText.includes(email));
+      const foundElement = findAll('td[data-test-user-email]').find((element) => element.innerText.includes(email));
       assert.ok(foundElement);
     });
   });
-
 });

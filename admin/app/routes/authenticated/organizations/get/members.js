@@ -12,14 +12,16 @@ export default class OrganizationMembersRoute extends Route {
 
   async model(params) {
     const organization = this.modelFor('authenticated.organizations.get');
-    await organization.hasMany('memberships').reload({ adapterOptions: {
-      'page[size]': params.pageSize,
-      'page[number]': params.pageNumber,
-      'filter[firstName]': params.firstName,
-      'filter[lastName]': params.lastName,
-      'filter[email]': params.email,
-      'filter[organizationRole]': params.organizationRole,
-    } });
+    await organization.hasMany('memberships').reload({
+      adapterOptions: {
+        'page[size]': params.pageSize,
+        'page[number]': params.pageNumber,
+        'filter[firstName]': params.firstName,
+        'filter[lastName]': params.lastName,
+        'filter[email]': params.email,
+        'filter[organizationRole]': params.organizationRole,
+      },
+    });
     return organization;
   }
 

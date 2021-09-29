@@ -4,12 +4,11 @@ import Service from '@ember/service';
 import sinon from 'sinon';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/sessions/list/to-be-published', function(hooks) {
+module('Unit | Controller | authenticated/sessions/list/to-be-published', function (hooks) {
   setupTest(hooks);
 
-  module('#publishSession', function() {
-
-    test('should publish session', async function(assert) {
+  module('#publishSession', function () {
+    test('should publish session', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
       const publishMock = sinon.stub();
@@ -26,7 +25,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       assert.ok(true);
     });
 
-    test('it should notify error on notifications service when publication fails', async function(assert) {
+    test('it should notify error on notifications service when publication fails', async function (assert) {
       // given
       const errorMock = sinon.stub();
       class NotificationsStub extends Service {
@@ -50,8 +49,8 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     });
   });
 
-  module('#showConfirmModal', function() {
-    test('should change shouldShowModal to true', async function(assert) {
+  module('#showConfirmModal', function () {
+    test('should change shouldShowModal to true', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
 
@@ -63,8 +62,8 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     });
   });
 
-  module('#hideConfirmModal', function() {
-    test('should change shouldShowModal to false', async function(assert) {
+  module('#hideConfirmModal', function () {
+    test('should change shouldShowModal to false', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
 
@@ -76,8 +75,8 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
     });
   });
 
-  module('#batchPublishSessions', function() {
-    test('should publish several sessions', async function(assert) {
+  module('#batchPublishSessions', function () {
+    test('should publish several sessions', async function (assert) {
       // given
       const successMock = sinon.stub();
       class NotificationsStub extends Service {
@@ -86,7 +85,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       this.owner.register('service:notifications', NotificationsStub);
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
       const unloadRecord = sinon.stub().resolves();
-      const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord }) ];
+      const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord })];
       const store = {
         adapterFor: sinon.stub().returns({
           publishSessionInBatch: sinon.stub().resolves(),
@@ -104,7 +103,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       assert.ok(true);
     });
 
-    test('should notify error on notifications service when publication fails', async function(assert) {
+    test('should notify error on notifications service when publication fails', async function (assert) {
       // given
       const errorMock = sinon.stub();
       class NotificationsStub extends Service {
@@ -114,11 +113,9 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
 
       const unloadRecord = sinon.stub().resolves();
-      const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord }) ];
+      const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord })];
       const response = {
-        errors: [
-          { code: 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED', details: 'Erreur dans la publication' },
-        ],
+        errors: [{ code: 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED', details: 'Erreur dans la publication' }],
       };
       const store = {
         adapterFor: sinon.stub().returns({
@@ -137,8 +134,9 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
 
       // then
       sinon.assert.calledWith(send, 'refreshModel');
-      sinon.assert.calledWith(errorMock,
-        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${response.errors[0].detail}`,
+      sinon.assert.calledWith(
+        errorMock,
+        `Une ou plusieurs erreurs se sont produites, veuillez conserver la référence suivante pour investigation auprès de l'équipe technique : ${response.errors[0].detail}`
       );
       assert.ok(true);
     });

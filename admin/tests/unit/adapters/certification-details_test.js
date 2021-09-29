@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | certification details', function(hooks) {
+module('Unit | Adapter | certification details', function (hooks) {
   setupTest(hooks);
 
-  module('#urlForFindRecord', function() {
-    test('should build get url from certification details id', function(assert) {
+  module('#urlForFindRecord', function () {
+    test('should build get url from certification details id', function (assert) {
       // when
       const adapter = this.owner.lookup('adapter:certification-details');
       const url = adapter.urlForFindRecord(123, 'certification-details');
@@ -15,8 +15,8 @@ module('Unit | Adapter | certification details', function(hooks) {
     });
   });
 
-  module('#buildURL', function() {
-    test('should build challenge neutralization base URL when called with according requestType', function(assert) {
+  module('#buildURL', function () {
+    test('should build challenge neutralization base URL when called with according requestType', function (assert) {
       // when
       const adapter = this.owner.lookup('adapter:certification-details');
       const url = adapter.buildURL(123, 'certification-details', null, 'challenge-neutralization');

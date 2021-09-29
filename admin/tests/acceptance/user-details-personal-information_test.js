@@ -6,8 +6,7 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Acceptance | User details personal information', function(hooks) {
-
+module('Acceptance | User details personal information', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
@@ -30,7 +29,7 @@ module('Acceptance | User details personal information', function(hooks) {
     return user;
   }
 
-  test('visiting /users/:id', async function(assert) {
+  test('visiting /users/:id', async function (assert) {
     // when
     const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
     await visit(`/users/${user.id}`);
@@ -39,9 +38,8 @@ module('Acceptance | User details personal information', function(hooks) {
     assert.equal(currentURL(), `/users/${user.id}`);
   });
 
-  module('when administrator click to edit users details', function() {
-
-    test('should update user firstName, lastName and email', async function(assert) {
+  module('when administrator click to edit users details', function () {
+    test('should update user firstName, lastName and email', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       await visit(`/users/${user.id}`);
@@ -60,7 +58,7 @@ module('Acceptance | User details personal information', function(hooks) {
       assert.contains('john.doe@example.net');
     });
 
-    test('should update user firstName, lastName and username', async function(assert) {
+    test('should update user firstName, lastName and username', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: null, username: 'john.harry0101' });
       await visit(`/users/${user.id}`);
@@ -80,9 +78,8 @@ module('Acceptance | User details personal information', function(hooks) {
     });
   });
 
-  module('when administrator click on anonymize button and confirm modal', function() {
-
-    test('should anonymize the user', async function(assert) {
+  module('when administrator click on anonymize button and confirm modal', function () {
+    test('should anonymize the user', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       await visit(`/users/${user.id}`);
@@ -98,9 +95,8 @@ module('Acceptance | User details personal information', function(hooks) {
     });
   });
 
-  module('when administrator click on dissociate button', function() {
-
-    test('should not display registration any more', async function(assert) {
+  module('when administrator click on dissociate button', function () {
+    test('should not display registration any more', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       const organizationName = 'Organisation_to_dissociate_of';
@@ -123,9 +119,8 @@ module('Acceptance | User details personal information', function(hooks) {
     });
   });
 
-  module('when administrator click on remove authentication method button', function() {
-
-    test('should not display remove link and display unchecked icon', async function(assert) {
+  module('when administrator click on remove authentication method button', function () {
+    test('should not display remove link and display unchecked icon', async function (assert) {
       // given
       const user = await buildAndAuthenticateUser(this.server, { email: 'john.harry@example.net', username: null });
       await visit(`/users/${user.id}`);
@@ -139,5 +134,4 @@ module('Acceptance | User details personal information', function(hooks) {
       assert.dom('div[data-test-email] > div > button[data-test-remove-email]').notExists;
     });
   });
-
 });

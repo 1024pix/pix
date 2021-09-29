@@ -6,15 +6,14 @@ import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authenticated/sessions/list/to be published', function(hooks) {
+module('Acceptance | authenticated/sessions/list/to be published', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   const SESSIONS_TO_BE_PUBLISHED_LIST_PAGE = '/sessions/list/to-be-published';
 
-  module('When user is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When user is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
@@ -23,15 +22,14 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
     });
   });
 
-  module('When user is logged in', function(hooks) {
-
-    hooks.beforeEach(async function() {
+  module('When user is logged in', function (hooks) {
+    hooks.beforeEach(async function () {
       // given
       const { id: userId } = server.create('user');
       await createAuthenticateSession({ userId });
     });
 
-    test('visiting /sessions/list/to-be-published', async function(assert) {
+    test('visiting /sessions/list/to-be-published', async function (assert) {
       // when
       await visit(SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
 
@@ -39,7 +37,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       assert.equal(currentURL(), SESSIONS_TO_BE_PUBLISHED_LIST_PAGE);
     });
 
-    test('it should display sessions to publish informations', async function(assert) {
+    test('it should display sessions to publish informations', async function (assert) {
       assert.expect(7);
       // given
       const sessionDate = '2021-01-01';
@@ -69,7 +67,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       _assertPublishAllSessionsButtonDisplayed(assert);
     });
 
-    test('it should publish a session', async function(assert) {
+    test('it should publish a session', async function (assert) {
       assert.expect(2);
       // given
       const sessionDate = '2021-01-01';
@@ -100,7 +98,7 @@ module('Acceptance | authenticated/sessions/list/to be published', function(hook
       _assertSecondSessionIsNotDisplayed(assert);
     });
 
-    test('it should publish a batch of sessions', async function(assert) {
+    test('it should publish a batch of sessions', async function (assert) {
       assert.expect(3);
       // given
       const sessionDate = '2021-01-01';

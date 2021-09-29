@@ -4,15 +4,14 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 import { module, test } from 'qunit';
 import { createAuthenticateSession } from '../../../helpers/test-init';
 
-module('Acceptance | authenticated/badges/badge', function(hooks) {
-
+module('Acceptance | authenticated/badges/badge', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let currentUser;
   let badge;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     currentUser = server.create('user');
     await createAuthenticateSession({ userId: currentUser.id });
 
@@ -40,17 +39,12 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     badge = this.server.create('badge', {
       id: 1,
       title: 'My badge',
-      badgeCriteria: [
-        criterionCampaignParticipation,
-        criterionEveryPartnerCompetence,
-      ],
-      badgePartnerCompetences: [
-        badgePartnerCompetence,
-      ],
+      badgeCriteria: [criterionCampaignParticipation, criterionEveryPartnerCompetence],
+      badgePartnerCompetences: [badgePartnerCompetence],
     });
   });
 
-  test('should display the badge', async function(assert) {
+  test('should display the badge', async function (assert) {
     await visit(`/badges/${badge.id}`);
 
     const badgeElement = find('.page-section__details');
@@ -60,5 +54,4 @@ module('Acceptance | authenticated/badges/badge', function(hooks) {
     assert.contains('@skill2');
     assert.contains('Practical title of tube');
   });
-
 });

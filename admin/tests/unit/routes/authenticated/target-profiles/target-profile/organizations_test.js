@@ -1,18 +1,18 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Route | authenticated/target-profiles/target-profile/organizations', function(hooks) {
+module('Unit | Route | authenticated/target-profiles/target-profile/organizations', function (hooks) {
   setupTest(hooks);
   let route;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/target-profiles/target-profile/organizations');
   });
 
-  module('#resetController', function(hooks) {
+  module('#resetController', function (hooks) {
     let controller;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
@@ -22,9 +22,8 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
       };
     });
 
-    module('when route is exiting', function() {
-
-      test('it should reset controller', function(assert) {
+    module('when route is exiting', function () {
+      test('it should reset controller', function (assert) {
         // when
         route.resetController(controller, true);
 
@@ -37,9 +36,8 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
       });
     });
 
-    module('when route is not exiting', function() {
-
-      test('it should not reset controller', function(assert) {
+    module('when route is not exiting', function () {
+      test('it should not reset controller', function (assert) {
         // when
         route.resetController(controller, false);
 
@@ -51,6 +49,5 @@ module('Unit | Route | authenticated/target-profiles/target-profile/organization
         assert.equal(controller.externalId, 'someExternalId');
       });
     });
-
   });
 });

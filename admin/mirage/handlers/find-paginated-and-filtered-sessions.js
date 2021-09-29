@@ -11,13 +11,19 @@ export function findPaginatedAndFilteredSessions(schema, request) {
   const filters = _getFiltersFromQueryParams(queryParams);
   const pagination = _getPaginationFromQueryParams(queryParams);
   if (!_areFiltersValid(filters)) {
-    return new Response(422, {}, {
-      errors: [{
-        status: 422,
-        title: 'Invalid filters',
-        description: 'Filter on id field must be a number.',
-      }],
-    });
+    return new Response(
+      422,
+      {},
+      {
+        errors: [
+          {
+            status: 422,
+            title: 'Invalid filters',
+            description: 'Filter on id field must be a number.',
+          },
+        ],
+      }
+    );
   }
   const filteredSessions = _applyFilters(sessions, filters);
   const paginatedSessions = _applyPagination(filteredSessions, pagination);
@@ -33,21 +39,27 @@ export function findPaginatedAndFilteredSessions(schema, request) {
 }
 
 function _getFiltersFromQueryParams(queryParams) {
-  const idFilter = queryParams
-    ? (queryParams['filter[id]'] ? queryParams['filter[id]'].trim() || null : null)
-    : null;
+  const idFilter = queryParams ? (queryParams['filter[id]'] ? queryParams['filter[id]'].trim() || null : null) : null;
   const certificationCenterNameFilter = queryParams
-    ? (queryParams['filter[certificationCenterName]'] ? queryParams['filter[certificationCenterName]'].trim() || null : null)
+    ? queryParams['filter[certificationCenterName]']
+      ? queryParams['filter[certificationCenterName]'].trim() || null
+      : null
     : null;
 
   const certificationCenterExternalIdFilter = queryParams
-    ? (queryParams['filter[certificationCenterExternalId]'] ? queryParams['filter[certificationCenterExternalId]'].trim() || null : null)
+    ? queryParams['filter[certificationCenterExternalId]']
+      ? queryParams['filter[certificationCenterExternalId]'].trim() || null
+      : null
     : null;
   const statusFilter = queryParams
-    ? (queryParams['filter[status]'] ? queryParams['filter[status]'].trim() || null : null)
+    ? queryParams['filter[status]']
+      ? queryParams['filter[status]'].trim() || null
+      : null
     : null;
   const resultsSentToPrescriberAtFilter = queryParams
-    ? (queryParams['filter[resultsSentToPrescriberAt]'] ? queryParams['filter[resultsSentToPrescriberAt]'].trim() || null : null)
+    ? queryParams['filter[resultsSentToPrescriberAt]']
+      ? queryParams['filter[resultsSentToPrescriberAt]'].trim() || null
+      : null
     : null;
   return {
     idFilter,
@@ -74,7 +86,16 @@ function _areFiltersValid({ idFilter }) {
   return true;
 }
 
-function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, certificationCenterExternalIdFilter, statusFilter, resultsSentToPrescriberAtFilter }) {
+function _applyFilters(
+  sessions,
+  {
+    idFilter,
+    certificationCenterNameFilter,
+    certificationCenterExternalIdFilter,
+    statusFilter,
+    resultsSentToPrescriberAtFilter,
+  }
+) {
   let filteredSessions = sessions;
   if (idFilter) {
     filteredSessions = filter(filteredSessions, (session) => {
@@ -106,7 +127,7 @@ function _applyFilters(sessions, { idFilter, certificationCenterNameFilter, cert
     }
     if (resultsSentToPrescriberAtFilter === 'false') {
       filteredSessions = filter(filteredSessions, (session) => {
-        return !(session.resultsSentToPrescriberAt);
+        return !session.resultsSentToPrescriberAt;
       });
     }
   }

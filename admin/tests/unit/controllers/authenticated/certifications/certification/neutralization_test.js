@@ -2,12 +2,11 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/certifications/certification/neutralization', function(hooks) {
+module('Unit | Controller | authenticated/certifications/certification/neutralization', function (hooks) {
   setupTest(hooks);
 
-  module('#neutralizeChallenge', function() {
-
-    test('neutralizes a challenge', async function(assert) {
+  module('#neutralizeChallenge', function () {
+    test('neutralizes a challenge', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
@@ -21,13 +20,15 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       await controller.neutralize('challengeRecId123', 2);
 
       // then
-      assert.ok(controller.certificationDetails.neutralizeChallenge.calledOnceWithExactly({
-        certificationCourseId: 'certificationCourseId',
-        challengeRecId: 'challengeRecId123',
-      }));
+      assert.ok(
+        controller.certificationDetails.neutralizeChallenge.calledOnceWithExactly({
+          certificationCourseId: 'certificationCourseId',
+          challengeRecId: 'challengeRecId123',
+        })
+      );
     });
 
-    test('notifies a successful neutralization and updates model', async function(assert) {
+    test('notifies a successful neutralization and updates model', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
@@ -45,13 +46,13 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       await controller.neutralize('challengeRecId123', 2);
 
       // then
-      assert.ok(controller.notifications.success.calledOnceWithExactly(
-        'La question n°2 a été neutralisée avec succès.',
-      ));
+      assert.ok(
+        controller.notifications.success.calledOnceWithExactly('La question n°2 a été neutralisée avec succès.')
+      );
       assert.true(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized);
     });
 
-    test('notifies a failed neutralization', async function(assert) {
+    test('notifies a failed neutralization', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
@@ -69,15 +70,16 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       await controller.neutralize('challengeRecId123', 2);
 
       // then
-      assert.ok(controller.notifications.error.calledOnceWithExactly(
-        'Une erreur est survenue lors de la neutralisation de la question n°2.',
-      ));
+      assert.ok(
+        controller.notifications.error.calledOnceWithExactly(
+          'Une erreur est survenue lors de la neutralisation de la question n°2.'
+        )
+      );
     });
   });
 
-  module('#deneutralizeChallenge', function() {
-
-    test('deneutralizes a challenge', async function(assert) {
+  module('#deneutralizeChallenge', function () {
+    test('deneutralizes a challenge', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
@@ -91,13 +93,15 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       await controller.deneutralize('challengeRecId123', 2);
 
       // then
-      assert.ok(controller.certificationDetails.deneutralizeChallenge.calledOnceWithExactly({
-        certificationCourseId: 'certificationCourseId',
-        challengeRecId: 'challengeRecId123',
-      }));
+      assert.ok(
+        controller.certificationDetails.deneutralizeChallenge.calledOnceWithExactly({
+          certificationCourseId: 'certificationCourseId',
+          challengeRecId: 'challengeRecId123',
+        })
+      );
     });
 
-    test('notifies a successful deneutralization and updates model', async function(assert) {
+    test('notifies a successful deneutralization and updates model', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
@@ -115,13 +119,13 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       await controller.deneutralize('challengeRecId123', 2);
 
       // then
-      assert.ok(controller.notifications.success.calledOnceWithExactly(
-        'La question n°2 a été dé-neutralisée avec succès.',
-      ));
+      assert.ok(
+        controller.notifications.success.calledOnceWithExactly('La question n°2 a été dé-neutralisée avec succès.')
+      );
       assert.false(controller.certificationDetails.listChallengesAndAnswers[0].isNeutralized);
     });
 
-    test('notifies a failed deneutralization', async function(assert) {
+    test('notifies a failed deneutralization', async function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/neutralization');
       controller.certificationDetails = {
@@ -139,9 +143,11 @@ module('Unit | Controller | authenticated/certifications/certification/neutraliz
       await controller.deneutralize('challengeRecId123', 2);
 
       // then
-      assert.ok(controller.notifications.error.calledOnceWithExactly(
-        'Une erreur est survenue lors de la dé-neutralisation de la question n°2.',
-      ));
+      assert.ok(
+        controller.notifications.error.calledOnceWithExactly(
+          'Une erreur est survenue lors de la dé-neutralisation de la question n°2.'
+        )
+      );
     });
   });
 });

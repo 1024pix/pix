@@ -7,7 +7,6 @@ import config from 'pix-admin/config/environment';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class ListController extends Controller {
-
   queryParams = ['pageNumber', 'pageSize', 'id', 'name', 'type', 'externalId'];
   DEBOUNCE_MS = config.pagination.debounce;
 
@@ -19,7 +18,7 @@ export default class ListController extends Controller {
   @tracked externalId = null;
 
   updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
+    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 

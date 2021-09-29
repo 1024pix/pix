@@ -4,16 +4,12 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ERROR, STARTED } from 'pix-admin/models/certification';
 
-module('Integration | Component | certification-status', function(hooks) {
+module('Integration | Component | certification-status', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('#isStatusBlocking', function() {
-
-    [
-      { status: ERROR },
-      { status: STARTED },
-    ].forEach((record) => {
-      test(`it renders ${record.status} in red`, async function(assert) {
+  module('#isStatusBlocking', function () {
+    [{ status: ERROR }, { status: STARTED }].forEach((record) => {
+      test(`it renders ${record.status} in red`, async function (assert) {
         // given
         this.set('record', record);
 
@@ -29,7 +25,7 @@ module('Integration | Component | certification-status', function(hooks) {
       { status: 'validated', statusLabel: 'Validée' },
       { status: 'rejected', statusLabel: 'Rejetée' },
     ].forEach((record) => {
-      test(`it renders ${record.status}`, async function(assert) {
+      test(`it renders ${record.status}`, async function (assert) {
         // given
         this.set('record', record);
 

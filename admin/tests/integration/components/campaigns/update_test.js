@@ -7,10 +7,10 @@ import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | Campaigns | Update', function(hooks) {
+module('Integration | Component | Campaigns | Update', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.update = sinon.stub();
     this.onExit = sinon.stub();
     this.campaign = EmberObject.create({
@@ -20,23 +20,23 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     });
   });
 
-  test('it should display the items', async function(assert) {
+  test('it should display the items', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     // then
     assert.dom('label[for="name"]').hasText('Nom de la campagne');
-    assert.dom('label[for="customLandingPageText"]').hasText('Texte de la page d\'accueil');
+    assert.dom('label[for="customLandingPageText"]').hasText("Texte de la page d'accueil");
     assert.dom('input#name').hasValue('Ceci est un nom');
     assert.contains('Annuler');
     assert.contains('Enregistrer');
   });
 
-  module('when campaign is of type assessment', function(hooks) {
-    hooks.beforeEach(function() {
+  module('when campaign is of type assessment', function (hooks) {
+    hooks.beforeEach(function () {
       this.campaign.isTypeAssessment = true;
     });
 
-    test('it should display items for assessment', async function(assert) {
+    test('it should display items for assessment', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       // then
@@ -47,7 +47,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
       assert.dom('input#title').hasValue('Ceci est un titre');
     });
 
-    test('it should display an error text when the title has more than 255 characters', async function(assert) {
+    test('it should display an error text when the title has more than 255 characters', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       await fillInByLabel('Titre du parcours', 'a'.repeat(256));
@@ -55,7 +55,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
       assert.contains('La longueur du titre ne doit pas excéder 255 caractères');
     });
 
-    test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function(assert) {
+    test('it should display an error text when the customResultPageButtonText has more than 255 characters', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       await fillInByLabel('Texte du bouton de la page de fin de parcours', 'a'.repeat(256));
@@ -63,7 +63,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
       assert.contains('La longueur du texte ne doit pas excéder 255 caractères');
     });
 
-    test('it should display an error text when the customResultPageButtonUrl is not a url', async function(assert) {
+    test('it should display an error text when the customResultPageButtonUrl is not a url', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       await fillInByLabel('URL du bouton de la page de fin de parcours', 'a');
@@ -72,12 +72,12 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     });
   });
 
-  module('when campaign is of type profiles collection', function(hooks) {
-    hooks.beforeEach(function() {
+  module('when campaign is of type profiles collection', function (hooks) {
+    hooks.beforeEach(function () {
       this.campaign.isTypeAssessment = false;
     });
 
-    test('it should display items for profiles collection', async function(assert) {
+    test('it should display items for profiles collection', async function (assert) {
       // when
       await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
       // then
@@ -88,7 +88,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     });
   });
 
-  test('it should display an error text when the name is empty', async function(assert) {
+  test('it should display an error text when the name is empty', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillInByLabel('Nom de la campagne', '');
@@ -97,7 +97,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     assert.contains('Le nom ne peut pas être vide');
   });
 
-  test('it should display an error text when the name has more than 255 characters', async function(assert) {
+  test('it should display an error text when the name has more than 255 characters', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillInByLabel('Nom de la campagne', 'a'.repeat(256));
@@ -105,7 +105,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     assert.contains('La longueur du nom ne doit pas excéder 255 caractères');
   });
 
-  test('it should call update when form is valid', async function(assert) {
+  test('it should call update when form is valid', async function (assert) {
     //when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await fillInByLabel('Nom de la campagne', 'Nouveau nom');
@@ -115,7 +115,7 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     assert.ok(this.campaign.save.called);
   });
 
-  test('it should call onCancel when form is cancel', async function(assert) {
+  test('it should call onCancel when form is cancel', async function (assert) {
     // when
     await render(hbs`<Campaigns::update @campaign={{this.campaign}} @onExit={{this.onExit}} />`);
     await clickByLabel('Annuler');
@@ -123,5 +123,4 @@ module('Integration | Component | Campaigns | Update', function(hooks) {
     // then
     assert.ok(this.onExit.called);
   });
-
 });

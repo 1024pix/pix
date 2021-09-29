@@ -58,7 +58,6 @@ export default class JuryComment extends Component {
     } catch {
       noop();
     }
-
   }
 
   get commentExists() {

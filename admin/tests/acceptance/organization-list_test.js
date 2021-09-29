@@ -5,14 +5,12 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Organization List', function(hooks) {
-
+module('Acceptance | Organization List', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When user is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
       await visit('/organizations/list');
 
@@ -21,14 +19,13 @@ module('Acceptance | Organization List', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
-
+  module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
       const user = server.create('user');
       await createAuthenticateSession({ userId: user.id });
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
+    test('it should be accessible for an authenticated user', async function (assert) {
       // when
       await visit('/organizations/list');
 
@@ -36,7 +33,7 @@ module('Acceptance | Organization List', function(hooks) {
       assert.equal(currentURL(), '/organizations/list');
     });
 
-    test('it should list the organizations', async function(assert) {
+    test('it should list the organizations', async function (assert) {
       // given
       server.createList('organization', 12);
 
@@ -47,13 +44,12 @@ module('Acceptance | Organization List', function(hooks) {
       assert.dom('.table-admin tbody tr').exists({ count: 12 });
     });
 
-    module('when filters are used', function(hooks) {
-
+    module('when filters are used', function (hooks) {
       hooks.beforeEach(async () => {
         server.createList('organization', 12);
       });
 
-      test('it should display the current filter when organizations are filtered by name', async function(assert) {
+      test('it should display the current filter when organizations are filtered by name', async function (assert) {
         // when
         await visit('/organizations/list?name=sav');
 
@@ -61,7 +57,7 @@ module('Acceptance | Organization List', function(hooks) {
         assert.dom('#name').hasValue('sav');
       });
 
-      test('it should display the current filter when organizations are filtered by type', async function(assert) {
+      test('it should display the current filter when organizations are filtered by type', async function (assert) {
         // when
         await visit('/organizations/list?type=SCO');
 
@@ -69,7 +65,7 @@ module('Acceptance | Organization List', function(hooks) {
         assert.dom('#type').hasValue('SCO');
       });
 
-      test('it should display the current filter when organizations are filtered by externalId', async function(assert) {
+      test('it should display the current filter when organizations are filtered by externalId', async function (assert) {
         // when
         await visit('/organizations/list?externalId=1234567A');
 
@@ -78,7 +74,7 @@ module('Acceptance | Organization List', function(hooks) {
       });
     });
 
-    test('it should redirect to organization details on click', async function(assert) {
+    test('it should redirect to organization details on click', async function (assert) {
       // given
       server.create('organization', { id: 1 });
       await visit('/organizations/list');

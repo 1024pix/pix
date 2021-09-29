@@ -6,11 +6,10 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | certification-center-memberships-section', function(hooks) {
-
+module('Integration | Component | certification-center-memberships-section', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display certification center membership details', async function(assert) {
+  test('it should display certification center membership details', async function (assert) {
     // given
     const user = EmberObject.create({
       id: 123,
@@ -28,7 +27,9 @@ module('Integration | Component | certification-center-memberships-section', fun
     const expectedDate = moment(certificationCenterMembership.createdAt).format('DD-MM-YYYY - HH:mm:ss');
 
     // when
-    await render(hbs `<CertificationCenterMembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`);
+    await render(
+      hbs`<CertificationCenterMembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
+    );
 
     // then
     assert.dom('[aria-label="Membre"]').exists();
@@ -40,7 +41,7 @@ module('Integration | Component | certification-center-memberships-section', fun
     assert.dom('[data-test-membership-created-at]').hasText(expectedDate);
   });
 
-  test('it should display a list of certification center memberships', async function(assert) {
+  test('it should display a list of certification center memberships', async function (assert) {
     // given
     const user1 = EmberObject.create({
       firstName: 'Jojo',
@@ -58,15 +59,17 @@ module('Integration | Component | certification-center-memberships-section', fun
     this.set('certificationCenterMemberships', certificationCenterMemberships);
 
     // when
-    await render(hbs `<CertificationCenterMembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`);
+    await render(
+      hbs`<CertificationCenterMembershipsSection @certificationCenterMemberships={{certificationCenterMemberships}} />`
+    );
 
     // then
     assert.dom('[aria-label="Membre"]').exists({ count: 2 });
   });
 
-  test('it should display a message when there is no membership', async function(assert) {
+  test('it should display a message when there is no membership', async function (assert) {
     // when
-    await render(hbs `<CertificationCenterMembershipsSection />`);
+    await render(hbs`<CertificationCenterMembershipsSection />`);
 
     // then
     assert.dom('[data-test-empty-message]').hasText('Aucun résultat');
