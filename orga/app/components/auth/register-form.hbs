@@ -6,12 +6,12 @@
           "pages.login-or-register.register-form.fields.first-name.label"
         }}</label>
       <Input
-        @id="register-firstName"
-        @name="firstName"
+        id="register-firstName"
+        name="firstName"
         @type="firstName"
-        @class="input {{if this.validation.firstName.hasError "input--error"}}"
+        class="input {{if this.validation.firstName.hasError "input--error"}}"
         @value={{this.user.firstName}}
-        @autocomplete="firstname"
+        autocomplete="firstname"
         {{on "focusout" (fn this.validateInput "firstName" this.user.firstName)}}
       />
       {{#if this.validation.firstName.hasError}}
@@ -27,12 +27,12 @@
           "pages.login-or-register.register-form.fields.last-name.label"
         }}</label>
       <Input
-        @id="register-lastName"
-        @name="lastName"
+        id="register-lastName"
+        name="lastName"
         @type="lastName"
-        @class="input {{if this.validation.lastName.hasError "input--error"}}"
+        class="input {{if this.validation.lastName.hasError "input--error"}}"
         @value={{this.user.lastName}}
-        @autocomplete="lastname"
+        autocomplete="lastname"
         {{on "focusout" (fn this.validateInput "lastName" this.user.lastName)}}
       />
       {{#if this.validation.lastName.hasError}}
@@ -46,12 +46,12 @@
     <div id="register-email-container" class="input-container">
       <label for="register-email" class="label">{{t "pages.login-or-register.register-form.fields.email.label"}}</label>
       <Input
-        @id="register-email"
-        @name="email"
+        id="register-email"
+        name="email"
         @type="email"
-        @class="input {{if this.validation.email.hasError "input--error"}}"
+        class="input {{if this.validation.email.hasError "input--error"}}"
         @value={{this.user.email}}
-        @autocomplete="username"
+        autocomplete="username"
         {{on "focusout" (fn this.validateInput "email" this.user.email)}}
       />
       {{#if this.validation.email.hasError}}
@@ -68,12 +68,12 @@
         }}</label>
       <div class="input-password {{if this.validation.password.hasError "input-password--error"}}">
         <Input
-          @id="register-password"
-          @name="password"
+          id="register-password"
+          name="password"
           @type={{this.passwordInputType}}
-          @class="input"
+          class="input"
           @value={{this.user.password}}
-          @autocomplete="current-password"
+          autocomplete="current-password"
           {{on "focusout" (fn this.validateInput "password" this.user.password)}}
         />
         <PixIconButton
@@ -95,7 +95,7 @@
     <div id="register-cgu-container" class="input-container">
       <label for="register-cgu" class="label register-form__cgu-label">
         <Input
-          @id="register-cgu"
+          id="register-cgu"
           @type="checkbox"
           @checked={{this.user.cgu}}
           aria-label="{{t "pages.login-or-register.register-form.fields.cgu.aria-label"}}"

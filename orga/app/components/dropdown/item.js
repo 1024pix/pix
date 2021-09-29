@@ -3,7 +3,7 @@ import Component from '@glimmer/component';
 
 export default class DropdownItem extends Component {
   @action
-  handleKeyDown(event) {
+  handleKeyUp(event) {
     if (event.key === 'Enter') {
       this.args.onClick();
     }
