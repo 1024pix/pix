@@ -61,7 +61,7 @@ export default class EmailWithValidationForm extends Component {
           password: this.password,
           newEmail: this.newEmail.trim().toLowerCase(),
         });
-        await emailVerificationCode.send();
+        await emailVerificationCode.sendNewEmail();
         this.args.showVerificationCode(this.newEmail);
       } catch (response) {
         const status = get(response, 'errors[0].status');

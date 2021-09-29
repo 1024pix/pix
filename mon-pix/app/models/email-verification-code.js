@@ -5,14 +5,12 @@ export default class EmailVerificationCode extends Model {
   @attr('string') newEmail;
   @attr('string') password;
 
-  send = memberAction({
+  sendNewEmail = memberAction({
     path: 'email/verification-code',
     type: 'PUT',
     urlType: 'email-verification-code',
     before() {
-      const payload = this.serialize();
-      payload.data.type = 'email-verification-code';
-      return payload;
+      return this.serialize();
     },
   });
 }
