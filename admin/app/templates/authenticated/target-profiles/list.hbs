@@ -1,7 +1,7 @@
 <header class="page-header">
   <div class="page-title">Tous les profils cibles</div>
   <div class="page-actions">
-     <PixButton
+    <PixButton
       @route="authenticated.target-profiles.new"
       @backgroundColor="transparent-light"
       @isBorderVisible={{true}}
@@ -19,6 +19,7 @@
       @id={{this.id}}
       @name={{this.name}}
       @triggerFiltering={{this.triggerFiltering}}
-      @goToTargetProfilePage={{this.goToTargetProfilePage}} />
+      @goToTargetProfilePage={{this.goToTargetProfilePage}}
+    />
   </section>
 </main>

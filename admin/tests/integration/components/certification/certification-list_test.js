@@ -58,6 +58,6 @@ module('Integration | Component | CertificationList', function(hooks) {
     await render(hbs`<Certification::CertificationList @certifications={{certifications}} />`);
 
     // then
-    assert.contains('CléA Numérique\nPix+ Droit Maître');
+    assert.contains('CléA Numérique Pix+ Droit Maître');
   });
 });

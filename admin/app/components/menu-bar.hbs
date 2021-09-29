@@ -24,21 +24,33 @@
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text="Sessions de certifications" @position="right" @inline={{true}}>
-        <LinkTo @route="authenticated.sessions.list.with-required-action" data-test-id="menu-bar__link--sessions" class="menu-bar__link">
+        <LinkTo
+          @route="authenticated.sessions.list.with-required-action"
+          data-test-id="menu-bar__link--sessions"
+          class="menu-bar__link"
+        >
           <FaIcon @icon="chalkboard-teacher" @title="Sessions de certifications" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text="Certifications" @position="right" @inline={{true}}>
-        <LinkTo @route="authenticated.certifications" data-test-id="menu-bar-link-certifications" class="menu-bar__link">
+        <LinkTo
+          @route="authenticated.certifications"
+          data-test-id="menu-bar-link-certifications"
+          class="menu-bar__link"
+        >
           <FaIcon @icon="graduation-cap" @title="Certifications" />
         </LinkTo>
       </PixTooltip>
     </li>
     <li class="menu-bar__entry">
       <PixTooltip @text="Profils cibles" @position="right" @inline={{true}}>
-        <LinkTo @route="authenticated.target-profiles.list" data-test-id="menu-bar-link--target-profiles" class="menu-bar__link">
+        <LinkTo
+          @route="authenticated.target-profiles.list"
+          data-test-id="menu-bar-link--target-profiles"
+          class="menu-bar__link"
+        >
           <FaIcon @icon="clipboard-list" @title="Profils cibles" />
         </LinkTo>
       </PixTooltip>
