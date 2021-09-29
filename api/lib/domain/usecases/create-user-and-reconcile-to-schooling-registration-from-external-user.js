@@ -88,5 +88,12 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     }
   }
 
-  return userWithSamlId ? userWithSamlId : userRepository.get(userId);
+  if (userWithSamlId) {
+    await userRepository.updateLastLoggedAt({ userId: userWithSamlId.id });
+    return tokenService.createAccessTokenFromExternalUser(userWithSamlId.id);
+  } else {
+    const user = await userRepository.get(userId);
+    await userRepository.updateLastLoggedAt({ userId });
+    return tokenService.createAccessTokenFromExternalUser(user.id);
+  }
 };
