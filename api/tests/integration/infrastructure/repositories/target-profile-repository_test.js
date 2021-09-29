@@ -443,10 +443,12 @@ describe('Integration | Repository | Target-profile', function() {
     });
 
     context('when there are filters that should be ignored', function() {
+      let targetProfileId1;
+      let targetProfileId2;
 
       beforeEach(function() {
-        databaseBuilder.factory.buildTargetProfile({ id: 1 });
-        databaseBuilder.factory.buildTargetProfile({ id: 2 });
+        targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
+        targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;
 
         return databaseBuilder.commit();
       });
@@ -460,7 +462,7 @@ describe('Integration | Repository | Target-profile', function() {
         const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(_.map(matchingTargetProfiles, 'id')).to.have.members([1, 2]);
+        expect(_.map(matchingTargetProfiles, 'id')).to.have.members([targetProfileId1, targetProfileId2]);
       });
     });
   });
@@ -472,13 +474,13 @@ describe('Integration | Repository | Target-profile', function() {
     });
 
     it('should return attachedIds', async function() {
-      databaseBuilder.factory.buildTargetProfile({ id: 12 });
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();
 
       await databaseBuilder.commit();
 
-      const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
 
       targetProfile.addOrganizations([organization1.id, organization2.id]);
 
@@ -488,13 +490,13 @@ describe('Integration | Repository | Target-profile', function() {
     });
 
     it('add organization to the target profile', async function() {
-      databaseBuilder.factory.buildTargetProfile({ id: 12 });
+      const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();
 
       await databaseBuilder.commit();
 
-      const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+      const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
 
       targetProfile.addOrganizations([organization1.id, organization2.id]);
 
@@ -510,13 +512,13 @@ describe('Integration | Repository | Target-profile', function() {
 
     context('when the organization does not exist', function() {
       it('throws an error', async function() {
-        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const unknownOrganizationId = 99999;
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
 
         targetProfile.addOrganizations([unknownOrganizationId, organizationId]);
 
@@ -529,15 +531,15 @@ describe('Integration | Repository | Target-profile', function() {
 
     context('when the organization is already attached', function() {
       it('should return inserted organizationId', async function() {
-        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const firstOrganization = databaseBuilder.factory.buildOrganization();
         const secondOrganization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: firstOrganization.id });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId, organizationId: firstOrganization.id });
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
 
         targetProfile.addOrganizations([firstOrganization.id, secondOrganization.id]);
 
@@ -588,19 +590,19 @@ describe('Integration | Repository | Target-profile', function() {
 
     context('when the organization is already attached', function() {
       it('should return inserted organization', async function() {
-        const targetProfile = databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const firstOrganization = databaseBuilder.factory.buildOrganization();
         const secondOrganization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: firstOrganization.id });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId: firstOrganization.id });
 
         await databaseBuilder.commit();
 
-        await targetProfileRepository.attachOrganizationIds({ targetProfileId: targetProfile.id, organizationIds: [firstOrganization.id, secondOrganization.id] });
+        await targetProfileRepository.attachOrganizationIds({ targetProfileId, organizationIds: [firstOrganization.id, secondOrganization.id] });
 
         const rows = await knex('target-profile-shares')
           .select('organizationId')
-          .where({ targetProfileId: targetProfile.id });
+          .where({ targetProfileId });
         const result = rows.map(({ organizationId }) => organizationId);
 
         expect(result).to.deep.equal([firstOrganization.id, secondOrganization.id]);
@@ -612,13 +614,13 @@ describe('Integration | Repository | Target-profile', function() {
 
     context('when none of given organizations is attached to the targetProfile', function() {
       it('return true', async function() {
-        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const organization1 = databaseBuilder.factory.buildOrganization();
         const organization2 = databaseBuilder.factory.buildOrganization();
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
 
         targetProfile.addOrganizations([organization1.id, organization2.id]);
 
@@ -630,15 +632,15 @@ describe('Integration | Repository | Target-profile', function() {
 
     context('when one of given organizations is attached to the targetProfile', function() {
       it('return true', async function() {
-        databaseBuilder.factory.buildTargetProfile({ id: 12 });
+        const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const organization1 = databaseBuilder.factory.buildOrganization();
         const organization2 = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: 12, organizationId: organization1.id });
+        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId, organizationId: organization1.id });
 
         await databaseBuilder.commit();
 
-        const targetProfile = domainBuilder.buildTargetProfile({ id: 12 });
+        const targetProfile = domainBuilder.buildTargetProfile({ id: targetProfileId });
 
         targetProfile.addOrganizations([organization1.id, organization2.id]);
 
