@@ -7,7 +7,7 @@
           <span class="required-field-indicator">*</span>
           Nom de famille
         </label>
-        <Input @id="last-name" @type="text" @class="input" @value={{this.lastName}} {{ did-insert this.focus }} required />
+        <Input id="last-name" @type="text" class="input" @value={{this.lastName}} {{ did-insert this.focus }} required />
       </div>
 
       <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
@@ -15,7 +15,7 @@
           <span class="required-field-indicator">*</span>
           Prénom
         </label>
-        <Input @id="first-name" @type="text" @class="input" @value={{this.firstName}} required />
+        <Input id="first-name" @type="text" class="input" @value={{this.firstName}} required />
       </div>
 
       <div class="candidate-edit-modal__content__field">
@@ -105,7 +105,7 @@
             <span class="required-field-indicator">*</span>
             Code Insee de naissance
           </label>
-          <Input @id="birth-insee-code" @type="text" @class="input" @value={{this.birthInseeCode}} required />
+          <Input id="birth-insee-code" @type="text" class="input" @value={{this.birthInseeCode}} required />
         </div>
       {{/if}}
 
@@ -115,7 +115,7 @@
             <span class="required-field-indicator">*</span>
             Code postal de naissance
           </label>
-          <Input @id="birth-postal-code" @type="text" @class="input" @value={{this.birthPostalCode}} required />
+          <Input id="birth-postal-code" @type="text" class="input" @value={{this.birthPostalCode}} required />
         </div>
       {{/if}}
 
@@ -125,7 +125,7 @@
             <span class="required-field-indicator">*</span>
             Commune de naissance
           </label>
-          <Input @id="birth-city" @type="text" @class="input" @value={{this.birthCity}} required />
+          <Input id="birth-city" @type="text" class="input" @value={{this.birthCity}} required />
         </div>
       {{/if}}
 

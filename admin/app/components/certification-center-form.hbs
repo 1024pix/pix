@@ -5,7 +5,7 @@
     <div class="form-field form-group">
       <label class="form-field__label" for="certificationCenterName">Nom : </label>
       <Input class={{if @certificationCenter.errors.name "form-field__text form-control is-invalid" "form-field__text form-control"}}
-             @id="certificationCenterName"
+             id="certificationCenterName"
              @value={{@certificationCenter.name}} />
       {{#if @certificationCenter.errors.name}}
         <div class="form-field__error">
@@ -35,7 +35,7 @@
     <div class="form-field form-group">
       <label class="form-field__label" for="certificationCenterExternalId">Identifiant externe : </label>
       <Input class={{if @certificationCenter.errors.externalId "form-field__text form-control is-invalid" "form-field__text form-control"}}
-             @id="certificationCenterExternalId"
+             id="certificationCenterExternalId"
              @value={{@certificationCenter.externalId}} />
       {{#if @certificationCenter.errors.externalId}}
         <div class="form-field__error">
