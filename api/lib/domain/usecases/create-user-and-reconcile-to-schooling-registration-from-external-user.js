@@ -41,6 +41,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   });
 
   let matchedSchoolingRegistration;
+  let userWithSamlId;
   let userId;
   const reconciliationErrors = [
     STUDENT_RECONCILIATION_ERRORS.RECONCILIATION.IN_OTHER_ORGANIZATION.samlId.code,
@@ -56,19 +57,17 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
 
     await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(matchedSchoolingRegistration, userRepository, obfuscationService, studentRepository);
 
-    const user = await userRepository.getBySamlId(externalUser.samlId);
-    if (user) {
-      return user;
+    userWithSamlId = await userRepository.getBySamlId(externalUser.samlId);
+    if (!userWithSamlId) {
+      userId = await userService.createAndReconcileUserToSchoolingRegistration({
+        user: domainUser,
+        schoolingRegistrationId: matchedSchoolingRegistration.id,
+        samlId: externalUser.samlId,
+        authenticationMethodRepository,
+        schoolingRegistrationRepository,
+        userRepository,
+      });
     }
-
-    userId = await userService.createAndReconcileUserToSchoolingRegistration({
-      user: domainUser,
-      schoolingRegistrationId: matchedSchoolingRegistration.id,
-      samlId: externalUser.samlId,
-      authenticationMethodRepository,
-      schoolingRegistrationRepository,
-      userRepository,
-    });
 
   } catch (error) {
 
@@ -89,5 +88,5 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
     }
   }
 
-  return userRepository.get(userId);
+  return userWithSamlId ? userWithSamlId : userRepository.get(userId);
 };
