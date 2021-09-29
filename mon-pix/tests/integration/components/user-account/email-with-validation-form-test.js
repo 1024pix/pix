@@ -92,7 +92,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       this.set('showVerificationCode', sinon.stub());
-      store.createRecord = () => ({ send: sinon.stub() });
+      store.createRecord = () => ({ sendNewEmail: sinon.stub() });
 
       await render(hbs`<UserAccount::EmailWithValidationForm @showVerificationCode={{this.showVerificationCode}} />`);
 
@@ -110,7 +110,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       const emailAlreadyExist = 'email@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        send: sinon.stub().throws(
+        sendNewEmail: sinon.stub().throws(
           { errors: [{ status: '400', code: 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS' }] }),
       });
 
@@ -130,7 +130,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        send: sinon.stub().throws(
+        sendNewEmail: sinon.stub().throws(
           { errors: [{ status: '400' }] }),
       });
 
@@ -150,7 +150,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        send: sinon.stub().throws(
+        sendNewEmail: sinon.stub().throws(
           { errors: [{ status: '422', source: { pointer: 'attributes/email' } }] }),
       });
 
@@ -170,7 +170,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       const newEmail = 'newEmail@example.net';
       const password = 'password';
       store.createRecord = () => ({
-        send: sinon.stub().throws(
+        sendNewEmail: sinon.stub().throws(
           { errors: [{ status: '422', source: { pointer: 'attributes/password' } }] }),
       });
 
