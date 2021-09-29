@@ -80,6 +80,9 @@ Router.map(function () {
         this.route('details', { path: '/' });
         this.route('organizations');
         this.route('insights');
+        this.route('badges', function() {
+          this.route('new');
+        });
       });
     });
 
