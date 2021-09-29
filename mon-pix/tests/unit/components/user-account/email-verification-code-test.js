@@ -7,6 +7,45 @@ import createGlimmerComponent from 'mon-pix/tests/helpers/create-glimmer-compone
 describe('Unit | Component | user-account | email-verification-code', function() {
   setupTest();
 
+  context('#onSubmitCode', function() {
+
+    it('should send entered code for verification', async function() {
+      // given
+      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const code = '918435';
+      const verifyCode = sinon.stub();
+      component.store = { createRecord: () => ({ verifyCode }) };
+      sinon.spy(component.store, 'createRecord');
+
+      // when
+      await component.onSubmitCode(code);
+
+      // then
+      sinon.assert.calledWith(component.store.createRecord, 'email-verification-code', { code });
+      sinon.assert.calledOnce(verifyCode);
+    });
+
+    it('should update the user email when code verification is successful', async function() {
+      // given
+      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const code = '918435';
+      const newEmail = 'new-email@example.net';
+      const verifyCode = sinon.stub().returns(newEmail);
+      component.store = { createRecord: () => ({ verifyCode }) };
+      component.currentUser = { user: { email: 'old-email@example.net' } };
+      component.args.disableEmailEditionMode = sinon.stub();
+      component.args.showSuccessMessageTemporarily = sinon.stub();
+      sinon.spy(component.store, 'createRecord');
+
+      // when
+      await component.onSubmitCode(code);
+
+      // then
+      expect(component.currentUser.user.email).to.equal(newEmail);
+    });
+
+  });
+
   context('#resendVerificationCodeByEmail', function() {
 
     it('should prevent to double click on resend verification code', async function() {
