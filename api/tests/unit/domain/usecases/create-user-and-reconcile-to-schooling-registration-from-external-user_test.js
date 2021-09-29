@@ -27,7 +27,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
     };
     userRepository = {
       getBySamlId: sinon.stub(),
-      get: sinon.stub(),
       updateLastLoggedAt: sinon.stub(),
     };
     userService = {
@@ -115,7 +114,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
       userRepository.getBySamlId.resolves(null);
       userService.createAndReconcileUserToSchoolingRegistration.resolves(user.id);
-      userRepository.get.resolves(user);
 
       // when
       await createUserAndReconcileToSchoolingRegistrationFromExternalUser({
@@ -149,7 +147,6 @@ describe('Unit | UseCase | create-user-and-reconcile-to-schooling-registration-f
       userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
       userRepository.getBySamlId.resolves(null);
       userService.createAndReconcileUserToSchoolingRegistration.resolves(user.id);
-      userRepository.get.resolves(user);
       tokenService.createAccessTokenFromExternalUser.withArgs(user.id).resolves(token);
 
       // when

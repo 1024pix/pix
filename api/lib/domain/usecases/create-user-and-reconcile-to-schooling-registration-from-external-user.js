@@ -89,11 +89,12 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   }
 
   if (userWithSamlId) {
+    const token = tokenService.createAccessTokenFromExternalUser(userWithSamlId.id);
     await userRepository.updateLastLoggedAt({ userId: userWithSamlId.id });
-    return tokenService.createAccessTokenFromExternalUser(userWithSamlId.id);
+    return token;
   } else {
-    const user = await userRepository.get(userId);
+    const token = tokenService.createAccessTokenFromExternalUser(userId);
     await userRepository.updateLastLoggedAt({ userId });
-    return tokenService.createAccessTokenFromExternalUser(user.id);
+    return token;
   }
 };
