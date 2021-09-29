@@ -2,11 +2,11 @@
   <div class="form__field">
     <label for="campaign-name" class="label">{{t "pages.campaign-modification.campaign-name"}}</label>
     <Input
-      @id="campaign-name"
-      @name="campaign-name"
+      id="campaign-name"
+      name="campaign-name"
       @type="text"
-      @class="input"
-      @maxlength="255"
+      class="input"
+      maxlength="255"
       @value={{@campaign.name}}
     />
   </div>
@@ -15,11 +15,11 @@
     <div class="form__field">
       <label for="campaign-title" class="label">{{t "pages.campaign-modification.personalised-test-title"}}</label>
       <Input
-        @id="campaign-title"
-        @name="campaign-title"
+        id="campaign-title"
+        name="campaign-title"
         @type="text"
-        @class="input"
-        @maxlength="50"
+        class="input"
+        maxlength="50"
         @value={{@campaign.title}}
       />
     </div>
@@ -30,8 +30,8 @@
         "pages.campaign-modification.landing-page-text"
       }}</label>
     <PixTextarea
-      @id="campaign-custom-landing-page-text"
-      @maxlength={{350}}
+      id="campaign-custom-landing-page-text"
+      maxlength={{350}}
       @value={{@campaign.customLandingPageText}}
       rows={{8}}
     />

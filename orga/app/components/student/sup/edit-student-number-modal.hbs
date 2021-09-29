@@ -4,7 +4,7 @@
   @display={{@display}}
   @close={{this.close}}
 >
-  <form {{on "submit" (fn this.updateStudentNumber)}}>
+  <form {{on "submit" this.updateStudentNumber}}>
     <Modal::Body class="edit-student-number-modal__content">
       {{#if @student.studentNumber}}
         <p class="content-text">{{t
@@ -17,7 +17,7 @@
           "pages.students-sup.edit-student-number-modal.form.new-student-number-label"
         }}</label>
       <div class="input-container">
-        <Input id="editStudentNumber" type="text" @value={{this.newStudentNumber}} class="input" />
+        <Input id="editStudentNumber" @type="text" @value={{this.newStudentNumber}} class="input" />
 
         <div class="form__error error-message">
           {{this.error}}
