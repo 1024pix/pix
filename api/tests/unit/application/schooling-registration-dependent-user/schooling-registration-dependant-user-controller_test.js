@@ -1,10 +1,8 @@
-const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
-const tokenService = require('../../../../lib/domain/services/token-service');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
 const schoolingRegistrationDependantUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 describe('Unit | Application | Controller | schooling-registration-user-associations', function() {
 
@@ -53,24 +51,23 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
 
   describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', function() {
 
-    it('should save last logged at date', async function() {
+    it('should return 200 response with an access token', async function() {
       // given
       const request = { payload: { data: { attributes: {
         birthdate: '01-01-2000',
         'campaign-code': 'BADGES123',
         'external-user-token': '123SamlId',
       } } } };
-      const user = domainBuilder.buildUser({ id: 7 });
+      const token = Symbol('token');
 
-      sinon.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').resolves(user);
-      sinon.stub(tokenService, 'createAccessTokenFromExternalUser').returns('accessToken');
-      sinon.stub(userRepository, 'updateLastLoggedAt');
+      sinon.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').resolves(token);
 
       // when
-      await schoolingRegistrationDependantUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, hFake);
+      const response = await schoolingRegistrationDependantUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, hFake);
 
       // then
-      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 7 });
+      expect(response.source.data.attributes['access-token']).to.deep.equal(token);
+      expect(response.statusCode).to.equal(200);
     });
   });
 });
