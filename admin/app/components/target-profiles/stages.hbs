@@ -1,8 +1,9 @@
+{{!-- template-lint-disable require-input-label --}}
 <div class="content-text content-text--small">
   <form class="form" {{on "submit" this.createStages}}>
     {{#if this.hasStages}}
       {{#if this.displayNoThresholdZero}}
-        <PixMessage @type='warning'>
+        <PixMessage type='warning'>
           Attention ! Il n'y a pas de palier à 0
         </PixMessage>
       {{/if}}
@@ -31,8 +32,8 @@
                   {{#if stage.isNew}}
                     <div class="form-field">
                       <Input class={{if stage.errors.threshold "form-control is-invalid" "form-control"}}
-                             type="number"
-                             @required="true"
+                             @type="number"
+                             required="true"
                              @value={{stage.threshold}} />
                       {{#if stage.errors.threshold}}
                         <div class="form-field__error">
@@ -48,7 +49,7 @@
                   {{#if stage.isNew}}
                     <div class="form-field">
                       <Input class={{if stage.errors.title "form-field__text form-control is-invalid" "form-field__text form-control"}}
-                             @required="true"
+                             required="true"
                              @value={{stage.title}} />
                       {{#if stage.errors.title}}
                         <div class="form-field__error">
@@ -64,7 +65,7 @@
                   {{#if stage.isNew}}
                     <div class="form-field">
                       <Input class="form-control"
-                             @required="true"
+                             required="true"
                              @value={{stage.message}} />
                     </div>
                   {{else}}
@@ -72,12 +73,12 @@
                   {{/if}}
                 </td>
                 <td>
-                  <Common::TickOrCross 
+                  <Common::TickOrCross
                     @isTrue={{stage.hasPrescriberTitle}}
                   />
                 </td>
                 <td>
-                  <Common::TickOrCross 
+                  <Common::TickOrCross
                     @isTrue={{stage.hasPrescriberDescription}}
                   />
                 </td>
@@ -128,7 +129,7 @@
           @triggerAction={{this.cancelStagesCreation}}>Annuler</PixButton>
         <PixButton
           data-test="form-action-submit"
-          @type="submit"
+          type="submit"
           @backgroundColor="green"
           @triggerAction={{this.createStages}}>Enregistrer</PixButton>
       </div>
