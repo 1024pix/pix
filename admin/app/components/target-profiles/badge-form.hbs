@@ -1,0 +1,72 @@
+<form>
+  <div>
+    <label for="title">Nom du badge</label>
+    <Input
+      id="title"
+      name="Nom du badge"
+      @type="text"
+      @value={{this.badge.title}}
+    />
+  </div>
+  <div>
+    <label for="badge-key">Clé</label>
+    <Input
+      id="badge-key"
+      name="Clé du badge"
+      maxlength="255"
+      @type="text"
+      @value={{this.badge.key}}
+    />
+  </div>
+  <div>
+    <label for="message">Message</label>
+    <Input
+      id="message"
+      name="Message du badge"
+      @type="text"
+      @value={{this.badge.message}}
+    />
+  </div>
+  <div>
+    <label for="image-url">Url de l'image</label>
+    <Input
+      id="image-url"
+      name="Url de l'image"
+      @type="text"
+      @value={{this.badge.imageUrl}}
+    />
+  </div>
+  <div>
+    <label for="alt-message">Texte alternatif pour l'image</label>
+    <Input
+      id="alt-message"
+      name="Texte alternatif pour l'image"
+      @type="text"
+      @value={{this.badge.altMessage}}
+    />
+  </div>
+  <div>
+    <label class="badge-form-field__label" for="isCertifiable">Certifiable : </label>
+    <Input class="badge-form-control"
+           @type="checkbox"
+           @checked={{this.badge.isCertifiable}}
+           id="isCertifiable" />
+  </div>
+  <div>
+    <label class="badge-form-field__label" for="isAlwaysVisible">Toujours visible (même pour les lacunes) : </label>
+    <Input class="badge-form-control"
+           @type="checkbox"
+           @checked={{this.badge.isAlwaysVisible}}
+           id="isAlwaysVisible" />
+  </div>
+
+  <div>
+    <PixButtonLink
+      data-test="badge-form-cancel-button"
+      @backgroundColor="transparent-light"
+      @route="authenticated.target-profiles.target-profile.insights"
+    >
+      Annuler
+    </PixButtonLink>
+  </div>
+</form>

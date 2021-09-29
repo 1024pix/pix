@@ -45,6 +45,17 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
 
       assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
     });
+
+    test('should redirect to insights parent page when badge creation is cancelled', async function (assert) {
+      // given
+      await visit(`/target-profiles/${targetProfile.id}/badges/new`);
+
+      // when
+      await click('[data-test="badge-form-cancel-button"]');
+
+      // then
+      assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
+    });
   });
 
   module('stages', function() {
