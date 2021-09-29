@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-action --}}
+{{! template-lint-disable no-action }}
 {{page-title "Session " @model.id " Certifications - Pix admin" replace=true}}
 <section>
   <div class="certification-list-page">
@@ -35,7 +35,9 @@
   </div>
 </section>
 
-<ConfirmPopup @message={{this.confirmMessage}}
-              @confirm={{action this.toggleSessionPublication}}
-              @cancel={{action this.onCancelConfirm}}
-              @show={{this.displayConfirm}} />
+<ConfirmPopup
+  @message={{this.confirmMessage}}
+  @confirm={{action this.toggleSessionPublication}}
+  @cancel={{action this.onCancelConfirm}}
+  @show={{this.displayConfirm}}
+/>

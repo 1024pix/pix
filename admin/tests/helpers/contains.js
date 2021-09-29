@@ -1,7 +1,8 @@
 import { getRootElement } from '@ember/test-helpers';
 
 function getChildrenThatContainsText(element, text, isChild) {
-  if (element.textContent.trim().includes(text)) {
+  const sanitizedElementText = element.textContent.trim().replace(/\s+/g, ' ');
+  if (sanitizedElementText.includes(text)) {
     return isChild ? element : [element];
   }
 

@@ -27,14 +27,14 @@
               {{#each tube.skills as |skill|}}
                 <td class="table__column--center skill-column">
                   {{#if skill}}
-                    <PixTooltip @text={{concat skill.id ' ' skill.name}} @position='bottom'>
+                    <PixTooltip @text={{concat skill.id " " skill.name}} @position="bottom">
                       <FaIcon @icon="check" class="skill-column--check" aria-label={{skill.name}} />
                     </PixTooltip>
                   {{else}}
                     <FaIcon @icon="times" class="skill-column--uncheck" />
                   {{/if}}
                 </td>
-              {{/each}} 
+              {{/each}}
             </tr>
           {{/each}}
         </tbody>

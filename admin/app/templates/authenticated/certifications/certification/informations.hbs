@@ -1,11 +1,7 @@
-{{!-- template-lint-disable no-action --}}
+{{! template-lint-disable no-action }}
 <div class="certification-informations">
   <div class="buttons-row">
-    <PixButton
-      @route="authenticated.users.get"
-      @size="small"
-      @model={{this.certification.userId}}
-    >
+    <PixButton @route="authenticated.users.get" @size="small" @model={{this.certification.userId}}>
       Voir les détails de l'utilisateur
     </PixButton>
     {{#if this.isCertificationCancelled}}
@@ -16,13 +12,13 @@
         data-test-id="Désannuler la certification"
       >
         Désannuler la certification
-        </PixButton>
+      </PixButton>
     {{else}}
       <PixButton
-              @backgroundColor="red"
-              @size="small"
-              @triggerAction={{this.onCancelCertificationButtonClick}}
-              data-test-id="Annuler la certification"
+        @backgroundColor="red"
+        @size="small"
+        @triggerAction={{this.onCancelCertificationButtonClick}}
+        data-test-id="Annuler la certification"
       >
         Annuler la certification
       </PixButton>
@@ -30,52 +26,95 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
+      <div class="card {{if this.editingCandidateResults "border-primary"}}">
         <div class="card-body">
           <h5 class="card-title">
             <Certification::CertificationInfoPublished @record={{this.certification}} @float={{true}} />État
           </h5>
           <div class="card-text">
-            <Certification::CertificationInfoField @value={{this.certification.sessionId}} @edition={{false}} @label="Session :" @linkRoute="authenticated.sessions.session" />
-            <Certification::CertificationStatusSelect @certification={{this.certification}} @edition={{this.editingCandidateResults}} />
-            <Certification::CertificationInfoField @value={{this.certification.creationDate}} @edition={{false}} @label="Créée le :" />
-            <Certification::CertificationInfoField @value={{this.certification.completionDate}} @edition={{false}} @label="Terminée le :" />
-            <Certification::CertificationInfoField @value={{this.certification.publishedText}} @edition={{false}} @label="Publiée :" />
-            <Certification::CertificationInfoField @value={{this.certification.cleaCertificationStatusLabel}} @edition={{false}} @label="Certification CléA numérique :" @class="certification-informations__complementary-certification--{{this.certification.cleaCertificationStatus}}" />
-            <Certification::CertificationInfoField @value={{this.certification.pixPlusDroitMaitreCertificationStatusLabel}} @edition={{false}} @label="Certification Pix+ Droit Maître :" @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitMaitreCertificationStatus}}" />
-            <Certification::CertificationInfoField @value={{this.certification.pixPlusDroitExpertCertificationStatusLabel}} @edition={{false}} @label="Certification Pix+ Droit Expert :" @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitExpertCertificationStatus}}" />
+            <Certification::CertificationInfoField
+              @value={{this.certification.sessionId}}
+              @edition={{false}}
+              @label="Session :"
+              @linkRoute="authenticated.sessions.session"
+            />
+            <Certification::CertificationStatusSelect
+              @certification={{this.certification}}
+              @edition={{this.editingCandidateResults}}
+            />
+            <Certification::CertificationInfoField
+              @value={{this.certification.creationDate}}
+              @edition={{false}}
+              @label="Créée le :"
+            />
+            <Certification::CertificationInfoField
+              @value={{this.certification.completionDate}}
+              @edition={{false}}
+              @label="Terminée le :"
+            />
+            <Certification::CertificationInfoField
+              @value={{this.certification.publishedText}}
+              @edition={{false}}
+              @label="Publiée :"
+            />
+            <Certification::CertificationInfoField
+              @value={{this.certification.cleaCertificationStatusLabel}}
+              @edition={{false}}
+              @label="Certification CléA numérique :"
+              @class="certification-informations__complementary-certification--{{this.certification.cleaCertificationStatus}}"
+            />
+            <Certification::CertificationInfoField
+              @value={{this.certification.pixPlusDroitMaitreCertificationStatusLabel}}
+              @edition={{false}}
+              @label="Certification Pix+ Droit Maître :"
+              @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitMaitreCertificationStatus}}"
+            />
+            <Certification::CertificationInfoField
+              @value={{this.certification.pixPlusDroitExpertCertificationStatusLabel}}
+              @edition={{false}}
+              @label="Certification Pix+ Droit Expert :"
+              @class="certification-informations__complementary-certification--{{this.certification.pixPlusDroitExpertCertificationStatus}}"
+            />
           </div>
         </div>
       </div>
     </div>
     <div class="col">
-      <div class="card {{if this.editingCandidateInformations 'border-primary'}}">
+      <div class="card {{if this.editingCandidateInformations "border-primary"}}">
         <div class="card-body candidate-informations">
           <h5 class="card-title">Candidat</h5>
           <div class="card-text">
             <div>
-              Prénom : {{this.certification.firstName}}
+              Prénom :
+              {{this.certification.firstName}}
             </div>
             <div>
-              Nom de famille : {{this.certification.lastName}}
+              Nom de famille :
+              {{this.certification.lastName}}
             </div>
             <div>
-              Date de naissance : {{moment-format this.certification.birthdate 'DD/MM/YYYY' allow-empty=true}}
+              Date de naissance :
+              {{moment-format this.certification.birthdate "DD/MM/YYYY" allow-empty=true}}
             </div>
             <div>
-              Sexe : {{this.certification.sex}}
+              Sexe :
+              {{this.certification.sex}}
             </div>
             <div>
-              Commune de naissance : {{this.certification.birthplace}}
+              Commune de naissance :
+              {{this.certification.birthplace}}
             </div>
             <div>
-              Code postal de naissance : {{this.certification.birthPostalCode}}
+              Code postal de naissance :
+              {{this.certification.birthPostalCode}}
             </div>
             <div>
-              Code INSEE de naissance : {{this.certification.birthInseeCode}}
+              Code INSEE de naissance :
+              {{this.certification.birthInseeCode}}
             </div>
             <div>
-              Pays de naissance : {{this.certification.birthCountry}}
+              Pays de naissance :
+              {{this.certification.birthCountry}}
             </div>
             <div class="candidate-informations__actions">
               <PixButton
@@ -87,7 +126,8 @@
                 Modifier
               </PixButton>
               {{#if this.certification.wasRegisteredBeforeCPF}}
-                <span class="candidate-informations__warning-cpf-message">Voir avec PO/Dev pour modifier les infos candidat.</span>
+                <span class="candidate-informations__warning-cpf-message">Voir avec PO/Dev pour modifier les infos
+                  candidat.</span>
               {{/if}}
             </div>
           </div>
@@ -112,7 +152,7 @@
 
   <div class="row">
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
+      <div class="card {{if this.editingCandidateResults "border-primary"}}">
         <div class="card-body">
           <h5 class="card-title">Commentaires jury</h5>
           <div class="card-text">
@@ -121,24 +161,28 @@
               @edition={{this.editingCandidateResults}}
               @label="Pour le candidat :"
               @fieldId="certification-commentForCandidate"
-              @isTextarea={{true}} />
+              @isTextarea={{true}}
+            />
             <Certification::CertificationInfoField
               @value={{this.certification.commentForOrganization}}
               @edition={{this.editingCandidateResults}}
               @label="Pour l'organisation :"
               @fieldId="certification-commentForOrganization"
-              @isTextarea={{true}} />
+              @isTextarea={{true}}
+            />
             <Certification::CertificationInfoField
               @value={{this.certification.commentForJury}}
               @edition={{this.editingCandidateResults}}
               @label="Pour le jury :"
               @fieldId="certification-commentForJury"
-              @isTextarea={{true}} />
+              @isTextarea={{true}}
+            />
             <Certification::CertificationInfoField
               @value={{this.certification.juryId}}
               @edition={{false}}
               @label="Identifiant jury :"
-              @isTextarea={{true}} />
+              @isTextarea={{true}}
+            />
           </div>
         </div>
       </div>
@@ -146,7 +190,7 @@
   </div>
   <div class="row">
     <div class="col">
-      <div class="card {{if this.editingCandidateResults 'border-primary'}}">
+      <div class="card {{if this.editingCandidateResults "border-primary"}}">
         <div class="card-body">
           <h5 class="card-title">Résultats</h5>
           <div class="card-text">
@@ -155,13 +199,15 @@
               @edition={{this.editingCandidateResults}}
               @label="Score :"
               @fieldId="certification-pixScore"
-              @suffix=" Pix" />
+              @suffix=" Pix"
+            />
             <p></p>
             <Certification::CertificationCompetenceList
-                    @competences={{this.certification.competences}}
-                    @edition={{this.editingCandidateResults}}
-                    @onUpdateScore={{this.onUpdateScore}}
-                    @onUpdateLevel={{this.onUpdateLevel}} />
+              @competences={{this.certification.competences}}
+              @edition={{this.editingCandidateResults}}
+              @onUpdateScore={{this.onUpdateScore}}
+              @onUpdateLevel={{this.onUpdateLevel}}
+            />
           </div>
         </div>
       </div>
@@ -202,11 +248,12 @@
     </div>
   {{/if}}
   <ConfirmPopup
-          @message={{this.confirmMessage}}
-          @error={{this.confirmErrorMessage}}
-          @confirm={{action this.confirmAction}}
-          @cancel={{action this.onCandidateResultsCancelConfirm}}
-          @show={{this.displayConfirm}} />
+    @message={{this.confirmMessage}}
+    @error={{this.confirmErrorMessage}}
+    @confirm={{action this.confirmAction}}
+    @cancel={{action this.onCandidateResultsCancelConfirm}}
+    @show={{this.displayConfirm}}
+  />
 </div>
 <Certification::CandidateEditModal
   @isDisplayed={{this.isCandidateEditModalOpen}}

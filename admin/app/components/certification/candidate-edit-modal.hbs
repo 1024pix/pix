@@ -1,4 +1,9 @@
-<Modal::Dialog class="candidate-edit-modal" @title="Editer les informations du candidat" @display={{@isDisplayed}} @close={{this.onCancelButtonsClicked}}>
+<Modal::Dialog
+  class="candidate-edit-modal"
+  @title="Editer les informations du candidat"
+  @display={{@isDisplayed}}
+  @close={{this.onCancelButtonsClicked}}
+>
   <form {{on "submit" this.onFormSubmit}}>
     <Modal::Body class="candidate-edit-modal__content">
 
@@ -7,7 +12,7 @@
           <span class="required-field-indicator">*</span>
           Nom de famille
         </label>
-        <Input id="last-name" @type="text" class="input" @value={{this.lastName}} {{ did-insert this.focus }} required />
+        <Input id="last-name" @type="text" class="input" @value={{this.lastName}} {{did-insert this.focus}} required />
       </div>
 
       <div class="candidate-edit-modal__content__field candidate-edit-modal__content__field-double">
@@ -19,24 +24,25 @@
       </div>
 
       <div class="candidate-edit-modal__content__field">
-        <span class="required-field-indicator">*</span> Sexe
+        <span class="required-field-indicator">*</span>
+        Sexe
         <div class="radio-button-container">
           <input
             type="radio"
             id="female"
             name="sex"
             required
-            checked={{ if (eq this.sex 'F') true}}
+            checked={{if (eq this.sex "F") true}}
             {{on "click" (fn this.updateSexValue "F")}}
-          >
+          />
           <label class="radio-button-label" for="female">Femme</label>
           <input
             type="radio"
             id="male"
             name="sex"
-            checked={{if (eq this.sex 'M') true}}
+            checked={{if (eq this.sex "M") true}}
             {{on "click" (fn this.updateSexValue "M")}}
-          >
+          />
           <label class="radio-button-label" for="male">Homme</label>
         </div>
       </div>
@@ -47,13 +53,13 @@
           Date de naissance
         </label>
         <EmberFlatpickr
-                id="birthdate"
-                @altFormat="d/m/Y"
-                @altInput={{true}}
-                @onChange={{this.updateBirthdate}}
-                @dateFormat="Y-m-d"
-                @locale="fr"
-                @date={{this.birthdate}}
+          id="birthdate"
+          @altFormat="d/m/Y"
+          @altInput={{true}}
+          @onChange={{this.updateBirthdate}}
+          @dateFormat="Y-m-d"
+          @locale="fr"
+          @date={{this.birthdate}}
         />
       </div>
 
@@ -81,19 +87,19 @@
               id="insee-code-choice"
               name="birth-geo-code-option"
               value="insee"
-              checked={{if (eq this.selectedBirthGeoCodeOption 'insee') true}}
+              checked={{if (eq this.selectedBirthGeoCodeOption "insee") true}}
               {{on "click" (fn this.selectBirthGeoCodeOption "insee")}}
               required
-            >
+            />
             <label class="radio-button-label" for="insee-code-choice">Code INSEE</label>
             <input
               type="radio"
               id="postal-code-choice"
               name="birth-geo-code-option"
               value="postal"
-              checked={{if (eq this.selectedBirthGeoCodeOption 'postal') true}}
+              checked={{if (eq this.selectedBirthGeoCodeOption "postal") true}}
               {{on "click" (fn this.selectBirthGeoCodeOption "postal")}}
-            >
+            />
             <label class="radio-button-label" for="postal-code-choice">Code postal</label>
           </div>
         </div>
@@ -129,8 +135,6 @@
         </div>
       {{/if}}
 
-
-
     </Modal::Body>
     <Modal::Footer>
       <PixButton
@@ -141,11 +145,7 @@
       >
         Annuler
       </PixButton>
-      <PixButton
-        @size="small"
-        @type="submit"
-        data-test-id="close-certification-candidate-edition-modal"
-      >
+      <PixButton @size="small" @type="submit" data-test-id="close-certification-candidate-edition-modal">
         Enregistrer
       </PixButton>
     </Modal::Footer>

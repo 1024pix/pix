@@ -16,26 +16,30 @@
           </tr>
         </thead>
         <tbody>
-        {{#each certifiedCompetence.certifiedTubes as |certifiedTube|}}
-          <tr>
-            <td>{{certifiedTube.name}}</td>
-            {{#each certifiedTube.certifiedSkills as |certifiedSkill|}}
-              <td class="table__column--center skill-column">
-                {{#if certifiedSkill.hasBeenAskedInCertif}}
-                  <PixTooltip @text={{concat certifiedSkill.id ' ' certifiedSkill.name}} @position='bottom'>
-                    <FaIcon @icon="check-double" class="skill-column--tested-in-certif" aria-label={{certifiedSkill.name}} />
-                  </PixTooltip>
-                {{else if certifiedSkill}}
-                  <PixTooltip @text={{concat certifiedSkill.id ' ' certifiedSkill.name}} @position='bottom'>
-                    <FaIcon @icon="check" class="skill-column--check" aria-label={{certifiedSkill.name}} />
-                  </PixTooltip>
-                {{else}}
-                  <FaIcon @icon="times" class="skill-column--uncheck" />
-                {{/if}}
-              </td>
-            {{/each}}
-          </tr>
-        {{/each}}
+          {{#each certifiedCompetence.certifiedTubes as |certifiedTube|}}
+            <tr>
+              <td>{{certifiedTube.name}}</td>
+              {{#each certifiedTube.certifiedSkills as |certifiedSkill|}}
+                <td class="table__column--center skill-column">
+                  {{#if certifiedSkill.hasBeenAskedInCertif}}
+                    <PixTooltip @text={{concat certifiedSkill.id " " certifiedSkill.name}} @position="bottom">
+                      <FaIcon
+                        @icon="check-double"
+                        class="skill-column--tested-in-certif"
+                        aria-label={{certifiedSkill.name}}
+                      />
+                    </PixTooltip>
+                  {{else if certifiedSkill}}
+                    <PixTooltip @text={{concat certifiedSkill.id " " certifiedSkill.name}} @position="bottom">
+                      <FaIcon @icon="check" class="skill-column--check" aria-label={{certifiedSkill.name}} />
+                    </PixTooltip>
+                  {{else}}
+                    <FaIcon @icon="times" class="skill-column--uncheck" />
+                  {{/if}}
+                </td>
+              {{/each}}
+            </tr>
+          {{/each}}
         </tbody>
       </table>
     </div>
