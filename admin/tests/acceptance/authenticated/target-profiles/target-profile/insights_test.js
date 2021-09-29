@@ -37,6 +37,14 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
     assert.equal(currentURL(), '/badges/100');
   });
 
+  test('should redirect to badge creation page on link click', async function(assert) {
+    await visit(`/target-profiles/${targetProfile.id}/insights`);
+
+    await click('[data-test=\'badges-creation-redirect\']');
+
+    assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/badges/new`);
+  });
+
   test('should be able to add a new stage', async function (assert) {
     await visit(`/target-profiles/${targetProfile.id}/insights`);
 

@@ -4,6 +4,14 @@
     <h2 class="insights-section__title">Résultats thématiques</h2>
     <TargetProfiles::Badges
       @badges={{@model.badges}} />
+    <PixButtonLink class="pix-button__secondary"
+                   data-test='badges-creation-redirect'
+                   @backgroundColor="transparent-light"
+                   @route="authenticated.target-profiles.target-profile.badges.new"
+                   @model={{@model.targetProfile.id}}
+                   @isBorderVisible={{true}}>
+      <FaIcon @icon="plus"/> Nouveau résultat thématique
+    </PixButtonLink>
   </section>
 
   <section class="insights__section">
