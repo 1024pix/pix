@@ -5,9 +5,9 @@ import { tracked } from '@glimmer/tracking';
 import ENV from 'mon-pix/config/environment';
 
 export default class EmailVerificationCode extends Component {
-
-  @service intl;
+  @service currentUser;
   @service store;
+  @service intl;
   @tracked showResendCode = false;
   @tracked wasButtonClicked = false;
 
@@ -38,7 +38,11 @@ export default class EmailVerificationCode extends Component {
   }
 
   @action
-  submitInputCode() {
-    // todo
+  async onSubmitCode(code) {
+    const emailVerificationCode = this.store.createRecord('email-verification-code', { code });
+    const email = await emailVerificationCode.verifyCode();
+    if (email) {
+      this.currentUser.user.email = email;
+    }
   }
 }

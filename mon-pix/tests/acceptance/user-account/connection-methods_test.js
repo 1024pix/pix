@@ -129,7 +129,7 @@ describe('Acceptance | user-account | connection-methods', function() {
         await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
         // then
-        expect(contains(this.intl.t('pages.email-verification.description'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.email-verification.description'))).to.exist;
         expect(contains(newEmail)).to.exist;
       });
 

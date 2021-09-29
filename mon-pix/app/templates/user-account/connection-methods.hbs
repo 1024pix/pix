@@ -1,18 +1,14 @@
-{{#if this.isEmailEditionMode}}
-  {{#if this.featureToggles.featureToggles.isEmailValidationEnabled}}
-    <div class="user-account__update-email-with-validation">
+<div class="user-account__connection-methods">
+  {{#if this.isEmailEditionMode}}
+    {{#if this.featureToggles.featureToggles.isEmailValidationEnabled}}
       <UserAccount::UpdateEmailWithValidation @disableEmailEditionMode={{this.disableEmailEditionMode}} />
-    </div>
-  {{else}}
-    <div class="user-account__update-email">
+    {{else}}
       <UserAccount::UpdateEmail
         @saveNewEmail={{this.saveNewEmail}}
         @disableEmailEditionMode={{this.disableEmailEditionMode}}
       />
-    </div>
-  {{/if}}
-{{else}}
-  <div class="user-account__connection-methods">
+    {{/if}}
+  {{else}}
     {{#if this.shouldShowEmail}}
       <div class="user-account-panel__item">
         <div class="user-account-panel-item__text">
@@ -26,7 +22,6 @@
         </PixButton>
       </div>
     {{/if}}
-
     {{#if this.shouldShowUsername}}
       <div class="user-account-panel__item">
         <div class="user-account-panel-item__text">
@@ -37,5 +32,5 @@
         </div>
       </div>
     {{/if}}
-  </div>
-{{/if}}
+  {{/if}}
+</div>
