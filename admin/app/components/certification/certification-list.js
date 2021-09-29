@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 
 export default class CertificationList extends Component {
-
   columns = [
     {
       propertyName: 'id',

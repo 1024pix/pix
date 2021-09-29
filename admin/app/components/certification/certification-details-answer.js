@@ -15,7 +15,6 @@ const options = [
 ];
 
 export default class CertificationDetailsAnswer extends Component {
-
   @tracked selectedOption = null;
   @tracked hasJuryResult = false;
 
@@ -46,7 +45,7 @@ export default class CertificationDetailsAnswer extends Component {
     const answer = this.args.answer;
     const answerResult = this._answerResultValue();
     const newResult = this.getOption(selected.value);
-    answer.jury = (answerResult.value !== newResult.value) ? newResult.value : null;
+    answer.jury = answerResult.value !== newResult.value ? newResult.value : null;
     this.selectedOption = newResult ?? answerResult;
     this.hasJuryResult = !!newResult;
     this.args.onUpdateRate();

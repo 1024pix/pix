@@ -3,7 +3,6 @@ import { FINALIZED } from 'pix-admin/models/session';
 import trim from 'lodash/trim';
 
 export default class AuthenticatedSessionsAllRoute extends Route {
-
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },

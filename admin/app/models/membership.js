@@ -9,7 +9,6 @@ const displayedOrganizationRoles = {
 };
 
 export default class Membership extends Model {
-
   @attr() organizationRole;
   @attr() disabledAt;
 

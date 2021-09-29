@@ -2,7 +2,6 @@ import ApplicationAdapter from './application';
 import queryString from 'query-string';
 
 export default class OrganizationAdapter extends ApplicationAdapter {
-
   urlForQuery(query) {
     if (query.targetProfileId) {
       const { targetProfileId } = query;

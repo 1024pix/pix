@@ -13,6 +13,6 @@ export default class WithRequiredActionSession extends Model {
   }
 
   get printableFinalizationDate() {
-    return (new Date(this.finalizedAt)).toLocaleDateString('fr-FR');
+    return new Date(this.finalizedAt).toLocaleDateString('fr-FR');
   }
 }

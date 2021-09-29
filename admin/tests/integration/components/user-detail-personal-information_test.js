@@ -8,15 +8,12 @@ import sinon from 'sinon';
 
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | user-detail-personal-information', function(hooks) {
-
+module('Integration | Component | user-detail-personal-information', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('When the administrator click on user details', function() {
-
-    module('update button', function() {
-
-      test('should display the update button', async function(assert) {
+  module('When the administrator click on user details', function () {
+    module('update button', function () {
+      test('should display the update button', async function (assert) {
         // given
         this.set('user', {
           firstName: 'John',
@@ -33,9 +30,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('user authentication', function() {
-
-      test('should display user’s first name', async function(assert) {
+    module('user authentication', function () {
+      test('should display user’s first name', async function (assert) {
         // given
         this.set('user', { firstName: 'John' });
 
@@ -46,7 +42,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains(this.user.firstName);
       });
 
-      test('should display user’s last name', async function(assert) {
+      test('should display user’s last name', async function (assert) {
         // given
         this.set('user', { lastName: 'Snow' });
 
@@ -57,7 +53,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains(this.user.lastName);
       });
 
-      test('should display user’s email', async function(assert) {
+      test('should display user’s email', async function (assert) {
         // given
         this.set('user', { email: 'john.snow@winterfell.got' });
 
@@ -68,7 +64,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains(this.user.email);
       });
 
-      test('should display user’s username', async function(assert) {
+      test('should display user’s username', async function (assert) {
         // given
         this.set('user', { username: 'kingofthenorth' });
 
@@ -80,9 +76,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('terms of service', function() {
-
-      test('should display "OUI" when user accepted Pix App terms of service', async function(assert) {
+    module('terms of service', function () {
+      test('should display "OUI" when user accepted Pix App terms of service', async function (assert) {
         // given
         this.set('user', { cgu: true });
 
@@ -93,7 +88,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains('OUI');
       });
 
-      test('should display "NON" when user not accepted Pix App terms of service', async function(assert) {
+      test('should display "NON" when user not accepted Pix App terms of service', async function (assert) {
         // given
         this.set('user', { cgu: false });
 
@@ -104,7 +99,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains('NON');
       });
 
-      test('should display "OUI" when user accepted Pix Orga terms of service', async function(assert) {
+      test('should display "OUI" when user accepted Pix Orga terms of service', async function (assert) {
         // given
         this.set('user', { pixOrgaTermsOfServiceAccepted: true });
 
@@ -115,7 +110,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains('OUI');
       });
 
-      test('should display "NON" when user not accepted Pix Orga terms of service', async function(assert) {
+      test('should display "NON" when user not accepted Pix Orga terms of service', async function (assert) {
         // given
         this.set('user', { pixOrgaTermsOfServiceAccepted: false });
 
@@ -126,7 +121,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains('NON');
       });
 
-      test('should display "OUI" when user accepted Pix Certif terms of service', async function(assert) {
+      test('should display "OUI" when user accepted Pix Certif terms of service', async function (assert) {
         // given
         this.set('user', { pixCertifTermsOfServiceAccepted: true });
 
@@ -137,7 +132,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.contains('OUI');
       });
 
-      test('should display "NON" when user not accepted Pix Certif terms of service', async function(assert) {
+      test('should display "NON" when user not accepted Pix Certif terms of service', async function (assert) {
         // given
         this.set('user', { pixCertifTermsOfServiceAccepted: false });
 
@@ -149,11 +144,9 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    module('schooling registrations', function() {
-
-      module('When user has no schoolingRegistrations', function() {
-
-        test('should display no result in schooling registrations table', async function(assert) {
+    module('schooling registrations', function () {
+      module('When user has no schoolingRegistrations', function () {
+        test('should display no result in schooling registrations table', async function (assert) {
           // given
           this.set('user', { schoolingRegistrations: [] });
 
@@ -165,9 +158,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
         });
       });
 
-      module('When user has schoolingRegistrations', function() {
-
-        test('should display schooling registrations in table', async function(assert) {
+      module('When user has schoolingRegistrations', function () {
+        test('should display schooling registrations in table', async function (assert) {
           // given
           this.set('user', { schoolingRegistrations: [{ id: 1 }, { id: 2 }] });
 
@@ -178,92 +170,85 @@ module('Integration | Component | user-detail-personal-information', function(ho
           assert.dom('tr[aria-label="Inscription"]').exists({ count: 2 });
         });
 
-        module('Display the schooling registrations status', function() {
-
-          test('Should display a green tick mark on the table when "isDisabled = false"', async function(assert) {
+        module('Display the schooling registrations status', function () {
+          test('Should display a green tick mark on the table when "isDisabled = false"', async function (assert) {
             // given
             this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: false }] });
 
             // when
-            await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+            await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
             // then
             assert.dom('[aria-label="Inscription activée"]').exists();
-
           });
 
-          test('Should display a red cross on the table when "isDisabled= true"', async function(assert) {
+          test('Should display a red cross on the table when "isDisabled= true"', async function (assert) {
             // given
             this.set('user', { schoolingRegistrations: [{ id: 1, isDisabled: true }] });
 
             // when
-            await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+            await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
             // then
             assert.dom('[aria-label="Inscription désactivée"]').exists();
-
           });
-
         });
       });
     });
 
-    module('authentication methods', function() {
-
-      module('When user has authentication methods', function() {
-
-        test('should display user’s email authentication method', async function(assert) {
+    module('authentication methods', function () {
+      module('When user has authentication methods', function () {
+        test('should display user’s email authentication method', async function (assert) {
           // given
           this.set('user', { hasEmailAuthenticationMethod: true });
 
           // when
-          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.dom('div[data-test-email] > div > svg').hasClass('user-authentication-method-item__check');
         });
 
-        test('should display user’s username authentication method', async function(assert) {
+        test('should display user’s username authentication method', async function (assert) {
           // given
           this.set('user', { hasUsernameAuthenticationMethod: true });
 
           // when
-          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.dom('div[data-test-username] > div > svg').hasClass('user-authentication-method-item__check');
         });
 
-        test('should display user’s Pole Emploi authentication method', async function(assert) {
+        test('should display user’s Pole Emploi authentication method', async function (assert) {
           // given
           this.set('user', { hasPoleEmploiAuthenticationMethod: true });
 
           // when
-          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.dom('div[data-test-pole-emploi] > div > svg').hasClass('user-authentication-method-item__check');
         });
 
-        test('should display user’s GAR authentication method', async function(assert) {
+        test('should display user’s GAR authentication method', async function (assert) {
           // given
           this.set('user', { hasGARAuthenticationMethod: true });
 
           // when
-          await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+          await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
           // then
           assert.dom('div[data-test-mediacentre] > div > svg').hasClass('user-authentication-method-item__check');
         });
 
-        module('When user has only one authentication method', function() {
-
-          test('it should not display a remove authentication method link', async function(assert) {
+        module('When user has only one authentication method', function () {
+          test('it should not display a remove authentication method link', async function (assert) {
             // given
             this.set('user', { hasOnlyOneAuthenticationMethod: true });
 
             // when
-            await render(hbs `<UserDetailPersonalInformation @user={{this.user}}/>`);
+            await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
 
             // then
             assert.notOk(find('.user-authentication-method__remove-button'));
@@ -273,11 +258,10 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('When the administrator click to update user details', function(hooks) {
-
+  module('When the administrator click to update user details', function (hooks) {
     let user = null;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       user = EmberObject.create({
         lastName: 'Harry',
         firstName: 'John',
@@ -286,7 +270,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    test('should display the edit and cancel buttons', async function(assert) {
+    test('should display the edit and cancel buttons', async function (assert) {
       // given
       this.set('user', {
         firstName: 'John',
@@ -304,7 +288,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.contains('Annuler');
     });
 
-    test('should display user’s first name and last name in edit mode', async function(assert) {
+    test('should display user’s first name and last name in edit mode', async function (assert) {
       // given
       this.set('user', user);
 
@@ -317,9 +301,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.user-edit-form__last-name').hasValue(this.user.lastName);
     });
 
-    module('when user has an email only', function() {
-
-      test('should display user’s email in edit mode', async function(assert) {
+    module('when user has an email only', function () {
+      test('should display user’s email in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
@@ -331,7 +314,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.user-edit-form__email').hasValue(this.user.email);
       });
 
-      test('should not display username in edit mode', async function(assert) {
+      test('should not display username in edit mode', async function (assert) {
         // given
         this.set('user', user);
 
@@ -342,12 +325,10 @@ module('Integration | Component | user-detail-personal-information', function(ho
         // then
         assert.notContains('Identifiant :');
       });
-
     });
 
-    module('when user has a username only', function() {
-
-      test('should display user’s username in edit mode', async function(assert) {
+    module('when user has a username only', function () {
+      test('should display user’s username in edit mode', async function (assert) {
         // given
         const user = EmberObject.create({
           lastName: 'Harry',
@@ -358,14 +339,14 @@ module('Integration | Component | user-detail-personal-information', function(ho
         this.set('user', user);
 
         // when
-        await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+        await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
         await clickByLabel('Modifier');
 
         // then
         assert.dom('.user-edit-form__username').hasValue(this.user.username);
       });
 
-      test('should not display email', async function(assert) {
+      test('should not display email', async function (assert) {
         // given
         const user = EmberObject.create({
           lastName: 'Harry',
@@ -376,7 +357,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         this.set('user', user);
 
         // when
-        await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+        await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
         await clickByLabel('Modifier');
 
         // then
@@ -384,7 +365,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    test('should not display user’s terms of service', async function(assert) {
+    test('should not display user’s terms of service', async function (assert) {
       // given
       this.set('user', user);
 
@@ -398,11 +379,10 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('when the administrator click on anonymize button', function(hooks) {
-
+  module('when the administrator click on anonymize button', function (hooks) {
     let user = null;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       user = EmberObject.create({
         lastName: 'Harry',
         firstName: 'John',
@@ -411,7 +391,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
     });
 
-    test('should show modal', async function(assert) {
+    test('should show modal', async function (assert) {
       // given
       this.set('user', user);
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -424,7 +404,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.contains('Êtes-vous sûr de vouloir anonymiser cet utilisateur ? Ceci n’est pas réversible.');
     });
 
-    test('should close the modal to cancel action', async function(assert) {
+    test('should close the modal to cancel action', async function (assert) {
       // given
       this.set('user', user);
       await render(hbs`<UserDetailPersonalInformation @user={{this.user}}/>`);
@@ -438,9 +418,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('when the administrator click on dissociate button', function() {
-
-    test('should display dissociate confirm modal', async function(assert) {
+  module('when the administrator click on dissociate button', function () {
+    test('should display dissociate confirm modal', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
       const schoolingRegistration = EmberObject.create({
@@ -458,7 +437,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
       this.set('user', user);
 
-      await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
 
       // when
       await click('button[data-test-dissociate-schooling-registration]');
@@ -467,7 +446,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.contains('Confirmer la dissociation');
     });
 
-    test('should close the modal on click on cancel button', async function(assert) {
+    test('should close the modal on click on cancel button', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
       const schoolingRegistration = EmberObject.create({
@@ -496,7 +475,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.notOk(destroyRecordStub.called);
     });
 
-    test('should call destroyRecord on click on confirm button', async function(assert) {
+    test('should call destroyRecord on click on confirm button', async function (assert) {
       // given
       const destroyRecordStub = sinon.stub();
       const schoolingRegistration = EmberObject.create({
@@ -514,7 +493,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
       });
       this.set('user', user);
 
-      await render(hbs `<UserDetailPersonalInformation @user={{this.user}} />`);
+      await render(hbs`<UserDetailPersonalInformation @user={{this.user}} />`);
       await click('button[data-test-dissociate-schooling-registration]');
 
       // when
@@ -525,9 +504,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
   });
 
-  module('when the administrator click on remove authentication method button', function() {
-
-    test('should display remove authentication methode confirm modal', async function(assert) {
+  module('when the administrator click on remove authentication method button', function () {
+    test('should display remove authentication methode confirm modal', async function (assert) {
       // given
       const user = EmberObject.create({
         lastName: 'Harry',
@@ -548,7 +526,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
     });
 
     // eslint-disable-next-line mocha/no-identical-title
-    test('should close the modal on click on cancel button', async function(assert) {
+    test('should close the modal on click on cancel button', async function (assert) {
       // given
       const user = EmberObject.create({
         lastName: 'Harry',
@@ -569,9 +547,8 @@ module('Integration | Component | user-detail-personal-information', function(ho
       assert.dom('.modal-dialog').doesNotExist();
     });
 
-    module('when the administrator confirm the removal', function() {
-
-      test('should call removeAuthenticationMethod parameter', async function(assert) {
+    module('when the administrator confirm the removal', function () {
+      test('should call removeAuthenticationMethod parameter', async function (assert) {
         // given
         const user = EmberObject.create({
           lastName: 'Harry',
@@ -584,7 +561,9 @@ module('Integration | Component | user-detail-personal-information', function(ho
         const removeAuthenticationMethodStub = sinon.stub();
         this.set('removeAuthenticationMethod', removeAuthenticationMethodStub);
 
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`);
+        await render(
+          hbs`<UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
+        );
         await click('button[data-test-remove-email]');
 
         // when
@@ -595,7 +574,7 @@ module('Integration | Component | user-detail-personal-information', function(ho
         assert.dom('.modal-dialog').doesNotExist();
       });
 
-      test('should display an error message when the administrator try to remove the last authentication method', async function(assert) {
+      test('should display an error message when the administrator try to remove the last authentication method', async function (assert) {
         // given
         const user = EmberObject.create({
           lastName: 'Harry',
@@ -615,14 +594,19 @@ module('Integration | Component | user-detail-personal-information', function(ho
 
         removeAuthenticationMethodStub.rejects({ errors: [{ status: '403' }] });
 
-        await render(hbs`<UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`);
+        await render(
+          hbs`<UserDetailPersonalInformation @user={{this.user}} @removeAuthenticationMethod={{this.removeAuthenticationMethod}}/>`
+        );
         await click('button[data-test-remove-email]');
 
         // when
         await click('.modal-dialog .btn-primary');
 
         // then
-        sinon.assert.calledWith(notificationErrorStub, 'Vous ne pouvez pas supprimer la dernière méthode de connexion de cet utilisateur');
+        sinon.assert.calledWith(
+          notificationErrorStub,
+          'Vous ne pouvez pas supprimer la dernière méthode de connexion de cet utilisateur'
+        );
         assert.dom('.modal-dialog').doesNotExist();
       });
     });

@@ -3,12 +3,11 @@ import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/certifications/certification/profile', function(hooks) {
+module('Unit | Route | authenticated/certifications/certification/profile', function (hooks) {
   setupTest(hooks);
 
-  module('#model', function() {
-
-    test('it should return certified profile', async function(assert) {
+  module('#model', function () {
+    test('it should return certified profile', async function (assert) {
       // given
       const findRecordStub = sinon.stub();
       const paramsForStub = sinon.stub();

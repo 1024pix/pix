@@ -3,8 +3,7 @@ import { setupTest } from 'ember-qunit';
 import Service from '@ember/service';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/certification-centers/get', function(hooks) {
-
+module('Unit | Controller | authenticated/certification-centers/get', function (hooks) {
   setupTest(hooks);
 
   let certificationCenter;
@@ -13,7 +12,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
 
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     sinon.restore();
 
     controller = this.owner.lookup('controller:authenticated/certification-centers/get');
@@ -44,9 +43,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
     controller.notifications.error.resolves();
   });
 
-  module('#updateEmailErrorMessage', function() {
-
-    test('should set email error message if email syntax is invalid', function(assert) {
+  module('#updateEmailErrorMessage', function () {
+    test('should set email error message if email syntax is invalid', function (assert) {
       // given
       controller.userEmailToAdd = 'an invalid email';
 
@@ -57,7 +55,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
       assert.equal(controller.errorMessage, controller.EMAIL_INVALID_ERROR_MESSAGE);
     });
 
-    test('should set email error message to null if email is empty', function(assert) {
+    test('should set email error message to null if email is empty', function (assert) {
       // given
       controller.errorMessage = 'error message';
       controller.userEmailToAdd = '';
@@ -70,20 +68,18 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
     });
   });
 
-  module('#addCertificationCenterMembership', function(hooks) {
-
+  module('#addCertificationCenterMembership', function (hooks) {
     let event;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       event = { preventDefault() {} };
       controller.send = sinon.stub();
     });
 
-    module('when email is valid', function() {
-
+    module('when email is valid', function () {
       const emailWithSpaces = ' test@example.net ';
 
-      test('should create a certificationCenterMembership', async function(assert) {
+      test('should create a certificationCenterMembership', async function (assert) {
         // given
         controller.userEmailToAdd = emailWithSpaces;
         const expectedArguments = {
@@ -104,7 +100,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
         assert.ok(true);
       });
 
-      test('should not set any error message', async function(assert) {
+      test('should not set any error message', async function (assert) {
         // given
         controller.userEmailToAdd = emailWithSpaces;
 
@@ -115,7 +111,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
         assert.equal(controller.errorMessage, null);
       });
 
-      test('should send success notification', async function(assert) {
+      test('should send success notification', async function (assert) {
         // given
         controller.userEmailToAdd = emailWithSpaces;
 
@@ -128,9 +124,8 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
       });
     });
 
-    module('when email is not valid', function() {
-
-      test('should be disabled if the email is empty', async function(assert) {
+    module('when email is not valid', function () {
+      test('should be disabled if the email is empty', async function (assert) {
         // given
         controller.userEmailToAdd = '';
 
@@ -141,7 +136,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
         assert.true(controller.isDisabled);
       });
 
-      test('should set error message if the email is empty', async function(assert) {
+      test('should set error message if the email is empty', async function (assert) {
         // given
         controller.userEmailToAdd = '';
 
@@ -152,7 +147,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
         assert.equal(controller.errorMessage, controller.EMAIL_REQUIRED_ERROR_MESSAGE);
       });
 
-      test('should set error message if the email syntax is invalid', async function(assert) {
+      test('should set error message if the email syntax is invalid', async function (assert) {
         // given
         controller.userEmailToAdd = 'an invalid email';
 
@@ -164,11 +159,9 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
       });
     });
 
-    module('when API response is not OK (201)', function() {
-
-      module('when the response error does not contains any errors property', function() {
-
-        test('should send default error notification', async function(assert) {
+    module('when API response is not OK (201)', function () {
+      module('when the response error does not contains any errors property', function () {
+        test('should send default error notification', async function (assert) {
           // given
           controller.userEmailToAdd = 'test@example.net';
           saveStub.rejects({});
@@ -183,15 +176,10 @@ module('Unit | Controller | authenticated/certification-centers/get', function(h
       });
 
       module('when the response error contains an errors property', () => {
-
-        test('should send a specific error notification for http error 400, 404 and 412', async function(assert) {
+        test('should send a specific error notification for http error 400, 404 and 412', async function (assert) {
           // given
           const responseError = {
-            errors: [
-              { status: '400' },
-              { status: '404' },
-              { status: '412' },
-            ],
+            errors: [{ status: '400' }, { status: '404' }, { status: '412' }],
           };
 
           controller.userEmailToAdd = 'test@example.net';

@@ -29,7 +29,7 @@ export default class CertificationDetailsController extends Controller {
     const { good, count, jury } = _getCertificationResultsAfterJuryUpdate(competences);
 
     if (jury) {
-      this.set('juryRate', Math.round(good * 10000 / count) / 100);
+      this.set('juryRate', Math.round((good * 10000) / count) / 100);
     } else {
       this.set('juryRate', false);
     }
@@ -38,10 +38,8 @@ export default class CertificationDetailsController extends Controller {
       const score = this.score;
       const competences = this.details.competences;
       const newScore = competences.reduce((value, competence) => {
-        const isJuryScoreCorrect = (typeof competence.juryScore !== 'undefined' && competence.juryScore !== false);
-        value += isJuryScoreCorrect
-          ? competence.juryScore
-          : competence.obtainedScore;
+        const isJuryScoreCorrect = typeof competence.juryScore !== 'undefined' && competence.juryScore !== false;
+        value += isJuryScoreCorrect ? competence.juryScore : competence.obtainedScore;
         return value;
       }, 0);
       if (newScore !== score) {
@@ -55,11 +53,11 @@ export default class CertificationDetailsController extends Controller {
   @action
   onStoreMarks() {
     this._markStore.storeState({
-      score: (this.juryScore === false) ? this.score : this.juryScore,
+      score: this.juryScore === false ? this.score : this.juryScore,
       marks: this.details.competences.reduce((marks, competence) => {
         marks[competence.index] = {
-          level: (competence.juryLevel === false) ? competence.obtainedLevel : competence.juryLevel,
-          score: (competence.juryScore === false) ? competence.obtainedScore : competence.juryScore,
+          level: competence.juryLevel === false ? competence.obtainedLevel : competence.juryLevel,
+          score: competence.juryScore === false ? competence.obtainedScore : competence.juryScore,
           competenceId: competence.id,
         };
         return marks;
@@ -70,25 +68,28 @@ export default class CertificationDetailsController extends Controller {
 }
 
 function _getCertificationResultsAfterJuryUpdate(competences) {
-  return competences.reduce((data, competence) => {
-    if (competence.answers) {
-      competence.answers.forEach((answer) => {
-        if (answer.jury) {
-          if (answer.jury === 'ok') {
-            data.good++;
-          }
-          if (answer.jury !== 'skip') {
+  return competences.reduce(
+    (data, competence) => {
+      if (competence.answers) {
+        competence.answers.forEach((answer) => {
+          if (answer.jury) {
+            if (answer.jury === 'ok') {
+              data.good++;
+            }
+            if (answer.jury !== 'skip') {
+              data.count++;
+            }
+            data.jury = true;
+          } else {
             data.count++;
+            if (answer.result === 'ok') {
+              data.good++;
+            }
           }
-          data.jury = true;
-        } else {
-          data.count++;
-          if (answer.result === 'ok') {
-            data.good++;
-          }
-        }
-      });
-    }
-    return data;
-  }, { count: 0, good: 0, jury: false });
+        });
+      }
+      return data;
+    },
+    { count: 0, good: 0, jury: false }
+  );
 }

@@ -14,7 +14,6 @@ import { tracked } from '@glimmer/tracking';
 const PIX_COUNT_BY_LEVEL = 8;
 
 export default class CertificationInformationsController extends Controller {
-
   // Domain constants
   MAX_REACHABLE_LEVEL = ENV.APP.MAX_REACHABLE_LEVEL;
   MAX_REACHABLE_PIX_BY_COMPETENCE = this.MAX_REACHABLE_LEVEL * PIX_COUNT_BY_LEVEL;
@@ -57,12 +56,16 @@ export default class CertificationInformationsController extends Controller {
 
   @computed('certification.certificationIssueReports.@each.isImpactful')
   get hasImpactfulIssueReports() {
-    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length);
+    return Boolean(
+      this.certification.certificationIssueReports.filter((issueReport) => issueReport.isImpactful).length
+    );
   }
 
   @computed('certification.certificationIssueReports.@each.isImpactful')
   get hasUnimpactfulIssueReports() {
-    return Boolean(this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length);
+    return Boolean(
+      this.certification.certificationIssueReports.filter((issueReport) => !issueReport.isImpactful).length
+    );
   }
 
   @computed('certification.status')
@@ -116,7 +119,6 @@ export default class CertificationInformationsController extends Controller {
       this.notifications.success('Modifications enregistrées');
       this.editingCandidateResults = false;
       this._competencesCopy = null;
-
     } catch (e) {
       if (e.errors && e.errors.length > 0) {
         e.errors.forEach((error) => {
@@ -162,17 +164,16 @@ export default class CertificationInformationsController extends Controller {
   onCheckMarks() {
     if (this._markStore.hasState()) {
       const state = this._markStore.getState();
-      this.certification.pixScore = state.score ;
-      const newCompetences = Object.entries(state.marks)
-        .map(([code, mark]) => {
-          return {
-            competenceId: mark.competenceId,
-            competence_code: code,
-            area_code: code.substr(0, 1),
-            level: mark.level,
-            score: mark.score,
-          };
-        });
+      this.certification.pixScore = state.score;
+      const newCompetences = Object.entries(state.marks).map(([code, mark]) => {
+        return {
+          competenceId: mark.competenceId,
+          competence_code: code,
+          area_code: code.substr(0, 1),
+          level: mark.level,
+          score: mark.score,
+        };
+      });
       this.certification.competencesWithMark = A(newCompetences);
       schedule('afterRender', this, () => {
         this.editingCandidateResults = true;
@@ -182,7 +183,8 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onCancelCertificationButtonClick() {
-    const confirmMessage = 'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.';
+    const confirmMessage =
+      'Êtes-vous sûr·e de vouloir annuler cette certification ? Cliquez sur confirmer pour poursuivre.';
     this.confirmAction = 'onCancelCertificationConfirmation';
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
@@ -190,7 +192,8 @@ export default class CertificationInformationsController extends Controller {
 
   @action
   onUncancelCertificationButtonClick() {
-    const confirmMessage = 'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
+    const confirmMessage =
+      'Êtes-vous sûr·e de vouloir désannuler cette certification ? Cliquez sur confirmer pour poursuivre.';
     this.confirmAction = 'onUncancelCertificationConfirmation';
     this.confirmMessage = confirmMessage;
     this.displayConfirm = true;
@@ -263,13 +266,21 @@ export default class CertificationInformationsController extends Controller {
       if (level > this.MAX_REACHABLE_LEVEL) {
         errors.push({
           type: 'level',
-          message: 'Le niveau de la compétence ' + competencesWithMark[index].competence_code + ' dépasse ' + this.MAX_REACHABLE_LEVEL,
+          message:
+            'Le niveau de la compétence ' +
+            competencesWithMark[index].competence_code +
+            ' dépasse ' +
+            this.MAX_REACHABLE_LEVEL,
         });
       }
       if (score > this.MAX_REACHABLE_PIX_BY_COMPETENCE) {
         errors.push({
           type: 'score',
-          message: 'Le nombre de pix de la compétence ' + competencesWithMark[index].competence_code + ' dépasse ' + this.MAX_REACHABLE_PIX_BY_COMPETENCE,
+          message:
+            'Le nombre de pix de la compétence ' +
+            competencesWithMark[index].competence_code +
+            ' dépasse ' +
+            this.MAX_REACHABLE_PIX_BY_COMPETENCE,
         });
       }
     }

@@ -6,7 +6,6 @@ import { tracked } from '@glimmer/tracking';
 import { computed } from '@ember/object';
 
 export default class AuthenticatedSessionsWithRequiredActionListController extends Controller {
-
   @service currentUser;
 
   @tracked assignedToSelfOnly = false;

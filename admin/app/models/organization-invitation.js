@@ -4,7 +4,6 @@ import Model, { belongsTo, attr } from '@ember-data/model';
 import { equal } from '@ember/object/computed';
 
 export default class OrganizationInvitation extends Model {
-
   @attr email;
   @attr status;
   @attr createdAt;

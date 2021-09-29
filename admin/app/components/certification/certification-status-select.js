@@ -5,7 +5,6 @@ import find from 'lodash/find';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
 export default class CertificationStatusSelect extends CertificationInfoField {
-
   @tracked selectedOption = null;
 
   constructor() {

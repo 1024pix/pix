@@ -29,7 +29,6 @@ export default class NewController extends Controller {
         const skillsId = json.flatMap((tube) => tube.skills);
         this.isFileInvalid = false;
         this.model.skillsId = skillsId;
-
       } catch (e) {
         this.isFileInvalid = true;
       }

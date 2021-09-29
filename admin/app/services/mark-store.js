@@ -1,7 +1,6 @@
 import Service from '@ember/service';
 
 export default class MarkStoreService extends Service {
-
   state = null;
   available = false;
 

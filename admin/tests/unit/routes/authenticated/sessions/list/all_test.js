@@ -2,19 +2,19 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
+module('Unit | Route | authenticated/sessions/list/all', function (hooks) {
   setupTest(hooks);
   let route;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/sessions/list/all');
   });
 
-  module('#model', function(hooks) {
+  module('#model', function (hooks) {
     let params;
     const expectedQueryArgs = {};
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       route.store.query = sinon.stub();
       params = {};
       params.pageNumber = 'somePageNumber';
@@ -25,9 +25,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       };
     });
 
-    module('when queryParams are undefined', function() {
-
-      test('it should call store.query with no filters', async function(assert) {
+    module('when queryParams are undefined', function () {
+      test('it should call store.query with no filters', async function (assert) {
         // when
         await route.model(params);
         expectedQueryArgs.filter = {
@@ -45,9 +44,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when queryParams id is truthy', function() {
-
-      test('it should call store.query with a filter with trimmed id', async function(assert) {
+    module('when queryParams id is truthy', function () {
+      test('it should call store.query with a filter with trimmed id', async function (assert) {
         // given
         params.id = ' someId';
         expectedQueryArgs.filter = {
@@ -68,9 +66,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when queryParams certificationCenterName is truthy', function() {
-
-      test('it should call store.query with a filter with trimmed certificationCenterName', async function(assert) {
+    module('when queryParams certificationCenterName is truthy', function () {
+      test('it should call store.query with a filter with trimmed certificationCenterName', async function (assert) {
         // given
         params.certificationCenterName = ' someName';
         expectedQueryArgs.filter = {
@@ -91,9 +88,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when queryParams certificationCenterType is truthy', function() {
-
-      test('it should call store.query with a filter with trimmed certificationCenterType', async function(assert) {
+    module('when queryParams certificationCenterType is truthy', function () {
+      test('it should call store.query with a filter with trimmed certificationCenterType', async function (assert) {
         // given
         params.certificationCenterType = 'SCO';
         expectedQueryArgs.filter = {
@@ -114,9 +110,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when queryParams certificationCenterExternalId is truthy', function() {
-
-      test('it should call store.query with a filter with trimmed certificationCenterExternalId', async function(assert) {
+    module('when queryParams certificationCenterExternalId is truthy', function () {
+      test('it should call store.query with a filter with trimmed certificationCenterExternalId', async function (assert) {
         // given
         params.certificationCenterExternalId = 'EXTID';
         expectedQueryArgs.filter = {
@@ -137,9 +132,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when queryParams status is truthy', function() {
-
-      test('it should call store.query with a filter with status', async function(assert) {
+    module('when queryParams status is truthy', function () {
+      test('it should call store.query with a filter with status', async function (assert) {
         // given
         params.status = 'someStatus';
         expectedQueryArgs.filter = {
@@ -160,9 +154,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when queryParams resultsSentToPrescriberAt is true', function() {
-
-      test('it should call store.query with a filter with true resultsSentToPrescriberAt', async function(assert) {
+    module('when queryParams resultsSentToPrescriberAt is true', function () {
+      test('it should call store.query with a filter with true resultsSentToPrescriberAt', async function (assert) {
         // given
         params.resultsSentToPrescriberAt = true;
         expectedQueryArgs.filter = {
@@ -183,8 +176,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when query to the store throws an error', function() {
-      test('it should return an empty array of sessions', async function(assert) {
+    module('when query to the store throws an error', function () {
+      test('it should return an empty array of sessions', async function (assert) {
         // given
         route.store.query.rejects();
 
@@ -196,8 +189,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when query to the store is successful', function() {
-      test('it should return the result of the store call to query', async function(assert) {
+    module('when query to the store is successful', function () {
+      test('it should return the result of the store call to query', async function (assert) {
         // given
         route.store.query.resolves('someSessions');
 
@@ -208,13 +201,12 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
         assert.equal(returnedSessions, 'someSessions');
       });
     });
-
   });
 
-  module('#resetController', function(hooks) {
+  module('#resetController', function (hooks) {
     let controller;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
@@ -226,9 +218,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       };
     });
 
-    module('when route is exiting', function() {
-
-      test('it should reset controller', function(assert) {
+    module('when route is exiting', function () {
+      test('it should reset controller', function (assert) {
         // when
         route.resetController(controller, true);
 
@@ -243,9 +234,8 @@ module('Unit | Route | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when route is not exiting', function() {
-
-      test('it should not reset controller', function(assert) {
+    module('when route is not exiting', function () {
+      test('it should not reset controller', function (assert) {
         // when
         route.resetController(controller, false);
 

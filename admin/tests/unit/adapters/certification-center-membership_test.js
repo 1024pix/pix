@@ -2,20 +2,18 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | certificationCenterMembership', function(hooks) {
-
+module('Unit | Adapter | certificationCenterMembership', function (hooks) {
   setupTest(hooks);
 
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:certification-center-membership');
     adapter.ajax = sinon.stub().resolves();
   });
 
-  module('#urlForQuery', function() {
-
-    test('should build query url from certificationCenter id', async function(assert) {
+  module('#urlForQuery', function () {
+    test('should build query url from certificationCenter id', async function (assert) {
       const query = { filter: { certificationCenterId: '1' } };
       const url = await adapter.urlForQuery(query);
 
@@ -24,11 +22,9 @@ module('Unit | Adapter | certificationCenterMembership', function(hooks) {
     });
   });
 
-  module('#createRecord', function() {
-
-    module('when createByEmail is true', function() {
-
-      test('should call /api/certification-centers/id/certification-center-memberships', async function(assert) {
+  module('#createRecord', function () {
+    module('when createByEmail is true', function () {
+      test('should call /api/certification-centers/id/certification-center-memberships', async function (assert) {
         // given
         const certificationCenterId = 1;
         const email = 'user@example.net';

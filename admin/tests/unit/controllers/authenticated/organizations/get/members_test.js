@@ -3,17 +3,16 @@ import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 import Service from '@ember/service';
 
-module('Unit | Controller | authenticated/organizations/get/members', function(hooks) {
+module('Unit | Controller | authenticated/organizations/get/members', function (hooks) {
   setupTest(hooks);
 
   let controller;
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/organizations/get/members');
   });
 
-  module('#createOrganizationInvitation', function() {
-
-    test('it should create an organization-invitation if the email is valid', function(assert) {
+  module('#createOrganizationInvitation', function () {
+    test('it should create an organization-invitation if the email is valid', function (assert) {
       // given
       const saveStub = sinon.stub().resolves();
       const createRecordStub = sinon.stub().returns({
@@ -33,7 +32,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
       assert.equal(saveStub.callCount, 1);
     });
 
-    test('it should fail if userEmailToInvite is undefined', function(assert) {
+    test('it should fail if userEmailToInvite is undefined', function (assert) {
       // given
       controller.userEmailToInvite = undefined;
 
@@ -44,7 +43,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
       assert.equal(controller.userEmailToInviteError, 'Ce champ est requis.');
     });
 
-    test('it should fail if userEmailToInvite is empty', function(assert) {
+    test('it should fail if userEmailToInvite is empty', function (assert) {
       // given
       controller.userEmailToInvite = '';
 
@@ -55,7 +54,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
       assert.equal(controller.userEmailToInviteError, 'Ce champ est requis.');
     });
 
-    test('it should fail if userEmailToInvite is not a valid email address', function(assert) {
+    test('it should fail if userEmailToInvite is not a valid email address', function (assert) {
       // given
       controller.userEmailToInvite = 'not_valid_email';
 
@@ -63,7 +62,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function(h
       controller.createOrganizationInvitation();
 
       // then
-      assert.equal(controller.userEmailToInviteError, 'L\'adresse email saisie n\'est pas valide.');
+      assert.equal(controller.userEmailToInviteError, "L'adresse email saisie n'est pas valide.");
     });
   });
 });

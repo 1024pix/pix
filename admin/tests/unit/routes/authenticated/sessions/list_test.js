@@ -3,11 +3,11 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/sessions/list', function(hooks) {
+module('Unit | Route | authenticated/sessions/list', function (hooks) {
   setupTest(hooks);
 
   let store;
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     class StoreStub extends Service {
       query = null;
     }
@@ -15,14 +15,16 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
     store = this.owner.lookup('service:store');
   });
 
-  module('#model', function() {
-    test('it should fetch the list of sessions with required action', async function(assert) {
+  module('#model', function () {
+    test('it should fetch the list of sessions with required action', async function (assert) {
       // given
       const route = this.owner.lookup('route:authenticated/sessions/list');
-      const sessionsWithRequiredAction = [{
-        certificationCenterName: 'Centre SCO des Anne-Solo',
-        finalizedAt: '2020-04-15T15:00:34.000Z',
-      }];
+      const sessionsWithRequiredAction = [
+        {
+          certificationCenterName: 'Centre SCO des Anne-Solo',
+          finalizedAt: '2020-04-15T15:00:34.000Z',
+        },
+      ];
       const queryStub = sinon.stub();
       queryStub.withArgs('with-required-action-session', {}).resolves(sessionsWithRequiredAction);
       store.query = queryStub;
@@ -31,10 +33,12 @@ module('Unit | Route | authenticated/sessions/list', function(hooks) {
       const result = await route.model();
 
       // then
-      assert.deepEqual(result, [{
-        certificationCenterName: 'Centre SCO des Anne-Solo',
-        finalizedAt: '2020-04-15T15:00:34.000Z',
-      }]);
+      assert.deepEqual(result, [
+        {
+          certificationCenterName: 'Centre SCO des Anne-Solo',
+          finalizedAt: '2020-04-15T15:00:34.000Z',
+        },
+      ]);
     });
   });
 });

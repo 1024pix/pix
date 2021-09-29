@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
 
-module('Unit | Controller | authenticated/certifications/certification/details', function(hooks) {
+module('Unit | Controller | authenticated/certifications/certification/details', function (hooks) {
   setupTest(hooks);
 
   const answer = (result) => {
@@ -29,15 +29,24 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     };
   };
 
-  test('it computes jury rate correctly', function(assert) {
+  test('it computes jury rate correctly', function (assert) {
     // given
     const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
-    controller.set('model', EmberObject.create({
-      competences: [competence(false, 'ok', 'ok', 'skip'), competence(false, 'ok', 'ko', 'ok'), competence(false, 'ok', 'aband', 'ok'), competence(false, 'ok', 'timedout', 'ok'), competence(false, 'ok', 'ok', 'ok')],
-    }));
+    controller.set(
+      'model',
+      EmberObject.create({
+        competences: [
+          competence(false, 'ok', 'ok', 'skip'),
+          competence(false, 'ok', 'ko', 'ok'),
+          competence(false, 'ok', 'aband', 'ok'),
+          competence(false, 'ok', 'timedout', 'ok'),
+          competence(false, 'ok', 'ok', 'ok'),
+        ],
+      })
+    );
 
     // when
-    run(function() {
+    run(function () {
       controller.send('onUpdateRate');
     });
 
@@ -45,15 +54,24 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     assert.equal(controller.get('juryRate'), 78.57);
   });
 
-  test('it computes jury score correctly', function(assert) {
+  test('it computes jury score correctly', function (assert) {
     // given
     const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
-    controller.set('model', EmberObject.create({
-      competences: [competence(true, 'ok', 'ok', 'skip'), competence(false, 'ok', 'ko', 'ok'), competence(true, 'ok', 'aband', 'ok'), competence(false, 'ok', 'timedout', 'ok'), competence(true, 'ok', 'ok', 'ok')],
-    }));
+    controller.set(
+      'model',
+      EmberObject.create({
+        competences: [
+          competence(true, 'ok', 'ok', 'skip'),
+          competence(false, 'ok', 'ko', 'ok'),
+          competence(true, 'ok', 'aband', 'ok'),
+          competence(false, 'ok', 'timedout', 'ok'),
+          competence(true, 'ok', 'ok', 'ok'),
+        ],
+      })
+    );
 
     // when
-    run(function() {
+    run(function () {
       controller.send('onUpdateRate');
     });
 
@@ -62,9 +80,8 @@ module('Unit | Controller | authenticated/certifications/certification/details',
     assert.equal(controller.get('juryScore'), 12 * 3 + 26 * 2);
   });
 
-  module('#shouldDisplayJuryScore', function() {
-
-    test('it returns true if the jury score is 0', function(assert) {
+  module('#shouldDisplayJuryScore', function () {
+    test('it returns true if the jury score is 0', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
       controller.set('juryScore', 0);
@@ -76,7 +93,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       assert.true(shouldDisplayJuryScore);
     });
 
-    test('it returns true if the jury score is a number', function(assert) {
+    test('it returns true if the jury score is a number', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
       controller.set('juryScore', 3);
@@ -88,7 +105,7 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       assert.true(shouldDisplayJuryScore);
     });
 
-    test('it returns false if the jury score is not a number', function(assert) {
+    test('it returns false if the jury score is not a number', function (assert) {
       // given
       const controller = this.owner.lookup('controller:authenticated/certifications/certification/details');
       controller.set('juryScore', null);
@@ -99,6 +116,5 @@ module('Unit | Controller | authenticated/certifications/certification/details',
       // then
       assert.false(shouldDisplayJuryScore);
     });
-
   });
 });

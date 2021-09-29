@@ -5,7 +5,6 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class ToolsController extends Controller {
-
   @service notifications;
 
   @action
@@ -22,7 +21,9 @@ export default class ToolsController extends Controller {
   async createLearningContentReleaseAndRefreshCache() {
     try {
       await this.store.adapterFor('learning-content-cache').createLearningContentReleaseAndRefreshCache();
-      this.notifications.success('La création de la version du référentiel et le rechargement du cache a bien été prise en compte.');
+      this.notifications.success(
+        'La création de la version du référentiel et le rechargement du cache a bien été prise en compte.'
+      );
     } catch (err) {
       this.notifications.error('Une erreur est survenue.');
     }

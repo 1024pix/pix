@@ -3,21 +3,19 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { certificationStatuses } from 'pix-admin/models/certification';
 
-module('Unit | Model | jury-certification-summary', function(hooks) {
+module('Unit | Model | jury-certification-summary', function (hooks) {
   setupTest(hooks);
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
   });
 
-  module('#statusLabel', function() {
-
-    certificationStatuses.forEach(function({ value, label }) {
-      module(`when the status is ${value}`, function() {
-
-        test(`statusLabel should return ${label}`, function(assert) {
+  module('#statusLabel', function () {
+    certificationStatuses.forEach(function ({ value, label }) {
+      module(`when the status is ${value}`, function () {
+        test(`statusLabel should return ${label}`, function (assert) {
           // given
           const juryCertificationSummaryProcessed = run(() => {
             return store.createRecord('jury-certification-summary', { status: value });
@@ -33,9 +31,8 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
     });
   });
 
-  module('#hasSeenEndTestScreenLabel', function() {
-
-    test('it returns an empty string when it has seen end test screen', function(assert) {
+  module('#hasSeenEndTestScreenLabel', function () {
+    test('it returns an empty string when it has seen end test screen', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: true });
@@ -48,7 +45,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(hasSeenEndTestScreenLabel, '');
     });
 
-    test('it returns \'non\' when it has not seen end test screen', function(assert) {
+    test("it returns 'non' when it has not seen end test screen", function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', { hasSeenEndTestScreen: false });
@@ -62,38 +59,42 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
     });
   });
 
-  module('#numberOfCertificationIssueReportsWithRequiredActionLabel', function() {
-
-    test('it returns an empty string when there are no issue reports', function(assert) {
+  module('#numberOfCertificationIssueReportsWithRequiredActionLabel', function () {
+    test('it returns an empty string when there are no issue reports', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 0 });
+        return store.createRecord('jury-certification-summary', {
+          numberOfCertificationIssueReportsWithRequiredAction: 0,
+        });
       });
 
       // when
-      const numberOfCertificationIssueReportsWithRequiredActionLabel = juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
+      const numberOfCertificationIssueReportsWithRequiredActionLabel =
+        juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
 
       // then
       assert.equal(numberOfCertificationIssueReportsWithRequiredActionLabel, '');
     });
 
-    test('it returns the count of issue reports when there are some', function(assert) {
+    test('it returns the count of issue reports when there are some', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
-        return store.createRecord('jury-certification-summary', { numberOfCertificationIssueReportsWithRequiredAction: 4 });
+        return store.createRecord('jury-certification-summary', {
+          numberOfCertificationIssueReportsWithRequiredAction: 4,
+        });
       });
 
       // when
-      const numberOfCertificationIssueReportsWithRequiredActionLabel = juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
+      const numberOfCertificationIssueReportsWithRequiredActionLabel =
+        juryCertificationSummaryProcessed.numberOfCertificationIssueReportsWithRequiredActionLabel;
 
       // then
       assert.equal(numberOfCertificationIssueReportsWithRequiredActionLabel, 4);
     });
   });
 
-  module('#complementaryCertificationsLabel', function() {
-
-    test('it returns an empty string when there are no complementary certifications taken', function(assert) {
+  module('#complementaryCertificationsLabel', function () {
+    test('it returns an empty string when there are no complementary certifications taken', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', {
@@ -110,7 +111,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(complementaryCertificationsLabel, '');
     });
 
-    test('it returns CléA Numérique when Clea has been taken as complementary certification', function(assert) {
+    test('it returns CléA Numérique when Clea has been taken as complementary certification', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', {
@@ -127,7 +128,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(complementaryCertificationsLabel, 'CléA Numérique');
     });
 
-    test('it returns Pix+ Droit Maître when pix+ droit maitre has been taken as complementary certification', function(assert) {
+    test('it returns Pix+ Droit Maître when pix+ droit maitre has been taken as complementary certification', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', {
@@ -144,7 +145,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(complementaryCertificationsLabel, 'Pix+ Droit Maître');
     });
 
-    test('it returns Pix+ Droit Expert when pix+ droit expert has been taken as complementary certification', function(assert) {
+    test('it returns Pix+ Droit Expert when pix+ droit expert has been taken as complementary certification', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', {
@@ -161,7 +162,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(complementaryCertificationsLabel, 'Pix+ Droit Expert');
     });
 
-    test('it returns all complementary certifications taken separated by carriage return where there are some', function(assert) {
+    test('it returns all complementary certifications taken separated by carriage return where there are some', function (assert) {
       // given
       const juryCertificationSummaryProcessed = run(() => {
         return store.createRecord('jury-certification-summary', {
@@ -179,9 +180,8 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
     });
   });
 
-  module('#get isCertificationStarted', function() {
-
-    test('it should return true when the status is "started"', function(assert) {
+  module('#get isCertificationStarted', function () {
+    test('it should return true when the status is "started"', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'started' });
@@ -194,7 +194,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.true(isCertificationStarted);
     });
 
-    test('it should return false when the status is "validated" (not started)', function(assert) {
+    test('it should return false when the status is "validated" (not started)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'validated' });
@@ -207,7 +207,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.false(isCertificationStarted);
     });
 
-    test('it should return false when the status is "rejected" (not started)', function(assert) {
+    test('it should return false when the status is "rejected" (not started)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'rejected' });
@@ -220,7 +220,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.false(isCertificationStarted);
     });
 
-    test('it should return false when the status is "error" (not started)', function(assert) {
+    test('it should return false when the status is "error" (not started)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'error' });
@@ -233,7 +233,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.false(isCertificationStarted);
     });
 
-    test('it should return false when the status is "cancelled" (not started)', function(assert) {
+    test('it should return false when the status is "cancelled" (not started)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'cancelled' });
@@ -247,9 +247,8 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
     });
   });
 
-  module('#isCertificationInError', function() {
-
-    test('it should return true when the status is "error"', function(assert) {
+  module('#isCertificationInError', function () {
+    test('it should return true when the status is "error"', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'error' });
@@ -262,7 +261,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.true(isCertificationInError);
     });
 
-    test('it should return false when the status is "started" (not in error)', function(assert) {
+    test('it should return false when the status is "started" (not in error)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'started' });
@@ -275,7 +274,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.false(isCertificationInError);
     });
 
-    test('it should return false when the status is "validated" (not in error)', function(assert) {
+    test('it should return false when the status is "validated" (not in error)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'validated' });
@@ -288,7 +287,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.false(isCertificationInError);
     });
 
-    test('it should return false when the status is "rejected" (not in error)', function(assert) {
+    test('it should return false when the status is "rejected" (not in error)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'rejected' });
@@ -301,7 +300,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.false(isCertificationInError);
     });
 
-    test('it should return false when the status is "cancelled" (not in error)', function(assert) {
+    test('it should return false when the status is "cancelled" (not in error)', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { status: 'cancelled' });
@@ -315,9 +314,8 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
     });
   });
 
-  module('#get completionDate', function() {
-
-    test('it should return null if completedAt is null', function(assert) {
+  module('#get completionDate', function () {
+    test('it should return null if completedAt is null', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { completedAt: null });
@@ -327,7 +325,7 @@ module('Unit | Model | jury-certification-summary', function(hooks) {
       assert.equal(juryCertificationSummary.completionDate, null);
     });
 
-    test('it should a formatted date when completedAt is defined', function(assert) {
+    test('it should a formatted date when completedAt is defined', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('jury-certification-summary', { completedAt: '2021-06-30 15:10:45' });

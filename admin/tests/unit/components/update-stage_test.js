@@ -3,18 +3,20 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../helpers/create-glimmer-component';
 
-module('Unit | Component | update-stage', function(hooks) {
+module('Unit | Component | update-stage', function (hooks) {
   setupTest(hooks);
 
-  module('#updateStage', function() {
-    test('it should update controller stage fields', async function(assert) {
+  module('#updateStage', function () {
+    test('it should update controller stage fields', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:stages/update-stage', { model: {
-        prescriberTitle: '',
-        prescriberDescription: '',
-        save: sinon.stub(),
-        rollbackAttributes: sinon.stub(),
-      } });
+      const component = createGlimmerComponent('component:stages/update-stage', {
+        model: {
+          prescriberTitle: '',
+          prescriberDescription: '',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
 
       const event = {
         preventDefault: sinon.stub(),
@@ -34,14 +36,16 @@ module('Unit | Component | update-stage', function(hooks) {
       assert.equal(component.args.model.prescriberDescription, 'le niveau est moyen');
     });
 
-    test('it should update stage field even if a field is empty', async function(assert) {
+    test('it should update stage field even if a field is empty', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:stages/update-stage', { model: {
-        prescriberTitle: 'palier intermédiaire',
-        prescriberDescription: '',
-        save: sinon.stub(),
-        rollbackAttributes: sinon.stub(),
-      } });
+      const component = createGlimmerComponent('component:stages/update-stage', {
+        model: {
+          prescriberTitle: 'palier intermédiaire',
+          prescriberDescription: '',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
 
       const event = {
         preventDefault: sinon.stub(),
@@ -58,14 +62,16 @@ module('Unit | Component | update-stage', function(hooks) {
       assert.equal(component.args.model.prescriberTitle, null);
     });
 
-    test('it should display a success notification when model has been saved', async function(assert) {
+    test('it should display a success notification when model has been saved', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:stages/update-stage', { model: {
-        prescriberTitle: '',
-        prescriberDescription: '',
-        save: sinon.stub(),
-        rollbackAttributes: sinon.stub(),
-      } });
+      const component = createGlimmerComponent('component:stages/update-stage', {
+        model: {
+          prescriberTitle: '',
+          prescriberDescription: '',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
 
       const event = {
         preventDefault: sinon.stub(),

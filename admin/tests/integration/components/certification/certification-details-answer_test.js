@@ -5,8 +5,7 @@ import hbs from 'htmlbars-inline-precompile';
 import { resolve } from 'rsvp';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | Certification | CertificationDetailsAnswer', function(hooks) {
-
+module('Integration | Component | Certification | CertificationDetailsAnswer', function (hooks) {
   setupRenderingTest(hooks);
 
   const answerData = {
@@ -18,7 +17,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     value: 'coucou',
   };
 
-  test('init answer displayed status with its result when challenge is not neutralized', async function(assert) {
+  test('init answer displayed status with its result when challenge is not neutralized', async function (assert) {
     // given
     this.setProperties({
       answer: answerData,
@@ -32,7 +31,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.contains('Succès partiel');
   });
 
-  test('init answer displayed status with neutralized label when challenge is neutralized', async function(assert) {
+  test('init answer displayed status with neutralized label when challenge is neutralized', async function (assert) {
     // given
     this.setProperties({
       answer: { ...answerData, isNeutralized: true },
@@ -46,7 +45,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.contains('Neutralisée');
   });
 
-  test('info are correctly displayed', async function(assert) {
+  test('info are correctly displayed', async function (assert) {
     // given
     this.setProperties({
       answer: answerData,
@@ -64,8 +63,8 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.contains('Succès partiel');
   });
 
-  module('when chalenge has been skipped automatically', function() {
-    test('info are correctly displayed ', async function(assert) {
+  module('when chalenge has been skipped automatically', function () {
+    test('info are correctly displayed ', async function (assert) {
       // given
       const skippedAnswerData = {
         ...answerData,
@@ -77,7 +76,9 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
       });
 
       // when
-      await render(hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`);
+      await render(
+        hbs`<Certification::CertificationDetailsAnswer @answer={{answer}} @onUpdateRate={{onUpdateRate}} />`
+      );
 
       // then
       assert.contains('5');
@@ -88,7 +89,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     });
   });
 
-  test('jury class is set when answer is modified', async function(assert) {
+  test('jury class is set when answer is modified', async function (assert) {
     // given
     this.setProperties({
       answer: answerData,
@@ -103,7 +104,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.dom('.answer-result').hasClass('jury');
   });
 
-  test('update rate function is called when answer is modified and jury is set', async function(assert) {
+  test('update rate function is called when answer is modified and jury is set', async function (assert) {
     assert.expect(1);
     // given
     this.setProperties({
@@ -120,7 +121,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     await selectChoose('.answer-result', 'Succès');
   });
 
-  test('jury is set back to false when answer is set to default value', async function(assert) {
+  test('jury is set back to false when answer is set to default value', async function (assert) {
     // given
     this.setProperties({
       answer: answerData,
@@ -136,7 +137,7 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
     assert.equal(answerData.jury, null);
   });
 
-  test('it should render links to challenge preview and info', async function(assert) {
+  test('it should render links to challenge preview and info', async function (assert) {
     // given
     this.setProperties({
       answer: answerData,
@@ -147,7 +148,9 @@ module('Integration | Component | Certification | CertificationDetailsAnswer', f
 
     // Then
     assert.dom('[data-test-link-preview]').hasText('Preview');
-    assert.dom('[data-test-link-preview]').hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec1234/preview');
+    assert
+      .dom('[data-test-link-preview]')
+      .hasAttribute('href', 'https://app.recette.pix.fr/challenges/rec1234/preview');
     assert.dom('[data-test-link-info]').hasText('Info');
     assert.dom('[data-test-link-info]').hasAttribute('href', 'https://editor.pix.fr/#/challenge/rec1234');
   });

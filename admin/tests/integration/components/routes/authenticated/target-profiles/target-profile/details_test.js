@@ -3,11 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function(hooks) {
-
+module('Integration | Component | routes/authenticated/target-profiles/target-profile | details', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display target profile with areas and competences', async function(assert) {
+  test('it should display target profile with areas and competences', async function (assert) {
     // given
     this.targetProfile = { areas: [] };
 
@@ -18,7 +17,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     assert.contains('Profil cible vide.');
   });
 
-  test('it should display competences of areas', async function(assert) {
+  test('it should display competences of areas', async function (assert) {
     // given
     const area1 = { id: 'area1', title: 'Area 1' };
     const competence1 = { id: 'competence1', name: 'Competence 1', areaId: 'area1' };
@@ -45,7 +44,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     assert.contains('Competence 2');
   });
 
-  test('it should display tubes of competences', async function(assert) {
+  test('it should display tubes of competences', async function (assert) {
     // given
     const area1 = { id: 'area1', title: 'Area 1' };
     const competence1 = { id: 'competence1', name: 'Competence 1', areaId: 'area1' };
@@ -70,7 +69,7 @@ module('Integration | Component | routes/authenticated/target-profiles/target-pr
     assert.contains('Tube 2');
   });
 
-  test('it should display skills of tubes', async function(assert) {
+  test('it should display skills of tubes', async function (assert) {
     // given
     const area1 = { id: 'area1', title: 'Area 1' };
     const competence1 = { id: 'competence1', name: 'Competence 1', areaId: 'area1' };

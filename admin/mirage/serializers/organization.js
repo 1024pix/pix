@@ -1,7 +1,6 @@
 import ApplicationSerializer from './application';
 
 export default ApplicationSerializer.extend({
-
   links(organization) {
     return {
       memberships: {
@@ -12,5 +11,4 @@ export default ApplicationSerializer.extend({
       },
     };
   },
-
 });

@@ -3,16 +3,15 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/users | list-items', function(hooks) {
-
+module('Integration | Component | routes/authenticated/users | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(async function() {
-    const triggerFiltering = function() {};
+  hooks.beforeEach(async function () {
+    const triggerFiltering = function () {};
     this.triggerFiltering = triggerFiltering;
   });
 
-  test('it should display user list', async function(assert) {
+  test('it should display user list', async function (assert) {
     // given
     const users = [
       { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@example.net' },
@@ -26,7 +25,7 @@ module('Integration | Component | routes/authenticated/users | list-items', func
     this.users = users;
 
     // when
-    await render(hbs `<Users::ListItems @users={{this.users}} @triggerFiltering={{this.triggerFiltering}} />`);
+    await render(hbs`<Users::ListItems @users={{this.users}} @triggerFiltering={{this.triggerFiltering}} />`);
 
     // then
     assert.dom('table tbody tr:first-child td:first-child').hasText('1');
