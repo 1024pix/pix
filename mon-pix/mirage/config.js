@@ -68,6 +68,19 @@ export default function() {
     return new Response(204);
   });
 
+  this.post('/users/:id/update-email', () => {
+    const response = {
+      'data': {
+        'type': 'email-verification-codes',
+        'attributes': {
+          'email': 'new-email@example.net',
+        },
+      },
+    };
+
+    return response;
+  });
+
   this.patch('/users/:id/pix-terms-of-service-acceptance', (schema, request) => {
     const userId = request.params.id;
     const user = schema.users.find(userId);

@@ -4,6 +4,7 @@ import { expect } from 'chai';
 import visit from '../../helpers/visit';
 import { setupApplicationTest } from 'ember-mocha';
 import { setupMirage } from 'ember-cli-mirage/test-support';
+import { triggerEvent } from '@ember/test-helpers';
 import { contains } from '../../helpers/contains';
 import { clickByLabel } from '../../helpers/click-by-label';
 import { fillInByLabel } from '../../helpers/fill-in-by-label';
@@ -114,7 +115,7 @@ describe('Acceptance | user-account | connection-methods', function() {
 
     context('email validation is toggled on', function() {
 
-      it('should be able to edit the email using the new form and see the verification code page', async function() {
+      it('should be able to edit the email, enter the code received, and be successfully redirected to account page', async function() {
         // given
         const user = server.create('user', 'withEmail');
         server.create('feature-toggle', { id: 0, isEmailValidationEnabled: true });
@@ -127,10 +128,10 @@ describe('Acceptance | user-account | connection-methods', function() {
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
         await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), user.password);
         await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
+        await triggerEvent('#code-input-1', 'paste', { clipboardData: { getData: () => '123456' } });
 
         // then
-        expect(contains(this.intl.t('pages.user-account.email-verification.description'))).to.exist;
-        expect(contains(newEmail)).to.exist;
+        expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
       });
 
     });

@@ -9,12 +9,13 @@ describe('Unit | Component | user-account | email-verification-code', function()
 
   context('#onSubmitCode', function() {
 
-    it('should send entered code for verification', async function() {
+    it('should send entered code for verification and redirect to account page', async function() {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const code = '918435';
       const verifyCode = sinon.stub();
       component.store = { createRecord: () => ({ verifyCode }) };
+      component.args.disableEmailEditionMode = sinon.stub();
       sinon.spy(component.store, 'createRecord');
 
       // when
@@ -23,6 +24,7 @@ describe('Unit | Component | user-account | email-verification-code', function()
       // then
       sinon.assert.calledWith(component.store.createRecord, 'email-verification-code', { code });
       sinon.assert.calledOnce(verifyCode);
+      sinon.assert.calledOnce(component.args.disableEmailEditionMode);
     });
 
     it('should update the user email when code verification is successful', async function() {
