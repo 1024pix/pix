@@ -172,6 +172,18 @@ class CertificationCourse {
     this._birthdate = modifiedBirthdate;
   }
 
+  isCompleted() {
+    return Boolean(this._completedAt);
+  }
+
+  isAbortReasonCandidateRelated() {
+    return this._abortReason === 'candidate';
+  }
+
+  isAbortReasonCandidateUnrelated() {
+    return this._abortReason === 'technical';
+  }
+
   isPublished() {
     return this._isPublished;
   }

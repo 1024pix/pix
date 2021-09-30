@@ -66,6 +66,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
           challengeId: 'rec123',
           competence: '1.1',
           isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
           result: 'ok',
           skill: 'manger une mangue',
           value: 'prout',
@@ -73,6 +74,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
           challengeId: 'rec456',
           competence: '2.2',
           isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
           result: 'ko',
           skill: 'faire son lit',
           value: 'bidule',
@@ -101,24 +103,70 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
       expect(certificationDetails.toDTO().percentageCorrectAnswers).to.equal(0);
     });
 
-    it('should ignore challenges that do not have answer', function() {
+    it('should have the "challenges and answers" list ordered by answer date with unanswered challenges at the end', function() {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123' });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', isNeutralized: true });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp1' });
+      const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456' });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', competenceId: 'recComp2', isNeutralized: true });
+      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recABC', competenceId: 'recComp1', hasBeenSkippedAutomatically: true });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationChallenges: [certificationChallenge1, certificationChallenge2],
-        certificationAnswersByDate: [answer1],
+        certificationChallenges: [certificationChallenge3, certificationChallenge1, certificationChallenge4, certificationChallenge2],
+        certificationAnswersByDate: [answer1, answer2],
       });
-      const competenceMarks = [];
-      const placementProfile = null;
+      const competenceMark1 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 5, level: 1, competence_code: '1.2', area_code: '1' });
+      const competenceMarks = [competenceMark1, competenceMark2];
+      const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
+        competencesData: [
+          { id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 },
+          { id: 'recComp2', index: '1.2', name: 'Manger des legumes', level: 3, score: 45 },
+        ],
+      });
 
       // when
       const certificationDetails = CertificationDetails.from({ certificationAssessment, placementProfile, competenceMarks });
 
       // then
-      expect(certificationDetails.toDTO().listChallengesAndAnswers).to.have.length(1);
-      expect(certificationDetails.toDTO().listChallengesAndAnswers[0].challengeId).to.equal('rec123');
+      expect(certificationDetails.toDTO().listChallengesAndAnswers).to.deep.equal([
+        {
+          challengeId: 'rec123',
+          competence: '1.1',
+          isNeutralized: true,
+          hasBeenSkippedAutomatically: false,
+          result: 'ok',
+          skill: 'cueillir des fleurs',
+          value: '1',
+        },
+        {
+          challengeId: 'rec456',
+          competence: '1.1',
+          isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
+          result: 'ko',
+          skill: 'cueillir des fleurs',
+          value: '1',
+        },
+        {
+          challengeId: 'recABC',
+          competence: '1.1',
+          isNeutralized: false,
+          hasBeenSkippedAutomatically: true,
+          result: undefined,
+          skill: 'cueillir des fleurs',
+          value: undefined,
+        },
+        {
+          challengeId: 'rec789',
+          competence: '1.2',
+          isNeutralized: true,
+          hasBeenSkippedAutomatically: false,
+          result: undefined,
+          skill: 'cueillir des fleurs',
+          value: undefined,
+        },
+      ]);
     });
   });
 
@@ -191,6 +239,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
           challengeId: 'rec123',
           competence: '1.1',
           isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
           result: 'ok',
           skill: 'manger une mangue',
           value: 'prout',
@@ -198,6 +247,7 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
           challengeId: 'rec456',
           competence: '2.2',
           isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
           result: 'ko',
           skill: 'faire son lit',
           value: 'bidule',
@@ -206,37 +256,74 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
       expect(certificationDetails.toDTO()).to.deep.equal(expectedCertificationDetails.toDTO());
     });
 
-    it('should ignore challenges that do not have answer', function() {
+    it('should have the "challenges and answers" list ordered by answer date with unanswered challenges at the end', function() {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: true });
-      const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit', isNeutralized: true });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', isNeutralized: true });
+      const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp1' });
+      const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456' });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', competenceId: 'recComp2', isNeutralized: true });
+      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recABC', competenceId: 'recComp1', hasBeenSkippedAutomatically: true });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationChallenges: [certificationChallenge1, certificationChallenge2],
-        certificationAnswersByDate: [answer1],
+        certificationChallenges: [certificationChallenge3, certificationChallenge1, certificationChallenge4, certificationChallenge2],
+        certificationAnswersByDate: [answer1, answer2],
       });
       const competenceMark1 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
-      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 17, level: 2, competence_code: '2.2', area_code: '2' });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 5, level: 1, competence_code: '1.2', area_code: '1' });
+      const competenceMarks = [competenceMark1, competenceMark2];
       const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
-        competenceMarks: [competenceMark1, competenceMark2],
+        competenceMarks,
+        percentageCorrectAnswers: 50,
       });
       const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
         competencesData: [
           { id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 },
-          { id: 'recComp2', index: '2.2', name: 'Ranger sa chambre', level: 2, score: 18 },
+          { id: 'recComp2', index: '1.2', name: 'Manger des legumes', level: 3, score: 45 },
         ],
       });
 
       // when
-      const certificationDetails = CertificationDetails.fromCertificationAssessmentScore({
-        certificationAssessmentScore,
-        certificationAssessment,
-        placementProfile,
-      });
+      const certificationDetails = CertificationDetails.fromCertificationAssessmentScore({ certificationAssessment, placementProfile, certificationAssessmentScore });
 
       // then
-      expect(certificationDetails.toDTO().listChallengesAndAnswers).to.have.length(1);
-      expect(certificationDetails.toDTO().listChallengesAndAnswers[0].challengeId).to.equal('rec123');
+      expect(certificationDetails.toDTO().listChallengesAndAnswers).to.deep.equal([
+        {
+          challengeId: 'rec123',
+          competence: '1.1',
+          isNeutralized: true,
+          hasBeenSkippedAutomatically: false,
+          result: 'ok',
+          skill: 'cueillir des fleurs',
+          value: '1',
+        },
+        {
+          challengeId: 'rec456',
+          competence: '1.1',
+          isNeutralized: false,
+          hasBeenSkippedAutomatically: false,
+          result: 'ko',
+          skill: 'cueillir des fleurs',
+          value: '1',
+        },
+        {
+          challengeId: 'recABC',
+          competence: '1.1',
+          isNeutralized: false,
+          hasBeenSkippedAutomatically: true,
+          result: undefined,
+          skill: 'cueillir des fleurs',
+          value: undefined,
+        },
+        {
+          challengeId: 'rec789',
+          competence: '1.2',
+          isNeutralized: true,
+          hasBeenSkippedAutomatically: false,
+          result: undefined,
+          skill: 'cueillir des fleurs',
+          value: undefined,
+        },
+      ]);
     });
   });
 

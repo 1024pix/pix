@@ -8,6 +8,7 @@ class CertificationChallengeWithType {
     type,
     competenceId,
     isNeutralized,
+    hasBeenSkippedAutomatically,
     certifiableBadgeKey,
   } = {}) {
     this.id = id;
@@ -19,6 +20,7 @@ class CertificationChallengeWithType {
       : 'EmptyType';
     this.competenceId = competenceId;
     this.isNeutralized = isNeutralized;
+    this.hasBeenSkippedAutomatically = hasBeenSkippedAutomatically;
     this.certifiableBadgeKey = certifiableBadgeKey;
   }
 
@@ -32,6 +34,10 @@ class CertificationChallengeWithType {
 
   isPixPlus() {
     return Boolean(this.certifiableBadgeKey);
+  }
+
+  skipAutomatically() {
+    this.hasBeenSkippedAutomatically = true;
   }
 }
 

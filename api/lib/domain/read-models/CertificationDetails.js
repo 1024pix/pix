@@ -116,7 +116,7 @@ function _buildListChallengesAndAnswers({
   certificationAssessment,
   competencesWithMark,
 }) {
-  return _.map(certificationAssessment.certificationAnswersByDate, (certificationAnswer) => {
+  const answeredChallengesAndAnswers = _.map(certificationAssessment.certificationAnswersByDate, (certificationAnswer) => {
     const challengeForAnswer = certificationAssessment.getCertificationChallenge(certificationAnswer.challengeId);
     const competenceIndex = _getCompetenceIndexForChallenge(challengeForAnswer, competencesWithMark);
 
@@ -124,11 +124,35 @@ function _buildListChallengesAndAnswers({
       challengeId: challengeForAnswer.challengeId,
       competence: competenceIndex,
       isNeutralized: challengeForAnswer.isNeutralized,
+      hasBeenSkippedAutomatically: false,
       result: certificationAnswer.result.status,
       skill: challengeForAnswer.associatedSkillName,
       value: certificationAnswer.value,
     };
   });
+
+  const unansweredChallengesAndAnswers = _(certificationAssessment.certificationChallenges)
+    .map((challenge) => {
+      const answer = certificationAssessment.certificationAnswersByDate.find((answer) => answer.challengeId === challenge.challengeId);
+      if (answer) {
+        return null;
+      }
+      const competenceIndex = _getCompetenceIndexForChallenge(challenge, competencesWithMark);
+      return {
+        challengeId: challenge.challengeId,
+        competence: competenceIndex,
+        isNeutralized: challenge.isNeutralized,
+        hasBeenSkippedAutomatically: challenge.hasBeenSkippedAutomatically,
+        result: undefined,
+        skill: challenge.associatedSkillName,
+        value: undefined,
+      };
+    })
+    .compact()
+    .sortBy('competence')
+    .value();
+
+  return answeredChallengesAndAnswers.concat(unansweredChallengesAndAnswers);
 }
 
 function _getCompetenceIndexForChallenge(certificationChallenge, competencesWithMark) {

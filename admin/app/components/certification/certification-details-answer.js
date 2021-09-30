@@ -9,8 +9,9 @@ const options = [
   { value: 'partially', label: 'Succès partiel' },
   { value: 'timedout', label: 'Temps écoulé' },
   { value: 'focusedOut', label: 'Focus échoué' },
-  { value: 'aband', label: 'Abandon' },
+  { value: 'aband', label: 'Passée' },
   { value: 'skip', label: 'Neutralisée' },
+  { value: 'skippedAutomatically', label: 'Abandon' },
 ];
 
 export default class CertificationDetailsAnswer extends Component {
@@ -54,8 +55,10 @@ export default class CertificationDetailsAnswer extends Component {
   _answerResultValue() {
     if (this.args.answer.isNeutralized) {
       return this.getOption('skip');
-    } else {
-      return this.getOption(this.args.answer.result);
     }
+    if (this.args.answer.hasBeenSkippedAutomatically) {
+      return this.getOption('skippedAutomatically');
+    }
+    return this.getOption(this.args.answer.result);
   }
 }

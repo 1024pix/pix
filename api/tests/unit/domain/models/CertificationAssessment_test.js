@@ -536,4 +536,54 @@ describe('Unit | Domain | Models | CertificationAssessment', function() {
       expect(recId).to.equal(null);
     });
   });
+
+  describe('#skipUnansweredChallenges', function() {
+    it('should skip unanswered challenges', function() {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', hasBeenSkippedAutomatically: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', hasBeenSkippedAutomatically: false });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', hasBeenSkippedAutomatically: false });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge1.challengeId, result: AnswerStatus.KO.status }),
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge3.challengeId, result: AnswerStatus.KO.status }),
+        ],
+      });
+
+      // when
+      certificationAssessment.skipUnansweredChallenges();
+
+      // then
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec456').hasBeenSkippedAutomatically).to.be.true;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec1234').hasBeenSkippedAutomatically).to.be.false;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec789').hasBeenSkippedAutomatically).to.be.false;
+    });
+  });
+
+  describe('#neutralizeUnansweredChallenges', function() {
+    it('should neutralize unanswered challenges', function() {
+      // given
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec1234', isNeutralized: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', isNeutralized: false });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', isNeutralized: false });
+
+      const certificationAssessment = domainBuilder.buildCertificationAssessment({
+        certificationChallenges: [certificationChallenge1, certificationChallenge2, certificationChallenge3],
+        certificationAnswersByDate: [
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge1.challengeId, result: AnswerStatus.KO.status }),
+          domainBuilder.buildAnswer({ challengeId: certificationChallenge3.challengeId, result: AnswerStatus.KO.status }),
+        ],
+      });
+
+      // when
+      certificationAssessment.neutralizeUnansweredChallenges();
+
+      // then
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec456').isNeutralized).to.be.true;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec1234').isNeutralized).to.be.false;
+      expect(certificationAssessment.certificationChallenges.find((certificationChallenge) => certificationChallenge.challengeId === 'rec789').isNeutralized).to.be.false;
+    });
+  });
 });
