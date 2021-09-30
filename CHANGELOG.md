@@ -1,5 +1,10 @@
 # Pix Changelog
 
+## v3.107.0 (30/09/2021)
+
+- [#3542](https://github.com/1024pix/pix/pull/3542) [BUGFIX] Correction de tests qui tombent en erreur le 12 et le 30 du mois.
+- [#3541](https://github.com/1024pix/pix/pull/3541) Revert "[TECH] Mettre à jour Ember Simple Auth en 4.0.0 sur Pix App."
+
 ## v3.106.0 (28/09/2021)
 
 - [#3502](https://github.com/1024pix/pix/pull/3502) [FEATURE] Permettre la suppression du commentaire jury d'une session (PIX-3150)
