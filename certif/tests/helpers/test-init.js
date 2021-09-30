@@ -41,6 +41,8 @@ export function createAllowedCertificationCenterAccess({ certificationCenterName
     isRelatedToManagingStudentsOrganization: isRelatedOrganizationManagingStudents,
     isAccessBlockedCollege: false,
     isAccessBlockedLycee: false,
+    isAccessBlockedAEFE: false,
+    isAccessBlockedAgri: false,
   });
 }
 

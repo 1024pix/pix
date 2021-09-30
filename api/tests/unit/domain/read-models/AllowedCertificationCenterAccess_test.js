@@ -3,6 +3,12 @@ const settings = require('../../../../lib/config');
 
 describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', function() {
 
+  let clock;
+
+  beforeEach(function() {
+    clock = sinon.useFakeTimers(new Date('2020-01-01'));
+  });
+
   context('#isInWhitelist', function() {
 
     let originalEnvValueWhitelist, originalEnvValueDateCollege, originalEnvValueDateLycee;
@@ -217,6 +223,96 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       expect(isLycee).to.be.true;
     });
   });
+  context('#isAEFE', function() {
+
+    it('should return false when certification center does not have the tag AEFE', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['LYCEEeeee', 'some_other_tag'],
+      });
+
+      // when
+      const isAEFE = allowedCertificationCenterAccess.isAEFE();
+
+      // then
+      expect(isAEFE).to.be.false;
+    });
+
+    it('should return true when certification has tag AEFE', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        relatedOrganizationTags: ['AEFE', 'some_other_tag'],
+      });
+
+      // when
+      const isAEFE = allowedCertificationCenterAccess.isAEFE();
+
+      // then
+      expect(isAEFE).to.be.true;
+    });
+  });
+  context('#isAgri', function() {
+
+    it('should return false when certification center is not of type SCO', function() {
+      // given
+      const notScoAllowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess.notSco({
+        relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
+      });
+
+      // when
+      const isAgri = notScoAllowedCertificationCenterAccess.isAgri();
+
+      // then
+      expect(isAgri).to.be.false;
+    });
+
+    it('should return false when certification center is not related to a managing students organization', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        type: 'NOT_SCO',
+        isRelatedToManagingStudentsOrganization: false,
+        relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
+      });
+
+      // when
+      const isAgri = allowedCertificationCenterAccess.isAgri();
+
+      // then
+      expect(isAgri).to.be.false;
+    });
+
+    it('should return false when certification center does not have the tag AGRICULTURE', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['LYCEEeeee', 'some_other_tag'],
+      });
+
+      // when
+      const isAgri = allowedCertificationCenterAccess.isAgri();
+
+      // then
+      expect(isAgri).to.be.false;
+    });
+
+    it('should return true when certification center is SCO, related to a managing students orga and has tag AGRICULTURE', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
+      });
+
+      // when
+      const isAgri = allowedCertificationCenterAccess.isAgri();
+
+      // then
+      expect(isAgri).to.be.true;
+    });
+  });
 
   context('#hasTag', function() {
 
@@ -248,11 +344,9 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   });
 
   context('#isAccessBlockedCollege', function() {
-    let clock;
     let validData;
 
     beforeEach(function() {
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
       settings.features.pixCertifScoBlockedAccessDateCollege = '2021-01-01';
       validData = {
@@ -334,11 +428,9 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
   });
 
   context('#isAccessBlockedLycee', function() {
-    let clock;
     let validData;
 
     beforeEach(function() {
-      clock = sinon.useFakeTimers(new Date('2020-01-01'));
       settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
       settings.features.pixCertifScoBlockedAccessDateLycee = '2021-01-01';
       validData = {
@@ -411,6 +503,152 @@ describe('Unit | Domain | Read-Models | AllowedCertificationCenterAccess', funct
       // then
       expect(isAccessBlockedLycee).to.be.true;
       expect(isAccessBlockedLyceePro).to.be.true;
+    });
+  });
+
+  context('#isAccessBlockedAEFE', function() {
+    let validData;
+
+    beforeEach(function() {
+      settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
+      settings.features.pixCertifScoBlockedAccessDateLycee = '2021-01-01';
+      validData = {
+        externalId: 'NOT_WHITELISTED',
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['AEFE', 'some_other_tag'],
+      };
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('should return false when certification center is not AEFE', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        ...validData,
+        relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
+      });
+
+      // when
+      const isAccessBlockedAEFE = allowedCertificationCenterAccess.isAccessBlockedAEFE();
+
+      // then
+      expect(isAccessBlockedAEFE).to.be.false;
+    });
+
+    it('should return false when certification center is whitelisted', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        ...validData,
+        externalId: 'WHITELISTED',
+      });
+
+      // when
+      const isAccessBlockedAEFE = allowedCertificationCenterAccess.isAccessBlockedAEFE();
+
+      // then
+      expect(isAccessBlockedAEFE).to.be.false;
+    });
+
+    it('should return false when current date is after the lycee date limit', function() {
+      // given
+      clock = sinon.useFakeTimers(new Date('2022-01-01'));
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+
+      // when
+      const isAccessBlockedAEFE = allowedCertificationCenterAccess.isAccessBlockedAEFE();
+
+      // then
+      expect(isAccessBlockedAEFE).to.be.false;
+    });
+
+    it('should return true otherwise all above conditions', function() {
+      // given
+      const allowedCertificationCenterAccessAEFE = domainBuilder.buildAllowedCertificationCenterAccess({
+        ...validData,
+        relatedOrganizationTags: ['AEFE'],
+      });
+
+      // when
+      const isAccessBlockedAEFE = allowedCertificationCenterAccessAEFE.isAccessBlockedAEFE();
+
+      // then
+      expect(isAccessBlockedAEFE).to.be.true;
+    });
+  });
+
+  context('#isAccessBlockedAgri', function() {
+    let validData;
+
+    beforeEach(function() {
+      settings.features.pixCertifScoBlockedAccessWhitelist = ['WHITELISTED'];
+      settings.features.pixCertifScoBlockedAccessDateLycee = '2021-01-01';
+      validData = {
+        externalId: 'NOT_WHITELISTED',
+        type: 'SCO',
+        isRelatedToManagingStudentsOrganization: true,
+        relatedOrganizationTags: ['AGRICULTURE', 'some_other_tag'],
+      };
+    });
+
+    afterEach(function() {
+      clock.restore();
+    });
+
+    it('should return false when certification center is not AGRICULTURE', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        ...validData,
+        relatedOrganizationTags: ['LYCEE PROU', 'some_other_tag'],
+      });
+
+      // when
+      const isAccessBlockedAgri = allowedCertificationCenterAccess.isAccessBlockedAgri();
+
+      // then
+      expect(isAccessBlockedAgri).to.be.false;
+    });
+
+    it('should return false when certification center is whitelisted', function() {
+      // given
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
+        ...validData,
+        externalId: 'WHITELISTED',
+      });
+
+      // when
+      const isAccessBlockedAgri = allowedCertificationCenterAccess.isAccessBlockedAgri();
+
+      // then
+      expect(isAccessBlockedAgri).to.be.false;
+    });
+
+    it('should return false when current date is after the lycee date limit', function() {
+      // given
+      clock = sinon.useFakeTimers(new Date('2022-01-01'));
+      const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess(validData);
+
+      // when
+      const isAccessBlockedAgri = allowedCertificationCenterAccess.isAccessBlockedAgri();
+
+      // then
+      expect(isAccessBlockedAgri).to.be.false;
+    });
+
+    it('should return true otherwise all above conditions', function() {
+      // given
+      const allowedCertificationCenterAccessAgri = domainBuilder.buildAllowedCertificationCenterAccess({
+        ...validData,
+        relatedOrganizationTags: ['AGRICULTURE'],
+      });
+
+      // when
+      const isAccessBlockedAgri = allowedCertificationCenterAccessAgri.isAccessBlockedAgri();
+
+      // then
+      expect(isAccessBlockedAgri).to.be.true;
     });
   });
 

@@ -1,6 +1,8 @@
 const _ = require('lodash');
-const SCO_CERTIF_CENTER_ID = 1;
-const SCO_CERTIF_CENTER_NAME = 'Centre SCO des Anne-Étoiles';
+const SCO_COLLEGE_CERTIF_CENTER_ID = 1;
+const SCO_COLLEGE_CERTIF_CENTER_NAME = 'Centre SCO Collège des Anne-Étoiles';
+const SCO_LYCEE_CERTIF_CENTER_ID = 13;
+const SCO_LYCEE_CERTIF_CENTER_NAME = 'Centre SCO Lycée des Anne-Étoiles';
 const PRO_CERTIF_CENTER_ID = 2;
 const PRO_CERTIF_CENTER_NAME = 'Centre PRO des Anne-Étoiles';
 const SUP_CERTIF_CENTER_ID = 3;
@@ -10,9 +12,13 @@ const NONE_CERTIF_CENTER_NAME = 'Centre NOTYPE des Anne-Étoiles';
 const DROIT_CERTIF_CENTER_ID = 5;
 const DROIT_CERTIF_CENTER_NAME = 'Centre DROIT des Anne-Étoiles';
 const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID = 6;
-const SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME = 'Centre SCO NO MANAGING STUDENTS des Anne-Étoiles';
-const SCO_EXTERNAL_ID = '1237457A';
+const SCO_NO_MANAGING_STUDENTS_AEFE_CERTIF_CENTER_NAME = 'Centre AEFE SCO NO MANAGING STUDENTS des Anne-Étoiles';
+const SCO_COLLEGE_EXTERNAL_ID = '1237457A';
+const SCO_LYCEE_EXTERNAL_ID = '1237457K';
+const SCO_AGRI_EXTERNAL_ID = '1237457D';
 const SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID = '1237457E';
+const AGRI_SCO_MANAGING_STUDENT_ID = 9;
+const AGRI_SCO_MANAGING_STUDENT_NAME = 'Centre AGRI des Anne-Etoiles';
 
 const { PIX_EMPLOI_CLEA_BADGE_ID, PIX_DROIT_MAITRE_BADGE_ID, PIX_DROIT_EXPERT_BADGE_ID } = require('../badges-builder');
 
@@ -39,16 +45,30 @@ function certificationCentersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildCertificationCenter({
-    id: SCO_CERTIF_CENTER_ID,
-    name: SCO_CERTIF_CENTER_NAME,
-    externalId: SCO_EXTERNAL_ID,
+    id: SCO_COLLEGE_CERTIF_CENTER_ID,
+    name: SCO_COLLEGE_CERTIF_CENTER_NAME,
+    externalId: SCO_COLLEGE_EXTERNAL_ID,
+    type: 'SCO',
+  });
+
+  databaseBuilder.factory.buildCertificationCenter({
+    id: SCO_LYCEE_CERTIF_CENTER_ID,
+    name: SCO_LYCEE_CERTIF_CENTER_NAME,
+    externalId: SCO_LYCEE_EXTERNAL_ID,
     type: 'SCO',
   });
 
   databaseBuilder.factory.buildCertificationCenter({
     id: SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
-    name: SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME,
+    name: SCO_NO_MANAGING_STUDENTS_AEFE_CERTIF_CENTER_NAME,
     externalId: SCO_NO_MANAGING_STUDENTS_EXTERNAL_ID,
+    type: 'SCO',
+  });
+
+  databaseBuilder.factory.buildCertificationCenter({
+    id: AGRI_SCO_MANAGING_STUDENT_ID,
+    name: AGRI_SCO_MANAGING_STUDENT_NAME,
+    externalId: SCO_AGRI_EXTERNAL_ID,
     type: 'SCO',
   });
 
@@ -99,8 +119,8 @@ function certificationCentersBuilder({ databaseBuilder }) {
 
 module.exports = {
   certificationCentersBuilder,
-  SCO_CERTIF_CENTER_ID,
-  SCO_CERTIF_CENTER_NAME,
+  SCO_COLLEGE_CERTIF_CENTER_ID,
+  SCO_COLLEGE_CERTIF_CENTER_NAME,
   PRO_CERTIF_CENTER_ID,
   PRO_CERTIF_CENTER_NAME,
   SUP_CERTIF_CENTER_ID,
@@ -110,5 +130,9 @@ module.exports = {
   DROIT_CERTIF_CENTER_ID,
   DROIT_CERTIF_CENTER_NAME,
   SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_ID,
-  SCO_NO_MANAGING_STUDENTS_CERTIF_CENTER_NAME,
+  SCO_NO_MANAGING_STUDENTS_AEFE_CERTIF_CENTER_NAME,
+  AGRI_SCO_MANAGING_STUDENT_ID,
+  AGRI_SCO_MANAGING_STUDENT_NAME,
+  SCO_LYCEE_CERTIF_CENTER_ID,
+  SCO_LYCEE_CERTIF_CENTER_NAME,
 };

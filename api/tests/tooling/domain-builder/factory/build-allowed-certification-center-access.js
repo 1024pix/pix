@@ -1,6 +1,6 @@
 const AllowedCertificationCenterAccess = require('../../../../lib/domain/read-models/AllowedCertificationCenterAccess');
 
-module.exports = function buildAllowedCertificationCenterAccess({
+function buildAllowedCertificationCenterAccess({
   id = 123,
   name = 'Sunnydale Center',
   externalId = 'BUFFY_SLAYER',
@@ -16,4 +16,16 @@ module.exports = function buildAllowedCertificationCenterAccess({
     isRelatedToManagingStudentsOrganization,
     relatedOrganizationTags,
   });
+}
+
+buildAllowedCertificationCenterAccess.notSco = function({
+  type = 'NOT_SCO',
+  isRelatedToManagingStudentsOrganization = true,
+}) {
+  return new AllowedCertificationCenterAccess({
+    type,
+    isRelatedToManagingStudentsOrganization,
+  });
 };
+
+module.exports = buildAllowedCertificationCenterAccess;

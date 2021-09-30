@@ -115,6 +115,8 @@ module('Unit | Service | current-user', function(hooks) {
       const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       });
       const replaceWithStub = sinon.stub();
       class RouterStub extends Service {
