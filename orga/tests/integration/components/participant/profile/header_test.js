@@ -172,27 +172,27 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
 
       test('it does not display the total number of competence', async function (assert) {
         this.campaignProfile = {
-          competencesCount: 12,
+          competencesCount: 32,
           isShared: false,
         };
         this.campaign = {};
 
         await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
-        assert.notContains('12');
+        assert.notContains('32');
         assert.notContains('COMP. CERTIFIABLE');
       });
 
       test('it does not display the total number of certifiable competence', async function (assert) {
         this.campaignProfile = {
-          certifiableCompetencesCount: 30,
+          certifiableCompetencesCount: 33,
           isShared: false,
         };
         this.campaign = {};
 
         await render(hbs`<Participant::Profile::Header @campaignProfile={{campaignProfile}} @campaign={{campaign}} />`);
 
-        assert.notContains('30');
+        assert.notContains('33');
       });
 
       test('it does not display certifiable badge', async function (assert) {
