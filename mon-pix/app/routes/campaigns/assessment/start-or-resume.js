@@ -1,14 +1,14 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class EvaluationStartOrResumeRoute extends Route {
+export default class EvaluationStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
   @service session;
 
   userHasJustConsultedTutorial = false;
 
   beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
     this.userHasJustConsultedTutorial = transition.to.queryParams.hasConsultedTutorial;
     super.beforeModel(...arguments);
   }
