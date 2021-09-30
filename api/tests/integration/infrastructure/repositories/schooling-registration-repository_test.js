@@ -1757,6 +1757,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           isAuthenticatedFromGAR: false,
           studentNumber: schoolingRegistration.studentNumber,
           division: schoolingRegistration.division,
+          group: schoolingRegistration.group,
         });
         await databaseBuilder.commit();
 
@@ -1798,6 +1799,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           isAuthenticatedFromGAR: true,
           studentNumber: schoolingRegistration.studentNumber,
           division: schoolingRegistration.division,
+          group: schoolingRegistration.group,
         });
         await databaseBuilder.commit();
 
@@ -1831,6 +1833,7 @@ describe('Integration | Infrastructure | Repository | schooling-registration-rep
           isAuthenticatedFromGAR: false,
           studentNumber: schoolingRegistration.studentNumber,
           division: schoolingRegistration.division,
+          group: schoolingRegistration.group,
         });
         await databaseBuilder.commit();
 
