@@ -12,6 +12,7 @@ class JuryCertificationSummary {
     pixScore,
     createdAt,
     completedAt,
+    abortReason,
     isPublished,
     isCourseCancelled,
     hasSeenEndTestScreen,
@@ -25,6 +26,7 @@ class JuryCertificationSummary {
     this.lastName = lastName;
     this.status = _getStatus(status, isCourseCancelled);
     this.pixScore = pixScore;
+    this.isFlaggedAborted = Boolean(abortReason) && !completedAt;
     this.cleaCertificationResult = cleaCertificationResult;
     this.pixPlusDroitMaitreCertificationResult = pixPlusDroitMaitreCertificationResult;
     this.pixPlusDroitExpertCertificationResult = pixPlusDroitExpertCertificationResult;
