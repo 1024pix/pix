@@ -5,34 +5,26 @@ const CertificationAssessmentStates = require('../../../../lib/domain/models/Cer
 
 describe('Unit | UseCase | get-certification-details', function() {
 
-  const certificationAssessmentRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getByCertificationCourseId: sinon.stub(),
-  };
-
-  const placementProfileService = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    getPlacementProfile: sinon.stub(),
-  };
-
-  const competenceMarkRepository = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    findByCertificationCourseId: sinon.stub(),
-  };
-
-  const scoringCertificationService = {
-    // TODO: Fix this the next time the file is edited.
-    // eslint-disable-next-line mocha/no-setup-in-describe
-    calculateCertificationAssessmentScore: sinon.stub(),
-  };
-
   context('the certification assessment has not been completed', function() {
 
     it('should compute the certification details on the fly', async function() {
       // given
+      const certificationAssessmentRepository = {
+        getByCertificationCourseId: sinon.stub(),
+      };
+
+      const placementProfileService = {
+        getPlacementProfile: sinon.stub(),
+      };
+
+      const competenceMarkRepository = {
+        findByCertificationCourseId: sinon.stub(),
+      };
+
+      const scoringCertificationService = {
+        calculateCertificationAssessmentScore: sinon.stub(),
+      };
+
       const certificationCourseId = 1234;
       const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
         challengeId: 'rec123',
@@ -71,6 +63,7 @@ describe('Unit | UseCase | get-certification-details', function() {
         ],
       });
 
+      competenceMarkRepository.findByCertificationCourseId.resolves([]);
       scoringCertificationService.calculateCertificationAssessmentScore
         .withArgs({ certificationAssessment, continueOnError: true })
         .resolves(certificationAssessmentScore);
@@ -114,6 +107,7 @@ describe('Unit | UseCase | get-certification-details', function() {
           {
             challengeId: 'rec123',
             competence: '1.1',
+            hasBeenSkippedAutomatically: false,
             isNeutralized: false,
             result: 'ok',
             skill: 'manger une mangue',
@@ -131,6 +125,22 @@ describe('Unit | UseCase | get-certification-details', function() {
   context('the certification assessment has been completed', function() {
     it('should return the certification details', async function() {
       // given
+      const certificationAssessmentRepository = {
+        getByCertificationCourseId: sinon.stub(),
+      };
+
+      const placementProfileService = {
+        getPlacementProfile: sinon.stub(),
+      };
+
+      const competenceMarkRepository = {
+        findByCertificationCourseId: sinon.stub(),
+      };
+
+      const scoringCertificationService = {
+        calculateCertificationAssessmentScore: sinon.stub(),
+      };
+
       const certificationCourseId = 1234;
       const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
       const answer = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
@@ -197,6 +207,7 @@ describe('Unit | UseCase | get-certification-details', function() {
           {
             challengeId: 'rec123',
             competence: '1.1',
+            hasBeenSkippedAutomatically: false,
             isNeutralized: false,
             result: 'ok',
             skill: 'manger une mangue',

@@ -2,28 +2,29 @@ const _ = require('lodash');
 const qrocmDepChallenge = 'QROCM-dep';
 
 module.exports = class AnswerCollectionForScoring {
-  constructor(answers, challenges) {
-    this.answers = answers;
-    this.challenges = challenges;
+  constructor(challengesWithAnswers) {
+    this.challengesWithAnswers = challengesWithAnswers;
   }
 
   static from({ answers, challenges }) {
-    const answersForScoring = answers.map((answer) => {
-      const challenge = challenges.find((challenge) => answer.challengeId === challenge.challengeId);
-      return new AnswerForScoring(answer, challenge);
+
+    const challengesWithAnswers = challenges.map((challenge) => {
+      const answer = answers.find((answer) => answer.challengeId === challenge.challengeId);
+
+      return new ChallengeWithAnswer(answer, challenge);
     });
-    const challengesForScoring = challenges.map((challenge) => new ChallengeForScoring(challenge));
-    return new AnswerCollectionForScoring(answersForScoring, challengesForScoring);
+
+    return new AnswerCollectionForScoring(challengesWithAnswers);
   }
 
   numberOfChallenges() {
-    return this.challenges.length;
+    return this.challengesWithAnswers.length;
   }
 
   numberOfCorrectAnswers() {
     let nbOfCorrectAnswers = 0;
-    this.answers.forEach((answer) => {
-      if (!answer.isNeutralized() && answer.isCorrect()) {
+    this.challengesWithAnswers.forEach((challengeWithAnswer) => {
+      if (!challengeWithAnswer.isNeutralized() && challengeWithAnswer.isCorrect()) {
         nbOfCorrectAnswers++;
       }
     });
@@ -33,8 +34,9 @@ module.exports = class AnswerCollectionForScoring {
 
   numberOfNonNeutralizedChallenges() {
     let numberOfNonNeutralizedChallenges = 0;
-    this.answers.forEach((answer) => {
-      if (!answer.isNeutralized()) {
+    this.challengesWithAnswers.forEach((challengeWithAnswer) => {
+
+      if (!challengeWithAnswer.isNeutralized() && challengeWithAnswer.isAnswered()) {
         numberOfNonNeutralizedChallenges++;
       }
     });
@@ -43,7 +45,7 @@ module.exports = class AnswerCollectionForScoring {
   }
 
   numberOfChallengesForCompetence(competenceId) {
-    const challengesForCompetence = this.challenges.filter((challenge) => challenge.competenceId() === competenceId);
+    const challengesForCompetence = this.challengesWithAnswers.filter((challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId);
     const numberOfChallenges = _(challengesForCompetence).map((challenge) => {
       if (challengesForCompetence.length < 3 && challenge.isQROCMdep()) {
         return 2;
@@ -55,15 +57,15 @@ module.exports = class AnswerCollectionForScoring {
   }
 
   numberOfCorrectAnswersForCompetence(competenceId) {
-    const answersForCompetence = this.answers.filter((answer) => answer.competenceId() === competenceId);
+    const challengesWithAnswersForCompetence = this.challengesWithAnswers.filter((challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId);
     let nbOfCorrectAnswers = 0;
-    answersForCompetence.forEach((answer) => {
-      if (!answer.challenge.isNeutralized) {
-        if (answersForCompetence.length < 3 && answer.isAFullyCorrectQROCMdep()) {
+    challengesWithAnswersForCompetence.forEach((challengeWithAnswer) => {
+      if (!challengeWithAnswer.isNeutralized()) {
+        if (challengesWithAnswersForCompetence.length < 3 && challengeWithAnswer.isAFullyCorrectQROCMdep()) {
           nbOfCorrectAnswers += 2;
-        } else if (answersForCompetence.length < 3 && answer.isAPartiallyCorrectQROCMdep()) {
+        } else if (challengesWithAnswersForCompetence.length < 3 && challengeWithAnswer.isAPartiallyCorrectQROCMdep()) {
           nbOfCorrectAnswers += 1;
-        } else if (answer.isCorrect()) {
+        } else if (challengeWithAnswer.isCorrect()) {
           nbOfCorrectAnswers += 1;
         }
       }
@@ -73,7 +75,7 @@ module.exports = class AnswerCollectionForScoring {
   }
 
   numberOfNeutralizedChallengesForCompetence(competenceId) {
-    const answersForCompetence = this.answers.filter((answer) => answer.competenceId() === competenceId);
+    const answersForCompetence = this.challengesWithAnswers.filter((challengeWithAnswer) => challengeWithAnswer.competenceId() === competenceId);
     return _(answersForCompetence).map((answer) => {
       if (answer.isNeutralized()) {
         if (answersForCompetence.length < 3 && answer.isQROCMdep()) {
@@ -88,19 +90,23 @@ module.exports = class AnswerCollectionForScoring {
   }
 };
 
-class AnswerForScoring {
+class ChallengeWithAnswer {
   constructor(answer, challenge) {
-    this.answer = answer;
-    this.challenge = challenge;
+    this._answer = answer;
+    this._challenge = challenge;
+  }
+
+  isAnswered() {
+    return this._answer || this._challenge.hasBeenSkippedAutomatically;
   }
 
   isQROCMdep() {
-    const challengeType = this.challenge ? this.challenge.type : '';
+    const challengeType = this._challenge ? this._challenge.type : '';
     return challengeType === qrocmDepChallenge;
   }
 
   isCorrect() {
-    return Boolean(this.answer?.isOk());
+    return Boolean(this._answer?.isOk());
   }
 
   isAFullyCorrectQROCMdep() {
@@ -109,33 +115,14 @@ class AnswerForScoring {
 
   isAPartiallyCorrectQROCMdep() {
     return this.isQROCMdep()
-      && Boolean(this.answer) && this.answer.isPartially();
+      && Boolean(this._answer) && this._answer.isPartially();
   }
 
   isNeutralized() {
-    return this.challenge.isNeutralized;
+    return this._challenge.isNeutralized;
   }
 
   competenceId() {
-    return this.challenge.competenceId;
-  }
-}
-
-class ChallengeForScoring {
-  constructor(challenge) {
-    this.challenge = challenge;
-  }
-
-  isQROCMdep() {
-    const challengeType = this.challenge ? this.challenge.type : '';
-    return challengeType === qrocmDepChallenge;
-  }
-
-  isNeutralized() {
-    return this.challenge.isNeutralized;
-  }
-
-  competenceId() {
-    return this.challenge.competenceId;
+    return this._challenge.competenceId;
   }
 }
