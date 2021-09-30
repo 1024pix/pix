@@ -2,13 +2,13 @@
 /* eslint ember/no-classic-classes: 0 */
 
 import Route from '@ember/routing/route';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import { inject as service } from '@ember/service';
 
-export default Route.extend({
+export default Route.extend(SecuredRouteMixin, {
 
   currentUser: service(),
   intl: service(),
-  session: service(),
 
   campaignCode: null,
   tutorialPageId: 0,
@@ -18,10 +18,6 @@ export default Route.extend({
     const classOfTutorialPages = new Array(numberOfPages);
     classOfTutorialPages[currentTutorialPageId] = 'dot__active';
     return classOfTutorialPages;
-  },
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
   },
 
   model() {

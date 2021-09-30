@@ -1,13 +1,9 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class StartRoute extends Route {
+export default class StartRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
-  @service session;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   model() {
     const user = this.currentUser.user;

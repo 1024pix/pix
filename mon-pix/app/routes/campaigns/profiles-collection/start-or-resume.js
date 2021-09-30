@@ -1,13 +1,7 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route {
-
-  @service session;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
+export default class ProfilesCollectionCampaignsStartOrResumeRoute extends Route.extend(SecuredRouteMixin) {
 
   async model() {
     return this.modelFor('campaigns.profiles-collection');
