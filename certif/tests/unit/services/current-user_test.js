@@ -134,5 +134,31 @@ module('Unit | Service | current-user', function(hooks) {
       assert.true(true);
     });
   });
+
+  module('#updateCurrentCertificationCenter', function() {
+
+    test('should modify the current allowed certification center access', function(assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const currentAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', { id: 111 });
+      const newAllowedCertificationCenterAccess = store.createRecord('allowed-certification-center-access', { id: 222 });
+      const certificationPointOfContact = store.createRecord('certification-point-of-contact', {
+        id: 124,
+        allowedCertificationCenterAccesses: [
+          currentAllowedCertificationCenterAccess, newAllowedCertificationCenterAccess,
+        ],
+      });
+
+      const currentUser = this.owner.lookup('service:currentUser');
+      currentUser.certificationPointOfContact = certificationPointOfContact;
+      currentUser.currentAllowedCertificationCenterAccess = currentAllowedCertificationCenterAccess;
+
+      // when
+      currentUser.updateCurrentCertificationCenter(222);
+
+      // then
+      assert.equal(currentUser.currentAllowedCertificationCenterAccess, newAllowedCertificationCenterAccess);
+    });
+  });
 });
 

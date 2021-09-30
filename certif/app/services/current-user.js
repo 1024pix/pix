@@ -27,4 +27,11 @@ export default class CurrentUserService extends Service {
       return this.router.replaceWith('authenticated.restricted-access');
     }
   }
+
+  updateCurrentCertificationCenter(certificationCenterId) {
+    if (this.currentAllowedCertificationCenterAccess.id !== String(certificationCenterId)) {
+      this.currentAllowedCertificationCenterAccess = this.certificationPointOfContact.allowedCertificationCenterAccesses
+        .findBy('id', String(certificationCenterId));
+    }
+  }
 }
