@@ -30,6 +30,7 @@ module.exports = {
         'numberOfCertificationIssueReports',
         'numberOfCertificationIssueReportsWithRequiredAction',
         'hasSeenEndTestScreen',
+        'isFlaggedAborted',
         'cleaCertificationStatus',
         'pixPlusDroitMaitreCertificationStatus',
         'pixPlusDroitExpertCertificationStatus',

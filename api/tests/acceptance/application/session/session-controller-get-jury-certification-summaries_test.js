@@ -80,6 +80,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'pix-plus-droit-expert-certification-status': 'not_taken',
           'examiner-comment': undefined,
           'has-seen-end-test-screen': certif1.hasSeenEndTestScreen,
+          'is-flagged-aborted': false,
         };
         expectedJuryCertifSumm2 = {
           'first-name': certif2.firstName,
@@ -96,6 +97,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
           'completed-at': certif2.completedAt,
           'examiner-comment': undefined,
           'has-seen-end-test-screen': certif2.hasSeenEndTestScreen,
+          'is-flagged-aborted': false,
         };
 
         request = {

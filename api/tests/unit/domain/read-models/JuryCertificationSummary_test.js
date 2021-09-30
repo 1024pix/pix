@@ -9,7 +9,6 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function() {
 
     context('when a status is given', function() {
 
-      // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       forIn(AssessmentResult.status, (status, key) => {
         it(`should returns "${status}" status`, function() {
@@ -30,6 +29,58 @@ describe('Unit | Domain | Models | JuryCertificationSummary', function() {
 
         // then
         expect(juryCertificationSummary.status).equal(JuryCertificationSummary.statuses.STARTED);
+      });
+    });
+  });
+
+  describe('#isFlaggedAborted', function() {
+
+    context('when the certification has been scored while started', function() {
+      context('with abort reason', function() {
+
+        it('should return isFlaggedAborted true', function() {
+          // when
+          const juryCertificationSummary = new JuryCertificationSummary({
+            abortReason: 'candidate',
+            completedAt: null,
+            pixScore: 456,
+          });
+
+          // then
+          expect(juryCertificationSummary.isFlaggedAborted).equal(true);
+        });
+      });
+
+      context('without abort reason', function() {
+
+        it('should return isFlaggedAborted false', function() {
+          // when
+          const juryCertificationSummary = new JuryCertificationSummary({
+            abortReason: null,
+            completedAt: null,
+            pixScore: 456,
+          });
+
+          // then
+          expect(juryCertificationSummary.isFlaggedAborted).equal(false);
+        });
+      });
+    });
+
+    context('when the certification has been scored while completed', function() {
+      context('with abort reason', function() {
+
+        it('should return isFlaggedAborted false', function() {
+          // when
+          const juryCertificationSummary = new JuryCertificationSummary({
+            abortReason: 'candidate',
+            completedAt: new Date(),
+            pixScore: 456,
+          });
+
+          // then
+          expect(juryCertificationSummary.isFlaggedAborted).equal(false);
+        });
       });
     });
   });
