@@ -1,14 +1,7 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
-export default class IndexRoute extends Route {
-  @service store;
-  @service session;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
-
+export default class IndexRoute extends Route.extend(SecuredRouteMixin) {
   model() {
     return this.store.findAll('certification');
   }

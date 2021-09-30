@@ -1,15 +1,12 @@
 import { inject as service } from '@ember/service';
+import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 import Route from '@ember/routing/route';
 
-export default class ResumeRoute extends Route {
+export default class ResumeRoute extends Route.extend(SecuredRouteMixin) {
   @service session;
   @service router;
 
   competenceId = null;
-
-  beforeModel(transition) {
-    this.session.requireAuthenticationAndApprovedTermsOfService(transition);
-  }
 
   model(params, transition) {
     const competenceId = transition.to.parent.params.competence_id;
