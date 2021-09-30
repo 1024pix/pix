@@ -1,11 +1,4 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import UnauthenticatedRouteMixin from 'ember-simple-auth/mixins/unauthenticated-route-mixin';
 
-export default class NotConnectedRoute extends Route {
-
-  @service session;
-
-  beforeModel() {
-    this.session.prohibitAuthentication('user-dashboard');
-  }
-}
+export default class NotConnectedRoute extends Route.extend(UnauthenticatedRouteMixin) {}
