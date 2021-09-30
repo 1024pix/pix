@@ -70,6 +70,8 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
               'type': 'PRO',
               'is-access-blocked-college': false,
               'is-access-blocked-lycee': false,
+              'is-access-blocked-aefe': false,
+              'is-access-blocked-agri': false,
               'is-related-to-managing-students-organization': false,
               'related-organization-tags': [],
             },

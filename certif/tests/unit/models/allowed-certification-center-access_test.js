@@ -70,11 +70,13 @@ module('Unit | Model | allowed-certification-center-access', function(hooks) {
 
   module('#get isAccessRestricted', function() {
 
-    test('should return false when neither college or lycee access is blocked', function(assert) {
+    test('should return false when none of college, lycee, AEFE or agri access is blocked', function(assert) {
       // when
       const model = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       });
 
       // then
@@ -86,6 +88,8 @@ module('Unit | Model | allowed-certification-center-access', function(hooks) {
       const model = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: true,
         isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       });
 
       // then
@@ -97,17 +101,47 @@ module('Unit | Model | allowed-certification-center-access', function(hooks) {
       const model = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: false,
         isAccessBlockedLycee: true,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: false,
       });
 
       // then
       assert.true(model.isAccessRestricted);
     });
 
-    test('should return true when both college and lycee accesses are blocked', function(assert) {
+    test('should return true when AEFE access is blocked', function(assert) {
+      // when
+      const model = store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: true,
+        isAccessBlockedAgri: false,
+      });
+
+      // then
+      assert.true(model.isAccessRestricted);
+    });
+
+    test('should return true when agri access is blocked', function(assert) {
+      // when
+      const model = store.createRecord('allowed-certification-center-access', {
+        isAccessBlockedCollege: false,
+        isAccessBlockedLycee: false,
+        isAccessBlockedAEFE: false,
+        isAccessBlockedAgri: true,
+      });
+
+      // then
+      assert.true(model.isAccessRestricted);
+    });
+
+    test('should return true when all accesses are blocked', function(assert) {
       // when
       const model = store.createRecord('allowed-certification-center-access', {
         isAccessBlockedCollege: true,
         isAccessBlockedLycee: true,
+        isAccessBlockedAEFE: true,
+        isAccessBlockedAgri: true,
       });
 
       // then
