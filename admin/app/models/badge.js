@@ -7,6 +7,7 @@ export default class Badge extends Model {
   @attr('string') imageUrl;
   @attr('string') altMessage;
   @attr('boolean') isCertifiable;
+  @attr('boolean') isAlwaysVisible;
 
   @belongsTo('target-profile') targetProfile;
   @hasMany('badge-criterion') badgeCriteria;

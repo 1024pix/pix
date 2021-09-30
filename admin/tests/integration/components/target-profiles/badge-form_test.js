@@ -1,7 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, findAll } from '@ember/test-helpers';
+import { click, render, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import sinon from 'sinon';
 
 module('Integration | Component | TargetProfiles::BadgeForm', function(hooks) {
   setupRenderingTest(hooks);
@@ -37,5 +38,21 @@ module('Integration | Component | TargetProfiles::BadgeForm', function(hooks) {
 
     // then
     assert.dom('a[data-test="badge-form-cancel-button"]').exists();
+    assert.dom('button[data-test="badge-form-submit-button"]').exists();
+  });
+
+  test('should send badge creation request to api', async function(assert) {
+    // given
+    const store = this.owner.lookup('service:store');
+    const createRecordMock = sinon.mock();
+    createRecordMock.returns({ save: function() {} });
+    store.createRecord = createRecordMock;
+
+    await render(hbs`<TargetProfiles::BadgeForm />`);
+
+    // when
+    await click('button[data-test="badge-form-submit-button"]');
+
+    assert.ok(createRecordMock.calledWith('badge', {}));
   });
 });
