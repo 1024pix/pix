@@ -669,6 +669,7 @@
         "column": {
           "date-of-birth": "Date de naissance",
           "first-name": "Prénom",
+          "group": "Groupe",
           "last-name": "Nom",
           "student-number": "Numéro étudiant"
         },
