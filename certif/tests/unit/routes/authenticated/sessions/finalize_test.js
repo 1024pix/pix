@@ -1,13 +1,19 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
+import Service from '@ember/service';
 
 module('Unit | Route | authenticated/sessions/finalize', function(hooks) {
   setupTest(hooks);
   let route;
 
   hooks.beforeEach(function() {
+    class CurrentUserServiceStub extends Service {
+      updateCurrentCertificationCenter = sinon.stub();
+    }
+    this.owner.register('service:currentUser', CurrentUserServiceStub);
     route = this.owner.lookup('route:authenticated/sessions/finalize');
+
   });
 
   module('#model', function(hooks) {

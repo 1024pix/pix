@@ -234,7 +234,7 @@ module('Acceptance | Session Add Sco Students', function(hooks) {
 
         hooks.beforeEach(async () => {
           // given
-          sessionWithEnrolledStudent = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+          sessionWithEnrolledStudent = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
           server.create('student', { isSelected: false, isEnrolled: false });
           const enrolledStudent = server.create('student', { isSelected: false, isEnrolled: true });
           server.create('certification-candidate', { schoolingRegistrationId: enrolledStudent.id, sessionId: sessionWithEnrolledStudent.id });

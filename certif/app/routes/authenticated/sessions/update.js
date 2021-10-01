@@ -17,6 +17,10 @@ export default class SessionsUpdateRoute extends Route {
     return session;
   }
 
+  afterModel(model) {
+    this.currentUser.updateCurrentCertificationCenter(model.certificationCenterId);
+  }
+
   deactivate() {
     this.controller.model.rollbackAttributes();
   }

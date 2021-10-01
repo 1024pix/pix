@@ -20,7 +20,7 @@ module('Acceptance | authenticated', function(hooks) {
     test('it should redirect to the sessions list page', async function(assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      const session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+      const session = server.create('session', { certificationCenterId: parseInt(certificationPointOfContact.allowedCertificationCenterAccessIds[0]) });
       await authenticateSession(certificationPointOfContact.id);
 
       // when
@@ -37,7 +37,7 @@ module('Acceptance | authenticated', function(hooks) {
     test('it should also redirect to the sessions list page', async function(assert) {
       // given
       const certificationPointOfContact = createCertificationPointOfContactWithTermsOfServiceAccepted();
-      const session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+      const session = server.create('session', { certificationCenterId: parseInt(certificationPointOfContact.allowedCertificationCenterAccessIds[0]) });
       await authenticateSession(certificationPointOfContact.id);
 
       // when
