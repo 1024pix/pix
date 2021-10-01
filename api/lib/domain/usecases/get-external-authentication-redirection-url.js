@@ -16,11 +16,12 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
 
   if (user) {
     const token = tokenService.createAccessTokenFromExternalUser(user.id);
-
+    await userRepository.updateLastLoggedAt({ userId: user.id });
     return `/?token=${encodeURIComponent(token)}&user-id=${user.id}`;
   } else {
     const externalUserToken = tokenService.createIdTokenForUserReconciliation(externalUser);
 
     return `/campagnes?externalUser=${encodeURIComponent(externalUserToken)}`;
   }
+
 };

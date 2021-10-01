@@ -43,14 +43,11 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
     context('Success cases', function() {
 
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const createdUser = domainBuilder.buildUser();
-
       context('When email is used', function() {
 
         it('should return an HTTP response with status code 204', async function() {
           // given
+          const createdUser = domainBuilder.buildUser();
           payload.data.attributes.email = 'toto@example.net';
           delete payload.data.attributes.username;
           payload.data.attributes['with-username'] = false;
@@ -68,6 +65,7 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
         it('should return an HTTP response with status code 204', async function() {
           // given
+          const createdUser = domainBuilder.buildUser();
           delete payload.data.attributes.email;
           payload.data.attributes.username = 'robert.smith1212';
           payload.data.attributes['with-username'] = true;
@@ -94,58 +92,6 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
 
           // when
           const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users', payload);
-
-          // then
-          expect(response.statusCode).to.equal(404);
-        });
-      });
-    });
-  });
-
-  describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', function() {
-
-    const payload = { data: { attributes: {} } };
-
-    beforeEach(function() {
-      sandbox.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').rejects();
-      payload.data.attributes = {
-        'campaign-code': 'RESTRICTD',
-        'external-user-token': 'external-user-token',
-        'birthdate': '1948-12-21',
-        'access-token': null,
-      };
-    });
-
-    context('Success cases', function() {
-
-      // TODO: Fix this the next time the file is edited.
-      // eslint-disable-next-line mocha/no-setup-in-describe
-      const createdUser = domainBuilder.buildUser();
-
-      it('should return an HTTP response with status code 200 and access-token in payload', async function() {
-        // given
-        usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser.resolves(createdUser);
-
-        // when
-        const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/external-user-token', payload);
-
-        // then
-        expect(response.statusCode).to.equal(200);
-        expect(response.result.data.attributes['access-token']).to.not.be.empty;
-      });
-
-    });
-
-    context('Error cases', function() {
-
-      context('when a NotFoundError is thrown', function() {
-
-        it('should resolve a 404 HTTP response', async function() {
-          // given
-          usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser.rejects(new NotFoundError());
-
-          // when
-          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/external-usertoken', payload);
 
           // then
           expect(response.statusCode).to.equal(404);

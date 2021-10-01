@@ -43,6 +43,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
     userRepository = {
       getBySamlId: sinon.stub(),
       getForObfuscation: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
     };
   });
 
@@ -58,7 +59,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
       });
 
       const externalUserToken = 'external user token';
-      createValidConditionsForAddingGarAuthenticationMethod({
+      _stubToEnableAddGarAuthenticationMethod({
         user,
         externalUserToken,
         tokenService,
@@ -85,6 +86,44 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
       // then
       expect(token).to.be.deep.equal(expectedToken);
 
+    });
+
+    it('should save last login date when authentication succeeds', async function() {
+      // given
+      const password = 'Azerty123*';
+      const user = createUserWithValidCredentials({
+        password,
+        authenticationService,
+        userRepository,
+      });
+
+      const externalUserToken = 'external user token';
+      _stubToEnableAddGarAuthenticationMethod({
+        user,
+        externalUserToken,
+        tokenService,
+        userRepository,
+        authenticationMethodRepository,
+      });
+
+      const expectedToken = 'expected returned token';
+      tokenService.createAccessTokenFromExternalUser.withArgs(user.id).resolves(expectedToken);
+
+      // when
+      await authenticateExternalUser({
+        username: user.email,
+        password,
+        externalUserToken,
+        expectedUserId: user.id,
+        tokenService,
+        authenticationService,
+        obfuscationService,
+        authenticationMethodRepository,
+        userRepository,
+      });
+
+      // then
+      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
     it('should throw an UnexpectedUserAccountError (with expected user\'s username or email) when the authenticated user does not match the expected one', async function() {
@@ -202,7 +241,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
 
         const externalUserToken = 'external user token';
         const samlId = 'samlId';
-        createValidConditionsForAddingGarAuthenticationMethod({
+        _stubToEnableAddGarAuthenticationMethod({
           user,
           externalUserToken,
           samlId,
@@ -247,7 +286,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
         const externalIdentifier = 'EXTERNAL_IDENTIFIER';
-        createValidConditionsForAddingGarAuthenticationMethod({
+        _stubToEnableAddGarAuthenticationMethod({
           user,
           externalUserToken,
           samlId: externalIdentifier,
@@ -288,7 +327,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
 
         const externalUserToken = 'EXTERNAL_USER_TOKEN';
         const externalIdentifier = 'EXTERNAL_IDENTIFIER';
-        createValidConditionsForAddingGarAuthenticationMethod({
+        _stubToEnableAddGarAuthenticationMethod({
           user,
           externalUserToken,
           samlId: externalIdentifier,
@@ -416,7 +455,7 @@ function createUserWithValidCredentialsWhoShouldChangePassword({
   return user;
 }
 
-function createValidConditionsForAddingGarAuthenticationMethod({
+function _stubToEnableAddGarAuthenticationMethod({
   user,
   externalUserToken,
   samlId = 'samlId',

@@ -2,6 +2,8 @@ const { expect, sinon, hFake } = require('../../../test-helper');
 
 const poleEmploiController = require('../../../../lib/application/pole-emplois/pole-emploi-controller');
 const usecases = require('../../../../lib/domain/usecases');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const tokenService = require('../../../../lib/domain/services/token-service');
 
 describe('Unit | Controller | pole-emplois-controller', function() {
 
@@ -49,6 +51,24 @@ describe('Unit | Controller | pole-emplois-controller', function() {
           expect(usecases.getPoleEmploiSendings).have.been.calledWith({ cursor: 'azefvbjljhgrEDJNH', filters: { isSuccessful: false } });
         });
       });
+    });
+  });
+
+  describe('#createUser', function() {
+
+    it('should save the last logged at date', async function() {
+      // given
+      const request = { query: { 'authentication-key': 'abcde' } };
+      const userId = 7;
+      sinon.stub(usecases, 'createUserFromPoleEmploi').resolves({ userId, idToken: 1 });
+      sinon.stub(tokenService, 'createAccessTokenFromUser').resolves('an access token');
+      sinon.stub(userRepository, 'updateLastLoggedAt');
+
+      // when
+      await poleEmploiController.createUser(request, hFake);
+
+      //then
+      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 7 });
     });
   });
 });

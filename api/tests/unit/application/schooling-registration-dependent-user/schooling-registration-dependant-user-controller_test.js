@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, hFake } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
@@ -49,4 +49,25 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
     });
   });
 
+  describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', function() {
+
+    it('should return 200 response with an access token', async function() {
+      // given
+      const request = { payload: { data: { attributes: {
+        birthdate: '01-01-2000',
+        'campaign-code': 'BADGES123',
+        'external-user-token': '123SamlId',
+      } } } };
+      const token = Symbol('token');
+
+      sinon.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').resolves(token);
+
+      // when
+      const response = await schoolingRegistrationDependantUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, hFake);
+
+      // then
+      expect(response.source.data.attributes['access-token']).to.deep.equal(token);
+      expect(response.statusCode).to.equal(200);
+    });
+  });
 });
