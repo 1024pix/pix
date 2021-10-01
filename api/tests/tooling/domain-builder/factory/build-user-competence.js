@@ -8,6 +8,7 @@ module.exports = function buildUserCompetence({
   area = buildArea(),
   pixScore = 42,
   estimatedLevel = 1,
+  skills = [],
 } = {}) {
   return new UserCompetence({
     id,
@@ -16,5 +17,6 @@ module.exports = function buildUserCompetence({
     area,
     pixScore,
     estimatedLevel,
+    skills,
   });
 };

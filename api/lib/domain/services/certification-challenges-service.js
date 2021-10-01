@@ -7,7 +7,6 @@ const {
 } = require('../constants');
 
 const KnowledgeElement = require('../models/KnowledgeElement');
-const UserCompetence = require('../models/UserCompetence');
 const Challenge = require('../models/Challenge');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
@@ -18,9 +17,10 @@ const certifiableProfileForLearningContentRepository = require('../../infrastruc
 module.exports = {
 
   async pickCertificationChallenges(placementProfile, locale) {
-    const certifiableUserCompetencesWithOrderedSkills =
-      UserCompetence.orderSkillsOfCompetenceByDifficulty(placementProfile.userCompetences)
-        .filter((uc) => uc.isCertifiable());
+    const certifiableUserCompetencesWithOrderedSkills = placementProfile.getCertifiableUserCompetences();
+    for (const uc of certifiableUserCompetencesWithOrderedSkills) {
+      uc.sortSkillsByDecreasingDifficulty();
+    }
 
     const allOperativeChallenges = await challengeRepository.findOperativeHavingLocale(locale);
 
