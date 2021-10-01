@@ -10,7 +10,6 @@ export default class SessionsDetailsController extends Controller {
 
   @alias('model.session') session;
   @alias('model.certificationCandidates') certificationCandidates;
-  @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
 
   get pageTitle() {
     return `Détails | Session ${this.session.id} | Pix Certif`;
@@ -36,5 +35,9 @@ export default class SessionsDetailsController extends Controller {
   @computed('shouldDisplayPrescriptionScoStudentRegistrationFeature')
   get shouldDisplayResultRecipientInfoMessage() {
     return !this.shouldDisplayPrescriptionScoStudentRegistrationFeature;
+  }
+
+  get shouldDisplayPrescriptionScoStudentRegistrationFeature() {
+    return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
   }
 }
