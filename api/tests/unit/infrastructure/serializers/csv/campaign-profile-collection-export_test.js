@@ -106,7 +106,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('should display student number header when organization is SUP and managing students', async function() {
+    it('It displays all headers for SUP organization that manages students', async function() {
       //given
       organization.isSup = true;
       organization.isManagingStudents = true;
@@ -118,6 +118,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
           '"Nom de la campagne";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
+          '"Groupe du Participant";' +
           '"Numéro Étudiant";' +
           '"Envoi (O/N)";' +
           '"Date de l\'envoi";' +
