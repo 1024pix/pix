@@ -5,6 +5,7 @@ const queryParamsUtils = require('../../infrastructure/utils/query-params-utils'
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const badgeSerializer = require('../../infrastructure/serializers/jsonapi/badge-serializer');
 const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-serializer');
+const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
 module.exports = {
 
@@ -39,8 +40,9 @@ module.exports = {
   async attachOrganizations(request, h) {
     const organizationIds = request.payload['organization-ids'];
     const targetProfileId = request.params.id;
-    await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
-    return h.response({}).code(204);
+    const results = await usecases.attachOrganizationsToTargetProfile({ targetProfileId, organizationIds });
+
+    return h.response(targetProfileAttachOrganizationSerializer.serialize({ ...results, targetProfileId })).code(200);
   },
 
   async attachOrganizationsFromExistingTargetProfile(request, h) {

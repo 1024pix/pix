@@ -6,8 +6,8 @@ const skillDatasource = require('../datasources/learning-content/skill-datasourc
 const targetProfileAdapter = require('../adapters/target-profile-adapter');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 const { knex } = require('../bookshelf');
-const { isUniqConstraintViolated, foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
-const { TargetProfileCannotBeCreated, NotFoundError, AlreadyExistingEntityError, ObjectValidationError } = require('../../domain/errors');
+const { foreignKeyConstraintViolated } = require('../utils/knex-utils.js');
+const { TargetProfileCannotBeCreated, NotFoundError, ObjectValidationError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
@@ -130,7 +130,11 @@ module.exports = {
         targetProfileId: targetProfile.id,
       };
     });
-    await _createTargetProfileShares(rows, targetProfile.id);
+    const attachedOrganizationIds = await _createTargetProfileShares(rows, targetProfile.id);
+
+    const duplicatedOrganizationIds = targetProfile.organizations.filter((organizationId) => !attachedOrganizationIds.includes(organizationId));
+
+    return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
   },
 
   async isAttachedToOrganizations(targetProfile) {
@@ -176,10 +180,11 @@ module.exports = {
     return targetProfileShares.map((targetProfileShare) => targetProfileShare.organizationId);
   },
 
-  async attachOrganizationIds({ targetProfileId, organizationIds }) {
+  attachOrganizationIds({ targetProfileId, organizationIds }) {
     const rows = organizationIds.map((organizationId) => {
       return { organizationId, targetProfileId };
     });
+
     return _createTargetProfileShares(rows, targetProfileId);
   },
 };
@@ -207,17 +212,17 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
   }
 }
 
-async function _createTargetProfileShares(targetProfileShares, targetProfileId) {
+async function _createTargetProfileShares(targetProfileShares) {
   try {
-    await knex.batchInsert('target-profile-shares', targetProfileShares);
+    return await knex('target-profile-shares')
+      .insert(targetProfileShares)
+      .onConflict(['targetProfileId', 'organizationId'])
+      .ignore()
+      .returning('organizationId');
   } catch (error) {
     if (foreignKeyConstraintViolated(error)) {
       const organizationId = error.detail.match(/=\((\d+)\)/)[1];
       throw new NotFoundError(`L'organization  avec l'id ${organizationId} n'existe pas`);
-    }
-    if (isUniqConstraintViolated(error)) {
-      const organizationId = error.detail.match(/=\((\d+),/)[1];
-      throw new AlreadyExistingEntityError(`Le profil cible ${targetProfileId} est déjà rattaché à l’organisation ${organizationId}.`);
     }
   }
 }
