@@ -21,6 +21,7 @@ export default class JuryCertificationSummary extends Model {
   @attr() pixPlusDroitMaitreCertificationStatus;
   @attr() pixPlusDroitExpertCertificationStatus;
   @attr() numberOfCertificationIssueReports;
+  @attr() isFlaggedAborted;
   @attr() numberOfCertificationIssueReportsWithRequiredAction;
 
   @computed('createdAt')
