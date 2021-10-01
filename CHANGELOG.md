@@ -1,5 +1,8 @@
 # Pix Changelog
 
+## v3.109.0 (01/10/2021)
+
+
 ## v3.108.0 (01/10/2021)
 
 - [#3535](https://github.com/1024pix/pix/pull/3535) [FEATURE] Cacher les élèves désactivés de la liste des élèves pouvant être inscrits à une session de certification (PIX-3163).
