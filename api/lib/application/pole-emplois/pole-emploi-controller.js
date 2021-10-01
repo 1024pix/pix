@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 const tokenService = require('../../domain/services/token-service');
+const userRepository = require('../../infrastructure/repositories/user-repository');
 
 module.exports = {
 
@@ -9,6 +10,7 @@ module.exports = {
     const { userId, idToken } = await usecases.createUserFromPoleEmploi({ authenticationKey });
 
     const accessToken = tokenService.createAccessTokenFromUser(userId, 'pole_emploi_connect');
+    await userRepository.updateLastLoggedAt({ userId });
 
     const response = {
       access_token: accessToken,

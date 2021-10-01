@@ -1,7 +1,6 @@
 const usecases = require('../../domain/usecases');
 const schoolingRegistrationDependentUser = require('../../infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
-const tokenService = require('../../domain/services/token-service');
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
@@ -35,13 +34,11 @@ module.exports = {
       'external-user-token': token,
     } = request.payload.data.attributes;
 
-    const createdUser = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({
+    const accessToken = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({
       birthdate,
       campaignCode,
       token,
     });
-
-    const accessToken = tokenService.createAccessTokenFromExternalUser(createdUser.id);
 
     const response = {
       data: {

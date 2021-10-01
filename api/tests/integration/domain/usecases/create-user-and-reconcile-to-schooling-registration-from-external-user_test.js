@@ -172,6 +172,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
     afterEach(async function() {
       await knex('authentication-methods').delete();
       await knex('schooling-registrations').delete();
+      await knex('campaigns').delete();
+      await knex('users').delete();
     });
 
     it('should create the external user, reconcile it and create GAR authentication method', async function() {
@@ -180,8 +182,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       schoolingRegistration.userId = undefined;
       await databaseBuilder.commit();
 
+      const usersBefore = await knex('users');
+
       // when
-      const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+      await createUserAndReconcileToSchoolingRegistrationByExternalUser({
         birthdate: schoolingRegistration.birthdate,
         campaignCode,
         campaignRepository,
@@ -197,18 +201,10 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
       });
 
       // then
-      expect(user.firstName).to.equal(firstName);
-      expect(user.lastName).to.equal(lastName);
-      expect(user.cgu).to.be.false;
+      const usersAfter = await knex('users');
+      expect(usersBefore.length + 1).to.equal(usersAfter.length);
 
-      const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
-      expect(schoolingRegistrationInDB[0].userId).to.equal(user.id);
-
-      const authenticationMethodInDB = await knex('authentication-methods')
-        .where({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
-          userId: user.id,
-        });
+      const authenticationMethodInDB = await knex('authentication-methods');
       expect(authenticationMethodInDB[0].externalIdentifier).to.equal(samlId);
     });
 
@@ -266,7 +262,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
+          await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
             birthdate: schoolingRegistration.birthdate,
             obfuscationService,
             tokenService,
@@ -279,10 +275,6 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           });
 
           // then
-          expect(user.firstName).to.equal(firstName);
-          expect(user.lastName).to.equal(lastName);
-          expect(user.id).to.equal(otherAccount.id);
-
           const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
           expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
 
@@ -310,7 +302,7 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           await databaseBuilder.commit();
 
           // when
-          const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
+          await createUserAndReconcileToSchoolingRegistrationByExternalUser({ campaignCode, token,
             birthdate: schoolingRegistration.birthdate,
             obfuscationService,
             tokenService,
@@ -323,10 +315,6 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
           });
 
           // then
-          expect(user.firstName).to.equal(firstName);
-          expect(user.lastName).to.equal(lastName);
-          expect(user.id).to.equal(otherAccount.id);
-
           const schoolingRegistrationInDB = await knex('schooling-registrations').where({ id: schoolingRegistration.id });
           expect(schoolingRegistrationInDB[0].userId).to.equal(otherAccount.id);
 
@@ -338,16 +326,17 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
 
     context('When the external user is already created', function() {
 
-      it('should return the already created user', async function() {
+      it('should not create again the user', async function() {
         // given
         const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ firstName, lastName, organizationId });
         schoolingRegistration.userId = undefined;
         const alreadyCreatedUser = databaseBuilder.factory.buildUser({ firstName, lastName });
         databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: samlId, userId: alreadyCreatedUser.id });
         await databaseBuilder.commit();
+        const usersBefore = await knex('users');
 
         // when
-        const user = await createUserAndReconcileToSchoolingRegistrationByExternalUser({
+        await createUserAndReconcileToSchoolingRegistrationByExternalUser({
           birthdate: schoolingRegistration.birthdate,
           campaignCode,
           token,
@@ -361,7 +350,8 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         });
 
         // then
-        expect(user.id).to.equal(alreadyCreatedUser.id);
+        const usersAfter = await knex('users');
+        expect(usersAfter.length).to.equal(usersBefore.length);
       });
     });
   });
