@@ -37,11 +37,8 @@ class UserCompetence {
     return this.estimatedLevel >= MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY;
   }
 
-  static orderSkillsOfCompetenceByDifficulty(userCompetences) {
-    return _.map(userCompetences, (userCompetence) => {
-      userCompetence.skills = Skill.sortByDecreasingDifficulty(userCompetence.skills);
-      return userCompetence;
-    });
+  sortSkillsByDecreasingDifficulty() {
+    this.skills = Skill.sortByDecreasingDifficulty(this.skills);
   }
 }
 
