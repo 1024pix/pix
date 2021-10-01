@@ -119,5 +119,22 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       assert.true(call.args[1]);
       assert.equal(call.args[2].target.value, 'LATERREURGIGI123');
     });
+
+    test('it should trigger filtering with group', async function (assert) {
+      const triggerFiltering = sinon.spy();
+      this.set('triggerFiltering', triggerFiltering);
+      this.set('students', []);
+
+      // when
+      await render(hbs`<Student::Sup::List @students={{students}} @onFilter={{triggerFiltering}}/>`);
+
+      await fillInByLabel('Entrer un groupe', 'L1');
+
+      // then
+      const call = triggerFiltering.getCall(0);
+      assert.equal(call.args[0], 'group');
+      assert.true(call.args[1]);
+      assert.equal(call.args[2].target.value, 'L1');
+    });
   });
 });

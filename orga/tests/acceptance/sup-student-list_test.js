@@ -26,25 +26,39 @@ module('Acceptance | Sup Student List', function (hooks) {
       createPrescriberByUser(user);
 
       await authenticateSession(user.id);
+
+      const { organizationId } = user.memberships.models.firstObject;
+      server.create('student', {
+        studentNumber: '123',
+        firstName: 'toto',
+        lastName: 'banana',
+        group: 'L2',
+        organizationId,
+      });
+      server.create('student', {
+        studentNumber: '321',
+        firstName: 'tata',
+        lastName: 'banana',
+        group: 'L1',
+        organizationId,
+      });
     });
 
-    module('And edit the student number', function (hooks) {
-      hooks.beforeEach(() => {
-        const { organizationId } = user.memberships.models.firstObject;
-        server.create('student', {
-          studentNumber: '123',
-          firstName: 'toto',
-          lastName: 'banana',
-          organizationId,
-        });
-        server.create('student', {
-          studentNumber: '321',
-          firstName: 'toto',
-          lastName: 'banana',
-          organizationId,
-        });
-      });
+    module('filters', function () {
+      test('it should filter students by group', async function (assert) {
+        // given
+        await visit('/etudiants');
 
+        // when
+        await fillInByLabel('Entrer un groupe', 'L1');
+
+        // then
+        assert.notContains('toto');
+        assert.contains('tata');
+      });
+    });
+
+    module('And edit the student number', function () {
       test('it should update the student number', async function (assert) {
         // given
         await visit('/etudiants');

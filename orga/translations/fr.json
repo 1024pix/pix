@@ -679,6 +679,10 @@
             "aria-label": "Entrer un prénom",
             "label": "Rechercher par prénom"
           },
+          "group": {
+            "aria-label": "Entrer un groupe",
+            "label": "Rechercher par groupe"
+          },
           "last-name": {
             "aria-label": "Entrer un nom",
             "label": "Rechercher par nom"
