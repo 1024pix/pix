@@ -49,7 +49,7 @@ class CertificationContract {
   }
 
   static hasEnoughNonNeutralizedChallengesToBeTrusted(numberOfChallenges, numberOfNonNeutralizedChallenges) {
-    const minimalNumberOfNonNeutralizedChallengesToBeTrusted = Math.floor(numberOfChallenges * 0.66);
+    const minimalNumberOfNonNeutralizedChallengesToBeTrusted = Math.ceil(numberOfChallenges * 0.66);
     return numberOfNonNeutralizedChallenges >= minimalNumberOfNonNeutralizedChallengesToBeTrusted;
   }
 }
