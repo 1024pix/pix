@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.108.0 (01/10/2021)
+
+- [#3535](https://github.com/1024pix/pix/pull/3535) [FEATURE] Cacher les élèves désactivés de la liste des élèves pouvant être inscrits à une session de certification (PIX-3163).
+- [#3543](https://github.com/1024pix/pix/pull/3543) [FEATURE] Ajoute la colonne "groupe" sur la page "Étudiants" pour les orgas SUP isManagingStudent. (PIX-3536)
+- [#3522](https://github.com/1024pix/pix/pull/3522) [FEATURE] Réutiliser le champ résultat pour les exports CSV des deux campagnes (PIX-3066).
+- [#3528](https://github.com/1024pix/pix/pull/3528) [FEATURE] Ajoute le filtre sur la colonne statuts dans l'onglet activité (PIX-2667)
+- [#3527](https://github.com/1024pix/pix/pull/3527) [FEATURE] Bloquer l'accès à Pix certif pour les CDC SCO AGRI et AEFE (PIX-3511)
+- [#3536](https://github.com/1024pix/pix/pull/3536) [TECH] Formater le code de pix-admin avec Prettier.
+- [#3537](https://github.com/1024pix/pix/pull/3537) [TECH] Mise à jour d'ember-template-lint dans Pix Orga.
+- [#3513](https://github.com/1024pix/pix/pull/3513)  [FEATURE] Scoring des certifications démarrées (PIX-2982)
+
 ## v3.107.0 (30/09/2021)
 
 - [#3542](https://github.com/1024pix/pix/pull/3542) [BUGFIX] Correction de tests qui tombent en erreur le 12 et le 30 du mois.
