@@ -590,7 +590,7 @@ describe('Unit | Router | user-router', function() {
       const url = '/api/users/1/email/verification-code';
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'user@example.net',
             password: 'Password123',
@@ -614,7 +614,7 @@ describe('Unit | Router | user-router', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'user@example.net',
             password: 'Password123',
@@ -652,7 +652,7 @@ describe('Unit | Router | user-router', function() {
 
       // then
       expect(result.statusCode).to.equal(422);
-      expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-code]');
+      expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-codes]');
     });
 
     it('should return 422 when email is not valid', async function() {
@@ -664,7 +664,7 @@ describe('Unit | Router | user-router', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'newEmail',
             password: 'Password123',
@@ -689,7 +689,7 @@ describe('Unit | Router | user-router', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'user@example.net',
           },
