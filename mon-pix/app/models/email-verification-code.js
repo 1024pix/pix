@@ -26,8 +26,7 @@ export default class EmailVerificationCode extends Model {
       return payload;
     },
     after(response) {
-      const { data: { attributes: { email } = {} } = {} } = response;
-      return email;
+      return response?.data?.attributes?.email;
     },
   });
 }
