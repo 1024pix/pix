@@ -112,6 +112,7 @@ module.exports = {
           'campaign-participations.*',
           'schooling-registrations.studentNumber',
           'schooling-registrations.division',
+          'schooling-registrations.group',
           knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
           knex.raw('COALESCE ("schooling-registrations"."lastName", "users"."lastName") AS "lastName"'),
         ])
@@ -349,6 +350,7 @@ function _rowToResult(row) {
     participantLastName: row.lastName,
     division: row.division,
     pixScore: row.pixScore,
+    group: row.group,
   };
 }
 
