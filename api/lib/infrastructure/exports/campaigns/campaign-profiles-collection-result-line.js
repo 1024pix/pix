@@ -23,6 +23,7 @@ class CampaignProfilesCollectionResultLine {
       this.campaign.name,
       this.campaignParticipationResult.participantLastName,
       this.campaignParticipationResult.participantFirstName,
+      ...(this._getGroupColumn()),
       ...(this._getDivisionColumn()),
       ...(this._getStudentNumberColumn()),
       ...(this._getIdPixLabelColumn()),
@@ -95,6 +96,14 @@ class CampaignProfilesCollectionResultLine {
     });
 
     return columns;
+  }
+
+  _getGroupColumn() {
+    if (this.organization.isSup && this.organization.isManagingStudents) {
+      return [this.campaignParticipationResult.group || ''];
+    }
+
+    return EMPTY_ARRAY;
   }
 }
 
