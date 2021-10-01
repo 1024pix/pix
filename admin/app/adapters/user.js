@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class UserAdapter extends ApplicationAdapter {
-
   urlForQueryRecord(query) {
     if (query.me) {
       delete query.me;
@@ -46,5 +45,4 @@ export default class UserAdapter extends ApplicationAdapter {
 
     return super.updateRecord(...arguments);
   }
-
 }

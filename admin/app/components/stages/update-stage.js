@@ -40,10 +40,8 @@ export default class UpdateStage extends Component {
   }
 
   async _checkFormValidation() {
-
     const { validations } = await this.form.validate();
     return validations.isValid;
-
   }
 
   async _updateStage() {

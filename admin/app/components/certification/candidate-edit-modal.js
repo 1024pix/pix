@@ -7,7 +7,6 @@ const INSEE_CODE_OPTION = 'insee';
 const POSTAL_CODE_OPTION = 'postal';
 
 export default class CandidateEditModal extends Component {
-
   @tracked firstName;
   @tracked lastName;
   @tracked birthdate;

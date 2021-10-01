@@ -4,13 +4,11 @@ import { reject, resolve } from 'rsvp';
 import Object from '@ember/object';
 import Service from '@ember/service';
 
-module('Unit | Service | current-user', function(hooks) {
-
+module('Unit | Service | current-user', function (hooks) {
   setupTest(hooks);
 
-  module('user is authenticated', function() {
-
-    test('should load the current user', async function(assert) {
+  module('user is authenticated', function () {
+    test('should load the current user', async function (assert) {
       // Given
       const connectedUserId = 1;
       const connectedUser = Object.create({ id: connectedUserId });
@@ -33,9 +31,8 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user is not authenticated', function() {
-
-    test('should do nothing', async function(assert) {
+  module('user is not authenticated', function () {
+    test('should do nothing', async function (assert) {
       // Given
       const sessionStub = Service.create({
         isAuthenticated: false,
@@ -51,9 +48,8 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 
-  module('user token is expired', function() {
-
-    test('should redirect to login', async function(assert) {
+  module('user token is expired', function () {
+    test('should redirect to login', async function (assert) {
       // Given
       const connectedUserId = 1;
       const storeStub = Service.create({
@@ -76,4 +72,3 @@ module('Unit | Service | current-user', function(hooks) {
     });
   });
 });
-

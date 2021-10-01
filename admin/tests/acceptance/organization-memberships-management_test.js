@@ -7,19 +7,19 @@ import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 
-module('Acceptance | organization memberships management', function(hooks) {
+module('Acceptance | organization memberships management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
   let organization;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     const user = server.create('user');
     organization = this.server.create('organization');
     await createAuthenticateSession({ userId: user.id });
   });
 
-  test('should redirect to organization members page', async function(assert) {
+  test('should redirect to organization members page', async function (assert) {
     // when
     await visit(`/organizations/${organization.id}`);
 
@@ -27,12 +27,12 @@ module('Acceptance | organization memberships management', function(hooks) {
     assert.equal(currentURL(), `/organizations/${organization.id}/members`);
   });
 
-  module('listing members', function(hooks) {
-    hooks.beforeEach(async function() {
+  module('listing members', function (hooks) {
+    hooks.beforeEach(async function () {
       server.createList('membership', 12);
     });
 
-    test('it should display the current filter when memberships are filtered by firstName', async function(assert) {
+    test('it should display the current filter when memberships are filtered by firstName', async function (assert) {
       // when
       await visit(`/organizations/${organization.id}/members?firstName=sav`);
 
@@ -40,7 +40,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('#firstName').hasValue('sav');
     });
 
-    test('it should display the current filter when organizations are filtered by lastName', async function(assert) {
+    test('it should display the current filter when organizations are filtered by lastName', async function (assert) {
       // when
       await visit(`/organizations/${organization.id}/members?lastName=tro`);
 
@@ -48,7 +48,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('#lastName').hasValue('tro');
     });
 
-    test('it should display the current filter when organizations are filtered by email', async function(assert) {
+    test('it should display the current filter when organizations are filtered by email', async function (assert) {
       // when
       await visit(`/organizations/${organization.id}/members?email=fri`);
 
@@ -56,7 +56,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('#email').hasValue('fri');
     });
 
-    test('it should display the current filter when organizations are filtered by role', async function(assert) {
+    test('it should display the current filter when organizations are filtered by role', async function (assert) {
       // when
       await visit(`/organizations/${organization.id}/members?organizationRole=ADMIN`);
 
@@ -65,9 +65,8 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('adding a member', function() {
-
-    test('should create a user membership and display it in the list', async function(assert) {
+  module('adding a member', function () {
+    test('should create a user membership and display it in the list', async function (assert) {
       // given
       this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
 
@@ -83,9 +82,13 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('#userEmailToAdd').hasNoValue();
     });
 
-    test('should not do anything when the membership was already existing for given user email and organization', async function(assert) {
+    test('should not do anything when the membership was already existing for given user email and organization', async function (assert) {
       // given
-      const user = this.server.create('user', { firstName: 'Denise', lastName: 'Ter Hegg', email: 'denise@example.com' });
+      const user = this.server.create('user', {
+        firstName: 'Denise',
+        lastName: 'Ter Hegg',
+        email: 'denise@example.com',
+      });
       this.server.create('membership', { user, organization });
 
       // when
@@ -99,7 +102,7 @@ module('Acceptance | organization memberships management', function(hooks) {
       assert.dom('#userEmailToAdd').hasValue('denise@example.com');
     });
 
-    test('should not do anything when no user was found for the input email', async function(assert) {
+    test('should not do anything when no user was found for the input email', async function (assert) {
       // given
       const user = this.server.create('user', { firstName: 'Erica', lastName: 'Caouette', email: 'erica@example.com' });
       this.server.create('membership', { user, organization });
@@ -116,9 +119,8 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('inviting a member', function() {
-
-    test('should create an organization-invitation', async function(assert) {
+  module('inviting a member', function () {
+    test('should create an organization-invitation', async function (assert) {
       // when
       await visit(`/organizations/${organization.id}`);
       await fillInByLabel('Inviter un membre', 'user@example.com');
@@ -127,13 +129,16 @@ module('Acceptance | organization memberships management', function(hooks) {
       await click('button[data-test-id-invitation-button]');
 
       // then
-      assert.contains('Un email a bien a été envoyé à l\'adresse user@example.com.');
+      assert.contains("Un email a bien a été envoyé à l'adresse user@example.com.");
       assert.dom('#userEmailToInvite').hasNoValue();
     });
 
-    test('should display an error if the creation has failed', async function(assert) {
+    test('should display an error if the creation has failed', async function (assert) {
       // given
-      this.server.post('/admin/organizations/:id/invitations', () => new Response(500, {}, { errors: [{ status: '500' }] }));
+      this.server.post(
+        '/admin/organizations/:id/invitations',
+        () => new Response(500, {}, { errors: [{ status: '500' }] })
+      );
 
       // when
       await visit(`/organizations/${organization.id}`);
@@ -147,16 +152,15 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('editing a member\'s role', function(hooks) {
-
+  module("editing a member's role", function (hooks) {
     let membership;
 
-    hooks.beforeEach(async function() {
+    hooks.beforeEach(async function () {
       const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
       membership = this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
     });
 
-    test('should update member\'s role', async function(assert) {
+    test("should update member's role", async function (assert) {
       // given / when
       await visit(`/organizations/${organization.id}/members`);
       await clickByLabel('Modifier le rôle');
@@ -169,14 +173,13 @@ module('Acceptance | organization memberships management', function(hooks) {
     });
   });
 
-  module('deactivating a member', function(hooks) {
-
-    hooks.beforeEach(async function() {
+  module('deactivating a member', function (hooks) {
+    hooks.beforeEach(async function () {
       const user = this.server.create('user', { firstName: 'John', lastName: 'Doe', email: 'user@example.com' });
       this.server.create('membership', { organizationRole: 'ADMIN', user, organization });
     });
 
-    test('should deactivate a member', async function(assert) {
+    test('should deactivate a member', async function (assert) {
       // given / when
       await visit(`/organizations/${organization.id}/members`);
       await clickByLabel('Désactiver');

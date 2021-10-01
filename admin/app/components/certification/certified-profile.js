@@ -4,7 +4,9 @@ import ENV from 'pix-admin/config/environment';
 export default class CertifiedProfile extends Component {
   get certifiedCompetenceList() {
     const { certifiedAreas } = this.args.certifiedProfile;
-    return certifiedAreas.toArray().flatMap((certifiedArea) => this._buildCertifiedCompetencesOfCertifiedArea(certifiedArea));
+    return certifiedAreas
+      .toArray()
+      .flatMap((certifiedArea) => this._buildCertifiedCompetencesOfCertifiedArea(certifiedArea));
   }
 
   get difficultyLevels() {

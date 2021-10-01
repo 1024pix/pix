@@ -18,7 +18,7 @@ import { findPaginatedAndFilteredSessions } from './handlers/find-paginated-and-
 import { findPaginatedOrganizationMemberships } from './handlers/organizations';
 import { getJuryCertificationSummariesBySessionId } from './handlers/get-jury-certification-summaries-by-session-id';
 
-export default function() {
+export default function () {
   this.logging = true;
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = 'api';
@@ -226,8 +226,10 @@ export default function() {
 
     const certificationToUpdate = schema.certifications.find(certificationId);
 
-    const birthInseeCode = params['birth-country'] === 'FRANCE' ? params['birth-insee-code']
-      : schema.countries.findBy({ name: params['birth-country'] }).code;
+    const birthInseeCode =
+      params['birth-country'] === 'FRANCE'
+        ? params['birth-insee-code']
+        : schema.countries.findBy({ name: params['birth-country'] }).code;
     certificationToUpdate.update({
       firstName: params['first-name'],
       lastName: params['last-name'],

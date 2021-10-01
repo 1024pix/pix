@@ -22,7 +22,6 @@ export const certificationStatuses = [
 ];
 
 export default class Certification extends Model {
-
   @attr() sessionId;
   @attr() userId;
   @attr() firstName;
@@ -51,12 +50,12 @@ export default class Certification extends Model {
 
   @computed('createdAt')
   get creationDate() {
-    return (new Date(this.createdAt)).toLocaleString('fr-FR');
+    return new Date(this.createdAt).toLocaleString('fr-FR');
   }
 
   @computed('completedAt')
   get completionDate() {
-    return this.completedAt ? (new Date(this.completedAt)).toLocaleString('fr-FR') : null;
+    return this.completedAt ? new Date(this.completedAt).toLocaleString('fr-FR') : null;
   }
 
   @computed('status')
@@ -82,10 +81,12 @@ export default class Certification extends Model {
   @computed('indexedCompetences')
   get competences() {
     const indexedCompetences = this.indexedCompetences;
-    return Object.keys(indexedCompetences).sort().reduce((result, value) => {
-      result.push(indexedCompetences[value]);
-      return result;
-    }, []);
+    return Object.keys(indexedCompetences)
+      .sort()
+      .reduce((result, value) => {
+        result.push(indexedCompetences[value]);
+        return result;
+      }, []);
   }
 
   @computed('cleaCertificationStatus')
@@ -124,7 +125,16 @@ export default class Certification extends Model {
     };
   }
 
-  updateInformation({ firstName, lastName, birthdate, birthplace, sex, birthInseeCode, birthPostalCode, birthCountry }) {
+  updateInformation({
+    firstName,
+    lastName,
+    birthdate,
+    birthplace,
+    sex,
+    birthInseeCode,
+    birthPostalCode,
+    birthCountry,
+  }) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.birthdate = birthdate;

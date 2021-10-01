@@ -8,7 +8,6 @@ import { certificationStatuses } from 'pix-admin/models/certification';
 const NOT_TAKEN = 'not_taken';
 
 export default class JuryCertificationSummary extends Model {
-
   @attr() firstName;
   @attr() lastName;
   @attr() status;
@@ -26,12 +25,12 @@ export default class JuryCertificationSummary extends Model {
 
   @computed('createdAt')
   get creationDate() {
-    return (new Date(this.createdAt)).toLocaleString('fr-FR');
+    return new Date(this.createdAt).toLocaleString('fr-FR');
   }
 
   @computed('completedAt')
   get completionDate() {
-    return this.completedAt ? (new Date(this.completedAt)).toLocaleString('fr-FR') : null;
+    return this.completedAt ? new Date(this.completedAt).toLocaleString('fr-FR') : null;
   }
 
   get complementaryCertificationsLabel() {
@@ -44,7 +43,9 @@ export default class JuryCertificationSummary extends Model {
 
   @computed('numberOfCertificationIssueReportsWithRequiredAction')
   get numberOfCertificationIssueReportsWithRequiredActionLabel() {
-    return this.numberOfCertificationIssueReportsWithRequiredAction > 0 ? this.numberOfCertificationIssueReportsWithRequiredAction : '';
+    return this.numberOfCertificationIssueReportsWithRequiredAction > 0
+      ? this.numberOfCertificationIssueReportsWithRequiredAction
+      : '';
   }
 
   @computed('hasSeenEndTestScreen')
@@ -54,7 +55,10 @@ export default class JuryCertificationSummary extends Model {
 
   @computed('status')
   get statusLabel() {
-    const statusWithLabel = find(certificationStatuses, (certificationStatus) => certificationStatus.value === this.status);
+    const statusWithLabel = find(
+      certificationStatuses,
+      (certificationStatus) => certificationStatus.value === this.status
+    );
     return statusWithLabel?.label;
   }
 

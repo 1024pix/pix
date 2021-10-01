@@ -3,24 +3,36 @@
     <form class="form" {{on "submit" this.updateProfileName}}>
 
       <span class="form__instructions">
-        Les champs marqués de <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> sont
-        obligatoires.
+        Les champs marqués de
+        <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+        sont obligatoires.
       </span>
 
       <div class="form-field">
         <label for="targetProfileName" class="form-field__label">
-          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr> Nom
+          <abbr title="obligatoire" class="mandatory-mark" aria-hidden="true">*</abbr>
+          Nom
         </label>
-        {{#if (v-get this.form 'name' 'isInvalid')}}
-        <div class="form-field__error">
-          {{v-get this.form 'name' 'message'}}
-        </div>
+        {{#if (v-get this.form "name" "isInvalid")}}
+          <div class="form-field__error">
+            {{v-get this.form "name" "message"}}
+          </div>
         {{/if}}
-        <Input id="targetProfileName" @type="text" class={{if (v-get this.form 'name' 'isInvalid'
-          ) "form-control is-invalid" "form-control" }} @value={{this.form.name}} required={{true}} />
+        <Input
+          id="targetProfileName"
+          @type="text"
+          class={{if (v-get this.form "name" "isInvalid") "form-control is-invalid" "form-control"}}
+          @value={{this.form.name}}
+          required={{true}}
+        />
       </div>
       <div class="form-actions">
-        <PixButton @backgroundColor="transparent-light" @isBorderVisible={{true}} @size="small" @triggerAction={{@toggleEditMode}}>
+        <PixButton
+          @backgroundColor="transparent-light"
+          @isBorderVisible={{true}}
+          @size="small"
+          @triggerAction={{@toggleEditMode}}
+        >
           Annuler
         </PixButton>
         <PixButton @backgroundColor="green" @size="small" @type="submit">

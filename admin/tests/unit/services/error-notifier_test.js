@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Service | error-notifier', function(hooks) {
+module('Unit | Service | error-notifier', function (hooks) {
   setupTest(hooks);
 
-  test('it notifies a non-JSONAPI error as a single notification', function(assert) {
+  test('it notifies a non-JSONAPI error as a single notification', function (assert) {
     // given
     const service = this.owner.lookup('service:error-notifier');
     const errorMock = sinon.stub();
@@ -21,7 +21,7 @@ module('Unit | Service | error-notifier', function(hooks) {
     assert.ok(errorMock.calledWith(anError));
   });
 
-  test('it notifies JSONAPI bundled errors as several notifications', function(assert) {
+  test('it notifies JSONAPI bundled errors as several notifications', function (assert) {
     // given
     const service = this.owner.lookup('service:error-notifier');
     const errorMock = sinon.stub();
@@ -44,17 +44,7 @@ module('Unit | Service | error-notifier', function(hooks) {
     service.notify(anError);
 
     // then
-    assert.ok(errorMock.calledWith(
-      sinon.match.has(
-        'message',
-        'Something went wrong : the provided id is invalid',
-      ),
-    ));
-    assert.ok(errorMock.calledWith(
-      sinon.match.has(
-        'message',
-        'Something else went wrong too ! : undefined',
-      ),
-    ));
+    assert.ok(errorMock.calledWith(sinon.match.has('message', 'Something went wrong : the provided id is invalid')));
+    assert.ok(errorMock.calledWith(sinon.match.has('message', 'Something else went wrong too ! : undefined')));
   });
 });

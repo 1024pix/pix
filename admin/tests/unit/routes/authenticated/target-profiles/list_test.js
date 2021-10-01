@@ -2,19 +2,19 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Route | authenticated/target-profiles/list', function(hooks) {
+module('Unit | Route | authenticated/target-profiles/list', function (hooks) {
   setupTest(hooks);
   let route;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     route = this.owner.lookup('route:authenticated/target-profiles/list');
   });
 
-  module('#model', function(hooks) {
+  module('#model', function (hooks) {
     const params = {};
     const expectedQueryArgs = {};
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       route.store.query = sinon.stub().resolves();
       params.pageNumber = 'somePageNumber';
       params.pageSize = 'somePageSize';
@@ -24,9 +24,8 @@ module('Unit | Route | authenticated/target-profiles/list', function(hooks) {
       };
     });
 
-    module('when queryParams filters are falsy', function() {
-
-      test('it should call store.query with no filters on name and id', async function(assert) {
+    module('when queryParams filters are falsy', function () {
+      test('it should call store.query with no filters on name and id', async function (assert) {
         // when
         await route.model(params);
         expectedQueryArgs.filter = {
@@ -40,9 +39,8 @@ module('Unit | Route | authenticated/target-profiles/list', function(hooks) {
       });
     });
 
-    module('when queryParams filters are truthy', function() {
-
-      test('it should call store.query with filters containing trimmed values', async function(assert) {
+    module('when queryParams filters are truthy', function () {
+      test('it should call store.query with filters containing trimmed values', async function (assert) {
         // given
         params.name = ' someName';
         params.id = 'someId ';
@@ -59,13 +57,12 @@ module('Unit | Route | authenticated/target-profiles/list', function(hooks) {
         assert.ok(true);
       });
     });
-
   });
 
-  module('#resetController', function(hooks) {
+  module('#resetController', function (hooks) {
     let controller;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       controller = {
         pageNumber: 'somePageNumber',
         pageSize: 'somePageSize',
@@ -74,9 +71,8 @@ module('Unit | Route | authenticated/target-profiles/list', function(hooks) {
       };
     });
 
-    module('when route is exiting', function() {
-
-      test('it should reset controller', function(assert) {
+    module('when route is exiting', function () {
+      test('it should reset controller', function (assert) {
         // when
         route.resetController(controller, true);
 
@@ -88,9 +84,8 @@ module('Unit | Route | authenticated/target-profiles/list', function(hooks) {
       });
     });
 
-    module('when route is not exiting', function() {
-
-      test('it should not reset controller', function(assert) {
+    module('when route is not exiting', function () {
+      test('it should not reset controller', function (assert) {
         // when
         route.resetController(controller, false);
 

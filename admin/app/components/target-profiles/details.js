@@ -6,7 +6,8 @@ export default class TargetProfileDetails extends Component {
   get competenceList() {
     const { areas } = this.args.targetProfile;
 
-    return areas.toArray()
+    return areas
+      .toArray()
       .flatMap((area) => this._buildCompetencesOfArea(area))
       .sort((a, b) => a.index - b.index);
   }

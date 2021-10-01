@@ -3,11 +3,11 @@ import { setupTest } from 'ember-qunit';
 
 import createComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit |  Component | Badges | badge', function(hooks) {
+module('Unit |  Component | Badges | badge', function (hooks) {
   setupTest(hooks);
 
-  module('isCertifiable', function() {
-    test('returns color and text when is certifiable', function(assert) {
+  module('isCertifiable', function () {
+    test('returns color and text when is certifiable', function (assert) {
       const component = createComponent('component:badges/badge');
       component.args = {
         badge: { isCertifiable: true },
@@ -17,7 +17,7 @@ module('Unit |  Component | Badges | badge', function(hooks) {
       assert.equal(component.isCertifiableText, 'Certifiable');
     });
 
-    test('returns color and text when is not certifiable', function(assert) {
+    test('returns color and text when is not certifiable', function (assert) {
       const component = createComponent('component:badges/badge');
       component.args = {
         badge: { isCertifiable: false },

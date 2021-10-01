@@ -1,17 +1,16 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | Campaign', function(hooks) {
+module('Unit | Adapter | Campaign', function (hooks) {
   setupTest(hooks);
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:campaign');
   });
 
-  module('#urlForQueryRecord', function() {
-
-    test('should add organizationId inside the default query url', function(assert) {
+  module('#urlForQueryRecord', function () {
+    test('should add organizationId inside the default query url', function (assert) {
       // when
       const query = { organizationId: 10 };
       const url = adapter.urlForQuery(query);

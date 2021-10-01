@@ -9,13 +9,12 @@ import sinon from 'sinon';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Acceptance | Session pages', function(hooks) {
+module('Acceptance | Session pages', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When user is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
       await visit('/sessions/session');
 
@@ -24,8 +23,7 @@ module('Acceptance | Session pages', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
-
+  module('When user is logged in', function (hooks) {
     let session;
 
     hooks.beforeEach(async () => {
@@ -42,27 +40,25 @@ module('Acceptance | Session pages', function(hooks) {
       });
     });
 
-    module('Informations tab', function(hooks) {
-
+    module('Informations tab', function (hooks) {
       hooks.beforeEach(async () => {
         // when
         await visit('/sessions/1');
       });
 
-      test('it should be accessible for an authenticated user', function(assert) {
+      test('it should be accessible for an authenticated user', function (assert) {
         // then
         assert.equal(currentURL(), '/sessions/1');
       });
 
-      module('Search section', function() {
-
-        test('it should show a header with title and sessionId search', function(assert) {
+      module('Search section', function () {
+        test('it should show a header with title and sessionId search', function (assert) {
           // then
           assert.dom('.page-title').hasText('Sessions de certification');
           assert.equal(document.querySelector('.page-actions form input').value, '1');
         });
 
-        test('it loads new session when user give a new sessionId', async function(assert) {
+        test('it loads new session when user give a new sessionId', async function (assert) {
           // when
           const sessionIdInput = document.querySelector('.page-actions form input');
           await fillIn(sessionIdInput, '2');
@@ -75,9 +71,8 @@ module('Acceptance | Session pages', function(hooks) {
         });
       });
 
-      module('Tabs section', function() {
-
-        test('tab "Informations" is clickable', async function(assert) {
+      module('Tabs section', function () {
+        test('tab "Informations" is clickable', async function (assert) {
           // when
           await click('.navbar-item:first-child');
 
@@ -86,7 +81,7 @@ module('Acceptance | Session pages', function(hooks) {
           assert.equal(currentURL(), '/sessions/1');
         });
 
-        test('tab "Certifications" is clickable', async function(assert) {
+        test('tab "Certifications" is clickable', async function (assert) {
           // when
           await click('.navbar-item:last-child');
 
@@ -96,16 +91,15 @@ module('Acceptance | Session pages', function(hooks) {
         });
       });
 
-      module('Informations section', function() {
-
-        test('it shows session informations', function(assert) {
+      module('Informations section', function () {
+        test('it shows session informations', function (assert) {
           // then
           assert.dom('.session-info__details .row div:last-child').hasText(session.certificationCenterName);
           assert.dom('[data-test-id="session-info__finalized-at"]').hasText('01/01/2020');
           assert.dom('[data-test-id="session-info__examiner-global-comment"]').hasText(session.examinerGlobalComment);
         });
 
-        test('it displays a link to a certification center and redirects to it', async function(assert) {
+        test('it displays a link to a certification center and redirects to it', async function (assert) {
           // given
           server.create('certification-center', { id: 1234 });
 
@@ -117,17 +111,16 @@ module('Acceptance | Session pages', function(hooks) {
         });
       });
 
-      module('Buttons section', function() {
-
-        test('it shows all buttons', function(assert) {
+      module('Buttons section', function () {
+        test('it shows all buttons', function (assert) {
           // then
-          assert.contains('M\'assigner la session');
+          assert.contains("M'assigner la session");
           assert.contains('Lien de téléchargement des résultats');
           assert.contains('Résultats transmis au prescripteur');
         });
 
-        module('copy link button', function() {
-          test('it should copy \'http://link-to-results.fr\' in navigator clipboard on click', async function(assert) {
+        module('copy link button', function () {
+          test("it should copy 'http://link-to-results.fr' in navigator clipboard on click", async function (assert) {
             // given
 
             // We were unable to access clipboard in test environment so we used a stub
@@ -144,8 +137,7 @@ module('Acceptance | Session pages', function(hooks) {
       });
     });
 
-    module('Certifications tab', function(hooks) {
-
+    module('Certifications tab', function (hooks) {
       let juryCertificationSummary;
 
       hooks.beforeEach(async () => {
@@ -161,11 +153,12 @@ module('Acceptance | Session pages', function(hooks) {
         await visit('/sessions/1/certifications');
       });
 
-      module('Certification section', function() {
-
-        test('it shows certifications informations', function(assert) {
+      module('Certification section', function () {
+        test('it shows certifications informations', function (assert) {
           // then
-          const circle = document.querySelector('[data-test-id="certification-list"] tbody tr td:last-child div svg circle');
+          const circle = document.querySelector(
+            '[data-test-id="certification-list"] tbody tr td:last-child div svg circle'
+          );
           assert.contains(juryCertificationSummary.firstName);
           assert.contains(juryCertificationSummary.lastName);
           assert.equal(circle.attributes.fill.value, '#39B97A');

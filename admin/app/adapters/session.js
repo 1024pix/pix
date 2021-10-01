@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class SessionAdapter extends ApplicationAdapter {
-
   urlForQuery() {
     return `${this.host}/${this.namespace}/admin/sessions`;
   }

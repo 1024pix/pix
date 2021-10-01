@@ -2,28 +2,26 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sessions/session/informations', function(hooks) {
+module('Unit | Controller | authenticated/sessions/session/informations', function (hooks) {
   setupTest(hooks);
 
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/sessions/session/informations');
     const success = sinon.stub().returns();
     const error = sinon.stub().returns();
     controller.notifications = { success, error };
   });
 
-  module('#checkForAssignment', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('#checkForAssignment', function (hooks) {
+    hooks.beforeEach(function () {
       const save = sinon.stub();
       controller.model = { save };
     });
 
-    module('when a user is already assigned to session', function() {
-
-      test('it should show the modal', async function(assert) {
+    module('when a user is already assigned to session', function () {
+      test('it should show the modal', async function (assert) {
         //given
         const getId = sinon.stub().returns(true);
         controller.model.assignedCertificationOfficer = { get: getId };
@@ -37,9 +35,8 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       });
     });
 
-    module('when a user is not assigned to session', function() {
-
-      test('it should assign user to session', async function(assert) {
+    module('when a user is not assigned to session', function () {
+      test('it should assign user to session', async function (assert) {
         // given
         const getId = sinon.stub().returns(false);
         controller.model.assignedCertificationOfficer = { get: getId };
@@ -49,12 +46,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
         await controller.actions.checkForAssignment.call(controller);
 
         // then
-        assert.ok(controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } }));
+        assert.ok(
+          controller.model.save.calledWithExactly({ adapterOptions: { certificationOfficerAssignment: true } })
+        );
         assert.ok(controller.notifications.success.calledWithExactly('La session vous a correctement été assignée'));
         assert.false(controller.isShowingAssignmentModal);
       });
 
-      test('it should show a notification error when save failed', async function(assert) {
+      test('it should show a notification error when save failed', async function (assert) {
         // given
         const getId = sinon.stub().returns(false);
         controller.model.assignedCertificationOfficer = { get: getId };
@@ -65,15 +64,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
         // then
         assert.ok(controller.model.save.calledOnce);
-        assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de l\'assignation à la session'));
+        assert.ok(controller.notifications.error.calledWithExactly("Erreur lors de l'assignation à la session"));
         assert.false(controller.isShowingAssignmentModal);
       });
     });
   });
 
-  module('#cancelAssignment', function() {
-
-    test('it should close the modal', async function(assert) {
+  module('#cancelAssignment', function () {
+    test('it should close the modal', async function (assert) {
       // when
       await controller.actions.cancelAssignment.call(controller);
 
@@ -82,15 +80,14 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
     });
   });
 
-  module('#confirmAssignment', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('#confirmAssignment', function (hooks) {
+    hooks.beforeEach(function () {
       const save = sinon.stub();
       save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
       controller.model = { save };
     });
 
-    test('it should assign user to session too', async function(assert) {
+    test('it should assign user to session too', async function (assert) {
       // given
       controller.model.save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).resolves();
 
@@ -103,7 +100,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       assert.false(controller.isShowingAssignmentModal);
     });
 
-    test('it should show a notification error when save failed too', async function(assert) {
+    test('it should show a notification error when save failed too', async function (assert) {
       // given
       const save = sinon.stub();
       save.withArgs({ adapterOptions: { certificationOfficerAssignment: true } }).rejects();
@@ -114,18 +111,17 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
 
       // then
       assert.ok(controller.model.save.calledOnce);
-      assert.ok(controller.notifications.error.calledWithExactly('Erreur lors de l\'assignation à la session'));
+      assert.ok(controller.notifications.error.calledWithExactly("Erreur lors de l'assignation à la session"));
       assert.false(controller.isShowingAssignmentModal);
     });
   });
 
-  module('#copyResultsDownloadLink', function(hooks) {
-
-    hooks.afterEach(function() {
+  module('#copyResultsDownloadLink', function (hooks) {
+    hooks.afterEach(function () {
       sinon.restore();
     });
 
-    test('it should retrieve link from api and copy it', async function(assert) {
+    test('it should retrieve link from api and copy it', async function (assert) {
       // given
       const getDownloadLink = sinon.stub();
       getDownloadLink.resolves('www.jeremypluquet.com');
@@ -148,7 +144,7 @@ module('Unit | Controller | authenticated/sessions/session/informations', functi
       assert.ok(window.setTimeout);
     });
 
-    test('it should notify error when retrieving link fails', async function(assert) {
+    test('it should notify error when retrieving link fails', async function (assert) {
       // given
       const getDownloadLink = sinon.stub();
       getDownloadLink.rejects('An error');

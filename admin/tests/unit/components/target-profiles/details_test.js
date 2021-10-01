@@ -5,10 +5,10 @@ import createComponent from '../../../helpers/create-glimmer-component';
 
 const NO_SKILL = undefined;
 
-module('Unit |  Component | Target Profiles | details', function(hooks) {
+module('Unit |  Component | Target Profiles | details', function (hooks) {
   setupTest(hooks);
 
-  test('build empty competence list with no target profile', function(assert) {
+  test('build empty competence list with no target profile', function (assert) {
     const component = createComponent('component:target-profiles/details');
     component.args = {
       targetProfile: {
@@ -19,7 +19,7 @@ module('Unit |  Component | Target Profiles | details', function(hooks) {
     assert.deepEqual(component.competenceList, []);
   });
 
-  test('build competence list with a complete target profile', function(assert) {
+  test('build competence list with a complete target profile', function (assert) {
     const component = createComponent('component:target-profiles/details');
     component.args = {
       targetProfile: {
@@ -50,34 +50,54 @@ module('Unit |  Component | Target Profiles | details', function(hooks) {
         name: 'Competence 1',
         index: '1.1',
         area: { id: 'area1', title: 'Area 1' },
-        tubes: [{
-          practicalTitle: 'Tube 1',
-          skills: [
-            { id: 'skill1', name: '@Skill 1', difficulty: 1, tubeId: 'tube1' },
-            { id: 'skill2', name: '@Skill 2', difficulty: 2, tubeId: 'tube1' },
-            NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL,
-          ],
-        }],
+        tubes: [
+          {
+            practicalTitle: 'Tube 1',
+            skills: [
+              { id: 'skill1', name: '@Skill 1', difficulty: 1, tubeId: 'tube1' },
+              { id: 'skill2', name: '@Skill 2', difficulty: 2, tubeId: 'tube1' },
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+            ],
+          },
+        ],
       },
       {
         name: 'Competence 2',
         index: '1.2',
         area: { id: 'area2', title: 'Area 2' },
-        tubes: [{
-          practicalTitle: 'Tube 2',
-          skills: [
-            NO_SKILL, NO_SKILL,
-            { id: 'skill3', name: '@Skill 3', difficulty: 3, tubeId: 'tube2' },
-            NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL,
-          ],
-        }, {
-          practicalTitle: 'Tube 3',
-          skills: [
-            NO_SKILL, NO_SKILL,
-            { id: 'skill4', name: '@Skill 4', difficulty: 3, tubeId: 'tube3' },
-            NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL, NO_SKILL,
-          ],
-        }],
+        tubes: [
+          {
+            practicalTitle: 'Tube 2',
+            skills: [
+              NO_SKILL,
+              NO_SKILL,
+              { id: 'skill3', name: '@Skill 3', difficulty: 3, tubeId: 'tube2' },
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+            ],
+          },
+          {
+            practicalTitle: 'Tube 3',
+            skills: [
+              NO_SKILL,
+              NO_SKILL,
+              { id: 'skill4', name: '@Skill 4', difficulty: 3, tubeId: 'tube3' },
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+              NO_SKILL,
+            ],
+          },
+        ],
       },
     ]);
   });

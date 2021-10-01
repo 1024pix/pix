@@ -7,7 +7,8 @@ function attachTargetProfiles(schema, request) {
   const params = JSON.parse(request.requestBody);
   const targetProfilesToAttach = params.data.attributes['target-profiles-to-attach'];
   targetProfilesToAttach.forEach((targetProfileId) =>
-    schema.targetProfiles.create({ ownerOrganizationId, name: `Profil ${targetProfileId}` }));
+    schema.targetProfiles.create({ ownerOrganizationId, name: `Profil ${targetProfileId}` })
+  );
   return new Response(204);
 }
 
@@ -15,7 +16,8 @@ function attachTargetProfileToOrganizations(schema, request) {
   const params = JSON.parse(request.requestBody);
   const organizationsToAttach = params['organization-ids'];
   organizationsToAttach.forEach((organizationId) =>
-    schema.organizations.create({ id: organizationId, name: `Organization ${organizationId}` }));
+    schema.organizations.create({ id: organizationId, name: `Organization ${organizationId}` })
+  );
   return new Response(204);
 }
 

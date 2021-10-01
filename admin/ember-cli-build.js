@@ -2,22 +2,20 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     sassOptions: {
-      includePaths: [
-        'node_modules/pix-ui/addon/styles',
-      ],
+      includePaths: ['node_modules/pix-ui/addon/styles'],
     },
     sourcemaps: { enabled: true },
     babel: {
       sourceMaps: 'inline',
     },
     'ember-bootstrap': {
-      'importBootstrapFont': false,
-      'importBootstrapCSS': true,
-      'importBootstrapTheme': true,
-      'bootstrapVersion': 4,
+      importBootstrapFont: false,
+      importBootstrapCSS: true,
+      importBootstrapTheme: true,
+      bootstrapVersion: 4,
       whitelist: ['bs-nav', 'bs-dropdown', 'bs-modal', 'bs-modal-simple'],
     },
 

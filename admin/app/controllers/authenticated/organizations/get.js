@@ -7,9 +7,10 @@ export default class GetController extends Controller {
 
   @action
   updateOrganizationInformation() {
-    return this.model.save()
+    return this.model
+      .save()
       .then(() => {
-        this.notifications.success('L\'organisation a bien été modifée.');
+        this.notifications.success("L'organisation a bien été modifée.");
       })
       .catch(() => {
         this.model.rollbackAttributes();

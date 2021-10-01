@@ -4,7 +4,6 @@ import { action } from '@ember/object';
 import RSVP from 'rsvp';
 
 export default class CertificationInformationsRoute extends Route {
-
   async model() {
     return RSVP.hash({
       certification: this.modelFor('authenticated.certifications.certification').reload(),
@@ -21,8 +20,7 @@ export default class CertificationInformationsRoute extends Route {
 
   @action
   willTransition(transition) {
-    if (this.controller.edition &&
-      !confirm('Êtes-vous sûr de vouloir abandonner la modification en cours ?')) {
+    if (this.controller.edition && !confirm('Êtes-vous sûr de vouloir abandonner la modification en cours ?')) {
       transition.abort();
     } else {
       this.controller.edition = false;

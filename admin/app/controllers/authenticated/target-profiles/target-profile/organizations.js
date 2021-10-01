@@ -18,7 +18,7 @@ export default class TargetProfileOrganizationsController extends Controller {
   @tracked externalId = null;
 
   updateFilters(filters) {
-    Object.keys(filters).forEach((filterKey) => this[filterKey] = filters[filterKey]);
+    Object.keys(filters).forEach((filterKey) => (this[filterKey] = filters[filterKey]));
     this.pageNumber = DEFAULT_PAGE_NUMBER;
   }
 

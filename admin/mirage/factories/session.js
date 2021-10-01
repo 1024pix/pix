@@ -4,7 +4,6 @@ import moment from 'moment';
 import { CREATED, FINALIZED, IN_PROCESS, PROCESSED } from 'pix-admin/models/session';
 
 export default Factory.extend({
-
   certificationCenterName() {
     return faker.company.companyName();
   },
@@ -38,8 +37,11 @@ export default Factory.extend({
   },
 
   time() {
-    return faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
-      ':' + faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0');
+    return (
+      faker.random.number({ min: 0, max: 23 }).toString().padStart(2, '0') +
+      ':' +
+      faker.random.number({ min: 0, max: 59 }).toString().padStart(2, '0')
+    );
   },
 
   status() {

@@ -1,7 +1,6 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
 export default class Organization extends JSONAPISerializer {
-
   serialize(snapshot) {
     const json = super.serialize(...arguments);
 

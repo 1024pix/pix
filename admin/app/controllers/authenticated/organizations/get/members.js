@@ -69,14 +69,16 @@ export default class GetMembersController extends Controller {
     try {
       await this.store.createRecord('membership', { organization, user }).save();
 
-      await organization.memberships.reload({ adapterOptions: {
-        'page[size]': this.pageSize,
-        'page[number]': this.pageNumber,
-        'filter[firstName]': this.firstName,
-        'filter[lastName]': this.lastName,
-        'filter[email]': this.email,
-        'filter[organizationRole]': this.organizationRole,
-      } });
+      await organization.memberships.reload({
+        adapterOptions: {
+          'page[size]': this.pageSize,
+          'page[number]': this.pageNumber,
+          'filter[firstName]': this.firstName,
+          'filter[lastName]': this.lastName,
+          'filter[email]': this.email,
+          'filter[organizationRole]': this.organizationRole,
+        },
+      });
 
       this.userEmailToAdd = null;
       this.notifications.success('Accès attribué avec succès.');
@@ -116,7 +118,8 @@ export default class GetMembersController extends Controller {
     }
 
     try {
-      const organizationInvitation = await this.store.createRecord('organization-invitation', { email, lang })
+      const organizationInvitation = await this.store
+        .createRecord('organization-invitation', { email, lang })
         .save({ adapterOptions: { organizationId: this.model.id } });
 
       this.notifications.success(`Un email a bien a été envoyé à l'adresse ${organizationInvitation.email}.`);
@@ -134,12 +137,11 @@ export default class GetMembersController extends Controller {
     }
 
     if (!isEmailValid(email)) {
-      this.userEmailToInviteError = 'L\'adresse email saisie n\'est pas valide.';
+      this.userEmailToInviteError = "L'adresse email saisie n'est pas valide.";
       return false;
     }
 
     this.userEmailToInviteError = null;
     return true;
   }
-
 }

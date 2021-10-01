@@ -1,19 +1,17 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
+module('Unit | Controller | authenticated/sessions/list/all', function (hooks) {
   setupTest(hooks);
   let controller;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated.sessions.list.all');
   });
 
-  module('#triggerFiltering task', function() {
-
-    module('when fieldName is id', function() {
-
-      test('it should update controller id field', async function(assert) {
+  module('#triggerFiltering task', function () {
+    module('when fieldName is id', function () {
+      test('it should update controller id field', async function (assert) {
         // given
         controller.id = 'someId';
 
@@ -26,9 +24,8 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is certificationCenterName', function() {
-
-      test('it should update controller certificationCenterName field', async function(assert) {
+    module('when fieldName is certificationCenterName', function () {
+      test('it should update controller certificationCenterName field', async function (assert) {
         // given
         controller.certificationCenterName = 'someName';
 
@@ -41,9 +38,8 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is status', function() {
-
-      test('it should update controller status field', async function(assert) {
+    module('when fieldName is status', function () {
+      test('it should update controller status field', async function (assert) {
         // given
         controller.status = 'someStatus';
 
@@ -56,9 +52,8 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is resultsSentToPrescriberAt', function() {
-
-      test('it should update controller resultsSentToPrescriberAt field', async function(assert) {
+    module('when fieldName is resultsSentToPrescriberAt', function () {
+      test('it should update controller resultsSentToPrescriberAt field', async function (assert) {
         // given
         controller.resultsSentToPrescriberAt = 'someValue';
 
@@ -71,9 +66,8 @@ module('Unit | Controller | authenticated/sessions/list/all', function(hooks) {
       });
     });
 
-    module('when fieldName is certificationCenterType', function() {
-
-      test('should update controller certificationCenterType field', async function(assert) {
+    module('when fieldName is certificationCenterType', function () {
+      test('should update controller certificationCenterType field', async function (assert) {
         // given
         controller.certificationCenterType = 'someType';
 

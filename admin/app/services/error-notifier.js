@@ -5,7 +5,7 @@ import { inject as service } from '@ember/service';
 import Service from '@ember/service';
 
 export default class ErrorNotifierService extends Service {
-  @service notifications
+  @service notifications;
 
   notify(anError) {
     if (_isJSONAPIError(anError)) {

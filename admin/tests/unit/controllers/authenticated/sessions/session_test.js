@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/sessions/session', function(hooks) {
+module('Unit | Controller | authenticated/sessions/session', function (hooks) {
   setupTest(hooks);
 
-  test('#loadSession', function(assert) {
+  test('#loadSession', function (assert) {
     // given
     const controller = this.owner.lookup('controller:authenticated.sessions.session');
     const routerStub = {

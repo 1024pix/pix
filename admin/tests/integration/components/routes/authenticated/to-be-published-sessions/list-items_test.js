@@ -4,11 +4,10 @@ import { render, click } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | routes/authenticated/to-be-published-sessions | list-items', function(hooks) {
-
+module('Integration | Component | routes/authenticated/to-be-published-sessions | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display to be published sessions list', async function(assert) {
+  test('it should display to be published sessions list', async function (assert) {
     // given
     const firstSession = {
       id: '1',
@@ -31,7 +30,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       sessionTime: '13:00:00',
       finalizedAt: new Date('2021-03-04T03:00:00Z'),
     };
-    this.toBePublishedSessions = [ firstSession, secondSession, thirdSession];
+    this.toBePublishedSessions = [firstSession, secondSession, thirdSession];
 
     // when
     await render(hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`);
@@ -43,7 +42,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     assert.contains('Hogwarts');
   });
 
-  test('it should "Aucun résultat" if there are no sessions to show', async function(assert) {
+  test('it should "Aucun résultat" if there are no sessions to show', async function (assert) {
     // given
     this.toBePublishedSessions = [];
 
@@ -54,7 +53,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     assert.contains('Aucun résultat');
   });
 
-  test('it should show confirmation modal when one clicks on "Publier" button', async function(assert) {
+  test('it should show confirmation modal when one clicks on "Publier" button', async function (assert) {
     // given
     const session = {
       id: '1',
@@ -63,7 +62,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       sessionTime: '11:00:00',
       finalizedAt: new Date('2021-01-02T03:00:00Z'),
     };
-    this.toBePublishedSessions = [ session ];
+    this.toBePublishedSessions = [session];
     await render(hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}}/>`);
 
     // when
@@ -73,7 +72,7 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     assert.contains('Souhaitez-vous publier la session ?');
   });
 
-  test('it should call provided publishModel "action" with the right published session as argument', async function(assert) {
+  test('it should call provided publishModel "action" with the right published session as argument', async function (assert) {
     // given
     const session = {
       id: '1',
@@ -82,9 +81,11 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
       sessionTime: '11:00:00',
       finalizedAt: new Date('2021-01-02T03:00:00Z'),
     };
-    this.toBePublishedSessions = [ session ];
+    this.toBePublishedSessions = [session];
     this.publishSession = sinon.stub();
-    await render(hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} @publishSession={{this.publishSession}}/>`);
+    await render(
+      hbs`<ToBePublishedSessions::ListItems @toBePublishedSessions={{this.toBePublishedSessions}} @publishSession={{this.publishSession}}/>`
+    );
     await click('[aria-label="Publier la session numéro 1"]');
 
     // when
@@ -94,5 +95,4 @@ module('Integration | Component | routes/authenticated/to-be-published-sessions 
     sinon.assert.calledWith(this.publishSession, session);
     assert.ok(true);
   });
-
 });

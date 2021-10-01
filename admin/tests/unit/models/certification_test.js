@@ -3,30 +3,30 @@ import { setupTest } from 'ember-qunit';
 import { run } from '@ember/runloop';
 import { ACQUIRED, REJECTED, NOT_TAKEN } from 'pix-admin/models/certification';
 
-module('Unit | Model | certification', function(hooks) {
+module('Unit | Model | certification', function (hooks) {
   setupTest(hooks);
 
   let store;
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     store = this.owner.lookup('service:store');
   });
 
-  module('#cleaCertificationStatusLabel', function() {
-
+  module('#cleaCertificationStatusLabel', function () {
     const cleaStatusesAndExpectedLabel = new Map([
       [ACQUIRED, 'Validée'],
       [REJECTED, 'Rejetée'],
       [NOT_TAKEN, 'Non passée'],
     ]);
     cleaStatusesAndExpectedLabel.forEach((expectedLabel, cleaStatus) => {
-      module(`when cleaCertificationStatus is ${cleaStatus}`, function() {
-
-        test(`cleaCertificationStatusLabel should be ${expectedLabel}`, function(assert) {
+      module(`when cleaCertificationStatus is ${cleaStatus}`, function () {
+        test(`cleaCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
           // given
-          const certification = run(() => store.createRecord('certification', {
-            cleaCertificationStatus: cleaStatus,
-          }));
+          const certification = run(() =>
+            store.createRecord('certification', {
+              cleaCertificationStatus: cleaStatus,
+            })
+          );
 
           // when
           const label = certification.cleaCertificationStatusLabel;
@@ -38,21 +38,21 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#pixPlusDroitMaitreCertificationStatusLabel', function() {
-
+  module('#pixPlusDroitMaitreCertificationStatusLabel', function () {
     const pixPlusDroitMaitreStatusesAndExpectedLabel = new Map([
       [ACQUIRED, 'Validée'],
       [REJECTED, 'Rejetée'],
       [NOT_TAKEN, 'Non passée'],
     ]);
     pixPlusDroitMaitreStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitMaitreCertificationStatus) => {
-      module(`when pixPlusDroitMaitreCertificationStatus is ${pixPlusDroitMaitreCertificationStatus}`, function() {
-
-        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function(assert) {
+      module(`when pixPlusDroitMaitreCertificationStatus is ${pixPlusDroitMaitreCertificationStatus}`, function () {
+        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
           // given
-          const certification = run(() => store.createRecord('certification', {
-            pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
-          }));
+          const certification = run(() =>
+            store.createRecord('certification', {
+              pixPlusDroitMaitreCertificationStatus: pixPlusDroitMaitreCertificationStatus,
+            })
+          );
 
           // when
           const label = certification.pixPlusDroitMaitreCertificationStatusLabel;
@@ -64,21 +64,21 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#pixPlusDroitExpertCertificationStatusLabel', function() {
-
+  module('#pixPlusDroitExpertCertificationStatusLabel', function () {
     const pixPlusDroitExpertStatusesAndExpectedLabel = new Map([
       [ACQUIRED, 'Validée'],
       [REJECTED, 'Rejetée'],
       [NOT_TAKEN, 'Non passée'],
     ]);
     pixPlusDroitExpertStatusesAndExpectedLabel.forEach((expectedLabel, pixPlusDroitExpertCertificationStatus) => {
-      module(`when pixPlusDroitExpertCertificationStatus is ${pixPlusDroitExpertCertificationStatus}`, function() {
-
-        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function(assert) {
+      module(`when pixPlusDroitExpertCertificationStatus is ${pixPlusDroitExpertCertificationStatus}`, function () {
+        test(`pixPlusDroitMaitreCertificationStatusLabel should be ${expectedLabel}`, function (assert) {
           // given
-          const certification = run(() => store.createRecord('certification', {
-            pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
-          }));
+          const certification = run(() =>
+            store.createRecord('certification', {
+              pixPlusDroitExpertCertificationStatus: pixPlusDroitExpertCertificationStatus,
+            })
+          );
 
           // when
           const label = certification.pixPlusDroitExpertCertificationStatusLabel;
@@ -90,13 +90,14 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#publishedText', function() {
-
-    test('it should return "oui" when isPublished is true', function(assert) {
+  module('#publishedText', function () {
+    test('it should return "oui" when isPublished is true', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        isPublished: true,
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          isPublished: true,
+        })
+      );
 
       // when
       const isPublishedLabel = certification.publishedText;
@@ -105,11 +106,13 @@ module('Unit | Model | certification', function(hooks) {
       assert.equal(isPublishedLabel, 'Oui');
     });
 
-    test('it should return "non" when isPublished is false', function(assert) {
+    test('it should return "non" when isPublished is false', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        isPublished: false,
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          isPublished: false,
+        })
+      );
 
       // when
       const isPublishedLabel = certification.publishedText;
@@ -119,41 +122,45 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#indexedCompetences', function() {
-
-    test('it should return the indexedCompetences from the competencesWithMark', function(assert) {
+  module('#indexedCompetences', function () {
+    test('it should return the indexedCompetences from the competencesWithMark', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        competencesWithMark: [{
-          id: 1,
-          area_code: '1',
-          competence_code: '1.1',
-          competenceId: 'rec11',
-          level: 4,
-          score: 39,
-          assessmentResultId: 123,
-        }, {
-          id: 2,
-          area_code: '2',
-          competence_code: '2.1',
-          competenceId: 'rec21',
-          level: 5,
-          score: 20,
-          assessmentResultId: 123,
-        }],
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          competencesWithMark: [
+            {
+              id: 1,
+              area_code: '1',
+              competence_code: '1.1',
+              competenceId: 'rec11',
+              level: 4,
+              score: 39,
+              assessmentResultId: 123,
+            },
+            {
+              id: 2,
+              area_code: '2',
+              competence_code: '2.1',
+              competenceId: 'rec21',
+              level: 5,
+              score: 20,
+              assessmentResultId: 123,
+            },
+          ],
+        })
+      );
 
       // when
       const indexedCompetences = certification.indexedCompetences;
 
       // then
       assert.deepEqual(indexedCompetences, {
-        '1.1': {
+        1.1: {
           index: '1.1',
           level: 4,
           score: 39,
         },
-        '2.1': {
+        2.1: {
           index: '2.1',
           level: 5,
           score: 20,
@@ -162,29 +169,33 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#competences', function() {
-
-    test('it should return the competences from the indexedCompetences', function(assert) {
+  module('#competences', function () {
+    test('it should return the competences from the indexedCompetences', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        competencesWithMark: [{
-          id: 1,
-          area_code: '1',
-          competence_code: '1.1',
-          competenceId: 'rec11',
-          level: 4,
-          score: 39,
-          assessmentResultId: 123,
-        }, {
-          id: 2,
-          area_code: '2',
-          competence_code: '2.1',
-          competenceId: 'rec21',
-          level: 5,
-          score: 20,
-          assessmentResultId: 123,
-        }],
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          competencesWithMark: [
+            {
+              id: 1,
+              area_code: '1',
+              competence_code: '1.1',
+              competenceId: 'rec11',
+              level: 4,
+              score: 39,
+              assessmentResultId: 123,
+            },
+            {
+              id: 2,
+              area_code: '2',
+              competence_code: '2.1',
+              competenceId: 'rec21',
+              level: 5,
+              score: 20,
+              assessmentResultId: 123,
+            },
+          ],
+        })
+      );
 
       // when
       const competences = certification.competences;
@@ -205,8 +216,7 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#statusLabelAndValue', function() {
-
+  module('#statusLabelAndValue', function () {
     [
       { value: 'started', label: 'Démarrée' },
       { value: 'error', label: 'En erreur' },
@@ -214,12 +224,13 @@ module('Unit | Model | certification', function(hooks) {
       { value: 'rejected', label: 'Rejetée' },
       { value: 'cancelled', label: 'Annulée' },
     ].forEach((certificationStatus) => {
-
-      test('it should return the right pair of label and value', function(assert) {
+      test('it should return the right pair of label and value', function (assert) {
         // given
-        const certification = run(() => store.createRecord('certification', {
-          status: certificationStatus.value,
-        }));
+        const certification = run(() =>
+          store.createRecord('certification', {
+            status: certificationStatus.value,
+          })
+        );
 
         // then
         assert.deepEqual(certification.statusLabelAndValue, {
@@ -230,39 +241,40 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#wasRegisteredBeforeCPF', function() {
-
+  module('#wasRegisteredBeforeCPF', function () {
     [
       { value: '', label: 'Chaîne vide' },
       { value: null, label: 'NULL' },
       { value: undefined, label: 'undefined' },
     ].forEach(({ value, label }) => {
-
-      test(`it should return true when sex value is ${label}`, function(assert) {
+      test(`it should return true when sex value is ${label}`, function (assert) {
         // given
-        const certification = run(() => store.createRecord('certification', {
-          sex: value,
-        }));
+        const certification = run(() =>
+          store.createRecord('certification', {
+            sex: value,
+          })
+        );
 
         // then
         assert.true(certification.wasRegisteredBeforeCPF);
       });
     });
 
-    test('should return false when sex is defined', function(assert) {
+    test('should return false when sex is defined', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        sex: 'M',
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          sex: 'M',
+        })
+      );
 
       // then
       assert.false(certification.wasRegisteredBeforeCPF);
     });
   });
 
-  module('#get completionDate', function() {
-
-    test('it should return null if completedAt is null', function(assert) {
+  module('#get completionDate', function () {
+    test('it should return null if completedAt is null', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('certification', { completedAt: null });
@@ -272,7 +284,7 @@ module('Unit | Model | certification', function(hooks) {
       assert.equal(juryCertificationSummary.completionDate, null);
     });
 
-    test('it should a formatted date when completedAt is defined', function(assert) {
+    test('it should a formatted date when completedAt is defined', function (assert) {
       // given
       const juryCertificationSummary = run(() => {
         return store.createRecord('certification', { completedAt: '2021-06-30 15:10:45' });
@@ -283,20 +295,21 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#getInformation', function() {
-
-    test('it should return the certification candidate information', function(assert) {
+  module('#getInformation', function () {
+    test('it should return the certification candidate information', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        firstName: 'Buffy',
-        lastName: 'Summers',
-        birthdate: '1981-01-19',
-        birthplace: 'Torreilles',
-        sex: 'F',
-        birthInseeCode: '66212',
-        birthPostalCode: null,
-        birthCountry: 'FRANCE',
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-19',
+          birthplace: 'Torreilles',
+          sex: 'F',
+          birthInseeCode: '66212',
+          birthPostalCode: null,
+          birthCountry: 'FRANCE',
+        })
+      );
 
       // when
       const information = certification.getInformation();
@@ -315,20 +328,21 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#updateInformation', function() {
-
-    test('it should update the certification candidate information', function(assert) {
+  module('#updateInformation', function () {
+    test('it should update the certification candidate information', function (assert) {
       // given
-      const certification = run(() => store.createRecord('certification', {
-        firstName: 'Buffy',
-        lastName: 'Summers',
-        birthdate: '1981-01-19',
-        birthplace: 'Torreilles',
-        sex: 'F',
-        birthInseeCode: '66212',
-        birthPostalCode: null,
-        birthCountry: 'FRANCE',
-      }));
+      const certification = run(() =>
+        store.createRecord('certification', {
+          firstName: 'Buffy',
+          lastName: 'Summers',
+          birthdate: '1981-01-19',
+          birthplace: 'Torreilles',
+          sex: 'F',
+          birthInseeCode: '66212',
+          birthPostalCode: null,
+          birthCountry: 'FRANCE',
+        })
+      );
 
       // when
       certification.updateInformation({
@@ -356,9 +370,8 @@ module('Unit | Model | certification', function(hooks) {
     });
   });
 
-  module('#wasBornInFrance', function() {
-
-    test('it should return true when candidate was born in France', function(assert) {
+  module('#wasBornInFrance', function () {
+    test('it should return true when candidate was born in France', function (assert) {
       // given
       const certification = run(() => store.createRecord('certification', { birthCountry: 'FRANCE' }));
 
@@ -369,7 +382,7 @@ module('Unit | Model | certification', function(hooks) {
       assert.true(wasBornInFrance);
     });
 
-    test('it should return false when candidate was not born in France', function(assert) {
+    test('it should return false when candidate was not born in France', function (assert) {
       // given
       const certification = run(() => store.createRecord('certification', { birthCountry: 'OTHER_COUNTRY' }));
 

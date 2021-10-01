@@ -5,14 +5,12 @@ import { setupMirage } from 'ember-cli-mirage/test-support';
 
 import { createAuthenticateSession } from '../helpers/test-init';
 
-module('Acceptance | routes protection', function(hooks) {
-
+module('Acceptance | routes protection', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When route is /about', function() {
-
-    test('guest users can visit /about', async function(assert) {
+  module('When route is /about', function () {
+    test('guest users can visit /about', async function (assert) {
       // when
       await visit('/about');
 
@@ -21,9 +19,8 @@ module('Acceptance | routes protection', function(hooks) {
     });
   });
 
-  module('When route is /organizations/new', function() {
-
-    test('guest users are redirected to login page when visiting /organizations/new', async function(assert) {
+  module('When route is /organizations/new', function () {
+    test('guest users are redirected to login page when visiting /organizations/new', async function (assert) {
       // when
       await visit('/organizations/new');
 
@@ -31,7 +28,7 @@ module('Acceptance | routes protection', function(hooks) {
       assert.equal(currentURL(), '/login');
     });
 
-    test('authenticated users can visit /organizations/new', async function(assert) {
+    test('authenticated users can visit /organizations/new', async function (assert) {
       // given
       const user = this.server.create('user');
       await createAuthenticateSession({ userId: user.id });
@@ -44,9 +41,8 @@ module('Acceptance | routes protection', function(hooks) {
     });
   });
 
-  module('When route is /organizations/list', function() {
-
-    test('guest users are redirected to login page when visiting /organizations/list', async function(assert) {
+  module('When route is /organizations/list', function () {
+    test('guest users are redirected to login page when visiting /organizations/list', async function (assert) {
       // when
       await visit('/organizations/list');
 
@@ -55,9 +51,8 @@ module('Acceptance | routes protection', function(hooks) {
     });
   });
 
-  module('When route is /certifications/menu', function() {
-
-    test('guest users are redirected to login page when visiting /certifications', async function(assert) {
+  module('When route is /certifications/menu', function () {
+    test('guest users are redirected to login page when visiting /certifications', async function (assert) {
       // when
       await visit('/certifications');
 
@@ -66,9 +61,8 @@ module('Acceptance | routes protection', function(hooks) {
     });
   });
 
-  module('When route is /certifications/single', function() {
-
-    test('guest users are redirected to login page when visiting /certifications/single', async function(assert) {
+  module('When route is /certifications/single', function () {
+    test('guest users are redirected to login page when visiting /certifications/single', async function (assert) {
       // when
       await visit('/certifications/single');
 
@@ -77,9 +71,8 @@ module('Acceptance | routes protection', function(hooks) {
     });
   });
 
-  module('When route is /sessions', function() {
-
-    test('guest users are redirected to login page when visiting /sessions', async function(assert) {
+  module('When route is /sessions', function () {
+    test('guest users are redirected to login page when visiting /sessions', async function (assert) {
       // when
       await visit('/sessions');
 

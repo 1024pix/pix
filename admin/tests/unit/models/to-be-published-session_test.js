@@ -1,11 +1,11 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Model | to be published session', function(hooks) {
+module('Unit | Model | to be published session', function (hooks) {
   setupTest(hooks);
 
-  module('#printableDateAndTime', function() {
-    test('it should return a printable version of to be published session date and time', function(assert) {
+  module('#printableDateAndTime', function () {
+    test('it should return a printable version of to be published session date and time', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const toBePublishedSession = store.createRecord('to-be-published-session', {
@@ -21,8 +21,8 @@ module('Unit | Model | to be published session', function(hooks) {
     });
   });
 
-  module('#printableFinalizationDate', function() {
-    test('it should return a printable version of to be published session finalization date', function(assert) {
+  module('#printableFinalizationDate', function () {
+    test('it should return a printable version of to be published session finalization date', function (assert) {
       // given
       const store = this.owner.lookup('service:store');
       const toBePublishedSession = store.createRecord('to-be-published-session', {

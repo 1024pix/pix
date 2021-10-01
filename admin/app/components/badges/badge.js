@@ -5,7 +5,6 @@ import times from 'lodash/times';
 import ENV from 'pix-admin/config/environment';
 
 export default class Badge extends Component {
-
   get isCertifiableColor() {
     return this.args.badge.isCertifiable ? 'green' : 'yellow';
   }
@@ -17,9 +16,14 @@ export default class Badge extends Component {
   get badgeCriteria() {
     this.args.badge.badgeCriteria.forEach((badgeCriterion) => {
       badgeCriterion.partnerCompetences.forEach((badgePartnerCompetence) => {
-        const tubes = uniqBy(badgePartnerCompetence.skills.map((skill) => skill.tube), (tube) => tube.get('id'));
+        const tubes = uniqBy(
+          badgePartnerCompetence.skills.map((skill) => skill.tube),
+          (tube) => tube.get('id')
+        );
         tubes.forEach((tube) => {
-          tube.skillsWithAllLevels = new Array(ENV.APP.MAX_LEVEL).fill(undefined).map((_, index) => tube.get('skills').find((skill) => skill.difficulty === (index + 1)));
+          tube.skillsWithAllLevels = new Array(ENV.APP.MAX_LEVEL)
+            .fill(undefined)
+            .map((_, index) => tube.get('skills').find((skill) => skill.difficulty === index + 1));
         });
         badgePartnerCompetence.tubes = tubes;
       });
@@ -33,8 +37,10 @@ export default class Badge extends Component {
 
   scopeExplanation(criterionScope) {
     switch (criterionScope) {
-      case 'SkillSet': return 'tous les groupes d‘acquis suivants :';
-      case 'CampaignParticipation': return 'l‘ensemble des acquis du target profile.';
+      case 'SkillSet':
+        return 'tous les groupes d‘acquis suivants :';
+      case 'CampaignParticipation':
+        return 'l‘ensemble des acquis du target profile.';
     }
   }
 }

@@ -25,7 +25,7 @@ const Validations = buildValidations({
       validator('length', {
         min: 0,
         max: 255,
-        message: 'La longueur de l\'identifiant externe ne doit pas excéder 255 caractères',
+        message: "La longueur de l'identifiant externe ne doit pas excéder 255 caractères",
       }),
     ],
   },
@@ -42,12 +42,12 @@ const Validations = buildValidations({
     validators: [
       validator('length', {
         max: 255,
-        message: 'La longueur de l\'email ne doit pas excéder 255 caractères.',
+        message: "La longueur de l'email ne doit pas excéder 255 caractères.",
       }),
       validator('format', {
         allowBlank: true,
         type: 'email',
-        message: 'L\'e-mail n\'a pas le bon format.',
+        message: "L'e-mail n'a pas le bon format.",
       }),
     ],
   },
@@ -97,7 +97,7 @@ export default class OrganizationInformationSection extends Component {
 
   get externalURL() {
     const urlDashboardPrefix = ENV.APP.ORGANIZATION_DASHBOARD_URL;
-    return urlDashboardPrefix && (urlDashboardPrefix + this.args.organization.id);
+    return urlDashboardPrefix && urlDashboardPrefix + this.args.organization.id;
   }
 
   @action
