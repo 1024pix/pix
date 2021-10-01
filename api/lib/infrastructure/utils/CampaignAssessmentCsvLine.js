@@ -99,7 +99,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : this.emptyContent,
       ...(this.targetProfileWithLearningContent.hasReachableStages() ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfileWithLearningContent.badges.length)),
-      this.campaignParticipationInfo.isShared ? this._percentageSkillsValidated() : this.emptyContent,
+      this.campaignParticipationInfo.isShared ? this.campaignParticipationInfo.masteryPercentage : this.emptyContent,
     ];
   }
 
@@ -143,25 +143,14 @@ class CampaignAssessmentCsvLine {
       .length;
   }
 
-  _countValidatedKnowledgeElements() {
-    return _.sum(_.map(this.targetedKnowledgeElementsByCompetence, (knowledgeElements) => {
-      return knowledgeElements.filter((knowledgeElement) => knowledgeElement.isValidated)
-        .length;
-    }));
-  }
-
-  _percentageSkillsValidated() {
-    return _.round(this._countValidatedKnowledgeElements() / this.targetProfileWithLearningContent.skills.length, 2);
-  }
-
   _getReachedStage() {
     if (!this.campaignParticipationInfo.isShared) {
       return this.emptyContent;
     }
 
-    const percentageSkillsValidated = this._percentageSkillsValidated() * 100;
+    const masteryPercentage = this.campaignParticipationInfo.masteryPercentage * 100;
 
-    return this.targetProfileWithLearningContent.reachableStages.filter((stage) => percentageSkillsValidated >= stage.threshold).length;
+    return this.targetProfileWithLearningContent.reachableStages.filter((stage) => masteryPercentage >= stage.threshold).length;
   }
 
   get _studentNumber() {

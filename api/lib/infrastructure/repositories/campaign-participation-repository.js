@@ -348,6 +348,7 @@ function _rowToResult(row) {
     participantFirstName: row.firstName,
     participantLastName: row.lastName,
     division: row.division,
+    pixScore: row.pixScore,
   };
 }
 

@@ -771,7 +771,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function()
             // given
             const organization = domainBuilder.buildOrganization();
             const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
-            const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01') });
+            const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01'), masteryPercentage: 0.7 });
             const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
             const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
             const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });
@@ -795,20 +795,8 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function()
               skillId: skill1.id,
               competenceId: competence.id,
             });
-            const knowledgeElement2 = domainBuilder.buildKnowledgeElement({
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: 2,
-              skillId: skill2.id,
-              competenceId: competence.id,
-            });
-            const knowledgeElement3 = domainBuilder.buildKnowledgeElement({
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 4,
-              skillId: skill3.id,
-              competenceId: competence.id,
-            });
             const participantKnowledgeElementsByCompetenceId = {
-              'recCompetence1': [knowledgeElement1, knowledgeElement2, knowledgeElement3],
+              'recCompetence1': [knowledgeElement1],
             };
             const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
               organization,

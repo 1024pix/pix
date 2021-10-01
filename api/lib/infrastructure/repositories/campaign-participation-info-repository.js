@@ -48,5 +48,6 @@ function _rowToCampaignParticipationInfo(row) {
     createdAt: new Date(row.createdAt),
     sharedAt: row.sharedAt ? new Date(row.sharedAt) : null,
     division: row.division,
+    masteryPercentage: row.masteryPercentage,
   });
 }
