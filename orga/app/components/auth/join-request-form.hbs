@@ -9,12 +9,12 @@
         <div class="alert-input alert-input--error" role="alert">{{this.validation.uai.message}}</div>
       {{/if}}
       <Input
-        @id="uai"
-        @name="uai"
+        id="uai"
+        name="uai"
         @type="text"
         class="input {{if this.validation.uai.hasError "input--error"}}"
         @value={{this.uai}}
-        @required="true"
+        required="true"
       />
     </div>
 
@@ -24,13 +24,13 @@
         <div class="alert-input alert-input--error" role="alert">{{this.validation.firstName.message}}</div>
       {{/if}}
       <Input
-        @id="firstName"
-        @name="firstName"
+        id="firstName"
+        name="firstName"
         @type="text"
         class="input {{if this.validation.firstName.hasError "input--error"}}"
         @value={{this.firstName}}
-        @autocomplete="given-name"
-        @required="true"
+        autocomplete="given-name"
+        required="true"
         {{on "focusout" (fn this.validateInput "firstName" this.firstName)}}
       />
     </div>
@@ -41,13 +41,13 @@
         <div class="alert-input alert-input--error" role="alert">{{this.validation.lastName.message}}</div>
       {{/if}}
       <Input
-        @id="lastName"
-        @name="lastName"
+        id="lastName"
+        name="lastName"
         @type="text"
         class="input {{if this.validation.lastName.hasError "input--error"}}"
         @value={{this.lastName}}
-        @autocomplete="family-name"
-        @required="true"
+        autocomplete="family-name"
+        required="true"
         {{on "focusout" (fn this.validateInput "lastName" this.lastName)}}
       />
     </div>
