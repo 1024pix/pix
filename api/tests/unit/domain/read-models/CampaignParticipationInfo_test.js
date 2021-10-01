@@ -17,6 +17,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', function() {
         isCompleted: true,
         createdAt: new Date('2019-04-01'),
         sharedAt: new Date('2019-05-01'),
+        masteryPercentage: 1,
       };
     });
 
@@ -131,6 +132,7 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', function() {
         campaignParticipationId: 999,
         isCompleted: true,
         createdAt: new Date('2019-04-01'),
+        masteryPercentage: 1,
       };
     });
 

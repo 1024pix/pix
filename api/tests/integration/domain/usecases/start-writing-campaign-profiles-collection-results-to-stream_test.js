@@ -144,6 +144,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           campaignId: campaign.id,
           isShared: true,
           userId: participant.id,
+          pixScore: 52,
         });
 
         await databaseBuilder.commit();
@@ -217,6 +218,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           campaignId: campaign.id,
           isShared: true,
           userId: participant.id,
+          pixScore: 52,
         });
 
         await databaseBuilder.commit();
@@ -291,6 +293,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           campaignId: campaign.id,
           isShared: true,
           userId: participant.id,
+          pixScore: 52,
         });
 
         await databaseBuilder.commit();
