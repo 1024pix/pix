@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 const getExternalAuthenticationRedirectionUrl = require('../../../../lib/domain/usecases/get-external-authentication-redirection-url');
 
@@ -10,6 +10,7 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
   beforeEach(function() {
     userRepository = {
       getBySamlId: sinon.stub(),
+      updateLastLoggedAt: sinon.stub(),
     };
 
     tokenService = {
@@ -84,6 +85,34 @@ describe('Unit | UseCase | get-external-authentication-redirection-url', functio
       // then
       const expectedUrl = '/?token=access-token&user-id=1';
       expect(result).to.deep.equal(expectedUrl);
+    });
+
+    it('should save the last login date', async function() {
+    // given
+      const userAttributes = {
+        'IDO': 'saml-id-for-adele',
+        'NOM': 'Lopez',
+        'PRE': 'Adèle',
+      };
+      const settings = {
+        saml: {
+          attributeMapping: {
+            samlId: 'IDO',
+            firstName: 'PRE',
+            lastName: 'NOM',
+          },
+        },
+      };
+      const user = domainBuilder.buildUser({ id: 777 });
+
+      userRepository.getBySamlId.resolves(user);
+      tokenService.createIdTokenForUserReconciliation.returns('external-user-token');
+
+      // when
+      await getExternalAuthenticationRedirectionUrl({ userAttributes, userRepository, tokenService, settings });
+
+      // then
+      expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: 777 });
     });
   });
 });
