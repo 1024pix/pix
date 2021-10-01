@@ -274,7 +274,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, studentNumber: '12345A', firstName: '@Jean', lastName: '=Bono', organizationId: organization.id });
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, studentNumber: '12345A', firstName: '@Jean', lastName: '=Bono', group: '=AB1', organizationId: organization.id });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -299,7 +299,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line with student number', async function() {
+      it('should return the complete line for a SUP organisation that manages students', async function() {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
         const expectedCsvSecondLine = `"${organization.name}";` +
@@ -307,6 +307,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           `"'${campaign.name}";` +
           `"'${schoolingRegistration.lastName}";` +
           `"'${schoolingRegistration.firstName}";` +
+          `"'${schoolingRegistration.group}";` +
           `"${schoolingRegistration.studentNumber}";` +
           `"'${campaignParticipation.participantExternalId}";` +
           '"Oui";' +
