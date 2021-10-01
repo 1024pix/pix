@@ -108,6 +108,14 @@ export default class Session extends Model {
     );
   }
 
+  @computed('juryCertificationSummaries.@each.isFlaggedAborted')
+  get countCertificationsFlaggedAsAborted() {
+    return _getNumberOf(
+      this.juryCertificationSummaries,
+      (juryCertificationSummary) => juryCertificationSummary.isFlaggedAborted
+    );
+  }
+
   @computed('resultsSentToPrescriberAt', 'isFinalized')
   get areResultsToBeSentToPrescriber() {
     return Boolean(this.isFinalized && !this.resultsSentToPrescriberAt);
