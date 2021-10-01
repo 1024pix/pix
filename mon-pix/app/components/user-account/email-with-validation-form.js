@@ -69,7 +69,7 @@ export default class EmailWithValidationForm extends Component {
           });
           await emailVerificationCode.sendNewEmail();
 
-          this.args.showVerificationCode(this.newEmail);
+          this.args.showVerificationCode({ newEmail: this.newEmail, password: this.password });
         }
       } catch (response) {
         this.handleSubmitError(response);
