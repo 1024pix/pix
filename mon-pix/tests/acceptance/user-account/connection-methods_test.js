@@ -132,6 +132,8 @@ describe('Acceptance | user-account | connection-methods', function() {
 
         // then
         expect(contains(this.intl.t('pages.user-account.connexion-methods.email'))).to.exist;
+        expect(contains(this.intl.t('pages.user-account.email-verification.update-successful'))).to.exist;
+        expect(contains(newEmail)).to.exist;
       });
 
     });

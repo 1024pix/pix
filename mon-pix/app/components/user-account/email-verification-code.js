@@ -45,5 +45,6 @@ export default class EmailVerificationCode extends Component {
       this.currentUser.user.email = email;
     }
     this.args.disableEmailEditionMode();
+    this.args.displayEmailUpdateMessage();
   }
 }

@@ -32,4 +32,18 @@ describe('Unit | Controller | user-account | connection-methods', function() {
       expect(controller.isEmailEditionMode).to.be.false;
     });
   });
+
+  context('#displayEmailUpdateMessage', function() {
+    it('should display email update message', function() {
+      // given
+      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      controller.set('showEmailUpdatedMessage', false);
+
+      // when
+      controller.displayEmailUpdateMessage();
+
+      // then
+      expect(controller.showEmailUpdatedMessage).to.be.true;
+    });
+  });
 });

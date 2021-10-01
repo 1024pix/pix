@@ -7,6 +7,7 @@ export default class ConnectionMethodsController extends Controller {
   @service featureToggles;
 
   @tracked isEmailEditionMode = false;
+  @tracked showEmailUpdatedMessage = false;
 
   get shouldShowEmail() {
     return !!this.model.email;
@@ -24,6 +25,11 @@ export default class ConnectionMethodsController extends Controller {
   @action
   disableEmailEditionMode() {
     this.isEmailEditionMode = false;
+  }
+
+  @action
+  displayEmailUpdateMessage() {
+    this.showEmailUpdatedMessage = true;
   }
 
   @action

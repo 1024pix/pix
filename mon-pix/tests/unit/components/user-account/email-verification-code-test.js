@@ -9,13 +9,14 @@ describe('Unit | Component | user-account | email-verification-code', function()
 
   context('#onSubmitCode', function() {
 
-    it('should send entered code for verification and redirect to account page', async function() {
+    it('should send entered code for verification and redirect to account page with successful message', async function() {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const code = '918435';
       const verifyCode = sinon.stub();
       component.store = { createRecord: () => ({ verifyCode }) };
       component.args.disableEmailEditionMode = sinon.stub();
+      component.args.displayEmailUpdateMessage = sinon.stub();
       sinon.spy(component.store, 'createRecord');
 
       // when
@@ -25,6 +26,7 @@ describe('Unit | Component | user-account | email-verification-code', function()
       sinon.assert.calledWith(component.store.createRecord, 'email-verification-code', { code });
       sinon.assert.calledOnce(verifyCode);
       sinon.assert.calledOnce(component.args.disableEmailEditionMode);
+      sinon.assert.calledWith(component.args.displayEmailUpdateMessage, 'pages.user-account.email-verification.update-successful');
     });
 
     it('should update the user email when code verification is successful', async function() {
@@ -36,7 +38,7 @@ describe('Unit | Component | user-account | email-verification-code', function()
       component.store = { createRecord: () => ({ verifyCode }) };
       component.currentUser = { user: { email: 'old-email@example.net' } };
       component.args.disableEmailEditionMode = sinon.stub();
-      component.args.showSuccessMessageTemporarily = sinon.stub();
+      component.args.displayEmailUpdateMessage = sinon.stub();
       sinon.spy(component.store, 'createRecord');
 
       // when
