@@ -1,7 +1,6 @@
 import ApplicationAdapter from './application';
 
 export default class CertificationCenterMembershipAdapter extends ApplicationAdapter {
-
   urlForQuery(query) {
     if (query.filter.certificationCenterId) {
       const { certificationCenterId } = query.filter;

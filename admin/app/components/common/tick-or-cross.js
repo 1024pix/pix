@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 
 export default class TickOrCross extends Component {
-
   get icon() {
     return this.args.isTrue ? 'check' : 'times';
   }

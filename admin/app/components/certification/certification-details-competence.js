@@ -2,7 +2,6 @@ import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/string';
 
 export default class CertificationDetailsCompetence extends Component {
-
   juryRate = false;
 
   constructor() {
@@ -71,8 +70,7 @@ export default class CertificationDetailsCompetence extends Component {
           data.count++;
         }
         return data;
-      }
-      , answersData);
+      }, answersData);
     }
     switch (answersData.count) {
       case 0:

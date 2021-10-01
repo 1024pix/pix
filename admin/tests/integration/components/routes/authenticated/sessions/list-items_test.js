@@ -3,11 +3,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | routes/authenticated/sessions | list-items', function(hooks) {
-
+module('Integration | Component | routes/authenticated/sessions | list-items', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display sessions list', async function(assert) {
+  test('it should display sessions list', async function (assert) {
     // given
     const date = new Date();
     const finalizedAt = new Date('2020-08-14T00:00:00Z');
@@ -15,17 +14,47 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     const resultsSentToPrescriberAt = new Date('2020-08-15T00:00:00Z');
     const displayStatus = 'SomeStatus';
     const sessions = [
-      { id: 1, certificationCenterName: 'Centre A', certificationCenterExternalId: 'EXTIDA', certificationCenterType: 'SUP', date, time: '14:00:00',
-        displayStatus, finalizedAt: '', publishedAt: '', resultsSentToPrescriberAt: '',
+      {
+        id: 1,
+        certificationCenterName: 'Centre A',
+        certificationCenterExternalId: 'EXTIDA',
+        certificationCenterType: 'SUP',
+        date,
+        time: '14:00:00',
+        displayStatus,
+        finalizedAt: '',
+        publishedAt: '',
+        resultsSentToPrescriberAt: '',
       },
-      { id: 2, certificationCenterName: 'Centre B', certificationCenterExternalId: 'EXTIDB', certificationCenterType: null, date, time: '14:00:00',
-        displayStatus, finalizedAt, publishedAt, resultsSentToPrescriberAt,
+      {
+        id: 2,
+        certificationCenterName: 'Centre B',
+        certificationCenterExternalId: 'EXTIDB',
+        certificationCenterType: null,
+        date,
+        time: '14:00:00',
+        displayStatus,
+        finalizedAt,
+        publishedAt,
+        resultsSentToPrescriberAt,
       },
     ];
     const displayedDate = date.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
-    const displayedFinalizedAt = finalizedAt.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
-    const displayedPublishedAt = publishedAt.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
-    const displayedResultsSentToPrescriberAt = resultsSentToPrescriberAt.toLocaleString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' });
+    const displayedFinalizedAt = finalizedAt.toLocaleString('fr-FR', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    });
+    const displayedPublishedAt = publishedAt.toLocaleString('fr-FR', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    });
+    const displayedResultsSentToPrescriberAt = resultsSentToPrescriberAt.toLocaleString('fr-FR', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    });
 
     sessions.meta = { rowCount: 2 };
     this.set('sessions', sessions);
@@ -38,11 +67,23 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     for (let i = 0; i < sessions.length; ++i) {
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:first-child`).hasText(sessions[i].id.toString());
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(2)`).hasText(sessions[i].certificationCenterName);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(5)`).hasText(displayedDate + ' à ' + sessions[i].time);
+      assert
+        .dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(5)`)
+        .hasText(displayedDate + ' à ' + sessions[i].time);
       assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(6)`).hasText(sessions[i].displayStatus);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(7)`).hasText(sessions[i].finalizedAt ? displayedFinalizedAt : sessions[i].finalizedAt);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`).hasText(sessions[i].publishedAt ? displayedPublishedAt : sessions[i].publishedAt);
-      assert.dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(9)`).hasText(sessions[i].resultsSentToPrescriberAt ? displayedResultsSentToPrescriberAt : sessions[i].resultsSentToPrescriberAt);
+      assert
+        .dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(7)`)
+        .hasText(sessions[i].finalizedAt ? displayedFinalizedAt : sessions[i].finalizedAt);
+      assert
+        .dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(8)`)
+        .hasText(sessions[i].publishedAt ? displayedPublishedAt : sessions[i].publishedAt);
+      assert
+        .dom(`table tbody tr:nth-child(${i + 1}) td:nth-child(9)`)
+        .hasText(
+          sessions[i].resultsSentToPrescriberAt
+            ? displayedResultsSentToPrescriberAt
+            : sessions[i].resultsSentToPrescriberAt
+        );
     }
     // Colonne : Centre de certification
     assert.dom('table tbody tr:nth-child(1) td:nth-child(3)').hasText(sessions[0].certificationCenterExternalId);
@@ -50,9 +91,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     assert.dom('table tbody tr:nth-child(2) td:nth-child(4)').hasText('-');
   });
 
-  module('Input field for id filtering', function() {
-
-    test('it should render a input field to filter on id', async function(assert) {
+  module('Input field for id filtering', function () {
+    test('it should render a input field to filter on id', async function (assert) {
       // when
       await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
 
@@ -61,9 +101,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Input field for certificationCenterName filtering', function() {
-
-    test('it should render a input field to filter on certificationCenterName', async function(assert) {
+  module('Input field for certificationCenterName filtering', function () {
+    test('it should render a input field to filter on certificationCenterName', async function (assert) {
       // when
       await render(hbs`{{sessions/list-items triggerFiltering=triggerFiltering}}`);
       await render(hbs`<Sessions::ListItems @triggerFiltering={{this.triggerFiltering}} />`);
@@ -73,9 +112,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for certification center type filtering', function() {
-
-    test('it should render a dropdown menu to filter sessions on their certification center type', async function(assert) {
+  module('Dropdown menu for certification center type filtering', function () {
+    test('it should render a dropdown menu to filter sessions on their certification center type', async function (assert) {
       // given
       const expectedOptions = [
         { value: 'all', label: 'Tous' },
@@ -97,11 +135,13 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       });
     });
 
-    test('it should filter sessions on certification center type when it has changed', async function(assert) {
+    test('it should filter sessions on certification center type when it has changed', async function (assert) {
       // given
       this.set('certificationCenterType', 'SCO');
-      this.set('updateCertificationCenterTypeFilter', (newValue) => (this.set('certificationCenterType', newValue)));
-      await render(hbs`<Sessions::ListItems @certificationCenterType={{this.certificationCenterType}} @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}/>`);
+      this.set('updateCertificationCenterTypeFilter', (newValue) => this.set('certificationCenterType', newValue));
+      await render(
+        hbs`<Sessions::ListItems @certificationCenterType={{this.certificationCenterType}} @onChangeCertificationCenterType={{this.updateCertificationCenterTypeFilter}}/>`
+      );
 
       // when
       await fillIn('#certificationCenterType', 'PRO');
@@ -111,9 +151,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for status filtering', function() {
-
-    test('it should render a dropdown menu to filter sessions on their status', async function(assert) {
+  module('Dropdown menu for status filtering', function () {
+    test('it should render a dropdown menu to filter sessions on their status', async function (assert) {
       // given
       const expectedOptions = [
         { value: 'all', label: 'Tous' },
@@ -136,11 +175,13 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       });
     });
 
-    test('it should filter sessions on (session) "status" when it has changed', async function(assert) {
+    test('it should filter sessions on (session) "status" when it has changed', async function (assert) {
       // given
       this.set('status', 'finalized');
-      this.set('updateSessionStatusFilter', (newValue) => (this.set('status', newValue)));
-      await render(hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}}/>`);
+      this.set('updateSessionStatusFilter', (newValue) => this.set('status', newValue));
+      await render(
+        hbs`<Sessions::ListItems @status={{this.status}} @onChangeSessionStatus={{this.updateSessionStatusFilter}}/>`
+      );
 
       // when
       await fillIn('#status', 'created');
@@ -150,9 +191,8 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
     });
   });
 
-  module('Dropdown menu for resultsSentToPrescriberAt filtering', function() {
-
-    test('it should render a dropdown menu to filter sessions on their results sending', async function(assert) {
+  module('Dropdown menu for resultsSentToPrescriberAt filtering', function () {
+    test('it should render a dropdown menu to filter sessions on their results sending', async function (assert) {
       // given
       const expectedOptions = [
         { value: 'all', label: 'Tous' },
@@ -173,11 +213,15 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       });
     });
 
-    test('it should filter sessions on results sending status when it has changed', async function(assert) {
+    test('it should filter sessions on results sending status when it has changed', async function (assert) {
       // given
       this.set('resultsSentToPrescriberAt', 'true');
-      this.set('updateSessionResultsSentToPrescriberFilter', (newValue) => (this.set('resultsSentToPrescriberAt', newValue)));
-      await render(hbs`<Sessions::ListItems @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}} @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}/>`);
+      this.set('updateSessionResultsSentToPrescriberFilter', (newValue) =>
+        this.set('resultsSentToPrescriberAt', newValue)
+      );
+      await render(
+        hbs`<Sessions::ListItems @resultsSentToPrescriberAt={{this.resultsSentToPrescriberAt}} @onChangeSessionResultsSent={{this.updateSessionResultsSentToPrescriberFilter}}/>`
+      );
 
       // when
       await fillIn('#resultsSentToPrescriberAt', 'false');
@@ -186,5 +230,4 @@ module('Integration | Component | routes/authenticated/sessions | list-items', f
       assert.equal(this.resultsSentToPrescriberAt, 'false');
     });
   });
-
 });

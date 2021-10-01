@@ -5,13 +5,12 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | authenticated/sessions/list/with required action', function(hooks) {
+module('Acceptance | authenticated/sessions/list/with required action', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When user is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // when
       await visit('/sessions/list/with-required-action');
 
@@ -20,15 +19,14 @@ module('Acceptance | authenticated/sessions/list/with required action', function
     });
   });
 
-  module('When user is logged in', function(hooks) {
-
+  module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
       // given
       const { id: userId } = server.create('user', { firstName: 'John', lastName: 'Doe', fullName: 'John Doe' });
       await createAuthenticateSession({ userId });
     });
 
-    test('visiting /sessions/list/with-required-action', async function(assert) {
+    test('visiting /sessions/list/with-required-action', async function (assert) {
       // when
       await visit('/sessions/list/with-required-action');
 
@@ -36,7 +34,7 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       assert.equal(currentURL(), '/sessions/list/with-required-action');
     });
 
-    test('it should display sessions with required action informations', async function(assert) {
+    test('it should display sessions with required action informations', async function (assert) {
       assert.expect(8);
       // given
       const sessionDate = '2021-01-01';
@@ -67,9 +65,8 @@ module('Acceptance | authenticated/sessions/list/with required action', function
       _assertSession2InformationsAreDisplayed(assert);
     });
 
-    module('When clicking on the display only my sessions button', function() {
-
-      test('it should filter the sessions', async function(assert) {
+    module('When clicking on the display only my sessions button', function () {
+      test('it should filter the sessions', async function (assert) {
         // given
         const sessionDate = '2021-01-01';
         const sessionTime = '17:00:00';

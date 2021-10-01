@@ -3,19 +3,17 @@ import { setupTest } from 'ember-qunit';
 
 import ENV from 'pix-admin/config/environment';
 
-module('Unit | Adapter | schooling-registration', function(hooks) {
-
+module('Unit | Adapter | schooling-registration', function (hooks) {
   setupTest(hooks);
 
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:schooling-registration');
   });
 
-  module('#urlForDeleteRecord', function() {
-
-    test('it performs the request to dissociate user from student', async function(assert) {
+  module('#urlForDeleteRecord', function () {
+    test('it performs the request to dissociate user from student', async function (assert) {
       // given
       const schoolingRegistration = { id: 12345 };
       const expectedUrl = `${ENV.APP.API_HOST}/api/schooling-registration-user-associations/${schoolingRegistration.id}`;
@@ -27,5 +25,4 @@ module('Unit | Adapter | schooling-registration', function(hooks) {
       assert.equal(url, expectedUrl);
     });
   });
-
 });

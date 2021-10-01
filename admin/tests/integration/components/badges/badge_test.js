@@ -4,13 +4,13 @@ import { render, find } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | Badges::Badge', function(hooks) {
+module('Integration | Component | Badges::Badge', function (hooks) {
   let badge;
   let skill;
 
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     const tube = EmberObject.create({
       id: 1,
       practicalTitle: 'Mon tube',
@@ -33,11 +33,10 @@ module('Integration | Component | Badges::Badge', function(hooks) {
       isCertifiable: true,
       badgeCriteria: [
         EmberObject.create({
-          id: 1, scope: 'CampaignParticipation', threshold: 85, partnerCompetences: [
-            EmberObject.create({ id: 1, name: 'Competence', color: 'red', skills: [
-              skill,
-            ] }),
-          ],
+          id: 1,
+          scope: 'CampaignParticipation',
+          threshold: 85,
+          partnerCompetences: [EmberObject.create({ id: 1, name: 'Competence', color: 'red', skills: [skill] })],
         }),
       ],
     });
@@ -45,7 +44,7 @@ module('Integration | Component | Badges::Badge', function(hooks) {
     this.set('badge', badge);
   });
 
-  test('should render all details about the badge', async function(assert) {
+  test('should render all details about the badge', async function (assert) {
     //when
     await render(hbs`<Badges::Badge @badge={{this.badge}} />`);
 

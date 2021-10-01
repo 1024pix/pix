@@ -4,39 +4,40 @@ import { fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 
-module('Integration | Component | <Certification::CertificationStatusSelect/>', function(hooks) {
-
+module('Integration | Component | <Certification::CertificationStatusSelect/>', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('when in edition mode', function() {
-
-    module('rendering', function() {
-
-      test('it displays a label', async function(assert) {
+  module('when in edition mode', function () {
+    module('rendering', function () {
+      test('it displays a label', async function (assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
 
         // when
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
+        await render(
+          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
+        );
 
         // then
         assert.contains('Statut :');
       });
 
-      test('it displays a select list', async function(assert) {
+      test('it displays a select list', async function (assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
 
         // when
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
+        await render(
+          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
+        );
 
         // then
         assert.dom('#certification-status-selector').exists();
       });
 
-      test('it has values', async function(assert) {
+      test('it has values', async function (assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
@@ -48,7 +49,9 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
         ];
 
         // when
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
+        await render(
+          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
+        );
 
         // then
         const elementOptions = this.element.querySelectorAll('#certification-status-selector > option');
@@ -61,13 +64,14 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
       });
     });
 
-    module('behaviour', function() {
-
-      test('it updates the certification status when the selected value changes', async function(assert) {
+    module('behaviour', function () {
+      test('it updates the certification status when the selected value changes', async function (assert) {
         // given
         const certification = EmberObject.create({ status: 'started' });
         this.set('certification', certification);
-        await render(hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`);
+        await render(
+          hbs`<Certification::CertificationStatusSelect @edition={{true}} @certification={{this.certification}} />`
+        );
 
         // when
         await fillIn('#certification-status-selector', 'validated');
@@ -78,9 +82,8 @@ module('Integration | Component | <Certification::CertificationStatusSelect/>', 
     });
   });
 
-  module('when not in edition mode', function() {
-
-    test('it does not render the select', async function(assert) {
+  module('when not in edition mode', function () {
+    test('it does not render the select', async function (assert) {
       // given
       const certification = EmberObject.create({ status: 'started' });
       this.set('certification', certification);

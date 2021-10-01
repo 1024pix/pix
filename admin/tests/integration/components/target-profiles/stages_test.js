@@ -4,10 +4,10 @@ import { find, render } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | TargetProfiles::Stages', function(hooks) {
+module('Integration | Component | TargetProfiles::Stages', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display the items', async function(assert) {
+  test('it should display the items', async function (assert) {
     // given
     const stage = EmberObject.create({
       id: 1,
@@ -44,7 +44,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.notContains('Aucun résultat thématique associé');
   });
 
-  test('it should display a message when empty', async function(assert) {
+  test('it should display a message when empty', async function (assert) {
     // given
     this.set('stages', []);
 
@@ -56,7 +56,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.contains('Aucun palier associé');
   });
 
-  test('it should display a message when there is no stages with threshold 0', async function(assert) {
+  test('it should display a message when there is no stages with threshold 0', async function (assert) {
     // given
     this.set('stages', []);
 
@@ -68,7 +68,7 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     assert.contains('Aucun palier associé');
   });
 
-  test('it should display a warning when there is no threshold at 0', async function(assert) {
+  test('it should display a warning when there is no threshold at 0', async function (assert) {
     // given
     const stage = EmberObject.create({
       id: 1,
@@ -82,6 +82,6 @@ module('Integration | Component | TargetProfiles::Stages', function(hooks) {
     await render(hbs`<TargetProfiles::Stages @stages={{this.stages}} />`);
 
     // then
-    assert.contains('Attention ! Il n\'y a pas de palier à 0');
+    assert.contains("Attention ! Il n'y a pas de palier à 0");
   });
 });

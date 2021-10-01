@@ -3,22 +3,24 @@ import sinon from 'sinon';
 import { setupTest } from 'ember-qunit';
 import createGlimmerComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit | Component | Campaigns | update', function(hooks) {
+module('Unit | Component | Campaigns | update', function (hooks) {
   setupTest(hooks);
 
-  module('#update', function() {
-    test('it should update controller campaign fields', async function(assert) {
+  module('#update', function () {
+    test('it should update controller campaign fields', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:campaigns/update', { campaign: {
-        name: '',
-        title: '',
-        customeLandingPageText: '',
-        customeResultPageText: '',
-        customeResultPageButtonText: '',
-        customeResultPageButtonUrl: '',
-        save: sinon.stub(),
-        rollbackAttributes: sinon.stub(),
-      } });
+      const component = createGlimmerComponent('component:campaigns/update', {
+        campaign: {
+          name: '',
+          title: '',
+          customeLandingPageText: '',
+          customeResultPageText: '',
+          customeResultPageButtonText: '',
+          customeResultPageButtonUrl: '',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
 
       const event = {
         preventDefault: sinon.stub(),
@@ -46,14 +48,16 @@ module('Unit | Component | Campaigns | update', function(hooks) {
       assert.equal(component.form.customResultPageButtonUrl, 'google.com');
     });
 
-    test('it should update campaign title even if it is empty', async function(assert) {
+    test('it should update campaign title even if it is empty', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:campaigns/update', { campaign: {
-        name: 'some name',
-        title: '',
-        save: sinon.stub(),
-        rollbackAttributes: sinon.stub(),
-      } });
+      const component = createGlimmerComponent('component:campaigns/update', {
+        campaign: {
+          name: 'some name',
+          title: '',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
 
       const event = {
         preventDefault: sinon.stub(),
@@ -68,13 +72,15 @@ module('Unit | Component | Campaigns | update', function(hooks) {
       assert.equal(component.args.campaign.title, null);
     });
 
-    test('it should display a success notification when campaign has been saved', async function(assert) {
+    test('it should display a success notification when campaign has been saved', async function (assert) {
       // given
-      const component = createGlimmerComponent('component:campaigns/update', { campaign: {
-        name: 'some name',
-        save: sinon.stub(),
-        rollbackAttributes: sinon.stub(),
-      } });
+      const component = createGlimmerComponent('component:campaigns/update', {
+        campaign: {
+          name: 'some name',
+          save: sinon.stub(),
+          rollbackAttributes: sinon.stub(),
+        },
+      });
 
       const event = {
         preventDefault: sinon.stub(),

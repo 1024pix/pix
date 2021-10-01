@@ -5,7 +5,6 @@ import { statusToDisplayName } from 'pix-admin/models/session';
 import map from 'lodash/map';
 
 export default class ListItems extends Component {
-
   @tracked selectedCertificationCenterTypeOption = null;
   @tracked selectedSessionResultsSentToPrescriberOption = null;
   @tracked selectedSessionStatusOption = null;
@@ -20,12 +19,14 @@ export default class ListItems extends Component {
       { value: 'SUP', label: 'Sup' },
       { value: 'PRO', label: 'Pro' },
     ];
-    this.selectedCertificationCenterTypeOption = this.getCertificationCenterTypeOptionByValue(this.args.certificationCenterType);
+    this.selectedCertificationCenterTypeOption = this.getCertificationCenterTypeOptionByValue(
+      this.args.certificationCenterType
+    );
 
     // session status
     this.sessionStatusOptions = [
       { value: 'all', label: 'Tous' },
-      ...(map(statusToDisplayName, (label, status) => ({ value: status, label }))),
+      ...map(statusToDisplayName, (label, status) => ({ value: status, label })),
     ];
     this.selectedSessionStatusOption = this.getSessionStatusOptionByValue(this.args.sessionStatus);
 
@@ -35,7 +36,9 @@ export default class ListItems extends Component {
       { value: 'true', label: 'Résultats diffusés' },
       { value: 'false', label: 'Résultats non diffusés' },
     ];
-    this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(this.args.resultsSentToPrescriberAt);
+    this.selectedSessionResultsSentToPrescriberOption = this.getSessionResultsSentToPrescriberOptionByValue(
+      this.args.resultsSentToPrescriberAt
+    );
   }
 
   @action

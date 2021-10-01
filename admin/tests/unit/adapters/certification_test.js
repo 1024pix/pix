@@ -2,14 +2,14 @@ import sinon from 'sinon';
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapter | certification', function(hooks) {
+module('Unit | Adapter | certification', function (hooks) {
   setupTest(hooks);
 
   let adapter;
   let store;
   let serializer;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:certification');
     store = this.owner.lookup('service:store');
     sinon.stub(adapter, 'ajax');
@@ -17,12 +17,12 @@ module('Unit | Adapter | certification', function(hooks) {
     serializer = { serializeIntoHash: sinon.stub() };
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     adapter.ajax.restore();
   });
 
-  module('#urlForFindRecord', function() {
-    test('should build get url from certification id', function(assert) {
+  module('#urlForFindRecord', function () {
+    test('should build get url from certification id', function (assert) {
       // when
       const url = adapter.urlForFindRecord(123, 'certification');
 
@@ -31,8 +31,8 @@ module('Unit | Adapter | certification', function(hooks) {
     });
   });
 
-  module('#urlForUpdateMarks', function() {
-    test('should build update marks url from certification id', function(assert) {
+  module('#urlForUpdateMarks', function () {
+    test('should build update marks url from certification id', function (assert) {
       // when
       const url = adapter.urlForUpdateMarks();
 
@@ -41,8 +41,8 @@ module('Unit | Adapter | certification', function(hooks) {
     });
   });
 
-  module('#urlForUpdateRecord', function() {
-    test('should build update url from certification details id', function(assert) {
+  module('#urlForUpdateRecord', function () {
+    test('should build update url from certification details id', function (assert) {
       // when
       const url = adapter.urlForUpdateRecord(123, 'certification');
 
@@ -51,11 +51,9 @@ module('Unit | Adapter | certification', function(hooks) {
     });
   });
 
-  module('#updateRecord', function() {
-
-    module('when updateMarks adapter option passed', function() {
-
-      test('it should trigger an ajax call with the updateMarks url, data and method', async function(assert) {
+  module('#updateRecord', function () {
+    module('when updateMarks adapter option passed', function () {
+      test('it should trigger an ajax call with the updateMarks url, data and method', async function (assert) {
         // given
         adapter.ajax.resolves();
         store.serializerFor.returns(serializer);
@@ -65,7 +63,11 @@ module('Unit | Adapter | certification', function(hooks) {
         });
 
         // when
-        await adapter.updateRecord(store, { modelName: 'someModelName' }, { id: 123, adapterOptions: { updateMarks: true } });
+        await adapter.updateRecord(
+          store,
+          { modelName: 'someModelName' },
+          { id: 123, adapterOptions: { updateMarks: true } }
+        );
 
         // then
         const expectedData = {
@@ -79,15 +81,18 @@ module('Unit | Adapter | certification', function(hooks) {
             },
           },
         };
-        sinon.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/admin/assessment-results/', 'POST', expectedData);
+        sinon.assert.calledWith(
+          adapter.ajax,
+          'http://localhost:3000/api/admin/assessment-results/',
+          'POST',
+          expectedData
+        );
         assert.ok(adapter); /* required because QUnit wants at least one expect (and does not accept Sinon's one) */
       });
-
     });
 
-    module('when no adapter options is passed', function() {
-
-      test('it should trigger an ajax call with the appropriate url, data and method', async function(assert) {
+    module('when no adapter options is passed', function () {
+      test('it should trigger an ajax call with the appropriate url, data and method', async function (assert) {
         // given
         adapter.ajax.resolves();
         store.serializerFor.returns(serializer);
@@ -106,9 +111,8 @@ module('Unit | Adapter | certification', function(hooks) {
     });
   });
 
-  module('#buildURL', function() {
-
-    test('it should build specific URL when requestType is "cancel"', function(assert) {
+  module('#buildURL', function () {
+    test('it should build specific URL when requestType is "cancel"', function (assert) {
       // when
       const url = adapter.buildURL('not_used', 123, 'not_used', 'cancel', 'not_used');
 
@@ -116,7 +120,7 @@ module('Unit | Adapter | certification', function(hooks) {
       assert.equal(url, 'http://localhost:3000/api/admin/certification-courses/123/cancel');
     });
 
-    test('it should build specific URL when requestType is "uncancel"', function(assert) {
+    test('it should build specific URL when requestType is "uncancel"', function (assert) {
       // when
       const url = adapter.buildURL('not_used', 123, 'not_used', 'uncancel', 'not_used');
 

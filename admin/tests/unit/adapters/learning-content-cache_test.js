@@ -2,22 +2,21 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Adapter | learning content cache', function(hooks) {
-
+module('Unit | Adapter | learning content cache', function (hooks) {
   setupTest(hooks);
 
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:learning-content-cache');
     sinon.stub(adapter, 'ajax');
   });
 
-  hooks.afterEach(function() {
+  hooks.afterEach(function () {
     adapter.ajax.restore();
   });
 
-  test('it should make AJAX call "PATCH /api/cache" in order to refresh learning content cache', async function(assert) {
+  test('it should make AJAX call "PATCH /api/cache" in order to refresh learning content cache', async function (assert) {
     // given
     adapter.ajax.resolves();
 

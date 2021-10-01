@@ -15,7 +15,7 @@ class Router extends EmberRouter {
   }
 }
 
-Router.map(function() {
+Router.map(function () {
   // authentication
   this.route('login');
   this.route('logout');
@@ -24,12 +24,12 @@ Router.map(function() {
   this.route('about');
 
   // private routes
-  this.route('authenticated', { path: '' }, function() {
+  this.route('authenticated', { path: '' }, function () {
     // all routes that require the session to be authenticated
-    this.route('organizations', function() {
+    this.route('organizations', function () {
       this.route('new');
       this.route('list');
-      this.route('get', { path: '/:organization_id' }, function() {
+      this.route('get', { path: '/:organization_id' }, function () {
         this.route('members');
         this.route('target-profiles');
         this.route('campaigns');
@@ -37,35 +37,35 @@ Router.map(function() {
       });
     });
 
-    this.route('campaigns', function() {
+    this.route('campaigns', function () {
       this.route('campaign', { path: '/:campaign_id' });
     });
 
-    this.route('users', function() {
+    this.route('users', function () {
       this.route('list');
       this.route('get', { path: '/:user_id' });
     });
 
-    this.route('certification-centers', function() {
+    this.route('certification-centers', function () {
       this.route('get', { path: '/:certification_center_id' });
       this.route('list');
       this.route('new');
     });
 
-    this.route('sessions', function() {
-      this.route('list', function() {
+    this.route('sessions', function () {
+      this.route('list', function () {
         this.route('all', { path: '/' });
         this.route('to-be-published');
         this.route('with-required-action');
       });
-      this.route('session', { path: '/:session_id' }, function() {
+      this.route('session', { path: '/:session_id' }, function () {
         this.route('informations', { path: '/' });
         this.route('certifications');
       });
     });
 
-    this.route('certifications', function() {
-      this.route('certification', { path: '/:certification_id' }, function() {
+    this.route('certifications', function () {
+      this.route('certification', { path: '/:certification_id' }, function () {
         this.route('informations', { path: '/' });
         this.route('neutralization');
         this.route('details');
@@ -73,21 +73,21 @@ Router.map(function() {
       });
     });
 
-    this.route('target-profiles', function() {
+    this.route('target-profiles', function () {
       this.route('list');
       this.route('new');
-      this.route('target-profile', { path: '/:target_profile_id' }, function() {
+      this.route('target-profile', { path: '/:target_profile_id' }, function () {
         this.route('details', { path: '/' });
         this.route('organizations');
         this.route('insight');
       });
     });
 
-    this.route('stages', function() {
+    this.route('stages', function () {
       this.route('stage', { path: '/:stage_id' });
     });
 
-    this.route('badges', function() {
+    this.route('badges', function () {
       this.route('badge', { path: '/:badge_id' });
     });
 

@@ -3,33 +3,29 @@ import { setupTest } from 'ember-qunit';
 
 import createComponent from '../../../helpers/create-glimmer-component';
 
-module('Unit |  Component | Target Profiles | stages', function(hooks) {
+module('Unit |  Component | Target Profiles | stages', function (hooks) {
   setupTest(hooks);
 
-  module('#displayNoThresholdZero', function() {
-    test('returns false if there a stage with a threshold value at 0', function(assert) {
+  module('#displayNoThresholdZero', function () {
+    test('returns false if there a stage with a threshold value at 0', function (assert) {
       const component = createComponent('component:target-profiles/stages');
       component.args = {
-        stages: [
-          { threshold: 0 },
-        ],
+        stages: [{ threshold: 0 }],
       };
 
       assert.notOk(component.displayNoThresholdZero);
     });
 
-    test('returns true if there is no stage with a threshold value at 0', function(assert) {
+    test('returns true if there is no stage with a threshold value at 0', function (assert) {
       const component = createComponent('component:target-profiles/stages');
       component.args = {
-        stages: [
-          { threshold: 45 },
-        ],
+        stages: [{ threshold: 45 }],
       };
 
       assert.ok(component.displayNoThresholdZero);
     });
 
-    test('returns false if there is no stage', function(assert) {
+    test('returns false if there is no stage', function (assert) {
       const component = createComponent('component:target-profiles/stages');
       component.args = {
         stages: [],

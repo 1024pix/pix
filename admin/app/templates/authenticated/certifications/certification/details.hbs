@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col">
       <div class="card border-primary sticky-top certification-details__info">
-        <div class='card-body'>
+        <div class="card-body">
           <div class="row">
             <div class="col">Statut :</div>
             <div class="col">{{this.details.status}}</div>
@@ -40,20 +40,17 @@
       </div>
       {{#each this.details.competences as |competence|}}
         <Certification::CertificationDetailsCompetence
-            @competence={{competence}}
-            @rate={{this.rate}}
-            @juryRate={{this.juryRate}}
-            @onUpdateRate={{this.onUpdateRate}} />
+          @competence={{competence}}
+          @rate={{this.rate}}
+          @juryRate={{this.juryRate}}
+          @onUpdateRate={{this.onUpdateRate}}
+        />
       {{/each}}
     </div>
   </div>
   <div class="row">
     <div class="col certification-details__actions">
-      <PixButton
-        @type="submit"
-        @size="small"
-        @triggerAction={{this.onStoreMarks}}
-      >Enregistrer</PixButton>
+      <PixButton @type="submit" @size="small" @triggerAction={{this.onStoreMarks}}>Enregistrer</PixButton>
     </div>
   </div>
 </div>

@@ -12,21 +12,19 @@ module.exports = {
       legacyDecorators: true,
     },
   },
-  plugins: [
-    'ember',
-    'qunit',
-  ],
+  plugins: ['ember', 'qunit'],
   extends: [
     ...(fs.existsSync('../.eslintrc.yaml') ? ['../.eslintrc.yaml'] : []),
     'plugin:ember/recommended',
     'plugin:qunit/recommended',
+    'plugin:prettier/recommended',
   ],
   env: {
     browser: true,
   },
   rules: {
     'ember/no-mixins': 'off',
-    'no-restricted-imports': ['error', { 'paths': ['lodash'] }],
+    'no-restricted-imports': ['error', { paths: ['lodash'] }],
   },
   overrides: [
     // node files

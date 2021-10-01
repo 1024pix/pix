@@ -4,13 +4,12 @@ import createGlimmerComponent from '../../helpers/create-glimmer-component';
 import ENV from 'pix-admin/config/environment';
 import sinon from 'sinon';
 
-module('Unit | Component | user-detail-personal-information', function(hooks) {
-
+module('Unit | Component | user-detail-personal-information', function (hooks) {
   setupTest(hooks);
 
   let component;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     component = createGlimmerComponent('component:user-detail-personal-information');
     component.notifications = {
       success: sinon.stub(),
@@ -18,7 +17,7 @@ module('Unit | Component | user-detail-personal-information', function(hooks) {
     };
   });
 
-  test('it should generate dashboard URL based on environment and object', async function(assert) {
+  test('it should generate dashboard URL based on environment and object', async function (assert) {
     // given
     const args = {
       user: {
@@ -38,18 +37,17 @@ module('Unit | Component | user-detail-personal-information', function(hooks) {
     assert.equal(actualUrl, expectedUrl);
   });
 
-  module('#dissociate', function(hooks) {
-
+  module('#dissociate', function (hooks) {
     let schoolingRegistration;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       schoolingRegistration = {
         id: 1,
         destroyRecord: sinon.stub(),
       };
     });
 
-    test('it should call destroy on model schooling-registration', async function(assert) {
+    test('it should call destroy on model schooling-registration', async function (assert) {
       // given
       component.toggleDisplayDissociateModal(schoolingRegistration);
 
@@ -61,7 +59,7 @@ module('Unit | Component | user-detail-personal-information', function(hooks) {
       assert.ok(component.notifications.success.called);
     });
 
-    test('it should notify an error if destroyRecord fail', async function(assert) {
+    test('it should notify an error if destroyRecord fail', async function (assert) {
       // given
       schoolingRegistration.destroyRecord.rejects();
 
@@ -72,5 +70,4 @@ module('Unit | Component | user-detail-personal-information', function(hooks) {
       assert.ok(component.notifications.error.called);
     });
   });
-
 });

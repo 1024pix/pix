@@ -13,7 +13,7 @@ export default class ToBePublishedSession extends Model {
   }
 
   get printableFinalizationDate() {
-    return (new Date(this.finalizedAt)).toLocaleDateString('fr-FR');
+    return new Date(this.finalizedAt).toLocaleDateString('fr-FR');
   }
 
   publish = memberAction({
@@ -23,5 +23,5 @@ export default class ToBePublishedSession extends Model {
     after() {
       this.unloadRecord();
     },
-  })
+  });
 }

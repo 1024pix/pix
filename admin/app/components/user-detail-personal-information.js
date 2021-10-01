@@ -52,18 +52,18 @@ const Validations = buildValidations({
       validator('presence', {
         presence: true,
         ignoreBlank: true,
-        message: 'L\'e-mail ne peut pas être vide.',
+        message: "L'e-mail ne peut pas être vide.",
         disabled: computed.none('model.email'),
       }),
       validator('length', {
         max: 255,
-        message: 'La longueur de l\'email ne doit pas excéder 255 caractères.',
+        message: "La longueur de l'email ne doit pas excéder 255 caractères.",
         disabled: computed.none('model.email'),
       }),
       validator('format', {
         ignoreBlank: true,
         type: 'email',
-        message: 'L\'e-mail n\'a pas le bon format.',
+        message: "L'e-mail n'a pas le bon format.",
         disabled: computed.none('model.email'),
       }),
     ],
@@ -73,7 +73,7 @@ const Validations = buildValidations({
       validator('presence', {
         presence: true,
         ignoreBlank: true,
-        message: 'L\'identifiant ne peut pas être vide.',
+        message: "L'identifiant ne peut pas être vide.",
         disabled: computed.none('model.username'),
       }),
       validator('length', {
@@ -94,7 +94,6 @@ class Form extends Object.extend(Validations) {
 }
 
 export default class UserDetailPersonalInformationComponent extends Component {
-
   @tracked isEditionMode = false;
   @tracked displayAnonymizeModal = false;
   @tracked displayDissociateModal = false;
@@ -117,7 +116,7 @@ export default class UserDetailPersonalInformationComponent extends Component {
 
   get externalURL() {
     const urlDashboardPrefix = ENV.APP.USER_DASHBOARD_URL;
-    return urlDashboardPrefix && (urlDashboardPrefix + this.args.user.id);
+    return urlDashboardPrefix && urlDashboardPrefix + this.args.user.id;
   }
 
   get translatedType() {
@@ -180,7 +179,8 @@ export default class UserDetailPersonalInformationComponent extends Component {
       this.isEditionMode = false;
     } catch (response) {
       this.args.user.rollbackAttributes();
-      const messageValidationError = response.errors[0].detail || 'une erreur est survenue, vos modifications n\'ont pas été enregistrées';
+      const messageValidationError =
+        response.errors[0].detail || "une erreur est survenue, vos modifications n'ont pas été enregistrées";
       this.notifications.error(messageValidationError);
     }
   }

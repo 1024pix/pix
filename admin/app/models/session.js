@@ -10,9 +10,8 @@ import { computed } from '@ember/object';
 import { memberAction } from 'ember-api-actions';
 
 function _getNumberOf(juryCertificationSummaries, booleanFct) {
-  return sumBy(
-    juryCertificationSummaries.toArray(),
-    (juryCertificationSummary) => Number(booleanFct(juryCertificationSummary)),
+  return sumBy(juryCertificationSummaries.toArray(), (juryCertificationSummary) =>
+    Number(booleanFct(juryCertificationSummary))
   );
 }
 
@@ -28,7 +27,6 @@ export const statusToDisplayName = {
 };
 
 export default class Session extends Model {
-
   @attr() certificationCenterType;
   @attr() certificationCenterName;
   @attr() certificationCenterId;
@@ -54,9 +52,7 @@ export default class Session extends Model {
 
   @computed('status')
   get isFinalized() {
-    return this.status === FINALIZED
-        || this.status === IN_PROCESS
-        || this.status === PROCESSED;
+    return this.status === FINALIZED || this.status === IN_PROCESS || this.status === PROCESSED;
   }
 
   @computed('examinerGlobalComment')
@@ -68,7 +64,7 @@ export default class Session extends Model {
   get isPublished() {
     return some(
       this.juryCertificationSummaries.toArray(),
-      (juryCertificationSummary) => juryCertificationSummary.isPublished,
+      (juryCertificationSummary) => juryCertificationSummary.isPublished
     );
   }
 
@@ -86,9 +82,10 @@ export default class Session extends Model {
   @computed('juryCertificationSummaries.[]')
   get countCertificationIssueReportsWithActionRequired() {
     const reducer = (totalOfCertificationIssueReports, juryCertificationSummary) => {
-      const numberOfCertificationIssueReportsWithRequiredAction = juryCertificationSummary.numberOfCertificationIssueReportsWithRequiredAction
-        ? juryCertificationSummary.numberOfCertificationIssueReportsWithRequiredAction
-        : 0;
+      const numberOfCertificationIssueReportsWithRequiredAction =
+        juryCertificationSummary.numberOfCertificationIssueReportsWithRequiredAction
+          ? juryCertificationSummary.numberOfCertificationIssueReportsWithRequiredAction
+          : 0;
       return totalOfCertificationIssueReports + numberOfCertificationIssueReportsWithRequiredAction;
     };
     return this.juryCertificationSummaries.reduce(reducer, 0);
@@ -96,14 +93,19 @@ export default class Session extends Model {
 
   @computed('juryCertificationSummaries.[]')
   get countNotCheckedEndScreen() {
-    return _getNumberOf(this.juryCertificationSummaries, (juryCertificationSummary) =>
-      !juryCertificationSummary.hasSeenEndTestScreen);
+    return _getNumberOf(
+      this.juryCertificationSummaries,
+      (juryCertificationSummary) => !juryCertificationSummary.hasSeenEndTestScreen
+    );
   }
 
   @computed('juryCertificationSummaries.@each.status')
   get countStartedAndInErrorCertifications() {
-    return _getNumberOf(this.juryCertificationSummaries,
-      (juryCertificationSummary) => juryCertificationSummary.isCertificationStarted || juryCertificationSummary.isCertificationInError);
+    return _getNumberOf(
+      this.juryCertificationSummaries,
+      (juryCertificationSummary) =>
+        juryCertificationSummary.isCertificationStarted || juryCertificationSummary.isCertificationInError
+    );
   }
 
   @computed('resultsSentToPrescriberAt', 'isFinalized')
@@ -123,7 +125,7 @@ export default class Session extends Model {
     after(response) {
       return response.sessionResultsLink;
     },
-  })
+  });
 
   comment = memberAction({
     path: 'comment',
@@ -132,11 +134,11 @@ export default class Session extends Model {
     after() {
       this.reload();
     },
-  })
+  });
 
   deleteComment = memberAction({
     path: 'comment',
     type: 'delete',
     urlType: 'updateRecord',
-  })
+  });
 }

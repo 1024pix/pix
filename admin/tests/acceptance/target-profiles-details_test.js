@@ -6,14 +6,12 @@ import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import { setupApplicationTest } from 'ember-qunit';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | Target Profile Details', function(hooks) {
-
+module('Acceptance | Target Profile Details', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  module('When user is not logged in', function() {
-
-    test('it should not be accessible by an unauthenticated user', async function(assert) {
+  module('When user is not logged in', function () {
+    test('it should not be accessible by an unauthenticated user', async function (assert) {
       // given
       server.create('target-profile', { id: 1 });
 
@@ -25,14 +23,13 @@ module('Acceptance | Target Profile Details', function(hooks) {
     });
   });
 
-  module('When user is logged in', function(hooks) {
-
+  module('When user is logged in', function (hooks) {
     hooks.beforeEach(async () => {
       const user = server.create('user');
       await createAuthenticateSession({ userId: user.id });
     });
 
-    test('it should be accessible for an authenticated user', async function(assert) {
+    test('it should be accessible for an authenticated user', async function (assert) {
       // given
       server.create('target-profile', { id: 1 });
 
@@ -43,9 +40,15 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.equal(currentURL(), '/target-profiles/1');
     });
 
-    test('it should display target profile details', async function(assert) {
+    test('it should display target profile details', async function (assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Fantastix',
+        isPublic: true,
+        outdated: false,
+        ownerOrganizationId: 456,
+      });
 
       // when
       await visit('/target-profiles/1');
@@ -58,7 +61,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.dom('section').containsText('Organisation de référence : 456');
     });
 
-    test('it should display target profile skills', async function(assert) {
+    test('it should display target profile skills', async function (assert) {
       // given
       const area = server.create('area', { id: 'area1', title: 'Area 1' });
       const competence = server.create('competence', { id: 'competence1', name: 'Competence 1', areaId: 'area1' });
@@ -83,7 +86,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.contains('Tube 1');
     });
 
-    test('it should redirect to organization details on click', async function(assert) {
+    test('it should redirect to organization details on click', async function (assert) {
       // given
       server.create('organization', { id: 456 });
       server.create('target-profile', { id: 1, ownerOrganizationId: 456 });
@@ -96,7 +99,7 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.equal(currentURL(), '/organizations/456/members');
     });
 
-    test('it should display target profile organizations', async function(assert) {
+    test('it should display target profile organizations', async function (assert) {
       // given
       server.create('organization', { id: 1, name: 'Fantastix', type: 'PRO', externalId: '123' });
       server.create('target-profile', { id: 1, name: 'Profil Cible' });
@@ -110,9 +113,15 @@ module('Acceptance | Target Profile Details', function(hooks) {
       assert.dom('[aria-label="Organisation"]').containsText('123');
     });
 
-    test('it should switch to edition mode', async function(assert) {
+    test('it should switch to edition mode', async function (assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Fantastix',
+        isPublic: true,
+        outdated: false,
+        ownerOrganizationId: 456,
+      });
 
       // when
       await visit('/target-profiles/1');
@@ -120,12 +129,17 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
       // then
       assert.dom('Editer').doesNotExist();
-
     });
 
-    test('it should outdate target profile', async function(assert) {
+    test('it should outdate target profile', async function (assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Fantastix',
+        isPublic: true,
+        outdated: false,
+        ownerOrganizationId: 456,
+      });
 
       // when
       await visit('/target-profiles/1');
@@ -135,12 +149,17 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
       // then
       assert.dom('section').containsText('Obsolète : Oui');
-
     });
 
-    test('it should not outdate target profile', async function(assert) {
+    test('it should not outdate target profile', async function (assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Fantastix',
+        isPublic: true,
+        outdated: false,
+        ownerOrganizationId: 456,
+      });
 
       // when
       await visit('/target-profiles/1');
@@ -150,13 +169,17 @@ module('Acceptance | Target Profile Details', function(hooks) {
 
       // then
       assert.dom('section').containsText('Obsolète : Non');
-
     });
 
-    test('it should edit target profile name', async function(assert) {
-
+    test('it should edit target profile name', async function (assert) {
       // given
-      server.create('target-profile', { id: 1, name: 'Profil Cible Fantastix', isPublic: true, outdated: false, ownerOrganizationId: 456 });
+      server.create('target-profile', {
+        id: 1,
+        name: 'Profil Cible Fantastix',
+        isPublic: true,
+        outdated: false,
+        ownerOrganizationId: 456,
+      });
 
       // when
       await visit('/target-profiles/1');

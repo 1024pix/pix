@@ -8,7 +8,8 @@
           @value={{this.organizationsToAttach}}
           class="form-field__text form-control"
           placeholder="1, 2"
-          @aria-describedby="attach-organizations-info"/>
+          aria-describedby="attach-organizations-info"
+        />
         <p id="attach-organizations-info" hidden>Ids des organisations, séparés par une virgule</p>
         <PixButton @type="submit" @size="small" aria-label="Valider le rattachement">
           Valider
@@ -16,15 +17,17 @@
       </div>
     </form>
 
-    <form class="organization__form" {{on 'submit' this.attachOrganizationsFromExistingTargetProfile}}>
-      <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible existant</label>
+    <form class="organization__form" {{on "submit" this.attachOrganizationsFromExistingTargetProfile}}>
+      <label for="attach-organizations-from-existing-target-profile">Rattacher les organisations d'un profil cible
+        existant</label>
       <div class="organization__sub-form">
         <Input
           id="attach-organizations-from-existing-target-profile"
           @value={{this.existingTargetProfile}}
           class="form-field__text form-control"
           placeholder="1135"
-          @aria-describedby="attach-organizations-from-existing-target-profile-info"/>
+          aria-describedby="attach-organizations-from-existing-target-profile-info"
+        />
         <p id="attach-organizations-from-existing-target-profile-info" hidden>Id du profil cible existant</p>
         <PixButton @type="submit" @size="small" aria-label="Valider le rattachement à partir de ce profil cible">
           Valider
@@ -38,7 +41,13 @@
     <h2 class="page-section__title">Organisations</h2>
   </header>
 
-  <Organizations::ListItems @organizations={{@organizations}} @id={{@id}} @name={{@name}} @type={{@type}}
-    @externalId={{@externalId}} @triggerFiltering={{@triggerFiltering}}
-    @goToOrganizationPage={{@goToOrganizationPage}} />
+  <Organizations::ListItems
+    @organizations={{@organizations}}
+    @id={{@id}}
+    @name={{@name}}
+    @type={{@type}}
+    @externalId={{@externalId}}
+    @triggerFiltering={{@triggerFiltering}}
+    @goToOrganizationPage={{@goToOrganizationPage}}
+  />
 </section>

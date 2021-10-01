@@ -36,10 +36,8 @@ export default class UpdateTargetProfileName extends Component {
   }
 
   async _checkFormValidation() {
-
     const { validations } = await this.form.validate();
     return validations.isValid;
-
   }
 
   async _updateTargetProfile() {
@@ -62,5 +60,4 @@ export default class UpdateTargetProfileName extends Component {
       await this._updateTargetProfile();
     }
   }
-
 }

@@ -2,10 +2,10 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
 
-module('Unit | Controller | authenticated/certifications', function(hooks) {
+module('Unit | Controller | authenticated/certifications', function (hooks) {
   setupTest(hooks);
 
-  test('#loadCertification', function(assert) {
+  test('#loadCertification', function (assert) {
     // given
     const controller = this.owner.lookup('controller:authenticated.certifications');
     const routerStub = { transitionTo: sinon.stub().resolves() };

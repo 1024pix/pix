@@ -6,14 +6,13 @@ import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../../utils/email-validator';
 
 export default class AuthenticatedCertificationCentersGetController extends Controller {
-
-  EMAIL_INVALID_ERROR_MESSAGE = 'L\'adresse e-mail saisie n\'est pas valide.';
+  EMAIL_INVALID_ERROR_MESSAGE = "L'adresse e-mail saisie n'est pas valide.";
   EMAIL_REQUIRED_ERROR_MESSAGE = 'Ce champ est requis.';
 
   ERROR_MESSAGES = {
     DEFAULT: 'Une erreur est survenue.',
     STATUS_400: this.EMAIL_INVALID_ERROR_MESSAGE,
-    STATUS_404: 'Cet utilisateur n\'existe pas.',
+    STATUS_404: "Cet utilisateur n'existe pas.",
     STATUS_412: 'Ce membre est déjà rattaché.',
   };
 
@@ -23,7 +22,7 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   @tracked errorMessage;
 
   get isDisabled() {
-    return (!this.userEmailToAdd || !!this.errorMessage);
+    return !this.userEmailToAdd || !!this.errorMessage;
   }
 
   @action
@@ -50,20 +49,19 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   }
 
   _getEmailErrorMessage(email) {
-    return (email && !isEmailValid(email)) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
+    return email && !isEmailValid(email) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
   }
 
   async _createCertificationCenterMembership() {
     const { certificationCenter } = this.model;
 
-    await this.store.createRecord('certification-center-membership')
-      .save({
-        adapterOptions: {
-          createByEmail: true,
-          certificationCenterId: certificationCenter.id,
-          email: this.userEmailToAdd.trim(),
-        },
-      });
+    await this.store.createRecord('certification-center-membership').save({
+      adapterOptions: {
+        createByEmail: true,
+        certificationCenterId: certificationCenter.id,
+        email: this.userEmailToAdd.trim(),
+      },
+    });
 
     this.userEmailToAdd = null;
     this.send('refreshModel');
@@ -92,5 +90,4 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     const uniqueErrorMessages = new Set(errorMessages);
     uniqueErrorMessages.forEach((errorMessage) => this.notifications.error(errorMessage));
   }
-
 }

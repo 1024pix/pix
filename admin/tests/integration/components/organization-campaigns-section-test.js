@@ -3,11 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | organization-campaigns-section', function(hooks) {
+module('Integration | Component | organization-campaigns-section', function (hooks) {
   setupRenderingTest(hooks);
 
-  module('when there is no campaigns', function() {
-    test('it should display aucune campagne', async function(assert) {
+  module('when there is no campaigns', function () {
+    test('it should display aucune campagne', async function (assert) {
       this.set('campaigns', []);
 
       // when
@@ -17,8 +17,8 @@ module('Integration | Component | organization-campaigns-section', function(hook
     });
   });
 
-  module('when there are campaigns', function() {
-    test('it should display a list of campaigns', async function(assert) {
+  module('when there are campaigns', function () {
+    test('it should display a list of campaigns', async function (assert) {
       const campaign1 = {
         id: 1,
         name: 'C1',
@@ -49,7 +49,7 @@ module('Integration | Component | organization-campaigns-section', function(hook
       assert.dom('[aria-label="campagne"]').exists({ count: 2 });
     });
 
-    test('it should display information of each campaigns', async function(assert) {
+    test('it should display information of each campaigns', async function (assert) {
       const campaign1 = {
         id: 1,
         name: 'C1',
@@ -90,7 +90,7 @@ module('Integration | Component | organization-campaigns-section', function(hook
       assert.contains('02/01/2021');
     });
 
-    test('it should display - when there is no archivedAt date', async function(assert) {
+    test('it should display - when there is no archivedAt date', async function (assert) {
       const campaign = {
         id: 1,
         name: 'C1',

@@ -4,7 +4,6 @@ import Model, { hasMany, attr } from '@ember-data/model';
 import { computed } from '@ember/object';
 
 export default class User extends Model {
-
   @attr() firstName;
   @attr() lastName;
   @attr() email;
@@ -24,15 +23,23 @@ export default class User extends Model {
   }
 
   get hasEmailAuthenticationMethod() {
-    return this.email && this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX');
+    return (
+      this.email &&
+      this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX')
+    );
   }
 
   get hasUsernameAuthenticationMethod() {
-    return this.username && this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX');
+    return (
+      this.username &&
+      this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'PIX')
+    );
   }
 
   get hasPoleEmploiAuthenticationMethod() {
-    return this.authenticationMethods.any((authenticationMethod) => authenticationMethod.identityProvider === 'POLE_EMPLOI');
+    return this.authenticationMethods.any(
+      (authenticationMethod) => authenticationMethod.identityProvider === 'POLE_EMPLOI'
+    );
   }
 
   get hasGARAuthenticationMethod() {
@@ -40,11 +47,13 @@ export default class User extends Model {
   }
 
   get hasOnlyOneAuthenticationMethod() {
-    return [
-      this.hasEmailAuthenticationMethod,
-      this.hasUsernameAuthenticationMethod,
-      this.hasGARAuthenticationMethod,
-      this.hasPoleEmploiAuthenticationMethod,
-    ].filter((hasAuthenticationMethod) => hasAuthenticationMethod).length === 1;
+    return (
+      [
+        this.hasEmailAuthenticationMethod,
+        this.hasUsernameAuthenticationMethod,
+        this.hasGARAuthenticationMethod,
+        this.hasPoleEmploiAuthenticationMethod,
+      ].filter((hasAuthenticationMethod) => hasAuthenticationMethod).length === 1
+    );
   }
 }

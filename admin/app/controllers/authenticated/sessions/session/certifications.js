@@ -8,7 +8,6 @@ import Controller from '@ember/controller';
 import { action, computed } from '@ember/object';
 
 export default class ListController extends Controller {
-
   @service notifications;
 
   @tracked displayConfirm = false;
@@ -16,10 +15,9 @@ export default class ListController extends Controller {
 
   @computed('model.juryCertificationSummaries.@each.status')
   get canPublish() {
-    return !(some(
-      this.model.juryCertificationSummaries.toArray(),
-      (certif) => ['error', 'started'].includes(certif.status),
-    ));
+    return !some(this.model.juryCertificationSummaries.toArray(), (certif) =>
+      ['error', 'started'].includes(certif.status)
+    );
   }
 
   @action
@@ -28,9 +26,7 @@ export default class ListController extends Controller {
 
     if (!this.canPublish && !sessionIsPublished) return;
 
-    const text = sessionIsPublished
-      ? 'Souhaitez-vous dépublier la session ?'
-      : 'Souhaitez-vous publier la session ?';
+    const text = sessionIsPublished ? 'Souhaitez-vous dépublier la session ?' : 'Souhaitez-vous publier la session ?';
 
     this.confirmMessage = text;
     this.displayConfirm = true;

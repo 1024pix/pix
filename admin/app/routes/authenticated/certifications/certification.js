@@ -3,7 +3,7 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default class CertificationRoute extends Route {
-  @service errorNotifier
+  @service errorNotifier;
 
   setupController(controller, model) {
     super.setupController(controller, model);
@@ -16,4 +16,3 @@ export default class CertificationRoute extends Route {
     this.transitionTo('authenticated.certifications');
   }
 }
-

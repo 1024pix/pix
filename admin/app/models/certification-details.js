@@ -5,7 +5,6 @@ import Model, { attr } from '@ember-data/model';
 import { memberAction } from 'ember-api-actions';
 
 export default class CertificationDetails extends Model {
-
   @attr() competencesWithMark;
   @attr() totalScore;
   @attr() percentageCorrectAnswers;
@@ -42,20 +41,22 @@ export default class CertificationDetails extends Model {
       return accumulator;
     }, competences);
     const sortedCompetences = [];
-    Object.keys(competences).sort().forEach((key) => {
-      sortedCompetences.push(competences[key]);
-    });
+    Object.keys(competences)
+      .sort()
+      .forEach((key) => {
+        sortedCompetences.push(competences[key]);
+      });
     return sortedCompetences;
   }
 
   @computed('createdAt')
   get creationDate() {
-    return (new Date(this.createdAt)).toLocaleString('fr-FR');
+    return new Date(this.createdAt).toLocaleString('fr-FR');
   }
 
   @computed('completedAt')
   get completionDate() {
-    return (new Date(this.completedAt)).toLocaleString('fr-FR');
+    return new Date(this.completedAt).toLocaleString('fr-FR');
   }
 
   neutralizeChallenge = memberAction({

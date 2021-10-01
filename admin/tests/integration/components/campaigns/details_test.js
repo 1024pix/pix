@@ -5,14 +5,14 @@ import { render } from '@ember/test-helpers';
 import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | Campaigns | details', function(hooks) {
+module('Integration | Component | Campaigns | details', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.toggleEditMode = sinon.stub();
   });
 
-  test('should display campaign attributes', async function(assert) {
+  test('should display campaign attributes', async function (assert) {
     // given
     this.campaign = {
       type: 'ASSESSMENT',
@@ -47,7 +47,7 @@ module('Integration | Component | Campaigns | details', function(hooks) {
     assert.contains('www.pix.fr');
   });
 
-  test('should display profile collection tag', async function(assert) {
+  test('should display profile collection tag', async function (assert) {
     // given
     this.campaign = {
       type: 'COLLECTION_PROFILE',
@@ -60,7 +60,7 @@ module('Integration | Component | Campaigns | details', function(hooks) {
     assert.contains('Collecte de profils');
   });
 
-  test('should call toggleEditMode function when the edit button is clicked', async function(assert) {
+  test('should call toggleEditMode function when the edit button is clicked', async function (assert) {
     this.campaign = {};
 
     //when
@@ -70,5 +70,4 @@ module('Integration | Component | Campaigns | details', function(hooks) {
     //then
     assert.ok(this.toggleEditMode.called);
   });
-
 });

@@ -97,8 +97,12 @@ export default class Update extends Component {
     campaign.title = this.form.title ? this.form.title.trim() : null;
     campaign.customLandingPageText = this.form.customLandingPageText ? this.form.customLandingPageText.trim() : null;
     campaign.customResultPageText = this.form.customResultPageText ? this.form.customResultPageText.trim() : null;
-    campaign.customResultPageButtonText = this.form.customResultPageButtonText ? this.form.customResultPageButtonText.trim() : null;
-    campaign.customResultPageButtonUrl = this.form.customResultPageButtonUrl ? this.form.customResultPageButtonUrl.trim() : null;
+    campaign.customResultPageButtonText = this.form.customResultPageButtonText
+      ? this.form.customResultPageButtonText.trim()
+      : null;
+    campaign.customResultPageButtonUrl = this.form.customResultPageButtonUrl
+      ? this.form.customResultPageButtonUrl.trim()
+      : null;
     try {
       await campaign.save();
       await this.notifications.success('Les modifications ont bien été enregistrées.');

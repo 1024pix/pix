@@ -4,16 +4,16 @@ import { setupApplicationTest } from 'ember-qunit';
 import { createAuthenticateSession } from 'pix-admin/tests/helpers/test-init';
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
-module('Acceptance | organization target profiles management', function(hooks) {
+module('Acceptance | organization target profiles management', function (hooks) {
   setupApplicationTest(hooks);
   setupMirage(hooks);
 
-  hooks.beforeEach(async function() {
+  hooks.beforeEach(async function () {
     const user = server.create('user');
     await createAuthenticateSession({ userId: user.id });
   });
 
-  test('should display organization target profiles', async function(assert) {
+  test('should display organization target profiles', async function (assert) {
     // given
     const ownerOrganizationId = this.server.create('organization').id;
     this.server.create('target-profile', { name: 'Profil cible du ghetto', ownerOrganizationId });
@@ -25,7 +25,7 @@ module('Acceptance | organization target profiles management', function(hooks) {
     assert.dom('[aria-label="Profil cible"]').includesText('Profil cible du ghetto');
   });
 
-  test('should add a target profile to an organization', async function(assert) {
+  test('should add a target profile to an organization', async function (assert) {
     // given
     const organization = this.server.create('organization');
 

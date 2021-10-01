@@ -9,8 +9,15 @@ import { action } from '@ember/object';
 const DEFAULT_PAGE_NUMBER = 1;
 
 export default class AuthenticatedSessionsListAllController extends Controller {
-
-  queryParams = ['pageNumber', 'pageSize', 'id', 'certificationCenterName', 'certificationCenterExternalId', 'status', 'resultsSentToPrescriberAt'];
+  queryParams = [
+    'pageNumber',
+    'pageSize',
+    'id',
+    'certificationCenterName',
+    'certificationCenterExternalId',
+    'status',
+    'resultsSentToPrescriberAt',
+  ];
   DEBOUNCE_MS = config.pagination.debounce;
 
   @tracked pageNumber = DEFAULT_PAGE_NUMBER;
@@ -48,8 +55,8 @@ export default class AuthenticatedSessionsListAllController extends Controller {
     this.setProperties(this.pendingFilters);
     this.pendingFilters = {};
     this.pageNumber = DEFAULT_PAGE_NUMBER;
-
-  }).restartable()) triggerFiltering;
+  }).restartable())
+  triggerFiltering;
 
   @action
   updateCertificationCenterTypeFilter(newValue) {

@@ -9,7 +9,6 @@ const options = [
 ];
 
 export default class MemberItem extends Component {
-
   @service notifications;
 
   @tracked organizationRoles = null;

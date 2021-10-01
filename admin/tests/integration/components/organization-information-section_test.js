@@ -5,11 +5,10 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
-module('Integration | Component | organization-information-section', function(hooks) {
-
+module('Integration | Component | organization-information-section', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // given
     this.organization = EmberObject.create({ type: 'SUP', isManagingStudents: false });
 
@@ -20,7 +19,7 @@ module('Integration | Component | organization-information-section', function(ho
     assert.dom('.organization__information').exists();
   });
 
-  test('it should display credit', async function(assert) {
+  test('it should display credit', async function (assert) {
     // given
     const organization = EmberObject.create({ credit: 350 });
     this.set('organization', organization);
@@ -32,7 +31,7 @@ module('Integration | Component | organization-information-section', function(ho
     assert.contains('350');
   });
 
-  test('it should display canCollectProfiles', async function(assert) {
+  test('it should display canCollectProfiles', async function (assert) {
     // given
     const organization = EmberObject.create({ canCollectProfiles: true });
     this.set('organization', organization);
@@ -44,9 +43,15 @@ module('Integration | Component | organization-information-section', function(ho
     assert.dom('.organization__canCollectProfiles').hasText('Oui');
   });
 
-  test('it should display tags', async function(assert) {
+  test('it should display tags', async function (assert) {
     // given
-    const organization = EmberObject.create({ tags: [{ id: 1, name: 'CFA' }, { id: 2, name: 'PRIVE' }, { id: 3, name: 'AGRICULTURE' }] });
+    const organization = EmberObject.create({
+      tags: [
+        { id: 1, name: 'CFA' },
+        { id: 2, name: 'PRIVE' },
+        { id: 3, name: 'AGRICULTURE' },
+      ],
+    });
     this.set('organization', organization);
 
     // when
@@ -58,11 +63,10 @@ module('Integration | Component | organization-information-section', function(ho
     assert.contains('AGRICULTURE');
   });
 
-  module('Edit organization', function(hooks) {
-
+  module('Edit organization', function (hooks) {
     let organization;
 
-    hooks.beforeEach(function() {
+    hooks.beforeEach(function () {
       organization = EmberObject.create({
         id: 1,
         name: 'Organization SCO',
@@ -77,31 +81,31 @@ module('Integration | Component | organization-information-section', function(ho
       this.set('organization', organization);
     });
 
-    test('it should display edit organization button', async function(assert) {
+    test('it should display edit organization button', async function (assert) {
       // when
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // then
-      assert.dom('button[aria-label=\'Editer\']').exists();
+      assert.dom("button[aria-label='Editer']").exists();
     });
 
-    test('it should toggle edition mode on click to edit button', async function(assert) {
+    test('it should toggle edition mode on click to edit button', async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
 
       // then
       assert.dom('.organization__edit-form').exists();
     });
 
-    test('it should display organization edit form on click to edit button', async function(assert) {
+    test('it should display organization edit form on click to edit button', async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
 
       // then
       assert.dom('input#name').hasValue(organization.name);
@@ -113,91 +117,101 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('input#isManagingStudents').isNotChecked();
     });
 
-    test('it should show error message if organization\'s name is empty', async function(assert) {
+    test("it should show error message if organization's name is empty", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#name', '');
 
       // then
       assert.dom('div[aria-label="Message d\'erreur du champ nom"]').hasText('Le nom ne peut pas être vide');
     });
 
-    test('it should show error message if organization\'s name is longer than 255 characters', async function(assert) {
+    test("it should show error message if organization's name is longer than 255 characters", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#name', 'a'.repeat(256));
 
       // then
-      assert.dom('div[aria-label="Message d\'erreur du champ nom"]').hasText('La longueur du nom ne doit pas excéder 255 caractères');
+      assert
+        .dom('div[aria-label="Message d\'erreur du champ nom"]')
+        .hasText('La longueur du nom ne doit pas excéder 255 caractères');
     });
 
-    test('it should show error message if organization\'s external id is longer than 255 characters', async function(assert) {
+    test("it should show error message if organization's external id is longer than 255 characters", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#externalId', 'a'.repeat(256));
 
       // then
-      assert.dom('div[aria-label="Message d\'erreur du champ identifiant externe"]').hasText('La longueur de l\'identifiant externe ne doit pas excéder 255 caractères');
+      assert
+        .dom('div[aria-label="Message d\'erreur du champ identifiant externe"]')
+        .hasText("La longueur de l'identifiant externe ne doit pas excéder 255 caractères");
     });
 
-    test('it should show error message if organization\'s province code is longer than 255 characters', async function(assert) {
+    test("it should show error message if organization's province code is longer than 255 characters", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#provinceCode', 'a'.repeat(256));
 
       // then
-      assert.dom('div[aria-label="Message d\'erreur du champ département"]').hasText('La longueur du département ne doit pas excéder 255 caractères');
+      assert
+        .dom('div[aria-label="Message d\'erreur du champ département"]')
+        .hasText('La longueur du département ne doit pas excéder 255 caractères');
     });
 
-    test('it should show error message if organization\'s email is longer than 255 characters', async function(assert) {
+    test("it should show error message if organization's email is longer than 255 characters", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#email', 'a'.repeat(256));
 
       // then
-      assert.dom('div[aria-label="Message d\'erreur du champ adresse email"]').hasText('La longueur de l\'email ne doit pas excéder 255 caractères.');
+      assert
+        .dom('div[aria-label="Message d\'erreur du champ adresse email"]')
+        .hasText("La longueur de l'email ne doit pas excéder 255 caractères.");
     });
 
-    test('it should show error message if organization\'s email is not valid', async function(assert) {
+    test("it should show error message if organization's email is not valid", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#email', 'not-valid-email-format');
 
       // then
-      assert.dom('div[aria-label="Message d\'erreur du champ adresse email"]').hasText('L\'e-mail n\'a pas le bon format.');
+      assert
+        .dom('div[aria-label="Message d\'erreur du champ adresse email"]')
+        .hasText("L'e-mail n'a pas le bon format.");
     });
 
-    test('it should show error message if organization\'s credit is not valid', async function(assert) {
+    test("it should show error message if organization's credit is not valid", async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
       // when
-      await click('button[aria-label=\'Editer\']');
+      await click("button[aria-label='Editer']");
       await fillIn('#credit', 'credit');
 
       // then
       assert.contains('Le nombre de crédits doit être un nombre supérieur ou égal à 0.');
     });
 
-    test('it should toggle display mode on click to cancel button', async function(assert) {
+    test('it should toggle display mode on click to cancel button', async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
       await clickByLabel('Editer');
@@ -209,7 +223,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__data').exists();
     });
 
-    test('it should revert changes on click to cancel button', async function(assert) {
+    test('it should revert changes on click to cancel button', async function (assert) {
       // given
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
@@ -231,10 +245,12 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__canCollectProfiles').hasText('Non');
     });
 
-    test('it should submit the form if there is no error', async function(assert) {
+    test('it should submit the form if there is no error', async function (assert) {
       // given
       this.set('onSubmit', () => {});
-      await render(hbs`<OrganizationInformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`);
+      await render(
+        hbs`<OrganizationInformationSection @organization={{this.organization}} @onSubmit={{this.onSubmit}} />`
+      );
       await clickByLabel('Editer');
 
       await fillIn('input#name', 'new name');
@@ -257,13 +273,12 @@ module('Integration | Component | organization-information-section', function(ho
     });
   });
 
-  module('When organization is SCO or SUP', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('When organization is SCO or SUP', function (hooks) {
+    hooks.beforeEach(function () {
       this.organization = EmberObject.create({ type: 'SCO', isOrganizationSCO: true, isManagingStudents: true });
     });
 
-    test('it should display if it is managing students', async function(assert) {
+    test('it should display if it is managing students', async function (assert) {
       // when
       await render(hbs`<OrganizationInformationSection @organization={{this.organization}} />`);
 
@@ -271,7 +286,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__isManagingStudents').exists();
     });
 
-    test('it should display "Oui" if it is managing students', async function(assert) {
+    test('it should display "Oui" if it is managing students', async function (assert) {
       // given
       this.organization.isManagingStudents = true;
 
@@ -281,7 +296,7 @@ module('Integration | Component | organization-information-section', function(ho
       assert.dom('.organization__isManagingStudents').hasText('Oui');
     });
 
-    test('it should display "Non" if managing students is false', async function(assert) {
+    test('it should display "Non" if managing students is false', async function (assert) {
       // given
       this.organization.isManagingStudents = false;
 
@@ -293,13 +308,12 @@ module('Integration | Component | organization-information-section', function(ho
     });
   });
 
-  module('When organization is not SCO', function(hooks) {
-
-    hooks.beforeEach(function() {
+  module('When organization is not SCO', function (hooks) {
+    hooks.beforeEach(function () {
       this.organization = EmberObject.create({ type: 'PRO', isOrganizationSCO: false, isOrganizationSUP: false });
     });
 
-    test('it should not display if it is managing students', async function(assert) {
+    test('it should not display if it is managing students', async function (assert) {
       // given
       this.organization.isManagingStudents = false;
 

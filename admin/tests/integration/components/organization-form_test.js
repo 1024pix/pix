@@ -5,29 +5,31 @@ import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
 import { selectChoose } from 'ember-power-select/test-support/helpers';
 
-module('Integration | Component | organization-form', function(hooks) {
-
+module('Integration | Component | organization-form', function (hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     this.onSubmit = () => {};
     this.onCancel = () => {};
     this.organization = EmberObject.create();
   });
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // when
-    await render(hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`);
+    await render(
+      hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
+    );
 
     // then
     assert.dom('[data-test-id="organization-form"]').exists();
   });
 
-  module('#selectOrganizationType', function() {
-
-    test('should update attribute organization.type', async function(assert) {
+  module('#selectOrganizationType', function () {
+    test('should update attribute organization.type', async function (assert) {
       // given
-      await render(hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`);
+      await render(
+        hbs`<OrganizationForm @organization={{this.organization}} @onSubmit={{action onSubmit}} @onCancel={{action onCancel}} />`
+      );
 
       // when
       await selectChoose('#organizationTypeSelector', 'Établissement scolaire');

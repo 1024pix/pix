@@ -6,10 +6,10 @@ import EmberObject from '@ember/object';
 import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 import sinon from 'sinon';
 
-module('Integration | Component | organization-all-tags', function(hooks) {
+module('Integration | Component | organization-all-tags', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display a list of tags', async function(assert) {
+  test('it should display a list of tags', async function (assert) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
     const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
@@ -26,7 +26,7 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     assert.contains('AEFE');
   });
 
-  test('it should display tags in alphabetical order', async function(assert) {
+  test('it should display tags in alphabetical order', async function (assert) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
     const tag2 = EmberObject.create({ id: 2, name: 'AEFE' });
@@ -44,7 +44,7 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     assert.dom('.organization-all-tags-list__tag:last-child .pix-tag').containsText('POLE EMPLOI');
   });
 
-  test('it should display an active tag when it is associate to an organization', async function(assert) {
+  test('it should display an active tag when it is associate to an organization', async function (assert) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
     const organizationTag1 = EmberObject.create({ name: 'MEDNUM' });
@@ -59,7 +59,7 @@ module('Integration | Component | organization-all-tags', function(hooks) {
     assert.dom('.pix-tag--purple-light').exists();
   });
 
-  test('it should display an inactive tag when it is not associate to an organization', async function(assert) {
+  test('it should display an inactive tag when it is not associate to an organization', async function (assert) {
     // given
     const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
     const organization = EmberObject.create({ tags: [] });
@@ -74,10 +74,8 @@ module('Integration | Component | organization-all-tags', function(hooks) {
   });
 
   module('when clicking on a tag', () => {
-
     module('when the tag is not yet associated to the organization', () => {
-
-      test('it should associate the tag to the organization', async function(assert) {
+      test('it should associate the tag to the organization', async function (assert) {
         // given
         const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
         const tag2 = EmberObject.create({ id: 2, name: 'AGRICULTURE' });
@@ -92,13 +90,11 @@ module('Integration | Component | organization-all-tags', function(hooks) {
         // then
         assert.ok(save.called);
         assert.equal(this.model.organization.tags.length, 1);
-
       });
     });
 
     module('when the tag is already associated to the organization', () => {
-
-      test('it should disassociate the tag to the organization', async function(assert) {
+      test('it should disassociate the tag to the organization', async function (assert) {
         // given
         const tag1 = EmberObject.create({ id: 1, name: 'MEDNUM' });
         const tag2 = EmberObject.create({ id: 2, name: 'AGRICULTURE' });

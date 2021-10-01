@@ -31,7 +31,9 @@ export default class Organizations extends Component {
     e.preventDefault();
     const targetProfile = this.args.targetProfile;
     try {
-      await targetProfile.attachOrganizationsFromExistingTargetProfile({ 'target-profile-id': this.existingTargetProfile });
+      await targetProfile.attachOrganizationsFromExistingTargetProfile({
+        'target-profile-id': this.existingTargetProfile,
+      });
       this.existingTargetProfile = null;
       await this.notifications.success('Organisation(s) rattaché(es) avec succès.');
       return this.router.replaceWith('authenticated.target-profiles.target-profile.organizations');
@@ -53,7 +55,9 @@ export default class Organizations extends Component {
   }
 
   _getUniqueOrganizations() {
-    const targetProfileIds = this.organizationsToAttach.split(',').map((targetProfileId) => parseInt(targetProfileId.trim()));
+    const targetProfileIds = this.organizationsToAttach
+      .split(',')
+      .map((targetProfileId) => parseInt(targetProfileId.trim()));
     return uniq(targetProfileIds);
   }
 }
