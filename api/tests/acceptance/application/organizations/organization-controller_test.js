@@ -919,6 +919,7 @@ describe('Acceptance | Application | organization-controller', function() {
                 'is-authenticated-from-gar': true,
                 'student-number': schoolingRegistration.studentNumber,
                 'division': schoolingRegistration.division,
+                'group': schoolingRegistration.group,
               },
               'id': schoolingRegistration.id.toString(),
               'type': 'students',

@@ -24,6 +24,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     assert.contains('Nom');
     assert.contains('Prénom');
     assert.contains('Date de naissance');
+    assert.contains('Groupe');
   });
 
   test('it should display a list of students', async function (assert) {
@@ -50,6 +51,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
         lastName: 'La Terreur',
         firstName: 'Gigi',
         birthdate: new Date('2010-02-01'),
+        group: 'AB1',
       },
     ];
 
@@ -63,6 +65,7 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
     assert.contains('La Terreur');
     assert.contains('Gigi');
     assert.contains('01/02/2010');
+    assert.contains('AB1');
   });
 
   module('when user is filtering some users', function () {

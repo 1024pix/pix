@@ -19,6 +19,7 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
         isAuthenticatedFromGAR: false,
         studentNumber: '123456789',
         division: '3A',
+        group: 'AB1',
       });
 
       const expectedSerializedUserWithSchoolingRegistration = {
@@ -35,6 +36,7 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
             'is-authenticated-from-gar': false,
             'student-number': userWithSchoolingRegistration.studentNumber,
             'division': userWithSchoolingRegistration.division,
+            'group': userWithSchoolingRegistration.group,
           },
         },
       };
