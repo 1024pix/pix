@@ -10,11 +10,11 @@ import { inject as service } from '@ember/service';
 export default class CertificationCandidatesController extends Controller {
 
   @service featureToggles;
+  @service currentUser;
 
   @alias('model.session') currentSession;
   @alias('model.certificationCandidates') certificationCandidates;
   @alias('model.reloadCertificationCandidate') reloadCertificationCandidate;
-  @alias('model.shouldDisplayPrescriptionScoStudentRegistrationFeature') shouldDisplayPrescriptionScoStudentRegistrationFeature;
   @alias('model.countries') countries;
 
   get pageTitle() {
@@ -32,6 +32,10 @@ export default class CertificationCandidatesController extends Controller {
   get hasOneOrMoreCandidates() {
     const certificationCandidatesCount = this.model.certificationCandidates.length;
     return certificationCandidatesCount > 0;
+  }
+
+  get shouldDisplayPrescriptionScoStudentRegistrationFeature() {
+    return this.currentUser.currentAllowedCertificationCenterAccess.isScoManagingStudents;
   }
 
   @action
