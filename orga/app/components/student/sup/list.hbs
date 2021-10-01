@@ -32,7 +32,13 @@
           @triggerFiltering={{@onFilter}}
         />
         <Table::Header />
-        <Table::Header />
+        <Table::HeaderFilterInput
+          @field="group"
+          @value={{@groupFilter}}
+          @placeholder={{t "pages.students-sup.table.filter.group.label"}}
+          @ariaLabel={{t "pages.students-sup.table.filter.group.aria-label"}}
+          @triggerFiltering={{@onFilter}}
+        />
         <Table::Header />
       </tr>
     </thead>

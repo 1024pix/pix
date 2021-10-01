@@ -679,6 +679,10 @@
             "aria-label": "Enter a first name",
             "label": "Search by first name"
           },
+          "group": {
+            "aria-label": "Enter a group",
+            "label": "Search by group"
+          },
           "last-name": {
             "aria-label": "Enter a last name",
             "label": "Search by last name"
