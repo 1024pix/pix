@@ -28,6 +28,10 @@ const schema = Joi.object({
   CACHE_RELOAD_TIME: Joi.string().optional(),
   FT_VALIDATE_EMAIL: Joi.string().optional().valid('true', 'false'),
   NODE_ENV: Joi.string().optional().valid('development', 'test', 'production'),
+  POLE_EMPLOI_CLIENT_ID: Joi.string().optional(),
+  POLE_EMPLOI_CLIENT_SECRET: Joi.string().optional(),
+  POLE_EMPLOI_TOKEN_URL: Joi.string().uri().optional(),
+  POLE_EMPLOI_SENDING_URL: Joi.string().uri().optional(),
 }).options({ allowUnknown: true });
 
 const validateEnvironmentVariables = function() {
