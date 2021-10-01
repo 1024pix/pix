@@ -349,9 +349,8 @@ module('Unit | Model | session', function (hooks) {
     });
   });
 
-  module('#countCertificationsFlaggedAsAborted', function() {
-
-    test('it should take into account certifications flagged as aborted', function(assert) {
+  module('#countCertificationsFlaggedAsAborted', function () {
+    test('it should take into account certifications flagged as aborted', function (assert) {
       // given
       const juryCertificationSummary = store.createRecord('jury-certification-summary', {
         isFlaggedAborted: true,

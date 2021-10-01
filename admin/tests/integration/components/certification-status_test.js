@@ -31,7 +31,7 @@ module('Integration | Component | certification-status', function (hooks) {
       });
     });
 
-    test('it renders status in red if certification has been flagged as aborted', async function(assert) {
+    test('it renders status in red if certification has been flagged as aborted', async function (assert) {
       // given
       const record = store.createRecord('jury-certification-summary', { isFlaggedAborted: true });
 
