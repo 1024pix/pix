@@ -1,9 +1,10 @@
+{{! template-lint-disable require-input-label }}
 <form {{on "submit" @onSubmit}} class="form" ...attributes>
 
   <div class="form__field">
     <label for="email" class="label">{{t "pages.team-new-item.input-label"}}</label>
     <Input
-      @id="email"
+      id="email"
       @type="email"
       @value={{@email}}
       name="email"

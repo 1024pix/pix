@@ -19,7 +19,7 @@
     <div class="input-container">
       <label for="login-email" class="label">{{t "pages.login-form.email"}}</label>
       <Input
-        @id="login-email"
+        id="login-email"
         @type="email"
         @value={{this.email}}
         name="login"
@@ -33,7 +33,7 @@
       <label for="login-password" class="label">{{t "pages.login-form.password"}}</label>
       <div class="input-password">
         <Input
-          @id="login-password"
+          id="login-password"
           @type={{this.passwordInputType}}
           @value={{this.password}}
           name="password"

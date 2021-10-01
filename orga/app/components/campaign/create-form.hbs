@@ -3,11 +3,11 @@
   <div class="form__field">
     <label for="campaign-name" class="label">{{t "pages.campaign-creation.name.label"}}</label>
     <Input
-      @id="campaign-name"
-      @name="campaign-name"
+      id="campaign-name"
+      name="campaign-name"
       @type="text"
-      @class="input"
-      @maxlength="255"
+      class="input"
+      maxlength="255"
       @value={{@campaign.name}}
     />
 
@@ -107,12 +107,12 @@
           "pages.campaign-creation.external-id-label.label"
         }}</label>
       <Input
-        @id="external-id-label"
-        @name="external-id-label"
+        id="external-id-label"
+        name="external-id-label"
         @type="text"
-        @class="input"
-        @maxlength="255"
-        @aria-required="true"
+        class="input"
+        maxlength="255"
+        aria-required="true"
         @value={{@campaign.idPixLabel}}
       />
       {{#if @campaign.errors.idPixLabel}}
@@ -130,11 +130,11 @@
     <div class="form__field">
       <label for="campaign-title" class="label">{{t "pages.campaign-creation.test-title.label"}}</label>
       <Input
-        @id="campaign-title"
-        @name="campaign-title"
+        id="campaign-title"
+        name="campaign-title"
         @type="text"
-        @class="input"
-        @maxlength="50"
+        class="input"
+        maxlength="50"
         @value={{@campaign.title}}
       />
     </div>
@@ -143,8 +143,8 @@
   <div class="form__field">
     <label for="custom-landing-page-text" class="label">{{t "pages.campaign-creation.landing-page-text.label"}}</label>
     <PixTextarea
-      @id="custom-landing-page-text"
-      @maxlength={{350}}
+      id="custom-landing-page-text"
+      maxlength={{350}}
       @value={{@campaign.customLandingPageText}}
       rows={{8}}
     />
