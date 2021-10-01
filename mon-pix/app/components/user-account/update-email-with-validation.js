@@ -7,11 +7,13 @@ export default class UpdateEmailWithValidation extends Component {
   @service store;
 
   @tracked newEmail = '';
+  @tracked password = '';
   @tracked showEmailForm = true;
 
   @action
-  showVerificationCode(newEmail) {
+  showVerificationCode({ newEmail, password }) {
     this.newEmail = newEmail.trim();
+    this.password = password;
     this.showEmailForm = false;
   }
 }
