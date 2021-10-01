@@ -27,4 +27,8 @@ export default class SessionsDetailsRoute extends Route {
       },
     });
   }
+
+  afterModel(model) {
+    this.currentUser.updateCurrentCertificationCenter(model.session.certificationCenterId);
+  }
 }
