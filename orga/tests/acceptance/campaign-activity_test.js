@@ -1,6 +1,7 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { visit, currentURL, find } from '@ember/test-helpers';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import { createUserWithMembershipAndTermsOfServiceAccepted, createPrescriberByUser } from '../helpers/test-init';
@@ -70,6 +71,19 @@ module('Acceptance | Campaign Activity', function (hooks) {
 
       // then
       assert.equal(currentURL(), '/campagnes/1');
+    });
+  });
+
+  module('when prescriber reset filters', () => {
+    test('should reset status filter', async function (assert) {
+      // when
+      await visit('/campagnes/1');
+
+      await fillInByLabel('Statut', 'STARTED');
+      await clickByLabel('Effacer les filtres');
+
+      // then
+      assert.equal(find('[aria-label="Statut"]').selectedOptions[0].value, '');
     });
   });
 });
