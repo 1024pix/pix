@@ -7,5 +7,5 @@ module.exports = async function attachOrganizationsToTargetProfile({
   const targetProfile = await targetProfileRepository.get(targetProfileId);
   targetProfile.addOrganizations(organizationIds);
 
-  await targetProfileRepository.attachOrganizations(targetProfile);
+  return targetProfileRepository.attachOrganizations(targetProfile);
 };

@@ -18,7 +18,8 @@ function attachTargetProfileToOrganizations(schema, request) {
   organizationsToAttach.forEach((organizationId) =>
     schema.organizations.create({ id: organizationId, name: `Organization ${organizationId}` })
   );
-  return new Response(204);
+
+  return { data: { attributes: { 'duplicated-ids': [], 'attached-ids': organizationsToAttach } } };
 }
 
 function attachOrganizationsFromExistingTargetProfile(schema, request) {

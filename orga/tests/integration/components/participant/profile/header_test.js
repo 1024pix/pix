@@ -91,6 +91,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
       test('it displays the pix score', async function (assert) {
         this.campaignProfile = {
           pixScore: '124',
+          createdAt: '01-01-1990',
           isShared: true,
         };
         this.campaign = {};
@@ -103,6 +104,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
       test('it displays the total number of competence', async function (assert) {
         this.campaignProfile = {
           competencesCount: 12,
+          createdAt: '01-01-1990',
           isShared: true,
         };
         this.campaign = {};
@@ -114,6 +116,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
       test('it displays the total number of certifiable competence', async function (assert) {
         this.campaignProfile = {
           certifiableCompetencesCount: 2,
+          createdAt: '01-01-1990',
           isShared: true,
         };
         this.campaign = {};
@@ -173,6 +176,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
       test('it does not display the total number of competence', async function (assert) {
         this.campaignProfile = {
           competencesCount: 32,
+          createdAt: '01-01-1990',
           isShared: false,
         };
         this.campaign = {};
@@ -186,6 +190,7 @@ module('Integration | Component | Participant::Profile::Header', function (hooks
       test('it does not display the total number of certifiable competence', async function (assert) {
         this.campaignProfile = {
           certifiableCompetencesCount: 33,
+          createdAt: '01-01-1990',
           isShared: false,
         };
         this.campaign = {};

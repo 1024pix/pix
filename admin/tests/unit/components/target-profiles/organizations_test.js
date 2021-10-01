@@ -15,10 +15,21 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
     });
 
     module('when attaching organization works correctly', () => {
-      test('it displays a success notifications', async function (assert) {
+      test('it displays a success message notifications', async function (assert) {
         const component = createComponent('component:target-profiles/organizations');
-        component.notifications = { success: sinon.stub(), error: sinon.stub() };
-        component.args = { targetProfile: { attachOrganizations: sinon.stub().resolves() } };
+        component.notifications = { success: sinon.stub() };
+        component.args = {
+          targetProfile: {
+            attachOrganizations: sinon.stub().resolves({
+              data: {
+                attributes: {
+                  'duplicated-ids': [],
+                  'attached-ids': [1, 2],
+                },
+              },
+            }),
+          },
+        };
         component.organizationsToAttach = '1,2';
         component.router = { replaceWith: sinon.stub() };
 
@@ -26,7 +37,65 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
 
         assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
         assert.equal(component.organizationsToAttach, null);
-        assert.ok(component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.'));
+        assert.ok(
+          component.notifications.success.calledWith('Organisation(s) rattaché(es) avec succès.', { htmlContent: true })
+        );
+        assert.ok(
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+        );
+      });
+
+      test('it displays duplicate message notifications', async function (assert) {
+        const component = createComponent('component:target-profiles/organizations');
+        component.notifications = { success: sinon.stub() };
+        component.args = {
+          targetProfile: {
+            attachOrganizations: sinon
+              .stub()
+              .resolves({ data: { attributes: { 'duplicated-ids': [1], 'attached-ids': [] } } }),
+          },
+        };
+        component.organizationsToAttach = '1';
+        component.router = { replaceWith: sinon.stub() };
+
+        await component.attachOrganizations(event);
+
+        assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1] }));
+        assert.equal(component.organizationsToAttach, null);
+        assert.ok(
+          component.notifications.success.calledWith(
+            'Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
+            { htmlContent: true }
+          )
+        );
+        assert.ok(
+          component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
+        );
+      });
+
+      test('it displays a duplicate and success messages notifications', async function (assert) {
+        const component = createComponent('component:target-profiles/organizations');
+        component.notifications = { success: sinon.stub() };
+        component.args = {
+          targetProfile: {
+            attachOrganizations: sinon
+              .stub()
+              .resolves({ data: { attributes: { 'duplicated-ids': [1], 'attached-ids': [2] } } }),
+          },
+        };
+        component.organizationsToAttach = '1,2';
+        component.router = { replaceWith: sinon.stub() };
+
+        await component.attachOrganizations(event);
+
+        assert.ok(component.args.targetProfile.attachOrganizations.calledWith({ 'organization-ids': [1, 2] }));
+        assert.equal(component.organizationsToAttach, null);
+        assert.ok(
+          component.notifications.success.calledWith(
+            'Organisation(s) rattaché(es) avec succès.<br/>Le(s) organisation(s) suivantes étai(en)t déjà rattachée(s) à ce profil cible : 1',
+            { htmlContent: true }
+          )
+        );
         assert.ok(
           component.router.replaceWith.calledWith('authenticated.target-profiles.target-profile.organizations')
         );
@@ -37,7 +106,13 @@ module('Unit |  Component | Target Profiles | Organizations', function (hooks) {
       test('it remove duplicate ids', async function (assert) {
         const component = createComponent('component:target-profiles/organizations');
         component.notifications = { success: sinon.stub() };
-        component.args = { targetProfile: { attachOrganizations: sinon.stub().resolves() } };
+        component.args = {
+          targetProfile: {
+            attachOrganizations: sinon
+              .stub()
+              .resolves({ data: { attributes: { 'duplicated-ids': [], 'attached-ids': [] } } }),
+          },
+        };
         component.organizationsToAttach = '1,1,2,3,3';
         component.router = { replaceWith: sinon.stub() };
 
