@@ -1,12 +1,3 @@
-const Assessment = require('../models/Assessment');
-const CampaignParticipation = require('../models/CampaignParticipation');
-
-const statuses = {
-  SHARED: 'shared',
-  STARTED: 'started',
-  COMPLETED: 'completed',
-};
-
 class CampaignParticipantActivity {
   constructor({
     campaignParticipationId,
@@ -15,7 +6,6 @@ class CampaignParticipantActivity {
     lastName,
     participantExternalId,
     sharedAt,
-    assessmentState,
     status,
   } = {}) {
     this.campaignParticipationId = campaignParticipationId;
@@ -24,19 +14,8 @@ class CampaignParticipantActivity {
     this.lastName = lastName;
     this.participantExternalId = participantExternalId;
     this.sharedAt = sharedAt;
-
-    const isShared = status === CampaignParticipation.statuses.SHARED;
-    this.status = this._getStatus(isShared, assessmentState);
+    this.status = status;
   }
-
-  _getStatus(isShared, assessmentState) {
-    if (isShared) return statuses.SHARED;
-    if (assessmentState === Assessment.states.STARTED) return statuses.STARTED;
-    return statuses.COMPLETED;
-  }
-
 }
-
-CampaignParticipantActivity.statuses = statuses;
 
 module.exports = CampaignParticipantActivity;

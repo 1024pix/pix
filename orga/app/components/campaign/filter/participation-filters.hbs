@@ -7,6 +7,16 @@
     @clearFiltersLabel={{t "pages.campaign-results.filters.actions.clear"}}
     @onClearFilters={{@onResetFilter}}
   >
+    {{#if this.displayStatusFilter}}
+      <PixSelect
+        aria-label={{t "pages.campaign-results.filters.type.status.title"}}
+        @options={{this.statusOptions}}
+        @onChange={{this.onSelectStatus}}
+        @selectedOption={{@selectedStatus}}
+        @emptyOptionLabel={{t "pages.campaign-results.filters.type.status.empty"}}
+        @emptyOptionNotSelectable={{false}}
+      />
+    {{/if}}
     {{#if this.displayDivisionFilter}}
       <PixMultiSelect
         @id="division"

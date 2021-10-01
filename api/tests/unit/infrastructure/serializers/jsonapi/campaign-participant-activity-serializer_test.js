@@ -1,7 +1,6 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
 const CampaignParticipantActivity = require('../../../../../lib/domain/read-models/CampaignParticipantActivity');
-const Assessment = require('../../../../../lib/domain/models/Assessment');
 const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
 
 const { SHARED, STARTED } = CampaignParticipation.statuses;
@@ -20,7 +19,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
           lastName: 'Habibi',
           participantExternalId: 'Dev',
           status: SHARED,
-          assessmentState: Assessment.states.COMPLETED,
         }),
         new CampaignParticipantActivity({
           userId: 2,
@@ -30,7 +28,6 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
           participantExternalId: 'Footballer',
           status: STARTED,
           sharedAt: null,
-          assessmentState: Assessment.states.STARTED,
         }),
       ];
       const pagination = {
@@ -51,7 +48,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'first-name': 'Karam',
               'last-name': 'Habibi',
               'participant-external-id': 'Dev',
-              status: CampaignParticipantActivity.statuses.SHARED,
+              status: SHARED,
             },
           },
           {
@@ -61,7 +58,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer
               'first-name': 'Dimitri',
               'last-name': 'Payet',
               'participant-external-id': 'Footballer',
-              status: CampaignParticipantActivity.statuses.STARTED,
+              status: STARTED,
             },
           },
         ],

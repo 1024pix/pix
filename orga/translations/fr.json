@@ -248,11 +248,11 @@
         "title": "Liste des participants"
       },
       "status": {
-        "started-assessment": "En cours",
-        "completed-assessment": "En attente d'envoi",
-        "shared-assessment": "Résultats reçus",
-        "completed-profile": "En attente d'envoi",
-        "shared-profile": "Profil reçu"
+        "STARTED-assessment": "En cours",
+        "TO_SHARE-assessment": "En attente d'envoi",
+        "SHARED-assessment": "Résultats reçus",
+        "TO_SHARE-profile": "En attente d'envoi",
+        "SHARED-profile": "Profil reçu"
       }
     },
     "campaign-creation": {
@@ -329,6 +329,10 @@
           "divisions": {
             "title": "Classes",
             "empty": "Pas de classe"
+          },
+          "status": {
+            "title": "Statut",
+            "empty": "Tous les statuts"
           },
           "stages": "Paliers"
         }
