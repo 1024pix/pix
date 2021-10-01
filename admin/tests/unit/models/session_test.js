@@ -349,6 +349,23 @@ module('Unit | Model | session', function (hooks) {
     });
   });
 
+  module('#countCertificationsFlaggedAsAborted', function() {
+
+    test('it should take into account certifications flagged as aborted', function(assert) {
+      // given
+      const juryCertificationSummary = store.createRecord('jury-certification-summary', {
+        isFlaggedAborted: true,
+      });
+      const session = store.createRecord('session', { juryCertificationSummaries: [juryCertificationSummary] });
+
+      // when
+      const countCertificationsFlaggedAsAborted = session.countCertificationsFlaggedAsAborted;
+
+      // then
+      assert.equal(countCertificationsFlaggedAsAborted, 1);
+    });
+  });
+
   module('#areResultsToBeSentToPrescriber', function () {
     module('when session is finalized but results were not sent to prescriber yet', function () {
       test('it should return areResultsToBeSentToPrescriber with true value', function (assert) {
