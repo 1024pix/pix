@@ -631,7 +631,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
     it('should call the usecase to find students with users infos related to filters', async function() {
       // given
-      request = { ...request, query: { 'filter[lastName]': 'Bob', 'filter[firstName]': 'Tom', 'filter[connexionType]': 'email' } };
+      request = { ...request, query: { 'filter[lastName]': 'Bob', 'filter[firstName]': 'Tom', 'filter[connexionType]': 'email', 'filter[group]': 'L1' } };
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
 
       // when
@@ -640,7 +640,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       // then
       expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
         organizationId,
-        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email' },
+        filter: { lastName: 'Bob', firstName: 'Tom', connexionType: 'email', group: 'L1' },
         page: {},
       });
     });
