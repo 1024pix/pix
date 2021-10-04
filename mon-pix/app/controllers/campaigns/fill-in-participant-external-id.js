@@ -1,16 +1,21 @@
 import { action } from '@ember/object';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
 export default class FillInParticipantExternalId extends Controller {
+  @service campaignStorage;
+  @service router;
+
   @action
   onSubmitParticipantExternalId(participantExternalId) {
-    return this.transitionToRoute('campaigns.start-or-resume', this.model, { queryParams: { participantExternalId } });
+
+    this.campaignStorage.set(this.model.code, 'participantExternalId', participantExternalId);
+    return this.router.transitionTo('campaigns.start-or-resume', this.model);
   }
 
   @action
   onCancel() {
-    return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { hasUserSeenLandingPage: false },
-    });
+    this.campaignStorage.set(this.model.code, 'landingPageShown', false);
+    return this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 }

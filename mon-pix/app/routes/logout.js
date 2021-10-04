@@ -10,11 +10,14 @@ const AUTHENTICATED_SOURCE_FROM_POLE_EMPLOI = ENV.APP.AUTHENTICATED_SOURCE_FROM_
 export default class LogoutRoute extends Route {
   @service session;
   @service url;
+  @service campaignStorage;
 
   beforeModel() {
     const session = this.session;
     this.source = session.data.authenticated.source;
     delete session.data.externalUser;
+    this.campaignStorage.clearAll();
+
     if (session.isAuthenticated) {
       if (get(session, 'data.authenticated.id_token')) {
         const { id_token } = session.data.authenticated;

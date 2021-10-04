@@ -31,7 +31,7 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
     controller.set('session', sessionStub);
     controller.set('currentUser', currentUserStub);
 
-    controller.transitionToRoute = sinon.stub();
+    controller.router = { transitionTo: sinon.stub() };
   });
 
   describe('#addGarAuthenticationMethodToUser', () => {
@@ -50,7 +50,7 @@ describe('Unit | Controller | campaigns/restricted/login-or-register-to-access',
       await controller.actions.addGarAuthenticationMethodToUser.call(controller, externallUserAuthenticationRequest);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume');
 
     });
 

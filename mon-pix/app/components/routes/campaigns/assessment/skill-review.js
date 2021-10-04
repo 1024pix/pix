@@ -158,7 +158,7 @@ export default class SkillReview extends Component {
     const campaignParticipationResult = this.args.model.campaignParticipationResult;
     const adapter = this.store.adapterFor('campaign-participation-result');
     await adapter.beginImprovement(campaignParticipationResult.id);
-    return this.router.transitionTo('campaigns.start-or-resume', this.args.model.campaign.code);
+    return this.router.transitionTo('campaigns.entry-point', this.args.model.campaign.code);
   }
 
   @action

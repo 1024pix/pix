@@ -30,7 +30,7 @@ describe('Unit | Route | Campaign | Profiles Collection | Profile already shared
       it('should redirect to start or resume', async function() {
         await route.model();
 
-        sinon.assert.calledWith(route.transitionTo, 'campaigns.start-or-resume', 'NEW_CODE');
+        sinon.assert.calledWith(route.transitionTo, 'campaigns.entry-point', 'NEW_CODE');
       });
     });
 

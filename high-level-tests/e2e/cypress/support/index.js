@@ -22,4 +22,8 @@ import 'cypress-axe'
 
 beforeEach(() => {
   cy.exec('npm run db:empty');
+
+  cy.window().then((win) => {
+    win.sessionStorage.clear();
+  });
 });

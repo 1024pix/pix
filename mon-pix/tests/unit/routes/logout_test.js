@@ -10,6 +10,11 @@ describe('Unit | Route | logout', () => {
   setupTest();
 
   let sessionStub;
+  let campaignStorageStub;
+
+  beforeEach(function() {
+    campaignStorageStub = { clearAll: sinon.stub() };
+  });
 
   it('should disconnect the user', function() {
     // Given
@@ -23,6 +28,7 @@ describe('Unit | Route | logout', () => {
 
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
+    route.set('campaignStorage', campaignStorageStub);
 
     // When
     route.beforeModel();
@@ -39,6 +45,7 @@ describe('Unit | Route | logout', () => {
 
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
+    route.set('campaignStorage', campaignStorageStub);
     route._redirectToHome = sinon.stub();
     route.source = 'pix';
 
@@ -57,6 +64,7 @@ describe('Unit | Route | logout', () => {
 
     const route = this.owner.lookup('route:logout');
     route.set('session', sessionStub);
+    route.set('campaignStorage', campaignStorageStub);
     route._redirectToDisconnectedPage = sinon.stub();
     route.source = AUTHENTICATED_SOURCE_FROM_MEDIACENTRE;
 
@@ -67,4 +75,23 @@ describe('Unit | Route | logout', () => {
     sinon.assert.calledOnce(route._redirectToDisconnectedPage);
   });
 
+  it('should erase campaign storage', function() {
+    // Given
+    const invalidateStub = sinon.stub();
+    sessionStub = Service.create({ invalidate: invalidateStub, data: {
+      authenticated: {},
+    },
+    });
+
+    const route = this.owner.lookup('route:logout');
+    route.set('campaignStorage', campaignStorageStub);
+    route.set('session', sessionStub);
+    route.set('campaignStorage', campaignStorageStub);
+
+    // When
+    route.beforeModel();
+
+    // Then
+    sinon.assert.calledOnce(campaignStorageStub.clearAll);
+  });
 });
