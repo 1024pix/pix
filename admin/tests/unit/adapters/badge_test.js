@@ -1,19 +1,17 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Adapters | badge', function(hooks) {
-
+module('Unit | Adapters | badge', function (hooks) {
   setupTest(hooks);
 
   let adapter;
 
-  hooks.beforeEach(function() {
+  hooks.beforeEach(function () {
     adapter = this.owner.lookup('adapter:badge');
   });
 
-  module('#urlForCreateRecord', function() {
-
-    test('should build create url from targetProfileId', async function(assert) {
+  module('#urlForCreateRecord', function () {
+    test('should build create url from targetProfileId', async function (assert) {
       // when
       const options = { adapterOptions: { targetProfileId: 788 } };
       const url = await adapter.urlForCreateRecord('badge', options);
@@ -21,6 +19,5 @@ module('Unit | Adapters | badge', function(hooks) {
       // then
       assert.true(url.endsWith('/api/admin/target-profiles/788/badges'));
     });
-
   });
 });
