@@ -261,6 +261,7 @@ exports.register = async (server) => {
                 'is-certifiable': Joi.boolean().required(),
                 'is-always-visible': Joi.boolean().required(),
               }).required(),
+              type: Joi.string().required(),
             }).required(),
           }).required(),
         },

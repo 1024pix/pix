@@ -338,7 +338,12 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         method: 'POST',
         url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
-        payload: { data: { attributes: badge } },
+        payload: {
+          data: {
+            type: 'badges',
+            attributes: badge,
+          },
+        },
       };
 
       // when
@@ -355,6 +360,54 @@ describe('Acceptance | Controller | target-profile-controller', function () {
             key: 'TOTO23',
             message: 'Bravo !',
             title: 'Le super badge',
+          },
+          type: 'badges',
+        },
+      };
+      expect(response.statusCode).to.equal(201);
+      expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
+    });
+
+    it('should create badge with empty message and title', async function() {
+      // given
+      const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
+      const targetProfile = databaseBuilder.factory.buildTargetProfile();
+      await databaseBuilder.commit();
+      const badge = {
+        key: 'TOTO23',
+        'alt-message': 'alt-message',
+        'image-url': 'https//images.example.net',
+        'is-certifiable': false,
+        'is-always-visible': true,
+        'message': '',
+        'title': null,
+      };
+      const options = {
+        method: 'POST',
+        url: `/api/admin/target-profiles/${targetProfile.id}/badges/`,
+        headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
+        payload: {
+          data: {
+            type: 'badges',
+            attributes: badge,
+          },
+        },
+      };
+
+      // when
+      const response = await server.inject(options);
+
+      // then
+      const expectedResult = {
+        data: {
+          attributes: {
+            'alt-message': 'alt-message',
+            'image-url': 'https//images.example.net',
+            'is-certifiable': false,
+            'is-always-visible': true,
+            key: 'TOTO23',
+            message: '',
+            title: null,
           },
           type: 'badges',
         },
