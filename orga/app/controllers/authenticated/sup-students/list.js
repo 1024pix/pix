@@ -20,11 +20,11 @@ export default class ListController extends Controller {
   debouncedUpdateFilters = debounce(this.updateFilters, ENV.pagination.debounce);
 
   @action
-  triggerFiltering(fieldName, debounced, event) {
+  triggerFiltering(fieldName, debounced, value) {
     if (debounced) {
-      this.debouncedUpdateFilters({ [fieldName]: event.target.value });
+      this.debouncedUpdateFilters({ [fieldName]: value });
     } else {
-      this.updateFilters({ [fieldName]: event.target.value });
+      this.updateFilters({ [fieldName]: value });
     }
   }
 }

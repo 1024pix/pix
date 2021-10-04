@@ -80,10 +80,8 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un nom', 'bob');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      assert.equal(call.args[0], 'lastName');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, 'bob');
+      sinon.assert.calledWithExactly(triggerFiltering, 'lastName', true, 'bob');
+      assert.ok(true);
     });
 
     test('it should trigger filtering with firstname', async function (assert) {
@@ -97,10 +95,8 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un prénom', 'bob');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      assert.equal(call.args[0], 'firstName');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, 'bob');
+      sinon.assert.calledWithExactly(triggerFiltering, 'firstName', true, 'bob');
+      assert.ok(true);
     });
 
     test('it should trigger filtering with student number', async function (assert) {
@@ -114,10 +110,8 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un numéro étudiant', 'LATERREURGIGI123');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      assert.equal(call.args[0], 'studentNumber');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, 'LATERREURGIGI123');
+      sinon.assert.calledWithExactly(triggerFiltering, 'studentNumber', true, 'LATERREURGIGI123');
+      assert.ok(true);
     });
 
     test('it should trigger filtering with group', async function (assert) {
@@ -131,10 +125,8 @@ module('Integration | Component | Student::Sup::List', function (hooks) {
       await fillInByLabel('Entrer un groupe', 'L1');
 
       // then
-      const call = triggerFiltering.getCall(0);
-      assert.equal(call.args[0], 'group');
-      assert.true(call.args[1]);
-      assert.equal(call.args[2].target.value, 'L1');
+      sinon.assert.calledWithExactly(triggerFiltering, 'group', true, 'L1');
+      assert.ok(true);
     });
   });
 });
