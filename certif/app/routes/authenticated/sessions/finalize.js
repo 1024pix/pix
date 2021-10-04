@@ -22,5 +22,6 @@ export default class SessionsFinalizeRoute extends Route {
 
       transition.abort();
     }
+    this.currentUser.updateCurrentCertificationCenter(model.certificationCenterId);
   }
 }

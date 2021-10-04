@@ -15,4 +15,8 @@ export default class CertificationCandidatesRoute extends Route {
     details.set('countries', countries);
     return details;
   }
+
+  afterModel(model) {
+    this.currentUser.updateCurrentCertificationCenter(model.session.certificationCenterId);
+  }
 }
