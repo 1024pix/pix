@@ -106,7 +106,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               // given
               campaign = server.create('campaign', 'restricted', { idPixLabel: 'toto', organizationType: 'SCO', type: ASSESSMENT });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+              await clickByLabel('Je commence');
 
               // when
               await click('#login-button');
@@ -122,7 +123,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Assessment', funct
               await fillIn('#yearOfBirth', '2000');
               await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.associate'));
-              await click('.campaign-landing-page__start-button');
 
               // then
               expect(currentURL()).to.contains('/didacticiel');
