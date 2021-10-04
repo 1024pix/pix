@@ -29,7 +29,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
     assert.contains('My stage');
   });
 
-  module('badges', function() {
+  module('badges', function () {
     test('should be able to see the details of a badge', async function (assert) {
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 
@@ -38,7 +38,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       assert.equal(currentURL(), '/badges/100');
     });
 
-    test('should redirect to badge creation page on link click', async function(assert) {
+    test('should redirect to badge creation page on link click', async function (assert) {
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 
       await click('[data-test="badges-creation-redirect"]');
@@ -58,7 +58,7 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
     });
   });
 
-  module('stages', function() {
+  module('stages', function () {
     test('should be able to add a new stage', async function (assert) {
       await visit(`/target-profiles/${targetProfile.id}/insights`);
 

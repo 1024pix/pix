@@ -4,10 +4,10 @@ import { click, render, findAll } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
-module('Integration | Component | TargetProfiles::BadgeForm', function(hooks) {
+module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it should display the form', async function(assert) {
+  test('it should display the form', async function (assert) {
     // when
     await render(hbs`<TargetProfiles::BadgeForm />`);
 
@@ -16,7 +16,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function(hooks) {
     assert.dom('input').exists();
   });
 
-  test('it should display the expected number of inputs', async function(assert) {
+  test('it should display the expected number of inputs', async function (assert) {
     // given
     const expectedNumberOfInputsInForm = 7;
     const expectedNumberOfCheckboxesInForm = 2;
@@ -32,7 +32,7 @@ module('Integration | Component | TargetProfiles::BadgeForm', function(hooks) {
     assert.equal(actualNumberOfCheckboxesInForm, expectedNumberOfCheckboxesInForm);
   });
 
-  test('it should display form actions', async function(assert) {
+  test('it should display form actions', async function (assert) {
     // when
     await render(hbs`<TargetProfiles::BadgeForm />`);
 
@@ -41,11 +41,11 @@ module('Integration | Component | TargetProfiles::BadgeForm', function(hooks) {
     assert.dom('button[data-test="badge-form-submit-button"]').exists();
   });
 
-  test('should send badge creation request to api', async function(assert) {
+  test('should send badge creation request to api', async function (assert) {
     // given
     const store = this.owner.lookup('service:store');
     const createRecordMock = sinon.mock();
-    createRecordMock.returns({ save: function() {} });
+    createRecordMock.returns({ save: function () {} });
     store.createRecord = createRecordMock;
 
     await render(hbs`<TargetProfiles::BadgeForm />`);
