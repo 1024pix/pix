@@ -22,6 +22,11 @@ export default class ListItems extends Component {
   }
 
   @action
+  onFilter(fieldName, debounced, e) {
+    this.args.onFilter(fieldName, debounced, e.target.value);
+  }
+
+  @action
   openEditStudentNumberModal(student) {
     this.selectedStudent = student;
     this.isShowingEditStudentNumberModal = true;
