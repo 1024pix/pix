@@ -4,6 +4,7 @@ import SecuredRouteMixin from 'mon-pix/mixins/secured-route-mixin';
 
 export default class CompetencesRoute extends Route.extend(SecuredRouteMixin) {
   @service currentUser;
+  @service store;
 
   model(params) {
     const scorecardId = this.currentUser.user.id + '_' + params.competence_id;

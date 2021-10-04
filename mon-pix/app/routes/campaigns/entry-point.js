@@ -5,6 +5,7 @@ import { inject as service } from '@ember/service';
 export default class EntryPoint extends Route {
   @service currentUser;
   @service campaignStorage;
+  @service store;
 
   model() {
     return this.modelFor('campaigns');

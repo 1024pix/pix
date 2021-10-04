@@ -39,7 +39,6 @@ class FirstNameValidation {
 export default class StudentInformationFormComponent extends Component {
 
   @service intl;
-  @service store;
 
   @tracked ineInaValidation = new IneInaValidation();
   @tracked firstNameValidation = new FirstNameValidation();

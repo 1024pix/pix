@@ -6,7 +6,6 @@ import { A as EmberArray } from '@ember/array';
 
 export default class ScorecardDetails extends Component {
   @service currentUser;
-  @service store;
   @service router;
   @service competenceEvaluation;
 
