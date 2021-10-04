@@ -1,5 +1,16 @@
 # Pix Changelog
 
+## v3.109.0 (04/10/2021)
+
+- [#3530](https://github.com/1024pix/pix/pull/3530) [FEATURE] Enregistrer la nouvelle adresse e-mail lorsque l'utilisateur entre le code de vérification - API (PIX-3448).
+- [#3526](https://github.com/1024pix/pix/pull/3526) [FEATURE] Enregistrer la dernière date de connexion dans le cas du GAR ou de Pôle Emploi (PIX-3510).
+- [#3533](https://github.com/1024pix/pix/pull/3533) [FEATURE] Arrondir à l'entier supérieur la règle de scoring globale d'une certification (PIX-3527).
+- [#3546](https://github.com/1024pix/pix/pull/3546) [BUGFIX] Corriger l'affichage du centre de certification courant dans Pix Certif (PIX-3560).
+- [#3496](https://github.com/1024pix/pix/pull/3496) [TECH] Séparer les différentes logiques d'accès à une campagne (PIX-3181)
+- [#3550](https://github.com/1024pix/pix/pull/3550) Revert "[RELEASE] A minor is being released to 3.109.0."
+- [#3548](https://github.com/1024pix/pix/pull/3548) [DOC] Expliciter la configuration de PoleEmploi.
+- [#3534](https://github.com/1024pix/pix/pull/3534) [ADMIN] Ne plus bloquer l'enregistrement d'une liste d'organisations si certains sont déjà rattachées à un profil cible (PIX-3456)
+
 ## v3.108.0 (01/10/2021)
 
 - [#3535](https://github.com/1024pix/pix/pull/3535) [FEATURE] Cacher les élèves désactivés de la liste des élèves pouvant être inscrits à une session de certification (PIX-3163).
