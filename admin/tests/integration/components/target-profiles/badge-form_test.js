@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render, findAll } from '@ember/test-helpers';
+import { click, render, findAll, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -51,8 +51,21 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
     await render(hbs`<TargetProfiles::BadgeForm />`);
 
     // when
+    await fillIn('input#badge-key', 'clé_du_badge');
+    await fillIn('input#image-url', 'https://image-url.pix.fr');
+    await fillIn('input#alt-message', 'texte alternatif à l‘image');
     await click('button[data-test="badge-form-submit-button"]');
 
-    assert.ok(createRecordMock.calledWith('badge', {}));
+    assert.ok(
+      createRecordMock.calledWith('badge', {
+        key: 'clé_du_badge',
+        altMessage: 'texte alternatif à l‘image',
+        imageUrl: 'https://image-url.pix.fr',
+        message: '',
+        title: '',
+        isCertifiable: false,
+        isAlwaysVisible: false,
+      })
+    );
   });
 });

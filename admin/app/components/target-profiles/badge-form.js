@@ -6,7 +6,15 @@ export default class BadgeForm extends Component {
   @service notifications;
   @service store;
 
-  badge = {};
+  badge = {
+    key: '',
+    altMessage: '',
+    imageUrl: '',
+    message: '',
+    title: '',
+    isCertifiable: false,
+    isAlwaysVisible: false,
+  };
 
   constructor() {
     super(...arguments);
