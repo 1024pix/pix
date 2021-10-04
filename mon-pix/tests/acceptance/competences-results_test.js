@@ -113,7 +113,7 @@ describe('Acceptance | competences results', function() {
 
         // then
         expect(find('.competence-results-panel-header__banner--not-bad')).to.exist;
-        expect(find('.competence-results-banner-text-results__value').textContent).to.equal('5 pix');
+        expect(find('.competence-results-banner-text-results__value').innerText).to.equal('5 Pix');
       });
     });
 
@@ -141,10 +141,10 @@ describe('Acceptance | competences results', function() {
         expect(find('.competence-results-panel-header__banner--congrats')).to.exist;
         expect(find(
           '.competence-results-banner-text__results:first-child .competence-results-banner-text-results__value',
-        ).textContent).to.equal('niveau 2');
+        ).innerText).to.equal('Niveau 2');
         expect(find(
           '.competence-results-banner-text__results:last-child .competence-results-banner-text-results__value',
-        ).textContent).to.equal('17 pix');
+        ).innerText).to.equal('17 Pix');
       });
     });
   });
