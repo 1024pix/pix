@@ -24,6 +24,7 @@
     color: $success;
     font-weight: bold;
   }
+
   &__complementary-certification--rejected {
     color: $error;
     font-weight: bold;
@@ -34,6 +35,7 @@
   }
 
   .certification-informations {
+
     &__actions {
       display: flex;
       justify-content: center;
@@ -41,6 +43,7 @@
   }
 
   .candidate-informations {
+
     &__actions {
       display: flex;
       margin-top: 8px;

@@ -21,10 +21,13 @@ thead {
 }
 
 tbody {
+
   tr.tr--clickable {
     cursor: pointer;
 
-    &:hover, &:focus, &:active {
+    &:hover,
+    &:focus,
+    &:active {
       background-color: $grey-15;
       transition: 0.25s ease;
     }
@@ -36,7 +39,8 @@ tr {
   height: 60px;
 }
 
-td, th {
+td,
+th {
   text-align: left;
   padding-left: 30px;
   overflow: hidden;

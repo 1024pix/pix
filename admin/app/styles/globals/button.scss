@@ -8,7 +8,7 @@
     margin: 0;
   }
 
-  &:disabled{
+  &:disabled {
     cursor: not-allowed;
   }
 }
@@ -23,12 +23,15 @@
   color: $white;
   transition: background-color 0.2s ease;
 
-  &:hover, &:active, &:focus {
+  &:hover,
+  &:active,
+  &:focus {
     background-color: darken($blue, 10%);
   }
 }
 
 .btn-group {
+
   .btn {
     min-width: 43.5px;
   }
