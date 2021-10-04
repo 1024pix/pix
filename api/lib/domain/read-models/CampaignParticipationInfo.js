@@ -1,6 +1,7 @@
 const Joi = require('joi')
   .extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
+const _ = require('lodash');
 
 const validationSchema = Joi.object({
   participantFirstName: Joi.string().required().allow(''),
@@ -13,7 +14,7 @@ const validationSchema = Joi.object({
   createdAt: Joi.date().required(),
   sharedAt: Joi.date().required().allow(null),
   division: Joi.string().allow(null).optional(),
-  masteryPercentage: Joi.number().required().allow(null),
+  masteryRate: Joi.number().required().allow(null),
 });
 
 class CampaignParticipationInfo {
@@ -29,7 +30,7 @@ class CampaignParticipationInfo {
     createdAt,
     sharedAt,
     division,
-    masteryPercentage,
+    masteryRate,
   } = {}) {
     this.participantFirstName = participantFirstName;
     this.participantLastName = participantLastName;
@@ -41,7 +42,7 @@ class CampaignParticipationInfo {
     this.createdAt = createdAt;
     this.sharedAt = sharedAt;
     this.division = division;
-    this.masteryPercentage = Number(masteryPercentage);
+    this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
 
     validateEntity(validationSchema, this);
   }
