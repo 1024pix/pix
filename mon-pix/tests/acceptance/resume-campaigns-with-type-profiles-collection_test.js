@@ -39,7 +39,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
 
     it('should redirect to send profile page when user logs in', async function() {
       // given
-      await click('.sign-form-header__subtitle [href="/connexion"]');
+      await click('[href="/connexion"]');
       await fillIn('#login', studentInfo.email);
       await fillIn('#password', studentInfo.password);
 
@@ -54,7 +54,7 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
 
   context('When user is logged', async function() {
 
-    context('When user has seen send profile page but has not send it', async function() {
+    context('When user has seen profile page but has not send it', async function() {
 
       it('should redirect directly to send profile page', async function() {
         // when
