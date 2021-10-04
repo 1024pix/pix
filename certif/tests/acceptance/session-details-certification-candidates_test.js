@@ -98,7 +98,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
       let candidates;
 
       hooks.beforeEach(function() {
-        sessionWithCandidates = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+        sessionWithCandidates = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
         candidates = server.createList('certification-candidate', 3, { sessionId: sessionWithCandidates.id, isLinked: false, resultRecipientEmail: 'recipient@example.com' });
       });
 
@@ -238,7 +238,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
     module('when the addCandidate button is clicked', function() {
       test('it should open the new Certification Candidate Modal', async function(assert) {
         // given
-        const sessionWithoutCandidates = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+        const sessionWithoutCandidates = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
         server.create('country', []);
 
         // when
@@ -253,7 +253,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
         test('it should display the error message when the submitted form data is incorrect', async function(assert) {
           // given
-          const session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+          const session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
           server.createList('country', 2, { code: '99100' });
 
           this.server.post('/sessions/:id/certification-candidates', () => ({
@@ -277,7 +277,7 @@ module('Acceptance | Session Details Certification Candidates', function(hooks) 
 
           hooks.beforeEach(async function() {
             server.createList('country', 2, { code: '99100' });
-            session = server.create('session', { certificationCenterId: certificationPointOfContact.certificationCenterId });
+            session = server.create('session', { certificationCenterId: allowedCertificationCenterAccess.id });
             await visit(`/sessions/${session.id}/candidats`);
           });
 

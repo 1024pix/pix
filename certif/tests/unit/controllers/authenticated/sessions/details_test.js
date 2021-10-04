@@ -98,11 +98,11 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
   module('#shouldDisplayResultRecipientInfoMessage', function() {
 
     module('when the current user certification center does manage students', function() {
-      test('should also return false', function(assert) {
+      test('should return false', function(assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
-        controller.model = {
-          shouldDisplayPrescriptionScoStudentRegistrationFeature: true,
+        controller.currentUser = {
+          currentAllowedCertificationCenterAccess: { isScoManagingStudents: true },
         };
 
         // when
@@ -113,12 +113,12 @@ module('Unit | Controller | authenticated/sessions/details', function(hooks) {
       });
     });
 
-    module('when current user is if of type Sco and does not managing students', function() {
+    module('when current user does not manage students', function() {
       test('should return true', function(assert) {
         // given
         const controller = this.owner.lookup('controller:authenticated/sessions/details');
         controller.currentUser = {
-          currentCertificationCenter: { isScoManagingStudents: false },
+          currentAllowedCertificationCenterAccess: { isScoManagingStudents: false },
         };
 
         // when

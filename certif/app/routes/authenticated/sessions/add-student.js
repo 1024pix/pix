@@ -53,6 +53,10 @@ export default class AuthenticatedSessionsDetailsAddStudentRoute extends Route {
     };
   }
 
+  afterModel(model) {
+    this.currentUser.updateCurrentCertificationCenter(model.session.certificationCenterId);
+  }
+
   setupController(controller, model) {
     super.setupController(controller, model);
 
