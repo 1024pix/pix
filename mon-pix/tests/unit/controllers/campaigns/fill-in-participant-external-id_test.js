@@ -16,7 +16,7 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns/fill-in-participant-external-id');
     controller.set('model', model);
-    controller.transitionToRoute = sinon.stub();
+    controller.router = { transitionTo: sinon.stub() };
   });
 
   describe('#onSubmitParticipantExternalId', () => {
@@ -25,7 +25,7 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
       controller.actions.onSubmitParticipantExternalId.call(controller, participantExternalId);
 
       // then
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume', controller.model, { queryParams: { participantExternalId } });
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume', controller.model);
     });
   });
 
@@ -35,7 +35,7 @@ describe('Unit | Controller | Campaigns | FillInParticipantExternalId', function
       controller.actions.onCancel.call(controller);
 
       // then
-      sinon.assert.calledWithExactly(controller.transitionToRoute, 'campaigns.start-or-resume', controller.get('model.code'), { queryParams: { hasUserSeenLandingPage: false } });
+      sinon.assert.calledWithExactly(controller.router.transitionTo, 'campaigns.start-or-resume', controller.get('model.code'));
     });
   });
 });

@@ -3,13 +3,12 @@ import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
 
 export default class JoinRestrictedCampaignController extends Controller {
-  queryParams = ['participantExternalId'];
-  participantExternalId = null;
-
   @service session;
   @service store;
   @service intl;
   @service currentUser;
+  @service campaignStorage;
+  @service router;
 
   @action
   async reconcile(schoolingRegistration, adapterOptions) {
@@ -20,9 +19,8 @@ export default class JoinRestrictedCampaignController extends Controller {
       return;
     }
 
-    return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
-    });
+    this.campaignStorage.set(this.model.code, 'associationDone', true);
+    return this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 
   @action
@@ -38,8 +36,7 @@ export default class JoinRestrictedCampaignController extends Controller {
     await this.session.authenticate('authenticator:oauth2', { token: response.accessToken });
     await this.currentUser.load();
 
-    return this.transitionToRoute('campaigns.start-or-resume', this.model.code, {
-      queryParams: { associationDone: true, participantExternalId: this.participantExternalId },
-    });
+    this.campaignStorage.set(this.model.code, 'associationDone', true);
+    return this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 }

@@ -13,6 +13,7 @@ export default class JoinScoInformationModal extends Component {
   @service router;
   @service url;
   @service intl;
+  @service campaignStorage;
 
   @tracked message = null;
   @tracked displayContinueButton = true;
@@ -41,6 +42,7 @@ export default class JoinScoInformationModal extends Component {
   @action
   async goToCampaignConnectionForm() {
     await this.session.invalidate();
-    return this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode, { queryParams: { hasUserSeenJoinPage: true } });
+    this.campaignStorage.set(this.args.campaignCode, 'hasUserSeenJoinPage', true);
+    return this.router.replaceWith('campaigns.start-or-resume', this.args.campaignCode);
   }
 }

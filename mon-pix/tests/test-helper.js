@@ -22,3 +22,7 @@ mocha.setup({
 
 setApplication(Application.create(config.APP));
 start();
+
+afterEach(() => {
+  sessionStorage.clear();
+});

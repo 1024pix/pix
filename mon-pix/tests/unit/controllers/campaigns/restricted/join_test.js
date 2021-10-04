@@ -9,7 +9,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
   beforeEach(function() {
     controller = this.owner.lookup('controller:campaigns.restricted.join');
-    controller.transitionToRoute = sinon.stub();
+    controller.router = { transitionTo: sinon.stub() };
     controller.set('model', 'AZERTY999');
   });
 
@@ -33,7 +33,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
         // then
         sinon.assert.calledOnce(schoolingRegistration.save);
-        sinon.assert.notCalled(controller.transitionToRoute);
+        sinon.assert.notCalled(controller.router.transitionTo);
       });
     });
 
@@ -49,7 +49,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
 
         // then
         sinon.assert.calledOnce(schoolingRegistration.save);
-        sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+        sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume');
       });
     });
   });
@@ -86,7 +86,7 @@ describe('Unit | Controller | campaigns/restricted/join', function() {
       sinon.assert.calledOnce(externalUser.save);
       sinon.assert.calledWith(sessionStub.set, 'data.externalUser', null);
       sinon.assert.calledWith(sessionStub.authenticate, 'authenticator:oauth2', { token: accessToken });
-      sinon.assert.calledWith(controller.transitionToRoute, 'campaigns.start-or-resume');
+      sinon.assert.calledWith(controller.router.transitionTo, 'campaigns.start-or-resume');
     });
   });
 });
