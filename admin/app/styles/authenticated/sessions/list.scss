@@ -1,5 +1,4 @@
 .session-list {
-
   display: flex;
   flex-direction: column;
 
@@ -34,6 +33,7 @@
 }
 
 .session-to-be-publish {
+
   &__publish-all {
     width: 100%;
     display: flex;

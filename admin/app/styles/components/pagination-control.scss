@@ -28,11 +28,12 @@
   &__arrow {
     margin: 0 10px;
 
-    &--disabled .icon-button{
-        color: $grey-15;
-        cursor: default;
+    &--disabled .icon-button {
+      color: $grey-15;
+      cursor: default;
 
-      &.icon-button:hover, &.icon-button:active {
+      &.icon-button:hover,
+      &.icon-button:active {
         background-color: transparent;
       }
     }
@@ -46,10 +47,10 @@
     margin-right: 4px;
   }
 
-  &__current-page, &__last-page {
+  &__current-page,
+  &__last-page {
     display: flex;
     justify-content: center;
     width: 30px;
   }
 }
-
