@@ -33,6 +33,7 @@ class CampaignProfilesCollectionExport {
 
   _buildHeader() {
     const displayStudentNumber = this.organization.isSup && this.organization.isManagingStudents;
+    const displayGroup = this.organization.isSup && this.organization.isManagingStudents;
     const displayDivision = this.organization.isSco && this.organization.isManagingStudents;
 
     const header = [
@@ -41,6 +42,7 @@ class CampaignProfilesCollectionExport {
       this.translate('campaign-export.common.campaign-name'),
       this.translate('campaign-export.common.participant-lastname'),
       this.translate('campaign-export.common.participant-firstname'),
+      displayGroup && this.translate('campaign-export.common.participant-group'),
       displayDivision && this.translate('campaign-export.common.participant-division'),
       displayStudentNumber && this.translate('campaign-export.common.participant-student-number'),
       this.idPixLabel,

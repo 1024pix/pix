@@ -452,7 +452,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
       });
 
       context('when the participant does not have a student number', function() {
-        it('should return the csv with empty student number', function() {
+        it('should return the csv with empty student number and group', function() {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -472,6 +472,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             participantLastName: 'Carlitos',
             studentNumber: null,
             pixScore: 13,
+            group: '',
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
@@ -479,6 +480,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
+            `"${campaignParticipationResultData.group}";` +
             '"";' +
             '"Oui";' +
             '2019-03-01;' +
@@ -520,6 +522,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             participantLastName: 'Carlitos',
             studentNumber: 'HELLO123',
             pixScore: 13,
+            group: 'NA',
           };
 
           const csvExcpectedLine = `"${organization.name}";` +
@@ -527,6 +530,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
             `"${campaignParticipationResultData.participantFirstName}";` +
+            `"${campaignParticipationResultData.group}";` +
             `"${campaignParticipationResultData.studentNumber}";` +
             '"Oui";' +
             '2019-03-01;' +
@@ -546,6 +550,57 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
+
+      context('when the participant has a group', function() {
+        it('should return the csv with group information', function() {
+          //given
+          sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
+          sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
+
+          campaign.id = 123;
+          campaign.name = 'test';
+          organization.name = 'Umbrella';
+
+          const campaignParticipationResultData = {
+            id: 1,
+            isShared: true,
+            isCompleted: true,
+            createdAt: new Date('2019-02-25T10:00:00Z'),
+            sharedAt: new Date('2019-03-01T23:04:05Z'),
+            userId: 123,
+            participantFirstName: 'Juan',
+            participantLastName: 'Carlitos',
+            studentNumber: 'HELLO123',
+            pixScore: 13,
+            group: 'groupix',
+          };
+
+          const csvExcpectedLine = `"${organization.name}";` +
+            `${campaign.id};` +
+            `"${campaign.name}";` +
+            `"${campaignParticipationResultData.participantLastName}";` +
+            `"${campaignParticipationResultData.participantFirstName}";` +
+            `"${campaignParticipationResultData.group}";` +
+            `"${campaignParticipationResultData.studentNumber}";` +
+            '"Oui";' +
+            '2019-03-01;' +
+            '13;' +
+            '"Non";' +
+            '0;' +
+            '1;' +
+            '9;' +
+            '0;' +
+            '4' +
+            '\n';
+
+          //when
+          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+
+          //then
+          expect(line.toCsvLine()).to.equal(csvExcpectedLine);
+        });
+      });
+
     });
 
     context('When organization is SUP and not managing students', function() {
