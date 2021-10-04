@@ -1,4 +1,5 @@
 name: automerge check
+
 on:
   pull_request:
     types:
@@ -6,6 +7,12 @@ on:
   check_suite:
     types:
       - completed
+
+permissions:
+  checks: read
+  contents: write
+  actions: write
+
 jobs:
   automerge:
     runs-on: ubuntu-latest
