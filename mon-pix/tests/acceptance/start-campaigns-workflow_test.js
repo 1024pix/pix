@@ -67,32 +67,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           // then
           expect(find('.fill-in-campaign-code__start-button').textContent).to.contains('Commencer');
         });
-
-        context('When is a simplified access campaign', function() {
-
-          beforeEach(function() {
-            campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
-          });
-
-          it('should redirect to landing page', async function() {
-            // when
-            await visit(`/campagnes/${campaign.code}`);
-
-            // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-          });
-
-          it('should redirect to tutorial page after starting campaign', async function() {
-            // when
-            await visit(`/campagnes/${campaign.code}`);
-            await click('button[type="submit"]');
-            await fillIn('#id-pix-label', 'vu');
-            await click('button[type="submit"]');
-
-            // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
-          });
-        });
       });
 
       context('When campaign code exists', function() {
@@ -594,58 +568,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
         });
 
       });
-
-      context('When campaign has external id', function() {
-
-        context('When participant external id is not set in the url', function() {
-
-          beforeEach(async function() {
-            campaign = server.create('campaign', { idPixLabel: 'email' });
-            await startCampaignByCode(campaign.code);
-            await fillIn('#firstName', prescritUser.firstName);
-            await fillIn('#lastName', prescritUser.lastName);
-            await fillIn('#email', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('.signup-form__cgu');
-            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
-          });
-
-          it('should redirect to fill-in-participant-external-id page after signup', async function() {
-            // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
-          });
-        });
-
-        context('When participant external id is set in the url', function() {
-
-          context('When campaign is not restricted', function() {
-            beforeEach(async function() {
-              campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto' });
-              await startCampaignByCodeAndExternalId(campaign.code);
-              await fillIn('#firstName', prescritUser.firstName);
-              await fillIn('#lastName', prescritUser.lastName);
-              await fillIn('#email', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
-              await click('.signup-form__cgu');
-              await click('.button');
-            });
-
-          });
-        });
-      });
-
-      context('When campaign does not have external id', function() {
-        beforeEach(async function() {
-          campaign = server.create('campaign', { idPixLabel: null });
-          await startCampaignByCode(campaign.code);
-          await fillIn('#firstName', prescritUser.firstName);
-          await fillIn('#lastName', prescritUser.lastName);
-          await fillIn('#email', prescritUser.email);
-          await fillIn('#password', prescritUser.password);
-          await click('.signup-form__cgu');
-          await click('.button');
-        });
-      });
     });
 
     context('When user is logged in', function() {
@@ -669,7 +591,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
       context('When campaign is restricted and SCO', function() {
 
         beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', organizationType: 'SCO' });
+          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
         context('When association is not already done', function() {
@@ -688,15 +610,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
             // then
             expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
-          });
-
-          it('should redirect to join restricted campaign page when campaign code is in url', async function() {
-            // when
-            await visit(`/campagnes/${campaign.code}`);
-
-            //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
-            expect(find('.join-restricted-campaign')).to.exist;
           });
 
           it('should redirect to join restricted campaign page', async function() {
@@ -738,24 +651,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-participant-external-id page', async function() {
-            // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
-            await fillIn('#firstName', 'Robert');
-            await fillIn('#lastName', 'Smith');
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await clickByLabel(this.intl.t('pages.join.button'));
-            await clickByLabel(this.intl.t('pages.join.sco.associate'));
-
-            // when
-            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
-
-            //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
-          });
-
         });
 
         context('When association is already done', function() {
@@ -774,7 +669,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-participant-external-id page', async function() {
+          it('should begin campaign participation', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
@@ -782,7 +677,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
@@ -869,17 +764,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}`);
           expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
-        });
-
-        it('should resume the campaign when user already has a participation', async function() {
-          // given
-          server.create('campaign-participation', { campaignId: campaign.id, userId: prescritUser.id });
-
-          // when
-          await visit(`/campagnes/${campaign.code}`);
-
-          // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
