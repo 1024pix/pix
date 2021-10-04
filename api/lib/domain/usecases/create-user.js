@@ -47,7 +47,7 @@ async function _validateData({
 
   const validationErrors = [];
   if (user.email) {
-    validationErrors.push(await userRepository.isEmailAvailable(user.email).catch(_manageEmailAvailabilityError));
+    validationErrors.push(await userRepository.checkIfEmailIsAvailable(user.email).catch(_manageEmailAvailabilityError));
   }
   validationErrors.push(userValidatorError);
   validationErrors.push(passwordValidatorError);

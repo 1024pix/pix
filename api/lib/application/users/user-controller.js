@@ -9,6 +9,7 @@ const sharedProfileForCampaignSerializer = require('../../infrastructure/seriali
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const emailVerificationSerializer = require('../../infrastructure/serializers/jsonapi/email-verification-serializer');
 const userDetailsForAdminSerializer = require('../../infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
+const updateEmailSerializer = require('../../infrastructure/serializers/jsonapi/update-email-serializer');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
@@ -269,11 +270,23 @@ module.exports = {
 
   async sendVerificationCode(request, h) {
     const locale = extractLocaleFromRequest(request);
+    const i18n = request.i18n;
     const userId = request.params.id;
     const { newEmail, password } = await emailVerificationSerializer.deserialize(request.payload);
 
-    await usecases.sendVerificationCode({ locale, newEmail, password, userId });
+    await usecases.sendVerificationCode({ i18n, locale, newEmail, password, userId });
     return h.response().code(204);
   },
 
+  async updateUserEmailWithValidation(request) {
+    const userId = request.params.id;
+    const code = request.payload.data.attributes.code;
+
+    const updatedUserAttributes = await usecases.updateUserEmailWithValidation({
+      userId,
+      code,
+    });
+
+    return updateEmailSerializer.serialize(updatedUserAttributes);
+  },
 };

@@ -18,6 +18,8 @@ const {
   MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError,
   UserHasAlreadyLeftSCO,
   SchoolingRegistrationAlreadyLinkedToInvalidUserError,
+  InvalidVerificationCodeError,
+  EmailModificationDemandNotFoundOrExpiredError,
 } = require('../../../lib/domain/errors');
 const HttpErrors = require('../../../lib/application/http-errors.js');
 
@@ -293,6 +295,32 @@ describe('Unit | Application | ErrorManager', function() {
 
       // then
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
+    });
+
+    it('should instantiate ForbiddenError when InvalidVerificationCodeError', async function() {
+      // given
+      const error = new InvalidVerificationCodeError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
+    });
+
+    it('should instantiate ForbiddenError when EmailModificationDemandNotFoundOrExpiredError', async function() {
+      // given
+      const error = new EmailModificationDemandNotFoundOrExpiredError();
+      sinon.stub(HttpErrors, 'ForbiddenError');
+      const params = { request: {}, h: hFake, error };
+
+      // when
+      await handle(params.request, params.h, params.error);
+
+      // then
+      expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
     it('should instantiate BadRequestError when SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function() {

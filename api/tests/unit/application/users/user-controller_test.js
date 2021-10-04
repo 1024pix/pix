@@ -1,12 +1,11 @@
 const { sinon, expect, domainBuilder, hFake } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -18,6 +17,7 @@ const profileSerializer = require('../../../../lib/infrastructure/serializers/js
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
 
 const userController = require('../../../../lib/application/users/user-controller');
 
@@ -896,13 +896,11 @@ describe('Unit | Controller | user-controller', function() {
 
   describe('#sendVerificationCode', function() {
 
-    beforeEach(function() {
-      sinon.stub(usecases, 'sendVerificationCode');
-    });
-
     it('should call the usecase to send verification code with code, email and locale', async function() {
       // given
+      sinon.stub(usecases, 'sendVerificationCode');
       usecases.sendVerificationCode.resolves();
+      const i18n = getI18n();
       const userId = 1;
       const locale = 'fr';
       const newEmail = 'user@example.net';
@@ -910,6 +908,7 @@ describe('Unit | Controller | user-controller', function() {
 
       const request = {
         headers: { 'accept-language': locale },
+        i18n,
         auth: {
           credentials: {
             userId,
@@ -934,6 +933,7 @@ describe('Unit | Controller | user-controller', function() {
 
       // then
       expect(usecases.sendVerificationCode).to.have.been.calledWith({
+        i18n,
         locale,
         newEmail,
         password,
@@ -942,4 +942,49 @@ describe('Unit | Controller | user-controller', function() {
     });
   });
 
+  describe('#updateUserEmailWithValidation', function() {
+
+    it('should call the usecase to update user email', async function() {
+      // given
+      const userId = 1;
+      const updatedEmail = 'new-email@example.net';
+      const code = '999999';
+
+      const responseSerialized = Symbol('an response serialized');
+      sinon.stub(usecases, 'updateUserEmailWithValidation');
+      sinon.stub(updateEmailSerializer, 'serialize');
+
+      usecases.updateUserEmailWithValidation.withArgs({ code, userId }).resolves(updatedEmail);
+      updateEmailSerializer.serialize.withArgs(updatedEmail).returns(responseSerialized);
+
+      const request = {
+        auth: {
+          credentials: {
+            userId,
+          },
+        },
+        params: {
+          id: userId,
+        },
+        payload: {
+          data: {
+            type: 'users',
+            attributes: {
+              code,
+            },
+          },
+        },
+      };
+
+      // when
+      const response = await userController.updateUserEmailWithValidation(request);
+
+      // then
+      expect(usecases.updateUserEmailWithValidation).to.have.been.calledWith({
+        code,
+        userId,
+      });
+      expect(response).to.deep.equal(responseSerialized);
+    });
+  });
 });

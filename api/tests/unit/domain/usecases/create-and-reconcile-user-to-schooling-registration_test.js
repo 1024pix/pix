@@ -54,7 +54,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
     };
     userRepository = {
       create: sinon.stub(),
-      isEmailAvailable: sinon.stub(),
+      checkIfEmailIsAvailable: sinon.stub(),
       isUsernameAvailable: sinon.stub(),
       get: sinon.stub(),
     };
@@ -79,7 +79,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       .withArgs(campaignCode)
       .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
     userRepository.isUsernameAvailable.resolves();
-    userRepository.isEmailAvailable.resolves();
+    userRepository.checkIfEmailIsAvailable.resolves();
 
     mailService.sendAccountCreationEmail.resolves();
 
@@ -220,7 +220,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
 
         it('should throw EntityValidationError', async function() {
           // given
-          userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+          userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
 
           // when
           const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({

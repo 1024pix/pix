@@ -4,13 +4,14 @@ const {
   catchErr,
   domainBuilder,
 } = require('../../../test-helper');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
-const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
 const {
   AlreadyRegisteredEmailError,
   InvalidPasswordForUpdateEmailError,
   UserNotAuthorizedToUpdateEmailError,
 } = require('../../../../lib/domain/errors');
+const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
+const codeUtils = require('../../../../lib/infrastructure/utils/code-utils');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 const usecases = require('../../../../lib/domain/usecases');
 
@@ -27,7 +28,7 @@ describe('Unit | UseCase | send-verification-code', function() {
       saveEmailModificationDemand: sinon.stub(),
     };
     userRepository = {
-      isEmailAvailable: sinon.stub(),
+      checkIfEmailIsAvailable: sinon.stub(),
       get: sinon.stub(),
     };
     encryptionService = {
@@ -51,9 +52,10 @@ describe('Unit | UseCase | send-verification-code', function() {
     const password = 'pix123';
     const passwordHash = 'ABCD';
     const locale = 'fr';
+    const i18n = getI18n();
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.withArgs(newEmail).resolves(newEmail);
+    userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
@@ -65,6 +67,7 @@ describe('Unit | UseCase | send-verification-code', function() {
 
     // when
     await usecases.sendVerificationCode({
+      i18n,
       locale,
       newEmail,
       password,
@@ -88,9 +91,11 @@ describe('Unit | UseCase | send-verification-code', function() {
     const passwordHash = 'ABCD';
     const code = '999999';
     const locale = 'fr';
+    const i18n = getI18n();
+    const translate = getI18n().__;
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.withArgs(newEmail).resolves(newEmail);
+    userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,
@@ -102,6 +107,7 @@ describe('Unit | UseCase | send-verification-code', function() {
 
     // when
     await usecases.sendVerificationCode({
+      i18n,
       locale,
       newEmail,
       password,
@@ -118,6 +124,7 @@ describe('Unit | UseCase | send-verification-code', function() {
       code,
       locale,
       email: newEmail,
+      translate,
     });
   });
 
@@ -129,7 +136,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     const locale = 'fr';
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+    userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
 
     // when
     const error = await catchErr(usecases.sendVerificationCode)({
@@ -157,7 +164,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     const locale = 'fr';
 
     userRepository.get.withArgs(userId).resolves({ email: 'oldEmail@example.net' });
-    userRepository.isEmailAvailable.withArgs(newEmail).resolves(newEmail);
+    userRepository.checkIfEmailIsAvailable.withArgs(newEmail).resolves(newEmail);
     authenticationMethodRepository.findOneByUserIdAndIdentityProvider
       .withArgs({
         userId,

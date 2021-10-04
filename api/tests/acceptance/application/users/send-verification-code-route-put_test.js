@@ -27,7 +27,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': newEmail,
             password: rawPassword,
@@ -69,7 +69,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': newEmail,
             password: rawPassword,
@@ -111,7 +111,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': user.email,
             password: rawPassword,
@@ -154,7 +154,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': user.email,
             password: rawPassword,
@@ -196,7 +196,7 @@ describe('Acceptance | Route | Users', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': newEmail,
             password: 'WRONG-PASSWORD',

@@ -20,7 +20,7 @@ describe('Unit | UseCase | update-user-email', function() {
   beforeEach(function() {
     userRepository = {
       updateEmail: sinon.stub(),
-      isEmailAvailable: sinon.stub(),
+      checkIfEmailIsAvailable: sinon.stub(),
       get: sinon.stub().resolves({ email: 'old_email@example.net' }),
     };
 
@@ -118,7 +118,7 @@ describe('Unit | UseCase | update-user-email', function() {
 
   it('should throw AlreadyRegisteredEmailError if email already exists', async function() {
     // given
-    userRepository.isEmailAvailable.rejects(new AlreadyRegisteredEmailError());
+    userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
     const userId = 1;
     const authenticatedUserId = 1;
     const newEmail = 'new_email@example.net';

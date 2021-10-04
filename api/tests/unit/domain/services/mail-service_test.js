@@ -4,6 +4,7 @@ const mailService = require('../../../../lib/domain/services/mail-service');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const settings = require('../../../../lib/config');
+const { getI18n } = require('../../../tooling/i18n/i18n');
 
 const mainTranslationsMapping = {
   fr: require('../../../../translations/fr'),
@@ -716,8 +717,10 @@ describe('Unit | Service | MailService', function() {
     let testCases;
     let code;
     let userEmail;
+    let translate;
 
     before(function() {
+      translate = getI18n().__;
       userEmail = 'user@example.net';
       code = '999999';
 
@@ -732,7 +735,7 @@ describe('Unit | Service | MailService', function() {
           expected: {
             from: 'ne-pas-repondre@pix.fr',
             to: userEmail,
-            subject: translationsMapping.fr.subject,
+            subject: translate(translationsMapping.fr.subject, { code }),
             template: 'test-email-verification-code-template-id',
             tags: ['EMAIL_VERIFICATION_CODE'],
             variables: {
@@ -749,7 +752,7 @@ describe('Unit | Service | MailService', function() {
           expected: {
             from: 'ne-pas-repondre@pix.fr',
             to: userEmail,
-            subject: translationsMapping.fr.subject,
+            subject: translate(translationsMapping.fr.subject, { code }),
             template: 'test-email-verification-code-template-id',
             tags: ['EMAIL_VERIFICATION_CODE'],
             variables: {
@@ -766,7 +769,7 @@ describe('Unit | Service | MailService', function() {
           expected: {
             from: 'ne-pas-repondre@pix.fr',
             to: userEmail,
-            subject: translationsMapping.en.subject,
+            subject: translate(translationsMapping.en.subject, { code }),
             tags: ['EMAIL_VERIFICATION_CODE'],
             template: 'test-email-verification-code-template-id',
             variables: {
@@ -786,7 +789,12 @@ describe('Unit | Service | MailService', function() {
       const testCase = testCases[0];
 
       // when
-      await mailService.sendVerificationCodeEmail({ code, email: userEmail, locale: testCase.locale });
+      await mailService.sendVerificationCodeEmail({
+        code,
+        email: userEmail,
+        locale: testCase.locale,
+        translate,
+      });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
@@ -799,7 +807,12 @@ describe('Unit | Service | MailService', function() {
       const testCase = testCases[1];
 
       // when
-      await mailService.sendVerificationCodeEmail({ code, email: userEmail, locale: testCase.locale });
+      await mailService.sendVerificationCodeEmail({
+        code,
+        email: userEmail,
+        locale: testCase.locale,
+        translate,
+      });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];
@@ -812,7 +825,12 @@ describe('Unit | Service | MailService', function() {
       const testCase = testCases[2];
 
       // when
-      await mailService.sendVerificationCodeEmail({ code, email: userEmail, locale: testCase.locale });
+      await mailService.sendVerificationCodeEmail({
+        code,
+        email: userEmail,
+        locale: testCase.locale,
+        translate,
+      });
 
       // then
       const options = mailer.sendEmail.firstCall.args[0];

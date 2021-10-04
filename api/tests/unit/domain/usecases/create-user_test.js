@@ -35,7 +35,7 @@ describe('Unit | UseCase | create-user', function() {
 
     };
     userRepository = {
-      isEmailAvailable: sinon.stub(),
+      checkIfEmailIsAvailable: sinon.stub(),
       create: sinon.stub(),
     };
     campaignRepository = {
@@ -55,7 +55,7 @@ describe('Unit | UseCase | create-user', function() {
     sinon.stub(userValidator, 'validate');
     sinon.stub(passwordValidator, 'validate');
 
-    userRepository.isEmailAvailable.resolves();
+    userRepository.checkIfEmailIsAvailable.resolves();
     userRepository.create.resolves(savedUser);
 
     userValidator.validate.returns();
@@ -72,7 +72,7 @@ describe('Unit | UseCase | create-user', function() {
 
     it('should check the non existence of email in UserRepository', async function() {
       // given
-      userRepository.isEmailAvailable.resolves();
+      userRepository.checkIfEmailIsAvailable.resolves();
 
       // when
       await createUser({
@@ -87,7 +87,7 @@ describe('Unit | UseCase | create-user', function() {
       });
 
       // then
-      expect(userRepository.isEmailAvailable).to.have.been.calledWith(userEmail);
+      expect(userRepository.checkIfEmailIsAvailable).to.have.been.calledWith(userEmail);
     });
 
     it('should validate the user', async function() {
@@ -136,7 +136,7 @@ describe('Unit | UseCase | create-user', function() {
           }],
         });
 
-        userRepository.isEmailAvailable.rejects(emailExistError);
+        userRepository.checkIfEmailIsAvailable.rejects(emailExistError);
 
         // when
         const error = await catchErr(createUser)({
@@ -213,7 +213,7 @@ describe('Unit | UseCase | create-user', function() {
 
       it('should reject with an error EntityValidationError containing the entityValidationError and the AlreadyRegisteredEmailError', async function() {
         // given
-        userRepository.isEmailAvailable.rejects(emailExistError);
+        userRepository.checkIfEmailIsAvailable.rejects(emailExistError);
         userValidator.validate.throws(entityValidationError);
 
         // when
@@ -254,7 +254,7 @@ describe('Unit | UseCase | create-user', function() {
       });
 
       // then
-      expect(userRepository.isEmailAvailable).to.not.have.been.called;
+      expect(userRepository.checkIfEmailIsAvailable).to.not.have.been.called;
     });
   });
 
