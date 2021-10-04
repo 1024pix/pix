@@ -92,7 +92,7 @@ async function _validateData({
     }
   } else {
     try {
-      await userRepository.isEmailAvailable(userAttributes.email);
+      await userRepository.checkIfEmailIsAvailable(userAttributes.email);
     } catch (err) {
       validationErrors.push(_manageEmailAvailabilityError(err));
     }

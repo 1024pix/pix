@@ -468,4 +468,12 @@ describe('Unit | Domain | Errors', function() {
   it('should export a SchoolingRegistrationsCouldNotBeSavedError', function() {
     expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
   });
+
+  it('should export an InvalidVerificationCodeError', function() {
+    expect(errors.InvalidVerificationCodeError).to.exist;
+  });
+
+  it('should export an EmailModificationDemandNotFoundOrExpiredError', function() {
+    expect(errors.EmailModificationDemandNotFoundOrExpiredError).to.exist;
+  });
 });

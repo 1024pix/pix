@@ -712,7 +712,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
     });
   });
 
-  describe('#isEmailAvailable', function() {
+  describe('#checkIfEmailIsAvailable', function() {
 
     let userInDb;
 
@@ -723,7 +723,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
 
     it('should return the email when the email is not registered', async function() {
       // when
-      const email = await userRepository.isEmailAvailable('email@example.net');
+      const email = await userRepository.checkIfEmailIsAvailable('email@example.net');
 
       // then
       expect(email).to.equal('email@example.net');
@@ -731,7 +731,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
 
     it('should reject an AlreadyRegisteredEmailError when it already exists', async function() {
       // when
-      const result = await catchErr(userRepository.isEmailAvailable)(userInDb.email);
+      const result = await catchErr(userRepository.checkIfEmailIsAvailable)(userInDb.email);
 
       // then
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);
@@ -745,7 +745,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function(
       await databaseBuilder.commit();
 
       // when
-      const result = await catchErr(userRepository.isEmailAvailable)(lowerCaseEmail);
+      const result = await catchErr(userRepository.checkIfEmailIsAvailable)(lowerCaseEmail);
 
       // then
       expect(result).to.be.instanceOf(AlreadyRegisteredEmailError);

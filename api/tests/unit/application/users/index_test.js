@@ -590,7 +590,7 @@ describe('Unit | Router | user-router', function() {
       const url = '/api/users/1/email/verification-code';
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'user@example.net',
             password: 'Password123',
@@ -614,7 +614,7 @@ describe('Unit | Router | user-router', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'user@example.net',
             password: 'Password123',
@@ -652,7 +652,7 @@ describe('Unit | Router | user-router', function() {
 
       // then
       expect(result.statusCode).to.equal(422);
-      expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-code]');
+      expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-codes]');
     });
 
     it('should return 422 when email is not valid', async function() {
@@ -664,7 +664,7 @@ describe('Unit | Router | user-router', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'newEmail',
             password: 'Password123',
@@ -689,7 +689,7 @@ describe('Unit | Router | user-router', function() {
 
       const payload = {
         data: {
-          type: 'email-verification-code',
+          type: 'email-verification-codes',
           attributes: {
             'new-email': 'user@example.net',
           },
@@ -702,6 +702,83 @@ describe('Unit | Router | user-router', function() {
       // then
       expect(result.statusCode).to.equal(422);
       expect(result.result.errors[0].detail).to.equal('"data.attributes.password" is required');
+    });
+  });
+
+  describe('POST /api/users/{id}/update-email', function() {
+
+    it('should return 403 if requested user is not the same as authenticated user', async function() {
+      // given
+      sinon.stub(featureToggles, 'checkIfEmailValidationIsEnabled').resolves(true);
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/update-email';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            code: '999999',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(403);
+      expect(result.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
+    });
+
+    it('should return 404 if FT_VALIDATE_EMAIL is not enabled', async function() {
+      // given
+      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/update-email';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            code: '999999',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(404);
+      expect(result.result.errors[0].detail).to.equal('Cette route est désactivée');
+    });
+
+    it('should return 422 when code is not valid', async function() {
+      // given
+      const httpTestServer = new HttpTestServer();
+      await httpTestServer.register(moduleUnderTest);
+
+      const url = '/api/users/1/update-email';
+
+      const payload = {
+        data: {
+          type: 'email-verification-codes',
+          attributes: {
+            code: '9',
+          },
+        },
+      };
+
+      // when
+      const result = await httpTestServer.request('POST', url, payload);
+
+      // then
+      expect(result.statusCode).to.equal(422);
+      expect(result.result.errors[0].detail).to.equal('"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/');
     });
   });
 });
