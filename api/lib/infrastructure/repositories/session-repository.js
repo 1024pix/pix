@@ -1,9 +1,11 @@
 const _ = require('lodash');
 
+const { knex } = require('../../../db/knex-database-connection');
 const BookshelfSession = require('../orm-models/Session');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
+const Session = require('../../domain/models/Session');
+const CertificationCandidate = require('../../domain/models/CertificationCandidate');
 
 module.exports = {
   async save(sessionData) {
@@ -40,25 +42,21 @@ module.exports = {
   },
 
   async getWithCertificationCandidates(idSession) {
-    try {
-      const session = await BookshelfSession.where({ id: idSession }).fetch({
-        withRelated: [
-          {
-            certificationCandidates: function (qb) {
-              qb.select(Bookshelf.knex.raw('*'));
-              qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
-              qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
-            },
-          },
-        ],
-      });
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
-    } catch (err) {
-      if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError("La session n'existe pas ou son accès est restreint");
-      }
-      throw err;
+
+    const results = await knex.select('sessions.*').select({
+      certificationCandidates: knex.raw(`
+        json_agg("certification-candidates".* order by lower("lastName"), lower("firstName"))
+        `,
+      ),
+    }).from('sessions')
+      .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
+      .groupBy('sessions.id')
+      .where({ 'sessions.id': idSession })
+      .first();
+    if (!results) {
+      throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
     }
+    return _toDomain(results);
   },
 
   async updateSessionInfo(session) {
@@ -118,3 +116,14 @@ module.exports = {
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },
 };
+
+function _toDomain(results) {
+  const toDomainCertificationCandidates = results.certificationCandidates.map((candidate) => {
+    return new CertificationCandidate({ ...candidate });
+  });
+
+  return new Session({
+    ...results,
+    certificationCandidates: toDomainCertificationCandidates,
+  });
+}
