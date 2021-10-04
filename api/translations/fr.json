@@ -46,6 +46,7 @@
       "organization-name": "Nom de l'organisation",
       "participant-division": "Classe",
       "participant-firstname": "Prénom du Participant",
+      "participant-group": "Groupe du Participant",
       "participant-lastname": "Nom du Participant",
       "participant-student-number": "Numéro Étudiant",
       "yes": "Oui"
