@@ -12,15 +12,14 @@ export async function startCampaignByCodeAndExternalId(campaignCode, externalId 
   await click('.campaign-landing-page__start-button');
 }
 
-export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId, intl) {
+export async function resumeCampaignOfTypeAssessmentByCode(campaignCode, hasExternalParticipantId) {
   await visit(`/campagnes/${campaignCode}`);
-  await click('.campaign-landing-page__start-button');
+  await clickByLabel('Je commence');
   if (hasExternalParticipantId) {
     await fillIn('#id-pix-label', 'monmail@truc.fr');
-    await click('.button');
+    await clickByLabel('Continuer');
   }
-  await clickByLabel(intl.t('pages.tutorial.pass'));
-  await click('.challenge-actions__action-skip');
+  await clickByLabel('Ignorer');
 }
 
 export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode, hasExternalParticipantId) {
@@ -35,17 +34,4 @@ export async function resumeCampaignOfTypeProfilesCollectionByCode(campaignCode,
 export async function completeCampaignOfTypeProfilesCollectionByCode(campaignCode) {
   await visit(`/campagnes/${campaignCode}`);
   await clickByLabel('J\'envoie mon profil');
-}
-
-export async function completeCampaignOfTypeAssessmentByCode(campaignCode) {
-  await visit(`/campagnes/${campaignCode}`);
-  await click('.challenge-actions__action-skip');
-  await click('.challenge-actions__action-skip');
-}
-
-export async function completeCampaignOfTypeAssessmentAndSeeResultsByCode(campaignCode) {
-  await visit(`/campagnes/${campaignCode}`);
-  await click('.challenge-actions__action-skip');
-  await click('.challenge-actions__action-skip');
-  await click('.checkpoint__continue-button');
 }

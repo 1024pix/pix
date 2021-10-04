@@ -28,7 +28,7 @@ describe('Acceptance | Footer', function() {
       const campaign = server.create('campaign', 'withOneChallenge');
 
       // when
-      await resumeCampaignOfTypeAssessmentByCode(campaign.code, false, this.intl);
+      await resumeCampaignOfTypeAssessmentByCode(campaign.code, false);
 
       // then
       expect(find('.footer')).to.not.exist;
