@@ -99,7 +99,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.isShared ? moment.utc(this.campaignParticipationInfo.sharedAt).format('YYYY-MM-DD') : this.emptyContent,
       ...(this.targetProfileWithLearningContent.hasReachableStages() ? [this._getReachedStage()] : []),
       ...(this.campaignParticipationInfo.isShared ? this._makeBadgesColumns() : this._makeEmptyColumns(this.targetProfileWithLearningContent.badges.length)),
-      this.campaignParticipationInfo.isShared ? this.campaignParticipationInfo.masteryPercentage : this.emptyContent,
+      this.campaignParticipationInfo.isShared ? this.campaignParticipationInfo.masteryRate : this.emptyContent,
     ];
   }
 
@@ -148,7 +148,7 @@ class CampaignAssessmentCsvLine {
       return this.emptyContent;
     }
 
-    const masteryPercentage = this.campaignParticipationInfo.masteryPercentage * 100;
+    const masteryPercentage = this.campaignParticipationInfo.masteryRate * 100;
 
     return this.targetProfileWithLearningContent.reachableStages.filter((stage) => masteryPercentage >= stage.threshold).length;
   }
