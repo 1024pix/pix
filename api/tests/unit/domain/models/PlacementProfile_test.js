@@ -1,4 +1,4 @@
-const { expect } = require('../../../test-helper');
+const { expect, domainBuilder } = require('../../../test-helper');
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
@@ -157,4 +157,19 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
     });
   });
 
+  describe('#getCertifiableUserCompetences', function() {
+    it('filters certifiable user competences', function() {
+      const uc1 = domainBuilder.buildUserCompetence({ estimatedLevel: 1 });
+      const uc2 = domainBuilder.buildUserCompetence({ estimatedLevel: 0 });
+      const uc3 = domainBuilder.buildUserCompetence({ estimatedLevel: 1 });
+      const uc4 = domainBuilder.buildUserCompetence({ estimatedLevel: 0 });
+      const placementProfile = domainBuilder.buildPlacementProfile({
+        userCompetences: [uc1, uc2, uc3, uc4],
+      });
+
+      const result = placementProfile.getCertifiableUserCompetences();
+
+      expect(result).to.deep.equal([uc1, uc3]);
+    });
+  });
 });
