@@ -64,6 +64,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
             participantLastName: 'Last',
             studentNumber: null,
             division: null,
+            group: null,
           },
         ]);
         expect(campaignParticipationInfos[0].isShared).to.be.true;
@@ -128,6 +129,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           participantLastName: 'Narrator',
           studentNumber: null,
           division: null,
+          group: null,
         });
         expect(campaignParticipationInfosOrdered[0].isShared).to.equal(true);
 
@@ -143,6 +145,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           participantLastName: 'Durden',
           studentNumber: null,
           division: null,
+          group: null,
         });
         expect(campaignParticipationInfosOrdered[1].isShared).to.equal(false);
       });
@@ -197,6 +200,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           participantLastName: 'Narrator',
           studentNumber: null,
           division: null,
+          group: null,
         }]);
       });
     });
@@ -260,6 +264,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           participantLastName: 'Narrator',
           studentNumber: null,
           division: null,
+          group: null,
         }]);
       });
     });
@@ -307,6 +312,7 @@ describe('Integration | Repository | Campaign Participation Info', function() {
           userId,
           studentNumber: 'Pipon et Jambon',
           division: '6eme',
+          group: 'G1',
         });
         databaseBuilder.factory.buildSchoolingRegistration({
           userId,
@@ -342,6 +348,15 @@ describe('Integration | Repository | Campaign Participation Info', function() {
 
         // then
         expect(campaignParticipationInfos[0].division).to.equal(schoolingRegistration.division);
+      });
+
+      it('should return the group', async function() {
+
+        // when
+        const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
+
+        // then
+        expect(campaignParticipationInfos[0].group).to.equal(schoolingRegistration.group);
       });
     });
   });

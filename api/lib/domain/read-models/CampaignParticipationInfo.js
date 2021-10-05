@@ -14,6 +14,7 @@ const validationSchema = Joi.object({
   createdAt: Joi.date().required(),
   sharedAt: Joi.date().required().allow(null),
   division: Joi.string().allow(null).optional(),
+  group: Joi.string().allow(null).optional(),
   masteryRate: Joi.number().required().allow(null),
 });
 
@@ -30,6 +31,7 @@ class CampaignParticipationInfo {
     createdAt,
     sharedAt,
     division,
+    group,
     masteryRate,
   } = {}) {
     this.participantFirstName = participantFirstName;
@@ -42,8 +44,8 @@ class CampaignParticipationInfo {
     this.createdAt = createdAt;
     this.sharedAt = sharedAt;
     this.division = division;
+    this.group = group;
     this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
-
     validateEntity(validationSchema, this);
   }
 
