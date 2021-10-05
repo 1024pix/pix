@@ -1,5 +1,5 @@
-{{!-- template-lint-disable no-action require-input-label no-unknown-arguments-for-builtin-components --}}
-{{page-title (t 'pages.fill-in-certificate-verification-code.title')}}
+{{! template-lint-disable no-action require-input-label no-unknown-arguments-for-builtin-components }}
+{{page-title (t "pages.fill-in-certificate-verification-code.title")}}
 
 <BurgerMenu @animation="push" @translucentOverlay={{true}} as |burger|>
   <burger.outlet>
@@ -20,33 +20,32 @@
             <label for="certificate-verification-code">
               {{t "pages.fill-in-certificate-verification-code.label"}}
             </label>
-            <Input required
+            <Input
+              required
               class="input-code"
-              @type="text" @id="certificate-verification-code"
+              @type="text"
+              @id="certificate-verification-code"
               @value={{this.certificateVerificationCode}}
               @maxlength="10"
-              @key-down={{this.clearErrorMessage}} />
+              @key-down={{this.clearErrorMessage}}
+            />
           </div>
 
           {{#if this.errorMessage}}
-          <div class="form__error--validation" aria-live="polite">
-            {{this.errorMessage}}
-          </div>
+            <div class="form__error--validation" aria-live="polite">
+              {{this.errorMessage}}
+            </div>
           {{/if}}
 
-          <PixButton
-            @type="submit"
-            @triggerAction={{this.checkCertificate}}
-            class="form__actions"
-          >
+          <PixButton @type="submit" @triggerAction={{this.checkCertificate}} class="form__actions">
             {{t "pages.fill-in-certificate-verification-code.verify"}}
           </PixButton>
 
           {{#if this.showNotFoundCertificationErrorMessage}}
-          <PixMessage @type='alert' class="form__error--not-found">
-            <FaIcon @icon="exclamation-triangle"/>
-            <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
-          </PixMessage>
+            <PixMessage @type="alert" class="form__error--not-found">
+              <FaIcon @icon="exclamation-triangle" />
+              <span>{{t "pages.fill-in-certificate-verification-code.errors.not-found"}}</span>
+            </PixMessage>
           {{/if}}
         </form>
       </PixBlock>

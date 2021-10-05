@@ -1,11 +1,10 @@
-{{!-- template-lint-disable require-input-label no-unknown-arguments-for-builtin-components --}}
+{{! template-lint-disable require-input-label no-unknown-arguments-for-builtin-components }}
 <CertificationBanner @certificationNumber={{@certificationNumber}} />
 
 <div class="certification-results__content rounded-panel result-content">
   {{#if this.notFinishedYet}}
 
-
-    <img src="{{@rootURL}}/images/illustrations/flag.svg" alt={{t "pages.certification-results.flag-alt"}}>
+    <img src="{{@rootURL}}/images/illustrations/flag.svg" alt={{t "pages.certification-results.flag-alt"}} />
     <div class="result-content__panel-title">
       {{t "pages.certification-results.not-finished.title"}}
     </div>
@@ -15,7 +14,12 @@
 
     <div class="result-content__warning-container">
       <div class="result-content__checked-supervisor">
-        <Input @type="checkbox" @id="validSupervisor" @checked={{this.validSupervisor}} @alt="Le surveillant doit cliquer ici." />
+        <Input
+          @type="checkbox"
+          @id="validSupervisor"
+          @checked={{this.validSupervisor}}
+          @alt="Le surveillant doit cliquer ici."
+        />
 
         <span class="result-content__warning-text">
           {{t "pages.certification-results.not-finished.warning-text"}}
@@ -27,7 +31,9 @@
           {{t "pages.certification-results.action.confirm"}}
         </PixButton>
       {{else}}
-        <PixButton class="result-content__button result-content__button-blocked">{{t "pages.certification-results.action.confirm"}}</PixButton>
+        <PixButton class="result-content__button result-content__button-blocked">{{t
+            "pages.certification-results.action.confirm"
+          }}</PixButton>
       {{/if}}
     </div>
 
@@ -43,7 +49,10 @@
         {{t "pages.certification-results.finished.warning-text"}}
       </div>
 
-      <LinkTo @route="logout" class="result-content__logout-button result-content__button button button--big button--thin">{{t "pages.certification-results.action.logout"}}</LinkTo>
+      <LinkTo
+        @route="logout"
+        class="result-content__logout-button result-content__button button button--big button--thin"
+      >{{t "pages.certification-results.action.logout"}}</LinkTo>
 
     </div>
   {{/if}}

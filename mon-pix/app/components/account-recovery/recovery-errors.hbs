@@ -7,24 +7,22 @@
     {{@message}}
     {{#if @showRenewLink}}
       <LinkTo @route="account-recovery">
-        {{t 'pages.account-recovery.errors.key-expired-renew-demand-link'}}
+        {{t "pages.account-recovery.errors.key-expired-renew-demand-link"}}
       </LinkTo>
     {{/if}}
   </p>
 
   <p class="account-recovery__content--information-text--details">
-    <a href="{{t 'pages.account-recovery.support.url'}}"
-      target="_blank"
-      rel="noopener noreferrer">
-        {{t 'pages.account-recovery.support.url-text'}}
+    <a href="{{t "pages.account-recovery.support.url"}}" target="_blank" rel="noopener noreferrer">
+      {{t "pages.account-recovery.support.url-text"}}
     </a>
-    {{t 'pages.account-recovery.support.recover'}}
+    {{t "pages.account-recovery.support.recover"}}
   </p>
 
   {{#if @showBackToHomeButton}}
     <div class="account-recovery__content--actions">
       <LinkTo @route="login" class="button button--extra-big button--link">
-        {{t 'navigation.back-to-homepage'}}
+        {{t "navigation.back-to-homepage"}}
       </LinkTo>
     </div>
   {{/if}}

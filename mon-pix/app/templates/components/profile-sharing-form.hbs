@@ -1,4 +1,4 @@
-{{!-- template-lint-disable no-action --}}
+{{! template-lint-disable no-action }}
 <form {{action @sendProfile on="submit"}} class="send-profile-header__form">
   <p class="send-profile-header__recipient">
     {{t "pages.send-profile.form.recipient" recipient=@campaign.organizationName}}
@@ -22,7 +22,7 @@
     </PixButton>
 
     <p class="send-profile-header__warning">
-      <FaIcon @icon="exclamation-circle"></FaIcon>
+      <FaIcon @icon="exclamation-circle" />
       {{t "pages.send-profile.form.info"}}
     </p>
   {{/if}}
