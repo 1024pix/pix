@@ -1,32 +1,42 @@
-{{!-- template-lint-disable require-input-label --}}
+{{! template-lint-disable require-input-label }}
 <section class="certification-starter">
-    <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
+  <h2 class="certification-start-page__title">{{t "pages.certification-start.first-title"}}</h2>
 
-    <p class="certification-course-page__order">
-        {{t "pages.certification-start.access-code"}}
-    </p>
-    <form autocomplete="off">
-        <div class="certification-course-page__session-code-input">
-          <Input required={{true}} id="certificationStarterSessionCode" @type="text" @value={{this.inputAccessCode}} maxlength="6" spellcheck={{false}} />
-          {{#if this.errorMessage}}
-              <div class="certification-course-page__errors">{{this.errorMessage}}</div>
-          {{/if}}
-        </div>
-
-        <div class="certification-course-page__field-button">
-
-          <PixButton @type="submit" @triggerAction={{this.submit}}>
-            {{t "pages.certification-start.actions.submit"}}
-          </PixButton>
-        </div>
-    </form>
-
-    <div class="certification-course-page__cgu">
-        <p>
-          {{t "pages.certification-start.cgu.info"}}
-        </p>
-        <p>
-          {{t "pages.certification-start.cgu.contact.info"}} <a href="mailto:{{t "pages.certification-start.cgu.contact.email"}}">{{t "pages.certification-start.cgu.contact.email"}}</a>.
-        </p>
+  <p class="certification-course-page__order">
+    {{t "pages.certification-start.access-code"}}
+  </p>
+  <form autocomplete="off">
+    <div class="certification-course-page__session-code-input">
+      <Input
+        required={{true}}
+        id="certificationStarterSessionCode"
+        @type="text"
+        @value={{this.inputAccessCode}}
+        maxlength="6"
+        spellcheck={{false}}
+      />
+      {{#if this.errorMessage}}
+        <div class="certification-course-page__errors">{{this.errorMessage}}</div>
+      {{/if}}
     </div>
+
+    <div class="certification-course-page__field-button">
+
+      <PixButton @type="submit" @triggerAction={{this.submit}}>
+        {{t "pages.certification-start.actions.submit"}}
+      </PixButton>
+    </div>
+  </form>
+
+  <div class="certification-course-page__cgu">
+    <p>
+      {{t "pages.certification-start.cgu.info"}}
+    </p>
+    <p>
+      {{t "pages.certification-start.cgu.contact.info"}}
+      <a href="mailto:{{t "pages.certification-start.cgu.contact.email"}}">{{t
+          "pages.certification-start.cgu.contact.email"
+        }}</a>.
+    </p>
+  </div>
 </section>

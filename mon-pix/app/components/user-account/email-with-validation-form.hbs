@@ -1,9 +1,9 @@
-<h2 class="user-account__validation-title">{{t 'pages.user-account.account-update-email-with-validation.title'}}</h2>
+<h2 class="user-account__validation-title">{{t "pages.user-account.account-update-email-with-validation.title"}}</h2>
 <form onSubmit={{this.onSubmit}}>
   <div class="update-email-with-validation__email-input">
     <PixInput
       @id="newEmail"
-      @label={{t 'pages.user-account.account-update-email-with-validation.fields.new-email.label'}}
+      @label={{t "pages.user-account.account-update-email-with-validation.fields.new-email.label"}}
       @errorMessage={{this.newEmailValidationMessage}}
       {{on "focusout" this.validateNewEmail}}
       autocomplete="off"
@@ -11,12 +11,12 @@
     />
   </div>
   <div class="update-email-with-validation__informations">
-    <p>{{t 'pages.user-account.account-update-email-with-validation.fields.password.security-information'}}</p>
+    <p>{{t "pages.user-account.account-update-email-with-validation.fields.password.security-information"}}</p>
   </div>
   <div class="update-email-with-validation__password-input">
     <PixInputPassword
       @id="password"
-      @label={{t 'pages.user-account.account-update-email-with-validation.fields.password.label'}}
+      @label={{t "pages.user-account.account-update-email-with-validation.fields.password.label"}}
       @errorMessage={{this.passwordValidationMessage}}
       {{on "input" this.validatePassword}}
       autocomplete="off"
@@ -24,7 +24,7 @@
     />
   </div>
   {{#if this.errorMessage}}
-    <PixMessage @type='error' class="user-account__error-message">
+    <PixMessage @type="error" class="user-account__error-message">
       {{this.errorMessage}}
     </PixMessage>
   {{/if}}
@@ -34,14 +34,14 @@
       @triggerAction={{@disableEmailEditionMode}}
       @backgroundColor="transparent-light"
     >
-      {{t 'common.actions.cancel'}}
+      {{t "common.actions.cancel"}}
     </PixButton>
     <PixButton
       class="update-email-with-validation-actions__confirm-button"
       @type="submit"
       @isDisabled={{not this.isFormValid}}
     >
-      {{t 'pages.user-account.account-update-email-with-validation.save-button'}}
+      {{t "pages.user-account.account-update-email-with-validation.save-button"}}
     </PixButton>
   </div>
 </form>

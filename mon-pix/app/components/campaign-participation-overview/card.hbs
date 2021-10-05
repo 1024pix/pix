@@ -1,9 +1,9 @@
-{{#if (eq @model.status 'ONGOING')}}
-  <CampaignParticipationOverview::Card::Ongoing @model={{@model}}/>
-{{else if (eq @model.status 'TO_SHARE')}}
-  <CampaignParticipationOverview::Card::ToShare @model={{@model}}/>
-{{else if (eq @model.status 'ENDED')}}
-  <CampaignParticipationOverview::Card::Ended @model={{@model}}/>
-{{else if (eq @model.status 'ARCHIVED')}}
-  <CampaignParticipationOverview::Card::Archived @model={{@model}}/>
+{{#if (eq @model.status "ONGOING")}}
+  <CampaignParticipationOverview::Card::Ongoing @model={{@model}} />
+{{else if (eq @model.status "TO_SHARE")}}
+  <CampaignParticipationOverview::Card::ToShare @model={{@model}} />
+{{else if (eq @model.status "ENDED")}}
+  <CampaignParticipationOverview::Card::Ended @model={{@model}} />
+{{else if (eq @model.status "ARCHIVED")}}
+  <CampaignParticipationOverview::Card::Archived @model={{@model}} />
 {{/if}}

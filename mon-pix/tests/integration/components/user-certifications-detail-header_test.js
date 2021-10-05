@@ -43,7 +43,7 @@ describe('Integration | Component | user certifications detail header', function
 
     it('should show the certification published date', function() {
       expect(find(CONTENT_SELECTOR)).to.exist;
-      expect(find(`${CONTENT_SELECTOR} :nth-child(2)`).textContent)
+      expect(find(`${CONTENT_SELECTOR} :nth-child(2)`).innerText)
         .to.include('Délivré le 17 février 2018');
     });
 

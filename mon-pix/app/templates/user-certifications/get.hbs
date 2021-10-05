@@ -9,16 +9,20 @@
 
   <div class="user-certifications-page-get__details-body">
     <UserCertificationsDetailCompetencesList
-            @resultCompetenceTree={{@model.resultCompetenceTree}}
-            @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}/>
+      @resultCompetenceTree={{@model.resultCompetenceTree}}
+      @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
+    />
     {{#if this.shouldDisplayDetailsSection}}
       <UserCertificationsDetailResult @certification={{@model}} />
     {{/if}}
   </div>
 
   <p class="user-certifications-page-get__note">
-    {{t "pages.certificate.competences.information" maxReachableLevelOnCertificationDate=this.model.maxReachableLevelOnCertificationDate
-        maxReachablePixCountOnCertificationDate=this.model.maxReachablePixCountOnCertificationDate}}
+    {{t
+      "pages.certificate.competences.information"
+      maxReachableLevelOnCertificationDate=this.model.maxReachableLevelOnCertificationDate
+      maxReachablePixCountOnCertificationDate=this.model.maxReachablePixCountOnCertificationDate
+    }}
   </p>
 
 </PixBackgroundHeader>
