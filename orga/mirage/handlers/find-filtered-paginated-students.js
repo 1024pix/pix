@@ -31,6 +31,11 @@ function _filtersFromQueryParams(schema, organizationId, queryParams) {
     return schema.students.where(({ firstName }) => firstName.includes(firstNameFilter));
   }
 
+  const groupFilter = queryParams['filter[group]'];
+  if (groupFilter) {
+    return schema.students.where(({ group }) => group.includes(groupFilter));
+  }
+
   const connexionTypeFilter = queryParams['filter[connexionType]'];
   if (connexionTypeFilter) {
     return schema.students.where((student) => {
