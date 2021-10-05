@@ -1,14 +1,11 @@
 {{!-- template-lint-disable require-input-label no-unknown-arguments-for-builtin-components --}}
-<div class="certification-results__certification-banner">
-  <CertificationBanner @certificationNumber={{@certificationNumber}} />
-</div>
+<CertificationBanner @certificationNumber={{@certificationNumber}} />
 
 <div class="certification-results__content rounded-panel result-content">
   {{#if this.notFinishedYet}}
 
-    <div class="result-content__panel-picture">
-      <img src="{{@rootURL}}/images/illustrations/flag.svg" alt={{t "pages.certification-results.flag-alt"}}>
-    </div>
+
+    <img src="{{@rootURL}}/images/illustrations/flag.svg" alt={{t "pages.certification-results.flag-alt"}}>
     <div class="result-content__panel-title">
       {{t "pages.certification-results.not-finished.title"}}
     </div>

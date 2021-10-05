@@ -12,13 +12,15 @@ describe('Acceptance | Timed challenge', () => {
   let timedChallenge;
 
   context('Timed Challenge', () => {
-
     context('when asking for confirmation', function() {
-
       beforeEach(async () => {
         // given
         assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-        timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+        timedChallenge = server.create(
+          'challenge',
+          'forCompetenceEvaluation',
+          'timed',
+        );
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -34,13 +36,18 @@ describe('Acceptance | Timed challenge', () => {
     });
 
     context('when the confirmation button is clicked', () => {
-
       context('and the challenge has not been already answered', function() {
-
         beforeEach(async () => {
           // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+          assessment = server.create(
+            'assessment',
+            'ofCompetenceEvaluationType',
+          );
+          timedChallenge = server.create(
+            'challenge',
+            'forCompetenceEvaluation',
+            'timed',
+          );
 
           // when
           await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -59,15 +66,20 @@ describe('Acceptance | Timed challenge', () => {
         it('should start the timer', () => {
           expect(find('.timeout-gauge')).to.exist;
         });
-
       });
 
       context('and the challenge has already been skipped before', function() {
-
         beforeEach(async () => {
           // given
-          assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-          timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+          assessment = server.create(
+            'assessment',
+            'ofCompetenceEvaluationType',
+          );
+          timedChallenge = server.create(
+            'challenge',
+            'forCompetenceEvaluation',
+            'timed',
+          );
           server.create('answer', 'skipped', {
             assessment,
             challenge: timedChallenge,
@@ -89,17 +101,22 @@ describe('Acceptance | Timed challenge', () => {
         it('should not display the timer', () => {
           expect(find('.timeout-gauge')).to.not.exist;
         });
-
       });
-
     });
 
     context('when the challenge is already timeout', () => {
-
       beforeEach(async () => {
         // given
-        assessment = server.create('assessment', 'ofCompetenceEvaluationType', 'withCurrentChallengeTimeout');
-        timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+        assessment = server.create(
+          'assessment',
+          'ofCompetenceEvaluationType',
+          'withCurrentChallengeTimeout',
+        );
+        timedChallenge = server.create(
+          'challenge',
+          'forCompetenceEvaluation',
+          'timed',
+        );
 
         // when
         await visit(`/assessments/${assessment.id}/challenges/0`);
@@ -115,7 +132,9 @@ describe('Acceptance | Timed challenge', () => {
       });
 
       it('should display the timer without time remains', () => {
-        expect(find('.timeout-gauge-remaining').textContent).to.contains('0:00');
+        expect(
+          find('[data-test="timeout-gauge-remaining"]').textContent,
+        ).to.contains('0:00');
       });
 
       it('should only display continue button', () => {
@@ -124,21 +143,22 @@ describe('Acceptance | Timed challenge', () => {
         expect(find('.challenge-actions__action-continue')).to.exist;
       });
     });
-
   });
   context('when user seen two timed challenge', function() {
-
     beforeEach(async () => {
       // given
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
-      timedChallenge = server.create('challenge', 'forCompetenceEvaluation', 'timed');
+      timedChallenge = server.create(
+        'challenge',
+        'forCompetenceEvaluation',
+        'timed',
+      );
       server.create('challenge', 'forCompetenceEvaluation', 'timed');
 
       // when
       await visit(`/assessments/${assessment.id}/challenges/0`);
       await click('.timed-challenge-instructions button');
       await click('.challenge-actions__action-skip');
-
     });
 
     it('should hide the challenge statement of the second challenge', async () => {
@@ -148,11 +168,9 @@ describe('Acceptance | Timed challenge', () => {
     it('should ensure the challenge does not automatically start of the second challenge', async () => {
       expect(find('.timeout-gauge')).to.not.exist;
     });
-
   });
 
   context('Not Timed Challenge', () => {
-
     beforeEach(() => {
       assessment = server.create('assessment', 'ofCompetenceEvaluationType');
       server.create('challenge', 'forCompetenceEvaluation');
@@ -166,5 +184,4 @@ describe('Acceptance | Timed challenge', () => {
       expect(find('.challenge-statement')).to.exist;
     });
   });
-
 });

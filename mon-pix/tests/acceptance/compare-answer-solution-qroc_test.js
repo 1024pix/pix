@@ -55,7 +55,7 @@ describe('Acceptance | Compare answers and solutions for QROC questions', functi
     });
 
     it('should contain a correction zone', async function() {
-      expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
+      expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
     });
 
     it('should contain a zone reserved for feedback panel', async function() {

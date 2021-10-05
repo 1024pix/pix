@@ -192,10 +192,6 @@ input[type=radio]:active::before {
   position: relative;
 }
 
-.proposal-comparison-window {
-  margin-left: 10px;
-}
-
 .proposal-paragraph {
   margin-left: 7px;
   display: flex;
@@ -206,11 +202,4 @@ input[type=radio]:active::before {
 
 .proposal-paragraph > input[type=checkbox] {
   flex-shrink: 0;
-}
-
-/* cursor: pointer is disabled here */
-.label-proposal-comparison-window {
-  display: inline-block;
-  padding-left: 20px;
-  position: relative;
 }

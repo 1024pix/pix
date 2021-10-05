@@ -98,26 +98,6 @@
   }
 }
 
-.user-certifications-detail-competence--jaffa {
-  @include coloriseElements($information-light);
-}
-
-.user-certifications-detail-competence--emerald {
-  @include coloriseElements($content-light);
-}
-
-.user-certifications-detail-competence--cerulean {
-  @include coloriseElements($communication-light);
-}
-
-.user-certifications-detail-competence--wild-strawberry {
-  @include coloriseElements($security-light);
-}
-
-.user-certifications-detail-competence--butterfly-bush {
-  @include coloriseElements($environment-light);
-}
-
 @include device-is('mobile') {
 
   .user-certifications-detail-competence {

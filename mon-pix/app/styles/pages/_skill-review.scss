@@ -66,18 +66,6 @@
     }
   }
 
-  &__information {
-    display: flex;
-    align-items: center;
-    text-align: left;
-    margin: 10px;
-    max-width: 850px;
-
-    @include device-is('tablet') {
-      margin: auto;
-    }
-  }
-
   &__subtitle {
     font-weight: $font-light;
   }
@@ -288,14 +276,6 @@
 }
 
 .skill-review-result-detail {
-
-  &__badge-container {
-    padding: 40px 10px;
-
-    @include device-is('tablet') {
-      padding: 32px 48px;
-    }
-  }
 
   &__badge-subtitle {
     color: $grey-100;

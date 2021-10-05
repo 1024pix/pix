@@ -62,8 +62,8 @@
     {{/if}}
 
     {{#if this.hasNothingToShow}}
-      <section class="dashboard-content__section" data-test-empty-dashboard>
-        <div class="dashboard-content-section--with-button">
+      <section data-test-empty-dashboard>
+        <div>
           <NewInformation @information="{{t 'pages.dashboard.empty-dashboard.message'}}"
                           @image="/images/illustrations/fusee.png"
                           @backgroundColorClass="new-information--yellow-background"
@@ -127,7 +127,7 @@
     {{/if}}
   </section>
 
-  <section class="dashboard-content__section dashboard-content__certif">
+  <section class="dashboard-content__certif">
     <!-- Rajout du bloc certif ultérieurement -->
     <!-- Div ajoutée afin de créer le layout Grid CSS -->
   </section>

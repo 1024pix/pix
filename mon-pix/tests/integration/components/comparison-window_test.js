@@ -166,8 +166,8 @@ describe('Integration | Component | comparison-window', function() {
         // then
         expect(find('.comparison-windows__default-message-container')).to.exist;
         expect(find('.comparison-windows__default-message-title')).to.exist;
-        expect(find('.comparison-windows__default-message-picto-container')).to.exist;
-        expect(find('.comparison-windows__default-message-picto')).to.exist;
+        expect(find('div.comparison-windows__default-message-container div')).to.exist;
+        expect(find('div.comparison-windows__default-message-container img')).to.exist;
       });
     });
 
@@ -193,7 +193,7 @@ describe('Integration | Component | comparison-window', function() {
         // when
         await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
         // then
-        expect(find('.comparison-window__corrected-answers--qroc')).to.not.exist;
+        expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.not.exist;
       });
 
       describe('when challenge type is QROC', function() {
@@ -208,7 +208,7 @@ describe('Integration | Component | comparison-window', function() {
             await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
             // then
-            expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
+            expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
           });
         });
 
@@ -236,7 +236,7 @@ describe('Integration | Component | comparison-window', function() {
             await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
 
             // then
-            expect(find('.comparison-window__corrected-answers--qroc')).to.exist;
+            expect(find('div[data-test-id="comparison-window__corrected-answers--qroc"]')).to.exist;
           });
         });
       });
@@ -249,7 +249,7 @@ describe('Integration | Component | comparison-window', function() {
         // when
         await render(hbs`<ComparisonWindow @answer={{this.answer}} @closeComparisonWindow={{this.closeComparisonWindow}} />`);
         // then
-        expect(find('.comparison-window__corrected-answers--qrocm')).to.exist;
+        expect(find('div[data-test-id="comparison-window__corrected-answers--qrocm"]')).to.exist;
       });
 
       it('should render corrected answers when challenge type is QCM', async function() {
