@@ -10,6 +10,12 @@
     />
   </div>
 
+  {{#if this.errorMessage}}
+    <PixMessage @type="error" class="email-verification-code__error">
+      {{this.errorMessage}}
+    </PixMessage>
+  {{/if}}
+
   {{#if this.wasButtonClicked}}
     <PixMessage @type="success" class="email-verification-code__resend-confirmation-message">
       {{t "pages.user-account.email-verification.confirmation-message"}}

@@ -1357,7 +1357,10 @@
         "code-label": "Champ du code de vérification",
         "update-successful": "Votre adresse e-mail a été changé !",
         "errors": {
-          "incorrect-code": "Le code saisi est incorrect."
+          "incorrect-code": "Le code saisi est incorrect.",
+          "email-modification-demand-expired": "Ce code a expiré. Veuillez renouveler la demande.",
+          "new-email-already-exist": "Cette adresse e-mail est déjà utilisée.",
+          "unknown-error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
         }
       },
       "language": {
