@@ -1,12 +1,13 @@
 {{#if this.showProgressBar}}
   <div class="progress-bar-container">
-    <div class="progress-bar-stepnums"
-         role="progressbar"
-         aria-valuenow={{this.currentStepNumber}}
-         aria-valuemin="1"
-         aria-valuemax="5"
-         aria-label="{{t 'pages.challenge.parts.progress'}}"
-      >
+    <div
+      class="progress-bar-stepnums"
+      role="progressbar"
+      aria-valuenow={{this.currentStepNumber}}
+      aria-valuemin="1"
+      aria-valuemax="5"
+      aria-label="{{t "pages.challenge.parts.progress"}}"
+    >
       {{#each this.steps as |step|}}
         <div class="progress-bar-stepnum {{step.status}}">{{step.stepnum}}</div>
       {{/each}}
@@ -23,10 +24,12 @@
     </div>
   </div>
 {{else}}
-  <div class="assessment-progress" role="progressbar" aria-label="{{t 'pages.challenge.parts.progress'}}">
+  <div class="assessment-progress" role="progressbar" aria-label="{{t "pages.challenge.parts.progress"}}">
     <div class="assessment-progress__label">{{t "pages.challenge.progress-bar.label"}}</div>
     <div class="assessment-progress__value">
-      {{this.currentStepNumber}} / {{this.maxStepsNumber}}
+      {{this.currentStepNumber}}
+      /
+      {{this.maxStepsNumber}}
     </div>
   </div>
 {{/if}}

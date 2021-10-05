@@ -1,27 +1,33 @@
-{{!-- template-lint-disable no-triple-curlies --}}
+{{! template-lint-disable no-triple-curlies }}
 <div class="new-information {{@backgroundColorClass}}">
   <div class="new-information__content">
-    {{#if (media 'isDesktop')}}
-      <img class="new-information-content__img"
-           src="{{@image}}"
-           alt=""
-           role="presentation"/>
+    {{#if (media "isDesktop")}}
+      <img class="new-information-content__img" src="{{@image}}" alt="" role="presentation" />
     {{/if}}
     <div class="new-information-content__text {{@textAlignment}} {{@textColorClass}}">
       {{{@information}}}
       {{#if @linkText}}
-        {{#if (eq @linkDisplayType 'button')}}
+        {{#if (eq @linkDisplayType "button")}}
           {{#if @code}}
-            <LinkTo @route="{{@linkTo}}" @model={{@code}} class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+            <LinkTo
+              @route="{{@linkTo}}"
+              @model={{@code}}
+              class="new-information-content-text__button button button--extra-thin button--link"
+            >{{@linkText}}</LinkTo>
           {{else}}
-            <LinkTo @route="{{@linkTo}}" class="new-information-content-text__button button button--extra-thin button--link">{{@linkText}}</LinkTo>
+            <LinkTo
+              @route="{{@linkTo}}"
+              class="new-information-content-text__button button button--extra-thin button--link"
+            >{{@linkText}}</LinkTo>
           {{/if}}
         {{else}}
-          <a href="{{@linkTo}}"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="new-information-content-text__link {{@textColorClass}}">
-            <FaIcon @icon='arrow-right' /><span>{{@linkText}}</span>
+          <a
+            href="{{@linkTo}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="new-information-content-text__link {{@textColorClass}}"
+          >
+            <FaIcon @icon="arrow-right" /><span>{{@linkText}}</span>
           </a>
         {{/if}}
       {{/if}}
@@ -29,8 +35,8 @@
   </div>
 
   {{#if @closeaction}}
-    <button class="new-information__close {{@textColorClass}}" {{on 'click' @closeaction}} type="button">
-      <FaIcon @icon='times'/><span class="sr-only">{{t 'common.actions.close'}}</span>
+    <button class="new-information__close {{@textColorClass}}" {{on "click" @closeaction}} type="button">
+      <FaIcon @icon="times" /><span class="sr-only">{{t "common.actions.close"}}</span>
     </button>
   {{/if}}
 </div>

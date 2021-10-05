@@ -5,7 +5,10 @@
     </div>
   {{else}}
     <div class="user-account__update-email">
-      <UserAccount::UpdateEmail @saveNewEmail={{this.saveNewEmail}} @disableEmailEditionMode={{this.disableEmailEditionMode}} />
+      <UserAccount::UpdateEmail
+        @saveNewEmail={{this.saveNewEmail}}
+        @disableEmailEditionMode={{this.disableEmailEditionMode}}
+      />
     </div>
   {{/if}}
 {{else}}
@@ -13,14 +16,13 @@
     {{#if this.shouldShowEmail}}
       <div class="user-account-panel__item">
         <div class="user-account-panel-item__text">
-          <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.connexion-methods.email'}}</p>
+          <p class="form-textfield__label user-account-panel-item__label">{{t
+              "pages.user-account.connexion-methods.email"
+            }}</p>
           <p class="user-account-panel-item__value" data-test-email>{{@model.email}}</p>
         </div>
-        <PixButton
-          class="user-account-panel-item__button"
-          @triggerAction={{this.enableEmailEditionMode}}
-        >
-          {{t 'pages.user-account.connexion-methods.edit-button'}}
+        <PixButton class="user-account-panel-item__button" @triggerAction={{this.enableEmailEditionMode}}>
+          {{t "pages.user-account.connexion-methods.edit-button"}}
         </PixButton>
       </div>
     {{/if}}
@@ -28,7 +30,9 @@
     {{#if this.shouldShowUsername}}
       <div class="user-account-panel__item">
         <div class="user-account-panel-item__text">
-          <p class="form-textfield__label user-account-panel-item__label">{{t 'pages.user-account.connexion-methods.username'}}</p>
+          <p class="form-textfield__label user-account-panel-item__label">{{t
+              "pages.user-account.connexion-methods.username"
+            }}</p>
           <p class="user-account-panel-item__value" data-test-username>{{@model.username}}</p>
         </div>
       </div>

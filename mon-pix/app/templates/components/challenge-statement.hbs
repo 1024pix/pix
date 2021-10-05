@@ -1,11 +1,11 @@
 <div class="rounded-panel__row challenge-statement">
-  <h2 class="sr-only">{{t 'pages.challenge.parts.instruction'}}</h2>
+  <h2 class="sr-only">{{t "pages.challenge.parts.instruction"}}</h2>
   {{#if this.challengeInstruction}}
     <div class="challenge-statement__instruction-section">
       <MarkdownToHtmlUnsafe @class="challenge-statement-instruction__text" @markdown={{this.challengeInstruction}} />
 
       {{#if this.isFocusedChallengeToggleEnabled}}
-        <Challenge::Statement::Tooltip @challenge={{@challenge}} @onTooltipClose={{@onTooltipClose}}/>
+        <Challenge::Statement::Tooltip @challenge={{@challenge}} @onTooltipClose={{@onTooltipClose}} />
       {{/if}}
     </div>
   {{/if}}
@@ -21,56 +21,79 @@
 
       {{#if @challenge.hasSingleAttachment}}
         <div class="challenge-statement__action">
-          <a class="challenge-statement__action-link"
-             href="{{this.orderedAttachments.firstObject}}"
-             target="_blank"
-             rel="noopener noreferrer"
-             download>
-            <span class="challenge-statement__action-label">{{t 'pages.challenge.statement.file-download.actions.download'}}</span>
+          <a
+            class="challenge-statement__action-link"
+            href="{{this.orderedAttachments.firstObject}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+          >
+            <span class="challenge-statement__action-label">{{t
+                "pages.challenge.statement.file-download.actions.download"
+              }}</span>
           </a>
-          <p class="challenge-statement__action-help">{{t 'pages.challenge.statement.file-download.help' htmlSafe=true}}</p>
+          <p class="challenge-statement__action-help">{{t
+              "pages.challenge.statement.file-download.help"
+              htmlSafe=true
+            }}</p>
         </div>
       {{/if}}
 
       {{#if @challenge.hasMultipleAttachments}}
         <p class="challenge-statement__text">
-          <span data-test-id="challenge-statement__text-content">{{t 'pages.challenge.statement.file-download.actions.choose-type'}}</span>
-        <div class="challenge-statement__help-icon">
-          <FaIcon @icon="info-circle" />
-          <div class="challenge-statement__help-tooltip">
-            <span class="challenge-statement__help-text">{{t 'pages.challenge.statement.file-download.description'}}</span>
+          <span data-test-id="challenge-statement__text-content">{{t
+              "pages.challenge.statement.file-download.actions.choose-type"
+            }}</span>
+          <div class="challenge-statement__help-icon">
+            <FaIcon @icon="info-circle" />
+            <div class="challenge-statement__help-tooltip">
+              <span class="challenge-statement__help-text">{{t
+                  "pages.challenge.statement.file-download.description"
+                }}</span>
+            </div>
           </div>
-        </div>
         </p>
         <ul class="challenge-statement__file-options">
           {{#each this.orderedAttachments as |attachmentUrl index|}}
             <li class="challenge-statement__file-option">
 
-              {{!-- This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. --}}
-              <input type="radio"
-                     id="attachment{{index}}"
-                     class="challenge-statement__file-option_input"
-                     name="attachment_selector"
-                     value="{{attachmentUrl}}"
-                     {{on "click" (fn this.chooseAttachmentUrl attachmentUrl)}}
-                     checked="{{if (eq attachmentUrl this.selectedAttachmentUrl) "checked"}}">
+              {{! This radiobutton is hidden  - SVG displayed instead - but needed to handle behaviour. }}
+              <input
+                type="radio"
+                id="attachment{{index}}"
+                class="challenge-statement__file-option_input"
+                name="attachment_selector"
+                value="{{attachmentUrl}}"
+                {{on "click" (fn this.chooseAttachmentUrl attachmentUrl)}}
+                checked="{{if (eq attachmentUrl this.selectedAttachmentUrl) "checked"}}"
+              />
 
               <label class="label-checkbox-downloadable" for="attachment{{index}}">
-                <span class="challenge-statement__file-option-label">{{t 'pages.challenge.statement.file-download.file-type' fileExtension=(extract-extension attachmentUrl)}}</span>
+                <span class="challenge-statement__file-option-label">{{t
+                    "pages.challenge.statement.file-download.file-type"
+                    fileExtension=(extract-extension attachmentUrl)
+                  }}</span>
               </label>
 
             </li>
           {{/each}}
         </ul>
         <div class="challenge-statement__action">
-          <a class="challenge-statement__action-link"
-             href="{{this.selectedAttachmentUrl}}"
-             target="_blank"
-             rel="noopener noreferrer"
-             download>
-            <span class="challenge-statement__action-label">{{t 'pages.challenge.statement.file-download.actions.download'}}</span>
+          <a
+            class="challenge-statement__action-link"
+            href="{{this.selectedAttachmentUrl}}"
+            target="_blank"
+            rel="noopener noreferrer"
+            download
+          >
+            <span class="challenge-statement__action-label">{{t
+                "pages.challenge.statement.file-download.actions.download"
+              }}</span>
           </a>
-          <p class="challenge-statement__action-help">{{t 'pages.challenge.statement.file-download.help' htmlSafe=true}}</p>
+          <p class="challenge-statement__action-help">{{t
+              "pages.challenge.statement.file-download.help"
+              htmlSafe=true
+            }}</p>
         </div>
       {{/if}}
     </div>
@@ -84,12 +107,15 @@
     <div class="challenge-statement__alternative-instruction">
       {{#if this.displayAlternativeInstruction}}
         <PixButton @triggerAction={{this.toggleAlternativeInstruction}}>
-          {{t 'pages.challenge.statement.alternative-instruction.actions.hide'}}
+          {{t "pages.challenge.statement.alternative-instruction.actions.hide"}}
         </PixButton>
-        <MarkdownToHtml class="challenge-statement__alternative-instruction-text" @markdown={{@challenge.alternativeInstruction}} />
+        <MarkdownToHtml
+          class="challenge-statement__alternative-instruction-text"
+          @markdown={{@challenge.alternativeInstruction}}
+        />
       {{else}}
         <PixButton @triggerAction={{this.toggleAlternativeInstruction}}>
-          {{t 'pages.challenge.statement.alternative-instruction.actions.display'}}
+          {{t "pages.challenge.statement.alternative-instruction.actions.display"}}
         </PixButton>
       {{/if}}
     </div>
