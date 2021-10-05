@@ -14,9 +14,11 @@ export default class ApplicationRoute extends Route {
   }
 
   async beforeModel(transition) {
-    this.headData.description = this.intl.t('application.description');
     await this.featureToggles.load().catch();
+    await this.session.handleUserLanguageAndLocale(transition);
 
-    return this.session.handleUserLanguageAndLocale(transition);
+    this.headData.description = this.intl.t('application.description');
+
+    return true;
   }
 }

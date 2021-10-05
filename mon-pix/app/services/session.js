@@ -22,6 +22,7 @@ export default class CurrentSessionService extends SessionService {
       return this.router.replaceWith(nextURL);
     }
 
+    //redirect when necessary ???
     super.handleAuthentication(this.routeAfterAuthentication);
   }
 
@@ -54,7 +55,7 @@ export default class CurrentSessionService extends SessionService {
 
     if (transition.to.queryParams && transition.to.queryParams.token) {
       // Logout user when existing external user is authenticated.
-      await this._logoutUser();
+      await this._logoutUser(false);
       return super.authenticate(
         'authenticator:oauth2', { token: transition.to.queryParams.token },
       );
@@ -128,9 +129,9 @@ export default class CurrentSessionService extends SessionService {
     return alternativeRootURL ? alternativeRootURL : this.url.homeUrl;
   }
 
-  _logoutUser() {
+  _logoutUser(keepSession) {
     delete super.data.expectedUserId;
     delete super.data.externalUser;
-    return super.invalidate();
+    return keepSession ? Promise.resolve() : super.invalidate();
   }
 }
