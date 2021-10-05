@@ -33,7 +33,7 @@ const ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES = [
   },
 ];
 
-const ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
+const NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
   {
     placeholder: 'COUNT',
     propertyName: 'count',
@@ -60,10 +60,38 @@ const ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
   },
 ];
 
+const SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES = [
+  {
+    placeholder: 'COUNT',
+    propertyName: 'count',
+  },
+  {
+    placeholder: 'LAST_NAME',
+    propertyName: 'lastName',
+  },
+  {
+    placeholder: 'FIRST_NAME',
+    propertyName: 'firstName',
+  },
+  {
+    placeholder: '01/01/1900',
+    propertyName: 'birthdate',
+  },
+  {
+    placeholder: 'DIVISION',
+    propertyName: 'division',
+  },
+  {
+    placeholder: '999 %',
+    propertyName: 'extraTimePercentage',
+  },
+];
+
 const EXTRA_EMPTY_CANDIDATE_ROWS = 20;
 
 module.exports = {
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
-  ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+  NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+  SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
   EXTRA_EMPTY_CANDIDATE_ROWS,
 };
