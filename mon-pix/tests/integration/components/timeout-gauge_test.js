@@ -28,7 +28,7 @@ describe('Integration | Component | TimeoutGauge', function() {
       await render(hbs`<TimeoutGauge @allottedTime={{this.allottedTime}} />`);
 
       // then
-      expect(find('.timeout-gauge-remaining').textContent.trim()).to.equal('1:00');
+      expect(find('[data-test="timeout-gauge-remaining"]').textContent.trim()).to.equal('1:00');
     });
 
     it('renders a red clock if time is over', async function() {

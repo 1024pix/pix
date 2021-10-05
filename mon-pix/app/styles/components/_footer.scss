@@ -84,45 +84,6 @@
   }
 }
 
-.footer-social-medias-item {
-
-  &__icon {
-    font-size: 1rem;
-    color: $grey-70;
-  }
-}
-
-.footer-social-medias {
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: $grey-20;
-    border-radius: 4.2px;
-    width: 30px;
-    height: 30px;
-    margin: 0 10px 0 0;
-    letter-spacing: 0.008rem;
-    font-size: 0.75rem;
-    font-family: $font-roboto;
-
-    &:active,
-    &:focus,
-    &:hover {
-      text-decoration: none;
-      cursor: pointer;
-      background-color: $grey-70;
-      transition: background-color 0.2s ease;
-
-      & > .footer-social-medias-item__icon {
-        color: $grey-5;
-        text-decoration: none;
-      }
-    }
-  }
-}
-
 .footer-navigation {
 
   &__item {
