@@ -1,4 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
+const _ = require('lodash');
 
 const mapType = {
   badgeCriteria: 'badge-criteria',
@@ -46,9 +47,10 @@ module.exports = {
           });
         });
         badge.badgePartnerCompetences.forEach((badgePartnerCompetence) => {
-          badgePartnerCompetence.skills = badgePartnerCompetence.skillIds.map((skillId) => {
+          const skills = badgePartnerCompetence.skillIds.map((skillId) => {
             return record.skills.find(({ id }) => skillId === id);
           });
+          badgePartnerCompetence.skills = _.compact(skills);
           badgePartnerCompetence.skills.forEach((skill) => {
             skill.tube = { ...record.tubes.find(({ id }) => id === skill.tubeId) };
           });
