@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const _ = require('lodash');
 const fp = require('lodash/fp').convert({ cap: false });
 const bluebird = require('bluebird');
@@ -6,9 +8,16 @@ const competenceRepository = require('../lib/infrastructure/repositories/compete
 const challengeRepository = require('../lib/infrastructure/repositories/challenge-repository');
 const placementProfileService = require('../lib/domain/services/placement-profile-service');
 const certificationChallengeService = require('../lib/domain/services/certification-challenges-service');
+const { FRENCH_FRANCE } = require('../lib/domain/constants').LOCALE;
 
 const USER_COUNT = parseInt(process.env.USER_COUNT) || 100;
 const USER_ID = parseInt(process.env.USER_ID) || null;
+
+// Exemple d'utilisation :
+// $ LOG_ENABLED=FALSE PGSSLMODE=require NODE_TLS_REJECT_UNAUTHORIZED='0' USER_COUNT=1000 node scripts/generate-certification-test-statistics.js > branch.log
+//
+// Voir aussi :
+// - https://1024pix.atlassian.net/wiki/spaces/DEV/pages/1855422507/2020-09-28+G+n+rer+des+stats+sur+les+tests+de+certif
 
 function makeRefDataFaster() {
   challengeRepository.list = _.memoize(challengeRepository.findOperative);
@@ -36,7 +45,7 @@ async function _generateCertificationTest(userId, competences) {
     throw new Error('pas certifiable');
   }
 
-  const certificationChallenges = await certificationChallengeService.pickCertificationChallenges(placementProfile);
+  const certificationChallenges = await certificationChallengeService.pickCertificationChallenges(placementProfile, FRENCH_FRANCE);
   if (USER_ID) {
     console.log(JSON.stringify(certificationChallenges, null, 2));
   }
@@ -88,7 +97,7 @@ async function main() {
     let nonCertifiableUserCount = 0;
 
     console.error('Génération des tests de certification : ');
-    const certificationTestsByUser = _.compact(await bluebird.map(userIds, async (userId) => {
+    const certificationTestsByUser = _.compact(await bluebird.mapSeries(userIds, async (userId) => {
       try {
         const challengeCountByCompetence = await _generateCertificationTest(userId, competences);
         return {
