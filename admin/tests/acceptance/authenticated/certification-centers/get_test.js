@@ -6,6 +6,8 @@ import { setupApplicationTest } from 'ember-qunit';
 import { setupMirage } from 'ember-cli-mirage/test-support';
 
 import { createAuthenticateSession } from '../../../helpers/test-init';
+import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
 
 module('Acceptance | authenticated/certification-centers/get', function (hooks) {
   setupApplicationTest(hooks);
@@ -168,6 +170,39 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       // then
       const foundElement = findAll('td[data-test-user-email]').find((element) => element.innerText.includes(email));
       assert.ok(foundElement);
+    });
+  });
+
+  module('Update certification center', function () {
+    test('should display a form after clicking on "Editer"', async function (assert) {
+      // given
+      await visit(`/certification-centers/${certificationCenter.id}`);
+
+      // when
+      await clickByLabel('Editer');
+
+      // then
+      assert.contains('Annuler');
+      assert.contains('Enregistrer');
+    });
+
+    test('should send edited certification center to the API', async function (assert) {
+      // given
+      await visit(`/certification-centers/${certificationCenter.id}`);
+      await clickByLabel('Editer');
+
+      // when
+      this.server.patch(`/certification-centers/${certificationCenter.id}`, () => new Response({}), 204);
+      await fillInByLabel('Nom du centre', 'nouveau nom');
+      await fillInByLabel('Type', 'SUP');
+      await fillInByLabel('Identifiant externe', 'nouvel identifiant externe');
+      await clickByLabel('Enregistrer');
+
+      // then
+      assert.contains('Habilitations aux certifications complémentaires');
+      assert.contains('nouveau nom');
+      assert.contains('SUP');
+      assert.contains('nouvel identifiant externe');
     });
   });
 });
