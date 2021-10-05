@@ -1,9 +1,8 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | certification-center-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -36,11 +35,10 @@ module('Integration | Component | certification-center-form', function (hooks) {
       );
 
       // when
-      await selectChoose('#certificationCenterTypeSelector', 'Établissement scolaire');
+      await fillIn('#certificationCenterTypeSelector', 'SCO');
 
       // then
       assert.equal(this.certificationCenter.type, 'SCO');
-      assert.dom('.ember-power-select-selected-item').hasText('Établissement scolaire');
     });
   });
 });
