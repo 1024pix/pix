@@ -100,5 +100,5 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
 }
 
 function _getAttendanceTemplatePath() {
-  return __dirname + '/../../infrastructure/files/attendance-sheet/attendance_sheet_template.ods';
+  return __dirname + '/../../infrastructure/files/attendance-sheet/non_sco_attendance_sheet_template.ods';
 }

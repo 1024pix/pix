@@ -74,8 +74,8 @@ describe('Integration | UseCases | getAttendanceSheet', function () {
     await databaseBuilder.commit();
   });
 
-  const expectedOdsFilePath = `${__dirname}/attendance_sheet_template_target.ods`;
-  const actualOdsFilePath = `${__dirname}/attendance_sheet_template_actual.tmp.ods`;
+  const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target.ods`;
+  const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual.tmp.ods`;
 
   afterEach(async function () {
     await unlink(actualOdsFilePath);
