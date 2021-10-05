@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { types } from '../../../models/certification-center';
 
 import isEmailValid from '../../../utils/email-validator';
 
@@ -16,15 +17,22 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     STATUS_412: 'Ce membre est déjà rattaché.',
   };
 
+  certificationCenterTypes = types;
+
   @service notifications;
 
   @tracked userEmailToAdd;
   @tracked errorMessage;
-
   @tracked isEditMode = false;
+  @tracked selectedCertificationCenterType;
 
   get isDisabled() {
     return !this.userEmailToAdd || !!this.errorMessage;
+  }
+
+  @action
+  selectCertificationCenterType(event) {
+    this.model.certificationCenter.type = event.target.value;
   }
 
   @action

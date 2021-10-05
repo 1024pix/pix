@@ -36,14 +36,18 @@
 
             <div class="form-field">
               <label for="certification-center-type" class="form-field__label">Type</label>
-              <Input
-                id="certification-center-@type"
-                name="certification-center-type"
-                @type="text"
-                maxlength="255"
-                class="form-control"
-                @value={{@model.certificationCenter.type}}
-              />
+              <PixSelect
+                id="certificationCenterTypeSelector"
+                @options={{this.certificationCenterTypes}}
+                @isSearchable={{false}}
+                @emptyOptionNotSelectable={{true}}
+                @emptyOptionLabel={{"-- Choisissez --"}}
+                @selectedOption={{this.model.certificationCenter.type}}
+                @onChange={{this.selectCertificationCenterType}}
+                as |certificationCenterType|
+              >
+                {{certificationCenterType.label}}
+              </PixSelect>
               {{#each this.certificationCenter.errors.type as |error|}}
                 <div class="session-form__error error-message">
                   {{error.message}}
