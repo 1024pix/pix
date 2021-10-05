@@ -1,5 +1,5 @@
-{{!-- template-lint-disable no-unknown-arguments-for-builtin-components --}}
-{{page-title (t 'pages.assessment-results.title')}}
+{{! template-lint-disable no-unknown-arguments-for-builtin-components }}
+{{page-title (t "pages.assessment-results.title")}}
 
 <div class="assessment-results">
 
@@ -9,7 +9,7 @@
 
   <div class="assessment-results__content">
     <p class="assessment-results__title">
-      {{t 'pages.assessment-results.answers.header'}}
+      {{t "pages.assessment-results.answers.header"}}
     </p>
 
     <div class="assessment-results__list">
@@ -20,12 +20,18 @@
 
     <div class="assessment-results__index-link-container">
       {{#if @model.isDemo}}
-        <LinkTo @route="inscription" class="assessment-results__index-link__element assessment-results__index-a-link" @tagName="button">
-          <span class="assessment-results__link-back">{{t 'pages.assessment-results.actions.continue-pix-experience'}}</span>
+        <LinkTo
+          @route="inscription"
+          class="assessment-results__index-link__element assessment-results__index-a-link"
+          @tagName="button"
+        >
+          <span class="assessment-results__link-back">{{t
+              "pages.assessment-results.actions.continue-pix-experience"
+            }}</span>
         </LinkTo>
       {{else}}
         <LinkTo @route="index" class="assessment-results__index-link__element" @tagName="button">
-          <span class="assessment-results__link-back">{{t 'pages.assessment-results.actions.return-to-homepage'}}</span>
+          <span class="assessment-results__link-back">{{t "pages.assessment-results.actions.return-to-homepage"}}</span>
         </LinkTo>
       {{/if}}
     </div>

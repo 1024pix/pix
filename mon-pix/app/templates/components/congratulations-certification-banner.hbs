@@ -1,27 +1,36 @@
 <div class="congratulations-banner">
-  <button aria-label={{t 'common.actions.close' }} class="icon-button congratulations-banner__icon" {{on 'click'
-    @closeBanner}} type="button">
-    <FaIcon @icon="times"/>
+  <button
+    aria-label={{t "common.actions.close"}}
+    class="icon-button congratulations-banner__icon"
+    {{on "click" @closeBanner}}
+    type="button"
+  >
+    <FaIcon @icon="times" />
   </button>
   <p class="congratulations-banner__message">
-    {{t "pages.certification-joiner.congratulation-banner.message"
-    fullName=@fullName htmlSafe=true}}
+    {{t "pages.certification-joiner.congratulation-banner.message" fullName=@fullName htmlSafe=true}}
   </p>
   {{#if @certificationEligibility.cleaCertificationEligible}}
     <p data-test-eligible-clea>{{t "pages.certification-joiner.congratulation-banner.clea-eligibility"}}</p>
   {{/if}}
   {{#if @certificationEligibility.pixPlusDroitMaitreCertificationEligible}}
-    <p data-test-eligible-pix-plus-droit-maitre>{{t "pages.certification-joiner.congratulation-banner.pix-plus-droit-maitre-eligibility"}}</p>
+    <p data-test-eligible-pix-plus-droit-maitre>{{t
+        "pages.certification-joiner.congratulation-banner.pix-plus-droit-maitre-eligibility"
+      }}</p>
   {{/if}}
   {{#if @certificationEligibility.pixPlusDroitExpertCertificationEligible}}
-    <p data-test-eligible-pix-plus-droit-expert>{{t "pages.certification-joiner.congratulation-banner.pix-plus-droit-expert-eligibility"}}</p>
+    <p data-test-eligible-pix-plus-droit-expert>{{t
+        "pages.certification-joiner.congratulation-banner.pix-plus-droit-expert-eligibility"
+      }}</p>
   {{/if}}
-  <a href={{t "pages.certification-joiner.congratulation-banner.link.url" }}
+  <a
+    href={{t "pages.certification-joiner.congratulation-banner.link.url"}}
     class="congratulations-banner__link"
     target="_blank"
-    rel="noopener noreferrer">
+    rel="noopener noreferrer"
+  >
     <FaIcon @icon="arrow-right" class="congratulations-banner__link__icon" />
-    {{t "pages.certification-joiner.congratulation-banner.link.text" }}
+    {{t "pages.certification-joiner.congratulation-banner.link.text"}}
     <FaIcon @icon="external-link-alt" class="congratulations-banner__link__icon" />
   </a>
 </div>

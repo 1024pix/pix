@@ -1,9 +1,13 @@
-{{page-title (t 'pages.shared-certification.title')}}
+{{page-title (t "pages.shared-certification.title")}}
 
 <PixBackgroundHeader class="user-certifications-page-get">
 
   <PixBlock class="user-certifications-page-get__header">
-    <PixReturnTo @route="fill-in-certificate-verification-code" @shade="white" class="user-certifications-page-get__return-to">
+    <PixReturnTo
+      @route="fill-in-certificate-verification-code"
+      @shade="white"
+      class="user-certifications-page-get__return-to"
+    >
       {{t "pages.shared-certification.back-link"}}
     </PixReturnTo>
     <UserCertificationsDetailHeader @certification={{this.model}} />
@@ -11,8 +15,8 @@
 
   <div class="user-certifications-page-get__details-body">
     <UserCertificationsDetailCompetencesList
-            @resultCompetenceTree={{this.model.resultCompetenceTree}}
-            @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
+      @resultCompetenceTree={{this.model.resultCompetenceTree}}
+      @maxReachableLevelOnCertificationDate={{this.model.maxReachableLevelOnCertificationDate}}
     />
     {{#if this.shouldDisplayDetailsSection}}
       <UserCertificationsDetailResult @certification={{@model}} />

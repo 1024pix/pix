@@ -56,7 +56,7 @@ describe('Integration | Component | user-certifications-detail-competences-list'
 
   it('should have "Compétences certifiées (niveaux sur 5)" as a title', async function() {
     // then
-    expect(find(`${PARENT_SELECTOR} h2`).textContent).to.equal('Compétences certifiées (niveaux sur 5)');
+    expect(find(`${PARENT_SELECTOR} h2`).innerText).to.equal('Compétences certifiées (niveaux sur 5)');
   });
 
   context('when area has a list of competences', function() {

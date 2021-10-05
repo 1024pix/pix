@@ -8,11 +8,18 @@
     <div class="competence-card__body" role="img" aria-label="{{scorecard-aria-label @scorecard}}">
       {{#if @scorecard.isFinishedWithMaxLevel}}
         <div class="competence-card__congrats competence-card__congrats--small">
-          <span class="score-value competence-card__score-value competence-card__score-value--congrats">{{this.displayedLevel}}</span>
+          <span
+            class="score-value competence-card__score-value competence-card__score-value--congrats"
+          >{{this.displayedLevel}}</span>
         </div>
       {{else}}
         <div class="competence-card__body--white-background">
-          <CircleChart @value={{@scorecard.percentageAheadOfNextLevel}} @sliceColor={{@scorecard.area.color}} @chartClass="circle-chart__content--small" @thicknessClass="circle--thick">
+          <CircleChart
+            @value={{@scorecard.percentageAheadOfNextLevel}}
+            @sliceColor={{@scorecard.area.color}}
+            @chartClass="circle-chart__content--small"
+            @thicknessClass="circle--thick"
+          >
             <div class="competence-card__level">
               <span class="score-value competence-card__score-value">{{replace-zero-by-dash this.displayedLevel}}</span>
             </div>
