@@ -249,6 +249,56 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       });
     });
 
+    context('when there is a filter on group', function () {
+      it('returns participants which have the correct group', async function () {
+        campaign = databaseBuilder.factory.buildAssessmentCampaign({});
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          { participantExternalId: 'The good', campaignId: campaign.id },
+          { id: 1 }
+        );
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId: 1,
+          group: 'L1',
+        });
+
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'STARTED' },
+          { id: 2 }
+        );
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId: 2,
+          group: 'T1',
+        });
+        databaseBuilder.factory.buildAssessmentFromParticipation(
+          { participantExternalId: 'The ugly', campaignId: campaign.id, status: 'STARTED' },
+          { id: 3 }
+        );
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          userId: 3,
+          group: 'T2',
+        });
+
+        await databaseBuilder.commit();
+
+        // when
+        const { campaignParticipantsActivities, pagination } =
+          await campaignParticipantActivityRepository.findPaginatedByCampaignId({
+            campaignId: campaign.id,
+            filters: { groups: ['L1', 'T2'] },
+          });
+
+        const participantExternalIds = campaignParticipantsActivities.map((result) => result.participantExternalId);
+
+        // then
+        expect(participantExternalIds).to.exactlyContain(['The good', 'The ugly']);
+        expect(pagination.rowCount).to.equal(2);
+      });
+    });
+
     context('pagination', function () {
       beforeEach(async function () {
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
