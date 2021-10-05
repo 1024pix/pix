@@ -1,5 +1,4 @@
 .certification-details-competence {
-
   margin-bottom: 20px;
 
   .jury {
@@ -11,6 +10,7 @@
   }
 
   .progress-bar {
+
     &.certificate {
       background-color: $information-light;
       color: $white;
@@ -21,5 +21,4 @@
       color: $white;
     }
   }
-
 }
