@@ -2,5 +2,5 @@ module.exports = async function createBadge({ targetProfileId, badge, badgeRepos
   await targetProfileRepository.get(targetProfileId);
   await badgeRepository.isKeyAvailable(badge.key);
 
-  return badgeRepository.save(badge);
+  return badgeRepository.save({ ...badge, targetProfileId });
 };
