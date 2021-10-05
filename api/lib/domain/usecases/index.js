@@ -96,6 +96,7 @@ const dependencies = {
   scorecardService: require('../../domain/services/scorecard-service'),
   scoringCertificationService: require('../../domain/services/scoring/scoring-certification-service'),
   sessionAuthorizationService: require('../../domain/services/session-authorization-service'),
+  sessionForAttendanceSheetRepository: require('../../infrastructure/repositories/session-for-attendance-sheet-repository'),
   sessionPublicationService: require('../../domain/services/session-publication-service'),
   sessionRepository: require('../../infrastructure/repositories/session-repository'),
   sessionJuryCommentRepository: require('../../infrastructure/repositories/session-jury-comment-repository'),
