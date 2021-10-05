@@ -53,6 +53,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     organizationId: SUP_UNIVERSITY_ID,
     userId: null,
     studentNumber: 'JAIMELESFRUITS123',
+    group: 'L1',
   });
 
   // student associated
@@ -70,6 +71,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     organizationId: SUP_UNIVERSITY_ID,
     userId: aryaStark.id,
     studentNumber: 'JAIMELESLEGUMES123',
+    group: 'L1',
   });
 
   // with student number
@@ -88,6 +90,7 @@ function organizationsSupBuilder({ databaseBuilder }) {
     organizationId: SUP_UNIVERSITY_ID,
     userId: sansaStark.id,
     studentNumber: 'JAIMELECHOCOLAT',
+    group: 'L2',
   });
 
   // disabled student

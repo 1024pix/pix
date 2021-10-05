@@ -29,14 +29,14 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', functio
   it('should fetch students matching organization', async function() {
     foundOrganizationSchoolingRegistrations = await findPaginatedFilteredSchoolingRegistrations({
       organizationId,
-      filter: { lastName: 'A' },
+      filter: { lastName: 'A', group: 'L1' },
       page: { size: 10, number: 1 },
       schoolingRegistrationRepository,
     });
 
     expect(schoolingRegistrationRepository.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWithExactly({
       organizationId,
-      filter: { lastName: 'A' },
+      filter: { lastName: 'A', group: 'L1' },
       page: { size: 10, number: 1 },
     });
     expect(foundOrganizationSchoolingRegistrations).to.deep.equal(expectedSchoolingRegistrations);
