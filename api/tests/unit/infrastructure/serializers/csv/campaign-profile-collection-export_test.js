@@ -118,7 +118,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
           '"Nom de la campagne";' +
           '"Nom du Participant";' +
           '"Prénom du Participant";' +
-          '"Groupe du Participant";' +
+          '"Groupe";' +
           '"Numéro Étudiant";' +
           '"Envoi (O/N)";' +
           '"Date de l\'envoi";' +
