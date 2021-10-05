@@ -1357,7 +1357,10 @@
         "code-label": "Field to enter your verification code",
         "update-successful": "Your email address has been changed!",
         "errors": {
-          "incorrect-code": "The code entered is incorrect."
+          "incorrect-code": "The code entered is incorrect.",
+          "email-modification-demand-expired": "This code has expired. Please renew your request.",
+          "new-email-already-exist": "This email address is already in use.",
+          "unknown-error": "An error has occurred. Please try again or contact the support."
         }
       },
       "language": {
