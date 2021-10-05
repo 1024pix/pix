@@ -91,6 +91,7 @@ class CampaignAssessmentCsvLine {
       this.campaignParticipationInfo.participantLastName,
       this.campaignParticipationInfo.participantFirstName,
       ...this._division,
+      ...this._group,
       ...this._studentNumber,
       ...(this.campaign.idPixLabel ? [this.campaignParticipationInfo.participantExternalId] : []),
       this.campaignParticipationService.progress(this.campaignParticipationInfo.isCompleted, this.targetedKnowledgeElementsCount, this.targetProfileWithLearningContent.skills.length),
@@ -164,6 +165,14 @@ class CampaignAssessmentCsvLine {
   get _division() {
     if (this.organization.isSco && this.organization.isManagingStudents) {
       return [this.campaignParticipationInfo.division || ''];
+    }
+
+    return [];
+  }
+
+  get _group() {
+    if (this.organization.isSup && this.organization.isManagingStudents) {
+      return [this.campaignParticipationInfo.group || ''];
     }
 
     return [];
