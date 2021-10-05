@@ -21,9 +21,6 @@ const logger = require('../../logger');
 const ERRORS = {
   INVALID_FILE: 'INVALID_FILE',
   ENCODING_NOT_SUPPORTED: 'ENCODING_NOT_SUPPORTED',
-  PARSING_ERROR: 'PARSING_ERROR',
-  UNZIP_ERROR: 'UNZIP_ERROR',
-  NO_VALID_FILE_TO_EXTRACT: 'NO_VALID_FILE_TO_EXTRACT',
 };
 const DEFAULT_FILE_ENCODING = 'UTF-8';
 const ZIP = 'application/zip';
@@ -83,7 +80,7 @@ async function _unzipFile(directory, path) {
     await zip.extract(fileName, extractedFileName);
   } catch (error) {
     await zip.close();
-    throw new FileValidationError(ERRORS.UNZIP_ERROR);
+    throw new FileValidationError(ERRORS.INVALID_FILE);
   }
   await zip.close();
   return extractedFileName;
@@ -95,8 +92,8 @@ async function _getFileToExtractName(zipStream) {
   const validFiles = fileNames.filter((name) => VALID_FILE_NAME_REGEX.test(name));
   if (validFiles.length != 1) {
     zipStream.close();
-    logger.error({ ERROR: ERRORS.NO_VALID_FILE_TO_EXTRACT, entries });
-    throw new FileValidationError(ERRORS.NO_VALID_FILE_TO_EXTRACT);
+    logger.error({ ERROR: ERRORS.INVALID_FILE, entries });
+    throw new FileValidationError(ERRORS.INVALID_FILE);
   }
   return validFiles[0];
 }
@@ -145,7 +142,7 @@ function _getSaxStream(path, encoding, reject) {
   const saxParser = sax.createStream(true);
   saxParser.on('error', (err) => {
     logger.error(err);
-    reject(new FileValidationError(ERRORS.PARSING_ERROR));
+    reject(new FileValidationError(ERRORS.INVALID_FILE));
   });
 
   return inputStream.pipe(decodeStream).pipe(saxParser);
