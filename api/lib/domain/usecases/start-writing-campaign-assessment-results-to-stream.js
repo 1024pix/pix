@@ -102,7 +102,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 }
 
 function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) {
-  const displayStudentNumber = organization.isSup && organization.isManagingStudents;
+  const forSupStudents = organization.isSup && organization.isManagingStudents;
   const displayDivision = organization.isSco && organization.isManagingStudents;
 
   return [
@@ -113,7 +113,8 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) 
     translate('campaign-export.common.participant-lastname'),
     translate('campaign-export.common.participant-firstname'),
     ...(displayDivision ? [translate('campaign-export.common.participant-division')] : []),
-    ...(displayStudentNumber ? [translate('campaign-export.common.participant-student-number')] : []),
+    ...(forSupStudents ? [translate('campaign-export.common.participant-group')] : []),
+    ...(forSupStudents ? [translate('campaign-export.common.participant-student-number')] : []),
     ...(idPixLabel ? [idPixLabel] : []),
 
     translate('campaign-export.assessment.progress'),

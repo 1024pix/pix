@@ -180,7 +180,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
     expect(csv).to.equal(csvExpected);
   });
 
-  it('should contains studentNumber header when organization is SUP and managing students', async function() {
+  it('should contains specific header when organization is SUP and managing students', async function() {
     // given
     const { user, campaign, organization } = _buildOrganizationAndUserWithMembershipAndCampaign({ isManagingStudents: true, type: 'SUP' });
     const targetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
@@ -198,6 +198,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-assessment-results
       '"Nom du Profil Cible";' +
       '"Nom du Participant";' +
       '"Prénom du Participant";' +
+      '"Groupe";' +
       '"Numéro Étudiant";' +
       '"% de progression";' +
       '"Date de début";' +
