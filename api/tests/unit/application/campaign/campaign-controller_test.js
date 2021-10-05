@@ -5,6 +5,7 @@ const campaignController = require('../../../../lib/application/campaigns/campai
 const campaignAnalysisSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-analysis-serializer');
 const campaignReportSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 const campaignCollectiveResultSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-collective-result-serializer');
+const campaignParticipantsActivitySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/campaign-participant-activity-serializer');
 
 const tokenService = require('../../../../lib/domain/services/token-service');
 const usecases = require('../../../../lib/domain/usecases');
@@ -503,6 +504,51 @@ describe('Unit | Application | Controller | Campaign', function () {
 
       // then
       expect(response).to.be.equal(serializedCampaign);
+    });
+  });
+  describe('#findParticipantsActivity', function () {
+    let serializedParticipantsActivities;
+    let participantsActivities;
+    const filters = { status: 'SHARED', groups: ['L1'] };
+
+    const campaignId = 1;
+    const userId = 1;
+
+    beforeEach(function () {
+      participantsActivities = Symbol('participants activities');
+      serializedParticipantsActivities = Symbol('serialized participants activities');
+      sinon.stub(usecases, 'findPaginatedCampaignParticipantsActivities').resolves(participantsActivities);
+      sinon
+        .stub(campaignParticipantsActivitySerializer, 'serialize')
+        .withArgs({ participantsActivities })
+        .resolves(serializedParticipantsActivities);
+    });
+
+    it('should return the participants activities properly serialized', async function () {
+      // given
+      usecases.findPaginatedCampaignParticipantsActivities
+        .withArgs({ campaignId, userId, page: 3, filters })
+        .resolves(participantsActivities);
+      campaignParticipantsActivitySerializer.serialize
+        .withArgs(participantsActivities)
+        .returns(serializedParticipantsActivities);
+
+      // when
+      const response = await campaignController.findParticipantsActivity({
+        params: { id: campaignId },
+        auth: {
+          credentials: { userId },
+        },
+        query: {
+          filter: {
+            group: ['L1'],
+            status: 'SHARED',
+          },
+        },
+      });
+
+      // then
+      expect(response).to.be.equal(serializedParticipantsActivities);
     });
   });
 });
