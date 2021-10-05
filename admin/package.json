@@ -22,7 +22,8 @@
     "build:uncached:assets": "cp dist/assets/pix-admin-*.css dist/assets/pix-admin.uncached.css && cp dist/assets/vendor-*.css dist/assets/vendor.uncached.css",
     "clean": "rm -rf tmp dist node_modules",
     "dev": "ember serve",
-    "lint": "npm run lint:js && npm run lint:hbs",
+    "lint": "npm run lint:js && npm run lint:hbs && npm run lint:scss",
+    "lint:scss": "stylelint app/styles/*.scss 'app/styles/**/*.scss'",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
     "preinstall": "npx check-engine",
@@ -105,7 +106,9 @@
     "query-string": "^7.0.0",
     "qunit": "^2.14.0",
     "qunit-dom": "^1.6.0",
-    "sass": "^1.32.8"
+    "sass": "^1.32.8",
+    "stylelint": "^13.13.1",
+    "stylelint-config-standard": "^22.0.0"
   },
   "ember": {
     "edition": "octane"

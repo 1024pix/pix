@@ -1,14 +1,11 @@
 .table-admin {
+
   a:not(.pix-button) {
     color: $blue;
   }
 
   thead label {
     margin-bottom: 0;
-  }
-
-  tbody > tr:nth-child(odd) {
-    background-color: rgba(0, 0, 0, 0.03);
   }
 
   tbody > tr,
@@ -30,7 +27,11 @@
     }
   }
 
-  .col-status{
+  tbody > tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .col-status {
     width: 10%;
   }
 }

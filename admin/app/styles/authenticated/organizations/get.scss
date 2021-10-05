@@ -7,7 +7,6 @@
       margin-right: 20px;
 
       .organization__logo-figure {
-        display: inline-block;
         padding: 3px;
         border: 2px solid $grey-15;
         border-radius: 4px;
@@ -105,7 +104,7 @@
 
     .organization-sub-form__error-message {
       color: $error;
-      font-size: .85rem;
+      font-size: 0.85rem;
     }
   }
 }
