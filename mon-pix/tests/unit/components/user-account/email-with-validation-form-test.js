@@ -40,5 +40,24 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
       sinon.assert.notCalled(component.store.createRecord);
       sinon.assert.notCalled(sendNewEmail);
     });
+
+    it('should prevent double clicking on submit', async function() {
+      // given
+      const component = createGlimmerComponent('component:user-account/email-with-validation-form');
+      const newEmail = 'toto@example.net';
+      const password = 'pix123';
+      const sendNewEmail = sinon.stub();
+      component.store = { createRecord: () => ({ sendNewEmail }) };
+      component.newEmail = newEmail;
+      component.password = password;
+      sinon.spy(component.store, 'createRecord');
+
+      // when
+      await component.onSubmit();
+      await component.onSubmit();
+
+      // then
+      sinon.assert.calledOnce(sendNewEmail);
+    });
   });
 });

@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
 import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
+import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   invalidEmail: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-email',
@@ -21,6 +22,7 @@ export default class EmailWithValidationForm extends Component {
   @tracked newEmailValidationMessage = null;
   @tracked passwordValidationMessage = null;
   @tracked errorMessage = null;
+  @tracked wasButtonClicked = false;
 
   get isFormValid() {
     return isEmailValid(this.newEmail) && !isEmpty(this.password);
@@ -53,33 +55,47 @@ export default class EmailWithValidationForm extends Component {
   @action
   async onSubmit(event) {
     event && event.preventDefault();
+
     this.errorMessage = null;
 
     if (this.isFormValid) {
       try {
-        const emailVerificationCode = this.store.createRecord('email-verification-code', {
-          password: this.password,
-          newEmail: this.newEmail.trim().toLowerCase(),
-        });
-        await emailVerificationCode.sendNewEmail();
-        this.args.showVerificationCode(this.newEmail);
-      } catch (response) {
-        const status = get(response, 'errors[0].status');
-        if (status === '422') {
-          const pointer = get(response, 'errors[0].source.pointer');
-          if (pointer.endsWith('email')) {
-            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
-          }
-          if (pointer.endsWith('password')) {
-            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
-          }
-        } else if (status === '400') {
-          const code = get(response, 'errors[0].code');
-          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
-          if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
-            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
-          }
+        if (!this.wasButtonClicked) {
+          this.wasButtonClicked = true;
+
+          const emailVerificationCode = this.store.createRecord('email-verification-code', {
+            password: this.password,
+            newEmail: this.newEmail.trim().toLowerCase(),
+          });
+          await emailVerificationCode.sendNewEmail();
+
+          this.args.showVerificationCode(this.newEmail);
         }
+      } catch (response) {
+        this.handleSubmitError(response);
+      } finally {
+        setTimeout(() => {
+          this.wasButtonClicked = false;
+        }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
+      }
+    }
+  }
+
+  handleSubmitError(response) {
+    const status = get(response, 'errors[0].status');
+    if (status === '422') {
+      const pointer = get(response, 'errors[0].source.pointer');
+      if (pointer.endsWith('email')) {
+        this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
+      }
+      if (pointer.endsWith('password')) {
+        this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
+      }
+    } else if (status === '400') {
+      const code = get(response, 'errors[0].code');
+      this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
+      if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
+        this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
       }
     }
   }
