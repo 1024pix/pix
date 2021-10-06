@@ -28,7 +28,7 @@ describe('SiecleFileStreamer', function() {
             });
 
           expect(error).to.be.an.instanceof(FileValidationError);
-          expect(error.code).to.equal('PARSING_ERROR');
+          expect(error.code).to.equal('INVALID_FILE');
         });
       });
 
@@ -83,7 +83,7 @@ describe('SiecleFileStreamer', function() {
           const error = await catchErr(SiecleFileStreamer.create)(path);
 
           expect(error).to.be.an.instanceof(FileValidationError);
-          expect(error.code).to.equal('UNZIP_ERROR');
+          expect(error.code).to.equal('INVALID_FILE');
         });
       });
 
@@ -94,7 +94,7 @@ describe('SiecleFileStreamer', function() {
           const error = await catchErr(SiecleFileStreamer.create)(path);
 
           expect(error).to.be.an.instanceof(FileValidationError);
-          expect(error.code).to.equal('NO_VALID_FILE_TO_EXTRACT');
+          expect(error.code).to.equal('INVALID_FILE');
         });
       });
 
