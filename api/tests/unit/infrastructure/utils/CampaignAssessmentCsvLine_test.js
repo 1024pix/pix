@@ -75,35 +75,6 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function()
       expect(csvLine[cols.PARTICIPATION_PROGRESSION], 'participation progression').to.equal(0);
     });
 
-    context('on student number column', function() {
-      it('should write the student number when organization is of type SUP and campaign is restricted', function() {
-        // given
-        const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
-        const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ studentNumber: 'someStudentNumber' });
-        const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
-        const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
-          organization,
-          campaign,
-          campaignParticipationInfo,
-          targetProfileWithLearningContent,
-          stages: [],
-          participantKnowledgeElementsByCompetenceId: {
-            [targetProfileWithLearningContent.competences[0].id]: [],
-          },
-          campaignParticipationService,
-          translate,
-        });
-
-        // when
-        const csvLine = campaignAssessmentCsvLine.toCsvLine();
-
-        // then
-        const cols = _computeExpectedColumnsIndex(campaign, organization, [], []);
-        expect(csvLine[cols.STUDENT_NUMBER_COL], 'student number').to.equal(campaignParticipationInfo.studentNumber);
-      });
-    });
-
     context('on external id column', function() {
 
       it('should write the participantExternalId when campaign has an idPixLabel', function() {
@@ -439,7 +410,34 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function()
       });
 
       context('when organization type is SUP and manage students', function() {
-        it('returns the group', function() {
+        it('writes the student number', function() {
+          // given
+          const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
+          const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
+          const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ studentNumber: 'someStudentNumber' });
+          const targetProfileWithLearningContent = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
+          const campaignAssessmentCsvLine = new CampaignAssessmentCsvLine({
+            organization,
+            campaign,
+            campaignParticipationInfo,
+            targetProfileWithLearningContent,
+            stages: [],
+            participantKnowledgeElementsByCompetenceId: {
+              [targetProfileWithLearningContent.competences[0].id]: [],
+            },
+            campaignParticipationService,
+            translate,
+          });
+
+          // when
+          const csvLine = campaignAssessmentCsvLine.toCsvLine();
+
+          // then
+          const cols = _computeExpectedColumnsIndex(campaign, organization, [], []);
+          expect(csvLine[cols.STUDENT_NUMBER_COL], 'student number').to.equal(campaignParticipationInfo.studentNumber);
+        });
+
+        it('writes the group', function() {
           // given
           const organization = domainBuilder.buildOrganization({ type: 'SUP', isManagingStudents: true });
           const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
