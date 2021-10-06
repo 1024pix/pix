@@ -23,20 +23,21 @@
     <div class="form-field form-group">
       <label class="form-field__label" for="certificationCenterType">Type : </label>
       <div
-        id="certificationCenterTypeSelector"
         class="form-field__select
           {{if @certificationCenter.errors.type "is-invalid" ""}}
           certification-center-form__select-type"
       >
-        <PowerSelect
+        <PixSelect
+          id="certificationCenterTypeSelector"
           @options={{this.certificationCenterTypes}}
-          @searchEnabled={{false}}
-          @selected={{this.selectedCertificationCenterType}}
+          @isSearchable={{false}}
+          @emptyOptionNotSelectable={{true}}
+          @emptyOptionLabel={{"-- Choisissez --"}}
           @onChange={{this.selectCertificationCenterType}}
           as |certificationCenterType|
         >
           {{certificationCenterType.label}}
-        </PowerSelect>
+        </PixSelect>
       </div>
       {{#each @certificationCenter.errors.type as |error|}}
         <div class="form-field__error">

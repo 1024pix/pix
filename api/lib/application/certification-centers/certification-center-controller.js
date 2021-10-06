@@ -1,5 +1,6 @@
 const usecases = require('../../domain/usecases');
 
+const accreditationSerializer = require('../../infrastructure/serializers/jsonapi/accreditation-serializer');
 const certificationCenterSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-serializer');
 const certificationCenterMembershipSerializer = require('../../infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 const divisionSerializer = require('../../infrastructure/serializers/jsonapi/division-serializer');
@@ -12,7 +13,12 @@ module.exports = {
 
   async save(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
-    const savedCertificationCenter = await usecases.saveCertificationCenter({ certificationCenter });
+    const accreditations = await Promise.all(
+      (request.payload.data.included || [])
+        .filter((data) => data.type === 'accreditations')
+        .map((data) => accreditationSerializer.deserialize({ data })),
+    );
+    const savedCertificationCenter = await usecases.saveCertificationCenter({ certificationCenter, accreditations });
     return certificationCenterSerializer.serialize(savedCertificationCenter);
   },
 

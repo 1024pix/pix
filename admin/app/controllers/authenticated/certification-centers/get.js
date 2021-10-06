@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import { types } from '../../../models/certification-center';
 
 import isEmailValid from '../../../utils/email-validator';
 
@@ -16,13 +17,22 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     STATUS_412: 'Ce membre est déjà rattaché.',
   };
 
+  certificationCenterTypes = types;
+
   @service notifications;
 
   @tracked userEmailToAdd;
   @tracked errorMessage;
+  @tracked isEditMode = false;
+  @tracked selectedCertificationCenterType;
 
   get isDisabled() {
     return !this.userEmailToAdd || !!this.errorMessage;
+  }
+
+  @action
+  selectCertificationCenterType(event) {
+    this.model.certificationCenter.type = event.target.value;
   }
 
   @action
@@ -33,7 +43,6 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   @action
   async addCertificationCenterMembership(event) {
     event && event.preventDefault();
-
     this.errorMessage = this._getEmailErrorMessage(this.userEmailToAdd);
     if (!this.userEmailToAdd) {
       this.errorMessage = this.EMAIL_REQUIRED_ERROR_MESSAGE;
@@ -48,13 +57,40 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     }
   }
 
+  @action
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
+  }
+
+  @action
+  updateGrantedAccreditation(accreditation) {
+    const accreditations = this.model.certificationCenter.accreditations;
+    if (accreditations.includes(accreditation)) {
+      accreditations.removeObject(accreditation);
+    } else {
+      accreditations.addObject(accreditation);
+    }
+  }
+
+  @action
+  async submitForm(event) {
+    event.preventDefault();
+    try {
+      await this.model.certificationCenter.save();
+      this.notifications.success('Centre de certification mis à jour avec succès.');
+    } catch (e) {
+      this.notifications.error("Une erreur est survenue, le centre de certification n'a pas été mis à jour.");
+    }
+
+    this.toggleEditMode();
+  }
+
   _getEmailErrorMessage(email) {
     return email && !isEmailValid(email) ? this.EMAIL_INVALID_ERROR_MESSAGE : null;
   }
 
   async _createCertificationCenterMembership() {
     const { certificationCenter } = this.model;
-
     await this.store.createRecord('certification-center-membership').save({
       adapterOptions: {
         createByEmail: true,
