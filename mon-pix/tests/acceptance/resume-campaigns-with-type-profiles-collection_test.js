@@ -96,15 +96,25 @@ describe('Acceptance | Campaigns | Resume Campaigns with type Profiles Collectio
       beforeEach(async function() {
         campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true, type: PROFILES_COLLECTION });
         server.create('campaign-participation', { campaign });
-        await completeCampaignOfTypeProfilesCollectionByCode(campaign.code);
       });
 
-      it('should display results page', async function() {
+      it('should be able to resume', async function() {
         // when
         await visit(`/campagnes/${campaign.code}`);
 
         // then
-        expect(currentURL()).to.contains('/deja-envoye');
+        expect(currentURL()).to.contains(`/campagnes/${campaign.code}/collecte/envoi-profil`);
+      });
+
+      it('should display results page', async function() {
+        // given
+        await completeCampaignOfTypeProfilesCollectionByCode(campaign.code);
+
+        // when
+        await visit(`/campagnes/${campaign.code}`);
+
+        // then
+        expect(currentURL()).to.contains(`/campagnes/${campaign.code}/collecte/deja-envoye`);
       });
     });
   });
