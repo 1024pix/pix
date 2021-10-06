@@ -12,7 +12,9 @@
 
   <div class="email-verification-code__resend {{if this.showResendCode "visible"}}">
     <p>{{t "pages.email-verification.did-not-receive"}}</p>
-    <p>{{t "pages.email-verification.send-back-the-code"}}</p>
+    <button type="button" {{on "click" this.resendVerificationCodeByEmail}}>{{t
+        "pages.email-verification.send-back-the-code"
+      }}</button>
   </div>
   <PixButton @isBorderVisible={{true}} @triggerAction={{@disableEmailEditionMode}} @backgroundColor="transparent-light">
     {{t "common.actions.cancel"}}
