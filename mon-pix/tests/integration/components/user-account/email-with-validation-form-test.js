@@ -87,7 +87,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       store = this.owner.lookup('service:store');
     });
 
-    it('should call the show verification code method', async function() {
+    it('should call the show verification code method only once', async function() {
       // given
       const newEmail = 'newEmail@example.net';
       const password = 'password';
@@ -99,6 +99,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
+      await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then

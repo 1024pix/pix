@@ -8,7 +8,8 @@ export default class EmailVerificationCode extends Component {
 
   @service intl;
   @service store;
-  @tracked showResendCode = false
+  @tracked showResendCode = false;
+  @tracked wasButtonClicked = false;
 
   constructor() {
     super(...arguments);
@@ -20,11 +21,20 @@ export default class EmailVerificationCode extends Component {
 
   @action
   async resendVerificationCodeByEmail() {
-    const emailVerificationCode = this.store.createRecord('email-verification-code', {
-      password: this.args.password,
-      newEmail: this.args.email.trim().toLowerCase(),
-    });
-    await emailVerificationCode.sendNewEmail();
+    try {
+      if (!this.wasButtonClicked) {
+        this.wasButtonClicked = true;
+        const emailVerificationCode = this.store.createRecord('email-verification-code', {
+          password: this.args.password,
+          newEmail: this.args.email.trim().toLowerCase(),
+        });
+        await emailVerificationCode.sendNewEmail();
+      }
+    } finally {
+      setTimeout(() => {
+        this.wasButtonClicked = false;
+      }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
+    }
   }
 
   @action
