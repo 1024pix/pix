@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.110.0 (06/10/2021)
+
+- [#3509](https://github.com/1024pix/pix/pull/3509) [FEATURE] Mettre à jour les informations d'un centre de certifications depuis Pix Admin (PIX-3478) 
+- [#3552](https://github.com/1024pix/pix/pull/3552) [FEATURE] Modifier le message d'erreur pour les imports SCO (PIX-3515)
+- [#3549](https://github.com/1024pix/pix/pull/3549) [FEATURE] Ajout d'un filtre sur la colonne "groupe" sur la page "Étudiants". (PIX-3537)
+- [#3553](https://github.com/1024pix/pix/pull/3553) [FEATURE]  Ajout de la colonne groupe dans le fichier d'export CSV au sein d'une campaign de collecte de profil  (Pix-3540).
+- [#3563](https://github.com/1024pix/pix/pull/3563) [BUGFIX] Corriger le type de l'appel PUT /{id}/email/verification-code, coté Pix App (PIX-3576).
+- [#3540](https://github.com/1024pix/pix/pull/3540) [BUGFIX] Afficher les détails d'un badge dans pix-admin (PIX-3505).
+- [#3557](https://github.com/1024pix/pix/pull/3557) [TECH] Ajouter Prettier sur Mon-Pix (PIX-3572).
+- [#3227](https://github.com/1024pix/pix/pull/3227) [TECH] Suppression de classes CSS non utilisées dans Pix-App.
+- [#3556](https://github.com/1024pix/pix/pull/3556) [TECH] Ajouter stylelint à Pix Admin (PIX-3570).
+- [#3547](https://github.com/1024pix/pix/pull/3547) [CLEANUP] Choix des épreuves de certification : clarifie la sélection des épreuves déjà répondues
+
 ## v3.109.0 (04/10/2021)
 
 - [#3530](https://github.com/1024pix/pix/pull/3530) [FEATURE] Enregistrer la nouvelle adresse e-mail lorsque l'utilisateur entre le code de vérification - API (PIX-3448).
