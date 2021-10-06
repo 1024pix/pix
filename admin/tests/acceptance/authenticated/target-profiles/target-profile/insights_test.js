@@ -56,6 +56,20 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
       // then
       assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
     });
+
+    test('should redirect to insights parent page when badge creation is done', async function (assert) {
+      // given
+      await visit(`/target-profiles/${targetProfile.id}/badges/new`);
+
+      // when
+      await fillIn('input#badge-key', 'clé_du_badge');
+      await fillIn('input#image-url', 'https://image-url.pix.fr');
+      await fillIn('input#alt-message', 'texte alternatif à l‘image');
+      await click('[data-test="badge-form-submit-button"]');
+
+      // then
+      assert.equal(currentURL(), `/target-profiles/${targetProfile.id}/insights`);
+    });
   });
 
   module('stages', function () {

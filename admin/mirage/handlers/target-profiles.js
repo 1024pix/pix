@@ -92,10 +92,15 @@ function outdate(schema, request) {
   return new Response(204);
 }
 
+function createBadge(schema) {
+  return schema.create('badge', {});
+}
+
 export {
   attachOrganizationsFromExistingTargetProfile,
   attachTargetProfiles,
   attachTargetProfileToOrganizations,
+  createBadge,
   getOrganizationTargetProfiles,
   findPaginatedTargetProfileOrganizations,
   findTargetProfileBadges,
