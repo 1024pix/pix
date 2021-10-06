@@ -20,9 +20,9 @@ module('Integration | Component | certification-center-form', function (hooks) {
     );
 
     // then
-    assert.contains('Nom :');
-    assert.contains('Type :');
-    assert.contains('Identifiant externe :');
+    assert.contains('Nom du centre');
+    assert.contains("Type d'établissement");
+    assert.contains('Identifiant externe');
     assert.contains('Annuler');
     assert.contains('Ajouter');
   });
