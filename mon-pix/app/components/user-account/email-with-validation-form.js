@@ -11,6 +11,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   emptyPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.empty-password',
   emailAlreadyExist: 'pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist',
   invalidPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-password',
+  unknownError: 'pages.user-account.account-update-email.fields.errors.unknown-error',
 };
 
 export default class EmailWithValidationForm extends Component {
@@ -94,6 +95,8 @@ export default class EmailWithValidationForm extends Component {
       if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
         this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
       }
+    } else {
+      this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
     }
   }
 }
