@@ -12,8 +12,8 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
       const component = createGlimmerComponent('component:user-account/email-with-validation-form');
       const newEmail = 'toto@example.net';
       const password = 'pix123';
-      const send = sinon.stub();
-      component.store = { createRecord: () => ({ send }) };
+      const sendNewEmail = sinon.stub();
+      component.store = { createRecord: () => ({ sendNewEmail }) };
       component.newEmail = newEmail;
       component.password = password;
       sinon.spy(component.store, 'createRecord');
@@ -23,14 +23,14 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
 
       // then
       sinon.assert.calledWith(component.store.createRecord, 'email-verification-code', { password, newEmail });
-      sinon.assert.calledOnce(send);
+      sinon.assert.calledOnce(sendNewEmail);
     });
 
     it('should not send new email and password when form is not valid', async function() {
       // given
       const component = createGlimmerComponent('component:user-account/email-with-validation-form');
-      const send = sinon.stub();
-      component.store = { createRecord: () => ({ send }) };
+      const sendNewEmail = sinon.stub();
+      component.store = { createRecord: () => ({ sendNewEmail }) };
       sinon.spy(component.store, 'createRecord');
 
       // when
@@ -38,7 +38,7 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
 
       // then
       sinon.assert.notCalled(component.store.createRecord);
-      sinon.assert.notCalled(send);
+      sinon.assert.notCalled(sendNewEmail);
     });
   });
 });
