@@ -1,8 +1,11 @@
 import Route from '@ember/routing/route';
 import { FINALIZED } from 'pix-admin/models/session';
 import trim from 'lodash/trim';
+import { inject as service } from '@ember/service';
 
 export default class AuthenticatedSessionsAllRoute extends Route {
+  @service store;
+
   queryParams = {
     pageNumber: { refreshModel: true },
     pageSize: { refreshModel: true },
