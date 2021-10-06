@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import Service from '@ember/service';
 import sinon from 'sinon';
 
 module('Unit | Controller | authenticated/certification-centers/get', function (hooks) {
@@ -16,6 +15,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
     sinon.restore();
 
     controller = this.owner.lookup('controller:authenticated/certification-centers/get');
+    const store = this.owner.lookup('service:store');
 
     createRecordStub = sinon.stub();
     saveStub = sinon.stub();
@@ -25,7 +25,6 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       save: saveStub,
     });
 
-    const store = this.owner.lookup('service:store');
     const testAccreditation = store.createRecord('accreditation', { name: 'Accreditation test' });
 
     certificationCenter = store.createRecord('certification-center', {
@@ -36,9 +35,7 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
       accreditations: [testAccreditation],
     });
 
-    controller.store = Service.create({
-      createRecord: createRecordStub,
-    });
+    store.createRecord = createRecordStub;
 
     controller.model = {
       certificationCenter,
@@ -210,8 +207,19 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
   module('#updateGrantedAccreditation', function () {
     test('it should add the accreditation to the certification center', function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const cleaAccreditation = store.createRecord('accreditation', { name: 'Pix+clea' });
+      const cleaAccreditation = { name: 'Pix+clea' };
+
+      certificationCenter = {
+        id: 2,
+        name: 'Centre des Anne-surfeuses',
+        type: 'PRO',
+        externalId: 'ex313',
+        accreditations: [],
+      };
+
+      controller.model = {
+        certificationCenter,
+      };
 
       // when
       controller.updateGrantedAccreditation(cleaAccreditation);
@@ -222,16 +230,15 @@ module('Unit | Controller | authenticated/certification-centers/get', function (
 
     test('it should remove the accreditation from the certification center', function (assert) {
       // given
-      const store = this.owner.lookup('service:store');
-      const pixSurfAccreditation = store.createRecord('accreditation', { name: 'Pix+Surf' });
+      const pixSurfAccreditation = { name: 'Pix+Surf' };
 
-      certificationCenter = store.createRecord('certification-center', {
+      certificationCenter = {
         id: 2,
         name: 'Centre des Anne-surfeuses',
         type: 'PRO',
         externalId: 'ex313',
         accreditations: [pixSurfAccreditation],
-      });
+      };
 
       controller.model = {
         certificationCenter,
