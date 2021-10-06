@@ -11,9 +11,10 @@ describe('Unit | Component | user-account | update-email-with-validation', funct
       // given
       const component = createGlimmerComponent('component:user-account/update-email-with-validation');
       const newEmail = 'toto@example.net';
+      const password = 'pix123';
 
       // when
-      await component.showVerificationCode(newEmail);
+      component.showVerificationCode({ newEmail, password });
 
       // then
       expect(component.showEmailForm).to.be.false;
@@ -23,12 +24,26 @@ describe('Unit | Component | user-account | update-email-with-validation', funct
       // given
       const component = createGlimmerComponent('component:user-account/update-email-with-validation');
       const newEmail = '   Toto@Example.net    ';
+      const password = 'pix123';
 
       // when
-      await component.showVerificationCode(newEmail);
+      component.showVerificationCode({ newEmail, password });
 
       // then
       expect(component.newEmail).to.equal('Toto@Example.net');
+    });
+
+    it('should save password on sendVerificationCode', async function() {
+      // given
+      const component = createGlimmerComponent('component:user-account/update-email-with-validation');
+      const newEmail = 'toto@example.net';
+      const password = 'pix123';
+
+      // when
+      component.showVerificationCode({ newEmail, password });
+
+      // then
+      expect(component.password).to.equal('pix123');
     });
   });
 });

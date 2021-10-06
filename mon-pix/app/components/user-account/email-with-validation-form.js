@@ -11,6 +11,7 @@ const ERROR_INPUT_MESSAGE_MAP = {
   emptyPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.empty-password',
   emailAlreadyExist: 'pages.user-account.account-update-email-with-validation.fields.errors.new-email-already-exist',
   invalidPassword: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-password',
+  unknownError: 'pages.user-account.account-update-email.fields.errors.unknown-error',
 };
 
 export default class EmailWithValidationForm extends Component {
@@ -21,6 +22,7 @@ export default class EmailWithValidationForm extends Component {
   @tracked newEmailValidationMessage = null;
   @tracked passwordValidationMessage = null;
   @tracked errorMessage = null;
+  @tracked wasButtonClicked = false;
 
   get isFormValid() {
     return isEmailValid(this.newEmail) && !isEmpty(this.password);
@@ -53,34 +55,48 @@ export default class EmailWithValidationForm extends Component {
   @action
   async onSubmit(event) {
     event && event.preventDefault();
+
     this.errorMessage = null;
 
     if (this.isFormValid) {
       try {
-        const emailVerificationCode = this.store.createRecord('email-verification-code', {
-          password: this.password,
-          newEmail: this.newEmail.trim().toLowerCase(),
-        });
-        await emailVerificationCode.sendNewEmail();
-        this.args.showVerificationCode(this.newEmail);
-      } catch (response) {
-        const status = get(response, 'errors[0].status');
-        if (status === '422') {
-          const pointer = get(response, 'errors[0].source.pointer');
-          if (pointer.endsWith('email')) {
-            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
-          }
-          if (pointer.endsWith('password')) {
-            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
-          }
-        } else if (status === '400') {
-          const code = get(response, 'errors[0].code');
-          this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
-          if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
-            this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
-          }
+        if (!this.wasButtonClicked) {
+          this.wasButtonClicked = true;
+
+          const emailVerificationCode = this.store.createRecord('email-verification-code', {
+            password: this.password,
+            newEmail: this.newEmail.trim().toLowerCase(),
+          });
+          await emailVerificationCode.sendNewEmail();
+
+          this.args.showVerificationCode({ newEmail: this.newEmail, password: this.password });
         }
+      } catch (response) {
+        this.handleSubmitError(response);
+      } finally {
+        this.wasButtonClicked = false;
       }
+    }
+  }
+
+  handleSubmitError(response) {
+    const status = get(response, 'errors[0].status');
+    if (status === '422') {
+      const pointer = get(response, 'errors[0].source.pointer');
+      if (pointer.endsWith('email')) {
+        this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidEmail']);
+      }
+      if (pointer.endsWith('password')) {
+        this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emptyPassword']);
+      }
+    } else if (status === '400') {
+      const code = get(response, 'errors[0].code');
+      this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['invalidPassword']);
+      if (code === 'ACCOUNT_WITH_EMAIL_ALREADY_EXISTS') {
+        this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['emailAlreadyExist']);
+      }
+    } else {
+      this.errorMessage = this.intl.t(ERROR_INPUT_MESSAGE_MAP['unknownError']);
     }
   }
 }
