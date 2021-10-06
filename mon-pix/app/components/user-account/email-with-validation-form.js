@@ -5,7 +5,6 @@ import { tracked } from '@glimmer/tracking';
 import isEmailValid from '../../utils/email-validator';
 import isEmpty from 'lodash/isEmpty';
 import get from 'lodash/get';
-import ENV from 'mon-pix/config/environment';
 
 const ERROR_INPUT_MESSAGE_MAP = {
   invalidEmail: 'pages.user-account.account-update-email-with-validation.fields.errors.invalid-email',
@@ -74,9 +73,7 @@ export default class EmailWithValidationForm extends Component {
       } catch (response) {
         this.handleSubmitError(response);
       } finally {
-        setTimeout(() => {
-          this.wasButtonClicked = false;
-        }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
+        this.wasButtonClicked = false;
       }
     }
   }

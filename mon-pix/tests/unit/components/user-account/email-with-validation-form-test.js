@@ -53,7 +53,7 @@ describe('Unit | Component | user-account | email-with-validation-form', functio
       sinon.spy(component.store, 'createRecord');
 
       // when
-      await component.onSubmit();
+      component.onSubmit();
       await component.onSubmit();
 
       // then
