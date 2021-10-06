@@ -29,7 +29,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       await this._findOngoingCampaignParticipationAndUpdateState(campaign);
     }
 
-    if (this._shouldVisitLandingPage) {
+    if (this._shouldVisitLandingPage(campaign)) {
       return this.replaceWith('campaigns.campaign-landing-page', campaign);
     }
 
@@ -108,13 +108,11 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: null,
       isCampaignPoleEmploi: false,
       isUserLoggedInPoleEmploi: false,
-      isCampaignForNoviceUser: false,
     };
   }
 
   _updateStateFrom({ campaign = {}, ongoingCampaignParticipation = null, session }) {
     const hasUserCompletedRestrictedCampaignAssociation = this.campaignStorage.get(campaign.code, 'associationDone') || false;
-    const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser);
     const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
     const participantExternalId = this.campaignStorage.get(campaign.code, 'participantExternalId');
     this.state = {
@@ -131,7 +129,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
       isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
-      isCampaignForNoviceUser,
     };
   }
 
@@ -208,8 +205,8 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       && !this.state.participantExternalId;
   }
 
-  get _shouldVisitLandingPage() {
-    const shouldDisplayLandingPage = this.state.isCampaignForNoviceUser ? false : !this.campaignStorage.get(this.state.campaignCode, 'landingPageShown');
+  _shouldVisitLandingPage(campaign) {
+    const shouldDisplayLandingPage = campaign.isForAbsoluteNovice ? false : !this.campaignStorage.get(this.state.campaignCode, 'landingPageShown');
     return shouldDisplayLandingPage
       && !this.state.doesUserHaveOngoingParticipation;
   }
