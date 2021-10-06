@@ -24,7 +24,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
         createdAt: new Date('2020-10-10'),
         isShared: true,
         sharedAt: new Date('2020-12-12'),
-        masteryPercentage: 0.5,
+        masteryRate: 0.5,
       };
       beforeEach(async function() {
         const skill1 = { id: 'skill1' };
@@ -65,7 +65,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
           userId,
           campaignId,
           campaignParticipationId,
-          masteryPercentage: 0.5,
+          masteryRate: 0.5,
           progression: 1,
           badges: [],
         };
@@ -127,7 +127,7 @@ describe('Integration | Repository | Campaign Assessment Participation', functio
       it('create CampaignAssessmentParticipation with empty results', async function() {
         const campaignAssessmentParticipation = await campaignAssessmentParticipationRepository.getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId });
 
-        expect(campaignAssessmentParticipation.masteryPercentage).to.equal(0);
+        expect(campaignAssessmentParticipation.masteryRate).to.equal(null);
         expect(campaignAssessmentParticipation.progression).to.equal(1);
       });
     });

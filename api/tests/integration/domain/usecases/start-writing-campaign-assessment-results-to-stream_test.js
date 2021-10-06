@@ -95,7 +95,7 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
         campaignId: campaign.id,
         isShared: true,
         userId: participant.id,
-        masteryPercentage: 0.67,
+        masteryRate: 0.67,
       });
       databaseBuilder.factory.buildAssessment({
         campaignParticipationId: campaignParticipation.id,

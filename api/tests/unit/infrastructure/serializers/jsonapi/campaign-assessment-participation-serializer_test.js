@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'created-at': createdAt,
               'is-shared': true,
               'shared-at': sharedAt,
-              'mastery-percentage': 0.35,
+              'mastery-rate': 0.35,
               'progression': 1,
             },
             relationships: {
@@ -72,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           sharedAt,
           targetedSkillsCount: 20,
           testedSkillsCount: 3,
-          masteryPercentage: 0.35,
+          masteryRate: 0.35,
           badges: [{ id: 1, title: 'someTitle', altMessage: 'someAltMessage', imageUrl: 'someImageUrl' }],
         });
       });
@@ -102,7 +102,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'created-at': createdAt,
               'is-shared': true,
               'shared-at': sharedAt,
-              'mastery-percentage': 0.35,
+              'mastery-rate': 0.35,
               'progression': 1,
             },
             relationships: {
@@ -135,7 +135,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
           sharedAt,
           targetedSkillsCount: 0,
           testedSkillsCount: 0,
-          masteryPercentage: 0.35,
+          masteryRate: 0.35,
         });
       });
 

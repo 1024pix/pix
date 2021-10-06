@@ -123,7 +123,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
             stages: [{ threshold: 20 }, { threshold: 70 }],
           };
           this.participation = {
-            masteryPercentage: 0.65,
+            masteryRate: 0.65,
             isShared: true,
           };
 
@@ -139,7 +139,7 @@ module('Integration | Component | Participant::Assessment::Header', function (ho
 
       module('when the campaign has no stages', function () {
         test('it displays campaign participation mastery percentage', async function (assert) {
-          this.participation = { masteryPercentage: 0.65, isShared: true };
+          this.participation = { masteryRate: 0.65, isShared: true };
           this.campaign = {};
 
           await render(

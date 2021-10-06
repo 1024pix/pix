@@ -25,7 +25,7 @@ describe('computeParticipationResults', function() {
 
       const campaignParticipation = await knex('campaign-participations').first();
 
-      expect(campaignParticipation.masteryPercentage).to.equals('0.01');
+      expect(campaignParticipation.masteryRate).to.equals('0.01');
       expect(campaignParticipation.pixScore).to.equals(4);
       expect(campaignParticipation.validatedSkillsCount).to.equals(2);
     });
@@ -59,7 +59,7 @@ describe('computeParticipationResults', function() {
 
       const campaignParticipation = await knex('campaign-participations').first();
 
-      expect(campaignParticipation.masteryPercentage).to.equals('1.00');
+      expect(campaignParticipation.masteryRate).to.equals('1.00');
       expect(campaignParticipation.pixScore).to.equals(5);
       expect(campaignParticipation.validatedSkillsCount).to.equals(1);
     });
@@ -85,9 +85,9 @@ describe('computeParticipationResults', function() {
         mockLearningContent({ skills: [] });
 
         await computeParticipationResults(1, false);
-        const campaignParticipations = await knex('campaign-participations').select(['validatedSkillsCount', 'pixScore', 'masteryPercentage']).orderBy('id');
+        const campaignParticipations = await knex('campaign-participations').select(['validatedSkillsCount', 'pixScore', 'masteryRate']).orderBy('id');
 
-        expect(campaignParticipations).to.deep.equals([{ validatedSkillsCount: 1, pixScore: 40, masteryPercentage: '0.06' }, { validatedSkillsCount: 0, pixScore: 0, masteryPercentage: '0.00' }]);
+        expect(campaignParticipations).to.deep.equals([{ validatedSkillsCount: 1, pixScore: 40, masteryRate: '0.06' }, { validatedSkillsCount: 0, pixScore: 0, masteryRate: '0.00' }]);
       });
     });
 
@@ -115,9 +115,9 @@ describe('computeParticipationResults', function() {
         mockLearningContent({ skills: [] });
 
         await computeParticipationResults(1, false);
-        const campaignParticipations = await knex('campaign-participations').select(['validatedSkillsCount', 'pixScore', 'masteryPercentage']).orderBy('id');
+        const campaignParticipations = await knex('campaign-participations').select(['validatedSkillsCount', 'pixScore', 'masteryRate']).orderBy('id');
 
-        expect(campaignParticipations).to.deep.equals([{ validatedSkillsCount: 2, pixScore: 80, masteryPercentage: '0.13' }, { validatedSkillsCount: 1, pixScore: 40, masteryPercentage: '0.06' }]);
+        expect(campaignParticipations).to.deep.equals([{ validatedSkillsCount: 2, pixScore: 80, masteryRate: '0.13' }, { validatedSkillsCount: 1, pixScore: 40, masteryRate: '0.06' }]);
       });
     });
 
@@ -125,7 +125,7 @@ describe('computeParticipationResults', function() {
       it('does not compute results', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, sharedAt: new Date('2020-01-02'), validatedSkillsCount: 10, masteryPercentage: 0.2, pixScore: 10 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, sharedAt: new Date('2020-01-02'), validatedSkillsCount: 10, masteryRate: 0.2, pixScore: 10 });
 
         await databaseBuilder.commit();
 
@@ -135,7 +135,7 @@ describe('computeParticipationResults', function() {
 
         const campaignParticipation = await knex('campaign-participations').first();
 
-        expect(campaignParticipation.masteryPercentage).to.equals('0.20');
+        expect(campaignParticipation.masteryRate).to.equals('0.20');
         expect(campaignParticipation.pixScore).to.equals(10);
         expect(campaignParticipation.validatedSkillsCount).to.equals(10);
       });
@@ -155,7 +155,7 @@ describe('computeParticipationResults', function() {
 
         const campaignParticipation = await knex('campaign-participations').first();
 
-        expect(campaignParticipation.masteryPercentage).to.equals(null);
+        expect(campaignParticipation.masteryRate).to.equals(null);
         expect(campaignParticipation.pixScore).to.equals(null);
         expect(campaignParticipation.validatedSkillsCount).to.equals(null);
       });

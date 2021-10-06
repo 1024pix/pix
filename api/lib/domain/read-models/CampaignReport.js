@@ -58,10 +58,10 @@ class CampaignReport {
     return Boolean(this.archivedAt);
   }
 
-  computeAverageResult(masteryPercentages) {
-    const totalMasteryPercentages = masteryPercentages.length;
-    if (totalMasteryPercentages > 0) {
-      this.averageResult = _.sum(masteryPercentages) / totalMasteryPercentages;
+  computeAverageResult(masteryRates) {
+    const totalMasteryRates = masteryRates.length;
+    if (totalMasteryRates > 0) {
+      this.averageResult = _.sum(masteryRates) / totalMasteryRates;
     } else this.averageResult = null;
   }
 }

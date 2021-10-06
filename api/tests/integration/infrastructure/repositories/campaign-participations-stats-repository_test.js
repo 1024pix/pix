@@ -64,9 +64,9 @@ describe('Integration | Repository | Campaign Participations Stats', function() 
     context('When there are shared participation', function() {
       it('returns the participation count by mastery rate', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 0.2 });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 0.1 });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 0.2 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 0.1 });
 
         await databaseBuilder.commit();
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({ campaignId });
@@ -77,10 +77,10 @@ describe('Integration | Repository | Campaign Participations Stats', function() 
     context('When there are shared participation for other campaign', function() {
       it('returns only participation count for given campaign', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 0.1 });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 0.2 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 0.2 });
         const { id: otherCampaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaignId, isShared: true, masteryPercentage: 0.2 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaignId, isShared: true, masteryRate: 0.2 });
 
         await databaseBuilder.commit();
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({ campaignId });
@@ -91,8 +91,8 @@ describe('Integration | Repository | Campaign Participations Stats', function() 
     context('When there are participation without mastery rate', function() {
       it('returns only participation count for participation with mastery rate', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 0.1 });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: null });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: null });
 
         await databaseBuilder.commit();
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({ campaignId });
@@ -103,8 +103,8 @@ describe('Integration | Repository | Campaign Participations Stats', function() 
     context('When there are participation not shared', function() {
       it('returns only shared participation', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, masteryPercentage: 0.1 });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryPercentage: 1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false, masteryRate: 0.1 });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, masteryRate: 1 });
 
         await databaseBuilder.commit();
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({ campaignId });
@@ -116,8 +116,8 @@ describe('Integration | Repository | Campaign Participations Stats', function() 
       it('counts the last participation for each participant', async function() {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign();
         const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isShared: true, masteryPercentage: 0.5, isImproved: true });
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isShared: true, masteryPercentage: 1, isImproved: false });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isShared: true, masteryRate: 0.5, isImproved: true });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, userId, isShared: true, masteryRate: 1, isImproved: false });
 
         await databaseBuilder.commit();
         const resultDistribution = await campaignParticipationsStatsRepository.countParticipationsByMasteryRate({ campaignId });

@@ -24,7 +24,7 @@ const ATTRIBUTES_TO_SAVE = [
   'validatedSkillsCount',
   'pixScore',
   'status',
-  'masteryPercentage',
+  'masteryRate',
 ];
 
 function _toDomain(bookshelfCampaignParticipation) {
@@ -216,7 +216,7 @@ module.exports = {
       const from = boundary.from / 100;
       const to = boundary.to / 100;
       return knex.raw(
-        'COUNT("id") FILTER (WHERE "masteryPercentage" between ?? and ??) OVER (PARTITION BY "campaignId") AS ??',
+        'COUNT("id") FILTER (WHERE "masteryRate" between ?? and ??) OVER (PARTITION BY "campaignId") AS ??',
         [from, to, String(boundary.id)],
       );
     });

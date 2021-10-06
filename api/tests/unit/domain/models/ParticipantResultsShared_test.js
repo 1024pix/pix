@@ -5,9 +5,9 @@ const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/cons
 
 describe('Unit | Domain | Models | ParticipantResultsShared', function() {
 
-  context('#masteryPercentage', function() {
+  context('#masteryRate', function() {
     context('when there are targetSkills', function() {
-      it('computes the masteryPercentage using the number of skill validated', function() {
+      it('computes the masteryRate using the number of skill validated', function() {
         // given
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
@@ -23,7 +23,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function() {
         });
 
         // then
-        expect(participantResultsShared.masteryPercentage).to.be.equal(1 / 3);
+        expect(participantResultsShared.masteryRate).to.be.equal(1 / 3);
       });
     });
 
@@ -44,7 +44,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function() {
         });
 
         // then
-        expect(participantResultsShared.masteryPercentage).to.be.equal(10 / (16 * MAX_REACHABLE_PIX_BY_COMPETENCE));
+        expect(participantResultsShared.masteryRate).to.be.equal(10 / (16 * MAX_REACHABLE_PIX_BY_COMPETENCE));
       });
     });
   });
