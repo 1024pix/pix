@@ -1,40 +1,38 @@
 <div class="content-text content-text--small">
   {{#if this.hasBadges}}
-    <div class="table-admin">
-      <table data-test="badges-table">
-        <thead>
+    <table class="table-admin" data-test="badges-table">
+      <thead>
+        <tr>
+          <th class="badges-table__id">ID</th>
+          <th class="badges-table__image">Image</th>
+          <th class="badges-table__key">Clé</th>
+          <th class="badges-table__name">Nom</th>
+          <th>Message</th>
+          <th class="badges-table__actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each @badges as |badge|}}
           <tr>
-            <th class="badges-table__id">ID</th>
-            <th class="badges-table__image">Image</th>
-            <th class="badges-table__key">Clé</th>
-            <th class="badges-table__name">Nom</th>
-            <th>Message</th>
-            <th class="badges-table__actions">Actions</th>
+            <td>{{badge.id}}</td>
+            <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
+            <td>{{badge.key}}</td>
+            <td>{{badge.title}}</td>
+            <td>{{badge.message}}</td>
+            <td>
+              <PixButtonLink
+                @backgroundColor="transparent-light"
+                @isBorderVisible={{true}}
+                @route="authenticated.badges.badge"
+                @size="small"
+                @model={{badge.id}}
+                class="pix-button__secondary"
+              >Voir détail</PixButtonLink>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {{#each @badges as |badge|}}
-            <tr>
-              <td>{{badge.id}}</td>
-              <td class="badges-table__image"><img src={{badge.imageUrl}} alt={{badge.altMessage}} /></td>
-              <td>{{badge.key}}</td>
-              <td>{{badge.title}}</td>
-              <td>{{badge.message}}</td>
-              <td>
-                <PixButtonLink
-                  @backgroundColor="transparent-light"
-                  @isBorderVisible={{true}}
-                  @route="authenticated.badges.badge"
-                  @size="small"
-                  @model={{badge.id}}
-                  class="pix-button__secondary"
-                >Voir détail</PixButtonLink>
-              </td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
+        {{/each}}
+      </tbody>
+    </table>
   {{else}}
     <div class="table__empty content-text">Aucun résultat thématique associé</div>
   {{/if}}
