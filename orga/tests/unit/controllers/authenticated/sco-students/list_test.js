@@ -70,7 +70,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
         assert.equal(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre fichier et l’importer à nouveau.</div>'
+          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>'
         );
       });
 
@@ -84,7 +84,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
         assert.equal(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre fichier et l’importer à nouveau.</div>'
+          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>'
         );
       });
 
@@ -98,7 +98,7 @@ module('Unit | Controller | authenticated/sco-students/list', function (hooks) {
         const notificationMessage = controller.notifications.sendError.firstCall.firstArg.string;
         assert.equal(
           notificationMessage,
-          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre fichier et l’importer à nouveau.</div>'
+          '<div>Aucun élève n’a été importé.<br/><strong>Error message</strong><br/> Veuillez vérifier ou modifier votre base élèves et importer à nouveau.</div>'
         );
       });
     });
