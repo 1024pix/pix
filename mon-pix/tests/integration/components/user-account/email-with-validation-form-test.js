@@ -99,7 +99,7 @@ describe('Integration | Component | user-account | email-with-validation-form', 
       // when
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.new-email.label'), newEmail);
       await fillInByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.fields.password.label'), password);
-      await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
+      clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
       await clickByLabel(this.intl.t('pages.user-account.account-update-email-with-validation.save-button'));
 
       // then
