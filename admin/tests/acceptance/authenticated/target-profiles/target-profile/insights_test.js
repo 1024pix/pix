@@ -25,8 +25,12 @@ module('Acceptance | Target Profiles | Target Profile | Insights', function (hoo
   test('should list badges and stages', async function (assert) {
     await visit(`/target-profiles/${targetProfile.id}/insights`);
 
-    assert.contains('My badge');
-    assert.contains('My stage');
+    assert.dom('[data-test="badges-table"] tbody tr').exists({ count: 2 });
+    assert.dom('[data-test="badges-table"] tbody').containsText('My badge');
+    assert.dom('[data-test="badges-table"] tbody').containsText('My badge 2');
+
+    assert.dom('.stages-table tbody tr').exists({ count: 1 });
+    assert.dom('.stages-table tbody').containsText('My stage');
   });
 
   module('badges', function () {
