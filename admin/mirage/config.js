@@ -8,6 +8,7 @@ import {
   getOrganizationTargetProfiles,
   outdate,
   updateTargetProfileName,
+  createBadge,
 } from './handlers/target-profiles';
 
 import { Response } from 'ember-cli-mirage';
@@ -114,6 +115,7 @@ export default function () {
   this.get('/admin/target-profiles/:id/stages', findTargetProfileStages);
   this.patch('/admin/target-profiles/:id', updateTargetProfileName);
   this.put('/admin/target-profiles/:id/outdate', outdate);
+  this.post('/admin/target-profiles/:id/badges', createBadge);
 
   this.post('/admin/stages', createStage);
 
