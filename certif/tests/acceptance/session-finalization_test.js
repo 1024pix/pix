@@ -3,6 +3,7 @@ import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { authenticateSession } from '../helpers/test-init';
 import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import fillInSelect from '../helpers/extended-ember-test-helpers/fill-in-select';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
 
@@ -237,13 +238,14 @@ module('Acceptance | Session Finalization', function(hooks) {
 
           test('it should validate the form', async function(assert) {
             // given
-            const certificationReport = server.create('certification-report', { isCompleted: false, abortReason: 'technical' });
+            const certificationReport = server.create('certification-report', { isCompleted: false });
             server.create('feature-toggle', { isManageUncompletedCertifEnabled: true });
             session.update({ certificationReports: [certificationReport] });
 
             // when
             await visit(`/sessions/${session.id}/finalisation`);
 
+            await fillInSelect({ value: 'Problème technique' });
             await clickByLabel('Finaliser');
 
             // then
