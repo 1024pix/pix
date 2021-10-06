@@ -6,6 +6,7 @@ import { tracked } from '@glimmer/tracking';
 
 export default class NewController extends Controller {
   @service notifications;
+  @service store;
 
   @tracked isFileInvalid = false;
   @tracked isSaving = false;

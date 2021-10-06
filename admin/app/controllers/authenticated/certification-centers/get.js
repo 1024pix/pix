@@ -20,6 +20,7 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   certificationCenterTypes = types;
 
   @service notifications;
+  @service store;
 
   @tracked userEmailToAdd;
   @tracked errorMessage;
