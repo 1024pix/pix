@@ -1,9 +1,9 @@
-<form class="form" {{on "submit" @onSubmit}}>
+<form class="form certification-center-form" {{on "submit" @onSubmit}}>
 
   <section class="form-section">
 
     <div class="form-field form-group">
-      <label class="form-field__label" for="certificationCenterName">Nom : </label>
+      <label class="form-field__label" for="certificationCenterName">Nom du centre</label>
       <Input
         class={{if
           @certificationCenter.errors.name
@@ -21,7 +21,7 @@
     </div>
 
     <div class="form-field form-group">
-      <label class="form-field__label" for="certificationCenterType">Type : </label>
+      <label class="form-field__label" for="certificationCenterType">Type d'établissement</label>
       <div
         class="form-field__select
           {{if @certificationCenter.errors.type "is-invalid" ""}}
@@ -47,7 +47,7 @@
     </div>
 
     <div class="form-field form-group">
-      <label class="form-field__label" for="certificationCenterExternalId">Identifiant externe : </label>
+      <label class="form-field__label" for="certificationCenterExternalId">Identifiant externe</label>
       <Input
         class={{if
           @certificationCenter.errors.externalId
@@ -65,13 +65,13 @@
     </div>
   </section>
 
-  <section class="form-section form-actions form-section--actions">
+  <section class="form-section form-actions justify-content-end">
     <PixButton
       @size="small"
       @backgroundColor="transparent-light"
-      @isBorderVisible={{true}}
+      @isBorderVisible={{false}}
       @triggerAction={{@onCancel}}
     >Annuler</PixButton>
-    <PixButton @type="submit" @size="small" @backgroundColor="green">Ajouter</PixButton>
+    <PixButton @type="submit" @size="small">Ajouter</PixButton>
   </section>
 </form>
