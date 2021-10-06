@@ -2,11 +2,7 @@
 
   &__section {
     padding: 0;
-    margin-top: 60px;
-
-    &:first-of-type {
-      margin-top: 0;
-    }
+    margin-bottom: 30px;
   }
 }
 
@@ -20,6 +16,7 @@
 
   &__button {
     display: inline-block;
+    margin: 10px 0;
 
     a:hover {
       text-decoration: none;
