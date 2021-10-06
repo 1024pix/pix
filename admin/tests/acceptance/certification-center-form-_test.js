@@ -1,6 +1,5 @@
 import { module, test } from 'qunit';
 import { click, currentURL, fillIn, visit } from '@ember/test-helpers';
-import { selectChoose } from 'ember-power-select/test-support/helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 import setupMirage from 'ember-cli-mirage/test-support/setup-mirage';
@@ -23,9 +22,8 @@ module('Acceptance | Certification-center Form', function (hooks) {
 
     // when
     await visit('/certification-centers/new');
-
     await fillIn('#certificationCenterName', name);
-    await selectChoose('#certificationCenterTypeSelector', type.label);
+    await fillIn('#certificationCenterTypeSelector', type.value);
     await fillIn('#certificationCenterExternalId', externalId);
     await click('button[type=submit]');
 

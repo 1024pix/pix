@@ -79,6 +79,7 @@ module.exports = {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'accreditations']);
     const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter)
       .save();
+    await certificationCenterBookshelf.related('accreditations').fetch();
     return _toDomain(certificationCenterBookshelf);
   },
 

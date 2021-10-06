@@ -24,6 +24,23 @@ exports.register = async function(server) {
       },
     },
     {
+      method: 'PATCH',
+      path: '/api/certification-centers/{id}',
+      config: {
+        handler: certificationCenterController.save,
+        pre: [{
+          method: securityPreHandlers.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster',
+        }],
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
+          '- Création d‘un nouveau centre de certification\n' +
+          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+        ],
+        tags: ['api', 'certification-center'],
+      },
+    },
+    {
       method: 'GET',
       path: '/api/certification-centers',
       config: {
