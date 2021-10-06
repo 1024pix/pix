@@ -18,13 +18,29 @@
     display: flex;
     opacity: 0;
     transition: opacity 0.2s ease-in;
+    margin-bottom: 12px;
 
-    p:last-child {
-      margin-left: 4px;
+    p {
+      margin: 0;
     }
 
     &.visible {
       opacity: 1;
     }
+
+    button {
+      padding: 0;
+      margin-left: 2px;
+      background-color: transparent;
+      border: none;
+      font-family: $font-roboto;
+      font-size: 1rem;
+      color: $blue;
+      cursor: pointer;
+    }
+  }
+
+  &__resend-confirmation-message {
+    margin-bottom: 12px;
   }
 }

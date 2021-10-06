@@ -7,7 +7,9 @@ import ENV from 'mon-pix/config/environment';
 export default class EmailVerificationCode extends Component {
 
   @service intl;
-  @tracked showResendCode = false
+  @service store;
+  @tracked showResendCode = false;
+  @tracked wasButtonClicked = false;
 
   constructor() {
     super(...arguments);
@@ -15,6 +17,24 @@ export default class EmailVerificationCode extends Component {
     setTimeout(() => {
       this.showResendCode = true;
     }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
+  }
+
+  @action
+  async resendVerificationCodeByEmail() {
+    try {
+      if (!this.wasButtonClicked) {
+        this.wasButtonClicked = true;
+        const emailVerificationCode = this.store.createRecord('email-verification-code', {
+          password: this.args.password,
+          newEmail: this.args.email.trim().toLowerCase(),
+        });
+        await emailVerificationCode.sendNewEmail();
+      }
+    } finally {
+      setTimeout(() => {
+        this.wasButtonClicked = false;
+      }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
+    }
   }
 
   @action
