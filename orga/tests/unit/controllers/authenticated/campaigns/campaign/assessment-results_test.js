@@ -98,6 +98,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
       // given
       const event = {
         stopPropagation: sinon.stub(),
+        preventDefault: sinon.stub(),
       };
 
       controller.transitionToRoute = sinon.stub();
@@ -107,6 +108,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/assessment-results'
 
       // then
       assert.true(event.stopPropagation.called);
+      assert.true(event.preventDefault.called);
       assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-assessment', 123, 345));
     });
   });

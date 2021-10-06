@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
-import clickByLabel from '../../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../../../../helpers/testing-library';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | Student::Sco::DissociateUserModal', function (hooks) {

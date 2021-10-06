@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
-import fillInByLabel from '../helpers/extended-ember-test-helpers/fill-in-by-label';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { click } from '@ember/test-helpers';
+import { visit, clickByLabel, fillInByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 
@@ -61,10 +60,12 @@ module('Acceptance | Sup Student List', function (hooks) {
     module('And edit the student number', function () {
       test('it should update the student number', async function (assert) {
         // given
-        await visit('/etudiants');
+        const { getAllByRole } = await visit('/etudiants');
 
         // when
-        await clickByLabel('Afficher les actions');
+        const actions = getAllByRole('button', { name: 'Afficher les actions' });
+
+        await click(actions[0]);
         await clickByLabel('Éditer le numéro étudiant');
         await fillInByLabel('Nouveau numéro étudiant', '1234');
         await clickByLabel('Mettre à jour');
@@ -75,10 +76,12 @@ module('Acceptance | Sup Student List', function (hooks) {
 
       test('it should not update the student number if exists', async function (assert) {
         // given
-        await visit('/etudiants');
+        const { getAllByRole } = await visit('/etudiants');
 
         // when
-        await clickByLabel('Afficher les actions');
+        const actions = getAllByRole('button', { name: 'Afficher les actions' });
+
+        await click(actions[0]);
         await clickByLabel('Éditer le numéro étudiant');
         await fillInByLabel('Nouveau numéro étudiant', '321');
         await clickByLabel('Mettre à jour');

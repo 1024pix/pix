@@ -3,7 +3,7 @@ import { render } from '@ember/test-helpers';
 
 import hbs from 'htmlbars-inline-precompile';
 
-import fillInByLabel from '../../../helpers/extended-ember-test-helpers/fill-in-by-label';
+import { fillInByLabel } from '../../../helpers/testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::InviteForm', function (hooks) {
