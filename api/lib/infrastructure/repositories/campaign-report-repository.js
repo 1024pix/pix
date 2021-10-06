@@ -51,13 +51,13 @@ module.exports = {
     return new CampaignReport({ ...result, id });
   },
 
-  async findMasteryPercentages(campaignId) {
+  async findMasteryRates(campaignId) {
     const results = await knex('campaign-participations')
-      .select('masteryPercentage')
+      .select('masteryRate')
       .where('isImproved', false)
       .andWhere('status', SHARED)
       .andWhere({ campaignId });
-    return results.map((result) => Number(result.masteryPercentage));
+    return results.map((result) => Number(result.masteryRate));
   },
 
   async findPaginatedFilteredByOrganizationId({ organizationId, filter, page }) {

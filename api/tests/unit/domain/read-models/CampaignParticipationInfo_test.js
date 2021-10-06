@@ -118,6 +118,54 @@ describe('Unit | Domain | Read-models | CampaignParticipationInfo', function() {
       expect(() => new CampaignParticipationInfo({ ...validArguments, sharedAt: null }))
         .not.to.throw(ObjectValidationError);
     });
+
+    describe('masteryRate', function() {
+      context('when the masteryRate is null', function() {
+        it('should return null for the masteryRate', function() {
+          // when
+          const campaignParticipationInfo = new CampaignParticipationInfo({ ...validArguments, masteryRate: null });
+
+          // then
+          expect(campaignParticipationInfo.masteryRate).to.equal(null);
+        });
+      });
+
+      context('when the masteryRate is undefined', function() {
+        it('should return null for the masteryRate', function() {
+          // when
+          const campaignParticipationInfo = new CampaignParticipationInfo({
+            ...validArguments, masteryRate: undefined,
+          });
+
+          // then
+          expect(campaignParticipationInfo.masteryRate).to.equal(null);
+        });
+      });
+
+      context('when the masteryRate equals to 0', function() {
+        it('should return 0 for the masteryRate', function() {
+          // when
+          const campaignParticipationInfo = new CampaignParticipationInfo({
+            ...validArguments, masteryRate: 0,
+          });
+
+          // then
+          expect(campaignParticipationInfo.masteryRate).to.equal(0);
+        });
+      });
+
+      context('when the masteryRate is a string', function() {
+        it('should return the number for the masteryRate', function() {
+          // when
+          const campaignParticipationInfo = new CampaignParticipationInfo({
+            ...validArguments, masteryRate: '0.75',
+          });
+
+          // then
+          expect(campaignParticipationInfo.masteryRate).to.equal(0.75);
+        });
+      });
+    });
   });
 
   describe('#get isShared()', function() {

@@ -10,7 +10,7 @@ export default class CampaignAssessmentParticipation extends Model {
   @attr('boolean') isShared;
   @attr('number') targetedSkillsCount;
   @attr('number') validatedSkillsCount;
-  @attr('number') masteryPercentage;
+  @attr('number') masteryRate;
   @attr('number') progression;
   @belongsTo('campaignAnalysis') campaignAnalysis;
   @belongsTo('campaignAssessmentParticipationResult') campaignAssessmentParticipationResult;

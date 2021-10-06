@@ -52,7 +52,7 @@
               {{#if @campaign.hasStages}}
                 <td>
                   <Campaign::StageStars
-                    @result={{multiply participation.masteryPercentage 100}}
+                    @result={{multiply participation.masteryRate 100}}
                     @stages={{@campaign.stages}}
                     @withTooltip={{true}}
                     @tooltipPosition="bottom-left"
@@ -60,7 +60,7 @@
                 </td>
               {{else}}
                 <td class="participant-list__mastery-percentage">
-                  {{t "pages.campaign-results.table.column.results.value" percentage=participation.masteryPercentage}}
+                  {{t "pages.campaign-results.table.column.results.value" percentage=participation.masteryRate}}
                 </td>
               {{/if}}
               {{#if @campaign.hasBadges}}

@@ -13,14 +13,14 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
           firstName: 'John',
           lastName: 'McClane',
           participantExternalId: 'Cop',
-          masteryPercentage: '100%',
+          masteryRate: 1,
         },
         {
           campaignParticipationId: '2',
           firstName: 'Hans',
           lastName: 'Gruber',
           participantExternalId: 'Thief',
-          masteryPercentage: '99%',
+          masteryRate: 0.99,
           badges: [domainBuilder.buildBadge({ id: 1, title: 'b1', imageUrl: 'http://toto.svg', altMessage: 'alt' })],
         },
       ];
@@ -42,7 +42,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
               'first-name': 'John',
               'last-name': 'McClane',
               'participant-external-id': 'Cop',
-              'mastery-percentage': '100%',
+              'mastery-rate': 1,
             },
           },
           {
@@ -52,7 +52,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
               'first-name': 'Hans',
               'last-name': 'Gruber',
               'participant-external-id': 'Thief',
-              'mastery-percentage': '99%',
+              'mastery-rate': 0.99,
             },
             relationships: {
               badges: {

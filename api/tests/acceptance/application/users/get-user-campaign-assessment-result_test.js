@@ -34,7 +34,7 @@ describe('Acceptance | API | Campaign Assessment Result', function() {
       userId: user.id,
       sharedAt: recentDate,
       isShared: true,
-      masteryPercentage: 0.38,
+      masteryRate: 0.38,
     });
     assessment = databaseBuilder.factory.buildAssessment({
       campaignParticipationId: campaignParticipation.id,

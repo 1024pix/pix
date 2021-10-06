@@ -1,7 +1,7 @@
 const createServer = require('../../../../server');
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
-describe('Acceptance | API | Campaign Stats | GetParticipationCountByMasteryPercentage', function() {
+describe('Acceptance | API | Campaign Stats | GetParticipationCountByMasteryRate', function() {
 
   let server;
 
@@ -11,12 +11,12 @@ describe('Acceptance | API | Campaign Stats | GetParticipationCountByMasteryPerc
 
   describe('GET /api/campaigns/{id}/stats/participations-by-mastery-rate', function() {
 
-    it('should return the mastery percentage distribution', async function() {
+    it('should return the mastery rate distribution', async function() {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.50, isShared: true, sharedAt: '2020-01-01' });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.5, isShared: true, sharedAt: '2020-01-01' });
 
       await databaseBuilder.commit();
 

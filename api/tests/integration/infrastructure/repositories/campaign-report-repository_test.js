@@ -65,7 +65,7 @@ describe('Integration | Repository | Campaign-Report', function() {
     });
   });
 
-  describe('#findMasteryPercentages', function() {
+  describe('#findMasteryRates', function() {
     let campaignId;
 
     beforeEach(function() {
@@ -75,12 +75,12 @@ describe('Integration | Repository | Campaign-Report', function() {
 
     it('should return array with result', async function() {
       // given
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.1 });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.3 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1 });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.3 });
       await databaseBuilder.commit();
 
       // when
-      const result = await campaignReportRepository.findMasteryPercentages(campaignId);
+      const result = await campaignReportRepository.findMasteryRates(campaignId);
 
       // then
       expect(result).to.be.instanceOf(Array);
@@ -89,12 +89,12 @@ describe('Integration | Repository | Campaign-Report', function() {
 
     it('should only take into account participations not improved', async function() {
       // given
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.1, isImproved: true });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.3, isImproved: false });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, isImproved: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.3, isImproved: false });
       await databaseBuilder.commit();
 
       // when
-      const result = await campaignReportRepository.findMasteryPercentages(campaignId);
+      const result = await campaignReportRepository.findMasteryRates(campaignId);
 
       // then
       expect(result).to.deep.equal([0.3]);
@@ -102,12 +102,12 @@ describe('Integration | Repository | Campaign-Report', function() {
 
     it('should only take into account shared participations', async function() {
       // given
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.1, sharedAt: new Date(), isShared: true });
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryPercentage: 0.3, sharedAt: null, isShared: false });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.1, sharedAt: new Date(), isShared: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.3, sharedAt: null, isShared: false });
       await databaseBuilder.commit();
 
       // when
-      const result = await campaignReportRepository.findMasteryPercentages(campaignId);
+      const result = await campaignReportRepository.findMasteryRates(campaignId);
 
       // then
       expect(result).to.deep.equal([0.1]);
@@ -118,7 +118,7 @@ describe('Integration | Repository | Campaign-Report', function() {
       const nonExistentId = 666;
 
       // when
-      const result = await campaignReportRepository.findMasteryPercentages(nonExistentId);
+      const result = await campaignReportRepository.findMasteryRates(nonExistentId);
 
       // then
       expect(result).to.deep.equal([]);

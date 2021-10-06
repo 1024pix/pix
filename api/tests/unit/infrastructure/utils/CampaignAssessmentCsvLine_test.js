@@ -771,7 +771,7 @@ describe('Unit | Infrastructure | Utils | CampaignAssessmentCsvLine', function()
             // given
             const organization = domainBuilder.buildOrganization();
             const campaign = domainBuilder.buildCampaign({ idPixLabel: null });
-            const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01'), masteryPercentage: 0.7 });
+            const campaignParticipationInfo = domainBuilder.buildCampaignParticipationInfo({ sharedAt: new Date('2020-01-01'), masteryRate: 0.7 });
             const skill1 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_1', tubeId: 'recTube1' });
             const skill2 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_2', tubeId: 'recTube1' });
             const skill3 = domainBuilder.buildTargetedSkill({ id: 'recSkill1_3', tubeId: 'recTube1' });

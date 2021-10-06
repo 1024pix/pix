@@ -16,7 +16,7 @@ class CampaignParticipationOverview {
     campaignTitle,
     campaignArchivedAt,
     targetProfile,
-    masteryPercentage,
+    masteryRate,
   } = {}) {
     this.id = id;
     this.createdAt = createdAt;
@@ -29,13 +29,13 @@ class CampaignParticipationOverview {
     this.campaignTitle = campaignTitle;
     this.campaignArchivedAt = campaignArchivedAt;
     this.targetProfile = targetProfile;
-    this.masteryPercentage = masteryPercentage;
+    this.masteryRate = !_.isNil(masteryRate) ? Number(masteryRate) : null;
   }
 
   get validatedStagesCount() {
     if (_.isEmpty(this.targetProfile.stages) || !this.isShared) return null;
 
-    const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= (this.masteryPercentage * 100));
+    const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= (this.masteryRate * 100));
     return validatedStages.length;
   }
 

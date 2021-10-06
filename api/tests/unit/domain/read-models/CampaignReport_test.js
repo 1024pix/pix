@@ -58,7 +58,7 @@ describe('Unit | Domain | Models | CampaignReport', function() {
   });
 
   describe('#computeAverageResult', function() {
-    it('should return null if there is no masteryPercentages', function() {
+    it('should return null if there is no masteryRates', function() {
       const campaignReport = domainBuilder.buildCampaignReport();
 
       campaignReport.computeAverageResult([]);
@@ -66,7 +66,7 @@ describe('Unit | Domain | Models | CampaignReport', function() {
       expect(campaignReport.averageResult).to.equal(null);
     });
 
-    it('should return a not rounded result if there is masteryPercentages', function() {
+    it('should return a not rounded result if there is masteryRates', function() {
       const campaignReport = domainBuilder.buildCampaignReport();
 
       campaignReport.computeAverageResult([0.13, 0.52]);
