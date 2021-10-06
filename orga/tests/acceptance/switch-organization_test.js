@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
-import clickByLabel from '../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../helpers/testing-library';
 import { setupApplicationTest } from 'ember-qunit';
 import authenticateSession from '../helpers/authenticate-session';
 import {
@@ -67,7 +67,7 @@ module('Acceptance | Switch Organization', function (hooks) {
       test('should change main organization in summary', async function (assert) {
         // when
         await clickByLabel('Ouvrir le menu utilisateur');
-        await clickByLabel('My Heaven Company');
+        await clickByLabel('My Heaven Company (HEAVEN)');
 
         // then
         assert.contains('My Heaven Company (HEAVEN)');
@@ -76,7 +76,7 @@ module('Acceptance | Switch Organization', function (hooks) {
       test('should have the old main organization in the menu', async function (assert) {
         // when
         await clickByLabel('Ouvrir le menu utilisateur');
-        await clickByLabel('My Heaven Company');
+        await clickByLabel('My Heaven Company (HEAVEN)');
         await clickByLabel('Ouvrir le menu utilisateur');
 
         // then
@@ -91,7 +91,7 @@ module('Acceptance | Switch Organization', function (hooks) {
 
           // when
           await clickByLabel('Ouvrir le menu utilisateur');
-          await clickByLabel('My Heaven Company');
+          await clickByLabel('My Heaven Company (HEAVEN)');
 
           // then
           assert.equal(currentURL(), '/campagnes');
@@ -104,7 +104,7 @@ module('Acceptance | Switch Organization', function (hooks) {
           test('it should display student menu item', async function (assert) {
             // when
             await clickByLabel('Ouvrir le menu utilisateur');
-            await clickByLabel('My Heaven Company');
+            await clickByLabel('My Heaven Company (HEAVEN)');
 
             // then
             assert.dom('.sidebar').containsText('Élèves');

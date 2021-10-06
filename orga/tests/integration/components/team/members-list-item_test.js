@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import sinon from 'sinon';
 import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import clickByLabel from '../../../helpers/extended-ember-test-helpers/click-by-label';
+import { clickByLabel } from '../../../helpers/testing-library';
 import setupIntlRenderingTest from '../../../helpers/setup-intl-rendering';
 
 module('Integration | Component | Team::MembersListItem', function (hooks) {

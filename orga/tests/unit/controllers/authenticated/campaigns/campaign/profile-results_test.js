@@ -44,6 +44,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
       // given
       const event = {
         stopPropagation: sinon.stub(),
+        preventDefault: sinon.stub(),
       };
 
       controller.transitionToRoute = sinon.stub();
@@ -53,6 +54,7 @@ module('Unit | Controller | authenticated/campaigns/campaign/profile-results', f
 
       // then
       assert.true(event.stopPropagation.called);
+      assert.true(event.preventDefault.called);
       assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-profile', 123, 345));
     });
   });
