@@ -38,6 +38,21 @@ describe('Unit | Domain | Models | FinalizedSession', function() {
       expect(finalizedSession.isPublishable).to.be.false;
     });
 
+    it('is not publishable when at least one test is not completed and has an abort reason', function() {
+      // given / when
+      const finalizedSession = FinalizedSession.from({
+        sessionId: 1234,
+        certificationCenterName: 'a certification center',
+        sessionDate: '2021-01-29',
+        sessionTime: '16:00',
+        hasExaminerGlobalComment: false,
+        juryCertificationSummaries: _someWhichAreFlaggedAborted(),
+        finalizedAt: new Date('2020-01-01T00:00:00Z'),
+      });
+      // then
+      expect(finalizedSession.isPublishable).to.be.false;
+    });
+
     it('is not publishable when has at least one unresolved issue report that requires action', function() {
       // given / when
       const finalizedSession = FinalizedSession.from({
@@ -338,6 +353,31 @@ function _someWithResolvedRequiredActionButNoErrorOrStartedStatus() {
       completedAt: new Date(),
       isPublished: false,
       hasSeenEndTestScreen: true,
+      cleaCertificationStatus: 'not_passed',
+      certificationIssueReports: [
+        domainBuilder.buildCertificationIssueReport({
+          category: CertificationIssueReportCategories.FRAUD,
+          resolvedAt: new Date('2020-01-01'),
+          resolution: 'des points gratos offerts',
+        }),
+      ],
+    }),
+  ];
+}
+
+function _someWhichAreFlaggedAborted() {
+  return [
+    new JuryCertificationSummary({
+      id: 1,
+      firstName: 'firstName',
+      lastName: 'lastName',
+      status: 'validated',
+      pixScore: 120,
+      createdAt: new Date(),
+      completedAt: null,
+      isPublished: false,
+      hasSeenEndTestScreen: true,
+      abortReason: 'candidate',
       cleaCertificationStatus: 'not_passed',
       certificationIssueReports: [
         domainBuilder.buildCertificationIssueReport({
