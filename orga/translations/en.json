@@ -150,7 +150,9 @@
         "previous": "Go to previous page",
         "select-page-size": "Select the number of items by page"
       },
-      "page-number": "Page {current} / {total}",
+      "page-info": "{start, number}-{end, number} of {total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
+      "page-results": "{total, plural, =0 {0 items} =1 {1 item} other {{total, number} items}}",
+      "page-number": "Page {current, number} / {total, number}",
       "result-by-page": "See"
     },
     "percentage": "{value, number, ::percent}"
