@@ -25,4 +25,4 @@ rules:
         message: "Use only faker.internet.exampleEmail()"
   knex/avoid-injections: error
   i18n-json/sorted-keys: off
-  i18n-json/valid-message-syntax: warn
+  i18n-json/valid-message-syntax: off
