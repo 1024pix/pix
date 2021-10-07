@@ -1,9 +1,9 @@
 const certificationCenterCreationValidator = require('../validators/certification-center-creation-validator');
 const GrantedAccreditation = require('../../domain/models/GrantedAccreditation');
 
-module.exports = async function saveCertificationCenter({
+module.exports = async function updateCertificationCenter({
   certificationCenter,
-  accreditations,
+  accreditationIds,
   certificationCenterRepository,
   grantedAccreditationRepository,
 }) {
@@ -11,11 +11,11 @@ module.exports = async function saveCertificationCenter({
   if (certificationCenter.id) {
     await grantedAccreditationRepository.deleteByCertificationCenterId(certificationCenter.id);
   }
-  if (accreditations) {
+  if (accreditationIds) {
     await Promise.all(
-      accreditations.map((accreditation) => {
+      accreditationIds.map((accreditationId) => {
         const grantedAccreditationModel = new GrantedAccreditation({
-          accreditationId: accreditation.id,
+          accreditationId: parseInt(accreditationId),
           certificationCenterId: certificationCenter.id,
         });
         return grantedAccreditationRepository.save(grantedAccreditationModel);

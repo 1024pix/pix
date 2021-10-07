@@ -9,7 +9,7 @@ exports.register = async function (server) {
       method: 'POST',
       path: '/api/certification-centers',
       config: {
-        handler: certificationCenterController.save,
+        handler: certificationCenterController.create,
         pre: [
           {
             method: securityPreHandlers.checkUserHasRolePixMaster,
@@ -28,7 +28,7 @@ exports.register = async function (server) {
       method: 'PATCH',
       path: '/api/certification-centers/{id}',
       config: {
-        handler: certificationCenterController.save,
+        handler: certificationCenterController.update,
         pre: [
           {
             method: securityPreHandlers.checkUserHasRolePixMaster,

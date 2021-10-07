@@ -1,9 +1,9 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const saveCertificationCenter = require('../../../../lib/domain/usecases/save-certification-center');
+const updateCertificationCenter = require('../../../../lib/domain/usecases/update-certification-center');
 const certificationCenterCreationValidator = require('../../../../lib/domain/validators/certification-center-creation-validator');
 
-describe('Unit | UseCase | save-certification-center', function () {
-  describe('#saveCertificationCenter', function () {
+describe('Unit | UseCase | update-certification-center', function () {
+  describe('#updateCertificationCenter', function () {
     context('when there are no associated accreditation', function () {
       it('should save the certification center', async function () {
         // given
@@ -16,7 +16,7 @@ describe('Unit | UseCase | save-certification-center', function () {
         };
 
         // when
-        const savedCertificationCenter = await saveCertificationCenter({
+        const savedCertificationCenter = await updateCertificationCenter({
           certificationCenter,
           certificationCenterRepository,
           grantedAccreditationRepository,
@@ -33,14 +33,13 @@ describe('Unit | UseCase | save-certification-center', function () {
       it('should reset existing granted accreditation and create new ones', async function () {
         // given
         const certificationCenter = domainBuilder.buildCertificationCenter();
-        const accreditation1 = domainBuilder.buildAccreditation();
-        const accreditation2 = domainBuilder.buildAccreditation();
+        const accreditationIds = ['1234', '5678'];
         const grantedAccreditation1 = domainBuilder.buildGrantedAccreditation({
-          accreditationId: accreditation1.id,
+          accreditationId: 1234,
           certificationCenterId: certificationCenter.id,
         });
         const grantedAccreditation2 = domainBuilder.buildGrantedAccreditation({
-          accreditationId: accreditation2.id,
+          accreditationId: 5678,
           certificationCenterId: certificationCenter.id,
         });
         grantedAccreditation1.id = undefined;
@@ -50,9 +49,9 @@ describe('Unit | UseCase | save-certification-center', function () {
         const grantedAccreditationRepository = { deleteByCertificationCenterId: sinon.stub(), save: sinon.stub() };
 
         // when
-        const savedCertificationCenter = await saveCertificationCenter({
+        const savedCertificationCenter = await updateCertificationCenter({
           certificationCenter,
-          accreditations: [accreditation1, accreditation2],
+          accreditationIds,
           certificationCenterRepository,
           grantedAccreditationRepository,
         });
