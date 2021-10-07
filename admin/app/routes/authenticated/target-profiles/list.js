@@ -4,6 +4,7 @@ import isEmpty from 'lodash/isEmpty';
 
 export default class ListRoute extends Route {
   @service notifications;
+  @service store;
 
   queryParams = {
     pageNumber: { refreshModel: true },

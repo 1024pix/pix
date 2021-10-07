@@ -6,6 +6,7 @@ import Controller from '@ember/controller';
 
 export default class ToolsController extends Controller {
   @service notifications;
+  @service store;
 
   @action
   async refreshLearningContent() {

@@ -82,17 +82,18 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       class NotificationsStub extends Service {
         success = successMock;
       }
+
       this.owner.register('service:notifications', NotificationsStub);
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
       const unloadRecord = sinon.stub().resolves();
       const sessions = [EmberObject.create({ id: 1, unloadRecord }), EmberObject.create({ id: 2, unloadRecord })];
-      const store = {
-        adapterFor: sinon.stub().returns({
-          publishSessionInBatch: sinon.stub().resolves(),
-        }),
-      };
+
+      store.adapterFor = sinon.stub().returns({
+        publishSessionInBatch: sinon.stub().resolves(),
+      });
+
       controller.set('model', sessions);
-      controller.set('store', store);
 
       // when
       await controller.batchPublishSessions();
@@ -110,6 +111,7 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
         error = errorMock;
       }
       this.owner.register('service:notifications', NotificationsStub);
+      const store = this.owner.lookup('service:store');
       const controller = this.owner.lookup('controller:authenticated.sessions.list.to-be-published');
 
       const unloadRecord = sinon.stub().resolves();
@@ -117,17 +119,14 @@ module('Unit | Controller | authenticated/sessions/list/to-be-published', functi
       const response = {
         errors: [{ code: 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED', details: 'Erreur dans la publication' }],
       };
-      const store = {
-        adapterFor: sinon.stub().returns({
-          publishSessionInBatch: sinon.stub().resolves(response),
-        }),
-      };
+      store.adapterFor = sinon.stub().returns({
+        publishSessionInBatch: sinon.stub().resolves(response),
+      });
 
       const send = sinon.stub().resolves();
 
       controller.set('send', send);
       controller.set('model', sessions);
-      controller.set('store', store);
 
       // when
       await controller.batchPublishSessions();
