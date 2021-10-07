@@ -33,12 +33,6 @@ export default class Item extends Component {
     }
   }
 
-  @action
-  enableChallenge() {
-    this.isTooltipClosed = true;
-    this.args.onTooltipCloseForChallenge();
-  }
-
   _setOnBlurEventToWindow() {
     window.onblur = () => {
       this.hasFocusedOutOfWindow = true;
