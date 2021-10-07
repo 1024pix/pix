@@ -53,11 +53,10 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
   test('should display Certification center detail', async function (assert) {
     // when
     await visit(`/certification-centers/${certificationCenter.id}`);
-
     // then
-    assert.contains(certificationCenter.name);
-    assert.contains(certificationCenter.externalId);
-    assert.contains(certificationCenter.type);
+    assert.contains('Center 1');
+    assert.contains('ABCDEF');
+    assert.contains('Établissement scolaire');
   });
 
   test('should display Certification center accreditations', async function (assert) {
@@ -204,7 +203,7 @@ module('Acceptance | authenticated/certification-centers/get', function (hooks) 
       // then
       assert.contains('Habilitations aux certifications complémentaires');
       assert.contains('nouveau nom');
-      assert.contains('SUP');
+      assert.contains('Établissement supérieur');
       assert.contains('nouvel identifiant externe');
     });
 

@@ -12,4 +12,8 @@ export default class CertificationCenter extends Model {
   @attr() externalId;
 
   @hasMany('accreditation') accreditations;
+
+  get typeLabel() {
+    return types.find((type) => type.value === this.type).label;
+  }
 }
