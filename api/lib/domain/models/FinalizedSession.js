@@ -39,6 +39,7 @@ module.exports = class FinalizedSession {
       sessionTime,
       isPublishable: !hasExaminerGlobalComment
         && _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries)
+        && _isNotFlaggedAsAborted(juryCertificationSummaries)
         && _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries)
         && _hasExaminerSeenAllEndScreens(juryCertificationSummaries),
       publishedAt: null,
@@ -61,6 +62,10 @@ module.exports = class FinalizedSession {
 
 function _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) {
   return !juryCertificationSummaries.some((summary) => summary.isActionRequired());
+}
+
+function _isNotFlaggedAsAborted(juryCertificationSummaries) {
+  return !juryCertificationSummaries.some((summary) => summary.isFlaggedAborted);
 }
 
 function _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) {

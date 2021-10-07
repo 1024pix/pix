@@ -193,14 +193,13 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
       { hasSeenEndTestScreen1: false, hasSeenEndTestScreen2: false, expectedState: true },
     ].forEach(({ hasSeenEndTestScreen1, hasSeenEndTestScreen2, expectedState }) =>
       test('it should toggle the hasSeenEndTestScreen attribute of all certifs in session to false depending on if some were checked', function(assert) {
-        assert.expect(2);
         // given
         const someWereChecked = hasSeenEndTestScreen1 || hasSeenEndTestScreen2;
         const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
         const session = {
           certificationReports: [
-            { hasSeenEndTestScreen: hasSeenEndTestScreen1 },
-            { hasSeenEndTestScreen: hasSeenEndTestScreen2 },
+            { hasSeenEndTestScreen: hasSeenEndTestScreen1, isCompleted: true },
+            { hasSeenEndTestScreen: hasSeenEndTestScreen2, isCompleted: true },
           ],
         };
         controller.model = session;
@@ -209,11 +208,29 @@ module('Unit | Controller | ' + FINALIZE_PATH, function(hooks) {
         controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', someWereChecked);
 
         // then
-        session.certificationReports.forEach((certif) => {
-          assert.equal(certif.hasSeenEndTestScreen, expectedState);
-        });
+        assert.equal(session.certificationReports[0].hasSeenEndTestScreen, expectedState);
+        assert.equal(session.certificationReports[1].hasSeenEndTestScreen, expectedState);
       }),
     );
+
+    test('it should toggle the hasSeenEndTestScreen attribute only for completed certifs in session', function(assert) {
+      // given
+      const controller = this.owner.lookup('controller:' + FINALIZE_PATH);
+      const session = {
+        certificationReports: [
+          { hasSeenEndTestScreen: false, isCompleted: true },
+          { hasSeenEndTestScreen: false, isCompleted: false },
+        ],
+      };
+      controller.model = session;
+
+      // when
+      controller.send('toggleAllCertificationReportsHasSeenEndTestScreen', false);
+
+      // then
+      assert.true(session.certificationReports[0].hasSeenEndTestScreen);
+      assert.false(session.certificationReports[1].hasSeenEndTestScreen);
+    });
   });
 
   module('#action openModal', function() {
