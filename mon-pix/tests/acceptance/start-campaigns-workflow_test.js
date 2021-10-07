@@ -67,39 +67,13 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           // then
           expect(find('.fill-in-campaign-code__start-button').textContent).to.contains('Commencer');
         });
-
-        context('When is a simplified access campaign', function() {
-
-          beforeEach(function() {
-            campaign = server.create('campaign', { isSimplifiedAccess: true, idPixLabel: 'Les anonymes' });
-          });
-
-          it('should redirect to landing page', async function() {
-            // when
-            await visit(`/campagnes/${campaign.code}`);
-
-            // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-          });
-
-          it('should redirect to tutorial page after starting campaign', async function() {
-            // when
-            await visit(`/campagnes/${campaign.code}`);
-            await click('button[type="submit"]');
-            await fillIn('#id-pix-label', 'vu');
-            await click('button[type="submit"]');
-
-            // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
-          });
-        });
       });
 
       context('When campaign code exists', function() {
 
         context('When campaign is not restricted', function() {
 
-          it('should access presentation page', async function() {
+          it('should display landing page', async function() {
             // given
             const campaign = server.create('campaign', { isRestricted: false });
             await visit('/campagnes');
@@ -109,7 +83,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await click('.fill-in-campaign-code__start-button');
 
             // then
-            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
           context('When user create its account', function() {
@@ -135,9 +109,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await visit('/campagnes');
               await fillIn('#campaign-code', campaign.code);
               await click('.fill-in-campaign-code__start-button');
-              expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
               await click('.campaign-landing-page__start-button');
-              expect(currentURL().toLowerCase()).to.equal('/inscription'.toLowerCase());
+              expect(currentURL()).to.equal('/inscription');
               await fillIn('#firstName', prescritUser.firstName);
               await fillIn('#lastName', prescritUser.lastName);
               await fillIn('#email', prescritUser.email);
@@ -168,19 +142,20 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await click('.fill-in-campaign-code__start-button');
+              await clickByLabel('Commencer');
+              await clickByLabel('Je commence');
               await click('#login-button');
               await fillIn('#login', prescritUser.email);
               await fillIn('#password', prescritUser.password);
               await click('#submit-connexion');
 
               // then
-              expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`.toLowerCase());
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
             });
 
             context('When student is reconciled in another organization', function() {
 
-              it('should reconcile and redirect to landing-page', async function() {
+              it('should reconcile and begin campaign participation', async function() {
                 // given
                 server.get('schooling-registration-user-associations', () => {
                   return { data: null };
@@ -192,26 +167,28 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
                 // when
                 await fillIn('#campaign-code', campaign.code);
-                await click('.fill-in-campaign-code__start-button');
+                await clickByLabel('Commencer');
+                await clickByLabel('Je commence');
                 await click('#login-button');
                 await fillIn('#login', prescritUser.email);
                 await fillIn('#password', prescritUser.password);
                 await click('#submit-connexion');
 
                 // then
-                expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+                expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
               });
             });
           });
 
           context('When user must accept Pix last terms of service', async function() {
 
-            it('should redirect to campaign landing page after accept terms of service', async function() {
+            it('should redirect to reconciliation page after accept terms of service', async function() {
               // given
               await visit('/campagnes');
               prescritUser.mustValidateTermsOfService = true;
               await fillIn('#campaign-code', campaign.code);
-              await click('.fill-in-campaign-code__start-button');
+              await clickByLabel('Commencer');
+              await clickByLabel('Je commence');
               await click('#login-button');
               await fillIn('#login', prescritUser.email);
               await fillIn('#password', prescritUser.password);
@@ -222,57 +199,30 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await clickByLabel(this.intl.t('pages.terms-of-service-pe.form.button'));
 
               // then
-              expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`.toLowerCase());
-
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
             });
           });
 
-          it('should redirect to login-or-register page', async function() {
+          it('should redirect to landing-page page', async function() {
             // when
             await visit(`/campagnes/${campaign.code}`);
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to login-or-register page when landing page has been seen', async function() {
+            // given
+            await visit(`/campagnes/${campaign.code}`);
+
+            // when
+            await clickByLabel('Je commence');
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
           });
 
-          it('should redirect to landing page when reconciliation and registration are done', async function() {
-            // given
-            this.server.put('schooling-registration-user-associations/possibilities', () => {
-
-              const studentFoundWithUsernameGenerated = {
-                'data': {
-                  'attributes': {
-                    'last-name': 'JeanPrescrit',
-                    'first-name': 'Campagne',
-                    'birthdate': '2010-12-10',
-                    'campaign-code': 'RESTRICTD',
-                    'username': 'jeanprescrit.campagne1012',
-                  }, 'type': 'schooling-registration-user-associations',
-                },
-              };
-
-              return new Response(200, {}, studentFoundWithUsernameGenerated);
-            });
-
-            await visit(`/campagnes/${campaign.code}`);
-
-            // when
-            await fillIn('#firstName', 'JeanPrescrit');
-            await fillIn('#lastName', 'Campagne');
-            await fillIn('#dayOfBirth', '10');
-            await fillIn('#monthOfBirth', '12');
-            await fillIn('#yearOfBirth', '2000');
-            await click('#submit-search');
-
-            await fillIn('#password', 'Password123');
-            await click('#submit-registration');
-
-            // then
-            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
-          });
-
-          it('should not alter inputs(username,password,email) when email already exists ', async function() {
-
+          it('should not alter inputs(username,password,email) when email already exists', async function() {
             //given
             this.server.put('schooling-registration-user-associations/possibilities', () => {
 
@@ -306,6 +256,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             });
 
             await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
 
             // when
             await fillIn('#firstName', prescritUser.firstName);
@@ -337,6 +288,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           it('should redirect to join restricted campaign page when connection is done', async function() {
             // given
             await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
             // when
@@ -349,9 +301,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
           });
 
-          it('should redirect to landing page when fields are filled in and associate button is clicked', async function() {
+          it('should begin campaign participation when fields are filled in and associate button is clicked', async function() {
             // given
             await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
 
             await click('#login-button');
@@ -372,7 +325,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
         });
@@ -383,21 +336,34 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
           });
 
-          it('should redirect to simple login page', async function() {
+          it('should redirect to landing page', async function() {
             // given
             await visit('/campagnes');
 
             // when
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to simple login page when landing page has been seen', async function() {
+            // given
+            await visit(`/campagnes/${campaign.code}`);
+
+            // when
+            await clickByLabel('Je commence');
 
             // then
             expect(currentURL()).to.equal('/inscription');
           });
 
-          it('should be redirect to join page after login', async function() {
+          it('should redirect to join page after login', async function() {
             // given
             await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
+
             // when
             await clickByLabel('connectez-vous à votre compte');
             await fillIn('#login', prescritUser.email);
@@ -422,32 +388,46 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             campaign = server.create('campaign', { organizationIsPoleEmploi: true });
           });
 
-          it('should redirect to Pole Emploi authentication form', async function() {
+          it('should redirect to landing page', async function() {
             // given
             await visit('/campagnes');
 
             // when
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to Pole Emploi authentication form when landing page has been seen', async function() {
+            // given
+            await visit(`/campagnes/${campaign.code}`);
+
+            // when
+            await clickByLabel('Je commence');
 
             // then
             sinon.assert.called(replaceLocationStub);
             expect(currentURL()).to.equal('/connexion-pole-emploi');
           });
 
-          it('should redirect to landing page once user is authenticated', async function() {
+          it('should begin campaign participation once user is authenticated', async function() {
             // given
             const state = 'state';
 
             const session = currentSession();
             session.set('data.state', state);
-            session.set('data.nextURL', `/campagnes/${campaign.code}`);
+            session.set('data.nextURL', `/campagnes/${campaign.code}/startOrResume`);
+            const data = {};
+            data[campaign.code] = { landingPageShown: true };
+            sessionStorage.setItem('campaigns', JSON.stringify(data));
 
             // when
             await visit(`/connexion-pole-emploi?code=test&state=${state}`);
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
           context('When user must validate terms of service Pole Emploi', function() {
@@ -522,7 +502,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           // when
           await fillIn('#campaign-code', campaignCode);
-          await click('.fill-in-campaign-code__start-button');
+          await clickByLabel('Commencer');
 
           // then
           expect(currentURL()).to.equal('/campagnes');
@@ -538,7 +518,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await visit('/campagnes');
 
           // when
-          await click('.fill-in-campaign-code__start-button');
+          await clickByLabel('Commencer');
 
           // then
           expect(currentURL()).to.equal('/campagnes');
@@ -594,58 +574,6 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
         });
 
       });
-
-      context('When campaign has external id', function() {
-
-        context('When participant external id is not set in the url', function() {
-
-          beforeEach(async function() {
-            campaign = server.create('campaign', { idPixLabel: 'email' });
-            await startCampaignByCode(campaign.code);
-            await fillIn('#firstName', prescritUser.firstName);
-            await fillIn('#lastName', prescritUser.lastName);
-            await fillIn('#email', prescritUser.email);
-            await fillIn('#password', prescritUser.password);
-            await click('.signup-form__cgu');
-            await clickByLabel(this.intl.t('pages.sign-up.actions.submit'));
-          });
-
-          it('should redirect to fill-in-participant-external-id page after signup', async function() {
-            // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
-          });
-        });
-
-        context('When participant external id is set in the url', function() {
-
-          context('When campaign is not restricted', function() {
-            beforeEach(async function() {
-              campaign = server.create('campaign', { isRestricted: false, idPixLabel: 'toto' });
-              await startCampaignByCodeAndExternalId(campaign.code);
-              await fillIn('#firstName', prescritUser.firstName);
-              await fillIn('#lastName', prescritUser.lastName);
-              await fillIn('#email', prescritUser.email);
-              await fillIn('#password', prescritUser.password);
-              await click('.signup-form__cgu');
-              await click('.button');
-            });
-
-          });
-        });
-      });
-
-      context('When campaign does not have external id', function() {
-        beforeEach(async function() {
-          campaign = server.create('campaign', { idPixLabel: null });
-          await startCampaignByCode(campaign.code);
-          await fillIn('#firstName', prescritUser.firstName);
-          await fillIn('#lastName', prescritUser.lastName);
-          await fillIn('#email', prescritUser.email);
-          await fillIn('#password', prescritUser.password);
-          await click('.signup-form__cgu');
-          await click('.button');
-        });
-      });
     });
 
     context('When user is logged in', function() {
@@ -669,10 +597,22 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
       context('When campaign is restricted and SCO', function() {
 
         beforeEach(function() {
-          campaign = server.create('campaign', { isRestricted: true, idPixLabel: 'nom de naissance de maman', organizationType: 'SCO' });
+          campaign = server.create('campaign', { isRestricted: true, organizationType: 'SCO' });
         });
 
         context('When association is not already done', function() {
+
+          it('should redirect to landing page', async function() {
+            // given
+            await visit('/campagnes');
+
+            //when
+            await fillIn('#campaign-code', campaign.code);
+            await clickByLabel('Commencer');
+
+            //then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
 
           it('should try to reconcile automatically before redirect to join restricted campaign page', async function() {
             // given
@@ -685,43 +625,34 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
             // when
             await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
 
             // then
-            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
-          it('should redirect to join restricted campaign page when campaign code is in url', async function() {
-            // when
+          it('should redirect to join restricted campaign page when landing page has been seen', async function() {
+            // given
             await visit(`/campagnes/${campaign.code}`);
+
+            //when
+            await clickByLabel('Je commence');
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
-            expect(find('.join-restricted-campaign')).to.exist;
-          });
-
-          it('should redirect to join restricted campaign page', async function() {
-            // given
-            await visit('/campagnes');
-
-            //when
-            await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
-
-            //then
-            expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`.toLowerCase());
-            expect(find('.join-restricted-campaign')).to.exist;
           });
 
           it('should not set any field by default', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
 
             //then
             expect(find('#firstName').value).to.equal('');
             expect(find('#lastName').value).to.equal('');
           });
 
-          it('should redirect to landing page when fields are filled in and associate button is clicked', async function() {
+          it('should begin campaign participation when fields are filled in and associate button is clicked', async function() {
             // given
             await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
 
@@ -731,6 +662,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
+
+            // when
             await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
@@ -738,29 +671,29 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-participant-external-id page', async function() {
+          it('should begin campaign participation when landing page has been seen', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
+            await clickByLabel('Je commence');
             await fillIn('#firstName', 'Robert');
             await fillIn('#lastName', 'Smith');
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
             await fillIn('#yearOfBirth', '2000');
+
+            // when
             await clickByLabel(this.intl.t('pages.join.button'));
             await clickByLabel(this.intl.t('pages.join.sco.associate'));
 
-            // when
-            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
-
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
         });
 
         context('When association is already done', function() {
 
-          beforeEach(async function() {
+          beforeEach(function() {
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
             });
@@ -768,21 +701,21 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           it('should redirect to landing page', async function() {
             // when
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
 
             //then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
           });
 
-          it('should redirect to fill-in-participant-external-id page', async function() {
+          it('should begin campaign participation when landing page has been seen', async function() {
             // given
-            await visit(`/campagnes/${campaign.code}/privee/rejoindre`);
+            await visit(`/campagnes/${campaign.code}`);
 
             // when
-            await clickByLabel(this.intl.t('pages.campaign-landing.assessment.action'));
+            await clickByLabel('Je commence');
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
       });
@@ -793,16 +726,33 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           campaign = server.create('campaign', { isRestricted: true, organizationType: 'SUP' });
         });
 
-        it('should be redirected to join page', async function() {
-          // when
+        it('should redirect to landing page', async function() {
+          // given
+          await visit('/campagnes');
+
+          //when
+          await fillIn('#campaign-code', campaign.code);
+          await clickByLabel('Commencer');
+
+          //then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        });
+
+        it('should redirect to join page when landing page has been seen', async function() {
+          // given
           await visit(`/campagnes/${campaign.code}`);
+
+          // when
+          await clickByLabel('Je commence');
+
           // then
           expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
         });
 
-        it('the student has been associated with its student number', async function() {
+        it('should begin campaign participation when association is done', async function() {
           // given
           await visit(`/campagnes/${campaign.code}`);
+          await clickByLabel('Je commence');
 
           // when
           await fillInByLabel('Numéro étudiant', 'F100');
@@ -814,7 +764,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           await clickByLabel('C\'est parti !');
 
           // then
-          expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
@@ -827,7 +777,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await startCampaignByCode(campaign.code);
           });
 
-          it('should show the identifiant page after clicking on start button in landing page', async function() {
+          it('should show the identifiant page after clicking on start button in landing page', function() {
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/identifiant`);
           });
         });
@@ -838,6 +788,9 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await startCampaignByCodeAndExternalId(campaign.code);
           });
 
+          it('should begin campaign participation', function() {
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          });
         });
       });
 
@@ -845,16 +798,23 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
         beforeEach(async function() {
           campaign = server.create('campaign', { idPixLabel: null });
-          await visit(`campagnes/${campaign.code}`);
+          await startCampaignByCode(campaign.code);
+        });
+
+        it('should begin campaign participation', function() {
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
         });
       });
 
       context('When campaign does not have external id but a participant external id is set in the url', function() {
         beforeEach(async function() {
           campaign = server.create('campaign', { idPixLabel: null });
-          await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
+          await startCampaignByCodeAndExternalId(campaign.code);
         });
 
+        it('should begin campaign participation', function() {
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+        });
       });
 
       context('When the campaign is restricted and schooling-registration is disabled', function() {
@@ -862,24 +822,21 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           campaign = server.create('campaign', { code: 'FORBIDDEN', isRestricted: true });
         });
 
+        it('should redirect to landing page', async function() {
+          // when
+          await visit(`/campagnes/${campaign.code}`);
+
+          // then
+          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+        });
+
         it('should show an error message when user starts the campaign', async function() {
           // when
           await visit(`/campagnes/${campaign.code}`);
+          await clickByLabel('Je commence');
 
           // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}`);
-          expect(find('.title').textContent).to.contains('Oups, la page demandée n’est pas accessible.');
-        });
-
-        it('should resume the campaign when user already has a participation', async function() {
-          // given
-          server.create('campaign-participation', { campaignId: campaign.id, userId: prescritUser.id });
-
-          // when
-          await visit(`/campagnes/${campaign.code}`);
-
-          // then
-          expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
+          expect(contains('Oups, la page demandée n’est pas accessible.')).to.exist;
         });
       });
 
@@ -938,7 +895,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
         // when
         await visit('/campagnes');
         await fillIn('#campaign-code', campaign.code);
-        await click('.fill-in-campaign-code__start-button');
+        await clickByLabel('Commencer');
         await click('button[type="submit"]');
 
         const currentUserId = session.data.authenticated['user_id'];
@@ -963,10 +920,20 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
-          it('should redirect to reconciliation form', async function() {
+          it('should redirect to landing page', async function() {
             // when
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+
+            // then
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+          });
+
+          it('should redirect to reconciliation form when landing page has been seen', async function() {
+            // when
+            await fillIn('#campaign-code', campaign.code);
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             // then
             expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/rejoindre`);
@@ -975,17 +942,19 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
           it('should set by default firstName and lastName', async function() {
             // when
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             //then
             expect(find('#firstName').value).to.equal('JeanPrescrit');
             expect(find('#lastName').value).to.equal('Campagne');
           });
 
-          it('should redirect to landing page when fields are filled in', async function() {
+          it('should begin campaign participation when reconciliation is done', async function() {
             // given
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             // when
             await fillIn('#dayOfBirth', '10');
@@ -994,7 +963,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await clickByLabel(this.intl.t('pages.join.button'));
 
             //then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
         });
 
@@ -1032,10 +1001,10 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await click('.fill-in-campaign-code__start-button');
+              await clickByLabel('Commencer');
 
               // then
-              expect(currentURL().toLowerCase()).to.equal(`/campagnes/${campaign.code}/presentation`.toLowerCase());
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
             });
           });
         });
@@ -1064,13 +1033,14 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             await visit(`/campagnes?externalUser=${externalUserToken}`);
           });
 
-          it('should land on start campaign page if GAR authentication method has been added', async function() {
+          it('should begin campaign participation if GAR authentication method has been added', async function() {
             // given
             server.create('schooling-registration-user-association', {
               campaignCode: campaign.code,
             });
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
@@ -1087,8 +1057,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             expect(session.data.authenticated.source).to.equal(AUTHENTICATED_SOURCE_FROM_MEDIACENTRE);
 
             // then
-            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-            expect(contains('Commencez votre parcours')).to.exist;
+            expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
           });
 
           it('should display an specific error message if GAR authentication method adding has failed with http statusCode 4xx', async function() {
@@ -1100,7 +1069,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             server.post('/token-from-external-user', () => errorsApi);
 
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
@@ -1132,7 +1102,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             server.post('/token-from-external-user', () => errorsApi);
 
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
@@ -1156,7 +1127,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
             server.post('/token-from-external-user', () => new Response(500));
 
             await fillIn('#campaign-code', campaign.code);
-            await click('.fill-in-campaign-code__start-button');
+            await clickByLabel('Commencer');
+            await clickByLabel('Je commence');
 
             await fillIn('#dayOfBirth', '10');
             await fillIn('#monthOfBirth', '12');
@@ -1176,8 +1148,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
           context('When user should change password', () => {
 
-            it('should land on start campaign page after updating password expired', async function() {
-
+            it('should begin campaign participation after updating password expired', async function() {
               // given
               const userShouldChangePassword = server.create('user', 'withUsername', 'shouldChangePassword');
 
@@ -1203,7 +1174,8 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
 
               // when
               await fillIn('#campaign-code', campaign.code);
-              await click('.fill-in-campaign-code__start-button');
+              await clickByLabel('Commencer');
+              await clickByLabel('Je commence');
 
               await fillIn('#dayOfBirth', '10');
               await fillIn('#monthOfBirth', '12');
@@ -1222,8 +1194,7 @@ describe('Acceptance | Campaigns | Start Campaigns workflow', function() {
               await clickByLabel(this.intl.t('pages.update-expired-password.button'));
 
               // then
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
-              expect(contains('Commencez votre parcours')).to.exist;
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/evaluation/didacticiel`);
             });
           });
         });

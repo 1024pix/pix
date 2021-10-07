@@ -86,7 +86,6 @@ describe('Unit | Route | logout', () => {
     const route = this.owner.lookup('route:logout');
     route.set('campaignStorage', campaignStorageStub);
     route.set('session', sessionStub);
-    route.set('campaignStorage', campaignStorageStub);
 
     // When
     route.beforeModel();
