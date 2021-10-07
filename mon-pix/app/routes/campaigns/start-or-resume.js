@@ -25,6 +25,13 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
     }
 
     this._updateStateFrom({ campaign, session: this.session });
+    if (this.state.isUserLogged) {
+      await this._findOngoingCampaignParticipationAndUpdateState(campaign);
+    }
+
+    if (this._shouldVisitLandingPage(campaign)) {
+      return this.replaceWith('campaigns.campaign-landing-page', campaign);
+    }
 
     if (this._shouldVisitPoleEmploiLoginPage) {
       return this._redirectToPoleEmploiLoginPage(transition);
@@ -39,11 +46,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
         return this._redirectToTermsOfServicesBeforeAccessingToCampaign(transition);
       }
 
-      if (this.state.externalUser) {
-        return this.replaceWith('campaigns.restricted.join', campaign);
-      }
-
-      await this._findOngoingCampaignParticipationAndUpdateState(campaign);
       if (!this.state.doesUserHaveOngoingParticipation) {
         return this.replaceWith('campaigns.restricted.join', campaign);
       }
@@ -60,10 +62,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       await this.currentUser.load();
     }
 
-    if (this._shouldVisitLandingPageAsVisitor) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign);
-    }
-
     super.beforeModel(...arguments);
   }
 
@@ -73,12 +71,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   async afterModel(campaign) {
-    await this._findOngoingCampaignParticipationAndUpdateState(campaign);
-
-    if (this._shouldVisitLandingPageAsLoggedUser && !campaign.isForAbsoluteNovice) {
-      return this.replaceWith('campaigns.campaign-landing-page', campaign);
-    }
-
     if (this._shouldProvideExternalIdToAccessCampaign) {
       return this.replaceWith('campaigns.fill-in-participant-external-id', campaign);
     }
@@ -109,7 +101,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isCampaignSimplifiedAccess: false,
       hasUserCompletedRestrictedCampaignAssociation: false,
       hasUserSeenJoinPage: false,
-      shouldDisplayLandingPage: true,
       isUserLogged: false,
       doesUserHaveOngoingParticipation: false,
       doesCampaignAskForExternalId: false,
@@ -117,16 +108,13 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: null,
       isCampaignPoleEmploi: false,
       isUserLoggedInPoleEmploi: false,
-      isCampaignForNoviceUser: false,
     };
   }
 
   _updateStateFrom({ campaign = {}, ongoingCampaignParticipation = null, session }) {
     const hasUserCompletedRestrictedCampaignAssociation = this.campaignStorage.get(campaign.code, 'associationDone') || false;
-    const isCampaignForNoviceUser = get(campaign, 'isForAbsoluteNovice', this.state.isCampaignForNoviceUser);
     const hasUserSeenJoinPage = this.campaignStorage.get(campaign.code, 'hasUserSeenJoinPage');
     const participantExternalId = this.campaignStorage.get(campaign.code, 'participantExternalId');
-    const shouldDisplayLandingPage = isCampaignForNoviceUser ? false : !this.campaignStorage.get(campaign.code, 'landingPageShown');
     this.state = {
       campaignCode: get(campaign, 'code', this.state.campaignCode),
       isCampaignRestricted: get(campaign, 'isRestricted', this.state.isCampaignRestricted),
@@ -134,7 +122,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       isCampaignForSCOOrganization: get(campaign, 'organizationType') === 'SCO',
       hasUserCompletedRestrictedCampaignAssociation,
       hasUserSeenJoinPage,
-      shouldDisplayLandingPage,
       isUserLogged: this.session.isAuthenticated,
       doesUserHaveOngoingParticipation: Boolean(ongoingCampaignParticipation),
       doesCampaignAskForExternalId: get(campaign, 'idPixLabel', this.state.doesCampaignAskForExternalId),
@@ -142,7 +129,6 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       externalUser: get(session, 'data.externalUser'),
       isCampaignPoleEmploi: get(campaign, 'organizationIsPoleEmploi', this.state.isCampaignPoleEmploi),
       isUserLoggedInPoleEmploi: get(session, 'data.authenticated.source') === 'pole_emploi_connect' || this.state.isUserLoggedInPoleEmploi,
-      isCampaignForNoviceUser,
     };
   }
 
@@ -209,8 +195,7 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
   }
 
   get _shouldJoinSimplifiedCampaignAsAnonymous() {
-    return !this.state.shouldDisplayLandingPage
-      && this.state.isCampaignSimplifiedAccess
+    return this.state.isCampaignSimplifiedAccess
       && !this.state.isUserLogged;
   }
 
@@ -220,15 +205,9 @@ export default class StartOrResumeRoute extends Route.extend(SecuredRouteMixin) 
       && !this.state.participantExternalId;
   }
 
-  get _shouldVisitLandingPageAsVisitor() {
-    return this.state.shouldDisplayLandingPage
-      && !this.state.isCampaignRestricted
-      && !this.state.isUserLogged;
-  }
-
-  get _shouldVisitLandingPageAsLoggedUser() {
-    return this.state.shouldDisplayLandingPage
-      && this.state.isUserLogged
+  _shouldVisitLandingPage(campaign) {
+    const shouldDisplayLandingPage = campaign.isForAbsoluteNovice ? false : !this.campaignStorage.get(this.state.campaignCode, 'landingPageShown');
+    return shouldDisplayLandingPage
       && !this.state.doesUserHaveOngoingParticipation;
   }
 

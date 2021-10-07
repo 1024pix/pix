@@ -91,8 +91,8 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               //given
               campaign = server.create('campaign', { type: PROFILES_COLLECTION, isRestricted: true, idPixLabel: 'toto', organizationType: 'SCO' });
               await visit(`/campagnes/${campaign.code}?participantExternalId=a73at01r3`);
-
-              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification`);
+              expect(currentURL()).to.equal(`/campagnes/${campaign.code}/presentation`);
+              await clickByLabel('C\'est parti !');
 
               // when
               await click('#login-button');
@@ -108,7 +108,6 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#yearOfBirth', '2000');
               await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.associate'));
-              await click('.campaign-landing-page__start-button');
 
               // then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/collecte/envoi-profil`);
@@ -233,6 +232,7 @@ describe('Acceptance | Campaigns | Start Campaigns with type Profiles Collectio
               await fillIn('#yearOfBirth', '2000');
               await clickByLabel(this.intl.t('pages.join.button'));
               await clickByLabel(this.intl.t('pages.join.sco.continue-with-pix'));
+              await clickByLabel('C\'est parti !');
 
               //then
               expect(currentURL()).to.equal(`/campagnes/${campaign.code}/privee/identification?displayRegisterForm=false`);
