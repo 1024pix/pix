@@ -34,7 +34,7 @@ export default class Item extends Component {
   }
 
   @action
-  enableFocusedChallenge() {
+  enableChallenge() {
     this.isTooltipClosed = true;
     this.args.onTooltipClose();
   }
