@@ -36,7 +36,7 @@ export default class Item extends Component {
   @action
   enableChallenge() {
     this.isTooltipClosed = true;
-    this.args.onTooltipClose();
+    this.args.onTooltipCloseForChallenge();
   }
 
   _setOnBlurEventToWindow() {

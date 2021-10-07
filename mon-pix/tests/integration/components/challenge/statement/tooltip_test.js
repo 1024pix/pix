@@ -29,9 +29,9 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: true,
         });
-        this.set('onTooltipClose', () => {});
+        this.set('onTooltipCloseForChallengeItem', () => {});
 
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipCloseForChallengeItem}}/>`);
       });
 
       it('should render the tooltip with a confirmation button', async function() {
@@ -67,9 +67,9 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: true,
         });
-        this.set('onTooltipClose', () => {});
+        this.set('onTooltipCloseForChallengeItem', () => {});
 
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipCloseForChallengeItem}}/>`);
       });
 
       describe('when the challenge starts', function() {
@@ -146,9 +146,9 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: false,
         });
-        this.set('onTooltipClose', () => {});
+        this.set('onTooltipCloseForChallengeItem', () => {});
 
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipCloseForChallengeItem}}/>`);
       });
 
       it('should render the tooltip with a confirmation button', async function() {
@@ -184,9 +184,9 @@ describe('Integration | Component | Tooltip', function() {
           id: 'rec_challenge',
           focused: false,
         });
-        this.set('onTooltipClose', () => {});
+        this.set('onTooltipCloseForChallengeItem', () => {});
 
-        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipClose}}/>`);
+        await render(hbs`<Challenge::Statement::Tooltip @challenge={{this.challenge}} @onTooltipClose={{this.onTooltipCloseForChallengeItem}}/>`);
       });
 
       describe('when the challenge starts', function() {
