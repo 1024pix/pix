@@ -12,9 +12,11 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
 
       it('should return session information with ordered candidates and no division', async function() {
         // given
+        databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
           name: 'Tour Gamma',
           type: 'SUP',
+          externalId: 'EXT1234',
         });
 
         const session = databaseBuilder.factory.buildSession({
@@ -43,6 +45,7 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
           date: '2018-02-23',
           time: '12:00:00',
           certificationCenterType: 'SUP',
+          isOrganizationManagingStudents: false,
           certificationCandidates: [
             new CertificationCandidateForAttendanceSheet({ ...candidate3, division: null }),
             new CertificationCandidateForAttendanceSheet({ ...candidate1, division: null }),
@@ -62,9 +65,11 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
 
       it('should return session information with with ordered candidates and division', async function() {
         // given
+        databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
           name: 'Tour Gamma',
           type: 'SCO',
+          externalId: 'EXT1234',
         });
 
         const session = databaseBuilder.factory.buildSession({
@@ -95,6 +100,7 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
           date: '2018-02-23',
           time: '12:00:00',
           certificationCenterType: 'SCO',
+          isOrganizationManagingStudents: true,
           certificationCandidates: [
             new CertificationCandidateForAttendanceSheet({ ...candidate3, division: '2c' }),
             new CertificationCandidateForAttendanceSheet({ ...candidate1, division: '3b' }),

@@ -10,6 +10,7 @@ class SessionForAttendanceSheet {
     certificationCenterName,
     certificationCenterType,
     certificationCandidates,
+    isOrganizationManagingStudents,
   }) {
     this.id = id;
     this.date = date;
@@ -20,6 +21,7 @@ class SessionForAttendanceSheet {
     this.certificationCenterName = certificationCenterName;
     this.certificationCenterType = certificationCenterType;
     this.certificationCandidates = certificationCandidates;
+    this.isOrganizationManagingStudents = isOrganizationManagingStudents;
   }
 }
 
