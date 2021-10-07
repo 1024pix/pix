@@ -59,11 +59,6 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
   }
 
   @action
-  toggleEditMode() {
-    this.isEditMode = !this.isEditMode;
-  }
-
-  @action
   updateGrantedAccreditation(accreditation) {
     const accreditations = this.model.certificationCenter.accreditations;
     if (accreditations.includes(accreditation)) {
@@ -82,8 +77,6 @@ export default class AuthenticatedCertificationCentersGetController extends Cont
     } catch (e) {
       this.notifications.error("Une erreur est survenue, le centre de certification n'a pas été mis à jour.");
     }
-
-    this.toggleEditMode();
   }
 
   _getEmailErrorMessage(email) {
