@@ -1,4 +1,4 @@
-import { click, currentURL, find, findAll } from '@ember/test-helpers';
+import { currentURL, find, findAll } from '@ember/test-helpers';
 import { beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { setupApplicationTest } from 'ember-mocha';
@@ -60,12 +60,10 @@ describe('Acceptance | Course ending screen', function() {
     expect(find('.assessment-results__assessment-banner')).to.exist;
   });
 
-  it('should display a button that redirect to inscription page', async function() {
+  it('should display a button that redirects to inscription page', async function() {
     expect(find('.assessment-results__index-link__element')).to.exist;
+    expect(find('.assessment-results__index-a-link').attributes.href.value).to.equal('https://app.pix.fr/inscription');
     expect(find('.assessment-results__link-back').textContent).to.contains('Continuer mon expérience Pix');
-    await click(find('.assessment-results__index-link__element'));
-
-    expect(currentURL()).to.equal('/inscription');
   });
 
 });
