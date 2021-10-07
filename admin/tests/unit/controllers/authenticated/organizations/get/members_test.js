@@ -1,14 +1,16 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import sinon from 'sinon';
-import Service from '@ember/service';
 
 module('Unit | Controller | authenticated/organizations/get/members', function (hooks) {
   setupTest(hooks);
 
   let controller;
+  let store;
+
   hooks.beforeEach(function () {
     controller = this.owner.lookup('controller:authenticated/organizations/get/members');
+    store = this.owner.lookup('service:store');
   });
 
   module('#createOrganizationInvitation', function () {
@@ -18,7 +20,7 @@ module('Unit | Controller | authenticated/organizations/get/members', function (
       const createRecordStub = sinon.stub().returns({
         save: saveStub,
       });
-      controller.store = Service.create({ createRecord: createRecordStub });
+      store.createRecord = createRecordStub;
       controller.model = { organization: { id: 1 } };
 
       controller.userEmailToInvite = 'test@example.net';

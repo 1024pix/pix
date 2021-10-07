@@ -95,11 +95,10 @@ module('Unit | Controller | authenticated/sessions/session/certifications', func
 
     hooks.beforeEach(function () {
       notificationsStub = { success: sinon.stub() };
-      store = {
-        findRecord: sinon.stub(),
-      };
+      store = this.owner.lookup('service:store');
+
+      store.findRecord = sinon.stub();
       controller.set('model', model);
-      controller.set('store', store);
       controller.set('notifications', notificationsStub);
       controller.set('displayConfirm', true);
       controller.model.save = sinon.stub();
