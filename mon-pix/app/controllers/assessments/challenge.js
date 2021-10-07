@@ -54,21 +54,6 @@ export default class ChallengeController extends Controller {
   }
 
   @action
-  async removeTooltipOverlay() {
-    if (this.currentUser.user) {
-      if (this.model.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
-        await this._updateUserAndTriggerOverlayRemoval({ tooltipChallengeType: 'focused' });
-      } else if (!this.model.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
-        await this._updateUserAndTriggerOverlayRemoval({ tooltipChallengeType: 'other' });
-      }
-    }
-  }
-
-  async _updateUserAndTriggerOverlayRemoval(tooltipChallengeType) {
-    await this.currentUser.user.save({ adapterOptions: tooltipChallengeType });
-  }
-
-  @action
   setFocusedOutOfChallenge(value) {
     this.hasFocusedOutOfChallenge = value;
   }

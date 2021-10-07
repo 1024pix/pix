@@ -22,7 +22,6 @@ export default class Tooltip extends Component {
       this.shouldDisplayTooltip = true;
     } else {
       this.shouldDisplayTooltip = false;
-      this._notifyChallengeTooltipIsClosed();
     }
   }
 
@@ -68,12 +67,18 @@ export default class Tooltip extends Component {
   }
 
   @action
-  confirmInformationIsRead() {
+  async confirmInformationIsRead() {
+    await this._rememberUserHasSeenChallengeTooltip();
     this.shouldDisplayTooltip = false;
-    this._notifyChallengeTooltipIsClosed();
   }
 
-  _notifyChallengeTooltipIsClosed() {
-    this.args.onTooltipClose();
+  async _rememberUserHasSeenChallengeTooltip() {
+    if (this.currentUser.user) {
+      if (this.args.challenge.focused && !this.currentUser.user.hasSeenFocusedChallengeTooltip) {
+        await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'focused' } });
+      } else if (!this.args.challenge.focused && !this.currentUser.user.hasSeenOtherChallengesTooltip) {
+        await this.currentUser.user.save({ adapterOptions: { tooltipChallengeType: 'other' } });
+      }
+    }
   }
 }
