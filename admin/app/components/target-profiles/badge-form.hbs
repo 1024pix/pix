@@ -1,45 +1,23 @@
 <form {{on "submit" this.createBadge}} class="badge-form">
   <div class="badge-form__text-field">
     <label for="title">Nom du badge : </label>
-    <Input id="title" class="form-control" name="Nom du badge" @type="text" @value={{this.badge.title}} />
-  </div>
-  <div class="badge-form__text-field">
-    <label for="badge-key">Clé : </label>
-    <Input
-      id="badge-key"
-      class="form-control"
-      name="Clé du badge"
-      maxlength="255"
-      @type="text"
-      required="true"
-      @value={{this.badge.key}}
-    />
-  </div>
-  <div class="badge-form__text-field">
-    <label for="message">Message : </label>
-    <Input id="message" class="form-control" name="Message du badge" @type="text" @value={{this.badge.message}} />
+    <Input id="title" class="form-control" @type="text" @value={{this.badge.title}} />
   </div>
   <div class="badge-form__text-field">
     <label for="image-url">Url de l'image : </label>
-    <Input
-      id="image-url"
-      required="true"
-      class="form-control"
-      name="Url de l'image"
-      @type="text"
-      @value={{this.badge.imageUrl}}
-    />
+    <Input id="image-url" required="true" class="form-control" @type="text" @value={{this.badge.imageUrl}} />
   </div>
   <div class="badge-form__text-field">
     <label for="alt-message">Texte alternatif pour l'image : </label>
-    <Input
-      id="alt-message"
-      required="true"
-      class="form-control"
-      name="Texte alternatif pour l'image"
-      @type="text"
-      @value={{this.badge.altMessage}}
-    />
+    <Input id="alt-message" required="true" class="form-control" @type="text" @value={{this.badge.altMessage}} />
+  </div>
+  <div class="badge-form__text-field">
+    <label for="message">Message : </label>
+    <Textarea id="message" class="form-control" @value={{this.badge.message}} rows="4" />
+  </div>
+  <div class="badge-form__text-field">
+    <label for="badge-key">Clé : </label>
+    <Input id="badge-key" class="form-control" maxlength="255" @type="text" required="true" @value={{this.badge.key}} />
   </div>
   <div class="badge-form__check-field">
     <label for="isCertifiable">Certifiable : </label>
@@ -51,7 +29,7 @@
     />
   </div>
   <div class="badge-form__check-field">
-    <label for="isAlwaysVisible">Toujours visible (même pour les lacunes) : </label>
+    <label for="isAlwaysVisible">Lacunes : </label>
     <Input
       class="badge-form-check-field__control"
       @type="checkbox"
