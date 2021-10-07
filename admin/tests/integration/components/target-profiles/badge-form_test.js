@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { click, render, findAll, fillIn } from '@ember/test-helpers';
+import { click, render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import sinon from 'sinon';
 
@@ -19,17 +19,16 @@ module('Integration | Component | TargetProfiles::BadgeForm', function (hooks) {
   test('it should display the expected number of inputs', async function (assert) {
     // given
     const expectedNumberOfInputsInForm = 7;
+    const expectedNumberOfTextareasInForm = 1;
     const expectedNumberOfCheckboxesInForm = 2;
 
     // when
     await render(hbs`<TargetProfiles::BadgeForm />`);
 
     // then
-    const actualNumberOfInputsInForm = findAll('input').length;
-    assert.equal(actualNumberOfInputsInForm, expectedNumberOfInputsInForm);
-
-    const actualNumberOfCheckboxesInForm = findAll('input[type="checkbox"]').length;
-    assert.equal(actualNumberOfCheckboxesInForm, expectedNumberOfCheckboxesInForm);
+    assert.dom('input, textarea').exists({ count: expectedNumberOfInputsInForm });
+    assert.dom('textarea').exists({ count: expectedNumberOfTextareasInForm });
+    assert.dom('input[type="checkbox"]').exists({ count: expectedNumberOfCheckboxesInForm });
   });
 
   test('it should display form actions', async function (assert) {
