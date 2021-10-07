@@ -106,9 +106,11 @@ export default class SessionsFinalizeController extends Controller {
   toggleAllCertificationReportsHasSeenEndTestScreen(someWereChecked) {
     const newState = !someWereChecked;
 
-    this.session.certificationReports.forEach((certificationReport) => {
-      certificationReport.hasSeenEndTestScreen = newState;
-    });
+    this.session.certificationReports
+      .filter((certificationReport) => certificationReport.isCompleted)
+      .forEach((certificationReport) => {
+        certificationReport.hasSeenEndTestScreen = newState;
+      });
   }
 
   @action
