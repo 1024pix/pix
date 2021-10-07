@@ -261,7 +261,7 @@ module('Integration | Component | organization-information-section', function (h
       await clickByLabel('Collecte de profils');
 
       // when
-      await clickByLabel('Ajouter');
+      await clickByLabel('Enregistrer');
 
       // then
       assert.dom('.organization__name').hasText('new name');
