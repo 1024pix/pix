@@ -14,7 +14,8 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
 
     beforeEach(async function() {
       const certificationCenterName = 'Centre de certification';
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName, type: 'SUP' }).id;
+      databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName, type: 'SUP', externalId: 'EXT1234' }).id;
 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -63,14 +64,15 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
     });
   });
 
-  describe('when certification center is sco', function() {
+  describe('when certification center is sco and managing students', function() {
 
     let userId;
     let sessionId;
 
     beforeEach(async function() {
       const certificationCenterName = 'Centre de certification';
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName, type: 'SCO' }).id;
+      databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName, type: 'SCO', externalId: 'EXT1234' }).id;
 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });

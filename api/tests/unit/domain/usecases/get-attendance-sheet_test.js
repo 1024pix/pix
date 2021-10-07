@@ -12,14 +12,11 @@ const sessionXmlService = require('../../../../lib/domain/services/session-xml-s
 const _ = require('lodash');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
-
-  describe('getAttendanceSheet', function() {
-
-    context('user has access to the session', function() {
-
-      context('when certification center is not sco', function() {
-        it('should return the attendance sheet', async function() {
+describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
+  describe('getAttendanceSheet', function () {
+    context('user has access to the session', function () {
+      context('when certification center is not sco', function () {
+        it('should return the attendance sheet', async function () {
           // given
           const userId = 'dummyUserId';
           const sessionId = 'dummySessionId';
@@ -27,28 +24,52 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
           const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
           const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
           const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-          sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(_buildSessionWithCandidate('SUP'));
+          sessionForAttendanceSheetRepository.getWithCertificationCandidates
+            .withArgs(sessionId)
+            .resolves(_buildSessionWithCandidate('SUP', false));
           const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
           sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
           const odsBuffer = Buffer.from('some ods file');
           sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-          sinon.stub(writeOdsUtils, 'makeUpdatedOdsByContentXml').resolves(odsBuffer);
-          sinon.stub(sessionXmlService, 'getUpdatedXmlWithSessionData').returns(stringifiedSessionUpdatedXml);
-          sinon.stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData').withArgs({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'), candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES }).returns(stringifiedSessionAndCandidatesUpdatedXml);
+          sinon
+            .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+            .withArgs({
+              stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+              odsFilePath: sinon.match('non_sco_attendance_sheet_template.ods'),
+            })
+            .resolves(odsBuffer);
+          sinon
+            .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+            .withArgs({
+              stringifiedXml,
+              sessionData: _buildAttendanceSheetSessionData('SUP', false),
+              sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+            })
+            .returns(stringifiedSessionUpdatedXml);
+          sinon
+            .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+            .withArgs({
+              stringifiedXml: stringifiedSessionUpdatedXml,
+              candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'),
+              candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+            })
+            .returns(stringifiedSessionAndCandidatesUpdatedXml);
 
           // when
-          const result = await getAttendanceSheet({ userId, sessionId, sessionRepository, sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository });
+          const result = await getAttendanceSheet({
+            userId,
+            sessionId,
+            sessionRepository,
+            sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository,
+          });
 
           // then
           expect(result).to.deep.equal(odsBuffer);
-          expect(sessionXmlService.getUpdatedXmlWithSessionData).to.have.been.calledWithExactly({ stringifiedXml, sessionData: _buildAttendanceSheetSessionData('SUP'), sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES });
-          expect(writeOdsUtils.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml, odsFilePath: sinon.match('non_sco_attendance_sheet_template.ods') });
-          expect(sessionXmlService.getUpdatedXmlWithCertificationCandidatesData).to.have.been.calledWith({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SUP'), candidateTemplateValues: NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES });
         });
       });
 
-      context('when certification center is sco', function() {
-        it('should return the attendance sheet', async function() {
+      context('when certification center is sco and managing students', function () {
+        it('should return the attendance sheet', async function () {
           // given
           const userId = 'dummyUserId';
           const sessionId = 'dummySessionId';
@@ -56,33 +77,56 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
           const stringifiedSessionUpdatedXml = '<xml>Some updated session xml</xml>';
           const stringifiedSessionAndCandidatesUpdatedXml = '<xml>Some updated session and candidates xml</xml>';
           const sessionForAttendanceSheetRepository = { getWithCertificationCandidates: sinon.stub() };
-          sessionForAttendanceSheetRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(_buildSessionWithCandidate('SCO'));
+          sessionForAttendanceSheetRepository.getWithCertificationCandidates
+            .withArgs(sessionId)
+            .resolves(_buildSessionWithCandidate('SCO', true));
           const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
           sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(true);
           const odsBuffer = Buffer.from('some ods file');
           sinon.stub(readOdsUtils, 'getContentXml').resolves(stringifiedXml);
-          sinon.stub(writeOdsUtils, 'makeUpdatedOdsByContentXml').resolves(odsBuffer);
-          sinon.stub(sessionXmlService, 'getUpdatedXmlWithSessionData').returns(stringifiedSessionUpdatedXml);
-          sinon.stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData').withArgs({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'), candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES }).returns(stringifiedSessionAndCandidatesUpdatedXml);
+          sinon
+            .stub(writeOdsUtils, 'makeUpdatedOdsByContentXml')
+            .withArgs({
+              stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml,
+              odsFilePath: sinon.match('sco_attendance_sheet_template.ods'),
+            })
+            .resolves(odsBuffer);
+          sinon
+            .stub(sessionXmlService, 'getUpdatedXmlWithSessionData')
+            .withArgs({
+              stringifiedXml,
+              sessionData: _buildAttendanceSheetSessionData('SCO', true),
+              sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
+            })
+            .returns(stringifiedSessionUpdatedXml);
+          sinon
+            .stub(sessionXmlService, 'getUpdatedXmlWithCertificationCandidatesData')
+            .withArgs({
+              stringifiedXml: stringifiedSessionUpdatedXml,
+              candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'),
+              candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES,
+            })
+            .returns(stringifiedSessionAndCandidatesUpdatedXml);
 
           // when
-          const result = await getAttendanceSheet({ userId, sessionId, sessionRepository, sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository });
+          const result = await getAttendanceSheet({
+            userId,
+            sessionId,
+            sessionRepository,
+            sessionForAttendanceSheetRepository: sessionForAttendanceSheetRepository,
+          });
 
           // then
           expect(result).to.deep.equal(odsBuffer);
-          expect(sessionXmlService.getUpdatedXmlWithSessionData).to.have.been.calledWithExactly({ stringifiedXml, sessionData: _buildAttendanceSheetSessionData('SCO'), sessionTemplateValues: ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES });
-          expect(writeOdsUtils.makeUpdatedOdsByContentXml).to.have.been.calledWithExactly({ stringifiedXml: stringifiedSessionAndCandidatesUpdatedXml, odsFilePath: sinon.match('sco_attendance_sheet_template.ods') });
-          expect(sessionXmlService.getUpdatedXmlWithCertificationCandidatesData).to.have.been.calledWith({ stringifiedXml: stringifiedSessionUpdatedXml, candidatesData: _buildAttendanceSheetCandidateDataWithExtraRows('SCO'), candidateTemplateValues: SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES });
         });
       });
     });
 
-    context('user does not have access to the session', function() {
-
+    context('user does not have access to the session', function () {
       let result;
       const userId = 'dummyUserId';
       const sessionId = 'dummySessionId';
-      beforeEach(async function() {
+      beforeEach(async function () {
         const sessionRepository = { doesUserHaveCertificationCenterMembershipForSession: sinon.stub() };
         sessionRepository.doesUserHaveCertificationCenterMembershipForSession.resolves(false);
         try {
@@ -92,15 +136,14 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function() {
         }
       });
 
-      it('should return an error', function() {
+      it('should return an error', function () {
         expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
       });
     });
-
   });
 });
 
-function _buildSessionWithCandidate(certificationCenterType) {
+function _buildSessionWithCandidate(certificationCenterType, isOrganizationManagingStudents) {
   return {
     id: 1,
     address: 'Rue de bercy',
@@ -110,6 +153,7 @@ function _buildSessionWithCandidate(certificationCenterType) {
     time: '14:00:00',
     certificationCenterName: 'Tour Gamma',
     certificationCenterType,
+    isOrganizationManagingStudents,
     certificationCandidates: [
       {
         lastName: 'Gouffre des Beignets',
@@ -133,7 +177,7 @@ function _buildSessionWithCandidate(certificationCenterType) {
   };
 }
 
-function _buildAttendanceSheetSessionData(certificationCenterType) {
+function _buildAttendanceSheetSessionData(certificationCenterType, isOrganizationManagingStudents) {
   return {
     id: 1,
     address: 'Rue de bercy',
@@ -141,6 +185,7 @@ function _buildAttendanceSheetSessionData(certificationCenterType) {
     examiner: 'Benoit',
     certificationCenterName: 'Tour Gamma',
     certificationCenterType,
+    isOrganizationManagingStudents,
     startTime: '14:00',
     endTime: '16:00',
     date: '16/01/2018',
@@ -148,9 +193,10 @@ function _buildAttendanceSheetSessionData(certificationCenterType) {
 }
 
 function _buildAttendanceSheetCandidateDataWithExtraRows(certificationCenterType) {
-  const candidateTemplateValues = certificationCenterType === 'SCO'
-    ? SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES
-    : NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
+  const candidateTemplateValues =
+    certificationCenterType === 'SCO'
+      ? SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES
+      : NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
   const attendanceSheetCandidatesData = [
     {
       count: 1,

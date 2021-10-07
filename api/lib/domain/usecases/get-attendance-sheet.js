@@ -19,11 +19,11 @@ module.exports = async function getAttendanceSheet({ userId, sessionId, sessionR
   }
 
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
-  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getAttendanceSheetTemplatePath(session.certificationCenterType) });
+  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getAttendanceSheetTemplatePath(session.certificationCenterType, session.isOrganizationManagingStudents) });
 
   const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceSheetTemplatePath(session.certificationCenterType) });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceSheetTemplatePath(session.certificationCenterType, session.isOrganizationManagingStudents) });
 };
 
 function _updateXmlWithSession(stringifiedXml, session) {
@@ -38,9 +38,11 @@ function _updateXmlWithSession(stringifiedXml, session) {
 }
 
 function _attendanceSheetWithCertificationCandidates(stringifiedXml, session) {
-  const candidateTemplateValues = session.certificationCenterType === 'SCO'
-    ? SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES
-    : NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
+  let candidateTemplateValues = NON_SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
+
+  if (session.certificationCenterType === 'SCO' && session.isOrganizationManagingStudents) {
+    candidateTemplateValues = SCO_ATTENDANCE_SHEET_CANDIDATE_TEMPLATE_VALUES;
+  }
 
   const candidatesData = _.map(session.certificationCandidates, (candidate, index) => {
     const candidateData = _.transform(candidate, _transformCandidateIntoAttendanceSheetCandidateData);
@@ -97,8 +99,8 @@ function _transformCandidateIntoAttendanceSheetCandidateData(attendanceSheetData
   }
 }
 
-function _getAttendanceSheetTemplatePath(certificationCenterType) {
-  if (certificationCenterType === 'SCO') {
+function _getAttendanceSheetTemplatePath(certificationCenterType, isOrganizationManagingStudents) {
+  if (certificationCenterType === 'SCO' && isOrganizationManagingStudents) {
     return __dirname + '/../../infrastructure/files/attendance-sheet/sco_attendance_sheet_template.ods';
   }
   return __dirname + '/../../infrastructure/files/attendance-sheet/non_sco_attendance_sheet_template.ods';
