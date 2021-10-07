@@ -13,7 +13,7 @@ module.exports = {
   async save(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
     const accreditations = await Promise.all(
-      (request.payload.data.included || [])
+      (request.payload.relationships || [])
         .filter((data) => data.type === 'accreditations')
         .map((data) => accreditationSerializer.deserialize({ data }))
     );
