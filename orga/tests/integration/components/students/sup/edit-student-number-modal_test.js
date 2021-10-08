@@ -40,9 +40,8 @@ module('Integration | Component | edit-student-number-modal', function (hooks) {
   module('when the edit student number modal is open', function () {
     module('when there is student number', function () {
       test('should render component with student number text', async function (assert) {
-        assert.contains(
-          `Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est : ${this.student.studentNumber}`
-        );
+        assert.contains(`Numéro étudiant actuel de ${this.student.firstName} ${this.student.lastName} est :`);
+        assert.contains(this.student.studentNumber);
       });
     });
 
