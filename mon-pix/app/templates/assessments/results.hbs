@@ -20,15 +20,14 @@
 
     <div class="assessment-results__index-link-container">
       {{#if @model.isDemo}}
-        <LinkTo
-          @route="inscription"
+        <PixButtonLink
+          @href="https://app.pix.fr/inscription"
           class="assessment-results__index-link__element assessment-results__index-a-link"
-          @tagName="button"
         >
           <span class="assessment-results__link-back">{{t
               "pages.assessment-results.actions.continue-pix-experience"
             }}</span>
-        </LinkTo>
+        </PixButtonLink>
       {{else}}
         <LinkTo @route="index" class="assessment-results__index-link__element" @tagName="button">
           <span class="assessment-results__link-back">{{t "pages.assessment-results.actions.return-to-homepage"}}</span>
