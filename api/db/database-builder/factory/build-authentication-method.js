@@ -57,7 +57,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = fun
   });
 };
 
-buildAuthenticationMethod.buildWithPassword = function ({
+buildAuthenticationMethod.withPixAuthenticationComplementAndPassword = function ({
   id = databaseBuffer.getNextId(),
   password = 'Password123',
   shouldChangePassword = false,
