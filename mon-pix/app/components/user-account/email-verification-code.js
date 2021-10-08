@@ -10,7 +10,8 @@ export default class EmailVerificationCode extends Component {
   @service store;
   @service intl;
   @tracked showResendCode = false;
-  @tracked wasButtonClicked = false;
+  @tracked isResending = false;
+  @tracked isEmailSent = false;
   @tracked errorMessage = null;
 
   constructor() {
@@ -23,18 +24,18 @@ export default class EmailVerificationCode extends Component {
 
   @action
   async resendVerificationCodeByEmail() {
+    this.isResending = true;
     try {
-      if (!this.wasButtonClicked) {
-        this.wasButtonClicked = true;
-        const emailVerificationCode = this.store.createRecord('email-verification-code', {
-          password: this.args.password,
-          newEmail: this.args.email.trim().toLowerCase(),
-        });
-        await emailVerificationCode.sendNewEmail();
-      }
+      const emailVerificationCode = this.store.createRecord('email-verification-code', {
+        password: this.args.password,
+        newEmail: this.args.email.trim().toLowerCase(),
+      });
+      await emailVerificationCode.sendNewEmail();
+      this.isEmailSent = true;
     } finally {
+      this.isResending = false;
       setTimeout(() => {
-        this.wasButtonClicked = false;
+        this.isEmailSent = false;
       }, ENV.APP.MILLISECONDS_BEFORE_MAIL_RESEND);
     }
   }

@@ -16,14 +16,14 @@
     </PixMessage>
   {{/if}}
 
-  {{#if this.wasButtonClicked}}
+  {{#if this.isEmailSent}}
     <PixMessage @type="success" class="email-verification-code__resend-confirmation-message">
       {{t "pages.user-account.email-verification.confirmation-message"}}
     </PixMessage>
   {{else}}
     <div class="email-verification-code__resend {{if this.showResendCode "visible"}}">
       <p>{{t "pages.user-account.email-verification.did-not-receive"}}</p>
-      <button type="button" {{on "click" this.resendVerificationCodeByEmail}}>
+      <button type="button" disabled={{this.isResending}} {{on "click" this.resendVerificationCodeByEmail}}>
         {{t "pages.user-account.email-verification.send-back-the-code"}}
       </button>
     </div>

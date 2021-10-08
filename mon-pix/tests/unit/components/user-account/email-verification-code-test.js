@@ -26,7 +26,7 @@ describe('Unit | Component | user-account | email-verification-code', function()
       sinon.assert.calledWith(component.store.createRecord, 'email-verification-code', { code });
       sinon.assert.calledOnce(verifyCode);
       sinon.assert.calledOnce(component.args.disableEmailEditionMode);
-      sinon.assert.calledWith(component.args.displayEmailUpdateMessage, 'pages.user-account.email-verification.update-successful');
+      sinon.assert.calledOnce(component.args.displayEmailUpdateMessage);
     });
 
     it('should update the user email when code verification is successful', async function() {
@@ -52,24 +52,40 @@ describe('Unit | Component | user-account | email-verification-code', function()
 
   context('#resendVerificationCodeByEmail', function() {
 
-    it('should prevent to double click on resend verification code', async function() {
+    it('should be loading while resending email', function() {
       // given
       const component = createGlimmerComponent('component:user-account/email-verification-code');
       const newEmail = 'toto@example.net';
       const password = 'pix123';
-      const sendNewEmail = sinon.stub();
-      component.store = { createRecord: () => ({ sendNewEmail }) };
+      component.isResending = false;
       component.args.email = newEmail;
       component.args.password = password;
-      sinon.spy(component.store, 'createRecord');
+      component.store = { createRecord: () => ({ sendNewEmail: () => new Promise(() => {}) }) };
+
+      // when
+      component.resendVerificationCodeByEmail();
+
+      // then
+      expect(component.isResending).to.be.true;
+    });
+
+    it('should show success message after resending', async function() {
+      // given
+      const component = createGlimmerComponent('component:user-account/email-verification-code');
+      const newEmail = 'toto@example.net';
+      const password = 'pix123';
+      component.isEmailSent = false;
+      component.args.email = newEmail;
+      component.args.password = password;
+      component.store = { createRecord: () => ({ sendNewEmail: sinon.stub() }) };
 
       // when
       await component.resendVerificationCodeByEmail();
-      await component.resendVerificationCodeByEmail();
 
       // then
-      expect(component.wasButtonClicked).to.be.true;
-      sinon.assert.calledOnce(sendNewEmail);
+      expect(component.isEmailSent).to.be.true;
+      expect(component.isResending).to.be.false;
     });
+
   });
 });
