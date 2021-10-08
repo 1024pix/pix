@@ -360,7 +360,7 @@ function organizationsScoBuilder({ databaseBuilder }) {
     userId: userWhoHasLeftSCO.id,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.buildWithPassword({
+  databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndPassword({
     userId: userWhoHasLeftSCO.id,
   });
 
