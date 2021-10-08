@@ -4,7 +4,9 @@ const buildUser = require('./build-user');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const encrypt = require('../../../lib/domain/services/encryption-service');
 
-const buildAuthenticationMethod = function ({
+const buildAuthenticationMethod = {};
+
+buildAuthenticationMethod.withGarAuthenticationComplement = function ({
   id = databaseBuffer.getNextId(),
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = 'externalId',

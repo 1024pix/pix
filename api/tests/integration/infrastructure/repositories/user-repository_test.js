@@ -131,7 +131,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       beforeEach(async function () {
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
           externalIdentifier: 'some-saml-id',
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           userId: userInDb.id,
@@ -648,11 +648,11 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       it('should return the user with his authentication methods', async function () {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
           identityProvider: AuthenticationMethod.identityProviders.PIX,
           userId: userInDB.id,
         });
-        databaseBuilder.factory.buildAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
           identityProvider: AuthenticationMethod.identityProviders.GAR,
           userId: userInDB.id,
         });
@@ -863,7 +863,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
     beforeEach(async function () {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
-      databaseBuilder.factory.buildAuthenticationMethod({
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
         identityProvider: AuthenticationMethod.identityProviders.GAR,
         externalIdentifier: 'samlId',
         userId: userInDb.id,

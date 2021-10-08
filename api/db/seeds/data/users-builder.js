@@ -50,7 +50,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod({
+  databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
     identityProvider: AuthenticationMethod.identityProviders.GAR,
     externalIdentifier: 'samlId',
     userId: userWithSamlId.id,
