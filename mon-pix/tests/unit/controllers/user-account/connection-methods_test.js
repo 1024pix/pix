@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import EmberObject from '@ember/object';
 
 describe('Unit | Controller | user-account | connection-methods', function() {
   setupTest();
@@ -44,6 +45,63 @@ describe('Unit | Controller | user-account | connection-methods', function() {
 
       // then
       expect(controller.showEmailUpdatedMessage).to.be.true;
+    });
+  });
+
+  context('#shouldShowPixAuthenticationMethod', function() {
+    it('should display pix authentication method', function() {
+    // given & when
+      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const authenticationMethods = [EmberObject.create({
+        identityProvider: 'PIX',
+        isPixIdentityProvider: true,
+      })];
+      const model = {
+        user: {},
+        authenticationMethods,
+      };
+      controller.set('model', model);
+
+      // then
+      expect(controller.shouldShowPixAuthenticationMethod).to.be.true;
+    });
+  });
+
+  context('#shouldShowGarAuthenticationMethod', function() {
+    it('should display gar authentication method', function() {
+    // given & when
+      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const authenticationMethods = [EmberObject.create({
+        identityProvider: 'GAR',
+        isGarIdentityProvider: true,
+      })];
+      const model = {
+        user: {},
+        authenticationMethods,
+      };
+      controller.set('model', model);
+
+      // then
+      expect(controller.shouldShowGarAuthenticationMethod).to.be.true;
+    });
+  });
+
+  context('#shouldShowPoleEmploiAuthenticationMethod', function() {
+    it('should display pole emploi authentication method', function() {
+    // given & when
+      const controller = this.owner.lookup('controller:user-account/connection-methods');
+      const authenticationMethods = [EmberObject.create({
+        identityProvider: 'POLE_EMPLOI',
+        isPoleEmploiIdentityProvider: true,
+      })];
+      const model = {
+        user: {},
+        authenticationMethods,
+      };
+      controller.set('model', model);
+
+      // then
+      expect(controller.shouldShowPoleEmploiAuthenticationMethod).to.be.true;
     });
   });
 });
