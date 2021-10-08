@@ -27,7 +27,8 @@ module('Integration | Component | Student::Sco::DissociateUserModal', function (
         lastName: 'Balboa',
       });
 
-      assert.contains("Souhaitez-vous dissocier le compte Pix de l'élève Rocky Balboa ?");
+      assert.contains("Souhaitez-vous dissocier le compte Pix de l'élève");
+      assert.contains('Rocky Balboa');
     });
   });
 
@@ -35,7 +36,8 @@ module('Integration | Component | Student::Sco::DissociateUserModal', function (
     test('it displays a message for user authentified by username', async function (assert) {
       this.set('student', { hasUsername: true, username: 'appolo.creed', firstName: 'Appolo', lastName: 'Creed' });
 
-      assert.contains("Souhaitez-vous dissocier le compte Pix de l'élève Appolo Creed ?");
+      assert.contains("Souhaitez-vous dissocier le compte Pix de l'élève");
+      assert.contains('Appolo Creed');
     });
   });
 
@@ -43,7 +45,8 @@ module('Integration | Component | Student::Sco::DissociateUserModal', function (
     test('it displays a message for user authentified with GAR', async function (assert) {
       this.set('student', { hasEmail: false, hasUsername: false, firstName: 'Ivan', lastName: 'Drago' });
 
-      assert.contains("Souhaitez-vous dissocier le compte Pix de l'élève Ivan Drago ?");
+      assert.contains("Souhaitez-vous dissocier le compte Pix de l'élève");
+      assert.contains('Ivan Drago');
     });
   });
 

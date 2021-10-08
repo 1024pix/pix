@@ -25,7 +25,7 @@ module('Acceptance | join-request', function (hooks) {
       await clickByLabel('Envoyer');
 
       // then
-      assert.contains("L'UAI/RNE de l'établissement n’est pas reconnu. Merci de contacter le support.");
+      assert.contains("L'UAI/RNE de l'établissement n’est pas reconnu.");
     });
 
     test('it should fail if the uai does not belong to a SCO organization', async function (assert) {
@@ -40,7 +40,7 @@ module('Acceptance | join-request', function (hooks) {
       await clickByLabel('Envoyer');
 
       // then
-      assert.contains("L'UAI/RNE de l'établissement n’est pas reconnu. Merci de contacter le support.");
+      assert.contains("L'UAI/RNE de l'établissement n’est pas reconnu.");
     });
 
     test('it should fail if the SCO organization does not have an email', async function (assert) {
@@ -55,9 +55,7 @@ module('Acceptance | join-request', function (hooks) {
       await clickByLabel('Envoyer');
 
       // then
-      assert.contains(
-        'Nous n’avons pas d’adresse e-mail de contact associée à votre établissement, merci de contacter le support pour récupérer votre accès.'
-      );
+      assert.contains('Nous n’avons pas d’adresse e-mail de contact associée à votre établissement');
     });
 
     test('it should display error message if there is an unknown error', async function (assert) {
@@ -75,7 +73,7 @@ module('Acceptance | join-request', function (hooks) {
       await clickByLabel('Envoyer');
 
       // then
-      assert.contains('Une erreur est survenue. Merci de contacter le support.');
+      assert.contains('Une erreur est survenue.');
     });
 
     test('it should succeed if there is no errors', async function (assert) {
