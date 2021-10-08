@@ -78,7 +78,6 @@ async function _unzipFile(directory, path) {
   try {
     await zip.extract(fileName, extractedFileName);
   } catch (error) {
-    await zip.close();
     throw new FileValidationError(ERRORS.INVALID_FILE);
   }
   await zip.close();
