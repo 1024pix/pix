@@ -24,9 +24,13 @@
     }
   }
 
-  &__password-input .pix-input-password > svg {
-    width: 18px;
-    height: 18px;
+  &__password-input {
+    padding-bottom: 20px;
+
+    .pix-input-password > svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 
   &__informations {

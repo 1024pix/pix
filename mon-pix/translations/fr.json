@@ -673,14 +673,6 @@
         "subtitle": "Continuez vos tests de compétences, retrouvez les plus récents ici."
       }
     },
-    "email-verification": {
-      "title": "Vérification de votre adresse e-mail",
-      "description": "Saisissez le code de vérification reçu à l'adresse e-mail :",
-      "did-not-receive": "Je n'ai rien reçu,",
-      "send-back-the-code": "me renvoyer le code",
-      "confirmation-message": "E-mail envoyé !",
-      "incorrect-code": "Le code saisi est incorrect"
-    },
     "error": {
       "content-text": "'<p>'Nous vous invitons à recharger cette page ou '<LinkTo @route=\"login\">'revenir à la page d’accueil'</LinkTo>'.'</p><p>'Vous pouvez aussi nous contacter via '<a href=\"https://support.pix.fr/support/tickets/new\">'le formulaire du centre d'aide'</a>' en nous précisant le code d’erreur ci-dessous dans la description.'</p><p>'Nous vous prions de nous excuser pour la gêne occasionnée.'</p><p>'L’équipe Pix.'</p>'",
       "first-title": "Oups, une erreur est survenue !"
@@ -1355,6 +1347,21 @@
         "email": "Adresse e-mail",
         "menu-link-title": "Mes méthodes de connexion",
         "username": "Identifiant"
+      },
+      "email-verification": {
+        "title": "Vérification de votre adresse e-mail",
+        "description": "Saisissez le code de vérification reçu à l'adresse e-mail :",
+        "did-not-receive": "Je n'ai rien reçu,",
+        "send-back-the-code": "me renvoyer le code",
+        "confirmation-message": "E-mail envoyé !",
+        "code-label": "Champ du code de vérification",
+        "update-successful": "Votre adresse e-mail a été changé !",
+        "errors": {
+          "incorrect-code": "Le code saisi est incorrect.",
+          "email-modification-demand-expired": "Ce code a expiré. Veuillez renouveler la demande.",
+          "new-email-already-exist": "Cette adresse e-mail est déjà utilisée.",
+          "unknown-error": "Une erreur est survenue. Veuillez recommencer ou contacter le support."
+        }
       },
       "language": {
         "fields": {
