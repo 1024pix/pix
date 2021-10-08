@@ -1,14 +1,11 @@
 import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
 
 export default class Item extends Component {
 
   @service currentUser;
-  @tracked hasFocusedOutOfWindow = false || this.args.assessment.hasFocusedOutChallenge;
-  @tracked hasFocusedOutOfChallenge = false;
 
   constructor() {
     super(...arguments);
@@ -21,7 +18,6 @@ export default class Item extends Component {
   hideOutOfFocusBorder() {
     if (this.isFocusedChallenge) {
       this.args.onFocusIntoChallenge();
-      this.hasFocusedOutOfChallenge = false;
     }
   }
 
@@ -29,13 +25,11 @@ export default class Item extends Component {
   showOutOfFocusBorder() {
     if (this.isFocusedChallenge && !this.args.answer) {
       this.args.onFocusOutOfChallenge();
-      this.hasFocusedOutOfChallenge = true;
     }
   }
 
   _setOnBlurEventToWindow() {
     window.onblur = () => {
-      this.hasFocusedOutOfWindow = true;
       this.args.onFocusOutOfWindow();
       this._clearOnBlurMethod();
     };
