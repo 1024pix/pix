@@ -14,6 +14,11 @@
     margin: 24px 0;
   }
 
+  &__error {
+    max-width: 520px;
+    margin-bottom: 20px;
+  }
+
   &__resend {
     display: flex;
     opacity: 0;

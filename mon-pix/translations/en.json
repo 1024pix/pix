@@ -673,14 +673,6 @@
         "subtitle": "Resume testing your skills, find your most recent tests here."
       }
     },
-    "email-verification": {
-      "title": "Verify your email address",
-      "description": "Enter the verification code you received at the following email address:",
-      "did-not-receive": "You haven’t received anything?",
-      "send-back-the-code": "Send the code again",
-      "confirmation-message": "Email sent!",
-      "incorrect-code": "The code entered is incorrect"
-    },
     "error": {
       "content-text": "'<p>'Please refresh the page or '<LinkTo @route=\"login\">'return to homepage'</LinkTo>'.'</p><p>'You can also contact us via '<a href=\"https://pix.org/en-gb/contact-form\">'the help centre form'</a>'specifying the error code below in the description.'</p><p>'Please excuse any inconvenience caused.'</p><p>'The Pix team.'</p>'",
       "first-title": "Oops, an error occurred!"
@@ -1355,6 +1347,21 @@
         "email": "Email address",
         "menu-link-title": "Log in methods",
         "username": "Username"
+      },
+      "email-verification": {
+        "title": "Verify your email address",
+        "description": "Enter the verification code you received at the following email address:",
+        "did-not-receive": "You haven’t received anything?",
+        "send-back-the-code": "Send the code again",
+        "confirmation-message": "Email sent!",
+        "code-label": "Field to enter your verification code",
+        "update-successful": "Your email address has been changed!",
+        "errors": {
+          "incorrect-code": "The code entered is incorrect.",
+          "email-modification-demand-expired": "This code has expired. Please renew your request.",
+          "new-email-already-exist": "This email address is already in use.",
+          "unknown-error": "An error has occurred. Please try again or contact the support."
+        }
       },
       "language": {
         "fields": {

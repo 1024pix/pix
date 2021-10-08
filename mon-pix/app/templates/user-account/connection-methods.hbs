@@ -1,20 +1,19 @@
-{{#if this.isEmailEditionMode}}
-  {{#if this.featureToggles.featureToggles.isEmailValidationEnabled}}
-    <div class="user-account__update-email-with-validation">
-      <UserAccount::UpdateEmailWithValidation @disableEmailEditionMode={{this.disableEmailEditionMode}} />
-    </div>
-  {{else}}
-    <div class="user-account__update-email">
+<div class="user-account__connection-methods">
+  {{#if this.isEmailEditionMode}}
+    {{#if this.featureToggles.featureToggles.isEmailValidationEnabled}}
+      <UserAccount::UpdateEmailWithValidation
+        @disableEmailEditionMode={{this.disableEmailEditionMode}}
+        @displayEmailUpdateMessage={{this.displayEmailUpdateMessage}}
+      />
+    {{else}}
       <UserAccount::UpdateEmail
         @saveNewEmail={{this.saveNewEmail}}
         @disableEmailEditionMode={{this.disableEmailEditionMode}}
       />
-    </div>
-  {{/if}}
-{{else}}
-  <div class="user-account__connection-methods">
+    {{/if}}
+  {{else}}
     {{#if this.shouldShowEmail}}
-      <div class="user-account-panel__item">
+      <div class="user-account-panel__item{{if this.showEmailUpdatedMessage " with-success-message"}}">
         <div class="user-account-panel-item__text">
           <p class="form-textfield__label user-account-panel-item__label">{{t
               "pages.user-account.connexion-methods.email"
@@ -25,8 +24,15 @@
           {{t "pages.user-account.connexion-methods.edit-button"}}
         </PixButton>
       </div>
-    {{/if}}
 
+      {{#if this.showEmailUpdatedMessage}}
+        <div class="success-message">
+          <PixMessage @type="success" @withIcon={{true}}>
+            {{t "pages.user-account.email-verification.update-successful"}}
+          </PixMessage>
+        </div>
+      {{/if}}
+    {{/if}}
     {{#if this.shouldShowUsername}}
       <div class="user-account-panel__item">
         <div class="user-account-panel-item__text">
@@ -37,5 +43,5 @@
         </div>
       </div>
     {{/if}}
-  </div>
-{{/if}}
+  {{/if}}
+</div>
