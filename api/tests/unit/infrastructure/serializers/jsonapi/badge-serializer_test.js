@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/badge-serializer');
 const BadgeCriterion = require('../../../../../lib/domain/models/BadgeCriterion');
 
-describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Badge model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | badge-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Badge model object into JSON API data', function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -18,9 +16,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
         targetProfileId: '1',
         isCertifiable: false,
         isAlwaysVisible: true,
-        badgeCriteria: [
-          domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null }),
-        ],
+        badgeCriteria: [domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null })],
         badgePartnerCompetences: [],
       });
 
@@ -47,7 +43,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
 
-    it('should convert a Badge model with badge partner competence object into JSON API data', function() {
+    it('should convert a Badge model with badge partner competence object into JSON API data', function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -84,7 +80,7 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
 
-    it('should convert a Badge model and scope with every partner competence badge criteria scope into JSON API data', function() {
+    it('should convert a Badge model and scope with every partner competence badge criteria scope into JSON API data', function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -129,8 +125,8 @@ describe('Unit | Serializer | JSONAPI | badge-serializer', function() {
     });
   });
 
-  describe('#deserialize', function() {
-    it('should convert JSON API data into a Badge model object', function() {
+  describe('#deserialize', function () {
+    it('should convert JSON API data into a Badge model object', function () {
       // given
       const jsonBadge = {
         data: {

@@ -11,11 +11,7 @@ const PoleEmploiTokens = require('../models/PoleEmploiTokens');
 const encryptionService = require('./encryption-service');
 const tokenService = require('./token-service');
 
-async function getUserByUsernameAndPassword({
-  username,
-  password,
-  userRepository,
-}) {
+async function getUserByUsernameAndPassword({ username, password, userRepository }) {
   const foundUser = await userRepository.getByUsernameOrEmailWithRolesAndPassword(username);
   const passwordHash = foundUser.authenticationMethods[0].authenticationComplement.password;
 
@@ -56,7 +52,9 @@ async function generatePoleEmploiTokens({ code, clientId, redirectUri }) {
 }
 
 async function getPoleEmploiUserInfo(idToken) {
-  const { given_name, family_name, nonce, idIdentiteExterne } = await tokenService.extractPayloadFromPoleEmploiIdToken(idToken);
+  const { given_name, family_name, nonce, idIdentiteExterne } = await tokenService.extractPayloadFromPoleEmploiIdToken(
+    idToken
+  );
 
   return {
     firstName: given_name,

@@ -1,12 +1,21 @@
 const CertificationIssueReportResolutionAttempt = require('./CertificationIssueReportResolutionAttempt');
 const { CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
 
-async function neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+async function neutralizeIfTimedChallengeStrategy({
+  certificationIssueReport,
+  certificationAssessment,
+  certificationIssueReportRepository,
+  challengeRepository,
+}) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    return _resolveWithNoQuestionFoundWithQuestionNumber(
+      certificationIssueReportRepository,
+      certificationIssueReport,
+      questionNumber
+    );
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -17,12 +26,21 @@ async function neutralizeIfTimedChallengeStrategy({ certificationIssueReport, ce
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+async function neutralizeIfEmbedStrategy({
+  certificationIssueReport,
+  certificationAssessment,
+  certificationIssueReportRepository,
+  challengeRepository,
+}) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    return _resolveWithNoQuestionFoundWithQuestionNumber(
+      certificationIssueReportRepository,
+      certificationIssueReport,
+      questionNumber
+    );
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -34,12 +52,21 @@ async function neutralizeIfEmbedStrategy({ certificationIssueReport, certificati
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+async function neutralizeIfImageStrategy({
+  certificationIssueReport,
+  certificationAssessment,
+  certificationIssueReportRepository,
+  challengeRepository,
+}) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    return _resolveWithNoQuestionFoundWithQuestionNumber(
+      certificationIssueReportRepository,
+      certificationIssueReport,
+      questionNumber
+    );
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -51,12 +78,21 @@ async function neutralizeIfImageStrategy({ certificationIssueReport, certificati
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository }) {
+async function neutralizeIfAttachmentStrategy({
+  certificationIssueReport,
+  certificationAssessment,
+  certificationIssueReportRepository,
+  challengeRepository,
+}) {
   const questionNumber = certificationIssueReport.questionNumber;
   const recId = certificationAssessment.getChallengeRecIdByQuestionNumber(questionNumber);
 
   if (!recId) {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    return _resolveWithNoQuestionFoundWithQuestionNumber(
+      certificationIssueReportRepository,
+      certificationIssueReport,
+      questionNumber
+    );
   }
 
   const challenge = await challengeRepository.get(recId);
@@ -68,7 +104,11 @@ async function neutralizeIfAttachmentStrategy({ certificationIssueReport, certif
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
-async function neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository }) {
+async function neutralizeWithoutCheckingStrategy({
+  certificationIssueReport,
+  certificationAssessment,
+  certificationIssueReportRepository,
+}) {
   return _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport);
 }
 
@@ -136,17 +176,26 @@ module.exports = {
 
 function _neutralizeAndResolve(certificationAssessment, certificationIssueReportRepository, certificationIssueReport) {
   const questionNumber = certificationIssueReport.questionNumber;
-  const neutralizationAttempt = certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber);
+  const neutralizationAttempt =
+    certificationAssessment.neutralizeChallengeByNumberIfKoOrSkippedOrPartially(questionNumber);
   if (neutralizationAttempt.hasSucceeded()) {
     return _resolveWithQuestionNeutralized(certificationIssueReportRepository, certificationIssueReport);
   } else if (neutralizationAttempt.wasSkipped()) {
     return _resolveWithAnswerIsCorrect(certificationIssueReportRepository, certificationIssueReport);
   } else {
-    return _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber);
+    return _resolveWithNoQuestionFoundWithQuestionNumber(
+      certificationIssueReportRepository,
+      certificationIssueReport,
+      questionNumber
+    );
   }
 }
 
-async function _resolveWithNoQuestionFoundWithQuestionNumber(certificationIssueReportRepository, certificationIssueReport, questionNumber) {
+async function _resolveWithNoQuestionFoundWithQuestionNumber(
+  certificationIssueReportRepository,
+  certificationIssueReport,
+  questionNumber
+) {
   certificationIssueReport.resolve(`Aucune question ne correspond au numéro ${questionNumber}`);
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
@@ -159,31 +208,35 @@ async function _resolveWithQuestionNeutralized(certificationIssueReportRepositor
 }
 
 async function _resolveWithNoImageInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'image');
+  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car elle ne contient pas d'image");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithNoAttachmentInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas de fichier à télécharger');
+  certificationIssueReport.resolve(
+    "Cette question n' a pas été neutralisée car elle ne contient pas de fichier à télécharger"
+  );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithNoEmbedInChallenge(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
+  certificationIssueReport.resolve(
+    "Cette question n' a pas été neutralisée car elle ne contient pas d'application/simulateur"
+  );
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithChallengeNotTimed(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\' a pas été neutralisée car elle n\'est pas chronométrée');
+  certificationIssueReport.resolve("Cette question n' a pas été neutralisée car elle n'est pas chronométrée");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }
 
 async function _resolveWithAnswerIsCorrect(certificationIssueReportRepository, certificationIssueReport) {
-  certificationIssueReport.resolve('Cette question n\'a pas été neutralisée car la réponse est correcte');
+  certificationIssueReport.resolve("Cette question n'a pas été neutralisée car la réponse est correcte");
   await certificationIssueReportRepository.save(certificationIssueReport);
   return CertificationIssueReportResolutionAttempt.resolvedWithoutEffect();
 }

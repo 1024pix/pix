@@ -1,5 +1,4 @@
 class UserWithSchoolingRegistration {
-
   constructor({
     id,
     lastName,

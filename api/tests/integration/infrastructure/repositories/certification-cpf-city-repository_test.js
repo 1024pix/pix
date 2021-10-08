@@ -2,13 +2,10 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const certificationCpfCityRepository = require('../../../../lib/infrastructure/repositories/certification-cpf-city-repository');
 const CertificationCpfCity = require('../../../../lib/domain/models/CertificationCpfCity');
 
-describe('Integration | Repository | certificationCpfCityRepository', function() {
-
-  describe('#findByINSEECode', function() {
-
-    context('when there are cities matching the INSEE code', function() {
-
-      it('should return an array of certificationCPFCity', async function() {
+describe('Integration | Repository | certificationCpfCityRepository', function () {
+  describe('#findByINSEECode', function () {
+    context('when there are cities matching the INSEE code', function () {
+      it('should return an array of certificationCPFCity', async function () {
         // given
         const INSEECode = '12345';
 
@@ -51,9 +48,8 @@ describe('Integration | Repository | certificationCpfCityRepository', function()
       });
     });
 
-    context('when there is no city matching the INSEE code', function() {
-
-      it('should return an empty array', async function() {
+    context('when there is no city matching the INSEE code', function () {
+      it('should return an empty array', async function () {
         // when
         const result = await certificationCpfCityRepository.findByINSEECode({ INSEECode: 'unknown_INSEE_code' });
 
@@ -64,11 +60,9 @@ describe('Integration | Repository | certificationCpfCityRepository', function()
     });
   });
 
-  describe('#findByPostalCode', function() {
-
-    context('when there are cities matching the postal code', function() {
-
-      it('should return an array of certificationCpfCity', async function() {
+  describe('#findByPostalCode', function () {
+    context('when there are cities matching the postal code', function () {
+      it('should return an array of certificationCpfCity', async function () {
         // given
         const postalCode = '12345';
 
@@ -111,9 +105,8 @@ describe('Integration | Repository | certificationCpfCityRepository', function()
       });
     });
 
-    context('when there is no city matching the postal code', function() {
-
-      it('should return an empty array', async function() {
+    context('when there is no city matching the postal code', function () {
+      it('should return an empty array', async function () {
         // when
         const result = await certificationCpfCityRepository.findByPostalCode({ postalCode: 'unknown_postal_code' });
 
@@ -123,5 +116,4 @@ describe('Integration | Repository | certificationCpfCityRepository', function()
       });
     });
   });
-
 });

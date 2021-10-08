@@ -4,7 +4,6 @@ const csvSerializer = require('./csv-serializer');
 const constants = require('../../constants');
 const CampaignProfilesCollectionResultLine = require('../../exports/campaigns/campaign-profiles-collection-result-line');
 class CampaignProfilesCollectionExport {
-
   constructor(outputStream, organization, campaign, competences, translate) {
     this.stream = outputStream;
     this.organization = organization;
@@ -15,16 +14,21 @@ class CampaignProfilesCollectionExport {
   }
 
   export(campaignParticipationResultDatas, placementProfileService) {
-
     // WHY: add \uFEFF the UTF-8 BOM at the start of the text, see:
     // - https://en.wikipedia.org/wiki/Byte_order_mark
     // - https://stackoverflow.com/a/38192870
     this.stream.write(this._buildHeader());
 
-    const campaignParticipationResultDataChunks = _.chunk(campaignParticipationResultDatas, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
+    const campaignParticipationResultDataChunks = _.chunk(
+      campaignParticipationResultDatas,
+      constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING
+    );
 
     return bluebird.map(campaignParticipationResultDataChunks, async (campaignParticipationResultDataChunk) => {
-      const placementProfiles = await this._getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService);
+      const placementProfiles = await this._getUsersPlacementProfiles(
+        campaignParticipationResultDataChunk,
+        placementProfileService
+      );
       const csvLines = this._buildLines(placementProfiles, campaignParticipationResultDatas);
 
       this.stream.write(csvLines);
@@ -51,7 +55,7 @@ class CampaignProfilesCollectionExport {
       this.translate('campaign-export.profiles-collection.pix-score'),
       this.translate('campaign-export.profiles-collection.is-certifiable'),
       this.translate('campaign-export.profiles-collection.certifiable-skills'),
-      ...(this._competenceColumnHeaders()),
+      ...this._competenceColumnHeaders(),
     ];
 
     return '\uFEFF' + csvSerializer.serializeLine(_.compact(header));
@@ -59,7 +63,7 @@ class CampaignProfilesCollectionExport {
 
   async _getUsersPlacementProfiles(campaignParticipationResultDataChunk, placementProfileService) {
     const userIdsAndDates = {};
-    campaignParticipationResultDataChunk.forEach(({ userId, sharedAt }) => userIdsAndDates[userId] = sharedAt);
+    campaignParticipationResultDataChunk.forEach(({ userId, sharedAt }) => (userIdsAndDates[userId] = sharedAt));
 
     const placementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
       userIdsAndDates,
@@ -73,9 +77,18 @@ class CampaignProfilesCollectionExport {
   _buildLines(placementProfiles, campaignParticipationResultDatas) {
     let csvLines = '';
     for (const placementProfile of placementProfiles) {
-      const campaignParticipationResultData = campaignParticipationResultDatas.find(({ userId }) => userId === placementProfile.userId);
+      const campaignParticipationResultData = campaignParticipationResultDatas.find(
+        ({ userId }) => userId === placementProfile.userId
+      );
 
-      const line = new CampaignProfilesCollectionResultLine(this.campaign, this.organization, campaignParticipationResultData, this.competences, placementProfile, this.translate);
+      const line = new CampaignProfilesCollectionResultLine(
+        this.campaign,
+        this.organization,
+        campaignParticipationResultData,
+        this.competences,
+        placementProfile,
+        this.translate
+      );
       csvLines = csvLines.concat(line.toCsvLine());
     }
     return csvLines;

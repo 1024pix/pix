@@ -1,10 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Models | Assessment', function() {
-
-  describe('#constuctor', function() {
-    it('should init method when none is defined', function() {
+describe('Unit | Domain | Models | Assessment', function () {
+  describe('#constuctor', function () {
+    it('should init method when none is defined', function () {
       const assessment = new Assessment({
         type: 'COMPETENCE_EVALUATION',
         method: null,
@@ -14,9 +13,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#isCompleted', function() {
-
-    it('should return true when its state is completed', function() {
+  describe('#isCompleted', function () {
+    it('should return true when its state is completed', function () {
       // given
       const assessment = new Assessment({ state: 'completed' });
 
@@ -27,7 +25,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(isCompleted).to.be.true;
     });
 
-    it('should return false when its state is not completed', function() {
+    it('should return false when its state is not completed', function () {
       // given
       const assessment = new Assessment({ state: '' });
 
@@ -37,12 +35,10 @@ describe('Unit | Domain | Models | Assessment', function() {
       // then
       expect(isCompleted).to.be.false;
     });
-
   });
 
-  describe('#setCompleted', function() {
-
-    it('should return the same object with state completed', function() {
+  describe('#setCompleted', function () {
+    it('should return the same object with state completed', function () {
       // given
       const assessment = new Assessment({ state: 'started', userId: 2 });
 
@@ -52,14 +48,13 @@ describe('Unit | Domain | Models | Assessment', function() {
       // then
       expect(assessment.state).to.be.equal('completed');
       expect(assessment.userId).to.be.equal(2);
-
     });
   });
 
-  describe('#validate', function() {
+  describe('#validate', function () {
     let assessment;
 
-    it('should return resolved promise when object is valid', function() {
+    it('should return resolved promise when object is valid', function () {
       // given
       assessment = new Assessment({ type: 'DEMO' });
 
@@ -70,7 +65,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       return expect(promise).to.be.fulfilled;
     });
 
-    it('should return rejected promise when Certification assessment has no userId', function() {
+    it('should return rejected promise when Certification assessment has no userId', function () {
       //given
       assessment = new Assessment({ type: 'CERTIFICATION' });
 
@@ -81,7 +76,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       return expect(promise).to.be.rejected;
     });
 
-    it('should return rejected promise when Competence evaluation assessment has no userId', function() {
+    it('should return rejected promise when Competence evaluation assessment has no userId', function () {
       //given
       assessment = new Assessment({ type: 'COMPETENCE_EVALUATION' });
 
@@ -92,7 +87,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       return expect(promise).to.be.rejected;
     });
 
-    it('should return rejected promise when Campaign assessment has no userId', function() {
+    it('should return rejected promise when Campaign assessment has no userId', function () {
       //given
       assessment = new Assessment({ type: 'CAMPAIGN' });
 
@@ -104,8 +99,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#isForCampaign', function() {
-    it('should return true when the assessment is for a CAMPAIGN', function() {
+  describe('#isForCampaign', function () {
+    it('should return true when the assessment is for a CAMPAIGN', function () {
       // given
       const assessment = new Assessment({ type: 'CAMPAIGN' });
 
@@ -116,7 +111,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(isForCampaign).to.be.true;
     });
 
-    it('should return false when the assessment is not a CAMPAIGN type', function() {
+    it('should return false when the assessment is not a CAMPAIGN type', function () {
       // given
       const assessment = new Assessment({ type: 'PLACEMENT' });
 
@@ -127,7 +122,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(isForCampaign).to.be.false;
     });
 
-    it('should return false when the assessment has no type', function() {
+    it('should return false when the assessment has no type', function () {
       // given
       const assessment = new Assessment({});
 
@@ -139,8 +134,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#isCertification', function() {
-    it('should return true when the assessment is a CERTIFICATION', function() {
+  describe('#isCertification', function () {
+    it('should return true when the assessment is a CERTIFICATION', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'CERTIFICATION' });
 
@@ -151,7 +146,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(isCertificationAssessment).to.be.true;
     });
 
-    it('should return false when the assessment is not a CERTIFICATION', function() {
+    it('should return false when the assessment is not a CERTIFICATION', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'PLACEMENT' });
 
@@ -162,7 +157,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(isCertificationAssessment).to.be.false;
     });
 
-    it('should return false when the assessment has no type', function() {
+    it('should return false when the assessment has no type', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: null });
 
@@ -174,9 +169,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#isPreview', function() {
-
-    it('should return true when the assessment is a preview', function() {
+  describe('#isPreview', function () {
+    it('should return true when the assessment is a preview', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.PREVIEW });
 
@@ -184,7 +178,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.isPreview()).to.be.true;
     });
 
-    it('should return false when the assessment is not a preview', function() {
+    it('should return false when the assessment is not a preview', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'otherType' });
 
@@ -193,9 +187,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#isDemo', function() {
-
-    it('should return true when the assessment is a demo', function() {
+  describe('#isDemo', function () {
+    it('should return true when the assessment is a demo', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.DEMO });
 
@@ -203,7 +196,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.isDemo()).to.be.true;
     });
 
-    it('should return false when the assessment is not a demo', function() {
+    it('should return false when the assessment is not a demo', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: 'otherType' });
 
@@ -212,9 +205,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#isCompetenceEvaluation', function() {
-
-    it('should return true when the assessment is a CompetenceEvaluation', function() {
+  describe('#isCompetenceEvaluation', function () {
+    it('should return true when the assessment is a CompetenceEvaluation', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
 
@@ -222,7 +214,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.isCompetenceEvaluation()).to.be.true;
     });
 
-    it('should return false when the assessment is not a CompetenceEvaluation', function() {
+    it('should return false when the assessment is not a CompetenceEvaluation', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
@@ -230,7 +222,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.isCompetenceEvaluation()).to.be.false;
     });
 
-    it('should return false when the assessment has no type', function() {
+    it('should return false when the assessment has no type', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: null });
 
@@ -239,9 +231,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#hasKnowledgeElements', function() {
-
-    it('should return true when the assessment is a CompetenceEvaluation', function() {
+  describe('#hasKnowledgeElements', function () {
+    it('should return true when the assessment is a CompetenceEvaluation', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.COMPETENCE_EVALUATION });
 
@@ -249,7 +240,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return true when the assessment is a Campaign assessment', function() {
+    it('should return true when the assessment is a Campaign assessment', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CAMPAIGN });
 
@@ -257,7 +248,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.hasKnowledgeElements()).to.be.true;
     });
 
-    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', function() {
+    it('should return false when the assessment is not a CompetenceEvaluation nor Campaign', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: Assessment.types.CERTIFICATION });
 
@@ -265,7 +256,7 @@ describe('Unit | Domain | Models | Assessment', function() {
       expect(assessment.hasKnowledgeElements()).to.be.false;
     });
 
-    it('should return false when the assessment has no type', function() {
+    it('should return false when the assessment has no type', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ type: null });
 
@@ -274,9 +265,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#start', function() {
-
-    it('should set the status to "started"', function() {
+  describe('#start', function () {
+    it('should set the status to "started"', function () {
       // given
       const assessment = domainBuilder.buildAssessment({ status: undefined });
 
@@ -286,12 +276,10 @@ describe('Unit | Domain | Models | Assessment', function() {
       // then
       expect(assessment.state).to.equal(Assessment.states.STARTED);
     });
-
   });
 
-  describe('#createForCertificationCourse', function() {
-
-    it('should return a proper assessment for certification course', function() {
+  describe('#createForCertificationCourse', function () {
+    it('should return a proper assessment for certification course', function () {
       // given
       const userId = 123;
       const certificationCourseId = 456;
@@ -309,9 +297,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#createForCampaign', function() {
-
-    it('should return a proper assessment for campaign', function() {
+  describe('#createForCampaign', function () {
+    it('should return a proper assessment for campaign', function () {
       // given
       const userId = 123;
       const campaignParticipationId = 456;
@@ -329,9 +316,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#createImprovingForCampaign', function() {
-
-    it('should return a proper improving assessment for campaign', function() {
+  describe('#createImprovingForCampaign', function () {
+    it('should return a proper improving assessment for campaign', function () {
       // given
       const userId = 123;
       const campaignParticipationId = 456;
@@ -351,9 +337,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#createForCompetenceEvaluation', function() {
-
-    it('should return a proper assessment for competence evaluation', function() {
+  describe('#createForCompetenceEvaluation', function () {
+    it('should return a proper assessment for competence evaluation', function () {
       // given
       const userId = 123;
       const competenceId = 'rec123ABC';
@@ -372,9 +357,8 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#createImprovingForCompetenceEvaluation', function() {
-
-    it('should return a proper improving assessment for competence evaluation', function() {
+  describe('#createImprovingForCompetenceEvaluation', function () {
+    it('should return a proper improving assessment for competence evaluation', function () {
       // given
       const userId = 123;
       const competenceId = 'rec123ABC';
@@ -393,7 +377,7 @@ describe('Unit | Domain | Models | Assessment', function() {
     });
   });
 
-  describe('#computeMethod', function() {
+  describe('#computeMethod', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { assessmentType: 'PREVIEW', expectedMethod: 'CHOSEN' },
@@ -401,8 +385,8 @@ describe('Unit | Domain | Models | Assessment', function() {
       { assessmentType: 'DEMO', expectedMethod: 'COURSE_DETERMINED' },
       { assessmentType: 'COMPETENCE_EVALUATION', expectedMethod: 'SMART_RANDOM' },
       { assessmentType: 'CAMPAIGN', expectedMethod: 'SMART_RANDOM' },
-    ].forEach(function({ assessmentType, expectedMethod }) {
-      it(`should return "${expectedMethod}" if assessment type is "${assessmentType}"`, function() {
+    ].forEach(function ({ assessmentType, expectedMethod }) {
+      it(`should return "${expectedMethod}" if assessment type is "${assessmentType}"`, function () {
         // when
         const method = Assessment.computeMethodFromType(assessmentType);
 

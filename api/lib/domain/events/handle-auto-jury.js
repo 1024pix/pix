@@ -4,9 +4,11 @@ const CertificationIssueReportResolutionAttempt = require('../models/Certificati
 const AutoJuryDone = require('./AutoJuryDone');
 const CertificationJuryDone = require('./CertificationJuryDone');
 const bluebird = require('bluebird');
-const { CertificationIssueReportResolutionStrategies } = require('../models/CertificationIssueReportResolutionStrategies');
+const {
+  CertificationIssueReportResolutionStrategies,
+} = require('../models/CertificationIssueReportResolutionStrategies');
 
-const eventTypes = [ SessionFinalized ];
+const eventTypes = [SessionFinalized];
 
 async function handleAutoJury({
   event,
@@ -17,7 +19,9 @@ async function handleAutoJury({
   logger,
 }) {
   checkEventTypes(event, eventTypes);
-  const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId: event.sessionId });
+  const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
+    sessionId: event.sessionId,
+  });
 
   const resolutionStrategies = new CertificationIssueReportResolutionStrategies({
     certificationIssueReportRepository,
@@ -27,8 +31,9 @@ async function handleAutoJury({
   const certificationJuryDoneEvents = [];
 
   for (const certificationCourse of certificationCourses) {
-
-    const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: certificationCourse.getId() });
+    const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
+      certificationCourseId: certificationCourse.getId(),
+    });
 
     const hasAutoCompleteAnEffectOnScoring = await _autoCompleteUnfinishedTest({
       certificationCourse,
@@ -46,12 +51,12 @@ async function handleAutoJury({
     });
 
     if (hasAutoResolutionAnEffectOnScoring || hasAutoCompleteAnEffectOnScoring) {
-
-      const certificationJuryDoneEvent = new CertificationJuryDone({ certificationCourseId: certificationCourse.getId() });
+      const certificationJuryDoneEvent = new CertificationJuryDone({
+        certificationCourseId: certificationCourse.getId(),
+      });
 
       certificationJuryDoneEvents.push(certificationJuryDoneEvent);
     }
-
   }
 
   return [
@@ -72,7 +77,6 @@ async function _autoCompleteUnfinishedTest({
   certificationAssessment,
   certificationAssessmentRepository,
 }) {
-
   if (certificationCourse.isCompleted()) {
     return false;
   }
@@ -98,7 +102,9 @@ async function _autoResolveCertificationIssueReport({
   resolutionStrategies,
   logger,
 }) {
-  const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(certificationCourse.getId());
+  const certificationIssueReports = await certificationIssueReportRepository.findByCertificationCourseId(
+    certificationCourse.getId()
+  );
   if (certificationIssueReports.length === 0) {
     return null;
   }

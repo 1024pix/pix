@@ -2,10 +2,9 @@ const { expect, mockLearningContent } = require('../../../test-helper');
 const Tube = require('../../../../lib/domain/models/Tube');
 const tubeRepository = require('../../../../lib/infrastructure/repositories/tube-repository');
 
-describe('Integration | Repository | tube-repository', function() {
-
-  describe('#get', function() {
-    it('should return the tube', async function() {
+describe('Integration | Repository | tube-repository', function () {
+  describe('#get', function () {
+    it('should return the tube', async function () {
       // given
       const expectedTube = new Tube({
         id: 'recTube0',
@@ -17,15 +16,17 @@ describe('Integration | Repository | tube-repository', function() {
         competenceId: 'recCompetence0',
       });
       const learningContent = {
-        tubes: [{
-          id: 'recTube0',
-          name: 'tubeName',
-          title: 'tubeTitle',
-          description: 'tubeDescription',
-          practicalTitleFrFr: 'translatedPracticalTitle',
-          practicalDescriptionFrFr: 'translatedPracticalDescription',
-          competenceId: 'recCompetence0',
-        }],
+        tubes: [
+          {
+            id: 'recTube0',
+            name: 'tubeName',
+            title: 'tubeTitle',
+            description: 'tubeDescription',
+            practicalTitleFrFr: 'translatedPracticalTitle',
+            practicalDescriptionFrFr: 'translatedPracticalDescription',
+            competenceId: 'recCompetence0',
+          },
+        ],
       };
       mockLearningContent(learningContent);
 
@@ -38,8 +39,8 @@ describe('Integration | Repository | tube-repository', function() {
     });
   });
 
-  describe('#list', function() {
-    it('should return the tubes', async function() {
+  describe('#list', function () {
+    it('should return the tubes', async function () {
       // given
       const tube0 = new Tube({
         id: 'recTube0',
@@ -90,8 +91,8 @@ describe('Integration | Repository | tube-repository', function() {
     });
   });
 
-  describe('#findByNames', function() {
-    it('should return the tubes ordered by name', async function() {
+  describe('#findByNames', function () {
+    it('should return the tubes ordered by name', async function () {
       // given
       const tube0 = new Tube({
         id: 'recTube0',
@@ -142,9 +143,8 @@ describe('Integration | Repository | tube-repository', function() {
       expect(tubes[1]).to.deep.equal(tube1);
     });
 
-    context('when no locale is provided (using default locale)', function() {
-
-      it('should return the tubes with default locale translation', async function() {
+    context('when no locale is provided (using default locale)', function () {
+      it('should return the tubes with default locale translation', async function () {
         // given
         const expectedTube = new Tube({
           id: 'recTube0',
@@ -156,15 +156,17 @@ describe('Integration | Repository | tube-repository', function() {
           competenceId: 'recCompetence0',
         });
         const learningContent = {
-          tubes: [{
-            id: 'recTube0',
-            name: 'tubeName',
-            title: 'tubeTitle',
-            description: 'tubeDescription',
-            practicalTitleFrFr: 'translatedPracticalTitle',
-            practicalDescriptionFrFr: 'translatedPracticalDescription',
-            competenceId: 'recCompetence0',
-          }],
+          tubes: [
+            {
+              id: 'recTube0',
+              name: 'tubeName',
+              title: 'tubeTitle',
+              description: 'tubeDescription',
+              practicalTitleFrFr: 'translatedPracticalTitle',
+              practicalDescriptionFrFr: 'translatedPracticalDescription',
+              competenceId: 'recCompetence0',
+            },
+          ],
         };
         mockLearningContent(learningContent);
 
@@ -177,9 +179,8 @@ describe('Integration | Repository | tube-repository', function() {
       });
     });
 
-    context('when specifying a locale', function() {
-
-      it('should return the tubes with appropriate translation', async function() {
+    context('when specifying a locale', function () {
+      it('should return the tubes with appropriate translation', async function () {
         // given
         const expectedTube = new Tube({
           id: 'recTube0',
@@ -191,17 +192,19 @@ describe('Integration | Repository | tube-repository', function() {
           competenceId: 'recCompetence0',
         });
         const learningContent = {
-          tubes: [{
-            id: 'recTube0',
-            name: 'tubeName',
-            title: 'tubeTitle',
-            description: 'tubeDescription',
-            practicalTitleFrFr: 'translatedPracticalTitle',
-            practicalTitleEnUs: 'translatedPracticalTitleEnUs',
-            practicalDescriptionFrFr: 'translatedPracticalDescription',
-            practicalDescriptionEnUs: 'translatedPracticalDescriptionEnUs',
-            competenceId: 'recCompetence0',
-          }],
+          tubes: [
+            {
+              id: 'recTube0',
+              name: 'tubeName',
+              title: 'tubeTitle',
+              description: 'tubeDescription',
+              practicalTitleFrFr: 'translatedPracticalTitle',
+              practicalTitleEnUs: 'translatedPracticalTitleEnUs',
+              practicalDescriptionFrFr: 'translatedPracticalDescription',
+              practicalDescriptionEnUs: 'translatedPracticalDescriptionEnUs',
+              competenceId: 'recCompetence0',
+            },
+          ],
         };
         mockLearningContent(learningContent);
         const locale = 'en';

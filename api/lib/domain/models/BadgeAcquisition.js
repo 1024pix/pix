@@ -1,11 +1,5 @@
 class BadgeAcquisition {
-  constructor({
-    id,
-    badge,
-    userId,
-    badgeId,
-    campaignParticipationId,
-  } = {}) {
+  constructor({ id, badge, userId, badgeId, campaignParticipationId } = {}) {
     this.id = id;
     this.badge = badge;
     this.userId = userId;

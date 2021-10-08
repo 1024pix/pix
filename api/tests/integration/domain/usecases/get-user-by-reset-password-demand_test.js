@@ -14,18 +14,17 @@ const {
 
 const getUserByResetPasswordDemand = require('../../../../lib/domain/usecases/get-user-by-reset-password-demand');
 
-describe('Integration | UseCases | get-user-by-reset-password-demand', function() {
-
+describe('Integration | UseCases | get-user-by-reset-password-demand', function () {
   const email = 'user@example.net';
 
   let temporaryKey;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     databaseBuilder.factory.buildUser({ email });
     await databaseBuilder.commit();
   });
 
-  it('should return an user', async function() {
+  it('should return an user', async function () {
     // given
     temporaryKey = resetPasswordService.generateTemporaryKey();
     databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
@@ -44,7 +43,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function(
     expect(foundUser.email).to.equal(email);
   });
 
-  it('should throws InvalidTemporaryKeyError if temporaryKey is invalid', async function() {
+  it('should throws InvalidTemporaryKeyError if temporaryKey is invalid', async function () {
     // when
     const error = await catchErr(getUserByResetPasswordDemand)({
       temporaryKey: 'INVALIDKEY',
@@ -57,7 +56,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function(
     expect(error).to.be.an.instanceOf(InvalidTemporaryKeyError);
   });
 
-  it('should throws PasswordResetDemandNotFoundError if resetPasswordDemand does not exist', async function() {
+  it('should throws PasswordResetDemandNotFoundError if resetPasswordDemand does not exist', async function () {
     // given
     const unknownTemporaryKey = resetPasswordService.generateTemporaryKey();
 
@@ -73,7 +72,7 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function(
     expect(error).to.be.an.instanceOf(PasswordResetDemandNotFoundError);
   });
 
-  it('should throws UserNotFoundError if user with email does not exist', async function() {
+  it('should throws UserNotFoundError if user with email does not exist', async function () {
     // given
     temporaryKey = resetPasswordService.generateTemporaryKey();
     databaseBuilder.factory.buildResetPasswordDemand({ temporaryKey });
@@ -91,5 +90,4 @@ describe('Integration | UseCases | get-user-by-reset-password-demand', function(
     // then
     expect(error).to.be.an.instanceOf(UserNotFoundError);
   });
-
 });

@@ -27,7 +27,6 @@ function _deserializeResultsAdd(json) {
 }
 
 module.exports = {
-
   async save(request) {
     const jsonResult = request.payload.data.attributes;
     const { assessmentResult, competenceMarks } = _deserializeResultsAdd(jsonResult);

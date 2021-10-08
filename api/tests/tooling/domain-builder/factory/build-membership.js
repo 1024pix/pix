@@ -32,7 +32,6 @@ module.exports = function buildMembership({
   organizationRole = Membership.roles.MEMBER,
   user = _buildUser(),
 } = {}) {
-
   const membership = new Membership({ id, organization, organizationRole, user });
 
   membership.user.memberships.push(membership);

@@ -9,9 +9,8 @@ class TestEvent {}
 
 class AnotherTestEvent {}
 
-describe('Integration | Infrastructure | EventHandler', function() {
-
-  it('dispatches event to subscriber', async function() {
+describe('Integration | Infrastructure | EventHandler', function () {
+  it('dispatches event to subscriber', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -27,7 +26,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event });
   });
 
-  it('throws when duplicate subscription', async function() {
+  it('throws when duplicate subscription', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -41,7 +40,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     }).to.throw();
   });
 
-  it('dispatches event to several eventHandlers', async function() {
+  it('dispatches event to several eventHandlers', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -61,7 +60,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(eventHandler_2).to.have.been.calledWith({ domainTransaction, event });
   });
 
-  it('calls handler only for subscribed events', async function() {
+  it('calls handler only for subscribed events', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -81,7 +80,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(eventHandler).not.to.have.been.calledWith({ domainTransaction, otherEvent });
   });
 
-  it('dispatches event returned by eventHandlers', async function() {
+  it('dispatches event returned by eventHandlers', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -100,7 +99,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent });
   });
 
-  it('dispatches events returned by eventHandlers', async function() {
+  it('dispatches events returned by eventHandlers', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -121,7 +120,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(eventHandler).to.have.been.calledWith({ domainTransaction, event: returnedEvent2 });
   });
 
-  it('logs when dispatch starts', async function() {
+  it('logs when dispatch starts', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -138,7 +137,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(logger.onEventDispatchStarted).to.have.been.calledWith(event, 'handler 1');
   });
 
-  it('logs when a dispatch is successful', async function() {
+  it('logs when a dispatch is successful', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);
@@ -155,7 +154,7 @@ describe('Integration | Infrastructure | EventHandler', function() {
     expect(logger.onEventDispatchSuccess).to.have.been.calledWith(event, 'handler 1');
   });
 
-  it('logs and rethrow when a dispatch fails', async function() {
+  it('logs and rethrow when a dispatch fails', async function () {
     // given
     const logger = _buildLoggerMock();
     const eventDispatcher = new EventDispatcher(logger);

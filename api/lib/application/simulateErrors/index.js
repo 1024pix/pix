@@ -1,6 +1,6 @@
 const errorController = require('./error-controller');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -14,4 +14,3 @@ exports.register = async function(server) {
 };
 
 exports.name = 'simulate-errors-api';
-

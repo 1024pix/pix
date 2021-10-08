@@ -2,9 +2,8 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findPendingOrganizationInvitations = require('../../../../lib/domain/usecases/find-pending-organization-invitations');
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 
-describe('Unit | UseCase | find-pending-organization-invitations', function() {
-
-  it('should succeed', async function() {
+describe('Unit | UseCase | find-pending-organization-invitations', function () {
+  it('should succeed', async function () {
     // given
     const organizationId = 1234;
     const organizationInvitationRepositoryStub = { findPendingByOrganizationId: sinon.stub() };
@@ -17,10 +16,12 @@ describe('Unit | UseCase | find-pending-organization-invitations', function() {
     });
 
     // then
-    expect(organizationInvitationRepositoryStub.findPendingByOrganizationId).to.have.been.calledWith({ organizationId });
+    expect(organizationInvitationRepositoryStub.findPendingByOrganizationId).to.have.been.calledWith({
+      organizationId,
+    });
   });
 
-  it('should return the OrganizationInvitations belonging to the given organization', async function() {
+  it('should return the OrganizationInvitations belonging to the given organization', async function () {
     // given
     const organizationId = 1234;
     const foundOrganizationInvitations = [
@@ -32,7 +33,10 @@ describe('Unit | UseCase | find-pending-organization-invitations', function() {
     };
 
     // when
-    const organizationInvitations = await findPendingOrganizationInvitations({ organizationId, organizationInvitationRepository: organizationInvitationRepositoryStub });
+    const organizationInvitations = await findPendingOrganizationInvitations({
+      organizationId,
+      organizationInvitationRepository: organizationInvitationRepositoryStub,
+    });
 
     // then
     expect(organizationInvitations).to.deep.equal(foundOrganizationInvitations);

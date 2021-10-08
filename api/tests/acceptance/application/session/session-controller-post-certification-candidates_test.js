@@ -8,15 +8,14 @@ const {
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-post-certification-candidates', function() {
-
+describe('Acceptance | Controller | session-controller-post-certification-candidates', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('#save', function() {
+  describe('#save', function () {
     let options;
     let payload;
     let sessionId;
@@ -25,7 +24,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
     let certificationCpfCountry;
     let certificationCpfCity;
 
-    beforeEach(function() {
+    beforeEach(function () {
       certificationCandidate = domainBuilder.buildCertificationCandidate({
         birthCountry: 'FRANCE',
         birthINSEECode: '75115',
@@ -33,10 +32,8 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
         birthCity: null,
       });
       userId = databaseBuilder.factory.buildUser().id;
-      const {
-        id: certificationCenterId,
-        name: certificationCenter,
-      } = databaseBuilder.factory.buildCertificationCenter();
+      const { id: certificationCenterId, name: certificationCenter } =
+        databaseBuilder.factory.buildCertificationCenter();
       sessionId = databaseBuilder.factory.buildSession({ certificationCenterId, certificationCenter }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
       certificationCpfCountry = databaseBuilder.factory.buildCertificationCpfCountry({
@@ -65,7 +62,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
             'has-seen-end-test-screen': certificationCandidate.hasSeenEndTestScreen,
             'birth-insee-code': certificationCandidate.birthINSEECode,
             'birth-postal-code': null,
-            'sex': certificationCandidate.sex,
+            sex: certificationCandidate.sex,
           },
         },
       };
@@ -81,11 +78,11 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       return databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('certification-candidates').delete();
     });
 
-    it('should respond with a 201 created', async function() {
+    it('should respond with a 201 created', async function () {
       // when
       const response = await server.inject(options);
 
@@ -93,7 +90,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return the saved certification candidate', async function() {
+    it('should return the saved certification candidate', async function () {
       // when
       const response = await server.inject(options);
 
@@ -115,7 +112,7 @@ describe('Acceptance | Controller | session-controller-post-certification-candid
           'schooling-registration-id': null,
           'birth-insee-code': certificationCpfCity.INSEECode,
           'birth-postal-code': null,
-          'sex': certificationCandidate.sex,
+          sex: certificationCandidate.sex,
         },
       };
 

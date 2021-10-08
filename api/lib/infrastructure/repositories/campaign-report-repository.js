@@ -17,26 +17,32 @@ function _setSearchFiltersForQueryBuilder(qb, { name, ongoing = true, creatorNam
     qb.whereNotNull('campaigns.archivedAt');
   }
   if (creatorName) {
-    qb.whereRaw('(LOWER("users"."firstName") LIKE ? OR LOWER("users"."lastName") LIKE ?)', [`%${creatorName.toLowerCase()}%`, `%${creatorName.toLowerCase()}%`]);
+    qb.whereRaw('(LOWER("users"."firstName") LIKE ? OR LOWER("users"."lastName") LIKE ?)', [
+      `%${creatorName.toLowerCase()}%`,
+      `%${creatorName.toLowerCase()}%`,
+    ]);
   }
 }
 
 module.exports = {
-
   async get(id) {
     const result = await knex('campaigns')
       .select('campaigns.*')
       .select({
-        'creatorId': 'users.id',
-        'creatorLastName': 'users.lastName',
-        'creatorFirstName': 'users.firstName',
-        'targetProfileId': 'target-profiles.id',
-        'targetProfileName': 'target-profiles.name',
-        'targetProfileImageUrl': 'target-profiles.imageUrl',
+        creatorId: 'users.id',
+        creatorLastName: 'users.lastName',
+        creatorFirstName: 'users.firstName',
+        targetProfileId: 'target-profiles.id',
+        targetProfileName: 'target-profiles.name',
+        targetProfileImageUrl: 'target-profiles.imageUrl',
       })
       .select(
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'),
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
+        knex.raw(
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'
+        ),
+        knex.raw(
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'
+        )
       )
       .join('users', 'users.id', 'campaigns.creatorId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
@@ -68,8 +74,12 @@ module.exports = {
         'users.id AS "creatorId"',
         'users.firstName AS creatorFirstName',
         'users.lastName AS creatorLastName',
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'),
-        knex.raw('COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'),
+        knex.raw(
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "participationsCount"'
+        ),
+        knex.raw(
+          'COUNT(*) FILTER (WHERE "campaign-participations"."id" IS NOT NULL AND "campaign-participations"."status" = \'SHARED\' AND "campaign-participations"."isImproved" IS FALSE) OVER (partition by "campaigns"."id") AS "sharedParticipationsCount"'
+        )
       )
       .join('users', 'users.id', 'campaigns.creatorId')
       .leftJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id')

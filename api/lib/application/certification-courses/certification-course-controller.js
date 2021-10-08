@@ -10,7 +10,6 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
   async getCertificationDetails(request) {
     const certificationCourseId = request.params.id;
     const certificationDetails = await usecases.getCertificationDetails({ certificationCourseId });
@@ -27,7 +26,11 @@ module.exports = {
   async update(request) {
     const certificationCourseId = request.params.id;
     const userId = request.auth.credentials.userId;
-    const command = await certificationSerializer.deserializeCertificationCandidateModificationCommand(request.payload, certificationCourseId, userId);
+    const command = await certificationSerializer.deserializeCertificationCandidateModificationCommand(
+      request.payload,
+      certificationCourseId,
+      userId
+    );
     await usecases.correctCandidateIdentityInCertificationCourse({ command });
     const updatedCertificationCourse = await usecases.getCertificationCourse({
       userId: command.userId,

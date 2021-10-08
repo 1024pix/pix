@@ -59,7 +59,6 @@ async function main(filePath) {
     console.log('ok');
 
     console.log('\nDone.');
-
   } catch (error) {
     if (trx) {
       trx.rollback();
@@ -76,7 +75,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

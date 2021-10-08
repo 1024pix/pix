@@ -1,12 +1,11 @@
 const buildCorrectAnswerAndKnowledgeElement = require('./build-correct-answer-and-knowledge-element');
 
-const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function(
-  {
-    learningContent,
-    userId,
-    placementDate,
-    earnedPix,
-  }) {
+const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function ({
+  learningContent,
+  userId,
+  placementDate,
+  earnedPix,
+}) {
   const competenceIdSkillIdPairs = [];
   learningContent.forEach((area) => {
     area.competences.forEach((competence) => {
@@ -14,16 +13,14 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function(
         tube.skills.forEach((skill) => {
           competenceIdSkillIdPairs.push({ competenceId: competence.id, skillId: skill.id });
           skill.challenges.forEach((challenge) => {
-            buildCorrectAnswerAndKnowledgeElement(
-              {
-                userId,
-                competenceId: competence.id,
-                skillId: skill.id,
-                challengeId: challenge.id,
-                pixValue: earnedPix,
-                acquisitionDate: placementDate,
-              },
-            );
+            buildCorrectAnswerAndKnowledgeElement({
+              userId,
+              competenceId: competence.id,
+              skillId: skill.id,
+              challengeId: challenge.id,
+              pixValue: earnedPix,
+              acquisitionDate: placementDate,
+            });
           });
         });
       });
@@ -33,4 +30,3 @@ const buildCorrectAnswersAndKnowledgeElementsForLearningContent = function(
 };
 
 module.exports = buildCorrectAnswersAndKnowledgeElementsForLearningContent;
-

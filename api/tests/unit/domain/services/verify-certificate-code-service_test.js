@@ -4,14 +4,12 @@ const verifyCertificateCodeService = require('../../../../lib/domain/services/ve
 const certifCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { CertificateVerificationCodeGenerationTooManyTrials } = require('../../../../lib/domain/errors');
 
-describe('Unit | Service | VerifyCertificateCode', function() {
-
-  describe('#generateCertificateVerificationCode', function() {
-
+describe('Unit | Service | VerifyCertificateCode', function () {
+  describe('#generateCertificateVerificationCode', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     _.times(100, () =>
-      it('should return a certification code containing 8 digits/letters except 0, 1 and vowels', async function() {
+      it('should return a certification code containing 8 digits/letters except 0, 1 and vowels', async function () {
         // given
         sinon.stub(certifCourseRepository, 'isVerificationCodeAvailable').resolves(true);
 
@@ -20,19 +18,22 @@ describe('Unit | Service | VerifyCertificateCode', function() {
 
         // then
         expect(result).to.match(/^P-[2346789BCDFGHJKMPQRTVWXY]{8}$/);
-      }),
+      })
     );
 
-    context('when a code is not available', function() {
-      it('should choose another code', async function() {
+    context('when a code is not available', function () {
+      it('should choose another code', async function () {
         // given
         let codeIndex = 0;
         const codes = ['P-FXRSTX', 'P-SXCXND'];
         const fakeGenerateCode = () => codes[codeIndex++];
 
-        sinon.stub(certifCourseRepository, 'isVerificationCodeAvailable')
-          .onCall(0).resolves(false)
-          .onCall(1).resolves(true);
+        sinon
+          .stub(certifCourseRepository, 'isVerificationCodeAvailable')
+          .onCall(0)
+          .resolves(false)
+          .onCall(1)
+          .resolves(true);
 
         // when
         const result = await verifyCertificateCodeService.generateCertificateVerificationCode(fakeGenerateCode);
@@ -41,7 +42,7 @@ describe('Unit | Service | VerifyCertificateCode', function() {
         expect(result).to.equal('P-SXCXND');
       });
 
-      it('should throw when trying too many times', async function() {
+      it('should throw when trying too many times', async function () {
         // given
         sinon.stub(certifCourseRepository, 'isVerificationCodeAvailable').resolves(false);
 

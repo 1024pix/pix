@@ -1,9 +1,4 @@
-const {
-  expect,
-  sinon,
-  domainBuilder,
-  catchErr,
-} = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const authenticateExternalUser = require('../../../../lib/domain/usecases/authenticate-external-user');
 
@@ -18,15 +13,14 @@ const {
 } = require('../../../../lib/domain/errors');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-describe('Unit | Application | UseCase | authenticate-external-user', function() {
-
+describe('Unit | Application | UseCase | authenticate-external-user', function () {
   let tokenService;
   let authenticationService;
   let obfuscationService;
   let authenticationMethodRepository;
   let userRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     tokenService = {
       createAccessTokenFromExternalUser: sinon.stub(),
       extractSamlId: sinon.stub(),
@@ -47,9 +41,8 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
     };
   });
 
-  context('when credentials are valid', function() {
-
-    it('should resolve a valid JWT token when authentication succeeds (should not change password)', async function() {
+  context('when credentials are valid', function () {
+    it('should resolve a valid JWT token when authentication succeeds (should not change password)', async function () {
       // given
       const password = 'Azerty123*';
       const user = createUserWithValidCredentials({
@@ -85,10 +78,9 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
 
       // then
       expect(token).to.be.deep.equal(expectedToken);
-
     });
 
-    it('should save last login date when authentication succeeds', async function() {
+    it('should save last login date when authentication succeeds', async function () {
       // given
       const password = 'Azerty123*';
       const user = createUserWithValidCredentials({
@@ -126,7 +118,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
       expect(userRepository.updateLastLoggedAt).to.have.been.calledWith({ userId: user.id });
     });
 
-    it('should throw an UnexpectedUserAccountError (with expected user\'s username or email) when the authenticated user does not match the expected one', async function() {
+    it("should throw an UnexpectedUserAccountError (with expected user's username or email) when the authenticated user does not match the expected one", async function () {
       // given
       const password = 'Azerty123*';
       const user = createUserWithValidCredentials({
@@ -144,9 +136,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
         .withArgs(expectedUser)
         .resolves(authenticatedByAndValue);
 
-      userRepository.getForObfuscation
-        .withArgs(expectedUserId)
-        .resolves(expectedUser);
+      userRepository.getForObfuscation.withArgs(expectedUserId).resolves(expectedUser);
 
       // when
       const error = await catchErr(authenticateExternalUser)({
@@ -163,14 +153,13 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
 
       // then
       expect(error).to.be.an.instanceof(UnexpectedUserAccountError);
-      expect(error.message).to.equal('Ce compte utilisateur n\'est pas celui qui est attendu.');
+      expect(error.message).to.equal("Ce compte utilisateur n'est pas celui qui est attendu.");
       expect(error.code).to.equal('UNEXPECTED_USER_ACCOUNT');
       expect(error.meta.value).to.equal(emailObfuscated);
     });
 
-    context('when adding GAR authentication method', function() {
-
-      it('should throw an error if external user token is invalid', async function() {
+    context('when adding GAR authentication method', function () {
+      it('should throw an error if external user token is invalid', async function () {
         // given
         const password = 'Azerty123*';
         const user = createUserWithValidCredentials({
@@ -198,7 +187,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
         expect(error).to.be.instanceOf(InvalidExternalUserTokenError);
       });
 
-      it('should throw an error if user from external user token is not the same as found user from credentials', async function() {
+      it('should throw an error if user from external user token is not the same as found user from credentials', async function () {
         // given
         const password = 'Azerty123*';
         const userFromCredentials = createUserWithValidCredentials({
@@ -230,7 +219,7 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
         expect(error).to.be.instanceOf(UserAlreadyExistsWithAuthenticationMethodError);
       });
 
-      it('should add GAR authentication method', async function() {
+      it('should add GAR authentication method', async function () {
         // given
         const password = 'Azerty123*';
         const user = createUserWithValidCredentials({
@@ -268,14 +257,14 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
           externalIdentifier: samlId,
           userId: user.id,
         });
-        expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod });
+        expect(authenticationMethodRepository.create).to.have.been.calledWith({
+          authenticationMethod: expectedAuthenticationMethod,
+        });
       });
-
     });
 
-    context('when user should change password', function() {
-
-      it('should also add GAR authentication method', async function() {
+    context('when user should change password', function () {
+      it('should also add GAR authentication method', async function () {
         // given
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
@@ -313,10 +302,12 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
           externalIdentifier,
           userId: user.id,
         });
-        expect(authenticationMethodRepository.create).to.have.been.calledWith({ authenticationMethod: expectedAuthenticationMethod });
+        expect(authenticationMethodRepository.create).to.have.been.calledWith({
+          authenticationMethod: expectedAuthenticationMethod,
+        });
       });
 
-      it('should throw UserShouldChangePasswordError', async function() {
+      it('should throw UserShouldChangePasswordError', async function () {
         // given
         const oneTimePassword = 'Azerty123*';
         const user = createUserWithValidCredentialsWhoShouldChangePassword({
@@ -352,21 +343,21 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
         expect(error).to.be.an.instanceOf(UserShouldChangePasswordError);
       });
     });
-
   });
 
-  context('when credentials are invalid', function() {
-
-    it('should reject when user not found', async function() {
+  context('when credentials are invalid', function () {
+    it('should reject when user not found', async function () {
       // given
       const unknownUserEmail = 'foo@example.net';
       const password = 'Azerty123*';
 
-      authenticationService.getUserByUsernameAndPassword.withArgs({
-        username: unknownUserEmail,
-        password,
-        userRepository,
-      }).rejects(new UserNotFoundError());
+      authenticationService.getUserByUsernameAndPassword
+        .withArgs({
+          username: unknownUserEmail,
+          password,
+          userRepository,
+        })
+        .rejects(new UserNotFoundError());
 
       // when
       const error = await catchErr(authenticateExternalUser)({
@@ -381,16 +372,18 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
       expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
     });
 
-    it('should reject when password does not match', async function() {
+    it('should reject when password does not match', async function () {
       // given
       const email = 'foo@example.net';
       const invalidPassword = 'oups123*';
 
-      authenticationService.getUserByUsernameAndPassword.withArgs({
-        username: email,
-        password: invalidPassword,
-        userRepository,
-      }).rejects(new PasswordNotMatching());
+      authenticationService.getUserByUsernameAndPassword
+        .withArgs({
+          username: email,
+          password: invalidPassword,
+          userRepository,
+        })
+        .rejects(new PasswordNotMatching());
 
       // when
       const error = await catchErr(authenticateExternalUser)({
@@ -405,14 +398,9 @@ describe('Unit | Application | UseCase | authenticate-external-user', function()
       expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
     });
   });
-
 });
 
-function createUserWithValidCredentials({
-  password,
-  authenticationService,
-  userRepository,
-}) {
+function createUserWithValidCredentials({ password, authenticationService, userRepository }) {
   const userId = 1;
   const email = 'john.doe@example.net';
   const pixAuthenticationMethod = AuthenticationMethod.buildPixAuthenticationMethod({ password, userId });
@@ -421,11 +409,13 @@ function createUserWithValidCredentials({
     email,
     authenticationMethods: [pixAuthenticationMethod],
   });
-  authenticationService.getUserByUsernameAndPassword.withArgs({
-    username: email,
-    password,
-    userRepository,
-  }).resolves(user);
+  authenticationService.getUserByUsernameAndPassword
+    .withArgs({
+      username: email,
+      password,
+      userRepository,
+    })
+    .resolves(user);
 
   return user;
 }
@@ -446,11 +436,13 @@ function createUserWithValidCredentialsWhoShouldChangePassword({
     authenticationMethods: [emailAuthenticationMethod],
   });
 
-  authenticationService.getUserByUsernameAndPassword.withArgs({
-    username: email,
-    password: oneTimePassword,
-    userRepository,
-  }).resolves(user);
+  authenticationService.getUserByUsernameAndPassword
+    .withArgs({
+      username: email,
+      password: oneTimePassword,
+      userRepository,
+    })
+    .resolves(user);
 
   return user;
 }

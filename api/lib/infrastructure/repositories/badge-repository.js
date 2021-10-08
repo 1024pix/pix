@@ -9,10 +9,8 @@ const { AlreadyExistingEntityError } = require('../../domain/errors');
 const TABLE_NAME = 'badges';
 
 module.exports = {
-
   findByTargetProfileId(targetProfileId) {
-    return BookshelfBadge
-      .where({ targetProfileId })
+    return BookshelfBadge.where({ targetProfileId })
       .fetchAll({
         require: false,
         withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
@@ -21,11 +19,10 @@ module.exports = {
   },
 
   findByCampaignId(campaignId) {
-    return BookshelfBadge
-      .query((qb) => {
-        qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
-        qb.join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-      })
+    return BookshelfBadge.query((qb) => {
+      qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
+      qb.join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+    })
       .where('campaigns.id', campaignId)
       .fetchAll({
         require: false,
@@ -35,12 +32,11 @@ module.exports = {
   },
 
   findByCampaignParticipationId(campaignParticipationId) {
-    return BookshelfBadge
-      .query((qb) => {
-        qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
-        qb.join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-        qb.join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id');
-      })
+    return BookshelfBadge.query((qb) => {
+      qb.join('target-profiles', 'target-profiles.id', 'badges.targetProfileId');
+      qb.join('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+      qb.join('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id');
+    })
       .where('campaign-participations.id', campaignParticipationId)
       .fetchAll({
         require: false,
@@ -50,20 +46,16 @@ module.exports = {
   },
 
   async get(id) {
-    const bookshelfBadge = await BookshelfBadge
-      .where('id', id)
-      .fetch({
-        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
-      });
+    const bookshelfBadge = await BookshelfBadge.where('id', id).fetch({
+      withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+    });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
 
   async getByKey(key) {
-    const bookshelfBadge = await BookshelfBadge
-      .where({ key })
-      .fetch({
-        withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
-      });
+    const bookshelfBadge = await BookshelfBadge.where({ key }).fetch({
+      withRelated: ['badgeCriteria', 'badgePartnerCompetences'],
+    });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfBadge, bookshelfBadge);
   },
 
@@ -89,9 +81,5 @@ module.exports = {
 };
 
 function _adaptModelToDb(badge) {
-  return omit(badge, [
-    'id',
-    'badgeCriteria',
-    'badgePartnerCompetences',
-  ]);
+  return omit(badge, ['id', 'badgeCriteria', 'badgePartnerCompetences']);
 }

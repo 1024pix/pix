@@ -1,14 +1,12 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const findCampaignAssessments = require('../../../../lib/domain/usecases/find-campaign-assessments');
 
-describe('Unit | UseCase | find-campaign-assessments', function() {
-
+describe('Unit | UseCase | find-campaign-assessments', function () {
   const assessmentRepository = {
-    findLastCampaignAssessmentByUserIdAndCampaignCode: () => {
-    },
+    findLastCampaignAssessmentByUserIdAndCampaignCode: () => {},
   };
 
-  it('should resolve assessments that match userId and belong to the user but has no campaign participation', function() {
+  it('should resolve assessments that match userId and belong to the user but has no campaign participation', function () {
     // given
     const userId = 1234;
     const filters = { type: 'CAMPAIGN', codeCampaign: 'Code' };
@@ -23,7 +21,7 @@ describe('Unit | UseCase | find-campaign-assessments', function() {
     });
   });
 
-  it('should resolve assessments that match userId and belong to the user and has campaign participation', function() {
+  it('should resolve assessments that match userId and belong to the user and has campaign participation', function () {
     // given
     const userId = 1234;
     const campaignCode = 'Code';

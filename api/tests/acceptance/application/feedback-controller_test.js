@@ -2,19 +2,17 @@ const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder }
 const createServer = require('../../../server');
 const Feedback = require('../../../lib/infrastructure/orm-models/Feedback');
 
-describe('Acceptance | Controller | feedback-controller', function() {
-
+describe('Acceptance | Controller | feedback-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/feedbacks', function() {
-
+  describe('POST /api/feedbacks', function () {
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const assessmentId = databaseBuilder.factory.buildAssessment({ userId: null, courseId: 'rec' }).id;
       await databaseBuilder.commit();
       options = {
@@ -46,11 +44,11 @@ describe('Acceptance | Controller | feedback-controller', function() {
       };
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('feedbacks').delete();
     });
 
-    it('should return 201 HTTP status code', function() {
+    it('should return 201 HTTP status code', function () {
       // when
       const promise = server.inject(options);
 
@@ -60,7 +58,7 @@ describe('Acceptance | Controller | feedback-controller', function() {
       });
     });
 
-    it('should return 201 HTTP status code when missing authorization header', function() {
+    it('should return 201 HTTP status code when missing authorization header', function () {
       // given
       options.headers = {};
 
@@ -73,7 +71,7 @@ describe('Acceptance | Controller | feedback-controller', function() {
       });
     });
 
-    it('should return application/json', function() {
+    it('should return application/json', function () {
       // when
       const promise = server.inject(options);
 
@@ -84,7 +82,7 @@ describe('Acceptance | Controller | feedback-controller', function() {
       });
     });
 
-    it('should add a new feedback into the database', function() {
+    it('should add a new feedback into the database', function () {
       // when
       const promise = server.inject(options);
 
@@ -96,29 +94,26 @@ describe('Acceptance | Controller | feedback-controller', function() {
       });
     });
 
-    it('should return persisted feedback', function() {
+    it('should return persisted feedback', function () {
       // when
       const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
         const feedback = response.result.data;
-        return new Feedback()
-          .fetch()
-          .then((model) => {
-            expect(model.id).to.be.a('number');
-            expect(model.get('content')).to.equal(options.payload.data.attributes.content);
-            expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
-            expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
+        return new Feedback().fetch().then((model) => {
+          expect(model.id).to.be.a('number');
+          expect(model.get('content')).to.equal(options.payload.data.attributes.content);
+          expect(model.get('assessmentId')).to.equal(options.payload.data.relationships.assessment.data.id);
+          expect(model.get('challengeId')).to.equal(options.payload.data.relationships.challenge.data.id);
 
-            expect(feedback.id).to.equal(model.id.toString());
-            expect(feedback.id).to.equal(response.result.data.id);
-            expect(feedback.attributes.content).to.equal(model.get('content'));
-            expect(feedback.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
-            expect(feedback.relationships.challenge.data.id).to.equal(model.get('challengeId'));
-          });
+          expect(feedback.id).to.equal(model.id.toString());
+          expect(feedback.id).to.equal(response.result.data.id);
+          expect(feedback.attributes.content).to.equal(model.get('content'));
+          expect(feedback.relationships.assessment.data.id).to.equal(model.get('assessmentId').toString());
+          expect(feedback.relationships.challenge.data.id).to.equal(model.get('challengeId'));
+        });
       });
     });
-
   });
 });

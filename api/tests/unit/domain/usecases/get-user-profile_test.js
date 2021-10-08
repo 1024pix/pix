@@ -10,32 +10,30 @@ function assertScorecard(userScorecard, expectedUserScorecard) {
   expect(userScorecard.status).to.equal(expectedUserScorecard.status);
 }
 
-describe('Unit | UseCase | get-user-profile', function() {
-
+describe('Unit | UseCase | get-user-profile', function () {
   let competenceRepository;
   let knowledgeElementRepository;
   let competenceEvaluationRepository;
   const scorecard = { id: 'foo' };
   const locale = 'fr';
 
-  beforeEach(function() {
+  beforeEach(function () {
     competenceRepository = { listPixCompetencesOnly: sinon.stub() };
     knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
     competenceEvaluationRepository = { findByUserId: sinon.stub() };
     sinon.stub(Scorecard, 'buildFrom').returns(scorecard);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sinon.restore();
   });
 
-  context('When user is authenticated', function() {
+  context('When user is authenticated', function () {
     const userId = 2;
     const earnedPixDefaultValue = 4;
 
-    context('And user asks for his own scorecards', function() {
-
-      it('should resolve', function() {
+    context('And user asks for his own scorecards', function () {
+      it('should resolve', function () {
         // given
         competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves([]);
         knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves({});
@@ -53,7 +51,7 @@ describe('Unit | UseCase | get-user-profile', function() {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should return related user scorecards and pix score', async function() {
+      it('should return related user scorecards and pix score', async function () {
         // given
         const earnedPixForCompetenceId1 = 8;
         const levelForCompetenceId1 = 1;
@@ -98,8 +96,8 @@ describe('Unit | UseCase | get-user-profile', function() {
         ];
 
         const knowledgeElementGroupedByCompetenceId = {
-          '1': [ knowledgeElementList[0], knowledgeElementList[1] ],
-          '2': [ knowledgeElementList[2] ],
+          1: [knowledgeElementList[0], knowledgeElementList[1]],
+          2: [knowledgeElementList[2]],
         };
 
         const expectedUserScorecard = [
@@ -127,29 +125,37 @@ describe('Unit | UseCase | get-user-profile', function() {
           }),
         ];
 
-        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves(knowledgeElementGroupedByCompetenceId);
+        knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.resolves(
+          knowledgeElementGroupedByCompetenceId
+        );
         competenceEvaluationRepository.findByUserId.resolves([competenceEvaluationOfCompetence1]);
 
-        Scorecard.buildFrom.withArgs({
-          userId,
-          knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
-          competence: competenceList[0],
-          competenceEvaluation: competenceEvaluationOfCompetence1,
-        }).returns(expectedUserScorecard[0]);
+        Scorecard.buildFrom
+          .withArgs({
+            userId,
+            knowledgeElements: knowledgeElementGroupedByCompetenceId[1],
+            competence: competenceList[0],
+            competenceEvaluation: competenceEvaluationOfCompetence1,
+          })
+          .returns(expectedUserScorecard[0]);
 
-        Scorecard.buildFrom.withArgs({
-          userId,
-          knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
-          competence: competenceList[1],
-          competenceEvaluation: undefined,
-        }).returns(expectedUserScorecard[1]);
+        Scorecard.buildFrom
+          .withArgs({
+            userId,
+            knowledgeElements: knowledgeElementGroupedByCompetenceId[2],
+            competence: competenceList[1],
+            competenceEvaluation: undefined,
+          })
+          .returns(expectedUserScorecard[1]);
 
-        Scorecard.buildFrom.withArgs({
-          userId,
-          knowledgeElements: undefined,
-          competence: competenceList[2],
-          competenceEvaluation: undefined,
-        }).returns(expectedUserScorecard[2]);
+        Scorecard.buildFrom
+          .withArgs({
+            userId,
+            knowledgeElements: undefined,
+            competence: competenceList[2],
+            competenceEvaluation: undefined,
+          })
+          .returns(expectedUserScorecard[2]);
 
         const expectedPixScore = _.sumBy(expectedUserScorecard, 'earnedPix');
 

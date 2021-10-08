@@ -4,7 +4,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { MAX_REACHABLE_LEVEL } = require('../../../../lib/domain/constants');
 const { ImproveCompetenceEvaluationForbiddenError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | Improve Competence Evaluation', function() {
+describe('Unit | UseCase | Improve Competence Evaluation', function () {
   let competenceEvaluation, userId, competenceEvaluationRepository, assessmentRepository;
   let getCompetenceLevel;
   let competenceId;
@@ -15,7 +15,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol('DomainTransaction');
 
-  beforeEach(function() {
+  beforeEach(function () {
     const currentAssessment = new Assessment({
       state: 'completed',
       userId,
@@ -47,7 +47,7 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
     getCompetenceLevel = sinon.stub().resolves(3);
   });
 
-  it('should retrieve competence evaluation from id', async function() {
+  it('should retrieve competence evaluation from id', async function () {
     // when
     await improveCompetenceEvaluation({
       assessmentRepository,
@@ -66,17 +66,31 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
     });
   });
 
-  it('should create an improving assessment', async function() {
+  it('should create an improving assessment', async function () {
     // when
-    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
+    await improveCompetenceEvaluation({
+      assessmentRepository,
+      competenceEvaluationRepository,
+      getCompetenceLevel,
+      userId,
+      competenceId,
+      domainTransaction,
+    });
 
     // then
     expect(assessmentRepository.save).to.be.calledWith({ assessment: expectedAssessment, domainTransaction });
   });
 
-  it('should update competence evaluation with newly created assessment', async function() {
+  it('should update competence evaluation with newly created assessment', async function () {
     // when
-    await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
+    await improveCompetenceEvaluation({
+      assessmentRepository,
+      competenceEvaluationRepository,
+      getCompetenceLevel,
+      userId,
+      competenceId,
+      domainTransaction,
+    });
 
     // then
     expect(competenceEvaluationRepository.updateAssessmentId).to.be.calledWith({
@@ -86,24 +100,31 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
     });
   });
 
-  it('should return competence evaluation with newly created assessment', async function() {
+  it('should return competence evaluation with newly created assessment', async function () {
     // given
     const expectedCompetenceEvaluation = competenceEvaluation;
     expectedCompetenceEvaluation.assessmentId = createdAssessment.id;
 
     // when
-    const result = await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
+    const result = await improveCompetenceEvaluation({
+      assessmentRepository,
+      competenceEvaluationRepository,
+      getCompetenceLevel,
+      userId,
+      competenceId,
+      domainTransaction,
+    });
 
     // then
     expect(result).to.deep.equal(expectedCompetenceEvaluation);
   });
 
-  context('when user has reached maximum level for given competence', function() {
-    beforeEach(function() {
+  context('when user has reached maximum level for given competence', function () {
+    beforeEach(function () {
       getCompetenceLevel.resolves(MAX_REACHABLE_LEVEL);
     });
 
-    it('should throw a Forbidden error', async function() {
+    it('should throw a Forbidden error', async function () {
       // when
       const error = await catchErr(improveCompetenceEvaluation)({
         assessmentRepository,
@@ -119,8 +140,8 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
     });
   });
 
-  context('when user has already started the improvement of the competence', function() {
-    beforeEach(function() {
+  context('when user has already started the improvement of the competence', function () {
+    beforeEach(function () {
       const currentAssessment = new Assessment({
         state: 'started',
         userId,
@@ -134,12 +155,19 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
       competenceEvaluationRepository.getByCompetenceIdAndUserId.resolves(competenceEvaluation);
     });
 
-    it('should not modify data and return the current competence evaluation', async function() {
+    it('should not modify data and return the current competence evaluation', async function () {
       // given
       const expectedCompetenceEvaluation = { ...competenceEvaluation };
 
       // when
-      const result = await improveCompetenceEvaluation({ assessmentRepository, competenceEvaluationRepository, getCompetenceLevel, userId, competenceId, domainTransaction });
+      const result = await improveCompetenceEvaluation({
+        assessmentRepository,
+        competenceEvaluationRepository,
+        getCompetenceLevel,
+        userId,
+        competenceId,
+        domainTransaction,
+      });
 
       // then
       expect(assessmentRepository.save).to.be.not.called;
@@ -148,5 +176,4 @@ describe('Unit | UseCase | Improve Competence Evaluation', function() {
       expect(result).to.deep.equal(expectedCompetenceEvaluation);
     });
   });
-
 });

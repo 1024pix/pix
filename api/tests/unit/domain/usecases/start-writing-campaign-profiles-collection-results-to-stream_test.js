@@ -5,7 +5,7 @@ const { UserNotAuthorizedToGetCampaignResultsError } = require('../../../../lib/
 const CampaignProfilesCollectionExport = require('../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function() {
+describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collection-results-to-stream', function () {
   const campaignRepository = { get: () => undefined };
   const userRepository = { getWithMemberships: () => undefined };
   const competenceRepository = { listPixCompetencesOnly: () => undefined };
@@ -20,18 +20,24 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
   // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
-  beforeEach(function() {
+  beforeEach(function () {
     sinon.stub(campaignRepository, 'get').rejects('error for campaignRepository.get');
     sinon.stub(userRepository, 'getWithMemberships').rejects('error for userRepository.getWithMemberships');
-    sinon.stub(competenceRepository, 'listPixCompetencesOnly').rejects('error for competenceRepository.listPixCompetencesOnly');
+    sinon
+      .stub(competenceRepository, 'listPixCompetencesOnly')
+      .rejects('error for competenceRepository.listPixCompetencesOnly');
     sinon.stub(organizationRepository, 'get').rejects('error for organizationRepository.get');
-    sinon.stub(campaignParticipationRepository, 'findProfilesCollectionResultDataByCampaignId').rejects('error for campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId');
-    sinon.stub(CampaignProfilesCollectionExport.prototype, 'export').rejects('CampaignProfilesCollectionExport.prototype.export');
+    sinon
+      .stub(campaignParticipationRepository, 'findProfilesCollectionResultDataByCampaignId')
+      .rejects('error for campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId');
+    sinon
+      .stub(CampaignProfilesCollectionExport.prototype, 'export')
+      .rejects('CampaignProfilesCollectionExport.prototype.export');
     writableStream = new PassThrough();
     csvPromise = streamToPromise(writableStream);
   });
 
-  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function() {
+  it('should throw a UserNotAuthorizedToGetCampaignResultsError when user is not authorized', async function () {
     // given
     const notAuthorizedUser = domainBuilder.buildUser({ memberships: [] });
     const campaign = domainBuilder.buildCampaign();
@@ -57,7 +63,7 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     expect(err.message).to.equal(`User does not have an access to the organization ${campaign.organization.id}`);
   });
 
-  it('should process result for each participation and add it to csv', async function() {
+  it('should process result for each participation and add it to csv', async function () {
     // given
     const competences = Symbol('competences');
     const campaignParticipationResultDatas = Symbol('campaignParticipationResultDatas');
@@ -69,10 +75,14 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     userRepository.getWithMemberships.withArgs(user.id).resolves(user);
     organizationRepository.get.withArgs(organization.id).resolves(organization);
     competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
-    campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId.withArgs(campaign.id).resolves(campaignParticipationResultDatas);
-    CampaignProfilesCollectionExport.prototype.export.withArgs(campaignParticipationResultDatas, placementProfileService).callsFake(async() => {
-      await writableStream.write('result');
-    });
+    campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId
+      .withArgs(campaign.id)
+      .resolves(campaignParticipationResultDatas);
+    CampaignProfilesCollectionExport.prototype.export
+      .withArgs(campaignParticipationResultDatas, placementProfileService)
+      .callsFake(async () => {
+        await writableStream.write('result');
+      });
 
     // when
     await startWritingCampaignProfilesCollectionResultsToStream({
@@ -92,5 +102,4 @@ describe('Unit | Domain | Use Cases | start-writing-campaign-profiles-collectio
     // then
     expect(csv).to.equal('result');
   });
-
 });

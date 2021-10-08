@@ -4,11 +4,9 @@ const redisMonitor = require('../../../../lib/infrastructure/utils/redis-monitor
 
 const healthcheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
-describe('Unit | Controller | healthcheckController', function() {
-
-  describe('#get', function() {
-
-    it('should reply with the API description', async function() {
+describe('Unit | Controller | healthcheckController', function () {
+  describe('#get', function () {
+    it('should reply with the API description', async function () {
       // when
       const mockedRequest = { i18n: { __: sinon.stub() } };
 
@@ -17,18 +15,19 @@ describe('Unit | Controller | healthcheckController', function() {
       // then
       expect(response).to.include.keys('name', 'version', 'description');
       expect(response['name']).to.equal('pix-api');
-      expect(response['description']).to.equal('Plateforme d\'évaluation et de certification des compétences numériques');
+      expect(response['description']).to.equal(
+        "Plateforme d'évaluation et de certification des compétences numériques"
+      );
       expect(response['environment']).to.equal('test');
     });
   });
 
-  describe('#checkDbStatus', function() {
-
-    beforeEach(function() {
+  describe('#checkDbStatus', function () {
+    beforeEach(function () {
       sinon.stub(knex, 'raw');
     });
 
-    it('should check if DB connection is successful', async function() {
+    it('should check if DB connection is successful', async function () {
       // given
       knex.raw.resolves();
 
@@ -40,7 +39,7 @@ describe('Unit | Controller | healthcheckController', function() {
       expect(response['message']).to.equal('Connection to database ok');
     });
 
-    it('should reply with a 503 error when the connection with the database is KO', function() {
+    it('should reply with a 503 error when the connection with the database is KO', function () {
       // given
       knex.raw.rejects();
 
@@ -52,13 +51,12 @@ describe('Unit | Controller | healthcheckController', function() {
     });
   });
 
-  describe('#checkRedisStatus', function() {
-
-    beforeEach(function() {
+  describe('#checkRedisStatus', function () {
+    beforeEach(function () {
       sinon.stub(redisMonitor, 'ping');
     });
 
-    it('should check if Redis connection is successful', async function() {
+    it('should check if Redis connection is successful', async function () {
       // given
       redisMonitor.ping.resolves();
 
@@ -70,7 +68,7 @@ describe('Unit | Controller | healthcheckController', function() {
       expect(response['message']).to.equal('Connection to Redis ok');
     });
 
-    it('should reply with a 503 error when the connection with Redis is KO', function() {
+    it('should reply with a 503 error when the connection with Redis is KO', function () {
       // given
       redisMonitor.ping.rejects();
 
@@ -78,7 +76,8 @@ describe('Unit | Controller | healthcheckController', function() {
       const promise = healthcheckController.checkRedisStatus(null, hFake);
 
       // then
-      return expect(promise).to.be.eventually.rejectedWith(/Connection to Redis failed/)
+      return expect(promise)
+        .to.be.eventually.rejectedWith(/Connection to Redis failed/)
         .and.have.nested.property('output.statusCode', 503);
     });
   });

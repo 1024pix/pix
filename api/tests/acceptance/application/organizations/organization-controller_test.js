@@ -2,8 +2,13 @@ const _ = require('lodash');
 const dragonLogo = require('../../../../db/seeds/src/dragonAndCoBase64');
 
 const {
-  expect, knex, learningContentBuilder, databaseBuilder, mockLearningContent,
-  generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster,
+  expect,
+  knex,
+  learningContentBuilder,
+  databaseBuilder,
+  mockLearningContent,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
 } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
@@ -14,25 +19,24 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 
-describe('Acceptance | Application | organization-controller', function() {
-
+describe('Acceptance | Application | organization-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-sibling-hooks
-  beforeEach(async function() {
+  beforeEach(async function () {
     await insertUserWithRolePixMaster();
   });
 
-  describe('POST /api/organizations', function() {
+  describe('POST /api/organizations', function () {
     let payload;
     let options;
 
-    beforeEach(function() {
+    beforeEach(function () {
       payload = {
         data: {
           type: 'organizations',
@@ -50,13 +54,12 @@ describe('Acceptance | Application | organization-controller', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('organizations').delete();
     });
 
-    describe('Success case', function() {
-
-      it('should return 200 HTTP status code', async function() {
+    describe('Success case', function () {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -64,7 +67,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should create and return the new organization', async function() {
+      it('should create and return the new organization', async function () {
         // when
         const response = await server.inject(options);
 
@@ -74,7 +77,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(createdOrganization.type).to.equal('PRO');
       });
 
-      it('should save the Pix Master userId creating the Organization', async function() {
+      it('should save the Pix Master userId creating the Organization', async function () {
         // given
         const PIX_MASTER_ROLE_ID = 1;
         const pixMasterUserId = databaseBuilder.factory.buildUser().id;
@@ -95,9 +98,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    describe('when creating with a wrong payload (ex: organization type is wrong)', function() {
-
-      it('should return 422 HTTP status code', async function() {
+    describe('when creating with a wrong payload (ex: organization type is wrong)', function () {
+      it('should return 422 HTTP status code', async function () {
         // given
         payload.data.attributes.type = 'FAK';
 
@@ -108,7 +110,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(422);
       });
 
-      it('should not keep the user in the database', async function() {
+      it('should not keep the user in the database', async function () {
         // given
         payload.data.attributes.type = 'FAK';
 
@@ -116,18 +118,18 @@ describe('Acceptance | Application | organization-controller', function() {
         const creatingOrganizationOnFailure = server.inject(options);
 
         // then
-        return creatingOrganizationOnFailure
-          .then(() => {
-            return knex('users').count('id as id').then((count) => {
+        return creatingOrganizationOnFailure.then(() => {
+          return knex('users')
+            .count('id as id')
+            .then((count) => {
               expect(parseInt(count[0].id, 10)).to.equal(1);
             });
-          });
+        });
       });
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -140,7 +142,7 @@ describe('Acceptance | Application | organization-controller', function() {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function() {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function () {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
@@ -156,13 +158,12 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('PATCH /api/organizations/{id}', function() {
-
-    afterEach(async function() {
+  describe('PATCH /api/organizations/{id}', function () {
+    afterEach(async function () {
       await knex('organization-tags').delete();
     });
 
-    it('should return the updated organization and status code 200', async function() {
+    it('should return the updated organization and status code 200', async function () {
       // given
       const logo = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
       const organizationAttributes = {
@@ -186,14 +187,14 @@ describe('Acceptance | Application | organization-controller', function() {
           attributes: {
             'external-id': organizationAttributes.externalId,
             'province-code': organizationAttributes.provinceCode,
-            'email': organizationAttributes.email,
-            'credit': organizationAttributes.credit,
+            email: organizationAttributes.email,
+            credit: organizationAttributes.credit,
             'can-collect-profiles': newAttribute,
             'logo-url': newLogo,
           },
           relationships: {
             tags: {
-              data: [ { type: 'tags', id: tag1.id } ],
+              data: [{ type: 'tags', id: tag1.id }],
             },
           },
         },
@@ -220,9 +221,8 @@ describe('Acceptance | Application | organization-controller', function() {
       expect(parseInt(response.result.data.id)).to.equal(organization.id);
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
         await databaseBuilder.commit();
@@ -233,8 +233,8 @@ describe('Acceptance | Application | organization-controller', function() {
             attributes: {
               'external-id': '0446758F',
               'province-code': '044',
-              'email': 'sco.generic.newaccount@example.net',
-              'credit': 50,
+              email: 'sco.generic.newaccount@example.net',
+              credit: 50,
               'can-collect-profiles': 'true',
             },
           },
@@ -253,7 +253,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
         // given
         const nonPixMAsterUserId = 9999;
         const organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: false });
@@ -265,8 +265,8 @@ describe('Acceptance | Application | organization-controller', function() {
             attributes: {
               'external-id': '0446758F',
               'province-code': '044',
-              'email': 'sco.generic.newaccount@example.net',
-              'credit': 50,
+              email: 'sco.generic.newaccount@example.net',
+              credit: 50,
               'can-collect-profiles': 'true',
             },
           },
@@ -287,12 +287,11 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations', function() {
-
+  describe('GET /api/organizations', function () {
     let server;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       server = await createServer();
 
       const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
@@ -318,9 +317,8 @@ describe('Acceptance | Application | organization-controller', function() {
       return databaseBuilder.commit();
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -331,7 +329,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
         // given
         const nonPixMasterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
@@ -344,9 +342,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    describe('Success case', function() {
-
-      it('should return a 200 status code response with JSON API serialized', async function() {
+    describe('Success case', function () {
+      it('should return a 200 status code response with JSON API serialized', async function () {
         // when
         const response = await server.inject(options);
 
@@ -356,7 +353,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].type).to.equal('organizations');
       });
 
-      it('should return pagination meta data', async function() {
+      it('should return pagination meta data', async function () {
         // given
         const expectedMetaData = { page: 1, pageSize: 10, rowCount: 2, pageCount: 1 };
 
@@ -367,7 +364,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.meta).to.deep.equal(expectedMetaData);
       });
 
-      it('should return a 200 status code with paginated and filtered data', async function() {
+      it('should return a 200 status code with paginated and filtered data', async function () {
         // given
         options.url = '/api/organizations?filter[name]=orga&filter[externalId]=A&page[number]=2&page[size]=1';
         const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2 };
@@ -382,9 +379,10 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].type).to.equal('organizations');
       });
 
-      it('should return a 200 status code with empty result', async function() {
+      it('should return a 200 status code with empty result', async function () {
         // given
-        options.url = '/api/organizations?filter[name]=orga&filter[type]=sco&filter[externalId]=B&page[number]=1&page[size]=1';
+        options.url =
+          '/api/organizations?filter[name]=orga&filter[type]=sco&filter[externalId]=B&page[number]=1&page[size]=1';
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 0, pageCount: 0 };
 
         // when
@@ -398,38 +396,40 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/campaigns', function() {
-
+  describe('GET /api/organizations/{id}/campaigns', function () {
     let campaignsData;
     let organizationId, otherOrganizationId;
     let userId;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({}).id;
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       otherOrganizationId = databaseBuilder.factory.buildOrganization({}).id;
-      campaignsData = _.map([
-        { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
-        { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId },
-        {
-          name: 'Quand Peigne numba three',
-          code: 'ABC180ELO',
-          organizationId,
-          archivedAt: new Date('2000-01-01T10:00:00Z'),
-        },
-        {
-          name: 'Quand Peigne numba four',
-          code: 'ABC180LEO',
-          organizationId,
-          archivedAt: new Date('2000-02-01T10:00:00Z'),
-        },
-        { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId },
-      ], (camp) => {
-        const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
-        return { name: camp.name, code: camp.code, id: builtCampaign.id };
-      });
+      campaignsData = _.map(
+        [
+          { name: 'Quand Peigne numba one', code: 'ATDGRK343', organizationId },
+          { name: 'Quand Peigne numba two', code: 'KFCTSU984', organizationId },
+          {
+            name: 'Quand Peigne numba three',
+            code: 'ABC180ELO',
+            organizationId,
+            archivedAt: new Date('2000-01-01T10:00:00Z'),
+          },
+          {
+            name: 'Quand Peigne numba four',
+            code: 'ABC180LEO',
+            organizationId,
+            archivedAt: new Date('2000-02-01T10:00:00Z'),
+          },
+          { name: 'Quand Peigne otha orga', code: 'CPFTQX735', organizationId: otherOrganizationId },
+        ],
+        (camp) => {
+          const builtCampaign = databaseBuilder.factory.buildCampaign(camp);
+          return { name: camp.name, code: camp.code, id: builtCampaign.id };
+        }
+      );
       databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[4].id, isShared: true });
       await databaseBuilder.commit();
 
@@ -442,9 +442,8 @@ describe('Acceptance | Application | organization-controller', function() {
       };
     });
 
-    context('Something is wrong', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
+    context('Something is wrong', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -458,9 +457,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    context('when the user is not a member of the organization', function() {
-
-      it('should respond with a 403', function() {
+    context('when the user is not a member of the organization', function () {
+      it('should respond with a 403', function () {
         // given
         userId = databaseBuilder.factory.buildUser({}).id;
         options = {
@@ -481,9 +479,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    context('Retrieve campaigns', function() {
-
-      it('should return 200 status code the organization campaigns', async function() {
+    context('Retrieve campaigns', function () {
+      it('should return 200 status code the organization campaigns', async function () {
         // when
         const response = await server.inject(options);
 
@@ -495,7 +492,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(_.map(campaigns, 'attributes.code')).to.have.members([campaignsData[0].code, campaignsData[1].code]);
       });
 
-      it('should return campaigns with its creator', async function() {
+      it('should return campaigns with its creator', async function () {
         // given
         organizationId = databaseBuilder.factory.buildOrganization({}).id;
         const creatorId = databaseBuilder.factory.buildUser({ firstName: 'Daenerys', lastName: 'Targaryen' }).id;
@@ -513,7 +510,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].attributes['creator-last-name']).to.equal('Targaryen');
       });
 
-      it('should return archived campaigns', async function() {
+      it('should return archived campaigns', async function () {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?page[number]=1&page[size]=2&filter[status]=archived`;
         const expectedMetaData = { page: 1, pageSize: 2, rowCount: 2, pageCount: 1, hasCampaigns: true };
@@ -528,7 +525,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].type).to.equal('campaigns');
       });
 
-      it('should return report with the campaigns', async function() {
+      it('should return report with the campaigns', async function () {
         // given
         databaseBuilder.factory.buildMembership({ organizationId: otherOrganizationId, userId });
         await databaseBuilder.commit();
@@ -545,7 +542,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].attributes['shared-participations-count']).to.equal(1);
       });
 
-      it('should return default pagination meta data', async function() {
+      it('should return default pagination meta data', async function () {
         // given
         const expectedMetaData = { page: 1, pageSize: 10, rowCount: 2, pageCount: 1, hasCampaigns: true };
 
@@ -556,7 +553,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.meta).to.deep.equal(expectedMetaData);
       });
 
-      it('should return a 200 status code with paginated data', async function() {
+      it('should return a 200 status code with paginated data', async function () {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?&page[number]=2&page[size]=1`;
         const expectedMetaData = { page: 2, pageSize: 1, rowCount: 2, pageCount: 2, hasCampaigns: true };
@@ -571,7 +568,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].type).to.equal('campaigns');
       });
 
-      it('should return a 200 status code with paginated and filtered data', async function() {
+      it('should return a 200 status code with paginated and filtered data', async function () {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?filter[name]=Two&page[number]=1&page[size]=1`;
         const expectedMetaData = { page: 1, pageSize: 1, rowCount: 1, pageCount: 1, hasCampaigns: true };
@@ -586,7 +583,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result.data[0].type).to.equal('campaigns');
       });
 
-      it('should return a 200 status code with empty result', async function() {
+      it('should return a 200 status code with empty result', async function () {
         // given
         options.url = `/api/organizations/${organizationId}/campaigns?&page[number]=3&page[size]=1`;
         const expectedMetaData = { page: 3, pageSize: 1, rowCount: 2, pageCount: 2, hasCampaigns: true };
@@ -602,15 +599,13 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}', function() {
-
+  describe('GET /api/organizations/{id}', function () {
     let organization;
     let options;
     let pixMasterUserId;
 
-    context('Expected output', function() {
-
-      beforeEach(async function() {
+    context('Expected output', function () {
+      beforeEach(async function () {
         pixMasterUserId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
 
         organization = databaseBuilder.factory.buildOrganization({
@@ -634,62 +629,62 @@ describe('Acceptance | Application | organization-controller', function() {
         };
       });
 
-      it('should return the matching organization as JSON API', async function() {
+      it('should return the matching organization as JSON API', async function () {
         // given
         const tag = databaseBuilder.factory.buildTag({ id: 7, name: 'AEFE' });
         databaseBuilder.factory.buildOrganizationTag({ tagId: tag.id, organizationId: organization.id });
         await databaseBuilder.commit();
 
         const expectedResult = {
-          'data': {
-            'attributes': {
-              'name': organization.name,
-              'type': organization.type,
+          data: {
+            attributes: {
+              name: organization.name,
+              type: organization.type,
               'logo-url': organization.logoUrl,
               'external-id': organization.externalId,
               'province-code': organization.provinceCode,
               'is-managing-students': organization.isManagingStudents,
               'can-collect-profiles': organization.canCollectProfiles,
-              'credit': organization.credit,
-              'email': organization.email,
+              credit: organization.credit,
+              email: organization.email,
               'created-by': pixMasterUserId,
             },
-            'id': organization.id.toString(),
-            'relationships': {
-              'memberships': {
-                'links': {
-                  'related': `/api/organizations/${organization.id}/memberships`,
+            id: organization.id.toString(),
+            relationships: {
+              memberships: {
+                links: {
+                  related: `/api/organizations/${organization.id}/memberships`,
                 },
               },
-              'students': {
-                'links': {
-                  'related': `/api/organizations/${organization.id}/students`,
+              students: {
+                links: {
+                  related: `/api/organizations/${organization.id}/students`,
                 },
               },
-              'tags': {
-                'data': [
+              tags: {
+                data: [
                   {
-                    'id': tag.id.toString(),
-                    'type': 'tags',
+                    id: tag.id.toString(),
+                    type: 'tags',
                   },
                 ],
               },
               'target-profiles': {
-                'links': {
-                  'related': `/api/organizations/${organization.id}/target-profiles`,
+                links: {
+                  related: `/api/organizations/${organization.id}/target-profiles`,
                 },
               },
             },
-            'type': 'organizations',
+            type: 'organizations',
           },
-          'included': [
+          included: [
             {
-              'attributes': {
-                'id': tag.id,
-                'name': tag.name,
+              attributes: {
+                id: tag.id,
+                name: tag.name,
               },
-              'id': tag.id.toString(),
-              'type': 'tags',
+              id: tag.id.toString(),
+              type: 'tags',
             },
           ],
         };
@@ -701,7 +696,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.result).to.deep.equal(expectedResult);
       });
 
-      it('should return a 404 error when organization was not found', function() {
+      it('should return a 404 error when organization was not found', function () {
         // given
         options.url = '/api/organizations/999';
 
@@ -711,19 +706,20 @@ describe('Acceptance | Application | organization-controller', function() {
         // then
         return promise.then((response) => {
           expect(response.result).to.deep.equal({
-            'errors': [{
-              'status': '404',
-              'detail': 'Not found organization for ID 999',
-              'title': 'Not Found',
-            }],
+            errors: [
+              {
+                status: '404',
+                detail: 'Not found organization for ID 999',
+                title: 'Not Found',
+              },
+            ],
           });
         });
       });
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -736,7 +732,7 @@ describe('Acceptance | Application | organization-controller', function() {
         });
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function() {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', function () {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);
@@ -752,12 +748,11 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/memberships', function() {
-
+  describe('GET /api/organizations/{id}/memberships', function () {
     let organization;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const userPixMaster = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       organization = databaseBuilder.factory.buildOrganization();
       options = {
@@ -767,12 +762,11 @@ describe('Acceptance | Application | organization-controller', function() {
       };
     });
 
-    context('Expected output', function() {
-
+    context('Expected output', function () {
       let user;
       let membershipId;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         user = databaseBuilder.factory.buildUser();
 
         membershipId = databaseBuilder.factory.buildMembership({
@@ -783,42 +777,42 @@ describe('Acceptance | Application | organization-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return the matching membership as JSON API', async function() {
+      it('should return the matching membership as JSON API', async function () {
         // given
         const expectedResult = {
-          'data': [
+          data: [
             {
-              'attributes': {
+              attributes: {
                 'organization-role': 'MEMBER',
               },
-              'id': membershipId.toString(),
-              'relationships': {
-                'user': {
-                  'data': {
-                    'id': user.id.toString(),
-                    'type': 'users',
+              id: membershipId.toString(),
+              relationships: {
+                user: {
+                  data: {
+                    id: user.id.toString(),
+                    type: 'users',
                   },
                 },
               },
-              'type': 'memberships',
+              type: 'memberships',
             },
           ],
-          'included': [
+          included: [
             {
-              'attributes': {
-                'email': user.email,
+              attributes: {
+                email: user.email,
                 'first-name': user.firstName,
                 'last-name': user.lastName,
               },
-              'id': user.id.toString(),
-              'type': 'users',
+              id: user.id.toString(),
+              type: 'users',
             },
           ],
-          'meta': {
-            'page': 1,
-            'pageCount': 1,
-            'pageSize': 10,
-            'rowCount': 1,
+          meta: {
+            page: 1,
+            pageCount: 1,
+            pageSize: 10,
+            rowCount: 1,
           },
         };
 
@@ -831,9 +825,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    context('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    context('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -844,7 +837,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not in organization nor is PIXMASTER', async function() {
+      it('should respond with a 403 - forbidden access - if user is not in organization nor is PIXMASTER', async function () {
         // given
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
         const userId = databaseBuilder.factory.buildUser().id;
@@ -867,13 +860,12 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/students', function() {
-
+  describe('GET /api/organizations/{id}/students', function () {
     let user;
     let organization;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildAuthenticationMethod({
         identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -891,11 +883,10 @@ describe('Acceptance | Application | organization-controller', function() {
       };
     });
 
-    context('Expected output', function() {
-
+    context('Expected output', function () {
       let schoolingRegistration;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
           userId: user.id,
@@ -904,25 +895,25 @@ describe('Acceptance | Application | organization-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return the matching schoolingRegistrations as JSON API', async function() {
+      it('should return the matching schoolingRegistrations as JSON API', async function () {
         // given
         const expectedResult = {
-          'data': [
+          data: [
             {
-              'attributes': {
+              attributes: {
                 'last-name': schoolingRegistration.lastName,
                 'first-name': schoolingRegistration.firstName,
-                'birthdate': schoolingRegistration.birthdate,
+                birthdate: schoolingRegistration.birthdate,
                 'user-id': user.id,
-                'username': user.username,
-                'email': user.email,
+                username: user.username,
+                email: user.email,
                 'is-authenticated-from-gar': true,
                 'student-number': schoolingRegistration.studentNumber,
-                'division': schoolingRegistration.division,
-                'group': schoolingRegistration.group,
+                division: schoolingRegistration.division,
+                group: schoolingRegistration.group,
               },
-              'id': schoolingRegistration.id.toString(),
-              'type': 'students',
+              id: schoolingRegistration.id.toString(),
+              type: 'students',
             },
           ],
         };
@@ -936,9 +927,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    context('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    context('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -949,7 +939,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async function() {
+      it('should respond with a 403 - Forbidden access - if user does not belong to Organization', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser.withMembership().id;
         await databaseBuilder.commit();
@@ -962,7 +952,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 403 - Forbidden access - if Organization does not manage schoolingRegistrations', async function() {
+      it('should respond with a 403 - Forbidden access - if Organization does not manage schoolingRegistrations', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
         const userId = databaseBuilder.factory.buildUser.withMembership({ organizationId }).id;
@@ -980,14 +970,13 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('POST /api/organizations/{id}/invitations', function() {
-
+  describe('POST /api/organizations/{id}/invitations', function () {
     let organization;
     let user1;
     let user2;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const adminUserId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({
@@ -1016,13 +1005,12 @@ describe('Acceptance | Application | organization-controller', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('organization-invitations').delete();
     });
 
-    context('Expected output', function() {
-
-      it('should return the matching organization-invitations as JSON API', async function() {
+    context('Expected output', function () {
+      it('should return the matching organization-invitations as JSON API', async function () {
         // given
         const status = OrganizationInvitation.StatusType.PENDING;
         const expectedResults = [
@@ -1050,16 +1038,17 @@ describe('Acceptance | Application | organization-controller', function() {
         // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.length).equal(2);
-        expect(_.omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name'))
-          .to.deep.equal(expectedResults[0]);
-        expect(_.omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name'))
-          .to.deep.equal(expectedResults[1]);
+        expect(
+          _.omit(response.result.data[0], 'id', 'attributes.updated-at', 'attributes.organization-name')
+        ).to.deep.equal(expectedResults[0]);
+        expect(
+          _.omit(response.result.data[1], 'id', 'attributes.updated-at', 'attributes.organization-name')
+        ).to.deep.equal(expectedResults[1]);
       });
     });
 
-    context('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    context('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -1070,7 +1059,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async function() {
+      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async function () {
         // given
         const nonAdminUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -1083,7 +1072,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(403);
       });
 
-      it('should respond with a 201 - created - if user is ADMIN in organization', async function() {
+      it('should respond with a 201 - created - if user is ADMIN in organization', async function () {
         // when
         const response = await server.inject(options);
 
@@ -1093,14 +1082,13 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/invitations', function() {
-
+  describe('GET /api/organizations/{id}/invitations', function () {
     let organizationId;
     let options;
     let firstOrganizationInvitation;
     let secondOrganizationInvitation;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const adminUserId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
 
@@ -1134,14 +1122,13 @@ describe('Acceptance | Application | organization-controller', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('memberships').delete();
       await knex('organization-invitations').delete();
     });
 
-    context('Expected output', function() {
-
-      it('should return the matching organization-invitations as JSON API', async function() {
+    context('Expected output', function () {
+      it('should return the matching organization-invitations as JSON API', async function () {
         // given
         const expectedResult = {
           data: [
@@ -1171,15 +1158,19 @@ describe('Acceptance | Application | organization-controller', function() {
 
         // then
         expect(response.statusCode).to.equal(200);
-        const omittedResult = _.omit(response.result, 'data[0].id', 'data[0].attributes.organization-name',
-          'data[1].id', 'data[1].attributes.organization-name');
+        const omittedResult = _.omit(
+          response.result,
+          'data[0].id',
+          'data[0].attributes.organization-name',
+          'data[1].id',
+          'data[1].attributes.organization-name'
+        );
         expect(omittedResult.data).to.deep.have.members(expectedResult.data);
       });
     });
 
-    context('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    context('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -1190,7 +1181,7 @@ describe('Acceptance | Application | organization-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async function() {
+      it('should respond with a 403 - forbidden access - if user is not ADMIN in organization', async function () {
         // given
         const nonPixMasterUserId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -1205,22 +1196,24 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/target-profiles', function() {
-
-    context('when user is authenticated', function() {
-
+  describe('GET /api/organizations/{id}/target-profiles', function () {
+    context('when user is authenticated', function () {
       let user;
       let linkedOrganization;
 
-      beforeEach(async function() {
-        const learningContent = [{
-          id: 'recArea0',
-          competences: [{
-            id: 'recNv8qhaY887jQb2',
-            index: '1.3',
-            name: 'Traiter des données',
-          }],
-        }];
+      beforeEach(async function () {
+        const learningContent = [
+          {
+            id: 'recArea0',
+            competences: [
+              {
+                id: 'recNv8qhaY887jQb2',
+                index: '1.3',
+                name: 'Traiter des données',
+              },
+            ],
+          },
+        ];
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
 
@@ -1234,7 +1227,7 @@ describe('Acceptance | Application | organization-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return 200', async function() {
+      it('should return 200', async function () {
         const options = {
           method: 'GET',
           url: `/api/organizations/${linkedOrganization.id}/target-profiles`,
@@ -1249,9 +1242,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    context('when user is not authenticated', function() {
-
-      it('should return 401', async function() {
+    context('when user is not authenticated', function () {
+      it('should return 401', async function () {
         const options = {
           method: 'GET',
           url: '/api/organizations/1/target-profiles',
@@ -1264,12 +1256,10 @@ describe('Acceptance | Application | organization-controller', function() {
         // then
         expect(response.statusCode).to.equal(401);
       });
-
     });
-
   });
 
-  describe('POST /api/organizations/{id}/target-profiles', function() {
+  describe('POST /api/organizations/{id}/target-profiles', function () {
     let payload;
     let options;
 
@@ -1278,7 +1268,7 @@ describe('Acceptance | Application | organization-controller', function() {
     let targetProfileId1;
     let targetProfileId2;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser.withPixRolePixMaster().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
@@ -1302,11 +1292,11 @@ describe('Acceptance | Application | organization-controller', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('target-profile-shares').delete();
     });
 
-    it('should create target profile share related to organization', async function() {
+    it('should create target profile share related to organization', async function () {
       // when
       const response = await server.inject(options);
 
@@ -1317,7 +1307,7 @@ describe('Acceptance | Application | organization-controller', function() {
       expect(_.map(targetProfileShares, 'targetProfileId')).to.have.members([targetProfileId1, targetProfileId2]);
     });
 
-    it('should return a 404 error and insert none of the target profiles', async function() {
+    it('should return a 404 error and insert none of the target profiles', async function () {
       // given
       payload.data.attributes['target-profiles-to-attach'] = [targetProfileId1, targetProfileId2, '999'];
       options.payload = payload;
@@ -1332,18 +1322,17 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function() {
-
+  describe('GET /api/organizations/{id}/schooling-registrations/csv-template', function () {
     let userId, organization, accessToken;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       const authHeader = generateValidRequestAuthorizationHeader(userId);
       accessToken = authHeader.replace('Bearer ', '');
     });
 
-    context('when it‘s a SUP organization', function() {
-      beforeEach(async function() {
+    context('when it‘s a SUP organization', function () {
+      beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({
           userId,
@@ -1353,7 +1342,7 @@ describe('Acceptance | Application | organization-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return csv file with statusCode 200', async function() {
+      it('should return csv file with statusCode 200', async function () {
         // given
         const options = {
           method: 'GET',
@@ -1368,8 +1357,8 @@ describe('Acceptance | Application | organization-controller', function() {
       });
     });
 
-    context('when it‘s not a valid organization', function() {
-      beforeEach(async function() {
+    context('when it‘s not a valid organization', function () {
+      beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
         databaseBuilder.factory.buildMembership({
           userId,
@@ -1379,7 +1368,7 @@ describe('Acceptance | Application | organization-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return an error with statusCode 403', async function() {
+      it('should return an error with statusCode 403', async function () {
         // given
         const options = {
           method: 'GET',
@@ -1395,21 +1384,26 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/certification-results', function() {
-
-    it('should return HTTP status 200', async function() {
+  describe('GET /api/organizations/{id}/certification-results', function () {
+    it('should return HTTP status 200', async function () {
       // given
 
       const user = databaseBuilder.factory.buildUser.withRawPassword();
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: user.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
 
       const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
         division: 'aDivision',
       });
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({ schoolingRegistrationId: schoolingRegistration.id });
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        schoolingRegistrationId: schoolingRegistration.id,
+      });
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: candidate.userId,
         sessionId: candidate.sessionId,
@@ -1435,29 +1429,36 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/certification-attestations', function() {
-
-    beforeEach(function() {
-      const learningContent = [{
-        id: 'recArea0',
-        code: '1',
-        competences: [{
-          id: 'recNv8qhaY887jQb2',
-          index: '1.3',
-          name: 'Traiter des données',
-        }],
-      }];
+  describe('GET /api/organizations/{id}/certification-attestations', function () {
+    beforeEach(function () {
+      const learningContent = [
+        {
+          id: 'recArea0',
+          code: '1',
+          competences: [
+            {
+              id: 'recNv8qhaY887jQb2',
+              index: '1.3',
+              name: 'Traiter des données',
+            },
+          ],
+        },
+      ];
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return HTTP status 200', async function() {
+    it('should return HTTP status 200', async function () {
       // given
 
       const adminIsManagingStudent = databaseBuilder.factory.buildUser.withRawPassword();
 
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: adminIsManagingStudent.id, organizationRole: Membership.roles.ADMIN });
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: adminIsManagingStudent.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
 
       const student = databaseBuilder.factory.buildUser.withRawPassword();
       const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
@@ -1466,7 +1467,10 @@ describe('Acceptance | Application | organization-controller', function() {
         userId: student.id,
       });
 
-      const candidate = databaseBuilder.factory.buildCertificationCandidate({ schoolingRegistrationId: schoolingRegistration.id, userId: student.id });
+      const candidate = databaseBuilder.factory.buildCertificationCandidate({
+        schoolingRegistrationId: schoolingRegistration.id,
+        userId: student.id,
+      });
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
         userId: candidate.userId,
@@ -1484,7 +1488,10 @@ describe('Acceptance | Application | organization-controller', function() {
         state: 'completed',
       });
 
-      const assessmentResult = databaseBuilder.factory.buildAssessmentResult({ assessmentId: assessment.id, status: AssessmentResult.status.VALIDATED });
+      const assessmentResult = databaseBuilder.factory.buildAssessmentResult({
+        assessmentId: assessment.id,
+        status: AssessmentResult.status.VALIDATED,
+      });
       databaseBuilder.factory.buildCompetenceMark({
         level: 3,
         score: 23,
@@ -1510,8 +1517,8 @@ describe('Acceptance | Application | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organization/{organizationId}/divisions', function() {
-    it('should return the divisions', async function() {
+  describe('GET /api/organization/{organizationId}/divisions', function () {
+    it('should return the divisions', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
@@ -1527,7 +1534,7 @@ describe('Acceptance | Application | organization-controller', function() {
         { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
         { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
         { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' }
       );
 
       await databaseBuilder.commit();
@@ -1548,5 +1555,7 @@ describe('Acceptance | Application | organization-controller', function() {
 });
 
 function _buildSchoolingRegistrations(organization, ...students) {
-  return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student }));
+  return students.map((student) =>
+    databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student })
+  );
 }

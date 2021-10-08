@@ -7,9 +7,12 @@ async function findByCampaignId(campaignId) {
     .select('division')
     .groupBy('division')
     .join('campaign-participations', 'campaigns.id', 'campaign-participations.campaignId')
-    .innerJoin('schooling-registrations', function() {
-      this.on('schooling-registrations.userId', '=', 'campaign-participations.userId')
-        .andOn('schooling-registrations.organizationId', '=', 'campaigns.organizationId');
+    .innerJoin('schooling-registrations', function () {
+      this.on('schooling-registrations.userId', '=', 'campaign-participations.userId').andOn(
+        'schooling-registrations.organizationId',
+        '=',
+        'campaigns.organizationId'
+      );
     });
 
   return divisions.map(({ division }) => _toDomain(division));

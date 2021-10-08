@@ -1,12 +1,13 @@
 const { expect, nock } = require('../../test-helper');
 
-const { checkData, updateOrganizations } = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
+const {
+  checkData,
+  updateOrganizations,
+} = require('../../../scripts/update-sco-organizations-with-is-managing-students-to-true');
 
-describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', function() {
-
-  describe('#updateOrganizations', function() {
-
-    it('should update organizations', async function() {
+describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to-true.js', function () {
+  describe('#updateOrganizations', function () {
+    it('should update organizations', async function () {
       // given
       const accessToken = 'token';
 
@@ -17,9 +18,7 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
         },
       };
 
-      const checkedData = [
-        { externalId: 'A100' },
-      ];
+      const checkedData = [{ externalId: 'A100' }];
 
       const expectedPatchBody = {
         data: {
@@ -33,14 +32,11 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
 
       let patchCallCount = 0;
 
-      const networkStub = nock(
-        'http://localhost:3000',
-        {
-          reqheaders: {
-            authorization: 'Bearer token',
-          },
+      const networkStub = nock('http://localhost:3000', {
+        reqheaders: {
+          authorization: 'Bearer token',
         },
-      )
+      })
         .patch('/api/organizations/1', (body) => JSON.stringify(body) === JSON.stringify(expectedPatchBody))
         .reply(204, () => {
           patchCallCount++;
@@ -57,20 +53,22 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
     });
   });
 
-  describe('#checkData', function() {
-
-    it('should keep all data', async function() {
+  describe('#checkData', function () {
+    it('should keep all data', async function () {
       // given
       const csvData = [
         ['a100', '1-2-999'],
         ['b200', '1-3-6'],
       ];
 
-      const expectedResult = [{
-        externalId: 'A100',
-      }, {
-        externalId: 'B200',
-      }];
+      const expectedResult = [
+        {
+          externalId: 'A100',
+        },
+        {
+          externalId: 'B200',
+        },
+      ];
 
       // when
       const result = await checkData({ csvData });
@@ -79,16 +77,15 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when a whole line is empty', async function() {
+    it('should keep only one data when a whole line is empty', async function () {
       // given
-      const csvData = [
-        ['a100'],
-        [''],
-      ];
+      const csvData = [['a100'], ['']];
 
-      const expectedResult = [{
-        externalId: 'A100',
-      }];
+      const expectedResult = [
+        {
+          externalId: 'A100',
+        },
+      ];
 
       // when
       const result = await checkData({ csvData });
@@ -97,5 +94,4 @@ describe('Unit | Scripts | update-sco-organizations-with-is-managing-students-to
       expect(result).to.deep.have.members(expectedResult);
     });
   });
-
 });

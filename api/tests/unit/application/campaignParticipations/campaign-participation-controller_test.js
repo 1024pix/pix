@@ -14,9 +14,8 @@ const DomainTransaction = require('../../../../lib/infrastructure/DomainTransact
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const monitoringTools = require('../../../../lib/infrastructure/monitoring-tools');
 
-describe('Unit | Application | Controller | Campaign-Participation', function() {
-
-  describe('#shareCampaignResult', function() {
+describe('Unit | Application | Controller | Campaign-Participation', function () {
+  describe('#shareCampaignResult', function () {
     const userId = 1;
     const request = {
       params: {
@@ -32,7 +31,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'shareCampaignResult');
       sinon.stub(requestResponseUtils, 'extractUserIdFromRequest').returns(userId);
       sinon.stub(monitoringTools, 'logErrorWithCorrelationIds');
@@ -41,7 +40,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       });
     });
 
-    it('should call the use case to share campaign result', async function() {
+    it('should call the use case to share campaign result', async function () {
       // given
       usecases.shareCampaignResult.resolves();
 
@@ -55,7 +54,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(updateCampaignParticiaption).to.have.property('userId');
     });
 
-    it('should dispatch the campaign participation results shared event', async function() {
+    it('should dispatch the campaign participation results shared event', async function () {
       // given
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
@@ -69,7 +68,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
     });
 
-    it('should return an empty response and log an error if the campaign participation results shared event handler failed', async function() {
+    it('should return an empty response and log an error if the campaign participation results shared event handler failed', async function () {
       // given
       const campaignParticipationResultsSharedEvent = new CampaignParticipationResultsShared();
       usecases.shareCampaignResult.resolves(campaignParticipationResultsSharedEvent);
@@ -84,12 +83,10 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationResultsSharedEvent);
       expect(monitoringTools.logErrorWithCorrelationIds).to.have.been.calledWith(errorInHandler);
-
     });
 
-    context('when the request comes from a different user', function() {
-
-      it('should return a 403 status code', async function() {
+    context('when the request comes from a different user', function () {
+      it('should return a 403 status code', async function () {
         // given
         usecases.shareCampaignResult.resolves();
 
@@ -105,13 +102,13 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
     });
   });
 
-  describe('#save', function() {
+  describe('#save', function () {
     let request;
     const campaignId = 123456;
     const participantExternalId = 'azer@ty.com';
     const userId = 6;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'startCampaignParticipation');
       sinon.stub(campaignParticipationSerializer, 'serialize');
       sinon.stub(events.eventDispatcher, 'dispatch');
@@ -126,7 +123,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
               'participant-external-id': participantExternalId,
             },
             relationships: {
-              'campaign': {
+              campaign: {
                 data: {
                   id: campaignId,
                   type: 'campaigns',
@@ -138,7 +135,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       };
     });
 
-    it('should call the usecases to start the campaign participation', async function() {
+    it('should call the usecases to start the campaign participation', async function () {
       // given
       usecases.startCampaignParticipation.resolves(new CampaignParticipationStarted());
       sinon.stub(DomainTransaction, 'execute').callsFake((callback) => {
@@ -161,7 +158,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(campaignParticipation).to.have.property('participantExternalId', participantExternalId);
     });
 
-    it('should dispatch CampaignParticipationStartedEvent', async function() {
+    it('should dispatch CampaignParticipationStartedEvent', async function () {
       // given
       const campaignParticipationStartedEvent = new CampaignParticipationStarted();
       usecases.startCampaignParticipation.resolves({ event: campaignParticipationStartedEvent });
@@ -177,7 +174,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(campaignParticipationStartedEvent);
     });
 
-    it('should return the serialized campaign participation when it has been successfully created', async function() {
+    it('should return the serialized campaign participation when it has been successfully created', async function () {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation();
       usecases.startCampaignParticipation.resolves({
@@ -201,7 +198,7 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });
 
-    it('should log an error, return the serialized campaign participation when it has been successfully created even if the handler throw an error', async function() {
+    it('should log an error, return the serialized campaign participation when it has been successfully created even if the handler throw an error', async function () {
       // given
       const campaignParticipation = domainBuilder.buildCampaignParticipation();
       usecases.startCampaignParticipation.resolves({
@@ -226,12 +223,10 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       expect(response.statusCode).to.equal(201);
       expect(response.source).to.deep.equal(serializedCampaignParticipation);
     });
-
   });
 
-  describe('#beginImprovement', function() {
-
-    it('should call the usecase to begin improvement', async function() {
+  describe('#beginImprovement', function () {
+    it('should call the usecase to begin improvement', async function () {
       // given
       const campaignParticipationId = 1;
       const userId = 2;
@@ -242,36 +237,44 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
       const domainTransaction = Symbol();
 
       sinon.stub(usecases, 'beginCampaignParticipationImprovement');
-      DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
-      usecases.beginCampaignParticipationImprovement
-        .resolves();
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
+      usecases.beginCampaignParticipationImprovement.resolves();
 
       // when
       await campaignParticipationController.beginImprovement(request);
 
       // then
-      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({ campaignParticipationId, userId, domainTransaction });
+      expect(usecases.beginCampaignParticipationImprovement).to.have.been.calledOnceWith({
+        campaignParticipationId,
+        userId,
+        domainTransaction,
+      });
     });
   });
 
-  describe('#getCampaignAssessmentParticipationResult', function() {
-
+  describe('#getCampaignAssessmentParticipationResult', function () {
     const campaignId = 123;
     const userId = 456;
     const campaignParticipationId = 789;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'getCampaignAssessmentParticipationResult');
       sinon.stub(campaignAssessmentParticipationResultSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer with expected parameters', async function() {
+    it('should call usecase and serializer with expected parameters', async function () {
       // given
       const campaignAssessmentParticipationResult = Symbol('campaignAssessmentParticipationResult');
       const expectedResults = Symbol('results');
-      usecases.getCampaignAssessmentParticipationResult.withArgs({ userId, campaignId, campaignParticipationId, locale }).resolves(campaignAssessmentParticipationResult);
-      campaignAssessmentParticipationResultSerializer.serialize.withArgs(campaignAssessmentParticipationResult).returns(expectedResults);
+      usecases.getCampaignAssessmentParticipationResult
+        .withArgs({ userId, campaignId, campaignParticipationId, locale })
+        .resolves(campaignAssessmentParticipationResult);
+      campaignAssessmentParticipationResultSerializer.serialize
+        .withArgs(campaignAssessmentParticipationResult)
+        .returns(expectedResults);
 
       const request = {
         auth: { credentials: { userId } },
@@ -287,23 +290,24 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
     });
   });
 
-  describe('#getCampaignProfile', function() {
-
+  describe('#getCampaignProfile', function () {
     const campaignId = 123;
     const userId = 456;
     const campaignParticipationId = 789;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'getCampaignProfile');
       sinon.stub(campaignProfileSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer with expected parameters', async function() {
+    it('should call usecase and serializer with expected parameters', async function () {
       // given
       const campaignProfile = Symbol('campaignProfile');
       const expectedResults = Symbol('results');
-      usecases.getCampaignProfile.withArgs({ userId, campaignId, campaignParticipationId, locale }).resolves(campaignProfile);
+      usecases.getCampaignProfile
+        .withArgs({ userId, campaignId, campaignParticipationId, locale })
+        .resolves(campaignProfile);
       campaignProfileSerializer.serialize.withArgs(campaignProfile).returns(expectedResults);
 
       const request = {
@@ -320,22 +324,23 @@ describe('Unit | Application | Controller | Campaign-Participation', function() 
     });
   });
 
-  describe('#getAnalysis', function() {
-
+  describe('#getAnalysis', function () {
     const userId = 456;
     const campaignParticipationId = 789;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'computeCampaignParticipationAnalysis');
       sinon.stub(campaignAnalysisSerializer, 'serialize');
     });
 
-    it('should call usecase and serializer with expected parameters', async function() {
+    it('should call usecase and serializer with expected parameters', async function () {
       // given
       const campaignAnalysis = Symbol('campaignAnalysis');
       const expectedResults = Symbol('results');
-      usecases.computeCampaignParticipationAnalysis.withArgs({ userId, campaignParticipationId, locale }).resolves(campaignAnalysis);
+      usecases.computeCampaignParticipationAnalysis
+        .withArgs({ userId, campaignParticipationId, locale })
+        .resolves(campaignAnalysis);
       campaignAnalysisSerializer.serialize.withArgs(campaignAnalysis).returns(expectedResults);
 
       const request = {

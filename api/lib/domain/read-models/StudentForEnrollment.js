@@ -1,13 +1,5 @@
 class StudentForEnrollment {
-  constructor(
-    {
-      id,
-      firstName,
-      lastName,
-      birthdate,
-      division,
-      isEnrolled,
-    } = {}) {
+  constructor({ id, firstName, lastName, birthdate, division, isEnrolled } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -28,7 +20,6 @@ class StudentForEnrollment {
       isEnrolled,
     });
   }
-
 }
 
 module.exports = StudentForEnrollment;

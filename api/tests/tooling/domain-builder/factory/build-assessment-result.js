@@ -2,7 +2,7 @@ const { status: assessmentResultStatuses } = require('../../../../lib/domain/mod
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-const buildAssessmentResult = function({
+const buildAssessmentResult = function ({
   id = 123,
   pixScore = 31,
   status = assessmentResultStatuses.VALIDATED,
@@ -15,7 +15,6 @@ const buildAssessmentResult = function({
   assessmentId = 456,
   competenceMarks = [],
 } = {}) {
-
   return new AssessmentResult({
     pixScore,
     status,
@@ -31,7 +30,7 @@ const buildAssessmentResult = function({
   });
 };
 
-buildAssessmentResult.validated = function({
+buildAssessmentResult.validated = function ({
   id,
   pixScore,
   emitter,
@@ -58,7 +57,7 @@ buildAssessmentResult.validated = function({
   });
 };
 
-buildAssessmentResult.rejected = function({
+buildAssessmentResult.rejected = function ({
   id,
   pixScore,
   emitter,
@@ -85,7 +84,7 @@ buildAssessmentResult.rejected = function({
   });
 };
 
-buildAssessmentResult.error = function({
+buildAssessmentResult.error = function ({
   id,
   pixScore,
   emitter,
@@ -112,7 +111,7 @@ buildAssessmentResult.error = function({
   });
 };
 
-buildAssessmentResult.started = function({
+buildAssessmentResult.started = function ({
   id,
   pixScore,
   emitter,
@@ -139,13 +138,7 @@ buildAssessmentResult.started = function({
   });
 };
 
-buildAssessmentResult.notTrustable = function({
-  pixScore,
-  status,
-  assessmentId,
-  juryId,
-  emitter,
-} = {}) {
+buildAssessmentResult.notTrustable = function ({ pixScore, status, assessmentId, juryId, emitter } = {}) {
   return AssessmentResult.buildNotTrustableAssessmentResult({
     pixScore,
     status,
@@ -155,13 +148,7 @@ buildAssessmentResult.notTrustable = function({
   });
 };
 
-buildAssessmentResult.standard = function({
-  pixScore,
-  status,
-  assessmentId,
-  juryId,
-  emitter,
-} = {}) {
+buildAssessmentResult.standard = function ({ pixScore, status, assessmentId, juryId, emitter } = {}) {
   return AssessmentResult.buildStandardAssessmentResult({
     pixScore,
     status,

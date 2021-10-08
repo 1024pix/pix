@@ -18,7 +18,6 @@ const sources = {
 };
 
 class KnowledgeElement {
-
   constructor({
     id,
     createdAt,
@@ -63,9 +62,13 @@ class KnowledgeElement {
     targetSkills,
     userId,
   }) {
-
     const directKnowledgeElements = _createDirectKnowledgeElements({
-      answer, challenge, previouslyFailedSkills, previouslyValidatedSkills, targetSkills, userId,
+      answer,
+      challenge,
+      previouslyFailedSkills,
+      previouslyValidatedSkills,
+      targetSkills,
+      userId,
     });
 
     return _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
@@ -86,7 +89,8 @@ class KnowledgeElement {
 
   static findDirectlyValidatedFromGroups(knowledgeElementsByCompetence) {
     return _(knowledgeElementsByCompetence)
-      .values().flatten()
+      .values()
+      .flatten()
       .filter({ status: KnowledgeElement.StatusType.VALIDATED })
       .filter({ source: KnowledgeElement.SourceType.DIRECT })
       .value();
@@ -104,7 +108,6 @@ function _createDirectKnowledgeElements({
   targetSkills,
   userId,
 }) {
-
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
   return challenge.skills
@@ -117,16 +120,12 @@ function _createDirectKnowledgeElements({
 }
 
 function _skillIsInTargetedSkills({ targetSkills }) {
-  return (skill) => !_(targetSkills)
-    .intersectionWith([skill], Skill.areEqualById)
-    .isEmpty();
+  return (skill) => !_(targetSkills).intersectionWith([skill], Skill.areEqualById).isEmpty();
 }
 
 function _skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }) {
   const alreadyAssessedSkills = previouslyValidatedSkills.concat(previouslyFailedSkills);
-  return (skill) => _(alreadyAssessedSkills)
-    .intersectionWith([skill], Skill.areEqualById)
-    .isEmpty();
+  return (skill) => _(alreadyAssessedSkills).intersectionWith([skill], Skill.areEqualById).isEmpty();
 }
 
 function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
@@ -141,23 +140,24 @@ function _enrichDirectKnowledgeElementsWithInferredKnowledgeElements({
   const status = answer.isOk() ? statuses.VALIDATED : statuses.INVALIDATED;
 
   return directKnowledgeElements.reduce((totalKnowledgeElements, directKnowledgeElement) => {
-
     const directSkill = _findSkillByIdFromTargetSkills(directKnowledgeElement.skillId, targetSkills);
 
     targetSkillsGroupedByTubeName[directSkill.tubeNameWithoutPrefix]
       .filter(_skillIsNotAlreadyAssessed({ previouslyFailedSkills, previouslyValidatedSkills }))
       .forEach((skillToInfer) => {
-
-        const knowledgeElementAlreadyExistsForThatSkill = _.some(
-          totalKnowledgeElements,
-          (knowledgeElement) => {
-            const skillOfKnowledgeElement = _findSkillByIdFromTargetSkills(knowledgeElement.skillId, targetSkills);
-            return Skill.areEqualById(skillToInfer, skillOfKnowledgeElement);
-          },
-        );
+        const knowledgeElementAlreadyExistsForThatSkill = _.some(totalKnowledgeElements, (knowledgeElement) => {
+          const skillOfKnowledgeElement = _findSkillByIdFromTargetSkills(knowledgeElement.skillId, targetSkills);
+          return Skill.areEqualById(skillToInfer, skillOfKnowledgeElement);
+        });
 
         if (!knowledgeElementAlreadyExistsForThatSkill) {
-          const newKnowledgeElements = _createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer, userId });
+          const newKnowledgeElements = _createInferredKnowledgeElements({
+            answer,
+            status,
+            directSkill,
+            skillToInfer,
+            userId,
+          });
           totalKnowledgeElements = totalKnowledgeElements.concat(newKnowledgeElements);
         }
       });
@@ -173,19 +173,23 @@ function _findSkillByIdFromTargetSkills(skillId, targetSkills) {
 
 function _createInferredKnowledgeElements({ answer, status, directSkill, skillToInfer, userId }) {
   const newInferredKnowledgeElements = [];
-  if (status === statuses.VALIDATED
-      && skillToInfer.difficulty < directSkill.difficulty) {
-
+  if (status === statuses.VALIDATED && skillToInfer.difficulty < directSkill.difficulty) {
     const newKnowledgeElement = _createKnowledgeElement({
-      answer, skill: skillToInfer, userId, status: statuses.VALIDATED, source: sources.INFERRED,
+      answer,
+      skill: skillToInfer,
+      userId,
+      status: statuses.VALIDATED,
+      source: sources.INFERRED,
     });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
-  if (status === statuses.INVALIDATED
-      && skillToInfer.difficulty > directSkill.difficulty) {
-
+  if (status === statuses.INVALIDATED && skillToInfer.difficulty > directSkill.difficulty) {
     const newKnowledgeElement = _createKnowledgeElement({
-      answer, skill: skillToInfer, userId, status: statuses.INVALIDATED, source: sources.INFERRED,
+      answer,
+      skill: skillToInfer,
+      userId,
+      status: statuses.INVALIDATED,
+      source: sources.INFERRED,
     });
     newInferredKnowledgeElements.push(newKnowledgeElement);
   }
@@ -193,7 +197,7 @@ function _createInferredKnowledgeElements({ answer, status, directSkill, skillTo
 }
 
 function _createKnowledgeElement({ answer, skill, userId, status, source }) {
-  const pixValue = (status === statuses.VALIDATED) ? skill.pixValue : 0;
+  const pixValue = status === statuses.VALIDATED ? skill.pixValue : 0;
 
   return new KnowledgeElement({
     answerId: answer.id,

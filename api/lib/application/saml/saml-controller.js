@@ -5,7 +5,6 @@ const tokenService = require('../../domain/services/token-service');
 const settings = require('../../config');
 
 module.exports = {
-
   metadata(request, h) {
     return h.response(saml.getServiceProviderMetadata()).type('application/xml');
   },
@@ -14,7 +13,7 @@ module.exports = {
     return h.redirect(saml.createLoginRequest());
   },
 
-  assert: async function(request, h) {
+  assert: async function (request, h) {
     let userAttributes;
     try {
       userAttributes = await saml.parsePostResponse(request.payload);
@@ -24,7 +23,11 @@ module.exports = {
     }
 
     try {
-      const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({ userAttributes, tokenService, settings });
+      const redirectionUrl = await usecases.getExternalAuthenticationRedirectionUrl({
+        userAttributes,
+        tokenService,
+        settings,
+      });
 
       return h.redirect(redirectionUrl);
     } catch (e) {

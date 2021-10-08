@@ -16,7 +16,6 @@ module.exports = function buildUserScorecard({
   area = buildArea(),
   tutorials = [],
 } = {}) {
-
   return {
     id,
     // attributes

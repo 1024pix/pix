@@ -2,11 +2,9 @@ const { expect } = require('../../test-helper');
 
 const { prepareDataForInsert } = require('../../../scripts/create-sco-certification-centers');
 
-describe('Unit | Scripts | create-sco-certification-centers.js', function() {
-
-  describe('#prepareDataForInsert', function() {
-
-    it('should trim name and add SCO type', function() {
+describe('Unit | Scripts | create-sco-certification-centers.js', function () {
+  describe('#prepareDataForInsert', function () {
+    it('should trim name and add SCO type', function () {
       // given
       const certificationCenters = [
         { name: '  Collège Victor Hugo   ', uai: '1234567a' },
@@ -23,7 +21,5 @@ describe('Unit | Scripts | create-sco-certification-centers.js', function() {
       // then
       expect(result).to.deep.equal(expectedResult);
     });
-
   });
-
 });

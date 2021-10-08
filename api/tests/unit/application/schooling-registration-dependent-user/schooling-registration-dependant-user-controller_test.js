@@ -4,11 +4,9 @@ const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
 const schoolingRegistrationDependantUserController = require('../../../../lib/application/schooling-registration-dependent-users/schooling-registration-dependent-user-controller');
 
-describe('Unit | Application | Controller | schooling-registration-user-associations', function() {
-
-  describe('#checkScoAccountRecovery', function() {
-
-    it('should return student account information serialized', async function() {
+describe('Unit | Application | Controller | schooling-registration-user-associations', function () {
+  describe('#checkScoAccountRecovery', function () {
+    it('should return student account information serialized', async function () {
       // given
       const studentInformation = {
         ineIna: '1234567890A',
@@ -24,7 +22,7 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
               'ine-ina': studentInformation.ineIna,
               'first-name': studentInformation.firstName,
               'last-name': studentInformation.lastName,
-              'birthdate': studentInformation.birthdate,
+              birthdate: studentInformation.birthdate,
             },
           },
         },
@@ -32,12 +30,14 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
       const studentInformationForAccountRecovery = Symbol();
       const studentInformationForAccountRecoveryJSONAPI = Symbol();
 
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'deserialize')
+      sinon
+        .stub(studentInformationForAccountRecoverySerializer, 'deserialize')
         .withArgs(request.payload)
         .resolves(studentInformation);
       sinon.stub(usecases, 'checkScoAccountRecovery');
       usecases.checkScoAccountRecovery.withArgs({ studentInformation }).resolves(studentInformationForAccountRecovery);
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'serialize')
+      sinon
+        .stub(studentInformationForAccountRecoverySerializer, 'serialize')
         .withArgs(studentInformationForAccountRecovery)
         .returns(studentInformationForAccountRecoveryJSONAPI);
 
@@ -49,21 +49,30 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
     });
   });
 
-  describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', function() {
-
-    it('should return 200 response with an access token', async function() {
+  describe('#createUserAndReconcileToSchoolingRegistrationFromExternalUser', function () {
+    it('should return 200 response with an access token', async function () {
       // given
-      const request = { payload: { data: { attributes: {
-        birthdate: '01-01-2000',
-        'campaign-code': 'BADGES123',
-        'external-user-token': '123SamlId',
-      } } } };
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              birthdate: '01-01-2000',
+              'campaign-code': 'BADGES123',
+              'external-user-token': '123SamlId',
+            },
+          },
+        },
+      };
       const token = Symbol('token');
 
       sinon.stub(usecases, 'createUserAndReconcileToSchoolingRegistrationFromExternalUser').resolves(token);
 
       // when
-      const response = await schoolingRegistrationDependantUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, hFake);
+      const response =
+        await schoolingRegistrationDependantUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser(
+          request,
+          hFake
+        );
 
       // then
       expect(response.source.data.attributes['access-token']).to.deep.equal(token);

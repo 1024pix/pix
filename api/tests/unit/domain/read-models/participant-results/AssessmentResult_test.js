@@ -3,12 +3,25 @@ const constants = require('../../../../../lib/domain/constants');
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function() {
-
-  it('computes the number of skills, the number of skill tested and the number of skill validated', function() {
+describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', function () {
+  it('computes the number of skills, the number of skill tested and the number of skill validated', function () {
     const competences = [
-      { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2'] },
-      { id: 'rec2', name: 'C2', index: '2.1', areaName: 'Domaine2', areaColor: 'Couleur2', skillIds: ['skill3', 'skill4'] },
+      {
+        id: 'rec1',
+        name: 'C1',
+        index: '1.1',
+        areaName: 'Domaine1',
+        areaColor: 'Couleur1',
+        skillIds: ['skill1', 'skill2'],
+      },
+      {
+        id: 'rec2',
+        name: 'C2',
+        index: '2.1',
+        areaName: 'Domaine2',
+        areaColor: 'Couleur2',
+        skillIds: ['skill3', 'skill4'],
+      },
     ];
 
     const knowledgeElements = [
@@ -16,7 +29,14 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       domainBuilder.buildKnowledgeElement({ skillId: 'skill2', status: KnowledgeElement.StatusType.INVALIDATED }),
       domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
     ];
-    const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: new Date(), participantExternalId: 'greg@lafleche.fr' };
+    const participationResults = {
+      campaignParticipationId: 12,
+      isCompleted: true,
+      knowledgeElements,
+      acquiredBadgeIds: [],
+      sharedAt: new Date(),
+      participantExternalId: 'greg@lafleche.fr',
+    };
 
     const targetProfile = { competences, stages: [], badges: [] };
 
@@ -33,13 +53,27 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     });
   });
 
-  describe('masteryPercentage computation', function() {
-    context('when the participation is not shared', function() {
-      context('when there are assessed competences', function() {
-        it('computes the mastery rate using knowledge elements', function() {
+  describe('masteryPercentage computation', function () {
+    context('when the participation is not shared', function () {
+      context('when there are assessed competences', function () {
+        it('computes the mastery rate using knowledge elements', function () {
           const competences = [
-            { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] },
-            { id: 'rec2', name: 'C2', index: '2.1', areaName: 'Domaine2', areaColor: 'Couleur2', skillIds: ['skill4', 'skill5', 'skill6'] },
+            {
+              id: 'rec1',
+              name: 'C1',
+              index: '1.1',
+              areaName: 'Domaine1',
+              areaColor: 'Couleur1',
+              skillIds: ['skill1', 'skill2', 'skill3'],
+            },
+            {
+              id: 'rec2',
+              name: 'C2',
+              index: '2.1',
+              areaName: 'Domaine2',
+              areaColor: 'Couleur2',
+              skillIds: ['skill4', 'skill5', 'skill6'],
+            },
           ];
 
           const knowledgeElements = [
@@ -49,7 +83,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
             domainBuilder.buildKnowledgeElement({ skillId: 'skill5', status: KnowledgeElement.StatusType.VALIDATED }),
           ];
-          const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: null };
+          const participationResults = {
+            campaignParticipationId: 12,
+            isCompleted: true,
+            knowledgeElements,
+            acquiredBadgeIds: [],
+            sharedAt: null,
+          };
 
           const targetProfile = { competences, stages: [], badges: [] };
 
@@ -59,8 +99,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         });
       });
 
-      context('when there is no assessed competences', function() {
-        it('returns 0', function() {
+      context('when there is no assessed competences', function () {
+        it('returns 0', function () {
           const competences = [];
 
           const knowledgeElements = [
@@ -70,7 +110,13 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
             domainBuilder.buildKnowledgeElement({ skillId: 'skill4', status: KnowledgeElement.StatusType.VALIDATED }),
             domainBuilder.buildKnowledgeElement({ skillId: 'skill5', status: KnowledgeElement.StatusType.VALIDATED }),
           ];
-          const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements, acquiredBadgeIds: [], sharedAt: null };
+          const participationResults = {
+            campaignParticipationId: 12,
+            isCompleted: true,
+            knowledgeElements,
+            acquiredBadgeIds: [],
+            sharedAt: null,
+          };
 
           const targetProfile = { competences, stages: [], badges: [] };
 
@@ -79,16 +125,29 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
           expect(assessmentResult.masteryRate).to.equal(0);
         });
       });
-
     });
 
-    context('when the participation is shared', function() {
-      it('return the mastery rate of the participation', function() {
+    context('when the participation is shared', function () {
+      it('return the mastery rate of the participation', function () {
         const competences = [
-          { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill2'] },
+          {
+            id: 'rec1',
+            name: 'C1',
+            index: '1.1',
+            areaName: 'Domaine1',
+            areaColor: 'Couleur1',
+            skillIds: ['skill1', 'skill2', 'skill2'],
+          },
         ];
 
-        const participationResults = { campaignParticipationId: 12, isCompleted: true, knowledgeElements: [], acquiredBadgeIds: [], sharedAt: new Date('2021-09-25'), masteryRate: 0.5 };
+        const participationResults = {
+          campaignParticipationId: 12,
+          isCompleted: true,
+          knowledgeElements: [],
+          acquiredBadgeIds: [],
+          sharedAt: new Date('2021-09-25'),
+          masteryRate: 0.5,
+        };
 
         const targetProfile = { competences, stages: [], badges: [] };
 
@@ -99,10 +158,16 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     });
   });
 
-  it('computes the result by competences', function() {
-
+  it('computes the result by competences', function () {
     const competences = [
-      { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] },
+      {
+        id: 'rec1',
+        name: 'C1',
+        index: '1.1',
+        areaName: 'Domaine1',
+        areaColor: 'Couleur1',
+        skillIds: ['skill1', 'skill2', 'skill3'],
+      },
       { id: 'rec2', name: 'C2', index: '2.1', areaName: 'Domaine2', areaColor: 'Couleur2', skillIds: ['skill4'] },
     ];
 
@@ -125,10 +190,18 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     expect(competenceResults2).to.deep.include({ name: 'C2', masteryPercentage: 100 });
   });
 
-  describe('when the targetProfile has stages', function() {
-    it('gives the reached stage', function() {
-
-      const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
+  describe('when the targetProfile has stages', function () {
+    it('gives the reached stage', function () {
+      const competences = [
+        {
+          id: 'rec1',
+          name: 'C1',
+          index: '1.1',
+          areaName: 'Domaine1',
+          areaColor: 'Couleur1',
+          skillIds: ['skill1', 'skill2', 'skill3'],
+        },
+      ];
 
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
@@ -152,10 +225,18 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     });
   });
 
-  describe('when the targetProfile has badges', function() {
-    it('computes results for each badge', function() {
-
-      const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
+  describe('when the targetProfile has badges', function () {
+    it('computes results for each badge', function () {
+      const competences = [
+        {
+          id: 'rec1',
+          name: 'C1',
+          index: '1.1',
+          areaName: 'Domaine1',
+          areaColor: 'Couleur1',
+          skillIds: ['skill1', 'skill2', 'skill3'],
+        },
+      ];
       const participationResults = { knowledgeElements: [], acquiredBadgeIds: [1] };
 
       const badges = [
@@ -189,25 +270,25 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
     });
   });
 
-  describe('#canRetry', function() {
+  describe('#canRetry', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING;
     const now = new Date('2020-01-05T05:06:07Z');
     let clock;
 
-    beforeEach(function() {
+    beforeEach(function () {
       clock = sinon.useFakeTimers(now);
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = 4;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       clock.restore();
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING = originalConstantValue;
     });
 
-    context('when the campaign does not allow multiple sendings', function() {
-      it('returns false', function() {
+    context('when the campaign does not allow multiple sendings', function () {
+      it('returns false', function () {
         const participationResults = {
           knowledgeElements: [],
           acquiredBadgeIds: [],
@@ -221,8 +302,8 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       });
     });
 
-    context('when participant is disabled', function() {
-      it('returns false', function() {
+    context('when participant is disabled', function () {
+      it('returns false', function () {
         const isCampaignMultipleSendings = true;
         const participationResults = {
           knowledgeElements: [],
@@ -231,14 +312,19 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
 
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, false);
+        const assessmentResult = new AssessmentResult(
+          participationResults,
+          targetProfile,
+          isCampaignMultipleSendings,
+          false
+        );
 
         expect(assessmentResult.canRetry).to.be.false;
       });
     });
 
-    context('when the participation is not shared', function() {
-      it('returns false', function() {
+    context('when the participation is not shared', function () {
+      it('returns false', function () {
         const isCampaignMultipleSendings = true;
         const isRegistrationActive = true;
         const participationResults = {
@@ -248,32 +334,47 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         };
         const targetProfile = { competences: [], stages: [], badges: [] };
 
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
+        const assessmentResult = new AssessmentResult(
+          participationResults,
+          targetProfile,
+          isCampaignMultipleSendings,
+          isRegistrationActive
+        );
 
         expect(assessmentResult.canRetry).to.be.false;
       });
     });
 
-    context('when the participation has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
-      it('returns false', function() {
+    context(
+      'when the participation has been shared less than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago',
+      function () {
+        it('returns false', function () {
+          const isCampaignMultipleSendings = true;
+          const participationResults = {
+            knowledgeElements: [],
+            acquiredBadgeIds: [],
+            sharedAt: new Date('2020-01-01T04:06:07Z'),
+          };
+          const targetProfile = { competences: [], stages: [], badges: [] };
+
+          const assessmentResult = new AssessmentResult(
+            participationResults,
+            targetProfile,
+            isCampaignMultipleSendings,
+            false
+          );
+
+          expect(assessmentResult.canRetry).to.be.false;
+        });
+      }
+    );
+
+    context('when the mastery rate equals to 1', function () {
+      it('returns false', function () {
         const isCampaignMultipleSendings = true;
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          sharedAt: new Date('2020-01-01T04:06:07Z'),
-        };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, false);
-
-        expect(assessmentResult.canRetry).to.be.false;
-      });
-    });
-
-    context('when the mastery rate equals to 1', function() {
-      it('returns false', function() {
-        const isCampaignMultipleSendings = true;
-        const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1'] }];
+        const competences = [
+          { id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1'] },
+        ];
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
         ];
@@ -284,75 +385,139 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
         };
         const targetProfile = { competences, stages: [], badges: [] };
 
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, false);
+        const assessmentResult = new AssessmentResult(
+          participationResults,
+          targetProfile,
+          isCampaignMultipleSendings,
+          false
+        );
 
         expect(assessmentResult.canRetry).to.be.false;
       });
     });
 
-    context('when the campaign allow multiple sendings, the mastery rate is under 1.0, the participant is active and the participation has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
-      it('returns true', function() {
-        const isCampaignMultipleSendings = true;
-        const isRegistrationActive = true;
-        const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.45',
-          sharedAt: new Date('2019-12-12'),
-        };
-        const targetProfile = { competences, stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
+    context(
+      'when the campaign allow multiple sendings, the mastery rate is under 1.0, the participant is active and the participation has been shared more than MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago',
+      function () {
+        it('returns true', function () {
+          const isCampaignMultipleSendings = true;
+          const isRegistrationActive = true;
+          const competences = [
+            {
+              id: 'rec1',
+              name: 'C1',
+              index: '1.1',
+              areaName: 'Domaine1',
+              areaColor: 'Couleur1',
+              skillIds: ['skill1', 'skill2', 'skill3'],
+            },
+          ];
+          const participationResults = {
+            knowledgeElements: [],
+            acquiredBadgeIds: [],
+            masteryRate: '0.45',
+            sharedAt: new Date('2019-12-12'),
+          };
+          const targetProfile = { competences, stages: [], badges: [] };
+          const assessmentResult = new AssessmentResult(
+            participationResults,
+            targetProfile,
+            isCampaignMultipleSendings,
+            isRegistrationActive
+          );
 
-        expect(assessmentResult.canRetry).to.be.true;
-      });
-    });
+          expect(assessmentResult.canRetry).to.be.true;
+        });
+      }
+    );
 
-    context('when the campaign allow multiple sendings, the mastery rate is under 1, the participant is active and the participation has been shared exactly MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago', function() {
-      it('returns true', function() {
-        const isCampaignMultipleSendings = true;
-        const isRegistrationActive = true;
-        const competences = [{ id: 'rec1', name: 'C1', index: '1.1', areaName: 'Domaine1', areaColor: 'Couleur1', skillIds: ['skill1', 'skill2', 'skill3'] }];
-        const participationResults = {
-          knowledgeElements: [],
-          acquiredBadgeIds: [],
-          masteryRate: '0.34',
-          sharedAt: new Date('2020-01-01T05:06:07Z'),
-        };
-        const targetProfile = { competences, stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
+    context(
+      'when the campaign allow multiple sendings, the mastery rate is under 1, the participant is active and the participation has been shared exactly MINIMUM_DELAY_IN_DAYS_BEFORE_RETRYING days ago',
+      function () {
+        it('returns true', function () {
+          const isCampaignMultipleSendings = true;
+          const isRegistrationActive = true;
+          const competences = [
+            {
+              id: 'rec1',
+              name: 'C1',
+              index: '1.1',
+              areaName: 'Domaine1',
+              areaColor: 'Couleur1',
+              skillIds: ['skill1', 'skill2', 'skill3'],
+            },
+          ];
+          const participationResults = {
+            knowledgeElements: [],
+            acquiredBadgeIds: [],
+            masteryRate: '0.34',
+            sharedAt: new Date('2020-01-01T05:06:07Z'),
+          };
+          const targetProfile = { competences, stages: [], badges: [] };
+          const assessmentResult = new AssessmentResult(
+            participationResults,
+            targetProfile,
+            isCampaignMultipleSendings,
+            isRegistrationActive
+          );
 
-        expect(assessmentResult.canRetry).to.be.true;
-      });
-    });
+          expect(assessmentResult.canRetry).to.be.true;
+        });
+      }
+    );
   });
 
-  describe('#canImprove', function() {
+  describe('#canImprove', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const originalConstantValue = constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
     const assessmentCreatedAt = new Date('2020-01-05T05:06:07Z');
     let clock;
 
-    before(function() {
+    before(function () {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = 4;
     });
 
-    after(function() {
+    after(function () {
       constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING = originalConstantValue;
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
       clock = sinon.useFakeTimers(assessmentCreatedAt);
     });
 
-    afterEach(function() {
+    afterEach(function () {
       clock.restore();
     });
 
-    context('when the knowledge element has been created less than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', function() {
-      it('returns false', function() {
-        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-03') });
+    context(
+      'when the knowledge element has been created less than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created',
+      function () {
+        it('returns false', function () {
+          const ke = domainBuilder.buildKnowledgeElement({
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            createdAt: new Date('2020-01-03'),
+          });
+          const participationResults = {
+            knowledgeElements: [ke],
+            acquiredBadgeIds: [],
+            assessmentCreatedAt,
+          };
+          const targetProfile = { competences: [], stages: [], badges: [] };
+
+          const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+
+          expect(assessmentResult.canImprove).to.be.false;
+        });
+      }
+    );
+
+    context('when the knowledge element is validated', function () {
+      it('returns false', function () {
+        const ke = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.VALIDATED,
+          createdAt: new Date('2020-01-01'),
+        });
         const participationResults = {
           knowledgeElements: [ke],
           acquiredBadgeIds: [],
@@ -366,25 +531,12 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       });
     });
 
-    context('when the knowledge element is validated', function() {
-      it('returns false', function() {
-        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.VALIDATED, createdAt: new Date('2020-01-01') });
-        const participationResults = {
-          knowledgeElements: [ke],
-          acquiredBadgeIds: [],
-          assessmentCreatedAt,
-        };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
-
-        expect(assessmentResult.canImprove).to.be.false;
-      });
-    });
-
-    context('when participation is shared', function() {
-      it('returns false', function() {
-        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-01') });
+    context('when participation is shared', function () {
+      it('returns false', function () {
+        const ke = domainBuilder.buildKnowledgeElement({
+          status: KnowledgeElement.StatusType.INVALIDATED,
+          createdAt: new Date('2020-01-01'),
+        });
         const participationResults = {
           knowledgeElements: [ke],
           acquiredBadgeIds: [],
@@ -398,20 +550,26 @@ describe('Unit | Domain | Read-Models | ParticipantResult | AssessmentResult', f
       });
     });
 
-    context('when participation is not shared and the knowledge element is invalidated and created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created', function() {
-      it('returns true', function() {
-        const ke = domainBuilder.buildKnowledgeElement({ status: KnowledgeElement.StatusType.INVALIDATED, createdAt: new Date('2020-01-01') });
-        const participationResults = {
-          knowledgeElements: [ke],
-          acquiredBadgeIds: [],
-          assessmentCreatedAt,
-          sharedAt: null,
-        };
-        const targetProfile = { competences: [], stages: [], badges: [] };
-        const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
+    context(
+      'when participation is not shared and the knowledge element is invalidated and created more than MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING days before assessment was created',
+      function () {
+        it('returns true', function () {
+          const ke = domainBuilder.buildKnowledgeElement({
+            status: KnowledgeElement.StatusType.INVALIDATED,
+            createdAt: new Date('2020-01-01'),
+          });
+          const participationResults = {
+            knowledgeElements: [ke],
+            acquiredBadgeIds: [],
+            assessmentCreatedAt,
+            sharedAt: null,
+          };
+          const targetProfile = { competences: [], stages: [], badges: [] };
+          const assessmentResult = new AssessmentResult(participationResults, targetProfile, false, false);
 
-        expect(assessmentResult.canImprove).to.be.true;
-      });
-    });
+          expect(assessmentResult.canImprove).to.be.true;
+        });
+      }
+    );
   });
 });

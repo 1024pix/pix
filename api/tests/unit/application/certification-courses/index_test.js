@@ -1,18 +1,12 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/certification-courses');
 const certificationCoursesController = require('../../../../lib/application/certification-courses/certification-course-controller');
 
-describe('Unit | Application | Certifications Course | Route', function() {
-
-  describe('GET /api/admin/certifications/{id}/details', function() {
-
-    it('should exist', async function() {
+describe('Unit | Application | Certifications Course | Route', function () {
+  describe('GET /api/admin/certifications/{id}/details', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(certificationCoursesController, 'getCertificationDetails').returns('ok');
@@ -27,9 +21,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('GET /api/admin/certifications/{id}/certified-profile', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/admin/certifications/{id}/certified-profile', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(certificationCoursesController, 'getCertifiedProfile').returns('ok');
@@ -44,11 +37,12 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('GET /api/admin/certifications/id', function() {
-
-    it('should reject with 403 code when user is not pix master', async function() {
+  describe('GET /api/admin/certifications/id', function () {
+    it('should reject with 403 code when user is not pix master', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(certificationCoursesController, 'getJuryCertification').throws(new Error('I should not be here'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -61,7 +55,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       expect(certificationCoursesController.getJuryCertification).to.not.have.been.called;
     });
 
-    it('should call handler when user is pixmaster', async function() {
+    it('should call handler when user is pixmaster', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(certificationCoursesController, 'getJuryCertification').returns('ok');
@@ -76,9 +70,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  context('when certification ID params is not a number', function() {
-
-    it('should return 400', async function() {
+  context('when certification ID params is not a number', function () {
+    it('should return 400', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -91,9 +84,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  context('when session ID params is out of range for database integer (> 2147483647)', function() {
-
-    it('should return 400', async function() {
+  context('when session ID params is out of range for database integer (> 2147483647)', function () {
+    it('should return 400', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -107,9 +99,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
   });
   //});
 
-  describe('PATCH /api/certification-courses/id', function() {
-
-    it('should exist', async function() {
+  describe('PATCH /api/certification-courses/id', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(certificationCoursesController, 'update').returns('ok');
@@ -124,9 +115,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('POST /api/certification-courses', function() {
-
-    it('should exist', async function() {
+  describe('POST /api/certification-courses', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(certificationCoursesController, 'save').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -140,9 +130,8 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('GET /api/certification-courses/{id}', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/certification-courses/{id}', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(certificationCoursesController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -156,11 +145,12 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/cancel', function() {
-
-    it('should reject with 403 code when user is not pix master', async function() {
+  describe('POST /api/admin/certification-courses/{id}/cancel', function () {
+    it('should reject with 403 code when user is not pix master', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(certificationCoursesController, 'cancel').throws(new Error('I should not be here'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -173,7 +163,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       expect(certificationCoursesController.cancel).to.not.have.been.called;
     });
 
-    it('should call handler when user is pixmaster', async function() {
+    it('should call handler when user is pixmaster', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(certificationCoursesController, 'cancel').returns('ok');
@@ -188,11 +178,12 @@ describe('Unit | Application | Certifications Course | Route', function() {
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/uncancel', function() {
-
-    it('should reject with 403 code when user is not pix master', async function() {
+  describe('POST /api/admin/certification-courses/{id}/uncancel', function () {
+    it('should reject with 403 code when user is not pix master', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       sinon.stub(certificationCoursesController, 'uncancel').throws(new Error('I should not be here'));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -205,7 +196,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
       expect(certificationCoursesController.uncancel).to.not.have.been.called;
     });
 
-    it('should call handler when user is pixmaster', async function() {
+    it('should call handler when user is pixmaster', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(certificationCoursesController, 'uncancel').returns('ok');

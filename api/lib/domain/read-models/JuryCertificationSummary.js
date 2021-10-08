@@ -38,7 +38,7 @@ class JuryCertificationSummary {
   }
 
   isActionRequired() {
-    return this.certificationIssueReports.some((issueReport) => (issueReport.isImpactful && !issueReport.isResolved()));
+    return this.certificationIssueReports.some((issueReport) => issueReport.isImpactful && !issueReport.isResolved());
   }
 
   hasScoringError() {

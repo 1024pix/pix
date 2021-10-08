@@ -2,17 +2,15 @@ const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
 const findPaginatedFilteredOrganizationCampaigns = require('../../../../lib/domain/usecases/find-paginated-filtered-organization-campaigns');
 
-describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', function() {
-
+describe('Unit | Domain | Use Cases | find-paginated-filtered-organization-campaigns', function () {
   const campaignReportRepository = { findPaginatedFilteredByOrganizationId: () => undefined };
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignReportRepository.findPaginatedFilteredByOrganizationId = sinon.stub();
   });
 
-  describe('#findPaginatedFilteredOrganizationCampaigns', function() {
-
-    it('should return the campaigns of the given organization', function() {
+  describe('#findPaginatedFilteredOrganizationCampaigns', function () {
+    it('should return the campaigns of the given organization', function () {
       // given
       const organizationId = 251;
       const foundCampaign = domainBuilder.buildCampaign({ organizationId });

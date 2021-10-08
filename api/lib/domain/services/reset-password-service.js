@@ -5,9 +5,13 @@ const crypto = require('crypto');
 
 module.exports = {
   generateTemporaryKey() {
-    return jsonwebtoken.sign({
-      data: crypto.randomBytes(16).toString('base64'),
-    }, settings.temporaryKey.secret, { expiresIn: settings.temporaryKey.tokenLifespan });
+    return jsonwebtoken.sign(
+      {
+        data: crypto.randomBytes(16).toString('base64'),
+      },
+      settings.temporaryKey.secret,
+      { expiresIn: settings.temporaryKey.tokenLifespan }
+    );
   },
 
   invalidateOldResetPasswordDemand(userEmail) {

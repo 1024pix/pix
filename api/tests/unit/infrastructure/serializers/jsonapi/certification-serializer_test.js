@@ -4,13 +4,12 @@ const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 const { NO_EXAMINER_COMMENT } = require('../../../../../lib/domain/models/CertificationReport');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
-describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
-
-  describe('#deserialize', function() {
+describe('Unit | Serializer | JSONAPI | certification-serializer', function () {
+  describe('#deserialize', function () {
     let jsonCertificationCourse;
     let certificationCourseObject;
 
-    beforeEach(function() {
+    beforeEach(function () {
       jsonCertificationCourse = {
         data: {
           type: 'certifications',
@@ -18,8 +17,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           attributes: {
             'first-name': 'Freezer',
             'last-name': 'The all mighty',
-            'birthplace': 'Namek',
-            'birthdate': '1989-10-24',
+            birthplace: 'Namek',
+            birthdate: '1989-10-24',
             'delivered-at': '2020-10-24',
             'external-id': 'xenoverse2',
             'examiner-comment': 'Un signalement surveillant',
@@ -39,7 +38,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       });
     });
 
-    it('should convert a JSON API data into a Certification Course object', async function() {
+    it('should convert a JSON API data into a Certification Course object', async function () {
       // when
       const result = await serializer.deserialize(jsonCertificationCourse);
 
@@ -47,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       expect(result).to.deep.equal(certificationCourseObject);
     });
 
-    it('should return an error if date is in wrong format', function() {
+    it('should return an error if date is in wrong format', function () {
       // given
       jsonCertificationCourse.data.attributes.birthdate = '2015-32-12';
 
@@ -61,8 +60,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
-    EMPTY_BLANK_AND_NULL.forEach(function(examinerComment) {
-      it(`should return no examiner comment if comment is "${examinerComment}"`, async function() {
+    EMPTY_BLANK_AND_NULL.forEach(function (examinerComment) {
+      it(`should return no examiner comment if comment is "${examinerComment}"`, async function () {
         // given
         jsonCertificationCourse.data.attributes['examiner-comment'] = examinerComment;
 
@@ -74,7 +73,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       });
     });
 
-    it('should return undefined if no examiner comment', async function() {
+    it('should return undefined if no examiner comment', async function () {
       // given
       jsonCertificationCourse.data.attributes['examiner-comment'] = undefined;
 
@@ -86,9 +85,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     });
   });
 
-  describe('#deserializeCertificationCandidateModificationCommand', function() {
-
-    it('should return an error if date is in wrong format', function() {
+  describe('#deserializeCertificationCandidateModificationCommand', function () {
+    it('should return an error if date is in wrong format', function () {
       // given
       const payload = {
         data: {
@@ -97,8 +95,8 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           attributes: {
             'first-name': 'Freezer',
             'last-name': 'The all mighty',
-            'birthplace': 'Namek',
-            'birthdate': '2015-32-12',
+            birthplace: 'Namek',
+            birthdate: '2015-32-12',
           },
         },
       };
@@ -112,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       });
     });
 
-    it('should deserialize only modifiable fields', async function() {
+    it('should deserialize only modifiable fields', async function () {
       // given
       const payload = {
         data: {
@@ -121,10 +119,10 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
           attributes: {
             'first-name': 'Freezer',
             'last-name': 'The all mighty',
-            'birthplace': 'Namek',
-            'birthdate': '1989-10-24',
-            'unmodifiablefield': 'unmodifiable field',
-            'sex': 'm',
+            birthplace: 'Namek',
+            birthdate: '1989-10-24',
+            unmodifiablefield: 'unmodifiable field',
+            sex: 'm',
             'birth-country': 'FRANCE',
             'birth-insee-code': '99100',
             'birth-postal-code': '75001',
@@ -136,26 +134,29 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
 
       // when
 
-      const command = await serializer.deserializeCertificationCandidateModificationCommand(payload, certificationCourseId, userId);
+      const command = await serializer.deserializeCertificationCandidateModificationCommand(
+        payload,
+        certificationCourseId,
+        userId
+      );
 
       // then
       expect(command).to.deep.equal({
-        'firstName': 'Freezer',
-        'lastName': 'The all mighty',
-        'birthplace': 'Namek',
-        'birthdate': '1989-10-24',
+        firstName: 'Freezer',
+        lastName: 'The all mighty',
+        birthplace: 'Namek',
+        birthdate: '1989-10-24',
         certificationCourseId: 14,
         userId: 16,
-        'sex': 'm',
-        'birthCountry': 'FRANCE',
-        'birthINSEECode': '99100',
-        'birthPostalCode': '75001',
+        sex: 'm',
+        birthCountry: 'FRANCE',
+        birthINSEECode: '99100',
+        birthPostalCode: '75001',
       });
     });
   });
 
-  describe('#serializeFromCertificationCourse', function() {
-
+  describe('#serializeFromCertificationCourse', function () {
     const jsonCertification = {
       data: {
         type: 'certifications',
@@ -163,9 +164,9 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
         attributes: {
           'first-name': 'Freezer',
           'last-name': 'The all mighty',
-          'birthplace': 'Namek',
-          'birthdate': '1989-10-24',
-          'sex': 'M',
+          birthplace: 'Namek',
+          birthdate: '1989-10-24',
+          sex: 'M',
           'external-id': 'xenoverse2',
           'birth-insee-code': '99100',
           'birth-postal-code': '75001',
@@ -189,7 +190,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
       birthCountry: 'FRANCE',
     });
 
-    it('should serialize', function() {
+    it('should serialize', function () {
       // when
       const serializedCertification = serializer.serializeFromCertificationCourse(certificationCourse);
       // then

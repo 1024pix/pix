@@ -1,15 +1,7 @@
 const { features } = require('../../config');
 
 class AllowedCertificationCenterAccess {
-
-  constructor({
-    id,
-    name,
-    externalId,
-    type,
-    isRelatedToManagingStudentsOrganization,
-    relatedOrganizationTags,
-  }) {
+  constructor({ id, name, externalId, type, isRelatedToManagingStudentsOrganization, relatedOrganizationTags }) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;
@@ -19,28 +11,26 @@ class AllowedCertificationCenterAccess {
   }
 
   isAccessBlockedCollege() {
-    return this.isCollege()
-      && !this.isLycee()
-      && !this.isInWhitelist()
-      && new Date() < new Date(features.pixCertifScoBlockedAccessDateCollege);
+    return (
+      this.isCollege() &&
+      !this.isLycee() &&
+      !this.isInWhitelist() &&
+      new Date() < new Date(features.pixCertifScoBlockedAccessDateCollege)
+    );
   }
 
   isAccessBlockedLycee() {
-    return this.isLycee()
-      && !this.isInWhitelist()
-      && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
+    return (
+      this.isLycee() && !this.isInWhitelist() && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee)
+    );
   }
 
   isAccessBlockedAEFE() {
-    return this.isAEFE()
-      && !this.isInWhitelist()
-      && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
+    return this.isAEFE() && !this.isInWhitelist() && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
   }
 
   isAccessBlockedAgri() {
-    return this.isAgri()
-      && !this.isInWhitelist()
-      && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
+    return this.isAgri() && !this.isInWhitelist() && new Date() < new Date(features.pixCertifScoBlockedAccessDateLycee);
   }
 
   hasTag(tagName) {
@@ -48,13 +38,11 @@ class AllowedCertificationCenterAccess {
   }
 
   isCollege() {
-    return this.isScoManagingStudents()
-      && this.hasTag('COLLEGE');
+    return this.isScoManagingStudents() && this.hasTag('COLLEGE');
   }
 
   isLycee() {
-    return this.isScoManagingStudents()
-      && (this.hasTag('LYCEE') || this.hasTag('LYCEE PRO'));
+    return this.isScoManagingStudents() && (this.hasTag('LYCEE') || this.hasTag('LYCEE PRO'));
   }
 
   isAEFE() {
@@ -62,13 +50,11 @@ class AllowedCertificationCenterAccess {
   }
 
   isAgri() {
-    return this.isScoManagingStudents()
-    && this.hasTag('AGRICULTURE');
+    return this.isScoManagingStudents() && this.hasTag('AGRICULTURE');
   }
 
   isScoManagingStudents() {
-    return this.type === 'SCO'
-      && this.isRelatedToManagingStudentsOrganization;
+    return this.type === 'SCO' && this.isRelatedToManagingStudentsOrganization;
   }
 
   isInWhitelist() {

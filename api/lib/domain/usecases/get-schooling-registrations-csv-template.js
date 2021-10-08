@@ -8,7 +8,11 @@ module.exports = async function getSchoolingRegistrationsCsvTemplate({
   i18n,
   membershipRepository,
 }) {
-  const [membership] = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization: true });
+  const [membership] = await membershipRepository.findByUserIdAndOrganizationId({
+    userId,
+    organizationId,
+    includeOrganization: true,
+  });
 
   if (!_isAdminOrganizationManagingStudent(membership)) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to download csv template.');
@@ -31,8 +35,7 @@ function _createHeaderOfCSV(header) {
 }
 
 function _isAdminOrganizationManagingStudent(membership) {
-  return membership
-  && membership.isAdmin
-  && membership.organization.isManagingStudents
-  && membership.organization.isSup;
+  return (
+    membership && membership.isAdmin && membership.organization.isManagingStudents && membership.organization.isSup
+  );
 }

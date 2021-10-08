@@ -1,7 +1,6 @@
 const isNil = require('lodash/isNil');
 const endsWith = require('lodash/endsWith');
-const Joi = require('joi')
-  .extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const {
   InvalidCertificationCandidate,
   CertificationCandidatePersonalInfoFieldMissingError,
@@ -59,27 +58,26 @@ const certificationCandidateParticipationJoiSchema = Joi.object({
 });
 
 class CertificationCandidate {
-  constructor(
-    {
-      id,
-      firstName,
-      lastName,
-      sex,
-      birthPostalCode,
-      birthINSEECode,
-      birthCity,
-      birthProvinceCode,
-      birthCountry,
-      email,
-      resultRecipientEmail,
-      externalId,
-      birthdate,
-      extraTimePercentage,
-      createdAt,
-      sessionId,
-      userId,
-      schoolingRegistrationId = null,
-    } = {}) {
+  constructor({
+    id,
+    firstName,
+    lastName,
+    sex,
+    birthPostalCode,
+    birthINSEECode,
+    birthCity,
+    birthProvinceCode,
+    birthCountry,
+    email,
+    resultRecipientEmail,
+    externalId,
+    birthdate,
+    extraTimePercentage,
+    createdAt,
+    sessionId,
+    userId,
+    schoolingRegistrationId = null,
+  } = {}) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;

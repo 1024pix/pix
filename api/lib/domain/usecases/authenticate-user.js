@@ -23,14 +23,7 @@ function _checkUserAccessScope(scope, user) {
   }
 }
 
-module.exports = async function authenticateUser({
-  password,
-  scope,
-  source,
-  username,
-  tokenService,
-  userRepository,
-}) {
+module.exports = async function authenticateUser({ password, scope, source, username, tokenService, userRepository }) {
   try {
     const foundUser = await authenticationService.getUserByUsernameAndPassword({
       username,
@@ -38,7 +31,10 @@ module.exports = async function authenticateUser({
       userRepository,
     });
 
-    const shouldChangePassword = get(foundUser, 'authenticationMethods[0].authenticationComplement.shouldChangePassword');
+    const shouldChangePassword = get(
+      foundUser,
+      'authenticationMethods[0].authenticationComplement.shouldChangePassword'
+    );
 
     if (!shouldChangePassword) {
       _checkUserAccessScope(scope, foundUser);
@@ -49,8 +45,7 @@ module.exports = async function authenticateUser({
       throw new UserShouldChangePasswordError();
     }
   } catch (error) {
-    if (error instanceof ForbiddenAccess
-      || error instanceof UserShouldChangePasswordError) {
+    if (error instanceof ForbiddenAccess || error instanceof UserShouldChangePasswordError) {
       throw error;
     }
     throw new MissingOrInvalidCredentialsError();

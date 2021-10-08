@@ -32,7 +32,6 @@ function checkData(csvData) {
 
 async function prepareCampaigns(campaignsData) {
   const campaigns = await bluebird.mapSeries(campaignsData, async (campaignData) => {
-
     const organization = await getByExternalIdFetchingIdOnly(campaignData.externalId);
 
     const campaign = {
@@ -47,7 +46,8 @@ async function prepareCampaigns(campaignsData) {
 
     campaignValidator.validate(campaign);
     campaign.code = await campaignCodeGenerator.generate(campaignRepository);
-    if (require.main === module) process.stdout.write(`Campagne ${ campaign.name } pour l'organisation ${ campaign.organizationId } ===> ✔\n`);
+    if (require.main === module)
+      process.stdout.write(`Campagne ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`);
     return campaign;
   });
 
@@ -55,7 +55,8 @@ async function prepareCampaigns(campaignsData) {
 }
 
 async function getByExternalIdFetchingIdOnly(externalId) {
-  const organization = await knex('organizations').select('id', 'externalId')
+  const organization = await knex('organizations')
+    .select('id', 'externalId')
     .whereRaw('LOWER (??) = ?', ['externalId', externalId.toLowerCase()])
     .first();
 
@@ -99,7 +100,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

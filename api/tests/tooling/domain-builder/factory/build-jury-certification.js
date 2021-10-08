@@ -4,7 +4,7 @@ const buildPixPlusDroitCertificationResult = require('./build-pix-plus-droit-cer
 const buildCertificationIssueReport = require('./build-certification-issue-report');
 const buildCompetenceMark = require('./build-competence-mark');
 
-const buildJuryCertification = function({
+const buildJuryCertification = function ({
   certificationCourseId = 123,
   sessionId = 456,
   userId = 789,

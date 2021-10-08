@@ -12,7 +12,6 @@ module.exports = function buildCompetenceEvaluation({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-02-01'),
 } = {}) {
-
   if (assessment && !assessmentId) {
     assessmentId = assessment.id;
   }

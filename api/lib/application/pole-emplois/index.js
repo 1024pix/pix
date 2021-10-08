@@ -3,7 +3,7 @@ const poleEmploiController = require('./pole-emploi-controller');
 const poleEmploiErreurDoc = require('../../infrastructure/open-api-doc/pole-emploi/erreur-doc');
 const poleEmploiEnvoisDoc = require('../../infrastructure/open-api-doc/pole-emploi/envois-doc');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -22,7 +22,7 @@ exports.register = async function(server) {
         handler: poleEmploiController.getSendings,
         notes: [
           '- **API Pôle emploi qui nécessite une authentification de type client credential grant**\n' +
-          '- Récupération des N derniers envois. Le résultat peut être paginé si plus de N entrées via le paramètre Link dans le header de la réponse\n',
+            '- Récupération des N derniers envois. Le résultat peut être paginé si plus de N entrées via le paramètre Link dans le header de la réponse\n',
         ],
         response: {
           failAction: 'ignore',
@@ -41,12 +41,21 @@ exports.register = async function(server) {
         },
         validate: {
           headers: Joi.object({
-            'authorization': Joi.string().description('Bearer Access token to access to API '),
-            'link': Joi.string().optional().example('https://gateway.pix.fr/pole-emploi/envois?curseur=1234').description('Lien de récupération de la page suivante des résultats'),
+            authorization: Joi.string().description('Bearer Access token to access to API '),
+            link: Joi.string()
+              .optional()
+              .example('https://gateway.pix.fr/pole-emploi/envois?curseur=1234')
+              .description('Lien de récupération de la page suivante des résultats'),
           }).unknown(),
           query: Joi.object({
-            curseur: Joi.string().optional().description('Identifiant du curseur permettant de récupérer les résultats suivants.'),
-            enErreur: Joi.boolean().optional().description('Permet de récupérer uniquement les résultats des participants dont l\'envoi a échoué la première fois.'),
+            curseur: Joi.string()
+              .optional()
+              .description('Identifiant du curseur permettant de récupérer les résultats suivants.'),
+            enErreur: Joi.boolean()
+              .optional()
+              .description(
+                "Permet de récupérer uniquement les résultats des participants dont l'envoi a échoué la première fois."
+              ),
           }).options({ allowUnknown: true }),
         },
         tags: ['api', 'pole-emploi'],

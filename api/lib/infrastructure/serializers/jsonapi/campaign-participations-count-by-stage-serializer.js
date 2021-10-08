@@ -6,12 +6,7 @@ module.exports = {
       id: 'campaignId',
       attributes: ['data'],
       data: {
-        attributes: [
-          'id',
-          'value',
-          'title',
-          'description',
-        ],
+        attributes: ['id', 'value', 'title', 'description'],
       },
     }).serialize(model);
   },

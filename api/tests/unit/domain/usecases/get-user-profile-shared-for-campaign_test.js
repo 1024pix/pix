@@ -3,8 +3,7 @@ const getUserProfileSharedForCampaign = require('../../../../lib/domain/usecases
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const { NoCampaignParticipationForUserAndCampaign } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
-
+describe('Unit | UseCase | get-user-profile-shared-for-campaign', function () {
   const sharedAt = new Date('2020-02-01');
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
@@ -21,9 +20,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
   let campaignRepository;
   let schoolingRegistrationRepository;
 
-  context('When user has shared its profile for the campaign', function() {
-
-    beforeEach(function() {
+  context('When user has shared its profile for the campaign', function () {
+    beforeEach(function () {
       campaignParticipationRepository = { findOneByCampaignIdAndUserId: sinon.stub() };
       knowledgeElementRepository = { findUniqByUserIdGroupedByCompetenceId: sinon.stub() };
       competenceRepository = { listPixCompetencesOnly: sinon.stub() };
@@ -32,26 +30,28 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
       sinon.stub(Scorecard, 'buildFrom');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       sinon.restore();
     });
 
-    it('should return the shared profile for campaign', async function() {
-      const knowledgeElements = { 'competence1': [], 'competence2': [] };
+    it('should return the shared profile for campaign', async function () {
+      const knowledgeElements = { competence1: [], competence2: [] };
       const competences = [{ id: 'competence1' }, { id: 'competence2' }];
       const campaign = { multipleSendings: false };
       // given
-      campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(expectedCampaignParticipation);
-      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId.withArgs({ userId, limitDate: sharedAt }).resolves(knowledgeElements);
+      campaignParticipationRepository.findOneByCampaignIdAndUserId
+        .withArgs({ userId, campaignId })
+        .resolves(expectedCampaignParticipation);
+      knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId
+        .withArgs({ userId, limitDate: sharedAt })
+        .resolves(knowledgeElements);
       competenceRepository.listPixCompetencesOnly.withArgs({ locale: 'fr' }).resolves(competences);
       campaignRepository.get.withArgs(campaignId).resolves(campaign);
       schoolingRegistrationRepository.isActive.withArgs({ campaignId, userId }).resolves(false);
-      Scorecard
-        .buildFrom
+      Scorecard.buildFrom
         .withArgs({ userId, knowledgeElements: knowledgeElements['competence1'], competence: competences[0] })
         .returns({ id: 'Score1', earnedPix: 10 });
-      Scorecard
-        .buildFrom
+      Scorecard.buildFrom
         .withArgs({ userId, knowledgeElements: knowledgeElements['competence2'], competence: competences[1] })
         .returns({ id: 'Score2', earnedPix: 5 });
 
@@ -81,8 +81,8 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
     });
   });
 
-  context('When user has not shared its profile', function() {
-    it('should throw an error', async function() {
+  context('When user has not shared its profile', function () {
+    it('should throw an error', async function () {
       // given
       campaignParticipationRepository.findOneByCampaignIdAndUserId.withArgs({ userId, campaignId }).resolves(null);
 
@@ -98,7 +98,7 @@ describe('Unit | UseCase | get-user-profile-shared-for-campaign', function() {
 
       // then
       expect(result).to.be.an.instanceOf(NoCampaignParticipationForUserAndCampaign);
-      expect(result.message).to.be.equal('L\'utilisateur n\'a pas encore participé à la campagne');
+      expect(result.message).to.be.equal("L'utilisateur n'a pas encore participé à la campagne");
     });
   });
 });

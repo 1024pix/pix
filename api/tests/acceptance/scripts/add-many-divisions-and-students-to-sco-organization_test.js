@@ -5,17 +5,17 @@ const { knex } = require('../../../lib/infrastructure/bookshelf');
 const BookshelfSchoolingRegistration = require('../../../lib/infrastructure/orm-models/SchoolingRegistration');
 const { databaseBuilder } = require('../../test-helper');
 
-const { addManyDivisionsAndStudentsToScoCertificationCenter } = require('../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization');
+const {
+  addManyDivisionsAndStudentsToScoCertificationCenter,
+} = require('../../../scripts/data-generation/add-many-divisions-and-students-to-sco-organization');
 
-describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function() {
-
-  describe('#addManyDivisionsAndStudentsToScoCertificationCenter', function() {
-
-    afterEach(function() {
+describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organization', function () {
+  describe('#addManyDivisionsAndStudentsToScoCertificationCenter', function () {
+    afterEach(function () {
       return knex('schooling-registrations').delete();
     });
 
-    it('should insert many divisions and schooling registrations', async function() {
+    it('should insert many divisions and schooling registrations', async function () {
       // given
       const numberOfDivisionsToCreate = 4;
       const numberOfStudentsPerDivision = 30;
@@ -47,11 +47,9 @@ describe('Acceptance | Scripts | add-many-divisions-and-students-to-sco-organiza
 });
 
 function _getNumberOfSchoolingRegistrations() {
-  return BookshelfSchoolingRegistration.count()
-    .then((number) => parseInt(number, 10));
+  return BookshelfSchoolingRegistration.count().then((number) => parseInt(number, 10));
 }
 
 function _getDistinctDivisions() {
-  return knex('schooling-registrations')
-    .distinct('division');
+  return knex('schooling-registrations').distinct('division');
 }

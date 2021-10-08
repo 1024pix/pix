@@ -11,9 +11,8 @@ const {
   createCertificationCenterMemberships,
 } = require('../../../scripts/create-certification-center-memberships-from-organization-admins');
 
-describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function() {
-
-  afterEach(async function() {
+describe('Integration | Scripts | create-certification-center-memberships-from-organization-admins.js', function () {
+  afterEach(async function () {
     await knex('certification-center-memberships').delete();
     await knex('certification-centers').delete();
     await knex('memberships').delete();
@@ -37,10 +36,9 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     return { organization, certificationCenter };
   }
 
-  describe('#getCertificationCenterIdWithMembershipsUserIdByExternalId', function() {
-
-    context('when certification center has memberships', function() {
-      it('should get certification center id with memberships user id by externalId', async function() {
+  describe('#getCertificationCenterIdWithMembershipsUserIdByExternalId', function () {
+    context('when certification center has memberships', function () {
+      it('should get certification center id with memberships user id by externalId', async function () {
         // given
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
         const userId = databaseBuilder.factory.buildUser().id;
@@ -60,8 +58,8 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       });
     });
 
-    context('when certification center does not have memberships', function() {
-      it('should get certification center id with memberships user id by externalId', async function() {
+    context('when certification center does not have memberships', function () {
+      it('should get certification center id with memberships user id by externalId', async function () {
         // given
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter();
 
@@ -77,9 +75,8 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     });
   });
 
-  describe('#getAdminMembershipsUserIdByOrganizationExternalId', function() {
-
-    it('should get admin memberships by organization externalId', async function() {
+  describe('#getAdminMembershipsUserIdByOrganizationExternalId', function () {
+    it('should get admin memberships by organization externalId', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const adminUserId1 = _buildUserWithAdminMembership(organization.id);
@@ -94,7 +91,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       expect(userIds).to.have.deep.members(expectedUserIds);
     });
 
-    it('should return an empty array if organization has no admin membership', async function() {
+    it('should return an empty array if organization has no admin membership', async function () {
       // given
       const externalId = '1212121A';
       databaseBuilder.factory.buildOrganization({ externalId }).id;
@@ -107,7 +104,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       expect(memberships).to.have.lengthOf(0);
     });
 
-    it('should not return anonymize user', async function() {
+    it('should not return anonymize user', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const anonymmizeUser = databaseBuilder.factory.buildUser({
@@ -139,7 +136,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       expect(memberships).to.deep.equal([notAnonymizeUserId]);
     });
 
-    it('should not return disabled member', async function() {
+    it('should not return disabled member', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
       const disabledUser = databaseBuilder.factory.buildUser();
@@ -159,9 +156,8 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     });
   });
 
-  describe('#fetchCertificationCenterMembershipsByExternalId', function() {
-
-    it('should fetch list of certification center memberships by externalId without already existing ones', async function() {
+  describe('#fetchCertificationCenterMembershipsByExternalId', function () {
+    it('should fetch list of certification center memberships by externalId without already existing ones', async function () {
       // given
       const { organization, certificationCenter } = _buildOrganizationAndAssociatedCertificationCenter('ABC');
       const userId = _buildUserWithAdminMembership(organization.id);
@@ -186,24 +182,17 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     });
   });
 
-  describe('#prepareDataForInsert', function() {
-
-    it('should create a list of certification center memberships to insert from a list of externalIds', async function() {
+  describe('#prepareDataForInsert', function () {
+    it('should create a list of certification center memberships to insert from a list of externalIds', async function () {
       // given
-      const {
-        organization: organization1,
-        certificationCenter: certificationCenter1,
-      } = _buildOrganizationAndAssociatedCertificationCenter('ABC');
+      const { organization: organization1, certificationCenter: certificationCenter1 } =
+        _buildOrganizationAndAssociatedCertificationCenter('ABC');
       const adminUserId1 = _buildUserWithAdminMembership(organization1.id);
-      const {
-        organization: organization2,
-        certificationCenter: certificationCenter2,
-      } = _buildOrganizationAndAssociatedCertificationCenter('DEF');
+      const { organization: organization2, certificationCenter: certificationCenter2 } =
+        _buildOrganizationAndAssociatedCertificationCenter('DEF');
       const adminUserId2 = _buildUserWithAdminMembership(organization2.id);
-      const {
-        organization: organization3,
-        certificationCenter: certificationCenter3,
-      } = _buildOrganizationAndAssociatedCertificationCenter('GHI');
+      const { organization: organization3, certificationCenter: certificationCenter3 } =
+        _buildOrganizationAndAssociatedCertificationCenter('GHI');
       const adminUserId3a = _buildUserWithAdminMembership(organization3.id);
       const adminUserId3b = _buildUserWithAdminMembership(organization3.id);
       databaseBuilder.factory.buildCertificationCenterMembership({
@@ -230,11 +219,11 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
       expect(result).to.deep.have.members(expectedCertificationCenterMemberships);
     });
 
-    context('when the certification center has a membership already and organization has 2 to insert', function() {
-
-      it('should create a list of 2 certification center memberships to insert from a list of externalIds', async function() {
+    context('when the certification center has a membership already and organization has 2 to insert', function () {
+      it('should create a list of 2 certification center memberships to insert from a list of externalIds', async function () {
         // given
-        const { organization, certificationCenter: certificationCenterWithMembership } = _buildOrganizationAndAssociatedCertificationCenter('ABC');
+        const { organization, certificationCenter: certificationCenterWithMembership } =
+          _buildOrganizationAndAssociatedCertificationCenter('ABC');
 
         const adminUserId = _buildUserWithAdminMembership(organization.id);
         const adminUserBisId = _buildUserWithAdminMembership(organization.id);
@@ -253,9 +242,7 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
         await databaseBuilder.commit();
 
         // when
-        const result = await prepareDataForInsert([
-          { externalId: organization.externalId },
-        ]);
+        const result = await prepareDataForInsert([{ externalId: organization.externalId }]);
 
         // then
         const expectedCertificationCenterMemberships = [
@@ -266,21 +253,20 @@ describe('Integration | Scripts | create-certification-center-memberships-from-o
     });
   });
 
-  describe('#createCertificationCenterMemberships', function() {
-
+  describe('#createCertificationCenterMemberships', function () {
     const getNumberOfCertificationCenterMemberships = () => {
-      return BookshelfCertificationCenterMembership.count()
-        .then((number) => parseInt(number, 10));
+      return BookshelfCertificationCenterMembership.count().then((number) => parseInt(number, 10));
     };
 
-    context('when the certification center does not have any membership', function() {
-
-      it('should insert 4 certification center memberships', async function() {
+    context('when the certification center does not have any membership', function () {
+      it('should insert 4 certification center memberships', async function () {
         // given
-        const { organization: organization1, certificationCenter: certificationCenter1 } = _buildOrganizationAndAssociatedCertificationCenter('ABC');
+        const { organization: organization1, certificationCenter: certificationCenter1 } =
+          _buildOrganizationAndAssociatedCertificationCenter('ABC');
         const adminUserId1a = _buildUserWithAdminMembership(organization1.id);
         const adminUserId1b = _buildUserWithAdminMembership(organization1.id);
-        const { organization: organization2, certificationCenter: certificationCenter2 } = _buildOrganizationAndAssociatedCertificationCenter('DEF');
+        const { organization: organization2, certificationCenter: certificationCenter2 } =
+          _buildOrganizationAndAssociatedCertificationCenter('DEF');
         const adminUserId2a = _buildUserWithAdminMembership(organization2.id);
         const adminUserId2b = _buildUserWithAdminMembership(organization2.id);
 

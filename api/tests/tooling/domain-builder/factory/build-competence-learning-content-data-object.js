@@ -21,7 +21,6 @@ module.exports = function buildCompetenceLearningContentDataObject({
     'rec50NXHkatsRkjVQ',
   ],
 } = {}) {
-
   return {
     id,
     name,

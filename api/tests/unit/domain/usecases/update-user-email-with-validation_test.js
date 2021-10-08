@@ -1,9 +1,4 @@
-const {
-  expect,
-  sinon,
-  catchErr,
-  domainBuilder,
-} = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const {
   AlreadyRegisteredEmailError,
   InvalidVerificationCodeError,
@@ -14,13 +9,12 @@ const {
 const EmailModificationDemand = require('../../../../lib/domain/models/EmailModificationDemand');
 const updateUserEmailWithValidation = require('../../../../lib/domain/usecases/update-user-email-with-validation');
 
-describe('Unit | UseCase | update-user-email-with-validation', function() {
-
+describe('Unit | UseCase | update-user-email-with-validation', function () {
   let userEmailRepository;
   let userRepository;
   let clock;
 
-  beforeEach(function() {
+  beforeEach(function () {
     userEmailRepository = {
       getEmailModificationDemandByUserId: sinon.stub(),
     };
@@ -31,7 +25,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function() {
     };
   });
 
-  it('should update email and set date for confirmed email', async function() {
+  it('should update email and set date for confirmed email', async function () {
     // given
     const userId = domainBuilder.buildUser().id;
     const email = 'oldEmail@example.net';
@@ -65,7 +59,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function() {
     clock.restore();
   });
 
-  it('should get email modification demand in temporary storage', async function() {
+  it('should get email modification demand in temporary storage', async function () {
     // given
     const userId = domainBuilder.buildUser().id;
     const email = 'oldEmail@example.net';
@@ -91,7 +85,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function() {
     expect(userEmailRepository.getEmailModificationDemandByUserId).to.have.been.calledWithExactly(userId);
   });
 
-  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function() {
+  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function () {
     // given
     userRepository.get.resolves({});
     const userId = 1;
@@ -109,7 +103,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function() {
     expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
   });
 
-  it('should throw AlreadyRegisteredEmailError if email already exists', async function() {
+  it('should throw AlreadyRegisteredEmailError if email already exists', async function () {
     // given
     const userId = domainBuilder.buildUser().id;
     const email = 'oldEmail@example.net';
@@ -136,7 +130,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function() {
     expect(error).to.be.an.instanceOf(AlreadyRegisteredEmailError);
   });
 
-  it('should throw InvalidVerificationCodeError if the code send does not match with then code saved in temporary storage', async function() {
+  it('should throw InvalidVerificationCodeError if the code send does not match with then code saved in temporary storage', async function () {
     // given
     const userId = domainBuilder.buildUser().id;
     const email = 'oldEmail@example.net';
@@ -163,7 +157,7 @@ describe('Unit | UseCase | update-user-email-with-validation', function() {
     expect(error).to.be.an.instanceOf(InvalidVerificationCodeError);
   });
 
-  it('should throw EmailModificationDemandNotFoundOrExpiredError if no email modification demand match or is expired', async function() {
+  it('should throw EmailModificationDemandNotFoundOrExpiredError if no email modification demand match or is expired', async function () {
     // given
     const userId = domainBuilder.buildUser().id;
     const anotherUserId = domainBuilder.buildUser().id;

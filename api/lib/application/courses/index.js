@@ -3,7 +3,7 @@ const Joi = require('joi');
 const courseController = require('./course-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',

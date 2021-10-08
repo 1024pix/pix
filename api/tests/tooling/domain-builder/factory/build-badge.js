@@ -11,14 +11,8 @@ module.exports = function buildBadge({
   key = 'key',
   isCertifiable = false,
   targetProfileId = 456,
-  badgeCriteria = [
-    buildBadgeCriterion(),
-    buildBadgeCriterion({ id: 2, partnerCompetenceIds: [1, 2] }),
-  ],
-  badgePartnerCompetences = [
-    buildBadgePartnerCompetence(),
-    buildBadgePartnerCompetence({ id: 2 }),
-  ],
+  badgeCriteria = [buildBadgeCriterion(), buildBadgeCriterion({ id: 2, partnerCompetenceIds: [1, 2] })],
+  badgePartnerCompetences = [buildBadgePartnerCompetence(), buildBadgePartnerCompetence({ id: 2 })],
   isAlwaysVisible = false,
 } = {}) {
   return new Badge({

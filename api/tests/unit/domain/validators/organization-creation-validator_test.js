@@ -10,13 +10,10 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | organization-validator', function() {
-
-  describe('#validate', function() {
-
-    context('when validation is successful', function() {
-
-      it('should not throw any error', function() {
+describe('Unit | Domain | Validators | organization-validator', function () {
+  describe('#validate', function () {
+    context('when validation is successful', function () {
+      it('should not throw any error', function () {
         // given
         const organizationCreationParams = { name: 'ACME', type: 'PRO' };
 
@@ -25,11 +22,9 @@ describe('Unit | Domain | Validators | organization-validator', function() {
       });
     });
 
-    context('when organization data validation fails', function() {
-
-      context('on name attribute', function() {
-
-        it('should reject with error when name is missing', function() {
+    context('when organization data validation fails', function () {
+      context('on name attribute', function () {
+        it('should reject with error when name is missing', function () {
           // given
           const expectedError = {
             attribute: 'name',
@@ -46,12 +41,10 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             _assertErrorMatchesWithExpectedOne(errors, expectedError);
           }
         });
-
       });
 
-      context('on type attribute', function() {
-
-        it('should reject with error when type is missing', function() {
+      context('on type attribute', function () {
+        it('should reject with error when type is missing', function () {
           // given
           const expectedError = [
             {
@@ -61,7 +54,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             {
               attribute: 'type',
               message: 'Le type n’est pas renseigné.',
-            }];
+            },
+          ];
 
           const organizationCreationParams = { name: 'ACME', type: MISSING_VALUE };
 
@@ -76,7 +70,7 @@ describe('Unit | Domain | Validators | organization-validator', function() {
           }
         });
 
-        it('should reject with error when type value is not SUP, SCO or PRO', function() {
+        it('should reject with error when type value is not SUP, SCO or PRO', function () {
           // given
           const expectedError = {
             attribute: 'type',
@@ -95,12 +89,8 @@ describe('Unit | Domain | Validators | organization-validator', function() {
         });
 
         // eslint-disable-next-line mocha/no-setup-in-describe
-        [
-          'SUP',
-          'SCO',
-          'PRO',
-        ].forEach((type) => {
-          it(`should not throw with ${type} as type`, function() {
+        ['SUP', 'SCO', 'PRO'].forEach((type) => {
+          it(`should not throw with ${type} as type`, function () {
             // given
             const organizationCreationParams = { name: 'ACME', type };
 
@@ -108,10 +98,9 @@ describe('Unit | Domain | Validators | organization-validator', function() {
             return expect(organizationCreationValidator.validate(organizationCreationParams)).to.not.throw;
           });
         });
-
       });
 
-      it('should reject with errors on all fields (but only once by field) when all fields are missing', function() {
+      it('should reject with errors on all fields (but only once by field) when all fields are missing', function () {
         // given
         const organizationCreationParams = { name: MISSING_VALUE, type: MISSING_VALUE };
 

@@ -5,8 +5,7 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Use Cases | get-progression', function() {
-
+describe('Unit | Domain | Use Cases | get-progression', function () {
   const progressionId = 'progression-1234';
   const assessmentId = 1234;
   const userId = 9874;
@@ -21,19 +20,17 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
 
   let sandbox;
 
-  beforeEach(function() {
+  beforeEach(function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(knowledgeElementRepository, 'findUniqByUserId').resolves([]);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sandbox.restore();
   });
 
-  describe('#getProgression', function() {
-
-    context('when the assessment exists and is campaign', function() {
-
+  describe('#getProgression', function () {
+    context('when the assessment exists and is campaign', function () {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       const assessment = domainBuilder.buildAssessment({
@@ -54,15 +51,24 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
       // eslint-disable-next-line mocha/no-setup-in-describe
       const targetProfile = domainBuilder.buildTargetProfile();
 
-      beforeEach(function() {
-        sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').withArgs(assessment.id, userId).resolves(assessment);
-        sandbox.stub(campaignParticipationRepository, 'get').withArgs(assessment.campaignParticipationId).resolves(campaignParticipation);
-        sandbox.stub(targetProfileRepository, 'getByCampaignId').withArgs(campaignParticipation.campaignId).resolves(targetProfile);
+      beforeEach(function () {
+        sandbox
+          .stub(assessmentRepository, 'getByAssessmentIdAndUserId')
+          .withArgs(assessment.id, userId)
+          .resolves(assessment);
+        sandbox
+          .stub(campaignParticipationRepository, 'get')
+          .withArgs(assessment.campaignParticipationId)
+          .resolves(campaignParticipation);
+        sandbox
+          .stub(targetProfileRepository, 'getByCampaignId')
+          .withArgs(campaignParticipation.campaignId)
+          .resolves(targetProfile);
         sandbox.stub(campaignParticipationRepository, 'isRetrying');
         sandbox.stub(improvementService, 'filterKnowledgeElementsIfImproving');
       });
 
-      it('should return the progression associated to the assessment', async function() {
+      it('should return the progression associated to the assessment', async function () {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
@@ -88,20 +94,19 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
         expect(progression).to.deep.equal(expectedProgression);
       });
 
-      context('when the assessment is improving', function() {
+      context('when the assessment is improving', function () {
         let knowledgeElements, knowledgeElementsFiltered;
-        beforeEach(function() {
+        beforeEach(function () {
           assessment.state = 'improving';
-          knowledgeElements = [
-            domainBuilder.buildKnowledgeElement(),
-            domainBuilder.buildKnowledgeElement(),
-          ];
+          knowledgeElements = [domainBuilder.buildKnowledgeElement(), domainBuilder.buildKnowledgeElement()];
           knowledgeElementsFiltered = [knowledgeElements[0]];
           knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
-          campaignParticipationRepository.isRetrying.withArgs({ campaignParticipationId: assessment.campaignParticipationId }).resolves(false);
+          campaignParticipationRepository.isRetrying
+            .withArgs({ campaignParticipationId: assessment.campaignParticipationId })
+            .resolves(false);
         });
 
-        it('should filter the knowledge elements', async function() {
+        it('should filter the knowledge elements', async function () {
           // when
           await getProgression({
             userId,
@@ -116,12 +121,18 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
           });
 
           // then
-          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({ knowledgeElements, assessment, isRetrying: false });
+          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({
+            knowledgeElements,
+            assessment,
+            isRetrying: false,
+          });
         });
 
-        it('should return the progression associated to the assessment', async function() {
+        it('should return the progression associated to the assessment', async function () {
           // given
-          improvementService.filterKnowledgeElementsIfImproving.withArgs({ knowledgeElements, assessment, isRetrying: false }).returns(knowledgeElementsFiltered);
+          improvementService.filterKnowledgeElementsIfImproving
+            .withArgs({ knowledgeElements, assessment, isRetrying: false })
+            .returns(knowledgeElementsFiltered);
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
             targetedSkills: targetProfile.skills,
@@ -145,23 +156,21 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
           // then
           expect(progression).to.deep.equal(expectedProgression);
         });
-
       });
 
-      context('when the assessment is improving because user is retrying campaign participation', function() {
+      context('when the assessment is improving because user is retrying campaign participation', function () {
         let knowledgeElements, knowledgeElementsFiltered;
-        beforeEach(function() {
+        beforeEach(function () {
           assessment.state = 'improving';
-          knowledgeElements = [
-            domainBuilder.buildKnowledgeElement(),
-            domainBuilder.buildKnowledgeElement(),
-          ];
+          knowledgeElements = [domainBuilder.buildKnowledgeElement(), domainBuilder.buildKnowledgeElement()];
           knowledgeElementsFiltered = [knowledgeElements[0]];
           knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
-          campaignParticipationRepository.isRetrying.withArgs({ campaignParticipationId: assessment.campaignParticipationId }).resolves(true);
+          campaignParticipationRepository.isRetrying
+            .withArgs({ campaignParticipationId: assessment.campaignParticipationId })
+            .resolves(true);
         });
 
-        it('should filter the knowledge elements', async function() {
+        it('should filter the knowledge elements', async function () {
           // when
           await getProgression({
             userId,
@@ -176,12 +185,18 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
           });
 
           // then
-          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({ knowledgeElements, assessment, isRetrying: true });
+          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({
+            knowledgeElements,
+            assessment,
+            isRetrying: true,
+          });
         });
 
-        it('should return the progression associated to the assessment', async function() {
+        it('should return the progression associated to the assessment', async function () {
           // given
-          improvementService.filterKnowledgeElementsIfImproving.withArgs({ knowledgeElements, assessment, isRetrying: true }).returns(knowledgeElementsFiltered);
+          improvementService.filterKnowledgeElementsIfImproving
+            .withArgs({ knowledgeElements, assessment, isRetrying: true })
+            .returns(knowledgeElementsFiltered);
 
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
@@ -209,8 +224,7 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
       });
     });
 
-    context('when the assessment exists and is competence evaluation', function() {
-
+    context('when the assessment exists and is competence evaluation', function () {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceEvaluationAssessment = domainBuilder.buildAssessment({
@@ -232,15 +246,17 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
       // eslint-disable-next-line mocha/no-setup-in-describe
       const competenceSkills = [domainBuilder.buildSkill()];
 
-      beforeEach(function() {
+      beforeEach(function () {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(competenceEvaluationAssessment);
         sandbox.stub(competenceEvaluationRepository, 'getByAssessmentId').resolves(competenceEvaluation);
         sandbox.stub(skillRepository, 'findActiveByCompetenceId').resolves(competenceSkills);
-        sandbox.stub(improvementService, 'filterKnowledgeElementsIfImproving')
-          .withArgs({ knowledgeElements: [], assessment: competenceEvaluationAssessment }).returns([]);
+        sandbox
+          .stub(improvementService, 'filterKnowledgeElementsIfImproving')
+          .withArgs({ knowledgeElements: [], assessment: competenceEvaluationAssessment })
+          .returns([]);
       });
 
-      it('should load the right assessment', async function() {
+      it('should load the right assessment', async function () {
         // when
         await getProgression({
           userId,
@@ -258,7 +274,7 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
         expect(competenceEvaluationRepository.getByAssessmentId).to.have.been.calledWith(assessmentId);
       });
 
-      it('should return the progression associated to the assessment', async function() {
+      it('should return the progression associated to the assessment', async function () {
         // given
         const expectedProgression = domainBuilder.buildProgression({
           id: progressionId,
@@ -284,24 +300,21 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
         expect(progression).to.deep.equal(expectedProgression);
       });
 
-      context('when the assessment is improving', function() {
-
+      context('when the assessment is improving', function () {
         let knowledgeElements, knowledgeElementsFiltered;
 
-        beforeEach(function() {
+        beforeEach(function () {
           competenceEvaluationAssessment.state = 'improving';
-          knowledgeElements = [
-            domainBuilder.buildKnowledgeElement(),
-            domainBuilder.buildKnowledgeElement(),
-          ];
+          knowledgeElements = [domainBuilder.buildKnowledgeElement(), domainBuilder.buildKnowledgeElement()];
           knowledgeElementsFiltered = [knowledgeElements[0]];
           knowledgeElementRepository.findUniqByUserId.resolves(knowledgeElements);
 
           improvementService.filterKnowledgeElementsIfImproving
-            .withArgs({ knowledgeElements, assessment: competenceEvaluationAssessment }).returns(knowledgeElementsFiltered);
+            .withArgs({ knowledgeElements, assessment: competenceEvaluationAssessment })
+            .returns(knowledgeElementsFiltered);
         });
 
-        it('should filter the knowledge elements', async function() {
+        it('should filter the knowledge elements', async function () {
           // when
           await getProgression({
             userId,
@@ -316,12 +329,13 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
           });
 
           // then
-          expect(improvementService.filterKnowledgeElementsIfImproving)
-            .to.have.been.calledWith({ knowledgeElements, assessment: competenceEvaluationAssessment });
-
+          expect(improvementService.filterKnowledgeElementsIfImproving).to.have.been.calledWith({
+            knowledgeElements,
+            assessment: competenceEvaluationAssessment,
+          });
         });
 
-        it('should return the progression associated to the assessment', async function() {
+        it('should return the progression associated to the assessment', async function () {
           // given
           const expectedProgression = domainBuilder.buildProgression({
             id: progressionId,
@@ -349,8 +363,7 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
       });
     });
 
-    context('when the assessment does not exist', function() {
-
+    context('when the assessment does not exist', function () {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       const assessment = domainBuilder.buildAssessment({
@@ -361,11 +374,11 @@ describe('Unit | Domain | Use Cases | get-progression', function() {
         type: Assessment.types.CAMPAIGN,
       });
 
-      beforeEach(function() {
+      beforeEach(function () {
         sandbox.stub(assessmentRepository, 'getByAssessmentIdAndUserId').resolves(assessment);
       });
 
-      it('should transfer the errors', async function() {
+      it('should transfer the errors', async function () {
         // given
         assessmentRepository.getByAssessmentIdAndUserId.rejects(new NotFoundError('No found Assessment for ID 1234'));
 

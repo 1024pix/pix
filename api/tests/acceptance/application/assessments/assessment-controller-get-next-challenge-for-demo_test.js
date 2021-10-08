@@ -1,49 +1,52 @@
 const { expect, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function() {
-
+describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
-    const learningContent = [{
-      id: '1. Information et données',
-      competences: [{
-        id: 'competence_id',
-        nameFrFr: 'Mener une recherche et une veille d\'information',
-        index: '1.1',
-        tubes: [{
-          id: 'recTube0_0',
-          skills: [{
-            id: '@web1',
-            nom: '@web1',
-            challenges: [
-              { id: 'first_challenge' },
-              { id: 'second_challenge' },
-              { id: 'third_challenge' },
+    const learningContent = [
+      {
+        id: '1. Information et données',
+        competences: [
+          {
+            id: 'competence_id',
+            nameFrFr: "Mener une recherche et une veille d'information",
+            index: '1.1',
+            tubes: [
+              {
+                id: 'recTube0_0',
+                skills: [
+                  {
+                    id: '@web1',
+                    nom: '@web1',
+                    challenges: [{ id: 'first_challenge' }, { id: 'second_challenge' }, { id: 'third_challenge' }],
+                  },
+                ],
+              },
             ],
-          }],
-        }],
-      }],
-      courses: [{
-        id: 'course_id',
-        competenceId: 'competence_id',
-        challengeIds: ['first_challenge', 'second_challenge'],
-      }],
-    }];
+          },
+        ],
+        courses: [
+          {
+            id: 'course_id',
+            competenceId: 'competence_id',
+            challengeIds: ['first_challenge', 'second_challenge'],
+          },
+        ],
+      },
+    ];
 
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
   });
 
-  describe('(demo) GET /api/assessments/:assessment_id/next', function() {
-
+  describe('(demo) GET /api/assessments/:assessment_id/next', function () {
     const assessmentId = 1;
 
-    context('when no challenge is answered', function() {
-
-      beforeEach(function() {
+    context('when no challenge is answered', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
@@ -52,7 +55,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', function() {
+      it('should return 200 HTTP status code', function () {
         // given
         const options = {
           method: 'GET',
@@ -65,7 +68,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         });
       });
 
-      it('should return application/json', function() {
+      it('should return application/json', function () {
         // given
         const options = {
           method: 'GET',
@@ -82,7 +85,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         });
       });
 
-      it('should return the first challenge if none already answered', function() {
+      it('should return the first challenge if none already answered', function () {
         // given
         const options = {
           method: 'GET',
@@ -99,8 +102,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
       });
     });
 
-    context('when the first challenge is already answered', function() {
-      beforeEach(function() {
+    context('when the first challenge is already answered', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
@@ -110,7 +113,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should return the second challenge', async function() {
+      it('should return the second challenge', async function () {
         // given
         const options = {
           method: 'GET',
@@ -127,8 +130,8 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
       });
     });
 
-    context('when all challenges are answered', function() {
-      beforeEach(function() {
+    context('when all challenges are answered', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildAssessment({
           id: assessmentId,
           type: 'DEMO',
@@ -139,7 +142,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-for-demo',
         return databaseBuilder.commit();
       });
 
-      it('should finish the test', async function() {
+      it('should finish the test', async function () {
         // given
         const options = {
           method: 'GET',

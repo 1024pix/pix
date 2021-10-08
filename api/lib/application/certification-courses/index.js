@@ -5,16 +5,18 @@ const certificationCourseController = require('./certification-course-controller
 
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
       path: '/api/admin/certifications/{id}/details',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.certificationCourseId,
@@ -33,10 +35,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/admin/certifications/{id}/certified-profile',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.certificationCourseId,
@@ -59,10 +63,12 @@ exports.register = async function(server) {
             id: identifiersType.certificationCourseId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: certificationCourseController.getJuryCertification,
         tags: ['api'],
       },
@@ -78,20 +84,23 @@ exports.register = async function(server) {
         },
         handler: certificationCourseController.update,
         tags: ['api'],
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
       },
-    }, {
+    },
+    {
       method: 'POST',
       path: '/api/certification-courses',
       config: {
         handler: certificationCourseController.save,
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- S\'il existe déjà une certification pour l\'utilisateur courant dans cette session, alors cette route renvoie la certification existante avec un code 200\n' +
-          '- Sinon, crée une certification pour l\'utilisateur courant dans la session indiquée par l\'attribut *access-code*, et la renvoie avec un code 201\n',
+            "- S'il existe déjà une certification pour l'utilisateur courant dans cette session, alors cette route renvoie la certification existante avec un code 200\n" +
+            "- Sinon, crée une certification pour l'utilisateur courant dans la session indiquée par l'attribut *access-code*, et la renvoie avec un code 201\n",
         ],
         tags: ['api'],
       },
@@ -118,10 +127,12 @@ exports.register = async function(server) {
             id: identifiersType.certificationCourseId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: certificationCourseController.cancel,
         tags: ['api'],
       },
@@ -135,10 +146,12 @@ exports.register = async function(server) {
             id: identifiersType.certificationCourseId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: certificationCourseController.uncancel,
         tags: ['api'],
       },

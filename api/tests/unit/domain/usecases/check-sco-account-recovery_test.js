@@ -1,13 +1,8 @@
-const {
-  expect,
-  sinon,
-  domainBuilder,
-} = require('../../../test-helper');
+const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const StudentInformationForAccountRecovery = require('../../../../lib/domain/read-models/StudentInformationForAccountRecovery');
 const checkScoAccountRecovery = require('../../../../lib/domain/usecases/check-sco-account-recovery');
 
-describe('Unit | UseCase | check-sco-account-recovery', function() {
-
+describe('Unit | UseCase | check-sco-account-recovery', function () {
   let schoolingRegistrationRepository;
   let accountRecoveryDemandRepository;
   let userRepository;
@@ -15,7 +10,7 @@ describe('Unit | UseCase | check-sco-account-recovery', function() {
   let scoAccountRecoveryService;
   const userReconciliationService = {};
 
-  beforeEach(function() {
+  beforeEach(function () {
     schoolingRegistrationRepository = {
       getSchoolingRegistrationInformation: sinon.stub(),
       findByUserId: sinon.stub(),
@@ -31,11 +26,9 @@ describe('Unit | UseCase | check-sco-account-recovery', function() {
     };
   });
 
-  context('when user exists', function() {
-
-    context('when user have only one schooling registration', function() {
-
-      it('should return user account information', async function() {
+  context('when user exists', function () {
+    context('when user have only one schooling registration', function () {
+      it('should return user account information', async function () {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -46,19 +39,21 @@ describe('Unit | UseCase | check-sco-account-recovery', function() {
 
         const expectedOrganization = domainBuilder.buildOrganization({ id: 7, name: 'Lycée Poudlard' });
 
-        scoAccountRecoveryService.retrieveSchoolingRegistration.withArgs({
-          accountRecoveryDemandRepository,
-          studentInformation,
-          schoolingRegistrationRepository,
-          userRepository,
-          userReconciliationService,
-        }).resolves({
-          firstName: studentInformation.firstName,
-          lastName: studentInformation.lastName,
-          username: 'nanou.monchose0705',
-          organizationId: expectedOrganization.id,
-          email: 'nanou.monchose@example.net',
-        });
+        scoAccountRecoveryService.retrieveSchoolingRegistration
+          .withArgs({
+            accountRecoveryDemandRepository,
+            studentInformation,
+            schoolingRegistrationRepository,
+            userRepository,
+            userReconciliationService,
+          })
+          .resolves({
+            firstName: studentInformation.firstName,
+            lastName: studentInformation.lastName,
+            username: 'nanou.monchose0705',
+            organizationId: expectedOrganization.id,
+            email: 'nanou.monchose@example.net',
+          });
         organizationRepository.get.withArgs(expectedOrganization.id).resolves(expectedOrganization);
 
         // when
@@ -84,5 +79,4 @@ describe('Unit | UseCase | check-sco-account-recovery', function() {
       });
     });
   });
-
 });

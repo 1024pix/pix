@@ -21,14 +21,16 @@ const TYPE_COLUMN = 'ACTUAL';
 const FRENCH_CODE_IN_FILE = 'XXXXX';
 
 const TYPES = {
-  'actuel': '1',
-  'perime': '2',
-  'territoire_sans_code_officiel_geographique': '3',
-  'territoire_ayant_code_officiel_geographique': '4',
+  actuel: '1',
+  perime: '2',
+  territoire_sans_code_officiel_geographique: '3',
+  territoire_ayant_code_officiel_geographique: '4',
 };
 
 function _filterOutDeprecatedAndNonCOG(data) {
-  return data[TYPE_COLUMN] === TYPES['actuel'] || data[TYPE_COLUMN] === TYPES['territoire_ayant_code_officiel_geographique'];
+  return (
+    data[TYPE_COLUMN] === TYPES['actuel'] || data[TYPE_COLUMN] === TYPES['territoire_ayant_code_officiel_geographique']
+  );
 }
 
 function buildCountries({ csvData }) {
@@ -98,7 +100,6 @@ async function main(filePath) {
     console.log('ok');
 
     console.log('\nDone.');
-
   } catch (error) {
     if (trx) {
       trx.rollback();
@@ -115,7 +116,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

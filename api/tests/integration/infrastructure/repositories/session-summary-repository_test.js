@@ -2,28 +2,29 @@ const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper
 const sessionSummaryRepository = require('../../../../lib/infrastructure/repositories/session-summary-repository');
 const _ = require('lodash');
 
-describe('Integration | Repository | Session Summary', function() {
-
-  describe('#findPaginatedByCertificationCenterId', function() {
+describe('Integration | Repository | Session Summary', function () {
+  describe('#findPaginatedByCertificationCenterId', function () {
     let page;
     let certificationCenterId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       await databaseBuilder.commit();
       page = { number: 1, size: 4 };
     });
 
-    context('when the given certification center has no session', function() {
-
-      it('should return an empty array', async function() {
+    context('when the given certification center has no session', function () {
+      it('should return an empty array', async function () {
         // given
         const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
         databaseBuilder.factory.buildSession({ certificationCenterId: otherCertificationCenterId });
         await databaseBuilder.commit();
 
         // when
-        const { models: sessionSummaries, meta } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
+        const { models: sessionSummaries, meta } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({
+          certificationCenterId,
+          page,
+        });
 
         // then
         expect(sessionSummaries).to.deepEqualArray([]);
@@ -31,9 +32,8 @@ describe('Integration | Repository | Session Summary', function() {
       });
     });
 
-    context('when the given certification center has sessions', function() {
-
-      it('should return a session summary with all attributes', async function() {
+    context('when the given certification center has sessions', function () {
+      it('should return a session summary with all attributes', async function () {
         // given
         databaseBuilder.factory.buildSession({
           id: 456,
@@ -49,7 +49,10 @@ describe('Integration | Repository | Session Summary', function() {
         await databaseBuilder.commit();
 
         // when
-        const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
+        const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({
+          certificationCenterId,
+          page,
+        });
 
         // then
         const expectedSessionSummary = domainBuilder.buildSessionSummary.finalized({
@@ -65,19 +68,22 @@ describe('Integration | Repository | Session Summary', function() {
         expect(sessionSummaries[0]).to.be.deepEqualInstance(expectedSessionSummary);
       });
 
-      it('should return hasSessions to true if the certification center has at least one session', async function() {
+      it('should return hasSessions to true if the certification center has at least one session', async function () {
         // given
         databaseBuilder.factory.buildSession({ certificationCenterId });
         await databaseBuilder.commit();
 
         // when
-        const { meta } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
+        const { meta } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({
+          certificationCenterId,
+          page,
+        });
 
         // then
         expect(meta.hasSessions).to.be.true;
       });
 
-      it('should sort sessions by descending date and time, and finally by ID ascending', async function() {
+      it('should sort sessions by descending date and time, and finally by ID ascending', async function () {
         // given
         databaseBuilder.factory.buildSession({ id: 1, certificationCenterId, date: '2020-01-01', time: '18:00:00' }).id;
         databaseBuilder.factory.buildSession({ id: 2, certificationCenterId, date: '2020-01-01', time: '15:00:00' }).id;
@@ -86,19 +92,29 @@ describe('Integration | Repository | Session Summary', function() {
         await databaseBuilder.commit();
 
         // when
-        const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
+        const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({
+          certificationCenterId,
+          page,
+        });
 
         // then
         expect(sessionSummaries).to.have.lengthOf(4);
         expect(_.map(sessionSummaries, 'id')).to.deep.equal([3, 1, 2, 4]);
       });
 
-      context('when sessions have candidates', function() {
-
-        it('should return correct enrolled candidates count and effective candidates count', async function() {
+      context('when sessions have candidates', function () {
+        it('should return correct enrolled candidates count and effective candidates count', async function () {
           // given
-          const sessionA = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: new Date('2019-01-01'), finalizedAt: new Date('2020-01-01') });
-          const sessionB = databaseBuilder.factory.buildSession({ certificationCenterId, createdAt: new Date('2018-01-01'), publishedAt: new Date('2020-02-01') });
+          const sessionA = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+            createdAt: new Date('2019-01-01'),
+            finalizedAt: new Date('2020-01-01'),
+          });
+          const sessionB = databaseBuilder.factory.buildSession({
+            certificationCenterId,
+            createdAt: new Date('2018-01-01'),
+            publishedAt: new Date('2020-02-01'),
+          });
           _buildEnrolledOnlyCandidate(sessionA.id);
           _buildEnrolledOnlyCandidate(sessionB.id);
           _buildEnrolledOnlyCandidate(sessionB.id);
@@ -106,7 +122,10 @@ describe('Integration | Repository | Session Summary', function() {
           await databaseBuilder.commit();
 
           // when
-          const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
+          const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({
+            certificationCenterId,
+            page,
+          });
 
           // then
           const expectedSessionA = domainBuilder.buildSessionSummary.finalized({
@@ -124,15 +143,17 @@ describe('Integration | Repository | Session Summary', function() {
         });
       });
 
-      context('when session does not have candidates at all', function() {
-
-        it('should return 0 as enrolled and effective candidates count', async function() {
+      context('when session does not have candidates at all', function () {
+        it('should return 0 as enrolled and effective candidates count', async function () {
           // given
           databaseBuilder.factory.buildSession({ certificationCenterId });
           await databaseBuilder.commit();
 
           // when
-          const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({ certificationCenterId, page });
+          const { models: sessionSummaries } = await sessionSummaryRepository.findPaginatedByCertificationCenterId({
+            certificationCenterId,
+            page,
+          });
 
           // then
           expect(sessionSummaries[0]).to.include({ enrolledCandidatesCount: 0, effectiveCandidatesCount: 0 });

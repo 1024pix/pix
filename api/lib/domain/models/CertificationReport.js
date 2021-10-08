@@ -18,17 +18,16 @@ const certificationReportSchemaForFinalization = Joi.object({
 });
 
 class CertificationReport {
-  constructor(
-    {
-      firstName,
-      lastName,
-      examinerComment,
-      hasSeenEndTestScreen,
-      certificationIssueReports = [],
-      certificationCourseId,
-      isCompleted,
-      abortReason,
-    } = {}) {
+  constructor({
+    firstName,
+    lastName,
+    examinerComment,
+    hasSeenEndTestScreen,
+    certificationIssueReports = [],
+    certificationCourseId,
+    isCompleted,
+    abortReason,
+  } = {}) {
     this.id = CertificationReport.idFromCertificationCourseId(certificationCourseId);
     this.firstName = firstName;
     this.lastName = lastName;
@@ -51,7 +50,9 @@ class CertificationReport {
     }
 
     if (!this.isCompleted && !this.abortReason) {
-      throw new InvalidCertificationReportForFinalization('Abort reason is required if certificationReport is not completed');
+      throw new InvalidCertificationReportForFinalization(
+        'Abort reason is required if certificationReport is not completed'
+      );
     }
   }
 

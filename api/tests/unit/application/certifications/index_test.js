@@ -4,11 +4,9 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const certificationController = require('../../../../lib/application/certifications/certification-controller');
 const moduleUnderTest = require('../../../../lib/application/certifications');
 
-describe('Unit | Application | Certification | Routes', function() {
-
-  context('POST /api/admin/certification/neutralize-challenge', function() {
-
-    it('rejects access if the logged user is not a Pix Master', async function() {
+describe('Unit | Application | Certification | Routes', function () {
+  context('POST /api/admin/certification/neutralize-challenge', function () {
+    it('rejects access if the logged user is not a Pix Master', async function () {
       // given
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
@@ -31,7 +29,7 @@ describe('Unit | Application | Certification | Routes', function() {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('checks that a valid certification-course id is given', async function() {
+    it('checks that a valid certification-course id is given', async function () {
       // given
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
@@ -54,7 +52,7 @@ describe('Unit | Application | Certification | Routes', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('checks that a challenge recId is given', async function() {
+    it('checks that a challenge recId is given', async function () {
       // given
       sinon.stub(certificationController, 'neutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
@@ -78,9 +76,8 @@ describe('Unit | Application | Certification | Routes', function() {
     });
   });
 
-  context('POST /api/admin/certification/deneutralize-challenge', function() {
-
-    it('rejects access if the logged user is not a Pix Master', async function() {
+  context('POST /api/admin/certification/deneutralize-challenge', function () {
+    it('rejects access if the logged user is not a Pix Master', async function () {
       // given
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
@@ -103,7 +100,7 @@ describe('Unit | Application | Certification | Routes', function() {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('checks that a valid certification-course id is given', async function() {
+    it('checks that a valid certification-course id is given', async function () {
       // given
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
@@ -126,7 +123,7 @@ describe('Unit | Application | Certification | Routes', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('checks that a challenge recId is given', async function() {
+    it('checks that a challenge recId is given', async function () {
       // given
       sinon.stub(certificationController, 'deneutralizeChallenge').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');

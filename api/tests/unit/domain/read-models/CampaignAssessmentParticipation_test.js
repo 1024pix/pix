@@ -2,12 +2,11 @@ const { expect } = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const CampaignAssessmentParticipation = require('../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 
-describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() {
-  describe('#progression', function() {
-
-    context('when state is STARTED', function() {
-      context('when testedSkillsCount = 0', function() {
-        it('should compute a progression of 0', function() {
+describe('Unit | Domain | Models | CampaignAssessmentParticipation', function () {
+  describe('#progression', function () {
+    context('when state is STARTED', function () {
+      context('when testedSkillsCount = 0', function () {
+        it('should compute a progression of 0', function () {
           const testedSkillsCount = 0;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
             state: Assessment.states.STARTED,
@@ -19,8 +18,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
         });
       });
 
-      context('when testedSkillsCount != 0', function() {
-        it('should compute a progression accordingly', function() {
+      context('when testedSkillsCount != 0', function () {
+        it('should compute a progression accordingly', function () {
           const targetedSkillsCount = 40;
           const testedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -32,7 +31,7 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
           expect(campaignAssessmentParticipation.progression).equal(0.25);
         });
 
-        it('should compute a progression accordingly with rounded value', function() {
+        it('should compute a progression accordingly with rounded value', function () {
           const targetedSkillsCount = 30;
           const testedSkillsCount = 10;
           const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -46,8 +45,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
       });
     });
 
-    context('when state is COMPLETED', function() {
-      it('should return 100', function() {
+    context('when state is COMPLETED', function () {
+      it('should return 100', function () {
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           assessmentState: Assessment.states.COMPLETED,
         });
@@ -56,9 +55,9 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
       });
     });
   });
-  describe('masteryRate', function() {
-    context('when the masteryRate is null', function() {
-      it('should return null for the masteryRate', function() {
+  describe('masteryRate', function () {
+    context('when the masteryRate is null', function () {
+      it('should return null for the masteryRate', function () {
         // when
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({ masteryRate: null });
 
@@ -67,8 +66,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
       });
     });
 
-    context('when the masteryRate is undefined', function() {
-      it('should return null for the masteryRate', function() {
+    context('when the masteryRate is undefined', function () {
+      it('should return null for the masteryRate', function () {
         // when
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           masteryRate: undefined,
@@ -79,8 +78,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
       });
     });
 
-    context('when the masteryRate equals to 0', function() {
-      it('should return 0 for the masteryRate', function() {
+    context('when the masteryRate equals to 0', function () {
+      it('should return 0 for the masteryRate', function () {
         // when
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           masteryRate: 0,
@@ -91,8 +90,8 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipation', function() 
       });
     });
 
-    context('when the masteryRate is a string', function() {
-      it('should return the number for the masteryRate', function() {
+    context('when the masteryRate is a string', function () {
+      it('should return the number for the masteryRate', function () {
         // when
         const campaignAssessmentParticipation = new CampaignAssessmentParticipation({
           masteryRate: '0.75',

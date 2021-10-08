@@ -1,90 +1,89 @@
 const { expect } = require('../../test-helper');
 const errors = require('../../../lib/domain/errors');
 
-describe('Unit | Domain | Errors', function() {
-
-  it('should export a CertificationCandidateAlreadyLinkedToUserError', function() {
+describe('Unit | Domain | Errors', function () {
+  it('should export a CertificationCandidateAlreadyLinkedToUserError', function () {
     expect(errors.CertificationCandidateAlreadyLinkedToUserError).to.exist;
   });
 
-  it('should export a CertificationCandidateByPersonalInfoNotFoundError', function() {
+  it('should export a CertificationCandidateByPersonalInfoNotFoundError', function () {
     expect(errors.CertificationCandidateByPersonalInfoNotFoundError).to.exist;
   });
 
-  it('should export a CertificationCandidateByPersonalInfoTooManyMatchesError', function() {
+  it('should export a CertificationCandidateByPersonalInfoTooManyMatchesError', function () {
     expect(errors.CertificationCandidateByPersonalInfoTooManyMatchesError).to.exist;
   });
 
-  it('should export a CertificationCandidateCreationOrUpdateError', function() {
+  it('should export a CertificationCandidateCreationOrUpdateError', function () {
     expect(errors.CertificationCandidateCreationOrUpdateError).to.exist;
   });
 
-  it('should export a CertificationCandidateDeletionError', function() {
+  it('should export a CertificationCandidateDeletionError', function () {
     expect(errors.CertificationCandidateDeletionError).to.exist;
   });
 
-  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', function() {
+  it('should export a CertificationCandidateMultipleUserLinksWithinSessionError', function () {
     expect(errors.CertificationCandidateMultipleUserLinksWithinSessionError).to.exist;
   });
 
-  it('should export a CertificationCandidatePersonalInfoFieldMissingError', function() {
+  it('should export a CertificationCandidatePersonalInfoFieldMissingError', function () {
     expect(errors.CertificationCandidatePersonalInfoFieldMissingError).to.exist;
   });
 
-  it('should export a CertificationCandidatePersonalInfoWrongFormat', function() {
+  it('should export a CertificationCandidatePersonalInfoWrongFormat', function () {
     expect(errors.CertificationCandidatePersonalInfoWrongFormat).to.exist;
   });
 
-  it('should export a CertificationCandidateForbiddenDeletionError', function() {
+  it('should export a CertificationCandidateForbiddenDeletionError', function () {
     expect(errors.CertificationCandidateForbiddenDeletionError).to.exist;
   });
 
-  it('should export a NotFoundError', function() {
+  it('should export a NotFoundError', function () {
     expect(errors.NotFoundError).to.exist;
   });
 
-  it('should export a InvalidCertificationReportForFinalization', function() {
+  it('should export a InvalidCertificationReportForFinalization', function () {
     expect(errors.InvalidCertificationReportForFinalization).to.exist;
   });
 
-  it('should export a UserAlreadyLinkedToCandidateInSessionError', function() {
+  it('should export a UserAlreadyLinkedToCandidateInSessionError', function () {
     expect(errors.UserAlreadyLinkedToCandidateInSessionError).to.exist;
   });
 
-  it('should export a ArchivedCampaignError', function() {
+  it('should export a ArchivedCampaignError', function () {
     expect(errors.ArchivedCampaignError).to.exist;
   });
 
-  it('should export a UserNotAuthorizedToUpdatePasswordError', function() {
+  it('should export a UserNotAuthorizedToUpdatePasswordError', function () {
     expect(errors.UserNotAuthorizedToUpdatePasswordError).to.exist;
   });
 
-  it('should export a UserNotAuthorizedToUpdateCampaignError', function() {
+  it('should export a UserNotAuthorizedToUpdateCampaignError', function () {
     expect(errors.UserNotAuthorizedToUpdateCampaignError).to.exist;
   });
 
-  it('should export a CsvImportError', function() {
+  it('should export a CsvImportError', function () {
     expect(errors.CsvImportError).to.exist;
   });
 
-  it('should export a SiecleXmlImportError', function() {
+  it('should export a SiecleXmlImportError', function () {
     expect(errors.SiecleXmlImportError).to.exist;
   });
 
-  it('should export a AuthenticationMethodNotFoundError', function() {
+  it('should export a AuthenticationMethodNotFoundError', function () {
     expect(errors.AuthenticationMethodNotFoundError).to.exist;
   });
 
-  it('should export a SessionNotAccessible error', function() {
+  it('should export a SessionNotAccessible error', function () {
     expect(errors.SessionNotAccessible).to.exist;
   });
 
-  describe('#UserNotFoundError', function() {
-    it('should export a UserNotFoundError', function() {
+  describe('#UserNotFoundError', function () {
+    it('should export a UserNotFoundError', function () {
       expect(errors.UserNotFoundError).to.exist;
     });
 
-    it('should have a getErrorMessage method', function() {
+    it('should have a getErrorMessage method', function () {
       // given
       const expectedErrorMessage = {
         data: {
@@ -99,12 +98,12 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  describe('#PasswordResetDemandNotFoundError', function() {
-    it('should export a PasswordResetDemandNotFoundError', function() {
+  describe('#PasswordResetDemandNotFoundError', function () {
+    it('should export a PasswordResetDemandNotFoundError', function () {
       expect(errors.PasswordResetDemandNotFoundError).to.exist;
     });
 
-    it('should have a getErrorMessage method', function() {
+    it('should have a getErrorMessage method', function () {
       // given
       const expectedErrorMessage = {
         data: {
@@ -119,20 +118,20 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  it('should export a SessionAlreadyFinalizedError', function() {
+  it('should export a SessionAlreadyFinalizedError', function () {
     expect(errors.SessionAlreadyFinalizedError).to.exist;
   });
 
-  it('should export a TargetProfileInvalidError', function() {
+  it('should export a TargetProfileInvalidError', function () {
     expect(errors.TargetProfileInvalidError).to.exist;
   });
 
-  describe('#InvalidTemporaryKeyError', function() {
-    it('should export a InvalidTemporaryKeyError', function() {
+  describe('#InvalidTemporaryKeyError', function () {
+    it('should export a InvalidTemporaryKeyError', function () {
       expect(errors.InvalidTemporaryKeyError).to.exist;
     });
 
-    it('should have a getErrorMessage method', function() {
+    it('should have a getErrorMessage method', function () {
       // given
       const expectedErrorMessage = {
         data: {
@@ -147,12 +146,12 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  describe('#UserNotAuthorizedToCertifyError', function() {
-    it('should export a UserNotAuthorizedToCertifyError', function() {
+  describe('#UserNotAuthorizedToCertifyError', function () {
+    it('should export a UserNotAuthorizedToCertifyError', function () {
       expect(errors.UserNotAuthorizedToCertifyError).to.exist;
     });
 
-    it('should have a getErrorMessage method', function() {
+    it('should have a getErrorMessage method', function () {
       // given
       const expectedErrorMessage = {
         data: {
@@ -167,16 +166,16 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  describe('#AssessmentEndedError', function() {
-    it('should export an AssessmentEndedError', function() {
+  describe('#AssessmentEndedError', function () {
+    it('should export an AssessmentEndedError', function () {
       expect(errors.AssessmentEndedError).to.exist;
     });
 
-    it('should have a getErrorMessage method', function() {
+    it('should have a getErrorMessage method', function () {
       // given
       const expectedErrorMessage = {
         data: {
-          error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.'],
+          error: ["L'évaluation est terminée. Nous n'avons plus de questions à vous poser."],
         },
       };
 
@@ -187,11 +186,9 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  describe('EntityValidationError', function() {
-
-    context('#fromJoiErrors', function() {
-
-      it('should populate the invalidAttributes key', function() {
+  describe('EntityValidationError', function () {
+    context('#fromJoiErrors', function () {
+      it('should populate the invalidAttributes key', function () {
         //given
         const joiErrors = [
           {
@@ -225,9 +222,8 @@ describe('Unit | Domain | Errors', function() {
       });
     });
 
-    context('#fromEntityValidationError', function() {
-
-      it('should populate the invalidAttributes key', function() {
+    context('#fromEntityValidationError', function () {
+      it('should populate the invalidAttributes key', function () {
         //given
         const error1 = new errors.EntityValidationError({
           invalidAttributes: [
@@ -280,11 +276,9 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  describe('InvalidCertificationCandidate', function() {
-
-    context('#fromJoiErrorDetail', function() {
-
-      it('should return an InvalidCertificationCandidateError', function() {
+  describe('InvalidCertificationCandidate', function () {
+    context('#fromJoiErrorDetail', function () {
+      it('should return an InvalidCertificationCandidateError', function () {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -298,7 +292,7 @@ describe('Unit | Domain | Errors', function() {
         expect(error).to.be.instanceOf(errors.InvalidCertificationCandidate);
       });
 
-      it('should assign key from joiErrorDetail context', function() {
+      it('should assign key from joiErrorDetail context', function () {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -322,7 +316,7 @@ describe('Unit | Domain | Errors', function() {
         { type: 'number.base', why: 'not_a_number' },
         { type: 'number.integer', why: 'not_a_number' },
       ].forEach(({ type, why }) => {
-        it(`should assign why "${why}" to error when joi error type is "${type}"`, async function() {
+        it(`should assign why "${why}" to error when joi error type is "${type}"`, async function () {
           // given
           const joiErrorDetail = {
             context: { key: 'someKey' },
@@ -337,7 +331,7 @@ describe('Unit | Domain | Errors', function() {
         });
       });
 
-      it('should let why empty when type is unknown', async function() {
+      it('should let why empty when type is unknown', async function () {
         // given
         const joiErrorDetail = {
           context: { key: 'someKey' },
@@ -353,11 +347,9 @@ describe('Unit | Domain | Errors', function() {
     });
   });
 
-  describe('CertificationCandidatesImportError', function() {
-
-    context('#fromInvalidCertificationCandidateError', function() {
-
-      it('should return a CertificationCandidatesImportError', function() {
+  describe('CertificationCandidatesImportError', function () {
+    context('#fromInvalidCertificationCandidateError', function () {
+      it('should return a CertificationCandidatesImportError', function () {
         // given
         const invalidCertificationCandidateError = {
           key: 'someKey',
@@ -365,13 +357,17 @@ describe('Unit | Domain | Errors', function() {
         };
 
         // when
-        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, {}, 1);
+        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+          invalidCertificationCandidateError,
+          {},
+          1
+        );
 
         // then
         expect(error).to.be.instanceOf(errors.CertificationCandidatesImportError);
       });
 
-      it('should start the error message with line number', function() {
+      it('should start the error message with line number', function () {
         // given
         const lineNumber = 20;
         const invalidCertificationCandidateError = {
@@ -380,15 +376,18 @@ describe('Unit | Domain | Errors', function() {
         };
 
         // when
-        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, {}, lineNumber);
+        const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+          invalidCertificationCandidateError,
+          {},
+          lineNumber
+        );
 
         // then
         expect(error.message.startsWith(`Ligne ${lineNumber} :`)).to.be.true;
       });
 
-      context('when err.why is known', function() {
-
-        it('should include the right label when found in the keyLabelMap', function() {
+      context('when err.why is known', function () {
+        it('should include the right label when found in the keyLabelMap', function () {
           // given
           const lineNumber = 20;
           const invalidCertificationCandidateError = {
@@ -396,12 +395,16 @@ describe('Unit | Domain | Errors', function() {
             why: 'not_a_date',
           };
           const keyLabelMap = {
-            'someKey': 'someLabel',
-            'someOtherKey': 'someOtherLabel',
+            someKey: 'someLabel',
+            someOtherKey: 'someOtherLabel',
           };
 
           // when
-          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, keyLabelMap, lineNumber);
+          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+            invalidCertificationCandidateError,
+            keyLabelMap,
+            lineNumber
+          );
 
           // then
           expect(error.message).to.contain('Le champ “someLabel”');
@@ -416,18 +419,22 @@ describe('Unit | Domain | Errors', function() {
           { why: 'not_a_number', content: 'doit être un nombre.' },
           { why: 'required', content: 'est obligatoire.' },
         ].forEach(({ why, content }) => {
-          it(`message should contain "${content}" when why is "${why}"`, async function() {
+          it(`message should contain "${content}" when why is "${why}"`, async function () {
             // given
             const invalidCertificationCandidateError = {
               key: 'someKey',
               why,
             };
             const keyLabelMap = {
-              'someKey': 'someLabel',
+              someKey: 'someLabel',
             };
 
             // when
-            const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, keyLabelMap, 1);
+            const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+              invalidCertificationCandidateError,
+              keyLabelMap,
+              1
+            );
 
             // then
             expect(error.message.endsWith(content)).to.be.true;
@@ -435,45 +442,48 @@ describe('Unit | Domain | Errors', function() {
         });
       });
 
-      context('when err.why is unknown', function() {
-
-        it('should display generic message', function() {
+      context('when err.why is unknown', function () {
+        it('should display generic message', function () {
           // given
           const invalidCertificationCandidateError = {
             key: 'someKey',
             why: 'unknown',
           };
           const keyLabelMap = {
-            'someKey': 'someLabel',
+            someKey: 'someLabel',
           };
 
           // when
-          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(invalidCertificationCandidateError, keyLabelMap, 1);
+          const error = errors.CertificationCandidatesImportError.fromInvalidCertificationCandidateError(
+            invalidCertificationCandidateError,
+            keyLabelMap,
+            1
+          );
 
           // then
-          expect(error.message).to.contain('Quelque chose s\'est mal passé. Veuillez réessayer');
+          expect(error.message).to.contain("Quelque chose s'est mal passé. Veuillez réessayer");
         });
       });
     });
   });
 
-  it('should export a UserAccountNotFoundForPoleEmploiError', function() {
+  it('should export a UserAccountNotFoundForPoleEmploiError', function () {
     expect(errors.UserAccountNotFoundForPoleEmploiError).to.exist;
   });
 
-  it('should export a UnknownCountryForStudentEnrollmentError', function() {
+  it('should export a UnknownCountryForStudentEnrollmentError', function () {
     expect(errors.UnknownCountryForStudentEnrollmentError).to.exist;
   });
 
-  it('should export a SchoolingRegistrationsCouldNotBeSavedError', function() {
+  it('should export a SchoolingRegistrationsCouldNotBeSavedError', function () {
     expect(errors.SchoolingRegistrationsCouldNotBeSavedError).to.exist;
   });
 
-  it('should export an InvalidVerificationCodeError', function() {
+  it('should export an InvalidVerificationCodeError', function () {
     expect(errors.InvalidVerificationCodeError).to.exist;
   });
 
-  it('should export an EmailModificationDemandNotFoundOrExpiredError', function() {
+  it('should export an EmailModificationDemandNotFoundOrExpiredError', function () {
     expect(errors.EmailModificationDemandNotFoundOrExpiredError).to.exist;
   });
 });

@@ -10,13 +10,12 @@ const sessionSummarySerializer = require('../../infrastructure/serializers/jsona
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 
 module.exports = {
-
   async save(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
     const accreditations = await Promise.all(
       (request.payload.data.included || [])
         .filter((data) => data.type === 'accreditations')
-        .map((data) => accreditationSerializer.deserialize({ data })),
+        .map((data) => accreditationSerializer.deserialize({ data }))
     );
     const savedCertificationCenter = await usecases.saveCertificationCenter({ certificationCenter, accreditations });
     return certificationCenterSerializer.serialize(savedCertificationCenter);
@@ -24,13 +23,15 @@ module.exports = {
 
   getById(request) {
     const certificationCenterId = request.params.id;
-    return usecases.getCertificationCenter({ id: certificationCenterId })
-      .then(certificationCenterSerializer.serialize);
+    return usecases.getCertificationCenter({ id: certificationCenterId }).then(certificationCenterSerializer.serialize);
   },
 
   async findPaginatedFilteredCertificationCenters(request) {
     const options = queryParamsUtils.extractParameters(request.query);
-    const { models: organizations, pagination } = await usecases.findPaginatedFilteredCertificationCenters({ filter: options.filter, page: options.page });
+    const { models: organizations, pagination } = await usecases.findPaginatedFilteredCertificationCenters({
+      filter: options.filter,
+      page: options.page,
+    });
 
     return certificationCenterSerializer.serialize(organizations, pagination);
   },

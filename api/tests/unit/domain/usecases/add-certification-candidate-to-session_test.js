@@ -7,8 +7,7 @@ const {
   CpfBirthInformationValidationError,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | add-certification-candidate-to-session', function() {
-
+describe('Unit | UseCase | add-certification-candidate-to-session', function () {
   let certificationCandidateRepository;
   let certificationCpfService;
   let certificationCpfCountryRepository;
@@ -16,7 +15,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
 
   const sessionId = 1;
 
-  beforeEach(function() {
+  beforeEach(function () {
     certificationCandidateRepository = {
       findBySessionIdAndPersonalInfo: sinon.stub(),
       saveInSession: sinon.stub(),
@@ -28,9 +27,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   });
 
-  context('when certification candidate does not pass JOI validation', function() {
-
-    it('should throw an InvalidCertificationCandidate error', async function() {
+  context('when certification candidate does not pass JOI validation', function () {
+    it('should throw an InvalidCertificationCandidate error', async function () {
       // given
       const certificationCandidate = domainBuilder.buildCertificationCandidate({
         birthdate: 'WrongDateFormat',
@@ -53,11 +51,9 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
     });
   });
 
-  context('when certification candidate is valid', function() {
-
-    context('when a candidate already exists in session with personal info', function() {
-
-      it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function() {
+  context('when certification candidate is valid', function () {
+    context('when a candidate already exists in session with personal info', function () {
+      it('should throw an CertificationCandidateByPersonalInfoTooManyMatchesError', async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         certificationCandidateRepository.findBySessionIdAndPersonalInfo.resolves(['one match']);
@@ -83,9 +79,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
       });
     });
 
-    context('when no candidate exists with personal info', function() {
-
-      it('should save the certification candidate', async function() {
+    context('when no candidate exists with personal info', function () {
+      it('should save the certification candidate', async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
@@ -109,10 +104,13 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
         });
 
         // then
-        expect(certificationCandidateRepository.saveInSession).to.has.been.calledWithExactly({ certificationCandidate, sessionId });
+        expect(certificationCandidateRepository.saveInSession).to.has.been.calledWithExactly({
+          certificationCandidate,
+          sessionId,
+        });
       });
 
-      it('should return the certification candidate updated with sessionId', async function() {
+      it('should return the certification candidate updated with sessionId', async function () {
         //given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         const cpfBirthInformationValidation = CpfBirthInformationValidation.success({
@@ -139,7 +137,7 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
         expect(certificationCandidate.sessionId).to.equal(sessionId);
       });
 
-      it('should validate the certification candidate with the right model version', async function() {
+      it('should validate the certification candidate with the right model version', async function () {
         // given
         const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
         certificationCandidate.validate = sinon.stub();
@@ -167,9 +165,8 @@ describe('Unit | UseCase | add-certification-candidate-to-session', function() {
         expect(certificationCandidate.validate).to.has.been.calledWithExactly('1.5');
       });
 
-      context('when birth information validation fail', function() {
-
-        it('should throw a CpfBirthInformationValidationError', async function() {
+      context('when birth information validation fail', function () {
+        it('should throw a CpfBirthInformationValidationError', async function () {
           // given
           const certificationCandidate = domainBuilder.buildCertificationCandidate({ sessionId: null });
           const cpfBirthInformationValidation = CpfBirthInformationValidation.failure('Failure message');

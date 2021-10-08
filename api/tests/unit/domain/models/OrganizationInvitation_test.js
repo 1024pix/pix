@@ -1,11 +1,9 @@
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const { expect } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | OrganizationInvitation', function() {
-
-  describe('constructor', function() {
-
-    it('should build an OrganizationInvitation from raw JSON', function() {
+describe('Unit | Domain | Models | OrganizationInvitation', function () {
+  describe('constructor', function () {
+    it('should build an OrganizationInvitation from raw JSON', function () {
       // given
       const today = new Date();
 
@@ -29,9 +27,8 @@ describe('Unit | Domain | Models | OrganizationInvitation', function() {
     });
   });
 
-  describe('isPending', function() {
-
-    it('should return true if status is pending', function() {
+  describe('isPending', function () {
+    it('should return true if status is pending', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'pending' });
 
@@ -42,7 +39,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function() {
       expect(result).to.be.true;
     });
 
-    it('should return false if status is different than pending', function() {
+    it('should return false if status is different than pending', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'accepted' });
 
@@ -54,9 +51,8 @@ describe('Unit | Domain | Models | OrganizationInvitation', function() {
     });
   });
 
-  describe('isAccepted', function() {
-
-    it('should return true if status is isAccepted', function() {
+  describe('isAccepted', function () {
+    it('should return true if status is isAccepted', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'accepted' });
 
@@ -67,7 +63,7 @@ describe('Unit | Domain | Models | OrganizationInvitation', function() {
       expect(result).to.be.true;
     });
 
-    it('should return false if status is different than accepted', function() {
+    it('should return false if status is different than accepted', function () {
       // given
       const invitation = new OrganizationInvitation({ status: 'pending' });
 

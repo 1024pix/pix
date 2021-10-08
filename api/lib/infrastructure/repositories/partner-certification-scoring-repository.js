@@ -7,7 +7,6 @@ const CompetenceMark = require('../../domain/models/CompetenceMark');
 const Badge = require('../../domain/models/Badge');
 
 module.exports = {
-
   async buildCleaCertificationScoring({
     certificationCourseId,
     userId,
@@ -38,10 +37,12 @@ module.exports = {
   },
 
   async save({ partnerCertificationScoring, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const partnerCertificationToSave = new PartnerCertificationBookshelf(_adaptModelToDB({
-      ...partnerCertificationScoring,
-      acquired: partnerCertificationScoring.isAcquired(),
-    }));
+    const partnerCertificationToSave = new PartnerCertificationBookshelf(
+      _adaptModelToDB({
+        ...partnerCertificationScoring,
+        acquired: partnerCertificationScoring.isAcquired(),
+      })
+    );
 
     const exists = await knex
       .select('acquired')
@@ -75,20 +76,20 @@ async function _getAcquiredCleaBadgeKey(userId, certificationCourseId, domainTra
     .innerJoin('badges', 'badges.id', 'badgeId')
     .innerJoin('certification-courses', 'certification-courses.userId', 'badge-acquisitions.userId')
     .where('badge-acquisitions.userId', userId)
-    .whereIn('badges.key', [ Badge.keys.PIX_EMPLOI_CLEA, Badge.keys.PIX_EMPLOI_CLEA_V2 ])
+    .whereIn('badges.key', [Badge.keys.PIX_EMPLOI_CLEA, Badge.keys.PIX_EMPLOI_CLEA_V2])
     .where('certification-courses.id', certificationCourseId)
     .where('badge-acquisitions.createdAt', '<', knex.ref('certification-courses.createdAt'))
     .orderBy('badge-acquisitions.createdAt', 'DESC');
   if (domainTransaction.knexTransaction) {
     badgeAcquisitionQuery.transacting(domainTransaction.knexTransaction);
   }
-  const [ acquiredBadgeKey ] = await badgeAcquisitionQuery;
+  const [acquiredBadgeKey] = await badgeAcquisitionQuery;
   return acquiredBadgeKey;
 }
 
 async function _getCleaCompetenceMarks({ certificationCourseId, cleaCompetenceIds, domainTransaction }) {
-  const competenceMarksQuery = knex.with('rankedAssessmentResults',
-    (qb) => {
+  const competenceMarksQuery = knex
+    .with('rankedAssessmentResults', (qb) => {
       _getLatestAssessmentResultIdByCertificationCourseIdQuery(qb, certificationCourseId);
     })
     .from('competence-marks')
@@ -105,7 +106,8 @@ async function _getCleaCompetenceMarks({ certificationCourseId, cleaCompetenceId
 }
 
 async function _getLatestAssessmentResultIdByCertificationCourseIdQuery(queryBuilder, certificationCourseId) {
-  return queryBuilder.select('assessment-results.id')
+  return queryBuilder
+    .select('assessment-results.id')
     .from('assessments')
     .join('assessment-results', 'assessment-results.assessmentId', 'assessments.id')
     .where('assessments.certificationCourseId', '=', certificationCourseId)
@@ -124,8 +126,8 @@ async function _getCleaSkills(cleaBadgeKey, skillRepository) {
 }
 
 function _getMaxReachablePixByCompetenceForClea(cleaSkills) {
-  return _(cleaSkills).groupBy('competenceId')
-    .mapValues(
-      (skills) => _.sumBy(skills, 'pixValue'),
-    ).value();
+  return _(cleaSkills)
+    .groupBy('competenceId')
+    .mapValues((skills) => _.sumBy(skills, 'pixValue'))
+    .value();
 }

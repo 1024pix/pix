@@ -1,4 +1,10 @@
-const { learningContentBuilder, mockLearningContent, databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const {
+  learningContentBuilder,
+  mockLearningContent,
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -8,50 +14,57 @@ const competenceId = 'recCompetence';
 const frenchSpokenChallengeId = 'recFrenchSpokenChallengeId';
 const frenchChallengeId = 'recFrenchChallengeId';
 
-const learningContent = [{
-  id: 'recArea0',
-  competences: [{
-    id: competenceId,
-    titreFrFr: 'Mener une recherche et une veille d’information',
-    index: '1.1',
-    tubes: [{
-      id: 'recTube0_0',
-      skills: [{
-        id: 'skillWeb1',
-        nom: '@skillWeb1',
-        challenges: [],
-      }, {
-        id: 'skillWeb2',
-        nom: '@skillWeb2',
-        challenges: [
-          { id: frenchChallengeId, langues: ['Franco Français'] },
-          { id: frenchSpokenChallengeId, langues: ['Francophone'] },
+const learningContent = [
+  {
+    id: 'recArea0',
+    competences: [
+      {
+        id: competenceId,
+        titreFrFr: 'Mener une recherche et une veille d’information',
+        index: '1.1',
+        tubes: [
+          {
+            id: 'recTube0_0',
+            skills: [
+              {
+                id: 'skillWeb1',
+                nom: '@skillWeb1',
+                challenges: [],
+              },
+              {
+                id: 'skillWeb2',
+                nom: '@skillWeb2',
+                challenges: [
+                  { id: frenchChallengeId, langues: ['Franco Français'] },
+                  { id: frenchSpokenChallengeId, langues: ['Francophone'] },
+                ],
+              },
+              {
+                id: 'skillWeb3',
+                nom: '@skillWeb3',
+                challenges: [],
+              },
+            ],
+          },
         ],
-      }, {
-        id: 'skillWeb3',
-        nom: '@skillWeb3',
-        challenges: [],
-      }],
-    }],
-  }],
-}];
+      },
+    ],
+  },
+];
 
-describe('Acceptance | API | assessment-controller-get-next-challenge-locale-management', function() {
-
+describe('Acceptance | API | assessment-controller-get-next-challenge-locale-management', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/assessments/:assessment_id/next', function() {
-
+  describe('GET /api/assessments/:assessment_id/next', function () {
     const assessmentId = 1;
     const userId = 1234;
-    context('when assessment is a competence evaluation', function() {
-
-      context('when there is one challenge in the accepted language (fr-fr)', function() {
-        beforeEach(async function() {
+    context('when assessment is a competence evaluation', function () {
+      context('when there is one challenge in the accepted language (fr-fr)', function () {
+        beforeEach(async function () {
           const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
           mockLearningContent(learningContentObjects);
 
@@ -66,7 +79,7 @@ describe('Acceptance | API | assessment-controller-get-next-challenge-locale-man
           await databaseBuilder.commit();
         });
 
-        it('should return the challenge in the accepted language (fr-fr)', function() {
+        it('should return the challenge in the accepted language (fr-fr)', function () {
           // given
           const options = {
             method: 'GET',

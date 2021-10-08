@@ -4,7 +4,7 @@ const certificationChallengesService = require('../../../../lib/domain/services/
 const moment = require('moment');
 const { PIX_COUNT_BY_LEVEL } = require('../../../../lib/domain/constants');
 
-describe('Integration | CertificationChallengeService | pickCertificationChallenge', function() {
+describe('Integration | CertificationChallengeService | pickCertificationChallenge', function () {
   const placementDate = new Date('2020-01-01T00:00:00Z');
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
@@ -14,50 +14,60 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
   const locale = 'fr-fr';
   let certifiableUserId;
 
-  beforeEach(function() {
+  beforeEach(function () {
     certifiableUserId = databaseBuilder.factory.buildUser().id;
   });
 
-  it('picks only operative challenges', async function() {
+  it('picks only operative challenges', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2',
-        name: '@recArea1_Competence1_Tube1_Skill2',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: '', // unoperative
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-        status: 'validé', // operative
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2',
+          name: '@recArea1_Competence1_Tube1_Skill2',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: '', // unoperative
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+          status: 'validé', // operative
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -87,49 +97,61 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
-    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence1_Tube1_Skill2_Challenge1']);
+    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([
+      'recArea1_Competence1_Tube1_Skill2_Challenge1',
+    ]);
   });
 
-  it('picks only fr-fr challenges', async function() {
+  it('picks only fr-fr challenges', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2',
-        name: '@recArea1_Competence1_Tube1_Skill2',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr', 'en'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2',
+          name: '@recArea1_Competence1_Tube1_Skill2',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr', 'en'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -160,57 +182,71 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
-    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence1_Tube1_Skill2_Challenge1']);
+    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([
+      'recArea1_Competence1_Tube1_Skill2_Challenge1',
+    ]);
   });
 
-  it('picks challenges on certifiable competences only', async function() {
+  it('picks challenges on certifiable competences only', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        origin: 'Pix',
-      }, {
-        id: 'recArea1_Competence2',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence2_Tube1',
-        competenceId: 'recArea1_Competence2',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence2_Tube1_Skill1',
-        name: '@recArea1_Competence2_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence2_Tube1',
-        competenceId: 'recArea1_Competence2',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence2',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+        {
+          id: 'recArea1_Competence2',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence2_Tube1_Skill1',
+          name: '@recArea1_Competence2_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence2',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -240,57 +276,71 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
-    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence2_Tube1_Skill1_Challenge1']);
+    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([
+      'recArea1_Competence2_Tube1_Skill1_Challenge1',
+    ]);
   });
 
-  it('picks challenges on Pix competences only', async function() {
+  it('picks challenges on Pix competences only', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1', 'recArea1_Competence2'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        origin: 'Pix+', // Non-pix
-      }, {
-        id: 'recArea1_Competence2',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence2_Tube1',
-        competenceId: 'recArea1_Competence2',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence2_Tube1_Skill1',
-        name: '@recArea1_Competence2_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence2_Tube1',
-        competenceId: 'recArea1_Competence2',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence2_Tube1_Skill1'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence2',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix+', // Non-pix
+        },
+        {
+          id: 'recArea1_Competence2',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence2_Tube1_Skill1',
+          name: '@recArea1_Competence2_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence2_Tube1',
+          competenceId: 'recArea1_Competence2',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence2_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence2_Tube1_Skill1'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence2',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -320,49 +370,61 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
 
     //then
-    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(['recArea1_Competence2_Tube1_Skill1_Challenge1']);
+    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([
+      'recArea1_Competence2_Tube1_Skill1_Challenge1',
+    ]);
   });
 
-  it('picks one skill-related challenge, starting by unanswered challenges first', async function() {
+  it('picks one skill-related challenge, starting by unanswered challenges first', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -383,49 +445,62 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     // when
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(1);
-    expect(challenges[0].challengeId).to.be.oneOf(['recArea1_Competence1_Tube1_Skill1_Challenge2', 'recArea1_Competence1_Tube1_Skill1_Challenge3']);
+    expect(challenges[0].challengeId).to.be.oneOf([
+      'recArea1_Competence1_Tube1_Skill1_Challenge2',
+      'recArea1_Competence1_Tube1_Skill1_Challenge3',
+    ]);
   });
 
-  it('picks one skill-related challenge, falling back on already answered challenges if no unanswered one is available', async function() {
+  it('picks one skill-related challenge, falling back on already answered challenges if no unanswered one is available', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge2',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge3',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -463,73 +538,91 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     // when
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(1);
-    expect(['recArea1_Competence1_Tube1_Skill1_Challenge1', 'recArea1_Competence1_Tube1_Skill1_Challenge2', 'recArea1_Competence1_Tube1_Skill1_Challenge3']).to.include(challenges[0].challengeId);
+    expect([
+      'recArea1_Competence1_Tube1_Skill1_Challenge1',
+      'recArea1_Competence1_Tube1_Skill1_Challenge2',
+      'recArea1_Competence1_Tube1_Skill1_Challenge3',
+    ]).to.include(challenges[0].challengeId);
   });
 
-  it('picks one challenge by skill to a maximum of 3 challenges by competence starting by most difficult skills', async function() {
+  it('picks one challenge by skill to a maximum of 3 challenges by competence starting by most difficult skills', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2',
-        name: '@recArea1_Competence1_Tube1_Skill2',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill3',
-        name: '@recArea1_Competence1_Tube1_Skill3',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill4',
-        name: '@recArea1_Competence1_Tube1_Skill4',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill3_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill3'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill4_Challenge1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill4'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2',
+          name: '@recArea1_Competence1_Tube1_Skill2',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill3',
+          name: '@recArea1_Competence1_Tube1_Skill3',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill4',
+          name: '@recArea1_Competence1_Tube1_Skill4',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill3_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill3'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill4_Challenge1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill4'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);
@@ -575,56 +668,64 @@ describe('Integration | CertificationChallengeService | pickCertificationChallen
     // when
     const challenges = await certificationChallengesService.pickCertificationChallenges(placementProfile, locale);
     expect(challenges.length).to.equal(3);
-    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal(
-      [
-        'recArea1_Competence1_Tube1_Skill4_Challenge1',
-        'recArea1_Competence1_Tube1_Skill3_Challenge1',
-        'recArea1_Competence1_Tube1_Skill2_Challenge1',
-      ],
-    );
+    expect(challenges.map((challenge) => challenge.challengeId)).to.deep.equal([
+      'recArea1_Competence1_Tube1_Skill4_Challenge1',
+      'recArea1_Competence1_Tube1_Skill3_Challenge1',
+      'recArea1_Competence1_Tube1_Skill2_Challenge1',
+    ]);
   });
 
-  it('picks the same challenge only once even if it is related to two different skills (QROCmDep)', async function() {
+  it('picks the same challenge only once even if it is related to two different skills (QROCmDep)', async function () {
     // given
     const learningContent = {
       areas: [{ id: 'recArea1', competenceIds: ['recArea1_Competence1'] }],
-      competences: [{
-        id: 'recArea1_Competence1',
-        areaId: 'recArea1',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        origin: 'Pix',
-      }],
-      tubes: [{
-        id: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      skills: [{
-        id: 'recArea1_Competence1_Tube1_Skill1',
-        name: '@recArea1_Competence1_Tube1_Skill1',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill2',
-        name: '@recArea1_Competence1_Tube1_Skill2',
-        status: 'actif',
-        tubeId: 'recArea1_Competence1_Tube1',
-        competenceId: 'recArea1_Competence1',
-      }],
-      challenges: [{
-        id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge',
-        skillIds: ['recArea1_Competence1_Tube1_Skill1'],
-        skills: ['@recArea1_Competence1_Tube1_Skill1'],
-        competenceId: 'recArea1_Competence1',
-        status: 'validé',
-        locales: ['fr-fr'],
-      }, {
-        id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge', // same id
-        skillIds: ['recArea1_Competence1_Tube1_Skill2'],
-        status: 'validé',
-        competenceId: 'recArea1_Competence1',
-        locales: ['fr-fr'],
-      }],
+      competences: [
+        {
+          id: 'recArea1_Competence1',
+          areaId: 'recArea1',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          origin: 'Pix',
+        },
+      ],
+      tubes: [
+        {
+          id: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      skills: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1',
+          name: '@recArea1_Competence1_Tube1_Skill1',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill2',
+          name: '@recArea1_Competence1_Tube1_Skill2',
+          status: 'actif',
+          tubeId: 'recArea1_Competence1_Tube1',
+          competenceId: 'recArea1_Competence1',
+        },
+      ],
+      challenges: [
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge',
+          skillIds: ['recArea1_Competence1_Tube1_Skill1'],
+          skills: ['@recArea1_Competence1_Tube1_Skill1'],
+          competenceId: 'recArea1_Competence1',
+          status: 'validé',
+          locales: ['fr-fr'],
+        },
+        {
+          id: 'recArea1_Competence1_Tube1_Skill1_And_Skill2_Challenge', // same id
+          skillIds: ['recArea1_Competence1_Tube1_Skill2'],
+          status: 'validé',
+          competenceId: 'recArea1_Competence1',
+          locales: ['fr-fr'],
+        },
+      ],
     };
 
     mockLearningContent(learningContent);

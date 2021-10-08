@@ -19,6 +19,13 @@ module.exports = async function updateCampaignDetailsManagement({
   campaign.customResultPageButtonUrl = customResultPageButtonUrl;
 
   campaignValidator.validate(campaign);
-  const campaignAttributes = { name, title, customLandingPageText, customResultPageText, customResultPageButtonText, customResultPageButtonUrl };
+  const campaignAttributes = {
+    name,
+    title,
+    customLandingPageText,
+    customResultPageText,
+    customResultPageButtonText,
+    customResultPageButtonUrl,
+  };
   return campaignManagementRepository.update({ campaignId, campaignAttributes });
 };

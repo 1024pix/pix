@@ -19,7 +19,6 @@ const ChallengeType = Object.freeze({
  * Traduction: Épreuve
  */
 class Challenge {
-
   /**
    * Constructeur d'épreuve
    *
@@ -43,30 +42,29 @@ class Challenge {
    * @param autoReply
    * @param focused
    */
-  constructor(
-    {
-      id,
-      attachments,
-      embedHeight,
-      embedTitle,
-      embedUrl,
-      format,
-      illustrationAlt,
-      alternativeInstruction,
-      illustrationUrl,
-      instruction,
-      proposals,
-      status,
-      timer,
-      type,
-      locales,
-      autoReply,
-      answer,
-      skills = [],
-      validator,
-      competenceId,
-      focused,
-    } = {}) {
+  constructor({
+    id,
+    attachments,
+    embedHeight,
+    embedTitle,
+    embedUrl,
+    format,
+    illustrationAlt,
+    alternativeInstruction,
+    illustrationUrl,
+    instruction,
+    proposals,
+    status,
+    timer,
+    type,
+    locales,
+    autoReply,
+    answer,
+    skills = [],
+    validator,
+    competenceId,
+    focused,
+  } = {}) {
     this.id = id;
     this.answer = answer;
     this.attachments = attachments;
@@ -103,7 +101,7 @@ class Challenge {
   }
 
   get hardestSkill() {
-    return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty) ? s1 : s2);
+    return this.skills.reduce((s1, s2) => (s1.difficulty > s2.difficulty ? s1 : s2));
   }
 
   testsAtLeastOneNewSkill(alreadyAssessedSkills) {

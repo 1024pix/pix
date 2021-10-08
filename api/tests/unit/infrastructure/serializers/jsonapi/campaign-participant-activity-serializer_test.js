@@ -5,11 +5,9 @@ const CampaignParticipation = require('../../../../../lib/domain/models/Campaign
 
 const { SHARED, STARTED } = CampaignParticipation.statuses;
 
-describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should call serialize method by destructuring passed parameter', function() {
+describe('Unit | Serializer | JSONAPI | campaign-participant-activity-serializer', function () {
+  describe('#serialize()', function () {
+    it('should call serialize method by destructuring passed parameter', function () {
       // given
       const campaignParticipantsActivities = [
         new CampaignParticipantActivity({

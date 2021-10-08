@@ -5,13 +5,12 @@ const Organization = require('../../../../lib/domain/models/Organization');
 const Tag = require('../../../../lib/domain/models/Tag');
 const OrganizationTag = require('../../../../lib/domain/models/OrganizationTag');
 
-describe('Unit | UseCase | update-organization-information', function() {
-
+describe('Unit | UseCase | update-organization-information', function () {
   let organizationRepository;
   let organizationTagRepository;
   let tagRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     organizationRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
@@ -26,9 +25,8 @@ describe('Unit | UseCase | update-organization-information', function() {
     };
   });
 
-  context('when organization exists', function() {
-
-    it('should allow to update the organization name (only) if modified', async function() {
+  context('when organization exists', function () {
+    it('should allow to update the organization name (only) if modified', async function () {
       // given
       const newName = 'New name';
       const organizationId = 7;
@@ -50,7 +48,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       });
     });
 
-    it('should allow to update the organization type (only) if modified', async function() {
+    it('should allow to update the organization type (only) if modified', async function () {
       // given
       const newType = 'PRO';
       const organizationId = 7;
@@ -69,7 +67,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, type: newType });
     });
 
-    it('should allow to update the organization logo URL (only) if modified', async function() {
+    it('should allow to update the organization logo URL (only) if modified', async function () {
       // given
       const newLogoUrl = 'http://new.logo.url';
       const organizationId = 7;
@@ -85,10 +83,13 @@ describe('Unit | UseCase | update-organization-information', function() {
       await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, logoUrl: newLogoUrl });
+      expect(organizationRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        logoUrl: newLogoUrl,
+      });
     });
 
-    it('should allow to update the organization external id (only) if modified', async function() {
+    it('should allow to update the organization external id (only) if modified', async function () {
       // given
       const externalId = '9752145V';
       const organizationId = 7;
@@ -107,7 +108,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, externalId });
     });
 
-    it('should allow to update the organization external id with null value', async function() {
+    it('should allow to update the organization external id with null value', async function () {
       // given
       const externalId = null;
       const organizationId = 7;
@@ -126,7 +127,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, externalId });
     });
 
-    it('should allow to update the organization province code (only) if modified', async function() {
+    it('should allow to update the organization province code (only) if modified', async function () {
       // given
       const provinceCode = '975';
       const organizationId = 7;
@@ -145,7 +146,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, provinceCode });
     });
 
-    it('should allow to update the organization province code with null value', async function() {
+    it('should allow to update the organization province code with null value', async function () {
       // given
       const provinceCode = null;
       const organizationId = 7;
@@ -164,7 +165,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, provinceCode });
     });
 
-    it('should allow to update the organization isManagingStudents (only) if modified', async function() {
+    it('should allow to update the organization isManagingStudents (only) if modified', async function () {
       // given
       const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
@@ -177,10 +178,13 @@ describe('Unit | UseCase | update-organization-information', function() {
 
       // when
       await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, isManagingStudents: false });
+      expect(organizationRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        isManagingStudents: false,
+      });
     });
 
-    it('should allow to update the organization canCollectProfiles (only) if modified', async function() {
+    it('should allow to update the organization canCollectProfiles (only) if modified', async function () {
       // given
       const organizationId = 7;
       const givenOrganization = _buildOrganizationWithNullAttributes({
@@ -195,10 +199,13 @@ describe('Unit | UseCase | update-organization-information', function() {
       await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, canCollectProfiles: false });
+      expect(organizationRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        canCollectProfiles: false,
+      });
     });
 
-    it('should allow to update the organization email', async function() {
+    it('should allow to update the organization email', async function () {
       // given
       const newEmail = 'sco.generic.newaccount@example.net';
       const organizationId = 7;
@@ -217,7 +224,7 @@ describe('Unit | UseCase | update-organization-information', function() {
       expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, email: newEmail });
     });
 
-    it('should allow to update the organization credit', async function() {
+    it('should allow to update the organization credit', async function () {
       // given
       const newCredit = 100;
       const organizationId = 7;
@@ -233,12 +240,14 @@ describe('Unit | UseCase | update-organization-information', function() {
       await updateOrganizationInformation({ organization: givenOrganization, organizationRepository });
 
       // then
-      expect(organizationRepository.update).to.have.been.calledWithMatch({ ...originalOrganization, credit: newCredit });
+      expect(organizationRepository.update).to.have.been.calledWithMatch({
+        ...originalOrganization,
+        credit: newCredit,
+      });
     });
 
-    context('when updating tags', function() {
-
-      it('should allow to assign a tag to organization', async function() {
+    context('when updating tags', function () {
+      it('should allow to assign a tag to organization', async function () {
         // given
         const organizationId = 7;
         const tagId = 4;
@@ -268,7 +277,7 @@ describe('Unit | UseCase | update-organization-information', function() {
         expect(organizationTagRepository.delete).to.have.not.been.called;
       });
 
-      it('should allow to unassign a tag to organization', async function() {
+      it('should allow to unassign a tag to organization', async function () {
         // given
         const organizationId = 7;
         const givenOrganization = _buildOrganizationWithNullAttributes({
@@ -301,15 +310,16 @@ describe('Unit | UseCase | update-organization-information', function() {
         });
 
         // given
-        expect(organizationTagRepository.delete).to.have.been.calledWith({ organizationTagId: organizationTagToRemove.id });
+        expect(organizationTagRepository.delete).to.have.been.calledWith({
+          organizationTagId: organizationTagToRemove.id,
+        });
         expect(organizationTagRepository.create).to.have.not.been.called;
       });
     });
   });
 
-  context('when an error occurred', function() {
-
-    it('should reject a NotFoundError (DomainError) when the organization does not exist', async function() {
+  context('when an error occurred', function () {
+    it('should reject a NotFoundError (DomainError) when the organization does not exist', async function () {
       // given
       const givenOrganization = _buildOrganizationWithNullAttributes({ id: 8 });
       organizationRepository.get.rejects(new NotFoundError('Not found organization'));

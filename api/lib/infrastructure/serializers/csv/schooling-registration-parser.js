@@ -56,7 +56,6 @@ function _convertSexCodeToLabel(sexCode) {
 }
 
 class SchoolingRegistrationParser extends CsvRegistrationParser {
-
   constructor(input, organizationId, i18n) {
     const registrationSet = new SchoolingRegistrationSet();
 

@@ -4,7 +4,6 @@ const moment = require('moment');
 const EMPTY_ARRAY = [];
 
 class CampaignProfilesCollectionResultLine {
-
   constructor(campaign, organization, campaignParticipationResult, competences, placementProfile, translate) {
     this.organization = organization;
     this.campaign = campaign;
@@ -23,10 +22,10 @@ class CampaignProfilesCollectionResultLine {
       this.campaign.name,
       this.campaignParticipationResult.participantLastName,
       this.campaignParticipationResult.participantFirstName,
-      ...(this._getGroupColumn()),
-      ...(this._getDivisionColumn()),
-      ...(this._getStudentNumberColumn()),
-      ...(this._getIdPixLabelColumn()),
+      ...this._getGroupColumn(),
+      ...this._getDivisionColumn(),
+      ...this._getStudentNumberColumn(),
+      ...this._getIdPixLabelColumn(),
       this._yesOrNo(this.campaignParticipationResult.isShared),
       this._getSharedAtColumn(),
       this._getTotalEarnedPixColumn(),
@@ -47,11 +46,15 @@ class CampaignProfilesCollectionResultLine {
   }
 
   _getCompetencesCountColumn() {
-    return this.campaignParticipationResult.isShared ? this.placementProfile.getCertifiableCompetencesCount() : this.notShared;
+    return this.campaignParticipationResult.isShared
+      ? this.placementProfile.getCertifiableCompetencesCount()
+      : this.notShared;
   }
 
   _getIsCertifiableColumn() {
-    return this.campaignParticipationResult.isShared ? this._yesOrNo(this.placementProfile.isCertifiable()) : this.notShared;
+    return this.campaignParticipationResult.isShared
+      ? this._yesOrNo(this.placementProfile.isCertifiable())
+      : this.notShared;
   }
 
   _getIdPixLabelColumn() {
@@ -67,7 +70,9 @@ class CampaignProfilesCollectionResultLine {
   }
 
   _getSharedAtColumn() {
-    return this.campaignParticipationResult.isShared ? moment.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD') : this.notShared;
+    return this.campaignParticipationResult.isShared
+      ? moment.utc(this.campaignParticipationResult.sharedAt).format('YYYY-MM-DD')
+      : this.notShared;
   }
 
   _getTotalEarnedPixColumn() {

@@ -7,11 +7,9 @@ const {
 
 const { expect, domainBuilder } = require('../../../../test-helper');
 
-describe('Unit | Service | Scoring Service', function() {
-
-  describe('#calculateScoringInformationForCompetence', function() {
-
-    it('should return the information about pix score and level for given competence', function() {
+describe('Unit | Service | Scoring Service', function () {
+  describe('#calculateScoringInformationForCompetence', function () {
+    it('should return the information about pix score and level for given competence', function () {
       // given
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ earnedPix: 3.7 }),
@@ -33,7 +31,7 @@ describe('Unit | Service | Scoring Service', function() {
       expect(scoring).to.deep.equal(expectedScoring);
     });
 
-    it('should return the information about pix score and level for one competence blocked with max information', function() {
+    it('should return the information about pix score and level for one competence blocked with max information', function () {
       // given
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE }),
@@ -55,8 +53,8 @@ describe('Unit | Service | Scoring Service', function() {
       expect(scoring).to.be.deep.equal(expectedScoring);
     });
 
-    context('when we allow an excess in pix or level', function() {
-      it('should return the information about pix score and level for one competence blocked not blocked', function() {
+    context('when we allow an excess in pix or level', function () {
+      it('should return the information about pix score and level for one competence blocked not blocked', function () {
         // given
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ earnedPix: MAX_REACHABLE_PIX_BY_COMPETENCE }),
@@ -73,18 +71,20 @@ describe('Unit | Service | Scoring Service', function() {
         };
 
         // when
-        const scoring = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessLevel, allowExcessPix });
+        const scoring = scoringService.calculateScoringInformationForCompetence({
+          knowledgeElements,
+          allowExcessLevel,
+          allowExcessPix,
+        });
 
         // then
         expect(scoring).to.be.deep.equal(expectedScoring);
       });
-
     });
-
   });
 
-  describe('#calculatePixScore', function() {
-    it('returns the Pix score and limit the score', function() {
+  describe('#calculatePixScore', function () {
+    it('returns the Pix score and limit the score', function () {
       const knowledgeElements = [
         domainBuilder.buildKnowledgeElement({ competenceId: 'competence1', skillId: 'skill1.1', earnedPix: 8 }),
         domainBuilder.buildKnowledgeElement({ competenceId: 'competence1', skillId: 'skill1.2', earnedPix: 35 }),

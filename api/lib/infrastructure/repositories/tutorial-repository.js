@@ -34,7 +34,6 @@ module.exports = {
     tutorialData = tutorialData.filter((tutorial) => _extractLangFromLocale(tutorial.locale) === lang);
     return _.map(tutorialData, _toDomain);
   },
-
 };
 
 function _toDomain(tutorialData) {

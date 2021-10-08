@@ -3,7 +3,6 @@ const { normalizeAndRemoveAccents: t1, removeSpecialCharacters: t2 } = require('
 const { getSmallestLevenshteinRatio: t3 } = require('./string-comparison-service');
 
 function treatmentT1T2T3(userAnswer, adminAnswers, applyTreatments = true) {
-
   if (_.isNotArrayOfString(adminAnswers)) return null;
   if (_.isNotString(userAnswer)) return null;
   if (_.isEmpty(adminAnswers)) return null;

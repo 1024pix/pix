@@ -3,9 +3,15 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/prescriber-serializer');
 const Membership = require('../../../../../lib/domain/models/Membership');
 
-describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
-
-  function createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField, field }) {
+describe('Unit | Serializer | JSONAPI | prescriber-serializer', function () {
+  function createExpectedPrescriberSerializedWithOneMoreField({
+    prescriber,
+    membership,
+    userOrgaSettings,
+    organization,
+    serializedField,
+    field,
+  }) {
     return {
       data: {
         id: prescriber.id.toString(),
@@ -15,14 +21,16 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           'last-name': prescriber.lastName,
           'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
           'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
-          'lang': prescriber.lang,
+          lang: prescriber.lang,
         },
         relationships: {
           memberships: {
-            data: [{
-              id: membership.id.toString(),
-              type: 'memberships',
-            }],
+            data: [
+              {
+                id: membership.id.toString(),
+                type: 'memberships',
+              },
+            ],
           },
           'user-orga-settings': {
             data: {
@@ -38,9 +46,9 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           type: 'organizations',
           attributes: {
             'external-id': organization.externalId,
-            'name': organization.name,
-            'type': organization.type,
-            'credit': organization.credit,
+            name: organization.name,
+            type: organization.type,
+            credit: organization.credit,
             [serializedField]: organization[field],
           },
           relationships: {
@@ -110,14 +118,16 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           'last-name': prescriber.lastName,
           'pix-orga-terms-of-service-accepted': prescriber.pixOrgaTermsOfServiceAccepted,
           'are-new-year-schooling-registrations-imported': prescriber.areNewYearSchoolingRegistrationsImported,
-          'lang': prescriber.lang,
+          lang: prescriber.lang,
         },
         relationships: {
           memberships: {
-            data: [{
-              id: membership.id.toString(),
-              type: 'memberships',
-            }],
+            data: [
+              {
+                id: membership.id.toString(),
+                type: 'memberships',
+              },
+            ],
           },
           'user-orga-settings': {
             data: {
@@ -133,9 +143,9 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           type: 'organizations',
           attributes: {
             'external-id': organization.externalId,
-            'name': organization.name,
-            'type': organization.type,
-            'credit': organization.credit,
+            name: organization.name,
+            type: organization.type,
+            credit: organization.credit,
           },
           relationships: {
             memberships: {
@@ -194,10 +204,9 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
     };
   }
 
-  describe('#serialize', function() {
-
-    context('when canCollectProfiles is true', function() {
-      it('should serialize prescriber with canCollectProfiles', function() {
+  describe('#serialize', function () {
+    context('when canCollectProfiles is true', function () {
+      it('should serialize prescriber with canCollectProfiles', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -227,7 +236,14 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'can-collect-profiles', field: 'canCollectProfiles' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'can-collect-profiles',
+          field: 'canCollectProfiles',
+        });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -237,8 +253,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
       });
     });
 
-    context('when isManagingStudents is true', function() {
-      it('should serialize prescriber with isManagingStudents', function() {
+    context('when isManagingStudents is true', function () {
+      it('should serialize prescriber with isManagingStudents', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -268,7 +284,14 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-managing-students', field: 'isManagingStudents' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'is-managing-students',
+          field: 'isManagingStudents',
+        });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -278,8 +301,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
       });
     });
 
-    context('when isAgriculture is true', function() {
-      it('should serialize prescriber with isAgriculture', function() {
+    context('when isAgriculture is true', function () {
+      it('should serialize prescriber with isAgriculture', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -310,7 +333,14 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-agriculture', field: 'isAgriculture' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'is-agriculture',
+          field: 'isAgriculture',
+        });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -320,8 +350,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
       });
     });
 
-    context('when isAEFE is true', function() {
-      it('should serialize prescriber with isAEFE', function() {
+    context('when isAEFE is true', function () {
+      it('should serialize prescriber with isAEFE', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -352,7 +382,14 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-aefe', field: 'isAEFE' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'is-aefe',
+          field: 'isAEFE',
+        });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -362,8 +399,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
       });
     });
 
-    context('when isMLF is true', function() {
-      it('should serialize prescriber with isMLF', function() {
+    context('when isMLF is true', function () {
+      it('should serialize prescriber with isMLF', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -394,7 +431,14 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-mlf', field: 'isMLF' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'is-mlf',
+          field: 'isMLF',
+        });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -404,8 +448,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
       });
     });
 
-    context('when isMediationNumerique is true', function() {
-      it('should serialize prescriber with isMediationNumerique', function() {
+    context('when isMediationNumerique is true', function () {
+      it('should serialize prescriber with isMediationNumerique', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -436,7 +480,14 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({ prescriber, membership, userOrgaSettings, organization, serializedField: 'is-mediation-numerique', field: 'isMediationNumerique' });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerializedWithOneMoreField({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+          serializedField: 'is-mediation-numerique',
+          field: 'isMediationNumerique',
+        });
 
         // when
         const result = serializer.serialize(prescriber);
@@ -446,8 +497,8 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
       });
     });
 
-    context('when all booleans are false', function() {
-      it('should serialize prescriber without these booleans', function() {
+    context('when all booleans are false', function () {
+      it('should serialize prescriber without these booleans', function () {
         // given
         const user = domainBuilder.buildUser({
           pixOrgaTermsOfServiceAccepted: true,
@@ -457,7 +508,11 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
         });
 
         const tags = [domainBuilder.buildTag({ name: 'OTHER' })];
-        const organization = domainBuilder.buildOrganization({ tags, isManagingStudents: false, canCollectProfiles: false });
+        const organization = domainBuilder.buildOrganization({
+          tags,
+          isManagingStudents: false,
+          canCollectProfiles: false,
+        });
 
         const membership = domainBuilder.buildMembership({
           organization,
@@ -480,7 +535,12 @@ describe('Unit | Serializer | JSONAPI | prescriber-serializer', function() {
           userOrgaSettings,
         });
 
-        const expectedPrescriberSerialized = createExpectedPrescriberSerialized({ prescriber, membership, userOrgaSettings, organization });
+        const expectedPrescriberSerialized = createExpectedPrescriberSerialized({
+          prescriber,
+          membership,
+          userOrgaSettings,
+          organization,
+        });
 
         // when
         const result = serializer.serialize(prescriber);

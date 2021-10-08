@@ -11,7 +11,6 @@ module.exports = function buildCertificationChallenge({
   isNeutralized = false,
   certifiableBadgeKey = null,
 } = {}) {
-
   return new CertificationChallenge({
     id,
     challengeId,

@@ -2,7 +2,7 @@ const logger = require('../../../infrastructure/logger');
 
 function _csvFormulaEscapingPrefix(data) {
   const mayBeInterpretedAsFormula = /^[-@=+]/.test(data);
-  return mayBeInterpretedAsFormula ? '\'' : '';
+  return mayBeInterpretedAsFormula ? "'" : '';
 }
 
 function _csvSerializeValue(data) {

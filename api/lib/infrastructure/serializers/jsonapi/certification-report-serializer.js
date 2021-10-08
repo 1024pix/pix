@@ -17,12 +17,7 @@ module.exports = {
       ],
       certificationIssueReports: {
         ref: 'id',
-        attributes: [
-          'category',
-          'description',
-          'subcategory',
-          'questionNumber',
-        ],
+        attributes: ['category', 'description', 'subcategory', 'questionNumber'],
       },
     }).serialize(certificationReports);
   },

@@ -32,7 +32,6 @@ module.exports = function buildUserOrgaSettings({
   currentOrganization = _buildOrganization(),
   user = _buildUser(),
 } = {}) {
-
   const userOrgaSettings = new UserOrgaSettings({ id, currentOrganization, user });
 
   userOrgaSettings.user.userOrgaSettings = userOrgaSettings;

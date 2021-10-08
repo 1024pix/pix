@@ -2,19 +2,14 @@ const _ = require('lodash');
 const moment = require('moment');
 const { getCsvContent } = require('./write-csv-utils');
 
-async function getDivisionCertificationResultsCsv({
-  certificationResults,
-}) {
+async function getDivisionCertificationResultsCsv({ certificationResults }) {
   const data = _buildFileDataWithoutCertificationCenterName({ certificationResults });
   const fileHeaders = _buildFileHeadersWithoutCertificationCenterName();
 
   return getCsvContent({ data, fileHeaders });
 }
 
-async function getSessionCertificationResultsCsv({
-  session,
-  certificationResults,
-}) {
+async function getSessionCertificationResultsCsv({ session, certificationResults }) {
   const fileHeaders = _buildFileHeaders(certificationResults);
   const data = _buildFileData({ session, certificationResults });
 
@@ -63,11 +58,7 @@ function _buildFileHeadersWithoutCertificationCenterName() {
       _headers.PIX_SCORE,
     ],
     _competenceIndexes,
-    [
-      _headers.JURY_COMMENT_FOR_ORGANIZATION,
-      _headers.SESSION_ID,
-      _headers.CERTIFICATION_DATE,
-    ],
+    [_headers.JURY_COMMENT_FOR_ORGANIZATION, _headers.SESSION_ID, _headers.CERTIFICATION_DATE]
   );
 }
 
@@ -76,19 +67,19 @@ function _buildFileData({ session, certificationResults }) {
 }
 
 function _buildFileHeaders(certificationResults) {
-  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenClea());
-  const shouldIncludePixPlusDroitMaitreHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenPixPlusDroitMaitre());
-  const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) => certificationResult.hasTakenPixPlusDroitExpert());
+  const shouldIncludeCleaHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenClea()
+  );
+  const shouldIncludePixPlusDroitMaitreHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusDroitMaitre()
+  );
+  const shouldIncludePixPlusDroitExpertHeader = certificationResults.some((certificationResult) =>
+    certificationResult.hasTakenPixPlusDroitExpert()
+  );
 
-  const cleaHeader = shouldIncludeCleaHeader
-    ? [_headers.CLEA_STATUS]
-    : [];
-  const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader
-    ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS]
-    : [];
-  const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader
-    ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS]
-    : [];
+  const cleaHeader = shouldIncludeCleaHeader ? [_headers.CLEA_STATUS] : [];
+  const pixPlusDroitMaitreHeader = shouldIncludePixPlusDroitMaitreHeader ? [_headers.PIX_PLUS_DROIT_MAITRE_STATUS] : [];
+  const pixPlusDroitExpertHeader = shouldIncludePixPlusDroitExpertHeader ? [_headers.PIX_PLUS_DROIT_EXPERT_STATUS] : [];
 
   return _.concat(
     [
@@ -103,14 +94,14 @@ function _buildFileHeaders(certificationResults) {
     pixPlusDroitMaitreHeader,
     pixPlusDroitExpertHeader,
     cleaHeader,
-    [ _headers.PIX_SCORE ],
+    [_headers.PIX_SCORE],
     _competenceIndexes,
     [
       _headers.JURY_COMMENT_FOR_ORGANIZATION,
       _headers.SESSION_ID,
       _headers.CERTIFICATION_CENTER,
       _headers.CERTIFICATION_DATE,
-    ],
+    ]
   );
 }
 
@@ -212,11 +203,22 @@ function _isCompetenceFailed(competence) {
 }
 
 const _competenceIndexes = [
-  '1.1', '1.2', '1.3',
-  '2.1', '2.2', '2.3', '2.4',
-  '3.1', '3.2', '3.3', '3.4',
-  '4.1', '4.2', '4.3',
-  '5.1', '5.2',
+  '1.1',
+  '1.2',
+  '1.3',
+  '2.1',
+  '2.2',
+  '2.3',
+  '2.4',
+  '3.1',
+  '3.2',
+  '3.3',
+  '3.4',
+  '4.1',
+  '4.2',
+  '4.3',
+  '5.1',
+  '5.2',
 ];
 
 const _headers = {

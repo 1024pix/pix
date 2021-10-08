@@ -3,22 +3,19 @@ const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-m
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
-
-  describe('validation', function() {
-
+describe('Unit | Domain | Models | BookshelfAssessmentResult', function () {
+  describe('validation', function () {
     let rawData;
 
-    beforeEach(function() {
+    beforeEach(function () {
       rawData = {
         emitter: '',
         status: null,
       };
     });
 
-    describe('the status field', function() {
-
-      it('should only accept specific values', function() {
+    describe('the status field', function () {
+      it('should only accept specific values', function () {
         // given
         rawData.status = 'not_a_correct_status';
         const certification = new BookshelfAssessmentResults(rawData);
@@ -33,15 +30,14 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
           })
           .catch((err) => {
             const status = err.data['status'];
-            expect(status).to.exist.and.to.deep.equal(['Le status de la certification n\'est pas valide']);
+            expect(status).to.exist.and.to.deep.equal(["Le status de la certification n'est pas valide"]);
           });
       });
     });
   });
 
-  describe('#buildAlgoErrorResult', function() {
-
-    it('should return an algo error AssessmentResult', function() {
+  describe('#buildAlgoErrorResult', function () {
+    it('should return an algo error AssessmentResult', function () {
       // given
       const error = {
         message: 'message for jury',
@@ -73,9 +69,8 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
     });
   });
 
-  describe('#buildStandardAssessmentResult', function() {
-
-    it('should return a standard AssessmentResult', function() {
+  describe('#buildStandardAssessmentResult', function () {
+    it('should return a standard AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildStandardAssessmentResult({
         pixScore: 55,
@@ -103,9 +98,8 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
     });
   });
 
-  describe('#buildNotTrustableAssessmentResult', function() {
-
-    it('should return a not trustable AssessmentResult', function() {
+  describe('#buildNotTrustableAssessmentResult', function () {
+    it('should return a not trustable AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
         pixScore: 55,
@@ -124,14 +118,16 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
         status: AssessmentResult.status.VALIDATED,
         pixScore: 55,
         competenceMarks: [],
-        commentForCandidate: 'Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification' +
+        commentForCandidate:
+          'Un ou plusieurs problème(s) technique(s), signalé(s) à votre surveillant pendant la session de certification' +
           ', a/ont affecté la qualité du test de certification. En raison du trop grand nombre de questions auxquelles vous ' +
-          'n\'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un ' +
+          "n'avez pas pu répondre dans de bonnes conditions, nous ne sommes malheureusement pas en mesure de calculer un " +
           'score fiable et de fournir un certificat. La certification est annulée, le prescripteur de votre certification' +
           '(le cas échéant), en est informé.',
-        commentForOrganization: 'Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidate au surveillant' +
+        commentForOrganization:
+          'Un ou plusieurs problème(s) technique(s), signalés par ce(cette) candidate au surveillant' +
           'de la session de certification, a/ont affecté le bon déroulement du test de certification. Nous sommes dans ' +
-          'l\'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte ' +
+          "l'incapacité de le/la certifier, sa certification est donc annulée. Cette information est à prendre en compte " +
           'et peut vous conduire à proposer une nouvelle session de certification pour ce(cette) candidat(e).',
       });
       expectedAssessmentResult.id = undefined;
@@ -140,9 +136,8 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
     });
   });
 
-  describe('#buildStartedAssessmentResult', function() {
-
-    it('should return a started AssessmentResult', function() {
+  describe('#buildStartedAssessmentResult', function () {
+    it('should return a started AssessmentResult', function () {
       // when
       const actualAssessmentResult = AssessmentResult.buildStartedAssessmentResult({ assessmentId: 123 });
 
@@ -164,9 +159,8 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
     });
   });
 
-  describe('#isValidated', function() {
-
-    it('should return true if the assessment result is validated', function() {
+  describe('#isValidated', function () {
+    it('should return true if the assessment result is validated', function () {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.validated();
 
@@ -177,7 +171,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
       expect(isValidated).to.be.true;
     });
 
-    it('should return false if the assessment result is rejected', function() {
+    it('should return false if the assessment result is rejected', function () {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.rejected();
 
@@ -188,7 +182,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
       expect(isValidated).to.be.false;
     });
 
-    it('should return false if the assessment result is in error', function() {
+    it('should return false if the assessment result is in error', function () {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.error();
 
@@ -199,7 +193,7 @@ describe('Unit | Domain | Models | BookshelfAssessmentResult', function() {
       expect(isValidated).to.be.false;
     });
 
-    it('should return false if the assessment result is started', function() {
+    it('should return false if the assessment result is started', function () {
       // given
       const assessmentResult = domainBuilder.buildAssessmentResult.started();
 

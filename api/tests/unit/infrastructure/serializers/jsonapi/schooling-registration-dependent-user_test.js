@@ -1,10 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/schooling-registration-dependent-user-serializer');
 
-describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-serializer', function() {
-
-  describe('#serialize', function() {
-
+describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-serializer', function () {
+  describe('#serialize', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const schoolingRegistrationWithUsernameAndPassword = domainBuilder.buildSchoolingRegistration();
@@ -28,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | schooling-registration-dependent-user-se
       },
     };
 
-    it('should convert a schooling-registration-dependent-user object into JSON API data', function() {
+    it('should convert a schooling-registration-dependent-user object into JSON API data', function () {
       // when
       const json = serializer.serialize(schoolingRegistrationWithUsernameAndPassword);
 

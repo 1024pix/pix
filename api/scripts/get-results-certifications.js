@@ -8,14 +8,35 @@ const moment = require('moment-timezone');
 
 const HEADERS = [
   'ID de certification',
-  'Prenom du candidat', 'Nom du candidat', 'Date de naissance du candidat', 'Lieu de naissance du candidat', 'Identifiant Externe',
-  'Statut de la certification', 'ID de session', 'Date de debut', 'Date de fin',
-  'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix',
-  '1.1', '1.2', '1.3',
-  '2.1', '2.2', '2.3', '2.4',
-  '3.1', '3.2', '3.3', '3.4',
-  '4.1', '4.2', '4.3',
-  '5.1', '5.2',
+  'Prenom du candidat',
+  'Nom du candidat',
+  'Date de naissance du candidat',
+  'Lieu de naissance du candidat',
+  'Identifiant Externe',
+  'Statut de la certification',
+  'ID de session',
+  'Date de debut',
+  'Date de fin',
+  'Commentaire pour le candidat',
+  "Commentaire pour l'organisation",
+  'Commentaire pour le jury',
+  'Note Pix',
+  '1.1',
+  '1.2',
+  '1.3',
+  '2.1',
+  '2.2',
+  '2.3',
+  '2.4',
+  '3.1',
+  '3.2',
+  '3.3',
+  '3.4',
+  '4.1',
+  '4.2',
+  '4.3',
+  '5.1',
+  '5.2',
 ];
 
 function buildSessionRequest(baseUrl, authToken, sessionId) {
@@ -53,7 +74,8 @@ function toCSVRow(rowJSON) {
   const certificationData = rowJSON.data.attributes;
   const res = {};
 
-  const [id,
+  const [
+    id,
     firstname,
     lastname,
     birthdate,
@@ -67,7 +89,8 @@ function toCSVRow(rowJSON) {
     commentOrganization,
     commentJury,
     note,
-    ...competencess] = HEADERS;
+    ...competencess
+  ] = HEADERS;
 
   res[id] = certificationData['certification-id'];
   res[firstname] = certificationData['first-name'];
@@ -127,22 +150,26 @@ function main() {
     .catch((err) => {
       if (err.statusCode === 404) {
         console.error(err);
-        throw new Error('L\'id session n\'existe pas');
+        throw new Error("L'id session n'existe pas");
       }
     })
     .then((certificationIds) => {
       const certificationsRequests = Promise.all(
-        certificationIds.map((certificationId) => buildCertificationRequest(baseUrl, authToken, certificationId))
-          .map((requestObject) => request(requestObject)),
+        certificationIds
+          .map((certificationId) => buildCertificationRequest(baseUrl, authToken, certificationId))
+          .map((requestObject) => request(requestObject))
       );
 
-      return certificationsRequests.then((certificationResults) => certificationResults.map(toCSVRow))
-        .then((certificationResult) => json2csv({
-          data: certificationResult,
-          fieldNames: HEADERS,
-          del: ';',
-          withBOM: true,
-        }))
+      return certificationsRequests
+        .then((certificationResults) => certificationResults.map(toCSVRow))
+        .then((certificationResult) =>
+          json2csv({
+            data: certificationResult,
+            fieldNames: HEADERS,
+            del: ';',
+            withBOM: true,
+          })
+        )
         .then((csv) => {
           saveInFile(csv, sessionId);
           console.log(`\n\n${csv}\n\n`);
@@ -152,7 +179,6 @@ function main() {
     .catch((err) => {
       console.log(err.message);
     });
-
 }
 
 if (require.main === module) {

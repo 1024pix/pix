@@ -8,7 +8,6 @@ const { isValidDate } = require('../../utils/date-utils');
 const CertificationCourse = require('../../../domain/models/CertificationCourse');
 
 module.exports = {
-
   serializeFromCertificationCourse(certificationCourse) {
     return new Serializer('certifications', {
       transform: (certificationCourse) => {
@@ -39,9 +38,15 @@ module.exports = {
       }
     }
     return {
-      ..._.pick(deserializedRawCommand,
-        ['firstName', 'lastName', 'birthplace', 'birthdate', 'birthCountry', 'birthPostalCode', 'sex'],
-      ),
+      ..._.pick(deserializedRawCommand, [
+        'firstName',
+        'lastName',
+        'birthplace',
+        'birthdate',
+        'birthCountry',
+        'birthPostalCode',
+        'sex',
+      ]),
       birthINSEECode: deserializedRawCommand.birthInseeCode,
       userId,
       certificationCourseId,
@@ -50,22 +55,20 @@ module.exports = {
   deserialize(json) {
     const birthdate = json.data.attributes.birthdate;
 
-    return new Deserializer({ keyForAttribute: 'camelCase' })
-      .deserialize(json)
-      .then(((certification) => {
-        if (birthdate) {
-          if (!isValidDate(birthdate, 'YYYY-MM-DD')) {
-            return Promise.reject(new WrongDateFormatError());
-          }
+    return new Deserializer({ keyForAttribute: 'camelCase' }).deserialize(json).then((certification) => {
+      if (birthdate) {
+        if (!isValidDate(birthdate, 'YYYY-MM-DD')) {
+          return Promise.reject(new WrongDateFormatError());
         }
+      }
 
-        const certificationDomainModel = new CertificationCourse(certification);
+      const certificationDomainModel = new CertificationCourse(certification);
 
-        if (!_isOmitted(certification.examinerComment) && _hasNoExaminerComment(certification.examinerComment)) {
-          certificationDomainModel.examinerComment = NO_EXAMINER_COMMENT;
-        }
-        return certificationDomainModel;
-      }));
+      if (!_isOmitted(certification.examinerComment) && _hasNoExaminerComment(certification.examinerComment)) {
+        certificationDomainModel.examinerComment = NO_EXAMINER_COMMENT;
+      }
+      return certificationDomainModel;
+    });
   },
 };
 

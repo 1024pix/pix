@@ -21,7 +21,6 @@ async function authenticateExternalUser({
   authenticationMethodRepository,
   userRepository,
 }) {
-
   try {
     const userFromCredentials = await authenticationService.getUserByUsernameAndPassword({
       username,
@@ -30,10 +29,8 @@ async function authenticateExternalUser({
     });
 
     if (userFromCredentials.id !== expectedUserId) {
-
       const expectedUser = await userRepository.getForObfuscation(expectedUserId);
-      const authenticationMethod = await obfuscationService
-        .getUserAuthenticationMethodWithObfuscation(expectedUser);
+      const authenticationMethod = await obfuscationService.getUserAuthenticationMethodWithObfuscation(expectedUser);
 
       throw new UnexpectedUserAccountError({
         message: undefined,
@@ -57,12 +54,11 @@ async function authenticateExternalUser({
     const token = tokenService.createAccessTokenFromExternalUser(userFromCredentials.id);
     await userRepository.updateLastLoggedAt({ userId: userFromCredentials.id });
     return token;
-
   } catch (error) {
-    if ((error instanceof UserNotFoundError) || (error instanceof PasswordNotMatching)) {
+    if (error instanceof UserNotFoundError || error instanceof PasswordNotMatching) {
       throw new MissingOrInvalidCredentialsError();
     } else {
-      throw (error);
+      throw error;
     }
   }
 }
@@ -76,7 +72,9 @@ async function _addGarAuthenticationMethod({
 }) {
   const samlId = tokenService.extractSamlId(externalUserToken);
   if (!samlId) {
-    throw new InvalidExternalUserTokenError('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
+    throw new InvalidExternalUserTokenError(
+      'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.'
+    );
   }
 
   await _checkIfSamlIdIsNotReconciledWithAnotherUser({ samlId, userId, userRepository });

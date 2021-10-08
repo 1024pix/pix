@@ -1,12 +1,10 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-tutorial-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function() {
-
-  describe('#serialize', function() {
-
-    context('when there is only user tutorial', function() {
-      it('should serialize', function() {
+describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function () {
+  describe('#serialize', function () {
+    context('when there is only user tutorial', function () {
+      it('should serialize', function () {
         // given
         const userTutorial = {
           id: 'userTutorialId',
@@ -32,8 +30,8 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function() {
     });
   });
 
-  context('when there is user tutorial and tutorial', function() {
-    it('should serialize', function() {
+  context('when there is user tutorial and tutorial', function () {
+    it('should serialize', function () {
       // given
       const userTutorial = {
         id: 'userTutorialId',
@@ -57,18 +55,20 @@ describe('Unit | Serializer | JSONAPI | user-tutorial-serializer', function() {
             },
           },
         },
-        included: [{
-          attributes: {
-            duration: '00:01:30',
-            format: 'video',
+        included: [
+          {
+            attributes: {
+              duration: '00:01:30',
+              format: 'video',
+              id: 'tutorialId',
+              link: 'https://youtube.fr',
+              source: 'Youtube',
+              title: 'Savoir regarder des vidéos youtube.',
+            },
             id: 'tutorialId',
-            'link': 'https://youtube.fr',
-            'source': 'Youtube',
-            'title': 'Savoir regarder des vidéos youtube.',
+            type: 'tutorials',
           },
-          'id': 'tutorialId',
-          'type': 'tutorials',
-        }],
+        ],
       };
       // when
       const json = serializer.serialize(userTutorial);

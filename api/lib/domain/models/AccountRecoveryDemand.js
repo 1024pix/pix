@@ -1,15 +1,5 @@
 class AccountRecoveryDemand {
-
-  constructor({
-    id,
-    userId,
-    schoolingRegistrationId,
-    oldEmail,
-    newEmail,
-    temporaryKey,
-    used,
-    createdAt,
-  } = {}) {
+  constructor({ id, userId, schoolingRegistrationId, oldEmail, newEmail, temporaryKey, used, createdAt } = {}) {
     this.id = id;
     this.schoolingRegistrationId = schoolingRegistrationId;
     this.userId = userId;

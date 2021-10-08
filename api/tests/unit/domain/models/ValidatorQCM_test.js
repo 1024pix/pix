@@ -5,21 +5,18 @@ const ValidatorQCM = require('../../../../lib/domain/models/ValidatorQCM');
 
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | ValidatorQCM', function() {
-
-  beforeEach(function() {
-
+describe('Unit | Domain | Models | ValidatorQCM', function () {
+  beforeEach(function () {
     sinon.stub(solutionServiceQcm, 'match');
   });
 
-  describe('#assess', function() {
-
+  describe('#assess', function () {
     let uncorrectedAnswer;
     let validation;
     let validator;
     let solution;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       solutionServiceQcm.match.returns(AnswerStatus.OK);
       solution = domainBuilder.buildSolution({ type: 'QCM' });
@@ -31,11 +28,11 @@ describe('Unit | Domain | Models | ValidatorQCM', function() {
       validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
-    it('should call solutionServiceQCU', function() {
+    it('should call solutionServiceQCU', function () {
       // then
       expect(solutionServiceQcm.match).to.have.been.calledWith(uncorrectedAnswer.value, solution.value);
     });
-    it('should return a validation object with the returned status', function() {
+    it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: null,

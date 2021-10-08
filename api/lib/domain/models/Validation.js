@@ -4,11 +4,7 @@
  *             interne de l'algorithme.
  */
 class Validation {
-
-  constructor({
-    result,
-    resultDetails,
-  } = {}) {
+  constructor({ result, resultDetails } = {}) {
     this.result = result;
     this.resultDetails = resultDetails;
   }

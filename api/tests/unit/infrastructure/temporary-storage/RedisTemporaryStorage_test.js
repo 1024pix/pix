@@ -1,26 +1,22 @@
 const { expect, sinon } = require('../../../test-helper');
 const RedisTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/RedisTemporaryStorage');
 
-describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', function() {
-
+describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', function () {
   const REDIS_URL = 'redis_url';
 
   let clientStub;
 
-  beforeEach(function() {
+  beforeEach(function () {
     clientStub = {
       get: sinon.stub(),
       set: sinon.stub(),
     };
 
-    sinon.stub(RedisTemporaryStorage, 'createClient')
-      .withArgs(REDIS_URL)
-      .returns(clientStub);
+    sinon.stub(RedisTemporaryStorage, 'createClient').withArgs(REDIS_URL).returns(clientStub);
   });
 
-  describe('#constructor', function() {
-
-    it('should call static method createClient', function() {
+  describe('#constructor', function () {
+    it('should call static method createClient', function () {
       // when
       const redisTemporaryStorage = new RedisTemporaryStorage(REDIS_URL);
 
@@ -30,9 +26,8 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
     });
   });
 
-  describe('#save', function() {
-
-    it('should generated key if key parameter is not valid', async function() {
+  describe('#save', function () {
+    it('should generated key if key parameter is not valid', async function () {
       // given
       const keyParameter = '  ';
       const value = { name: 'name' };
@@ -52,7 +47,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       expect(RedisTemporaryStorage.generateKey).to.have.been.called;
     });
 
-    it('should use passed key parameter if valid', async function() {
+    it('should use passed key parameter if valid', async function () {
       // given
       const keyParameter = 'KEY-PARAMETER';
       const value = { name: 'name' };
@@ -72,7 +67,7 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
       expect(RedisTemporaryStorage.generateKey).not.have.been.called;
     });
 
-    it('should call client set with value and EX parameters', async function() {
+    it('should call client set with value and EX parameters', async function () {
       // given
       const EXPIRATION_PARAMETER = 'ex';
       const value = { name: 'name' };
@@ -88,14 +83,13 @@ describe('Unit | Infrastructure | temporary-storage | RedisTemporaryStorage', fu
         sinon.match.any,
         JSON.stringify(value),
         EXPIRATION_PARAMETER,
-        expirationDelaySeconds,
+        expirationDelaySeconds
       );
     });
   });
 
-  describe('#get', function() {
-
-    it('should call client set and retrieve value', async function() {
+  describe('#get', function () {
+    it('should call client set and retrieve value', async function () {
       // given
       const key = 'valueKey';
       const value = { name: 'name' };

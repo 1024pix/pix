@@ -16,7 +16,6 @@ const knowledgeElementRepository = require('./knowledge-element-repository');
 const competenceRepository = require('./competence-repository');
 
 module.exports = {
-
   async get(certificationCourseId) {
     const certificationDatas = await knex
       .select({
@@ -43,9 +42,13 @@ module.exports = {
     const pixCompetences = await competenceRepository.listPixCompetencesOnly();
     const pixCompetenceIds = pixCompetences.map((pixCompetence) => pixCompetence.id);
     const isKnowledgeElementValidated = (knowledgeElement) => knowledgeElement.status === 'validated';
-    const isKnowledgeElementFromPixCompetences = (knowledgeElement) => pixCompetenceIds.includes(knowledgeElement.competenceId);
+    const isKnowledgeElementFromPixCompetences = (knowledgeElement) =>
+      pixCompetenceIds.includes(knowledgeElement.competenceId);
     const skillIds = knowledgeElements
-      .filter((knowledgeElement) => isKnowledgeElementValidated(knowledgeElement) && isKnowledgeElementFromPixCompetences(knowledgeElement))
+      .filter(
+        (knowledgeElement) =>
+          isKnowledgeElementValidated(knowledgeElement) && isKnowledgeElementFromPixCompetences(knowledgeElement)
+      )
       .map((pixKnowledgeElement) => pixKnowledgeElement.skillId);
 
     const certifiedSkills = await _createCertifiedSkills(skillIds, askedSkillIds);
@@ -91,7 +94,9 @@ async function _createCertifiedTubes(certifiedSkills) {
 
 async function _createCertifiedCompetences(certifiedTubes) {
   const certifiedTubesByCompetence = _.groupBy(certifiedTubes, 'competenceId');
-  const learningContentCompetences = await competenceDatasource.findByRecordIds(Object.keys(certifiedTubesByCompetence));
+  const learningContentCompetences = await competenceDatasource.findByRecordIds(
+    Object.keys(certifiedTubesByCompetence)
+  );
   return learningContentCompetences.map((learningContentCompetence) => {
     const name = learningContentCompetence.nameFrFr;
     return new CertifiedCompetence({

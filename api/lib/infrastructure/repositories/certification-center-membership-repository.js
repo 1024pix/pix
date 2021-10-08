@@ -5,31 +5,28 @@ const DomainTransaction = require('../DomainTransaction');
 const { CertificationCenterMembershipCreationError, AlreadyExistingMembershipError } = require('../../domain/errors');
 
 module.exports = {
-
   async findByUserId(userId) {
-    const certificationCenterMemberships = await BookshelfCertificationCenterMembership
-      .where({ userId })
-      .fetchAll({
-        withRelated: [
-          'certificationCenter',
-        ],
-      });
+    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({ userId }).fetchAll({
+      withRelated: ['certificationCenter'],
+    });
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCenterMembership, certificationCenterMemberships);
+    return bookshelfToDomainConverter.buildDomainObjects(
+      BookshelfCertificationCenterMembership,
+      certificationCenterMemberships
+    );
   },
 
   async findByCertificationCenterId(certificationCenterId) {
-    const certificationCenterMemberships = await BookshelfCertificationCenterMembership
-      .where({ certificationCenterId })
+    const certificationCenterMemberships = await BookshelfCertificationCenterMembership.where({ certificationCenterId })
       .orderBy('id', 'ASC')
       .fetchAll({
-        withRelated: [
-          'certificationCenter',
-          'user',
-        ],
+        withRelated: ['certificationCenter', 'user'],
       });
 
-    return bookshelfToDomainConverter.buildDomainObjects(BookshelfCertificationCenterMembership, certificationCenterMemberships);
+    return bookshelfToDomainConverter.buildDomainObjects(
+      BookshelfCertificationCenterMembership,
+      certificationCenterMemberships
+    );
   },
 
   async save(userId, certificationCenterId, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -39,12 +36,19 @@ module.exports = {
         certificationCenterId,
       })
         .save(null, { transacting: domainTransaction.knexTransaction })
-        .then((model) => model.fetch({ withRelated: ['user', 'certificationCenter'], transacting: domainTransaction.knexTransaction }));
+        .then((model) =>
+          model.fetch({ withRelated: ['user', 'certificationCenter'], transacting: domainTransaction.knexTransaction })
+        );
 
-      return bookshelfToDomainConverter.buildDomainObject(BookshelfCertificationCenterMembership, newCertificationCenterMembership);
+      return bookshelfToDomainConverter.buildDomainObject(
+        BookshelfCertificationCenterMembership,
+        newCertificationCenterMembership
+      );
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        throw new AlreadyExistingMembershipError(`User is already member of certification center ${certificationCenterId}`);
+        throw new AlreadyExistingMembershipError(
+          `User is already member of certification center ${certificationCenterId}`
+        );
       }
       if (bookshelfUtils.foreignKeyConstraintViolated(err)) {
         throw new CertificationCenterMembershipCreationError();
@@ -54,17 +58,18 @@ module.exports = {
   },
 
   async isMemberOfCertificationCenter(userId, certificationCenterId) {
-    const certificationCenterMembership = await BookshelfCertificationCenterMembership
-      .where({ userId, certificationCenterId })
-      .fetch({ require: false, columns: 'id' });
+    const certificationCenterMembership = await BookshelfCertificationCenterMembership.where({
+      userId,
+      certificationCenterId,
+    }).fetch({ require: false, columns: 'id' });
     return Boolean(certificationCenterMembership);
   },
 
   async doesUserHaveMembershipToAnyCertificationCenter(userId) {
-    const certificationCenterMembership = await BookshelfCertificationCenterMembership
-      .where({ userId })
-      .fetch({ require: false, columns: 'id' });
+    const certificationCenterMembership = await BookshelfCertificationCenterMembership.where({ userId }).fetch({
+      require: false,
+      columns: 'id',
+    });
     return Boolean(certificationCenterMembership);
   },
-
 };

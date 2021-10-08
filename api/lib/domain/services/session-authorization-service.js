@@ -2,9 +2,11 @@ const sessionRepository = require('../../infrastructure/repositories/session-rep
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
 module.exports = {
-
   async isAuthorizedToAccessSession({ userId, sessionId }) {
-    const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
+    const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+      userId,
+      sessionId
+    );
     if (!hasMembershipAccess) {
       const isPixMaster = await userRepository.isPixMaster(userId);
       if (!isPixMaster) {

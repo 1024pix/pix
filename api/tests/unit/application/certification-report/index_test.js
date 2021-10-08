@@ -4,9 +4,8 @@ const { NotFoundError } = require('../../../../lib/application/http-errors');
 const authorization = require('../../../../lib/application/preHandlers/authorization');
 const moduleUnderTest = require('../../../../lib/application/certification-reports');
 
-describe('Unit | Application | Certifications Report | Route', function() {
-
-  it('POST /api/certification-reports/{id}/certification-issue-reports should exist', async function() {
+describe('Unit | Application | Certifications Report | Route', function () {
+  it('POST /api/certification-reports/{id}/certification-issue-reports should exist', async function () {
     // given
     sinon.stub(certificationReportController, 'saveCertificationIssueReport').returns('ok');
     const httpTestServer = new HttpTestServer();
@@ -19,9 +18,8 @@ describe('Unit | Application | Certifications Report | Route', function() {
     expect(response.statusCode).to.equal(200);
   });
 
-  describe('POST /api/certification-reports/{id}/abort', function() {
-
-    it('Returns HTTP 200 if the logged user has access to the session', async function() {
+  describe('POST /api/certification-reports/{id}/abort', function () {
+    it('Returns HTTP 200 if the logged user has access to the session', async function () {
       // given
       sinon.stub(authorization, 'verifyCertificationSessionAuthorization').returns('ok');
       sinon.stub(certificationReportController, 'abort').returns('ok');
@@ -35,7 +33,7 @@ describe('Unit | Application | Certifications Report | Route', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('Returns HTTP 404 if the logged user is not allowed to access the session', async function() {
+    it('Returns HTTP 404 if the logged user is not allowed to access the session', async function () {
       // given
       sinon.stub(authorization, 'verifyCertificationSessionAuthorization').throws(new NotFoundError('coucou'));
       const httpTestServer = new HttpTestServer();
@@ -52,5 +50,4 @@ describe('Unit | Application | Certifications Report | Route', function() {
       expect(errorMessage).to.equal('coucou');
     });
   });
-
 });

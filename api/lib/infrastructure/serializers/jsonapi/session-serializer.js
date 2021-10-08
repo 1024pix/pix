@@ -7,7 +7,6 @@ const { isValidDate } = require('../../utils/date-utils');
 const Session = require('../../../domain/models/Session');
 
 module.exports = {
-
   serialize(sessions) {
     return new Serializer('session', {
       attributes: [
@@ -47,15 +46,11 @@ module.exports = {
         },
       },
     }).serialize(sessions);
-
   },
 
   serializeForFinalization(sessions) {
     return new Serializer('session', {
-      attributes: [
-        'status',
-        'examinerGlobalComment',
-      ],
+      attributes: ['status', 'examinerGlobalComment'],
       transform(session) {
         return { ...session, status: session.status };
       },

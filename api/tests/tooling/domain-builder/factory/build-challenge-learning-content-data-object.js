@@ -1,6 +1,6 @@
 module.exports = function buildChallengeLearningContentDataObject({
   id = 'recwWzTquPlvIl4So',
-  instruction = 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
+  instruction = "Les moteurs de recherche affichent certains liens en raison d'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?",
   proposals = '- 1\n- 2\n- 3\n- 4\n- 5',
   type = 'QCM',
   solution = '1, 5',
@@ -21,10 +21,9 @@ module.exports = function buildChallengeLearningContentDataObject({
   embedTitle = 'Epreuve de selection de dossier',
   embedHeight = 500,
   format = 'petit',
-  illustrationAlt = 'texte alternatif à l\'image',
+  illustrationAlt = "texte alternatif à l'image",
   locales = ['fr'],
 } = {}) {
-
   return {
     id,
     instruction,

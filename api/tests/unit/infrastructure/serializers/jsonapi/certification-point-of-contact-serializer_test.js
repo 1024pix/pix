@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const certificationPointOfContactSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-point-of-contact-serializer');
 
-describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a CertificationPointOfContact model into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a CertificationPointOfContact model into JSON API data', function () {
       // given
       const allowedCertificationCenterAccess1 = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 123,
@@ -38,8 +36,8 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
       // then
       expect(jsonApi).to.deep.equal({
         data: {
-          'id': '789',
-          'type': 'certification-point-of-contact',
+          id: '789',
+          type: 'certification-point-of-contact',
           attributes: {
             'first-name': 'Buffy',
             'last-name': 'Summers',
@@ -66,9 +64,9 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
             id: '123',
             type: 'allowed-certification-center-access',
             attributes: {
-              'name': 'Sunnydale Center',
+              name: 'Sunnydale Center',
               'external-id': 'BUFFY_SLAYER',
-              'type': 'PRO',
+              type: 'PRO',
               'is-related-to-managing-students-organization': false,
               'is-access-blocked-college': false,
               'is-access-blocked-lycee': false,
@@ -81,17 +79,15 @@ describe('Unit | Serializer | JSONAPI | certification-point-of-contact-serialize
             id: '456',
             type: 'allowed-certification-center-access',
             attributes: {
-              'name': 'Hellmouth',
+              name: 'Hellmouth',
               'external-id': 'SPIKE',
-              'type': 'SCO',
+              type: 'SCO',
               'is-related-to-managing-students-organization': true,
               'is-access-blocked-college': false,
               'is-access-blocked-lycee': false,
               'is-access-blocked-aefe': false,
               'is-access-blocked-agri': false,
-              'related-organization-tags': [
-                'tag1',
-              ],
+              'related-organization-tags': ['tag1'],
             },
           },
         ],

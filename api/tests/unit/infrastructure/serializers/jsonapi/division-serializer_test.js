@@ -1,11 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/division-serializer');
 
-describe('Unit | Serializer | JSONAPI | division-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('serializes all division', function() {
+describe('Unit | Serializer | JSONAPI | division-serializer', function () {
+  describe('#serialize', function () {
+    it('serializes all division', function () {
       // when
       const json = serializer.serialize([{ name: '6eme' }, { name: '3eme' }]);
       // then
@@ -28,7 +26,5 @@ describe('Unit | Serializer | JSONAPI | division-serializer', function() {
         ],
       });
     });
-
   });
-
 });

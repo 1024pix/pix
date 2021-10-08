@@ -3,7 +3,7 @@ const updateCampaign = require('../../../../lib/domain/usecases/update-campaign'
 const { UserNotAuthorizedToUpdateResourceError } = require('../../../../lib/domain/errors');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | update-campaign', function() {
+describe('Unit | UseCase | update-campaign', function () {
   let originalCampaign;
   let userWithMembership;
   let campaignRepository;
@@ -12,8 +12,7 @@ describe('Unit | UseCase | update-campaign', function() {
   const organizationId = 1;
   const creatorId = 1;
 
-  beforeEach(function() {
-
+  beforeEach(function () {
     originalCampaign = domainBuilder.buildCampaign({
       id: 1,
       name: 'Old name',
@@ -42,8 +41,8 @@ describe('Unit | UseCase | update-campaign', function() {
     userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(true);
   });
 
-  context('when campaign exists', function() {
-    it('should update the campaign title only', function() {
+  context('when campaign exists', function () {
+    it('should update the campaign title only', function () {
       // given
       const updatedCampaign = domainBuilder.buildCampaign.ofTypeAssessment({
         ...originalCampaign,
@@ -67,7 +66,7 @@ describe('Unit | UseCase | update-campaign', function() {
       });
     });
 
-    it('should update the campaign page text only', function() {
+    it('should update the campaign page text only', function () {
       // given
       const updatedCampaign = domainBuilder.buildCampaign({
         ...originalCampaign,
@@ -91,7 +90,7 @@ describe('Unit | UseCase | update-campaign', function() {
       });
     });
 
-    it('should update the campaign archive date only', function() {
+    it('should update the campaign archive date only', function () {
       // given
       const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
 
@@ -111,7 +110,7 @@ describe('Unit | UseCase | update-campaign', function() {
       });
     });
 
-    it('should update the campaign name only', function() {
+    it('should update the campaign name only', function () {
       // given
       const updatedCampaign = domainBuilder.buildCampaign({
         ...originalCampaign,
@@ -136,7 +135,7 @@ describe('Unit | UseCase | update-campaign', function() {
       });
     });
 
-    it('should not update the campaign name if campaign name is undefined', function() {
+    it('should not update the campaign name if campaign name is undefined', function () {
       // given
       const updatedCampaign = domainBuilder.buildCampaign({ ...originalCampaign });
 
@@ -159,8 +158,8 @@ describe('Unit | UseCase | update-campaign', function() {
     });
   });
 
-  context('when an error occurred', function() {
-    it('should throw an error when the campaign could not be retrieved', function() {
+  context('when an error occurred', function () {
+    it('should throw an error when the campaign could not be retrieved', function () {
       // given
       campaignRepository.get.withArgs(originalCampaign.id).rejects();
 
@@ -176,7 +175,7 @@ describe('Unit | UseCase | update-campaign', function() {
       return expect(promise).to.be.rejected;
     });
 
-    it('should throw an error when the user with memberships could not be retrieved', function() {
+    it('should throw an error when the user with memberships could not be retrieved', function () {
       // given
       userRepository.getWithMemberships.withArgs(userWithMembership.id).rejects();
 
@@ -192,7 +191,7 @@ describe('Unit | UseCase | update-campaign', function() {
       return expect(promise).to.be.rejected;
     });
 
-    it('should throw an error when the user does not have an access to the campaign organization', function() {
+    it('should throw an error when the user does not have an access to the campaign organization', function () {
       // given
       userWithMembership.hasAccessToOrganization.withArgs(organizationId).returns(false);
 
@@ -208,7 +207,7 @@ describe('Unit | UseCase | update-campaign', function() {
       return expect(promise).to.be.rejectedWith(UserNotAuthorizedToUpdateResourceError);
     });
 
-    it('should throw an error when the campaign could not be updated', function() {
+    it('should throw an error when the campaign could not be updated', function () {
       // given
       campaignRepository.update.withArgs(originalCampaign).rejects();
 
@@ -224,7 +223,7 @@ describe('Unit | UseCase | update-campaign', function() {
       return expect(promise).to.be.rejected;
     });
 
-    it('should throw an error when the campaign is not valid', async function() {
+    it('should throw an error when the campaign is not valid', async function () {
       originalCampaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({
         id: 1,
         name: 'I cannot have title',

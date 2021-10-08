@@ -9,10 +9,8 @@ const httpAgent = require('../../../../../lib/infrastructure/http/http-agent');
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
 const monitoringTools = require('../../../../../lib/infrastructure/monitoring-tools');
 
-describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function() {
-
-  describe('#notify', function() {
-
+describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier', function () {
+  describe('#notify', function () {
     let clock;
 
     // TODO: Fix this the next time the file is edited.
@@ -26,9 +24,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     const payload = 'somePayload';
     const code = 'someCode';
     const data = {
-      'access_token': 'accessToken',
-      'refresh_token': 'refreshToken',
-      'expires_in': 10,
+      access_token: 'accessToken',
+      refresh_token: 'refreshToken',
+      expires_in: 10,
     };
 
     const accessToken = 'someAccessToken';
@@ -40,7 +38,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
     // eslint-disable-next-line mocha/no-setup-in-describe
     const poleEmploiSending = domainBuilder.buildPoleEmploiSending();
 
-    beforeEach(function() {
+    beforeEach(function () {
       clock = sinon.useFakeTimers(Date.now());
       sinon.stub(httpAgent, 'post');
       sinon.stub(authenticationMethodRepository, 'findOneByUserIdAndIdentityProvider');
@@ -51,7 +49,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       settings.poleEmploi.sendingUrl = 'someSendingUrlToPoleEmploi';
     });
 
-    afterEach(function() {
+    afterEach(function () {
       clock.restore();
       settings.poleEmploi.sendingUrl = originPoleEmploiSendingUrl;
       settings.poleEmploi.tokenUrl = originPoleEmploiTokenUrl;
@@ -61,7 +59,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.restore();
     });
 
-    it('should throw an error if the user is not known as PoleEmploi user', async function() {
+    it('should throw an error if the user is not known as PoleEmploi user', async function () {
       // given
       authenticationMethodRepository.findOneByUserIdAndIdentityProvider
         .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
@@ -72,20 +70,19 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
 
       // then
       expect(error).to.be.instanceOf(UnexpectedUserAccountError);
-      expect(error.message).to.equal('Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi');
+      expect(error.message).to.equal("Le compte utilisateur n'est pas rattaché à l'organisation Pôle Emploi");
     });
 
-    context('when access token is valid', function() {
-
-      it('should send the notification to Pole Emploi', async function() {
+    context('when access token is valid', function () {
+      it('should send the notification to Pole Emploi', async function () {
         // given
         const expiredDate = moment().add(10, 'm').toDate();
         const authenticationMethod = { authenticationComplement: { accessToken, expiredDate, refreshToken } };
 
         const expectedHearders = {
-          'Authorization': `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
+          Authorization: `Bearer ${authenticationMethod.authenticationComplement.accessToken}`,
           'Content-type': 'application/json',
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Service-source': 'Pix',
         };
 
@@ -106,9 +103,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
       });
     });
 
-    context('when access token is invalid', function() {
-
-      it('should try to refresh the access token', async function() {
+    context('when access token is invalid', function () {
+      it('should try to refresh the access token', async function () {
         // given
         const expectedHeaders = { 'content-type': 'application/x-www-form-urlencoded' };
         authenticationMethodRepository.findOneByUserIdAndIdentityProvider
@@ -133,9 +129,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         });
       });
 
-      context('when it succeeds', function() {
-
-        it('should update the authentication method', async function() {
+      context('when it succeeds', function () {
+        it('should update the authentication method', async function () {
           // given
           authenticationMethodRepository.findOneByUserIdAndIdentityProvider
             .withArgs({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI })
@@ -151,10 +146,12 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           await notify(userId, payload, poleEmploiSending);
 
           // then
-          expect(authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId).to.have.been.calledWith({ authenticationComplement, userId });
+          expect(
+            authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
+          ).to.have.been.calledWith({ authenticationComplement, userId });
         });
 
-        it('should send the notification to Pole Emploi', async function() {
+        it('should send the notification to Pole Emploi', async function () {
           // given
           const authenticationComplement = new AuthenticationMethod.PoleEmploiAuthenticationComplement({
             accessToken: data['access_token'],
@@ -163,9 +160,9 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           });
 
           const expectedHeaders = {
-            'Authorization': `Bearer ${authenticationComplement.accessToken}`,
+            Authorization: `Bearer ${authenticationComplement.accessToken}`,
             'Content-type': 'application/json',
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Service-source': 'Pix',
           };
 
@@ -178,8 +175,10 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             .resolves(authenticationMethod);
 
           httpAgent.post
-            .onFirstCall().resolves({ isSuccessful: true, code, data })
-            .onSecondCall().resolves({ isSuccessful: true, code });
+            .onFirstCall()
+            .resolves({ isSuccessful: true, code, data })
+            .onSecondCall()
+            .resolves({ isSuccessful: true, code });
 
           // when
           await notify(userId, payload, poleEmploiSending);
@@ -193,9 +192,8 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
         });
       });
 
-      context('when it fails', function() {
-
-        it('should log error and return httpResponse with error if retrieve PE tokens fails', async function() {
+      context('when it fails', function () {
+        it('should log error and return httpResponse with error if retrieve PE tokens fails', async function () {
           // given
           const errorData = {
             error: 'invalid_client',
@@ -207,14 +205,15 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             data: errorData,
           };
 
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .resolves(authenticationMethod);
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
 
-          httpAgent.post.withArgs({
-            url: settings.poleEmploi.tokenUrl,
-            headers: sinon.match.any,
-            payload: sinon.match.any,
-          }).resolves(tokenResponse);
+          httpAgent.post
+            .withArgs({
+              url: settings.poleEmploi.tokenUrl,
+              headers: sinon.match.any,
+              payload: sinon.match.any,
+            })
+            .resolves(tokenResponse);
 
           monitoringTools.logErrorWithCorrelationIds.resolves();
 
@@ -232,7 +231,7 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
           expect(result).to.deep.equal(expectedResult);
         });
 
-        it('should log error and return httpResponse with error if sending to PE fails', async function() {
+        it('should log error and return httpResponse with error if sending to PE fails', async function () {
           // given
           const tokenResponse = {
             isSuccessful: true,
@@ -246,22 +245,22 @@ describe('Unit | Infrastructure | Externals/Pole-Emploi | pole-emploi-notifier',
             data: 'Too Many Requests',
           };
 
-          authenticationMethodRepository.findOneByUserIdAndIdentityProvider
-            .resolves(authenticationMethod);
-          authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId
-            .resolves();
+          authenticationMethodRepository.findOneByUserIdAndIdentityProvider.resolves(authenticationMethod);
+          authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId.resolves();
 
           httpAgent.post
             .withArgs({
               url: settings.poleEmploi.tokenUrl,
               headers: sinon.match.any,
               payload: sinon.match.any,
-            }).resolves(tokenResponse)
+            })
+            .resolves(tokenResponse)
             .withArgs({
               url: settings.poleEmploi.sendingUrl,
               headers: sinon.match.any,
               payload: sinon.match.any,
-            }).resolves(httpResponse);
+            })
+            .resolves(httpResponse);
 
           monitoringTools.logErrorWithCorrelationIds.resolves();
 

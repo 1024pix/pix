@@ -29,7 +29,8 @@ function checkUserHasRolePixMaster(request, h) {
 
   const userId = request.auth.credentials.userId;
 
-  return checkUserHasRolePixMasterUseCase.execute(userId)
+  return checkUserHasRolePixMasterUseCase
+    .execute(userId)
     .then((hasRolePixMaster) => {
       if (hasRolePixMaster) {
         return h.response(true);
@@ -58,9 +59,13 @@ function checkUserIsAdminInOrganization(request, h) {
   const userId = request.auth.credentials.userId;
 
   //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
-  const organizationId = (request.path && request.path.includes('memberships')) ? request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
+  const organizationId =
+    request.path && request.path.includes('memberships')
+      ? request.payload.data.relationships.organization.data.id
+      : parseInt(request.params.id);
 
-  return checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId)
+  return checkUserIsAdminInOrganizationUseCase
+    .execute(userId, organizationId)
     .then((isAdminInOrganization) => {
       if (isAdminInOrganization) {
         return h.response(true);
@@ -98,7 +103,10 @@ async function checkUserIsAdminInOrganizationOrHasRolePixMaster(request, h) {
 
   const userId = request.auth.credentials.userId;
   //organizationId can be retrieved from path param in case organizations/id/invitations api or from memberships payload in case memberships/id
-  const organizationId = (request.path && request.path.includes('memberships')) ? request.payload.data.relationships.organization.data.id : parseInt(request.params.id) ;
+  const organizationId =
+    request.path && request.path.includes('memberships')
+      ? request.payload.data.relationships.organization.data.id
+      : parseInt(request.params.id);
 
   const isAdminInOrganization = await checkUserIsAdminInOrganizationUseCase.execute(userId, organizationId);
   if (isAdminInOrganization) {
@@ -141,7 +149,8 @@ async function checkUserBelongsToScoOrganizationAndManagesStudents(request, h) {
 
   let belongsToScoOrganizationAndManageStudents;
   try {
-    belongsToScoOrganizationAndManageStudents = await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
+    belongsToScoOrganizationAndManageStudents =
+      await checkUserBelongsToScoOrganizationAndManagesStudentsUseCase.execute(userId, organizationId);
   } catch (err) {
     return _replyForbiddenError(h);
   }
@@ -157,7 +166,9 @@ async function checkUserIsAdminInSCOOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SCO)) {
+  if (
+    await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SCO)
+  ) {
     return h.response(true);
   }
   return _replyForbiddenError(h);
@@ -167,7 +178,9 @@ async function checkUserIsAdminInSUPOrganizationManagingStudents(request, h) {
   const userId = request.auth.credentials.userId;
   const organizationId = parseInt(request.params.id);
 
-  if (await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SUP)) {
+  if (
+    await checkUserIsAdminAndManagingStudentsForOrganization.execute(userId, organizationId, Organization.types.SUP)
+  ) {
     return h.response(true);
   }
 

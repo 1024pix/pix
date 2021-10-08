@@ -1,8 +1,4 @@
-const {
-  expect,
-  hFake,
-  sinon,
-} = require('../../test-helper');
+const { expect, hFake, sinon } = require('../../test-helper');
 
 const {
   AccountRecoveryDemandExpired,
@@ -25,11 +21,9 @@ const HttpErrors = require('../../../lib/application/http-errors.js');
 
 const { handle } = require('../../../lib/application/error-manager');
 
-describe('Unit | Application | ErrorManager', function() {
-
-  describe('#handle', function() {
-
-    it('should translate EntityValidationError', async function() {
+describe('Unit | Application | ErrorManager', function () {
+  describe('#handle', function () {
+    it('should translate EntityValidationError', async function () {
       // given
       const request = {
         headers: {
@@ -37,9 +31,7 @@ describe('Unit | Application | ErrorManager', function() {
         },
       };
       const error = new EntityValidationError({
-        invalidAttributes: [
-          { attribute: 'name', message: 'STAGE_TITLE_IS_REQUIRED' },
-        ],
+        invalidAttributes: [{ attribute: 'name', message: 'STAGE_TITLE_IS_REQUIRED' }],
       });
 
       // when
@@ -61,7 +53,7 @@ describe('Unit | Application | ErrorManager', function() {
       });
     });
 
-    it('should translate EntityValidationError to french', async function() {
+    it('should translate EntityValidationError to french', async function () {
       // given
       const request = {
         headers: {
@@ -69,9 +61,7 @@ describe('Unit | Application | ErrorManager', function() {
         },
       };
       const error = new EntityValidationError({
-        invalidAttributes: [
-          { attribute: 'name', message: 'STAGE_TITLE_IS_REQUIRED' },
-        ],
+        invalidAttributes: [{ attribute: 'name', message: 'STAGE_TITLE_IS_REQUIRED' }],
       });
 
       // when
@@ -93,7 +83,7 @@ describe('Unit | Application | ErrorManager', function() {
       });
     });
 
-    it('should fallback to the message if the translation is not found', async function() {
+    it('should fallback to the message if the translation is not found', async function () {
       // given
       const request = {
         headers: {
@@ -101,9 +91,7 @@ describe('Unit | Application | ErrorManager', function() {
         },
       };
       const error = new EntityValidationError({
-        invalidAttributes: [
-          { attribute: 'name', message: 'message' },
-        ],
+        invalidAttributes: [{ attribute: 'name', message: 'message' }],
       });
 
       // when
@@ -125,7 +113,7 @@ describe('Unit | Application | ErrorManager', function() {
       });
     });
 
-    it('should translate EntityValidationError even if invalidAttributes is undefined', async function() {
+    it('should translate EntityValidationError even if invalidAttributes is undefined', async function () {
       // given
       const request = {
         headers: {
@@ -147,9 +135,8 @@ describe('Unit | Application | ErrorManager', function() {
     });
   });
 
-  describe('#_mapToHttpError', function() {
-
-    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async function() {
+  describe('#_mapToHttpError', function () {
+    it('should instantiate UnauthorizedError when MissingOrInvalidCredentialsError', async function () {
       // given
       const error = new MissingOrInvalidCredentialsError();
       sinon.stub(HttpErrors, 'UnauthorizedError');
@@ -159,11 +146,11 @@ describe('Unit | Application | ErrorManager', function() {
       await handle(params.request, params.h, params.error);
 
       // then
-      const message = 'L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.';
+      const message = "L'adresse e-mail et/ou le mot de passe saisis sont incorrects.";
       expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(message);
     });
 
-    it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async function() {
+    it('should instantiate PasswordShouldChangeError when UserShouldChangePasswordError', async function () {
       // given
       const message = 'Erreur, vous devez changer votre mot de passe.';
       const error = new UserShouldChangePasswordError(message);
@@ -177,7 +164,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.PasswordShouldChangeError).to.have.been.calledWithExactly(message);
     });
 
-    it('should instantiate ConflictError when UnexpectedUserAccountError', async function() {
+    it('should instantiate ConflictError when UnexpectedUserAccountError', async function () {
       // given
       const message = undefined;
       const code = 'UNEXPECTED_USER_ACCOUNT';
@@ -193,7 +180,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message, error.code, error.meta);
     });
 
-    it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async function() {
+    it('should instantiate BadRequestError when AlreadyRegisteredEmailError', async function () {
       // given
       const error = new AlreadyRegisteredEmailError();
       sinon.stub(HttpErrors, 'BadRequestError');
@@ -206,7 +193,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
-    it('should instantiate BadRequestError when AlreadyRegisteredUsernameError', async function() {
+    it('should instantiate BadRequestError when AlreadyRegisteredUsernameError', async function () {
       // given
       const error = new AlreadyRegisteredUsernameError();
       sinon.stub(HttpErrors, 'BadRequestError');
@@ -219,7 +206,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate BadRequestError when AlreadyRegisteredEmailAndUsernameError', async function() {
+    it('should instantiate BadRequestError when AlreadyRegisteredEmailAndUsernameError', async function () {
       // given
       const error = new AlreadyRegisteredEmailAndUsernameError();
       sinon.stub(HttpErrors, 'BadRequestError');
@@ -232,7 +219,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async function() {
+    it('should instantiate ServiceUnavailableError when InvalidExternalAPIResponseError', async function () {
       // given
       const error = new InvalidExternalAPIResponseError();
       sinon.stub(HttpErrors, 'ServiceUnavailableError');
@@ -245,7 +232,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.ServiceUnavailableError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate ConflictError when MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError', async function() {
+    it('should instantiate ConflictError when MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError', async function () {
       // given
       const error = new MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError();
       sinon.stub(HttpErrors, 'ConflictError');
@@ -258,7 +245,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.ConflictError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate UnauthorizedError when AccountRecoveryDemandExpired', async function() {
+    it('should instantiate UnauthorizedError when AccountRecoveryDemandExpired', async function () {
       // given
       const error = new AccountRecoveryDemandExpired();
       sinon.stub(HttpErrors, 'UnauthorizedError');
@@ -271,7 +258,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate UnauthorizedError when AuthenticationKeyForPoleEmploiTokenExpired', async function() {
+    it('should instantiate UnauthorizedError when AuthenticationKeyForPoleEmploiTokenExpired', async function () {
       // given
       const error = new AuthenticationKeyForPoleEmploiTokenExpired();
       sinon.stub(HttpErrors, 'UnauthorizedError');
@@ -284,7 +271,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.UnauthorizedError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate UnauthorizedError when UserHasAlreadyLeftSCO', async function() {
+    it('should instantiate UnauthorizedError when UserHasAlreadyLeftSCO', async function () {
       // given
       const error = new UserHasAlreadyLeftSCO();
       sinon.stub(HttpErrors, 'ForbiddenError');
@@ -297,7 +284,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message);
     });
 
-    it('should instantiate ForbiddenError when InvalidVerificationCodeError', async function() {
+    it('should instantiate ForbiddenError when InvalidVerificationCodeError', async function () {
       // given
       const error = new InvalidVerificationCodeError();
       sinon.stub(HttpErrors, 'ForbiddenError');
@@ -310,7 +297,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
-    it('should instantiate ForbiddenError when EmailModificationDemandNotFoundOrExpiredError', async function() {
+    it('should instantiate ForbiddenError when EmailModificationDemandNotFoundOrExpiredError', async function () {
       // given
       const error = new EmailModificationDemandNotFoundOrExpiredError();
       sinon.stub(HttpErrors, 'ForbiddenError');
@@ -323,7 +310,7 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.ForbiddenError).to.have.been.calledWithExactly(error.message, error.code);
     });
 
-    it('should instantiate BadRequestError when SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function() {
+    it('should instantiate BadRequestError when SchoolingRegistrationAlreadyLinkedToInvalidUserError', async function () {
       // given
       const error = new SchoolingRegistrationAlreadyLinkedToInvalidUserError();
       sinon.stub(HttpErrors, 'BadRequestError');
@@ -336,5 +323,4 @@ describe('Unit | Application | ErrorManager', function() {
       expect(HttpErrors.BadRequestError).to.have.been.calledWithExactly(error.message);
     });
   });
-
 });

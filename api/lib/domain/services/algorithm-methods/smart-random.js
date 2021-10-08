@@ -5,8 +5,14 @@ const { computeTubesFromSkills } = require('./../tube-service');
 
 module.exports = { getPossibleSkillsForNextChallenge };
 
-function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targetSkills, lastAnswer, allAnswers, locale } = {}) {
-
+function getPossibleSkillsForNextChallenge({
+  knowledgeElements,
+  challenges,
+  targetSkills,
+  lastAnswer,
+  allAnswers,
+  locale,
+} = {}) {
   const isUserStartingTheTest = !lastAnswer;
   const isLastChallengeTimed = _wasLastChallengeTimed(lastAnswer);
   const tubes = _findTubes(targetSkills, challenges);
@@ -19,7 +25,12 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
   // First challenge has specific rules
   const { possibleSkillsForNextChallenge, levelEstimated } = isUserStartingTheTest
     ? _findFirstChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes })
-    : _findAnyChallenge({ knowledgeElements: knowledgeElementsOfTargetSkills, targetSkills, tubes, isLastChallengeTimed });
+    : _findAnyChallenge({
+        knowledgeElements: knowledgeElementsOfTargetSkills,
+        targetSkills,
+        tubes,
+        isLastChallengeTimed,
+      });
 
   // Test is considered finished when no challenges are returned but we don't expose this detail
   return possibleSkillsForNextChallenge.length > 0
@@ -28,7 +39,7 @@ function getPossibleSkillsForNextChallenge({ knowledgeElements, challenges, targ
 }
 
 function _wasLastChallengeTimed(lastAnswer) {
-  return (_.get(lastAnswer, 'timeout') === null) ? false : true;
+  return _.get(lastAnswer, 'timeout') === null ? false : true;
 }
 
 function _findTubes(skills, challenges) {
@@ -47,20 +58,38 @@ function _filterSkillsByChallenges(skills, challenges) {
 
 function _findAnyChallenge({ knowledgeElements, targetSkills, tubes, isLastChallengeTimed }) {
   const predictedLevel = catAlgorithm.getPredictedLevel(knowledgeElements, targetSkills);
-  const availableSkills = getFilteredSkillsForNextChallenge({ knowledgeElements, tubes, predictedLevel, isLastChallengeTimed, targetSkills });
-  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements });
+  const availableSkills = getFilteredSkillsForNextChallenge({
+    knowledgeElements,
+    tubes,
+    predictedLevel,
+    isLastChallengeTimed,
+    targetSkills,
+  });
+  const maxRewardingSkills = catAlgorithm.findMaxRewardingSkills({
+    availableSkills,
+    predictedLevel,
+    tubes,
+    knowledgeElements,
+  });
   return { possibleSkillsForNextChallenge: maxRewardingSkills, levelEstimated: predictedLevel };
 }
 
 function _findFirstChallenge({ knowledgeElements, targetSkills, tubes }) {
-  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({ knowledgeElements, tubes, targetSkills });
+  const filteredSkillsForFirstChallenge = getFilteredSkillsForFirstChallenge({
+    knowledgeElements,
+    tubes,
+    targetSkills,
+  });
   return { possibleSkillsForNextChallenge: filteredSkillsForFirstChallenge, levelEstimated: 2 };
 }
 
 function _getSkillsWithAddedInformations({ targetSkills, filteredChallenges, locale }) {
   return _.map(targetSkills, (skill) => {
-    const challenges = _.filter(filteredChallenges, (challenge) => challenge.hasSkill(skill) && challenge.locales.includes(locale));
-    const [ firstChallenge ] = challenges;
+    const challenges = _.filter(
+      filteredChallenges,
+      (challenge) => challenge.hasSkill(skill) && challenge.locales.includes(locale)
+    );
+    const [firstChallenge] = challenges;
     const skillCopy = Object.create(skill);
     return Object.assign(skillCopy, {
       challenges,

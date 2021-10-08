@@ -83,10 +83,14 @@ async function _getSessionCertificationCandidateByPersonalInfo({
     birthdate: participatingCertificationCandidate.birthdate,
   });
   if (_.isEmpty(matchingSessionCandidates)) {
-    throw new CertificationCandidateByPersonalInfoNotFoundError('No certification candidate matches with the provided personal info');
+    throw new CertificationCandidateByPersonalInfoNotFoundError(
+      'No certification candidate matches with the provided personal info'
+    );
   }
   if (matchingSessionCandidates.length > 1) {
-    throw new CertificationCandidateByPersonalInfoTooManyMatchesError('More than one candidate match with the provided personal info');
+    throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
+      'More than one candidate match with the provided personal info'
+    );
   }
 
   return _.first(matchingSessionCandidates);
@@ -115,18 +119,15 @@ function _getOrganizationLinkedToCertificationCenter({ certificationCenter, orga
   return organizationRepository.getScoOrganizationByExternalId(commonExternalId);
 }
 
-async function _linkUserToCandidate({
-  sessionId,
-  userId,
-  certificationCandidate,
-  certificationCandidateRepository,
-}) {
+async function _linkUserToCandidate({ sessionId, userId, certificationCandidate, certificationCandidateRepository }) {
   const existingCandidateLinkedToUser = await certificationCandidateRepository.findOneBySessionIdAndUserId({
     sessionId,
     userId,
   });
   if (existingCandidateLinkedToUser) {
-    throw new UserAlreadyLinkedToCandidateInSessionError('The user is already linked to a candidate in the given session');
+    throw new UserAlreadyLinkedToCandidateInSessionError(
+      'The user is already linked to a candidate in the given session'
+    );
   }
 
   certificationCandidate.userId = userId;
@@ -142,8 +143,8 @@ async function _checkCandidateMatchTheReconciledStudent({
   certificationCandidate,
   schoolingRegistrationRepository,
 }) {
-  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization = await schoolingRegistrationRepository
-    .isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
+  const isSchoolingRegistrationIdLinkedToUserAndSCOOrganization =
+    await schoolingRegistrationRepository.isSchoolingRegistrationIdLinkedToUserAndSCOOrganization({
       userId,
       schoolingRegistrationId: certificationCandidate.schoolingRegistrationId,
     });

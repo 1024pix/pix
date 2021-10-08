@@ -2,7 +2,6 @@ const AnswerStatus = require('./AnswerStatus');
 const _ = require('lodash');
 
 class Answer {
-
   constructor({
     id,
     result,

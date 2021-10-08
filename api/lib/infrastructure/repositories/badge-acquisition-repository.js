@@ -5,11 +5,12 @@ const DomainTransaction = require('../DomainTransaction');
 const bluebird = require('bluebird');
 
 module.exports = {
-
   async createOrUpdate(badgeAcquisitionsToCreate = [], domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || Bookshelf.knex;
     return bluebird.mapSeries(badgeAcquisitionsToCreate, async (badgeAcquisitionToCreate) => {
-      const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions').select('id').where(badgeAcquisitionToCreate);
+      const alreadyCreatedBadgeAcquisition = await knexConn('badge-acquisitions')
+        .select('id')
+        .where(badgeAcquisitionToCreate);
       if (alreadyCreatedBadgeAcquisition.length === 0) {
         return knexConn('badge-acquisitions').insert(badgeAcquisitionsToCreate, 'id');
       } else {
@@ -30,8 +31,7 @@ module.exports = {
   },
 
   async getAcquiredBadgeIds({ badgeIds, userId }) {
-    const collectionResult = await BookshelfBadgeAcquisition
-      .where({ userId })
+    const collectionResult = await BookshelfBadgeAcquisition.where({ userId })
       .where('badgeId', 'in', badgeIds)
       .fetchAll({ columns: ['badge-acquisitions.badgeId'], require: false });
     return collectionResult.map((obj) => obj.attributes.badgeId);
@@ -48,7 +48,6 @@ module.exports = {
 
     const acquiredBadgesByCampaignParticipations = {};
     for (const badge of badges) {
-
       if (acquiredBadgesByCampaignParticipations[badge.campaignParticipationId]) {
         acquiredBadgesByCampaignParticipations[badge.campaignParticipationId].push(badge);
       } else {
@@ -59,19 +58,19 @@ module.exports = {
   },
 
   async getCampaignAcquiredBadgesByUsers({ campaignId, userIds }) {
-    const results = await BookshelfBadgeAcquisition
-      .query((qb) => {
-        qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
-        qb.join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId');
-        qb.where('campaigns.id', '=', campaignId);
-        qb.where('badge-acquisitions.userId', 'IN', userIds);
-      })
-      .fetchAll({
-        withRelated: ['badge'],
-        require: false,
-      });
+    const results = await BookshelfBadgeAcquisition.query((qb) => {
+      qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
+      qb.join('campaigns', 'campaigns.targetProfileId', 'badges.targetProfileId');
+      qb.where('campaigns.id', '=', campaignId);
+      qb.where('badge-acquisitions.userId', 'IN', userIds);
+    }).fetchAll({
+      withRelated: ['badge'],
+      require: false,
+    });
 
-    const badgeAcquisitions = results.map((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result));
+    const badgeAcquisitions = results.map((result) =>
+      bookshelfToDomainConverter.buildDomainObject(BookshelfBadgeAcquisition, result)
+    );
 
     const acquiredBadgesByUsers = {};
     for (const badgeAcquisition of badgeAcquisitions) {
@@ -86,17 +85,15 @@ module.exports = {
   },
 
   async findCertifiable({ userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const results = await BookshelfBadgeAcquisition
-      .query((qb) => {
-        qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
-        qb.where('badge-acquisitions.userId', '=', userId);
-        qb.where('badges.isCertifiable', '=', true);
-      })
-      .fetchAll({
-        withRelated: ['badge', 'badge.badgePartnerCompetences', 'badge.badgeCriteria'],
-        require: false,
-        transacting: domainTransaction.knexTransaction,
-      });
+    const results = await BookshelfBadgeAcquisition.query((qb) => {
+      qb.join('badges', 'badges.id', 'badge-acquisitions.badgeId');
+      qb.where('badge-acquisitions.userId', '=', userId);
+      qb.where('badges.isCertifiable', '=', true);
+    }).fetchAll({
+      withRelated: ['badge', 'badge.badgePartnerCompetences', 'badge.badgeCriteria'],
+      require: false,
+      transacting: domainTransaction.knexTransaction,
+    });
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfBadgeAcquisition, results);
   },

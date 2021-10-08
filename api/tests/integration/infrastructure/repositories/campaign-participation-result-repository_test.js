@@ -2,13 +2,11 @@ const { expect, databaseBuilder, mockLearningContent } = require('../../../test-
 const campaignParticipationResultRepository = require('../../../../lib/infrastructure/repositories/campaign-participation-result-repository');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-describe('Integration | Repository | Campaign Participation Result', function() {
-
-  describe('#getByParticipationId', function() {
-
+describe('Integration | Repository | Campaign Participation Result', function () {
+  describe('#getByParticipationId', function () {
     let targetProfileId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill1' });
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'skill2' });
@@ -21,8 +19,24 @@ describe('Integration | Repository | Campaign Participation Result', function() 
           { id: 'recArea2', name: 'area2', competenceIds: ['rec2'], color: 'colorArea2' },
         ],
         competences: [
-          { id: 'rec1', nameFrFr: 'comp1Fr', nameEnUs: 'comp1En', index: '1.1', areaId: 'recArea1', color: 'rec1Color', skillIds: ['skill1', 'skill2'] },
-          { id: 'rec2', nameFrFr: 'comp2Fr', nameEnUs: 'comp2En', index: '2.1', areaId: 'recArea2', color: 'rec2Color', skillIds: ['skill3', 'skill4', 'skill5'] },
+          {
+            id: 'rec1',
+            nameFrFr: 'comp1Fr',
+            nameEnUs: 'comp1En',
+            index: '1.1',
+            areaId: 'recArea1',
+            color: 'rec1Color',
+            skillIds: ['skill1', 'skill2'],
+          },
+          {
+            id: 'rec2',
+            nameFrFr: 'comp2Fr',
+            nameEnUs: 'comp2En',
+            index: '2.1',
+            areaId: 'recArea2',
+            color: 'rec2Color',
+            skillIds: ['skill3', 'skill4', 'skill5'],
+          },
         ],
         tubes: [
           { id: 'recTube1', competenceId: 'rec1' },
@@ -41,7 +55,7 @@ describe('Integration | Repository | Campaign Participation Result', function() 
       return databaseBuilder.commit();
     });
 
-    it('use the most recent assessment to define if the participation is completed', async function() {
+    it('use the most recent assessment to define if the participation is completed', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -50,18 +64,33 @@ describe('Integration | Repository | Campaign Participation Result', function() 
         sharedAt: new Date('2020-01-02'),
       });
 
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'started', createdAt: new Date('2021-01-01') });
-      databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', createdAt: new Date('2021-01-02') });
+      databaseBuilder.factory.buildAssessment({
+        campaignParticipationId,
+        userId,
+        state: 'started',
+        createdAt: new Date('2021-01-01'),
+      });
+      databaseBuilder.factory.buildAssessment({
+        campaignParticipationId,
+        userId,
+        state: 'completed',
+        createdAt: new Date('2021-01-02'),
+      });
       await databaseBuilder.commit();
 
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
+        campaignParticipationId,
+        [],
+        [],
+        'FR'
+      );
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
         isCompleted: true,
       });
     });
 
-    it('compute the number of skills, the number of skill tested and the number of skill validated', async function() {
+    it('compute the number of skills, the number of skill tested and the number of skill validated', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -71,7 +100,12 @@ describe('Integration | Repository | Campaign Participation Result', function() 
         sharedAt: new Date('2020-01-02'),
       });
 
-      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId,
+        userId,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
       const knowledgeElementsAttributes = [
         {
           userId,
@@ -96,16 +130,18 @@ describe('Integration | Repository | Campaign Participation Result', function() 
           status: KnowledgeElement.StatusType.VALIDATED,
         },
       ];
-      databaseBuilder
-        .factory
-        .knowledgeElementSnapshotFactory
-        .buildSnapshot({
-          userId,
-          snappedAt: new Date('2020-01-02'),
-          knowledgeElementsAttributes,
-        });
+      databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
+        userId,
+        snappedAt: new Date('2020-01-02'),
+        knowledgeElementsAttributes,
+      });
       await databaseBuilder.commit();
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
+        campaignParticipationId,
+        [],
+        [],
+        'FR'
+      );
 
       expect(campaignAssessmentParticipationResult).to.deep.include({
         id: campaignParticipationId,
@@ -116,7 +152,7 @@ describe('Integration | Repository | Campaign Participation Result', function() 
       });
     });
 
-    it('computes the results for each competence assessed', async function() {
+    it('computes the results for each competence assessed', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -126,7 +162,12 @@ describe('Integration | Repository | Campaign Participation Result', function() 
         sharedAt: new Date('2020-01-02'),
       });
 
-      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
+      const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+        campaignParticipationId,
+        userId,
+        state: 'completed',
+        type: 'CAMPAIGN',
+      });
 
       const knowledgeElementsAttributes = [
         {
@@ -154,16 +195,18 @@ describe('Integration | Repository | Campaign Participation Result', function() 
         },
       ];
 
-      databaseBuilder
-        .factory
-        .knowledgeElementSnapshotFactory
-        .buildSnapshot({
-          userId,
-          snappedAt: new Date('2020-01-02'),
-          knowledgeElementsAttributes,
-        });
+      databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
+        userId,
+        snappedAt: new Date('2020-01-02'),
+        knowledgeElementsAttributes,
+      });
       await databaseBuilder.commit();
-      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+      const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
+        campaignParticipationId,
+        [],
+        [],
+        'FR'
+      );
       const competenceResults = campaignAssessmentParticipationResult.competenceResults.sort((a, b) => a.id <= b.id);
       expect(competenceResults).to.deep.equal([
         {
@@ -189,8 +232,8 @@ describe('Integration | Repository | Campaign Participation Result', function() 
       ]);
     });
 
-    context('when there is no snapshot because the participant did not share his results', function() {
-      it('compute results by using knowledge elements', async function() {
+    context('when there is no snapshot because the participant did not share his results', function () {
+      it('compute results by using knowledge elements', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -200,7 +243,12 @@ describe('Integration | Repository | Campaign Participation Result', function() 
           sharedAt: null,
         });
 
-        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+          campaignParticipationId,
+          userId,
+          state: 'completed',
+          type: 'CAMPAIGN',
+        });
         const knowledgeElementsAttributes = [
           {
             userId,
@@ -227,7 +275,12 @@ describe('Integration | Repository | Campaign Participation Result', function() 
         ];
         knowledgeElementsAttributes.forEach((attributes) => databaseBuilder.factory.buildKnowledgeElement(attributes));
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
+          campaignParticipationId,
+          [],
+          [],
+          'FR'
+        );
 
         expect(campaignAssessmentParticipationResult).to.deep.include({
           id: campaignParticipationId,
@@ -239,8 +292,8 @@ describe('Integration | Repository | Campaign Participation Result', function() 
       });
     });
 
-    context('when the target profile has some stages', function() {
-      it('returns the stage reached', async function() {
+    context('when the target profile has some stages', function () {
+      it('returns the stage reached', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -250,11 +303,40 @@ describe('Integration | Repository | Campaign Participation Result', function() 
           sharedAt: new Date('2020-01-02'),
         });
 
-        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed', type: 'CAMPAIGN' });
-        databaseBuilder.factory.buildStage({ id: 10, title: 'StageO', message: 'Message0', targetProfileId, threshold: 0 });
-        databaseBuilder.factory.buildStage({ id: 1, title: 'Stage1', message: 'Message1', targetProfileId, threshold: 10 });
-        databaseBuilder.factory.buildStage({ id: 2, title: 'Stage2', message: 'Message2', targetProfileId, threshold: 50 });
-        databaseBuilder.factory.buildStage({ id: 3, title: 'Stage3', message: 'Message3', targetProfileId, threshold: 100 });
+        const { id: assessmentId } = databaseBuilder.factory.buildAssessment({
+          campaignParticipationId,
+          userId,
+          state: 'completed',
+          type: 'CAMPAIGN',
+        });
+        databaseBuilder.factory.buildStage({
+          id: 10,
+          title: 'StageO',
+          message: 'Message0',
+          targetProfileId,
+          threshold: 0,
+        });
+        databaseBuilder.factory.buildStage({
+          id: 1,
+          title: 'Stage1',
+          message: 'Message1',
+          targetProfileId,
+          threshold: 10,
+        });
+        databaseBuilder.factory.buildStage({
+          id: 2,
+          title: 'Stage2',
+          message: 'Message2',
+          targetProfileId,
+          threshold: 50,
+        });
+        databaseBuilder.factory.buildStage({
+          id: 3,
+          title: 'Stage3',
+          message: 'Message3',
+          targetProfileId,
+          threshold: 100,
+        });
 
         const knowledgeElementsAttributes = [
           {
@@ -282,16 +364,18 @@ describe('Integration | Repository | Campaign Participation Result', function() 
           },
         ];
 
-        databaseBuilder
-          .factory
-          .knowledgeElementSnapshotFactory
-          .buildSnapshot({
-            userId,
-            snappedAt: new Date('2020-01-02'),
-            knowledgeElementsAttributes,
-          });
+        databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
+          userId,
+          snappedAt: new Date('2020-01-02'),
+          knowledgeElementsAttributes,
+        });
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [], [], 'FR');
+        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
+          campaignParticipationId,
+          [],
+          [],
+          'FR'
+        );
         expect(campaignAssessmentParticipationResult.reachedStage).to.deep.include({
           id: 2,
           message: 'Message2',
@@ -303,8 +387,8 @@ describe('Integration | Repository | Campaign Participation Result', function() 
       });
     });
 
-    context('when the participation has badges', function() {
-      it('computes the results for each badge', async function() {
+    context('when the participation has badges', function () {
+      it('computes the results for each badge', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -336,18 +420,24 @@ describe('Integration | Repository | Campaign Participation Result', function() 
 
         databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
-        databaseBuilder
-          .factory
-          .knowledgeElementSnapshotFactory
-          .buildSnapshot({
-            userId,
-            snappedAt: new Date('2020-01-02'),
-            knowledgeElementsAttributes: [],
-          });
+        databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
+          userId,
+          snappedAt: new Date('2020-01-02'),
+          knowledgeElementsAttributes: [],
+        });
         await databaseBuilder.commit();
-        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [badge1, badge2], [badge1.id], 'FR');
-        const campaignParticipationBadge1 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(({ id }) => id == 1);
-        const campaignParticipationBadge2 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(({ id }) => id == 2);
+        const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(
+          campaignParticipationId,
+          [badge1, badge2],
+          [badge1.id],
+          'FR'
+        );
+        const campaignParticipationBadge1 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(
+          ({ id }) => id == 1
+        );
+        const campaignParticipationBadge2 = campaignAssessmentParticipationResult.campaignParticipationBadges.find(
+          ({ id }) => id == 2
+        );
         expect(campaignParticipationBadge1).to.deep.include({
           id: 1,
           altMessage: 'Badge1 AltMessage',
@@ -368,8 +458,8 @@ describe('Integration | Repository | Campaign Participation Result', function() 
         });
       });
 
-      context('when the target profile has badge partner competences (CleaNumerique)', function() {
-        it('computes the buildBadgePartnerCompetence for each competence of badge', async function() {
+      context('when the target profile has badge partner competences (CleaNumerique)', function () {
+        it('computes the buildBadgePartnerCompetence for each competence of badge', async function () {
           const { id: userId } = databaseBuilder.factory.buildUser();
           const { id: campaignId } = databaseBuilder.factory.buildCampaign({ targetProfileId });
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
@@ -380,8 +470,22 @@ describe('Integration | Repository | Campaign Participation Result', function() 
           });
 
           const badge = databaseBuilder.factory.buildBadge({ id: 1, targetProfileId });
-          const badgePartnerCompetence1 = databaseBuilder.factory.buildBadgePartnerCompetence({ id: 1, badgeId: 1, name: 'BadgeCompt1', index: '1', color: 'BadgeCompt1Color', skillIds: ['skill1', 'skill2'] });
-          const badgePartnerCompetence2 = databaseBuilder.factory.buildBadgePartnerCompetence({ id: 2, badgeId: 1, name: 'BadgeCompt2', index: '2', color: 'BadgeCompt2Color', skillIds: ['skill3', 'skill4'] });
+          const badgePartnerCompetence1 = databaseBuilder.factory.buildBadgePartnerCompetence({
+            id: 1,
+            badgeId: 1,
+            name: 'BadgeCompt1',
+            index: '1',
+            color: 'BadgeCompt1Color',
+            skillIds: ['skill1', 'skill2'],
+          });
+          const badgePartnerCompetence2 = databaseBuilder.factory.buildBadgePartnerCompetence({
+            id: 2,
+            badgeId: 1,
+            name: 'BadgeCompt2',
+            index: '2',
+            color: 'BadgeCompt2Color',
+            skillIds: ['skill3', 'skill4'],
+          });
 
           databaseBuilder.factory.buildAssessment({ campaignParticipationId, userId, state: 'completed' });
 
@@ -409,21 +513,24 @@ describe('Integration | Repository | Campaign Participation Result', function() 
             },
           ];
 
-          databaseBuilder
-            .factory
-            .knowledgeElementSnapshotFactory
-            .buildSnapshot({
-              userId,
-              snappedAt: new Date('2020-01-02'),
-              knowledgeElementsAttributes,
-            });
+          databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
+            userId,
+            snappedAt: new Date('2020-01-02'),
+            knowledgeElementsAttributes,
+          });
           await databaseBuilder.commit();
           badge.badgePartnerCompetences = [badgePartnerCompetence1, badgePartnerCompetence2];
-          const campaignAssessmentParticipationResult = await campaignParticipationResultRepository.getByParticipationId(campaignParticipationId, [badge], [badge.id], 'FR');
-          const partnerCompetenceResults = campaignAssessmentParticipationResult
-            .campaignParticipationBadges[0]
-            .partnerCompetenceResults
-            .sort((a, b) => a.id <= b.id);
+          const campaignAssessmentParticipationResult =
+            await campaignParticipationResultRepository.getByParticipationId(
+              campaignParticipationId,
+              [badge],
+              [badge.id],
+              'FR'
+            );
+          const partnerCompetenceResults =
+            campaignAssessmentParticipationResult.campaignParticipationBadges[0].partnerCompetenceResults.sort(
+              (a, b) => a.id <= b.id
+            );
           expect(partnerCompetenceResults[0]).to.deep.equal({
             id: 1,
             areaColor: null,

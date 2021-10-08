@@ -6,10 +6,8 @@ const assessmentResultService = require('../../../../lib/domain/services/assessm
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
-describe('Unit | Controller | assessment-results', function() {
-
-  describe('#save', function() {
-
+describe('Unit | Controller | assessment-results', function () {
+  describe('#save', function () {
     const request = {
       payload: {
         data: {
@@ -27,21 +25,23 @@ describe('Unit | Controller | assessment-results', function() {
               {
                 level: 2,
                 score: 18,
-                'area_code': 2,
-                'competence_code': 2.1,
-                'competenceId': 'rec123456',
-              }, {
+                area_code: 2,
+                competence_code: 2.1,
+                competenceId: 'rec123456',
+              },
+              {
                 level: 3,
                 score: 27,
-                'area_code': 3,
-                'competence_code': 3.2,
-                'competenceId': 'rec159753',
-              }, {
+                area_code: 3,
+                competence_code: 3.2,
+                competenceId: 'rec159753',
+              },
+              {
                 level: 1,
                 score: 9,
-                'area_code': 1,
-                'competence_code': 1.3,
-                'competenceId': 'rec456789',
+                area_code: 1,
+                competence_code: 1.3,
+                competenceId: 'rec456789',
               },
             ],
           },
@@ -55,12 +55,11 @@ describe('Unit | Controller | assessment-results', function() {
       },
     };
 
-    beforeEach(function() {
-
+    beforeEach(function () {
       sinon.stub(assessmentResultService, 'save').resolves();
     });
 
-    it('should return a Assessment Result and an Array of Competence Marks', async function() {
+    it('should return a Assessment Result and an Array of Competence Marks', async function () {
       // given
       const expectedAssessmentResult = new AssessmentResult({
         assessmentId: 2,
@@ -101,7 +100,11 @@ describe('Unit | Controller | assessment-results', function() {
 
       // then
       expect(response).to.be.null;
-      expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [competenceMark1, competenceMark2, competenceMark3]);
+      expect(assessmentResultService.save).to.have.been.calledWithMatch(expectedAssessmentResult, [
+        competenceMark1,
+        competenceMark2,
+        competenceMark3,
+      ]);
     });
   });
 });

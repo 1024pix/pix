@@ -1,18 +1,21 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | answer-controller-update', function() {
-
-  describe('PATCH /api/answers/:id', function() {
-
+describe('Acceptance | Controller | answer-controller-update', function () {
+  describe('PATCH /api/answers/:id', function () {
     let server;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       server = await createServer();
       const userId = databaseBuilder.factory.buildUser().id;
       const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
-      const answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId: 'rec1' });
+      const answer = databaseBuilder.factory.buildAnswer({
+        assessmentId: assessment.id,
+        value: '1.2',
+        result: 'ok',
+        challengeId: 'rec1',
+      });
       await databaseBuilder.commit();
       options = {
         method: 'PATCH',
@@ -22,7 +25,7 @@ describe('Acceptance | Controller | answer-controller-update', function() {
       };
     });
 
-    it('should return 200 HTTP status code', function() {
+    it('should return 200 HTTP status code', function () {
       // when
       const promise = server.inject(options);
 

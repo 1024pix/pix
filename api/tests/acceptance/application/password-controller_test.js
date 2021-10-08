@@ -7,21 +7,19 @@ const config = require('../../../lib/config');
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | password-controller', function() {
-
+describe('Acceptance | Controller | password-controller', function () {
   const email = 'user@example.net';
 
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/password-reset-demands', function() {
-
+  describe('POST /api/password-reset-demands', function () {
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       options = {
         method: 'POST',
         url: '/api/password-reset-demands',
@@ -39,13 +37,12 @@ describe('Acceptance | Controller | password-controller', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('reset-password-demands').delete();
     });
 
-    context('when email provided is unknown', function() {
-
-      it('should reply with 404', async function() {
+    context('when email provided is unknown', function () {
+      it('should reply with 404', async function () {
         // given
         options.payload.data.attributes.email = 'unknown@example.net';
 
@@ -57,9 +54,8 @@ describe('Acceptance | Controller | password-controller', function() {
       });
     });
 
-    context('when existing email is provided and email is delivered', function() {
-
-      it('should reply with 201', async function() {
+    context('when existing email is provided and email is delivered', function () {
+      it('should reply with 201', async function () {
         // when
         const response = await server.inject(options);
 
@@ -68,9 +64,8 @@ describe('Acceptance | Controller | password-controller', function() {
       });
     });
 
-    context('when existing email is provided, but some internal error has occured', function() {
-
-      it('should reply with 500', async function() {
+    context('when existing email is provided, but some internal error has occured', function () {
+      it('should reply with 500', async function () {
         // given
         sinon.stub(resetPasswordDemandRepository, 'create').rejects(new Error());
 
@@ -83,16 +78,14 @@ describe('Acceptance | Controller | password-controller', function() {
     });
   });
 
-  describe('GET /api/password-reset-demands/{temporaryKey}', function() {
-
+  describe('GET /api/password-reset-demands/{temporaryKey}', function () {
     const options = {
       method: 'GET',
       url: null,
     };
 
-    context('when temporaryKey is not valid', function() {
-
-      it('should reply with 401 status code', async function() {
+    context('when temporaryKey is not valid', function () {
+      it('should reply with 401 status code', async function () {
         // given
         options.url = '/api/password-reset-demands/invalid-temporary-key';
 
@@ -104,18 +97,16 @@ describe('Acceptance | Controller | password-controller', function() {
       });
     });
 
-    context('when temporaryKey is valid', function() {
-
+    context('when temporaryKey is valid', function () {
       let temporaryKey;
 
-      beforeEach(function() {
+      beforeEach(function () {
         temporaryKey = resetPasswordService.generateTemporaryKey();
         options.url = `/api/password-reset-demands/${temporaryKey}`;
       });
 
-      context('when temporaryKey is not linked to a reset password demand', function() {
-
-        it('should reply with 404 status code', async function() {
+      context('when temporaryKey is not linked to a reset password demand', function () {
+        it('should reply with 404 status code', async function () {
           // when
           const response = await server.inject(options);
 
@@ -124,9 +115,8 @@ describe('Acceptance | Controller | password-controller', function() {
         });
       });
 
-      context('when something going wrong', function() {
-
-        it('should reply with 500 status code', async function() {
+      context('when something going wrong', function () {
+        it('should reply with 500 status code', async function () {
           // given
           sinon.stub(resetPasswordService, 'verifyDemand').rejects(new Error());
 
@@ -138,16 +128,15 @@ describe('Acceptance | Controller | password-controller', function() {
         });
       });
 
-      context('when temporaryKey is linked to a password reset demand', function() {
-
-        beforeEach(async function() {
+      context('when temporaryKey is linked to a password reset demand', function () {
+        beforeEach(async function () {
           databaseBuilder.factory.buildUser({ email });
           databaseBuilder.factory.buildResetPasswordDemand({ email, temporaryKey });
 
           await databaseBuilder.commit();
         });
 
-        it('should reply with 200 status code', async function() {
+        it('should reply with 200 status code', async function () {
           // when
           const response = await server.inject(options);
 
@@ -158,8 +147,7 @@ describe('Acceptance | Controller | password-controller', function() {
     });
   });
 
-  describe('POST /api/expired-password-updates', function() {
-
+  describe('POST /api/expired-password-updates', function () {
     const username = 'firstName.lastName0511';
     const expiredPassword = 'Password01';
     const newPassword = 'Password02';
@@ -174,7 +162,7 @@ describe('Acceptance | Controller | password-controller', function() {
       },
     };
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       databaseBuilder.factory.buildUser.withRawPassword({
         username,
         rawPassword: expiredPassword,
@@ -183,13 +171,12 @@ describe('Acceptance | Controller | password-controller', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('authentication-methods').delete();
     });
 
-    context('Success cases', function() {
-
-      it('should return 201 HTTP status code', async function() {
+    context('Success cases', function () {
+      it('should return 201 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -198,11 +185,9 @@ describe('Acceptance | Controller | password-controller', function() {
       });
     });
 
-    context('Error cases', function() {
-
-      context('when username does not exist', function() {
-
-        it('should respond 404 HTTP status code', async function() {
+    context('Error cases', function () {
+      context('when username does not exist', function () {
+        it('should respond 404 HTTP status code', async function () {
           // given
           options.payload.data.attributes = { username: 'unknow', expiredPassword, newPassword };
 
@@ -214,9 +199,8 @@ describe('Acceptance | Controller | password-controller', function() {
         });
       });
 
-      context('when password is invalid', function() {
-
-        it('should respond 401 HTTP status code', async function() {
+      context('when password is invalid', function () {
+        it('should respond 401 HTTP status code', async function () {
           // given
           options.payload.data.attributes = { username, expiredPassword: 'wrongPassword01', newPassword };
 
@@ -228,9 +212,8 @@ describe('Acceptance | Controller | password-controller', function() {
         });
       });
 
-      context('when shoulChangePassword is false', function() {
-
-        it('should respond 403 HTTP status code', async function() {
+      context('when shoulChangePassword is false', function () {
+        it('should respond 403 HTTP status code', async function () {
           // given
           const username = 'jean.oubliejamais0105';
           databaseBuilder.factory.buildUser.withRawPassword({
@@ -252,5 +235,4 @@ describe('Acceptance | Controller | password-controller', function() {
       });
     });
   });
-
 });

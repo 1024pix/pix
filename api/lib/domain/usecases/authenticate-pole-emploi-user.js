@@ -1,9 +1,6 @@
 const moment = require('moment');
 
-const {
-  UnexpectedPoleEmploiStateError,
-  UnexpectedUserAccountError,
-} = require('../errors');
+const { UnexpectedPoleEmploiStateError, UnexpectedUserAccountError } = require('../errors');
 const AuthenticationMethod = require('../models/AuthenticationMethod');
 const logger = require('../../infrastructure/logger');
 
@@ -88,17 +85,26 @@ async function _getPixAccessTokenFromAlreadyAuthenticatedPixUser({
   userRepository,
   tokenService,
 }) {
-  const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId: authenticatedUserId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
+  const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+    userId: authenticatedUserId,
+    identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+  });
 
   if (authenticationMethod) {
     if (authenticationMethod.externalIdentifier !== userInfo.externalIdentityId) {
-      throw new UnexpectedUserAccountError({ message: 'Le compte Pix connecté n\'est pas celui qui est attendu.' });
+      throw new UnexpectedUserAccountError({ message: "Le compte Pix connecté n'est pas celui qui est attendu." });
     }
 
-    await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: authenticatedUserId });
-
+    await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+      authenticationComplement,
+      userId: authenticatedUserId,
+    });
   } else {
-    const authenticationMethod = _buildPoleEmploiAuthenticationMethod({ userInfo, authenticationComplement, userId: authenticatedUserId });
+    const authenticationMethod = _buildPoleEmploiAuthenticationMethod({
+      userInfo,
+      authenticationComplement,
+      userId: authenticatedUserId,
+    });
     await authenticationMethodRepository.create({ authenticationMethod });
   }
   const pixAccessToken = tokenService.createAccessTokenFromUser(authenticatedUserId, 'pole_emploi_connect');
@@ -114,7 +120,10 @@ async function _getPixAccessTokenFromPoleEmploiUser({
   userRepository,
   tokenService,
 }) {
-  await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId: user.id });
+  await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+    authenticationComplement,
+    userId: user.id,
+  });
   const pixAccessToken = tokenService.createAccessTokenFromUser(user.id, 'pole_emploi_connect');
 
   await userRepository.updateLastLoggedAt({ userId: user.id });

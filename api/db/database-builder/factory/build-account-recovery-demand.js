@@ -14,17 +14,22 @@ module.exports = function buildAccountRecoveryDemand({
   used = false,
   createdAt = new Date(),
 } = {}) {
-
   let schoolingRegistrationAttributes;
   let user;
 
   if (!userId) {
     user = buildUser();
-    schoolingRegistrationAttributes = { userId: user.id, firstName: user.firstName, lastName: user.lastName, nationalStudentId: '123456789JJ' };
+    schoolingRegistrationAttributes = {
+      userId: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      nationalStudentId: '123456789JJ',
+    };
   } else {
     schoolingRegistrationAttributes = { userId, firstName, lastName, nationalStudentId: '123456789JJ' };
   }
-  const actualSchoolingRegistrationId = schoolingRegistrationId || buildSchoolingRegistration(schoolingRegistrationAttributes).id;
+  const actualSchoolingRegistrationId =
+    schoolingRegistrationId || buildSchoolingRegistration(schoolingRegistrationAttributes).id;
   const actualUserId = userId || user.id;
 
   const values = {

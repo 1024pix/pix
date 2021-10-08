@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(country) {
     return new Serializer('country', {
       attributes: ['code', 'name'],
@@ -10,5 +9,4 @@ module.exports = {
       },
     }).serialize(country);
   },
-
 };

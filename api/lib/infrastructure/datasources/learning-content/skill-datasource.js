@@ -5,7 +5,6 @@ const ACTIVE_STATUS = 'actif';
 const OPERATIVE_STATUSES = ['actif', 'archivé'];
 
 module.exports = datasource.extend({
-
   modelName: 'skills',
 
   async findActive() {
@@ -25,9 +24,9 @@ module.exports = datasource.extend({
 
   async findOperativeByRecordIds(skillIds) {
     const skills = await this.list();
-    return skills.filter((skillData) =>
-      _.includes(OPERATIVE_STATUSES, skillData.status)
-      && _.includes(skillIds, skillData.id));
+    return skills.filter(
+      (skillData) => _.includes(OPERATIVE_STATUSES, skillData.status) && _.includes(skillIds, skillData.id)
+    );
   },
 
   async findActiveByCompetenceId(competenceId) {
@@ -37,9 +36,9 @@ module.exports = datasource.extend({
 
   async findOperativeByCompetenceId(competenceId) {
     const skills = await this.list();
-    return _.filter(skills, (skill) =>
-      skill.competenceId === competenceId
-      && _.includes(OPERATIVE_STATUSES, skill.status));
+    return _.filter(
+      skills,
+      (skill) => skill.competenceId === competenceId && _.includes(OPERATIVE_STATUSES, skill.status)
+    );
   },
-
 });

@@ -5,23 +5,28 @@
 'use strict';
 require('dotenv').config();
 const request = require('request-promise-native');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
+const {
+  findOrganizationsByExternalIds,
+  organizeOrganizationsByExternalId,
+} = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
 function checkData({ csvData }) {
-  return csvData.map((data) => {
-    const [externalIdLowerCase] = data;
+  return csvData
+    .map((data) => {
+      const [externalIdLowerCase] = data;
 
-    if (!externalIdLowerCase) {
-      if (require.main === module) process.stdout.write('Found empty line in input file.');
-      return null;
-    }
-    const externalId = externalIdLowerCase.toUpperCase();
+      if (!externalIdLowerCase) {
+        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        return null;
+      }
+      const externalId = externalIdLowerCase.toUpperCase();
 
-    return { externalId };
-  }).filter((data) => !!data);
+      return { externalId };
+    })
+    .filter((data) => !!data);
 }
 
 async function updateOrganizations({ accessToken, organizationsByExternalId, checkedData }) {
@@ -101,7 +106,6 @@ async function main() {
     console.log('Updating organizations...');
     await updateOrganizations({ accessToken, organizationsByExternalId, checkedData });
     console.log('\nDone.');
-
   } catch (error) {
     console.error(error);
 
@@ -115,7 +119,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

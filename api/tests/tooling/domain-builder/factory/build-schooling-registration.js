@@ -23,7 +23,6 @@ function buildSchoolingRegistration({
   isDisabled = false,
   updatedAt = new Date('2020-01-01'),
 } = {}) {
-
   return new SchoolingRegistration({
     id,
     lastName,

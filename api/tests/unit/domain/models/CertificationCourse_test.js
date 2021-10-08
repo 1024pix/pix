@@ -1,10 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | CertificationCourse', function() {
-  describe('#cancel #isCancelled', function() {
-
-    it('should cancel a certification course', function() {
+describe('Unit | Domain | Models | CertificationCourse', function () {
+  describe('#cancel #isCancelled', function () {
+    it('should cancel a certification course', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         isCancelled: false,
@@ -17,8 +16,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
       expect(certificationCourse.toDTO().isCancelled).to.be.true;
     });
 
-    describe('when certification course is already cancelled', function() {
-      it('should not change isCancelled value', function() {
+    describe('when certification course is already cancelled', function () {
+      it('should not change isCancelled value', function () {
         // given
         const certificationCourse = domainBuilder.buildCertificationCourse({
           isCancelled: false,
@@ -34,9 +33,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#cancel #uncancelled', function() {
-
-    it('should uncancel a certification course', function() {
+  describe('#cancel #uncancelled', function () {
+    it('should uncancel a certification course', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         isCancelled: true,
@@ -49,8 +47,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
       expect(certificationCourse.toDTO().isCancelled).to.be.false;
     });
 
-    describe('when certification course is not cancelled', function() {
-      it('should not change isCancelled value', function() {
+    describe('when certification course is not cancelled', function () {
+      it('should not change isCancelled value', function () {
         // given
         const certificationCourse = domainBuilder.buildCertificationCourse({
           isCancelled: true,
@@ -66,9 +64,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#abort', function() {
-
-    it('should abort a certification course', function() {
+  describe('#abort', function () {
+    it('should abort a certification course', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         abortReason: null,
@@ -81,7 +78,7 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
       expect(certificationCourse.toDTO().abortReason).to.equal('technical');
     });
 
-    it('should fail if abort reason is unknown', async function() {
+    it('should fail if abort reason is unknown', async function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         abortReason: null,
@@ -92,12 +89,10 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
         certificationCourse.abort('some random stuff');
       }).to.throw(EntityValidationError);
     });
-
   });
 
-  describe('#unabort', function() {
-
-    it('should unabort a certification course', function() {
+  describe('#unabort', function () {
+    it('should unabort a certification course', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         abortReason: 'technical',
@@ -111,22 +106,21 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#correctBirthdate', function() {
+  describe('#correctBirthdate', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
-    ['2000-13-01', null, undefined, '', 'invalid']
-      .forEach((invalidDate) => {
-        it(`throws if date is invalid : ${invalidDate}`, function() {
-          // given
-          const certificationCourse = domainBuilder.buildCertificationCourse();
+    ['2000-13-01', null, undefined, '', 'invalid'].forEach((invalidDate) => {
+      it(`throws if date is invalid : ${invalidDate}`, function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse();
 
-          // when / then
-          expect(() => {
-            certificationCourse.correctBirthdate(invalidDate);
-          }).to.throw(EntityValidationError);
-        });
+        // when / then
+        expect(() => {
+          certificationCourse.correctBirthdate(invalidDate);
+        }).to.throw(EntityValidationError);
       });
+    });
 
-    it('modifies the birthdate', function() {
+    it('modifies the birthdate', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         birthdate: '1999-12-31',
@@ -140,22 +134,21 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#correctFirstName', function() {
+  describe('#correctFirstName', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
-    [null, undefined, '', '   ']
-      .forEach((invalidFirstName) => {
-        it(`throws if first name is invalid : ${invalidFirstName}`, function() {
-          // given
-          const certificationCourse = domainBuilder.buildCertificationCourse();
+    [null, undefined, '', '   '].forEach((invalidFirstName) => {
+      it(`throws if first name is invalid : ${invalidFirstName}`, function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse();
 
-          // when / then
-          expect(() => {
-            certificationCourse.correctFirstName(invalidFirstName);
-          }).to.throw(EntityValidationError);
-        });
+        // when / then
+        expect(() => {
+          certificationCourse.correctFirstName(invalidFirstName);
+        }).to.throw(EntityValidationError);
       });
+    });
 
-    it('collapses white spaces and modifies the first name', function() {
+    it('collapses white spaces and modifies the first name', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         firstName: 'John',
@@ -169,22 +162,21 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#correctLastName', function() {
+  describe('#correctLastName', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
-    [null, undefined, '', '   ']
-      .forEach((invalidLastName) => {
-        it(`throws if last name is invalid : ${invalidLastName}`, function() {
-          // given
-          const certificationCourse = domainBuilder.buildCertificationCourse();
+    [null, undefined, '', '   '].forEach((invalidLastName) => {
+      it(`throws if last name is invalid : ${invalidLastName}`, function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse();
 
-          // when / then
-          expect(() => {
-            certificationCourse.correctLastName(invalidLastName);
-          }).to.throw(EntityValidationError);
-        });
+        // when / then
+        expect(() => {
+          certificationCourse.correctLastName(invalidLastName);
+        }).to.throw(EntityValidationError);
       });
+    });
 
-    it('collapses white spaces and modifies the last name', function() {
+    it('collapses white spaces and modifies the last name', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         lastName: 'Doe',
@@ -198,35 +190,34 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#correctBirthplace', function() {
+  describe('#correctBirthplace', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
-    [null, undefined, '', '   ']
-      .forEach((invalidBirthPlace) => {
-        it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, function() {
-          // given
-          const certificationCourse = domainBuilder.buildCertificationCourse({
-            birthplace: 'some place',
-          });
-
-          // when
-          certificationCourse.correctBirthplace(invalidBirthPlace);
-
-          // then
-          expect(certificationCourse.toDTO().birthplace).to.equal('some place');
+    [null, undefined, '', '   '].forEach((invalidBirthPlace) => {
+      it(`does not modify if birthplace is invalid : ${invalidBirthPlace}`, function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          birthplace: 'some place',
         });
 
-        it(`does not throw if birthplace is invalid : ${invalidBirthPlace}`, function() {
-          // given
-          const certificationCourse = domainBuilder.buildCertificationCourse();
+        // when
+        certificationCourse.correctBirthplace(invalidBirthPlace);
 
-          // when / then
-          expect(() => {
-            certificationCourse.correctBirthplace(invalidBirthPlace);
-          }).not.to.throw();
-        });
+        // then
+        expect(certificationCourse.toDTO().birthplace).to.equal('some place');
       });
 
-    it('collapses white spaces and modifies the birthplace', function() {
+      it(`does not throw if birthplace is invalid : ${invalidBirthPlace}`, function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse();
+
+        // when / then
+        expect(() => {
+          certificationCourse.correctBirthplace(invalidBirthPlace);
+        }).not.to.throw();
+      });
+    });
+
+    it('collapses white spaces and modifies the birthplace', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         birthplace: 'Paris',
@@ -240,9 +231,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#correctSex', function() {
-
-    it('throws if sex is neither M nor F', function() {
+  describe('#correctSex', function () {
+    it('throws if sex is neither M nor F', function () {
       // given
       const invalidSex = 'invalid_sex';
       const certificationCourse = domainBuilder.buildCertificationCourse({
@@ -253,7 +243,7 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
       expect(() => certificationCourse.correctSex(invalidSex)).to.throw(EntityValidationError);
     });
 
-    it('not throw if sex is not defined', function() {
+    it('not throw if sex is not defined', function () {
       // given
       const sex = null;
       const certificationCourse = domainBuilder.buildCertificationCourse({
@@ -265,26 +255,24 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
-    ['M', 'F']
-      .forEach((validSex) => {
-        it(`modifies the sex when value is ${validSex}`, function() {
-          // given
-          const certificationCourse = domainBuilder.buildCertificationCourse({
-            sex: 'X',
-          });
-
-          // when
-          certificationCourse.correctSex(validSex);
-
-          // then
-          expect(certificationCourse.toDTO().sex).to.equal(validSex);
+    ['M', 'F'].forEach((validSex) => {
+      it(`modifies the sex when value is ${validSex}`, function () {
+        // given
+        const certificationCourse = domainBuilder.buildCertificationCourse({
+          sex: 'X',
         });
+
+        // when
+        certificationCourse.correctSex(validSex);
+
+        // then
+        expect(certificationCourse.toDTO().sex).to.equal(validSex);
       });
+    });
   });
 
-  describe('#correctBirthInformation', function() {
-
-    it('should set birth information to certification course', function() {
+  describe('#correctBirthInformation', function () {
+    it('should set birth information to certification course', function () {
       // given
       const birthCountry = 'FRANCE';
       const birthCity = 'PARIS 10';
@@ -309,8 +297,8 @@ describe('Unit | Domain | Models | CertificationCourse', function() {
     });
   });
 
-  describe('#complete', function() {
-    it('completes the certification course', function() {
+  describe('#complete', function () {
+    it('completes the certification course', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         completedAt: null,

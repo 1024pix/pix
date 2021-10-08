@@ -3,15 +3,13 @@ const useCase = require('../../../../lib/application/usecases/checkUserIsAdminIn
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', function() {
-
-  beforeEach(function() {
+describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', function () {
+  beforeEach(function () {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
   });
 
-  context('When user is admin in organization', function() {
-
-    it('should return true', async function() {
+  context('When user is admin in organization', function () {
+    it('should return true', async function () {
       // given
       const userId = 1234;
       const organizationId = 789;
@@ -26,7 +24,7 @@ describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', funct
       expect(response).to.equal(true);
     });
 
-    it('should return true with several memberships', async function() {
+    it('should return true with several memberships', async function () {
       // given
       const userId = 1234;
       const organizationId = 789;
@@ -43,9 +41,8 @@ describe('Unit | Application | Use Case | CheckUserIsAdminInOrganization', funct
     });
   });
 
-  context('When user is not admin in organization', function() {
-
-    it('should return false', async function() {
+  context('When user is not admin in organization', function () {
+    it('should return false', async function () {
       // given
       const userId = 1234;
       const organizationId = 789;

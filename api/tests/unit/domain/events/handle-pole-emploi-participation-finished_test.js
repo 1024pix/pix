@@ -4,7 +4,7 @@ const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCom
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 const { handlePoleEmploiParticipationFinished } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', function() {
+describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', function () {
   let event;
 
   // TODO: Fix this the next time the file is edited.
@@ -74,7 +74,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
     },
   });
 
-  beforeEach(function() {
+  beforeEach(function () {
     assessmentRepository.get = sinon.stub();
     campaignRepository.get = sinon.stub();
     campaignParticipationRepository.get = sinon.stub();
@@ -85,11 +85,11 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
     poleEmploiSendingRepository.create = sinon.stub();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it('fails when event is not of correct type', async function() {
+  it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
     // when / then
@@ -99,7 +99,7 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
     expect(error).not.to.be.null;
   });
 
-  context('#handlePoleEmploiParticipationFinished', function() {
+  context('#handlePoleEmploiParticipationFinished', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const campaignId = Symbol('campaignId');
@@ -113,8 +113,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
     // eslint-disable-next-line mocha/no-setup-in-describe
     const assessmentId = Symbol('assessmentId');
 
-    context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function() {
-      beforeEach(function() {
+    context('when campaign is of type ASSESSMENT and organization is Pole Emploi', function () {
+      beforeEach(function () {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
@@ -125,11 +125,15 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        assessmentRepository.get.withArgs(assessmentId).resolves(domainBuilder.buildAssessment({
-          updatedAt: new Date('2020-01-03'),
-        }));
+        assessmentRepository.get.withArgs(assessmentId).resolves(
+          domainBuilder.buildAssessment({
+            updatedAt: new Date('2020-01-03'),
+          })
+        );
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
-        userRepository.get.withArgs(userId).resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
+        userRepository.get
+          .withArgs(userId)
+          .resolves(domainBuilder.buildUser({ id: userId, firstName: 'Jean', lastName: 'Bonneau' }));
         campaignRepository.get.withArgs(campaignId).resolves(
           domainBuilder.buildCampaign({
             id: 11223344,
@@ -140,23 +144,26 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
             type: 'ASSESSMENT',
             targetProfile: { id: 'targetProfileId1' },
             organization: { id: organizationId },
-          }),
+          })
         );
         targetProfileRepository.get.withArgs('targetProfileId1').resolves({ name: 'Diagnostic initial' });
       });
 
-      it('should notify pole emploi and create pole emploi sending accordingly', async function() {
+      it('should notify pole emploi and create pole emploi sending accordingly', async function () {
         // given
 
         const expectedResponse = { isSuccessful: 'someValue', code: 'someCode' };
         poleEmploiNotifier.notify.withArgs(userId, expectedResults).resolves(expectedResponse);
         const poleEmploiSending = Symbol('Pole emploi sending');
-        sinon.stub(PoleEmploiSending, 'buildForParticipationFinished').withArgs({
-          campaignParticipationId: 55667788,
-          payload: expectedResults,
-          isSuccessful: expectedResponse.isSuccessful,
-          responseCode: expectedResponse.code,
-        }).returns(poleEmploiSending);
+        sinon
+          .stub(PoleEmploiSending, 'buildForParticipationFinished')
+          .withArgs({
+            campaignParticipationId: 55667788,
+            payload: expectedResults,
+            isSuccessful: expectedResponse.isSuccessful,
+            responseCode: expectedResponse.code,
+          })
+          .returns(poleEmploiSending);
 
         // when
         await handlePoleEmploiParticipationFinished({
@@ -167,11 +174,10 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         // then
         expect(poleEmploiSendingRepository.create).to.have.been.calledWith({ poleEmploiSending });
       });
-
     });
 
-    context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function() {
-      beforeEach(function() {
+    context('when campaign is of type ASSESSMENT but organization is not Pole Emploi', function () {
+      beforeEach(function () {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
@@ -181,11 +187,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
+        campaignRepository.get
+          .withArgs(campaignId)
+          .resolves(domainBuilder.buildCampaign({ type: 'ASSESSMENT', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: false });
       });
 
-      it('should not notify to Pole Emploi', async function() {
+      it('should not notify to Pole Emploi', async function () {
         // when
         await handlePoleEmploiParticipationFinished({
           event,
@@ -197,8 +205,8 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
       });
     });
 
-    context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', function() {
-      beforeEach(function() {
+    context('when organization is Pole Emploi but campaign is of type PROFILES_COLLECTION', function () {
+      beforeEach(function () {
         const campaignParticipation = domainBuilder.buildCampaignParticipation({
           id: 55667788,
           userId,
@@ -208,11 +216,13 @@ describe('Unit | Domain | Events | handle-pole-emploi-participation-finished', f
         event = new AssessmentCompleted({ campaignParticipationId: campaignParticipation.id });
 
         campaignParticipationRepository.get.withArgs(campaignParticipation.id).resolves(campaignParticipation);
-        campaignRepository.get.withArgs(campaignId).resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
+        campaignRepository.get
+          .withArgs(campaignId)
+          .resolves(domainBuilder.buildCampaign({ type: 'PROFILES_COLLECTION', organization: { id: organizationId } }));
         organizationRepository.get.withArgs(organizationId).resolves({ isPoleEmploi: true });
       });
 
-      it('should not notify to Pole Emploi', async function() {
+      it('should not notify to Pole Emploi', async function () {
         // when
         await handlePoleEmploiParticipationFinished({
           event,

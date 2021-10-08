@@ -1,24 +1,33 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, HttpTestServer } = require('../../test-helper');
+const {
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  HttpTestServer,
+} = require('../../test-helper');
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 
-describe('Integration | Application | SecurityPreHandlers', function() {
-  describe('#checkUserBelongsToOrganization', function() {
+describe('Integration | Application | SecurityPreHandlers', function () {
+  describe('#checkUserBelongsToOrganization', function () {
     let httpServerTest;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const moduleUnderTest = {
         name: 'security-test',
-        register: async function(server) {
-          server.route([{
-            method: 'GET',
-            path: '/check/{id}',
-            handler: (r, h) => h.response().code(200),
-            config: {
-              pre: [{
-                method: securityPreHandlers.checkUserBelongsToOrganization,
-              }],
+        register: async function (server) {
+          server.route([
+            {
+              method: 'GET',
+              path: '/check/{id}',
+              handler: (r, h) => h.response().code(200),
+              config: {
+                pre: [
+                  {
+                    method: securityPreHandlers.checkUserBelongsToOrganization,
+                  },
+                ],
+              },
             },
-          }]);
+          ]);
         },
       };
       httpServerTest = new HttpTestServer();
@@ -26,7 +35,7 @@ describe('Integration | Application | SecurityPreHandlers', function() {
       httpServerTest.setupAuthentication();
     });
 
-    it('returns 403 when user is not in the organization', async function() {
+    it('returns 403 when user is not in the organization', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       await databaseBuilder.commit();
@@ -42,7 +51,7 @@ describe('Integration | Application | SecurityPreHandlers', function() {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('returns 200 when the user belongs to the organization', async function() {
+    it('returns 200 when the user belongs to the organization', async function () {
       const { id: userId } = databaseBuilder.factory.buildUser();
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ userId, organizationId });

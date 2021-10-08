@@ -2,23 +2,23 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const PlacementProfile = require('../../../../lib/domain/models/PlacementProfile');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
-describe('Unit | Domain | Models | PlacementProfile', function() {
-
-  describe('#constructor', function() {
-
-    it('should construct a model PlacementProfile from attributes', function() {
+describe('Unit | Domain | Models | PlacementProfile', function () {
+  describe('#constructor', function () {
+    it('should construct a model PlacementProfile from attributes', function () {
       // given
       const placementProfileRawData = {
         profileDate: new Date('2018-01-01T00:00:00Z'),
         userId: 1,
-        userCompetences: [ new UserCompetence({
-          id: 1,
-          index: '1',
-          name: 'UCName',
-          area: 'area',
-          pixScore: 10,
-          estimatedLevel: 5,
-        })],
+        userCompetences: [
+          new UserCompetence({
+            id: 1,
+            index: '1',
+            name: 'UCName',
+            area: 'area',
+            pixScore: 10,
+            estimatedLevel: 5,
+          }),
+        ],
       };
 
       // when
@@ -30,9 +30,8 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
     });
   });
 
-  describe('#isCertifiable', function() {
-
-    it('should return false when the certification profile is not certifiable', function() {
+  describe('#isCertifiable', function () {
+    it('should return false when the certification profile is not certifiable', function () {
       // given
       const userCompetence = new UserCompetence({ estimatedLevel: 5 });
       const placementProfile = new PlacementProfile({ userCompetences: [userCompetence] });
@@ -44,7 +43,7 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
       expect(result).to.be.false;
     });
 
-    it('should return true when the certification profile is certifiable', function() {
+    it('should return true when the certification profile is certifiable', function () {
       // given
       const userCompetence1 = new UserCompetence({ estimatedLevel: 5 });
       const userCompetence2 = new UserCompetence({ estimatedLevel: 1 });
@@ -61,12 +60,10 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
       // then
       expect(result).to.be.true;
     });
-
   });
 
-  describe('#getCertifiableCompetencesCount', function() {
-
-    it('should return 5', function() {
+  describe('#getCertifiableCompetencesCount', function () {
+    it('should return 5', function () {
       // given
       const userCompetence1 = new UserCompetence({ estimatedLevel: 5 });
       const userCompetence2 = new UserCompetence({ estimatedLevel: 1 });
@@ -84,12 +81,12 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
       expect(certifiableCompetencesCount).to.equal(5);
     });
 
-    it('should return 1', function() {
+    it('should return 1', function () {
       // given
       const userCompetence1 = new UserCompetence({ estimatedLevel: 2 });
       const userCompetence2 = new UserCompetence({ estimatedLevel: 0 });
       const placementProfile = new PlacementProfile({
-        userCompetences: [userCompetence1, userCompetence2 ],
+        userCompetences: [userCompetence1, userCompetence2],
       });
 
       // when
@@ -100,9 +97,8 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
     });
   });
 
-  describe('#getCompetencesCount', function() {
-
-    it('returns the number of competence', function() {
+  describe('#getCompetencesCount', function () {
+    it('returns the number of competence', function () {
       const userCompetence1 = new UserCompetence();
       const userCompetence2 = new UserCompetence();
       const placementProfile = new PlacementProfile({
@@ -115,9 +111,8 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
     });
   });
 
-  describe('#getPixScore', function() {
-
-    it('returns the pixScore', function() {
+  describe('#getPixScore', function () {
+    it('returns the pixScore', function () {
       const userCompetence1 = new UserCompetence({ pixScore: 12 });
       const userCompetence2 = new UserCompetence({ pixScore: 8 });
       const placementProfile = new PlacementProfile({
@@ -130,9 +125,8 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
     });
   });
 
-  describe('#getUserCompetence', function() {
-
-    it('returns the userCompetence if exists', function() {
+  describe('#getUserCompetence', function () {
+    it('returns the userCompetence if exists', function () {
       const userCompetence1 = new UserCompetence({ id: 'rec123' });
       const userCompetence2 = new UserCompetence({ id: 'rec456' });
       const placementProfile = new PlacementProfile({
@@ -144,7 +138,7 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
       expect(userCompetence).to.deep.equal(userCompetence1);
     });
 
-    it('returns null if doesn\'t exist', function() {
+    it("returns null if doesn't exist", function () {
       const userCompetence1 = new UserCompetence({ id: 'rec123' });
       const userCompetence2 = new UserCompetence({ id: 'rec456' });
       const placementProfile = new PlacementProfile({
@@ -157,8 +151,8 @@ describe('Unit | Domain | Models | PlacementProfile', function() {
     });
   });
 
-  describe('#getCertifiableUserCompetences', function() {
-    it('filters certifiable user competences', function() {
+  describe('#getCertifiableUserCompetences', function () {
+    it('filters certifiable user competences', function () {
       const uc1 = domainBuilder.buildUserCompetence({ estimatedLevel: 1 });
       const uc2 = domainBuilder.buildUserCompetence({ estimatedLevel: 0 });
       const uc3 = domainBuilder.buildUserCompetence({ estimatedLevel: 1 });

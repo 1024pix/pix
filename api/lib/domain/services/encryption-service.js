@@ -4,7 +4,6 @@ const PasswordNotMatching = require('../errors').PasswordNotMatching;
 const NUMBER_OF_SALT_ROUNDS = 5;
 
 module.exports = {
-
   hashPassword: (password) => bcrypt.hash(password, NUMBER_OF_SALT_ROUNDS),
 
   /* eslint-disable-next-line no-sync */
@@ -16,5 +15,4 @@ module.exports = {
       throw new PasswordNotMatching();
     }
   },
-
 };

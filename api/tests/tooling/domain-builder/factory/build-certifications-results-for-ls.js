@@ -12,24 +12,23 @@ function buildUser() {
 }
 
 function buildSchoolingRegistration({ userId, organizationId }) {
-  return databaseBuilder.factory.buildSchoolingRegistration(
-    { userId, organizationId },
-  );
+  return databaseBuilder.factory.buildSchoolingRegistration({ userId, organizationId });
 }
 
 function _createCertificationCenter() {
-  const {
-    id,
-    name,
-  } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
+  const { id, name } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' });
   return { certificationCenterId: id, certificationCenter: name };
 }
 
-function _buildCertificationData({ user, schoolingRegistration, certificationCreatedDate, isPublished, isCancelled, verificationCode }) {
-  const {
-    id: certificationCenterId,
-    name: certificationCenter,
-  } = _createCertificationCenter();
+function _buildCertificationData({
+  user,
+  schoolingRegistration,
+  certificationCreatedDate,
+  isPublished,
+  isCancelled,
+  verificationCode,
+}) {
+  const { id: certificationCenterId, name: certificationCenter } = _createCertificationCenter();
 
   const session = databaseBuilder.factory.buildSession({
     certificationCenterId,
@@ -110,25 +109,76 @@ function buildOrganization(uai) {
   return databaseBuilder.factory.buildOrganization({ externalId: uai });
 }
 
-function buildCancelledCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
-  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: false, isCancelled: true });
+function buildCancelledCertificationData({
+  user,
+  schoolingRegistration,
+  verificationCode,
+  pixScore,
+  competenceMarks,
+  certificationCreatedDate,
+}) {
+  return _buildValidatedCertificationData({
+    user,
+    schoolingRegistration,
+    verificationCode,
+    pixScore,
+    certificationCreatedDate,
+    competenceMarks,
+    isPublished: false,
+    isCancelled: true,
+  });
 }
 
-function buildValidatedPublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
-  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: true });
+function buildValidatedPublishedCertificationData({
+  user,
+  schoolingRegistration,
+  verificationCode,
+  pixScore,
+  competenceMarks,
+  certificationCreatedDate,
+}) {
+  return _buildValidatedCertificationData({
+    user,
+    schoolingRegistration,
+    verificationCode,
+    pixScore,
+    certificationCreatedDate,
+    competenceMarks,
+    isPublished: true,
+  });
 }
 
-function buildValidatedUnpublishedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate }) {
-  return _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, certificationCreatedDate, competenceMarks, isPublished: false });
+function buildValidatedUnpublishedCertificationData({
+  user,
+  schoolingRegistration,
+  verificationCode,
+  pixScore,
+  competenceMarks,
+  certificationCreatedDate,
+}) {
+  return _buildValidatedCertificationData({
+    user,
+    schoolingRegistration,
+    verificationCode,
+    pixScore,
+    certificationCreatedDate,
+    competenceMarks,
+    isPublished: false,
+  });
 }
 
-function _buildValidatedCertificationData({ user, schoolingRegistration, verificationCode, pixScore, competenceMarks, certificationCreatedDate, isPublished, isCancelled = false }) {
+function _buildValidatedCertificationData({
+  user,
+  schoolingRegistration,
+  verificationCode,
+  pixScore,
+  competenceMarks,
+  certificationCreatedDate,
+  isPublished,
+  isCancelled = false,
+}) {
   const certificationStatus = status.VALIDATED;
-  const {
-    session,
-    certificationCourse,
-    assessmentId,
-  } = _buildCertificationData({
+  const { session, certificationCourse, assessmentId } = _buildCertificationData({
     user,
     schoolingRegistration,
     verificationCode,
@@ -167,10 +217,16 @@ function _buildValidatedCertificationData({ user, schoolingRegistration, verific
   };
 }
 
-function buildRejectedPublishedCertificationData({ user, schoolingRegistration, competenceMarks, certificationCreationDate }) {
+function buildRejectedPublishedCertificationData({
+  user,
+  schoolingRegistration,
+  competenceMarks,
+  certificationCreationDate,
+}) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
-    user, schoolingRegistration,
+    user,
+    schoolingRegistration,
     isPublished: true,
     createdAt: certificationCreationDate,
   });
@@ -186,7 +242,8 @@ function buildRejectedPublishedCertificationData({ user, schoolingRegistration, 
 function buildErrorUnpublishedCertificationData({ user, schoolingRegistration, competenceMarks }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
-    user, schoolingRegistration,
+    user,
+    schoolingRegistration,
     isPublished: false,
   });
 
@@ -201,7 +258,8 @@ function buildErrorUnpublishedCertificationData({ user, schoolingRegistration, c
 function buildCertificationDataWithNoCompetenceMarks({ user, schoolingRegistration }) {
   const certificationStatus = status.REJECTED;
   const { assessmentId } = _buildCertificationData({
-    user, schoolingRegistration,
+    user,
+    schoolingRegistration,
     publicationDate: null,
   });
 
@@ -213,66 +271,71 @@ function buildCertificationDataWithNoCompetenceMarks({ user, schoolingRegistrati
 }
 
 function mockLearningContentCompetences() {
-
-  const learningContent = [{
-    'id': 'rec99',
-    code: '2',
-    'titleFr': 'Communication et collaboration',
-    'competences': [
-      {
-        'id': 'rec50',
-        'index': '2.1',
-        'name': 'Interagir',
-        tubes: [],
-      }, {
-        'id': 'rec51',
-        'index': '2.2',
-        'name': 'Partager et publier',
-        tubes: [],
-      }, {
-        'id': 'rec52',
-        'index': '2.3',
-        'name': 'Collaborer',
-        tubes: [],
-      },
-    ],
-  }, {
-    'id': 'rec98',
-    code: '3',
-    'titleFr': 'Création de contenu',
-    competences: [
-      {
-        'id': 'rec53',
-        'index': '3.1',
-        'name': 'Développer des documents textuels',
-        tubes: [],
-      },
-      {
-        'id': 'rec54',
-        'index': '3.2',
-        'name': 'Développer des documents multimedia',
-        tubes: [],
-      },
-    ],
-  }, {
-    'id': 'rec97',
-    code: '1',
-    'titleFr': 'Information et données',
-    competences: [
-      {
-        'id': 'rec55',
-        'index': '1.1',
-        'name': 'Mener une recherche et une veille d’information',
-        tubes: [],
-      },
-      {
-        'id': 'rec56',
-        'index': '1.2',
-        'name': 'Gérer des données',
-        tubes: [],
-      },
-    ],
-  }];
+  const learningContent = [
+    {
+      id: 'rec99',
+      code: '2',
+      titleFr: 'Communication et collaboration',
+      competences: [
+        {
+          id: 'rec50',
+          index: '2.1',
+          name: 'Interagir',
+          tubes: [],
+        },
+        {
+          id: 'rec51',
+          index: '2.2',
+          name: 'Partager et publier',
+          tubes: [],
+        },
+        {
+          id: 'rec52',
+          index: '2.3',
+          name: 'Collaborer',
+          tubes: [],
+        },
+      ],
+    },
+    {
+      id: 'rec98',
+      code: '3',
+      titleFr: 'Création de contenu',
+      competences: [
+        {
+          id: 'rec53',
+          index: '3.1',
+          name: 'Développer des documents textuels',
+          tubes: [],
+        },
+        {
+          id: 'rec54',
+          index: '3.2',
+          name: 'Développer des documents multimedia',
+          tubes: [],
+        },
+      ],
+    },
+    {
+      id: 'rec97',
+      code: '1',
+      titleFr: 'Information et données',
+      competences: [
+        {
+          id: 'rec55',
+          index: '1.1',
+          name: 'Mener une recherche et une veille d’information',
+          tubes: [],
+        },
+        {
+          id: 'rec56',
+          index: '1.2',
+          name: 'Gérer des données',
+          tubes: [],
+        },
+      ],
+    },
+  ];
 
   const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
   mockLearningContent(learningContentObjects);

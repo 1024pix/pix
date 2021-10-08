@@ -10,11 +10,13 @@ module.exports = async function createCertificationCenterMembershipByEmail({
 
   const isMembershipExisting = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
     userId,
-    certificationCenterId,
+    certificationCenterId
   );
 
   if (isMembershipExisting) {
-    throw new AlreadyExistingEntityError(`Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`);
+    throw new AlreadyExistingEntityError(
+      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`
+    );
   }
 
   return certificationCenterMembershipRepository.save(userId, certificationCenterId);

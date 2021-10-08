@@ -2,17 +2,21 @@ const _ = require('lodash');
 const { knex } = require('../bookshelf');
 const bookshelfUtils = require('../utils/knex-utils');
 const DomainTransaction = require('../DomainTransaction');
-const {
-  AlreadyExistingEntityError,
-  AuthenticationMethodNotFoundError,
-} = require('../../domain/errors');
+const { AlreadyExistingEntityError, AuthenticationMethodNotFoundError } = require('../../domain/errors');
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
 function _toDomain(authenticationMethodDTO) {
   return new AuthenticationMethod({
     ...authenticationMethodDTO,
-    externalIdentifier: (authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR || authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI) ? authenticationMethodDTO.externalIdentifier : undefined,
-    authenticationComplement: _toAuthenticationComplement(authenticationMethodDTO.identityProvider, authenticationMethodDTO.authenticationComplement),
+    externalIdentifier:
+      authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.GAR ||
+      authenticationMethodDTO.identityProvider === AuthenticationMethod.identityProviders.POLE_EMPLOI
+        ? authenticationMethodDTO.externalIdentifier
+        : undefined,
+    authenticationComplement: _toAuthenticationComplement(
+      authenticationMethodDTO.identityProvider,
+      authenticationMethodDTO.authenticationComplement
+    ),
   });
 }
 
@@ -29,22 +33,35 @@ function _toAuthenticationComplement(identityProvider, bookshelfAuthenticationCo
 }
 
 const AUTHENTICATION_METHODS_TABLE = 'authentication-methods';
-const COLUMNS = Object.freeze(['id', 'identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId', 'createdAt', 'updatedAt']);
+const COLUMNS = Object.freeze([
+  'id',
+  'identityProvider',
+  'authenticationComplement',
+  'externalIdentifier',
+  'userId',
+  'createdAt',
+  'updatedAt',
+]);
 
 module.exports = {
-
-  async create({
-    authenticationMethod,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
+  async create({ authenticationMethod, domainTransaction = DomainTransaction.emptyTransaction() }) {
     try {
       const knexConn = domainTransaction.knexTransaction ?? knex;
-      const authenticationMethodForDB = _.pick(authenticationMethod, ['identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId']);
-      const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE).insert(authenticationMethodForDB).returning(COLUMNS);
+      const authenticationMethodForDB = _.pick(authenticationMethod, [
+        'identityProvider',
+        'authenticationComplement',
+        'externalIdentifier',
+        'userId',
+      ]);
+      const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
+        .insert(authenticationMethodForDB)
+        .returning(COLUMNS);
       return _toDomain(authenticationMethodDTO);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        throw new AlreadyExistingEntityError(`An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`);
+        throw new AlreadyExistingEntityError(
+          `An authentication method already exists for the user ID ${authenticationMethod.userId} and the externalIdentifier ${authenticationMethod.externalIdentifier}.`
+        );
       }
     }
   },
@@ -64,9 +81,16 @@ module.exports = {
         identityProvider: AuthenticationMethod.identityProviders.PIX,
         userId,
       });
-      const authenticationMethodForDB = _.pick(authenticationMethod, ['identityProvider', 'authenticationComplement', 'externalIdentifier', 'userId']);
+      const authenticationMethodForDB = _.pick(authenticationMethod, [
+        'identityProvider',
+        'authenticationComplement',
+        'externalIdentifier',
+        'userId',
+      ]);
       const knexConn = domainTransaction.knexTransaction ?? knex;
-      const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE).insert(authenticationMethodForDB).returning(COLUMNS);
+      const [authenticationMethodDTO] = await knexConn(AUTHENTICATION_METHODS_TABLE)
+        .insert(authenticationMethodForDB)
+        .returning(COLUMNS);
       return _toDomain(authenticationMethodDTO);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
@@ -119,9 +143,7 @@ module.exports = {
   },
 
   async removeByUserIdAndIdentityProvider({ userId, identityProvider }) {
-    return knex(AUTHENTICATION_METHODS_TABLE)
-      .where({ userId, identityProvider })
-      .del();
+    return knex(AUTHENTICATION_METHODS_TABLE).where({ userId, identityProvider }).del();
   },
 
   async updateChangedPassword({ userId, hashedPassword }, domainTransaction = DomainTransaction.emptyTransaction()) {
@@ -197,7 +219,9 @@ module.exports = {
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
-      throw new AuthenticationMethodNotFoundError(`No rows updated for authentication method of type ${identityProvider} for user ${userId}.`);
+      throw new AuthenticationMethodNotFoundError(
+        `No rows updated for authentication method of type ${identityProvider} for user ${userId}.`
+      );
     }
     return _toDomain(authenticationMethodDTO);
   },
@@ -209,7 +233,9 @@ module.exports = {
       .returning(COLUMNS);
 
     if (!authenticationMethodDTO) {
-      throw new AuthenticationMethodNotFoundError(`No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.POLE_EMPLOI} for user ${userId}.`);
+      throw new AuthenticationMethodNotFoundError(
+        `No rows updated for authentication method of type ${AuthenticationMethod.identityProviders.POLE_EMPLOI} for user ${userId}.`
+      );
     }
     return _toDomain(authenticationMethodDTO);
   },

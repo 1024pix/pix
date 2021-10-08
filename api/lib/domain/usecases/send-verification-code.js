@@ -15,7 +15,6 @@ module.exports = async function sendVerificationCode({
   encryptionService,
   mailService,
 }) {
-
   const user = await userRepository.get(userId);
   if (!user.email) {
     throw new UserNotAuthorizedToUpdateEmailError();

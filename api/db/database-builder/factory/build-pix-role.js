@@ -1,10 +1,6 @@
 const databaseBuffer = require('../database-buffer');
 
-const buildPixRole = function buildPixRole({
-  id = databaseBuffer.getNextId(),
-  name = 'PIX_MASTER',
-} = {}) {
-
+const buildPixRole = function buildPixRole({ id = databaseBuffer.getNextId(), name = 'PIX_MASTER' } = {}) {
   const values = {
     id,
     name,

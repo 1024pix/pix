@@ -1,18 +1,16 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const findAccreditations = require('../../../../lib/domain/usecases/find-accreditations');
 
-describe('Unit | UseCase | find-accreditations', function() {
-
+describe('Unit | UseCase | find-accreditations', function () {
   let accreditationRepository;
 
-  beforeEach(function() {
-
+  beforeEach(function () {
     accreditationRepository = {
       findAll: sinon.stub(),
     };
   });
 
-  it('should find the accreditations', async function() {
+  it('should find the accreditations', async function () {
     // given
     const accreditations = [
       domainBuilder.buildAccreditation({

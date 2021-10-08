@@ -108,7 +108,10 @@ class TargetProfileWithLearningContent {
   }
 
   getValidatedKnowledgeElementsGroupedByTube(knowledgeElements) {
-    return this._filterTargetedKnowledgeElementAndGroupByTube(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+    return this._filterTargetedKnowledgeElementAndGroupByTube(
+      knowledgeElements,
+      (knowledgeElement) => knowledgeElement.isValidated
+    );
   }
 
   _filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, knowledgeElementFilter = () => true) {
@@ -142,7 +145,10 @@ class TargetProfileWithLearningContent {
   }
 
   countValidatedTargetedKnowledgeElementsByCompetence(knowledgeElements) {
-    const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated);
+    const validatedGroupedByCompetence = this._filterTargetedKnowledgeElementAndGroupByCompetence(
+      knowledgeElements,
+      (knowledgeElement) => knowledgeElement.isValidated
+    );
     return _.mapValues(validatedGroupedByCompetence, 'length');
   }
 

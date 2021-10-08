@@ -1,13 +1,10 @@
 const CertificationAssessmentScore = require('../../../../lib/domain/models/CertificationAssessmentScore');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | CertificationAssessmentScore', function() {
-
-  describe('#get nbPix', function() {
-
-    context('when CertificationAssessmentScore has no competence marks', function() {
-
-      it('should return nbPix 0', function() {
+describe('Unit | Domain | Models | CertificationAssessmentScore', function () {
+  describe('#get nbPix', function () {
+    context('when CertificationAssessmentScore has no competence marks', function () {
+      it('should return nbPix 0', function () {
         // given
         const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
           competenceMarks: [],
@@ -19,12 +16,10 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', function() {
         // then
         expect(actualNbPix).to.equal(0);
       });
-
     });
 
-    context('when CertificationAssessmentScore has competence marks', function() {
-
-      it('should return the sum of the competence marks score as nbPix', function() {
+    context('when CertificationAssessmentScore has competence marks', function () {
+      it('should return the sum of the competence marks score as nbPix', function () {
         // given
         const competenceMark1 = domainBuilder.buildCompetenceMark({
           score: 13,
@@ -43,14 +38,11 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', function() {
         expect(actualNbPix).to.equal(25);
       });
     });
-
   });
 
-  describe('#get status', function() {
-
-    context('when nbPix is 0', function() {
-
-      it('should return REJECTED as status', function() {
+  describe('#get status', function () {
+    context('when nbPix is 0', function () {
+      it('should return REJECTED as status', function () {
         // given
         const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
           competenceMarks: [],
@@ -62,12 +54,10 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', function() {
         // then
         expect(status).to.equal(CertificationAssessmentScore.statuses.REJECTED);
       });
-
     });
 
-    context('when nbPix is greater than 0', function() {
-
-      it('should return VALIDATED as status', function() {
+    context('when nbPix is greater than 0', function () {
+      it('should return VALIDATED as status', function () {
         // given
         const competenceMark = domainBuilder.buildCompetenceMark({
           score: 13,
@@ -83,12 +73,10 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', function() {
         expect(actualStatus).to.equal(CertificationAssessmentScore.statuses.VALIDATED);
       });
     });
-
   });
 
-  describe('#getCompetenceMarks', function() {
-
-    it('should return the competence marks collection', function() {
+  describe('#getCompetenceMarks', function () {
+    it('should return the competence marks collection', function () {
       // given
       const competenceMark1 = domainBuilder.buildCompetenceMark({
         score: 13,
@@ -108,9 +96,8 @@ describe('Unit | Domain | Models | CertificationAssessmentScore', function() {
     });
   });
 
-  describe('#getPercentageCorrectAnswers', function() {
-
-    it('should return the percentageCorrectAnswers', function() {
+  describe('#getPercentageCorrectAnswers', function () {
+    it('should return the percentageCorrectAnswers', function () {
       // given
       const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
         percentageCorrectAnswers: 55,

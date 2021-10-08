@@ -2,7 +2,6 @@ const _ = require('lodash');
 const AuthenticationMethod = require('./AuthenticationMethod');
 
 class User {
-
   constructor({
     id,
     cgu,
@@ -62,12 +61,11 @@ class User {
   }
 
   get shouldChangePassword() {
-    const pixAuthenticationMethod = this.authenticationMethods
-      .find((authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX);
+    const pixAuthenticationMethod = this.authenticationMethods.find(
+      (authenticationMethod) => authenticationMethod.identityProvider === AuthenticationMethod.identityProviders.PIX
+    );
 
-    return pixAuthenticationMethod
-      ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword
-      : null;
+    return pixAuthenticationMethod ? pixAuthenticationMethod.authenticationComplement.shouldChangePassword : null;
   }
 
   isLinkedToOrganizations() {
@@ -79,13 +77,13 @@ class User {
   }
 
   hasAccessToOrganization(organizationId) {
-    return this.memberships
-      .some((membership) => membership.organization.id === organizationId);
+    return this.memberships.some((membership) => membership.organization.id === organizationId);
   }
 
   hasAccessToCertificationCenter(certificationCenterId) {
-    return this.certificationCenterMemberships
-      .some((certificationCenterMembership) => certificationCenterMembership.certificationCenter.id === certificationCenterId);
+    return this.certificationCenterMemberships.some(
+      (certificationCenterMembership) => certificationCenterMembership.certificationCenter.id === certificationCenterId
+    );
   }
 }
 

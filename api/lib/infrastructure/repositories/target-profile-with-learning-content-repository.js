@@ -18,11 +18,9 @@ const { FRENCH_FRANCE } = require('../../domain/constants').LOCALE;
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
 
 module.exports = {
-
   async get({ id, locale = FRENCH_FRANCE }) {
     const whereClauseFnc = (queryBuilder) => {
-      return queryBuilder
-        .where('target-profiles.id', id);
+      return queryBuilder.where('target-profiles.id', id);
     };
 
     return _get(whereClauseFnc, locale);
@@ -49,14 +47,14 @@ async function _get(whereClauseFnc, locale) {
       'target-profiles.imageUrl',
       'target-profiles.createdAt',
       'target-profiles.ownerOrganizationId',
-      'target-profiles_skills.skillId',
+      'target-profiles_skills.skillId'
     )
     .leftJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
   const finalQueryBuilder = whereClauseFnc(baseQueryBuilder);
   const results = await finalQueryBuilder;
 
   if (_.isEmpty(results)) {
-    throw new NotFoundError('Le profil cible n\'existe pas');
+    throw new NotFoundError("Le profil cible n'existe pas");
   }
 
   const badges = await _findBadges(results[0].id);
@@ -66,12 +64,7 @@ async function _get(whereClauseFnc, locale) {
 
 async function _toDomain(results, badges, stages, locale) {
   const skillIds = _.compact(results.map(({ skillId }) => skillId));
-  const {
-    skills,
-    tubes,
-    competences,
-    areas,
-  } = await _getTargetedLearningContent(skillIds, locale);
+  const { skills, tubes, competences, areas } = await _getTargetedLearningContent(skillIds, locale);
 
   return new TargetProfileWithLearningContent({
     id: results[0].id,
@@ -118,8 +111,14 @@ async function _findTargetedTubes(skills, locale) {
   const skillsByTubeId = _.groupBy(skills, 'tubeId');
   const learningContentTubes = await tubeDatasource.findByRecordIds(Object.keys(skillsByTubeId));
   return learningContentTubes.map((learningContentTube) => {
-    const practicalTitle = getTranslatedText(locale, { frenchText: learningContentTube.practicalTitleFrFr, englishText: learningContentTube.practicalTitleEnUs });
-    const description = getTranslatedText(locale, { frenchText: learningContentTube.practicalDescriptionFrFr, englishText: learningContentTube.practicalDescriptionEnUs });
+    const practicalTitle = getTranslatedText(locale, {
+      frenchText: learningContentTube.practicalTitleFrFr,
+      englishText: learningContentTube.practicalTitleEnUs,
+    });
+    const description = getTranslatedText(locale, {
+      frenchText: learningContentTube.practicalDescriptionFrFr,
+      englishText: learningContentTube.practicalDescriptionEnUs,
+    });
     return new TargetedTube({
       ...learningContentTube,
       practicalTitle,
@@ -133,7 +132,10 @@ async function _findTargetedCompetences(tubes, locale) {
   const tubesByCompetenceId = _.groupBy(tubes, 'competenceId');
   const learningContentCompetences = await competenceDatasource.findByRecordIds(Object.keys(tubesByCompetenceId));
   return learningContentCompetences.map((learningContentCompetence) => {
-    const name = getTranslatedText(locale, { frenchText: learningContentCompetence.nameFrFr, englishText: learningContentCompetence.nameEnUs });
+    const name = getTranslatedText(locale, {
+      frenchText: learningContentCompetence.nameFrFr,
+      englishText: learningContentCompetence.nameEnUs,
+    });
     return new TargetedCompetence({
       ...learningContentCompetence,
       name,
@@ -146,7 +148,10 @@ async function _findTargetedAreas(competences, locale) {
   const competencesByAreaId = _.groupBy(competences, 'areaId');
   const learningContentAreas = await areaDatasource.findByRecordIds(Object.keys(competencesByAreaId));
   return learningContentAreas.map((learningContentArea) => {
-    const title = getTranslatedText(locale, { frenchText: learningContentArea.titleFrFr, englishText: learningContentArea.titleEnUs });
+    const title = getTranslatedText(locale, {
+      frenchText: learningContentArea.titleFrFr,
+      englishText: learningContentArea.titleEnUs,
+    });
     return new TargetedArea({
       ...learningContentArea,
       title,
@@ -157,7 +162,14 @@ async function _findTargetedAreas(competences, locale) {
 
 async function _findStages(targetProfileId) {
   const stageRows = await knex('stages')
-    .select('stages.id', 'stages.threshold', 'stages.message', 'stages.title', 'stages.prescriberTitle', 'stages.prescriberDescription')
+    .select(
+      'stages.id',
+      'stages.threshold',
+      'stages.message',
+      'stages.title',
+      'stages.prescriberTitle',
+      'stages.prescriberDescription'
+    )
     .where('stages.targetProfileId', targetProfileId);
 
   if (_.isEmpty(stageRows)) {
@@ -169,7 +181,15 @@ async function _findStages(targetProfileId) {
 
 async function _findBadges(targetProfileId) {
   const badgeRows = await knex('badges')
-    .select('badges.id', 'badges.key', 'badges.message', 'badges.altMessage', 'badges.isCertifiable', 'badges.title', 'badges.targetProfileId')
+    .select(
+      'badges.id',
+      'badges.key',
+      'badges.message',
+      'badges.altMessage',
+      'badges.isCertifiable',
+      'badges.title',
+      'badges.targetProfileId'
+    )
     .where('badges.targetProfileId', targetProfileId);
 
   if (_.isEmpty(badgeRows)) {
@@ -186,7 +206,13 @@ async function _findBadges(targetProfileId) {
 async function _fillBadgesWithCriteria(badges) {
   const badgeIds = badges.map((badge) => badge.id);
   const criteriaRows = await knex('badge-criteria')
-    .select('badge-criteria.id', 'badge-criteria.scope', 'badge-criteria.threshold', 'badge-criteria.badgeId', 'badge-criteria.partnerCompetenceIds')
+    .select(
+      'badge-criteria.id',
+      'badge-criteria.scope',
+      'badge-criteria.threshold',
+      'badge-criteria.badgeId',
+      'badge-criteria.partnerCompetenceIds'
+    )
     .whereIn('badge-criteria.badgeId', badgeIds);
 
   const criteriaRowsByBadgeId = _.groupBy(criteriaRows, 'badgeId');
@@ -200,13 +226,21 @@ async function _fillBadgesWithCriteria(badges) {
 async function _fillBadgesWithPartnerCompetences(badges) {
   const badgeIds = badges.map((badge) => badge.id);
   const partnerCompetencesRows = await knex('badge-partner-competences')
-    .select('badge-partner-competences.id', 'badge-partner-competences.name', 'badge-partner-competences.skillIds', 'badge-partner-competences.badgeId')
+    .select(
+      'badge-partner-competences.id',
+      'badge-partner-competences.name',
+      'badge-partner-competences.skillIds',
+      'badge-partner-competences.badgeId'
+    )
     .whereIn('badge-partner-competences.badgeId', badgeIds);
 
   const partnerCompetencesRowsByBadgeId = _.groupBy(partnerCompetencesRows, 'badgeId');
 
   badges.forEach((badge) => {
     const partnerCompetencesRowsForBadge = partnerCompetencesRowsByBadgeId[badge.id];
-    badge.badgePartnerCompetences = _.map(partnerCompetencesRowsForBadge, (partnerCompetenceRow) => new BadgePartnerCompetence(partnerCompetenceRow));
+    badge.badgePartnerCompetences = _.map(
+      partnerCompetencesRowsForBadge,
+      (partnerCompetenceRow) => new BadgePartnerCompetence(partnerCompetenceRow)
+    );
   });
 }

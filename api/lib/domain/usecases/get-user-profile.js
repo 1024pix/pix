@@ -35,4 +35,3 @@ module.exports = async function getUserProfile({
     scorecards,
   };
 };
-

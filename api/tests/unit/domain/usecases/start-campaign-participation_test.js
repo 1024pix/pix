@@ -7,18 +7,22 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 
 const { STARTED, TO_SHARE } = CampaignParticipation.statuses;
 
-describe('Unit | UseCase | start-campaign-participation', function() {
-
+describe('Unit | UseCase | start-campaign-participation', function () {
   const userId = 19837482;
   let domainTransaction;
   let campaignToJoinRepository;
   let campaignParticipationRepository;
   let assessmentRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     domainTransaction = Symbol('DomainTransaction');
     campaignToJoinRepository = { get: () => undefined, checkCampaignIsJoinableByUser: () => undefined };
-    campaignParticipationRepository = { save: () => undefined, findOneByCampaignIdAndUserId: () => undefined, hasAlreadyParticipated: () => {}, markPreviousParticipationsAsImproved: () => {} };
+    campaignParticipationRepository = {
+      save: () => undefined,
+      findOneByCampaignIdAndUserId: () => undefined,
+      hasAlreadyParticipated: () => {},
+      markPreviousParticipationsAsImproved: () => {},
+    };
     assessmentRepository = { save: () => undefined };
 
     sinon.stub(campaignToJoinRepository, 'get');
@@ -30,7 +34,7 @@ describe('Unit | UseCase | start-campaign-participation', function() {
     sinon.stub(assessmentRepository, 'save');
   });
 
-  it('should return CampaignParticipationStarted event', async function() {
+  it('should return CampaignParticipationStarted event', async function () {
     // given
     const campaignParticipation = domainBuilder.buildCampaignParticipation();
     const campaignToJoin = domainBuilder.buildCampaignToJoin({
@@ -39,22 +43,31 @@ describe('Unit | UseCase | start-campaign-participation', function() {
     });
     campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId, domainTransaction).resolves(campaignToJoin);
     const assessmentId = 987654321;
-    const campaignParticipationStartedEvent = new CampaignParticipationStarted({ campaignParticipationId: campaignParticipation.id });
+    const campaignParticipationStartedEvent = new CampaignParticipationStarted({
+      campaignParticipationId: campaignParticipation.id,
+    });
     assessmentRepository.save.resolves({ id: assessmentId });
     campaignParticipationRepository.save.resolves(campaignParticipation);
 
     // when
-    const { event } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+    const { event } = await usecases.startCampaignParticipation({
+      campaignParticipation,
+      userId,
+      campaignParticipationRepository,
+      assessmentRepository,
+      campaignToJoinRepository,
+      domainTransaction,
+    });
 
     // then
     expect(event).to.deep.equal(campaignParticipationStartedEvent);
   });
 
-  context('when campaign is of type ASSESSMENT', function() {
+  context('when campaign is of type ASSESSMENT', function () {
     let campaignToJoin;
     let campaignParticipation;
 
-    beforeEach(function() {
+    beforeEach(function () {
       campaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false, status: STARTED, userId });
       campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
@@ -62,11 +75,13 @@ describe('Unit | UseCase | start-campaign-participation', function() {
         type: Campaign.types.ASSESSMENT,
         assessmentMethod: Assessment.methods.FLASH,
       });
-      campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId, domainTransaction).resolves(campaignToJoin);
+      campaignToJoinRepository.get
+        .withArgs(campaignParticipation.campaignId, domainTransaction)
+        .resolves(campaignToJoin);
       campaignParticipation.campaign = campaignToJoin;
     });
 
-    it('should return the saved campaign participation', async function() {
+    it('should return the saved campaign participation', async function () {
       // given
       assessmentRepository.save.resolves();
 
@@ -75,81 +90,135 @@ describe('Unit | UseCase | start-campaign-participation', function() {
       campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId).resolves(false);
 
       // when
-      const { campaignParticipation: actualSavedCampaignParticipation } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+      const { campaignParticipation: actualSavedCampaignParticipation } = await usecases.startCampaignParticipation({
+        campaignParticipation,
+        userId,
+        campaignParticipationRepository,
+        assessmentRepository,
+        campaignToJoinRepository,
+        domainTransaction,
+      });
 
       // then
-      expect(campaignToJoinRepository.checkCampaignIsJoinableByUser).to.have.been.calledWith(campaignToJoin, userId, domainTransaction);
+      expect(campaignToJoinRepository.checkCampaignIsJoinableByUser).to.have.been.calledWith(
+        campaignToJoin,
+        userId,
+        domainTransaction
+      );
       expect(actualSavedCampaignParticipation).to.deep.equal(savedCampaignParticipation);
     });
 
-    context('when the campaign does not allow retry', function() {
-      it('should create a campaign assessment', async function() {
+    context('when the campaign does not allow retry', function () {
+      it('should create a campaign assessment', async function () {
         // given
         assessmentRepository.save.resolves();
         campaignParticipationRepository.save.resolves({ id: 1 });
 
         // when
-        await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+        await usecases.startCampaignParticipation({
+          campaignParticipation,
+          userId,
+          campaignParticipationRepository,
+          assessmentRepository,
+          campaignToJoinRepository,
+          domainTransaction,
+        });
 
         // then
-        const createdAssessment = Assessment.createForCampaign({ userId, campaignParticipationId: 1, method: campaignToJoin.assessmentMethod });
+        const createdAssessment = Assessment.createForCampaign({
+          userId,
+          campaignParticipationId: 1,
+          method: campaignToJoin.assessmentMethod,
+        });
         expect(assessmentRepository.save).to.have.been.calledWith({ assessment: createdAssessment, domainTransaction });
       });
     });
 
-    context('when the campaign allows retry', function() {
-      it('should create an improving assessment', async function() {
+    context('when the campaign allows retry', function () {
+      it('should create an improving assessment', async function () {
         // given
         assessmentRepository.save.resolves();
         campaignParticipationRepository.save.resolves({ id: 1 });
         campaignParticipationRepository.markPreviousParticipationsAsImproved.resolves(campaignToJoin.id, userId);
-        campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId, domainTransaction).resolves(true);
+        campaignParticipationRepository.hasAlreadyParticipated
+          .withArgs(campaignToJoin.id, userId, domainTransaction)
+          .resolves(true);
 
         // when
-        await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+        await usecases.startCampaignParticipation({
+          campaignParticipation,
+          userId,
+          campaignParticipationRepository,
+          assessmentRepository,
+          campaignToJoinRepository,
+          domainTransaction,
+        });
 
         // then
-        const createdAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: 1, method: campaignToJoin.assessmentMethod });
+        const createdAssessment = Assessment.createImprovingForCampaign({
+          userId,
+          campaignParticipationId: 1,
+          method: campaignToJoin.assessmentMethod,
+        });
         expect(assessmentRepository.save).to.have.been.calledWith({ assessment: createdAssessment, domainTransaction });
-        expect(campaignParticipationRepository.markPreviousParticipationsAsImproved).to.have.been.calledWith(campaignToJoin.id, userId, domainTransaction);
+        expect(campaignParticipationRepository.markPreviousParticipationsAsImproved).to.have.been.calledWith(
+          campaignToJoin.id,
+          userId,
+          domainTransaction
+        );
       });
     });
   });
 
-  context('when campaign is of type PROFILES_COLLECTION', function() {
+  context('when campaign is of type PROFILES_COLLECTION', function () {
     let campaignToJoin;
     let campaignParticipation;
 
-    beforeEach(function() {
+    beforeEach(function () {
       campaignParticipation = domainBuilder.buildCampaignParticipation({ isShared: false, status: TO_SHARE, userId });
       campaignToJoin = domainBuilder.buildCampaignToJoin({
         id: campaignParticipation.campaignId,
         organizationIsManagingStudents: false,
         type: Campaign.types.PROFILES_COLLECTION,
       });
-      campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId, domainTransaction).resolves(campaignToJoin);
+      campaignToJoinRepository.get
+        .withArgs(campaignParticipation.campaignId, domainTransaction)
+        .resolves(campaignToJoin);
       campaignParticipation.campaign = campaignToJoin;
     });
 
-    it('should return the saved campaign participation', async function() {
+    it('should return the saved campaign participation', async function () {
       // given
       assessmentRepository.save.resolves();
 
       const savedCampaignParticipation = Symbol('savedCampaignParticipation');
       campaignParticipationRepository.save.withArgs(campaignParticipation).resolves(savedCampaignParticipation);
       campaignParticipationRepository.hasAlreadyParticipated.withArgs(campaignToJoin.id, userId).resolves(false);
-      campaignToJoinRepository.get.withArgs(campaignParticipation.campaignId, domainTransaction).resolves(campaignToJoin);
+      campaignToJoinRepository.get
+        .withArgs(campaignParticipation.campaignId, domainTransaction)
+        .resolves(campaignToJoin);
 
       // when
-      const { campaignParticipation: actualSavedCampaignParticipation } = await usecases.startCampaignParticipation({ campaignParticipation, userId, campaignParticipationRepository, assessmentRepository, campaignToJoinRepository, domainTransaction });
+      const { campaignParticipation: actualSavedCampaignParticipation } = await usecases.startCampaignParticipation({
+        campaignParticipation,
+        userId,
+        campaignParticipationRepository,
+        assessmentRepository,
+        campaignToJoinRepository,
+        domainTransaction,
+      });
 
       // then
-      expect(campaignToJoinRepository.checkCampaignIsJoinableByUser).to.have.been.calledWith(campaignToJoin, userId, domainTransaction);
+      expect(campaignToJoinRepository.checkCampaignIsJoinableByUser).to.have.been.calledWith(
+        campaignToJoin,
+        userId,
+        domainTransaction
+      );
       expect(actualSavedCampaignParticipation).to.deep.equal(savedCampaignParticipation);
     });
 
-    context('when the campaign does not allow retry', function() {
-      it('should not create a campaign assessment', async function() {
+    context('when the campaign does not allow retry', function () {
+      it('should not create a campaign assessment', async function () {
         // given
         campaignParticipationRepository.save.resolves({ id: 1 });
 
@@ -168,8 +237,8 @@ describe('Unit | UseCase | start-campaign-participation', function() {
       });
     });
 
-    context('when the campaign allows retry', function() {
-      it('should not create a campaign assessment', async function() {
+    context('when the campaign allows retry', function () {
+      it('should not create a campaign assessment', async function () {
         // given
         campaignParticipationRepository.save.resolves({ id: 1 });
 

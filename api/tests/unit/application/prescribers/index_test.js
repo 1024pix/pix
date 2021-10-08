@@ -1,20 +1,16 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const moduleUnderTest = require('../../../../lib/application/prescribers');
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
 
-describe('Unit | Router | prescriber-router', function() {
-
-  describe('GET /api/prescription/prescribers/{id}', function() {
-
-    it('should exist', async function() {
+describe('Unit | Router | prescriber-router', function () {
+  describe('GET /api/prescription/prescribers/{id}', function () {
+    it('should exist', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       sinon.stub(prescriberController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);

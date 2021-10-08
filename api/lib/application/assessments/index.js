@@ -35,9 +35,7 @@ exports.register = async (server) => {
           }),
         },
         handler: assessmentController.getNextChallenge,
-        notes: [
-          '- Récupération de la question suivante pour l\'évaluation donnée',
-        ],
+        notes: ["- Récupération de la question suivante pour l'évaluation donnée"],
         tags: ['api'],
       },
     },
@@ -51,10 +49,12 @@ exports.register = async (server) => {
             id: identifiersType.assessmentId,
           }),
         },
-        pre: [{
-          method: assessmentAuthorization.verify,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: assessmentAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: assessmentController.get,
         tags: ['api'],
       },
@@ -63,10 +63,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/assessments/{id}/last-challenge-id',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
@@ -80,10 +82,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/assessments/{id}/challenge-for-pix-auto-answer',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
@@ -98,10 +102,12 @@ exports.register = async (server) => {
       path: '/api/assessments/{id}/complete-assessment',
       config: {
         auth: false,
-        pre: [{
-          method: assessmentAuthorization.verify,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: assessmentAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
@@ -123,7 +129,7 @@ exports.register = async (server) => {
         handler: assessmentController.findCompetenceEvaluations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des competence-evaluations d\'un assessment',
+            "- Récupération des competence-evaluations d'un assessment",
         ],
         tags: ['api', 'competence-evaluations'],
       },
@@ -133,10 +139,12 @@ exports.register = async (server) => {
       path: '/api/assessments/{id}/last-challenge-state/{state}',
       config: {
         auth: false,
-        pre: [{
-          method: assessmentAuthorization.verify,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: assessmentAuthorization.verify,
+            assign: 'authorizationCheck',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.assessmentId,
@@ -144,14 +152,10 @@ exports.register = async (server) => {
           }),
         },
         handler: assessmentController.updateLastChallengeState,
-        notes: [
-          '- Modifie l\'état de la dernière question posée\n' +
-          '- L\'état doit être indiqué en paramètres.',
-        ],
+        notes: ["- Modifie l'état de la dernière question posée\n" + "- L'état doit être indiqué en paramètres."],
         tags: ['api', 'assessments'],
       },
     },
-
   ]);
 };
 

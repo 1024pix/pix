@@ -6,7 +6,6 @@ const tokenService = require('../../domain/services/token-service');
 const usecases = require('../../domain/usecases');
 
 module.exports = {
-
   /**
    * @see https://tools.ietf.org/html/rfc6749#section-4.3
    */
@@ -15,11 +14,12 @@ module.exports = {
 
     const accessToken = await usecases.authenticateUser({ username, password, scope, source: 'pix' });
 
-    return h.response({
-      token_type: 'bearer',
-      access_token: accessToken,
-      user_id: tokenService.extractUserId(accessToken),
-    })
+    return h
+      .response({
+        token_type: 'bearer',
+        access_token: accessToken,
+        user_id: tokenService.extractUserId(accessToken),
+      })
       .code(200)
       .header('Content-Type', 'application/json;charset=UTF-8')
       .header('Cache-Control', 'no-store')
@@ -56,10 +56,10 @@ module.exports = {
     const authenticatedUserId = get(request.auth, 'credentials.userId');
     const {
       code,
-      'client_id': clientId,
-      'redirect_uri': redirectUri,
-      'state_sent': stateSent,
-      'state_received': stateReceived,
+      client_id: clientId,
+      redirect_uri: redirectUri,
+      state_sent: stateSent,
+      state_received: stateReceived,
     } = request.payload;
 
     const result = await usecases.authenticatePoleEmploiUser({
@@ -77,7 +77,7 @@ module.exports = {
         id_token: result.poleEmploiTokens.idToken,
       };
     } else {
-      const message = 'L\'utilisateur n\'a pas de compte Pix';
+      const message = "L'utilisateur n'a pas de compte Pix";
       const responseCode = 'SHOULD_VALIDATE_CGU';
       const meta = { authenticationKey: result.authenticationKey };
       throw new UnauthorizedError(message, responseCode, meta);
@@ -85,8 +85,7 @@ module.exports = {
   },
 
   async authenticateAnonymousUser(request, h) {
-
-    const { 'campaign_code': campaignCode, lang } = request.payload;
+    const { campaign_code: campaignCode, lang } = request.payload;
     const accessToken = await usecases.authenticateAnonymousUser({ campaignCode, lang });
 
     const response = {
@@ -102,15 +101,15 @@ module.exports = {
 
     const accessToken = await usecases.authenticateApplication({ clientId, clientSecret, scope });
 
-    return h.response({
-      token_type: 'bearer',
-      access_token: accessToken,
-      client_id: clientId,
-    })
+    return h
+      .response({
+        token_type: 'bearer',
+        access_token: accessToken,
+        client_id: clientId,
+      })
       .code(200)
       .header('Content-Type', 'application/json;charset=UTF-8')
       .header('Cache-Control', 'no-store')
       .header('Pragma', 'no-cache');
   },
-
 };

@@ -5,13 +5,12 @@ const Organization = require('../../../../lib/domain/models/Organization');
 
 const createOrganization = require('../../../../lib/domain/usecases/create-organization');
 
-describe('Integration | UseCases | create-organization', function() {
-
-  afterEach(async function() {
+describe('Integration | UseCases | create-organization', function () {
+  afterEach(async function () {
     await knex('organizations').delete();
   });
 
-  it('should create and return an Organization', async function() {
+  it('should create and return an Organization', async function () {
     // given
     const pixMasterUserId = databaseBuilder.factory.buildUser().id;
     await databaseBuilder.commit();
@@ -39,5 +38,4 @@ describe('Integration | UseCases | create-organization', function() {
     expect(result.provinceCode).to.be.equal(provinceCode);
     expect(result.type).to.be.equal(type);
   });
-
 });

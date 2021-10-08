@@ -24,4 +24,3 @@ PgClient.getClient(url.href).then(async (client) => {
     }
   }
 });
-

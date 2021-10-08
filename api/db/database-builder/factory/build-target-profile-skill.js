@@ -7,7 +7,6 @@ module.exports = function buildTargetProfileSkill({
   targetProfileId,
   skillId = 'recSKI456',
 } = {}) {
-
   targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile().id : targetProfileId;
 
   const values = {

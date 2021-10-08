@@ -17,7 +17,6 @@ module.exports = function buildCertificationCenterMembership({
   user = _buildUser(),
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
   return new CertificationCenterMembership({
     id,
     certificationCenter,

@@ -8,10 +8,13 @@ const DomainTransaction = require('../DomainTransaction');
 
 function _toKnowledgeElementCollection({ snapshot } = {}) {
   if (!snapshot) return null;
-  return snapshot.map((data) => new KnowledgeElement({
-    ...data,
-    createdAt: new Date(data.createdAt),
-  }));
+  return snapshot.map(
+    (data) =>
+      new KnowledgeElement({
+        ...data,
+        createdAt: new Date(data.createdAt),
+      })
+  );
 }
 
 module.exports = {
@@ -24,7 +27,9 @@ module.exports = {
       }).save(null, { transacting: domainTransaction.knexTransaction });
     } catch (error) {
       if (bookshelfUtils.isUniqConstraintViolated(error)) {
-        throw new AlreadyExistingEntityError(`A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`);
+        throw new AlreadyExistingEntityError(
+          `A snapshot already exists for the user ${userId} at the datetime ${snappedAt}.`
+        );
       }
     }
   },
@@ -41,7 +46,10 @@ module.exports = {
       knowledgeElementsByUserId[result.userId] = _toKnowledgeElementCollection(result);
     }
 
-    const userIdsWithoutSnapshot = _.difference(Object.keys(userIdsAndSnappedAtDates), Object.keys(knowledgeElementsByUserId));
+    const userIdsWithoutSnapshot = _.difference(
+      Object.keys(userIdsAndSnappedAtDates),
+      Object.keys(knowledgeElementsByUserId)
+    );
     for (const userId of userIdsWithoutSnapshot) {
       knowledgeElementsByUserId[userId] = null;
     }

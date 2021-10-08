@@ -1,5 +1,4 @@
 class Prescriber {
-
   constructor({
     id,
     firstName,
@@ -22,4 +21,3 @@ class Prescriber {
 }
 
 module.exports = Prescriber;
-

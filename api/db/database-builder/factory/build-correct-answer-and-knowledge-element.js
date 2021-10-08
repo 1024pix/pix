@@ -2,7 +2,7 @@ const buildAssessment = require('./build-assessment');
 const buildAnswer = require('./build-answer');
 const buildKnowledgeElement = require('./build-knowledge-element');
 
-const buildCorrectAnswerAndKnowledgeElement = async function({
+const buildCorrectAnswerAndKnowledgeElement = async function ({
   userId,
   competenceId,
   challengeId,
@@ -27,4 +27,3 @@ const buildCorrectAnswerAndKnowledgeElement = async function({
 };
 
 module.exports = buildCorrectAnswerAndKnowledgeElement;
-

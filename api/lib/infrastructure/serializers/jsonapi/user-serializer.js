@@ -2,7 +2,6 @@ const { Serializer } = require('jsonapi-serializer');
 const User = require('../../../domain/models/User');
 
 module.exports = {
-
   serialize(users, meta) {
     return new Serializer('user', {
       transform(record) {
@@ -10,13 +9,28 @@ module.exports = {
         return record;
       },
       attributes: [
-        'firstName', 'lastName', 'email', 'username',
-        'cgu', 'lastTermsOfServiceValidatedAt', 'mustValidateTermsOfService',
-        'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted', 'lang', 'isAnonymous',
-        'memberships', 'certificationCenterMemberships',
-        'pixScore', 'scorecards', 'profile',
-        'campaignParticipations', 'hasSeenAssessmentInstructions', 'isCertifiable',
-        'hasSeenNewDashboardInfo', 'hasSeenFocusedChallengeTooltip', 'hasSeenOtherChallengesTooltip',
+        'firstName',
+        'lastName',
+        'email',
+        'username',
+        'cgu',
+        'lastTermsOfServiceValidatedAt',
+        'mustValidateTermsOfService',
+        'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted',
+        'lang',
+        'isAnonymous',
+        'memberships',
+        'certificationCenterMemberships',
+        'pixScore',
+        'scorecards',
+        'profile',
+        'campaignParticipations',
+        'hasSeenAssessmentInstructions',
+        'isCertifiable',
+        'hasSeenNewDashboardInfo',
+        'hasSeenFocusedChallengeTooltip',
+        'hasSeenOtherChallengesTooltip',
       ],
       memberships: {
         ref: 'id',
@@ -31,7 +45,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/users/${parent.id}/certification-center-memberships`;
           },
         },
@@ -40,7 +54,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/users/${parent.id}/pixscore`;
           },
         },
@@ -49,7 +63,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/users/${parent.id}/scorecards`;
           },
         },
@@ -58,7 +72,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/users/${parent.id}/profile`;
           },
         },
@@ -67,7 +81,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/users/${parent.id}/campaign-participations`;
           },
         },
@@ -77,7 +91,7 @@ module.exports = {
         ignoreRelationshipData: true,
         nullIfMissing: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/users/${parent.id}/is-certifiable`;
           },
         },
@@ -100,5 +114,4 @@ module.exports = {
       pixCertifTermsOfServiceAccepted: json.data.attributes['pix-certif-terms-of-service-accepted'],
     });
   },
-
 };

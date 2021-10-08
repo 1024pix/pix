@@ -1,4 +1,3 @@
-
 const { NotFoundError } = require('../http-errors');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
@@ -20,10 +19,13 @@ module.exports.verifyCertificationSessionAuthorization = async (request) => {
 };
 
 async function _isAuthorizedToAccessSession({ userId, sessionId }) {
-  const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
+  const hasMembershipAccess = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+    userId,
+    sessionId
+  );
 
   if (!hasMembershipAccess) {
-    throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+    throw new NotFoundError("La session n'existe pas ou son accès est restreint");
   }
 
   return hasMembershipAccess;

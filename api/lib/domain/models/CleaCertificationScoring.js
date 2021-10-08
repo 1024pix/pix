@@ -4,13 +4,19 @@ const { NotEligibleCandidateError } = require('../errors');
 const Joi = require('joi');
 const { validateEntity } = require('../validators/entity-validator');
 
-const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED, MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED } = require('../constants');
+const {
+  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
+  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_TRUSTED,
+} = require('../constants');
 
 function _isScoreOver75PercentOfExpectedScore(score, expectedScore) {
   return score >= _.floor(expectedScore * 0.75);
 }
 
-function _hasRequiredPixScoreForAtLeast75PercentOfCompetences({ maxReachablePixByCompetenceForClea, cleaCompetenceMarks }) {
+function _hasRequiredPixScoreForAtLeast75PercentOfCompetences({
+  maxReachablePixByCompetenceForClea,
+  cleaCompetenceMarks,
+}) {
   if (cleaCompetenceMarks.length === 0) return false;
 
   const countCompetencesWithRequiredPixScore = _(cleaCompetenceMarks)
@@ -34,7 +40,6 @@ function _hasNotMinimumReproducibilityRateToBeCertified(reproducibilityRate) {
 }
 
 class CleaCertificationScoring extends PartnerCertificationScoring {
-
   constructor({
     certificationCourseId,
     hasAcquiredBadge,

@@ -1,22 +1,27 @@
-const { expect, databaseBuilder, knex, learningContentBuilder, mockLearningContent, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+} = require('../../test-helper');
 const createServer = require('../../../server');
 const { CertificationIssueReportCategories } = require('../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationAssessment = require('../../../lib/domain/models/CertificationAssessment');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 
-describe('Acceptance | API | Certification Course', function() {
-
+describe('Acceptance | API | Certification Course', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/admin/certifications/{id}/details', function() {
-
-    context('when certification match an existing scoring rule', function() {
-      it('Should respond with a status 200', async function() {
-
+  describe('GET /api/admin/certifications/{id}/details', function () {
+    context('when certification match an existing scoring rule', function () {
+      it('Should respond with a status 200', async function () {
         // given
         await insertUserWithRolePixMaster();
         const options = {
@@ -27,20 +32,26 @@ describe('Acceptance | API | Certification Course', function() {
           },
         };
 
-        const learningContent = [{
-          id: '1. Information et données',
-          competences: [{
-            id: 'competence_id',
-            tubes: [{
-              id: 'recTube1',
-              skills: [{
-                challenges: [
-                  { id: 'k_challenge_id' },
+        const learningContent = [
+          {
+            id: '1. Information et données',
+            competences: [
+              {
+                id: 'competence_id',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [
+                      {
+                        challenges: [{ id: 'k_challenge_id' }],
+                      },
+                    ],
+                  },
                 ],
-              }],
-            }],
-          }],
-        }];
+              },
+            ],
+          },
+        ];
 
         const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
         mockLearningContent(learningContentObjects);
@@ -71,9 +82,8 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
-    context('when certification does not match an existing scoring rule', function() {
-      it('Should respond with a status 400', async function() {
-
+    context('when certification does not match an existing scoring rule', function () {
+      it('Should respond with a status 400', async function () {
         // given
         await insertUserWithRolePixMaster();
         const options = {
@@ -90,18 +100,26 @@ describe('Acceptance | API | Certification Course', function() {
           { id: 'k_challenge_id_3' },
           { id: 'k_challenge_id_4' },
         ];
-        const learningContent = [{
-          id: '1. Information et données',
-          competences: [{
-            id: 'competence_id',
-            tubes: [{
-              id: 'recTube1',
-              skills: [{
-                challenges,
-              }],
-            }],
-          }],
-        }];
+        const learningContent = [
+          {
+            id: '1. Information et données',
+            competences: [
+              {
+                id: 'competence_id',
+                tubes: [
+                  {
+                    id: 'recTube1',
+                    skills: [
+                      {
+                        challenges,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ];
 
         const user = databaseBuilder.factory.buildUser({});
 
@@ -124,17 +142,16 @@ describe('Acceptance | API | Certification Course', function() {
           });
 
           const answerId = databaseBuilder.factory.buildAnswer({ challengeId, assessmentId, result: 'ok' }).id;
-          databaseBuilder.factory.buildKnowledgeElement(
-            {
-              source: KnowledgeElement.SourceType.DIRECT,
-              skillId: challengeId,
-              assessmentId,
-              answerId,
-              userId: user.id,
-              competenceId: 'competence_id',
-              earnedPix: 8,
-              createdAt: new Date('2019-01-01'),
-            });
+          databaseBuilder.factory.buildKnowledgeElement({
+            source: KnowledgeElement.SourceType.DIRECT,
+            skillId: challengeId,
+            assessmentId,
+            answerId,
+            userId: user.id,
+            competenceId: 'competence_id',
+            earnedPix: 8,
+            createdAt: new Date('2019-01-01'),
+          });
         });
 
         await databaseBuilder.commit();
@@ -148,9 +165,8 @@ describe('Acceptance | API | Certification Course', function() {
     });
   });
 
-  describe('GET /api/admin/certifications/{id}', function() {
-
-    it('should return 200 HTTP status code along with serialized certification', async function() {
+  describe('GET /api/admin/certifications/{id}', function () {
+    it('should return 200 HTTP status code along with serialized certification', async function () {
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
@@ -204,8 +220,8 @@ describe('Acceptance | API | Certification Course', function() {
           'user-id': 789,
           'first-name': 'Buffy',
           'last-name': 'Summers',
-          'birthdate': '2000-08-30',
-          'birthplace': 'Torreilles',
+          birthdate: '2000-08-30',
+          birthplace: 'Torreilles',
           sex: 'F',
           'birth-insee-code': '66212',
           'birth-postal-code': null,
@@ -233,14 +249,14 @@ describe('Acceptance | API | Certification Course', function() {
     });
   });
 
-  describe('PATCH /api/certification-courses/{id}', function() {
-
-    context('When the user does not have role pixmaster', function() {
-      it('should return 403 HTTP status code', async function() {
+  describe('PATCH /api/certification-courses/{id}', function () {
+    context('When the user does not have role pixmaster', function () {
+      it('should return 403 HTTP status code', async function () {
         const options = {
           headers: { authorization: generateValidRequestAuthorizationHeader() },
           method: 'PATCH',
-          url: '/api/certification-courses/1', payload: {
+          url: '/api/certification-courses/1',
+          payload: {
             data: {},
           },
         };
@@ -251,11 +267,11 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
-    context('When the user does have role pixmaster', function() {
+    context('When the user does have role pixmaster', function () {
       let options;
       let certificationCourseId;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         await insertUserWithRolePixMaster();
         databaseBuilder.factory.buildCertificationCpfCountry({
           code: '99100',
@@ -285,10 +301,10 @@ describe('Acceptance | API | Certification Course', function() {
               attributes: {
                 'first-name': 'Freezer',
                 'last-name': 'The all mighty',
-                'birthplace': null,
-                'birthdate': '1989-10-24',
+                birthplace: null,
+                birthdate: '1989-10-24',
                 'external-id': 'xenoverse2',
-                'sex': 'M',
+                sex: 'M',
                 'birth-country': 'FRANCE',
                 'birth-insee-code': '01091',
                 'birth-postal-code': null,
@@ -300,7 +316,7 @@ describe('Acceptance | API | Certification Course', function() {
         return databaseBuilder.commit();
       });
 
-      it('should update the certification course', async function() {
+      it('should update the certification course', async function () {
         // when
         const response = await server.inject(options);
 
@@ -323,8 +339,8 @@ describe('Acceptance | API | Certification Course', function() {
         expect(verificationCode).to.equal('ABCD123');
       });
 
-      it('should return a Wrong Error Format when birthdate is false', function() {
-      // given
+      it('should return a Wrong Error Format when birthdate is false', function () {
+        // given
         options.payload.data.attributes.birthdate = 'aaaaaaa';
 
         // when
@@ -336,17 +352,15 @@ describe('Acceptance | API | Certification Course', function() {
         });
       });
     });
-
   });
 
-  describe('GET /api/certification-courses/{id}', function() {
-
+  describe('GET /api/certification-courses/{id}', function () {
     let options;
     let userId;
     let otherUserId;
     let expectedCertificationCourse;
 
-    beforeEach(function() {
+    beforeEach(function () {
       otherUserId = databaseBuilder.factory.buildUser().id;
 
       const certificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -356,7 +370,7 @@ describe('Acceptance | API | Certification Course', function() {
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: certificationCourse.id,
         category: CertificationIssueReportCategories.OTHER,
-        description: 'il s\'est enfuit de la session',
+        description: "il s'est enfuit de la session",
       });
 
       const assessment = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationCourse.id });
@@ -371,7 +385,7 @@ describe('Acceptance | API | Certification Course', function() {
         type: 'certification-courses',
         id: certificationCourse.id.toString(),
         attributes: {
-          'examiner-comment': 'il s\'est enfuit de la session',
+          'examiner-comment': "il s'est enfuit de la session",
           'has-seen-end-test-screen': false,
           'nb-challenges': 0,
           'first-name': certificationCourse.firstName,
@@ -388,9 +402,8 @@ describe('Acceptance | API | Certification Course', function() {
       return databaseBuilder.commit();
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', function() {
+    describe('Resource access management', function () {
+      it('should respond with a 403 - forbidden access - if user is not linked to the certification course', function () {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
 
@@ -404,7 +417,7 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
-    it('should return the certification course', async function() {
+    it('should return the certification course', async function () {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
@@ -416,13 +429,13 @@ describe('Acceptance | API | Certification Course', function() {
     });
   });
 
-  describe('POST /api/certification-courses', function() {
+  describe('POST /api/certification-courses', function () {
     let options;
     let response;
     let userId;
     let sessionId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession({ accessCode: '123' }).id;
       const payload = {
@@ -445,9 +458,8 @@ describe('Acceptance | API | Certification Course', function() {
       return databaseBuilder.commit();
     });
 
-    context('when the given access code does not correspond to the session', function() {
-
-      beforeEach(async function() {
+    context('when the given access code does not correspond to the session', function () {
+      beforeEach(async function () {
         // given
         options.payload.data.attributes['access-code'] = 'wrongcode';
 
@@ -455,13 +467,13 @@ describe('Acceptance | API | Certification Course', function() {
         response = await server.inject(options);
       });
 
-      it('should respond with 404 status code', function() {
+      it('should respond with 404 status code', function () {
         // then
         expect(response.statusCode).to.equal(404);
       });
     });
 
-    context('when the certification course does not exist', function() {
+    context('when the certification course does not exist', function () {
       let certificationCandidate;
       const learningContent = [
         {
@@ -476,23 +488,17 @@ describe('Acceptance | API | Certification Course', function() {
                     {
                       id: 'recSkill0_0',
                       nom: '@recSkill0_0',
-                      challenges: [
-                        { id: 'recChallenge0_0_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge0_0_0' }],
                     },
                     {
                       id: 'recSkill0_1',
                       nom: '@recSkill0_1',
-                      challenges: [
-                        { id: 'recChallenge0_1_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge0_1_0' }],
                     },
                     {
                       id: 'recSkill0_2',
                       nom: '@recSkill0_2',
-                      challenges: [
-                        { id: 'recChallenge0_2_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge0_2_0' }],
                     },
                   ],
                 },
@@ -507,23 +513,17 @@ describe('Acceptance | API | Certification Course', function() {
                     {
                       id: 'recSkill1_0',
                       nom: '@recSkill1_0',
-                      challenges: [
-                        { id: 'recChallenge1_0_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge1_0_0' }],
                     },
                     {
                       id: 'recSkill1_1',
                       nom: '@recSkill1_1',
-                      challenges: [
-                        { id: 'recChallenge1_1_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge1_1_0' }],
                     },
                     {
                       id: 'recSkill1_2',
                       nom: '@recSkill1_2',
-                      challenges: [
-                        { id: 'recChallenge1_2_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge1_2_0' }],
                     },
                   ],
                 },
@@ -538,23 +538,17 @@ describe('Acceptance | API | Certification Course', function() {
                     {
                       id: 'recSkill2_0',
                       nom: '@recSkill2_0',
-                      challenges: [
-                        { id: 'recChallenge2_0_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge2_0_0' }],
                     },
                     {
                       id: 'recSkill2_1',
                       nom: '@recSkill2_1',
-                      challenges: [
-                        { id: 'recChallenge2_1_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge2_1_0' }],
                     },
                     {
                       id: 'recSkill2_2',
                       nom: '@recSkill2_2',
-                      challenges: [
-                        { id: 'recChallenge2_2_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge2_2_0' }],
                     },
                   ],
                 },
@@ -569,23 +563,17 @@ describe('Acceptance | API | Certification Course', function() {
                     {
                       id: 'recSkill3_0',
                       nom: '@recSkill3_0',
-                      challenges: [
-                        { id: 'recChallenge3_0_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge3_0_0' }],
                     },
                     {
                       id: 'recSkill3_1',
                       nom: '@recSkill3_1',
-                      challenges: [
-                        { id: 'recChallenge3_1_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge3_1_0' }],
                     },
                     {
                       id: 'recSkill3_2',
                       nom: '@recSkill3_2',
-                      challenges: [
-                        { id: 'recChallenge3_2_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge3_2_0' }],
                     },
                   ],
                 },
@@ -600,23 +588,17 @@ describe('Acceptance | API | Certification Course', function() {
                     {
                       id: 'recSkill4_0',
                       nom: '@recSkill4_0',
-                      challenges: [
-                        { id: 'recChallenge4_0_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge4_0_0' }],
                     },
                     {
                       id: 'recSkill4_1',
                       nom: '@recSkill4_1',
-                      challenges: [
-                        { id: 'recChallenge4_1_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge4_1_0' }],
                     },
                     {
                       id: 'recSkill4_2',
                       nom: '@recSkill4_2',
-                      challenges: [
-                        { id: 'recChallenge4_2_0' },
-                      ],
+                      challenges: [{ id: 'recChallenge4_2_0' }],
                     },
                   ],
                 },
@@ -624,56 +606,53 @@ describe('Acceptance | API | Certification Course', function() {
             },
             {
               id: 'recCompetence5',
-              tubes: [{
-                id: 'recTube0_0',
-                skills: [
-                  {
-                    id: 'recSkill5_0',
-                    nom: '@recSkill5_0',
-                    challenges: [
-                      { id: 'recChallenge5_0_0', langues: ['Franco Français'] },
-                      { id: 'recChallenge5_0_1' },
-                    ],
-                  },
-                  {
-                    id: 'recSkill5_1',
-                    nom: '@recSkill5_1',
-                    challenges: [
-                      { id: 'recChallenge5_1_1', langues: ['Franco Français'] },
-                    ],
-                  },
-                ],
-              }],
+              tubes: [
+                {
+                  id: 'recTube0_0',
+                  skills: [
+                    {
+                      id: 'recSkill5_0',
+                      nom: '@recSkill5_0',
+                      challenges: [
+                        { id: 'recChallenge5_0_0', langues: ['Franco Français'] },
+                        { id: 'recChallenge5_0_1' },
+                      ],
+                    },
+                    {
+                      id: 'recSkill5_1',
+                      nom: '@recSkill5_1',
+                      challenges: [{ id: 'recChallenge5_1_1', langues: ['Franco Français'] }],
+                    },
+                  ],
+                },
+              ],
             },
             {
               id: 'recCompetence6',
-              tubes: [{
-                id: 'recTube0_0',
-                skills: [
-                  {
-                    id: 'recSkill6_0',
-                    nom: '@recSkill6_0',
-                    challenges: [
-                      { id: 'recChallenge6_0_0', langues: ['Anglais'] },
-                    ],
-                  },
-                  {
-                    id: 'recSkill6_1',
-                    nom: '@recSkill6_1',
-                    challenges: [
-                      { id: 'recChallenge6_1_0', langues: ['Anglais'] },
-                    ],
-                  },
-                ],
-              }],
+              tubes: [
+                {
+                  id: 'recTube0_0',
+                  skills: [
+                    {
+                      id: 'recSkill6_0',
+                      nom: '@recSkill6_0',
+                      challenges: [{ id: 'recChallenge6_0_0', langues: ['Anglais'] }],
+                    },
+                    {
+                      id: 'recSkill6_1',
+                      nom: '@recSkill6_1',
+                      challenges: [{ id: 'recChallenge6_1_0', langues: ['Anglais'] }],
+                    },
+                  ],
+                },
+              ],
             },
           ],
         },
       ];
 
-      context('when locale is fr-fr', function() {
-
-        beforeEach(async function() {
+      context('when locale is fr-fr', function () {
+        beforeEach(async function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
           mockLearningContent(learningContentObjects);
@@ -690,7 +669,7 @@ describe('Acceptance | API | Certification Course', function() {
           response = await server.inject(options);
         });
 
-        afterEach(async function() {
+        afterEach(async function () {
           await knex('knowledge-elements').delete();
           await knex('answers').delete();
           await knex('assessments').delete();
@@ -698,18 +677,18 @@ describe('Acceptance | API | Certification Course', function() {
           await knex('certification-courses').delete();
         });
 
-        it('should respond with 201 status code', function() {
+        it('should respond with 201 status code', function () {
           // then
           expect(response.statusCode).to.equal(201);
         });
 
-        it('should have created a certification course', async function() {
+        it('should have created a certification course', async function () {
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses).to.have.length(1);
         });
 
-        it('should have copied matching certification candidate info into created certification course', async function() {
+        it('should have copied matching certification candidate info into created certification course', async function () {
           // then
           const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
           expect(certificationCourses[0].firstName).to.equal(certificationCandidate.firstName);
@@ -719,7 +698,7 @@ describe('Acceptance | API | Certification Course', function() {
           expect(certificationCourses[0].externalId).to.equal(certificationCandidate.externalId);
         });
 
-        it('should have only fr-fr challenges associated with certification-course', async function() {
+        it('should have only fr-fr challenges associated with certification-course', async function () {
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -728,8 +707,8 @@ describe('Acceptance | API | Certification Course', function() {
         });
       });
 
-      context('when locale is en', function() {
-        beforeEach(async function() {
+      context('when locale is en', function () {
+        beforeEach(async function () {
           // given
           const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
           mockLearningContent(learningContentObjects);
@@ -747,7 +726,7 @@ describe('Acceptance | API | Certification Course', function() {
           response = await server.inject(options);
         });
 
-        afterEach(async function() {
+        afterEach(async function () {
           await knex('knowledge-elements').delete();
           await knex('answers').delete();
           await knex('assessments').delete();
@@ -755,7 +734,7 @@ describe('Acceptance | API | Certification Course', function() {
           await knex('certification-courses').delete();
         });
 
-        it('should have only en challenges associated with certification-course', async function() {
+        it('should have only en challenges associated with certification-course', async function () {
           // then
           const certificationChallenges = await knex('certification-challenges');
           expect(certificationChallenges.length).to.equal(2);
@@ -765,10 +744,10 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
-    context('when the certification course already exists', function() {
+    context('when the certification course already exists', function () {
       let certificationCourseId;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         // given
         certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ userId, sessionId }).id;
         databaseBuilder.factory.buildAssessment({ userId, certificationCourseId: certificationCourseId });
@@ -778,24 +757,22 @@ describe('Acceptance | API | Certification Course', function() {
         response = await server.inject(options);
       });
 
-      it('should respond with 200 status code', function() {
+      it('should respond with 200 status code', function () {
         // then
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should retrieve the already existing certification course', async function() {
+      it('should retrieve the already existing certification course', async function () {
         // then
         const certificationCourses = await knex('certification-courses').where({ userId, sessionId });
         expect(certificationCourses).to.have.length(1);
         expect(certificationCourses[0].id).to.equal(certificationCourseId);
       });
-
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/cancel', function() {
-
-    it('should respond with a 200', async function() {
+  describe('POST /api/admin/certification-courses/{id}/cancel', function () {
+    it('should respond with a 200', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 123 });
       const options = {
@@ -814,9 +791,8 @@ describe('Acceptance | API | Certification Course', function() {
     });
   });
 
-  describe('POST /api/admin/certification-courses/{id}/uncancel', function() {
-
-    it('should respond with a 200', async function() {
+  describe('POST /api/admin/certification-courses/{id}/uncancel', function () {
+    it('should respond with a 200', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 123 });
       const options = {

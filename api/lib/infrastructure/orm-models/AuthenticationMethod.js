@@ -6,16 +6,18 @@ require('./User');
 
 const modelName = 'AuthenticationMethod';
 
-module.exports = Bookshelf.model(modelName, {
-
-  tableName: 'authentication-methods',
-  hasTimestamps: ['createdAt', 'updatedAt'],
-
-  user() {
-    return this.belongsTo('User');
-  },
-
-}, {
+module.exports = Bookshelf.model(
   modelName,
-  jsonColumns: ['authenticationComplement'],
-});
+  {
+    tableName: 'authentication-methods',
+    hasTimestamps: ['createdAt', 'updatedAt'],
+
+    user() {
+      return this.belongsTo('User');
+    },
+  },
+  {
+    modelName,
+    jsonColumns: ['authenticationComplement'],
+  }
+);

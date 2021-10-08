@@ -2,13 +2,12 @@ const { expect, databaseBuilder, knex, domainBuilder } = require('../../../test-
 const higherSchoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/higher-schooling-registration-repository');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 
-describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', function() {
-  describe('#findOneByStudentNumber', function() {
-
+describe('Integration | Infrastructure | Repository | higher-schooling-registration-repository', function () {
+  describe('#findOneByStudentNumber', function () {
     let organization;
     let schoolingRegistration;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organization = databaseBuilder.factory.buildOrganization();
       schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
         organizationId: organization.id,
@@ -17,128 +16,173 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       await databaseBuilder.commit();
     });
 
-    it('should return found schoolingRegistrations with student number', async function() {
+    it('should return found schoolingRegistrations with student number', async function () {
       // when
-      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({ organizationId: organization.id, studentNumber: '123A' });
+      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({
+        organizationId: organization.id,
+        studentNumber: '123A',
+      });
 
       // then
       expect(result.id).to.deep.equal(schoolingRegistration.id);
     });
 
-    it('should return empty array when there is no schooling-registrations with the given student number', async function() {
+    it('should return empty array when there is no schooling-registrations with the given student number', async function () {
       // when
-      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({ organizationId: organization.id, studentNumber: '123B' });
+      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({
+        organizationId: organization.id,
+        studentNumber: '123B',
+      });
 
       // then
       expect(result).to.equal(null);
     });
 
-    it('should return empty array when there is no schooling-registrations with the given organizationId', async function() {
+    it('should return empty array when there is no schooling-registrations with the given organizationId', async function () {
       // when
-      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({ organizationId: '999', studentNumber: '123A' });
+      const result = await higherSchoolingRegistrationRepository.findOneByStudentNumber({
+        organizationId: '999',
+        studentNumber: '123A',
+      });
 
       // then
       expect(result).to.equal(null);
     });
   });
 
-  describe('#findOneByStudentNumberAndBirthdate', function() {
-
+  describe('#findOneByStudentNumberAndBirthdate', function () {
     let organizationId;
     const studentNumber = '1234567';
     const birthdate = '2000-03-31';
 
-    beforeEach(function() {
+    beforeEach(function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       return databaseBuilder.commit();
     });
 
-    context('When there is no registered schooling registrations', function() {
-      beforeEach(async function() {
+    context('When there is no registered schooling registrations', function () {
+      beforeEach(async function () {
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async function() {
+      it('should return null', async function () {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber: 'XXX' });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+          organizationId,
+          birthdate,
+          studentNumber: 'XXX',
+        });
 
         // then
         expect(result).to.equal(null);
       });
     });
 
-    context('When there is no active registered schooling registrations', function() {
-      beforeEach(async function() {
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate, isDisabled: true });
+    context('When there is no active registered schooling registrations', function () {
+      beforeEach(async function () {
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId,
+          studentNumber,
+          birthdate,
+          isDisabled: true,
+        });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async function() {
+      it('should return null', async function () {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+          organizationId,
+          studentNumber,
+          birthdate,
+        });
 
         // then
         expect(result).to.equal(null);
       });
     });
 
-    context('When there is no schooling registrations for the organization', function() {
-      beforeEach(async function() {
+    context('When there is no schooling registrations for the organization', function () {
+      beforeEach(async function () {
         const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherOrganizationId, studentNumber, birthdate });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: otherOrganizationId,
+          studentNumber,
+          birthdate,
+        });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async function() {
+      it('should return null', async function () {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+          organizationId,
+          birthdate,
+          studentNumber,
+        });
 
         // then
         expect(result).to.equal(null);
       });
     });
 
-    context('When there is no schooling registrations with given student number', function() {
-      beforeEach(async function() {
+    context('When there is no schooling registrations with given student number', function () {
+      beforeEach(async function () {
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber: '999', birthdate });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async function() {
+      it('should return null', async function () {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+          organizationId,
+          birthdate,
+          studentNumber,
+        });
 
         // then
         expect(result).to.equal(null);
       });
     });
 
-    context('When there is no schooling registrations with given birthdate', function() {
-      beforeEach(async function() {
+    context('When there is no schooling registrations with given birthdate', function () {
+      beforeEach(async function () {
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate: '2000-03-30' });
         await databaseBuilder.commit();
       });
 
-      it('should return null', async function() {
+      it('should return null', async function () {
         // when
-        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, birthdate, studentNumber });
+        const result = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+          organizationId,
+          birthdate,
+          studentNumber,
+        });
 
         // then
         expect(result).to.equal(null);
       });
     });
 
-    context('When there is a matching schooling registrations with student number and birthdate', function() {
+    context('When there is a matching schooling registrations with student number and birthdate', function () {
       let expectedSchoolingRegistrationId;
-      beforeEach(async function() {
-        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId, studentNumber, birthdate }).id;
+      beforeEach(async function () {
+        expectedSchoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId,
+          studentNumber,
+          birthdate,
+        }).id;
         await databaseBuilder.commit();
       });
 
-      it('should return the schooling registration', async function() {
+      it('should return the schooling registration', async function () {
         // when
-        const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate });
+        const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
+          organizationId,
+          studentNumber,
+          birthdate,
+        });
 
         // then
         expect(schoolingRegistration).to.be.an.instanceOf(SchoolingRegistration);
@@ -147,8 +191,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#updateStudentNumber', function() {
-    it('should update the student number', async function() {
+  describe('#updateStudentNumber', function () {
+    it('should update the student number', async function () {
       // given
       const id = databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: 12345 }).id;
       await databaseBuilder.commit();
@@ -160,13 +204,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#addStudents', function() {
-    afterEach(function() {
+  describe('#addStudents', function () {
+    afterEach(function () {
       return knex('schooling-registrations').delete();
     });
 
-    context('when there is no schooling registrations for the given organizationId and student number', function() {
-      it('creates the schooling-registration', async function() {
+    context('when there is no schooling registrations for the given organizationId and student number', function () {
+      it('creates the schooling-registration', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
         const higherSchoolingRegistration1 = domainBuilder.buildHigherSchoolingRegistration({
           organization,
@@ -184,7 +228,10 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         });
         await databaseBuilder.commit();
 
-        await higherSchoolingRegistrationRepository.addStudents([higherSchoolingRegistration1, higherSchoolingRegistration2]);
+        await higherSchoolingRegistrationRepository.addStudents([
+          higherSchoolingRegistration1,
+          higherSchoolingRegistration2,
+        ]);
 
         const results = await knex('schooling-registrations')
           .select('*', 'status AS studyScheme')
@@ -196,8 +243,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         expect(results[1].studentNumber).to.equal('5');
       });
 
-      context('when there is schooling registrations for the given organizationId and student number', function() {
-        it('updates the schooling-registrations', async function() {
+      context('when there is schooling registrations for the given organizationId and student number', function () {
+        it('updates the schooling-registrations', async function () {
           const organization = databaseBuilder.factory.buildOrganization();
           const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
             organization,
@@ -214,7 +261,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           });
           await databaseBuilder.commit();
 
-          await higherSchoolingRegistrationRepository.addStudents([{ ...higherSchoolingRegistration, lastName: 'Ishii updated' }]);
+          await higherSchoolingRegistrationRepository.addStudents([
+            { ...higherSchoolingRegistration, lastName: 'Ishii updated' },
+          ]);
 
           const results = await knex('schooling-registrations')
             .select('*', 'status AS studyScheme')
@@ -227,31 +276,37 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         });
       });
 
-      context('when there is a disabled schooling registrations for the given organizationId and student number', function() {
-        it('enables the schooling-registrations', async function() {
-          const organization = databaseBuilder.factory.buildOrganization();
-          databaseBuilder.factory.buildSchoolingRegistration({
-            organizationId: organization.id,
-            studentNumber: '4',
-            isDisabled: true,
+      context(
+        'when there is a disabled schooling registrations for the given organizationId and student number',
+        function () {
+          it('enables the schooling-registrations', async function () {
+            const organization = databaseBuilder.factory.buildOrganization();
+            databaseBuilder.factory.buildSchoolingRegistration({
+              organizationId: organization.id,
+              studentNumber: '4',
+              isDisabled: true,
+            });
+            await databaseBuilder.commit();
+
+            const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
+              organization,
+              studentNumber: '4',
+            });
+            await higherSchoolingRegistrationRepository.addStudents([higherSchoolingRegistration]);
+
+            const result = await knex('schooling-registrations')
+              .select('isDisabled')
+              .where({ organizationId: organization.id })
+              .where({ studentNumber: '4' })
+              .first();
+
+            expect(result.isDisabled).to.be.false;
           });
-          await databaseBuilder.commit();
+        }
+      );
 
-          const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({ organization, studentNumber: '4' });
-          await higherSchoolingRegistrationRepository.addStudents([higherSchoolingRegistration]);
-
-          const result = await knex('schooling-registrations')
-            .select('isDisabled')
-            .where({ organizationId: organization.id })
-            .where({ studentNumber: '4' })
-            .first();
-
-          expect(result.isDisabled).to.be.false;
-        });
-      });
-
-      context('when there is schooling registrations for an other organizationId and student number', function() {
-        it('creates the schooling-registrations', async function() {
+      context('when there is schooling registrations for an other organizationId and student number', function () {
+        it('creates the schooling-registrations', async function () {
           const organization1 = databaseBuilder.factory.buildOrganization();
           const organization2 = databaseBuilder.factory.buildOrganization();
           databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization1.id, studentNumber: '4' });
@@ -278,13 +333,13 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
     });
   });
 
-  describe('#replaceStudents', function() {
-    afterEach(function() {
+  describe('#replaceStudents', function () {
+    afterEach(function () {
       return knex('schooling-registrations').delete();
     });
 
-    context('when there is no schooling registrations for the given organizationId and student number', function() {
-      it('creates the schooling-registration', async function() {
+    context('when there is no schooling registrations for the given organizationId and student number', function () {
+      it('creates the schooling-registration', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
         const higherSchoolingRegistration1 = domainBuilder.buildHigherSchoolingRegistration({
           organization,
@@ -302,7 +357,10 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         });
         await databaseBuilder.commit();
 
-        await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration1, higherSchoolingRegistration2]);
+        await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [
+          higherSchoolingRegistration1,
+          higherSchoolingRegistration2,
+        ]);
 
         const results = await knex('schooling-registrations')
           .select('*', 'status AS studyScheme')
@@ -314,8 +372,8 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
         expect(results[1].studentNumber).to.equal('5');
       });
 
-      context('when there is schooling registrations for the given organizationId and student number', function() {
-        it('updates the schooling-registrations', async function() {
+      context('when there is schooling registrations for the given organizationId and student number', function () {
+        it('updates the schooling-registrations', async function () {
           const organization = databaseBuilder.factory.buildOrganization();
           const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
             organization,
@@ -332,7 +390,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           });
           await databaseBuilder.commit();
 
-          await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [{ ...higherSchoolingRegistration, lastName: 'Ishii updated' }]);
+          await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [
+            { ...higherSchoolingRegistration, lastName: 'Ishii updated' },
+          ]);
 
           const results = await knex('schooling-registrations')
             .select('*', 'status AS studyScheme')
@@ -346,31 +406,37 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('when there is a disabled schooling registrations for the given organizationId and student number', function() {
-      it('enables the schooling-registrations', async function() {
-        const organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: organization.id,
-          studentNumber: '4',
-          isDisabled: true,
+    context(
+      'when there is a disabled schooling registrations for the given organizationId and student number',
+      function () {
+        it('enables the schooling-registrations', async function () {
+          const organization = databaseBuilder.factory.buildOrganization();
+          databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            studentNumber: '4',
+            isDisabled: true,
+          });
+          await databaseBuilder.commit();
+
+          const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
+            organization,
+            studentNumber: '4',
+          });
+          await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration]);
+
+          const result = await knex('schooling-registrations')
+            .select('isDisabled')
+            .where({ organizationId: organization.id })
+            .where({ studentNumber: '4' })
+            .first();
+
+          expect(result.isDisabled).to.be.false;
         });
-        await databaseBuilder.commit();
+      }
+    );
 
-        const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({ organization, studentNumber: '4' });
-        await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration]);
-
-        const result = await knex('schooling-registrations')
-          .select('isDisabled')
-          .where({ organizationId: organization.id })
-          .where({ studentNumber: '4' })
-          .first();
-
-        expect(result.isDisabled).to.be.false;
-      });
-    });
-
-    context('when there is schooling registrations for an other organizationId and student number', function() {
-      it('creates the schooling-registrations', async function() {
+    context('when there is schooling registrations for an other organizationId and student number', function () {
+      it('creates the schooling-registrations', async function () {
         const organization1 = databaseBuilder.factory.buildOrganization();
         const organization2 = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization1.id, studentNumber: '4' });
@@ -383,7 +449,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
           studentNumber: '4',
           birthdate: '1990-07-01',
         });
-        await higherSchoolingRegistrationRepository.replaceStudents(organization2.id, [{ ...higherSchoolingRegistration }]);
+        await higherSchoolingRegistrationRepository.replaceStudents(organization2.id, [
+          { ...higherSchoolingRegistration },
+        ]);
 
         const results = await knex('schooling-registrations')
           .select('*', 'status AS studyScheme')
@@ -395,32 +463,38 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
       });
     });
 
-    context('when there is an enabled schooling registrations for the given organizationId which is not updated', function() {
-      it('disables the schooling-registrations', async function() {
-        const organization = databaseBuilder.factory.buildOrganization();
-        databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId: organization.id,
-          studentNumber: '4',
-          isDisabled: false,
-          updatedAt: new Date('2000-01-01'),
+    context(
+      'when there is an enabled schooling registrations for the given organizationId which is not updated',
+      function () {
+        it('disables the schooling-registrations', async function () {
+          const organization = databaseBuilder.factory.buildOrganization();
+          databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            studentNumber: '4',
+            isDisabled: false,
+            updatedAt: new Date('2000-01-01'),
+          });
+          await databaseBuilder.commit();
+
+          const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({
+            organization,
+            studentNumber: '5',
+          });
+          await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration]);
+
+          const result = await knex('schooling-registrations')
+            .select('isDisabled', 'updatedAt')
+            .where({ studentNumber: '4' })
+            .first();
+
+          expect(result.isDisabled).to.be.true;
+          expect(result.updatedAt).to.not.deep.equal(new Date('2000-01-01'));
         });
-        await databaseBuilder.commit();
+      }
+    );
 
-        const higherSchoolingRegistration = domainBuilder.buildHigherSchoolingRegistration({ organization, studentNumber: '5' });
-        await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [higherSchoolingRegistration]);
-
-        const result = await knex('schooling-registrations')
-          .select('isDisabled', 'updatedAt')
-          .where({ studentNumber: '4' })
-          .first();
-
-        expect(result.isDisabled).to.be.true;
-        expect(result.updatedAt).to.not.deep.equal(new Date('2000-01-01'));
-      });
-    });
-
-    context('when there is a problem', function() {
-      it('does not create registrations and does not change existing registrations', async function() {
+    context('when there is a problem', function () {
+      it('does not create registrations and does not change existing registrations', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
         databaseBuilder.factory.buildSchoolingRegistration({
           organizationId: organization.id,
@@ -431,13 +505,9 @@ describe('Integration | Infrastructure | Repository | higher-schooling-registrat
 
         try {
           await higherSchoolingRegistrationRepository.replaceStudents(organization.id, [1]);
-        }
-        catch (err) {} // eslint-disable-line no-empty
+        } catch (err) {} // eslint-disable-line no-empty
 
-        const result = await knex('schooling-registrations')
-          .select('isDisabled')
-          .where({ studentNumber: '4' })
-          .first();
+        const result = await knex('schooling-registrations').select('isDisabled').where({ studentNumber: '4' }).first();
 
         expect(result.isDisabled).to.be.false;
       });

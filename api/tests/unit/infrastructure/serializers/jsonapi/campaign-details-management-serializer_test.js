@@ -1,11 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-details-management-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a Campaign Detail Management model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a Campaign Detail Management model object into JSON API data', function () {
       // given
       const campaignManagement = {
         id: 'campaign_management_id',
@@ -24,7 +22,6 @@ describe('Unit | Serializer | JSONAPI | campaign-details-management-serializer',
         customResultPageText: 'Finish',
         customResultPageButtonText: 'Click',
         customResultPageButtonUrl: 'www.pix.fr',
-
       };
 
       // when

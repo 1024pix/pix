@@ -5,7 +5,6 @@ module.exports = function buildAccreditation({
   name = 'UneSuperCertifComplémentaire',
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
   const values = {
     id,
     name,

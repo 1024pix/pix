@@ -2,15 +2,13 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const certificationPointOfContactController = require('../../../../lib/application/certification-point-of-contacts/certification-point-of-contact-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | certifications-point-of-contact-controller', function() {
-
-  describe('#get', function() {
-
-    beforeEach(function() {
+describe('Unit | Controller | certifications-point-of-contact-controller', function () {
+  describe('#get', function () {
+    beforeEach(function () {
       sinon.stub(usecases, 'getCertificationPointOfContact');
     });
 
-    it('should return a serialized CertificationPointOfContact', async function() {
+    it('should return a serialized CertificationPointOfContact', async function () {
       // given
       const allowedCertificationCenterAccess = domainBuilder.buildAllowedCertificationCenterAccess({
         id: 123,
@@ -41,8 +39,8 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
       // then
       expect(response).to.deep.equal({
         data: {
-          'id': '789',
-          'type': 'certification-point-of-contact',
+          id: '789',
+          type: 'certification-point-of-contact',
           attributes: {
             'first-name': 'Buffy',
             'last-name': 'Summers',
@@ -65,9 +63,9 @@ describe('Unit | Controller | certifications-point-of-contact-controller', funct
             id: '123',
             type: 'allowed-certification-center-access',
             attributes: {
-              'name': 'Sunnydale Center',
+              name: 'Sunnydale Center',
               'external-id': 'BUFFY_SLAYER',
-              'type': 'PRO',
+              type: 'PRO',
               'is-access-blocked-college': false,
               'is-access-blocked-lycee': false,
               'is-access-blocked-aefe': false,

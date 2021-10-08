@@ -49,7 +49,6 @@ class SiecleFileStreamer {
   }
 
   async _callbackAsPromise(callback) {
-
     return new Promise((resolve, reject) => {
       const saxStream = _getSaxStream(this.path, this.encoding, reject);
       callback(saxStream, resolve, reject);
@@ -120,7 +119,6 @@ async function _readFirstLine(path) {
 }
 
 function _getSaxStream(path, encoding, reject) {
-
   let inputStream;
   try {
     inputStream = fs.createReadStream(path);
@@ -158,4 +156,3 @@ function getDecodingStream(encoding) {
 }
 
 module.exports = SiecleFileStreamer;
-

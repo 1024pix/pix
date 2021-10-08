@@ -6,7 +6,10 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const payload = request.payload.data.attributes;
     const campaignCode = payload['campaign-code'];
-    const schoolingRegistration = await usecases.reconcileUserToOrganization({ userId: authenticatedUserId, campaignCode });
+    const schoolingRegistration = await usecases.reconcileUserToOrganization({
+      userId: authenticatedUserId,
+      campaignCode,
+    });
     return schoolingRegistrationSerializer.serialize(schoolingRegistration);
   },
 
@@ -23,7 +26,11 @@ module.exports = {
       birthdate: payload['birthdate'],
     };
 
-    const schoolingRegistration = await usecases.reconcileSchoolingRegistration({ campaignCode, reconciliationInfo, withReconciliation });
+    const schoolingRegistration = await usecases.reconcileSchoolingRegistration({
+      campaignCode,
+      reconciliationInfo,
+      withReconciliation,
+    });
 
     if (withReconciliation) {
       return schoolingRegistrationSerializer.serialize(schoolingRegistration);

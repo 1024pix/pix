@@ -1,7 +1,12 @@
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+  CertificationIssueReportSubcategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationIssueReportResolutionAttempt = require('../../../../lib/domain/models/CertificationIssueReportResolutionAttempt');
-const { CertificationIssueReportResolutionStrategies } = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
+const {
+  CertificationIssueReportResolutionStrategies,
+} = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 const {
   neutralizeWithoutCheckingStrategy,
   neutralizeIfImageStrategy,
@@ -11,16 +16,13 @@ const {
   doNotResolveStrategy,
 } = require('../../../../lib/domain/models/CertificationIssueReportResolutionStrategies');
 
-describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function() {
-
-  context('#NEUTRALIZE_WITHOUT_CHECKING', function() {
-
-    context('When challenge is neutralizable', function() {
-
-      it('neutralizes successfully', async function() {
+describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies', function () {
+  context('#NEUTRALIZE_WITHOUT_CHECKING', function () {
+    context('When challenge is neutralizable', function () {
+      it('neutralizes successfully', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -35,16 +37,22 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        const neutralizationAttempt = await neutralizeWithoutCheckingStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+        );
       });
 
-      it('resolves the issue report', async function() {
+      it('resolves the issue report', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -59,7 +67,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        await neutralizeWithoutCheckingStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -67,12 +79,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('When challenge is not neutralizable', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -87,16 +98,22 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        const neutralizationAttempt = await neutralizeWithoutCheckingStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -111,7 +128,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeWithoutCheckingStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        await neutralizeWithoutCheckingStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -120,14 +141,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_IMAGE', function() {
-
-    context('When challenge is neutralizable', function() {
-
-      it('neutralizes successfully', async function() {
+  context('#NEUTRALIZE_IF_IMAGE', function () {
+    context('When challenge is neutralizable', function () {
+      it('neutralizes successfully', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -146,16 +165,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+        );
       });
 
-      it('resolves the issue report', async function() {
+      it('resolves the issue report', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -175,7 +201,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -183,9 +214,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('the challenge does not contain the question designated by the question number', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -201,13 +231,19 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        const neutralizationAttempt = await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -223,7 +259,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -231,9 +271,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an image', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('the challenge does not contain an image', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -254,13 +293,20 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -281,7 +327,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -289,12 +340,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', function() {
-
-      it('returns a successful resolution attempt without effect', async function() {
+    context('When challenge is not neutralizable', function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -313,16 +363,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -341,7 +398,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfImageStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfImageStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -350,14 +412,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_EMBED', function() {
-
-    context('When challenge is neutralizable', function() {
-
-      it('neutralizes successfully', async function() {
+  context('#NEUTRALIZE_IF_EMBED', function () {
+    context('When challenge is neutralizable', function () {
+      it('neutralizes successfully', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -376,16 +436,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+        );
       });
 
-      it('resolves the issue report', async function() {
+      it('resolves the issue report', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -407,7 +474,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -415,9 +487,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', function() {
-
-      it('returns a successful resolution attempt without effect', async function() {
+    context('the challenge does not contain the question designated by the question number', function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -433,13 +504,19 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -455,7 +532,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -463,9 +544,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an embed', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('the challenge does not contain an embed', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -486,14 +566,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(certificationIssueReport.resolution).to.equal('Cette question n\' a pas été neutralisée car elle ne contient pas d\'application/simulateur');
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(certificationIssueReport.resolution).to.equal(
+          "Cette question n' a pas été neutralisée car elle ne contient pas d'application/simulateur"
+        );
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -514,7 +603,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -522,12 +616,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('When challenge is not neutralizable', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -546,16 +639,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -574,7 +674,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfEmbedStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfEmbedStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -583,14 +688,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_ATTACHMENT', function() {
-
-    context('When challenge is neutralizable', function() {
-
-      it('neutralizes successfully', async function() {
+  context('#NEUTRALIZE_IF_ATTACHMENT', function () {
+    context('When challenge is neutralizable', function () {
+      it('neutralizes successfully', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -611,16 +714,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+        );
       });
 
-      it('resolves the issue report', async function() {
+      it('resolves the issue report', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -644,7 +754,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -652,9 +767,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', function() {
-
-      it('returns a successful resolution attempt without effect', async function() {
+    context('the challenge does not contain the question designated by the question number', function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
@@ -670,13 +784,19 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -692,7 +812,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -700,9 +824,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain an attachment', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('the challenge does not contain an attachment', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -723,13 +846,20 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.FILE_NOT_OPENING,
@@ -750,7 +880,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -758,12 +893,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('When challenge is not neutralizable', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -784,16 +918,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -814,7 +955,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfAttachmentStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfAttachmentStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -823,14 +969,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#NEUTRALIZE_IF_TIMED_CHALLENGE', function() {
-
-    context('When challenge is neutralizable', function() {
-
-      it('neutralizes successfully', async function() {
+  context('#NEUTRALIZE_IF_TIMED_CHALLENGE', function () {
+    context('When challenge is neutralizable', function () {
+      it('neutralizes successfully', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -851,16 +995,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deep.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithEffect());
+        expect(neutralizationAttempt).to.deep.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithEffect()
+        );
       });
 
-      it('resolves the issue report', async function() {
+      it('resolves the issue report', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ko(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ko({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -884,7 +1035,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -892,9 +1048,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge does not contain the question designated by the question number', function() {
-
-      it('returns a successful resolution attempt without effect', async function() {
+    context('the challenge does not contain the question designated by the question number', function () {
+      it('returns a successful resolution attempt without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
@@ -910,13 +1065,19 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
@@ -932,7 +1093,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository });
+        await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -940,9 +1105,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('the challenge is not timed', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('the challenge is not timed', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
@@ -963,13 +1127,20 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
@@ -990,7 +1161,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         });
 
         // when
-        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -998,12 +1174,11 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
     });
 
-    context('When challenge is not neutralizable', function() {
-
-      it('returns a successful resolution without effect', async function() {
+    context('When challenge is not neutralizable', function () {
+      it('returns a successful resolution without effect', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -1024,16 +1199,23 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        const neutralizationAttempt = await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
-        expect(neutralizationAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.resolvedWithoutEffect());
+        expect(neutralizationAttempt).to.deepEqualInstance(
+          CertificationIssueReportResolutionAttempt.resolvedWithoutEffect()
+        );
       });
 
-      it('resolves the certification issue report anyway', async function() {
+      it('resolves the certification issue report anyway', async function () {
         // given
         const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({});
-        const certificationAnswer = domainBuilder.buildAnswer.ok(({ challengeId: certificationChallenge.challengeId }));
+        const certificationAnswer = domainBuilder.buildAnswer.ok({ challengeId: certificationChallenge.challengeId });
         const certificationAssessment = domainBuilder.buildCertificationAssessment({
           certificationChallenges: [certificationChallenge],
           certificationAnswersByDate: [certificationAnswer],
@@ -1054,7 +1236,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         };
 
         // when
-        await neutralizeIfTimedChallengeStrategy({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        await neutralizeIfTimedChallengeStrategy({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
 
         // then
         expect(certificationIssueReport.isResolved()).to.be.true;
@@ -1063,8 +1250,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
     });
   });
 
-  context('#DO_NOT_RESOLVE', function() {
-    it('returns an unresolved resolution attempt', async function() {
+  context('#DO_NOT_RESOLVE', function () {
+    it('returns an unresolved resolution attempt', async function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
@@ -1073,13 +1260,18 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
 
       // when
-      const resolutionAttempt = await doNotResolveStrategy({ certificationIssueReport, certificationAssessment: null, certificationIssueReportRepository: null, challengeRepository: null });
+      const resolutionAttempt = await doNotResolveStrategy({
+        certificationIssueReport,
+        certificationAssessment: null,
+        certificationIssueReportRepository: null,
+        challengeRepository: null,
+      });
 
       // then
       expect(resolutionAttempt).to.deepEqualInstance(CertificationIssueReportResolutionAttempt.unresolved());
     });
 
-    it('does not resolve the certification issue report', async function() {
+    it('does not resolve the certification issue report', async function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
         subcategory: CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
@@ -1088,14 +1280,19 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
       });
 
       // when
-      await doNotResolveStrategy({ certificationIssueReport, certificationAssessment: null, certificationIssueReportRepository: null, challengeRepository: null });
+      await doNotResolveStrategy({
+        certificationIssueReport,
+        certificationAssessment: null,
+        certificationIssueReportRepository: null,
+        challengeRepository: null,
+      });
 
       // then
       expect(certificationIssueReport.isResolved()).to.be.false;
     });
   });
 
-  context('#resolve', function() {
+  context('#resolve', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -1176,11 +1373,8 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         subCategoryToBeResolved: CertificationIssueReportSubcategories.OTHER,
         strategyToBeApplied: 'doNotResolve',
       },
-    ].forEach(({
-      subCategoryToBeResolved,
-      strategyToBeApplied,
-    }) => {
-      it(`apply strategy "${strategyToBeApplied}" when resolving issue report of subcategory "${subCategoryToBeResolved}"`, async function() {
+    ].forEach(({ subCategoryToBeResolved, strategyToBeApplied }) => {
+      it(`apply strategy "${strategyToBeApplied}" when resolving issue report of subcategory "${subCategoryToBeResolved}"`, async function () {
         // given
         const certificationIssueReport = domainBuilder.buildCertificationIssueReport({
           subcategory: subCategoryToBeResolved,
@@ -1200,7 +1394,12 @@ describe('Unit | Domain | Models | CertificationIssueReportResolutionStrategies'
         await strategies.resolve({ certificationIssueReport, certificationAssessment });
 
         // then
-        expect(strategyStub).to.have.been.calledWith({ certificationIssueReport, certificationAssessment, certificationIssueReportRepository, challengeRepository });
+        expect(strategyStub).to.have.been.calledWith({
+          certificationIssueReport,
+          certificationAssessment,
+          certificationIssueReportRepository,
+          challengeRepository,
+        });
       });
     });
   });

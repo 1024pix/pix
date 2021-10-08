@@ -2,9 +2,8 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const BadgeWithLearningContent = require('../../../../lib/domain/models/BadgeWithLearningContent');
 
-describe('Unit | UseCase | get-badge-details', function() {
-
-  it('should get badge details', async function() {
+describe('Unit | UseCase | get-badge-details', function () {
+  it('should get badge details', async function () {
     // given
     const badge = {
       badgePartnerCompetences: [
@@ -15,9 +14,7 @@ describe('Unit | UseCase | get-badge-details', function() {
     };
     const badgeId = Symbol('badge id');
 
-    const skills = [
-      { tubeName: '@toto' },
-    ];
+    const skills = [{ tubeName: '@toto' }];
     const tubes = [];
     const locale = 'fr-fr';
     const expectedResult = new BadgeWithLearningContent({

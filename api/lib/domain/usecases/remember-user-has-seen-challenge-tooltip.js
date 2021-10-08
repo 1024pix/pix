@@ -1,7 +1,3 @@
-module.exports = function rememberUserHasSeenChallengeTooltip({
-  userId,
-  challengeType,
-  userRepository,
-}) {
+module.exports = function rememberUserHasSeenChallengeTooltip({ userId, challengeType, userRepository }) {
   return userRepository.updateHasSeenChallengeTooltip({ userId, challengeType });
 };

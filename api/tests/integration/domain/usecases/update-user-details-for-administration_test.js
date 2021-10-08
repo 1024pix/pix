@@ -1,26 +1,22 @@
 const { expect, catchErr, databaseBuilder } = require('../../../test-helper');
 
-const {
-  AlreadyRegisteredEmailError,
-  AlreadyRegisteredUsernameError,
-} = require('../../../../lib/domain/errors');
+const { AlreadyRegisteredEmailError, AlreadyRegisteredUsernameError } = require('../../../../lib/domain/errors');
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const UserDetailsForAdmin = require('../../../../lib/domain/models/UserDetailsForAdmin');
 
 const updateUserDetailsForAdministration = require('../../../../lib/domain/usecases/update-user-details-for-administration');
 
-describe('Integration | UseCases | updateUserDetailsForAdministration', function() {
-
+describe('Integration | UseCases | updateUserDetailsForAdministration', function () {
   let userId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser({ email: 'email@example.net' }).id;
     databaseBuilder.factory.buildUser({ email: 'alreadyexist@example.net' });
     await databaseBuilder.commit();
   });
 
-  it('should update user email, firstname and lastname', async function() {
+  it('should update user email, firstname and lastname', async function () {
     // given
     const userToUpdate = {
       email: 'partial@example.net',
@@ -42,7 +38,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', function
     expect(result.lastName).equal(userToUpdate.lastName);
   });
 
-  it('should update user email only', async function() {
+  it('should update user email only', async function () {
     // given
     const userToUpdate = {
       email: 'partial@example.net',
@@ -59,7 +55,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', function
     expect(result.email).equal(userToUpdate.email);
   });
 
-  it('should update user and return it with its schooling registrations', async function() {
+  it('should update user and return it with its schooling registrations', async function () {
     // given
     let organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO' }).id;
     databaseBuilder.factory.buildSchoolingRegistration({ id: 1, userId, organizationId });
@@ -80,7 +76,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', function
     expect(result.email).to.equal(userDetailsForAdministration.email);
   });
 
-  it('should throw AlreadyRegisteredEmailError when email is already used by another user', async function() {
+  it('should throw AlreadyRegisteredEmailError when email is already used by another user', async function () {
     // given
     const userToUpdate = {
       email: 'alreadyEXIST@example.net',
@@ -98,7 +94,7 @@ describe('Integration | UseCases | updateUserDetailsForAdministration', function
     expect(error.message).to.equal('Cette adresse e-mail est déjà utilisée.');
   });
 
-  it('should throw AlreadyRegisteredUsernameError when username is already used', async function() {
+  it('should throw AlreadyRegisteredUsernameError when username is already used', async function () {
     // given
     const userToUpdate = databaseBuilder.factory.buildUser({
       email: null,

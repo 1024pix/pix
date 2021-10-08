@@ -3,13 +3,12 @@ const { disableMembership } = require('../../../../lib/domain/usecases');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 const { MembershipUpdateError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | disable-membership', function() {
-
-  beforeEach(function() {
+describe('Unit | UseCase | disable-membership', function () {
+  beforeEach(function () {
     sinon.stub(membershipRepository, 'updateById');
   });
 
-  it('should disable membership', async function() {
+  it('should disable membership', async function () {
     // given
     const membershipId = 100;
     const userId = 10;
@@ -23,10 +22,13 @@ describe('Unit | UseCase | disable-membership', function() {
       disabledAt: sinon.match.instanceOf(Date),
       updatedByUserId: userId,
     };
-    expect(membershipRepository.updateById).to.has.been.calledWithExactly({ id: membershipId, membership: expectedMembershipAttributes });
+    expect(membershipRepository.updateById).to.has.been.calledWithExactly({
+      id: membershipId,
+      membership: expectedMembershipAttributes,
+    });
   });
 
-  it('should throw a MembershipUpdateError if membership does not exist', async function() {
+  it('should throw a MembershipUpdateError if membership does not exist', async function () {
     // given
     const membershipId = 99999999;
     const userId = 10;

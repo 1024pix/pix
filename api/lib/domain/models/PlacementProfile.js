@@ -1,15 +1,8 @@
-const {
-  MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY,
-} = require('../constants');
+const { MINIMUM_CERTIFIABLE_COMPETENCES_FOR_CERTIFIABILITY } = require('../constants');
 const _ = require('lodash');
 
 class PlacementProfile {
-  constructor(
-    {
-      profileDate,
-      userId,
-      userCompetences,
-    } = {}) {
+  constructor({ profileDate, userId, userCompetences } = {}) {
     this.profileDate = profileDate;
     this.userId = userId;
     this.userCompetences = userCompetences;

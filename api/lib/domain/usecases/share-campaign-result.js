@@ -7,7 +7,11 @@ module.exports = async function shareCampaignResult({
   campaignParticipationRepository,
   domainTransaction,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, { include: ['campaign'] }, domainTransaction);
+  const campaignParticipation = await campaignParticipationRepository.get(
+    campaignParticipationId,
+    { include: ['campaign'] },
+    domainTransaction
+  );
 
   _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId);
 
@@ -24,4 +28,3 @@ function _checkUserIsOwnerOfCampaignParticipation(campaignParticipation, userId)
     throw new UserNotAuthorizedToAccessEntityError('User does not have an access to this campaign participation');
   }
 }
-

@@ -4,8 +4,8 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const CampaignParticipationResultsShared = require('../../../../lib/domain/events/CampaignParticipationResultsShared');
 const computeCampaignParticipationResults = require('../../../../lib/domain/events/compute-campaign-participation-results');
 
-describe('Unit | Domain | Events | compute-campaign-participation-results', function() {
-  it('Should trigger ComputeCampaignParticipationResults on CampaignParticipationResultsShared event', async function() {
+describe('Unit | Domain | Events | compute-campaign-participation-results', function () {
+  it('Should trigger ComputeCampaignParticipationResults on CampaignParticipationResultsShared event', async function () {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
     const event = new CampaignParticipationResultsShared();
@@ -18,7 +18,7 @@ describe('Unit | Domain | Events | compute-campaign-participation-results', func
     expect(handlerStubs.computeCampaignParticipationResults).to.have.been.calledWith({ event, domainTransaction });
   });
 
-  it('should compute and save results on the campaign participation', async function() {
+  it('should compute and save results on the campaign participation', async function () {
     // given
     const participationResultsShared = Symbol('participation results shared');
     const event = new CampaignParticipationResultsShared({ campaignParticipationId: 1 });
@@ -26,7 +26,11 @@ describe('Unit | Domain | Events | compute-campaign-participation-results', func
     const campaignParticipationRepository = { update: sinon.stub() };
 
     // when
-    await computeCampaignParticipationResults({ event, participantResultsSharedRepository, campaignParticipationRepository });
+    await computeCampaignParticipationResults({
+      event,
+      participantResultsSharedRepository,
+      campaignParticipationRepository,
+    });
 
     // then
     expect(campaignParticipationRepository.update).to.have.been.calledWith(participationResultsShared);

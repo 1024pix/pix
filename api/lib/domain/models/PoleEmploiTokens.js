@@ -1,10 +1,5 @@
 class PoleEmploiTokens {
-  constructor({
-    accessToken,
-    idToken,
-    expiresIn,
-    refreshToken,
-  }) {
+  constructor({ accessToken, idToken, expiresIn, refreshToken }) {
     this.accessToken = accessToken;
     this.idToken = idToken;
     this.expiresIn = expiresIn;

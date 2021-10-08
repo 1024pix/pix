@@ -2,15 +2,18 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const PrivateCertificate = require('../../domain/models/PrivateCertificate');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 module.exports = {
-
   async get(id) {
     const certificationCourseDTO = await _selectPrivateCertificates()
       .where('certification-courses.id', '=', id)
@@ -79,8 +82,7 @@ function _selectPrivateCertificates() {
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
-        )`,
-      ),
+        )`),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -91,13 +93,13 @@ function _selectPrivateCertificates() {
 }
 
 function _filterMostRecentAssessmentResult(qb) {
-  return qb
-    .whereNotExists(
-      knex.select(1)
-        .from({ 'last-assessment-results': 'assessment-results' })
-        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
-    );
+  return qb.whereNotExists(
+    knex
+      .select(1)
+      .from({ 'last-assessment-results': 'assessment-results' })
+      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+  );
 }
 
 async function _getCleaCertificationResult(certificationCourseId) {
@@ -105,7 +107,7 @@ async function _getCleaCertificationResult(certificationCourseId) {
     .select('acquired')
     .from('partner-certifications')
     .where({ certificationCourseId })
-    .whereIn('partnerKey', [ CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2 ])
+    .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
     .first();
 
   if (!result) {
@@ -123,19 +125,22 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .whereIn('partnerKey', handledBadgeKeys)
     .orderBy('partnerKey');
 
-  return _.compact(_.map(results, (result) => {
-    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
-    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
-    return null;
-  }));
+  return _.compact(
+    _.map(results, (result) => {
+      if (result.partnerKey === pixPlusDroitMaitreBadgeKey)
+        return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
+      if (result.partnerKey === pixPlusDroitExpertBadgeKey)
+        return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
+      return null;
+    })
+  );
 }
 
 function _toDomain({ certificationCourseDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages }) {
-
   if (competenceTree) {
-
-    const competenceMarks = _.compact(certificationCourseDTO.competenceMarks)
-      .map((competenceMark) => new CompetenceMark({ ...competenceMark }));
+    const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
+      (competenceMark) => new CompetenceMark({ ...competenceMark })
+    );
 
     const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
       competenceTree,

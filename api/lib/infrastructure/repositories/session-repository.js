@@ -6,7 +6,6 @@ const Bookshelf = require('../bookshelf');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
-
   async save(sessionData) {
     sessionData = _.omit(sessionData, ['certificationCandidates']);
 
@@ -15,32 +14,26 @@ module.exports = {
   },
 
   async isSessionCodeAvailable(accessCode) {
-    const sessionWithAccessCode = await BookshelfSession
-      .where({ accessCode })
-      .fetch({ require: false });
+    const sessionWithAccessCode = await BookshelfSession.where({ accessCode }).fetch({ require: false });
 
     return !sessionWithAccessCode;
   },
 
   async isFinalized(id) {
-    const session = await BookshelfSession
-      .query((qb) => {
-        qb.where({ id });
-        qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
-      })
-      .fetch({ require: false, columns: 'id' });
+    const session = await BookshelfSession.query((qb) => {
+      qb.where({ id });
+      qb.whereRaw('?? IS NOT NULL', ['finalizedAt']);
+    }).fetch({ require: false, columns: 'id' });
     return Boolean(session);
   },
 
   async get(idSession) {
     try {
-      const session = await BookshelfSession
-        .where({ id: idSession })
-        .fetch();
+      const session = await BookshelfSession.where({ id: idSession }).fetch();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+        throw new NotFoundError("La session n'existe pas ou son accès est restreint");
       }
       throw err;
     }
@@ -48,22 +41,21 @@ module.exports = {
 
   async getWithCertificationCandidates(idSession) {
     try {
-      const session = await BookshelfSession
-        .where({ id: idSession })
-        .fetch({ withRelated: [
+      const session = await BookshelfSession.where({ id: idSession }).fetch({
+        withRelated: [
           {
-            'certificationCandidates': function(qb) {
+            certificationCandidates: function (qb) {
               qb.select(Bookshelf.knex.raw('*'));
               qb.orderByRaw('LOWER("certification-candidates"."lastName") asc');
               qb.orderByRaw('LOWER("certification-candidates"."firstName") asc');
             },
           },
         ],
-        });
+      });
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, session);
     } catch (err) {
       if (err instanceof BookshelfSession.NotFoundError) {
-        throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+        throw new NotFoundError("La session n'existe pas ou son accès est restreint");
       }
       throw err;
     }
@@ -80,40 +72,48 @@ module.exports = {
       'description',
     ]);
 
-    let updatedSession = await new BookshelfSession({ id: session.id })
-      .save(sessionDataToUpdate, { patch: true, method: 'update' });
+    let updatedSession = await new BookshelfSession({ id: session.id }).save(sessionDataToUpdate, {
+      patch: true,
+      method: 'update',
+    });
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 
   async doesUserHaveCertificationCenterMembershipForSession(userId, sessionId) {
-    const session = await BookshelfSession
-      .where({ 'sessions.id': sessionId, 'certification-center-memberships.userId': userId })
+    const session = await BookshelfSession.where({
+      'sessions.id': sessionId,
+      'certification-center-memberships.userId': userId,
+    })
       .query((qb) => {
         qb.innerJoin('certification-centers', 'certification-centers.id', 'sessions.certificationCenterId');
-        qb.innerJoin('certification-center-memberships', 'certification-center-memberships.certificationCenterId', 'certification-centers.id');
+        qb.innerJoin(
+          'certification-center-memberships',
+          'certification-center-memberships.certificationCenterId',
+          'certification-centers.id'
+        );
       })
       .fetch({ require: false, columns: 'sessions.id' });
     return Boolean(session);
   },
 
   async finalize({ id, examinerGlobalComment, finalizedAt }) {
-    let updatedSession = await new BookshelfSession({ id })
-      .save({ examinerGlobalComment, finalizedAt }, { patch: true });
+    let updatedSession = await new BookshelfSession({ id }).save(
+      { examinerGlobalComment, finalizedAt },
+      { patch: true }
+    );
     updatedSession = await updatedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, updatedSession);
   },
 
   async flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt }) {
-    let flaggedSession = await new BookshelfSession({ id })
-      .save({ resultsSentToPrescriberAt }, { patch: true });
+    let flaggedSession = await new BookshelfSession({ id }).save({ resultsSentToPrescriberAt }, { patch: true });
     flaggedSession = await flaggedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, flaggedSession);
   },
 
   async updatePublishedAt({ id, publishedAt }) {
-    let publishedSession = await new BookshelfSession({ id })
-      .save({ publishedAt }, { patch: true });
+    let publishedSession = await new BookshelfSession({ id }).save({ publishedAt }, { patch: true });
     publishedSession = await publishedSession.refresh();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSession, publishedSession);
   },

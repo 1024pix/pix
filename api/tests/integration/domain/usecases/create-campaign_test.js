@@ -10,20 +10,20 @@ const createCampaign = require('../../../../lib/domain/usecases/create-campaign'
 
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-describe('Integration | UseCases | create-campaign', function() {
-
+describe('Integration | UseCases | create-campaign', function () {
   let userId;
   let organizationId;
   let targetProfileId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     organizationId = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true }).id;
     userId = databaseBuilder.factory.buildUser().id;
 
     targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
 
     databaseBuilder.factory.buildMembership({
-      organizationId, userId,
+      organizationId,
+      userId,
     });
 
     await databaseBuilder.commit();
@@ -35,19 +35,33 @@ describe('Integration | UseCases | create-campaign', function() {
     mockLearningContent(learningContent);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     return knex('campaigns').delete();
   });
 
-  it('should save a new campaign of type ASSESSMENT', async function() {
+  it('should save a new campaign of type ASSESSMENT', async function () {
     // given
-    const campaign = { name: 'a name', type: Campaign.types.ASSESSMENT, title: 'a title', idPixLabel: 'id Pix label',
-      customLandingPageText: 'Hello', creatorId: userId, organizationId, targetProfileId };
+    const campaign = {
+      name: 'a name',
+      type: Campaign.types.ASSESSMENT,
+      title: 'a title',
+      idPixLabel: 'id Pix label',
+      customLandingPageText: 'Hello',
+      creatorId: userId,
+      organizationId,
+      targetProfileId,
+    };
 
     const expectedAttributes = ['type', 'title', 'idPixLabel', 'name', 'customLandingPageText'];
 
     // when
-    const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService });
+    const result = await createCampaign({
+      campaign,
+      campaignRepository,
+      userRepository,
+      organizationRepository,
+      organizationService,
+    });
 
     // then
     expect(result).to.be.an.instanceOf(Campaign);
@@ -58,15 +72,27 @@ describe('Integration | UseCases | create-campaign', function() {
     expect('id').to.be.ok;
   });
 
-  it('should save a new campaign of type PROFILES_COLLECTION', async function() {
+  it('should save a new campaign of type PROFILES_COLLECTION', async function () {
     // given
-    const campaign = { name: 'a name', type: Campaign.types.PROFILES_COLLECTION, idPixLabel: 'id Pix label',
-      customLandingPageText: 'Hello', creatorId: userId, organizationId };
+    const campaign = {
+      name: 'a name',
+      type: Campaign.types.PROFILES_COLLECTION,
+      idPixLabel: 'id Pix label',
+      customLandingPageText: 'Hello',
+      creatorId: userId,
+      organizationId,
+    };
 
     const expectedAttributes = ['type', 'idPixLabel', 'name', 'customLandingPageText'];
 
     // when
-    const result = await createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService });
+    const result = await createCampaign({
+      campaign,
+      campaignRepository,
+      userRepository,
+      organizationRepository,
+      organizationService,
+    });
 
     // then
     expect(result).to.be.an.instanceOf(Campaign);

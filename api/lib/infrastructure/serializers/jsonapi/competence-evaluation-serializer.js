@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(competenceEvaluations) {
     return new Serializer('competence-evaluations', {
       transform(current) {
@@ -18,7 +17,7 @@ module.exports = {
         ref: 'id',
         ignoreRelationshipData: true,
         relationshipLinks: {
-          related: function(record) {
+          related: function (record) {
             return `/api/scorecards/${record.userId}_${record.competenceId}`;
           },
         },

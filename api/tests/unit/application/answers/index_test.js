@@ -1,16 +1,10 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const moduleUnderTest = require('../../../../lib/application/answers');
 const answerController = require('../../../../lib/application/answers/answer-controller');
 
-describe('Unit | Application | Router | answer-router', function() {
-
-  describe('POST /api/answers', function() {
-
-    it('should return 201', async function() {
+describe('Unit | Application | Router | answer-router', function () {
+  describe('POST /api/answers', function () {
+    it('should return 201', async function () {
       // given
       sinon.stub(answerController, 'save').callsFake((request, h) => h.response().created());
       const httpTestServer = new HttpTestServer();
@@ -39,9 +33,8 @@ describe('Unit | Application | Router | answer-router', function() {
     });
   });
 
-  describe('GET /api/answers/{id}', function() {
-
-    it('should return 200', async function() {
+  describe('GET /api/answers/{id}', function () {
+    it('should return 200', async function () {
       //given
       sinon.stub(answerController, 'get').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -55,9 +48,8 @@ describe('Unit | Application | Router | answer-router', function() {
     });
   });
 
-  describe('PATCH /api/answers/{id}', function() {
-
-    it('should return 204', async function() {
+  describe('PATCH /api/answers/{id}', function () {
+    it('should return 204', async function () {
       // given
       sinon.stub(answerController, 'update').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
@@ -71,9 +63,8 @@ describe('Unit | Application | Router | answer-router', function() {
     });
   });
 
-  describe('GET /api/answers', function() {
-
-    it('should return 200', async function() {
+  describe('GET /api/answers', function () {
+    it('should return 200', async function () {
       // given
       sinon.stub(answerController, 'find').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -86,5 +77,4 @@ describe('Unit | Application | Router | answer-router', function() {
       expect(response.statusCode).to.equal(200);
     });
   });
-
 });

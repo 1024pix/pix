@@ -1,16 +1,20 @@
 module.exports = {
   extends: '../../.eslintrc.yaml',
   rules: {
-    'no-restricted-modules': ['error', {
-      'paths': [{
-        'name': '../../../server',
-        'message': 'Please use http-server-test instead.',
-      },
+    'no-restricted-modules': [
+      'error',
       {
-        'name': '../../../../server',
-        'message': 'Please use http-server-test instead.',
+        paths: [
+          {
+            name: '../../../server',
+            message: 'Please use http-server-test instead.',
+          },
+          {
+            name: '../../../../server',
+            message: 'Please use http-server-test instead.',
+          },
+        ],
       },
-      ],
-    }],
+    ],
   },
 };

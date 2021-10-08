@@ -1,11 +1,9 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Application | Account-Recovery | Routes', function() {
-
-  describe('GET /api/account-recovery/{temporaryKey}', function() {
-
-    it('should return 200 http status code when account recovery demand found', async function() {
+describe('Acceptance | Application | Account-Recovery | Routes', function () {
+  describe('GET /api/account-recovery/{temporaryKey}', function () {
+    it('should return 200 http status code when account recovery demand found', async function () {
       // given
       const temporaryKey = 'FfgpFXgyuO062nPUPwcb8Wy3KcgkqR2p2GyEuGVaNI4=';
       const userId = 1234;

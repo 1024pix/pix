@@ -1,6 +1,6 @@
 const healthcheckController = require('./healthcheck-controller');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -17,7 +17,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.checkDbStatus,
-        tags: ['api'] },
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
@@ -25,7 +26,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.checkRedisStatus,
-        tags: ['api'] },
+        tags: ['api'],
+      },
     },
     {
       method: 'GET',
@@ -33,7 +35,8 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: healthcheckController.crashTest,
-        tags: ['api'] },
+        tags: ['api'],
+      },
     },
   ]);
 };

@@ -25,7 +25,9 @@ module.exports = async function addCertificationCandidateToSession({
   });
 
   if (duplicateCandidates.length !== 0) {
-    throw new CertificationCandidateByPersonalInfoTooManyMatchesError('A candidate with the same personal info is already in the session.');
+    throw new CertificationCandidateByPersonalInfoTooManyMatchesError(
+      'A candidate with the same personal info is already in the session.'
+    );
   }
 
   if (version === '1.5') {

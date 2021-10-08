@@ -1,22 +1,25 @@
 const {
-  expect, generateValidRequestAuthorizationHeader, databaseBuilder, insertUserWithRolePixMaster,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  insertUserWithRolePixMaster,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-to-publish', function() {
+describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-to-publish', function () {
   let server, options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/admin/sessions/to-publish', function() {
-    beforeEach(function() {
+  describe('GET /api/admin/sessions/to-publish', function () {
+    beforeEach(function () {
       options = {
         method: 'GET',
         url: '/api/admin/sessions/to-publish',
-        payload: { },
+        payload: {},
       };
 
       databaseBuilder.factory.buildSession({ id: 121 });
@@ -31,13 +34,12 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
 
       return databaseBuilder.commit();
     });
-    context('When user is authorized', function() {
-
-      beforeEach(function() {
+    context('When user is authorized', function () {
+      beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return a 200 status code response with JSON API serialized', async function() {
+      it('should return a 200 status code response with JSON API serialized', async function () {
         // when
         const response = await server.inject(options);
 

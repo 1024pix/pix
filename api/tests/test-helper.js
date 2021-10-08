@@ -25,14 +25,14 @@ const learningContentBuilder = require('./tooling/learning-content-builder');
 const tokenService = require('../lib/domain/services/token-service');
 const EMPTY_BLANK_AND_NULL = ['', '\t \n', null];
 
-afterEach(function() {
+afterEach(function () {
   sinon.restore();
   cache.flushAll();
   nock.cleanAll();
   return databaseBuilder.clean();
 });
 
-after(function() {
+after(function () {
   return disconnect();
 });
 
@@ -44,7 +44,12 @@ function generateValidRequestAuthorizationHeader(userId = 1234, source = 'pix') 
 function generateValidRequestAuthorizationHeaderForApplication(clientId = 'client-id-name', source, scope) {
   const application = _.find(graviteeRegisterApplicationsCredentials, { clientId });
   if (application) {
-    const accessToken = tokenService.createAccessTokenFromApplication(application.clientId, source, scope, jwtConfig[application.source].secret);
+    const accessToken = tokenService.createAccessTokenFromApplication(
+      application.clientId,
+      source,
+      scope,
+      jwtConfig[application.source].secret
+    );
     return `Bearer ${accessToken}`;
   }
 }
@@ -136,23 +141,24 @@ function catchErr(promiseFn, ctx) {
 }
 
 function compareDatabaseObject(evaluatedObject, expectedObject) {
-  return expect(_.omit(evaluatedObject, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(_.omit(expectedObject, ['id', 'createdAt', 'updatedAt']));
-
+  return expect(_.omit(evaluatedObject, ['id', 'createdAt', 'updatedAt'])).to.deep.equal(
+    _.omit(expectedObject, ['id', 'createdAt', 'updatedAt'])
+  );
 }
 
-chai.use(function(chai) {
+chai.use(function (chai) {
   const Assertion = chai.Assertion;
 
-  Assertion.addMethod('exactlyContain', function(expectedElements) {
+  Assertion.addMethod('exactlyContain', function (expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain [${expectedElements}]`;
     new Assertion(this._obj, errorMessage).to.deep.have.members(expectedElements);
   });
 });
 
-chai.use(function(chai) {
+chai.use(function (chai) {
   const Assertion = chai.Assertion;
 
-  Assertion.addMethod('exactlyContainInOrder', function(expectedElements) {
+  Assertion.addMethod('exactlyContainInOrder', function (expectedElements) {
     const errorMessage = `expect [${this._obj}] to exactly contain in order [${expectedElements}]`;
 
     new Assertion(this._obj, errorMessage).to.deep.equal(expectedElements);
@@ -169,19 +175,22 @@ function mockLearningContent(learningContent) {
 // Inspired by what is done within chai project itself to test assertions
 // https://github.com/chaijs/chai/blob/main/test/bootstrap/index.js
 global.chaiErr = function globalErr(fn, val) {
-  if (chai.util.type(fn) !== 'function')
-    throw new chai.AssertionError('Invalid fn');
+  if (chai.util.type(fn) !== 'function') throw new chai.AssertionError('Invalid fn');
 
   try {
     fn();
   } catch (err) {
     switch (chai.util.type(val).toLowerCase()) {
-      case 'undefined': return;
-      case 'string': return chai.expect(err.message).to.equal(val);
-      case 'regexp': return chai.expect(err.message).to.match(val);
-      case 'object': return Object.keys(val).forEach(function(key) {
-        chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
-      });
+      case 'undefined':
+        return;
+      case 'string':
+        return chai.expect(err.message).to.equal(val);
+      case 'regexp':
+        return chai.expect(err.message).to.match(val);
+      case 'object':
+        return Object.keys(val).forEach(function (key) {
+          chai.expect(err).to.have.property(key).and.to.deep.equal(val[key]);
+        });
     }
 
     throw new chai.AssertionError('Invalid val');

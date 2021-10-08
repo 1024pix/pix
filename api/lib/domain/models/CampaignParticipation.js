@@ -1,5 +1,10 @@
 const _ = require('lodash');
-const { ArchivedCampaignError, AssessmentNotCompletedError, AlreadySharedCampaignParticipationError, CantImproveCampaignParticipationError } = require('../errors');
+const {
+  ArchivedCampaignError,
+  AssessmentNotCompletedError,
+  AlreadySharedCampaignParticipationError,
+  CantImproveCampaignParticipationError,
+} = require('../errors');
 
 const statuses = {
   STARTED: 'STARTED',
@@ -8,7 +13,6 @@ const statuses = {
 };
 
 class CampaignParticipation {
-
   constructor({
     id,
     createdAt,

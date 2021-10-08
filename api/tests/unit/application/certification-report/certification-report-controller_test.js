@@ -2,11 +2,9 @@ const { sinon, expect, hFake, domainBuilder } = require('../../../test-helper');
 const certificationReportController = require('../../../../lib/application/certification-reports/certification-report-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | certification-report-controller', function() {
-
-  describe('#saveCertificationIssueReport', function() {
-
-    it('should return serialized certification issue report with code 201', async function() {
+describe('Unit | Controller | certification-report-controller', function () {
+  describe('#saveCertificationIssueReport', function () {
+    it('should return serialized certification issue report with code 201', async function () {
       // given
       const certificationReportId = 123;
       const userId = 456;
@@ -36,7 +34,8 @@ describe('Unit | Controller | certification-report-controller', function() {
         questionNumber: 'someQuestionNumber',
       };
       const savedCertificationIssueReport = domainBuilder.buildCertificationIssueReport();
-      sinon.stub(usecases, 'saveCertificationIssueReport')
+      sinon
+        .stub(usecases, 'saveCertificationIssueReport')
         .withArgs({ userId, certificationIssueReportDTO: certificationIssueReportDeserialized })
         .resolves(savedCertificationIssueReport);
 
@@ -56,13 +55,11 @@ describe('Unit | Controller | certification-report-controller', function() {
       });
       expect(response.statusCode).to.equal(201);
     });
-
   });
 
-  describe('#abort', function() {
-
-    it('should return a 200 status code', async function() {
-    // given
+  describe('#abort', function () {
+    it('should return a 200 status code', async function () {
+      // given
       const certificationCourseId = 123;
       const request = {
         params: {
@@ -77,7 +74,8 @@ describe('Unit | Controller | certification-report-controller', function() {
         },
       };
 
-      sinon.stub(usecases, 'abortCertificationCourse')
+      sinon
+        .stub(usecases, 'abortCertificationCourse')
         .withArgs({ certificationCourseId, abortReason: 'technical' })
         .resolves();
 

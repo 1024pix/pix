@@ -6,16 +6,8 @@ const { knex } = require('../../lib/infrastructure/bookshelf');
 const DomainTransaction = require('../../lib/infrastructure/DomainTransaction');
 
 function _buildSchoolingRegistration(iteration) {
-  const birthdates = [
-    '2001-01-05',
-    '2002-11-15',
-    '1995-06-25',
-  ];
-  const divisions = [
-    '5eme',
-    '4eme',
-    '3eme',
-  ];
+  const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
+  const divisions = ['5eme', '4eme', '3eme'];
   return new SchoolingRegistration({
     firstName: `someFirstName${iteration}`,
     lastName: `someLastName${iteration}`,
@@ -52,7 +44,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

@@ -6,25 +6,26 @@ const { expect } = require('../../../../test-helper');
 
 const { getContentXml } = require('../../../../../lib/infrastructure/utils/ods/read-ods-utils');
 const {
-  makeUpdatedOdsByContentXml, updateXmlRows, updateXmlSparseValues,
+  makeUpdatedOdsByContentXml,
+  updateXmlRows,
+  updateXmlSparseValues,
 } = require('../../../../../lib/infrastructure/utils/ods/write-ods-utils');
 
-describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function() {
-
+describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', function () {
   const GET_CONTENT_ODS_FILE_PATH = `${__dirname}/files/get-content-xml_test.ods`;
 
-  describe('makeUpdatedOdsByContentXml', function() {
-
+  describe('makeUpdatedOdsByContentXml', function () {
     let updatedOdsFilePath;
 
-    it('should return the edited ods file as a buffer', async function() {
+    it('should return the edited ods file as a buffer', async function () {
       // given
       updatedOdsFilePath = `${__dirname}/write-ods-utils-make-updated-ods-by-content-xml_test_tmp.ods`;
       const updatedStringifiedXml = '<xml>New xml</xml>';
 
       // when
       const updatedOdsFileBuffer = await makeUpdatedOdsByContentXml({
-        stringifiedXml: updatedStringifiedXml, odsFilePath: GET_CONTENT_ODS_FILE_PATH,
+        stringifiedXml: updatedStringifiedXml,
+        odsFilePath: GET_CONTENT_ODS_FILE_PATH,
       });
       await writeFile(updatedOdsFilePath, updatedOdsFileBuffer);
       const result = await getContentXml({ odsFilePath: updatedOdsFilePath });
@@ -33,13 +34,12 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await unlink(updatedOdsFilePath);
     });
   });
 
-  describe('#updateXmlSparseValues', function() {
-
+  describe('#updateXmlSparseValues', function () {
     const templateValues = [
       {
         placeholder: 'PLACEHOLDER_1',
@@ -80,7 +80,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
       '<text:p>Some other value</text:p>' +
       '</xml>';
 
-    it('should transform an xml by replacing templatized cells and data to inject', function() {
+    it('should transform an xml by replacing templatized cells and data to inject', function () {
       // when
       const result = updateXmlSparseValues({
         stringifiedXml,
@@ -93,8 +93,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
     });
   });
 
-  describe('updateXmlRows', function() {
-
+  describe('updateXmlRows', function () {
     const rowMarkerPlaceholder = 'PROP_STRING';
 
     const rowTemplateValues = [
@@ -178,7 +177,7 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
       '</some:element>' +
       '</xml>';
 
-    it('should transform an xml given a templatized row, a starting position and data to inject', function() {
+    it('should transform an xml given a templatized row, a starting position and data to inject', function () {
       // when
       const result = updateXmlRows({
         stringifiedXml,
@@ -191,5 +190,4 @@ describe('Integration | Infrastructure | Utils | Ods | write-ods-utils', functio
       expect(result).to.deep.equal(updatedStringifiedXml);
     });
   });
-
 });

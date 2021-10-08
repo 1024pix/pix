@@ -6,7 +6,6 @@ const logger = require('../logger');
 const REDIS_CLIENT_OPTIONS = {};
 
 module.exports = class RedisClient {
-
   constructor(redisUrl, clientName) {
     this._clientName = clientName;
 
@@ -20,7 +19,7 @@ module.exports = class RedisClient {
       [this._client],
       // As said in the doc, setting retryCount to 0 and treating a failure as the resource being "locked"
       // is a good practice
-      { retryCount: 0 },
+      { retryCount: 0 }
     );
 
     this.get = promisify(this._client.get).bind(this._client);
@@ -31,15 +30,18 @@ module.exports = class RedisClient {
   }
 
   subscribe(channel) {
-    this._client.subscribe(channel, () => logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`));
+    this._client.subscribe(channel, () =>
+      logger.info({ redisClient: this._clientName }, `Subscribed to channel '${channel}'`)
+    );
   }
 
   publish(channel, message) {
-    this._client.publish(channel, message, () => logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`));
+    this._client.publish(channel, message, () =>
+      logger.info({ redisClient: this._clientName }, `Published on channel '${channel}'`)
+    );
   }
 
   on(event, callback) {
     this._client.on(event, callback);
   }
-
 };

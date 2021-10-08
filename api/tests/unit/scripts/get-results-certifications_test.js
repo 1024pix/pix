@@ -1,23 +1,42 @@
 const { expect } = require('chai');
 const getResultsCertifications = require('../../../../api/scripts/get-results-certifications');
 
-describe('Unit | Scripts | get-results-certifications.js', function() {
-
+describe('Unit | Scripts | get-results-certifications.js', function () {
   const HEADERS = [
     'ID de certification',
-    'Prenom du candidat', 'Nom du candidat', 'Date de naissance du candidat', 'Lieu de naissance du candidat', 'Identifiant Externe',
-    'Statut de la certification', 'ID de session', 'Date de debut', 'Date de fin',
-    'Commentaire pour le candidat', 'Commentaire pour l\'organisation', 'Commentaire pour le jury', 'Note Pix',
-    '1.1', '1.2', '1.3',
-    '2.1', '2.2', '2.3', '2.4',
-    '3.1', '3.2', '3.3', '3.4',
-    '4.1', '4.2', '4.3',
-    '5.1', '5.2',
+    'Prenom du candidat',
+    'Nom du candidat',
+    'Date de naissance du candidat',
+    'Lieu de naissance du candidat',
+    'Identifiant Externe',
+    'Statut de la certification',
+    'ID de session',
+    'Date de debut',
+    'Date de fin',
+    'Commentaire pour le candidat',
+    "Commentaire pour l'organisation",
+    'Commentaire pour le jury',
+    'Note Pix',
+    '1.1',
+    '1.2',
+    '1.3',
+    '2.1',
+    '2.2',
+    '2.3',
+    '2.4',
+    '3.1',
+    '3.2',
+    '3.3',
+    '3.4',
+    '4.1',
+    '4.2',
+    '4.3',
+    '5.1',
+    '5.2',
   ];
 
-  describe('buildCertificationRequest', function() {
-
-    it('should take an id and return a request object', function() {
+  describe('buildCertificationRequest', function () {
+    it('should take an id and return a request object', function () {
       // given
       const courseId = 12;
       const baseUrl = 'http://localhost:3000';
@@ -29,12 +48,10 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result).to.have.property('url', '/api/admin/certifications/12');
       expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
-
   });
 
-  describe('buildSessionRequest', function() {
-
-    it('should take an id and return a request object', function() {
+  describe('buildSessionRequest', function () {
+    it('should take an id and return a request object', function () {
       // given
       const sessionId = 12;
       const baseUrl = 'http://localhost:3000';
@@ -48,8 +65,8 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
     });
   });
 
-  describe('toCSVRow', function() {
-    it('should normalize a JSON object', function() {
+  describe('toCSVRow', function () {
+    it('should normalize a JSON object', function () {
       // given
       const object = { data: { attributes: { 'competences-with-mark': [] } } };
       // when
@@ -58,7 +75,7 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result).to.have.all.keys(HEADERS);
     });
 
-    it('should extract all the informations of the certification', function() {
+    it('should extract all the informations of the certification', function () {
       // given
       const object = {
         data: {
@@ -68,14 +85,14 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
             'created-at': new Date('2018-01-31T09:01:00Z'),
             'completed-at': new Date('2018-01-31T09:29:16Z'),
             'competences-with-mark': [],
-            'status': 'validated',
+            status: 'validated',
             'comment-for-candidate': 'GG',
             'comment-for-organization': 'Too bad',
             'comment-for-jury': 'You get it',
             'first-name': 'Goku',
             'last-name': 'Son',
-            'birthdate': '1737-11-20',
-            'birthplace': 'Namek',
+            birthdate: '1737-11-20',
+            birthplace: 'Namek',
             'session-id': 1,
             'external-id': 'Kakarot',
           },
@@ -100,7 +117,7 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result[HEADERS[13]]).to.equal(7331);
     });
 
-    it('should extract competences', function() {
+    it('should extract competences', function () {
       // given
       const object = { data: { attributes: { 'competences-with-mark': [] } } };
 
@@ -111,14 +128,14 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result[HEADERS[14]]).to.equal('');
     });
 
-    it('should extract competences 1.1', function() {
+    it('should extract competences 1.1', function () {
       // given
       const object = {
         data: {
           attributes: {
             'competences-with-mark': [
               {
-                'competence_code': '1.1',
+                competence_code: '1.1',
                 level: 9001,
               },
             ],
@@ -133,18 +150,18 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result['1.1']).to.equal(9001);
     });
 
-    it('should extract all competences', function() {
+    it('should extract all competences', function () {
       // given
       const object = {
         data: {
           attributes: {
             'competences-with-mark': [
               {
-                'competence_code': '1.1',
+                competence_code: '1.1',
                 level: 4,
               },
               {
-                'competence_code': '1.2',
+                competence_code: '1.2',
                 level: 6,
               },
             ],
@@ -159,12 +176,10 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result['1.1']).to.equal(4);
       expect(result['1.2']).to.equal(6);
     });
-
   });
 
-  describe('findCompetence', function() {
-
-    it('should return empty string when not found', function() {
+  describe('findCompetence', function () {
+    it('should return empty string when not found', function () {
       // given
       const profile = [];
       const competenceCode = '1.1';
@@ -176,13 +191,15 @@ describe('Unit | Scripts | get-results-certifications.js', function() {
       expect(result).to.be.equals('');
     });
 
-    it('should return competence level when found', function() {
+    it('should return competence level when found', function () {
       // given
       const competenceCode = '1.1';
-      const profile = [{
-        'competence_code': competenceCode,
-        level: 9,
-      }];
+      const profile = [
+        {
+          competence_code: competenceCode,
+          level: 9,
+        },
+      ];
 
       // when
       const result = getResultsCertifications.findCompetence(profile, competenceCode);

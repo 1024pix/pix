@@ -14,11 +14,11 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | stage-validator', function() {
-  describe('#validate', function() {
+describe('Unit | Domain | Validators | stage-validator', function () {
+  describe('#validate', function () {
     let stage;
 
-    beforeEach(function() {
+    beforeEach(function () {
       stage = new Stage({
         title: 'My title',
         threshold: 42,
@@ -26,14 +26,14 @@ describe('Unit | Domain | Validators | stage-validator', function() {
       });
     });
 
-    context('when validation is successful ', function() {
-      it('should not throw any error', function() {
+    context('when validation is successful ', function () {
+      it('should not throw any error', function () {
         expect(stageValidator.validate({ stage })).to.be.true;
       });
     });
 
-    context('when stage data validation fails', function() {
-      it('should reject with error when title is missing', async function() {
+    context('when stage data validation fails', function () {
+      it('should reject with error when title is missing', async function () {
         // given
         const expectedError = {
           attribute: 'title',
@@ -48,7 +48,7 @@ describe('Unit | Domain | Validators | stage-validator', function() {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error when threshold is missing', async function() {
+      it('should reject with error when threshold is missing', async function () {
         // given
         const expectedError = {
           attribute: 'threshold',
@@ -63,7 +63,7 @@ describe('Unit | Domain | Validators | stage-validator', function() {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error when threshold is a string', async function() {
+      it('should reject with error when threshold is a string', async function () {
         // given
         const expectedError = {
           attribute: 'threshold',
@@ -78,7 +78,7 @@ describe('Unit | Domain | Validators | stage-validator', function() {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error when targetProfileId is missing', async function() {
+      it('should reject with error when targetProfileId is missing', async function () {
         // given
         const expectedError = {
           attribute: 'targetProfileId',

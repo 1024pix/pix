@@ -1,15 +1,10 @@
 const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper');
 
-const {
-  ForbiddenAccess,
-  PasswordNotMatching,
-  UserNotFoundError,
-} = require('../../../../lib/domain/errors');
+const { ForbiddenAccess, PasswordNotMatching, UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const updateExpiredPassword = require('../../../../lib/domain/usecases/update-expired-password');
 
-describe('Unit | UseCase | update-expired-password', function() {
-
+describe('Unit | UseCase | update-expired-password', function () {
   const username = 'firstName.lastName0511';
   const expiredPassword = 'Password01';
   const newPassword = 'Password02';
@@ -22,7 +17,7 @@ describe('Unit | UseCase | update-expired-password', function() {
   let encryptionService;
   let authenticationMethodRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     user = domainBuilder.buildUser({ username });
     const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
       userId: user.id,
@@ -43,10 +38,9 @@ describe('Unit | UseCase | update-expired-password', function() {
 
     authenticationService.getUserByUsernameAndPassword.resolves(user);
     encryptionService.hashPassword.resolves(hashedPassword);
-
   });
 
-  it('should update user password with a hashed password', async function() {
+  it('should update user password with a hashed password', async function () {
     // when
     await updateExpiredPassword({
       expiredPassword,
@@ -67,9 +61,8 @@ describe('Unit | UseCase | update-expired-password', function() {
     });
   });
 
-  context('When credentials are invalid', function() {
-
-    it('should throw UserNotFoundError when username is unknow', async function() {
+  context('When credentials are invalid', function () {
+    it('should throw UserNotFoundError when username is unknow', async function () {
       // given
       authenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
 
@@ -88,7 +81,7 @@ describe('Unit | UseCase | update-expired-password', function() {
       expect(error).to.be.instanceOf(UserNotFoundError);
     });
 
-    it('should throw PasswordNotMatching when expiredPassword is invalid', async function() {
+    it('should throw PasswordNotMatching when expiredPassword is invalid', async function () {
       // given
       authenticationService.getUserByUsernameAndPassword.rejects(new PasswordNotMatching());
 
@@ -108,9 +101,8 @@ describe('Unit | UseCase | update-expired-password', function() {
     });
   });
 
-  context('When changing password is not required', function() {
-
-    it('should throw ForbiddenAccess when shouldChangePassword is false', async function() {
+  context('When changing password is not required', function () {
+    it('should throw ForbiddenAccess when shouldChangePassword is false', async function () {
       // given
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
         userId: user.id,
@@ -136,5 +128,4 @@ describe('Unit | UseCase | update-expired-password', function() {
       expect(error).to.be.instanceOf(ForbiddenAccess);
     });
   });
-
 });

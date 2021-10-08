@@ -8,11 +8,13 @@ const stageSerializer = require('../../infrastructure/serializers/jsonapi/stage-
 const targetProfileAttachOrganizationSerializer = require('../../infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
 module.exports = {
-
   async findPaginatedFilteredTargetProfiles(request) {
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: targetProfiles, pagination } = await usecases.findPaginatedFilteredTargetProfiles({ filter: options.filter, page: options.page });
+    const { models: targetProfiles, pagination } = await usecases.findPaginatedFilteredTargetProfiles({
+      filter: options.filter,
+      page: options.page,
+    });
     return targetProfileSerializer.serialize(targetProfiles, pagination);
   },
 
@@ -26,7 +28,11 @@ module.exports = {
     const targetProfileId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: organizations, pagination } = await usecases.findPaginatedFilteredTargetProfileOrganizations({ targetProfileId, filter: options.filter, page: options.page });
+    const { models: organizations, pagination } = await usecases.findPaginatedFilteredTargetProfileOrganizations({
+      targetProfileId,
+      filter: options.filter,
+      page: options.page,
+    });
     return organizationSerializer.serialize(organizations, pagination);
   },
 

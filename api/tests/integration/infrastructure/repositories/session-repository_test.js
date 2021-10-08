@@ -5,12 +5,11 @@ const Session = require('../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
-describe('Integration | Repository | Session', function() {
-
-  describe('#save', function() {
+describe('Integration | Repository | Session', function () {
+  describe('#save', function () {
     let session, certificationCenter;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter({});
       session = new Session({
         certificationCenter: certificationCenter.name,
@@ -26,11 +25,11 @@ describe('Integration | Repository | Session', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('sessions').delete();
     });
 
-    it('should persist the session in db', async function() {
+    it('should persist the session in db', async function () {
       // when
       await sessionRepository.save(session);
 
@@ -39,7 +38,7 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved).to.have.lengthOf(1);
     });
 
-    it('should return the saved Session', async function() {
+    it('should return the saved Session', async function () {
       // when
       const savedSession = await sessionRepository.save(session);
 
@@ -48,12 +47,10 @@ describe('Integration | Repository | Session', function() {
       expect(savedSession).to.have.property('id').and.not.null;
       expect(savedSession.certificationCenter).to.equal(certificationCenter.name);
     });
-
   });
 
-  describe('#isSessionCodeAvailable', function() {
-
-    beforeEach(function() {
+  describe('#isSessionCodeAvailable', function () {
+    beforeEach(function () {
       databaseBuilder.factory.buildSession({
         certificationCenter: 'Paris',
         address: 'Paris',
@@ -68,7 +65,7 @@ describe('Integration | Repository | Session', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return true if the accessCode is not in database', async function() {
+    it('should return true if the accessCode is not in database', async function () {
       // given
       const accessCode = 'DEF123';
 
@@ -79,7 +76,7 @@ describe('Integration | Repository | Session', function() {
       expect(isAvailable).to.be.equal(true);
     });
 
-    it('should return false if the accessCode is in database', async function() {
+    it('should return false if the accessCode is in database', async function () {
       // given
       const accessCode = 'ABC123';
 
@@ -88,22 +85,21 @@ describe('Integration | Repository | Session', function() {
 
       // then
       expect(isAvailable).to.be.equal(false);
-
     });
   });
 
-  describe('#isFinalized', function() {
+  describe('#isFinalized', function () {
     let finalizedSessionId;
     let notFinalizedSessionId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       finalizedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: new Date() }).id;
       notFinalizedSessionId = databaseBuilder.factory.buildSession({ finalizedAt: null }).id;
 
       return databaseBuilder.commit();
     });
 
-    it('should return true if the session status is finalized', async function() {
+    it('should return true if the session status is finalized', async function () {
       // when
       const isFinalized = await sessionRepository.isFinalized(finalizedSessionId);
 
@@ -111,7 +107,7 @@ describe('Integration | Repository | Session', function() {
       expect(isFinalized).to.be.equal(true);
     });
 
-    it('should return false if the session status is not finalized', async function() {
+    it('should return false if the session status is not finalized', async function () {
       // when
       const isFinalized = await sessionRepository.isFinalized(notFinalizedSessionId);
 
@@ -120,11 +116,11 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#get', function() {
+  describe('#get', function () {
     let session;
     let expectedSessionValues;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       session = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
@@ -137,20 +133,20 @@ describe('Integration | Repository | Session', function() {
         accessCode: 'NJR10',
       });
       expectedSessionValues = {
-        'id': session.id,
-        'certificationCenter': session.certificationCenter,
-        'address': session.address,
-        'room': session.room,
-        'examiner': session.examiner,
-        'date': session.date,
-        'time': session.time,
-        'description': session.description,
-        'accessCode': session.accessCode,
+        id: session.id,
+        certificationCenter: session.certificationCenter,
+        address: session.address,
+        room: session.room,
+        examiner: session.examiner,
+        date: session.date,
+        time: session.time,
+        description: session.description,
+        accessCode: session.accessCode,
       };
       await databaseBuilder.commit();
     });
 
-    it('should return session informations in a session Object', async function() {
+    it('should return session informations in a session Object', async function () {
       // when
       const actualSession = await sessionRepository.get(session.id);
 
@@ -159,7 +155,7 @@ describe('Integration | Repository | Session', function() {
       expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
     });
 
-    it('should return a Not found error when no session was found', async function() {
+    it('should return a Not found error when no session was found', async function () {
       // when
       const error = await catchErr(sessionRepository.get)(2);
 
@@ -168,11 +164,11 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#getWithCertificationCandidates', function() {
+  describe('#getWithCertificationCandidates', function () {
     let session;
     let expectedSessionValues;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       session = databaseBuilder.factory.buildSession({
         certificationCenter: 'Tour Gamma',
@@ -185,24 +181,36 @@ describe('Integration | Repository | Session', function() {
         accessCode: 'NJR10',
       });
       expectedSessionValues = {
-        'id': session.id,
-        'certificationCenter': session.certificationCenter,
-        'address': session.address,
-        'room': session.room,
-        'examiner': session.examiner,
-        'date': session.date,
-        'time': session.time,
-        'description': session.description,
-        'accessCode': session.accessCode,
+        id: session.id,
+        certificationCenter: session.certificationCenter,
+        address: session.address,
+        room: session.room,
+        examiner: session.examiner,
+        date: session.date,
+        time: session.time,
+        description: session.description,
+        accessCode: session.accessCode,
       };
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Michael', sessionId: session.id });
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Stardust', firstName: 'Ziggy', sessionId: session.id });
-      databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Janet', sessionId: session.id });
+      databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Jackson',
+        firstName: 'Michael',
+        sessionId: session.id,
+      });
+      databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Stardust',
+        firstName: 'Ziggy',
+        sessionId: session.id,
+      });
+      databaseBuilder.factory.buildCertificationCandidate({
+        lastName: 'Jackson',
+        firstName: 'Janet',
+        sessionId: session.id,
+      });
       _.times(5, () => databaseBuilder.factory.buildCertificationCandidate());
       await databaseBuilder.commit();
     });
 
-    it('should return session informations in a session Object', async function() {
+    it('should return session informations in a session Object', async function () {
       // when
       const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
 
@@ -211,12 +219,14 @@ describe('Integration | Repository | Session', function() {
       expect(actualSession, 'date').to.deep.includes(expectedSessionValues);
     });
 
-    it('should return associated certifications candidates ordered by lastname and firstname', async function() {
+    it('should return associated certifications candidates ordered by lastname and firstname', async function () {
       // when
       const actualSession = await sessionRepository.getWithCertificationCandidates(session.id);
 
       // then
-      const actualCandidates = _.map(actualSession.certificationCandidates, (item) => _.pick(item, ['sessionId', 'lastName', 'firstName']));
+      const actualCandidates = _.map(actualSession.certificationCandidates, (item) =>
+        _.pick(item, ['sessionId', 'lastName', 'firstName'])
+      );
       expect(actualCandidates).to.have.deep.ordered.members([
         { sessionId: session.id, lastName: 'Jackson', firstName: 'Janet' },
         { sessionId: session.id, lastName: 'Jackson', firstName: 'Michael' },
@@ -224,7 +234,7 @@ describe('Integration | Repository | Session', function() {
       ]);
     });
 
-    it('should return a Not found error when no session was found', async function() {
+    it('should return a Not found error when no session was found', async function () {
       // when
       const error = await catchErr(sessionRepository.get)(session.id + 1);
 
@@ -233,10 +243,10 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#updateSessionInfo', function() {
+  describe('#updateSessionInfo', function () {
     let session;
 
-    beforeEach(function() {
+    beforeEach(function () {
       const savedSession = databaseBuilder.factory.buildSession();
       session = domainBuilder.buildSession(savedSession);
       session.room = 'New room';
@@ -250,7 +260,7 @@ describe('Integration | Repository | Session', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return a Session domain object', async function() {
+    it('should return a Session domain object', async function () {
       // when
       const sessionSaved = await sessionRepository.updateSessionInfo(session);
 
@@ -258,7 +268,7 @@ describe('Integration | Repository | Session', function() {
       expect(sessionSaved).to.be.an.instanceof(Session);
     });
 
-    it('should update model in database', async function() {
+    it('should update model in database', async function () {
       // given
 
       // when
@@ -276,10 +286,10 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#doesUserHaveCertificationCenterMembershipForSession', function() {
+  describe('#doesUserHaveCertificationCenterMembershipForSession', function () {
     let userId, userIdNotAllowed, sessionId, certificationCenterId, certificationCenterNotAllowedId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       userId = 1;
       userIdNotAllowed = 2;
@@ -288,7 +298,10 @@ describe('Integration | Repository | Session', function() {
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       certificationCenterNotAllowedId = databaseBuilder.factory.buildCertificationCenter().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId: userIdNotAllowed, certificationCenterId: certificationCenterNotAllowedId });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: userIdNotAllowed,
+        certificationCenterId: certificationCenterNotAllowedId,
+      });
 
       // when
       sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
@@ -296,36 +309,41 @@ describe('Integration | Repository | Session', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return true if user has membership in the certification center that originated the session', async function() {
+    it('should return true if user has membership in the certification center that originated the session', async function () {
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+        userId,
+        sessionId
+      );
 
       // then
       expect(hasMembership).to.be.true;
     });
 
-    it('should return false if user has no membership in the certification center that originated the session', async function() {
+    it('should return false if user has no membership in the certification center that originated the session', async function () {
       // when
-      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userIdNotAllowed, sessionId);
+      const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(
+        userIdNotAllowed,
+        sessionId
+      );
 
       // then
       expect(hasMembership).to.be.false;
     });
-
   });
 
-  describe('#finalize', function() {
+  describe('#finalize', function () {
     let id;
     const examinerGlobalComment = '';
     const finalizedAt = new Date('2017-09-01T12:14:33Z');
 
-    beforeEach(function() {
+    beforeEach(function () {
       id = databaseBuilder.factory.buildSession({ finalizedAt: null }).id;
 
       return databaseBuilder.commit();
     });
 
-    it('should return an updated Session domain object', async function() {
+    it('should return an updated Session domain object', async function () {
       // when
       const sessionSaved = await sessionRepository.finalize({ id, examinerGlobalComment, finalizedAt });
 
@@ -337,17 +355,17 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#flagResultsAsSentToPrescriber', function() {
+  describe('#flagResultsAsSentToPrescriber', function () {
     let id;
     const resultsSentToPrescriberAt = new Date('2017-09-01T12:14:33Z');
 
-    beforeEach(function() {
+    beforeEach(function () {
       id = databaseBuilder.factory.buildSession({ resultsSentToPrescriberAt: null }).id;
 
       return databaseBuilder.commit();
     });
 
-    it('should return a flagged Session domain object', async function() {
+    it('should return a flagged Session domain object', async function () {
       // when
       const sessionFlagged = await sessionRepository.flagResultsAsSentToPrescriber({ id, resultsSentToPrescriberAt });
 
@@ -358,17 +376,17 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#updatePublishedAt', function() {
+  describe('#updatePublishedAt', function () {
     let id;
     const publishedAt = new Date('2017-09-01T12:14:33Z');
 
-    beforeEach(function() {
+    beforeEach(function () {
       id = databaseBuilder.factory.buildSession({ publishedAt: null }).id;
 
       return databaseBuilder.commit();
     });
 
-    it('should return a updated Session domain object', async function() {
+    it('should return a updated Session domain object', async function () {
       // when
       const sessionFlagged = await sessionRepository.updatePublishedAt({ id, publishedAt });
 
@@ -378,5 +396,4 @@ describe('Integration | Repository | Session', function() {
       expect(sessionFlagged.publishedAt).to.deep.equal(publishedAt);
     });
   });
-
 });

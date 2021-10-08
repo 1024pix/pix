@@ -1,10 +1,8 @@
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const {
-  expect,
-  sinon,
-  domainBuilder,
-  catchErr,
-} = require('../../../test-helper');
-const { retrieveSchoolingRegistration, retrieveAndValidateAccountRecoveryDemand } = require('../../../../lib/domain/services/sco-account-recovery-service');
+  retrieveSchoolingRegistration,
+  retrieveAndValidateAccountRecoveryDemand,
+} = require('../../../../lib/domain/services/sco-account-recovery-service');
 const {
   AccountRecoveryDemandExpired,
   AlreadyRegisteredEmailError,
@@ -13,16 +11,14 @@ const {
   UserHasAlreadyLeftSCO,
 } = require('../../../../lib/domain/errors');
 
-describe('Unit | Service | sco-account-recovery-service', function() {
-
-  describe('#retrieveSchoolingRegistration', function() {
-
+describe('Unit | Service | sco-account-recovery-service', function () {
+  describe('#retrieveSchoolingRegistration', function () {
     let schoolingRegistrationRepository;
     let userRepository;
     let userReconciliationService;
     let accountRecoveryDemandRepository;
 
-    beforeEach(function() {
+    beforeEach(function () {
       schoolingRegistrationRepository = {
         getLatestSchoolingRegistration: sinon.stub(),
         findByUserId: sinon.stub(),
@@ -38,8 +34,8 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       };
     });
 
-    context('when user is not found when matching with INE and birthDate', function() {
-      it('should throw an user not found error', async function() {
+    context('when user is not found when matching with INE and birthDate', function () {
+      it('should throw an user not found error', async function () {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -65,9 +61,8 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       });
     });
 
-    context('when user is not reconciled to any organization', function() {
-
-      it('should throw an user not found error', async function() {
+    context('when user is not reconciled to any organization', function () {
+      it('should throw an user not found error', async function () {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -99,11 +94,9 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       });
     });
 
-    context('when user is reconciled to several organizations', function() {
-
-      context('when all schooling registrations have the same INE', function() {
-
-        it('should return the last reconciled user account information', async function() {
+    context('when user is reconciled to several organizations', function () {
+      context('when all schooling registrations have the same INE', function () {
+        it('should return the last reconciled user account information', async function () {
           // given
           const studentInformation = {
             ineIna: '123456789AA',
@@ -184,9 +177,8 @@ describe('Unit | Service | sco-account-recovery-service', function() {
         });
       });
 
-      context('when at least one schooling registrations has a different INE', function() {
-
-        it('should throw an error', async function() {
+      context('when at least one schooling registrations has a different INE', function () {
+        it('should throw an error', async function () {
           // given
           const studentInformation = {
             ineIna: '123456789AA',
@@ -254,9 +246,8 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       });
     });
 
-    context('when user is reconciled to a single organization', function() {
-
-      it('should return user account information', async function() {
+    context('when user is reconciled to a single organization', function () {
+      it('should return user account information', async function () {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -329,9 +320,8 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       });
     });
 
-    context('when firstName or lastName does not match schooling registration', function() {
-
-      it('should throw an user not found error', async function() {
+    context('when firstName or lastName does not match schooling registration', function () {
+      it('should throw an user not found error', async function () {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -372,9 +362,8 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       });
     });
 
-    context('when user had already left SCO', function() {
-
-      it('should throw an error', async function() {
+    context('when user had already left SCO', function () {
+      it('should throw an error', async function () {
         // given
         const studentInformation = {
           ineIna: '123456789AA',
@@ -426,7 +415,9 @@ describe('Unit | Service | sco-account-recovery-service', function() {
           .resolves([schoolingRegistration]);
         userRepository.get.withArgs(expectedUser.id).resolves(expectedUser);
 
-        accountRecoveryDemandRepository.findByUserId.withArgs(expectedUser.id).resolves([accountRecoveryDemandNotUsed, accountRecoveryDemandUsed]);
+        accountRecoveryDemandRepository.findByUserId
+          .withArgs(expectedUser.id)
+          .resolves([accountRecoveryDemandNotUsed, accountRecoveryDemandUsed]);
 
         userRepository.get.resolves({
           username: expectedUser.username,
@@ -445,18 +436,15 @@ describe('Unit | Service | sco-account-recovery-service', function() {
         // then
         expect(error).to.be.an.instanceOf(UserHasAlreadyLeftSCO);
         expect(error.message).to.be.equal('User has already left SCO.');
-
       });
     });
-
   });
 
-  describe('#retrieveAndValidateAccountRecoveryDemand', function() {
-
+  describe('#retrieveAndValidateAccountRecoveryDemand', function () {
     let userRepository;
     let accountRecoveryDemandRepository;
 
-    beforeEach(function() {
+    beforeEach(function () {
       userRepository = {
         checkIfEmailIsAvailable: sinon.stub(),
       };
@@ -466,7 +454,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       };
     });
 
-    it('should return account recovery detail', async function() {
+    it('should return account recovery detail', async function () {
       // given
       const createdAt = new Date();
       const newEmail = 'philippe@example.net';
@@ -485,13 +473,16 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
       // when
-      const result = await retrieveAndValidateAccountRecoveryDemand({ userRepository, accountRecoveryDemandRepository });
+      const result = await retrieveAndValidateAccountRecoveryDemand({
+        userRepository,
+        accountRecoveryDemandRepository,
+      });
 
       // then
       expect(result).to.be.deep.equal(expectedResult);
     });
 
-    it('should throw error AlreadyRegisteredEmailError when it is not available', async function() {
+    it('should throw error AlreadyRegisteredEmailError when it is not available', async function () {
       // given
       const newEmail = 'philippe@example.net';
 
@@ -499,7 +490,10 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       userRepository.checkIfEmailIsAvailable.withArgs(newEmail).rejects(new AlreadyRegisteredEmailError());
 
       // when
-      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
+      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+        userRepository,
+        accountRecoveryDemandRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(AlreadyRegisteredEmailError);
@@ -507,7 +501,7 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       expect(error.code).to.be.equal('ACCOUNT_WITH_EMAIL_ALREADY_EXISTS');
     });
 
-    it('should throw error UserHasAlreadyLeftSCO when user already left SCO', async function() {
+    it('should throw error UserHasAlreadyLeftSCO when user already left SCO', async function () {
       // given
       const userId = '1234';
 
@@ -516,14 +510,17 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: true }]);
 
       // when
-      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
+      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+        userRepository,
+        accountRecoveryDemandRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(UserHasAlreadyLeftSCO);
       expect(error.message).to.be.equal('User has already left SCO.');
     });
 
-    it('should throw error AccountRecoveryDemandExpired when demand has expired', async function() {
+    it('should throw error AccountRecoveryDemandExpired when demand has expired', async function () {
       // given
       const userId = '1234';
       const createdAt = new Date();
@@ -535,12 +532,14 @@ describe('Unit | Service | sco-account-recovery-service', function() {
       accountRecoveryDemandRepository.findByUserId.withArgs(userId).resolves([{ used: false }]);
 
       // when
-      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({ userRepository, accountRecoveryDemandRepository });
+      const error = await catchErr(retrieveAndValidateAccountRecoveryDemand)({
+        userRepository,
+        accountRecoveryDemandRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(AccountRecoveryDemandExpired);
       expect(error.message).to.be.equal('This account recovery demand has expired.');
     });
-
   });
 });

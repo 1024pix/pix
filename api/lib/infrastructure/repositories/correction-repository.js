@@ -9,14 +9,18 @@ const VALIDATED_HINT_STATUSES = ['Validé', 'pré-validé'];
 const { getTranslatedText } = require('../../domain/services/get-translated-text');
 
 module.exports = {
-
   async getByChallengeId({ challengeId, userId, locale }) {
     const challenge = await challengeDatasource.get(challengeId);
     const skills = await _getSkills(challenge);
     const hints = await _getHints({ skills, locale });
 
     const tutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'tutorialIds', locale });
-    const learningMoreTutorials = await _getTutorials({ userId, skills, tutorialIdsProperty: 'learningMoreTutorialIds', locale });
+    const learningMoreTutorials = await _getTutorials({
+      userId,
+      skills,
+      tutorialIdsProperty: 'learningMoreTutorialIds',
+      locale,
+    });
 
     return new Correction({
       id: challenge.id,
@@ -61,4 +65,3 @@ async function _getTutorials({ userId, skills, tutorialIdsProperty, locale }) {
     .value();
   return tutorialRepository.findByRecordIdsForCurrentUser({ ids: tutorialsIds, userId, locale });
 }
-

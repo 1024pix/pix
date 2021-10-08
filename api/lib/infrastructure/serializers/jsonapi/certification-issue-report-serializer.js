@@ -1,16 +1,10 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(certificationIssueReports) {
     return new Serializer('certification-issue-report', {
-      attributes: [
-        'category',
-        'description',
-        'subcategory',
-        'questionNumber',
-      ],
-      transform: function(certificationIssueReport) {
+      attributes: ['category', 'description', 'subcategory', 'questionNumber'],
+      transform: function (certificationIssueReport) {
         return Object.assign({}, certificationIssueReport);
       },
     }).serialize(certificationIssueReports);

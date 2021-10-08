@@ -9,8 +9,18 @@ module.exports = function buildAnsweredNotCompletedCertificationAssessment({
   competenceIdSkillIdPairs,
   limitDate,
 }) {
-  const certificationCourseId = buildCertificationCourse({ userId: certifiableUserId, createdAt: limitDate, isV2Certification: true }).id;
-  const certificationAssessment = buildAssessment({ certificationCourseId, userId: certifiableUserId, state: Assessment.states.STARTED, type: Assessment.types.CERTIFICATION, createdAt: limitDate });
+  const certificationCourseId = buildCertificationCourse({
+    userId: certifiableUserId,
+    createdAt: limitDate,
+    isV2Certification: true,
+  }).id;
+  const certificationAssessment = buildAssessment({
+    certificationCourseId,
+    userId: certifiableUserId,
+    state: Assessment.states.STARTED,
+    type: Assessment.types.CERTIFICATION,
+    createdAt: limitDate,
+  });
   competenceIdSkillIdPairs.forEach((element) => {
     const { challengeId, competenceId } = element;
     buildCertificationChallenge({ courseId: certificationCourseId, challengeId, competenceId });

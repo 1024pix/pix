@@ -1,6 +1,6 @@
 const Session = require('../../../../lib/domain/models/Session');
 
-const buildSession = function({
+const buildSession = function ({
   id = 123,
   accessCode = 'ABCD123',
   address = '4 avenue du général perlimpimpim',
@@ -38,7 +38,7 @@ const buildSession = function({
   });
 };
 
-buildSession.created = function({
+buildSession.created = function ({
   id,
   accessCode,
   address,
@@ -71,7 +71,7 @@ buildSession.created = function({
   });
 };
 
-buildSession.finalized = function({
+buildSession.finalized = function ({
   id,
   accessCode,
   address,
@@ -104,7 +104,7 @@ buildSession.finalized = function({
   });
 };
 
-buildSession.inProcess = function({
+buildSession.inProcess = function ({
   id,
   accessCode,
   address,
@@ -137,7 +137,7 @@ buildSession.inProcess = function({
   });
 };
 
-buildSession.processed = function({
+buildSession.processed = function ({
   id,
   accessCode,
   address,

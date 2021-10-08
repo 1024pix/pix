@@ -2,24 +2,20 @@ const FinalizedSession = require('../../../../../lib/domain/models/FinalizedSess
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 
-describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a with-required-action-session model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a with-required-action-session model object into JSON API data', function () {
       // given
-      const finalizedSession = new FinalizedSession(
-        {
-          sessionId: 12,
-          finalizedAt: new Date('2019-04-28T02:42:26Z'),
-          certificationCenterName: 'Centre des Anne-Etoile',
-          sessionDate: '2019-04-28',
-          sessionTime: '02:42',
-          isPublishable: false,
-          publishedAt: null,
-          assignedCertificationOfficerName: 'Anne Star',
-        },
-      );
+      const finalizedSession = new FinalizedSession({
+        sessionId: 12,
+        finalizedAt: new Date('2019-04-28T02:42:26Z'),
+        certificationCenterName: 'Centre des Anne-Etoile',
+        sessionDate: '2019-04-28',
+        sessionTime: '02:42',
+        isPublishable: false,
+        publishedAt: null,
+        assignedCertificationOfficerName: 'Anne Star',
+      });
 
       const expectedJsonApi = {
         data: {
@@ -43,5 +39,4 @@ describe('Unit | Serializer | JSONAPI | with-required-action-session-serializer'
       expect(json).to.deep.equal(expectedJsonApi);
     });
   });
-
 });

@@ -2,10 +2,8 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 
-describe('Unit | Domain | Models | PrivateCertificate', function() {
-
-  context('#static buildFrom', function() {
-
+describe('Unit | Domain | Models | PrivateCertificate', function () {
+  context('#static buildFrom', function () {
     const commonData = {
       id: 1,
       firstName: 'Jean',
@@ -28,7 +26,7 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       maxReachableLevelOnCertificationDate: 5,
     };
 
-    it('builds a cancelled PrivateCertificate', async function() {
+    it('builds a cancelled PrivateCertificate', async function () {
       // when
       const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: true });
 
@@ -38,9 +36,13 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds a validated PrivateCertificate', async function() {
+    it('builds a validated PrivateCertificate', async function () {
       // when
-      const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: assessmentResultStatuses.VALIDATED });
+      const privateCertificate = PrivateCertificate.buildFrom({
+        ...commonData,
+        isCancelled: false,
+        assessmentResultStatus: assessmentResultStatuses.VALIDATED,
+      });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.validated(commonData);
@@ -48,9 +50,13 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds a rejected PrivateCertificate', async function() {
+    it('builds a rejected PrivateCertificate', async function () {
       // when
-      const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: assessmentResultStatuses.REJECTED });
+      const privateCertificate = PrivateCertificate.buildFrom({
+        ...commonData,
+        isCancelled: false,
+        assessmentResultStatus: assessmentResultStatuses.REJECTED,
+      });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.rejected(commonData);
@@ -58,9 +64,13 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds an error PrivateCertificate', async function() {
+    it('builds an error PrivateCertificate', async function () {
       // when
-      const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: assessmentResultStatuses.ERROR });
+      const privateCertificate = PrivateCertificate.buildFrom({
+        ...commonData,
+        isCancelled: false,
+        assessmentResultStatus: assessmentResultStatuses.ERROR,
+      });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.error(commonData);
@@ -68,9 +78,13 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
       expect(privateCertificate).to.deep.equal(expectedPrivateCertificate);
     });
 
-    it('builds a started PrivateCertificate', async function() {
+    it('builds a started PrivateCertificate', async function () {
       // when
-      const privateCertificate = PrivateCertificate.buildFrom({ ...commonData, isCancelled: false, assessmentResultStatus: null });
+      const privateCertificate = PrivateCertificate.buildFrom({
+        ...commonData,
+        isCancelled: false,
+        assessmentResultStatus: null,
+      });
 
       // then
       const expectedPrivateCertificate = domainBuilder.buildPrivateCertificate.started(commonData);
@@ -79,9 +93,8 @@ describe('Unit | Domain | Models | PrivateCertificate', function() {
     });
   });
 
-  context('#setResultCompetenceTree', function() {
-
-    it('should set the resultCompetenceTree on PrivateCertificate model', function() {
+  context('#setResultCompetenceTree', function () {
+    it('should set the resultCompetenceTree on PrivateCertificate model', function () {
       // given
       const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'someId' });
       const privateCertificate = domainBuilder.buildPrivateCertificate();

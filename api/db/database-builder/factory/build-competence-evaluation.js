@@ -13,7 +13,6 @@ module.exports = function buildCompetenceEvaluation({
   updatedAt = new Date('2020-01-02'),
   userId,
 } = {}) {
-
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment({ userId }).id : assessmentId;
 

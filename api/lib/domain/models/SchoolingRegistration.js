@@ -3,7 +3,6 @@ const STATUS = {
   APPRENTICE: 'AP',
 };
 class SchoolingRegistration {
-
   constructor({
     id,
     lastName,

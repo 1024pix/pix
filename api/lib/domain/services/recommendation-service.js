@@ -23,11 +23,11 @@ function computeRecommendationScore(skillsOfTube, maxSkillLevelInTargetProfile, 
 }
 
 function _computeReachedLevelScore(skill, reachedLevelInTube) {
-  return REACH_LEVEL_POINTS / skill.difficulty * reachedLevelInTube;
+  return (REACH_LEVEL_POINTS / skill.difficulty) * reachedLevelInTube;
 }
 
 function _computeProgressScore(skillsOfTube, validatedKnowledgeElements) {
-  return PROGRESS_POINTS / skillsOfTube.length * validatedKnowledgeElements.length;
+  return (PROGRESS_POINTS / skillsOfTube.length) * validatedKnowledgeElements.length;
 }
 
 function _computeNextStepScore(skillsOfTube, validatedKnowledgeElements, reachedLevelInTube) {
@@ -36,17 +36,15 @@ function _computeNextStepScore(skillsOfTube, validatedKnowledgeElements, reached
   }
 
   const nextLevelToReach = _getNextLevelToReach(skillsOfTube, validatedKnowledgeElements);
-  return NEXT_STEP_POINTS / nextLevelToReach * reachedLevelInTube;
+  return (NEXT_STEP_POINTS / nextLevelToReach) * reachedLevelInTube;
 }
 
 function _computeDifficultyScore(maxSkillLevelInTargetProfile, skill) {
-  return DIFFICULTY_POINTS / maxSkillLevelInTargetProfile * skill.difficulty;
+  return (DIFFICULTY_POINTS / maxSkillLevelInTargetProfile) * skill.difficulty;
 }
 
 function _getNextLevelToReach(skillsOfTube, validatedKnowledgeElements) {
-  const nextSkillToAcquire = _(skillsOfTube)
-    .reject(_isSkillValidated(validatedKnowledgeElements))
-    .minBy('difficulty');
+  const nextSkillToAcquire = _(skillsOfTube).reject(_isSkillValidated(validatedKnowledgeElements)).minBy('difficulty');
 
   if (!nextSkillToAcquire) {
     return _getSkillOfMaxDifficulty(skillsOfTube).difficulty;
@@ -56,7 +54,9 @@ function _getNextLevelToReach(skillsOfTube, validatedKnowledgeElements) {
 }
 
 function _getReachedLevelInTube(validatedKnowledgeElements, skillsOfTube) {
-  const skillsOfTubeWithKnowledgeElement = skillsOfTube.filter(({ id }) => _.find(validatedKnowledgeElements, { skillId: id }));
+  const skillsOfTubeWithKnowledgeElement = skillsOfTube.filter(({ id }) =>
+    _.find(validatedKnowledgeElements, { skillId: id })
+  );
   const reachSkill = _getSkillOfMaxDifficulty(skillsOfTubeWithKnowledgeElement);
 
   return reachSkill ? reachSkill.difficulty : DEFAULT_REACHED_LEVEL;
@@ -64,7 +64,6 @@ function _getReachedLevelInTube(validatedKnowledgeElements, skillsOfTube) {
 
 function _isSkillValidated(validatedKnowledgeElements) {
   return (skill) => _.map(validatedKnowledgeElements, 'skillId').includes(skill.id);
-
 }
 
 module.exports = {

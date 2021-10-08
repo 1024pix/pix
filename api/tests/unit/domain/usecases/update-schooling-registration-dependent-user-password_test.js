@@ -1,13 +1,10 @@
 const { sinon, expect, catchErr } = require('../../../test-helper');
 
-const {
-  UserNotFoundError, UserNotAuthorizedToUpdatePasswordError,
-} = require('../../../../lib/domain/errors');
+const { UserNotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
 
 const updateSchoolingRegistrationDependentUserPassword = require('../../../../lib/domain/usecases/update-schooling-registration-dependent-user-password');
 
-describe('Unit | UseCase | update-schooling-registration-dependent-user-password', function() {
-
+describe('Unit | UseCase | update-schooling-registration-dependent-user-password', function () {
   const userId = 1;
   const organizationId = 1;
   const schoolingRegistrationId = 1;
@@ -25,7 +22,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
   let userStudent;
   let student;
 
-  beforeEach(function() {
+  beforeEach(function () {
     userMember = {
       id: 1,
       hasAccessToOrganization: sinon.stub().returns(true),
@@ -61,7 +58,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     };
   });
 
-  it('should get user by his id', async function() {
+  it('should get user by his id', async function () {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
       organizationId,
@@ -78,7 +75,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     expect(userRepository.getWithMemberships).to.have.been.calledWith(userId);
   });
 
-  it('should get student by his id', async function() {
+  it('should get student by his id', async function () {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
       organizationId,
@@ -95,7 +92,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     expect(schoolingRegistrationRepository.get).to.have.been.calledWith(schoolingRegistrationId);
   });
 
-  it('should update user password with a hashed password', async function() {
+  it('should update user password with a hashed password', async function () {
     // when
     await updateSchoolingRegistrationDependentUserPassword({
       organizationId,
@@ -116,7 +113,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     });
   });
 
-  it('should return generated password if update succeeded', async function() {
+  it('should return generated password if update succeeded', async function () {
     // when
     const result = await updateSchoolingRegistrationDependentUserPassword({
       organizationId,
@@ -133,9 +130,8 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     expect(result).to.equal(generatedPassword);
   });
 
-  describe('When the user member is not part of student organization', function() {
-
-    it('should return UserNotAuthorizedToUpdatePasswordError', async function() {
+  describe('When the user member is not part of student organization', function () {
+    it('should return UserNotAuthorizedToUpdatePasswordError', async function () {
       // given
       userMember.hasAccessToOrganization.returns(false);
 
@@ -156,9 +152,8 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     });
   });
 
-  describe('When the student is not part of the organization', function() {
-
-    it('should return UserNotAuthorizedToUpdatePasswordError', async function() {
+  describe('When the student is not part of the organization', function () {
+    it('should return UserNotAuthorizedToUpdatePasswordError', async function () {
       // given
       student.organizationId = 2;
 
@@ -179,9 +174,8 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
     });
   });
 
-  describe('When update user student\'s password is not possible', function() {
-
-    it('should return a UserNotFoundError when user student is not found', async function() {
+  describe("When update user student's password is not possible", function () {
+    it('should return a UserNotFoundError when user student is not found', async function () {
       // given
       userRepository.get.rejects(new UserNotFoundError());
 
@@ -201,7 +195,7 @@ describe('Unit | UseCase | update-schooling-registration-dependent-user-password
       expect(error).to.be.instanceOf(UserNotFoundError);
     });
 
-    it('should return a UserNotAuthorizedToUpdatePasswordError when student authenticates without username or email', async function() {
+    it('should return a UserNotAuthorizedToUpdatePasswordError when student authenticates without username or email', async function () {
       // given
       userStudent.username = null;
       userStudent.email = null;

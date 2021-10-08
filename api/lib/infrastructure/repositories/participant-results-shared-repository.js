@@ -16,9 +16,12 @@ async function _fetchTargetedSkillIds(campaignParticipationId) {
 async function _fetchKnowledgeElements(campaignParticipationId) {
   const { snapshot: knowledgeElements } = await knex('campaign-participations')
     .select('snapshot')
-    .join('knowledge-element-snapshots', function() {
-      this.on('knowledge-element-snapshots.userId', '=', 'campaign-participations.userId')
-        .andOn('knowledge-element-snapshots.snappedAt', '=', 'campaign-participations.sharedAt');
+    .join('knowledge-element-snapshots', function () {
+      this.on('knowledge-element-snapshots.userId', '=', 'campaign-participations.userId').andOn(
+        'knowledge-element-snapshots.snappedAt',
+        '=',
+        'campaign-participations.sharedAt'
+      );
     })
     .where('campaign-participations.id', campaignParticipationId)
     .first();

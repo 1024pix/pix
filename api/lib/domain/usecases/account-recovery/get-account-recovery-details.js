@@ -5,11 +5,12 @@ module.exports = async function getAccountRecoveryDetails({
   userRepository,
   scoAccountRecoveryService,
 }) {
-  const { id, newEmail, schoolingRegistrationId } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
-    temporaryKey,
-    accountRecoveryDemandRepository,
-    userRepository,
-  });
+  const { id, newEmail, schoolingRegistrationId } =
+    await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
+      temporaryKey,
+      accountRecoveryDemandRepository,
+      userRepository,
+    });
 
   const { firstName } = await schoolingRegistrationRepository.get(schoolingRegistrationId);
 

@@ -2,22 +2,20 @@ const { expect } = require('../../test-helper');
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | feature-toggle-controller', function() {
-
+describe('Acceptance | Controller | feature-toggle-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/feature-toggles', function() {
-
+  describe('GET /api/feature-toggles', function () {
     const options = {
       method: 'GET',
       url: '/api/feature-toggles',
     };
 
-    it('should return 200 with feature toggles', async function() {
+    it('should return 200 with feature toggles', async function () {
       // given
       const expectedData = {
         data: {

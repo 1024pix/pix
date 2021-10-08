@@ -9,19 +9,21 @@ module.exports = async function importCertificationCandidatesFromCandidatesImpor
   certificationCpfCountryRepository,
   certificationCpfCityRepository,
 }) {
-  const linkedCandidateInSessionExists = await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
+  const linkedCandidateInSessionExists =
+    await certificationCandidateRepository.doesLinkedCertificationCandidateInSessionExist({ sessionId });
 
   if (linkedCandidateInSessionExists) {
     throw new CertificationCandidateAlreadyLinkedToUserError('At least one candidate is already linked to a user');
   }
 
-  const certificationCandidates = await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
-    sessionId,
-    odsBuffer,
-    certificationCpfService,
-    certificationCpfCountryRepository,
-    certificationCpfCityRepository,
-  });
+  const certificationCandidates =
+    await certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet({
+      sessionId,
+      odsBuffer,
+      certificationCpfService,
+      certificationCpfCountryRepository,
+      certificationCpfCityRepository,
+    });
 
   return certificationCandidateRepository.setSessionCandidates(sessionId, certificationCandidates);
 };

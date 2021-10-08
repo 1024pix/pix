@@ -6,32 +6,41 @@ const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
 const createServer = require('../../../../server');
 
 const i18n = getI18n();
-const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
+const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns
+  .map((column) => column.label)
+  .join(';');
 
 let server;
 
-describe('Acceptance | Application | organization-controller-replace-higher-schooling-registrations', function() {
-
-  beforeEach(async function() {
+describe('Acceptance | Application | organization-controller-replace-higher-schooling-registrations', function () {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     return knex('schooling-registrations').delete();
   });
 
-  describe('POST organizations/:id/schooling-registrations/replace-csv', function() {
+  describe('POST organizations/:id/schooling-registrations/replace-csv', function () {
     let connectedUser;
-    beforeEach(async function() {
+    beforeEach(async function () {
       connectedUser = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    context('when the user is an admin for an organization which managing student', function() {
-      it('replaces the schooling-registrations for the given organization', async function() {
+    context('when the user is an admin for an organization which managing student', function () {
+      it('replaces the schooling-registrations for the given organization', async function () {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
-        databaseBuilder.factory.buildSchoolingRegistration({ id: 1, organizationId: organization.id, isDisabled: false });
+        databaseBuilder.factory.buildMembership({
+          organizationId: organization.id,
+          userId: connectedUser.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          id: 1,
+          organizationId: organization.id,
+          isDisabled: false,
+        });
         await databaseBuilder.commit();
         const buffer =
           `${higherSchoolingRegistrationColumns}\n` +
@@ -54,7 +63,12 @@ describe('Acceptance | Application | organization-controller-replace-higher-scho
             type: 'higher-schooling-registration-warnings',
             attributes: {
               warnings: [
-                { code: 'unknown', field: 'study-scheme', studentNumber: '12346', value: 'hello darkness my old friend' },
+                {
+                  code: 'unknown',
+                  field: 'study-scheme',
+                  studentNumber: '12346',
+                  value: 'hello darkness my old friend',
+                },
                 { code: 'unknown', field: 'diploma', studentNumber: '12346', value: 'Master' },
               ],
             },
@@ -63,7 +77,7 @@ describe('Acceptance | Application | organization-controller-replace-higher-scho
         expect(registrations).to.have.lengthOf(2);
       });
 
-      it('fails when the file payload is too large', async function() {
+      it('fails when the file payload is too large', async function () {
         const buffer = Buffer.alloc(1048576 * 11, 'B'); // > 10 Mo buffer
 
         const options = {

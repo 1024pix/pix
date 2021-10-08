@@ -3,14 +3,13 @@ const competenceEvaluationController = require('../../../../lib/application/comp
 const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Application | Controller | Competence-Evaluation', function() {
-
-  describe('#start', function() {
+describe('Unit | Application | Controller | Competence-Evaluation', function () {
+  describe('#start', function () {
     let request;
     const competenceId = 'recABCD1234';
     const userId = 6;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'startOrResumeCompetenceEvaluation');
       sinon.stub(serializer, 'serialize');
       request = {
@@ -20,7 +19,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', function() {
       };
     });
 
-    it('should call the usecases to start the competence evaluation', async function() {
+    it('should call the usecases to start the competence evaluation', async function () {
       // given
       usecases.startOrResumeCompetenceEvaluation.resolves({});
 
@@ -36,7 +35,7 @@ describe('Unit | Application | Controller | Competence-Evaluation', function() {
       expect(competenceId).to.equal(competenceId);
     });
 
-    it('should return the serialized competence evaluation when it has been successfully created', async function() {
+    it('should return the serialized competence evaluation when it has been successfully created', async function () {
       // given
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation({ competenceId });
       usecases.startOrResumeCompetenceEvaluation.resolves({ competenceEvaluation, created: true });

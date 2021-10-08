@@ -1,5 +1,3 @@
-module.exports = async function getUserDetailsForAdmin({
-  userId, userRepository,
-}) {
+module.exports = async function getUserDetailsForAdmin({ userId, userRepository }) {
   return await userRepository.getUserDetailsForAdmin(userId);
 };

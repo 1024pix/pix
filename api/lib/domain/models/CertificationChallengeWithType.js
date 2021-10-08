@@ -15,9 +15,7 @@ class CertificationChallengeWithType {
     this.associatedSkillName = associatedSkillName;
     this.challengeId = challengeId;
     const possibleTypeValues = Object.values(Type);
-    this.type = possibleTypeValues.includes(type)
-      ? type
-      : 'EmptyType';
+    this.type = possibleTypeValues.includes(type) ? type : 'EmptyType';
     this.competenceId = competenceId;
     this.isNeutralized = isNeutralized;
     this.hasBeenSkippedAutomatically = hasBeenSkippedAutomatically;

@@ -4,7 +4,6 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 const studentInformationForAccountRecoverySerializer = require('../../infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 
 module.exports = {
-
   async createAndReconcileUserToSchoolingRegistration(request, h) {
     const payload = request.payload.data.attributes;
     const userAttributes = {
@@ -28,11 +27,7 @@ module.exports = {
   },
 
   async createUserAndReconcileToSchoolingRegistrationFromExternalUser(request, h) {
-    const {
-      birthdate,
-      'campaign-code': campaignCode,
-      'external-user-token': token,
-    } = request.payload.data.attributes;
+    const { birthdate, 'campaign-code': campaignCode, 'external-user-token': token } = request.payload.data.attributes;
 
     const accessToken = await usecases.createUserAndReconcileToSchoolingRegistrationFromExternalUser({
       birthdate,
@@ -86,7 +81,8 @@ module.exports = {
       organizationId,
     });
 
-    const schoolingRegistrationWithGeneratedUsernamePasswordResponse = schoolingRegistrationDependentUser.serialize(result);
+    const schoolingRegistrationWithGeneratedUsernamePasswordResponse =
+      schoolingRegistrationDependentUser.serialize(result);
 
     return h.response(schoolingRegistrationWithGeneratedUsernamePasswordResponse).code(200);
   },

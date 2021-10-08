@@ -8,13 +8,15 @@ const AuthenticationMethod = require('../../../../lib/domain/models/Authenticati
 const PoleEmploiTokens = require('../../../../lib/domain/models/PoleEmploiTokens');
 const User = require('../../../../lib/domain/models/User');
 
-const { InvalidExternalAPIResponseError, AuthenticationKeyForPoleEmploiTokenExpired } = require('../../../../lib/domain/errors');
+const {
+  InvalidExternalAPIResponseError,
+  AuthenticationKeyForPoleEmploiTokenExpired,
+} = require('../../../../lib/domain/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const createUserFromPoleEmploi = require('../../../../lib/domain/usecases/create-user-from-pole-emploi');
 
-describe('Unit | UseCase | create-user-from-pole-emploi', function() {
-
+describe('Unit | UseCase | create-user-from-pole-emploi', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol();
@@ -25,10 +27,12 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
   let userRepository;
   let authenticationService;
 
-  beforeEach(function() {
+  beforeEach(function () {
     clock = sinon.useFakeTimers(Date.now());
 
-    DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
+    DomainTransaction.execute = (lambda) => {
+      return lambda(domainTransaction);
+    };
 
     authenticationMethodRepository = {
       create: sinon.stub(),
@@ -49,16 +53,14 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
     };
   });
 
-  afterEach(function() {
+  afterEach(function () {
     clock.restore();
   });
 
-  it('should throw an AuthenticationKeyForPoleEmploiTokenExpired if key expired', async function() {
+  it('should throw an AuthenticationKeyForPoleEmploiTokenExpired if key expired', async function () {
     // given
     const authenticationKey = 'authenticationKey';
-    poleEmploiTokensRepository.getByKey
-      .withArgs(authenticationKey)
-      .resolves(null);
+    poleEmploiTokensRepository.getByKey.withArgs(authenticationKey).resolves(null);
 
     // when
     const error = await catchErr(createUserFromPoleEmploi)({
@@ -74,9 +76,8 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
     expect(error.message).to.be.equal('This authentication key for pole emploi token has expired.');
   });
 
-  context('When there is no user with Pole Emploi authentication method', function() {
-
-    it('should create the user and the authentication method', async function() {
+  context('When there is no user with Pole Emploi authentication method', function () {
+    it('should create the user and the authentication method', async function () {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';
@@ -86,9 +87,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      poleEmploiTokensRepository.getByKey
-        .withArgs(authenticationKey)
-        .resolves(poleEmploiTokens);
+      poleEmploiTokensRepository.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -96,9 +95,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      authenticationService.getPoleEmploiUserInfo
-        .withArgs(poleEmploiTokens.idToken)
-        .resolves(decodedUserInfo);
+      authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider
         .withArgs({
@@ -148,7 +145,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
       expect(response.idToken).to.equal(poleEmploiTokens.idToken);
     });
 
-    it('should raise an error and log details if required properties are not returned by external API', async function() {
+    it('should raise an error and log details if required properties are not returned by external API', async function () {
       // given
       const authenticationKey = 'authenticationKey';
       const poleEmploiTokens = new PoleEmploiTokens({
@@ -157,9 +154,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      poleEmploiTokensRepository.getByKey
-        .withArgs(authenticationKey)
-        .resolves(poleEmploiTokens);
+      poleEmploiTokensRepository.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -168,9 +163,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
         nonce: 'nonce',
       };
 
-      authenticationService.getPoleEmploiUserInfo
-        .withArgs(poleEmploiTokens.idToken)
-        .resolves(decodedUserInfo);
+      authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
       sinon.stub(logger, 'error');
 
@@ -186,14 +179,15 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
       // then
       expect(error).to.be.instanceOf(InvalidExternalAPIResponseError);
       expect(error.message).to.be.equal('API PE: les informations utilisateurs récupérées sont incorrectes.');
-      const expectedMessage = `Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(decodedUserInfo)}.`;
+      const expectedMessage = `Un des champs obligatoires n'a pas été renvoyé par /userinfo: ${JSON.stringify(
+        decodedUserInfo
+      )}.`;
       expect(logger.error).to.have.been.calledWith(expectedMessage);
     });
   });
 
-  context('When there is already a user with Pole Emploi authentication method', function() {
-
-    it('should neither create the user nor the authentication method', async function() {
+  context('When there is already a user with Pole Emploi authentication method', function () {
+    it('should neither create the user nor the authentication method', async function () {
       // given
       const userId = 123;
       const authenticationKey = 'authenticationKey';
@@ -203,9 +197,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
         expiresIn: 10,
         refreshToken: 'refreshToken',
       });
-      poleEmploiTokensRepository.getByKey
-        .withArgs(authenticationKey)
-        .resolves(poleEmploiTokens);
+      poleEmploiTokensRepository.getByKey.withArgs(authenticationKey).resolves(poleEmploiTokens);
 
       const decodedUserInfo = {
         firstName: 'Jean',
@@ -213,9 +205,7 @@ describe('Unit | UseCase | create-user-from-pole-emploi', function() {
         externalIdentityId: 'externalIdentityId',
         nonce: 'nonce',
       };
-      authenticationService.getPoleEmploiUserInfo
-        .withArgs(poleEmploiTokens.idToken)
-        .resolves(decodedUserInfo);
+      authenticationService.getPoleEmploiUserInfo.withArgs(poleEmploiTokens.idToken).resolves(decodedUserInfo);
 
       const authenticationMethod = domainBuilder.buildAuthenticationMethod({ userId });
       authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider

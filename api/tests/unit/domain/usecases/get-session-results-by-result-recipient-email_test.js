@@ -1,23 +1,24 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const getSessionResultsByResultRecipientEmail = require('../../../../lib/domain/usecases/get-session-results-by-result-recipient-email');
 
-describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function() {
-
+describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-email', function () {
   const sessionRepository = { getWithCertificationCandidates: null };
   const certificationResultRepository = { findByCertificationCandidateIds: null };
 
-  beforeEach(function() {
+  beforeEach(function () {
     sessionRepository.getWithCertificationCandidates = sinon.stub();
     certificationResultRepository.findByCertificationCandidateIds = sinon.stub();
   });
 
-  it('should return session', async function() {
+  it('should return session', async function () {
     // given
     const expectedSession = domainBuilder.buildSession({
       certificationCandidates: [],
     });
     sessionRepository.getWithCertificationCandidates.withArgs(123).resolves(expectedSession);
-    certificationResultRepository.findByCertificationCandidateIds.withArgs({ certificationCandidateIds: [] }).resolves([]);
+    certificationResultRepository.findByCertificationCandidateIds
+      .withArgs({ certificationCandidateIds: [] })
+      .resolves([]);
 
     // when
     const { session } = await getSessionResultsByResultRecipientEmail({
@@ -31,7 +32,7 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     expect(session).to.deepEqualInstance(expectedSession);
   });
 
-  it('should return all certification results linked to candidates whose resultRecipientEmail matches with the one provided', async function() {
+  it('should return all certification results linked to candidates whose resultRecipientEmail matches with the one provided', async function () {
     // given
     const certificationCandidate1 = domainBuilder.buildCertificationCandidate({
       id: 456,
@@ -48,7 +49,9 @@ describe('Unit | Domain | Use Cases | get-session-results-by-result-recipient-em
     });
     sessionRepository.getWithCertificationCandidates.withArgs(123).resolves(expectedSession);
     const certificationResult = domainBuilder.buildCertificationResult({ firstName: 'Buffy' });
-    certificationResultRepository.findByCertificationCandidateIds.withArgs({ certificationCandidateIds: [789] }).resolves([certificationResult]);
+    certificationResultRepository.findByCertificationCandidateIds
+      .withArgs({ certificationCandidateIds: [789] })
+      .resolves([certificationResult]);
 
     // when
     const { certificationResults } = await getSessionResultsByResultRecipientEmail({

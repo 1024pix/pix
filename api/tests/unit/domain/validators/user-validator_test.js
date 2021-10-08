@@ -14,15 +14,12 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | user-validator', function() {
-
+describe('Unit | Domain | Validators | user-validator', function () {
   let user;
 
-  describe('#validate', function() {
-
-    context('when validation is for normal user', function() {
-
-      beforeEach(function() {
+  describe('#validate', function () {
+    context('when validation is for normal user', function () {
+      beforeEach(function () {
         user = new User({
           firstName: 'John',
           lastName: 'Doe',
@@ -31,16 +28,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         });
       });
 
-      context('when validation is successful', function() {
-
-        it('should not throw any error', function() {
+      context('when validation is successful', function () {
+        it('should not throw any error', function () {
           expect(userValidator.validate({ user })).to.not.throw;
         });
       });
 
-      context('when user data validation fails', function() {
-
-        it('should reject with error when user is undefined', function() {
+      context('when user data validation fails', function () {
+        it('should reject with error when user is undefined', function () {
           // given
           const expectedError = {
             attribute: undefined,
@@ -57,7 +52,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "first name" when first name is missing', function() {
+        it('should reject with error on field "first name" when first name is missing', function () {
           // given
           const expectedError = {
             attribute: 'firstName',
@@ -75,7 +70,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "last name" when last name is missing', function() {
+        it('should reject with error on field "last name" when last name is missing', function () {
           // given
           const expectedError = {
             attribute: 'lastName',
@@ -93,7 +88,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "cgu" when cgu is false', function() {
+        it('should reject with error on field "cgu" when cgu is false', function () {
           // given
           const expectedError = {
             attribute: 'cgu',
@@ -111,7 +106,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "email" when email is missing', function() {
+        it('should reject with error on field "email" when email is missing', function () {
           // given
           const expectedError = {
             attribute: 'email',
@@ -129,7 +124,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "email" when email is invalid', function() {
+        it('should reject with error on field "email" when email is invalid', function () {
           // given
           const expectedError = {
             attribute: 'email',
@@ -147,7 +142,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error when neither email nor username are defined', async function() {
+        it('should reject with error when neither email nor username are defined', async function () {
           // given
           const expectedError = {
             attribute: undefined,
@@ -164,7 +159,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           _assertErrorMatchesWithExpectedOne(errors, expectedError);
         });
 
-        it('should reject with errors on all fields (but only once by field) when all fields are missing', async function() {
+        it('should reject with errors on all fields (but only once by field) when all fields are missing', async function () {
           // given
           user = {
             firstName: '',
@@ -179,7 +174,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           expect(error.invalidAttributes).to.have.lengthOf(4);
         });
 
-        it('should reject with errors on firstName, lastName and email when firstName, lastName and email have a maximum length of 255', async function() {
+        it('should reject with errors on firstName, lastName and email when firstName, lastName and email have a maximum length of 255', async function () {
           // given
           const expectedFirstNameError = {
             attribute: 'firstName',
@@ -212,7 +207,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           expect(errors.invalidAttributes[2]).to.deep.equal(expectedMaxLengthEmailError);
         });
 
-        it('should reject with error on field "mustValidateTermsOfService" when incorrect', async function() {
+        it('should reject with error on field "mustValidateTermsOfService" when incorrect', async function () {
           // given
           const expectedError = {
             attribute: 'mustValidateTermsOfService',
@@ -227,7 +222,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           _assertErrorMatchesWithExpectedOne(errors, expectedError);
         });
 
-        it('should reject with error on field "hasSeenAssessmentInstructions" when incorrect', async function() {
+        it('should reject with error on field "hasSeenAssessmentInstructions" when incorrect', async function () {
           // given
           const expectedError = {
             attribute: 'hasSeenAssessmentInstructions',
@@ -245,11 +240,10 @@ describe('Unit | Domain | Validators | user-validator', function() {
       });
     });
 
-    context('when validation is for student dependent user', function() {
-
+    context('when validation is for student dependent user', function () {
       const cguRequired = false;
 
-      beforeEach(function() {
+      beforeEach(function () {
         user = new User({
           firstName: 'John',
           lastName: 'Doe',
@@ -258,16 +252,14 @@ describe('Unit | Domain | Validators | user-validator', function() {
         });
       });
 
-      context('when validation is successful', function() {
-
-        it('should not throw any error', function() {
+      context('when validation is successful', function () {
+        it('should not throw any error', function () {
           expect(userValidator.validate({ user, cguRequired })).to.not.throw;
         });
       });
 
-      context('when user data validation fails', function() {
-
-        it('should reject with error when user is undefined', function() {
+      context('when user data validation fails', function () {
+        it('should reject with error when user is undefined', function () {
           // given
           const expectedError = {
             attribute: undefined,
@@ -284,7 +276,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "first name" when first name is missing', function() {
+        it('should reject with error on field "first name" when first name is missing', function () {
           // given
           const expectedError = {
             attribute: 'firstName',
@@ -302,7 +294,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "last name" when last name is missing', function() {
+        it('should reject with error on field "last name" when last name is missing', function () {
           // given
           const expectedError = {
             attribute: 'lastName',
@@ -320,7 +312,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with error on field "username" when username is missing', function() {
+        it('should reject with error on field "username" when username is missing', function () {
           // given
           const expectedError = {
             attribute: 'username',
@@ -338,7 +330,7 @@ describe('Unit | Domain | Validators | user-validator', function() {
           }
         });
 
-        it('should reject with errors on all fields (but only once by field) when all fields are missing', async function() {
+        it('should reject with errors on all fields (but only once by field) when all fields are missing', async function () {
           // given
           user = {
             firstName: '',

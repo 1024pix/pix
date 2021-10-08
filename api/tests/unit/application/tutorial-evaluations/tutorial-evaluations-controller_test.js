@@ -2,10 +2,9 @@ const { sinon, expect, hFake } = require('../../../test-helper');
 const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | Controller | Tutorial-evaluations', function() {
-
-  describe('#evaluate', function() {
-    it('should call the expected usecase', async function() {
+describe('Unit | Controller | Tutorial-evaluations', function () {
+  describe('#evaluate', function () {
+    it('should call the expected usecase', async function () {
       // given
       const tutorialId = 'tutorialId';
       const userId = 'userId';

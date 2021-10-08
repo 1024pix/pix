@@ -1,20 +1,21 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
 const { isSameBinary } = require('../../../../tooling/binary-comparator');
-const { getCertificationAttestationsPdfBuffer } = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
+const {
+  getCertificationAttestationsPdfBuffer,
+} = require('../../../../../lib/infrastructure/utils/pdf/certification-attestation-pdf');
 
 const { addRandomSuffix } = require('pdf-lib/cjs/utils');
 
-describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function() {
-
-  beforeEach(function() {
+describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation Pdf', function () {
+  beforeEach(function () {
     _makePdfLibPredictable();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     _restorePdfLib();
   });
 
-  it('should generate full attestation (non-regression test)', async function() {
+  it('should generate full attestation (non-regression test)', async function () {
     // given
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificate = domainBuilder.buildCertificationAttestation({
@@ -42,7 +43,7 @@ describe('Integration | Infrastructure | Utils | Pdf | Certification Attestation
     expect(await isSameBinary(referencePdfPath, buffer)).to.be.true;
   });
 
-  it('should generate a page per certificate', async function() {
+  it('should generate a page per certificate', async function () {
     // given
     const resultCompetenceTree = domainBuilder.buildResultCompetenceTree();
     const certificateWithCleaAndPixPlusDroitMaitre = domainBuilder.buildCertificationAttestation({
@@ -96,7 +97,9 @@ function _makePdfLibPredictable() {
   const suffixes = new Map();
 
   function autoIncrementSuffixByPrefix(prefix, suffixLength) {
-    if (suffixLength === void 0) { suffixLength = 4; }
+    if (suffixLength === void 0) {
+      suffixLength = 4;
+    }
 
     const suffix = (suffixes.get(prefix) ?? Math.pow(10, suffixLength)) + 1;
     suffixes.set(prefix, suffix);

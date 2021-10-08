@@ -1,9 +1,6 @@
 const Tag = require('../../../../lib/domain/models/Tag');
 
-function buildTag({
-  id = 123,
-  name = 'Type',
-} = {}) {
+function buildTag({ id = 123, name = 'Type' } = {}) {
   return new Tag({
     id,
     name,

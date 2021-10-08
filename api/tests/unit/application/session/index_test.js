@@ -4,11 +4,7 @@ const FormData = require('form-data');
 const streamToPromise = require('stream-to-promise');
 const { NotFoundError } = require('../../../../lib/application/http-errors');
 
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
@@ -16,11 +12,9 @@ const finalizedSessionController = require('../../../../lib/application/sessions
 const authorization = require('../../../../lib/application/preHandlers/authorization');
 const moduleUnderTest = require('../../../../lib/application/sessions');
 
-describe('Unit | Application | Sessions | Routes', function() {
-
-  describe('GET /api/sessions/{id}', function() {
-
-    it('should exist', async function() {
+describe('Unit | Application | Sessions | Routes', function () {
+  describe('GET /api/sessions/{id}', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'get').returns('ok');
@@ -35,9 +29,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/admin/sessions/{id}', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'getJurySession').returns('ok');
@@ -52,9 +45,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/admin/sessions', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/admin/sessions', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'findPaginatedFilteredJurySessions').returns('ok');
@@ -69,9 +61,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('POST /api/session', function() {
-
-    it('should exist', async function() {
+  describe('POST /api/session', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(sessionController, 'save').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -85,9 +76,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/sessions/{id}/attendance-sheet', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/sessions/{id}/attendance-sheet', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(sessionController, 'getAttendanceSheet').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -101,9 +91,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PATCH /api/sessions/{id}', function() {
-
-    it('should exist', async function() {
+  describe('PATCH /api/sessions/{id}', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'update').returns('ok');
@@ -118,15 +107,14 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates/import', function() {
-
+  describe('POST /api/sessions/{id}/certification-candidates/import', function () {
     const testFilePath = `${__dirname}/testFile_temp.ods`;
     const method = 'POST';
 
     let headers;
     let payload;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       await writeFile(testFilePath, Buffer.alloc(0));
       const form = new FormData();
       const knownLength = await stat(testFilePath).size;
@@ -136,11 +124,11 @@ describe('Unit | Application | Sessions | Routes', function() {
       payload = await streamToPromise(form);
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await unlink(testFilePath);
     });
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'importCertificationCandidatesFromCandidatesImportSheet').returns('ok');
@@ -157,9 +145,8 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    context('when session ID params is not a number', function() {
-
-      it('should return 400', async function() {
+    context('when session ID params is not a number', function () {
+      it('should return 400', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -175,9 +162,8 @@ describe('Unit | Application | Sessions | Routes', function() {
       });
     });
 
-    context('when session ID params is out of range for database integer (> 2147483647)', function() {
-
-      it('should return 400', async function() {
+    context('when session ID params is out of range for database integer (> 2147483647)', function () {
+      it('should return 400', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -194,9 +180,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/sessions/{id}/certification-candidates', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/sessions/{id}/certification-candidates', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'getCertificationCandidates').returns('ok');
@@ -211,9 +196,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('POST /api/sessions/{id}/certification-candidates', function() {
-
-    it('should exist', async function() {
+  describe('POST /api/sessions/{id}/certification-candidates', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'addCertificationCandidate').returns('ok');
@@ -228,9 +212,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function() {
-
-    it('should exist', async function() {
+  describe('DELETE /api/sessions/{id}/certification-candidates/{certificationCandidateId}', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'deleteCertificationCandidate').returns('ok');
@@ -245,9 +228,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'getJuryCertificationSummaries').returns('ok');
@@ -262,9 +244,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('POST /api/sessions/{id}/candidate-participation', function() {
-
-    it('should exist', async function() {
+  describe('POST /api/sessions/{id}/candidate-participation', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(sessionController, 'createCandidateParticipation').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -278,9 +259,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PUT /api/sessions/{id}/finalization', function() {
-
-    it('should exist', async function() {
+  describe('PUT /api/sessions/{id}/finalization', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'finalize').returns('ok');
@@ -295,9 +275,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PATCH /api/admin/sessions/{id}/publish', function() {
-
-    it('should exist', async function() {
+  describe('PATCH /api/admin/sessions/{id}/publish', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'publish').returns('ok');
@@ -319,9 +298,8 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
   });
-  describe('PATCH /api/admin/sessions/{id}/unpublish', function() {
-
-    it('should exist', async function() {
+  describe('PATCH /api/admin/sessions/{id}/unpublish', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'unpublish').returns('ok');
@@ -344,11 +322,12 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('POST /api/admin/sessions/publish-in-batch', function() {
-
-    it('is protected by a prehandler checking the Pix Master role', async function() {
+  describe('POST /api/admin/sessions/publish-in-batch', function () {
+    it('is protected by a prehandler checking the Pix Master role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -367,7 +346,7 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should succeed with valid session ids', async function() {
+    it('should succeed with valid session ids', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'publishInBatch').returns('ok');
@@ -389,7 +368,7 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should validate the session ids in payload', async function() {
+    it('should validate the session ids in payload', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -410,9 +389,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', function() {
-
-    it('should exist', async function() {
+  describe('PUT /api/admin/sessions/{id}/results-sent-to-prescriber', function () {
+    it('should exist', async function () {
       // when
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'flagResultsAsSentToPrescriber').returns('ok');
@@ -426,9 +404,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function() {
-
-    it('should exist', async function() {
+  describe('PATCH /api/admin/sessions/{id}/certification-officer-assignment', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'assignCertificationOfficer').returns('ok');
@@ -443,41 +420,122 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('id validation', function() {
+  describe('id validation', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/sessions/9999999999' } },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'GET', url: '/api/sessions/9999999999' },
+      },
       { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/admin/sessions/salut' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/admin/sessions/9999999999' } },
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut/attendance-sheet' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/sessions/9999999999/attendance-sheet' } },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'GET', url: '/api/admin/sessions/9999999999' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'GET', url: '/api/sessions/salut/attendance-sheet' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'GET', url: '/api/sessions/9999999999/attendance-sheet' },
+      },
       { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/sessions/salut' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/sessions/9999999999' } },
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/sessions/salut/certification-candidates' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/sessions/9999999999/certification-candidates' } },
-      { condition: 'session ID params is not a number', request: { method: 'POST', url: '/api/sessions/salut/certification-candidates' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'POST', url: '/api/sessions/9999999999/certification-candidates' } },
-      { condition: 'session ID params is not a number', request: { method: 'DELETE', url: '/api/sessions/salut/certification-candidates/1' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'DELETE', url: '/api/sessions/9999999999/certification-candidates/1' } },
-      { condition: 'certification candidate ID params is not a number', request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/salut' } },
-      { condition: 'certification candidate ID params is out of range for database integer (> 2147483647)', request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/9999999999' } },
-      { condition: 'session ID params is not a number', request: { method: 'GET', url: '/api/admin/sessions/salut/jury-certification-summaries' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'GET', url: '/api/admin/sessions/9999999999/jury-certification-summaries' } },
-      { condition: 'session ID params is not a number', request: { method: 'POST', url: '/api/sessions/salut/candidate-participation' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' } },
-      { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/sessions/salut/finalization' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/sessions/9999999999/finalization' } },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/publish' } },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/unpublish' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publish' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/unpublish' } },
-      { condition: 'session ID params is not a number', request: { method: 'PUT', url: '/api/admin/sessions/salut/results-sent-to-prescriber' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' } },
-      { condition: 'session ID params is not a number', request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' } },
-      { condition: 'session ID params is out of range for database integer (> 2147483647)', request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' } },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'PATCH', url: '/api/sessions/9999999999' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'GET', url: '/api/sessions/salut/certification-candidates' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'GET', url: '/api/sessions/9999999999/certification-candidates' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'POST', url: '/api/sessions/salut/certification-candidates' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'POST', url: '/api/sessions/9999999999/certification-candidates' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'DELETE', url: '/api/sessions/salut/certification-candidates/1' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'DELETE', url: '/api/sessions/9999999999/certification-candidates/1' },
+      },
+      {
+        condition: 'certification candidate ID params is not a number',
+        request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/salut' },
+      },
+      {
+        condition: 'certification candidate ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'DELETE', url: '/api/sessions/1/certification-candidates/9999999999' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'GET', url: '/api/admin/sessions/salut/jury-certification-summaries' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'GET', url: '/api/admin/sessions/9999999999/jury-certification-summaries' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'POST', url: '/api/sessions/salut/candidate-participation' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'POST', url: '/api/sessions/9999999999/candidate-participation' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'PUT', url: '/api/sessions/salut/finalization' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'PUT', url: '/api/sessions/9999999999/finalization' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'PATCH', url: '/api/admin/sessions/salut/publish' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'PATCH', url: '/api/admin/sessions/salut/unpublish' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/publish' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/unpublish' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'PUT', url: '/api/admin/sessions/salut/results-sent-to-prescriber' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'PUT', url: '/api/admin/sessions/9999999999/results-sent-to-prescriber' },
+      },
+      {
+        condition: 'session ID params is not a number',
+        request: { method: 'PATCH', url: '/api/admin/sessions/salut/certification-officer-assignment' },
+      },
+      {
+        condition: 'session ID params is out of range for database integer (> 2147483647)',
+        request: { method: 'PATCH', url: '/api/admin/sessions/9999999999/certification-officer-assignment' },
+      },
     ].forEach(({ condition, request }) => {
-      it(`should return 400 when ${condition}`, async function() {
+      it(`should return 400 when ${condition}`, async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -491,8 +549,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PUT /api/session/{id}/enroll-students-to-session', function() {
-    it('exists', async function() {
+  describe('PUT /api/session/{id}/enroll-students-to-session', function () {
+    it('exists', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
@@ -506,7 +564,7 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('validates the session id', async function() {
+    it('validates the session id', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').returns(null);
       sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
@@ -520,7 +578,7 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('denies access if the session of the logged used is not authorized', async function() {
+    it('denies access if the session of the logged used is not authorized', async function () {
       // given
       sinon.stub(authorization, 'verifySessionAuthorization').throws(new NotFoundError());
       sinon.stub(sessionController, 'enrollStudentsToSession').returns('ok');
@@ -535,8 +593,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/admin/sessions/to-publish', function() {
-    it('exists', async function() {
+  describe('GET /api/admin/sessions/to-publish', function () {
+    it('exists', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(finalizedSessionController, 'findFinalizedSessionsToPublish').returns('ok');
@@ -549,9 +607,11 @@ describe('Unit | Application | Sessions | Routes', function() {
       // then
       expect(response.statusCode).to.equal(200);
     });
-    it('is protected by a prehandler checking the Pix Master role', async function() {
+    it('is protected by a prehandler checking the Pix Master role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -563,8 +623,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('GET /api/admin/sessions/with-required-action', function() {
-    it('exists', async function() {
+  describe('GET /api/admin/sessions/with-required-action', function () {
+    it('exists', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(finalizedSessionController, 'findFinalizedSessionsWithRequiredAction').returns('ok');
@@ -578,9 +638,11 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('is protected by a prehandler checking the Pix Master role', async function() {
+    it('is protected by a prehandler checking the Pix Master role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -592,9 +654,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('PUT /api/admin/sessions/{id}/comment', function() {
-
-    it('should exist', async function() {
+  describe('PUT /api/admin/sessions/{id}/comment', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'commentAsJury').returns('ok');
@@ -608,9 +669,11 @@ describe('Unit | Application | Sessions | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('is protected by a prehandler checking the Pix Master role', async function() {
+    it('is protected by a prehandler checking the Pix Master role', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response().code(403).takeover());
+      sinon
+        .stub(securityPreHandlers, 'checkUserHasRolePixMaster')
+        .callsFake((request, h) => h.response().code(403).takeover());
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -622,8 +685,8 @@ describe('Unit | Application | Sessions | Routes', function() {
     });
   });
 
-  describe('DELETE /api/admin/sessions/{id}/comment', function() {
-    it('should call appropriate use case and ensure user has the Pix Master role', async function() {
+  describe('DELETE /api/admin/sessions/{id}/comment', function () {
+    it('should call appropriate use case and ensure user has the Pix Master role', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(sessionController, 'deleteJuryComment').returns('ok');

@@ -7,19 +7,13 @@ const FinalizedSessionBookshelf = require('../orm-models/FinalizedSession');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 module.exports = {
-
   async save(finalizedSession) {
-    await knex('finalized-sessions')
-      .insert(_toDTO(finalizedSession))
-      .onConflict('sessionId')
-      .merge();
+    await knex('finalized-sessions').insert(_toDTO(finalizedSession)).onConflict('sessionId').merge();
     return finalizedSession;
   },
 
   async get({ sessionId }) {
-    const bookshelfFinalizedSession = await FinalizedSessionBookshelf
-      .where({ sessionId })
-      .fetch({ require: false });
+    const bookshelfFinalizedSession = await FinalizedSessionBookshelf.where({ sessionId }).fetch({ require: false });
 
     if (bookshelfFinalizedSession) {
       return bookshelfToDomainConverter.buildDomainObject(FinalizedSessionBookshelf, bookshelfFinalizedSession);
@@ -29,8 +23,11 @@ module.exports = {
   },
 
   async findFinalizedSessionsToPublish() {
-    const publishableFinalizedSessions = await FinalizedSessionBookshelf
-      .where({ isPublishable: true, publishedAt: null, assignedCertificationOfficerName: null })
+    const publishableFinalizedSessions = await FinalizedSessionBookshelf.where({
+      isPublishable: true,
+      publishedAt: null,
+      assignedCertificationOfficerName: null,
+    })
       .orderBy('finalizedAt')
       .fetchAll();
 
@@ -38,8 +35,10 @@ module.exports = {
   },
 
   async findFinalizedSessionsWithRequiredAction() {
-    const publishableFinalizedSessions = await FinalizedSessionBookshelf
-      .where({ isPublishable: false, publishedAt: null })
+    const publishableFinalizedSessions = await FinalizedSessionBookshelf.where({
+      isPublishable: false,
+      publishedAt: null,
+    })
       .orderBy('finalizedAt')
       .fetchAll();
 
@@ -54,6 +53,6 @@ function _toDTO(finalizedSession) {
       date: finalizedSession.sessionDate,
       time: finalizedSession.sessionTime,
     },
-    ['sessionDate', 'sessionTime'],
+    ['sessionDate', 'sessionTime']
   );
 }

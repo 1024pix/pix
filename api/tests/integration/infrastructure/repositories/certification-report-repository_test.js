@@ -4,15 +4,14 @@ const CertificationReport = require('../../../../lib/domain/models/Certification
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const certificationReportRepository = require('../../../../lib/infrastructure/repositories/certification-report-repository');
 const { CertificationCourseUpdateError } = require('../../../../lib/domain/errors');
-const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Integration | Repository | CertificationReport', function() {
-
-  describe('#findBySessionId', function() {
-
-    context('when there are some certification reports with the given session id', function() {
-
-      it('should fetch, alphabetically sorted, the certification reports with a specific session ID', async function() {
+describe('Integration | Repository | CertificationReport', function () {
+  describe('#findBySessionId', function () {
+    context('when there are some certification reports with the given session id', function () {
+      it('should fetch, alphabetically sorted, the certification reports with a specific session ID', async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourse1 = databaseBuilder.factory.buildCertificationCourse({ lastName: 'Abba', sessionId });
@@ -48,11 +47,7 @@ describe('Integration | Repository | CertificationReport', function() {
           firstName: certificationCourse1.firstName,
           lastName: certificationCourse1.lastName,
           isCompleted: true,
-          certificationIssueReports: [
-            { ...certificationIssueReport1,
-              isImpactful: true,
-            },
-          ],
+          certificationIssueReports: [{ ...certificationIssueReport1, isImpactful: true }],
           hasSeenEndTestScreen: certificationCourse1.hasSeenEndTestScreen,
         });
         const expectedCertificationReport2 = domainBuilder.buildCertificationReport({
@@ -68,9 +63,8 @@ describe('Integration | Repository | CertificationReport', function() {
       });
     });
 
-    context('when there is no certification reports with the given session ID', function() {
-
-      it('should return an empty array', async function() {
+    context('when there is no certification reports with the given session ID', function () {
+      it('should return an empty array', async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
 
@@ -83,22 +77,22 @@ describe('Integration | Repository | CertificationReport', function() {
     });
   });
 
-  describe('#finalizeAll', function() {
+  describe('#finalizeAll', function () {
     let sessionId;
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('certification-issue-reports').delete();
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    context('when reports are being successfully finalized', function() {
-      it('should finalize certification reports', async function() {
+    context('when reports are being successfully finalized', function () {
+      it('should finalize certification reports', async function () {
         const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
           hasSeenEndTestScreen: false,
@@ -133,12 +127,10 @@ describe('Integration | Repository | CertificationReport', function() {
 
         expect(actualReport1.hasSeenEndTestScreen).to.equal(true);
       });
-
     });
 
-    context('when finalization fails', function() {
-
-      it('should have left the Courses as they were and rollback updates if any', async function() {
+    context('when finalization fails', function () {
+      it('should have left the Courses as they were and rollback updates if any', async function () {
         // given
         const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
           sessionId,
@@ -155,7 +147,7 @@ describe('Integration | Repository | CertificationReport', function() {
         const certificationReport1 = domainBuilder.buildCertificationReport({
           certificationCourseId: certificationCourseId1,
           hasSeenEndTestScreen: false,
-          examinerComment: 'J\'aime les fruits et les poulets',
+          examinerComment: "J'aime les fruits et les poulets",
           sessionId,
         });
 
@@ -167,7 +159,10 @@ describe('Integration | Repository | CertificationReport', function() {
         });
 
         // when
-        const error = await catchErr(certificationReportRepository.finalizeAll, certificationReportRepository)([certificationReport1, certificationReport2]);
+        const error = await catchErr(
+          certificationReportRepository.finalizeAll,
+          certificationReportRepository
+        )([certificationReport1, certificationReport2]);
 
         // then
         const actualCertificationReports = await certificationReportRepository.findBySessionId(sessionId);
@@ -178,9 +173,6 @@ describe('Integration | Repository | CertificationReport', function() {
         expect(actualReport2.hasSeenEndTestScreen).to.equal(false);
         expect(error).to.be.an.instanceOf(CertificationCourseUpdateError);
       });
-
     });
-
   });
-
 });

@@ -21,7 +21,6 @@ module.exports = function buildCertificationCandidate({
   userId = 789,
   schoolingRegistrationId,
 } = {}) {
-
   return new CertificationCandidate({
     id,
     firstName,

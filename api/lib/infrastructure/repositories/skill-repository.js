@@ -13,7 +13,6 @@ function _toDomain(skillData) {
 }
 
 module.exports = {
-
   async list() {
     const skillDatas = await skillDatasource.list();
     return skillDatas.map(_toDomain);

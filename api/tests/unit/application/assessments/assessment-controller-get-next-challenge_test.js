@@ -8,17 +8,15 @@ const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Controller | assessment-controller-get-next-challenge', function() {
-
-  describe('#getNextChallenge', function() {
+describe('Unit | Controller | assessment-controller-get-next-challenge', function () {
+  describe('#getNextChallenge', function () {
     let assessmentWithoutScore;
     let assessmentWithScore;
     let scoredAsssessment;
     let updateLastQuestionDateStub;
     let updateWhenNewChallengeIsAsked;
 
-    beforeEach(function() {
-
+    beforeEach(function () {
       assessmentWithoutScore = new Assessment({
         id: 1,
         courseId: 'recHzEA6lN4PEs7LG',
@@ -28,7 +26,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
       assessmentWithScore = new Assessment({
         id: 1,
-        courseId: 'recHzEA6lN4PEs7LG', userId: 5,
+        courseId: 'recHzEA6lN4PEs7LG',
+        userId: 5,
         estimatedLevel: 0,
         pixScore: 0,
       });
@@ -52,22 +51,23 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
 
     // TODO: Que faire si l'assessment n'existe pas pas ?
 
-    describe('when the assessment is a preview', function() {
-
+    describe('when the assessment is a preview', function () {
       const PREVIEW_ASSESSMENT_ID = 245;
 
-      beforeEach(function() {
-        assessmentRepository.get.resolves(new Assessment({
-          id: 1,
-          courseId: 'null2356871',
-          userId: 5,
-          estimatedLevel: 0,
-          pixScore: 0,
-          type: 'PREVIEW',
-        }));
+      beforeEach(function () {
+        assessmentRepository.get.resolves(
+          new Assessment({
+            id: 1,
+            courseId: 'null2356871',
+            userId: 5,
+            estimatedLevel: 0,
+            pixScore: 0,
+            type: 'PREVIEW',
+          })
+        );
       });
 
-      it('should return a null data directly', async function() {
+      it('should return a null data directly', async function () {
         // when
         const response = await assessmentController.getNextChallenge({ params: { id: PREVIEW_ASSESSMENT_ID } });
 
@@ -76,17 +76,16 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
     });
 
-    describe('when the assessment is over', function() {
-
-      beforeEach(function() {
+    describe('when the assessment is over', function () {
+      beforeEach(function () {
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
         usecases.getNextChallengeForDemo.rejects(new AssessmentEndedError());
         assessmentRepository.get.resolves(assessmentWithoutScore);
         usecases.getAssessment.resolves(scoredAsssessment);
       });
 
-      context('when the assessment is a DEMO', function() {
-        it('should reply with no data', async function() {
+      context('when the assessment is a DEMO', function () {
+        it('should reply with no data', async function () {
           // when
           const response = await assessmentController.getNextChallenge({ params: { id: 7531 } });
 
@@ -96,17 +95,17 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
     });
 
-    describe('when the assessment is not over yet', function() {
+    describe('when the assessment is not over yet', function () {
       let newChallenge;
 
-      beforeEach(function() {
+      beforeEach(function () {
         newChallenge = { id: 345 };
 
         assessmentRepository.get.resolves(assessmentWithoutScore);
         usecases.getNextChallengeForDemo.resolves(newChallenge);
       });
 
-      it('should not evaluate assessment score', async function() {
+      it('should not evaluate assessment score', async function () {
         // when
         await assessmentController.getNextChallenge({ params: { id: 7531 } });
 
@@ -114,15 +113,18 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         expect(usecases.getAssessment).not.to.have.been.called;
       });
 
-      it('should update information when new challenge is asked', async function() {
+      it('should update information when new challenge is asked', async function () {
         // when
         await assessmentController.getNextChallenge({ params: { id: assessmentWithoutScore.id } });
 
         // then
-        expect(updateWhenNewChallengeIsAsked).to.be.calledWith({ id: assessmentWithoutScore.id, lastChallengeId: newChallenge.id });
+        expect(updateWhenNewChallengeIsAsked).to.be.calledWith({
+          id: assessmentWithoutScore.id,
+          lastChallengeId: newChallenge.id,
+        });
       });
 
-      it('should not update information when new challenge is the same than actual challenge', async function() {
+      it('should not update information when new challenge is the same than actual challenge', async function () {
         // given
         assessmentWithoutScore.lastChallengeId = newChallenge.id;
         assessmentRepository.get.resolves(assessmentWithoutScore);
@@ -133,14 +135,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         // then
         expect(updateWhenNewChallengeIsAsked).to.not.have.been.called;
       });
-
     });
 
-    describe('when the assessment is a certification assessment', function() {
-
+    describe('when the assessment is a certification assessment', function () {
       let certificationAssessment;
 
-      beforeEach(function() {
+      beforeEach(function () {
         certificationAssessment = new Assessment({
           id: 'assessmentId',
           type: Assessment.types.CERTIFICATION,
@@ -148,7 +148,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         assessmentRepository.get.resolves(certificationAssessment);
       });
 
-      it('should call getNextChallengeForCertificationCourse in assessmentService', async function() {
+      it('should call getNextChallengeForCertificationCourse in assessmentService', async function () {
         // given
         usecases.getNextChallengeForCertification.resolves();
 
@@ -162,7 +162,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         });
       });
 
-      it('should reply null data when unable to find the next challenge', async function() {
+      it('should reply null data when unable to find the next challenge', async function () {
         // given
         usecases.getNextChallengeForCertification.rejects(new AssessmentEndedError());
 
@@ -174,8 +174,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
     });
 
-    describe('when the assessment is a campaign assessment', function() {
-
+    describe('when the assessment is a campaign assessment', function () {
       const defaultLocale = FRENCH_FRANCE;
       const assessment = new Assessment({
         id: 1,
@@ -184,11 +183,11 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         type: 'CAMPAIGN',
       });
 
-      beforeEach(function() {
+      beforeEach(function () {
         assessmentRepository.get.resolves(assessment);
       });
 
-      it('should call the usecase getNextChallengeForCampaignAssessment', async function() {
+      it('should call the usecase getNextChallengeForCampaignAssessment', async function () {
         // when
         await assessmentController.getNextChallenge({ params: { id: 1 } });
 
@@ -199,7 +198,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
         });
       });
 
-      it('should call the usecase getNextChallengeForCampaignAssessment with the locale', async function() {
+      it('should call the usecase getNextChallengeForCampaignAssessment with the locale', async function () {
         // given
         const locale = FRENCH_SPOKEN;
 
@@ -219,13 +218,12 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
       });
     });
 
-    describe('when the assessment is a competence evaluation assessment', function() {
-
-      describe('when assessment is started', function() {
+    describe('when the assessment is a competence evaluation assessment', function () {
+      describe('when assessment is started', function () {
         const userId = 1;
         let assessment;
 
-        beforeEach(function() {
+        beforeEach(function () {
           assessment = domainBuilder.buildAssessment({
             id: 1,
             courseId: 'courseId',
@@ -236,7 +234,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           assessmentRepository.get.resolves(assessment);
         });
 
-        it('should call the usecase getNextChallengeForCompetenceEvaluation', async function() {
+        it('should call the usecase getNextChallengeForCompetenceEvaluation', async function () {
           const locale = FRENCH_SPOKEN;
           const request = {
             params: { id: 1 },
@@ -256,19 +254,19 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           });
         });
 
-        describe('when asking for a challenge', function() {
+        describe('when asking for a challenge', function () {
           const now = new Date('2019-01-01T05:06:07Z');
           let clock;
 
-          beforeEach(function() {
+          beforeEach(function () {
             clock = sinon.useFakeTimers(now);
           });
 
-          afterEach(function() {
+          afterEach(function () {
             clock.restore();
           });
 
-          it('should call assessmentRepository updateLastQuestionDate method with currentDate', async function() {
+          it('should call assessmentRepository updateLastQuestionDate method with currentDate', async function () {
             // given
             const locale = FRENCH_SPOKEN;
             const request = {
@@ -285,15 +283,13 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
             // then
             expect(updateLastQuestionDateStub).to.be.calledWith({ id: request.params.id, lastQuestionDate: now });
           });
-
         });
-
       });
 
-      describe('when assessment is completed', function() {
+      describe('when assessment is completed', function () {
         let assessment;
 
-        beforeEach(function() {
+        beforeEach(function () {
           assessment = domainBuilder.buildAssessment({
             id: 1,
             courseId: 'courseId',
@@ -306,8 +302,8 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', functio
           assessmentRepository.get.resolves(assessment);
         });
 
-        describe('#getNextChallenge', function() {
-          it('should not call assessmentRepository updateLastQuestionDate method', async function() {
+        describe('#getNextChallenge', function () {
+          it('should not call assessmentRepository updateLastQuestionDate method', async function () {
             // given
             const locale = FRENCH_SPOKEN;
             const request = {

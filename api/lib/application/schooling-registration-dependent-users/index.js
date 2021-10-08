@@ -11,7 +11,7 @@ const inaPattern = new RegExp('^[0-9]{10}[a-zA-Z]{1}$');
 
 const schoolingRegistrationDependentUserController = require('./schooling-registration-dependent-user-controller');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -28,7 +28,7 @@ exports.register = async function(server) {
               attributes: {
                 'first-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate': Joi.date().format('YYYY-MM-DD').raw().required(),
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 password: Joi.string().pattern(XRegExp(passwordValidationPattern)).required(),
                 'with-username': Joi.boolean().required(),
@@ -38,8 +38,8 @@ exports.register = async function(server) {
           }),
         },
         notes: [
-          'Cette route crée un utilisateur et l\'associe à l\'élève trouvé au sein de l\'organisation à laquelle ' +
-          'appartient la campagne spécifiée',
+          "Cette route crée un utilisateur et l'associe à l'élève trouvé au sein de l'organisation à laquelle " +
+            'appartient la campagne spécifiée',
         ],
         tags: ['api', 'schoolingRegistrationDependentUser'],
       },
@@ -49,7 +49,8 @@ exports.register = async function(server) {
       path: '/api/schooling-registration-dependent-users/external-user-token',
       config: {
         auth: false,
-        handler: schoolingRegistrationDependentUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser,
+        handler:
+          schoolingRegistrationDependentUserController.createUserAndReconcileToSchoolingRegistrationFromExternalUser,
         validate: {
           options: {
             allowUnknown: false,
@@ -59,7 +60,7 @@ exports.register = async function(server) {
               attributes: {
                 'campaign-code': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'external-user-token': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
-                'birthdate': Joi.date().format('YYYY-MM-DD').raw().required(),
+                birthdate: Joi.date().format('YYYY-MM-DD').raw().required(),
                 'access-token': Joi.string().allow(null).optional(),
               },
               type: 'external-users',
@@ -67,9 +68,9 @@ exports.register = async function(server) {
           }),
         },
         notes: [
-          'Cette route crée un compte utilisateur suite à une connexion provenant d\'un IDP externe (GAR). ' +
-          'Les informations sont fournies dans un token. Elle réconcilie également cet utilisateur avec l\'inscription ' +
-          'de l\'élève au sein de l\'organisation qui a créé la campagne.',
+          "Cette route crée un compte utilisateur suite à une connexion provenant d'un IDP externe (GAR). " +
+            "Les informations sont fournies dans un token. Elle réconcilie également cet utilisateur avec l'inscription " +
+            "de l'élève au sein de l'organisation qui a créé la campagne.",
         ],
         tags: ['api', 'schoolingRegistrationDependentUser'],
       },
@@ -78,10 +79,12 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-dependent-users/password-update',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-          assign: 'belongsToScoOrganizationAndManageStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+            assign: 'belongsToScoOrganizationAndManageStudents',
+          },
+        ],
         handler: schoolingRegistrationDependentUserController.updatePassword,
         validate: {
           options: {
@@ -96,12 +99,15 @@ exports.register = async function(server) {
             },
           }),
           failAction: (request, h) => {
-            return sendJsonApiError(new BadRequestError('The server could not understand the request due to invalid syntax.'), h);
+            return sendJsonApiError(
+              new BadRequestError('The server could not understand the request due to invalid syntax.'),
+              h
+            );
           },
         },
         notes: [
-          '- Met à jour le mot de passe d\'un utilisateur identifié par son identifiant élève\n' +
-          '- La demande de modification du mot de passe doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
+          "- Met à jour le mot de passe d'un utilisateur identifié par son identifiant élève\n" +
+            "- La demande de modification du mot de passe doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
         ],
         tags: ['api', 'schoolingRegistrationDependentUser'],
       },
@@ -110,10 +116,12 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/schooling-registration-dependent-users/generate-username-password',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
-          assign: 'belongsToScoOrganizationAndManageStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents,
+            assign: 'belongsToScoOrganizationAndManageStudents',
+          },
+        ],
         handler: schoolingRegistrationDependentUserController.generateUsernameWithTemporaryPassword,
         validate: {
           options: {
@@ -129,8 +137,8 @@ exports.register = async function(server) {
           }),
         },
         notes: [
-          '- Génère un identifiant pour l\'élève avec un mot de passe temporaire \n' +
-          '- La demande de génération d\'identifiant doit être effectuée par un membre de l\'organisation à laquelle appartient l\'élève.',
+          "- Génère un identifiant pour l'élève avec un mot de passe temporaire \n" +
+            "- La demande de génération d'identifiant doit être effectuée par un membre de l'organisation à laquelle appartient l'élève.",
         ],
         tags: ['api', 'schoolingRegistrationDependentUser', 'username'],
       },
@@ -149,7 +157,7 @@ exports.register = async function(server) {
                 'last-name': Joi.string().empty(Joi.string().regex(/^\s*$/)).required(),
                 'ine-ina': Joi.alternatives().try(
                   Joi.string().regex(inePattern).required(),
-                  Joi.string().regex(inaPattern).required(),
+                  Joi.string().regex(inaPattern).required()
                 ),
                 birthdate: Joi.date().format('YYYY-MM-DD').required(),
               },
@@ -157,8 +165,8 @@ exports.register = async function(server) {
           }).options({ allowUnknown: true }),
         },
         notes: [
-          '- Recherche d\'un ancien élève par son ine/ina, prénom, nom, date de naissance \n' +
-          '- On renvoie les informations permettant de récupérer son compte Pix.',
+          "- Recherche d'un ancien élève par son ine/ina, prénom, nom, date de naissance \n" +
+            '- On renvoie les informations permettant de récupérer son compte Pix.',
         ],
         tags: ['api', 'schoolingRegistrationDependentUser', 'recovery'],
       },

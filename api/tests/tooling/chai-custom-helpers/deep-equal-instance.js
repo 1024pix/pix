@@ -1,5 +1,5 @@
-module.exports = function(chai, _utils) {
-  chai.Assertion.addMethod('deepEqualInstance', function(referenceInstance) {
+module.exports = function (chai, _utils) {
+  chai.Assertion.addMethod('deepEqualInstance', function (referenceInstance) {
     const assertedInstance = this._obj;
 
     _assertAreSameType(chai, assertedInstance, referenceInstance);

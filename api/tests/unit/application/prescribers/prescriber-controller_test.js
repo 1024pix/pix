@@ -5,20 +5,18 @@ const prescriberSerializer = require('../../../../lib/infrastructure/serializers
 
 const prescriberController = require('../../../../lib/application/prescribers/prescriber-controller');
 
-describe('Unit | Controller | prescriber-controller', function() {
-
-  describe('#get', function() {
-
+describe('Unit | Controller | prescriber-controller', function () {
+  describe('#get', function () {
     let request;
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = { auth: { credentials: { userId: 1 } } };
 
       sinon.stub(usecases, 'getPrescriber');
       sinon.stub(prescriberSerializer, 'serialize');
     });
 
-    it('should get the prescriber', async function() {
+    it('should get the prescriber', async function () {
       // given
       usecases.getPrescriber.withArgs({ userId: 1 }).resolves({});
       prescriberSerializer.serialize.withArgs({}).returns('ok');
@@ -29,6 +27,5 @@ describe('Unit | Controller | prescriber-controller', function() {
       // then
       expect(response).to.be.equal('ok');
     });
-
   });
 });

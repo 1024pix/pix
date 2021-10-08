@@ -11,15 +11,17 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/sessions',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.findPaginatedFilteredJurySessions,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de consulter la liste de toutes les sessions avec filtre et pagination (retourne un tableau avec n éléments)',
+            '- Elle permet de consulter la liste de toutes les sessions avec filtre et pagination (retourne un tableau avec n éléments)',
         ],
       },
     },
@@ -32,10 +34,12 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.getJurySession,
         tags: ['api', 'sessions'],
       },
@@ -49,10 +53,12 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.get,
         tags: ['api', 'sessions'],
       },
@@ -61,10 +67,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/sessions/to-publish',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: finalizedSessionController.findFinalizedSessionsToPublish,
         tags: ['api', 'finalized-sessions'],
       },
@@ -73,10 +81,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/sessions/with-required-action',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: finalizedSessionController.findFinalizedSessionsWithRequiredAction,
         tags: ['api', 'finalized-sessions'],
       },
@@ -95,7 +105,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
-          '- Cette route permet de télécharger le pv de session pré-rempli au format ods',
+            '- Cette route permet de télécharger le pv de session pré-rempli au format ods',
         ],
       },
     },
@@ -113,7 +123,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs appartenant à un centre de certification ayant créé la session**\n' +
-          '- Cette route permet de télécharger le template d\'import des candidats d\'une certification au format ods',
+            "- Cette route permet de télécharger le template d'import des candidats d'une certification au format ods",
         ],
       },
     },
@@ -125,7 +135,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
+            '- Elle permet de créer une session de certification liée au centre de certification de l’utilisateur',
         ],
       },
     },
@@ -138,15 +148,17 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.finalize,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle permet de finaliser une session de certification afin de la signaler comme terminée',
+            '- Elle permet de finaliser une session de certification afin de la signaler comme terminée',
         ],
       },
     },
@@ -164,15 +176,17 @@ exports.register = async (server) => {
           allow: 'multipart/form-data',
           maxBytes: 1048576 * 10, // 10MB
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.importCertificationCandidatesFromCandidatesImportSheet,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés et appartenant à un centre de certification ayant créé la session**\n' +
-          '- Elle permet de récupérer la liste des candidats à inscrire contenue dans le PV de session format ODS envoyé',
+            '- Elle permet de récupérer la liste des candidats à inscrire contenue dans le PV de session format ODS envoyé',
         ],
       },
     },
@@ -185,15 +199,17 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.update,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Modification d\'une session de certification\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la session à modifier',
+            "- Modification d'une session de certification\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la session à modifier',
         ],
         tags: ['api', 'session'],
       },
@@ -207,10 +223,12 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.getCertificationCandidates,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
@@ -228,10 +246,12 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.addCertificationCandidate,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
@@ -250,10 +270,12 @@ exports.register = async (server) => {
             certificationCandidateId: identifiersType.certificationCandidateId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.deleteCertificationCandidate,
         tags: ['api', 'sessions', 'certification-candidates'],
         notes: [
@@ -271,15 +293,17 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.getJuryCertificationSummaries,
         tags: ['api', 'sessions', 'jury-certification-summary'],
         notes: [
           'Cette route est restreinte aux utilisateurs ayant le rôle PIXMASTER',
-          'Elle retourne les résumés de certifications d\'une session',
+          "Elle retourne les résumés de certifications d'une session",
         ],
       },
     },
@@ -292,15 +316,17 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.generateSessionResultsDownloadLink,
         tags: ['api', 'sessions'],
         notes: [
           'Cette route est restreinte aux utilisateurs ayant le rôle PIXMASTER',
-          'Elle permet de générer un lien permettant de télécharger tous les résultats de certification d\'une session',
+          "Elle permet de générer un lien permettant de télécharger tous les résultats de certification d'une session",
         ],
       },
     },
@@ -312,8 +338,8 @@ exports.register = async (server) => {
         handler: sessionController.getSessionResultsByRecipientEmail,
         tags: ['api', 'sessions', 'results'],
         notes: [
-          'Cette route est accessible via un token envoyé par email lors de l\'envoi automatique des résultats de certification',
-          'Elle retourne les résultats de certifications d\'une session agrégés par email de destinataire des résultats, sous format CSV',
+          "Cette route est accessible via un token envoyé par email lors de l'envoi automatique des résultats de certification",
+          "Elle retourne les résultats de certifications d'une session agrégés par email de destinataire des résultats, sous format CSV",
         ],
       },
     },
@@ -326,7 +352,7 @@ exports.register = async (server) => {
         tags: ['api', 'sessions', 'results'],
         notes: [
           'Cette route est accessible via un token généré par un utilisateur ayant le rôle PIXMASTER',
-          'Elle retourne tous les résultats de certifications d\'une session, sous format CSV',
+          "Elle retourne tous les résultats de certifications d'une session, sous format CSV",
         ],
       },
     },
@@ -339,20 +365,21 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: authorization.verifySessionAuthorization,
-          assign: 'authorizationCheck',
-        }],
+        pre: [
+          {
+            method: authorization.verifySessionAuthorization,
+            assign: 'authorizationCheck',
+          },
+        ],
         handler: sessionController.getCertificationReports,
         tags: ['api', 'sessions', 'certification-reports'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne des infos sur les certifications d\'une session.',
+          "Elle retourne des infos sur les certifications d'une session.",
         ],
       },
     },
     {
-
       method: 'POST',
       path: '/api/sessions/{id}/candidate-participation',
       config: {
@@ -366,7 +393,7 @@ exports.register = async (server) => {
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
           'Elle associe un candidat de certification à une session\n' +
-          'à un utilisateur à l\'aide des informations d\'identité de celui-ci (nom, prénom et date de naissance).',
+            "à un utilisateur à l'aide des informations d'identité de celui-ci (nom, prénom et date de naissance).",
         ],
       },
     },
@@ -379,14 +406,16 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.publish,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Publie toutes les certifications courses d\'une session',
+            "- Publie toutes les certifications courses d'une session",
         ],
         tags: ['api', 'session', 'publication'],
       },
@@ -404,14 +433,16 @@ exports.register = async (server) => {
             },
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.publishInBatch,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
-          '- Permet de publier plusieurs sessions sans problème d\'un coup',
+            "- Permet de publier plusieurs sessions sans problème d'un coup",
         ],
         tags: ['api', 'session', 'publication'],
       },
@@ -425,14 +456,16 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.unpublish,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Dépublie toutes les certifications courses d\'une session',
+            "- Dépublie toutes les certifications courses d'une session",
         ],
         tags: ['api', 'session', 'publication'],
       },
@@ -446,16 +479,18 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
 
         handler: sessionController.flagResultsAsSentToPrescriber,
         tags: ['api', 'sessions'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de marquer le fait que les résultats de la session ont été envoyés au prescripteur,\n',
+            '- Elle permet de marquer le fait que les résultats de la session ont été envoyés au prescripteur,\n',
           '- par le biais de la sauvegarde de la date courante.',
         ],
       },
@@ -469,14 +504,16 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.assignCertificationOfficer,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
-          '- Assigne la session à un membre du pôle certification (certification-officer)',
+            '- Assigne la session à un membre du pôle certification (certification-officer)',
         ],
         tags: ['api', 'session', 'assignment'],
       },
@@ -490,14 +527,16 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.commentAsJury,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
-          '- Ajoute/modifie un commentaire d\'un membre du pôle certification (certification-officer)',
+            "- Ajoute/modifie un commentaire d'un membre du pôle certification (certification-officer)",
         ],
         tags: ['api', 'session', 'assignment'],
       },
@@ -511,14 +550,16 @@ exports.register = async (server) => {
             id: identifiersType.sessionId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: sessionController.deleteJuryComment,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle PixMaster**\n' +
-          '- Supprime le commentaire d\'un membre du pôle certification (certification-officer)',
+            "- Supprime le commentaire d'un membre du pôle certification (certification-officer)",
         ],
         tags: ['api', 'session', 'assignment'],
       },
@@ -541,12 +582,11 @@ exports.register = async (server) => {
         handler: sessionController.enrollStudentsToSession,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Dans le cadre du SCO, inscrit un élève à une session de certification',
+            '- Dans le cadre du SCO, inscrit un élève à une session de certification',
         ],
         tags: ['api', 'sessions', 'certification-candidates'],
       },
     },
-
   ]);
 };
 

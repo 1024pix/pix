@@ -1,15 +1,21 @@
 const { expect, databaseBuilder } = require('../../../test-helper');
 const divisionRepository = require('../../../../lib/infrastructure/repositories/division-repository');
 
-describe('Integration | Repository | Division', function() {
-  describe('#findByCampaignId', function() {
-    it('returns the division from schooling registration associated to the given campaign', async function() {
+describe('Integration | Repository | Division', function () {
+  describe('#findByCampaignId', function () {
+    it('returns the division from schooling registration associated to the given campaign', async function () {
       const division1 = '6emeB';
       const division2 = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
 
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division1 }, { campaignId: campaign.id });
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division2 }, { campaignId: campaign.id });
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        { organizationId: campaign.organizationId, division: division1 },
+        { campaignId: campaign.id }
+      );
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        { organizationId: campaign.organizationId, division: division2 },
+        { campaignId: campaign.id }
+      );
       await databaseBuilder.commit();
 
       const divisions = await divisionRepository.findByCampaignId(campaign.id);
@@ -17,14 +23,20 @@ describe('Integration | Repository | Division', function() {
       expect(divisions).to.deep.equal([{ name: '3emeA' }, { name: '6emeB' }]);
     });
 
-    context('when there are schooling registrations for another campaign of the same organization', function() {
-      it('returns the division from schooling registration associated to the given campaign', async function() {
+    context('when there are schooling registrations for another campaign of the same organization', function () {
+      it('returns the division from schooling registration associated to the given campaign', async function () {
         const division1 = '6emeB';
         const division2 = '3emeA';
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division1 }, { campaignId: campaign.id });
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division2 });
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: division1 },
+          { campaignId: campaign.id }
+        );
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({
+          organizationId: campaign.organizationId,
+          division: division2,
+        });
         await databaseBuilder.commit();
 
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
@@ -33,16 +45,23 @@ describe('Integration | Repository | Division', function() {
       });
     });
 
-    context('when a participant has schooling registrations for another organization', function() {
-      it('returns the division from schooling registration associated to organization of the given campaign', async function() {
+    context('when a participant has schooling registrations for another organization', function () {
+      it('returns the division from schooling registration associated to organization of the given campaign', async function () {
         const division1 = '4emeG';
         const division2 = '3emeC';
         const user = { id: 100001 };
         const campaign = databaseBuilder.factory.buildCampaign();
         const otherCampaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division1, user }, { campaignId: campaign.id });
-        databaseBuilder.factory.buildSchoolingRegistration({ organizationId: otherCampaign.organizationId, division: division2, userId: user.id });
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: division1, user },
+          { campaignId: campaign.id }
+        );
+        databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: otherCampaign.organizationId,
+          division: division2,
+          userId: user.id,
+        });
         databaseBuilder.factory.buildCampaignParticipation({ campaignId: otherCampaign.id, userId: user.id });
         await databaseBuilder.commit();
 
@@ -52,13 +71,19 @@ describe('Integration | Repository | Division', function() {
       });
     });
 
-    context('when several participants have the same division', function() {
-      it('returns each division one time', async function() {
+    context('when several participants have the same division', function () {
+      it('returns each division one time', async function () {
         const division = '5eme1';
         const campaign = databaseBuilder.factory.buildCampaign();
 
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division }, { campaignId: campaign.id });
-        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division }, { campaignId: campaign.id });
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: division },
+          { campaignId: campaign.id }
+        );
+        databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { organizationId: campaign.organizationId, division: division },
+          { campaignId: campaign.id }
+        );
         await databaseBuilder.commit();
 
         const divisions = await divisionRepository.findByCampaignId(campaign.id);
@@ -68,8 +93,8 @@ describe('Integration | Repository | Division', function() {
     });
   });
 
-  describe('#findByOrganizationIdForCurrentSchoolYear', function() {
-    it('should return list of divisions from an organization ordered by name', async function() {
+  describe('#findByOrganizationIdForCurrentSchoolYear', function () {
+    it('should return list of divisions from an organization ordered by name', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -101,7 +126,9 @@ describe('Integration | Repository | Division', function() {
       await databaseBuilder.commit();
 
       // when
-      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId: organization.id });
+      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
+        organizationId: organization.id,
+      });
 
       // then
       expect(divisions).to.have.lengthOf(5);
@@ -114,7 +141,7 @@ describe('Integration | Repository | Division', function() {
       ]);
     });
 
-    it('should omit old divisions', async function() {
+    it('should omit old divisions', async function () {
       // given
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -137,7 +164,9 @@ describe('Integration | Repository | Division', function() {
       await databaseBuilder.commit();
 
       // when
-      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId: organization.id });
+      const divisions = await divisionRepository.findByOrganizationIdForCurrentSchoolYear({
+        organizationId: organization.id,
+      });
 
       // then
       expect(divisions).to.deep.equal([{ name: '5A' }]);

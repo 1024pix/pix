@@ -22,11 +22,9 @@ const UserLinkedToCertificationCandidate = require('../../domain/events/UserLink
 const logger = require('../../infrastructure/logger');
 
 module.exports = {
-
   async findPaginatedFilteredJurySessions(request) {
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
-    const normalizedFilters
-      = sessionValidator.validateAndNormalizeFilters(filter);
+    const normalizedFilters = sessionValidator.validateAndNormalizeFilters(filter);
     const jurySessionsForPaginatedList = await jurySessionRepository.findPaginatedFiltered({
       filters: normalizedFilters,
       page,
@@ -75,7 +73,8 @@ module.exports = {
     const attendanceSheet = await usecases.getAttendanceSheet({ sessionId, userId });
 
     const fileName = `feuille-emargement-session-${sessionId}.ods`;
-    return h.response(attendanceSheet)
+    return h
+      .response(attendanceSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
@@ -88,7 +87,8 @@ module.exports = {
     const session = await usecases.getSessionWithCandidates({ sessionId, userId });
     const candidateImportSheet = await fillCandidatesImportSheet(session);
 
-    return h.response(candidateImportSheet)
+    return h
+      .response(candidateImportSheet)
       .header('Content-Type', 'application/vnd.oasis.opendocument.spreadsheet')
       .header('Content-Disposition', 'attachment; filename=liste-candidats-session-' + sessionId + '.ods');
   },
@@ -96,7 +96,8 @@ module.exports = {
   async getCertificationCandidates(request) {
     const sessionId = request.params.id;
 
-    return usecases.getSessionCertificationCandidates({ sessionId })
+    return usecases
+      .getSessionCertificationCandidates({ sessionId })
       .then((certificationCandidates) => certificationCandidateSerializer.serialize(certificationCandidates));
   },
 
@@ -139,12 +140,16 @@ module.exports = {
     const { sessionId } = tokenService.extractSessionId(token);
     const { session, certificationResults } = await usecases.getSessionResults({ sessionId });
 
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
+    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
+      session,
+      certificationResults,
+    });
 
     const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
     const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
 
-    return h.response(csvResult)
+    return h
+      .response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
@@ -152,13 +157,20 @@ module.exports = {
   async getSessionResultsByRecipientEmail(request, h) {
     const token = request.params.token;
     const { resultRecipientEmail, sessionId } = tokenService.extractResultRecipientEmailAndSessionId(token);
-    const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({ sessionId, resultRecipientEmail });
-    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({ session, certificationResults });
+    const { session, certificationResults } = await usecases.getSessionResultsByResultRecipientEmail({
+      sessionId,
+      resultRecipientEmail,
+    });
+    const csvResult = await certificationResultUtils.getSessionCertificationResultsCsv({
+      session,
+      certificationResults,
+    });
 
     const dateWithTime = moment(session.date + ' ' + session.time, 'YYYY-MM-DD HH:mm');
     const fileName = `${dateWithTime.format('YYYYMMDD_HHmm')}_resultats_session_${sessionId}.csv`;
 
-    return h.response(csvResult)
+    return h
+      .response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
@@ -166,7 +178,8 @@ module.exports = {
   async getCertificationReports(request) {
     const sessionId = request.params.id;
 
-    return usecases.getSessionCertificationReports({ sessionId })
+    return usecases
+      .getSessionCertificationReports({ sessionId })
       .then((certificationReports) => certificationReportSerializer.serialize(certificationReports));
   },
 
@@ -205,12 +218,16 @@ module.exports = {
     const birthdate = request.payload.data.attributes['birthdate'];
 
     const event = await usecases.linkUserToSessionCertificationCandidate({
-      userId, sessionId, firstName, lastName, birthdate,
+      userId,
+      sessionId,
+      firstName,
+      lastName,
+      birthdate,
     });
 
     const certificationCandidate = await usecases.getCertificationCandidate({ userId, sessionId });
     const serialized = await certificationCandidateSerializer.serialize(certificationCandidate);
-    return (event instanceof UserLinkedToCertificationCandidate) ? h.response(serialized).created() : serialized;
+    return event instanceof UserLinkedToCertificationCandidate ? h.response(serialized).created() : serialized;
   },
 
   async finalize(request) {
@@ -219,7 +236,7 @@ module.exports = {
     const certificationReports = await Promise.all(
       (request.payload.data.included || [])
         .filter((data) => data.type === 'certification-reports')
-        .map((data) => certificationReportSerializer.deserialize({ data })),
+        .map((data) => certificationReportSerializer.deserialize({ data }))
     );
 
     const event = await usecases.finalizeSession({ sessionId, examinerGlobalComment, certificationReports });
@@ -293,9 +310,12 @@ function _logSessionBatchPublicationErrors(result) {
 
   const sessionAndError = result.publicationErrors;
   for (const sessionId in sessionAndError) {
-    logger.warn({
-      batchId: result.batchId,
-      sessionId,
-    }, sessionAndError[sessionId].message);
+    logger.warn(
+      {
+        batchId: result.batchId,
+        sessionId,
+      },
+      sessionAndError[sessionId].message
+    );
   }
 }

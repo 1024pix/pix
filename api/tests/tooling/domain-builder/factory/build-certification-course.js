@@ -1,7 +1,9 @@
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 const buildAssessment = require('./build-assessment');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
 function buildCertificationCourse({
   id = 123,
@@ -30,7 +32,6 @@ function buildCertificationCourse({
   isCancelled = false,
   abortReason = null,
 } = {}) {
-
   const certificationIssueReports = [];
   if (examinerComment && examinerComment !== '') {
     certificationIssueReports.push(
@@ -39,7 +40,7 @@ function buildCertificationCourse({
         certificationCourseId: id,
         category: CertificationIssueReportCategories.OTHER,
         description: examinerComment,
-      }),
+      })
     );
   }
 
@@ -72,7 +73,7 @@ function buildCertificationCourse({
   });
 }
 
-buildCertificationCourse.unpersisted = function({
+buildCertificationCourse.unpersisted = function ({
   firstName = 'Gandhi',
   lastName = 'Matmatah',
   birthplace = 'Perpignan',
@@ -97,7 +98,6 @@ buildCertificationCourse.unpersisted = function({
   isCancelled = false,
   abortReason = null,
 } = {}) {
-
   return new CertificationCourse({
     firstName,
     lastName,

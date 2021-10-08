@@ -1,13 +1,5 @@
 class Course {
-
-  constructor({
-    id,
-    description,
-    imageUrl,
-    name,
-    challenges = [],
-    competences = [],
-  } = {}) {
+  constructor({ id, description, imageUrl, name, challenges = [], competences = [] } = {}) {
     this.id = id;
     this.name = name;
     this.description = description;

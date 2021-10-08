@@ -1,12 +1,15 @@
 const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
-const { CampaignCodeError, UserNotAuthorizedToAccessEntityError, SchoolingRegistrationDisabledError } = require('../../../../lib/domain/errors');
+const {
+  CampaignCodeError,
+  UserNotAuthorizedToAccessEntityError,
+  SchoolingRegistrationDisabledError,
+} = require('../../../../lib/domain/errors');
 const campaignRepository = require('../../../../lib/infrastructure/repositories/campaign-repository');
 const schoolingRegistrationRepository = require('../../../../lib/infrastructure/repositories/schooling-registration-repository');
 
-describe('Unit | UseCase | find-association-between-user-and-schooling-registration', function() {
-
+describe('Unit | UseCase | find-association-between-user-and-schooling-registration', function () {
   let schoolingRegistrationReceivedStub;
   let getCampaignStub;
   let schoolingRegistration;
@@ -14,18 +17,19 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
   let userId;
   let campaign;
 
-  beforeEach(function() {
+  beforeEach(function () {
     userId = domainBuilder.buildUser().id;
     organization = domainBuilder.buildOrganization();
     campaign = domainBuilder.buildCampaign({ organization });
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization, userId });
     getCampaignStub = sinon.stub(campaignRepository, 'getByCode').throws('unexpected call');
-    schoolingRegistrationReceivedStub = sinon.stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId').throws('unexpected call');
+    schoolingRegistrationReceivedStub = sinon
+      .stub(schoolingRegistrationRepository, 'findOneByUserIdAndOrganizationId')
+      .throws('unexpected call');
   });
 
-  describe('There is a schoolingRegistration linked to the given userId', function() {
-
-    it('should call findOneByUserIdAndOrganizationId', async function() {
+  describe('There is a schoolingRegistration linked to the given userId', function () {
+    it('should call findOneByUserIdAndOrganizationId', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       schoolingRegistrationReceivedStub.resolves({});
@@ -41,10 +45,12 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
       expect(schoolingRegistrationReceivedStub).to.have.been.calledOnce;
     });
 
-    it('should return the schoolingRegistration', async function() {
+    it('should return the schoolingRegistration', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(schoolingRegistration);
+      schoolingRegistrationReceivedStub
+        .withArgs({ userId, organizationId: organization.id })
+        .resolves(schoolingRegistration);
 
       // when
       const result = await usecases.findAssociationBetweenUserAndSchoolingRegistration({
@@ -59,9 +65,8 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
     });
   });
 
-  describe('There is no schoolingRegistration linked to the given userId', function() {
-
-    it('should return null', async function() {
+  describe('There is no schoolingRegistration linked to the given userId', function () {
+    it('should return null', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
@@ -78,13 +83,18 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
     });
   });
 
-  describe('There is a disabled schoolingRegistration linked to the given userId', function() {
-
-    it('should throw an error', async function() {
+  describe('There is a disabled schoolingRegistration linked to the given userId', function () {
+    it('should throw an error', async function () {
       // given
-      const disabledSchoolingRegistration = domainBuilder.buildSchoolingRegistration({ organization, userId, isDisabled: true });
+      const disabledSchoolingRegistration = domainBuilder.buildSchoolingRegistration({
+        organization,
+        userId,
+        isDisabled: true,
+      });
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
-      schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(disabledSchoolingRegistration);
+      schoolingRegistrationReceivedStub
+        .withArgs({ userId, organizationId: organization.id })
+        .resolves(disabledSchoolingRegistration);
 
       // when
       const result = await catchErr(usecases.findAssociationBetweenUserAndSchoolingRegistration)({
@@ -98,9 +108,8 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
     });
   });
 
-  describe('The authenticated user is not the same as requested user', function() {
-
-    it('should return the repositories error', async function() {
+  describe('The authenticated user is not the same as requested user', function () {
+    it('should return the repositories error', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(campaign);
       schoolingRegistrationReceivedStub.withArgs({ userId, organizationId: organization.id }).resolves(null);
@@ -117,9 +126,8 @@ describe('Unit | UseCase | find-association-between-user-and-schooling-registrat
     });
   });
 
-  describe('There is no campaign with the given code', function() {
-
-    it('should throw a campaign code error', async function() {
+  describe('There is no campaign with the given code', function () {
+    it('should throw a campaign code error', async function () {
       // given
       getCampaignStub.withArgs(campaign.code).resolves(null);
 

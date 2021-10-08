@@ -1,10 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-participations-count-by-stage-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-participations-count-by-stage-serializer', function() {
-
-  describe('#serialize', function() {
-    it('should convert a participations count by stage model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | campaign-participations-count-by-stage-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a participations count by stage model object into JSON API data', function () {
       const json = serializer.serialize({
         campaignId: 1,
         data: [

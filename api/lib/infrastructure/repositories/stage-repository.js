@@ -15,29 +15,22 @@ module.exports = {
   },
 
   findByTargetProfileId(targetProfileId) {
-    return BookshelfStage
-      .where({ targetProfileId })
+    return BookshelfStage.where({ targetProfileId })
       .orderBy('threshold')
       .fetchAll({ require: false })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfStage, results));
   },
 
   async create(stage) {
-    const stageAttributes = _.pick(stage, [
-      'title',
-      'message',
-      'threshold',
-      'targetProfileId',
-    ]);
-    const createdStage = await (new BookshelfStage(stageAttributes).save());
+    const stageAttributes = _.pick(stage, ['title', 'message', 'threshold', 'targetProfileId']);
+    const createdStage = await new BookshelfStage(stageAttributes).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfStage, createdStage);
   },
 
   async updateStagePrescriberAttributes(stage) {
     const { id, prescriberTitle, prescriberDescription } = stage;
     try {
-      await new BookshelfStage({ id })
-        .save({ prescriberTitle, prescriberDescription }, { patch: true });
+      await new BookshelfStage({ id }).save({ prescriberTitle, prescriberDescription }, { patch: true });
     } catch (error) {
       if (error instanceof BookshelfStage.NoRowsUpdatedError) {
         throw new NotFoundError(`Le palier avec l'id ${id} n'existe pas`);
@@ -47,8 +40,7 @@ module.exports = {
   },
 
   async get(id) {
-    const bookshelfStage = await BookshelfStage
-      .where('id', id)
+    const bookshelfStage = await BookshelfStage.where('id', id)
       .fetch()
       .catch((err) => {
         if (err instanceof BookshelfStage.NotFoundError) {

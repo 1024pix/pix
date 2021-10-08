@@ -6,12 +6,26 @@ const moment = require('moment-timezone');
 
 // request.debug = true;
 const HEADERS = [
-  'Numero certification', 'Date de début', 'Date de fin', 'Note Pix',
-  '1.1', '1.2', '1.3',
-  '2.1', '2.2', '2.3', '2.4',
-  '3.1', '3.2', '3.3', '3.4',
-  '4.1', '4.2', '4.3',
-  '5.1', '5.2',
+  'Numero certification',
+  'Date de début',
+  'Date de fin',
+  'Note Pix',
+  '1.1',
+  '1.2',
+  '1.3',
+  '2.1',
+  '2.2',
+  '2.3',
+  '2.4',
+  '3.1',
+  '3.2',
+  '3.3',
+  '3.4',
+  '4.1',
+  '4.2',
+  '4.3',
+  '5.1',
+  '5.2',
 ];
 
 function parseArgs(argv) {
@@ -65,16 +79,18 @@ function main() {
   const authToken = process.argv[3];
   const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map((id) => buildRequestObject(baseUrl, authToken, id))
-      .map((requestObject) => makeRequest(requestObject)),
+    ids.map((id) => buildRequestObject(baseUrl, authToken, id)).map((requestObject) => makeRequest(requestObject))
   );
 
-  requests.then((certificationResults) => certificationResults.map(toCSVRow))
-    .then((res) => json2csv({
-      data: res,
-      fieldNames: HEADERS,
-      del: ';',
-    }))
+  requests
+    .then((certificationResults) => certificationResults.map(toCSVRow))
+    .then((res) =>
+      json2csv({
+        data: res,
+        fieldNames: HEADERS,
+        del: ';',
+      })
+    )
     .then((csv) => {
       console.log(`\n\n${csv}\n\n`);
       return csv;

@@ -8,16 +8,14 @@ const Hint = require('../../../../lib/domain/models/Hint');
 const ChallengeLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/challengeLearningContentDataObjectFixture');
 const SkillLearningContentDataObjectFixture = require('../../../tooling/fixtures/infrastructure/skillLearningContentDataObjectFixture');
 
-describe('Unit | Repository | correction-repository', function() {
-
-  beforeEach(function() {
+describe('Unit | Repository | correction-repository', function () {
+  beforeEach(function () {
     sinon.stub(challengeDatasource, 'get');
     sinon.stub(skillDatasource, 'get');
     sinon.stub(tutorialRepository, 'findByRecordIdsForCurrentUser');
   });
 
-  describe('#getByChallengeId', function() {
-
+  describe('#getByChallengeId', function () {
     const recordId = 'rec-challengeId';
     const userId = 'userId';
     const locale = 'en';
@@ -25,14 +23,10 @@ describe('Unit | Repository | correction-repository', function() {
     const expectedHints = [
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
-      domainBuilder.buildHint(
-        { skillName: '@web2', value: 'Can we geo-locate a rabbit on the ice floe?' },
-      ),
+      domainBuilder.buildHint({ skillName: '@web2', value: 'Can we geo-locate a rabbit on the ice floe?' }),
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
-      domainBuilder.buildHint(
-        { skillName: '@web3', value: 'Can we geo-locate a rabbit on the ice floe?' },
-      ),
+      domainBuilder.buildHint({ skillName: '@web3', value: 'Can we geo-locate a rabbit on the ice floe?' }),
     ];
 
     const userTutorial = { id: 'userTutorialId', userId, tutorialId: 'recTuto1' };
@@ -69,11 +63,10 @@ describe('Unit | Repository | correction-repository', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     expectedLearningMoreTutorials[0].tutorialEvaluation = tutorialEvaluation3;
 
-    context('normal challenge', function() {
-
+    context('normal challenge', function () {
       let challengeDataObject;
 
-      beforeEach(function() {
+      beforeEach(function () {
         // given
         const skillDatas = [
           SkillLearningContentDataObjectFixture({
@@ -97,11 +90,15 @@ describe('Unit | Repository | correction-repository', function() {
         ];
 
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1', 'recTuto2'], userId, locale }).resolves(expectedTutorials);
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3', 'recTuto4'], userId, locale }).resolves(expectedLearningMoreTutorials);
+        tutorialRepository.findByRecordIdsForCurrentUser
+          .withArgs({ ids: ['recTuto1', 'recTuto2'], userId, locale })
+          .resolves(expectedTutorials);
+        tutorialRepository.findByRecordIdsForCurrentUser
+          .withArgs({ ids: ['recTuto3', 'recTuto4'], userId, locale })
+          .resolves(expectedLearningMoreTutorials);
       });
 
-      it('should return a correction with the solution and solutionToDisplay', async function() {
+      it('should return a correction with the solution and solutionToDisplay', async function () {
         // given
         const expectedCorrection = new Correction({
           id: 'recwWzTquPlvIl4So',
@@ -127,9 +124,11 @@ describe('Unit | Repository | correction-repository', function() {
         expect(challengeDatasource.get).to.have.been.calledWith(recordId);
       });
 
-      it('should return the correction with hints that are validated', async function() {
+      it('should return the correction with hints that are validated', async function () {
         // given
-        challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        challengeDataObject = ChallengeLearningContentDataObjectFixture({
+          skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'],
+        });
         challengeDatasource.get.resolves(challengeDataObject);
 
         // when
@@ -141,8 +140,7 @@ describe('Unit | Repository | correction-repository', function() {
       });
     });
 
-    context('duplicated tutorials', function() {
-
+    context('duplicated tutorials', function () {
       const expectedCorrection = new Correction({
         id: 'recwWzTquPlvIl4So',
         solution: '1, 5',
@@ -158,9 +156,11 @@ describe('Unit | Repository | correction-repository', function() {
 
       let promise;
 
-      beforeEach(function() {
+      beforeEach(function () {
         // given
-        const challengeDataObject = ChallengeLearningContentDataObjectFixture({ skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'] });
+        const challengeDataObject = ChallengeLearningContentDataObjectFixture({
+          skillIds: ['recIdSkill001', 'recIdSkill002', 'recIdSkill003'],
+        });
         const skillDatas = [
           SkillLearningContentDataObjectFixture({
             name: '@web1',
@@ -184,14 +184,18 @@ describe('Unit | Repository | correction-repository', function() {
 
         challengeDatasource.get.resolves(challengeDataObject);
         skillDatas.forEach((skillData, index) => skillDatasource.get.onCall(index).resolves(skillData));
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto1'], userId, locale }).resolves([expectedTutorials[0]]);
-        tutorialRepository.findByRecordIdsForCurrentUser.withArgs({ ids: ['recTuto3'], userId, locale }).resolves([expectedLearningMoreTutorials[0]]);
+        tutorialRepository.findByRecordIdsForCurrentUser
+          .withArgs({ ids: ['recTuto1'], userId, locale })
+          .resolves([expectedTutorials[0]]);
+        tutorialRepository.findByRecordIdsForCurrentUser
+          .withArgs({ ids: ['recTuto3'], userId, locale })
+          .resolves([expectedLearningMoreTutorials[0]]);
 
         // when
         promise = correctionRepository.getByChallengeId({ challengeId: recordId, userId, locale });
       });
 
-      it('should return a correction with deduplicated tutorials', function() {
+      it('should return a correction with deduplicated tutorials', function () {
         // then
         return promise.then((result) => {
           expect(result).to.be.an.instanceof(Correction);

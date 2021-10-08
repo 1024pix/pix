@@ -1,11 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/email-verification-serializer');
 
-describe('Unit | Serializer | JSONAPI | email-verification-serializer', function() {
-
-  describe('#deserialize()', function() {
-
-    it('should convert the payload json to email information', async function() {
+describe('Unit | Serializer | JSONAPI | email-verification-serializer', function () {
+  describe('#deserialize()', function () {
+    it('should convert the payload json to email information', async function () {
       //given
       const payload = {
         data: {

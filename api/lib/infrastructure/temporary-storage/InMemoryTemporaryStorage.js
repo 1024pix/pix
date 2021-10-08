@@ -3,7 +3,6 @@ const trim = require('lodash/trim');
 const TemporaryStorage = require('./TemporaryStorage');
 
 class InMemoryTemporaryStorage extends TemporaryStorage {
-
   constructor() {
     super();
     this._client = new NodeCache();

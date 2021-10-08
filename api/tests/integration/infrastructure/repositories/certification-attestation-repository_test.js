@@ -1,27 +1,43 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  domainBuilder,
+  catchErr,
+  learningContentBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationAttestation = require('../../../../lib/domain/models/CertificationAttestation');
-const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
+const {
+  badgeKeyV1: cleaBadgeKeyV1,
+  badgeKeyV2: cleaBadgeKeyV2,
+} = require('../../../../lib/domain/models/CleaCertificationResult');
 const _ = require('lodash');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 const certificationAttestationRepository = require('../../../../lib/infrastructure/repositories/certification-attestation-repository');
 
-describe('Integration | Infrastructure | Repository | Certification Attestation', function() {
+describe('Integration | Infrastructure | Repository | Certification Attestation', function () {
+  const minimalLearningContent = [
+    {
+      id: 'recArea0',
+      code: '1',
+      competences: [
+        {
+          id: 'recNv8qhaY887jQb2',
+          index: '1.3',
+          name: 'Traiter des données',
+        },
+      ],
+    },
+  ];
 
-  const minimalLearningContent = [{
-    id: 'recArea0',
-    code: '1',
-    competences: [{
-      id: 'recNv8qhaY887jQb2',
-      index: '1.3',
-      name: 'Traiter des données',
-    }],
-  }];
-
-  describe('#get', function() {
-
-    it('should throw a NotFoundError when certification attestation does not exist', async function() {
+  describe('#get', function () {
+    it('should throw a NotFoundError when certification attestation does not exist', async function () {
       // when
       const error = await catchErr(certificationAttestationRepository.get)(123);
 
@@ -30,7 +46,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification has no assessment-result', async function() {
+    it('should throw a NotFoundError when certification has no assessment-result', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -60,7 +76,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification is cancelled', async function() {
+    it('should throw a NotFoundError when certification is cancelled', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -90,7 +106,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification is not published', async function() {
+    it('should throw a NotFoundError when certification is not published', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -120,7 +136,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should throw a NotFoundError when certification is rejected', async function() {
+    it('should throw a NotFoundError when certification is rejected', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -151,7 +167,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(error.message).to.equal('There is no certification course with id "123"');
     });
 
-    it('should return a CertificationAttestation', async function() {
+    it('should return a CertificationAttestation', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -180,12 +196,15 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const certificationAttestation = await certificationAttestationRepository.get(123);
 
       // then
-      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+      const expectedCertificationAttestation =
+        domainBuilder.buildCertificationAttestation(certificationAttestationData);
       expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+      );
     });
 
-    it('should return a CertificationAttestation with appropriate result competence tree', async function() {
+    it('should return a CertificationAttestation with appropriate result competence tree', async function () {
       // given
       const certificationAttestationData = {
         id: 123,
@@ -264,7 +283,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation.resultCompetenceTree).to.deep.equal(expectedResultCompetenceTree);
     });
 
-    it('should take into account the latest validated assessment result of the certification', async function() {
+    it('should take into account the latest validated assessment result of the certification', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -297,7 +316,7 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       expect(certificationAttestation).to.deepEqualInstance(expectedCertificationAttestation);
     });
 
-    it('should get the clea certification result if badge V1 taken', async function() {
+    it('should get the clea certification result if badge V1 taken', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -327,12 +346,15 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const certificationAttestation = await certificationAttestationRepository.get(123);
 
       // then
-      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+      const expectedCertificationAttestation =
+        domainBuilder.buildCertificationAttestation(certificationAttestationData);
       expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+      );
     });
 
-    it('should get the clea certification result if badge V2 taken', async function() {
+    it('should get the clea certification result if badge V2 taken', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -362,14 +384,16 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       const certificationAttestation = await certificationAttestationRepository.get(123);
 
       // then
-      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+      const expectedCertificationAttestation =
+        domainBuilder.buildCertificationAttestation(certificationAttestationData);
       expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+      );
     });
 
-    context('acquired certifiable badges', function() {
-
-      it('should get the certified badge images of pixPlusDroitExpert when acquired', async function() {
+    context('acquired certifiable badges', function () {
+      it('should get the certified badge images of pixPlusDroitExpert when acquired', async function () {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -398,12 +422,15 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         const certificationAttestation = await certificationAttestationRepository.get(123);
 
         // then
-        const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+        const expectedCertificationAttestation =
+          domainBuilder.buildCertificationAttestation(certificationAttestationData);
         expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+        );
       });
 
-      it('should get the certified badge images of pixPlusDroitMaitre when acquired', async function() {
+      it('should get the certified badge images of pixPlusDroitMaitre when acquired', async function () {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -432,13 +459,15 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         const certificationAttestation = await certificationAttestationRepository.get(123);
 
         // then
-        const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+        const expectedCertificationAttestation =
+          domainBuilder.buildCertificationAttestation(certificationAttestationData);
         expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
-
+        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+        );
       });
 
-      it('should only take into account acquired ones', async function() {
+      it('should only take into account acquired ones', async function () {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -468,16 +497,18 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         const certificationAttestation = await certificationAttestationRepository.get(123);
 
         // then
-        const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+        const expectedCertificationAttestation =
+          domainBuilder.buildCertificationAttestation(certificationAttestationData);
         expect(certificationAttestation).to.be.instanceOf(CertificationAttestation);
-        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+        expect(_.omit(certificationAttestation, ['resultCompetenceTree'])).to.deep.equal(
+          _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+        );
       });
     });
   });
 
-  describe('#findByDivisionForScoIsManagingStudentsOrganization', function() {
-
-    it('should return an empty array when there are no certification attestations for given organization', async function() {
+  describe('#findByDivisionForScoIsManagingStudentsOrganization', function () {
+    it('should return an empty array when there are no certification attestations for given organization', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -503,16 +534,24 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 456, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 456,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an empty array when the organization is not SCO IS MANAGING STUDENTS', async function() {
+    it('should return an empty array when the organization is not SCO IS MANAGING STUDENTS', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -537,16 +576,24 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an empty array when the certification does not belong to a schooling registration in the right division', async function() {
+    it('should return an empty array when the certification does not belong to a schooling registration in the right division', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -571,16 +618,24 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '5emeG' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 123,
+        division: '5emeG',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should not return certifications that have no validated assessment-result', async function() {
+    it('should not return certifications that have no validated assessment-result', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -605,16 +660,24 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildRejected(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should not return cancelled certifications', async function() {
+    it('should not return cancelled certifications', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -639,16 +702,24 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildCancelled(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should not return non published certifications', async function() {
+    it('should not return non published certifications', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -673,16 +744,24 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestation(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
       expect(certificationAttestations).to.be.empty;
     });
 
-    it('should return an array of certification attestations ordered by last name, first name', async function() {
+    it('should return an array of certification attestations ordered by last name, first name', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -745,27 +824,52 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       await _buildValidCertificationAttestation(certificationAttestationDataA);
       await _buildValidCertificationAttestation(certificationAttestationDataB);
       await _buildValidCertificationAttestation(certificationAttestationDataC);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataA, organizationId: 123, division: '3emeB' });
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataB, organizationId: 123, division: '3emeB' });
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataC, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataA,
+        organizationId: 123,
+        division: '3emeB',
+      });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataB,
+        organizationId: 123,
+        division: '3emeB',
+      });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataC,
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
-      const expectedCertificationAttestationA = domainBuilder.buildCertificationAttestation(certificationAttestationDataA);
-      const expectedCertificationAttestationB = domainBuilder.buildCertificationAttestation(certificationAttestationDataB);
-      const expectedCertificationAttestationC = domainBuilder.buildCertificationAttestation(certificationAttestationDataC);
+      const expectedCertificationAttestationA =
+        domainBuilder.buildCertificationAttestation(certificationAttestationDataA);
+      const expectedCertificationAttestationB =
+        domainBuilder.buildCertificationAttestation(certificationAttestationDataB);
+      const expectedCertificationAttestationC =
+        domainBuilder.buildCertificationAttestation(certificationAttestationDataC);
       expect(certificationAttestations).to.have.length(3);
       expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestationB, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestationB, ['resultCompetenceTree'])
+      );
       expect(certificationAttestations[1]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[1], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestationC, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestations[1], ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestationC, ['resultCompetenceTree'])
+      );
       expect(certificationAttestations[2]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[2], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestationA, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestations[2], ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestationA, ['resultCompetenceTree'])
+      );
     });
 
-    it('should take into account the latest validated assessment result of a certification', async function() {
+    it('should take into account the latest validated assessment result of a certification', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -790,24 +894,38 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
         sessionId: 789,
       };
       await _buildValidCertificationAttestationWithSeveralResults(certificationAttestationData);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId: 123, division: '3emeB' });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData,
+        organizationId: 123,
+        division: '3emeB',
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
-      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationData);
+      const expectedCertificationAttestation =
+        domainBuilder.buildCertificationAttestation(certificationAttestationData);
       expect(certificationAttestations).to.have.length(1);
       expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+      );
     });
 
-    it('should take into account the latest certification of a schooling registration', async function() {
+    it('should take into account the latest certification of a schooling registration', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
       databaseBuilder.factory.buildOrganization({ id: 123, type: 'SCO', isManagingStudents: true });
-      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: 123, division: '3emeb' }).id;
+      const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: 123,
+        division: '3emeb',
+      }).id;
       await databaseBuilder.commit();
       const certificationAttestationDataOldest = {
         id: 123,
@@ -847,17 +965,33 @@ describe('Integration | Infrastructure | Repository | Certification Attestation'
       };
       await _buildValidCertificationAttestation(certificationAttestationDataOldest);
       await _buildValidCertificationAttestation(certificationAttestationDataNewest);
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataOldest, organizationId: 123, schoolingRegistrationId });
-      await _linkCertificationAttestationToOrganization({ certificationAttestationData: certificationAttestationDataNewest, organizationId: 123, schoolingRegistrationId });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataOldest,
+        organizationId: 123,
+        schoolingRegistrationId,
+      });
+      await _linkCertificationAttestationToOrganization({
+        certificationAttestationData: certificationAttestationDataNewest,
+        organizationId: 123,
+        schoolingRegistrationId,
+      });
 
       // when
-      const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId: 123, division: '3emeB' });
+      const certificationAttestations =
+        await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+          organizationId: 123,
+          division: '3emeB',
+        });
 
       // then
-      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(certificationAttestationDataNewest);
+      const expectedCertificationAttestation = domainBuilder.buildCertificationAttestation(
+        certificationAttestationDataNewest
+      );
       expect(certificationAttestations).to.have.length(1);
       expect(certificationAttestations[0]).to.be.instanceOf(CertificationAttestation);
-      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(_.omit(expectedCertificationAttestation, ['resultCompetenceTree']));
+      expect(_.omit(certificationAttestations[0], ['resultCompetenceTree'])).to.deep.equal(
+        _.omit(expectedCertificationAttestation, ['resultCompetenceTree'])
+      );
     });
   });
 });
@@ -912,7 +1046,9 @@ async function _buildRejected(certificationAttestationData) {
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationAttestationData.id,
+  }).id;
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
@@ -944,7 +1080,9 @@ async function _buildCancelled(certificationAttestationData) {
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationAttestationData.id,
+  }).id;
   databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
@@ -976,7 +1114,9 @@ async function _buildValidCertificationAttestation(certificationAttestationData,
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationAttestationData.id,
+  }).id;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
@@ -1018,7 +1158,9 @@ async function _buildValidCertificationAttestationWithSeveralResults(certificati
     sessionId: certificationAttestationData.sessionId,
     userId: certificationAttestationData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: certificationAttestationData.id }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: certificationAttestationData.id,
+  }).id;
   const assessmentResultId1 = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: certificationAttestationData.pixScore,
@@ -1055,32 +1197,59 @@ async function _buildCleaResult({ certificationCourseId, acquired, cleaBadgeKey 
   databaseBuilder.factory.buildBadge({ key: cleaBadgeKey });
   databaseBuilder.factory.buildBadge({ key: 'some-other-badge-c' });
   databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: cleaBadgeKey, acquired });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: 'some-other-badge-c', acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId,
+    partnerKey: 'some-other-badge-c',
+    acquired: true,
+  });
   await databaseBuilder.commit();
 }
 
 async function _buildPixPlusDroitExpertResult({ certificationCourseId, acquired }) {
   databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
   databaseBuilder.factory.buildBadge({ key: 'some-other-badge-e' });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitExpertBadgeKey, acquired });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: 'some-other-badge-e', acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId,
+    partnerKey: pixPlusDroitExpertBadgeKey,
+    acquired,
+  });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId,
+    partnerKey: 'some-other-badge-e',
+    acquired: true,
+  });
   await databaseBuilder.commit();
 }
 
 async function _buildPixPlusDroitMaitreResult({ certificationCourseId, acquired }) {
   databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
   databaseBuilder.factory.buildBadge({ key: 'some-other-badge-m' });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: 'some-other-badge-m', acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId,
+    partnerKey: pixPlusDroitMaitreBadgeKey,
+    acquired,
+  });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId,
+    partnerKey: 'some-other-badge-m',
+    acquired: true,
+  });
   await databaseBuilder.commit();
 }
 
-async function _linkCertificationAttestationToOrganization({ certificationAttestationData, organizationId, division, schoolingRegistrationId = null }) {
-  const srId = schoolingRegistrationId || databaseBuilder.factory.buildSchoolingRegistration({
-    organizationId,
-    userId: certificationAttestationData.userId,
-    division,
-  }).id;
+async function _linkCertificationAttestationToOrganization({
+  certificationAttestationData,
+  organizationId,
+  division,
+  schoolingRegistrationId = null,
+}) {
+  const srId =
+    schoolingRegistrationId ||
+    databaseBuilder.factory.buildSchoolingRegistration({
+      organizationId,
+      userId: certificationAttestationData.userId,
+      division,
+    }).id;
   databaseBuilder.factory.buildCertificationCandidate({
     userId: certificationAttestationData.userId,
     sessionId: certificationAttestationData.sessionId,
