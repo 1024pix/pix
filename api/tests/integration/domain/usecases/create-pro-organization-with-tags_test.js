@@ -12,6 +12,7 @@ const {
   ManyOrganizationsFoundError,
 } = require('../../../../lib/domain/errors');
 const createProOrganizationsWithTags = require('../../../../lib/domain/usecases/create-pro-organizations-with-tags');
+const Membership = require('../../../../lib/domain/models/Membership');
 
 describe('Integration | UseCases | create-pro-organization', function () {
   beforeEach(async function () {
@@ -37,6 +38,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
         canCollectProfiles: false,
         credit: 0,
         email: 'youness@example.net',
+        organizationInvitationRole: Membership.roles.ADMIN,
         locale: 'fr-fr',
         tags: 'Tag1_Tag2',
       },
@@ -47,6 +49,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
         canCollectProfiles: true,
         credit: 10,
         email: 'andreia@example.net',
+        organizationInvitationRole: Membership.roles.MEMBER,
         locale: 'fr-fr',
         tags: 'Tag2_Tag3',
       },
@@ -57,6 +60,7 @@ describe('Integration | UseCases | create-pro-organization', function () {
         canCollectProfiles: false,
         credit: 20,
         email: 'mathieu@example.net',
+        organizationInvitationRole: Membership.roles.ADMIN,
         locale: 'fr-fr',
         tags: 'Tag1_Tag3',
       },
@@ -82,7 +86,10 @@ describe('Integration | UseCases | create-pro-organization', function () {
       const organizationInDB = await knex('organizations')
         .first('id', 'externalId', 'name', 'provinceCode', 'canCollectProfiles', 'credit', 'email')
         .where({ externalId: organization.externalId });
-      expect(omit(organizationInDB, 'id')).to.be.deep.equal(omit(organization, 'locale', 'tags'));
+      expect(omit(organizationInDB, 'id')).to.be.deep.equal(
+        omit(organization, 'organizationInvitationRole', 'locale', 'tags')
+      );
+
       const organizationTagInDB = await knex('organization-tags')
         .select()
         .where({ organizationId: organizationInDB.id });
@@ -91,6 +98,52 @@ describe('Integration | UseCases | create-pro-organization', function () {
       organizationTagInDB.forEach((value) => {
         expect(value.organizationId).to.be.equal(organizationInDB.id);
       });
+    }
+  });
+
+  it('should create organization invitation with role when email is specified', async function () {
+    // given
+    const organizationsWithInvitationRole = [
+      {
+        externalId: 'b200',
+        name: 'Youness et Fils',
+        provinceCode: '123',
+        canCollectProfiles: false,
+        credit: 0,
+        email: 'youness@example.net',
+        organizationInvitationRole: Membership.roles.ADMIN,
+        locale: 'fr-fr',
+        tags: 'Tag1_Tag2',
+      },
+      {
+        externalId: 'b300',
+        name: 'Andreia & Co',
+        provinceCode: '345',
+        canCollectProfiles: true,
+        credit: 10,
+        email: 'andreia@example.net',
+        organizationInvitationRole: Membership.roles.MEMBER,
+        locale: 'fr-fr',
+        tags: 'Tag2_Tag3',
+      },
+    ];
+
+    // when
+    await createProOrganizationsWithTags({
+      domainTransaction,
+      organizations: organizationsWithInvitationRole,
+      organizationRepository,
+      tagRepository,
+      organizationTagRepository,
+      organizationInvitationRepository,
+    });
+
+    // then
+    for (const organizationInvitation of organizationsWithInvitationRole) {
+      const organizationInvitationInDB = await knex('organization-invitations')
+        .first('id', 'email', 'role')
+        .where({ email: organizationInvitation.email });
+      expect(organizationInvitationInDB.role).to.be.equal(organizationInvitation.organizationInvitationRole);
     }
   });
 
