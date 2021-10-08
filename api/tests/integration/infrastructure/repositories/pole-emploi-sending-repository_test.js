@@ -86,7 +86,10 @@ describe('Integration | Repository | PoleEmploiSending', function () {
     context('when the participant has several authentication method', function () {
       it('should render only one sending', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'PIX' });
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
+          userId,
+          identityProvider: 'PIX',
+        });
         databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
           userId,
           externalIdentifier: 'idPoleEmploi',

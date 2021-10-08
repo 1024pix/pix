@@ -19,7 +19,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
     databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
       userId: user.id,
     });
-    databaseBuilder.factory.buildAuthenticationMethod({
+    databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
       userId: user.id,
       identityProvider: AuthenticationMethod.identityProviders.GAR,
     });
