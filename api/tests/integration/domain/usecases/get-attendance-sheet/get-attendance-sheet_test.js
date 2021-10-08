@@ -6,16 +6,19 @@ const sessionRepository = require('../../../../../lib/infrastructure/repositorie
 const sessionForAttendanceSheetRepository = require('../../../../../lib/infrastructure/repositories/session-for-attendance-sheet-repository');
 const getAttendanceSheet = require('../../../../../lib/domain/usecases/get-attendance-sheet');
 
-describe('Integration | UseCases | getAttendanceSheet', function() {
-
-  describe('when certification center is not sco', function() {
+describe('Integration | UseCases | getAttendanceSheet', function () {
+  describe('when certification center is not sco', function () {
     let userId;
     let sessionId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const certificationCenterName = 'Centre de certification';
       databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName, type: 'SUP', externalId: 'EXT1234' }).id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        name: certificationCenterName,
+        type: 'SUP',
+        externalId: 'EXT1234',
+      }).id;
 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -33,14 +36,45 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
         description: 'La super description',
       }).id;
 
-      _.each([
-        { lastName: 'Jackson', firstName: 'Michael', birthdate: '2004-04-04', sessionId, externalId: 'ABC123', extraTimePercentage: 0.6 },
-        { lastName: 'Jackson', firstName: 'Janet', birthdate: '2005-12-05', sessionId, externalId: 'DEF456', extraTimePercentage: null },
-        { lastName: 'Mercury', firstName: 'Freddy', birthdate: '1925-06-28', sessionId, externalId: 'GHI789', extraTimePercentage: 1.5 },
-        { lastName: 'Gallagher', firstName: 'Jack', birthdate: '1980-08-10', sessionId, externalId: null, extraTimePercentage: 0.15 },
-      ], (candidate) => {
-        databaseBuilder.factory.buildCertificationCandidate(candidate);
-      });
+      _.each(
+        [
+          {
+            lastName: 'Jackson',
+            firstName: 'Michael',
+            birthdate: '2004-04-04',
+            sessionId,
+            externalId: 'ABC123',
+            extraTimePercentage: 0.6,
+          },
+          {
+            lastName: 'Jackson',
+            firstName: 'Janet',
+            birthdate: '2005-12-05',
+            sessionId,
+            externalId: 'DEF456',
+            extraTimePercentage: null,
+          },
+          {
+            lastName: 'Mercury',
+            firstName: 'Freddy',
+            birthdate: '1925-06-28',
+            sessionId,
+            externalId: 'GHI789',
+            extraTimePercentage: 1.5,
+          },
+          {
+            lastName: 'Gallagher',
+            firstName: 'Jack',
+            birthdate: '1980-08-10',
+            sessionId,
+            externalId: null,
+            extraTimePercentage: 0.15,
+          },
+        ],
+        (candidate) => {
+          databaseBuilder.factory.buildCertificationCandidate(candidate);
+        }
+      );
 
       await databaseBuilder.commit();
     });
@@ -48,13 +82,18 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
     const expectedOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_target.ods`;
     const actualOdsFilePath = `${__dirname}/non_sco_attendance_sheet_template_actual.tmp.ods`;
 
-    afterEach(async function() {
+    afterEach(async function () {
       await unlink(actualOdsFilePath);
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled', async function() {
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
       // when
-      const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository, sessionForAttendanceSheetRepository });
+      const updatedOdsFileBuffer = await getAttendanceSheet({
+        userId,
+        sessionId,
+        sessionRepository,
+        sessionForAttendanceSheetRepository,
+      });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
@@ -64,15 +103,18 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
     });
   });
 
-  describe('when certification center is sco and managing students', function() {
-
+  describe('when certification center is sco and managing students', function () {
     let userId;
     let sessionId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const certificationCenterName = 'Centre de certification';
       databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ name: certificationCenterName, type: 'SCO', externalId: 'EXT1234' }).id;
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
+        name: certificationCenterName,
+        type: 'SCO',
+        externalId: 'EXT1234',
+      }).id;
 
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -90,15 +132,46 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
         description: 'La super description',
       }).id;
 
-      _.each([
-        { lastName: 'Jackson', firstName: 'Michael', birthdate: '2004-04-04', sessionId, division: '2C', extraTimePercentage: 0.6 },
-        { lastName: 'Jackson', firstName: 'Janet', birthdate: '2005-12-05', sessionId, division: '3B', extraTimePercentage: null },
-        { lastName: 'Mercury', firstName: 'Freddy', birthdate: '1925-06-28', sessionId, division: '1A', extraTimePercentage: 1.5 },
-        { lastName: 'Gallagher', firstName: 'Jack', birthdate: '1980-08-10', sessionId, division: '3B', extraTimePercentage: 0.15 },
-      ], (candidate) => {
-        const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration(candidate).id;
-        databaseBuilder.factory.buildCertificationCandidate({ ...candidate, schoolingRegistrationId });
-      });
+      _.each(
+        [
+          {
+            lastName: 'Jackson',
+            firstName: 'Michael',
+            birthdate: '2004-04-04',
+            sessionId,
+            division: '2C',
+            extraTimePercentage: 0.6,
+          },
+          {
+            lastName: 'Jackson',
+            firstName: 'Janet',
+            birthdate: '2005-12-05',
+            sessionId,
+            division: '3B',
+            extraTimePercentage: null,
+          },
+          {
+            lastName: 'Mercury',
+            firstName: 'Freddy',
+            birthdate: '1925-06-28',
+            sessionId,
+            division: '1A',
+            extraTimePercentage: 1.5,
+          },
+          {
+            lastName: 'Gallagher',
+            firstName: 'Jack',
+            birthdate: '1980-08-10',
+            sessionId,
+            division: '3B',
+            extraTimePercentage: 0.15,
+          },
+        ],
+        (candidate) => {
+          const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration(candidate).id;
+          databaseBuilder.factory.buildCertificationCandidate({ ...candidate, schoolingRegistrationId });
+        }
+      );
 
       await databaseBuilder.commit();
     });
@@ -106,13 +179,18 @@ describe('Integration | UseCases | getAttendanceSheet', function() {
     const expectedOdsFilePath = `${__dirname}/sco_attendance_sheet_template_target.ods`;
     const actualOdsFilePath = `${__dirname}/sco_attendance_sheet_template_actual.tmp.ods`;
 
-    afterEach(async function() {
+    afterEach(async function () {
       await unlink(actualOdsFilePath);
     });
 
-    it('should return an attendance sheet with session data, certification candidates data prefilled', async function() {
+    it('should return an attendance sheet with session data, certification candidates data prefilled', async function () {
       // when
-      const updatedOdsFileBuffer = await getAttendanceSheet({ userId, sessionId, sessionRepository, sessionForAttendanceSheetRepository });
+      const updatedOdsFileBuffer = await getAttendanceSheet({
+        userId,
+        sessionId,
+        sessionRepository,
+        sessionForAttendanceSheetRepository,
+      });
       await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
       const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
       const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
