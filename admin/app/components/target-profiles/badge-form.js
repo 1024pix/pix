@@ -17,8 +17,8 @@ export default class BadgeForm extends Component {
     isAlwaysVisible: false,
   };
 
-  constructor() {
-    super(...arguments);
+  constructor(...args) {
+    super(...args);
   }
 
   @action
