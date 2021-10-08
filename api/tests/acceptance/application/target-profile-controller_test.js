@@ -368,7 +368,7 @@ describe('Acceptance | Controller | target-profile-controller', function () {
       expect(omit(response.result, 'data.id')).to.deep.equal(omit(expectedResult, 'data.id'));
     });
 
-    it('should create badge with empty message and title', async function() {
+    it('should create badge with empty message and title', async function () {
       // given
       const user = databaseBuilder.factory.buildUser.withPixRolePixMaster();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -379,8 +379,8 @@ describe('Acceptance | Controller | target-profile-controller', function () {
         'image-url': 'https//images.example.net',
         'is-certifiable': false,
         'is-always-visible': true,
-        'message': '',
-        'title': null,
+        message: '',
+        title: null,
       };
       const options = {
         method: 'POST',
