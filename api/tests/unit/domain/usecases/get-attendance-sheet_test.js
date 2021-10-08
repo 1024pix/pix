@@ -18,7 +18,9 @@ describe('Unit | UseCase | get-attendance-sheet-in-ods-format', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const sessionRepository = {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     getWithCertificationCandidates: _.noop,
+    // eslint-disable-next-line mocha/no-setup-in-describe
     doesUserHaveCertificationCenterMembershipForSession: _.noop,
   };
 

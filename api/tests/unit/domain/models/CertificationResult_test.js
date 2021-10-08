@@ -109,31 +109,31 @@ describe('Unit | Domain | Models | CertificationResult', function () {
     context('status', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        // eslint-disable-next-line mocha/no-setup-in-describe
         {
           statusName: 'cancelled',
           isCancelled: true,
+          // eslint-disable-next-line mocha/no-setup-in-describe
           assessmentResultStatus: CertificationResult.status.VALIDATED,
           validationFunction: 'isCancelled',
         },
-        // eslint-disable-next-line mocha/no-setup-in-describe
         {
           statusName: 'validated',
           isCancelled: false,
+          // eslint-disable-next-line mocha/no-setup-in-describe
           assessmentResultStatus: CertificationResult.status.VALIDATED,
           validationFunction: 'isValidated',
         },
-        // eslint-disable-next-line mocha/no-setup-in-describe
         {
           statusName: 'rejected',
           isCancelled: false,
+          // eslint-disable-next-line mocha/no-setup-in-describe
           assessmentResultStatus: CertificationResult.status.REJECTED,
           validationFunction: 'isRejected',
         },
-        // eslint-disable-next-line mocha/no-setup-in-describe
         {
           statusName: 'error',
           isCancelled: false,
+          // eslint-disable-next-line mocha/no-setup-in-describe
           assessmentResultStatus: CertificationResult.status.ERROR,
           validationFunction: 'isInError',
         },
