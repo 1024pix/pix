@@ -2,6 +2,8 @@ const SUP = 'SUP';
 const SCO = 'SCO';
 const PRO = 'PRO';
 
+const PIX_PLUS_DROIT = 'Pix+ Droit';
+
 const types = {
   SUP,
   SCO,
@@ -20,6 +22,10 @@ class CertificationCenter {
 
   get isSco() {
     return this.type === types.SCO;
+  }
+
+  get isAccreditedPixPlusDroit() {
+    return this.accreditations.some((accreditation) => accreditation.name === PIX_PLUS_DROIT);
   }
 }
 

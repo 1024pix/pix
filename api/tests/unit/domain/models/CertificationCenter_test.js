@@ -18,4 +18,25 @@ describe('Unit | Domain | Models | CertificationCenter', function () {
       expect(certificationCenter.isSco).is.false;
     });
   });
+
+  describe('#isAccreditedPixPlusDroit', function () {
+    it('should return false when the certification center does not have Pix+ Droit accreditation', function () {
+      // given
+      const certificationCenter = domainBuilder.buildCertificationCenter({ accreditations: [] });
+
+      // then
+      expect(certificationCenter.isAccreditedPixPlusDroit).to.be.false;
+    });
+
+    it('should return true when the certification center has Pix+ Droit accreditation', function () {
+      // given
+      const pixPlusDroitAccreditation = domainBuilder.buildAccreditation({ name: 'Pix+ Droit' });
+      const certificationCenter = domainBuilder.buildCertificationCenter({
+        accreditations: [pixPlusDroitAccreditation],
+      });
+
+      // then
+      expect(certificationCenter.isAccreditedPixPlusDroit).to.be.true;
+    });
+  });
 });
