@@ -4,7 +4,7 @@ const { CertificationCourseNotPublishableError } = require('../../../../lib/doma
 const CertificationCourseBookshelf = require('../../../../lib/infrastructure/orm-models/CertificationCourse');
 const PARTNER_CLEA_KEY = 'BANANA';
 
-describe('Integration | Repository | Certification ', function() {
+describe('Integration | Repository | Certification ', function () {
   let sessionLatestAssessmentRejected;
   let sessionWithPublishedCertificationCourses;
   let sessionWithStartedAndError;
@@ -15,20 +15,22 @@ describe('Integration | Repository | Certification ', function() {
   let certificationCenterId;
   let certificationCenter;
 
-  beforeEach(async function() {
-
+  beforeEach(async function () {
     databaseBuilder.factory.buildBadge({ key: PARTNER_CLEA_KEY });
-    ({
-      id: certificationCenterId,
-      name: certificationCenter,
-    } = databaseBuilder.factory.buildCertificationCenter({ name: 'Certif College' }));
+    ({ id: certificationCenterId, name: certificationCenter } = databaseBuilder.factory.buildCertificationCenter({
+      name: 'Certif College',
+    }));
 
     sessionLatestAssessmentRejectedCertifCourseIds = [];
     sessionWithStartedAndErrorCertifCourseIds = [];
     sessionWithPublishedCertificationCoursesCertifCourseIds = [];
 
     sessionLatestAssessmentRejected = databaseBuilder.factory.buildSession();
-    let id = createCertifCourseWithAssessementResults(sessionLatestAssessmentRejected.id, { status: 'started', createdAt: new Date('2018-02-15T15:00:34Z') }, { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') });
+    let id = createCertifCourseWithAssessementResults(
+      sessionLatestAssessmentRejected.id,
+      { status: 'started', createdAt: new Date('2018-02-15T15:00:34Z') },
+      { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') }
+    );
     sessionLatestAssessmentRejectedCertifCourseIds.push(id);
 
     sessionWithStartedAndError = databaseBuilder.factory.buildSession();
@@ -38,13 +40,17 @@ describe('Integration | Repository | Certification ', function() {
     sessionWithStartedAndErrorCertifCourseIds.push(id);
 
     sessionWithPublishedCertificationCourses = databaseBuilder.factory.buildSession();
-    id = createPublishedCertifCourseWithAssessementResults(sessionWithPublishedCertificationCourses.id, { status: 'started', createdAt: new Date('2018-02-15T15:00:34Z') }, { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') });
+    id = createPublishedCertifCourseWithAssessementResults(
+      sessionWithPublishedCertificationCourses.id,
+      { status: 'started', createdAt: new Date('2018-02-15T15:00:34Z') },
+      { status: 'rejected', createdAt: new Date('2018-02-16T15:00:34Z') }
+    );
     sessionWithPublishedCertificationCoursesCertifCourseIds.push(id);
 
     await databaseBuilder.commit();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await knex('partner-certifications').delete();
     await knex('assessment-results').delete();
     await knex('assessments').delete();
@@ -52,25 +58,30 @@ describe('Integration | Repository | Certification ', function() {
     return knex('sessions').delete();
   });
 
-  describe('#publishCertificationCoursesBySessionId', function() {
-
-    it('should flag the specified certifications as published', async function() {
+  describe('#publishCertificationCoursesBySessionId', function () {
+    it('should flag the specified certifications as published', async function () {
       await certificationRepository.publishCertificationCoursesBySessionId(sessionLatestAssessmentRejected.id);
-      await Promise.all(sessionLatestAssessmentRejectedCertifCourseIds.map(async (id) => {
-        const certifCourse = await get(id);
-        expect(certifCourse.isPublished).to.be.true;
-      }));
+      await Promise.all(
+        sessionLatestAssessmentRejectedCertifCourseIds.map(async (id) => {
+          const certifCourse = await get(id);
+          expect(certifCourse.isPublished).to.be.true;
+        })
+      );
     });
 
-    it('should not flag the specified certifications as published and be rejected', async function() {
-      const result = await catchErr(certificationRepository.publishCertificationCoursesBySessionId.bind(certificationRepository))(sessionWithStartedAndError.id);
+    it('should not flag the specified certifications as published and be rejected', async function () {
+      const result = await catchErr(
+        certificationRepository.publishCertificationCoursesBySessionId.bind(certificationRepository)
+      )(sessionWithStartedAndError.id);
       // then
       expect(result).to.be.instanceOf(CertificationCourseNotPublishableError);
 
-      await Promise.all(sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false));
+      await Promise.all(
+        sessionWithStartedAndErrorCertifCourseIds.map(async (id) => expect((await get(id)).isPublished).to.be.false)
+      );
     });
 
-    it('does nothing when there are no certification courses', async function() {
+    it('does nothing when there are no certification courses', async function () {
       // given
       const sessionWithNoCertificationCourses = databaseBuilder.factory.buildSession({
         certificationCenterId,
@@ -80,21 +91,26 @@ describe('Integration | Repository | Certification ', function() {
       await databaseBuilder.commit();
 
       // when
-      const publicationPromise = certificationRepository.publishCertificationCoursesBySessionId(sessionWithNoCertificationCourses.id);
+      const publicationPromise = certificationRepository.publishCertificationCoursesBySessionId(
+        sessionWithNoCertificationCourses.id
+      );
 
       // then
       await expect(publicationPromise).not.to.be.rejected;
     });
   });
 
-  describe('#unpublishCertificationCoursesBySessionId', function() {
-
-    it('should update the specified certifications', async function() {
-      await certificationRepository.unpublishCertificationCoursesBySessionId(sessionWithPublishedCertificationCourses.id);
-      await Promise.all(sessionWithPublishedCertificationCoursesCertifCourseIds.map(async (id) => {
-        const certifCourse = await get(id);
-        expect(certifCourse.isPublished).to.be.false;
-      }));
+  describe('#unpublishCertificationCoursesBySessionId', function () {
+    it('should update the specified certifications', async function () {
+      await certificationRepository.unpublishCertificationCoursesBySessionId(
+        sessionWithPublishedCertificationCourses.id
+      );
+      await Promise.all(
+        sessionWithPublishedCertificationCoursesCertifCourseIds.map(async (id) => {
+          const certifCourse = await get(id);
+          expect(certifCourse.isPublished).to.be.false;
+        })
+      );
     });
   });
 
@@ -108,7 +124,8 @@ describe('Integration | Repository | Certification ', function() {
         assessmentId: assessmentId,
         createdAt,
         status,
-      }));
+      })
+    );
 
     return certifCourseId;
   }
@@ -123,16 +140,14 @@ describe('Integration | Repository | Certification ', function() {
         assessmentId: assessmentId,
         createdAt,
         status,
-      }));
+      })
+    );
 
     return certifCourseId;
   }
 
   async function get(id) {
-    const certification = await CertificationCourseBookshelf
-      .where({ id })
-      .fetch();
+    const certification = await CertificationCourseBookshelf.where({ id }).fetch();
     return certification.attributes;
   }
-
 });

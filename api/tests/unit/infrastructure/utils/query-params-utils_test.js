@@ -1,11 +1,9 @@
 const { expect } = require('../../../test-helper');
 const { extractParameters } = require('../../../../lib/infrastructure/utils/query-params-utils');
 
-describe('Unit | Utils | Query Params Utils', function() {
-
-  describe('#extractParameters', function() {
-
-    it('should extract multiple parameters from request Object', function() {
+describe('Unit | Utils | Query Params Utils', function () {
+  describe('#extractParameters', function () {
+    it('should extract multiple parameters from request Object', function () {
       // given
       const query = {
         'filter[courseId]': '26',
@@ -34,11 +32,11 @@ describe('Unit | Utils | Query Params Utils', function() {
       });
     });
 
-    it('should return an object with empty properties if query does not contain jsonapi params', function() {
+    it('should return an object with empty properties if query does not contain jsonapi params', function () {
       // given
       const query = {
-        'page': 1,
-        'pageSize': 10,
+        page: 1,
+        pageSize: 10,
       };
 
       // when

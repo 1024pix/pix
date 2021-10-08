@@ -11,7 +11,11 @@ module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipationRepository,
   domainTransaction,
 }) {
-  const campaignParticipation = await campaignParticipationRepository.get(campaignParticipationId, {}, domainTransaction);
+  const campaignParticipation = await campaignParticipationRepository.get(
+    campaignParticipationId,
+    {},
+    domainTransaction
+  );
   if (campaignParticipation.userId !== userId) {
     throw new UserNotAuthorizedToAccessEntityError();
   }
@@ -23,7 +27,10 @@ module.exports = async function beginCampaignParticipationImprovement({
   campaignParticipation.improve();
   await campaignParticipationRepository.update(campaignParticipation, domainTransaction);
 
-  const latestAssessment = await assessmentRepository.getLatestByCampaignParticipationId(campaignParticipation.id, domainTransaction);
+  const latestAssessment = await assessmentRepository.getLatestByCampaignParticipationId(
+    campaignParticipation.id,
+    domainTransaction
+  );
   if (latestAssessment.isImproving && !latestAssessment.isCompleted()) {
     return null;
   }

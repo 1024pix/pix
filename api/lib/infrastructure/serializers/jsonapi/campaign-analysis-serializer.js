@@ -8,7 +8,16 @@ module.exports = {
       campaignTubeRecommendations: {
         ref: 'id',
         includes: true,
-        attributes: ['tubeId', 'competenceId', 'competenceName', 'tubePracticalTitle', 'areaColor', 'averageScore', 'tutorials', 'tubeDescription'],
+        attributes: [
+          'tubeId',
+          'competenceId',
+          'competenceName',
+          'tubePracticalTitle',
+          'areaColor',
+          'averageScore',
+          'tutorials',
+          'tubeDescription',
+        ],
         tutorials: tutorialAttributes,
       },
     }).serialize(results);

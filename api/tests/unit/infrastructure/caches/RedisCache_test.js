@@ -3,8 +3,7 @@ const { expect, sinon } = require('../../../test-helper');
 const settings = require('../../../../lib/config');
 const RedisCache = require('../../../../lib/infrastructure/caches/RedisCache');
 
-describe('Unit | Infrastructure | Cache | redis-cache', function() {
-
+describe('Unit | Infrastructure | Cache | redis-cache', function () {
   let stubbedClient;
   let redisCache;
 
@@ -12,25 +11,22 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
   const CACHE_KEY = 'cache_key';
   const REDIS_CLIENT_ERROR = new Error('A Redis client error');
 
-  beforeEach(function() {
+  beforeEach(function () {
     stubbedClient = {
       lockDisposer: sinon.stub().resolves(() => {}),
     };
-    sinon.stub(RedisCache, 'createClient')
-      .withArgs(REDIS_URL)
-      .returns(stubbedClient);
+    sinon.stub(RedisCache, 'createClient').withArgs(REDIS_URL).returns(stubbedClient);
     redisCache = new RedisCache(REDIS_URL);
   });
 
-  describe('#get', function() {
-    beforeEach(function() {
+  describe('#get', function () {
+    beforeEach(function () {
       stubbedClient.get = sinon.stub();
       redisCache.set = sinon.stub();
     });
 
-    context('when the value is already in cache', function() {
-
-      it('should resolve with the existing value', function() {
+    context('when the value is already in cache', function () {
+      it('should resolve with the existing value', function () {
         // given
         const cachedData = { foo: 'bar' };
         const redisCachedData = JSON.stringify(cachedData);
@@ -40,17 +36,14 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
         const promise = redisCache.get(CACHE_KEY);
 
         // then
-        return expect(promise).to.have.been.fulfilled
-          .then((result) => {
-            expect(result).to.deep.equal(cachedData);
-          });
+        return expect(promise).to.have.been.fulfilled.then((result) => {
+          expect(result).to.deep.equal(cachedData);
+        });
       });
-
     });
 
-    context('when the value is not in cache', function() {
-
-      beforeEach(function() {
+    context('when the value is not in cache', function () {
+      beforeEach(function () {
         const cachedObject = { foo: 'bar' };
         const redisCachedValue = JSON.stringify(cachedObject);
         stubbedClient.get.withArgs(CACHE_KEY).onCall(0).resolves(null);
@@ -58,7 +51,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
         redisCache.set.resolves();
       });
 
-      it('should try to lock the cache key', function() {
+      it('should try to lock the cache key', function () {
         // given
         const expectedLockedKey = 'locks:' + CACHE_KEY;
         const handler = sinon.stub().resolves();
@@ -68,13 +61,15 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
 
         // then
         return promise.then(() => {
-          return expect(stubbedClient.lockDisposer).to.have.been.calledWith(expectedLockedKey, settings.caching.redisCacheKeyLockTTL);
+          return expect(stubbedClient.lockDisposer).to.have.been.calledWith(
+            expectedLockedKey,
+            settings.caching.redisCacheKeyLockTTL
+          );
         });
       });
 
-      context('and the cache key is not already locked', function() {
-
-        it('should add into the cache the value returned by the handler', function() {
+      context('and the cache key is not already locked', function () {
+        it('should add into the cache the value returned by the handler', function () {
           // given
           const dataFromHandler = { name: 'data from learning content' };
           const handler = () => Promise.resolve(dataFromHandler);
@@ -88,7 +83,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
           });
         });
 
-        it('should return the value', function() {
+        it('should return the value', function () {
           // given
           const dataFromHandler = { name: 'data from learning content' };
           const handler = () => Promise.resolve(dataFromHandler);
@@ -102,16 +97,13 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
             return expect(value).to.equal(dataFromHandler);
           });
         });
-
       });
 
-      context('and the cache key is already locked', function() {
-
-        it('should wait and retry to get the value from the cache', function() {
+      context('and the cache key is already locked', function () {
+        it('should wait and retry to get the value from the cache', function () {
           // given
           stubbedClient.lockDisposer.rejects(new Redlock.LockError());
-          const handler = () => {
-          };
+          const handler = () => {};
 
           // when
           const promise = redisCache.get(CACHE_KEY, handler);
@@ -121,12 +113,10 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
             expect(stubbedClient.get).to.have.been.calledTwice;
           });
         });
-
       });
-
     });
 
-    it('should reject when the Redis cache client throws an error', function() {
+    it('should reject when the Redis cache client throws an error', function () {
       // given
 
       stubbedClient.get.rejects(REDIS_CLIENT_ERROR);
@@ -138,7 +128,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
     });
 
-    it('should reject when the previously cached value can not be parsed as JSON', function() {
+    it('should reject when the previously cached value can not be parsed as JSON', function () {
       // given
       const redisCachedValue = 'Unprocessable JSON object';
       stubbedClient.get.resolves(redisCachedValue);
@@ -151,15 +141,14 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
     });
   });
 
-  describe('#set', function() {
-
+  describe('#set', function () {
     const objectToCache = { foo: 'bar' };
 
-    beforeEach(function() {
+    beforeEach(function () {
       stubbedClient.set = sinon.stub();
     });
 
-    it('should resolve with the object to cache', function() {
+    it('should resolve with the object to cache', function () {
       // given
       stubbedClient.set.resolves();
 
@@ -167,14 +156,13 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
       const promise = redisCache.set(CACHE_KEY, objectToCache);
 
       // then
-      return expect(promise).to.have.been.fulfilled
-        .then((result) => {
-          expect(result).to.deep.equal(objectToCache);
-          expect(stubbedClient.set).to.have.been.calledWith(CACHE_KEY, JSON.stringify(objectToCache));
-        });
+      return expect(promise).to.have.been.fulfilled.then((result) => {
+        expect(result).to.deep.equal(objectToCache);
+        expect(stubbedClient.set).to.have.been.calledWith(CACHE_KEY, JSON.stringify(objectToCache));
+      });
     });
 
-    it('should reject when the Redis cache client throws an error', function() {
+    it('should reject when the Redis cache client throws an error', function () {
       // given
       stubbedClient.set.rejects(REDIS_CLIENT_ERROR);
 
@@ -186,13 +174,12 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
     });
   });
 
-  describe('#flushAll', function() {
-
-    beforeEach(function() {
+  describe('#flushAll', function () {
+    beforeEach(function () {
       stubbedClient.flushall = sinon.stub();
     });
 
-    it('should resolve', function() {
+    it('should resolve', function () {
       // given
       stubbedClient.flushall.resolves();
 
@@ -203,7 +190,7 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
       return expect(promise).to.have.been.fulfilled;
     });
 
-    it('should reject when the Redis cache client throws an error', function() {
+    it('should reject when the Redis cache client throws an error', function () {
       // given
       stubbedClient.flushall.rejects(REDIS_CLIENT_ERROR);
 
@@ -214,5 +201,4 @@ describe('Unit | Infrastructure | Cache | redis-cache', function() {
       return expect(promise).to.have.been.rejectedWith(REDIS_CLIENT_ERROR);
     });
   });
-
 });

@@ -1,17 +1,20 @@
 const { AlreadyExistingOrganizationInvitationError } = require('../../domain/errors');
 
 module.exports = async function getOrganizationInvitation({
-  organizationInvitationId, organizationInvitationCode,
-  organizationRepository, organizationInvitationRepository,
+  organizationInvitationId,
+  organizationInvitationCode,
+  organizationRepository,
+  organizationInvitationRepository,
 }) {
-
   const foundOrganizationInvitation = await organizationInvitationRepository.getByIdAndCode({
     id: organizationInvitationId,
     code: organizationInvitationCode,
   });
 
   if (foundOrganizationInvitation.isAccepted) {
-    throw new AlreadyExistingOrganizationInvitationError(`Invitation already accepted with the id ${organizationInvitationId}`);
+    throw new AlreadyExistingOrganizationInvitationError(
+      `Invitation already accepted with the id ${organizationInvitationId}`
+    );
   }
 
   const { name: organizationName } = await organizationRepository.get(foundOrganizationInvitation.organizationId);

@@ -1,12 +1,12 @@
 const { expect, sinon } = require('../../test-helper');
 const EventDispatcherLogger = require('../../../lib/infrastructure/events/EventDispatcherLogger');
 
-describe('Integration | Infrastructure | EventHandlerLogger', function() {
-  context('when logging on event dispatch start is enabled', function() {
-    it('logs an event dispatch started as info', function() {
+describe('Integration | Infrastructure | EventHandlerLogger', function () {
+  context('when logging on event dispatch start is enabled', function () {
+    it('logs an event dispatch started as info', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       const performance = _getPerformanceMock();
@@ -17,25 +17,24 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchStarted(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .to.have.been.calledWith({
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: 'the event handler\'s name',
-            event_error: undefined,
-            event_handling_duration: undefined,
-          },
-          message: 'EventDispatcher : Event dispatch started',
-        });
+      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: undefined,
+          event_handling_duration: undefined,
+        },
+        message: 'EventDispatcher : Event dispatch started',
+      });
     });
   });
 
-  context('when logging on event dispatch start is disabled', function() {
-    it('logs an event dispatch started as info', function() {
+  context('when logging on event dispatch start is disabled', function () {
+    it('logs an event dispatch started as info', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       const performance = _getPerformanceMock();
@@ -46,16 +45,15 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchStarted(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .not.to.be.called;
+      expect(monitoringTools.logInfoWithCorrelationIds).not.to.be.called;
     });
   });
 
-  context('when logging on event dispatch end is enabled', function() {
-    it('logs an event dispatch success as info', function() {
+  context('when logging on event dispatch end is enabled', function () {
+    it('logs an event dispatch success as info', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       const performance = _getPerformanceMock();
@@ -66,23 +64,22 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .to.have.been.calledWith({
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: 'the event handler\'s name',
-            event_error: undefined,
-            event_handling_duration: undefined,
-          },
-          message: 'EventDispatcher : Event dispatched successfully',
-        });
+      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: undefined,
+          event_handling_duration: undefined,
+        },
+        message: 'EventDispatcher : Event dispatched successfully',
+      });
     });
 
-    it('logs an event dispatch failure as info', function() {
+    it('logs an event dispatch failure as info', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       settings.logging.enableLogEndingEventDispatch = true;
@@ -94,25 +91,24 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchFailure(event, eventHandlerName, anError);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .to.have.been.calledWith({
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: 'the event handler\'s name',
-            event_error: 'an error (see dedicated log for more information)',
-            event_handling_duration: undefined,
-          },
-          message: 'EventDispatcher : An error occurred while dispatching the event',
-        });
+      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: 'an error (see dedicated log for more information)',
+          event_handling_duration: undefined,
+        },
+        message: 'EventDispatcher : An error occurred while dispatching the event',
+      });
     });
   });
 
-  context('when logging on event dispatch end is disabled', function() {
-    it('logs an event dispatch success as info', function() {
+  context('when logging on event dispatch end is disabled', function () {
+    it('logs an event dispatch success as info', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       const performance = _getPerformanceMock();
@@ -123,14 +119,13 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .to.not.have.been.called;
+      expect(monitoringTools.logInfoWithCorrelationIds).to.not.have.been.called;
     });
 
-    it('logs an event dispatch failure as info', function() {
+    it('logs an event dispatch failure as info', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       const performance = _getPerformanceMock();
@@ -142,16 +137,15 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchFailure(event, eventHandlerName, anError);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .to.not.have.been.called;
+      expect(monitoringTools.logInfoWithCorrelationIds).to.not.have.been.called;
     });
   });
 
-  context('when logging both event start and end', function() {
-    it('computes event handling duration', function() {
+  context('when logging both event start and end', function () {
+    it('computes event handling duration', function () {
       // given
       const event = new TestEvent('the content');
-      const eventHandlerName = 'the event handler\'s name';
+      const eventHandlerName = "the event handler's name";
       const monitoringTools = _getMonitoringToolsMock();
       const settings = _getSettingsMock();
       const performance = _getPerformanceMock();
@@ -165,20 +159,18 @@ describe('Integration | Infrastructure | EventHandlerLogger', function() {
       eventDispatcherLogger.onEventDispatchSuccess(event, eventHandlerName, context);
 
       // then
-      expect(monitoringTools.logInfoWithCorrelationIds)
-        .to.have.been.calledWith({
-          metrics: {
-            event_name: 'TestEvent',
-            event_content: event,
-            event_handler_name: 'the event handler\'s name',
-            event_error: undefined,
-            event_handling_duration: 4,
-          },
-          message: 'EventDispatcher : Event dispatched successfully',
-        });
+      expect(monitoringTools.logInfoWithCorrelationIds).to.have.been.calledWith({
+        metrics: {
+          event_name: 'TestEvent',
+          event_content: event,
+          event_handler_name: "the event handler's name",
+          event_error: undefined,
+          event_handling_duration: 4,
+        },
+        message: 'EventDispatcher : Event dispatched successfully',
+      });
     });
   });
-
 });
 
 class TestEvent {

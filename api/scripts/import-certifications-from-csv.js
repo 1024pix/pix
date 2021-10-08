@@ -76,8 +76,8 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
         attributes: {
           'first-name': certification.firstName,
           'last-name': certification.lastName,
-          'birthplace': certification.birthplace,
-          'birthdate': certification.birthdate,
+          birthplace: certification.birthplace,
+          birthdate: certification.birthdate,
           'external-id': certification.externalId,
         },
       },
@@ -96,13 +96,12 @@ function saveCertifications(options) {
 
   const promises = options.certifications.map((certification) => {
     const requestConfig = _buildRequestObject(options.baseUrl, options.accessToken, certification);
-    return request(requestConfig)
-      .catch((err) => {
-        errorObjects.push({
-          errorMessage: err.message,
-          certification: certification,
-        });
+    return request(requestConfig).catch((err) => {
+      errorObjects.push({
+        errorMessage: err.message,
+        certification: certification,
       });
+    });
   });
   return Promise.all(promises).then(() => {
     return errorObjects;
@@ -121,7 +120,7 @@ function _logErrorObjects(errorObjects) {
  * Usage: node import-certifications-from-csv.js http://localhost:3000 jwt.access.token my_file.csv
  */
 function main() {
-  console.log('Début du script d\'import');
+  console.log("Début du script d'import");
   try {
     const baseUrl = process.argv[2];
     const accessToken = process.argv[3];
@@ -136,7 +135,6 @@ function main() {
       console.log('\nTéléversement des certifications sur le serveur...');
       readMyData(data, baseUrl, accessToken);
     });
-
   } catch (err) {
     console.error(err.message);
     process.exit(1);

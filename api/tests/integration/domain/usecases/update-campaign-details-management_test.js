@@ -3,14 +3,13 @@ const { expect, databaseBuilder, mockLearningContent, knex } = require('../../..
 const campaignManagementRepository = require('../../../../lib/infrastructure/repositories/campaign-management-repository');
 const updateCampaignDetailsManagement = require('../../../../lib/domain/usecases/update-campaign-details-management');
 
-describe('Integration | UseCases | update-campaign-details-management', function() {
-
+describe('Integration | UseCases | update-campaign-details-management', function () {
   let userId;
   let organizationId;
   let targetProfileId;
   let campaign, campaignId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     targetProfileId = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: organizationId }).id;
@@ -26,7 +25,7 @@ describe('Integration | UseCases | update-campaign-details-management', function
     mockLearningContent(learningContent);
   });
 
-  it('should update campaign', async function() {
+  it('should update campaign', async function () {
     const campaignAttributes = {
       name: 'new Name',
       title: 'new title',

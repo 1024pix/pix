@@ -14,7 +14,6 @@ module.exports = function buildAnswer({
   resultDetails = 'Some result details for answer.',
   timeSpent = 30,
 } = {}) {
-
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
 
   const values = {

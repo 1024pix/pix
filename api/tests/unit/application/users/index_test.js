@@ -1,8 +1,4 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const featureToggles = require('../../../../lib/application/preHandlers/feature-toggles');
@@ -10,13 +6,11 @@ const userVerification = require('../../../../lib/application/preHandlers/user-e
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
 
-describe('Unit | Router | user-router', function() {
-
-  describe('GET /api/users', function() {
-
+describe('Unit | Router | user-router', function () {
+  describe('GET /api/users', function () {
     const method = 'GET';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(userController, 'findPaginatedFilteredUsers').returns('ok');
@@ -33,14 +27,12 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('POST /api/users', function() {
-
+  describe('POST /api/users', function () {
     const method = 'POST';
     const url = '/api/users';
 
-    context('Payload schema validation', function() {
-
-      it('should return HTTP 400 if payload does not exist', async function() {
+    context('Payload schema validation', function () {
+      it('should return HTTP 400 if payload does not exist', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -54,7 +46,7 @@ describe('Unit | Router | user-router', function() {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should return HTTP 200 if payload is not empty and valid', async function() {
+      it('should return HTTP 200 if payload is not empty and valid', async function () {
         // given
         sinon.stub(userController, 'save').returns('ok');
         const httpTestServer = new HttpTestServer();
@@ -71,11 +63,10 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/me', function() {
-
+  describe('GET /api/users/me', function () {
     const method = 'GET';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userController, 'getCurrentUser').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -91,14 +82,15 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/{id}/memberships', function() {
-
+  describe('GET /api/users/{id}/memberships', function () {
     const method = 'GET';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userController, 'getMemberships').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -112,12 +104,11 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('PATCH /api/users/{id}/password-update', function() {
-
+  describe('PATCH /api/users/{id}/password-update', function () {
     const method = 'PATCH';
     const url = '/api/users/12344/password-update';
 
-    it('should exist and pass through user verification pre-handler', async function() {
+    it('should exist and pass through user verification pre-handler', async function () {
       // given
       sinon.stub(userController, 'updatePassword').returns('ok');
       sinon.stub(userVerification, 'verifyById').returns('ok');
@@ -135,9 +126,8 @@ describe('Unit | Router | user-router', function() {
       sinon.assert.calledOnce(userVerification.verifyById);
     });
 
-    describe('Payload schema validation', function() {
-
-      it('should have a payload', async function() {
+    describe('Payload schema validation', function () {
+      it('should have a payload', async function () {
         // when
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -148,7 +138,7 @@ describe('Unit | Router | user-router', function() {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should have a password attribute in payload', async function() {
+      it('should have a password attribute in payload', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -162,9 +152,8 @@ describe('Unit | Router | user-router', function() {
         expect(result.statusCode).to.equal(400);
       });
 
-      describe('password validation', function() {
-
-        it('should have a valid password format in payload', async function() {
+      describe('password validation', function () {
+        it('should have a valid password format in payload', async function () {
           // given
           const httpTestServer = new HttpTestServer();
           await httpTestServer.register(moduleUnderTest);
@@ -184,15 +173,16 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/{id}/is-certifiable', function() {
-
+  describe('GET /api/users/{id}/is-certifiable', function () {
     const method = 'GET';
     const url = '/api/users/42/is-certifiable';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userController, 'isCertifiable').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -204,15 +194,16 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/{id}/profile', function() {
-
+  describe('GET /api/users/{id}/profile', function () {
     const method = 'GET';
     const url = '/api/users/42/profile';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userController, 'getProfile').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -224,14 +215,15 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/{userId}/campaigns/{campaignId}/profile', function() {
-
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/profile', function () {
     const method = 'GET';
 
-    it('should return 200', async function() {
+    it('should return 200', async function () {
       // given
       sinon.stub(userController, 'getUserProfileSharedForCampaign').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -244,7 +236,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when userId is not a number', async function() {
+    it('should return 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -259,7 +251,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when campaignId is not a number', async function() {
+    it('should return 400 when campaignId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -275,13 +267,15 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function() {
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/assessment-result', function () {
     const method = 'GET';
 
-    it('should return 200', async function() {
+    it('should return 200', async function () {
       // given
       sinon.stub(userController, 'getUserCampaignAssessmentResult').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -294,7 +288,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when userId is not a number', async function() {
+    it('should return 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -309,7 +303,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when campaignId is not a number', async function() {
+    it('should return 400 when campaignId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -325,14 +319,15 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function() {
-
+  describe('GET /api/users/{userId}/campaigns/{campaignId}/campaign-participations', function () {
     const method = 'GET';
 
-    it('should return 200', async function() {
+    it('should return 200', async function () {
       // given
       sinon.stub(userController, 'getUserCampaignParticipationToCampaign').returns('ok');
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -345,7 +340,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when userId is not a number', async function() {
+    it('should return 400 when userId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -360,7 +355,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when campaignId is not a number', async function() {
+    it('should return 400 when campaignId is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -376,11 +371,10 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}', function() {
-
+  describe('PATCH /api/admin/users/{id}', function () {
     const method = 'PATCH';
 
-    it('should verify user identity and return sucess update', async function() {
+    it('should verify user identity and return sucess update', async function () {
       // given
       sinon.stub(userController, 'updateUserDetailsForAdministration').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -400,12 +394,11 @@ describe('Unit | Router | user-router', function() {
       sinon.assert.calledOnce(securityPreHandlers.checkUserHasRolePixMaster);
     });
 
-    describe('Payload and path param schema validation', function() {
-
+    describe('Payload and path param schema validation', function () {
       const method = 'PATCH';
       const url = '/api/admin/users/not_number';
 
-      it('should return bad request when param id is not numeric', async function() {
+      it('should return bad request when param id is not numeric', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -419,7 +412,7 @@ describe('Unit | Router | user-router', function() {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should return bad request when payload is not found', async function() {
+      it('should return bad request when payload is not found', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -433,11 +426,10 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('POST /api/admin/users/{id}/anonymize', function() {
-
+  describe('POST /api/admin/users/{id}/anonymize', function () {
     const method = 'POST';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userController, 'anonymizeUser').callsFake((request, h) => h.response({}).code(204));
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -453,7 +445,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(204);
     });
 
-    it('should return 400 when id is not a number', async function() {
+    it('should return 400 when id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -469,11 +461,10 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}/dissociate', function() {
-
+  describe('PATCH /api/admin/users/{id}/dissociate', function () {
     const method = 'PATCH';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userController, 'dissociateSchoolingRegistrations').returns('ok');
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
@@ -489,7 +480,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(200);
     });
 
-    it('should return 400 when id is not a number', async function() {
+    it('should return 400 when id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -505,36 +496,34 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('POST /api/admin/users/{id}/remove-authentication', function() {
-
+  describe('POST /api/admin/users/{id}/remove-authentication', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
-    ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI']
-      .forEach((type) => {
-        it(`should return 200 when type is ${type}`, async function() {
-          // given
-          sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
-          sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
-          const httpTestServer = new HttpTestServer();
-          await httpTestServer.register(moduleUnderTest);
+    ['GAR', 'EMAIL', 'USERNAME', 'POLE_EMPLOI'].forEach((type) => {
+      it(`should return 200 when type is ${type}`, async function () {
+        // given
+        sinon.stub(userController, 'removeAuthenticationMethod').returns('ok');
+        sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
+        const httpTestServer = new HttpTestServer();
+        await httpTestServer.register(moduleUnderTest);
 
-          const url = '/api/admin/users/1/remove-authentication';
-          const payload = {
-            data: {
-              attributes: {
-                type,
-              },
+        const url = '/api/admin/users/1/remove-authentication';
+        const payload = {
+          data: {
+            attributes: {
+              type,
             },
-          };
+          },
+        };
 
-          // when
-          const result = await httpTestServer.request('POST', url, payload);
+        // when
+        const result = await httpTestServer.request('POST', url, payload);
 
-          // then
-          expect(result.statusCode).to.equal(200);
-        });
+        // then
+        expect(result.statusCode).to.equal(200);
       });
+    });
 
-    it('should return 400 when id is not a number', async function() {
+    it('should return 400 when id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -555,7 +544,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(400);
     });
 
-    it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI', async function() {
+    it('should return 400 when type is not GAR or EMAIL or USERNAME or POLE_EMPLOI', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -577,11 +566,12 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('PUT /api/users/{id}/email/verification-code', function() {
-
-    it('should return HTTP code 204', async function() {
+  describe('PUT /api/users/{id}/email/verification-code', function () {
+    it('should return HTTP code 204', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       sinon.stub(featureToggles, 'checkIfEmailValidationIsEnabled').resolves(true);
       sinon.stub(userController, 'sendVerificationCode').callsFake((request, h) => h.response({}).code(204));
       const httpTestServer = new HttpTestServer();
@@ -605,7 +595,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.statusCode).to.equal(204);
     });
 
-    it('should return 422 when id is not a number', async function() {
+    it('should return 422 when id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -630,7 +620,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.result.errors[0].detail).to.equal('"id" must be a number');
     });
 
-    it('should return 422 when type is not users', async function() {
+    it('should return 422 when type is not users', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -655,7 +645,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.result.errors[0].detail).to.equal('"data.type" must be [email-verification-codes]');
     });
 
-    it('should return 422 when email is not valid', async function() {
+    it('should return 422 when email is not valid', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -680,7 +670,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.result.errors[0].detail).to.equal('"data.attributes.new-email" must be a valid email');
     });
 
-    it('should return 422 when password is not provided', async function() {
+    it('should return 422 when password is not provided', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -705,9 +695,8 @@ describe('Unit | Router | user-router', function() {
     });
   });
 
-  describe('POST /api/users/{id}/update-email', function() {
-
-    it('should return 403 if requested user is not the same as authenticated user', async function() {
+  describe('POST /api/users/{id}/update-email', function () {
+    it('should return 403 if requested user is not the same as authenticated user', async function () {
       // given
       sinon.stub(featureToggles, 'checkIfEmailValidationIsEnabled').resolves(true);
       const httpTestServer = new HttpTestServer();
@@ -732,9 +721,11 @@ describe('Unit | Router | user-router', function() {
       expect(result.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
     });
 
-    it('should return 404 if FT_VALIDATE_EMAIL is not enabled', async function() {
+    it('should return 404 if FT_VALIDATE_EMAIL is not enabled', async function () {
       // given
-      sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+      sinon
+        .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+        .callsFake((request, h) => h.response(true));
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
@@ -757,7 +748,7 @@ describe('Unit | Router | user-router', function() {
       expect(result.result.errors[0].detail).to.equal('Cette route est désactivée');
     });
 
-    it('should return 422 when code is not valid', async function() {
+    it('should return 422 when code is not valid', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -778,7 +769,9 @@ describe('Unit | Router | user-router', function() {
 
       // then
       expect(result.statusCode).to.equal(422);
-      expect(result.result.errors[0].detail).to.equal('"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/');
+      expect(result.result.errors[0].detail).to.equal(
+        '"data.attributes.code" with value "9" fails to match the required pattern: /^[1-9]{6}$/'
+      );
     });
   });
 });

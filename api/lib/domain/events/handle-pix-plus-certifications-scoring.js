@@ -5,7 +5,7 @@ const PixPlusCertificationScoring = require('../models/PixPlusCertificationScori
 const { ReproducibilityRate } = require('../models/ReproducibilityRate');
 const AnswerCollectionForScoring = require('../models/AnswerCollectionForScoring');
 
-const eventTypes = [ CertificationScoringCompleted, CertificationRescoringCompleted ];
+const eventTypes = [CertificationScoringCompleted, CertificationRescoringCompleted];
 
 async function handlePixPlusCertificationsScoring({
   event,
@@ -15,20 +15,32 @@ async function handlePixPlusCertificationsScoring({
 }) {
   checkEventTypes(event, eventTypes);
   const certificationCourseId = event.certificationCourseId;
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
+    certificationCourseId,
+  });
   const certifiableBadgeKeys = certificationAssessment.listCertifiableBadgeKeysTaken();
   for (const certifiableBadgeKey of certifiableBadgeKeys) {
-    const {
-      certificationChallenges: pixPlusChallenges,
-      certificationAnswers: pixPlusAnswers,
-    } = certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey);
+    const { certificationChallenges: pixPlusChallenges, certificationAnswers: pixPlusAnswers } =
+      certificationAssessment.findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey);
     const assessmentResult = await assessmentResultRepository.getByCertificationCourseId({ certificationCourseId });
-    const pixPlusCertificationScoring = _buildPixPlusCertificationScoring(certificationCourseId, pixPlusChallenges, pixPlusAnswers, certifiableBadgeKey, assessmentResult);
+    const pixPlusCertificationScoring = _buildPixPlusCertificationScoring(
+      certificationCourseId,
+      pixPlusChallenges,
+      pixPlusAnswers,
+      certifiableBadgeKey,
+      assessmentResult
+    );
     await partnerCertificationScoringRepository.save({ partnerCertificationScoring: pixPlusCertificationScoring });
   }
 }
 
-function _buildPixPlusCertificationScoring(certificationCourseId, challenges, answers, certifiableBadgeKey, assessmentResult) {
+function _buildPixPlusCertificationScoring(
+  certificationCourseId,
+  challenges,
+  answers,
+  certifiableBadgeKey,
+  assessmentResult
+) {
   const answerCollection = AnswerCollectionForScoring.from({ answers, challenges });
   const reproducibilityRate = ReproducibilityRate.from({
     numberOfNonNeutralizedChallenges: answerCollection.numberOfNonNeutralizedChallenges(),

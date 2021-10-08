@@ -1,5 +1,11 @@
 const { PassThrough } = require('stream');
-const { expect, mockLearningContent, databaseBuilder, domainBuilder, streamToPromise } = require('../../../test-helper');
+const {
+  expect,
+  mockLearningContent,
+  databaseBuilder,
+  domainBuilder,
+  streamToPromise,
+} = require('../../../test-helper');
 
 const startWritingCampaignAssessmentResultsToStream = require('../../../../lib/domain/usecases/start-writing-campaign-assessment-results-to-stream');
 
@@ -15,10 +21,8 @@ const campaignCsvExportService = require('../../../../lib/domain/services/campai
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function() {
-
-  describe('#startWritingCampaignAssessmentResultsToStream', function() {
-
+describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-results-to-stream', function () {
+  describe('#startWritingCampaignAssessmentResultsToStream', function () {
     let organization;
     let targetProfile;
     let user;
@@ -32,15 +36,24 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
     // eslint-disable-next-line mocha/no-setup-in-describe
     const i18n = getI18n();
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organization = databaseBuilder.factory.buildOrganization();
       user = databaseBuilder.factory.buildUser();
       databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
       const skillWeb1 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1' });
       const skillWeb2 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb2', name: '@web2', tubeId: 'recTube1' });
       const skillWeb3 = domainBuilder.buildTargetedSkill({ id: 'recSkillWeb3', name: '@web3', tubeId: 'recTube1' });
-      const tube1 = domainBuilder.buildTargetedTube({ id: 'recTube1', skills: [skillWeb1, skillWeb2, skillWeb3], competenceId: 'recCompetence1' });
-      const competence1 = domainBuilder.buildTargetedCompetence({ id: 'recCompetence1', index: '1.1', tubes: [tube1], areaId: 'recArea1' });
+      const tube1 = domainBuilder.buildTargetedTube({
+        id: 'recTube1',
+        skills: [skillWeb1, skillWeb2, skillWeb3],
+        competenceId: 'recCompetence1',
+      });
+      const competence1 = domainBuilder.buildTargetedCompetence({
+        id: 'recCompetence1',
+        index: '1.1',
+        tubes: [tube1],
+        areaId: 'recArea1',
+      });
       domainBuilder.buildTargetedArea({ id: 'recArea1', competences: [competence1] });
 
       participant = databaseBuilder.factory.buildUser({ firstName: '@Jean', lastName: '=Bono' });
@@ -109,13 +122,15 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
 
       const learningContent = {
         areas: [{ id: 'recArea1', competenceIds: ['recCompetence1'] }],
-        competences: [{
-          id: 'recCompetence1',
-          index: '1.1',
-          skillIds: ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'],
-          areaId: 'recArea1',
-          origin: 'Pix',
-        }],
+        competences: [
+          {
+            id: 'recCompetence1',
+            index: '1.1',
+            skillIds: ['recSkillWeb1', 'recSkillWeb2', 'recSkillWeb3'],
+            areaId: 'recArea1',
+            origin: 'Pix',
+          },
+        ],
         tubes: [{ id: 'recTube1', competenceId: 'recCompetence1' }],
         skills: [
           { id: 'recSkillWeb1', name: '@web1', tubeId: 'recTube1', status: 'actif', competenceId: 'recCompetence1' },
@@ -130,10 +145,11 @@ describe('Integration | Domain | Use Cases | start-writing-campaign-assessment-r
       csvPromise = streamToPromise(writableStream);
     });
 
-    it('should return the complete line', async function() {
+    it('should return the complete line', async function () {
       // given
       const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
-      const csvSecondLine = `"${organization.name}";` +
+      const csvSecondLine =
+        `"${organization.name}";` +
         `${campaign.id};` +
         `"'${campaign.name}";` +
         `"'${targetProfile.name}";` +

@@ -6,26 +6,24 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 const organizationInvitationRepository = require('../../../../lib/infrastructure/repositories/organization-invitation-repository');
 const BookshelfOrganizationInvitation = require('../../../../lib/infrastructure/orm-models/OrganizationInvitation');
 
-describe('Integration | Repository | OrganizationInvitationRepository', function() {
-
+describe('Integration | Repository | OrganizationInvitationRepository', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const role = Membership.roles.ADMIN;
 
-  describe('#create', function() {
-
+  describe('#create', function () {
     let organizationId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('organization-invitations').delete();
     });
 
-    it('should save the organization invitation in db', async function() {
+    it('should save the organization invitation in db', async function () {
       // given
       const email = 'member@organization.org';
       const status = OrganizationInvitation.StatusType.PENDING;
@@ -40,20 +38,18 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(savedInvitation.status).equal(status);
       expect(savedInvitation.code).equal(code);
       expect(savedInvitation.role).equal(role);
-
     });
   });
 
-  describe('#get', function() {
-
+  describe('#get', function () {
     let insertedOrganizationInvitation;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       insertedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
     });
 
-    it('should get the organization-invitation from db', async function() {
+    it('should get the organization-invitation from db', async function () {
       // when
       const foundOrganizationInvitation = await organizationInvitationRepository.get(insertedOrganizationInvitation.id);
 
@@ -63,10 +59,9 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(foundOrganizationInvitation.email).to.equal(insertedOrganizationInvitation.email);
       expect(foundOrganizationInvitation.status).to.equal(insertedOrganizationInvitation.status);
       expect(foundOrganizationInvitation.code).to.equal(insertedOrganizationInvitation.code);
-
     });
 
-    it('should return a rejection when organization-invitation id is not found', async function() {
+    it('should return a rejection when organization-invitation id is not found', async function () {
       // given
       const nonExistentId = 10083;
 
@@ -78,16 +73,15 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
     });
   });
 
-  describe('#getByIdAndCode', function() {
-
+  describe('#getByIdAndCode', function () {
     let insertedOrganizationInvitation;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       insertedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
     });
 
-    it('should get the organization-invitation by id and code', async function() {
+    it('should get the organization-invitation by id and code', async function () {
       // given
       const { id, code } = insertedOrganizationInvitation;
 
@@ -100,10 +94,9 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(foundOrganizationInvitation.email).to.equal(insertedOrganizationInvitation.email);
       expect(foundOrganizationInvitation.status).to.equal(insertedOrganizationInvitation.status);
       expect(foundOrganizationInvitation.code).to.equal(insertedOrganizationInvitation.code);
-
     });
 
-    it('should return a rejection when organization-invitation id and code are not found', async function() {
+    it('should return a rejection when organization-invitation id and code are not found', async function () {
       // given
       const nonExistentId = 10083;
       const nonExistentCode = 'ABCDEF';
@@ -119,24 +112,25 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
     });
   });
 
-  describe('#markAsAccepted', function() {
-
+  describe('#markAsAccepted', function () {
     let organizationInvitation;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organizationInvitation = databaseBuilder.factory.buildOrganizationInvitation();
       await databaseBuilder.commit();
     });
 
-    it('should return an Organization-invitation domain object', async function() {
+    it('should return an Organization-invitation domain object', async function () {
       // when
-      const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(organizationInvitation.id);
+      const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(
+        organizationInvitation.id
+      );
 
       // then
       expect(organizationInvitationSaved).to.be.an.instanceof(OrganizationInvitation);
     });
 
-    it('should not add row in table organization-invitations', async function() {
+    it('should not add row in table organization-invitations', async function () {
       // given
       const nbOrganizationInvitationsBeforeUpdate = await BookshelfOrganizationInvitation.count();
 
@@ -148,12 +142,14 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(nbOrganizationInvitationsAfterUpdate).to.equal(nbOrganizationInvitationsBeforeUpdate);
     });
 
-    it('should update model in database', async function() {
+    it('should update model in database', async function () {
       // given
       const statusAccepted = OrganizationInvitation.StatusType.ACCEPTED;
 
       // when
-      const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(organizationInvitation.id);
+      const organizationInvitationSaved = await organizationInvitationRepository.markAsAccepted(
+        organizationInvitation.id
+      );
 
       // then
       expect(organizationInvitationSaved.id).to.equal(organizationInvitation.id);
@@ -161,15 +157,13 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       expect(organizationInvitationSaved.email).to.equal(organizationInvitation.email);
       expect(organizationInvitationSaved.status).to.equal(statusAccepted);
       expect(organizationInvitationSaved.code).to.equal(organizationInvitation.code);
-
     });
   });
 
-  describe('#findOnePendingByOrganizationIdAndEmail', function() {
-
+  describe('#findOnePendingByOrganizationIdAndEmail', function () {
     let organizationInvitation;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.ACCEPTED,
@@ -180,34 +174,36 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       await databaseBuilder.commit();
     });
 
-    it('should retrieve one pending organization-invitation with given organizationId and email', async function() {
-
+    it('should retrieve one pending organization-invitation with given organizationId and email', async function () {
       const { organizationId, email } = organizationInvitation;
 
       // when
-      const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+      const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail(
+        { organizationId, email }
+      );
 
       // then
       expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
     });
 
-    it('should retrieve one pending organization-invitation with given organizationId and case-insensitive email', async function() {
+    it('should retrieve one pending organization-invitation with given organizationId and case-insensitive email', async function () {
       const { organizationId, email } = organizationInvitation;
 
       const upperEmail = email.toUpperCase();
       // when
-      const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email: upperEmail });
+      const foundOrganizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail(
+        { organizationId, email: upperEmail }
+      );
 
       // then
       expect(_.omit(foundOrganizationInvitation, 'organizationName')).to.deep.equal(organizationInvitation);
     });
   });
 
-  describe('#findPendingByOrganizationId', function() {
-
+  describe('#findPendingByOrganizationId', function () {
     const organizationId = 6789;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       databaseBuilder.factory.buildOrganization({
         id: organizationId,
       });
@@ -226,28 +222,31 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       await databaseBuilder.commit();
     });
 
-    it('should find two of the three organization-invitations from db by organizationId', async function() {
+    it('should find two of the three organization-invitations from db by organizationId', async function () {
       // when
-      const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({ organizationId });
+      const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({
+        organizationId,
+      });
 
       // then
       expect(foundOrganizationInvitations.length).to.equal(2);
     });
 
-    it('should return an empty array on no result', async function() {
+    it('should return an empty array on no result', async function () {
       // when
-      const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({ organizationId: 2978 });
+      const foundOrganizationInvitations = await organizationInvitationRepository.findPendingByOrganizationId({
+        organizationId: 2978,
+      });
 
       // then
       expect(foundOrganizationInvitations).to.deep.equal([]);
     });
   });
 
-  describe('#updateModificationDate', function() {
-
+  describe('#updateModificationDate', function () {
     let organizationInvitation;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const organizationId = 2323;
       databaseBuilder.factory.buildOrganization({
         id: organizationId,
@@ -260,7 +259,7 @@ describe('Integration | Repository | OrganizationInvitationRepository', function
       await databaseBuilder.commit();
     });
 
-    it('should update the modification date', async function() {
+    it('should update the modification date', async function () {
       // given
       const oldModificationDate = organizationInvitation.updatedAt;
 

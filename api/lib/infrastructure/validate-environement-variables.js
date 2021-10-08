@@ -34,12 +34,11 @@ const schema = Joi.object({
   POLE_EMPLOI_SENDING_URL: Joi.string().uri().optional(),
 }).options({ allowUnknown: true });
 
-const validateEnvironmentVariables = function() {
+const validateEnvironmentVariables = function () {
   const { error } = schema.validate(process.env);
   if (error) {
     throw new Error('Configuration is invalid: ' + error.message + ', but was: ' + error.details[0].context.value);
   }
-
 };
 
 module.exports = validateEnvironmentVariables;

@@ -1,6 +1,3 @@
-module.exports = function getStageDetails({
-  stageId,
-  stageRepository,
-}) {
+module.exports = function getStageDetails({ stageId, stageRepository }) {
   return stageRepository.get(stageId);
 };

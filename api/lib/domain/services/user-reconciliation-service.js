@@ -18,8 +18,14 @@ function findMatchingCandidateIdForGivenUser(matchingUserCandidates, user) {
   const standardizedUser = _standardizeUser(user);
   const standardizedMatchingUserCandidates = _.map(matchingUserCandidates, _standardizeMatchingCandidate);
 
-  const foundUserId = _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, STRICT_MATCH_RATIO);
-  return foundUserId || _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO);
+  const foundUserId = _findMatchingCandidateId(
+    standardizedMatchingUserCandidates,
+    standardizedUser,
+    STRICT_MATCH_RATIO
+  );
+  return (
+    foundUserId || _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, MAX_ACCEPTABLE_RATIO)
+  );
 }
 
 async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAndUser({
@@ -28,7 +34,9 @@ async function findMatchingHigherSchoolingRegistrationIdForGivenOrganizationIdAn
   higherSchoolingRegistrationRepository,
 }) {
   const schoolingRegistration = await higherSchoolingRegistrationRepository.findOneByStudentNumberAndBirthdate({
-    organizationId, studentNumber, birthdate,
+    organizationId,
+    studentNumber,
+    birthdate,
   });
 
   if (!schoolingRegistration) {
@@ -51,7 +59,10 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
   reconciliationInfo: { firstName, lastName, birthdate },
   schoolingRegistrationRepository,
 }) {
-  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({ organizationId, birthdate });
+  const schoolingRegistrations = await schoolingRegistrationRepository.findByOrganizationIdAndBirthdate({
+    organizationId,
+    birthdate,
+  });
 
   if (_.isEmpty(schoolingRegistrations)) {
     throw new NotFoundError('There are no schooling registrations found');
@@ -62,17 +73,34 @@ async function findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser(
     throw new NotFoundError('There were no schoolingRegistrations matching with names');
   }
 
-  return _.find(schoolingRegistrations, { 'id': schoolingRegistrationId });
+  return _.find(schoolingRegistrations, { id: schoolingRegistrationId });
 }
 
-async function checkIfStudentHasAnAlreadyReconciledAccount(schoolingRegistration, userRepository, obfuscationService, studentRepository) {
+async function checkIfStudentHasAnAlreadyReconciledAccount(
+  schoolingRegistration,
+  userRepository,
+  obfuscationService,
+  studentRepository
+) {
   if (!_.isNil(schoolingRegistration.userId)) {
-    await _buildStudentReconciliationError(schoolingRegistration.userId, 'IN_SAME_ORGANIZATION', userRepository, obfuscationService);
+    await _buildStudentReconciliationError(
+      schoolingRegistration.userId,
+      'IN_SAME_ORGANIZATION',
+      userRepository,
+      obfuscationService
+    );
   }
 
-  const student = await studentRepository.getReconciledStudentByNationalStudentId(schoolingRegistration.nationalStudentId);
+  const student = await studentRepository.getReconciledStudentByNationalStudentId(
+    schoolingRegistration.nationalStudentId
+  );
   if (_.get(student, 'account')) {
-    await _buildStudentReconciliationError(student.account.userId, 'IN_OTHER_ORGANIZATION', userRepository, obfuscationService);
+    await _buildStudentReconciliationError(
+      student.account.userId,
+      'IN_OTHER_ORGANIZATION',
+      userRepository,
+      obfuscationService
+    );
   }
 }
 
@@ -102,10 +130,7 @@ function _containsOneElement(arr) {
 }
 
 function _standardizeUser(reconciliationInfo) {
-  return _(reconciliationInfo)
-    .pick(['firstName', 'lastName'])
-    .mapValues(_standardize)
-    .value();
+  return _(reconciliationInfo).pick(['firstName', 'lastName']).mapValues(_standardize).value();
 }
 
 function _standardizeMatchingCandidate(matchingUserCandidate) {
@@ -122,29 +147,39 @@ function _standardize(propToStandardize) {
 }
 
 function _findMatchingCandidateId(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio) {
-  return _(['firstName', 'middleName', 'thirdName'])
-    .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio))
-    .filter(_containsOneElement)
-    .flatten()
-    .map('id')
-    .first() || null;
+  return (
+    _(['firstName', 'middleName', 'thirdName'])
+      .map(_findCandidatesMatchingWithUser(standardizedMatchingUserCandidates, standardizedUser, maxAcceptableRatio))
+      .filter(_containsOneElement)
+      .flatten()
+      .map('id')
+      .first() || null
+  );
 }
 
 // A given name refers to either a first name, middle name or third name
 function _findCandidatesMatchingWithUser(matchingUserCandidatesStandardized, standardizedUser, maxAcceptableRatio) {
-  return (candidateGivenName) => matchingUserCandidatesStandardized
-    .filter(_candidateHasSimilarFirstName(standardizedUser, candidateGivenName, maxAcceptableRatio))
-    .filter(_candidateHasSimilarLastName(standardizedUser, maxAcceptableRatio));
+  return (candidateGivenName) =>
+    matchingUserCandidatesStandardized
+      .filter(_candidateHasSimilarFirstName(standardizedUser, candidateGivenName, maxAcceptableRatio))
+      .filter(_candidateHasSimilarLastName(standardizedUser, maxAcceptableRatio));
 }
 
-function _candidateHasSimilarFirstName({ firstName: userFirstName }, candidateGivenName, maxAcceptableRatio = MAX_ACCEPTABLE_RATIO) {
-  return (candidate) => candidate[candidateGivenName] && areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], maxAcceptableRatio);
+function _candidateHasSimilarFirstName(
+  { firstName: userFirstName },
+  candidateGivenName,
+  maxAcceptableRatio = MAX_ACCEPTABLE_RATIO
+) {
+  return (candidate) =>
+    candidate[candidateGivenName] &&
+    areTwoStringsCloseEnough(userFirstName, candidate[candidateGivenName], maxAcceptableRatio);
 }
 
 function _candidateHasSimilarLastName({ lastName }, maxAcceptableRatio = MAX_ACCEPTABLE_RATIO) {
   return (candidate) => {
-    const candidatesLastName = [candidate.lastName, candidate.preferredLastName]
-      .filter((candidateLastName) => candidateLastName);
+    const candidatesLastName = [candidate.lastName, candidate.preferredLastName].filter(
+      (candidateLastName) => candidateLastName
+    );
     return isOneStringCloseEnoughFromMultipleStrings(lastName, candidatesLastName, maxAcceptableRatio);
   };
 }
@@ -181,7 +216,7 @@ async function generateUsernameUntilAvailable({ firstPart, secondPart, userRepos
 
 async function createUsernameByUser({ user: { firstName, lastName, birthdate }, userRepository }) {
   const standardizeUser = _standardizeUser({ firstName, lastName });
-  const [ , month, day ] = birthdate.split('-');
+  const [, month, day] = birthdate.split('-');
 
   const firstPart = standardizeUser.firstName + '.' + standardizeUser.lastName;
   const secondPart = day + month;

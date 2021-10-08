@@ -3,7 +3,7 @@ const Joi = require('joi');
 const userOrgaSettingsController = require('./user-orga-settings-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'PUT',
@@ -31,8 +31,8 @@ exports.register = async function(server) {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Création ou Mise à jour des paramètres utilisateurs liés à Pix Orga\n' +
-          '- L’id en paramètre doit correspondre à celui de l’utilisateur authentifié',
+            '- Création ou Mise à jour des paramètres utilisateurs liés à Pix Orga\n' +
+            '- L’id en paramètre doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user-orga-settings'],
       },

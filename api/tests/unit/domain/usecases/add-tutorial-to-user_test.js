@@ -2,19 +2,18 @@ const { sinon, expect, domainBuilder, catchErr } = require('../../../test-helper
 const addTutorialToUser = require('../../../../lib/domain/usecases/add-tutorial-to-user');
 const LearningContentNotFoundError = require('../../../../lib/infrastructure/datasources/learning-content/LearningContentResourceNotFound');
 
-describe('Unit | UseCase | add-tutorial-to-user', function() {
-
+describe('Unit | UseCase | add-tutorial-to-user', function () {
   let tutorialRepository;
   let userTutorialRepository;
   let userId;
 
-  beforeEach(function() {
+  beforeEach(function () {
     userTutorialRepository = { addTutorial: sinon.spy() };
     userId = 'userId';
   });
 
-  context('when the tutorial exists', function() {
-    it('should call the userTutorialRepository', async function() {
+  context('when the tutorial exists', function () {
+    it('should call the userTutorialRepository', async function () {
       // Given
       tutorialRepository = { get: domainBuilder.buildTutorial };
       const tutorialId = 'tutorialId';
@@ -27,8 +26,8 @@ describe('Unit | UseCase | add-tutorial-to-user', function() {
     });
   });
 
-  context('when the tutorial doesnt exist', function() {
-    it('should throw a Domain error', async function() {
+  context('when the tutorial doesnt exist', function () {
+    it('should throw a Domain error', async function () {
       // Given
       tutorialRepository = {
         get: async () => {

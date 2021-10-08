@@ -2,11 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/country-serializer');
 const { domainBuilder } = require('../../../../test-helper');
 
-describe('Unit | Serializer | JSONAPI | country-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Certification CPF Country model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | country-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Certification CPF Country model object into JSON API data', function () {
       // given
       const countries = [
         domainBuilder.buildCountry({

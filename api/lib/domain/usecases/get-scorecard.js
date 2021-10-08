@@ -10,7 +10,6 @@ module.exports = async function getScorecard({
   knowledgeElementRepository,
   locale,
 }) {
-
   const { userId, competenceId } = Scorecard.parseId(scorecardId);
 
   if (authenticatedUserId !== userId) {
@@ -26,4 +25,3 @@ module.exports = async function getScorecard({
     locale,
   });
 };
-

@@ -14,11 +14,7 @@ function isFeatureEnabled(environmentVariable) {
 }
 
 function _getArrayOfStrings(commaSeparatedStrings) {
-  return _(commaSeparatedStrings)
-    .split(',')
-    .map(_.trim)
-    .map(_.toUpper)
-    .value();
+  return _(commaSeparatedStrings).split(',').map(_.trim).map(_.toUpper).value();
 }
 
 function _getNumber(numberAsString, defaultIntNumber) {
@@ -42,14 +38,13 @@ function _removeTrailingSlashFromUrl(url) {
   return url.replace(/\/$/, '');
 }
 
-module.exports = (function() {
-
+module.exports = (function () {
   const config = {
     rootPath: path.normalize(__dirname + '/..'),
 
     port: parseInt(process.env.PORT, 10) || 3000,
 
-    environment: (process.env.NODE_ENV || 'development'),
+    environment: process.env.NODE_ENV || 'development',
 
     isProduction: 'production' === process.env.NODE_ENV,
 
@@ -74,7 +69,7 @@ module.exports = (function() {
     logging: {
       enabled: isFeatureEnabled(process.env.LOG_ENABLED),
       colorEnabled: false,
-      logLevel: (process.env.LOG_LEVEL || 'info'),
+      logLevel: process.env.LOG_LEVEL || 'info',
       enableLogKnexQueries: isFeatureEnabled(process.env.LOG_KNEX_QUERIES),
       enableLogStartingEventDispatch: isFeatureEnabled(process.env.LOG_STARTING_EVENT_DISPATCH),
       enableLogEndingEventDispatch: isFeatureEnabled(process.env.LOG_ENDING_EVENT_DISPATCH),
@@ -101,23 +96,23 @@ module.exports = (function() {
 
     authentication: {
       secret: process.env.AUTH_SECRET,
-      tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '7d'),
+      tokenLifespan: process.env.TOKEN_LIFE_SPAN || '7d',
       tokenForCampaignResultLifespan: '1h',
       tokenForStudentReconciliationLifespan: '1h',
     },
 
     apiManager: {
-      url: (process.env.APIM_URL || 'https://gateway.pix.fr'),
+      url: process.env.APIM_URL || 'https://gateway.pix.fr',
     },
 
     jwtConfig: {
       livretScolaire: {
         secret: process.env.LIVRET_SCOLAIRE_AUTH_SECRET,
-        tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '1h'),
+        tokenLifespan: process.env.TOKEN_LIFE_SPAN || '1h',
       },
       poleEmploi: {
         secret: process.env.POLE_EMPLOI_AUTH_SECRET,
-        tokenLifespan: (process.env.TOKEN_LIFE_SPAN || '1h'),
+        tokenLifespan: process.env.TOKEN_LIFE_SPAN || '1h',
       },
     },
 
@@ -161,20 +156,25 @@ module.exports = (function() {
 
     featureToggles: {
       isEmailValidationEnabled: isFeatureEnabled(process.env.FT_VALIDATE_EMAIL),
-      isDownloadCertificationAttestationByDivisionEnabled: isFeatureEnabled(process.env.FT_IS_DOWNLOAD_CERTIFICATION_ATTESTATION_BY_DIVISION_ENABLED),
+      isDownloadCertificationAttestationByDivisionEnabled: isFeatureEnabled(
+        process.env.FT_IS_DOWNLOAD_CERTIFICATION_ATTESTATION_BY_DIVISION_ENABLED
+      ),
       isManageUncompletedCertifEnabled: isFeatureEnabled(process.env.FT_MANAGE_UNCOMPLETED_CERTIF_ENABLED),
     },
 
     infra: {
       concurrencyForHeavyOperations: _getNumber(process.env.INFRA_CONCURRENCY_HEAVY_OPERATIONS, 2),
       chunkSizeForCampaignResultProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING, 10),
-      chunkSizeForSchoolingRegistrationDataProcessing: _getNumber(process.env.INFRA_CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING, 1000),
+      chunkSizeForSchoolingRegistrationDataProcessing: _getNumber(
+        process.env.INFRA_CHUNK_SIZE_SCHOOLING_REGISTRATION_DATA_PROCESSING,
+        1000
+      ),
     },
 
     sentry: {
       enabled: isFeatureEnabled(process.env.SENTRY_ENABLED),
       dsn: process.env.SENTRY_DSN,
-      environment: (process.env.SENTRY_ENVIRONMENT || 'development'),
+      environment: process.env.SENTRY_ENVIRONMENT || 'development',
       maxBreadcrumbs: _getNumber(process.env.SENTRY_MAX_BREADCRUMBS, 100),
       debug: isFeatureEnabled(process.env.SENTRY_DEBUG),
       maxValueLength: 1000,
@@ -187,11 +187,12 @@ module.exports = (function() {
       sendingUrl: process.env.POLE_EMPLOI_SENDING_URL,
       userInfoUrl: process.env.POLE_EMPLOI_USER_INFO_URL,
       temporaryStorage: {
-        expirationDelaySeconds: parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
+        expirationDelaySeconds:
+          parseInt(process.env.POLE_EMPLOI_TEMPORARY_STORAGE_EXPIRATION_DELAY_SECONDS, 10) || 1140,
         redisUrl: process.env.REDIS_URL,
       },
       poleEmploiSendingsLimit: _getNumber(process.env.POLE_EMPLOI_SENDING_LIMIT, 100),
-      poleEmploiIdentityProvider: (process.env.POLE_EMPLOI_IDENTITY_PROVIDER || 'POLE_EMPLOI'),
+      poleEmploiIdentityProvider: process.env.POLE_EMPLOI_IDENTITY_PROVIDER || 'POLE_EMPLOI',
     },
 
     temporaryStorage: {
@@ -251,8 +252,10 @@ module.exports = (function() {
 
     config.mailing.sendinblue.apiKey = 'test-api-key';
     config.mailing.sendinblue.templates.accountCreationTemplateId = 'test-account-creation-template-id';
-    config.mailing.sendinblue.templates.organizationInvitationTemplateId = 'test-organization-invitation-demand-template-id';
-    config.mailing.sendinblue.templates.organizationInvitationScoTemplateId = 'test-organization-invitation-sco-demand-template-id';
+    config.mailing.sendinblue.templates.organizationInvitationTemplateId =
+      'test-organization-invitation-demand-template-id';
+    config.mailing.sendinblue.templates.organizationInvitationScoTemplateId =
+      'test-organization-invitation-sco-demand-template-id';
     config.mailing.sendinblue.templates.certificationResultTemplateId = 'test-certification-result-template-id';
     config.mailing.sendinblue.templates.passwordResetTemplateId = 'test-password-reset-template-id';
     config.mailing.sendinblue.templates.emailChangeTemplateId = 'test-email-change-template-id';
@@ -270,10 +273,30 @@ module.exports = (function() {
     config.poleEmploi.userInfoUrl = 'http://userInfoUrl.fr';
 
     config.graviteeRegisterApplicationsCredentials = [
-      { clientId: 'lsuClientId', clientSecret: 'lsuClientSecret', scope: 'organizations-certifications-result', source: 'lsu' },
-      { clientId: 'lslClientId', clientSecret: 'lslClientSecret', scope: 'organizations-certifications-result', source: 'lsl' },
-      { clientId: 'graviteeOsmoseClientId', clientSecret: 'graviteeOsmoseClientSecret', scope: 'organizations-certifications-result', source: 'livretScolaire' },
-      { clientId: 'poleEmploiClientId', clientSecret: 'poleEmploiClientSecret', scope: 'pole-emploi-participants-result', source: 'poleEmploi' },
+      {
+        clientId: 'lsuClientId',
+        clientSecret: 'lsuClientSecret',
+        scope: 'organizations-certifications-result',
+        source: 'lsu',
+      },
+      {
+        clientId: 'lslClientId',
+        clientSecret: 'lslClientSecret',
+        scope: 'organizations-certifications-result',
+        source: 'lsl',
+      },
+      {
+        clientId: 'graviteeOsmoseClientId',
+        clientSecret: 'graviteeOsmoseClientSecret',
+        scope: 'organizations-certifications-result',
+        source: 'livretScolaire',
+      },
+      {
+        clientId: 'poleEmploiClientId',
+        clientSecret: 'poleEmploiClientSecret',
+        scope: 'pole-emploi-participants-result',
+        source: 'poleEmploi',
+      },
     ];
 
     config.jwtConfig.livretScolaire = { secret: 'secretosmose', tokenLifespan: '1h' };

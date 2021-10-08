@@ -2,11 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/target-profile-serializer');
 const TargetProfile = require('../../../../../lib/domain/models/TargetProfile');
 
-describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should serialize target profile to JSONAPI', function() {
+describe('Unit | Serializer | JSONAPI | target-profile-serializer', function () {
+  describe('#serialize', function () {
+    it('should serialize target profile to JSONAPI', function () {
       // given
       const targetProfile = new TargetProfile({
         id: 132,
@@ -38,7 +36,5 @@ describe('Unit | Serializer | JSONAPI | target-profile-serializer', function() {
       // then
       return expect(serializedTargetProfile).to.deep.equal(expectedTargetProfile);
     });
-
   });
-
 });

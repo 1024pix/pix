@@ -4,12 +4,11 @@ const Assessment = require('../../../../lib/domain/models/Assessment');
 const { InvalidCertificationReportForFinalization } = require('../../../../lib/domain/errors');
 const keys = require('lodash/keys');
 
-describe('Unit | Domain | Models | CertificationReport', function() {
-
-  describe('#constructor', function() {
+describe('Unit | Domain | Models | CertificationReport', function () {
+  describe('#constructor', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerComment) => {
-      it(`should return no examiner comment if comment is "${examinerComment}"`, function() {
+      it(`should return no examiner comment if comment is "${examinerComment}"`, function () {
         // when
         const certificationReport = new CertificationReport({ examinerComment });
 
@@ -19,8 +18,8 @@ describe('Unit | Domain | Models | CertificationReport', function() {
     });
   });
 
-  describe('#validateForFinalization', function() {
-    it('should validate valid fields without throwing an error', function() {
+  describe('#validateForFinalization', function () {
+    it('should validate valid fields without throwing an error', function () {
       // given
       const certificationReport = domainBuilder.buildCertificationReport({
         certificationCourseId: 1,
@@ -52,10 +51,11 @@ describe('Unit | Domain | Models | CertificationReport', function() {
         isCompleted: null,
       },
     ].forEach((invalidData) =>
-      it(`should throw an error if ${_getFieldName(invalidData)} is missing`, async function() {
+      it(`should throw an error if ${_getFieldName(invalidData)} is missing`, async function () {
         // given
         const certificationReport = new CertificationReport({
-          ...validCertificationReportData, ...invalidData,
+          ...validCertificationReportData,
+          ...invalidData,
         });
 
         // when
@@ -64,10 +64,10 @@ describe('Unit | Domain | Models | CertificationReport', function() {
         // then
         expect(error).to.be.instanceOf(InvalidCertificationReportForFinalization);
         expect(error.message).contains(_getFieldName(invalidData));
-      }),
+      })
     );
 
-    it('should throw an error if not completed and abortReason is empty', async function() {
+    it('should throw an error if not completed and abortReason is empty', async function () {
       // given
       const certificationReport = new CertificationReport({
         ...validCertificationReportData,
@@ -84,8 +84,8 @@ describe('Unit | Domain | Models | CertificationReport', function() {
     });
   });
 
-  describe('#fromCertificationCourse', function() {
-    it('should return a certificationReport from a certificationCourse', function() {
+  describe('#fromCertificationCourse', function () {
+    it('should return a certificationReport from a certificationCourse', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse();
       const certificationCourseDTO = certificationCourse.toDTO();
@@ -106,7 +106,7 @@ describe('Unit | Domain | Models | CertificationReport', function() {
       expect(certificationReport).to.deepEqualInstance(expectedCertificationReport);
     });
 
-    it('should return a certificationReport from a uncompleted certificationCourse', function() {
+    it('should return a certificationReport from a uncompleted certificationCourse', function () {
       // given
       const certificationCourse = domainBuilder.buildCertificationCourse({
         assessment: domainBuilder.buildAssessment({ state: Assessment.states.STARTED }),
@@ -119,12 +119,11 @@ describe('Unit | Domain | Models | CertificationReport', function() {
       expect(isCompleted).to.be.false;
     });
 
-    it('should return a certificationReport from a completed certificationCourse', function() {
+    it('should return a certificationReport from a completed certificationCourse', function () {
       // given
-      const certificationCourse = domainBuilder.buildCertificationCourse(
-        {
-          assessment: domainBuilder.buildAssessment({ state: Assessment.states.COMPLETED }),
-        });
+      const certificationCourse = domainBuilder.buildCertificationCourse({
+        assessment: domainBuilder.buildAssessment({ state: Assessment.states.COMPLETED }),
+      });
 
       // when
       const { isCompleted } = CertificationReport.fromCertificationCourse(certificationCourse);

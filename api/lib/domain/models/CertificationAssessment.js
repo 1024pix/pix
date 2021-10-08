@@ -1,5 +1,4 @@
-const Joi = require('joi')
-  .extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 const _ = require('lodash');
 const { ChallengeToBeNeutralizedNotFoundError, ChallengeToBeDeneutralizedNotFoundError } = require('../errors');
@@ -24,7 +23,6 @@ const certificationAssessmentSchema = Joi.object({
 });
 
 class CertificationAssessment {
-
   constructor({
     id,
     userId,
@@ -69,7 +67,9 @@ class CertificationAssessment {
     }
 
     if (_isAnswerKoOrSkippedOrPartially(toBeNeutralizedChallengeAnswer.result.status)) {
-      const challengeToBeNeutralized = _.find(this.certificationChallenges, { challengeId: toBeNeutralizedChallengeAnswer.challengeId });
+      const challengeToBeNeutralized = _.find(this.certificationChallenges, {
+        challengeId: toBeNeutralizedChallengeAnswer.challengeId,
+      });
       challengeToBeNeutralized.neutralize();
       return NeutralizationAttempt.neutralized(questionNumber);
     }
@@ -97,7 +97,9 @@ class CertificationAssessment {
   findAnswersAndChallengesForCertifiableBadgeKey(certifiableBadgeKey) {
     const certificationChallengesForBadge = _.filter(this.certificationChallenges, { certifiableBadgeKey });
     const challengeIds = _.map(certificationChallengesForBadge, 'challengeId');
-    const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) => _.includes(challengeIds, challengeId));
+    const answersForBadge = _.filter(this.certificationAnswersByDate, ({ challengeId }) =>
+      _.includes(challengeIds, challengeId)
+    );
     return {
       certificationChallenges: certificationChallengesForBadge,
       certificationAnswers: answersForBadge,
@@ -114,7 +116,11 @@ class CertificationAssessment {
 
   skipUnansweredChallenges() {
     this.certificationChallenges.forEach((certificationChallenge) => {
-      if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
+      if (
+        !this.certificationAnswersByDate.some(
+          (certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId
+        )
+      ) {
         certificationChallenge.skipAutomatically();
       }
     });
@@ -122,7 +128,11 @@ class CertificationAssessment {
 
   neutralizeUnansweredChallenges() {
     this.certificationChallenges.map((certificationChallenge) => {
-      if (!this.certificationAnswersByDate.some((certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId)) {
+      if (
+        !this.certificationAnswersByDate.some(
+          (certificationAnswer) => certificationChallenge.challengeId === certificationAnswer.challengeId
+        )
+      ) {
         certificationChallenge.neutralize();
       }
     });
@@ -133,7 +143,7 @@ function _isAnswerKoOrSkippedOrPartially(answerStatus) {
   const isKo = AnswerStatus.isKO(answerStatus);
   const isSkipped = AnswerStatus.isSKIPPED(answerStatus);
   const isPartially = AnswerStatus.isPARTIALLY(answerStatus);
-  return (isKo || isSkipped || isPartially);
+  return isKo || isSkipped || isPartially;
 }
 
 CertificationAssessment.states = states;

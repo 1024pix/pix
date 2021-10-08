@@ -1,14 +1,19 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+  knex,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
-describe('Acceptance | Controller | users-controller-remove-authentication-method', function() {
-
+describe('Acceptance | Controller | users-controller-remove-authentication-method', function () {
   let server;
   let user;
   let options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: null });
     databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId: user.id });
@@ -33,9 +38,8 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
     return databaseBuilder.commit();
   });
 
-  describe('POST /admin/users/:id/remove-authentication', function() {
-
-    it('should return 204', async function() {
+  describe('POST /admin/users/:id/remove-authentication', function () {
+    it('should return 204', async function () {
       // when
       const response = await server.inject(options);
 
@@ -43,7 +47,7 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should set the username to null', async function() {
+    it('should set the username to null', async function () {
       // when
       await server.inject(options);
 
@@ -52,12 +56,14 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
       expect(updatedUser.username).to.be.null;
     });
 
-    it('should remove PIX authenticationMethod', async function() {
+    it('should remove PIX authenticationMethod', async function () {
       // when
       await server.inject(options);
 
       // then
-      const pixAuthenticationMethod = await knex('authentication-methods').where({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.PIX }).first();
+      const pixAuthenticationMethod = await knex('authentication-methods')
+        .where({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.PIX })
+        .first();
       expect(pixAuthenticationMethod).to.be.undefined;
     });
   });

@@ -3,10 +3,9 @@ const Skill = require('../../../../lib/domain/models/Skill');
 const Tube = require('../../../../lib/domain/models/Tube');
 const { computeTubesFromSkills } = require('../../../../lib/domain/services/tube-service');
 
-describe('Integration | Domain | Services | TubeService', function() {
-
-  describe('#computeTubesFromSkills', function() {
-    it('should return an array of tubes when all challenges require only one skill', function() {
+describe('Integration | Domain | Services | TubeService', function () {
+  describe('#computeTubesFromSkills', function () {
+    it('should return an array of tubes when all challenges require only one skill', function () {
       // given
       const web4 = new Skill({ name: '@web4' });
       const web5 = new Skill({ name: '@web5' });
@@ -23,7 +22,7 @@ describe('Integration | Domain | Services | TubeService', function() {
       expect(actualTubes).to.deep.equal(expectedTubes);
     });
 
-    it('should not add the same skill twice in a tube', function() {
+    it('should not add the same skill twice in a tube', function () {
       // given
       const web4 = new Skill({ name: '@web4' });
       const web5 = new Skill({ name: '@web5' });
@@ -39,6 +38,5 @@ describe('Integration | Domain | Services | TubeService', function() {
       // then
       expect(actualTubes).to.deep.equal(expectedTubes);
     });
-
   });
 });

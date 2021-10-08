@@ -15,10 +15,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: organizationController.create,
         tags: ['api', 'organizations'],
       },
@@ -27,10 +29,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           options: {
             allowUnknown: true,
@@ -49,8 +53,8 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer & chercher une liste d’organisations\n' +
-          '- Cette liste est paginée et filtrée selon un **name** et/ou un **type** et/ou un **identifiant externe** donnés',
+            '- Elle permet de récupérer & chercher une liste d’organisations\n' +
+            '- Cette liste est paginée et filtrée selon un **name** et/ou un **type** et/ou un **identifiant externe** donnés',
         ],
       },
     },
@@ -58,10 +62,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -71,7 +77,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer toutes les informations d’une organisation',
+            '- Elle permet de récupérer toutes les informations d’une organisation',
         ],
       },
     },
@@ -79,10 +85,12 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/organizations/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -92,7 +100,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de mettre à jour tout ou partie d’une organisation',
+            '- Elle permet de mettre à jour tout ou partie d’une organisation',
         ],
       },
     },
@@ -118,10 +126,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/organizations/{id}/campaigns',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -139,10 +149,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/memberships',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster,
-          assign: 'belongsToOrganization',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganizationOrHasRolePixMaster,
+            assign: 'belongsToOrganization',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -160,10 +172,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/divisions',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-          assign: 'isAdminInOrganizationManagingStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -196,7 +210,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les certifications liées à l\'organisation sous forme de fichier CSV.',
+          "Elle retourne les certifications liées à l'organisation sous forme de fichier CSV.",
         ],
       },
     },
@@ -222,7 +236,7 @@ exports.register = async (server) => {
         tags: ['api', 'organizations'],
         notes: [
           'Cette route est restreinte aux utilisateurs authentifiés',
-          'Elle retourne les certificats par classe liées à l\'organisation sous forme de fichier PDF.',
+          "Elle retourne les certificats par classe liées à l'organisation sous forme de fichier PDF.",
         ],
       },
     },
@@ -239,7 +253,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profile'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des profiles cibles utilisables par l‘organisation\n',
+            '- Récupération des profiles cibles utilisables par l‘organisation\n',
         ],
       },
     },
@@ -247,10 +261,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations/{id}/target-profiles',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: organizationController.attachTargetProfiles,
         validate: {
           params: Joi.object({
@@ -259,12 +275,15 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                'target-profiles-to-attach': Joi.array().items(Joi.string().pattern(/^[0-9]+$/), Joi.number().integer()),
+                'target-profiles-to-attach': Joi.array().items(
+                  Joi.string().pattern(/^[0-9]+$/),
+                  Joi.number().integer()
+                ),
               },
             },
           }).options({ allowUnknown: true }),
           failAction: (request, h) => {
-            return sendJsonApiError(new NotFoundError('L\'id d\'un des profils cible n\'est pas valide'), h);
+            return sendJsonApiError(new NotFoundError("L'id d'un des profils cible n'est pas valide"), h);
           },
         },
         tags: ['api', 'organizations'],
@@ -274,10 +293,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/students',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserBelongsToOrganizationManagingStudents,
-          assign: 'belongsToOrganizationManagingStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserBelongsToOrganizationManagingStudents,
+            assign: 'belongsToOrganizationManagingStudents',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -291,7 +312,7 @@ exports.register = async (server) => {
         tags: ['api', 'students'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des élèves liés à une organisation\n',
+            '- Récupération des élèves liés à une organisation\n',
         ],
       },
     },
@@ -299,10 +320,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations/{id}/schooling-registrations/import-siecle',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-          assign: 'isAdminInOrganizationManagingStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -315,14 +338,19 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 20, // 20MB
           output: 'file',
           failAction: (request, h) => {
-            return sendJsonApiError(new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, { maxSize: '20' }), h);
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '20',
+              }),
+              h
+            );
           },
         },
         handler: organizationController.importSchoolingRegistrationsFromSIECLE,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
-          '- Elle permet d\'importer des inscriptions d\'élèves, en masse, depuis un fichier au format XML ou CSV de SIECLE\n' +
-          '- Elle ne retourne aucune valeur de retour',
+          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
+            "- Elle permet d'importer des inscriptions d'élèves, en masse, depuis un fichier au format XML ou CSV de SIECLE\n" +
+            '- Elle ne retourne aucune valeur de retour',
         ],
         tags: ['api', 'schooling-registrations'],
       },
@@ -331,10 +359,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations/{id}/schooling-registrations/import-csv',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-          assign: 'isAdminInOrganizationManagingStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -344,14 +374,19 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
           failAction: (request, h) => {
-            return sendJsonApiError(new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, { maxSize: '10' }), h);
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '10',
+              }),
+              h
+            );
           },
         },
         handler: organizationController.importHigherSchoolingRegistrations,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
-          '- Elle permet d\'importer des inscriptions d\'étudiants, en masse, depuis un fichier au format csv\n' +
-          '- Elle ne retourne aucune valeur de retour',
+          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
+            "- Elle permet d'importer des inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
+            '- Elle ne retourne aucune valeur de retour',
         ],
         tags: ['api', 'schooling-registrations'],
       },
@@ -360,10 +395,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations/{id}/schooling-registrations/replace-csv',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-          assign: 'isAdminInOrganizationManagingStudents',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+            assign: 'isAdminInOrganizationManagingStudents',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -373,14 +410,19 @@ exports.register = async (server) => {
           maxBytes: 1048576 * 10, // 10MB
           parse: 'gunzip',
           failAction: (request, h) => {
-            return sendJsonApiError(new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, { maxSize: '10' }), h);
+            return sendJsonApiError(
+              new PayloadTooLargeError('An error occurred, payload is too large', ERRORS.PAYLOAD_TOO_LARGE, {
+                maxSize: '10',
+              }),
+              h
+            );
           },
         },
         handler: organizationController.replaceHigherSchoolingRegistrations,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l\'organisation**\n' +
-          '- Elle désactive les inscriptions existantes et importe de nouvelles inscriptions d\'étudiants, en masse, depuis un fichier au format csv\n' +
-          '- Elle ne retourne aucune valeur de retour',
+          "- **Cette route est restreinte aux utilisateurs authentifiés et responsables de l'organisation**\n" +
+            "- Elle désactive les inscriptions existantes et importe de nouvelles inscriptions d'étudiants, en masse, depuis un fichier au format csv\n" +
+            '- Elle ne retourne aucune valeur de retour',
         ],
         tags: ['api', 'schooling-registrations'],
       },
@@ -389,10 +431,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/organizations/{id}/invitations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserIsAdminInOrganization,
-          assign: 'isAdminInOrganization',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
         handler: organizationController.sendInvitations,
         validate: {
           params: Joi.object({
@@ -410,8 +454,8 @@ exports.register = async (server) => {
           }),
         },
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l\'organisation**\n' +
-          '- Elle permet d\'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d\'une organisation, via leur **email**',
+          "- **Cette route est restreinte aux utilisateurs authentifiés en tant que responsables de l'organisation**\n" +
+            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
         ],
         tags: ['api', 'invitations'],
       },
@@ -420,10 +464,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/admin/organizations/{id}/invitations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: organizationController.sendInvitationsByLang,
         validate: {
           params: Joi.object({
@@ -443,7 +489,7 @@ exports.register = async (server) => {
         },
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés en tant que Pix Master**\n' +
-          '- Elle permet d\'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d\'une organisation, via leur **email**',
+            "- Elle permet d'inviter des personnes, déjà utilisateurs de Pix ou non, à être membre d'une organisation, via leur **email**",
         ],
         tags: ['api', 'invitations'],
       },
@@ -452,10 +498,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/organizations/{id}/invitations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserIsAdminInOrganization,
-          assign: 'isAdminInOrganization',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserIsAdminInOrganization,
+            assign: 'isAdminInOrganization',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.organizationId,
@@ -464,8 +512,8 @@ exports.register = async (server) => {
         handler: organizationController.findPendingInvitations,
         tags: ['api', 'invitations'],
         notes: [
-          '- Cette route est restreinte aux utilisateurs authentifiés responsables de l\'organisation',
-          '- Elle permet de lister les invitations en attente d\'acceptation d\'une organisation',
+          "- Cette route est restreinte aux utilisateurs authentifiés responsables de l'organisation",
+          "- Elle permet de lister les invitations en attente d'acceptation d'une organisation",
         ],
       },
     },
@@ -484,9 +532,9 @@ exports.register = async (server) => {
         },
         handler: organizationController.getSchoolingRegistrationsCsvTemplate,
         notes: [
-          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
-          '- Récupération d\'un template CSV qui servira à téléverser les inscriptions d’étudiants\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
+            "- Récupération d'un template CSV qui servira à téléverser les inscriptions d’étudiants\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès ADMIN à l‘organisation',
         ],
         tags: ['api', 'schooling-registrations'],
       },

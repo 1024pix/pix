@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
 
-describe('Unit | Domain | Models | CleaCertificationResult', function() {
-
-  context('#static buildFrom', function() {
-
-    it('builds a CleaCertificationResult acquired', async function() {
+describe('Unit | Domain | Models | CleaCertificationResult', function () {
+  context('#static buildFrom', function () {
+    it('builds a CleaCertificationResult acquired', async function () {
       // when
       const cleaCertificationResult = CleaCertificationResult.buildFrom({ acquired: true });
 
@@ -14,7 +12,7 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
       expect(cleaCertificationResult.status).to.equal(CleaCertificationResult.cleaStatuses.ACQUIRED);
     });
 
-    it('builds a CleaCertificationResult rejected', async function() {
+    it('builds a CleaCertificationResult rejected', async function () {
       // when
       const cleaCertificationResult = CleaCertificationResult.buildFrom({ acquired: false });
 
@@ -24,9 +22,8 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
     });
   });
 
-  context('#static buildNotTaken', function() {
-
-    it('builds a CleaCertificationResult not_taken', async function() {
+  context('#static buildNotTaken', function () {
+    it('builds a CleaCertificationResult not_taken', async function () {
       // when
       const cleaCertificationResult = CleaCertificationResult.buildNotTaken();
 
@@ -36,9 +33,8 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
     });
   });
 
-  context('#isTaken', function() {
-
-    it('returns true when CleaCertificationResult has a status acquired', async function() {
+  context('#isTaken', function () {
+    it('returns true when CleaCertificationResult has a status acquired', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
 
@@ -49,7 +45,7 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
       expect(isTaken).to.be.true;
     });
 
-    it('returns true when CleaCertificationResult has a status rejected', async function() {
+    it('returns true when CleaCertificationResult has a status rejected', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
 
@@ -60,7 +56,7 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
       expect(isTaken).to.be.true;
     });
 
-    it('returns false when CleaCertificationResult has a status not_taken', async function() {
+    it('returns false when CleaCertificationResult has a status not_taken', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
 
@@ -72,9 +68,8 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
     });
   });
 
-  context('#isAcquired', function() {
-
-    it('returns true when CleaCertificationResult has a status acquired', async function() {
+  context('#isAcquired', function () {
+    it('returns true when CleaCertificationResult has a status acquired', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
 
@@ -85,7 +80,7 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
       expect(isAcquired).to.be.true;
     });
 
-    it('returns true when CleaCertificationResult has a status rejected', async function() {
+    it('returns true when CleaCertificationResult has a status rejected', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
 
@@ -96,7 +91,7 @@ describe('Unit | Domain | Models | CleaCertificationResult', function() {
       expect(isAcquired).to.be.false;
     });
 
-    it('returns false when CleaCertificationResult has a status not_taken', async function() {
+    it('returns false when CleaCertificationResult has a status not_taken', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
 

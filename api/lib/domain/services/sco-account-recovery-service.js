@@ -13,7 +13,6 @@ async function retrieveSchoolingRegistration({
   userRepository,
   userReconciliationService,
 }) {
-
   const latestSchoolingRegistration = await schoolingRegistrationRepository.getLatestSchoolingRegistration({
     birthdate: studentInformation.birthdate,
     nationalStudentId: studentInformation.ineIna,
@@ -45,7 +44,8 @@ async function retrieveAndValidateAccountRecoveryDemand({
   userRepository,
   accountRecoveryDemandRepository,
 }) {
-  const { id, userId, newEmail, schoolingRegistrationId, createdAt } = await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
+  const { id, userId, newEmail, schoolingRegistrationId, createdAt } =
+    await accountRecoveryDemandRepository.findByTemporaryKey(temporaryKey);
   await userRepository.checkIfEmailIsAvailable(newEmail);
 
   const accountRecoveryDemands = await accountRecoveryDemandRepository.findByUserId(userId);
@@ -79,8 +79,8 @@ async function _getUserIdByMatchingStudentInformationWithSchoolingRegistration({
   userReconciliationService,
 }) {
   const matchingSchoolingRegistrationId = await userReconciliationService.findMatchingCandidateIdForGivenUser(
-    [ latestSchoolingRegistration ],
-    { firstName: studentInformation.firstName, lastName: studentInformation.lastName },
+    [latestSchoolingRegistration],
+    { firstName: studentInformation.firstName, lastName: studentInformation.lastName }
   );
 
   if (!matchingSchoolingRegistrationId) {
@@ -102,4 +102,3 @@ module.exports = {
   retrieveSchoolingRegistration,
   retrieveAndValidateAccountRecoveryDemand,
 };
-

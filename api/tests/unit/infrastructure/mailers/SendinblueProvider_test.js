@@ -5,16 +5,12 @@ const { mailing } = require('../../../../lib/config');
 
 const SendinblueProvider = require('../../../../lib/infrastructure/mailers/SendinblueProvider');
 
-describe('Unit | Class | SendinblueProvider', function() {
-
-  beforeEach(function() {
-    nock('https://api.sendinblue.com:443')
-      .post('/v3/smtp/email')
-      .reply();
+describe('Unit | Class | SendinblueProvider', function () {
+  beforeEach(function () {
+    nock('https://api.sendinblue.com:443').post('/v3/smtp/email').reply();
   });
 
-  describe('#sendEmail', function() {
-
+  describe('#sendEmail', function () {
     const senderEmailAddress = 'no-reply@example.net';
     const userEmailAddress = 'user@example.net';
     const templateId = 129291;
@@ -22,9 +18,8 @@ describe('Unit | Class | SendinblueProvider', function() {
     let stubbedSendinblueSMTPApi;
     let mailingProvider;
 
-    context('when mail sending is enabled', function() {
-
-      beforeEach(function() {
+    context('when mail sending is enabled', function () {
+      beforeEach(function () {
         sinon.stub(mailing, 'enabled').value(true);
         sinon.stub(mailing, 'provider').value('sendinblue');
 
@@ -37,20 +32,23 @@ describe('Unit | Class | SendinblueProvider', function() {
         mailingProvider = new SendinblueProvider();
       });
 
-      context('when email check succeeds', function() {
-
-        it('should call the given sendinblue api instance', async function() {
+      context('when email check succeeds', function () {
+        it('should call the given sendinblue api instance', async function () {
           // given
           const options = {
-            from: senderEmailAddress, to: userEmailAddress,
-            fromName: 'Ne pas repondre', subject: 'Creation de compte',
+            from: senderEmailAddress,
+            to: userEmailAddress,
+            fromName: 'Ne pas repondre',
+            subject: 'Creation de compte',
             template: templateId,
           };
 
           const expectedPayload = {
-            to: [{
-              email: userEmailAddress,
-            }],
+            to: [
+              {
+                email: userEmailAddress,
+              },
+            ],
             sender: {
               name: 'Ne pas repondre',
               email: senderEmailAddress,
@@ -59,7 +57,7 @@ describe('Unit | Class | SendinblueProvider', function() {
             templateId,
             headers: {
               'content-type': 'application/json',
-              'accept': 'application/json',
+              accept: 'application/json',
             },
           };
 
@@ -70,22 +68,26 @@ describe('Unit | Class | SendinblueProvider', function() {
           expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
         });
 
-        context('when tags property is given', function() {
-
-          it('should add tags when it is not a empty array', async function() {
+        context('when tags property is given', function () {
+          it('should add tags when it is not a empty array', async function () {
             // given
             const tags = ['TEST'];
 
             const options = {
-              from: senderEmailAddress, to: userEmailAddress,
-              fromName: 'Ne pas repondre', subject: 'Creation de compte',
-              template: templateId, tags,
+              from: senderEmailAddress,
+              to: userEmailAddress,
+              fromName: 'Ne pas repondre',
+              subject: 'Creation de compte',
+              template: templateId,
+              tags,
             };
 
             const expectedPayload = {
-              to: [{
-                email: userEmailAddress,
-              }],
+              to: [
+                {
+                  email: userEmailAddress,
+                },
+              ],
               sender: {
                 name: 'Ne pas repondre',
                 email: senderEmailAddress,
@@ -94,7 +96,7 @@ describe('Unit | Class | SendinblueProvider', function() {
               templateId,
               headers: {
                 'content-type': 'application/json',
-                'accept': 'application/json',
+                accept: 'application/json',
               },
               tags,
             };
@@ -106,20 +108,25 @@ describe('Unit | Class | SendinblueProvider', function() {
             expect(stubbedSendinblueSMTPApi.sendTransacEmail).to.have.been.calledWithExactly(expectedPayload);
           });
 
-          it('should not add tags when it is empty', async function() {
+          it('should not add tags when it is empty', async function () {
             // given
             const tags = null;
 
             const options = {
-              from: senderEmailAddress, to: userEmailAddress,
-              fromName: 'Ne pas repondre', subject: 'Creation de compte',
-              template: templateId, tags,
+              from: senderEmailAddress,
+              to: userEmailAddress,
+              fromName: 'Ne pas repondre',
+              subject: 'Creation de compte',
+              template: templateId,
+              tags,
             };
 
             const expectedPayload = {
-              to: [{
-                email: userEmailAddress,
-              }],
+              to: [
+                {
+                  email: userEmailAddress,
+                },
+              ],
               sender: {
                 name: 'Ne pas repondre',
                 email: senderEmailAddress,
@@ -128,7 +135,7 @@ describe('Unit | Class | SendinblueProvider', function() {
               templateId,
               headers: {
                 'content-type': 'application/json',
-                'accept': 'application/json',
+                accept: 'application/json',
               },
             };
 

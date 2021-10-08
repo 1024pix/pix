@@ -7,45 +7,53 @@ const organizationService = require('../../../../lib/domain/services/organizatio
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 
-describe('Unit | Service | OrganizationService', function() {
-
-  describe('#findAllTargetProfilesAvailableForOrganization', function() {
-
+describe('Unit | Service | OrganizationService', function () {
+  describe('#findAllTargetProfilesAvailableForOrganization', function () {
     let organizationId;
     let targetProfilesOwnedByOrganization;
     let targetProfileSharesWithOrganization;
     let targetProfileOrganizationCanUse;
     let publicTargetProfiles;
 
-    beforeEach(function() {
+    beforeEach(function () {
       organizationId = 1;
-      targetProfilesOwnedByOrganization = [domainBuilder.buildTargetProfile({ id: 1, organizationId, isPublic: false })];
+      targetProfilesOwnedByOrganization = [
+        domainBuilder.buildTargetProfile({ id: 1, organizationId, isPublic: false }),
+      ];
       targetProfileSharesWithOrganization = [domainBuilder.buildTargetProfile({ id: 2, isPublic: false })];
       publicTargetProfiles = [domainBuilder.buildTargetProfile({ id: 3, isPublic: true })];
 
-      const targetProfileShares = [{
-        targetProfile: targetProfileSharesWithOrganization,
-      }];
+      const targetProfileShares = [
+        {
+          targetProfile: targetProfileSharesWithOrganization,
+        },
+      ];
 
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
       targetProfileOrganizationCanUse = concat(publicTargetProfiles, targetProfilesOwnedByOrganization);
 
-      sinon.stub(targetProfileRepository, 'findAllTargetProfilesOrganizationCanUse').resolves(targetProfileOrganizationCanUse);
+      sinon
+        .stub(targetProfileRepository, 'findAllTargetProfilesOrganizationCanUse')
+        .resolves(targetProfileOrganizationCanUse);
       sinon.stub(organizationRepository, 'get').resolves(organization);
     });
 
-    it('should return an array of type target profile', async function() {
+    it('should return an array of type target profile', async function () {
       // when
-      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
+        organizationId
+      );
 
       // then
       expect(availableTargetProfiles).to.be.an('array');
       expect(availableTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
     });
 
-    it('should return public profiles and profiles owned by or shared with anyOrganization', async function() {
+    it('should return public profiles and profiles owned by or shared with anyOrganization', async function () {
       // when
-      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
+        organizationId
+      );
 
       // then
       expect(availableTargetProfiles.length).to.equal(3);
@@ -54,18 +62,20 @@ describe('Unit | Service | OrganizationService', function() {
       expect(availableTargetProfiles).to.include.deep.members(publicTargetProfiles);
     });
 
-    it('should not have duplicate in targetProfiles', async function() {
+    it('should not have duplicate in targetProfiles', async function () {
       // given
       targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfilesOwnedByOrganization);
 
       // when
-      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
+        organizationId
+      );
 
       // then
       expect(availableTargetProfiles.length).to.equal(2);
     });
 
-    it('should return a list ordered by private profile before public profile and alphabetically', async function() {
+    it('should return a list ordered by private profile before public profile and alphabetically', async function () {
       // given
       const targetProfilesOwnedByOrganization = [
         domainBuilder.buildTargetProfile({ id: 11, name: 'C owned profile', organizationId, isPublic: false }),
@@ -79,9 +89,11 @@ describe('Unit | Service | OrganizationService', function() {
         domainBuilder.buildTargetProfile({ id: 15, name: 'B Public profile', isPublic: true }),
         domainBuilder.buildTargetProfile({ id: 16, name: 'A Public profile', isPublic: true }),
       ];
-      const targetProfileShares = [{
-        targetProfile: targetProfileSharesWithOrganization,
-      }];
+      const targetProfileShares = [
+        {
+          targetProfile: targetProfileSharesWithOrganization,
+        },
+      ];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
       targetProfileOrganizationCanUse = concat(targetProfilesOwnedByOrganization, publicTargetProfiles);
@@ -89,7 +101,9 @@ describe('Unit | Service | OrganizationService', function() {
       targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfileOrganizationCanUse);
       organizationRepository.get.resolves(organization);
       // when
-      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
+        organizationId
+      );
 
       // then
       expect(availableTargetProfiles.length).to.equal(5);
@@ -101,25 +115,27 @@ describe('Unit | Service | OrganizationService', function() {
       expect(availableTargetProfiles[4][1].name).equal('W shared profile');
     });
 
-    it('should exclude targetProfileShares witch are outdated', async function() {
+    it('should exclude targetProfileShares witch are outdated', async function () {
       // given
-      const targetProfiles = [
-        domainBuilder.buildTargetProfile({ organizationId }),
-      ];
+      const targetProfiles = [domainBuilder.buildTargetProfile({ organizationId })];
       const targetProfileSharesWithOrganization = [
         domainBuilder.buildTargetProfile({ isPublic: false, outdated: true }),
         domainBuilder.buildTargetProfile({ isPublic: false, outdated: false }),
       ];
-      const targetProfileShares = [{
-        targetProfile: targetProfileSharesWithOrganization,
-      }];
+      const targetProfileShares = [
+        {
+          targetProfile: targetProfileSharesWithOrganization,
+        },
+      ];
       const organization = domainBuilder.buildOrganization({ id: organizationId, targetProfileShares });
 
       targetProfileRepository.findAllTargetProfilesOrganizationCanUse.resolves(targetProfiles);
       organizationRepository.get.resolves(organization);
 
       // when
-      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(organizationId);
+      const availableTargetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
+        organizationId
+      );
 
       // then
       expect(availableTargetProfiles.length).to.equal(2);

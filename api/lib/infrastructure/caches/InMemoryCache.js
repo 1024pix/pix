@@ -2,7 +2,6 @@ const NodeCache = require('node-cache');
 const Cache = require('./Cache');
 
 class InMemoryCache extends Cache {
-
   constructor() {
     super();
     this._cache = new NodeCache({ useClones: false });
@@ -10,9 +9,11 @@ class InMemoryCache extends Cache {
   }
 
   async get(key, generator) {
-    return this._syncGet(key, () => this._chainPromise(() => {
-      return this._syncGet(key, () => this._generateAndSet(key, generator));
-    }));
+    return this._syncGet(key, () =>
+      this._chainPromise(() => {
+        return this._syncGet(key, () => this._generateAndSet(key, generator));
+      })
+    );
   }
 
   async set(key, value) {

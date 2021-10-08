@@ -1,20 +1,16 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
-const {
-  NotFoundError,
-  UserNotAuthorizedToAccessEntityError,
-} = require('../../../../lib/domain/errors');
+const { NotFoundError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const CampaignReport = require('../../../../lib/domain/read-models/CampaignReport');
 const getCampaign = require('../../../../lib/domain/usecases/get-campaign');
 
-describe('Unit | UseCase | get-campaign', function() {
-
+describe('Unit | UseCase | get-campaign', function () {
   let userId, campaignId, campaign, stages, badges, masteryRates;
   let campaignRepository;
   let campaignReportRepository;
   let stageRepository;
   let badgeRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     badges = Symbol('badges');
     stages = Symbol('stages');
     masteryRates = Symbol('masteryRates');
@@ -49,7 +45,7 @@ describe('Unit | UseCase | get-campaign', function() {
     sinon.stub(CampaignReport.prototype, 'computeAverageResult');
   });
 
-  it('should get the campaign', async function() {
+  it('should get the campaign', async function () {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
@@ -62,11 +58,10 @@ describe('Unit | UseCase | get-campaign', function() {
 
     // then
     expect(resultCampaign.name).to.equal(campaign.name);
-    expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign)
-      .calledWith(campaignId, userId);
+    expect(campaignRepository.checkIfUserOrganizationHasAccessToCampaign).calledWith(campaignId, userId);
   });
 
-  it('should get campaign stages', async function() {
+  it('should get campaign stages', async function () {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
@@ -81,7 +76,7 @@ describe('Unit | UseCase | get-campaign', function() {
     expect(resultCampaign.stages).to.equal(stages);
   });
 
-  it('should get campaign badges', async function() {
+  it('should get campaign badges', async function () {
     // when
     const resultCampaign = await getCampaign({
       campaignId,
@@ -96,7 +91,7 @@ describe('Unit | UseCase | get-campaign', function() {
     expect(resultCampaign.badges).to.equal(badges);
   });
 
-  it('should compute average results if campaign type is assessment', async function() {
+  it('should compute average results if campaign type is assessment', async function () {
     // when
     await getCampaign({
       campaignId,
@@ -111,7 +106,7 @@ describe('Unit | UseCase | get-campaign', function() {
     sinon.assert.calledWithExactly(CampaignReport.prototype.computeAverageResult, masteryRates);
   });
 
-  it('should not compute average results if campaign type is profiles collection', async function() {
+  it('should not compute average results if campaign type is profiles collection', async function () {
     const profilesCollectionCampaign = new CampaignReport({
       id: 999,
       type: 'PROFILES_COLLECTION',
@@ -132,7 +127,7 @@ describe('Unit | UseCase | get-campaign', function() {
     sinon.assert.notCalled(CampaignReport.prototype.computeAverageResult);
   });
 
-  it('should throw a Not found error when the campaign is searched with a not valid ID', async function() {
+  it('should throw a Not found error when the campaign is searched with a not valid ID', async function () {
     // when
     const error = await catchErr(getCampaign)({
       campaignId: 'invalid Campaign Id',
@@ -147,7 +142,7 @@ describe('Unit | UseCase | get-campaign', function() {
     expect(error).to.be.instanceOf(NotFoundError);
   });
 
-  it('should throw UserNotAuthorizedToAccessEntityError when user does not belong to organization\'s campaign', async function() {
+  it("should throw UserNotAuthorizedToAccessEntityError when user does not belong to organization's campaign", async function () {
     // given
     campaignRepository.checkIfUserOrganizationHasAccessToCampaign.resolves(false);
 

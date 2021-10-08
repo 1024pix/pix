@@ -1,10 +1,9 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(certificationCenterMemberships) {
     return new Serializer('certificationCenterMemberships', {
-      transform: function(record) {
+      transform: function (record) {
         record.certificationCenter.sessions = [];
         return record;
       },
@@ -17,7 +16,7 @@ module.exports = {
           ref: 'id',
           ignoreRelationshipData: true,
           relationshipLinks: {
-            related: function(record, current, parent) {
+            related: function (record, current, parent) {
               return `/api/certification-centers/${parent.id}/sessions`;
             },
           },
@@ -31,4 +30,3 @@ module.exports = {
     }).serialize(certificationCenterMemberships);
   },
 };
-

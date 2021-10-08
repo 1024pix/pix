@@ -1,9 +1,4 @@
-const {
-  domainBuilder,
-  sinon,
-  expect,
-  catchErr,
-} = require('../../../test-helper');
+const { domainBuilder, sinon, expect, catchErr } = require('../../../test-helper');
 
 const { publishSession } = require('../../../../lib/domain/services/session-publication-service');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
@@ -11,8 +6,7 @@ const { SendingEmailToResultRecipientError, SessionAlreadyPublishedError } = req
 const mailService = require('../../../../lib/domain/services/mail-service');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
-describe('Unit | UseCase | session-publication-service', function() {
-
+describe('Unit | UseCase | session-publication-service', function () {
   const sessionId = 123;
   let certificationRepository;
   let sessionRepository;
@@ -21,7 +15,7 @@ describe('Unit | UseCase | session-publication-service', function() {
   const sessionDate = '2020-05-08';
   let clock;
 
-  beforeEach(function() {
+  beforeEach(function () {
     clock = sinon.useFakeTimers(now);
     certificationRepository = {
       publishCertificationCoursesBySessionId: sinon.stub(),
@@ -38,11 +32,11 @@ describe('Unit | UseCase | session-publication-service', function() {
     mailService.sendCertificationResultEmail = sinon.stub();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     clock.restore();
   });
 
-  context('when the session exists', function() {
+  context('when the session exists', function () {
     const recipient1 = 'email1@example.net';
     const recipient2 = 'email2@example.net';
     const certificationCenter = 'certificationCenter';
@@ -73,16 +67,19 @@ describe('Unit | UseCase | session-publication-service', function() {
       certificationCenter,
       date: sessionDate,
       certificationCandidates: [
-        candidateWithRecipient1, candidateWithRecipient2, candidate2WithRecipient2, candidateWithNoRecipient,
+        candidateWithRecipient1,
+        candidateWithRecipient2,
+        candidate2WithRecipient2,
+        candidateWithNoRecipient,
       ],
       publishedAt: null,
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
       sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(originalSession);
     });
 
-    it('should throw when the session is already published', async function() {
+    it('should throw when the session is already published', async function () {
       // given
       const session = domainBuilder.buildSession({ id: 'sessionId', publishedAt: new Date() });
       const sessionRepository = { getWithCertificationCandidates: sinon.stub() };
@@ -99,15 +96,18 @@ describe('Unit | UseCase | session-publication-service', function() {
       expect(error).to.be.an.instanceof(SessionAlreadyPublishedError);
     });
 
-    context('When we publish the session', function() {
-
-      it('should update the published date', async function() {
+    context('When we publish the session', function () {
+      it('should update the published date', async function () {
         // given
         const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
         const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
-        sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
-        sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
+        sessionRepository.updatePublishedAt
+          .withArgs({ id: sessionId, publishedAt: now })
+          .resolves(updatedSessionWithPublishedAt);
+        sessionRepository.flagResultsAsSentToPrescriber
+          .withArgs({ id: sessionId, resultsSentToPrescriberAt: now })
+          .resolves(updatedSessionWithResultSent);
         const finalizedSession = new FinalizedSession({
           sessionId,
           publishedAt: null,
@@ -130,7 +130,7 @@ describe('Unit | UseCase | session-publication-service', function() {
         expect(finalizedSessionRepository.save).to.have.been.calledWith(finalizedSession);
       });
 
-      it('should send result emails', async function() {
+      it('should send result emails', async function () {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
@@ -161,13 +161,15 @@ describe('Unit | UseCase | session-publication-service', function() {
           };
         }
         expect(mailService.sendCertificationResultEmail).to.have.been.calledTwice;
-        expect(mailService.sendCertificationResultEmail.firstCall)
-          .to.have.been.calledWithMatch(getCertificationResultArgs(recipient1));
-        expect(mailService.sendCertificationResultEmail.secondCall)
-          .to.have.been.calledWithMatch(getCertificationResultArgs(recipient2));
+        expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch(
+          getCertificationResultArgs(recipient1)
+        );
+        expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch(
+          getCertificationResultArgs(recipient2)
+        );
       });
 
-      it('should generate links for certification results for each unique recipient', async function() {
+      it('should generate links for certification results for each unique recipient', async function () {
         // given
         const updatedSession = { ...originalSession, publishedAt: now };
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
@@ -177,8 +179,12 @@ describe('Unit | UseCase | session-publication-service', function() {
           publishedAt: null,
         });
         finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
-        mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 }).returns('token-1');
-        mailService.sendCertificationResultEmail.withArgs({ sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 }).returns('token-2');
+        mailService.sendCertificationResultEmail
+          .withArgs({ sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 })
+          .returns('token-1');
+        mailService.sendCertificationResultEmail
+          .withArgs({ sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 })
+          .returns('token-2');
         mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.success(recipient1));
         mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success(recipient2));
 
@@ -191,24 +197,31 @@ describe('Unit | UseCase | session-publication-service', function() {
         });
 
         // then
-        expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch(
-          { sessionId, resultRecipientEmail: 'email1@example.net', daysBeforeExpiration: 30 },
-        );
-        expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch(
-          { sessionId, resultRecipientEmail: 'email2@example.net', daysBeforeExpiration: 30 },
-        );
+        expect(mailService.sendCertificationResultEmail.firstCall).to.have.been.calledWithMatch({
+          sessionId,
+          resultRecipientEmail: 'email1@example.net',
+          daysBeforeExpiration: 30,
+        });
+        expect(mailService.sendCertificationResultEmail.secondCall).to.have.been.calledWithMatch({
+          sessionId,
+          resultRecipientEmail: 'email2@example.net',
+          daysBeforeExpiration: 30,
+        });
       });
 
-      context('when there is at least one results recipient', function() {
-
-        it('should set session results as sent now', async function() {
+      context('when there is at least one results recipient', function () {
+        it('should set session results as sent now', async function () {
           // given
           const now = new Date();
           const updatedSessionWithPublishedAt = { ...originalSession, publishedAt: now };
           const updatedSessionWithResultSent = { ...updatedSessionWithPublishedAt, resultsSentToPrescriberAt: now };
           certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
-          sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
-          sessionRepository.flagResultsAsSentToPrescriber.withArgs({ id: sessionId, resultsSentToPrescriberAt: now }).resolves(updatedSessionWithResultSent);
+          sessionRepository.updatePublishedAt
+            .withArgs({ id: sessionId, publishedAt: now })
+            .resolves(updatedSessionWithPublishedAt);
+          sessionRepository.flagResultsAsSentToPrescriber
+            .withArgs({ id: sessionId, resultsSentToPrescriberAt: now })
+            .resolves(updatedSessionWithResultSent);
           const finalizedSession = new FinalizedSession({
             sessionId,
             publishedAt: null,
@@ -226,12 +239,15 @@ describe('Unit | UseCase | session-publication-service', function() {
           });
 
           // then
-          expect(sessionRepository.flagResultsAsSentToPrescriber).to.have.been.calledWith({ id: sessionId, resultsSentToPrescriberAt: now });
+          expect(sessionRepository.flagResultsAsSentToPrescriber).to.have.been.calledWith({
+            id: sessionId,
+            resultsSentToPrescriberAt: now,
+          });
         });
       });
 
-      context('when there is no results recipient', function() {
-        it('should leave resultSentToPrescriberAt untouched', async function() {
+      context('when there is no results recipient', function () {
+        it('should leave resultSentToPrescriberAt untouched', async function () {
           // given
           const candidateWithNoRecipient = domainBuilder.buildCertificationCandidate({
             resultRecipientEmail: null,
@@ -240,14 +256,16 @@ describe('Unit | UseCase | session-publication-service', function() {
             id: sessionId,
             certificationCenter,
             date: sessionDate,
-            certificationCandidates: [ candidateWithNoRecipient ],
+            certificationCandidates: [candidateWithNoRecipient],
           });
           sessionRepository.getWithCertificationCandidates.withArgs(sessionId).resolves(sessionWithoutResultsRecipient);
 
           const now = new Date();
           const updatedSessionWithPublishedAt = { ...sessionWithoutResultsRecipient, publishedAt: now };
           certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
-          sessionRepository.updatePublishedAt.withArgs({ id: sessionId, publishedAt: now }).resolves(updatedSessionWithPublishedAt);
+          sessionRepository.updatePublishedAt
+            .withArgs({ id: sessionId, publishedAt: now })
+            .resolves(updatedSessionWithPublishedAt);
           const finalizedSession = new FinalizedSession({
             sessionId,
             publishedAt: null,
@@ -269,9 +287,8 @@ describe('Unit | UseCase | session-publication-service', function() {
       });
     });
 
-    context('When at least one of the e-mail sending fails', function() {
-
-      it('should throw an error and leave the session unpublished', async function() {
+    context('When at least one of the e-mail sending fails', function () {
+      it('should throw an error and leave the session unpublished', async function () {
         // given
         const publishedAt = new Date();
         certificationRepository.publishCertificationCoursesBySessionId.withArgs(sessionId).resolves();
@@ -281,8 +298,8 @@ describe('Unit | UseCase | session-publication-service', function() {
           publishedAt: null,
         });
         finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
-        mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.failure('\'email1@example.net\''));
-        mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success('\'email2@example.net\''));
+        mailService.sendCertificationResultEmail.onCall(0).resolves(EmailingAttempt.failure("'email1@example.net'"));
+        mailService.sendCertificationResultEmail.onCall(1).resolves(EmailingAttempt.success("'email2@example.net'"));
 
         // when
         const error = await catchErr(publishSession)({
@@ -315,5 +332,4 @@ describe('Unit | UseCase | session-publication-service', function() {
       });
     });
   });
-
 });

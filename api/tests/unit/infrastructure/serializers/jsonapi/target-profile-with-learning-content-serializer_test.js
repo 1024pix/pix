@@ -3,11 +3,9 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const TargetProfileWithLearningContent = require('../../../../../lib/domain/models/TargetProfileWithLearningContent');
 const buildTargetedSkill = require('../../../../tooling/domain-builder/factory/build-targeted-skill');
 
-describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should serialize target profile to JSONAPI', function() {
+describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-serializer', function () {
+  describe('#serialize', function () {
+    it('should serialize target profile to JSONAPI', function () {
       // given
       const targetProfileWithLearningContent = new TargetProfileWithLearningContent({
         id: 132,
@@ -102,17 +100,17 @@ describe('Unit | Serializer | JSONAPI | target-profile-with-learning-content-ser
             id: targetProfileWithLearningContent.competences[0].id.toString(),
             type: 'competences',
             attributes: {
-              'name': targetProfileWithLearningContent.competences[0].name,
+              name: targetProfileWithLearningContent.competences[0].name,
               'area-id': targetProfileWithLearningContent.competences[0].areaId,
-              'index': targetProfileWithLearningContent.competences[0].index,
+              index: targetProfileWithLearningContent.competences[0].index,
             },
           },
           {
             id: targetProfileWithLearningContent.areas[0].id.toString(),
             type: 'areas',
             attributes: {
-              'title': targetProfileWithLearningContent.areas[0].title,
-              'color': targetProfileWithLearningContent.areas[0].color,
+              title: targetProfileWithLearningContent.areas[0].title,
+              color: targetProfileWithLearningContent.areas[0].color,
             },
           },
         ],

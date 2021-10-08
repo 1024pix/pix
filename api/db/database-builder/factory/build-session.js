@@ -23,7 +23,6 @@ module.exports = function buildSession({
   juryCommentAuthorId = null,
   juryCommentedAt = null,
 } = {}) {
-
   if (_.isUndefined(certificationCenterId)) {
     const builtCertificationCenter = buildCertificationCenter();
     certificationCenter = builtCertificationCenter.name;

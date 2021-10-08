@@ -2,7 +2,6 @@ const tokenService = require('./token-service');
 const settings = require('../../config');
 
 module.exports = {
-
   generateResultsLink(sessionId) {
     const daysBeforeExpiration = 30;
 

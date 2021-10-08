@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-details-serializer');
 const { states } = require('../../../../../lib/domain/models/CertificationAssessment');
 
-describe('Unit | Serializer | JSONAPI | certification-details-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Certification Details model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-details-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Certification Details model object into JSON API data', function () {
       // given
       const certificationDetails = domainBuilder.buildCertificationDetails({
         id: 123,
@@ -16,23 +14,27 @@ describe('Unit | Serializer | JSONAPI | certification-details-serializer', funct
         status: states.COMPLETED,
         totalScore: 555,
         percentageCorrectAnswers: 75,
-        competencesWithMark: [{
-          areaCode: '1',
-          id: 'recComp1',
-          index: '1.1',
-          name: 'manger des fruits',
-          obtainedLevel: 1,
-          obtainedScore: 9,
-          positionedLevel: 2,
-          positionedScore: 17,
-        }],
-        listChallengesAndAnswers: [{
-          challengeId: 'recChal1',
-          competence: '1.1',
-          result: 'ok',
-          skill: 'manger une mangue',
-          value: 'miam',
-        }],
+        competencesWithMark: [
+          {
+            areaCode: '1',
+            id: 'recComp1',
+            index: '1.1',
+            name: 'manger des fruits',
+            obtainedLevel: 1,
+            obtainedScore: 9,
+            positionedLevel: 2,
+            positionedScore: 17,
+          },
+        ],
+        listChallengesAndAnswers: [
+          {
+            challengeId: 'recChal1',
+            competence: '1.1',
+            result: 'ok',
+            skill: 'manger une mangue',
+            value: 'miam',
+          },
+        ],
       });
 
       const expectedSerializedCertificationDetails = {
@@ -46,23 +48,27 @@ describe('Unit | Serializer | JSONAPI | certification-details-serializer', funct
             status: states.COMPLETED,
             'total-score': 555,
             'percentage-correct-answers': 75,
-            'competences-with-mark': [{
-              areaCode: '1',
-              id: 'recComp1',
-              index: '1.1',
-              name: 'manger des fruits',
-              obtainedLevel: 1,
-              obtainedScore: 9,
-              positionedLevel: 2,
-              positionedScore: 17,
-            }],
-            'list-challenges-and-answers': [{
-              challengeId: 'recChal1',
-              competence: '1.1',
-              result: 'ok',
-              skill: 'manger une mangue',
-              value: 'miam',
-            }],
+            'competences-with-mark': [
+              {
+                areaCode: '1',
+                id: 'recComp1',
+                index: '1.1',
+                name: 'manger des fruits',
+                obtainedLevel: 1,
+                obtainedScore: 9,
+                positionedLevel: 2,
+                positionedScore: 17,
+              },
+            ],
+            'list-challenges-and-answers': [
+              {
+                challengeId: 'recChal1',
+                competence: '1.1',
+                result: 'ok',
+                skill: 'manger une mangue',
+                value: 'miam',
+              },
+            ],
           },
         },
       };
@@ -74,5 +80,4 @@ describe('Unit | Serializer | JSONAPI | certification-details-serializer', funct
       expect(serializedCertificationDetails).to.deep.equal(expectedSerializedCertificationDetails);
     });
   });
-
 });

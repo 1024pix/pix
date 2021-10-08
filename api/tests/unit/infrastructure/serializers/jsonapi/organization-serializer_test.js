@@ -3,17 +3,19 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Organization = require('../../../../../lib/domain/models/Organization');
 const Tag = require('../../../../../lib/domain/models/Tag');
 
-describe('Unit | Serializer | organization-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should return a JSON API serialized organization', function() {
+describe('Unit | Serializer | organization-serializer', function () {
+  describe('#serialize', function () {
+    it('should return a JSON API serialized organization', function () {
       // given
       const tags = [
         domainBuilder.buildTag({ id: 7, name: 'AEFE' }),
         domainBuilder.buildTag({ id: 44, name: 'PUBLIC' }),
       ];
-      const organization = domainBuilder.buildOrganization({ email: 'sco.generic.account@example.net', tags, createdBy: 10 });
+      const organization = domainBuilder.buildOrganization({
+        email: 'sco.generic.account@example.net',
+        tags,
+        createdBy: 10,
+      });
       const meta = { some: 'meta' };
 
       // when
@@ -25,15 +27,15 @@ describe('Unit | Serializer | organization-serializer', function() {
           type: 'organizations',
           id: organization.id.toString(),
           attributes: {
-            'name': organization.name,
-            'type': organization.type,
+            name: organization.name,
+            type: organization.type,
             'logo-url': organization.logoUrl,
             'external-id': organization.externalId,
             'province-code': organization.provinceCode,
             'is-managing-students': organization.isManagingStudents,
-            'credit': organization.credit,
+            credit: organization.credit,
             'can-collect-profiles': organization.canCollectProfiles,
-            'email': organization.email,
+            email: organization.email,
             'created-by': organization.createdBy,
           },
           relationships: {
@@ -52,36 +54,36 @@ describe('Unit | Serializer | organization-serializer', function() {
                 related: `/api/organizations/${organization.id}/target-profiles`,
               },
             },
-            'tags': {
-              'data': [
+            tags: {
+              data: [
                 {
-                  'id': tags[0].id.toString(),
-                  'type': 'tags',
+                  id: tags[0].id.toString(),
+                  type: 'tags',
                 },
                 {
-                  'id': tags[1].id.toString(),
-                  'type': 'tags',
+                  id: tags[1].id.toString(),
+                  type: 'tags',
                 },
               ],
             },
           },
         },
-        'included': [
+        included: [
           {
-            'attributes': {
-              'id': tags[0].id,
-              'name': tags[0].name,
+            attributes: {
+              id: tags[0].id,
+              name: tags[0].name,
             },
-            'id': tags[0].id.toString(),
-            'type': 'tags',
+            id: tags[0].id.toString(),
+            type: 'tags',
           },
           {
-            'attributes': {
-              'id': tags[1].id,
-              'name': tags[1].name,
+            attributes: {
+              id: tags[1].id,
+              name: tags[1].name,
             },
-            'id': tags[1].id.toString(),
-            'type': 'tags',
+            id: tags[1].id.toString(),
+            type: 'tags',
           },
         ],
         meta: {
@@ -90,7 +92,7 @@ describe('Unit | Serializer | organization-serializer', function() {
       });
     });
 
-    it('should include serialized student data when organization has schoolingRegistration', function() {
+    it('should include serialized student data when organization has schoolingRegistration', function () {
       // given
       const organization = domainBuilder.buildOrganization.withSchoolingRegistrations();
 
@@ -102,9 +104,8 @@ describe('Unit | Serializer | organization-serializer', function() {
     });
   });
 
-  describe('#deserialize', function() {
-
-    it('should convert JSON API data to a Organization', function() {
+  describe('#deserialize', function () {
+    it('should convert JSON API data to a Organization', function () {
       // given
       const organizationAttributes = {
         name: 'Lycée St Cricq',
@@ -158,7 +159,7 @@ describe('Unit | Serializer | organization-serializer', function() {
       expect(organization).to.deep.equal(expectedOrganization);
     });
 
-    it('should deserialize tags if there are some', function() {
+    it('should deserialize tags if there are some', function () {
       // given
       const organizationAttributes = {
         name: 'Lycée St Cricq',
@@ -190,7 +191,7 @@ describe('Unit | Serializer | organization-serializer', function() {
           },
           relationships: {
             tags: {
-              data: [ tagAttributes1, tagAttributes2 ],
+              data: [tagAttributes1, tagAttributes2],
             },
           },
         },
@@ -207,5 +208,4 @@ describe('Unit | Serializer | organization-serializer', function() {
       expect(organization.tags[1]).to.deep.equal(expectedTag2);
     });
   });
-
 });

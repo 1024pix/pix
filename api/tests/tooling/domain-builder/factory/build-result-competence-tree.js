@@ -7,7 +7,6 @@ module.exports = function buildResultCompetenceTree({
   competenceTree = buildCompetenceTree(),
   competenceMarks = [buildCompetenceMark()],
 } = {}) {
-
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
     competenceTree,
     competenceMarks,

@@ -1,16 +1,18 @@
 const accreditationController = require('./accreditation-controller');
 const securityPreHandlers = require('../security-pre-handlers');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
       path: '/api/accreditations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: accreditationController.findAccreditations,
         tags: ['api'],
         notes: [
@@ -19,7 +21,6 @@ exports.register = async function(server) {
         ],
       },
     },
-
   ]);
 };
 

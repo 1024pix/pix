@@ -12,15 +12,7 @@ const schema = Joi.object({
 });
 
 class CompetenceMark {
-  constructor({
-    id,
-    area_code,
-    competence_code,
-    competenceId,
-    level,
-    score,
-    assessmentResultId,
-  } = {}) {
+  constructor({ id, area_code, competence_code, competenceId, level, score, assessmentResultId } = {}) {
     this.id = id;
     this.area_code = area_code;
     this.competence_code = competence_code;
@@ -33,7 +25,6 @@ class CompetenceMark {
   validate() {
     validateEntity(schema, this);
   }
-
 }
 
 module.exports = CompetenceMark;

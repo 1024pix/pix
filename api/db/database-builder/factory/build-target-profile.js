@@ -12,7 +12,6 @@ module.exports = function buildTargetProfile({
   createdAt = new Date('2020-01-01'),
   outdated = false,
 } = {}) {
-
   ownerOrganizationId = _.isUndefined(ownerOrganizationId) ? buildOrganization().id : ownerOrganizationId;
 
   const values = {

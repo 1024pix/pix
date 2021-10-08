@@ -6,9 +6,11 @@ const { mailing } = require('../../config');
 
 function _formatPayload({ to, fromName, from, subject, template, variables, tags }) {
   const payload = {
-    to: [{
-      email: to,
-    }],
+    to: [
+      {
+        email: to,
+      },
+    ],
     sender: {
       name: fromName,
       email: from,
@@ -17,7 +19,7 @@ function _formatPayload({ to, fromName, from, subject, template, variables, tags
     templateId: parseInt(template),
     headers: {
       'content-type': 'application/json',
-      'accept': 'application/json',
+      accept: 'application/json',
     },
   };
 
@@ -33,7 +35,6 @@ function _formatPayload({ to, fromName, from, subject, template, variables, tags
 }
 
 class SendinblueProvider extends MailingProvider {
-
   constructor() {
     super();
 

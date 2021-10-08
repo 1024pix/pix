@@ -10,29 +10,28 @@ const {
 
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Certification Center', function() {
-
+describe('Acceptance | API | Certification Center', function () {
   let server, request;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/certification-centers', function() {
-    beforeEach(async function() {
+  describe('GET /api/certification-centers', function () {
+    beforeEach(async function () {
       request = {
         method: 'GET',
         url: '/api/certification-centers',
       };
     });
 
-    context('when user is Pix Master', function() {
-      beforeEach(function() {
+    context('when user is Pix Master', function () {
+      beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return a list of certificationCenter, with their name and id', async function() {
+      it('should return a list of certificationCenter, with their name and id', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -65,78 +64,78 @@ describe('Acceptance | API | Certification Center', function() {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal({
-          'data': [
+          data: [
             {
-              'id': '1',
-              'type': 'certification-centers',
-              'attributes': {
+              id: '1',
+              type: 'certification-centers',
+              attributes: {
                 'created-at': new Date('2020-01-01'),
                 'external-id': '12345',
-                'name': 'Centres des tests jolis',
-                'type': 'SUP',
+                name: 'Centres des tests jolis',
+                type: 'SUP',
               },
-              'relationships': {
-                'accreditations': {
-                  'data': [
+              relationships: {
+                accreditations: {
+                  data: [
                     {
-                      'id': '12',
-                      'type': 'accreditations',
+                      id: '12',
+                      type: 'accreditations',
                     },
                   ],
                 },
                 'certification-center-memberships': {
-                  'links': {
-                    'related': '/api/certification-centers/1/certification-center-memberships',
+                  links: {
+                    related: '/api/certification-centers/1/certification-center-memberships',
                   },
                 },
               },
             },
             {
-              'id': '2',
-              'type': 'certification-centers',
-              'attributes': {
+              id: '2',
+              type: 'certification-centers',
+              attributes: {
                 'created-at': new Date('2020-01-05'),
                 'external-id': '222',
-                'name': 'Centres des tests pas moches',
-                'type': 'SCO',
+                name: 'Centres des tests pas moches',
+                type: 'SCO',
               },
-              'relationships': {
-                'accreditations': {
-                  'data': [],
+              relationships: {
+                accreditations: {
+                  data: [],
                 },
                 'certification-center-memberships': {
-                  'links': {
-                    'related': '/api/certification-centers/2/certification-center-memberships',
+                  links: {
+                    related: '/api/certification-centers/2/certification-center-memberships',
                   },
                 },
               },
             },
           ],
-          'included': [
+          included: [
             {
-              'id': '12',
-              'type': 'accreditations',
-              'attributes': {
-                'name': 'Pix+Edu',
+              id: '12',
+              type: 'accreditations',
+              attributes: {
+                name: 'Pix+Edu',
               },
             },
           ],
-          'meta': {
-            'page': 1,
-            'pageCount': 1,
-            'pageSize': 10,
-            'rowCount': 2,
+          meta: {
+            page: 1,
+            pageCount: 1,
+            pageSize: 10,
+            rowCount: 2,
           },
         });
       });
     });
 
-    context('when user is not PixMaster', function() {
-      beforeEach(function() {
+    context('when user is not PixMaster', function () {
+      beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', async function() {
+      it('should return 403 HTTP status code ', async function () {
         // when
         const response = await server.inject(request);
 
@@ -145,8 +144,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when user is not connected', function() {
-      it('should return 401 HTTP status code if user is not authenticated', async function() {
+    context('when user is not connected', function () {
+      it('should return 401 HTTP status code if user is not authenticated', async function () {
         // when
         const response = await server.inject(request);
 
@@ -156,8 +155,8 @@ describe('Acceptance | API | Certification Center', function() {
     });
   });
 
-  describe('POST /api/certification-centers', function() {
-    beforeEach(function() {
+  describe('POST /api/certification-centers', function () {
+    beforeEach(function () {
       request = {
         method: 'POST',
         url: '/api/certification-centers',
@@ -173,16 +172,16 @@ describe('Acceptance | API | Certification Center', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('certification-centers').delete();
     });
 
-    context('when user is Pix Master', function() {
-      beforeEach(function() {
+    context('when user is Pix Master', function () {
+      beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 200 HTTP status', async function() {
+      it('should return 200 HTTP status', async function () {
         // when
         const response = await server.inject(request);
 
@@ -190,7 +189,7 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the certification center created', async function() {
+      it('should return the certification center created', async function () {
         // when
         const response = await server.inject(request);
 
@@ -198,15 +197,14 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.result.data.attributes.name).to.equal('Nouveau Centre de Certif');
         expect(response.result.data.id).to.be.ok;
       });
-
     });
 
-    context('when user is not PixMaster', function() {
-      beforeEach(function() {
+    context('when user is not PixMaster', function () {
+      beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', async function() {
+      it('should return 403 HTTP status code ', async function () {
         // when
         const response = await server.inject(request);
 
@@ -215,8 +213,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when user is not connected', function() {
-      it('should return 401 HTTP status code if user is not authenticated', async function() {
+    context('when user is not connected', function () {
+      it('should return 401 HTTP status code if user is not authenticated', async function () {
         // when
         const response = await server.inject(request);
 
@@ -224,12 +222,11 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.statusCode).to.equal(401);
       });
     });
-
   });
 
-  describe('GET /api/certification-centers/{id}', function() {
+  describe('GET /api/certification-centers/{id}', function () {
     let expectedCertificationCenter;
-    beforeEach(async function() {
+    beforeEach(async function () {
       expectedCertificationCenter = databaseBuilder.factory.buildCertificationCenter({});
       databaseBuilder.factory.buildCertificationCenter({});
       await databaseBuilder.commit();
@@ -239,12 +236,12 @@ describe('Acceptance | API | Certification Center', function() {
       };
     });
 
-    context('when user is Pix Master', function() {
-      beforeEach(function() {
+    context('when user is Pix Master', function () {
+      beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 200 HTTP status', async function() {
+      it('should return 200 HTTP status', async function () {
         // when
         const response = await server.inject(request);
 
@@ -252,7 +249,7 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the certification center asked', async function() {
+      it('should return the certification center asked', async function () {
         // when
         const response = await server.inject(request);
 
@@ -261,7 +258,7 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.result.data.attributes.name).to.equal(expectedCertificationCenter.name);
       });
 
-      it('should return notFoundError when the certificationCenter not exist', async function() {
+      it('should return notFoundError when the certificationCenter not exist', async function () {
         // given
         request.url = '/api/certification-centers/112334';
 
@@ -273,15 +270,14 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.result.errors[0].title).to.equal('Not Found');
         expect(response.result.errors[0].detail).to.equal('Certification center with id: 112334 not found');
       });
-
     });
 
-    context('when user is not PixMaster', function() {
-      beforeEach(function() {
+    context('when user is not PixMaster', function () {
+      beforeEach(function () {
         request.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', async function() {
+      it('should return 403 HTTP status code ', async function () {
         // when
         const response = await server.inject(request);
 
@@ -290,8 +286,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when user is not connected', function() {
-      it('should return 401 HTTP status code if user is not authenticated', async function() {
+    context('when user is not connected', function () {
+      it('should return 401 HTTP status code if user is not authenticated', async function () {
         // when
         const response = await server.inject(request);
 
@@ -301,8 +297,8 @@ describe('Acceptance | API | Certification Center', function() {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/divisions', function() {
-    it('should return the divisions', async function() {
+  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/divisions', function () {
+    it('should return the divisions', async function () {
       // given
       const externalId = 'anExternalId';
       const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
@@ -314,7 +310,7 @@ describe('Acceptance | API | Certification Center', function() {
         { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
         { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
         { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+        { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' }
       );
       await databaseBuilder.commit();
 
@@ -333,27 +329,36 @@ describe('Acceptance | API | Certification Center', function() {
     });
   });
 
-  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', function() {
+  describe('GET /api/certification-centers/{certificationCenterId}/sessions/{sessionId}/students', function () {
     let request;
     const externalId = 'XXXX';
 
     function _buildSchoolinRegistrationsWithConnectedUserRequest(user, certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students?page[size]=10&page[number]=1',
+        url:
+          '/api/certification-centers/' +
+          certificationCenter.id +
+          '/sessions/' +
+          session.id +
+          '/students?page[size]=10&page[number]=1',
         headers: { authorization: generateValidRequestAuthorizationHeader(user.id) },
       };
     }
     function _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenter, session) {
       return {
         method: 'GET',
-        url: '/api/certification-centers/' + certificationCenter.id + '/sessions/' + session.id + '/students?page[size]=10&page[number]=1',
+        url:
+          '/api/certification-centers/' +
+          certificationCenter.id +
+          '/sessions/' +
+          session.id +
+          '/students?page[size]=10&page[number]=1',
       };
     }
 
-    context('when user is connected', function() {
-
-      it('should return 200 HTTP status', async function() {
+    context('when user is connected', function () {
+      it('should return 200 HTTP status', async function () {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = databaseBuilder.factory.buildOrganization({ externalId });
@@ -370,7 +375,7 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the schooling registrations asked', async function() {
+      it('should return the schooling registrations asked', async function () {
         // given
         const { certificationCenter, user } = _buildUserWithCertificationCenterMemberShip(externalId);
         const organization = databaseBuilder.factory.buildOrganization({ externalId });
@@ -381,7 +386,7 @@ describe('Acceptance | API | Certification Center', function() {
           { id: 2, division: '2ndA', firstName: 'Laura', lastName: 'Booooo' },
           { id: 3, division: '2ndA', firstName: 'Laura', lastName: 'aaaaa' },
           { id: 4, division: '2ndA', firstName: 'Bart', lastName: 'Coucou' },
-          { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' },
+          { id: 5, division: '2ndA', firstName: 'Arthur', lastName: 'Coucou' }
         );
         await databaseBuilder.commit();
 
@@ -393,19 +398,25 @@ describe('Acceptance | API | Certification Center', function() {
         // then
         expect(_.map(response.result.data, 'id')).to.deep.equal(['3', '2', '5', '4', '1']);
       });
-
     });
 
-    context('when user is not connected', function() {
-      it('should return 401 HTTP status code if user is not authenticated', async function() {
+    context('when user is not connected', function () {
+      it('should return 401 HTTP status code if user is not authenticated', async function () {
         // given
         _buildUserWithCertificationCenterMemberShip(externalId);
         databaseBuilder.factory.buildOrganization({ externalId });
-        const certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({ externalId });
-        const session = databaseBuilder.factory.buildSession({ certificationCenterId: certificationCenterWhereUserDoesNotHaveAccess.id });
+        const certificationCenterWhereUserDoesNotHaveAccess = databaseBuilder.factory.buildCertificationCenter({
+          externalId,
+        });
+        const session = databaseBuilder.factory.buildSession({
+          certificationCenterId: certificationCenterWhereUserDoesNotHaveAccess.id,
+        });
         await databaseBuilder.commit();
 
-        request = _buildSchoolinRegistrationsNotConnectedUserRequest(certificationCenterWhereUserDoesNotHaveAccess, session);
+        request = _buildSchoolinRegistrationsNotConnectedUserRequest(
+          certificationCenterWhereUserDoesNotHaveAccess,
+          session
+        );
 
         // when
         const response = await server.inject(request);
@@ -416,15 +427,14 @@ describe('Acceptance | API | Certification Center', function() {
     });
   });
 
-  describe('GET /api/certification-centers/{id}/certification-center-memberships', function() {
-
+  describe('GET /api/certification-centers/{id}/certification-center-memberships', function () {
     let certificationCenter;
     let certificationCenterMembership1;
     let certificationCenterMembership2;
     let user1;
     let user2;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       user1 = databaseBuilder.factory.buildUser();
       user2 = databaseBuilder.factory.buildUser();
@@ -447,9 +457,8 @@ describe('Acceptance | API | Certification Center', function() {
       };
     });
 
-    context('when certification center membership is linked to the certification center', function() {
-
-      it('should return 200 HTTP status', async function() {
+    context('when certification center membership is linked to the certification center', function () {
+      it('should return 200 HTTP status', async function () {
         // when
         const response = await server.inject(request);
 
@@ -457,7 +466,7 @@ describe('Acceptance | API | Certification Center', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return certification center memberships', async function() {
+      it('should return certification center memberships', async function () {
         // given
         const expectedIncluded = [
           {
@@ -499,24 +508,23 @@ describe('Acceptance | API | Certification Center', function() {
         const response = await server.inject(request);
 
         // then
-        expect(response.result.data[0].id)
-          .to.equal(certificationCenterMembership1.id.toString());
-        expect(response.result.data[0].attributes['created-at'])
-          .to.deep.equal(certificationCenterMembership1.createdAt);
+        expect(response.result.data[0].id).to.equal(certificationCenterMembership1.id.toString());
+        expect(response.result.data[0].attributes['created-at']).to.deep.equal(
+          certificationCenterMembership1.createdAt
+        );
 
-        expect(response.result.data[1].id)
-          .to.equal(certificationCenterMembership2.id.toString());
-        expect(response.result.data[1].attributes['created-at'])
-          .to.deep.equal(certificationCenterMembership2.createdAt);
+        expect(response.result.data[1].id).to.equal(certificationCenterMembership2.id.toString());
+        expect(response.result.data[1].attributes['created-at']).to.deep.equal(
+          certificationCenterMembership2.createdAt
+        );
 
         expect(response.result.included).to.deep.equal(expectedIncluded);
       });
     });
   });
 
-  describe('GET /api/certification-centers/{id}/session-summaries', function() {
-
-    it('should return 200 http status with serialized sessions summaries', async function() {
+  describe('GET /api/certification-centers/{id}/session-summaries', function () {
+    it('should return 200 http status with serialized sessions summaries', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -547,29 +555,30 @@ describe('Acceptance | API | Certification Center', function() {
 
       // then
       expect(response.statusCode).to.equal(200);
-      expect(response.result.data).to.deep.equal([{
-        type: 'session-summaries',
-        id: '123',
-        attributes: {
-          address: 'ici',
-          room: 'labas',
-          date: '2021-05-05',
-          time: '17:00:00',
-          examiner: 'Jeanine',
-          'enrolled-candidates-count': 1,
-          'effective-candidates-count': 0,
-          status: 'created',
+      expect(response.result.data).to.deep.equal([
+        {
+          type: 'session-summaries',
+          id: '123',
+          attributes: {
+            address: 'ici',
+            room: 'labas',
+            date: '2021-05-05',
+            time: '17:00:00',
+            examiner: 'Jeanine',
+            'enrolled-candidates-count': 1,
+            'effective-candidates-count': 0,
+            status: 'created',
+          },
         },
-      }]);
+      ]);
     });
   });
 
-  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', function() {
-
+  describe('POST /api/certification-centers/{certificationCenterId}/certification-center-memberships', function () {
     let certificationCenterId;
     let email;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       email = 'user@example.net';
 
       certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -587,11 +596,11 @@ describe('Acceptance | API | Certification Center', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('certification-center-memberships').delete();
     });
 
-    it('should return 201 HTTP status', async function() {
+    it('should return 201 HTTP status', async function () {
       // when
       const response = await server.inject(request);
 
@@ -599,9 +608,8 @@ describe('Acceptance | API | Certification Center', function() {
       expect(response.statusCode).to.equal(201);
     });
 
-    context('when user is not PixMaster', function() {
-
-      it('should return 403 HTTP status code ', async function() {
+    context('when user is not PixMaster', function () {
+      it('should return 403 HTTP status code ', async function () {
         // given
         request.headers.authorization = generateValidRequestAuthorizationHeader(1111);
 
@@ -613,9 +621,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when user is not authenticated', function() {
-
-      it('should return 401 HTTP status code', async function() {
+    context('when user is not authenticated', function () {
+      it('should return 401 HTTP status code', async function () {
         // given
         request.headers.authorization = 'invalid.access.token';
 
@@ -627,9 +634,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when certification center does not exist', function() {
-
-      it('should return 404 HTTP status code', async function() {
+    context('when certification center does not exist', function () {
+      it('should return 404 HTTP status code', async function () {
         // given
         request.url = '/api/certification-centers/1/certification-center-memberships';
 
@@ -641,9 +647,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when user\'s email does not exist', function() {
-
-      it('should return 404 HTTP status code', async function() {
+    context("when user's email does not exist", function () {
+      it('should return 404 HTTP status code', async function () {
         // given
         request.payload.email = 'notexist@example.net';
 
@@ -655,9 +660,8 @@ describe('Acceptance | API | Certification Center', function() {
       });
     });
 
-    context('when user is already member of the certification center', function() {
-
-      it('should return 412 HTTP status code', async function() {
+    context('when user is already member of the certification center', function () {
+      it('should return 412 HTTP status code', async function () {
         // given
         email = 'alreadyExist@example.net';
         const userId = databaseBuilder.factory.buildUser({ email }).id;
@@ -680,17 +684,24 @@ describe('Acceptance | API | Certification Center', function() {
 
   function _buildSchoolingRegistrations(organization, ...students) {
     const AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-10-15';
-    return students.map((student) => databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, ...student, updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR }));
+    return students.map((student) =>
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        ...student,
+        updatedAt: AFTER_BEGINNING_OF_THE_2020_SCHOOL_YEAR,
+      })
+    );
   }
 
   function _buildUserWithCertificationCenterMemberShip(certificationCenterExternalId) {
     const user = databaseBuilder.factory.buildUser({});
-    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({ externalId: certificationCenterExternalId });
+    const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
+      externalId: certificationCenterExternalId,
+    });
     databaseBuilder.factory.buildCertificationCenterMembership({
       certificationCenterId: certificationCenter.id,
       userId: user.id,
     });
     return { user, certificationCenter };
   }
-
 });

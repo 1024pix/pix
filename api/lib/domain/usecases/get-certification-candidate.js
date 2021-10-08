@@ -1,8 +1,4 @@
-async function getCertificationCandidate({
-  userId,
-  sessionId,
-  certificationCandidateRepository,
-}) {
+async function getCertificationCandidate({ userId, sessionId, certificationCandidateRepository }) {
   return certificationCandidateRepository.getBySessionIdAndUserId({ userId, sessionId });
 }
 

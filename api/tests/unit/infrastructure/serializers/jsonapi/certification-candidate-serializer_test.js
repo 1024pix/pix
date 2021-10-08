@@ -3,19 +3,17 @@ const CertificationCandidate = require('../../../../../lib/domain/models/Certifi
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-candidate-serializer');
 const _ = require('lodash');
 
-describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function() {
-
+describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', function () {
   let certificationCandidate;
 
-  beforeEach(function() {
+  beforeEach(function () {
     certificationCandidate = domainBuilder.buildCertificationCandidate({
       schoolingRegistrationId: 1,
     });
   });
 
-  describe('#serialize()', function() {
-
-    it('should convert a CertificationCandidate model object into JSON API data', function() {
+  describe('#serialize()', function () {
+    it('should convert a CertificationCandidate model object into JSON API data', function () {
       // given
       const expectedJsonApiData = {
         data: {
@@ -29,14 +27,14 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'birth-insee-code': certificationCandidate.birthINSEECode,
             'birth-postal-code': certificationCandidate.birthPostalCode,
             'birth-country': certificationCandidate.birthCountry,
-            'birthdate': certificationCandidate.birthdate,
-            'email': certificationCandidate.email,
+            birthdate: certificationCandidate.birthdate,
+            email: certificationCandidate.email,
             'result-recipient-email': certificationCandidate.resultRecipientEmail,
             'external-id': certificationCandidate.externalId,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
             'is-linked': !_.isNil(certificationCandidate.userId),
             'schooling-registration-id': 1,
-            'sex': certificationCandidate.sex,
+            sex: certificationCandidate.sex,
           },
         },
       };
@@ -47,12 +45,10 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       // then
       expect(jsonApi).to.deep.equal(expectedJsonApiData);
     });
-
   });
 
-  describe('#deserialize()', function() {
-
-    it('should convert JSON API data into a CertificationCandidate model object', async function() {
+  describe('#deserialize()', function () {
+    it('should convert JSON API data into a CertificationCandidate model object', async function () {
       // given
       const jsonApiData = {
         data: {
@@ -64,9 +60,9 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
             'birth-city': certificationCandidate.birthCity,
             'birth-province-code': certificationCandidate.birthProvinceCode,
             'birth-country': certificationCandidate.birthCountry,
-            'email': certificationCandidate.email,
+            email: certificationCandidate.email,
             'result-recipient-email': certificationCandidate.resultRecipientEmail,
-            'birthdate': certificationCandidate.birthdate,
+            birthdate: certificationCandidate.birthdate,
             'external-id': certificationCandidate.externalId,
             'extra-time-percentage': certificationCandidate.extraTimePercentage,
             'is-linked': !_.isNil(certificationCandidate.userId),
@@ -86,13 +82,17 @@ describe('Unit | Serializer | JSONAPI | certification-candidate-serializer', fun
       expect(deserializedCertificationCandidate.birthProvinceCode).to.equal(certificationCandidate.birthProvinceCode);
       expect(deserializedCertificationCandidate.birthCity).to.equal(certificationCandidate.birthCity);
       expect(deserializedCertificationCandidate.birthCountry).to.equal(certificationCandidate.birthCountry);
-      expect(deserializedCertificationCandidate.extraTimePercentage).to.equal(certificationCandidate.extraTimePercentage);
+      expect(deserializedCertificationCandidate.extraTimePercentage).to.equal(
+        certificationCandidate.extraTimePercentage
+      );
       expect(deserializedCertificationCandidate.externalId).to.equal(certificationCandidate.externalId);
       expect(deserializedCertificationCandidate.email).to.equal(certificationCandidate.email);
-      expect(deserializedCertificationCandidate.resultRecipientEmail).to.equal(certificationCandidate.resultRecipientEmail);
-      expect(deserializedCertificationCandidate.schoolingRegistrationId).to.equal(certificationCandidate.schoolingRegistrationId);
+      expect(deserializedCertificationCandidate.resultRecipientEmail).to.equal(
+        certificationCandidate.resultRecipientEmail
+      );
+      expect(deserializedCertificationCandidate.schoolingRegistrationId).to.equal(
+        certificationCandidate.schoolingRegistrationId
+      );
     });
-
   });
-
 });

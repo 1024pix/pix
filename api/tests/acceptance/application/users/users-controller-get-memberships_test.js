@@ -3,8 +3,7 @@ const createServer = require('../../../../server');
 
 const Membership = require('../../../../lib/domain/models/Membership');
 
-describe('Acceptance | Controller | users-controller-get-memberships', function() {
-
+describe('Acceptance | Controller | users-controller-get-memberships', function () {
   let userId;
   let organization;
   let membershipId;
@@ -14,16 +13,19 @@ describe('Acceptance | Controller | users-controller-get-memberships', function(
   const organizationRole = Membership.roles.MEMBER;
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /users/:id/memberships', function() {
-
-    beforeEach(async function() {
+  describe('GET /users/:id/memberships', function () {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
-      membershipId = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId, organizationRole }).id;
+      membershipId = databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId,
+        organizationRole,
+      }).id;
       await databaseBuilder.commit();
 
       options = {
@@ -33,9 +35,8 @@ describe('Acceptance | Controller | users-controller-get-memberships', function(
       };
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -46,7 +47,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', function(
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -59,9 +60,8 @@ describe('Acceptance | Controller | users-controller-get-memberships', function(
       });
     });
 
-    describe('Success case', function() {
-
-      it('should return found memberships with 200 HTTP status code', async function() {
+    describe('Success case', function () {
+      it('should return found memberships with 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -76,7 +76,7 @@ describe('Acceptance | Controller | users-controller-get-memberships', function(
                 'organization-role': organizationRole,
               },
               relationships: {
-                'organization': { data: { type: 'organizations', id: organization.id.toString() } },
+                organization: { data: { type: 'organizations', id: organization.id.toString() } },
               },
             },
           ],

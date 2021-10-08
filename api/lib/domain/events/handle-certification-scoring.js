@@ -2,13 +2,11 @@ const AssessmentResult = require('../models/AssessmentResult');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted.js');
 const CompetenceMark = require('../models/CompetenceMark');
 const bluebird = require('bluebird');
-const {
-  CertificationComputeError,
-} = require('../errors');
+const { CertificationComputeError } = require('../errors');
 const AssessmentCompleted = require('./AssessmentCompleted');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventTypes = [ AssessmentCompleted ];
+const eventTypes = [AssessmentCompleted];
 const EMITTER = 'PIX-ALGO';
 
 async function handleCertificationScoring({
@@ -61,8 +59,7 @@ async function _calculateCertificationScore({
       certificationCourseId: certificationAssessment.certificationCourseId,
       reproducibilityRate: certificationAssessmentScore.percentageCorrectAnswers,
     });
-  }
-  catch (error) {
+  } catch (error) {
     if (!(error instanceof CertificationComputeError)) {
       throw error;
     }
@@ -89,7 +86,10 @@ async function _saveResult({
   });
 
   await bluebird.mapSeries(certificationAssessmentScore.competenceMarks, (competenceMark) => {
-    const competenceMarkDomain = new CompetenceMark({ ...competenceMark, ...{ assessmentResultId: assessmentResult.id } });
+    const competenceMarkDomain = new CompetenceMark({
+      ...competenceMark,
+      ...{ assessmentResultId: assessmentResult.id },
+    });
     return competenceMarkRepository.save(competenceMarkDomain);
   });
   const certificationCourse = await certificationCourseRepository.get(certificationAssessment.certificationCourseId);
@@ -97,7 +97,11 @@ async function _saveResult({
   return certificationCourseRepository.update(certificationCourse);
 }
 
-function _createAssessmentResult({ certificationAssessment, certificationAssessmentScore, assessmentResultRepository }) {
+function _createAssessmentResult({
+  certificationAssessment,
+  certificationAssessmentScore,
+  assessmentResultRepository,
+}) {
   const assessmentResult = AssessmentResult.buildStandardAssessmentResult({
     pixScore: certificationAssessmentScore.nbPix,
     status: certificationAssessmentScore.status,

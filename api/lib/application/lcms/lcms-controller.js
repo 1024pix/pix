@@ -2,9 +2,9 @@ const usecases = require('../../domain/usecases');
 const logger = require('../../infrastructure/logger');
 
 module.exports = {
-
   async createRelease(request, h) {
-    usecases.createLcmsRelease()
+    usecases
+      .createLcmsRelease()
       .then(() => {
         logger.info('Release created and cache reloaded');
       })
@@ -13,5 +13,4 @@ module.exports = {
       });
     return h.response({}).code(204);
   },
-
 };

@@ -67,10 +67,12 @@ class JuryCertification {
     pixPlusDroitMaitreCertificationResult,
     pixPlusDroitExpertCertificationResult,
   }) {
-    const competenceMarkDTOs = _.compact(juryCertificationDTO.competenceMarks)
-      .map((competenceMarkDTO) => new CompetenceMark({
-        ...competenceMarkDTO,
-      }));
+    const competenceMarkDTOs = _.compact(juryCertificationDTO.competenceMarks).map(
+      (competenceMarkDTO) =>
+        new CompetenceMark({
+          ...competenceMarkDTO,
+        })
+    );
 
     return new JuryCertification({
       certificationCourseId: juryCertificationDTO.certificationCourseId,

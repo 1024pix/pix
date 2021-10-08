@@ -3,10 +3,24 @@ const Organization = require('../../../domain/models/Organization');
 const Tag = require('../../../domain/models/Tag');
 
 module.exports = {
-
   serialize(organizations, meta) {
     return new Serializer('organizations', {
-      attributes: ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'credit', 'canCollectProfiles', 'email', 'memberships', 'students', 'targetProfiles', 'tags', 'createdBy'],
+      attributes: [
+        'name',
+        'type',
+        'logoUrl',
+        'externalId',
+        'provinceCode',
+        'isManagingStudents',
+        'credit',
+        'canCollectProfiles',
+        'email',
+        'memberships',
+        'students',
+        'targetProfiles',
+        'tags',
+        'createdBy',
+      ],
       memberships: {
         ref: 'id',
         ignoreRelationshipData: true,
@@ -31,7 +45,7 @@ module.exports = {
         ignoreRelationshipData: true,
         nullIfMissing: true,
         relationshipLinks: {
-          related: function(record, current, parent) {
+          related: function (record, current, parent) {
             return `/api/organizations/${parent.id}/target-profiles`;
           },
         },
@@ -71,5 +85,4 @@ module.exports = {
 
     return organization;
   },
-
 };

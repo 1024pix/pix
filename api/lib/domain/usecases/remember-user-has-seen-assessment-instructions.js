@@ -1,6 +1,3 @@
-module.exports = function rememberUserHasSeenAssessmentInstructions({
-  userId,
-  userRepository,
-}) {
+module.exports = function rememberUserHasSeenAssessmentInstructions({ userId, userRepository }) {
   return userRepository.updateHasSeenAssessmentInstructionsToTrue(userId);
 };

@@ -2,10 +2,9 @@ const Certificate = require('../../domain/read-models/livret-scolaire/Certificat
 const { knex } = require('../bookshelf');
 
 module.exports = {
-
   async getCertificatesByOrganizationUAI(uai) {
-    const result = await knex.select(
-      {
+    const result = await knex
+      .select({
         id: 'certification-courses.id',
         firstName: 'schooling-registrations.firstName',
         middleName: 'schooling-registrations.middleName',
@@ -24,10 +23,8 @@ module.exports = {
         json_agg(
           json_build_object('level', "competence-marks".level, 'competenceId', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
-        )`,
-        ),
-      },
-    )
+        )`),
+      })
       .from('certification-courses')
       .innerJoin('schooling-registrations', 'schooling-registrations.userId', 'certification-courses.userId')
       .innerJoin('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -35,23 +32,35 @@ module.exports = {
       .innerJoin('sessions', 'sessions.id', 'certification-courses.sessionId')
       .innerJoin('competence-marks', 'competence-marks.assessmentResultId', 'assessment-results.id')
       .whereNotExists(
-        knex.select(1)
+        knex
+          .select(1)
           .from({ 'last-certification-courses': 'certification-courses' })
           .whereRaw('"last-certification-courses"."userId" = "certification-courses"."userId"')
           .whereRaw('"last-certification-courses"."isCancelled"= false')
-          .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"'),
+          .whereRaw('"certification-courses"."createdAt" < "last-certification-courses"."createdAt"')
       )
       .whereNotExists(
-        knex.select(1)
+        knex
+          .select(1)
           .from({ 'last-assessment-results': 'assessment-results' })
           .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+          .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
       )
 
       .where('certification-courses.isCancelled', '=', false)
-      .where('schooling-registrations.organizationId', '=', knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai))
+      .where(
+        'schooling-registrations.organizationId',
+        '=',
+        knex.select('id').from('organizations').whereRaw('LOWER("externalId") = LOWER(?)', uai)
+      )
 
-      .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .groupBy(
+        'schooling-registrations.id',
+        'certification-courses.id',
+        'sessions.id',
+        'assessments.id',
+        'assessment-results.id'
+      )
 
       .orderBy('lastName', 'ASC')
       .orderBy('firstName', 'ASC')

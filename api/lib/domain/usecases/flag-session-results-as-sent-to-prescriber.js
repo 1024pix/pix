@@ -11,7 +11,10 @@ module.exports = async function flagSessionResultsAsSentToPrescriber({ sessionId
   let session = await sessionRepository.get(sessionId);
 
   if (!session.areResultsFlaggedAsSent()) {
-    session = await sessionRepository.flagResultsAsSentToPrescriber({ id: sessionId, resultsSentToPrescriberAt: new Date() });
+    session = await sessionRepository.flagResultsAsSentToPrescriber({
+      id: sessionId,
+      resultsSentToPrescriberAt: new Date(),
+    });
     return { resultsFlaggedAsSent: true, session };
   }
 

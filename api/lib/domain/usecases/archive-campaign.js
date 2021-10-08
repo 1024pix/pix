@@ -1,6 +1,4 @@
-const {
-  UserNotAuthorizedToUpdateCampaignError,
-} = require('../errors');
+const { UserNotAuthorizedToUpdateCampaignError } = require('../errors');
 
 module.exports = async function archiveCampaign({
   // Parameters

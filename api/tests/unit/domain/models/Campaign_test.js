@@ -1,9 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Campaign', function() {
-
-  describe('#organizationId', function() {
-    it('should return id of the organization', function() {
+describe('Unit | Domain | Models | Campaign', function () {
+  describe('#organizationId', function () {
+    it('should return id of the organization', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
 
@@ -14,7 +13,7 @@ describe('Unit | Domain | Models | Campaign', function() {
       expect(organizationId).to.equal(campaign.organization.id);
     });
 
-    it('should return null if campaign has no organization', function() {
+    it('should return null if campaign has no organization', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection({ organization: null });
 
@@ -26,8 +25,8 @@ describe('Unit | Domain | Models | Campaign', function() {
     });
   });
 
-  describe('#targetProfileId', function() {
-    it('should return id of the targetProfile', function() {
+  describe('#targetProfileId', function () {
+    it('should return id of the targetProfile', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
 
@@ -38,7 +37,7 @@ describe('Unit | Domain | Models | Campaign', function() {
       expect(targetProfileId).to.equal(campaign.targetProfile.id);
     });
 
-    it('should return null if campaign has no targetProfile', function() {
+    it('should return null if campaign has no targetProfile', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
 
@@ -50,9 +49,8 @@ describe('Unit | Domain | Models | Campaign', function() {
     });
   });
 
-  describe('isAssessment', function() {
-
-    it('should return true when campaign is of type assessment', function() {
+  describe('isAssessment', function () {
+    it('should return true when campaign is of type assessment', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
 
@@ -60,7 +58,7 @@ describe('Unit | Domain | Models | Campaign', function() {
       expect(campaign.isAssessment()).to.be.true;
     });
 
-    it('should return false when campaign is not of type assessment', function() {
+    it('should return false when campaign is not of type assessment', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
 
@@ -69,9 +67,8 @@ describe('Unit | Domain | Models | Campaign', function() {
     });
   });
 
-  describe('isProfilesCollection', function() {
-
-    it('should return true when campaign is of type profiles collection', function() {
+  describe('isProfilesCollection', function () {
+    it('should return true when campaign is of type profiles collection', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeProfilesCollection();
 
@@ -79,7 +76,7 @@ describe('Unit | Domain | Models | Campaign', function() {
       expect(campaign.isProfilesCollection()).to.be.true;
     });
 
-    it('should return false when campaign is not of type profiles collection', function() {
+    it('should return false when campaign is not of type profiles collection', function () {
       // given
       const campaign = domainBuilder.buildCampaign.ofTypeAssessment();
 
@@ -88,9 +85,8 @@ describe('Unit | Domain | Models | Campaign', function() {
     });
   });
 
-  describe('isArchived', function() {
-
-    it('should return true when campaign is archived', function() {
+  describe('isArchived', function () {
+    it('should return true when campaign is archived', function () {
       // given
       const campaign = domainBuilder.buildCampaign({ archivedAt: new Date('1990-01-04') });
 
@@ -98,7 +94,7 @@ describe('Unit | Domain | Models | Campaign', function() {
       expect(campaign.isArchived()).to.be.true;
     });
 
-    it('should return false when campaign is not of type profiles collection', function() {
+    it('should return false when campaign is not of type profiles collection', function () {
       // given
       const campaign = domainBuilder.buildCampaign({ archivedAt: null });
 

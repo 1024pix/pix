@@ -10,18 +10,19 @@ async function fetchForCampaigns({
   improvementService,
 }) {
   const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
-  const isRetrying = await campaignParticipationRepository.isRetrying({ campaignParticipationId: assessment.campaignParticipationId });
+  const isRetrying = await campaignParticipationRepository.isRetrying({
+    campaignParticipationId: assessment.campaignParticipationId,
+  });
 
-  const [
-    allAnswers,
-    knowledgeElements,
-    [
-      targetSkills,
-      challenges,
-    ],
-  ] = await Promise.all([
+  const [allAnswers, knowledgeElements, [targetSkills, challenges]] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
-    _fetchKnowledgeElements({ assessment, isRetrying, campaignParticipationRepository, knowledgeElementRepository, improvementService }),
+    _fetchKnowledgeElements({
+      assessment,
+      isRetrying,
+      campaignParticipationRepository,
+      knowledgeElementRepository,
+      improvementService,
+    }),
     _fetchSkillsAndChallenges({ targetProfile, challengeRepository }),
   ]);
 
@@ -44,12 +45,9 @@ async function _fetchKnowledgeElements({
   return improvementService.filterKnowledgeElementsIfImproving({ knowledgeElements, assessment, isRetrying });
 }
 
-async function _fetchSkillsAndChallenges({
-  targetProfile,
-  challengeRepository,
-}) {
+async function _fetchSkillsAndChallenges({ targetProfile, challengeRepository }) {
   const challenges = await challengeRepository.findOperativeBySkills(targetProfile.skills);
-  return [ targetProfile.skills, challenges ];
+  return [targetProfile.skills, challenges];
 }
 
 async function fetchForCompetenceEvaluations({
@@ -60,13 +58,7 @@ async function fetchForCompetenceEvaluations({
   skillRepository,
   improvementService,
 }) {
-
-  const [
-    allAnswers,
-    targetSkills,
-    challenges,
-    knowledgeElements,
-  ] = await Promise.all([
+  const [allAnswers, targetSkills, challenges, knowledgeElements] = await Promise.all([
     answerRepository.findByAssessment(assessment.id),
     skillRepository.findActiveByCompetenceId(assessment.competenceId),
     challengeRepository.findValidatedByCompetenceId(assessment.competenceId),

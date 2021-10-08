@@ -1,21 +1,10 @@
-const {
-  MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY,
-} = require('../constants');
+const { MINIMUM_COMPETENCE_LEVEL_FOR_CERTIFIABILITY } = require('../constants');
 
 const Skill = require('./Skill');
 const _ = require('lodash');
 
 class UserCompetence {
-
-  constructor({
-    id,
-    index,
-    name,
-    area,
-    pixScore,
-    estimatedLevel,
-    skills = [],
-  } = {}) {
+  constructor({ id, index, name, area, pixScore, estimatedLevel, skills = [] } = {}) {
     this.id = id;
     this.index = index;
     this.name = name;
@@ -26,7 +15,9 @@ class UserCompetence {
   }
 
   addSkill(newSkill) {
-    const hasAlreadySkill = _(this.skills).filter((skill) => skill.name === newSkill.name).size();
+    const hasAlreadySkill = _(this.skills)
+      .filter((skill) => skill.name === newSkill.name)
+      .size();
 
     if (!hasAlreadySkill) {
       this.skills.push(newSkill);

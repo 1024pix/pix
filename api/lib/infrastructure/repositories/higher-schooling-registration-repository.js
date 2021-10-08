@@ -22,35 +22,31 @@ const ATTRIBUTES_TO_SAVE = [
 ];
 
 module.exports = {
-
   async updateStudentNumber(studentId, studentNumber) {
-    await BookshelfSchoolingRegistration
-      .where('id', studentId)
-      .save({ studentNumber }, {
+    await BookshelfSchoolingRegistration.where('id', studentId).save(
+      { studentNumber },
+      {
         patch: true,
-      });
+      }
+    );
   },
 
   async findOneByStudentNumberAndBirthdate({ organizationId, studentNumber, birthdate }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.where('birthdate', birthdate);
-        qb.where('isDisabled', false);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetch({ require: false });
+    const schoolingRegistration = await BookshelfSchoolingRegistration.query((qb) => {
+      qb.where('organizationId', organizationId);
+      qb.where('birthdate', birthdate);
+      qb.where('isDisabled', false);
+      qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+    }).fetch({ require: false });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },
 
   async findOneByStudentNumber({ organizationId, studentNumber }) {
-    const schoolingRegistration = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
-      })
-      .fetch({ require: false });
+    const schoolingRegistration = await BookshelfSchoolingRegistration.query((qb) => {
+      qb.where('organizationId', organizationId);
+      qb.whereRaw('LOWER(?)=LOWER(??)', [studentNumber, 'studentNumber']);
+    }).fetch({ require: false });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
   },

@@ -1,21 +1,18 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/campaigns');
 
 const campaignController = require('../../../../lib/application/campaigns/campaign-controller');
 
-describe('Integration | Application | Route | campaignRouter', function() {
-
+describe('Integration | Application | Route | campaignRouter', function () {
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sinon.stub(campaignController, 'save').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getCsvAssessmentResults').callsFake((request, h) => h.response('ok').code(200));
-    sinon.stub(campaignController, 'getCsvProfilesCollectionResults').callsFake((request, h) => h.response('ok').code(200));
+    sinon
+      .stub(campaignController, 'getCsvProfilesCollectionResults')
+      .callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'getById').callsFake((request, h) => h.response('ok').code(200));
     sinon.stub(campaignController, 'update').callsFake((request, h) => h.response('ok').code(201));
     sinon.stub(campaignController, 'getAnalysis').callsFake((request, h) => h.response('ok').code(200));
@@ -24,9 +21,8 @@ describe('Integration | Application | Route | campaignRouter', function() {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/campaigns', function() {
-
-    it('should exist', async function() {
+  describe('POST /api/campaigns', function () {
+    it('should exist', async function () {
       // when
       const response = await httpTestServer.request('POST', '/api/campaigns');
 
@@ -35,9 +31,8 @@ describe('Integration | Application | Route | campaignRouter', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-assessment-results', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/campaigns/{id}/csv-assessment-results', function () {
+    it('should exist', async function () {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/csv-assessment-results');
 
@@ -46,9 +41,8 @@ describe('Integration | Application | Route | campaignRouter', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function () {
+    it('should exist', async function () {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1/csv-profiles-collection-results');
 
@@ -57,9 +51,8 @@ describe('Integration | Application | Route | campaignRouter', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}', function() {
-
-    it('should return a 200', async function() {
+  describe('GET /api/campaigns/{id}', function () {
+    it('should return a 200', async function () {
       // when
       const response = await httpTestServer.request('GET', '/api/campaigns/1');
 
@@ -68,9 +61,8 @@ describe('Integration | Application | Route | campaignRouter', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/analyses', function() {
-
-    it('should return 200', async function() {
+  describe('GET /api/campaigns/{id}/analyses', function () {
+    it('should return 200', async function () {
       // given
       const campaignId = 1;
 
@@ -81,7 +73,7 @@ describe('Integration | Application | Route | campaignRouter', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400', async function() {
+    it('should return 400', async function () {
       // given
       const campaignId = 'wrongId';
 
@@ -93,9 +85,8 @@ describe('Integration | Application | Route | campaignRouter', function() {
     });
   });
 
-  describe('PATCH /api/campaigns/{id}', function() {
-
-    it('should exist', async function() {
+  describe('PATCH /api/campaigns/{id}', function () {
+    it('should exist', async function () {
       // when
       const response = await httpTestServer.request('PATCH', '/api/campaigns/1');
 

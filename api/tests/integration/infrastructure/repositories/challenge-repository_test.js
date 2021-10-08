@@ -4,10 +4,9 @@ const Challenge = require('../../../../lib/domain/models/Challenge');
 const Validator = require('../../../../lib/domain/models/Validator');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
-describe('Integration | Repository | challenge-repository', function() {
-
-  describe('#get', function() {
-    it('should return the challenge with skills', async function() {
+describe('Integration | Repository | challenge-repository', function () {
+  describe('#get', function () {
+    it('should return the challenge with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const challenge = domainBuilder.buildChallenge({ id: 'recChallenge1', skills: [skill] });
@@ -27,14 +26,16 @@ describe('Integration | Repository | challenge-repository', function() {
       expect(_.omit(actualChallenge, 'validator')).to.deep.equal(_.omit(challenge, 'validator'));
     });
 
-    it('should setup the expected validator and solution', async function() {
+    it('should setup the expected validator and solution', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const challenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill] });
 
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...challenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
+        challenges: [
+          { ...challenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' },
+        ],
       };
       mockLearningContent(learningContent);
 
@@ -53,8 +54,8 @@ describe('Integration | Repository | challenge-repository', function() {
     });
   });
 
-  describe('#findValidated', function() {
-    it('should return only validated challenges with skills', async function() {
+  describe('#findValidated', function () {
+    it('should return only validated challenges with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const validatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'validé' });
@@ -77,13 +78,25 @@ describe('Integration | Repository | challenge-repository', function() {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async function() {
+    it('should setup the expected validator and solution on found challenges', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const validatedChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
+      const validatedChallenge = domainBuilder.buildChallenge({
+        type: Challenge.Type.QCM,
+        skills: [skill],
+        status: 'validé',
+      });
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...validatedChallenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
+        challenges: [
+          {
+            ...validatedChallenge,
+            skillIds: ['recSkill1'],
+            t1Status: 'Activé',
+            t2Status: 'Activé',
+            t3Status: 'Désactivé',
+          },
+        ],
       };
       mockLearningContent(learningContent);
 
@@ -102,8 +115,8 @@ describe('Integration | Repository | challenge-repository', function() {
     });
   });
 
-  describe('#findOperative', function() {
-    it('should return only operative challenges with skills', async function() {
+  describe('#findOperative', function () {
+    it('should return only operative challenges with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const operativeChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'archivé' });
@@ -126,13 +139,25 @@ describe('Integration | Repository | challenge-repository', function() {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async function() {
+    it('should setup the expected validator and solution on found challenges', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const operativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
+      const operativeChallenge = domainBuilder.buildChallenge({
+        type: Challenge.Type.QCM,
+        skills: [skill],
+        status: 'validé',
+      });
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...operativeChallenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
+        challenges: [
+          {
+            ...operativeChallenge,
+            skillIds: ['recSkill1'],
+            t1Status: 'Activé',
+            t2Status: 'Activé',
+            t3Status: 'Désactivé',
+          },
+        ],
       };
       mockLearningContent(learningContent);
 
@@ -151,8 +176,8 @@ describe('Integration | Repository | challenge-repository', function() {
     });
   });
 
-  describe('#findOperativeHavingLocale', function() {
-    it('should return only french france operative challenges with skills', async function() {
+  describe('#findOperativeHavingLocale', function () {
+    it('should return only french france operative challenges with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const frfrOperativeChallenge = domainBuilder.buildChallenge({ skills: [skill], locales: ['fr-fr'] });
@@ -177,13 +202,17 @@ describe('Integration | Repository | challenge-repository', function() {
     });
   });
 
-  describe('#findValidatedByCompetenceId', function() {
-    it('should return only validated challenges with skills', async function() {
+  describe('#findValidatedByCompetenceId', function () {
+    it('should return only validated challenges with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const competenceId = 'recCompetenceId';
       const validatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'validé', competenceId });
-      const nonValidatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'PAS validé', competenceId });
+      const nonValidatedChallenge = domainBuilder.buildChallenge({
+        skills: [skill],
+        status: 'PAS validé',
+        competenceId,
+      });
       const notInCompetenceValidatedChallenge = domainBuilder.buildChallenge({ skills: [skill], status: 'validé' });
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
@@ -204,13 +233,25 @@ describe('Integration | Repository | challenge-repository', function() {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async function() {
+    it('should setup the expected validator and solution on found challenges', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const validatedChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
+      const validatedChallenge = domainBuilder.buildChallenge({
+        type: Challenge.Type.QCM,
+        skills: [skill],
+        status: 'validé',
+      });
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...validatedChallenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
+        challenges: [
+          {
+            ...validatedChallenge,
+            skillIds: ['recSkill1'],
+            t1Status: 'Activé',
+            t2Status: 'Activé',
+            t3Status: 'Désactivé',
+          },
+        ],
       };
       mockLearningContent(learningContent);
       // when
@@ -228,8 +269,8 @@ describe('Integration | Repository | challenge-repository', function() {
     });
   });
 
-  describe('#findOperativeBySkills', function() {
-    it('should return only operative challenges with skills', async function() {
+  describe('#findOperativeBySkills', function () {
+    it('should return only operative challenges with skills', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
       const anotherSkill = domainBuilder.buildSkill({ id: 'recAnotherSkill' });
@@ -258,13 +299,25 @@ describe('Integration | Repository | challenge-repository', function() {
       expect(_.omit(actualChallenges[0], 'validator')).to.deep.equal(_.omit(actualChallenges[0], 'validator'));
     });
 
-    it('should setup the expected validator and solution on found challenges', async function() {
+    it('should setup the expected validator and solution on found challenges', async function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recSkill1' });
-      const operativeChallenge = domainBuilder.buildChallenge({ type: Challenge.Type.QCM, skills: [skill], status: 'validé' });
+      const operativeChallenge = domainBuilder.buildChallenge({
+        type: Challenge.Type.QCM,
+        skills: [skill],
+        status: 'validé',
+      });
       const learningContent = {
         skills: [{ ...skill, status: 'actif' }],
-        challenges: [{ ...operativeChallenge, skillIds: ['recSkill1'], t1Status: 'Activé', t2Status: 'Activé', t3Status: 'Désactivé' }],
+        challenges: [
+          {
+            ...operativeChallenge,
+            skillIds: ['recSkill1'],
+            t1Status: 'Activé',
+            t2Status: 'Activé',
+            t3Status: 'Désactivé',
+          },
+        ],
       };
       mockLearningContent(learningContent);
 

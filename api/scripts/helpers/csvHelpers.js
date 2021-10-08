@@ -1,11 +1,7 @@
 const fs = require('fs');
 const { readFile, access } = require('fs').promises;
 const path = require('path');
-const {
-  difference,
-  isEmpty,
-  isNumber,
-} = require('lodash');
+const { difference, isEmpty, isNumber } = require('lodash');
 const papa = require('papaparse');
 
 const { NotFoundError, FileValidationError } = require('../../lib/domain/errors');
@@ -58,10 +54,7 @@ async function checkCsvHeader({ filePath, requiredFieldNames = [] }) {
   const fieldNamesNotPresent = difference(requiredFieldNames, fieldNames);
 
   if (!isEmpty(fieldNamesNotPresent)) {
-    throw new FileValidationError(
-      ERRORS.MISSING_REQUIRED_FIELD_NAMES,
-      `Header are required: ${requiredFieldNames}`,
-    );
+    throw new FileValidationError(ERRORS.MISSING_REQUIRED_FIELD_NAMES, `Header are required: ${requiredFieldNames}`);
   }
 }
 
@@ -87,7 +80,7 @@ async function parseCsvWithHeaderAndRequiredFields({ filePath, requiredFieldName
         parser.abort();
         throw new FileValidationError(
           ERRORS.MISSING_REQUIRED_FIELD_VALUES,
-          `Field values are required: ${requiredFieldNames}`,
+          `Field values are required: ${requiredFieldNames}`
         );
       }
     });

@@ -11,7 +11,16 @@ module.exports = {
   serialize(badgeWithLearningContent = {}) {
     return new Serializer('badge', {
       ref: 'id',
-      attributes: ['altMessage', 'imageUrl', 'message', 'key', 'title', 'isCertifiable', 'badgeCriteria', 'badgePartnerCompetences'],
+      attributes: [
+        'altMessage',
+        'imageUrl',
+        'message',
+        'key',
+        'title',
+        'isCertifiable',
+        'badgeCriteria',
+        'badgePartnerCompetences',
+      ],
       badgeCriteria: {
         include: true,
         ref: 'id',
@@ -57,7 +66,6 @@ module.exports = {
         });
         return { ...badge };
       },
-
     }).serialize(badgeWithLearningContent);
   },
 };

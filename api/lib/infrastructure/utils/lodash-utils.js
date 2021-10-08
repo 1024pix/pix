@@ -1,35 +1,34 @@
 const _ = require('lodash').runInContext();
 
 _.mixin({
-
   /*
    * Returns the second element of an array.
    */
-  'second': function(array) {
+  second: function (array) {
     return _.nth(array, 1);
   },
 
   /*
    * Returns the third element of an array.
    */
-  'third': function(array) {
+  third: function (array) {
     return _.nth(array, 2);
   },
 
-  'isNotEmpty': function(elt) {
+  isNotEmpty: function (elt) {
     return !_.isEmpty(elt);
   },
 
-  'ensureString': function(elt) {
+  ensureString: function (elt) {
     if (elt) {
       return elt.toString();
     } else {
       return '';
     }
   },
-  'areCSVequivalent': function(string1, string2) {
+  areCSVequivalent: function (string1, string2) {
     if (_.isString(string1) && _.isString(string2)) {
-      const splitTrimSort = function(str) {
+      const splitTrimSort = function (str) {
         return _.chain(str) // "3, 1, 2 "
           .split(',') // ["3"," 1"," 2 "]
           .map(_.trim) // ["3","1","2"]
@@ -49,27 +48,28 @@ _.mixin({
    *
    *           result will be "3rd"
    */
-  'elementAfter': function(array, currentElement) {
-    if (_.isArray(array) && !_.isEmpty(array)) { // only relevant on non-empty array
+  elementAfter: function (array, currentElement) {
+    if (_.isArray(array) && !_.isEmpty(array)) {
+      // only relevant on non-empty array
       const currentIndex = _(array).indexOf(currentElement);
-      if (currentIndex > -1) { // need to have an already-existing element inside the given array to work properly
+      if (currentIndex > -1) {
+        // need to have an already-existing element inside the given array to work properly
         return _(array).nth(currentIndex + 1);
       }
     }
   },
-  'isBlank'(string) {
-    return (_.isUndefined(string) || _.isNull(string) || string.trim().length === 0);
+  isBlank(string) {
+    return _.isUndefined(string) || _.isNull(string) || string.trim().length === 0;
   },
-  isArrayOfString: function(x) {
+  isArrayOfString: function (x) {
     return _.isArray(x) && _.every(x, _.isString);
   },
-  isNotString: function(x) {
+  isNotString: function (x) {
     return !_.isString(x);
   },
-  isNotArrayOfString: function(x) {
+  isNotArrayOfString: function (x) {
     return !_.isArrayOfString(x);
   },
-
 });
 
 module.exports = _;

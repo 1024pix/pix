@@ -7,7 +7,7 @@ const DEFAULT_ID = 'recSK0X22abcdefgh',
   DEFAULT_PIX_VALUE = 2.4,
   DEFAULT_TUBE_ID = 'recTU0X22abcdefgh';
 
-module.exports = function({
+module.exports = function ({
   id = DEFAULT_ID,
   name = DEFAULT_NAME,
   hint = DEFAULT_HINT,
@@ -17,7 +17,6 @@ module.exports = function({
   pixValue = DEFAULT_PIX_VALUE,
   tubeId = DEFAULT_TUBE_ID,
 } = {}) {
-
   return {
     id,
     name,

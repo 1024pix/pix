@@ -2,11 +2,9 @@ const { expect } = require('../../test-helper');
 
 const createServer = require('../../../server');
 
-describe('Unit | Server | server', function() {
-
-  describe('#createServer', function() {
-
-    it('should create server with custom validate.failAction', async function() {
+describe('Unit | Server | server', function () {
+  describe('#createServer', function () {
+    it('should create server with custom validate.failAction', async function () {
       // given
       const expectedFailActionFunctionName = 'handleFailAction';
 
@@ -16,7 +14,5 @@ describe('Unit | Server | server', function() {
       // then
       expect(server.settings.routes.validate.failAction.name).to.equal(expectedFailActionFunctionName);
     });
-
   });
-
 });

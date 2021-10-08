@@ -1,11 +1,7 @@
 class Division {
-
-  constructor({
-    name,
-  } = {}) {
+  constructor({ name } = {}) {
     this.name = name;
   }
-
 }
 
 module.exports = Division;

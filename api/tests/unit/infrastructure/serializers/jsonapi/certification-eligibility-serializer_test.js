@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-eligibility-serializer');
 
-describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should format certification eligibility model into into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-eligibility-serializer', function () {
+  describe('#serialize()', function () {
+    it('should format certification eligibility model into into JSON API data', function () {
       // given
       const certificationEligibility = domainBuilder.buildCertificationEligibility({
         id: 123,

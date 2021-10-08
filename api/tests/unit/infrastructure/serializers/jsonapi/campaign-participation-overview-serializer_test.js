@@ -8,9 +8,8 @@ const TargetProfileWithLearningContent = require('../../../../../lib/domain/mode
 
 const { SHARED, STARTED } = CampaignParticipation.statuses;
 
-describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializer', function() {
-
-  describe('#serialize', function() {
+describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializer', function () {
+  describe('#serialize', function () {
     const stage1 = new Stage({
       threshold: 0,
     });
@@ -20,7 +19,10 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
     const stage3 = new Stage({
       threshold: 70,
     });
-    const targetProfile = new TargetProfileWithLearningContent({ stages: [stage1, stage2, stage3], skills: [new Skill(), new Skill()] });
+    const targetProfile = new TargetProfileWithLearningContent({
+      stages: [stage1, stage2, stage3],
+      skills: [new Skill(), new Skill()],
+    });
     const campaignParticipationOverview = new CampaignParticipationOverview({
       id: 5,
       status: SHARED,
@@ -32,12 +34,12 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       campaignTitle: 'My campaign',
       campaignArchivedAt: new Date('2021-01-01'),
       targetProfile,
-      masteryRate: 0.50,
+      masteryRate: 0.5,
     });
 
     let expectedSerializedCampaignParticipationOverview;
 
-    beforeEach(function() {
+    beforeEach(function () {
       expectedSerializedCampaignParticipationOverview = {
         data: {
           type: 'campaign-participation-overviews',
@@ -51,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
             'campaign-code': '1234',
             'campaign-title': 'My campaign',
             'campaign-archived-at': new Date('2021-01-01'),
-            'mastery-rate': 0.50,
+            'mastery-rate': 0.5,
             'validated-stages-count': 1,
             'total-stages-count': 2,
           },
@@ -59,7 +61,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
       };
     });
 
-    it('should convert a CampaignParticipation model object into JSON API data', function() {
+    it('should convert a CampaignParticipation model object into JSON API data', function () {
       // when
       const json = serializer.serialize(campaignParticipationOverview);
 
@@ -68,9 +70,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-overview-serializ
     });
   });
 
-  describe('#serializeForPaginatedList', function() {
-
-    it('should call serialize method by destructuring passed parameter', function() {
+  describe('#serializeForPaginatedList', function () {
+    it('should call serialize method by destructuring passed parameter', function () {
       // given
       const targetProfile = new TargetProfileWithLearningContent({ skills: [new Skill(), new Skill()] });
       const campaignParticipationOverviews = [

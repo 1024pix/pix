@@ -10,4 +10,3 @@ module.exports = (schoolingRegistration, campaignParticipation, withAssessment) 
   }
   return campaignParticipationCreated;
 };
-

@@ -1,19 +1,15 @@
 const Progression = require('../../../../lib/domain/models/Progression');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Progression', function() {
-
+describe('Unit | Domain | Models | Progression', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const [skillLevel1, skillLevel2, skillLevel3] = domainBuilder.buildSkillCollection();
 
-  describe('#completionRate', function() {
-
-    context('when the profile is not fully evaluated', function() {
-
-      context('and there is no knowledge elements', function() {
-
-        it('should return a completionRate of 0', function() {
+  describe('#completionRate', function () {
+    context('when the profile is not fully evaluated', function () {
+      context('and there is no knowledge elements', function () {
+        it('should return a completionRate of 0', function () {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
           const knowledgeElements = [];
@@ -24,12 +20,10 @@ describe('Unit | Domain | Models | Progression', function() {
           // Then
           expect(progression.completionRate).to.eq(0);
         });
-
       });
 
-      context('and knowledge elements are present', function() {
-
-        it('should return 1 when all targeted skills are evaluated', function() {
+      context('and knowledge elements are present', function () {
+        it('should return 1 when all targeted skills are evaluated', function () {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2];
           const knowledgeElements = [
@@ -44,7 +38,7 @@ describe('Unit | Domain | Models | Progression', function() {
           expect(progression.completionRate).to.eq(1);
         });
 
-        it('should return a ratio different than 1 when some targeted skills are not evaluated', function() {
+        it('should return a ratio different than 1 when some targeted skills are not evaluated', function () {
           // Given
           const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
           const knowledgeElements = [
@@ -58,12 +52,10 @@ describe('Unit | Domain | Models | Progression', function() {
           // Then
           expect(progression.completionRate).to.eq(0.6666666666666666);
         });
-
       });
 
-      context('and the profile contains knowledge elements on skills not in the targeted skills ', function() {
-
-        it('should not take them into account and mark the completion at 1 (equal 100%)', function() {
+      context('and the profile contains knowledge elements on skills not in the targeted skills ', function () {
+        it('should not take them into account and mark the completion at 1 (equal 100%)', function () {
           // Given
           const targetedSkills = [skillLevel1];
           const knowledgeElements = [
@@ -77,14 +69,11 @@ describe('Unit | Domain | Models | Progression', function() {
           // Then
           expect(progression.completionRate).to.eq(1);
         });
-
       });
-
     });
 
-    context('when the profile is fully evaluated', function() {
-
-      it('should return the completionRate of 1', function() {
+    context('when the profile is fully evaluated', function () {
+      it('should return the completionRate of 1', function () {
         // Given
         const targetedSkills = [skillLevel1, skillLevel2, skillLevel3];
         const knowledgeElements = [];
@@ -95,14 +84,11 @@ describe('Unit | Domain | Models | Progression', function() {
         // Then
         expect(progression.completionRate).to.eq(1);
       });
-
     });
-
   });
 
-  describe('#generateIdFromAssessmentId', function() {
-
-    it('should return the id prepended with "progression-"', function() {
+  describe('#generateIdFromAssessmentId', function () {
+    it('should return the id prepended with "progression-"', function () {
       // Given
       const assessmentId = 12345;
       const expectedProgressionId = `progression-${assessmentId}`;
@@ -115,9 +101,8 @@ describe('Unit | Domain | Models | Progression', function() {
     });
   });
 
-  describe('#getAssessmentIdFromId', function() {
-
-    it('should return the id without the "progression-"', function() {
+  describe('#getAssessmentIdFromId', function () {
+    it('should return the id without the "progression-"', function () {
       // Given
       const expectedAssessmentId = 12345;
       const progressionId = `progression-${expectedAssessmentId}`;

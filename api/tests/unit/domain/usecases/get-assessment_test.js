@@ -8,8 +8,7 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-assessment', function() {
-
+describe('Unit | UseCase | get-assessment', function () {
   let assessment;
   let campaign;
   let campaignParticipation;
@@ -21,7 +20,7 @@ describe('Unit | UseCase | get-assessment', function() {
   const expectedCourseName = 'Course Àpieds';
   const expectedAssessmentTitle = 'Traiter des données';
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaign = domainBuilder.buildCampaign.ofTypeAssessment({ title: expectedCampaignName });
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaign });
     competence = domainBuilder.buildCompetence({ id: 'recsvLz0W2ShyfD63', name: expectedAssessmentTitle });
@@ -40,7 +39,7 @@ describe('Unit | UseCase | get-assessment', function() {
     sinon.stub(courseRepository, 'getCourseName');
   });
 
-  it('should resolve the Assessment domain object matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object matching the given assessment ID', async function () {
     // given
     assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(assessment);
 
@@ -52,7 +51,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.id).to.equal(assessment.id);
   });
 
-  it('should resolve the Assessment domain object with COMPETENCE_EVALUATION title matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object with COMPETENCE_EVALUATION title matching the given assessment ID', async function () {
     // given
     const locale = 'fr';
     assessment.type = Assessment.types.COMPETENCE_EVALUATION;
@@ -73,7 +72,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.title).to.equal(expectedAssessmentTitle);
   });
 
-  it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object with CERTIFICATION title matching the given assessment ID', async function () {
     // given
     assessment.type = Assessment.types.CERTIFICATION;
     assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(assessment);
@@ -91,7 +90,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.title).to.equal(certificationCourseId);
   });
 
-  it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object with DEMO title matching the given assessment ID', async function () {
     // given
     assessment.type = Assessment.types.DEMO;
     assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
@@ -110,7 +109,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.title).to.equal(course.name);
   });
 
-  it('should resolve the Assessment domain object with CAMPAIGN title matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object with CAMPAIGN title matching the given assessment ID', async function () {
     // given
     assessment.type = Assessment.types.CAMPAIGN;
     assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
@@ -128,7 +127,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.title).to.equal(expectedCampaignName);
   });
 
-  it('should resolve the Assessment domain object without title matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object without title matching the given assessment ID', async function () {
     // given
     assessment.type = 'NO TYPE';
     assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
@@ -149,7 +148,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.title).to.equal('');
   });
 
-  it('should resolve the Assessment domain object with Preview title matching the given assessment ID', async function() {
+  it('should resolve the Assessment domain object with Preview title matching the given assessment ID', async function () {
     // given
     assessment.type = Assessment.types.PREVIEW;
     assessmentRepository.getWithAnswersAndCampaignParticipation.withArgs(assessment.id).resolves(assessment);
@@ -167,7 +166,7 @@ describe('Unit | UseCase | get-assessment', function() {
     expect(result.title).to.equal('Preview');
   });
 
-  it('should reject a domain NotFoundError when there is no assessment for given ID', function() {
+  it('should reject a domain NotFoundError when there is no assessment for given ID', function () {
     // given
     assessmentRepository.getWithAnswersAndCampaignParticipation.resolves(null);
 

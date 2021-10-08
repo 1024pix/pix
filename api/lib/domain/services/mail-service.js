@@ -7,11 +7,7 @@ const settings = require('../../config');
 const frTranslations = require('../../../translations/fr');
 const enTranslations = require('../../../translations/en');
 
-const {
-  ENGLISH_SPOKEN,
-  FRENCH_FRANCE,
-  FRENCH_SPOKEN,
-} = require('../../domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../domain/constants').LOCALE;
 
 const EMAIL_ADDRESS_NO_RESPONSE = 'ne-pas-repondre@pix.fr';
 const PIX_ORGA_NAME_FR = 'Pix Orga - Ne pas répondre';
@@ -27,7 +23,6 @@ const EMAIL_VERIFICATION_CODE_TAG = 'EMAIL_VERIFICATION_CODE';
 const SCO_ACCOUNT_RECOVERY_TAG = 'SCO_ACCOUNT_RECOVERY';
 
 function sendAccountCreationEmail(email, locale, redirectionUrl) {
-
   let pixName;
   let accountCreationEmailSubject;
   let variables;
@@ -44,9 +39,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
     pixName = PIX_NAME_FR;
     accountCreationEmailSubject = frTranslations['pix-account-creation-email'].subject;
-  }
-
-  else if (locale === ENGLISH_SPOKEN) {
+  } else if (locale === ENGLISH_SPOKEN) {
     variables = {
       homeName: `pix${settings.domain.tldOrg}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
@@ -58,9 +51,7 @@ function sendAccountCreationEmail(email, locale, redirectionUrl) {
 
     pixName = PIX_NAME_EN;
     accountCreationEmailSubject = enTranslations['pix-account-creation-email'].subject;
-  }
-
-  else {
+  } else {
     variables = {
       homeName: `pix${settings.domain.tldFr}`,
       homeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
@@ -94,7 +85,11 @@ function sendCertificationResultEmail({
 }) {
   const pixName = PIX_NAME_FR;
   const formattedSessionDate = moment(sessionDate).locale('fr').format('L');
-  const token = tokenService.createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration });
+  const token = tokenService.createCertificationResultsByRecipientEmailLinkToken({
+    sessionId,
+    resultRecipientEmail,
+    daysBeforeExpiration,
+  });
   const link = `${settings.domain.pixApp + settings.domain.tldOrg}/api/sessions/download-results/${token}`;
 
   const variables = {
@@ -113,11 +108,7 @@ function sendCertificationResultEmail({
   });
 }
 
-function sendResetPasswordDemandEmail({
-  email,
-  locale,
-  temporaryKey,
-}) {
+function sendResetPasswordDemandEmail({ email, locale, temporaryKey }) {
   const localeParam = locale ? locale : FRENCH_FRANCE;
 
   let pixName = PIX_NAME_FR;
@@ -166,14 +157,7 @@ function sendResetPasswordDemandEmail({
   });
 }
 
-function sendOrganizationInvitationEmail({
-  email,
-  organizationName,
-  organizationInvitationId,
-  code,
-  locale,
-  tags,
-}) {
+function sendOrganizationInvitationEmail({ email, organizationName, organizationInvitationId, code, locale, tags }) {
   locale = locale ? locale : FRENCH_FRANCE;
   let pixOrgaName = PIX_ORGA_NAME_FR;
   let sendOrganizationInvitationEmailSubject = frTranslations['organization-invitation-email'].subject;
@@ -183,7 +167,9 @@ function sendOrganizationInvitationEmail({
     pixHomeName: `pix${settings.domain.tldFr}`,
     pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
     pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
-    redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+    redirectionUrl: `${
+      settings.domain.pixOrga + settings.domain.tldFr
+    }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
     supportUrl: HELPDESK_FRENCH_FRANCE,
     ...frTranslations['organization-invitation-email'].params,
   };
@@ -194,7 +180,9 @@ function sendOrganizationInvitationEmail({
       pixHomeName: `pix${settings.domain.tldOrg}`,
       pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
-      redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+      redirectionUrl: `${
+        settings.domain.pixOrga + settings.domain.tldOrg
+      }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
       supportUrl: HELPDESK_FRENCH_SPOKEN,
       ...frTranslations['organization-invitation-email'].params,
     };
@@ -206,7 +194,9 @@ function sendOrganizationInvitationEmail({
       pixHomeName: `pix${settings.domain.tldOrg}`,
       pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}/en-gb/`,
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}?lang=en`,
-      redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
+      redirectionUrl: `${
+        settings.domain.pixOrga + settings.domain.tldOrg
+      }/rejoindre?invitationId=${organizationInvitationId}&code=${code}&lang=en`,
       supportUrl: HELPDESK_ENGLISH_SPOKEN,
       ...enTranslations['organization-invitation-email'].params,
     };
@@ -228,7 +218,8 @@ function sendOrganizationInvitationEmail({
 function sendScoOrganizationInvitationEmail({
   email,
   organizationName,
-  firstName, lastName,
+  firstName,
+  lastName,
   organizationInvitationId,
   code,
   locale,
@@ -238,22 +229,28 @@ function sendScoOrganizationInvitationEmail({
 
   let variables = {
     organizationName,
-    firstName, lastName,
+    firstName,
+    lastName,
     pixHomeName: `pix${settings.domain.tldFr}`,
     pixHomeUrl: `${settings.domain.pix + settings.domain.tldFr}`,
     pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldFr}`,
-    redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldFr}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+    redirectionUrl: `${
+      settings.domain.pixOrga + settings.domain.tldFr
+    }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
     locale,
   };
 
   if (locale === FRENCH_SPOKEN) {
     variables = {
       organizationName,
-      firstName, lastName,
+      firstName,
+      lastName,
       pixHomeName: `pix${settings.domain.tldOrg}`,
       pixHomeUrl: `${settings.domain.pix + settings.domain.tldOrg}`,
       pixOrgaHomeUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}`,
-      redirectionUrl: `${settings.domain.pixOrga + settings.domain.tldOrg}/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
+      redirectionUrl: `${
+        settings.domain.pixOrga + settings.domain.tldOrg
+      }/rejoindre?invitationId=${organizationInvitationId}&code=${code}`,
       locale,
     };
   }
@@ -270,7 +267,6 @@ function sendScoOrganizationInvitationEmail({
 }
 
 function notifyEmailChange({ email, locale }) {
-
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: PIX_NAME_FR,
@@ -280,7 +276,6 @@ function notifyEmailChange({ email, locale }) {
   };
 
   if (locale === FRENCH_SPOKEN) {
-
     options.subject = frTranslations['email-change-email'].subject;
 
     options.variables = {
@@ -289,10 +284,7 @@ function notifyEmailChange({ email, locale }) {
       displayNationalLogo: false,
       ...frTranslations['email-change-email'].body,
     };
-
-  }
-  else if (locale === FRENCH_FRANCE) {
-
+  } else if (locale === FRENCH_FRANCE) {
     options.subject = frTranslations['email-change-email'].subject;
 
     options.variables = {
@@ -301,9 +293,7 @@ function notifyEmailChange({ email, locale }) {
       displayNationalLogo: true,
       ...frTranslations['email-change-email'].body,
     };
-
-  }
-  else if (locale === ENGLISH_SPOKEN) {
+  } else if (locale === ENGLISH_SPOKEN) {
     options.subject = enTranslations['email-change-email'].subject;
 
     options.variables = {
@@ -317,11 +307,7 @@ function notifyEmailChange({ email, locale }) {
   return mailer.sendEmail(options);
 }
 
-function sendAccountRecoveryEmail({
-  email,
-  firstName,
-  temporaryKey,
-}) {
+function sendAccountRecoveryEmail({ email, firstName, temporaryKey }) {
   const pixName = PIX_NAME_FR;
   const redirectionUrl = `${settings.domain.pixApp + settings.domain.tldFr}/recuperer-mon-compte/${temporaryKey}`;
   const variables = {
@@ -343,7 +329,6 @@ function sendAccountRecoveryEmail({
 }
 
 function sendVerificationCodeEmail({ code, email, locale, translate }) {
-
   const options = {
     from: EMAIL_ADDRESS_NO_RESPONSE,
     fromName: PIX_NAME_FR,
@@ -362,9 +347,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
       displayNationalLogo: false,
       ...frTranslations['verification-code-email'].body,
     };
-
-  }
-  else if (locale === FRENCH_FRANCE) {
+  } else if (locale === FRENCH_FRANCE) {
     options.subject = translate(frTranslations['verification-code-email'].subject, { code });
 
     options.variables = {
@@ -374,9 +357,7 @@ function sendVerificationCodeEmail({ code, email, locale, translate }) {
       displayNationalLogo: true,
       ...frTranslations['verification-code-email'].body,
     };
-
-  }
-  else if (locale === ENGLISH_SPOKEN) {
+  } else if (locale === ENGLISH_SPOKEN) {
     options.subject = translate(enTranslations['verification-code-email'].subject, { code });
 
     options.variables = {

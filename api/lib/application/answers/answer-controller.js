@@ -4,7 +4,6 @@ const usecases = require('../../domain/usecases');
 const requestResponseUtils = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
   async save(request, h) {
     const answer = answerSerializer.deserialize(request.payload);
     const userId = requestResponseUtils.extractUserIdFromRequest(request);

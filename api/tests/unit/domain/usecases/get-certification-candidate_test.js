@@ -1,9 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
 const getCertificationCandidate = require('../../../../lib/domain/usecases/get-certification-candidate');
 
-describe('Unit | Domain | Use Cases | get-certification-candidate', function() {
-
-  it('should get the certification candidate', async function() {
+describe('Unit | Domain | Use Cases | get-certification-candidate', function () {
+  it('should get the certification candidate', async function () {
     // given
     const userId = Symbol('userId');
     const sessionId = Symbol('sessionId');
@@ -16,7 +15,11 @@ describe('Unit | Domain | Use Cases | get-certification-candidate', function() {
       .resolves(expectedCertificationCandidate);
 
     // when
-    const certificationCandidate = await getCertificationCandidate({ userId, sessionId, certificationCandidateRepository });
+    const certificationCandidate = await getCertificationCandidate({
+      userId,
+      sessionId,
+      certificationCandidateRepository,
+    });
 
     // then
     expect(certificationCandidate).to.equal(expectedCertificationCandidate);

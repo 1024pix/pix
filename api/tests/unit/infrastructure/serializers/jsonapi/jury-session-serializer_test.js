@@ -1,11 +1,9 @@
 const { expect, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-session-serializer');
 
-describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
-
-  describe('#serializeForPaginatedList()', function() {
-
-    it('should call serialize method by destructuring passed parameter', function() {
+describe('Unit | Serializer | JSONAPI | jury-session-serializer', function () {
+  describe('#serializeForPaginatedList()', function () {
+    it('should call serialize method by destructuring passed parameter', function () {
       // given
       const restore = serializer.serialize;
       serializer.serialize = sinon.stub();
@@ -22,11 +20,10 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
     });
   });
 
-  describe('#serialize()', function() {
-
+  describe('#serialize()', function () {
     let modelSession;
 
-    beforeEach(function() {
+    beforeEach(function () {
       modelSession = {
         id: 1,
         certificationCenterName: 'someCenterName',
@@ -50,19 +47,22 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
       };
     });
 
-    context('when there is an assigned certification officer', function() {
-
-      it('should convert a Session model object into JSON API data with included officer', function() {
+    context('when there is an assigned certification officer', function () {
+      it('should convert a Session model object into JSON API data with included officer', function () {
         // given
         const expectedResult = _buildExpectedJsonAPI(
-          [{
-            type: 'user',
-            id: '2',
-            attributes: { 'first-name': 'Jean', 'last-name': 'de la Flûte' },
-          }],
-          { 'assigned-certification-officer': {
-            data: { id: '2', type: 'user' },
-          } },
+          [
+            {
+              type: 'user',
+              id: '2',
+              attributes: { 'first-name': 'Jean', 'last-name': 'de la Flûte' },
+            },
+          ],
+          {
+            'assigned-certification-officer': {
+              data: { id: '2', type: 'user' },
+            },
+          }
         );
         modelSession.assignedCertificationOfficer = {
           id: 2,
@@ -78,21 +78,22 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
       });
     });
 
-    context('when there is a jury comment', function() {
-
-      it('should convert a Session model object into JSON API data with included comment', function() {
+    context('when there is a jury comment', function () {
+      it('should convert a Session model object into JSON API data with included comment', function () {
         // given
         const expectedResult = _buildExpectedJsonAPI(
-          [{
-            type: 'user',
-            id: '3',
-            attributes: { 'first-name': 'Phil', 'last-name': 'Hippo' },
-          }],
+          [
+            {
+              type: 'user',
+              id: '3',
+              attributes: { 'first-name': 'Phil', 'last-name': 'Hippo' },
+            },
+          ],
           {
             'jury-comment-author': {
               data: { id: '3', type: 'user' },
             },
-          },
+          }
         );
 
         modelSession.juryCommentAuthor = {
@@ -109,9 +110,8 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
       });
     });
 
-    context('when there is neither assigned certification officer nor jury comment', function() {
-
-      it('should convert a Session model object into JSON API data', function() {
+    context('when there is neither assigned certification officer nor jury comment', function () {
+      it('should convert a Session model object into JSON API data', function () {
         // given
         const expectedResult = _buildExpectedJsonAPI();
 
@@ -123,7 +123,6 @@ describe('Unit | Serializer | JSONAPI | jury-session-serializer', function() {
       });
     });
   });
-
 });
 
 function _buildExpectedJsonAPI(included, relationships = {}) {

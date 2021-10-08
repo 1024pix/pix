@@ -25,10 +25,7 @@ const validationSchema = Joi.object({
   preferredLastName: Joi.string().max(MAX_LENGTH).optional(),
   birthdate: Joi.date().required().format('YYYY-MM-DD').empty(null),
   birthProvinceCode: Joi.string().min(PROVINCE_CODE_MIN_LENGTH).max(PROVINCE_CODE_MAX_LENGTH).required(),
-  birthCountryCode: Joi.string()
-    .length(COUNTRY_CODE_LENGTH)
-    .regex(INSEE_REGEX.COUNTRY_CODE)
-    .required(),
+  birthCountryCode: Joi.string().length(COUNTRY_CODE_LENGTH).regex(INSEE_REGEX.COUNTRY_CODE).required(),
   status: Joi.string().valid(STUDENT, APPRENTICE).required(),
   MEFCode: Joi.string().max(MAX_LENGTH).required(),
   division: Joi.string().max(MAX_LENGTH).required(),
@@ -40,10 +37,7 @@ const validationSchema = Joi.object({
   }),
   birthCityCode: Joi.alternatives().conditional('birthCountryCode', {
     is: FRANCE_COUNTRY_CODE,
-    then: Joi.string()
-      .length(CITY_CODE_LENGTH)
-      .regex(INSEE_REGEX.FRANCE_CITY_CODE)
-      .required(),
+    then: Joi.string().length(CITY_CODE_LENGTH).regex(INSEE_REGEX.FRANCE_CITY_CODE).required(),
     otherwise: Joi.string().max(MAX_LENGTH).optional(),
   }),
 });

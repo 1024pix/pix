@@ -6,10 +6,7 @@
 'use strict';
 require('dotenv').config();
 
-const {
-  checkCsvHeader,
-  parseCsvWithHeaderAndRequiredFields,
-} = require('./helpers/csvHelpers');
+const { checkCsvHeader, parseCsvWithHeaderAndRequiredFields } = require('./helpers/csvHelpers');
 
 const createProOrganizationsWithTags = require('../lib/domain/usecases/create-pro-organizations-with-tags');
 const domainTransaction = require('../lib/infrastructure/DomainTransaction');
@@ -65,6 +62,6 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }

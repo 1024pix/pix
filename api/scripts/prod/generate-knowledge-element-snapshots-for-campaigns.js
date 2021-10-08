@@ -30,10 +30,7 @@ function _validateAndNormalizeConcurrency(concurrency) {
   return concurrency;
 }
 
-function _validateAndNormalizeArgs({
-  concurrency,
-  maxSnapshotCount,
-}) {
+function _validateAndNormalizeArgs({ concurrency, maxSnapshotCount }) {
   const finalMaxSnapshotCount = _validateAndNormalizeMaxSnapshotCount(maxSnapshotCount);
   const finalConcurrency = _validateAndNormalizeConcurrency(concurrency);
 
@@ -44,32 +41,41 @@ function _validateAndNormalizeArgs({
 }
 
 async function getEligibleCampaignParticipations(maxSnapshotCount) {
-  return knex('campaign-participations').select('campaign-participations.userId', 'campaign-participations.sharedAt')
-    .leftJoin('knowledge-element-snapshots', function() {
-      this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId')
-        .andOn('knowledge-element-snapshots.snappedAt', 'campaign-participations.sharedAt');
+  return knex('campaign-participations')
+    .select('campaign-participations.userId', 'campaign-participations.sharedAt')
+    .leftJoin('knowledge-element-snapshots', function () {
+      this.on('knowledge-element-snapshots.userId', 'campaign-participations.userId').andOn(
+        'knowledge-element-snapshots.snappedAt',
+        'campaign-participations.sharedAt'
+      );
     })
     .whereNotNull('campaign-participations.sharedAt')
     .where((qb) => {
-      qb.whereNull('knowledge-element-snapshots.snappedAt')
-        .orWhereRaw('?? != ??', ['campaign-participations.sharedAt', 'knowledge-element-snapshots.snappedAt']);
+      qb.whereNull('knowledge-element-snapshots.snappedAt').orWhereRaw('?? != ??', [
+        'campaign-participations.sharedAt',
+        'knowledge-element-snapshots.snappedAt',
+      ]);
     })
     .orderBy('campaign-participations.userId')
     .limit(maxSnapshotCount);
 }
 
 async function generateKnowledgeElementSnapshots(campaignParticipationData, concurrency) {
-  return bluebird.map(campaignParticipationData, async (campaignParticipation) => {
-    const { userId, sharedAt } = campaignParticipation;
-    const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
-    try {
-      await knowledgeElementSnapshotRepository.save({ userId, snappedAt: sharedAt, knowledgeElements });
-    } catch (err) {
-      if (!(err instanceof AlreadyExistingEntityError)) {
-        throw err;
+  return bluebird.map(
+    campaignParticipationData,
+    async (campaignParticipation) => {
+      const { userId, sharedAt } = campaignParticipation;
+      const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: sharedAt });
+      try {
+        await knowledgeElementSnapshotRepository.save({ userId, snappedAt: sharedAt, knowledgeElements });
+      } catch (err) {
+        if (!(err instanceof AlreadyExistingEntityError)) {
+          throw err;
+        }
       }
-    }
-  }, { concurrency });
+    },
+    { concurrency }
+  );
 }
 
 async function main() {
@@ -85,12 +91,8 @@ async function main() {
         type: 'number',
         default: DEFAULT_CONCURRENCY,
       })
-      .help()
-      .argv;
-    const {
-      maxSnapshotCount,
-      concurrency,
-    } = _validateAndNormalizeArgs(commandLineArgs);
+      .help().argv;
+    const { maxSnapshotCount, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
 
     const campaignParticipationData = await getEligibleCampaignParticipations(maxSnapshotCount);
 
@@ -108,7 +110,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

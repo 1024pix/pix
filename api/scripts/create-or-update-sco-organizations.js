@@ -7,31 +7,37 @@ require('dotenv').config();
 const request = require('request-promise-native');
 
 const logoUrl = require('./logo/default-sco-organization-logo-base64');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
+const {
+  findOrganizationsByExternalIds,
+  organizeOrganizationsByExternalId,
+} = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3000';
 
 function checkData({ csvData }) {
-  return csvData.map((data) => {
-    const [externalIdLowerCase, name] = data;
+  return csvData
+    .map((data) => {
+      const [externalIdLowerCase, name] = data;
 
-    if (!externalIdLowerCase && !name) {
-      if (require.main === module) process.stdout.write('Found empty line in input file.');
-      return null;
-    }
-    if (!externalIdLowerCase) {
-      if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
-      return null;
-    }
-    if (!name) {
-      if (require.main === module) process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
-      return null;
-    }
-    const externalId = externalIdLowerCase.toUpperCase();
+      if (!externalIdLowerCase && !name) {
+        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        return null;
+      }
+      if (!externalIdLowerCase) {
+        if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
+        return null;
+      }
+      if (!name) {
+        if (require.main === module)
+          process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
+        return null;
+      }
+      const externalId = externalIdLowerCase.toUpperCase();
 
-    return { externalId, name: name.trim() };
-  }).filter((data) => !!data);
+      return { externalId, name: name.trim() };
+    })
+    .filter((data) => !!data);
 }
 
 async function createOrUpdateOrganizations({ accessToken, organizationsByExternalId, checkedData }) {
@@ -43,14 +49,15 @@ async function createOrUpdateOrganizations({ accessToken, organizationsByExterna
 
     if (organization && (name !== organization.name || !organization['logo-url'])) {
       await request(_buildPatchOrganizationRequestObject(accessToken, { id: organization.id, name, logoUrl }));
-    }
-    else if (!organization) {
-      await request(_buildPostOrganizationRequestObject(accessToken, {
-        name,
-        externalId,
-        provinceCode: externalId.substring(0, 3),
-        type: 'SCO',
-      }));
+    } else if (!organization) {
+      await request(
+        _buildPostOrganizationRequestObject(accessToken, {
+          name,
+          externalId,
+          provinceCode: externalId.substring(0, 3),
+          type: 'SCO',
+        })
+      );
     }
   }
 }
@@ -145,7 +152,6 @@ async function main() {
     console.log('Creating or updating organizations...');
     await createOrUpdateOrganizations({ accessToken, organizationsByExternalId, checkedData });
     console.log('\nDone.');
-
   } catch (error) {
     console.error(error);
 
@@ -159,7 +165,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

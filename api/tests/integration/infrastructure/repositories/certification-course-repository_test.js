@@ -5,12 +5,11 @@ const BookshelfCertificationCourse = require('../../../../lib/infrastructure/orm
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
-describe('Integration | Repository | Certification Course', function() {
-
-  describe('#save', function() {
+describe('Integration | Repository | Certification Course', function () {
+  describe('#save', function () {
     let certificationCourse;
 
-    beforeEach(function() {
+    beforeEach(function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const sessionId = databaseBuilder.factory.buildSession().id;
 
@@ -19,12 +18,12 @@ describe('Integration | Repository | Certification Course', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('certification-challenges').delete();
       return knex('certification-courses').delete();
     });
 
-    it('should persist the certif course in db', async function() {
+    it('should persist the certif course in db', async function () {
       // when
       const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
@@ -40,24 +39,25 @@ describe('Integration | Repository | Certification Course', function() {
         'maxReachableLevelOnCertificationDate',
       ];
 
-      expect(
-        _.omit(retrievedCertificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
-      ).to.deep.equal(
-        _.omit(certificationCourse.toDTO(), fieldsToOmitInCertificationCourse),
+      expect(_.omit(retrievedCertificationCourse.toDTO(), fieldsToOmitInCertificationCourse)).to.deep.equal(
+        _.omit(certificationCourse.toDTO(), fieldsToOmitInCertificationCourse)
       );
 
-      const fieldsToOmitInCertificationChallenge = [ 'id', 'courseId' ];
-      const certificationChallengeToBeSaved = _.map(certificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
-      const savedCertificationChallenge = _.map(savedCertificationCourse.toDTO().challenges, (c) => _.omit(c, fieldsToOmitInCertificationChallenge));
+      const fieldsToOmitInCertificationChallenge = ['id', 'courseId'];
+      const certificationChallengeToBeSaved = _.map(certificationCourse.toDTO().challenges, (c) =>
+        _.omit(c, fieldsToOmitInCertificationChallenge)
+      );
+      const savedCertificationChallenge = _.map(savedCertificationCourse.toDTO().challenges, (c) =>
+        _.omit(c, fieldsToOmitInCertificationChallenge)
+      );
 
       expect(savedCertificationChallenge).to.deep.equal(certificationChallengeToBeSaved);
 
-      expect(
-        _.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.getId()),
-      ).to.be.true;
+      expect(_.every(savedCertificationCourse.challenges, (c) => c.courseId === savedCertificationCourse.getId())).to.be
+        .true;
     });
 
-    it('should return the saved certification course', async function() {
+    it('should return the saved certification course', async function () {
       // when
       const savedCertificationCourse = await certificationCourseRepository.save({ certificationCourse });
 
@@ -65,21 +65,23 @@ describe('Integration | Repository | Certification Course', function() {
       expect(savedCertificationCourse).to.be.an.instanceOf(CertificationCourse);
       expect(savedCertificationCourse.getId()).not.to.be.null;
     });
-
   });
 
-  describe('#changeCompletionDate', function() {
+  describe('#changeCompletionDate', function () {
     let courseId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       courseId = databaseBuilder.factory.buildCertificationCourse({}).id;
       await databaseBuilder.commit();
     });
 
-    it('should update completedAt of the certificationCourse if one date is passed', async function() {
+    it('should update completedAt of the certificationCourse if one date is passed', async function () {
       // when
       const completionDate = new Date('2018-01-01T06:07:08Z');
-      const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(courseId, completionDate);
+      const updatedCertificationCourse = await certificationCourseRepository.changeCompletionDate(
+        courseId,
+        completionDate
+      );
 
       // then
       expect(updatedCertificationCourse).to.be.instanceOf(CertificationCourse);
@@ -87,19 +89,19 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#getCreationDate', function() {
+  describe('#getCreationDate', function () {
     let certificationCourse;
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('certification-courses').delete();
     });
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       certificationCourse = databaseBuilder.factory.buildCertificationCourse({});
       await databaseBuilder.commit();
     });
 
-    it('should get the created date', async function() {
+    it('should get the created date', async function () {
       // when
       const createdAt = await certificationCourseRepository.getCreationDate(certificationCourse.id);
 
@@ -107,7 +109,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(createdAt).to.deep.equal(certificationCourse.createdAt);
     });
 
-    it('should throw an error if not found', async function() {
+    it('should throw an error if not found', async function () {
       // when
       const error = await catchErr(certificationCourseRepository.getCreationDate)(certificationCourse.id + 1);
 
@@ -116,47 +118,55 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#get', function() {
+  describe('#get', function () {
     let expectedCertificationCourse;
     let anotherCourseId;
     let sessionId;
     let userId;
     const description = 'Un commentaire du surveillant';
 
-    beforeEach(function() {
+    beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
       sessionId = databaseBuilder.factory.buildSession().id;
-      expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse(
-        {
-          userId,
-          sessionId,
-          completedAt: null,
-          firstName: 'Timon',
-          lastName: 'De La Havane',
-          birthdate: '1993-08-14',
-          birthplace: 'Cuba',
-          isPublished: true,
-        });
-      anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
-      _.each([
-        { courseId: expectedCertificationCourse.id },
-        { courseId: expectedCertificationCourse.id },
-        { courseId: anotherCourseId },
-      ], (certificationChallenge) => {
-        databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
+      expectedCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
+        userId,
+        sessionId,
+        completedAt: null,
+        firstName: 'Timon',
+        lastName: 'De La Havane',
+        birthdate: '1993-08-14',
+        birthplace: 'Cuba',
+        isPublished: true,
       });
-      _.each([
-        {
-          certificationCourseId: expectedCertificationCourse.id,
-          partnerKey: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }).key,
-        },
-        {
-          certificationCourseId: expectedCertificationCourse.id,
-          partnerKey: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }).key,
-        },
-        { certificationCourseId: anotherCourseId, partnerKey: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }).key },
-      ], (acquiredPartnerCertification) =>
-        databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification));
+      anotherCourseId = databaseBuilder.factory.buildCertificationCourse({ userId }).id;
+      _.each(
+        [
+          { courseId: expectedCertificationCourse.id },
+          { courseId: expectedCertificationCourse.id },
+          { courseId: anotherCourseId },
+        ],
+        (certificationChallenge) => {
+          databaseBuilder.factory.buildCertificationChallenge(certificationChallenge);
+        }
+      );
+      _.each(
+        [
+          {
+            certificationCourseId: expectedCertificationCourse.id,
+            partnerKey: databaseBuilder.factory.buildBadge({ key: 'forêt_noire' }).key,
+          },
+          {
+            certificationCourseId: expectedCertificationCourse.id,
+            partnerKey: databaseBuilder.factory.buildBadge({ key: 'baba_au_rhum' }).key,
+          },
+          {
+            certificationCourseId: anotherCourseId,
+            partnerKey: databaseBuilder.factory.buildBadge({ key: 'tropézienne' }).key,
+          },
+        ],
+        (acquiredPartnerCertification) =>
+          databaseBuilder.factory.buildPartnerCertification(acquiredPartnerCertification)
+      );
       databaseBuilder.factory.buildCertificationIssueReport({
         certificationCourseId: expectedCertificationCourse.id,
         description,
@@ -164,9 +174,8 @@ describe('Integration | Repository | Certification Course', function() {
       return databaseBuilder.commit();
     });
 
-    context('When the certification course exists', function() {
-
-      it('should retrieve certification course informations', async function() {
+    context('When the certification course exists', function () {
+      it('should retrieve certification course informations', async function () {
         // when
         const actualCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
@@ -183,7 +192,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(actualCertificationCourseDTO.certificationIssueReports[0].description).to.equal(description);
       });
 
-      it('should retrieve associated challenges with the certification course', async function() {
+      it('should retrieve associated challenges with the certification course', async function () {
         // when
         const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
@@ -191,10 +200,10 @@ describe('Integration | Repository | Certification Course', function() {
         expect(thisCertificationCourse.toDTO().challenges.length).to.equal(2);
       });
 
-      context('When the certification course has one assessment', function() {
+      context('When the certification course has one assessment', function () {
         let assessmentId;
 
-        beforeEach(function() {
+        beforeEach(function () {
           assessmentId = databaseBuilder.factory.buildAssessment({
             type: 'CERTIFICATION',
             certificationCourseId: expectedCertificationCourse.id,
@@ -203,20 +212,18 @@ describe('Integration | Repository | Certification Course', function() {
           return databaseBuilder.commit();
         });
 
-        it('should retrieve associated assessment', async function() {
+        it('should retrieve associated assessment', async function () {
           // when
           const thisCertificationCourse = await certificationCourseRepository.get(expectedCertificationCourse.id);
 
           // then
           expect(thisCertificationCourse.toDTO().assessment.id).to.equal(assessmentId);
         });
-
       });
-
     });
 
-    context('When the certification course does not exist', function() {
-      it('should retrieve a NotFoundError Error', function() {
+    context('When the certification course does not exist', function () {
+      it('should retrieve a NotFoundError Error', function () {
         // when
         const promise = certificationCourseRepository.get(3);
 
@@ -224,17 +231,15 @@ describe('Integration | Repository | Certification Course', function() {
         return expect(promise).to.be.rejectedWith(NotFoundError);
       });
     });
-
   });
 
-  describe('#findOneCertificationCourseByUserIdAndSessionId', function() {
-
+  describe('#findOneCertificationCourseByUserIdAndSessionId', function () {
     const createdAt = new Date('2018-12-11T01:02:03Z');
     const createdAtLater = new Date('2018-12-12T01:02:03Z');
     let userId;
     let sessionId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       userId = databaseBuilder.factory.buildUser({}).id;
       sessionId = databaseBuilder.factory.buildSession({}).id;
@@ -247,7 +252,7 @@ describe('Integration | Repository | Certification Course', function() {
       return databaseBuilder.commit();
     });
 
-    it('should retrieve the most recently created certification course with given userId, sessionId', async function() {
+    it('should retrieve the most recently created certification course with given userId, sessionId', async function () {
       // when
       const certificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
         userId,
@@ -258,7 +263,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(certificationCourse.toDTO().createdAt).to.deep.equal(createdAtLater);
     });
 
-    it('should return null when no certification course found', async function() {
+    it('should return null when no certification course found', async function () {
       // when
       const result = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
         userId: userId + 1,
@@ -270,10 +275,10 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#update', function() {
+  describe('#update', function () {
     let certificationCourse;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       const userId = databaseBuilder.factory.buildUser({}).id;
       const bookshelfCertificationCourse = databaseBuilder.factory.buildCertificationCourse({
@@ -285,7 +290,7 @@ describe('Integration | Repository | Certification Course', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a certification course domain object', async function() {
+    it('should return a certification course domain object', async function () {
       // when
       const updatedCertificationCourse = await certificationCourseRepository.update(certificationCourse);
 
@@ -293,7 +298,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(updatedCertificationCourse).to.be.an.instanceof(CertificationCourse);
     });
 
-    it('should not add row in table "certification-courses"', async function() {
+    it('should not add row in table "certification-courses"', async function () {
       // given
       const countCertificationCoursesBeforeUpdate = await BookshelfCertificationCourse.count();
 
@@ -305,7 +310,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(countCertificationCoursesAfterUpdate).to.equal(countCertificationCoursesBeforeUpdate);
     });
 
-    it('should update whitelisted values in database', async function() {
+    it('should update whitelisted values in database', async function () {
       // given
       const unpersistedUpdatedCertificationCourse = new CertificationCourse({
         ...certificationCourse.toDTO(),
@@ -322,25 +327,41 @@ describe('Integration | Repository | Certification Course', function() {
       });
 
       // when
-      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(unpersistedUpdatedCertificationCourse);
+      const persistedUpdatedCertificationCourse = await certificationCourseRepository.update(
+        unpersistedUpdatedCertificationCourse
+      );
 
       // then
       const persistedUpdatedCertificationCourseDTO = persistedUpdatedCertificationCourse.toDTO();
       const unpersistedUpdatedCertificationCourseDTO = unpersistedUpdatedCertificationCourse.toDTO();
       expect(persistedUpdatedCertificationCourse.getId()).to.equal(unpersistedUpdatedCertificationCourse.getId());
-      expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(unpersistedUpdatedCertificationCourseDTO.firstName);
-      expect(persistedUpdatedCertificationCourseDTO.lastName).to.equal(unpersistedUpdatedCertificationCourseDTO.lastName);
-      expect(persistedUpdatedCertificationCourseDTO.birthdate).to.equal(unpersistedUpdatedCertificationCourseDTO.birthdate);
-      expect(persistedUpdatedCertificationCourseDTO.birthplace).to.equal(unpersistedUpdatedCertificationCourseDTO.birthplace);
-      expect(persistedUpdatedCertificationCourseDTO.birthPostalCode).to.equal(unpersistedUpdatedCertificationCourseDTO.birthPostalCode);
-      expect(persistedUpdatedCertificationCourseDTO.birthINSEECode).to.equal(unpersistedUpdatedCertificationCourseDTO.birthINSEECode);
-      expect(persistedUpdatedCertificationCourseDTO.birthCountry).to.equal(unpersistedUpdatedCertificationCourseDTO.birthCountry);
+      expect(persistedUpdatedCertificationCourseDTO.firstName).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.firstName
+      );
+      expect(persistedUpdatedCertificationCourseDTO.lastName).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.lastName
+      );
+      expect(persistedUpdatedCertificationCourseDTO.birthdate).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.birthdate
+      );
+      expect(persistedUpdatedCertificationCourseDTO.birthplace).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.birthplace
+      );
+      expect(persistedUpdatedCertificationCourseDTO.birthPostalCode).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.birthPostalCode
+      );
+      expect(persistedUpdatedCertificationCourseDTO.birthINSEECode).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.birthINSEECode
+      );
+      expect(persistedUpdatedCertificationCourseDTO.birthCountry).to.equal(
+        unpersistedUpdatedCertificationCourseDTO.birthCountry
+      );
       expect(persistedUpdatedCertificationCourseDTO.sex).to.equal(unpersistedUpdatedCertificationCourseDTO.sex);
       expect(persistedUpdatedCertificationCourseDTO.isCancelled).to.be.true;
       expect(persistedUpdatedCertificationCourseDTO.completedAt).to.deep.equal(new Date('1999-12-31'));
     });
 
-    it('should prevent other values to be updated', async function() {
+    it('should prevent other values to be updated', async function () {
       // given
       certificationCourse._isV2Certification = false;
 
@@ -351,7 +372,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(certificationCourseUpdated.toDTO().isV2Certification).to.be.true;
     });
 
-    it('should return a NotFoundError when ID doesnt exist', function() {
+    it('should return a NotFoundError when ID doesnt exist', function () {
       // given
       const certificationCourseToBeUpdated = new CertificationCourse({
         ...certificationCourse,
@@ -366,10 +387,10 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#isVerificationCodeAvailable', function() {
+  describe('#isVerificationCodeAvailable', function () {
     const verificationCode = 'P-XBCDXF11';
 
-    it('should return true if certification code does not exist', async function() {
+    it('should return true if certification code does not exist', async function () {
       // when
       const result = await certificationCourseRepository.isVerificationCodeAvailable(verificationCode);
 
@@ -377,7 +398,7 @@ describe('Integration | Repository | Certification Course', function() {
       expect(result).to.equal(true);
     });
 
-    it('should return false if certification code already exists', async function() {
+    it('should return false if certification code already exists', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ verificationCode });
       await databaseBuilder.commit();
@@ -390,13 +411,13 @@ describe('Integration | Repository | Certification Course', function() {
     });
   });
 
-  describe('#findCertificationCoursesBySessionId', function() {
+  describe('#findCertificationCoursesBySessionId', function () {
     let sessionId;
     let sessionIdWithoutCertifCourses;
     let firstCertifCourse;
     let secondCertifCourse;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
       sessionIdWithoutCertifCourses = databaseBuilder.factory.buildSession().id;
@@ -408,19 +429,27 @@ describe('Integration | Repository | Certification Course', function() {
     function _cleanCertificationCourse(certificationCourse) {
       return _.omit(certificationCourse, '_certificationIssueReports', '_assessment', '_challenges', 'updatedAt');
     }
-    it('should returns all certification courses id with given sessionId', async function() {
+    it('should returns all certification courses id with given sessionId', async function () {
       // when
-      const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId });
+      const certificationCourses = await certificationCourseRepository.findCertificationCoursesBySessionId({
+        sessionId,
+      });
 
       // then
       expect(certificationCourses).to.have.lengthOf(2);
-      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(firstCertifCourse)));
-      expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(_cleanCertificationCourse(new CertificationCourse(secondCertifCourse)));
+      expect(_cleanCertificationCourse(certificationCourses[0])).to.deep.equal(
+        _cleanCertificationCourse(new CertificationCourse(firstCertifCourse))
+      );
+      expect(_cleanCertificationCourse(certificationCourses[1])).to.deep.equal(
+        _cleanCertificationCourse(new CertificationCourse(secondCertifCourse))
+      );
     });
 
-    it('should return empty array when no certification course found', async function() {
+    it('should return empty array when no certification course found', async function () {
       // when
-      const result = await certificationCourseRepository.findCertificationCoursesBySessionId({ sessionId: sessionIdWithoutCertifCourses });
+      const result = await certificationCourseRepository.findCertificationCoursesBySessionId({
+        sessionId: sessionIdWithoutCertifCourses,
+      });
 
       // then
       expect(result).to.be.empty;

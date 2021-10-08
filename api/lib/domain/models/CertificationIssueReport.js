@@ -1,6 +1,12 @@
 const Joi = require('joi');
-const { InvalidCertificationIssueReportForSaving, DeprecatedCertificationIssueReportSubcategory } = require('../errors');
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('./CertificationIssueReportCategory');
+const {
+  InvalidCertificationIssueReportForSaving,
+  DeprecatedCertificationIssueReportSubcategory,
+} = require('../errors');
+const {
+  CertificationIssueReportCategories,
+  CertificationIssueReportSubcategories,
+} = require('./CertificationIssueReportCategory');
 
 const categoryOtherJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
@@ -11,22 +17,27 @@ const categoryOtherJoiSchema = Joi.object({
 const categoryLateOrLeavingJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.LATE_OR_LEAVING),
-  description: Joi.string()
-    .when('subcategory', {
-      switch: [
-        { is: Joi.valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM),
-          then: Joi.string().trim().required() },
-      ],
-      otherwise: Joi.string().trim().optional(),
-    }),
-  subcategory: Joi.string().required().valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, CertificationIssueReportSubcategories.SIGNATURE_ISSUE),
+  description: Joi.string().when('subcategory', {
+    switch: [
+      { is: Joi.valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM), then: Joi.string().trim().required() },
+    ],
+    otherwise: Joi.string().trim().optional(),
+  }),
+  subcategory: Joi.string()
+    .required()
+    .valid(CertificationIssueReportSubcategories.LEFT_EXAM_ROOM, CertificationIssueReportSubcategories.SIGNATURE_ISSUE),
 });
 
 const categoryCandidateInformationChangesJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES),
   description: Joi.string().trim().required(),
-  subcategory: Joi.string().required().valid(CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE, CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE),
+  subcategory: Joi.string()
+    .required()
+    .valid(
+      CertificationIssueReportSubcategories.NAME_OR_BIRTHDATE,
+      CertificationIssueReportSubcategories.EXTRA_TIME_PERCENTAGE
+    ),
 });
 
 const categoryConnectionOrEndScreenJoiSchema = Joi.object({
@@ -38,17 +49,19 @@ const categoryInChallengeJoiSchema = Joi.object({
   certificationCourseId: Joi.number().required().empty(null),
   category: Joi.string().required().valid(CertificationIssueReportCategories.IN_CHALLENGE),
   questionNumber: Joi.number().min(1).max(500).required(),
-  subcategory: Joi.string().required().valid(
-    CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
-    CertificationIssueReportSubcategories.LINK_NOT_WORKING,
-    CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
-    CertificationIssueReportSubcategories.FILE_NOT_OPENING,
-    CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
-    CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
-    CertificationIssueReportSubcategories.OTHER,
-    CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
-    CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING,
-  ),
+  subcategory: Joi.string()
+    .required()
+    .valid(
+      CertificationIssueReportSubcategories.IMAGE_NOT_DISPLAYING,
+      CertificationIssueReportSubcategories.LINK_NOT_WORKING,
+      CertificationIssueReportSubcategories.EMBED_NOT_WORKING,
+      CertificationIssueReportSubcategories.FILE_NOT_OPENING,
+      CertificationIssueReportSubcategories.WEBSITE_UNAVAILABLE,
+      CertificationIssueReportSubcategories.WEBSITE_BLOCKED,
+      CertificationIssueReportSubcategories.OTHER,
+      CertificationIssueReportSubcategories.EXTRA_TIME_EXCEEDED,
+      CertificationIssueReportSubcategories.SOFTWARE_NOT_WORKING
+    ),
 });
 
 const categoryFraudJoiSchema = Joi.object({
@@ -98,17 +111,16 @@ const deprecatedSubcategories = [
 ];
 
 class CertificationIssueReport {
-  constructor(
-    {
-      id,
-      certificationCourseId,
-      category,
-      description,
-      subcategory,
-      questionNumber,
-      resolvedAt,
-      resolution,
-    } = {}) {
+  constructor({
+    id,
+    certificationCourseId,
+    category,
+    description,
+    subcategory,
+    questionNumber,
+    resolvedAt,
+    resolution,
+  } = {}) {
     this.id = id;
     this.certificationCourseId = certificationCourseId;
     this.category = category;
@@ -119,7 +131,11 @@ class CertificationIssueReport {
     this.resolution = resolution;
     this.isImpactful = _isImpactful({ category, subcategory });
 
-    if ([CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(this.category)) {
+    if (
+      [CertificationIssueReportCategories.CONNECTION_OR_END_SCREEN, CertificationIssueReportCategories.OTHER].includes(
+        this.category
+      )
+    ) {
       this.subcategory = null;
     }
 
@@ -132,14 +148,7 @@ class CertificationIssueReport {
     }
   }
 
-  static create({
-    id,
-    certificationCourseId,
-    category,
-    description,
-    subcategory,
-    questionNumber,
-  }) {
+  static create({ id, certificationCourseId, category, description, subcategory, questionNumber }) {
     const certificationIssueReport = new CertificationIssueReport({
       id,
       certificationCourseId,
@@ -183,8 +192,7 @@ class CertificationIssueReport {
 module.exports = CertificationIssueReport;
 
 function _isImpactful({ category, subcategory }) {
-  return categoryCodeImpactful.includes(category)
-  || subcategoryCodeImpactful.includes(subcategory);
+  return categoryCodeImpactful.includes(category) || subcategoryCodeImpactful.includes(subcategory);
 }
 
 function _isSubcategoryDeprecated(subcategory) {

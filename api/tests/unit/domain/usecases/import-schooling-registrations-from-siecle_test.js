@@ -10,8 +10,7 @@ const fs = require('fs').promises;
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-describe('Unit | UseCase | import-schooling-registrations-from-siecle', function() {
-
+describe('Unit | UseCase | import-schooling-registrations-from-siecle', function () {
   const organizationUAI = '123ABC';
   const organizationId = 1234;
   let format;
@@ -22,7 +21,7 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
   let payload = null;
   let domainTransaction;
 
-  beforeEach(function() {
+  beforeEach(function () {
     sinon.stub(fs, 'unlink');
     sinon.stub(fs, 'readFile');
     domainTransaction = Symbol();
@@ -40,21 +39,21 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
     };
     organizationRepositoryStub = { get: sinon.stub() };
   });
-  afterEach(function() {
+  afterEach(function () {
     sinon.restore();
   });
 
-  context('when extracted schoolingRegistrations informations can be imported', function() {
+  context('when extracted schoolingRegistrations informations can be imported', function () {
     payload = { path: 'file.csv' };
     const buffer = 'data';
 
-    beforeEach(function() {
+    beforeEach(function () {
       format = 'csv';
       fs.readFile.withArgs(payload.path).resolves(buffer);
     });
 
-    context('when the format is CSV', function() {
-      it('should save these informations', async function() {
+    context('when the format is CSV', function () {
+      it('should save these informations', async function () {
         const organization = Symbol('organization');
         organizationRepositoryStub.get.withArgs(organizationId).resolves(organization);
 
@@ -91,23 +90,34 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
           organizationId,
         });
 
-        schoolingRegistrationsCsvServiceStub.extractSchoolingRegistrationsInformation
-          .returns([schoolingRegistration1, schoolingRegistration2]);
+        schoolingRegistrationsCsvServiceStub.extractSchoolingRegistrationsInformation.returns([
+          schoolingRegistration1,
+          schoolingRegistration2,
+        ]);
 
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsCsvService: schoolingRegistrationsCsvServiceStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub, i18n });
+        await importSchoolingRegistrationsFromSIECLEFormat({
+          organizationId,
+          payload,
+          format,
+          organizationRepository: organizationRepositoryStub,
+          schoolingRegistrationsCsvService: schoolingRegistrationsCsvServiceStub,
+          schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub,
+          schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+          i18n,
+        });
 
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.called;
       });
     });
 
-    context('when the format is XML', function() {
-      beforeEach(function() {
+    context('when the format is XML', function () {
+      beforeEach(function () {
         format = 'xml';
       });
 
-      it('should save these informations', async function() {
+      it('should save these informations', async function () {
         // given
-        payload = { path: 'file.xml' } ;
+        payload = { path: 'file.xml' };
 
         const extractedSchoolingRegistrationsInformations = [
           { lastName: 'UpdatedStudent1', nationalStudentId: 'INE1' },
@@ -115,8 +125,9 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
-          .returns(extractedSchoolingRegistrationsInformations);
+        schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns(
+          extractedSchoolingRegistrationsInformations
+        );
 
         const schoolingRegistrationsToUpdate = [
           { lastName: 'Student1', nationalStudentId: 'INE1' },
@@ -125,7 +136,14 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
         schoolingRegistrationRepositoryStub.findByOrganizationId.resolves(schoolingRegistrationsToUpdate);
 
         // when
-        await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        await importSchoolingRegistrationsFromSIECLEFormat({
+          organizationId,
+          payload,
+          format,
+          organizationRepository: organizationRepositoryStub,
+          schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub,
+          schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+        });
 
         // then
         const schoolingRegistrations = [
@@ -134,48 +152,65 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
           { lastName: 'StudentToCreate', nationalStudentId: 'INE3' },
         ];
 
-        expect(schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE).to.have.been.calledWith(payload.path, { externalId: organizationUAI });
-        expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.have.been.calledWith(schoolingRegistrations, organizationId);
+        expect(
+          schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
+        ).to.have.been.calledWith(payload.path, { externalId: organizationUAI });
+        expect(
+          schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations
+        ).to.have.been.calledWith(schoolingRegistrations, organizationId);
         expect(schoolingRegistrationRepositoryStub.addOrUpdateOrganizationSchoolingRegistrations).to.not.throw();
       });
     });
 
-    it('should disable all previous schooling registrations', async function() {
+    it('should disable all previous schooling registrations', async function () {
       // given
       format = 'xml';
-      payload = { path: 'file.xml' } ;
+      payload = { path: 'file.xml' };
 
-      const extractedSchoolingRegistrationsInformations = [
-        { nationalStudentId: 'INE1' },
-      ];
+      const extractedSchoolingRegistrationsInformations = [{ nationalStudentId: 'INE1' }];
       organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
-      schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE
-        .returns(extractedSchoolingRegistrationsInformations);
+      schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns(
+        extractedSchoolingRegistrationsInformations
+      );
 
       schoolingRegistrationRepositoryStub.findByOrganizationId.resolves();
 
       // when
-      await importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+      await importSchoolingRegistrationsFromSIECLEFormat({
+        organizationId,
+        payload,
+        format,
+        organizationRepository: organizationRepositoryStub,
+        schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub,
+        schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+      });
 
       // then
-      expect(schoolingRegistrationRepositoryStub.disableAllSchoolingRegistrationsInOrganization).to.have.been.calledWithExactly({ domainTransaction, organizationId });
+      expect(
+        schoolingRegistrationRepositoryStub.disableAllSchoolingRegistrationsInOrganization
+      ).to.have.been.calledWithExactly({ domainTransaction, organizationId });
     });
   });
 
-  context('when the import fails', function() {
-
+  context('when the import fails', function () {
     let error;
 
-    context('because there is no schooling registrations imported', function() {
-      beforeEach(function() {
+    context('because there is no schooling registrations imported', function () {
+      beforeEach(function () {
         // given
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
         schoolingRegistrationsXmlServiceStub.extractSchoolingRegistrationsInformationFromSIECLE.returns([]);
       });
 
-      it('should throw a SiecleXmlImportError', async function() {
-
-        error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, organizationRepository: organizationRepositoryStub, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+      it('should throw a SiecleXmlImportError', async function () {
+        error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({
+          organizationId,
+          payload,
+          format,
+          organizationRepository: organizationRepositoryStub,
+          schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub,
+          schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+        });
 
         // then
         expect(error).to.be.instanceOf(SiecleXmlImportError);
@@ -183,16 +218,23 @@ describe('Unit | UseCase | import-schooling-registrations-from-siecle', function
       });
     });
 
-    context('because the file format is not valid', function() {
-      beforeEach(function() {
+    context('because the file format is not valid', function () {
+      beforeEach(function () {
         // given
         format = 'txt';
         organizationRepositoryStub.get.withArgs(organizationId).resolves({ externalId: organizationUAI });
       });
 
-      it('should throw a FileValidationError', async function() {
+      it('should throw a FileValidationError', async function () {
         // when
-        error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({ organizationId, payload, format, schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub, organizationRepository: organizationRepositoryStub, schoolingRegistrationRepository: schoolingRegistrationRepositoryStub });
+        error = await catchErr(importSchoolingRegistrationsFromSIECLEFormat)({
+          organizationId,
+          payload,
+          format,
+          schoolingRegistrationsXmlService: schoolingRegistrationsXmlServiceStub,
+          organizationRepository: organizationRepositoryStub,
+          schoolingRegistrationRepository: schoolingRegistrationRepositoryStub,
+        });
 
         // then
         expect(error).to.be.instanceOf(FileValidationError);

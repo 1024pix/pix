@@ -8,7 +8,6 @@ const KO = 'ko';
 
 const AnswerStatusJsonApiAdapter = {
   adapt(answerStatus) {
-
     if (answerStatus.isOK()) {
       return OK;
     } else if (answerStatus.isKO()) {

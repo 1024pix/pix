@@ -6,8 +6,12 @@ function _isCurrentOrganizationInMemberships(userOrgaSettings, memberships) {
   return _.find(memberships, { organization: { id: currentOrganizationId } });
 }
 
-module.exports = async function getPrescriber({ userId, prescriberRepository, membershipRepository, userOrgaSettingsRepository }) {
-
+module.exports = async function getPrescriber({
+  userId,
+  prescriberRepository,
+  membershipRepository,
+  userOrgaSettingsRepository,
+}) {
   const memberships = await membershipRepository.findByUserId({ userId });
   if (_.isEmpty(memberships)) {
     throw new UserNotMemberOfOrganizationError(`L’utilisateur ${userId} n’est membre d’aucune organisation.`);

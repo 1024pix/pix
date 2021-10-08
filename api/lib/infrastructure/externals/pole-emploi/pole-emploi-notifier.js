@@ -10,10 +10,15 @@ const { UnexpectedUserAccountError } = require('../../../domain/errors');
 
 module.exports = {
   async notify(userId, payload) {
-    const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI });
+    const authenticationMethod = await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+      userId,
+      identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
+    });
     let accessToken = get(authenticationMethod, 'authenticationComplement.accessToken');
     if (!accessToken) {
-      throw new UnexpectedUserAccountError({ message: 'Le compte utilisateur n\'est pas rattaché à l\'organisation Pôle Emploi' });
+      throw new UnexpectedUserAccountError({
+        message: "Le compte utilisateur n'est pas rattaché à l'organisation Pôle Emploi",
+      });
     }
 
     const expiredDate = get(authenticationMethod, 'authenticationComplement.expiredDate');
@@ -47,14 +52,17 @@ module.exports = {
         refreshToken: tokenResponse.data['refresh_token'],
         expiredDate: moment().add(tokenResponse.data['expires_in'], 's').toDate(),
       });
-      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({ authenticationComplement, userId });
+      await authenticationMethodRepository.updatePoleEmploiAuthenticationComplementByUserId({
+        authenticationComplement,
+        userId,
+      });
     }
 
     const url = settings.poleEmploi.sendingUrl;
     const headers = {
-      'Authorization': `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
       'Content-type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Service-source': 'Pix',
     };
 

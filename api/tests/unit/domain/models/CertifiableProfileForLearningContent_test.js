@@ -2,11 +2,9 @@ const CertifiableProfileForLearningContent = require('../../../../lib/domain/mod
 
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | CertifiableProfileForLearningContent', function() {
-
-  describe('#constructor', function() {
-
-    it('should filter out knowledge elements data that does not intersect with target profile', function() {
+describe('Unit | Domain | Models | CertifiableProfileForLearningContent', function () {
+  describe('#constructor', function () {
+    it('should filter out knowledge elements data that does not intersect with target profile', function () {
       // given
       const basicTargetProfile = domainBuilder.buildTargetProfileWithLearningContent.withSimpleLearningContent();
       const knowledgeElement1 = domainBuilder.buildKnowledgeElement({
@@ -17,7 +15,10 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         answerId: 456,
         skillId: 'someSkillIdProbablyNotInTargetProfileBecauseThisNameIsUncanny',
       });
-      const answerAndChallengeIdsByAnswerId = { 123: { id: 123, challengeId: 'chal1' }, 456: { id: 456, challengeId: 'chal2' } };
+      const answerAndChallengeIdsByAnswerId = {
+        123: { id: 123, challengeId: 'chal1' },
+        456: { id: 456, challengeId: 'chal2' },
+      };
 
       // when
       const certifiableProfile = new CertifiableProfileForLearningContent({
@@ -34,10 +35,10 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
     });
   });
 
-  describe('#getOrderedCertifiableSkillsByAreaId', function() {
+  describe('#getOrderedCertifiableSkillsByAreaId', function () {
     let targetProfileWithLearningContent;
 
-    beforeEach(function() {
+    beforeEach(function () {
       const easySkillArea1 = domainBuilder.buildTargetedSkill({
         id: 'a1_c1_t1_s1_id',
         name: '@iziAreaOne1',
@@ -117,7 +118,7 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
       });
     });
 
-    it('should return directly validated skills ordered by decreasing difficulty by area id', function() {
+    it('should return directly validated skills ordered by decreasing difficulty by area id', function () {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -150,21 +151,28 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         userId: 'someUserId',
         profileDate: 'someProfileDate',
         targetProfileWithLearningContent,
-        knowledgeElements: [knowledgeElementEasySkillArea1, knowledgeElementMediumSkillArea1, knowledgeElementHardSkillArea1, knowledgeElementEasySkillArea2, knowledgeElementMediumSkillArea2],
+        knowledgeElements: [
+          knowledgeElementEasySkillArea1,
+          knowledgeElementMediumSkillArea1,
+          knowledgeElementHardSkillArea1,
+          knowledgeElementEasySkillArea2,
+          knowledgeElementMediumSkillArea2,
+        ],
         answerAndChallengeIdsByAnswerId,
       });
 
       // when
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getOrderedCertifiableSkillsByAreaId();
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId =
+        certifiableProfile.getOrderedCertifiableSkillsByAreaId();
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
-        'a1_id': ['a1_c2_t1_s1_id', 'a1_c1_t2_s1_id', 'a1_c1_t1_s1_id'],
-        'a2_id': ['a2_c1_t1_s2_id', 'a2_c1_t1_s1_id'],
+        a1_id: ['a1_c2_t1_s1_id', 'a1_c1_t2_s1_id', 'a1_c1_t1_s1_id'],
+        a2_id: ['a2_c1_t1_s2_id', 'a2_c1_t1_s1_id'],
       });
     });
 
-    it('should ignore skills that are not directly validated', function() {
+    it('should ignore skills that are not directly validated', function () {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -197,21 +205,28 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         userId: 'someUserId',
         profileDate: 'someProfileDate',
         targetProfileWithLearningContent,
-        knowledgeElements: [knowledgeElementEasySkillArea1, knowledgeElementMediumSkillArea1, knowledgeElementHardSkillArea1, knowledgeElementEasySkillArea2, knowledgeElementMediumSkillArea2],
+        knowledgeElements: [
+          knowledgeElementEasySkillArea1,
+          knowledgeElementMediumSkillArea1,
+          knowledgeElementHardSkillArea1,
+          knowledgeElementEasySkillArea2,
+          knowledgeElementMediumSkillArea2,
+        ],
         answerAndChallengeIdsByAnswerId,
       });
 
       // when
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getOrderedCertifiableSkillsByAreaId();
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId =
+        certifiableProfile.getOrderedCertifiableSkillsByAreaId();
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
-        'a1_id': ['a1_c2_t1_s1_id', 'a1_c1_t1_s1_id'],
-        'a2_id': ['a2_c1_t1_s2_id', 'a2_c1_t1_s1_id'],
+        a1_id: ['a1_c2_t1_s1_id', 'a1_c1_t1_s1_id'],
+        a2_id: ['a2_c1_t1_s2_id', 'a2_c1_t1_s1_id'],
       });
     });
 
-    it('should only include skills not in excludedOrigins', function() {
+    it('should only include skills not in excludedOrigins', function () {
       // given
       const knowledgeElementEasySkillArea1 = domainBuilder.buildKnowledgeElement.directlyValidated({
         answerId: 123,
@@ -244,25 +259,31 @@ describe('Unit | Domain | Models | CertifiableProfileForLearningContent', functi
         userId: 'someUserId',
         profileDate: 'someProfileDate',
         targetProfileWithLearningContent,
-        knowledgeElements: [knowledgeElementEasySkillArea1, knowledgeElementMediumSkillArea1, knowledgeElementHardSkillArea1, knowledgeElementEasySkillArea2, knowledgeElementMediumSkillArea2],
+        knowledgeElements: [
+          knowledgeElementEasySkillArea1,
+          knowledgeElementMediumSkillArea1,
+          knowledgeElementHardSkillArea1,
+          knowledgeElementEasySkillArea2,
+          knowledgeElementMediumSkillArea2,
+        ],
         answerAndChallengeIdsByAnswerId,
       });
 
       // when
       const excludedOrigins = ['Origin2'];
-      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId = certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
+      const directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId =
+        certifiableProfile.getOrderedCertifiableSkillsByAreaId(excludedOrigins);
 
       // then
       expect(directlyValidatedSkillsOrderedByDecreasingDifficultyByAreaId).to.deep.equal({
-        'a1_id': ['a1_c1_t2_s1_id', 'a1_c1_t1_s1_id'],
-        'a2_id': ['a2_c1_t1_s2_id', 'a2_c1_t1_s1_id'],
+        a1_id: ['a1_c1_t2_s1_id', 'a1_c1_t1_s1_id'],
+        a2_id: ['a2_c1_t1_s2_id', 'a2_c1_t1_s1_id'],
       });
     });
   });
 
-  describe('#getAlreadyAnsweredChallengeIds', function() {
-
-    it('should return list of uniq challenge ids answered on directly validated skills in the profile', function() {
+  describe('#getAlreadyAnsweredChallengeIds', function () {
+    it('should return list of uniq challenge ids answered on directly validated skills in the profile', function () {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({
         id: 'skill1',

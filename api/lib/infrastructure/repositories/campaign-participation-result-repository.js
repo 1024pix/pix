@@ -15,7 +15,9 @@ const campaignParticipationResultRepository = {
       assessmentRepository.get(campaignParticipation.assessmentId),
     ]);
 
-    const snapshots = await knowledgeElementRepository.findSnapshotForUsers({ [campaignParticipation.userId]: campaignParticipation.sharedAt });
+    const snapshots = await knowledgeElementRepository.findSnapshotForUsers({
+      [campaignParticipation.userId]: campaignParticipation.sharedAt,
+    });
     return CampaignParticipationResult.buildFrom({
       campaignParticipationId,
       assessment,

@@ -2,7 +2,6 @@ const { Serializer, Deserializer } = require('jsonapi-serializer');
 const Feedback = require('../../orm-models/Feedback');
 
 module.exports = {
-
   serialize(feedbacks) {
     return new Serializer('feedbacks', {
       attributes: ['createdAt', 'content', 'assessment', 'challenge'],
@@ -19,7 +18,7 @@ module.exports = {
 
   deserialize(json) {
     return new Deserializer()
-      .deserialize(json, function(err, feedback) {
+      .deserialize(json, function (err, feedback) {
         feedback.assessmentId = json.data.relationships.assessment.data.id;
         feedback.challengeId = json.data.relationships.challenge.data.id;
       })
@@ -27,5 +26,4 @@ module.exports = {
         return new Feedback(deserializedFeedback);
       });
   },
-
 };

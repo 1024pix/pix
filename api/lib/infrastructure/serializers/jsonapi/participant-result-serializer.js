@@ -59,12 +59,7 @@ module.exports = {
       },
       reachedStage: {
         ref: 'id',
-        attributes: [
-          'title',
-          'message',
-          'threshold',
-          'starCount',
-        ],
+        attributes: ['title', 'message', 'threshold', 'starCount'],
       },
       typeForAttribute(attribute) {
         return attribute === 'reachedStage' ? 'reached-stages' : attribute;
@@ -83,6 +78,8 @@ function transform(record) {
 function mapBadgeResult(badgeResult) {
   return {
     ...badgeResult,
-    partnerCompetenceResults: badgeResult.partnerCompetenceResults.map((partnerCompetenceResult) => { return { ...partnerCompetenceResult, areaColor: partnerCompetenceResult.color }; }),
+    partnerCompetenceResults: badgeResult.partnerCompetenceResults.map((partnerCompetenceResult) => {
+      return { ...partnerCompetenceResult, areaColor: partnerCompetenceResult.color };
+    }),
   };
 }

@@ -3,7 +3,6 @@ const userTutorialSerializer = require('../../infrastructure/serializers/jsonapi
 const userTutorialRepository = require('../../infrastructure/repositories/user-tutorial-repository');
 
 module.exports = {
-
   async add(request, h) {
     const { userId } = request.auth.credentials;
     const { tutorialId } = request.params;
@@ -29,5 +28,4 @@ module.exports = {
 
     return h.response().code(204);
   },
-
 };

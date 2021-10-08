@@ -6,7 +6,6 @@ module.exports = function buildResetPasswordDemand({
   temporaryKey = 'ABCD12345',
   used = false,
 } = {}) {
-
   const values = {
     id,
     email,

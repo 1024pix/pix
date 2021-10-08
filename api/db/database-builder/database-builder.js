@@ -52,15 +52,12 @@ module.exports = class DatabaseBuilder {
   }
 
   async _emptyDatabase() {
-    const query = 'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?';
+    const query =
+      'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?';
     const resultSet = await this.knex.raw(query, [this.knex.client.database()]);
     const rows = resultSet.rows;
     const tableNames = _.map(rows, 'table_name');
-    const tablesToDelete = _.without(tableNames,
-      'knex_migrations',
-      'knex_migrations_lock',
-      'pix_roles',
-    );
+    const tablesToDelete = _.without(tableNames, 'knex_migrations', 'knex_migrations_lock', 'pix_roles');
     const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
     // eslint-disable-next-line knex/avoid-injections
     return this.knex.raw(`TRUNCATE ${tables}`);

@@ -3,14 +3,14 @@ const { expect, catchErr } = require('../../../test-helper');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
+describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
-  context('#addRegistration', function() {
-    context('when set has no registration', function() {
-      it('creates the first registration of the set', function() {
+  context('#addRegistration', function () {
+    context('when set has no registration', function () {
+      it('creates the first registration of the set', function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registrationAttributes = {
           firstName: 'Beatrix',
@@ -37,8 +37,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
       });
     });
 
-    context('when set has registrations', function() {
-      it('creates the a new registration for the set', function() {
+    context('when set has registrations', function () {
+      it('creates the a new registration for the set', function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration1 = {
           firstName: 'Beatrix',
@@ -83,8 +83,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
       });
     });
 
-    context('when a registration is not valid', function() {
-      it('throws an error', async function() {
+    context('when a registration is not valid', function () {
+      it('throws an error', async function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: null,
@@ -99,8 +99,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
       });
     });
 
-    context('when there is a registration with the same student number', function() {
-      it('throws an error', async function() {
+    context('when there is a registration with the same student number', function () {
+      it('throws an error', async function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration1 = {
           firstName: 'Beatrix',
@@ -120,7 +120,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
 
         const error = await catchErr(
           higherSchoolingRegistrationSet.addRegistration,
-          higherSchoolingRegistrationSet,
+          higherSchoolingRegistrationSet
         )(registration2);
 
         expect(error).to.be.instanceOf(EntityValidationError);
@@ -129,8 +129,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
       });
     });
 
-    context('When there are warnings', function() {
-      it('should add a diploma warning', async function() {
+    context('When there are warnings', function () {
+      it('should add a diploma warning', async function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',
@@ -151,7 +151,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
         expect(warnings[0]).to.deep.equal({ studentNumber: '123ABC', field: 'diploma', value: 'BAD', code: 'unknown' });
       });
 
-      it('should add a study scheme warning', async function() {
+      it('should add a study scheme warning', async function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',
@@ -169,10 +169,15 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
         expect(registrations).to.have.lengthOf(1);
         expect(registrations[0].studyScheme).to.equal('Non reconnu');
         expect(warnings).to.have.lengthOf(1);
-        expect(warnings[0]).to.deep.equal({ studentNumber: '123ABC', field: 'study-scheme', value: 'BAD', code: 'unknown' });
+        expect(warnings[0]).to.deep.equal({
+          studentNumber: '123ABC',
+          field: 'study-scheme',
+          value: 'BAD',
+          code: 'unknown',
+        });
       });
 
-      it('should check diplomas and study schemes with lower case', async function() {
+      it('should check diplomas and study schemes with lower case', async function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',
@@ -191,7 +196,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistrationSet', function() {
         expect(warnings).to.have.lengthOf(0);
       });
 
-      it('should check diplomas and study schemes with Levenshtein distance', async function() {
+      it('should check diplomas and study schemes with Levenshtein distance', async function () {
         const higherSchoolingRegistrationSet = new HigherSchoolingRegistrationSet(i18n);
         const registration = {
           firstName: 'Beatrix',

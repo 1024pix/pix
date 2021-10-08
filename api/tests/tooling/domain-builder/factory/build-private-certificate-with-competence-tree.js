@@ -26,7 +26,6 @@ module.exports = function buildPrivateCertificate({
   // the id of the ResultCompetenceTree should be with the most recent assessment result.
   resultCompetenceTree = buildResultCompetenceTree({ id: `${id}-${assessmentResults[0].id}` }),
 } = {}) {
-
   const certificate = new PrivateCertificate({
     id,
     assessmentState,

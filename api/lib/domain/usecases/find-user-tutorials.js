@@ -1,12 +1,11 @@
 const _ = require('lodash');
 
-module.exports = async function findUserTutorials(
-  {
-    tutorialEvaluationRepository,
-    tutorialRepository,
-    userTutorialRepository,
-    userId,
-  } = {}) {
+module.exports = async function findUserTutorials({
+  tutorialEvaluationRepository,
+  tutorialRepository,
+  userTutorialRepository,
+  userId,
+} = {}) {
   const tutorialEvaluations = await tutorialEvaluationRepository.find({ userId });
   const userTutorials = await userTutorialRepository.find({ userId });
   const tutorialsIds = userTutorials.map(({ tutorialId }) => tutorialId);
@@ -19,7 +18,10 @@ module.exports = async function findUserTutorials(
 
 function _retrieveTutorialEvaluations(savedTutorials, tutorialEvaluations) {
   _.forEach(savedTutorials, (tutorial) => {
-    const tutorialEvaluation = _.find(tutorialEvaluations, (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorial.id);
+    const tutorialEvaluation = _.find(
+      tutorialEvaluations,
+      (tutorialEvaluation) => tutorialEvaluation.tutorialId === tutorial.id
+    );
     if (tutorialEvaluation) {
       tutorial.tutorialEvaluation = tutorialEvaluation;
     }

@@ -14,17 +14,15 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
   async save(request, h) {
     const userId = request.auth.credentials.userId;
     const campaignParticipation = await campaignParticipationSerializer.deserialize(request.payload);
 
-    const {
-      event,
-      campaignParticipation: campaignParticipationCreated,
-    } = await DomainTransaction.execute((domainTransaction) => {
-      return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
-    });
+    const { event, campaignParticipation: campaignParticipationCreated } = await DomainTransaction.execute(
+      (domainTransaction) => {
+        return usecases.startCampaignParticipation({ campaignParticipation, userId, domainTransaction });
+      }
+    );
     events.eventDispatcher.dispatch(event).catch((error) => monitoringTools.logErrorWithCorrelationIds(error));
 
     return h.response(campaignParticipationSerializer.serialize(campaignParticipationCreated)).created();
@@ -65,7 +63,11 @@ module.exports = {
     const campaignParticipationId = request.params.id;
     const locale = extractLocaleFromRequest(request);
 
-    const campaignAnalysis = await usecases.computeCampaignParticipationAnalysis({ userId, campaignParticipationId, locale });
+    const campaignAnalysis = await usecases.computeCampaignParticipationAnalysis({
+      userId,
+      campaignParticipationId,
+      locale,
+    });
     return campaignAnalysisSerializer.serialize(campaignAnalysis);
   },
 
@@ -82,7 +84,11 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const { campaignId, campaignParticipationId } = request.params;
 
-    const campaignAssessmentParticipation = await usecases.getCampaignAssessmentParticipation({ userId, campaignId, campaignParticipationId });
+    const campaignAssessmentParticipation = await usecases.getCampaignAssessmentParticipation({
+      userId,
+      campaignId,
+      campaignParticipationId,
+    });
     return campaignAssessmentParticipationSerializer.serialize(campaignAssessmentParticipation);
   },
 
@@ -91,7 +97,12 @@ module.exports = {
     const { campaignId, campaignParticipationId } = request.params;
     const locale = extractLocaleFromRequest(request);
 
-    const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({ userId, campaignId, campaignParticipationId, locale });
+    const campaignAssessmentParticipationResult = await usecases.getCampaignAssessmentParticipationResult({
+      userId,
+      campaignId,
+      campaignParticipationId,
+      locale,
+    });
     return campaignAssessmentParticipationResultSerializer.serialize(campaignAssessmentParticipationResult);
   },
 
@@ -108,8 +119,12 @@ module.exports = {
       filters.stages = [filters.stages];
     }
     const currentUserId = requestResponseUtils.extractUserIdFromRequest(request);
-    const paginatedParticipations = await usecases.findAssessmentParticipationResultList({ userId: currentUserId, campaignId, page, filters });
+    const paginatedParticipations = await usecases.findAssessmentParticipationResultList({
+      userId: currentUserId,
+      campaignId,
+      page,
+      filters,
+    });
     return campaignAssessmentResultMinimalSerializer.serialize(paginatedParticipations);
   },
-
 };

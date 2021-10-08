@@ -4,13 +4,7 @@ const {
   EmailModificationDemandNotFoundOrExpiredError,
 } = require('../errors');
 
-module.exports = async function updateUserEmailWithValidation({
-  code,
-  userId,
-  userEmailRepository,
-  userRepository,
-}) {
-
+module.exports = async function updateUserEmailWithValidation({ code, userId, userEmailRepository, userRepository }) {
   const user = await userRepository.get(userId);
   if (!user.email) {
     throw new UserNotAuthorizedToUpdateEmailError();

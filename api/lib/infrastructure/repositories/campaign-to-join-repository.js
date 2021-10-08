@@ -5,19 +5,18 @@ const skillDatasource = require('../datasources/learning-content/skill-datasourc
 const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
-
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const result = await knexConn('campaigns')
       .select('campaigns.*')
       .select({
-        'organizationId': 'organizations.id',
-        'organizationName': 'organizations.name',
-        'organizationType': 'organizations.type',
-        'organizationLogoUrl': 'organizations.logoUrl',
-        'organizationIsManagingStudents': 'organizations.isManagingStudents',
-        'targetProfileName': 'target-profiles.name',
-        'targetProfileImageUrl': 'target-profiles.imageUrl',
+        organizationId: 'organizations.id',
+        organizationName: 'organizations.name',
+        organizationType: 'organizations.type',
+        organizationLogoUrl: 'organizations.logoUrl',
+        organizationIsManagingStudents: 'organizations.isManagingStudents',
+        targetProfileName: 'target-profiles.name',
+        targetProfileImageUrl: 'target-profiles.imageUrl',
       })
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
@@ -35,19 +34,21 @@ module.exports = {
     const result = await knex('campaigns')
       .select('campaigns.*')
       .select({
-        'organizationId': 'organizations.id',
-        'organizationName': 'organizations.name',
-        'organizationType': 'organizations.type',
-        'organizationLogoUrl': 'organizations.logoUrl',
-        'organizationIsManagingStudents': 'organizations.isManagingStudents',
-        'targetProfileName': 'target-profiles.name',
-        'targetProfileImageUrl': 'target-profiles.imageUrl',
-        'targetProfileIsSimplifiedAccess': 'target-profiles.isSimplifiedAccess',
+        organizationId: 'organizations.id',
+        organizationName: 'organizations.name',
+        organizationType: 'organizations.type',
+        organizationLogoUrl: 'organizations.logoUrl',
+        organizationIsManagingStudents: 'organizations.isManagingStudents',
+        targetProfileName: 'target-profiles.name',
+        targetProfileImageUrl: 'target-profiles.imageUrl',
+        targetProfileIsSimplifiedAccess: 'target-profiles.isSimplifiedAccess',
       })
       // eslint-disable-next-line no-restricted-syntax
-      .select(knex.raw(`EXISTS(SELECT true FROM "organization-tags"
+      .select(
+        knex.raw(`EXISTS(SELECT true FROM "organization-tags"
         JOIN tags ON "organization-tags"."tagId" = "tags".id
-        WHERE "tags"."name" = 'POLE EMPLOI' AND "organization-tags"."organizationId" = "organizations".id) as "organizationIsPoleEmploi"`))
+        WHERE "tags"."name" = 'POLE EMPLOI' AND "organization-tags"."organizationId" = "organizations".id) as "organizationIsPoleEmploi"`)
+      )
       .join('organizations', 'organizations.id', 'campaigns.organizationId')
       .leftJoin('target-profiles', 'target-profiles.id', 'campaigns.targetProfileId')
       .leftJoin('organization-tags', 'organization-tags.organizationId', 'organizations.id')
@@ -70,11 +71,11 @@ module.exports = {
 
 async function _checkCanAccessToCampaign(campaign, userId, domainTransaction) {
   if (campaign.isArchived) {
-    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
+    throw new ForbiddenAccess("Vous n'êtes pas autorisé à rejoindre la campagne");
   }
 
-  if (campaign.isRestricted && await _hasNoActiveSchoolingRegistration(userId, campaign, domainTransaction)) {
-    throw new ForbiddenAccess('Vous n\'êtes pas autorisé à rejoindre la campagne');
+  if (campaign.isRestricted && (await _hasNoActiveSchoolingRegistration(userId, campaign, domainTransaction))) {
+    throw new ForbiddenAccess("Vous n'êtes pas autorisé à rejoindre la campagne");
   }
 }
 
@@ -89,21 +90,24 @@ async function _hasNoActiveSchoolingRegistration(userId, campaign, domainTransac
 }
 
 async function _checkCanParticipateToCampaign(campaign, userId, domainTransaction) {
-  if (campaign.multipleSendings && campaign.isAssessment && await _cannotImproveResults(campaign.id, userId, domainTransaction)) {
+  if (
+    campaign.multipleSendings &&
+    campaign.isAssessment &&
+    (await _cannotImproveResults(campaign.id, userId, domainTransaction))
+  ) {
     throw new ForbiddenAccess('Vous ne pouvez pas repasser la campagne');
   }
-  if (!campaign.multipleSendings && await _hasAlreadyParticipatedToCampaign(campaign.id, userId, domainTransaction)) {
-    throw new AlreadyExistingCampaignParticipationError(`User ${userId} has already a campaign participation with campaign ${campaign.id}`);
+  if (!campaign.multipleSendings && (await _hasAlreadyParticipatedToCampaign(campaign.id, userId, domainTransaction))) {
+    throw new AlreadyExistingCampaignParticipationError(
+      `User ${userId} has already a campaign participation with campaign ${campaign.id}`
+    );
   }
 }
 
 async function _hasAlreadyParticipatedToCampaign(campaignId, userId, domainTransaction) {
   const knexConn = domainTransaction.knexTransaction || knex;
 
-  const { count } = await knexConn('campaign-participations')
-    .count('id')
-    .where({ userId, campaignId })
-    .first();
+  const { count } = await knexConn('campaign-participations').count('id').where({ userId, campaignId }).first();
   return count > 0;
 }
 
@@ -115,15 +119,15 @@ async function _cannotImproveResults(campaignId, userId, domainTransaction) {
     .join('campaigns', 'campaigns.targetProfileId', 'target-profiles_skills.targetProfileId')
     .where({ 'campaigns.id': campaignId });
 
-  const operativeTargetProfileSkillIds = await skillDatasource.findOperativeByRecordIds(targetProfileSkillIds.map(({ skillId }) => skillId));
+  const operativeTargetProfileSkillIds = await skillDatasource.findOperativeByRecordIds(
+    targetProfileSkillIds.map(({ skillId }) => skillId)
+  );
 
   const { count } = await knexConn('campaign-participations')
     .count('id')
     .where({ userId, campaignId, isImproved: false })
     .andWhere((builder) => {
-      builder
-        .whereNull('sharedAt')
-        .orWhere('validatedSkillsCount', '>=', operativeTargetProfileSkillIds.length);
+      builder.whereNull('sharedAt').orWhere('validatedSkillsCount', '>=', operativeTargetProfileSkillIds.length);
     })
     .first();
 

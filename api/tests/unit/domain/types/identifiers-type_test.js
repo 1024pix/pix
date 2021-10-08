@@ -1,13 +1,10 @@
 const { expect } = require('../../../test-helper');
 const { userId, competenceId } = require('../../../../lib/domain/types/identifiers-type');
 
-describe('Unit | Domain | Type | identifier-types', function() {
-
-  describe('#userId', function() {
-
-    context('when id is valid', function() {
-
-      it('should not reject', function() {
+describe('Unit | Domain | Type | identifier-types', function () {
+  describe('#userId', function () {
+    context('when id is valid', function () {
+      it('should not reject', function () {
         // given
         const validId = 1;
 
@@ -19,9 +16,8 @@ describe('Unit | Domain | Type | identifier-types', function() {
       });
     });
 
-    context('when id is invalid', function() {
-
-      it('should reject outside of lower bound', async function() {
+    context('when id is invalid', function () {
+      it('should reject outside of lower bound', async function () {
         // given
         const lowerBoundOutOfRangeId = 0;
 
@@ -32,7 +28,7 @@ describe('Unit | Domain | Type | identifier-types', function() {
         expect(error.message).to.equal('"value" must be greater than or equal to 1');
       });
 
-      it('should reject outside of upper bound', async function() {
+      it('should reject outside of upper bound', async function () {
         // given
         const upperBoundOutOfRangeId = 2147483648;
 
@@ -42,15 +38,12 @@ describe('Unit | Domain | Type | identifier-types', function() {
         // then
         expect(error.message).to.equal('"value" must be less than or equal to 2147483647');
       });
-
     });
   });
 
-  describe('#competenceId', function() {
-
-    context('when id is valid', function() {
-
-      it('should not reject', function() {
+  describe('#competenceId', function () {
+    context('when id is valid', function () {
+      it('should not reject', function () {
         // given
         const validId = '1234567890123456';
 
@@ -62,9 +55,8 @@ describe('Unit | Domain | Type | identifier-types', function() {
       });
     });
 
-    context('when id is invalid', function() {
-
-      it('should reject when empty', async function() {
+    context('when id is invalid', function () {
+      it('should reject when empty', async function () {
         // given
         const emptyString = '';
 
@@ -75,7 +67,7 @@ describe('Unit | Domain | Type | identifier-types', function() {
         expect(error.message).to.equal('"value" is not allowed to be empty');
       });
 
-      it('should reject when too large', async function() {
+      it('should reject when too large', async function () {
         // given
         const tooLargeString = 'A'.repeat(256);
 
@@ -85,7 +77,6 @@ describe('Unit | Domain | Type | identifier-types', function() {
         // then
         expect(error.message).to.equal('"value" length must be less than or equal to 255 characters long');
       });
-
     });
   });
 });

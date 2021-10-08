@@ -2,13 +2,12 @@ const { expect, sinon } = require('../../../test-helper');
 const changeUserLang = require('../../../../lib/domain/usecases/change-user-lang');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | change-user-lang', function() {
-
-  beforeEach(function() {
+describe('Unit | UseCase | change-user-lang', function () {
+  beforeEach(function () {
     sinon.stub(userRepository, 'updateUserAttributes');
   });
 
-  it('should modify user attributes to change lang', async function() {
+  it('should modify user attributes to change lang', async function () {
     // given
     const userId = Symbol('userId');
     const updatedUser = Symbol('updateduser');
@@ -22,5 +21,4 @@ describe('Unit | UseCase | change-user-lang', function() {
     expect(userRepository.updateUserAttributes).to.have.been.calledWith(userId, { lang });
     expect(actualUpdatedUser).to.equal(updatedUser);
   });
-
 });

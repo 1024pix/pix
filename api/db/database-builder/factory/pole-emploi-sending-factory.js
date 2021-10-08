@@ -13,8 +13,9 @@ function build({
   createdAt = new Date('2020-01-01'),
   campaignParticipationId,
 } = {}) {
-
-  campaignParticipationId = _.isNil(campaignParticipationId) ? buildCampaignParticipation().id : campaignParticipationId;
+  campaignParticipationId = _.isNil(campaignParticipationId)
+    ? buildCampaignParticipation().id
+    : campaignParticipationId;
 
   const values = {
     id,

@@ -2,31 +2,27 @@ const GrantedAccreditation = require('../../../../lib/domain/models/GrantedAccre
 const { expect, domainBuilder } = require('../../../test-helper');
 const _ = require('lodash');
 
-const GRANTED_ACCREDITATION_PROPS = [
-  'id',
-  'accreditationId',
-  'certificationCenterId',
-];
+const GRANTED_ACCREDITATION_PROPS = ['id', 'accreditationId', 'certificationCenterId'];
 
-describe('Unit | Domain | Models | GrantedAccreditation', function() {
+describe('Unit | Domain | Models | GrantedAccreditation', function () {
   let grantedAccreditations;
 
-  beforeEach(function() {
+  beforeEach(function () {
     grantedAccreditations = domainBuilder.buildGrantedAccreditation({
       accreditationId: 456,
       certificationCenterId: 789,
     });
   });
 
-  it('should create an object of the GrantedAccreditation type', function() {
+  it('should create an object of the GrantedAccreditation type', function () {
     expect(grantedAccreditations).to.be.instanceOf(GrantedAccreditation);
   });
 
-  it('should create an object with all the requires properties', function() {
+  it('should create an object with all the requires properties', function () {
     expect(_.keys(grantedAccreditations)).to.have.deep.members(GRANTED_ACCREDITATION_PROPS);
   });
 
-  it('should create an object with correct properties using a domain builder', function() {
+  it('should create an object with correct properties using a domain builder', function () {
     // when
     const domainBuiltGrantedAccreditations = domainBuilder.buildGrantedAccreditation({
       id: 123,

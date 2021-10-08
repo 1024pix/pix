@@ -12,10 +12,7 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 const { SHARED } = CampaignParticipation.statuses;
 
 function _getUniqMostRecents(knowledgeElements) {
-  return _(knowledgeElements)
-    .orderBy('createdAt', 'desc')
-    .uniqBy('skillId')
-    .value();
+  return _(knowledgeElements).orderBy('createdAt', 'desc').uniqBy('skillId').value();
 }
 
 function _dropResetKnowledgeElements(knowledgeElements) {
@@ -27,21 +24,27 @@ function _applyFilters(knowledgeElements) {
   return _dropResetKnowledgeElements(uniqsMostRecentPerSkill);
 }
 
-function _findByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction = DomainTransaction.emptyTransaction() }) {
+function _findByUserIdAndLimitDateQuery({
+  userId,
+  limitDate,
+  domainTransaction = DomainTransaction.emptyTransaction(),
+}) {
   const knexConn = domainTransaction.knexTransaction || knex;
-  return knexConn('knowledge-elements')
-    .where((qb) => {
-      qb.where({ userId });
-      if (limitDate) {
-        qb.where('createdAt', '<', limitDate);
-      }
-    });
+  return knexConn('knowledge-elements').where((qb) => {
+    qb.where({ userId });
+    if (limitDate) {
+      qb.where('createdAt', '<', limitDate);
+    }
+  });
 }
 
 async function _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction }) {
   const knowledgeElementRows = await _findByUserIdAndLimitDateQuery({ userId, limitDate, domainTransaction });
 
-  const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
+  const knowledgeElements = _.map(
+    knowledgeElementRows,
+    (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)
+  );
   return _applyFilters(knowledgeElements);
 }
 
@@ -63,7 +66,9 @@ async function _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, 
 }
 
 async function _findSnapshotsForUsers(userIdsAndDates) {
-  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(userIdsAndDates);
+  const knowledgeElementsGroupedByUser = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates(
+    userIdsAndDates
+  );
 
   for (const [userIdStr, knowledgeElementsFromSnapshot] of Object.entries(knowledgeElementsGroupedByUser)) {
     const userId = parseInt(userIdStr);
@@ -81,11 +86,12 @@ async function _findSnapshotsForUsers(userIdsAndDates) {
 
 async function _countValidatedTargetedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent) {
   const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
-  return targetProfileWithLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(_.flatMap(knowledgeElementsGroupedByUser));
+  return targetProfileWithLearningContent.countValidatedTargetedKnowledgeElementsByCompetence(
+    _.flatMap(knowledgeElementsGroupedByUser)
+  );
 }
 
 module.exports = {
-
   async save(knowledgeElement) {
     const knowledgeElementToSave = _.omit(knowledgeElement, ['id', 'createdAt']);
     const savedKnowledgeElement = await new BookshelfKnowledgeElement(knowledgeElementToSave).save();
@@ -101,15 +107,25 @@ module.exports = {
     const query = _findByUserIdAndLimitDateQuery({ userId });
     const knowledgeElementRows = await query.where({ assessmentId });
 
-    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
+    const knowledgeElements = _.map(
+      knowledgeElementRows,
+      (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)
+    );
     return _applyFilters(knowledgeElements);
   },
 
-  async findUniqByUserIdAndCompetenceId({ userId, competenceId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+  async findUniqByUserIdAndCompetenceId({
+    userId,
+    competenceId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
     const query = _findByUserIdAndLimitDateQuery({ userId });
     const knowledgeElementRows = await query.where({ competenceId }, { transacting: domainTransaction });
 
-    const knowledgeElements = _.map(knowledgeElementRows, (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow));
+    const knowledgeElements = _.map(
+      knowledgeElementRows,
+      (knowledgeElementRow) => new KnowledgeElement(knowledgeElementRow)
+    );
     return _applyFilters(knowledgeElements);
   },
 
@@ -139,12 +155,15 @@ module.exports = {
       .select('userId', 'sharedAt')
       .where({ campaignId, status: SHARED });
 
-    const knowledgeElements = _.flatMap(await bluebird.map(sharedCampaignParticipations,
-      async ({ userId, sharedAt }) => {
-        return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
-      },
-      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS },
-    ));
+    const knowledgeElements = _.flatMap(
+      await bluebird.map(
+        sharedCampaignParticipations,
+        async ({ userId, sharedAt }) => {
+          return _findAssessedByUserIdAndLimitDateQuery({ userId, limitDate: sharedAt });
+        },
+        { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+      )
+    );
 
     return _filterValidatedKnowledgeElementsByCampaignId(knowledgeElements, campaignId);
   },
@@ -171,7 +190,8 @@ module.exports = {
     const knowledgeElementsGroupedByUserAndCompetence = {};
 
     for (const [userId, knowledgeElements] of Object.entries(knowledgeElementsGroupedByUser)) {
-      knowledgeElementsGroupedByUserAndCompetence[userId] = targetProfileWithLearningContent.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
+      knowledgeElementsGroupedByUserAndCompetence[userId] =
+        targetProfileWithLearningContent.getKnowledgeElementsGroupedByCompetence(knowledgeElements);
     }
 
     return knowledgeElementsGroupedByUserAndCompetence;
@@ -180,12 +200,12 @@ module.exports = {
   async findValidatedTargetedGroupedByTubes(userIdsAndDates, targetProfileWithLearningContent) {
     const knowledgeElementsGroupedByUser = await _findSnapshotsForUsers(userIdsAndDates);
 
-    return targetProfileWithLearningContent.getValidatedKnowledgeElementsGroupedByTube(_.flatMap(knowledgeElementsGroupedByUser));
+    return targetProfileWithLearningContent.getValidatedKnowledgeElementsGroupedByTube(
+      _.flatMap(knowledgeElementsGroupedByUser)
+    );
   },
 
   async findSnapshotForUsers(userIdsAndDates) {
     return _findSnapshotsForUsers(userIdsAndDates);
   },
-
 };
-

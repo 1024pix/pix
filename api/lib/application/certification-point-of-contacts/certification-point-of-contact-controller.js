@@ -2,7 +2,6 @@ const certificationPointOfContactSerializer = require('../../infrastructure/seri
 const usecases = require('../../domain/usecases');
 
 module.exports = {
-
   async get(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const certificationPointOfContact = await usecases.getCertificationPointOfContact({ userId: authenticatedUserId });

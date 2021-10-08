@@ -6,18 +6,26 @@ const targetProfileWithLearningContentRepository = require('./target-profile-wit
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId, locale }) {
-    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({ campaignId, locale });
+    const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.getByCampaignId({
+      campaignId,
+      locale,
+    });
 
-    const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
+    const result = await _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
+      campaignId,
+      campaignParticipationId
+    );
 
     return _buildCampaignAssessmentParticipationResults(result, targetProfileWithLearningContent);
   },
 };
 
-async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
-
-  const [campaignAssessmentParticipationResult] = await knex.with('campaignAssessmentParticipationResult',
-    (qb) => {
+async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaignParticipation(
+  campaignId,
+  campaignParticipationId
+) {
+  const [campaignAssessmentParticipationResult] = await knex
+    .with('campaignAssessmentParticipationResult', (qb) => {
       qb.select([
         'users.id AS userId',
         'campaign-participations.id AS campaignParticipationId',
@@ -44,8 +52,12 @@ async function _fetchCampaignAssessmentParticipationResultAttributesFromCampaign
 }
 
 async function _buildCampaignAssessmentParticipationResults(result, targetProfileWithLearningContent) {
-  const validatedTargetedKnowledgeElementsCountByCompetenceId = await knowledgeElementRepository
-    .countValidatedTargetedByCompetencesForOneUser(result.userId, result.sharedAt, targetProfileWithLearningContent);
+  const validatedTargetedKnowledgeElementsCountByCompetenceId =
+    await knowledgeElementRepository.countValidatedTargetedByCompetencesForOneUser(
+      result.userId,
+      result.sharedAt,
+      targetProfileWithLearningContent
+    );
 
   return new CampaignAssessmentParticipationResult({
     ...result,

@@ -8,7 +8,6 @@ module.exports = async function authenticateAnonymousUser({
   userRepository,
   tokenService,
 }) {
-
   const campaign = await campaignToJoinRepository.getByCode(campaignCode);
   if (!campaign.isSimplifiedAccess) {
     throw new UserCantBeCreatedError();

@@ -5,7 +5,10 @@ const validationConfiguration = { allowUnknown: true };
 const MAX_LENGTH = 255;
 
 const validationSchema = Joi.object({
-  studentNumber: Joi.string().regex(/^[a-zA-Z0-9_\\-]*$/).max(MAX_LENGTH).required(),
+  studentNumber: Joi.string()
+    .regex(/^[a-zA-Z0-9_\\-]*$/)
+    .max(MAX_LENGTH)
+    .required(),
   firstName: Joi.string().max(MAX_LENGTH).required(),
   middleName: Joi.string().max(MAX_LENGTH).optional(),
   thirdName: Joi.string().max(MAX_LENGTH).optional(),
@@ -23,10 +26,7 @@ const validationSchema = Joi.object({
 
 module.exports = {
   checkValidation(higherSchoolingRegistration) {
-    const { error } = validationSchema.validate(
-      higherSchoolingRegistration,
-      validationConfiguration,
-    );
+    const { error } = validationSchema.validate(higherSchoolingRegistration, validationConfiguration);
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);
       err.key = error.details[0].context.key;

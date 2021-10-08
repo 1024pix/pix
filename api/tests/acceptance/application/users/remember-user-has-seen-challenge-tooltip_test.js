@@ -1,20 +1,18 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip', function() {
-
+describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip', function () {
   let server;
   let user;
   let options;
   let challengeType;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('Resource access management', function() {
-
-    beforeEach(function() {
+  describe('Resource access management', function () {
+    beforeEach(function () {
       challengeType = 'focused';
       user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
 
@@ -27,7 +25,7 @@ describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip'
       return databaseBuilder.commit();
     });
 
-    it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
       // given
       options.headers.authorization = 'invalid.access.token';
 
@@ -38,7 +36,7 @@ describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip'
       expect(response.statusCode).to.equal(401);
     });
 
-    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
       // given
       const otherUserId = 9999;
       options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -51,9 +49,8 @@ describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip'
     });
   });
 
-  describe('Success cases', function() {
-
-    it('should return the user with has seen challenge tooltip', async function() {
+  describe('Success cases', function () {
+    it('should return the user with has seen challenge tooltip', async function () {
       // given
       challengeType = 'focused';
       user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });
@@ -72,7 +69,7 @@ describe('Acceptance | Controller | users-controller-has-seen-challenge-tooltip'
       expect(response.result.data.attributes['has-seen-focused-challenge-tooltip']).to.be.true;
     });
 
-    it('should return the user with has seen other challenges tooltip', async function() {
+    it('should return the user with has seen other challenges tooltip', async function () {
       // given
       challengeType = 'other';
       user = databaseBuilder.factory.buildUser({ hasSeenFocusedChallengeTooltip: false });

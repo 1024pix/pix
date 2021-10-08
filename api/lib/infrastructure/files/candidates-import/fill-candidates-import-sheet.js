@@ -19,7 +19,10 @@ module.exports = async function fillCandidatesImportSheet(session) {
 
   const updatedStringifiedXml = _updateXml(stringifiedXml, sessionData, candidatesData);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getCandidatesImportTemplatePath() });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({
+    stringifiedXml: updatedStringifiedXml,
+    odsFilePath: _getCandidatesImportTemplatePath(),
+  });
 };
 
 function _updateXml(stringifiedXml, sessionData, candidatesData) {
@@ -66,28 +69,27 @@ function _emptyCandidatesData(numberOfEnrolledCandidates) {
 }
 
 class CandidateData {
-  constructor(
-    {
-      id = null,
-      firstName = null,
-      lastName = null,
-      sex = null,
-      birthPostalCode = null,
-      birthINSEECode = null,
-      birthCity = null,
-      birthProvinceCode = null,
-      birthCountry = null,
-      email = null,
-      resultRecipientEmail = null,
-      externalId = null,
-      birthdate = null,
-      extraTimePercentage = null,
-      createdAt = null,
-      sessionId = null,
-      userId = null,
-      schoolingRegistrationId = null,
-      number = null,
-    }) {
+  constructor({
+    id = null,
+    firstName = null,
+    lastName = null,
+    sex = null,
+    birthPostalCode = null,
+    birthINSEECode = null,
+    birthCity = null,
+    birthProvinceCode = null,
+    birthCountry = null,
+    email = null,
+    resultRecipientEmail = null,
+    externalId = null,
+    birthdate = null,
+    extraTimePercentage = null,
+    createdAt = null,
+    sessionId = null,
+    userId = null,
+    schoolingRegistrationId = null,
+    number = null,
+  }) {
     this.id = this._emptyStringIfNull(id);
     this.firstName = this._emptyStringIfNull(firstName);
     this.lastName = this._emptyStringIfNull(lastName);
@@ -184,4 +186,3 @@ class SessionData {
     return new SessionData(session);
   }
 }
-

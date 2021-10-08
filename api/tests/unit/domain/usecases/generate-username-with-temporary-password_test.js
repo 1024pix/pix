@@ -4,8 +4,7 @@ const { UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../.
 
 const generateUsernameWithTemporaryPassword = require('../../../../lib/domain/usecases/generate-username-with-temporary-password.js');
 
-describe('Unit | UseCase | generate-username-with-temporary-password', function() {
-
+describe('Unit | UseCase | generate-username-with-temporary-password', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const userRelatedToStudent = domainBuilder.buildUser({
@@ -34,7 +33,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
   let userRepository;
   let schoolingRegistrationRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({
       organization,
     });
@@ -69,13 +68,15 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
     userRepository.get.resolves(userRelatedToStudent);
   });
 
-  it('should generate username and temporary password', async function() {
+  it('should generate username and temporary password', async function () {
     // when
     const result = await generateUsernameWithTemporaryPassword({
       schoolingRegistrationId,
       organizationId,
       passwordGenerator,
-      encryptionService, userReconciliationService, userService,
+      encryptionService,
+      userReconciliationService,
+      userService,
       authenticationMethodRepository,
       userRepository,
       schoolingRegistrationRepository,
@@ -86,7 +87,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
     expect(result.generatedPassword).to.be.equal(expectedPassword);
   });
 
-  it('should throw an error when student has not access to the organization', async function() {
+  it('should throw an error when student has not access to the organization', async function () {
     // given
     schoolingRegistration.organizationId = 99;
 
@@ -95,7 +96,9 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
       schoolingRegistrationId,
       organizationId,
       passwordGenerator,
-      encryptionService, userReconciliationService, userService,
+      encryptionService,
+      userReconciliationService,
+      userService,
       authenticationMethodRepository,
       userRepository,
       schoolingRegistrationRepository,
@@ -103,10 +106,12 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
 
     // then
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
-    expect(error.message).to.be.equal(`L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`);
+    expect(error.message).to.be.equal(
+      `L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`
+    );
   });
 
-  it('should throw an error when student account has already a username', async function() {
+  it('should throw an error when student account has already a username', async function () {
     // given
     userRelatedToStudent.username = 'username';
     userRepository.get.resolves(userRelatedToStudent);
@@ -116,7 +121,9 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
       schoolingRegistrationId,
       organizationId,
       passwordGenerator,
-      encryptionService, userReconciliationService, userService,
+      encryptionService,
+      userReconciliationService,
+      userService,
       authenticationMethodRepository,
       userRepository,
       schoolingRegistrationRepository,
@@ -124,11 +131,12 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
 
     // then
     expect(error).to.be.instanceof(UserNotAuthorizedToGenerateUsernamePasswordError);
-    expect(error.message).to.be.equal(`Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`);
+    expect(error.message).to.be.equal(
+      `Ce compte utilisateur dispose déjà d'un identifiant: ${userRelatedToStudent.username}.`
+    );
   });
 
-  context('when schooling-registration refers to an user with a password', function() {
-
+  context('when schooling-registration refers to an user with a password', function () {
     const username = 'john.doe2510';
     const userEmail = 'john.doe@example.net';
 
@@ -137,7 +145,7 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
     let organizationId;
     let schoolingRegistration;
 
-    beforeEach(function() {
+    beforeEach(function () {
       userWithEmail = domainBuilder.buildUser({
         email: userEmail,
         username: null,
@@ -158,13 +166,15 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
       authenticationMethodRepository.hasIdentityProviderPIX.resolves(true);
     });
 
-    it('should return an username', async function() {
+    it('should return an username', async function () {
       // when
       const result = await generateUsernameWithTemporaryPassword({
         schoolingRegistrationId: schoolingRegistration.id,
         organizationId,
         passwordGenerator,
-        encryptionService, userReconciliationService, userService,
+        encryptionService,
+        userReconciliationService,
+        userService,
         authenticationMethodRepository,
         userRepository,
         schoolingRegistrationRepository,
@@ -174,5 +184,4 @@ describe('Unit | UseCase | generate-username-with-temporary-password', function(
       expect(result.username).to.be.equal(username);
     });
   });
-
 });

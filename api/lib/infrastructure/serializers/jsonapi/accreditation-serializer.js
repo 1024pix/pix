@@ -3,7 +3,6 @@ const { Serializer } = require('jsonapi-serializer');
 const Accreditation = require('../../../domain/models/Accreditation');
 
 module.exports = {
-
   serialize(accreditation) {
     return new Serializer('accreditation', {
       attributes: ['name'],

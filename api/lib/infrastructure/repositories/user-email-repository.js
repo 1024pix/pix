@@ -4,7 +4,6 @@ const EXPIRATION_DELAY_SECONDS = settings.temporaryStorage.expirationDelaySecond
 const EmailModificationDemand = require('../../domain/models/EmailModificationDemand');
 
 module.exports = {
-
   saveEmailModificationDemand({ userId, code, newEmail }) {
     const key = 'VERIFY-EMAIL-' + userId;
 

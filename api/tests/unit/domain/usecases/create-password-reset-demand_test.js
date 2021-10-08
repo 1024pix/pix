@@ -4,15 +4,16 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const { createPasswordResetDemand } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | create-password-reset-demand', function() {
-
+describe('Unit | UseCase | create-password-reset-demand', function () {
   const email = 'user@example.net';
   const locale = 'fr';
   const temporaryKey = 'ABCDEF123';
 
   const resetPasswordDemand = {
     attributes: {
-      id: 1, email, temporaryKey,
+      id: 1,
+      email,
+      temporaryKey,
     },
   };
 
@@ -21,7 +22,7 @@ describe('Unit | UseCase | create-password-reset-demand', function() {
   let resetPasswordDemandRepository;
   let userRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     mailService = {
       sendResetPasswordDemandEmail: sinon.stub(),
     };
@@ -40,7 +41,7 @@ describe('Unit | UseCase | create-password-reset-demand', function() {
     resetPasswordDemandRepository.create.resolves(resetPasswordDemand);
   });
 
-  it('should create a password reset demand if user email exists', async function() {
+  it('should create a password reset demand if user email exists', async function () {
     // when
     const result = await createPasswordResetDemand({
       email,
@@ -57,11 +58,10 @@ describe('Unit | UseCase | create-password-reset-demand', function() {
     expect(userRepository.isUserExistingByEmail).to.have.been.calledWithExactly(email);
     expect(resetPasswordService.generateTemporaryKey).to.have.been.calledOnce;
     expect(resetPasswordDemandRepository.create).to.have.been.calledWithExactly({ email, temporaryKey });
-    expect(mailService.sendResetPasswordDemandEmail)
-      .to.have.been.calledWithExactly({ email, locale, temporaryKey });
+    expect(mailService.sendResetPasswordDemandEmail).to.have.been.calledWithExactly({ email, locale, temporaryKey });
   });
 
-  it('should throw UserNotFoundError if user email does not exist', async function() {
+  it('should throw UserNotFoundError if user email does not exist', async function () {
     // given
     userRepository.isUserExistingByEmail.throws(new UserNotFoundError());
 
@@ -78,5 +78,4 @@ describe('Unit | UseCase | create-password-reset-demand', function() {
     // then
     expect(error).to.be.an.instanceOf(UserNotFoundError);
   });
-
 });

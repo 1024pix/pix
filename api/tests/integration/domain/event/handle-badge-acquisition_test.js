@@ -7,49 +7,58 @@ const knowledgeElementRepository = require('../../../../lib/infrastructure/repos
 const targetProfileRepository = require('../../../../lib/infrastructure/repositories/target-profile-repository');
 const AsessmentCompletedEvent = require('../../../../lib/domain/events/AssessmentCompleted');
 
-describe('Integration | Event | Handle Badge Acquisition Service', function() {
-
+describe('Integration | Event | Handle Badge Acquisition Service', function () {
   let userId, event, badgeCompleted;
 
-  describe('#handleBadgeAcquisition', function() {
-
-    beforeEach(async function() {
+  describe('#handleBadgeAcquisition', function () {
+    beforeEach(async function () {
       const listSkill = ['web1', 'web2', 'web3', 'web4'];
 
-      const learningContent = [{
-        id: 'recArea1',
-        titleFrFr: 'area1_Title',
-        color: 'someColor',
-        competences: [{
-          id: 'competenceId',
-          nameFrFr: 'Mener une recherche et une veille d’information',
-          index: '1.1',
-          tubes: [{
-            id: 'recTube0_0',
-            skills: [{
-              id: listSkill[0],
-              nom: '@web1',
-              status: 'actif',
-              challenges: [],
-            }, {
-              id: listSkill[1],
-              nom: '@web2',
-              status: 'actif',
-              challenges: [],
-            }, {
-              id: listSkill[2],
-              nom: 'web3',
-              status: 'actif',
-              challenges: [],
-            }, {
-              id: listSkill[3],
-              nom: 'web4',
-              status: 'actif',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'someColor',
+          competences: [
+            {
+              id: 'competenceId',
+              nameFrFr: 'Mener une recherche et une veille d’information',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube0_0',
+                  skills: [
+                    {
+                      id: listSkill[0],
+                      nom: '@web1',
+                      status: 'actif',
+                      challenges: [],
+                    },
+                    {
+                      id: listSkill[1],
+                      nom: '@web2',
+                      status: 'actif',
+                      challenges: [],
+                    },
+                    {
+                      id: listSkill[2],
+                      nom: 'web3',
+                      status: 'actif',
+                      challenges: [],
+                    },
+                    {
+                      id: listSkill[3],
+                      nom: 'web4',
+                      status: 'actif',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       userId = databaseBuilder.factory.buildUser().id;
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -64,7 +73,9 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
 
       badgeCompleted = databaseBuilder.factory.buildBadge({
         targetProfileId,
-        badgePartnerCompetences: [], key: 'Badge1' });
+        badgePartnerCompetences: [],
+        key: 'Badge1',
+      });
       databaseBuilder.factory.buildBadgeCriterion({
         scope: 'CampaignParticipation',
         badgeId: badgeCompleted.id,
@@ -73,14 +84,21 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
 
       const badgeNotCompletedId = databaseBuilder.factory.buildBadge({
         targetProfileId,
-        badgePartnerCompetences: [], key: 'Badge2' }).id;
+        badgePartnerCompetences: [],
+        key: 'Badge2',
+      }).id;
       databaseBuilder.factory.buildBadgeCriterion({
         scope: 'CampaignParticipation',
         badgeId: badgeNotCompletedId,
         threshold: 90,
       });
 
-      databaseBuilder.factory.buildBadge({ targetProfileId, badgeCriteria: [], badgePartnerCompetences: [], key: 'Badge3' }).id;
+      databaseBuilder.factory.buildBadge({
+        targetProfileId,
+        badgeCriteria: [],
+        badgePartnerCompetences: [],
+        key: 'Badge3',
+      }).id;
 
       event = new AsessmentCompletedEvent();
       event.userId = userId;
@@ -92,11 +110,11 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('badge-acquisitions').delete();
     });
 
-    it('should save only the validated badges', async function() {
+    it('should save only the validated badges', async function () {
       // when
       await handleBadgeAcquisitionEvent({
         event,
@@ -113,6 +131,5 @@ describe('Integration | Event | Handle Badge Acquisition Service', function() {
       expect(badgeAcquisitions[0].userId).to.equal(userId);
       expect(badgeAcquisitions[0].badgeId).to.equal(badgeCompleted.id);
     });
-
   });
 });

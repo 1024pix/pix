@@ -22,11 +22,17 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
   try {
     version = await readOdsUtils.getOdsVersionByHeaders({
       odsBuffer,
-      transformationStructsByVersion: _.orderBy(TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION, ['version'], ['desc']) });
+      transformationStructsByVersion: _.orderBy(
+        TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION,
+        ['version'],
+        ['desc']
+      ),
+    });
   } catch (err) {
     _handleVersionError();
   }
-  const tableHeaderTargetPropertyMap = TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION[version].transformStruct;
+  const tableHeaderTargetPropertyMap =
+    TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION[version].transformStruct;
   let certificationCandidatesDataByLine = null;
   try {
     certificationCandidatesDataByLine = await readOdsUtils.extractTableDataFromOdsFile({
@@ -39,57 +45,57 @@ async function extractCertificationCandidatesFromCandidatesImportSheet({
 
   certificationCandidatesDataByLine = _filterOutEmptyCandidateData(certificationCandidatesDataByLine);
 
-  return await bluebird.mapSeries(Object.entries(certificationCandidatesDataByLine), async ([line, certificationCandidateData]) => {
-    let {
-      sex,
-      birthCountry,
-      birthINSEECode,
-      birthPostalCode,
-      birthCity,
-    } = certificationCandidateData;
+  return await bluebird.mapSeries(
+    Object.entries(certificationCandidatesDataByLine),
+    async ([line, certificationCandidateData]) => {
+      let { sex, birthCountry, birthINSEECode, birthPostalCode, birthCity } = certificationCandidateData;
 
-    if (version === '1.5') {
-      if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
-      if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
+      if (version === '1.5') {
+        if (certificationCandidateData.sex?.toUpperCase() === 'M') sex = 'M';
+        if (certificationCandidateData.sex?.toUpperCase() === 'F') sex = 'F';
 
-      const cpfBirthInformation = await certificationCpfService.getBirthInformation({
-        ...certificationCandidateData,
-        certificationCpfCityRepository,
-        certificationCpfCountryRepository,
-      });
+        const cpfBirthInformation = await certificationCpfService.getBirthInformation({
+          ...certificationCandidateData,
+          certificationCpfCityRepository,
+          certificationCpfCountryRepository,
+        });
 
-      if (cpfBirthInformation.hasFailed()) {
-        _handleBirthInformationValidationError(cpfBirthInformation, line);
+        if (cpfBirthInformation.hasFailed()) {
+          _handleBirthInformationValidationError(cpfBirthInformation, line);
+        }
+
+        birthCountry = cpfBirthInformation.birthCountry;
+        birthINSEECode = cpfBirthInformation.birthINSEECode;
+        birthPostalCode = cpfBirthInformation.birthPostalCode;
+        birthCity = cpfBirthInformation.birthCity;
       }
 
-      birthCountry = cpfBirthInformation.birthCountry;
-      birthINSEECode = cpfBirthInformation.birthINSEECode;
-      birthPostalCode = cpfBirthInformation.birthPostalCode;
-      birthCity = cpfBirthInformation.birthCity;
+      const certificationCandidate = new CertificationCandidate({
+        ...certificationCandidateData,
+        birthCountry,
+        birthINSEECode,
+        birthPostalCode,
+        birthCity,
+        sex,
+        sessionId,
+      });
+
+      try {
+        certificationCandidate.validate(version);
+      } catch (err) {
+        _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
+      }
+
+      return certificationCandidate;
     }
-
-    const certificationCandidate = new CertificationCandidate({
-      ...certificationCandidateData,
-      birthCountry,
-      birthINSEECode,
-      birthPostalCode,
-      birthCity,
-      sex,
-      sessionId,
-    });
-
-    try {
-      certificationCandidate.validate(version);
-    } catch (err) {
-      _handleFieldValidationError(err, tableHeaderTargetPropertyMap, line);
-    }
-
-    return certificationCandidate;
-  });
+  );
 }
 
 function _filterOutEmptyCandidateData(certificationCandidatesData) {
-  return _(certificationCandidatesData).mapValues(_nullifyObjectWithOnlyNilValues).pickBy((value) => !_.isNull(value)).value();
+  return _(certificationCandidatesData)
+    .mapValues(_nullifyObjectWithOnlyNilValues)
+    .pickBy((value) => !_.isNull(value))
+    .value();
 }
 
 function _nullifyObjectWithOnlyNilValues(data) {

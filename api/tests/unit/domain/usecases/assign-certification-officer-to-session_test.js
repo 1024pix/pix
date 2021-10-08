@@ -1,9 +1,8 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const assignCertificationOfficerToJurySession = require('../../../../lib/domain/usecases/assign-certification-officer-to-jury-session');
 
-describe('Unit | UseCase | assign-certification-officer-to-session', function() {
-
-  it('should return the session id after assigningUser to it', async function() {
+describe('Unit | UseCase | assign-certification-officer-to-session', function () {
+  it('should return the session id after assigningUser to it', async function () {
     // given
     const returnedSessionId = Symbol('returnedSessionId');
     const sessionId = 1;
@@ -12,8 +11,7 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function() 
     const jurySessionRepository = {
       assignCertificationOfficer: sinon.stub(),
     };
-    jurySessionRepository.assignCertificationOfficer
-      .resolves(returnedSessionId);
+    jurySessionRepository.assignCertificationOfficer.resolves(returnedSessionId);
 
     const finalizedSessionRepository = {
       get: sinon.stub(),
@@ -22,15 +20,11 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function() 
 
     const finalizedSession = domainBuilder.buildFinalizedSession();
 
-    finalizedSessionRepository.get
-      .withArgs({ sessionId })
-      .resolves(finalizedSession);
+    finalizedSessionRepository.get.withArgs({ sessionId }).resolves(finalizedSession);
 
     const certificationOfficerRepository = { get: sinon.stub() };
     const certificationOfficer = domainBuilder.buildCertificationOfficer();
-    certificationOfficerRepository.get
-      .withArgs(2)
-      .resolves(certificationOfficer);
+    certificationOfficerRepository.get.withArgs(2).resolves(certificationOfficer);
 
     // when
     const actualSessionId = await assignCertificationOfficerToJurySession({
@@ -42,15 +36,11 @@ describe('Unit | UseCase | assign-certification-officer-to-session', function() 
     });
 
     // then
-    expect(
-      jurySessionRepository.assignCertificationOfficer,
-    ).to.have.been.calledWith({
+    expect(jurySessionRepository.assignCertificationOfficer).to.have.been.calledWith({
       id: finalizedSession.sessionId,
       assignedCertificationOfficerId: certificationOfficer.id,
     });
-    expect(
-      finalizedSessionRepository.save,
-    ).to.have.been.calledWith(finalizedSession);
+    expect(finalizedSessionRepository.save).to.have.been.calledWith(finalizedSession);
     expect(actualSessionId).to.equal(returnedSessionId);
   });
 });

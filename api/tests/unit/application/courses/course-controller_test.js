@@ -1,9 +1,4 @@
-const {
-  expect,
-  hFake,
-  sinon,
-  generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+const { expect, hFake, sinon, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const Course = require('../../../../lib/domain/models/Course');
 const courseService = require('../../../../lib/domain/services/course-service');
@@ -11,22 +6,20 @@ const courseSerializer = require('../../../../lib/infrastructure/serializers/jso
 
 const courseController = require('../../../../lib/application/courses/course-controller');
 
-describe('Unit | Controller | course-controller', function() {
-
-  beforeEach(function() {
+describe('Unit | Controller | course-controller', function () {
+  beforeEach(function () {
     sinon.stub(courseService, 'getCourse');
     sinon.stub(courseSerializer, 'serialize');
   });
 
-  describe('#get', function() {
-
+  describe('#get', function () {
     let course;
 
-    beforeEach(function() {
-      course = new Course({ 'id': 'course_id' });
+    beforeEach(function () {
+      course = new Course({ id: 'course_id' });
     });
 
-    it('should fetch and return the given course, serialized as JSONAPI', async function() {
+    it('should fetch and return the given course, serialized as JSONAPI', async function () {
       // given
       const userId = 42;
       courseService.getCourse.resolves(course);

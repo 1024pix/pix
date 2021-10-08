@@ -4,13 +4,10 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 
-describe('Integration | Repository | Certification Center', function() {
-
-  describe('#get', function() {
-
-    context('when the certification center is found', function() {
-
-      it('should return the certification center of the given id with the right properties', async function() {
+describe('Integration | Repository | Certification Center', function () {
+  describe('#get', function () {
+    context('when the certification center is found', function () {
+      it('should return the certification center of the given id with the right properties', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -39,7 +36,7 @@ describe('Integration | Repository | Certification Center', function() {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return accreditations along with certification centers if there is any', async function() {
+      it('should return accreditations along with certification centers if there is any', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -79,10 +76,7 @@ describe('Integration | Repository | Certification Center', function() {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [
-            expectedAccreditation2,
-            expectedAccreditation1,
-          ],
+          accreditations: [expectedAccreditation2, expectedAccreditation1],
         });
 
         await databaseBuilder.commit();
@@ -94,9 +88,8 @@ describe('Integration | Repository | Certification Center', function() {
       });
     });
 
-    context('the certification center could not be found', function() {
-
-      it('should throw a NotFound error', async function() {
+    context('the certification center could not be found', function () {
+      it('should throw a NotFound error', async function () {
         // when
         const nonExistentId = 1;
         const error = await catchErr(certificationCenterRepository.get)(nonExistentId);
@@ -107,11 +100,9 @@ describe('Integration | Repository | Certification Center', function() {
     });
   });
 
-  describe('#getBySessionId', function() {
-
-    context('the certification center is found for a sessionId', function() {
-
-      it('should return the certification center of the given sessionId', async function() {
+  describe('#getBySessionId', function () {
+    context('the certification center is found for a sessionId', function () {
+      it('should return the certification center of the given sessionId', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -139,7 +130,7 @@ describe('Integration | Repository | Certification Center', function() {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return the certification center and accreditations of the given sessionId', async function() {
+      it('should return the certification center and accreditations of the given sessionId', async function () {
         // given
         const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -167,9 +158,7 @@ describe('Integration | Repository | Certification Center', function() {
           type: CertificationCenter.types.SUP,
           externalId: 'externalId',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [
-            expectedAccreditation,
-          ],
+          accreditations: [expectedAccreditation],
         });
         const sessionId = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
 
@@ -182,9 +171,8 @@ describe('Integration | Repository | Certification Center', function() {
       });
     });
 
-    context('the certification center could not be found for a sessionId', function() {
-
-      it('should throw a NotFound error', async function() {
+    context('the certification center could not be found for a sessionId', function () {
+      it('should throw a NotFound error', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 7,
@@ -204,13 +192,12 @@ describe('Integration | Repository | Certification Center', function() {
     });
   });
 
-  describe('#save', function() {
-
-    afterEach(function() {
+  describe('#save', function () {
+    afterEach(function () {
       return knex('certification-centers').delete();
     });
 
-    it('should save the given certification center', async function() {
+    it('should save the given certification center', async function () {
       // given
       const certificationCenter = new CertificationCenter({ name: 'CertificationCenterName' });
 
@@ -224,11 +211,9 @@ describe('Integration | Repository | Certification Center', function() {
     });
   });
 
-  describe('#findPaginatedFiltered', function() {
-
-    context('when there are CertificationCenters in the database', function() {
-
-      it('should return an Array of CertificationCenters', async function() {
+  describe('#findPaginatedFiltered', function () {
+    context('when there are CertificationCenters in the database', function () {
+      it('should return an Array of CertificationCenters', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -282,14 +267,19 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(matchingCertificationCenters).to.deepEqualArray([expectedCertificationCenter1, expectedCertificationCenter2, expectedCertificationCenter3]);
+        expect(matchingCertificationCenters).to.deepEqualArray([
+          expectedCertificationCenter1,
+          expectedCertificationCenter2,
+          expectedCertificationCenter3,
+        ]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
 
-      it('should return an Array of CertificationCenters and their accreditations', async function() {
+      it('should return an Array of CertificationCenters and their accreditations', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({
           id: 1,
@@ -316,9 +306,7 @@ describe('Integration | Repository | Certification Center', function() {
           type: CertificationCenter.types.SUP,
           externalId: '1',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [
-            expectedAccreditation1,
-          ],
+          accreditations: [expectedAccreditation1],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 2,
@@ -345,9 +333,7 @@ describe('Integration | Repository | Certification Center', function() {
           type: CertificationCenter.types.SCO,
           externalId: '2',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [
-            expectedAccreditation2,
-          ],
+          accreditations: [expectedAccreditation2],
         });
         databaseBuilder.factory.buildCertificationCenter({
           id: 3,
@@ -374,9 +360,7 @@ describe('Integration | Repository | Certification Center', function() {
           type: CertificationCenter.types.PRO,
           externalId: '3',
           createdAt: new Date('2018-04-01T05:43:10Z'),
-          accreditations: [
-            expectedAccreditation3,
-          ],
+          accreditations: [expectedAccreditation3],
         });
         await databaseBuilder.commit();
 
@@ -385,18 +369,21 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
-        expect(matchingCertificationCenters).to.deepEqualArray([expectedCertificationCenter1, expectedCertificationCenter2, expectedCertificationCenter3]);
+        expect(matchingCertificationCenters).to.deepEqualArray([
+          expectedCertificationCenter1,
+          expectedCertificationCenter2,
+          expectedCertificationCenter3,
+        ]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
-
     });
 
-    context('when there are lots of CertificationCenters (> 10) in the database', function() {
-
-      it('should return paginated matching CertificationCenters', async function() {
+    context('when there are lots of CertificationCenters (> 10) in the database', function () {
+      it('should return paginated matching CertificationCenters', async function () {
         // given
         _.times(12, databaseBuilder.factory.buildCertificationCenter);
         await databaseBuilder.commit();
@@ -406,7 +393,8 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(matchingCertificationCenters).to.have.lengthOf(3);
@@ -414,9 +402,8 @@ describe('Integration | Repository | Certification Center', function() {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "name" search pattern', function() {
-
-      it('should return only CertificationCenters matching "name" if given in filters', async function() {
+    context('when there are multiple CertificationCenters matching the same "name" search pattern', function () {
+      it('should return only CertificationCenters matching "name" if given in filters', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragon & co center' });
         databaseBuilder.factory.buildCertificationCenter({ name: 'Dragonades & co center' });
@@ -429,18 +416,21 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(matchingCertificationCenters).to.have.lengthOf(2);
-        expect(_.map(matchingCertificationCenters, 'name')).to.have.members(['Dragon & co center', 'Dragonades & co center']);
+        expect(_.map(matchingCertificationCenters, 'name')).to.have.members([
+          'Dragon & co center',
+          'Dragonades & co center',
+        ]);
         expect(pagination).to.deep.equal(expectedPagination);
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "type" search pattern', function() {
-
-      it('should return only CertificationCenters matching "type" if given in filters', async function() {
+    context('when there are multiple CertificationCenters matching the same "type" search pattern', function () {
+      it('should return only CertificationCenters matching "type" if given in filters', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
         databaseBuilder.factory.buildCertificationCenter({ type: 'PRO' });
@@ -453,7 +443,8 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingCertificationCenters, 'type')).to.have.members(['SUP', 'SCO']);
@@ -461,9 +452,8 @@ describe('Integration | Repository | Certification Center', function() {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the same "externalId" search pattern', function() {
-
-      it('should return only CertificationCenters matching "externalId" if given in filters', async function() {
+    context('when there are multiple CertificationCenters matching the same "externalId" search pattern', function () {
+      it('should return only CertificationCenters matching "externalId" if given in filters', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'AZH578' });
         databaseBuilder.factory.buildCertificationCenter({ externalId: 'BFR842' });
@@ -475,7 +465,8 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingCertificationCenters, 'externalId')).to.have.members(['AZH578', 'AZH002']);
@@ -483,32 +474,34 @@ describe('Integration | Repository | Certification Center', function() {
       });
     });
 
-    context('when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern', function() {
+    context(
+      'when there are multiple CertificationCenters matching the fields "first name", "last name" and "email" search pattern',
+      function () {
+        it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async function () {
+          // given
+          _buildThreeCertificationCenterMatchingNameTypeAndExternalId({ databaseBuilder, numberOfBuild: 3 });
+          _buildThreeCertificationCenterUnmatchingNameTypeOrExternalId({ databaseBuilder, numberOfBuild: 3 });
+          await databaseBuilder.commit();
 
-      it('should return only CertificationCenters matching "name" AND "type" AND "externalId" if given in filters', async function() {
-        // given
-        _buildThreeCertificationCenterMatchingNameTypeAndExternalId({ databaseBuilder, numberOfBuild: 3 });
-        _buildThreeCertificationCenterUnmatchingNameTypeOrExternalId({ databaseBuilder, numberOfBuild: 3 });
-        await databaseBuilder.commit();
+          const filter = { name: 'name_ok', type: 'SCO', externalId: 'c_ok' };
+          const page = { number: 1, size: 10 };
+          const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
-        const filter = { name: 'name_ok', type: 'SCO', externalId: 'c_ok' };
-        const page = { number: 1, size: 10 };
-        const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
+          // when
+          const { models: matchingCertificationCenters, pagination } =
+            await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
-        // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+          // then
+          expect(_.map(matchingCertificationCenters, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
+          expect(_.map(matchingCertificationCenters, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
+          expect(_.map(matchingCertificationCenters, 'externalId')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
+          expect(pagination).to.deep.equal(expectedPagination);
+        });
+      }
+    );
 
-        // then
-        expect(_.map(matchingCertificationCenters, 'name')).to.have.members(['name_ok_1', 'name_ok_2', 'name_ok_3']);
-        expect(_.map(matchingCertificationCenters, 'type')).to.have.members(['SCO', 'SCO', 'SCO']);
-        expect(_.map(matchingCertificationCenters, 'externalId')).to.have.members(['c_ok_1', 'c_ok_2', 'c_ok_3']);
-        expect(pagination).to.deep.equal(expectedPagination);
-      });
-    });
-
-    context('when there are filters that should be ignored', function() {
-
-      it('should ignore the filters and retrieve all certificationCenters', async function() {
+    context('when there are filters that should be ignored', function () {
+      it('should ignore the filters and retrieve all certificationCenters', async function () {
         // given
         databaseBuilder.factory.buildCertificationCenter({ id: 1 });
         databaseBuilder.factory.buildCertificationCenter({ id: 2 });
@@ -519,7 +512,8 @@ describe('Integration | Repository | Certification Center', function() {
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 2 };
 
         // when
-        const { models: matchingCertificationCenters, pagination } = await certificationCenterRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingCertificationCenters, pagination } =
+          await certificationCenterRepository.findPaginatedFiltered({ filter, page });
 
         // then
         expect(_.map(matchingCertificationCenters, 'id')).to.have.members([1, 2]);
@@ -528,11 +522,9 @@ describe('Integration | Repository | Certification Center', function() {
     });
   });
 
-  describe('#findByExternalId', function() {
-
-    context('the certification center is found', function() {
-
-      it('should return the certification center', async function() {
+  describe('#findByExternalId', function () {
+    context('the certification center is found', function () {
+      it('should return the certification center', async function () {
         // given
         const externalId = 'EXTERNAL_ID';
         databaseBuilder.factory.buildCertificationCenter({
@@ -558,7 +550,7 @@ describe('Integration | Repository | Certification Center', function() {
         expect(certificationCenter).to.deepEqualInstance(expectedCertificationCenter);
       });
 
-      it('should return the certification center and accreditation', async function() {
+      it('should return the certification center and accreditation', async function () {
         // given
         const externalId = 'EXTERNAL_ID';
         databaseBuilder.factory.buildCertificationCenter({
@@ -586,9 +578,7 @@ describe('Integration | Repository | Certification Center', function() {
           type: CertificationCenter.types.SUP,
           externalId: 'EXTERNAL_ID',
           createdAt: new Date('2018-01-01T05:43:10Z'),
-          accreditations: [
-            expectedAccreditation,
-          ],
+          accreditations: [expectedAccreditation],
         });
 
         await databaseBuilder.commit();
@@ -601,9 +591,8 @@ describe('Integration | Repository | Certification Center', function() {
       });
     });
 
-    context('the certification center is not found', function() {
-
-      it('should return null', async function() {
+    context('the certification center is not found', function () {
+      it('should return null', async function () {
         // when
         const externalId = 'nonExistentExternalId';
         const certificationCenter = await certificationCenterRepository.findByExternalId({ externalId });
@@ -612,7 +601,6 @@ describe('Integration | Repository | Certification Center', function() {
         expect(certificationCenter).to.be.null;
       });
     });
-
   });
 });
 

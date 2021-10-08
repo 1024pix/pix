@@ -5,7 +5,6 @@ const tokenService = require('../domain/services/token-service');
 const config = require('../../lib/config');
 
 async function _checkIsAuthenticated(request, h, { key, validate }) {
-
   if (!request.headers.authorization) {
     return boom.unauthorized(null, 'jwt');
   }
@@ -51,33 +50,35 @@ function validateClientApplication(decoded) {
 }
 
 module.exports = {
-
   schemeName: 'jwt-scheme',
 
   scheme(_, { key, validate }) {
     return { authenticate: (request, h) => _checkIsAuthenticated(request, h, { key, validate }) };
   },
 
-  strategies:
-     [{
-       name: 'jwt-user', configuration: {
-         key: config.authentication.secret,
-         validate: validateUser,
-       },
-     }, {
-       name: 'jwt-livret-scolaire', configuration: {
-         key: config.jwtConfig.livretScolaire.secret,
-         validate: validateClientApplication,
-       },
-     },
-     {
-       name: 'jwt-pole-emploi', configuration: {
-         key: config.jwtConfig.poleEmploi.secret,
-         validate: validateClientApplication,
-       },
-     },
-     ],
+  strategies: [
+    {
+      name: 'jwt-user',
+      configuration: {
+        key: config.authentication.secret,
+        validate: validateUser,
+      },
+    },
+    {
+      name: 'jwt-livret-scolaire',
+      configuration: {
+        key: config.jwtConfig.livretScolaire.secret,
+        validate: validateClientApplication,
+      },
+    },
+    {
+      name: 'jwt-pole-emploi',
+      configuration: {
+        key: config.jwtConfig.poleEmploi.secret,
+        validate: validateClientApplication,
+      },
+    },
+  ],
 
   defaultStrategy: 'jwt-user',
-
 };

@@ -4,10 +4,8 @@ const { AssessmentEndedError } = require('../../../../lib/domain/errors');
 
 const getNextChallengeForDemo = require('../../../../lib/domain/usecases/get-next-challenge-for-demo');
 
-describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function() {
-
-  describe('#get-next-challenge-for-demo', function() {
-
+describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function () {
+  describe('#get-next-challenge-for-demo', function () {
     let courseRepository;
     let challengeRepository;
     let answerRepository;
@@ -17,7 +15,7 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function() 
     let firstChallenge;
     let secondChallenge;
 
-    beforeEach(function() {
+    beforeEach(function () {
       firstChallenge = domainBuilder.buildChallenge({ id: 'first_challenge' });
       secondChallenge = domainBuilder.buildChallenge({ id: 'second_challenge' });
       course = domainBuilder.buildCourse({ id: 18415, challenges: [firstChallenge.id, secondChallenge.id] });
@@ -30,30 +28,40 @@ describe('Unit | Domain | Use Cases | get-next-challenge-for-demo', function() 
       challengeRepository.get.withArgs('second_challenge').resolves(secondChallenge);
     });
 
-    it('should return the first challenge if no answer exist', async function() {
+    it('should return the first challenge if no answer exist', async function () {
       // given
       answerRepository.findByAssessment.resolves([]);
 
       // when
-      const result = await getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
+      const result = await getNextChallengeForDemo({
+        courseRepository,
+        challengeRepository,
+        answerRepository,
+        assessment,
+      });
 
       // then
       expect(result).to.equal(firstChallenge);
     });
 
-    it('should return the second challenge if the first challenge is already answered', async function() {
+    it('should return the second challenge if the first challenge is already answered', async function () {
       // given
       const firstAnswer = domainBuilder.buildAnswer({ challengeId: firstChallenge.id, assessmentId: assessment.id });
       answerRepository.findByAssessment.resolves([firstAnswer]);
 
       // when
-      const result = await getNextChallengeForDemo({ courseRepository, challengeRepository, answerRepository, assessment });
+      const result = await getNextChallengeForDemo({
+        courseRepository,
+        challengeRepository,
+        answerRepository,
+        assessment,
+      });
 
       // then
       expect(result).to.equal(secondChallenge);
     });
 
-    it('should throw a AssessmentEndedError when there are no more challenges to ask', function() {
+    it('should throw a AssessmentEndedError when there are no more challenges to ask', function () {
       // given
       const firstAnswer = domainBuilder.buildAnswer({ challengeId: firstChallenge.id, assessmentId: assessment.id });
       const secondAnswer = domainBuilder.buildAnswer({ challengeId: secondChallenge.id, assessmentId: assessment.id });

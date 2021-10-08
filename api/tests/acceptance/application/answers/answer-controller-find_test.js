@@ -1,19 +1,16 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | answer-controller-find', function() {
-
-  describe('GET /api/answers?challengeId=Y&assessmentId=Z', function() {
-
+describe('Acceptance | Controller | answer-controller-find', function () {
+  describe('GET /api/answers?challengeId=Y&assessmentId=Z', function () {
     let server;
     let options;
     let userId;
     let answer;
     const challengeId = 'recLt9uwa2dR3IYpi';
 
-    context('when the assessmentid passed in query param is not an integer', function() {
-
-      beforeEach(async function() {
+    context('when the assessmentid passed in query param is not an integer', function () {
+      beforeEach(async function () {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -24,7 +21,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -32,23 +29,26 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return no answer', async function() {
+      it('should return no answer', async function () {
         // when
         const response = await server.inject(options);
 
         // then
         expect(response.result.data).to.be.null;
       });
-
     });
 
-    context('when the assessment has an userId (is not a demo or preview)', function() {
-
-      beforeEach(async function() {
+    context('when the assessment has an userId (is not a demo or preview)', function () {
+      beforeEach(async function () {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
-        answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId });
+        answer = databaseBuilder.factory.buildAnswer({
+          assessmentId: assessment.id,
+          value: '1.2',
+          result: 'ok',
+          challengeId,
+        });
         await databaseBuilder.commit();
         options = {
           method: 'GET',
@@ -57,7 +57,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -65,7 +65,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json', async function() {
+      it('should return application/json', async function () {
         // when
         const response = await server.inject(options);
 
@@ -74,7 +74,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(contentType).to.contain('application/json');
       });
 
-      it('should return required answer', async function() {
+      it('should return required answer', async function () {
         // when
         const response = await server.inject(options);
 
@@ -86,16 +86,19 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(answerReceived.relationships.assessment.data.id.toString()).to.equal(answer.assessmentId.toString());
         expect(answerReceived.relationships.challenge.data.id.toString()).to.equal(answer.challengeId.toString());
       });
-
     });
 
-    context('when the assessment has an userId but the user is not the relevant user', function() {
-
-      beforeEach(async function() {
+    context('when the assessment has an userId but the user is not the relevant user', function () {
+      beforeEach(async function () {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
-        answer = databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId });
+        answer = databaseBuilder.factory.buildAnswer({
+          assessmentId: assessment.id,
+          value: '1.2',
+          result: 'ok',
+          challengeId,
+        });
         await databaseBuilder.commit();
         options = {
           method: 'GET',
@@ -104,7 +107,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -112,7 +115,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return no answer', async function() {
+      it('should return no answer', async function () {
         // when
         const response = await server.inject(options);
 
@@ -121,9 +124,8 @@ describe('Acceptance | Controller | answer-controller-find', function() {
       });
     });
 
-    context('when the assessment is demo and there is no userId', function() {
-
-      beforeEach(async function() {
+    context('when the assessment is demo and there is no userId', function () {
+      beforeEach(async function () {
         server = await createServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId: null, type: 'DEMO' });
         databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok', challengeId });
@@ -134,7 +136,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -144,16 +146,14 @@ describe('Acceptance | Controller | answer-controller-find', function() {
     });
   });
 
-  describe('GET /api/answers?assessment=12323', function() {
-
+  describe('GET /api/answers?assessment=12323', function () {
     let server;
     let options;
     let userId;
     let answers;
 
-    context('when the assessment has an userId (is not a demo or preview)', function() {
-
-      beforeEach(async function() {
+    context('when the assessment has an userId (is not a demo or preview)', function () {
+      beforeEach(async function () {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
@@ -169,7 +169,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -177,7 +177,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return application/json', async function() {
+      it('should return application/json', async function () {
         // when
         const response = await server.inject(options);
 
@@ -186,7 +186,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(contentType).to.contain('application/json');
       });
 
-      it('should return required answers', async function() {
+      it('should return required answers', async function () {
         // when
         const response = await server.inject(options);
 
@@ -195,14 +195,15 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         expect(answerReceived.length).to.equal(2);
         expect(answerReceived[0].type).to.equal('answers');
         expect(answerReceived[1].type).to.equal('answers');
-        expect([answerReceived[0].id, answerReceived[1].id]).to.have.members([answers[0].id.toString(), answers[1].id.toString()]);
+        expect([answerReceived[0].id, answerReceived[1].id]).to.have.members([
+          answers[0].id.toString(),
+          answers[1].id.toString(),
+        ]);
       });
-
     });
 
-    context('when the assessment has an userId but the user is not the relevant user', function() {
-
-      beforeEach(async function() {
+    context('when the assessment has an userId but the user is not the relevant user', function () {
+      beforeEach(async function () {
         server = await createServer();
         userId = databaseBuilder.factory.buildUser().id;
         const assessment = databaseBuilder.factory.buildAssessment({ userId, type: 'COMPETENCE_EVALUATION' });
@@ -215,7 +216,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 403 HTTP status code', async function() {
+      it('should return 403 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -224,9 +225,8 @@ describe('Acceptance | Controller | answer-controller-find', function() {
       });
     });
 
-    context('when the assessment is demo and there is no userId', function() {
-
-      beforeEach(async function() {
+    context('when the assessment is demo and there is no userId', function () {
+      beforeEach(async function () {
         server = await createServer();
         const assessment = databaseBuilder.factory.buildAssessment({ userId: null, type: 'DEMO' });
         databaseBuilder.factory.buildAnswer({ assessmentId: assessment.id, value: '1.2', result: 'ok' });
@@ -237,7 +237,7 @@ describe('Acceptance | Controller | answer-controller-find', function() {
         };
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -246,5 +246,4 @@ describe('Acceptance | Controller | answer-controller-find', function() {
       });
     });
   });
-
 });

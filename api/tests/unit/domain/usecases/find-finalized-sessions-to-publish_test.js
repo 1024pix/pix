@@ -1,19 +1,17 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const findFinalizedSessionsToPublish = require('../../../../lib/domain/usecases/find-finalized-sessions-to-publish');
 
-describe('Unit | UseCase | findFinalizedSessionsToPublish', function() {
-
+describe('Unit | UseCase | findFinalizedSessionsToPublish', function () {
   let finalizedSessionRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     finalizedSessionRepository = {
       findFinalizedSessionsToPublish: sinon.stub(),
     };
   });
 
-  context('when there are finalized publishable sessions', function() {
-
-    it('should get a list of publishable sessions', async function() {
+  context('when there are finalized publishable sessions', function () {
+    it('should get a list of publishable sessions', async function () {
       // given
       const publishableSessions = [
         domainBuilder.buildFinalizedSession({ isPublishable: true }),
@@ -30,9 +28,8 @@ describe('Unit | UseCase | findFinalizedSessionsToPublish', function() {
     });
   });
 
-  context('when there are no finalized publishable sessions', function() {
-
-    it('should get an empty array', async function() {
+  context('when there are no finalized publishable sessions', function () {
+    it('should get an empty array', async function () {
       // given
       finalizedSessionRepository.findFinalizedSessionsToPublish.resolves([]);
       // when
@@ -42,5 +39,4 @@ describe('Unit | UseCase | findFinalizedSessionsToPublish', function() {
       expect(result).to.deep.equal([]);
     });
   });
-
 });

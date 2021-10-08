@@ -1,16 +1,11 @@
-const {
-  MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED,
-} = require('../constants');
+const { MINIMUM_REPRODUCIBILITY_RATE_TO_BE_CERTIFIED } = require('../constants');
 
 class ReproducibilityRate {
   constructor(value) {
     this.value = value;
   }
 
-  static from({
-    numberOfNonNeutralizedChallenges,
-    numberOfCorrectAnswers,
-  }) {
+  static from({ numberOfNonNeutralizedChallenges, numberOfCorrectAnswers }) {
     if (numberOfNonNeutralizedChallenges === 0) return new ReproducibilityRate(0);
     return new ReproducibilityRate(Math.round((numberOfCorrectAnswers / numberOfNonNeutralizedChallenges) * 100));
   }

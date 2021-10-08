@@ -1,16 +1,15 @@
 const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | get-campaign-by-code', function() {
-
+describe('Unit | UseCase | get-campaign-by-code', function () {
   const code = 'QWERTY123';
   const campaignToJoinRepository = { getByCode: () => {} };
 
-  beforeEach(function() {
+  beforeEach(function () {
     sinon.stub(campaignToJoinRepository, 'getByCode');
   });
 
-  it('should return the campaign to join', async function() {
+  it('should return the campaign to join', async function () {
     // given
     const campaignToJoin = Symbol('someCampaign');
     campaignToJoinRepository.getByCode.withArgs(code).resolves(campaignToJoin);

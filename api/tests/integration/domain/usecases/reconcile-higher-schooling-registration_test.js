@@ -7,15 +7,13 @@ const { NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require
 
 const reconcileHigherSchoolingRegistration = require('../../../../lib/domain/usecases/reconcile-higher-schooling-registration');
 
-describe('Integration | UseCases | reconcile-higher-schooling-registration', function() {
-
+describe('Integration | UseCases | reconcile-higher-schooling-registration', function () {
   let userId;
   let organizationId;
   let campaignCode;
 
-  context('When there is no campaign with the given code', function() {
-
-    it('should throw a campaign code error', async function() {
+  context('When there is no campaign with the given code', function () {
+    it('should throw a campaign code error', async function () {
       // when
       const error = await catchErr(reconcileHigherSchoolingRegistration)({
         campaignCode: 'NOTEXIST',
@@ -28,47 +26,54 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
     });
   });
 
-  context('When there is a campaign with the given code', function() {
-    beforeEach(async function() {
-      userId = databaseBuilder.factory.buildUser({ firstName: 'Valentin', lastName: 'Frangin', birthdate: '2010-12-12' }).id;
+  context('When there is a campaign with the given code', function () {
+    beforeEach(async function () {
+      userId = databaseBuilder.factory.buildUser({
+        firstName: 'Valentin',
+        lastName: 'Frangin',
+        birthdate: '2010-12-12',
+      }).id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId }).code;
 
       await databaseBuilder.commit();
     });
 
-    context('When no registered schooling registration found with matching student number, firstName, lastName and birthdate', function() {
-      it('should throw an error', async function() {
-        // given
-        const reconciliationInfo = {
-          userId,
-          studentNumber: '123',
-          firstName: 'firstname',
-          lastName: 'lastname',
-          birthdate: '2008-01-01',
-        };
-        databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123', userId: null, organizationId });
-        await databaseBuilder.commit();
+    context(
+      'When no registered schooling registration found with matching student number, firstName, lastName and birthdate',
+      function () {
+        it('should throw an error', async function () {
+          // given
+          const reconciliationInfo = {
+            userId,
+            studentNumber: '123',
+            firstName: 'firstname',
+            lastName: 'lastname',
+            birthdate: '2008-01-01',
+          };
+          databaseBuilder.factory.buildSchoolingRegistration({ studentNumber: '123', userId: null, organizationId });
+          await databaseBuilder.commit();
 
-        // when
-        const error = await catchErr(reconcileHigherSchoolingRegistration)({
-          campaignCode,
-          reconciliationInfo,
-          campaignRepository,
-          higherSchoolingRegistrationRepository,
-          schoolingRegistrationRepository,
-          userReconciliationService,
+          // when
+          const error = await catchErr(reconcileHigherSchoolingRegistration)({
+            campaignCode,
+            reconciliationInfo,
+            campaignRepository,
+            higherSchoolingRegistrationRepository,
+            schoolingRegistrationRepository,
+            userReconciliationService,
+          });
+
+          // then
+          expect(error).to.be.instanceof(NotFoundError);
         });
+      }
+    );
 
-        // then
-        expect(error).to.be.instanceof(NotFoundError);
-      });
-    });
-
-    context('When a matching registered schooling registration is found', function() {
-      context('and is not reconciled yet', function() {
-        it('should reconcile schooling registration with user', async function() {
-        // given
+    context('When a matching registered schooling registration is found', function () {
+      context('and is not reconciled yet', function () {
+        it('should reconcile schooling registration with user', async function () {
+          // given
           const reconciliationInfo = {
             userId,
             studentNumber: '123',
@@ -101,8 +106,8 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
         });
       });
 
-      context('but already reconciled', function() {
-        it('should throw an error', async function() {
+      context('but already reconciled', function () {
+        it('should throw an error', async function () {
           // given
           const reconciliationInfo = {
             userId,
@@ -112,7 +117,11 @@ describe('Integration | UseCases | reconcile-higher-schooling-registration', fun
             birthdate: '2008-01-01',
           };
           const otherUserId = databaseBuilder.factory.buildUser().id;
-          databaseBuilder.factory.buildSchoolingRegistration({ ...reconciliationInfo, userId: otherUserId, organizationId });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            ...reconciliationInfo,
+            userId: otherUserId,
+            organizationId,
+          });
           await databaseBuilder.commit();
 
           // when

@@ -7,10 +7,8 @@ const { UnauthorizedError } = require('../../../../lib/application/http-errors')
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
-describe('Unit | Application | Controller | Authentication', function() {
-
-  describe('#authenticateUser', function() {
-
+describe('Unit | Application | Controller | Authentication', function () {
+  describe('#authenticateUser', function () {
     const accessToken = 'jwt.access.token';
 
     let request;
@@ -20,7 +18,7 @@ describe('Unit | Application | Controller | Authentication', function() {
     const scope = 'pix-orga';
     const source = 'pix';
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
@@ -38,7 +36,7 @@ describe('Unit | Application | Controller | Authentication', function() {
     /**
      * @see https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/
      */
-    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function() {
+    it('should return an OAuth 2 token response (even if we do not really implement OAuth 2 authorization protocol)', async function () {
       // given
       sinon.stub(usecases, 'authenticateUser').withArgs({ username, password, scope, source }).resolves(accessToken);
 
@@ -56,14 +54,13 @@ describe('Unit | Application | Controller | Authentication', function() {
       expect(response.headers).to.deep.equal({
         'Content-Type': 'application/json;charset=UTF-8',
         'Cache-Control': 'no-store',
-        'Pragma': 'no-cache',
+        Pragma: 'no-cache',
       });
     });
   });
 
-  describe('#authenticateExternalUser', function() {
-
-    it('should return an access token', async function() {
+  describe('#authenticateExternalUser', function () {
+    it('should return an access token', async function () {
       // given
       const accessToken = 'jwt.access.token';
       const user = {
@@ -87,12 +84,15 @@ describe('Unit | Application | Controller | Authentication', function() {
         },
       };
 
-      sinon.stub(usecases, 'authenticateExternalUser').withArgs({
-        username: user.username,
-        password: user.password,
-        externalUserToken,
-        expectedUserId,
-      }).resolves(accessToken);
+      sinon
+        .stub(usecases, 'authenticateExternalUser')
+        .withArgs({
+          username: user.username,
+          password: user.password,
+          externalUserToken,
+          expectedUserId,
+        })
+        .resolves(accessToken);
 
       // when
       const response = await authenticationController.authenticateExternalUser(request, hFake);
@@ -103,8 +103,7 @@ describe('Unit | Application | Controller | Authentication', function() {
     });
   });
 
-  describe('#authenticatePoleEmploiUser', function() {
-
+  describe('#authenticatePoleEmploiUser', function () {
     const code = 'ABCD';
     const client_id = 'CLIENT_ID';
     const redirect_uri = 'http://redirectUri.fr';
@@ -121,7 +120,7 @@ describe('Unit | Application | Controller | Authentication', function() {
 
     let request;
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         payload: {
           code,
@@ -135,7 +134,7 @@ describe('Unit | Application | Controller | Authentication', function() {
       sinon.stub(usecases, 'authenticatePoleEmploiUser');
     });
 
-    it('should call usecase with payload parameters', async function() {
+    it('should call usecase with payload parameters', async function () {
       // given
       usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
       const expectedParameters = {
@@ -154,7 +153,7 @@ describe('Unit | Application | Controller | Authentication', function() {
       expect(usecases.authenticatePoleEmploiUser).to.have.been.calledWith(expectedParameters);
     });
 
-    it('should return PIX access token and Pole emploi ID token', async function() {
+    it('should return PIX access token and Pole emploi ID token', async function () {
       // given
       usecases.authenticatePoleEmploiUser.resolves({ pixAccessToken, poleEmploiTokens });
       const expectedResult = {
@@ -169,11 +168,11 @@ describe('Unit | Application | Controller | Authentication', function() {
       expect(response).to.deep.equal(expectedResult);
     });
 
-    it('should return UnauthorizedError if pixAccessToken is not exist', async function() {
+    it('should return UnauthorizedError if pixAccessToken is not exist', async function () {
       // given
       const authenticationKey = 'aaa-bbb-ccc';
       usecases.authenticatePoleEmploiUser.resolves({ authenticationKey });
-      const expectedErrorMessage = 'L\'utilisateur n\'a pas de compte Pix';
+      const expectedErrorMessage = "L'utilisateur n'a pas de compte Pix";
       const expectedResponseCode = 'SHOULD_VALIDATE_CGU';
       const expectedMeta = { authenticationKey };
 
@@ -188,8 +187,7 @@ describe('Unit | Application | Controller | Authentication', function() {
     });
   });
 
-  describe('#authenticateApplication', function() {
-
+  describe('#authenticateApplication', function () {
     const access_token = 'jwt.access.token';
 
     let request;
@@ -203,7 +201,7 @@ describe('Unit | Application | Controller | Authentication', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     const scope = Symbol('scope');
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
@@ -218,9 +216,10 @@ describe('Unit | Application | Controller | Authentication', function() {
       sinon.stub(tokenService, 'extractClientId').returns(client_id);
     });
 
-    it('should return an OAuth 2 token response', async function() {
+    it('should return an OAuth 2 token response', async function () {
       // given
-      sinon.stub(usecases, 'authenticateApplication')
+      sinon
+        .stub(usecases, 'authenticateApplication')
         .withArgs({ clientId: client_id, clientSecret: client_secret, scope })
         .resolves(access_token);
 
@@ -238,9 +237,8 @@ describe('Unit | Application | Controller | Authentication', function() {
       expect(response.headers).to.deep.equal({
         'Content-Type': 'application/json;charset=UTF-8',
         'Cache-Control': 'no-store',
-        'Pragma': 'no-cache',
+        Pragma: 'no-cache',
       });
     });
   });
-
 });

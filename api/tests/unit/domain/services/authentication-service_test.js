@@ -17,10 +17,8 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
 
-describe('Unit | Domain | Services | authentication-service', function() {
-
-  describe('#getUserByUsernameAndPassword', function() {
-
+describe('Unit | Domain | Services | authentication-service', function () {
+  describe('#getUserByUsernameAndPassword', function () {
     const username = 'user@example.net';
     const password = 'Password123';
 
@@ -28,7 +26,7 @@ describe('Unit | Domain | Services | authentication-service', function() {
     let authenticationMethod;
     let userRepository;
 
-    beforeEach(function() {
+    beforeEach(function () {
       user = domainBuilder.buildUser({ username });
       authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
         userId: user.id,
@@ -42,30 +40,33 @@ describe('Unit | Domain | Services | authentication-service', function() {
       sinon.stub(encryptionService, 'checkPassword');
     });
 
-    context('When user exist', function() {
-
-      beforeEach(function() {
+    context('When user exist', function () {
+      beforeEach(function () {
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
         encryptionService.checkPassword.resolves();
       });
 
-      it('should call the user repository', async function() {
+      it('should call the user repository', async function () {
         // when
         await authenticationService.getUserByUsernameAndPassword({
-          username, password, userRepository,
+          username,
+          password,
+          userRepository,
         });
 
         // then
         expect(userRepository.getByUsernameOrEmailWithRolesAndPassword).to.has.been.calledWith(username);
       });
 
-      it('should call the encryptionService check function', async function() {
+      it('should call the encryptionService check function', async function () {
         // given
         const expectedPasswordHash = authenticationMethod.authenticationComplement.password;
 
         // when
         await authenticationService.getUserByUsernameAndPassword({
-          username, password, userRepository,
+          username,
+          password,
+          userRepository,
         });
 
         // then
@@ -75,9 +76,13 @@ describe('Unit | Domain | Services | authentication-service', function() {
         });
       });
 
-      it('should return user found', async function() {
+      it('should return user found', async function () {
         // when
-        const foundUser = await authenticationService.getUserByUsernameAndPassword({ username, password, userRepository });
+        const foundUser = await authenticationService.getUserByUsernameAndPassword({
+          username,
+          password,
+          userRepository,
+        });
 
         // then
         expect(foundUser).to.be.an.instanceof(User);
@@ -85,26 +90,33 @@ describe('Unit | Domain | Services | authentication-service', function() {
       });
     });
 
-    context('When user credentials are not valid', function() {
-
-      it('should throw UserNotFoundError when username does not exist', async function() {
+    context('When user credentials are not valid', function () {
+      it('should throw UserNotFoundError when username does not exist', async function () {
         // given
         userRepository.getByUsernameOrEmailWithRolesAndPassword.rejects(new UserNotFoundError());
 
         // when
-        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({ username, password, userRepository });
+        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({
+          username,
+          password,
+          userRepository,
+        });
 
         // then
         expect(error).to.be.an.instanceof(UserNotFoundError);
       });
 
-      it('should throw PasswordNotMatching when password does not match', async function() {
+      it('should throw PasswordNotMatching when password does not match', async function () {
         // given
         userRepository.getByUsernameOrEmailWithRolesAndPassword.resolves(user);
         encryptionService.checkPassword.rejects(new PasswordNotMatching());
 
         // when
-        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({ username, password, userRepository });
+        const error = await catchErr(authenticationService.getUserByUsernameAndPassword)({
+          username,
+          password,
+          userRepository,
+        });
 
         // then
         expect(error).to.be.an.instanceof(PasswordNotMatching);
@@ -112,13 +124,12 @@ describe('Unit | Domain | Services | authentication-service', function() {
     });
   });
 
-  describe('#generatePoleEmploiTokens', function() {
-
-    beforeEach(function() {
+  describe('#generatePoleEmploiTokens', function () {
+    beforeEach(function () {
       sinon.stub(httpAgent, 'post');
     });
 
-    it('should return access token, id token and validity period', async function() {
+    it('should return access token, id token and validity period', async function () {
       // given
       const code = 'code';
       const clientId = 'clientId';
@@ -159,9 +170,8 @@ describe('Unit | Domain | Services | authentication-service', function() {
       expect(result).to.deep.equal(poleEmploiTokens);
     });
 
-    context('when PE tokens generation fails', function() {
-
-      it('should log error and throw GeneratePoleEmploiTokensError', async function() {
+    context('when PE tokens generation fails', function () {
+      it('should log error and throw GeneratePoleEmploiTokensError', async function () {
         // given
         const code = 'code';
         const clientId = 'clientId';
@@ -190,13 +200,12 @@ describe('Unit | Domain | Services | authentication-service', function() {
     });
   });
 
-  describe('#getPoleEmploiUserInfo', function() {
-
-    beforeEach(function() {
+  describe('#getPoleEmploiUserInfo', function () {
+    beforeEach(function () {
       sinon.stub(tokenService, 'extractPayloadFromPoleEmploiIdToken');
     });
 
-    it('should return email, firstName, lastName and external identity id', async function() {
+    it('should return email, firstName, lastName and external identity id', async function () {
       // given
       const idToken = 'ID_TOKEN';
       const payloadFromIdToken = {
@@ -222,5 +231,4 @@ describe('Unit | Domain | Services | authentication-service', function() {
       expect(result).to.deep.equal(expectedResult);
     });
   });
-
 });

@@ -1,14 +1,6 @@
-const {
-  NotFoundError,
-} = require('../errors');
+const { NotFoundError } = require('../errors');
 
-module.exports = async function getAnswer(
-  {
-    answerId,
-    userId,
-    answerRepository,
-    assessmentRepository,
-  } = {}) {
+module.exports = async function getAnswer({ answerId, userId, answerRepository, assessmentRepository } = {}) {
   const integerAnswerId = parseInt(answerId);
   if (!Number.isFinite(integerAnswerId)) {
     throw new NotFoundError(`Not found answer for ID ${answerId}`);

@@ -2,7 +2,7 @@ const Joi = require('joi');
 const campaignParticipationController = require('./campaign-participation-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'PATCH',
@@ -16,7 +16,7 @@ exports.register = async function(server) {
         handler: campaignParticipationController.shareCampaignResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Partage de résultat de la campagne d‘un utilisateur, à son organisation',
+            '- Partage de résultat de la campagne d‘un utilisateur, à son organisation',
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -41,7 +41,7 @@ exports.register = async function(server) {
         handler: campaignParticipationController.save,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Création d‘une nouvelle participation à une campagne',
+            '- Création d‘une nouvelle participation à une campagne',
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -58,8 +58,8 @@ exports.register = async function(server) {
         handler: campaignParticipationController.beginImprovement,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Elle permet de progresser à la fin d\'une participation à une campagne' +
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Elle permet de progresser à la fin d'une participation à une campagne" +
+            "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -76,8 +76,8 @@ exports.register = async function(server) {
         handler: campaignParticipationController.getAnalysis,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne',
-          '- Récupération de l\'analyse d\'un participant pour la participation à la campagne',
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne',
+          "- Récupération de l'analyse d'un participant pour la participation à la campagne",
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -95,8 +95,8 @@ exports.register = async function(server) {
         handler: campaignParticipationController.getCampaignProfile,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne\n' +
-          '- Récupération du profil d’un participant pour la participation à la campagne',
+            '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la participation à la campagne\n' +
+            '- Récupération du profil d’un participant pour la participation à la campagne',
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -114,8 +114,8 @@ exports.register = async function(server) {
         handler: campaignParticipationController.getCampaignAssessmentParticipation,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
-          '- Récupération de l’évaluation d’un participant pour la campagne donnée',
+            '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
+            '- Récupération de l’évaluation d’un participant pour la campagne donnée',
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -133,8 +133,8 @@ exports.register = async function(server) {
         handler: campaignParticipationController.getCampaignAssessmentParticipationResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
-          '- Récupération des résultats de l’évaluation d’un participant pour la campagne donnée',
+            '- L’utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne\n' +
+            '- Récupération des résultats de l’évaluation d’un participant pour la campagne donnée',
         ],
         tags: ['api', 'campaign-participation'],
       },
@@ -158,7 +158,7 @@ exports.register = async function(server) {
         handler: campaignParticipationController.findAssessmentParticipationResults,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des résultats d\'une campagne d\'évaluation',
+            "- Récupération des résultats d'une campagne d'évaluation",
         ],
         tags: ['api', 'campaign-assessment-participation-result-minimal'],
       },

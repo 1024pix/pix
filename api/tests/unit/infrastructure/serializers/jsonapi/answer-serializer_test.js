@@ -4,10 +4,8 @@ const AnswerStatus = require('../../../../../lib/domain/models/AnswerStatus');
 const answerStatusJSONAPIAdapter = require('../../../../../lib/infrastructure/adapters/answer-status-json-api-adapter');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/answer-serializer');
 
-describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
-
-  describe('#serialize', function() {
-
+describe('Unit | Serializer | JSONAPI | answer-serializer', function () {
+  describe('#serialize', function () {
     const answerId = 1232345;
     const assessmentId = 12345;
     const challengeId = 2134356;
@@ -18,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
     const resultDetails = null;
     const answerValue = '1';
 
-    it('should convert an Answer model object into JSON API data', function() {
+    it('should convert an Answer model object into JSON API data', function () {
       // given
       const answer = domainBuilder.buildAnswer({
         id: answerId,
@@ -72,12 +70,12 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
     });
   });
 
-  describe('#deserialize()', function() {
-
+  describe('#deserialize()', function () {
     let jsonAnswer;
-    const assessmentId = 'assessmentId', challengeId = 'recChallengeId';
+    const assessmentId = 'assessmentId',
+      challengeId = 'recChallengeId';
 
-    beforeEach(function() {
+    beforeEach(function () {
       jsonAnswer = {
         data: {
           type: 'answers',
@@ -105,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
         },
       };
     });
-    it('should convert JSON API data into an Answer model object', function() {
+    it('should convert JSON API data into an Answer model object', function () {
       // when
       const answer = serializer.deserialize(jsonAnswer);
 
@@ -120,5 +118,4 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
       expect(answer.challengeId).to.equal(challengeId);
     });
   });
-
 });

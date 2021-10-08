@@ -4,34 +4,33 @@ const CertificationIssueReport = require('../../../../lib/domain/models/Certific
 const CleaCertificationResult = require('../../../../lib/domain/models/CleaCertificationResult');
 const PixPlusDroitMaitreCertificationResult = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const PixPlusDroitExpertCertificationResult = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
 const juryCertificationSummaryRepository = require('../../../../lib/infrastructure/repositories/jury-certification-summary-repository');
 
-describe('Integration | Repository | JuryCertificationSummary', function() {
-
-  describe('#findBySessionId', function() {
-
-    context('when the session has no certifications', function() {
+describe('Integration | Repository | JuryCertificationSummary', function () {
+  describe('#findBySessionId', function () {
+    context('when the session has no certifications', function () {
       let sessionId;
 
-      beforeEach(function() {
+      beforeEach(function () {
         sessionId = databaseBuilder.factory.buildSession().id;
 
         return databaseBuilder.commit();
       });
 
-      it('should return an empty array', async function() {
+      it('should return an empty array', async function () {
         // when
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
         expect(juryCertificationSummaries).to.have.length(0);
       });
-
     });
 
-    context('when the session has some certifications', function() {
+    context('when the session has some certifications', function () {
       let sessionId;
       let manyAsrCertification;
       let latestAssessmentResult;
@@ -40,7 +39,7 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       const description = 'Super candidat !';
       let certificationIssueReport;
 
-      beforeEach(function() {
+      beforeEach(function () {
         const dbf = databaseBuilder.factory;
         sessionId = dbf.buildSession().id;
         manyAsrCertification = dbf.buildCertificationCourse({ sessionId, lastName: 'AAA' });
@@ -58,19 +57,25 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
         dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-02-15T00:00:00Z') });
         dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-03-15T00:00:00Z') });
-        latestAssessmentResult = dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-04-15T00:00:00Z'), status: assessmentResultStatuses.VALIDATED });
+        latestAssessmentResult = dbf.buildAssessmentResult({
+          assessmentId: manyAsrAssessmentId,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+          status: assessmentResultStatuses.VALIDATED,
+        });
 
         return databaseBuilder.commit();
       });
 
-      it('should return an array of JuryCertificationSummary sorted by name', async function() {
+      it('should return an array of JuryCertificationSummary sorted by name', async function () {
         // when
         const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
         // then
         const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-        const expectedPixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-        const expectedPixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+        const expectedPixPlusDroitMaitreCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
+        const expectedPixPlusDroitExpertCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
         const expectedJuryCertificationSummary = new JuryCertificationSummary({
           cleaCertificationResult: expectedCleaCertificationResult,
           pixPlusDroitMaitreCertificationResult: expectedPixPlusDroitMaitreCertificationResult,
@@ -84,25 +89,26 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           lastName: 'AAA',
           pixScore: latestAssessmentResult.pixScore,
           status: latestAssessmentResult.status,
-          certificationIssueReports: [new CertificationIssueReport({
-            id: certificationIssueReport.id,
-            certificationCourseId: manyAsrCertification.id,
-            description,
-            subcategory: null,
-            questionNumber: null,
-            category: CertificationIssueReportCategories.OTHER,
-            resolvedAt: null,
-            resolution: null,
-          })],
+          certificationIssueReports: [
+            new CertificationIssueReport({
+              id: certificationIssueReport.id,
+              certificationCourseId: manyAsrCertification.id,
+              description,
+              subcategory: null,
+              questionNumber: null,
+              category: CertificationIssueReportCategories.OTHER,
+              resolvedAt: null,
+              resolution: null,
+            }),
+          ],
         });
         expect(juryCertificationSummaries).to.have.length(3);
         expect(juryCertificationSummaries[0]).to.deepEqualInstance(expectedJuryCertificationSummary);
         expect(juryCertificationSummaries[1].id).to.equal(startedCertification.id);
       });
 
-      context('when the certification has assessment-results', function() {
-
-        it('should return JuryCertificationSummary based on their latest assessment result', async function() {
+      context('when the certification has assessment-results', function () {
+        it('should return JuryCertificationSummary based on their latest assessment result', async function () {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -114,13 +120,14 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           expect(juryCertificationSummaries[0].createdAt).to.deep.equal(manyAsrCertification.createdAt);
           expect(juryCertificationSummaries[0].completedAt).to.deep.equal(manyAsrCertification.completedAt);
           expect(juryCertificationSummaries[0].isPublished).to.equal(manyAsrCertification.isPublished);
-          expect(juryCertificationSummaries[0].hasSeendEndTestScreen).to.equal(manyAsrCertification.hasSeendEndTestScreen);
+          expect(juryCertificationSummaries[0].hasSeendEndTestScreen).to.equal(
+            manyAsrCertification.hasSeendEndTestScreen
+          );
         });
       });
 
-      context('when the certification has no assessment-result', function() {
-
-        it('should return all juryCertificationSummaries with status started', async function() {
+      context('when the certification has no assessment-result', function () {
+        it('should return all juryCertificationSummaries with status started', async function () {
           // when
           const juryCertificationSummaries = await juryCertificationSummaryRepository.findBySessionId(sessionId);
 
@@ -132,12 +139,10 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           expect(juryCertificationSummaries[2].status).to.equal(JuryCertificationSummary.statuses.STARTED);
         });
       });
-
     });
 
-    context('when the session has a cancelled certification course', function() {
-
-      it('should return a JuryCertificationSummary with a cancelled status', async function() {
+    context('when the session has a cancelled certification course', function () {
+      it('should return a JuryCertificationSummary with a cancelled status', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -157,8 +162,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has several issue reports', function() {
-      it('should return all issue reports', async function() {
+    context('when a summary has several issue reports', function () {
+      it('should return all issue reports', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -177,7 +182,11 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           description: 'second certification issue report',
         });
 
-        dbf.buildAssessmentResult({ assessmentId: manyAsrAssessmentId, createdAt: new Date('2018-04-15T00:00:00Z'), status: assessmentResultStatuses.VALIDATED });
+        dbf.buildAssessmentResult({
+          assessmentId: manyAsrAssessmentId,
+          createdAt: new Date('2018-04-15T00:00:00Z'),
+          status: assessmentResultStatuses.VALIDATED,
+        });
 
         await databaseBuilder.commit();
 
@@ -213,17 +222,19 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a Clea certification', function() {
-
-      context('badge V1', function() {
-
-        it('should have the status acquired when clea certification is acquired', async function() {
+    context('when a summary has a Clea certification', function () {
+      context('badge V1', function () {
+        it('should have the status acquired when clea certification is acquired', async function () {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
           dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
-          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV1, acquired: true });
+          dbf.buildPartnerCertification({
+            certificationCourseId,
+            partnerKey: CleaCertificationResult.badgeKeyV1,
+            acquired: true,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -235,13 +246,17 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
         });
 
-        it('should have the status rejected when clea certification is rejected', async function() {
+        it('should have the status rejected when clea certification is rejected', async function () {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
           dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
-          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV1, acquired: false });
+          dbf.buildPartnerCertification({
+            certificationCourseId,
+            partnerKey: CleaCertificationResult.badgeKeyV1,
+            acquired: false,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -254,15 +269,18 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         });
       });
 
-      context('badge V2', function() {
-
-        it('should have the status acquired when clea certification is acquired', async function() {
+      context('badge V2', function () {
+        it('should have the status acquired when clea certification is acquired', async function () {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
           dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
-          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV2, acquired: true });
+          dbf.buildPartnerCertification({
+            certificationCourseId,
+            partnerKey: CleaCertificationResult.badgeKeyV2,
+            acquired: true,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -274,13 +292,17 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
           expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
         });
 
-        it('should have the status rejected when clea certification is rejected', async function() {
+        it('should have the status rejected when clea certification is rejected', async function () {
           // given
           const dbf = databaseBuilder.factory;
           const sessionId = dbf.buildSession().id;
           const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
           dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV2 });
-          dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV2, acquired: false });
+          dbf.buildPartnerCertification({
+            certificationCourseId,
+            partnerKey: CleaCertificationResult.badgeKeyV2,
+            acquired: false,
+          });
           await databaseBuilder.commit();
 
           // when
@@ -294,9 +316,8 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a no Clea certification', function() {
-
-      it('should have the status notTaken when clea certification has not be taken', async function() {
+    context('when a summary has a no Clea certification', function () {
+      it('should have the status notTaken when clea certification has not be taken', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -313,15 +334,18 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
       });
     });
 
-    context('when a summary has a Pix plus droit maitre certification', function() {
-
-      it('should have the status acquired when Pix plus droit maitre certification is acquired', async function() {
+    context('when a summary has a Pix plus droit maitre certification', function () {
+      it('should have the status acquired when Pix plus droit maitre certification is acquired', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
         dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey, acquired: true });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+          acquired: true,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -330,16 +354,22 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(
+          expectedPixPlusCertificationResult
+        );
       });
 
-      it('should have the status rejected when Pix plus droit maitre certification is rejected', async function() {
+      it('should have the status rejected when Pix plus droit maitre certification is rejected', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
         dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey, acquired: false });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+          acquired: false,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -348,13 +378,14 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(
+          expectedPixPlusCertificationResult
+        );
       });
     });
 
-    context('when a summary has a no Pix plus droit maitre certification', function() {
-
-      it('should have the status notTaken when pix plus droit maitre certification has not be taken', async function() {
+    context('when a summary has a no Pix plus droit maitre certification', function () {
+      it('should have the status notTaken when pix plus droit maitre certification has not be taken', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -367,19 +398,24 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(
+          expectedPixPlusCertificationResult
+        );
       });
     });
 
-    context('when a summary has a Pix plus droit expert certification', function() {
-
-      it('should have the status acquired when Pix plus droit expert certification is acquired', async function() {
+    context('when a summary has a Pix plus droit expert certification', function () {
+      it('should have the status acquired when Pix plus droit expert certification is acquired', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
         dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitExpertCertificationResult.badgeKey, acquired: true });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          acquired: true,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -388,16 +424,22 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(
+          expectedPixPlusCertificationResult
+        );
       });
 
-      it('should have the status rejected when Pix plus droit expert certification is rejected', async function() {
+      it('should have the status rejected when Pix plus droit expert certification is rejected', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
         dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitExpertCertificationResult.badgeKey, acquired: false });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          acquired: false,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -406,13 +448,14 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(
+          expectedPixPlusCertificationResult
+        );
       });
     });
 
-    context('when a summary has a no Pix plus droit expert certification', function() {
-
-      it('should have the status notTaken when pix plus droit expert certification has not be taken', async function() {
+    context('when a summary has a no Pix plus droit expert certification', function () {
+      it('should have the status notTaken when pix plus droit expert certification has not be taken', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
@@ -425,23 +468,36 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
         // then
         const expectedPixPlusCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
-        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(expectedPixPlusCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(
+          expectedPixPlusCertificationResult
+        );
       });
     });
 
-    context('when a summary has several partner certifications', function() {
-
-      it('should return only one exemplary of the summary with appropriate info on partner certification', async function() {
+    context('when a summary has several partner certifications', function () {
+      it('should return only one exemplary of the summary with appropriate info on partner certification', async function () {
         // given
         const dbf = databaseBuilder.factory;
         const sessionId = dbf.buildSession().id;
         const certificationCourseId = dbf.buildCertificationCourse({ sessionId }).id;
         dbf.buildBadge({ key: CleaCertificationResult.badgeKeyV1 });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: CleaCertificationResult.badgeKeyV1, acquired: true });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: CleaCertificationResult.badgeKeyV1,
+          acquired: true,
+        });
         dbf.buildBadge({ key: PixPlusDroitMaitreCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey, acquired: false });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: PixPlusDroitMaitreCertificationResult.badgeKey,
+          acquired: false,
+        });
         dbf.buildBadge({ key: PixPlusDroitExpertCertificationResult.badgeKey });
-        dbf.buildPartnerCertification({ certificationCourseId, partnerKey: PixPlusDroitExpertCertificationResult.badgeKey, acquired: true });
+        dbf.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: PixPlusDroitExpertCertificationResult.badgeKey,
+          acquired: true,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -449,12 +505,18 @@ describe('Integration | Repository | JuryCertificationSummary', function() {
 
         // then
         const expectedCleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-        const expectedPixPlusMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-        const expectedPixPlusExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
+        const expectedPixPlusMaitreCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+        const expectedPixPlusExpertCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
         expect(juryCertificationSummaries).to.have.lengthOf(1);
         expect(juryCertificationSummaries[0].cleaCertificationResult).to.deep.equal(expectedCleaCertificationResult);
-        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(expectedPixPlusMaitreCertificationResult);
-        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(expectedPixPlusExpertCertificationResult);
+        expect(juryCertificationSummaries[0].pixPlusDroitMaitreCertificationResult).to.deep.equal(
+          expectedPixPlusMaitreCertificationResult
+        );
+        expect(juryCertificationSummaries[0].pixPlusDroitExpertCertificationResult).to.deep.equal(
+          expectedPixPlusExpertCertificationResult
+        );
       });
     });
   });

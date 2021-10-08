@@ -8,7 +8,7 @@ const challengeRepository = require('../lib/infrastructure/repositories/challeng
 const logger = require('../lib/infrastructure/logger');
 const SessionFinalized = require('../lib/domain/events/SessionFinalized');
 const { eventDispatcher } = require('../lib/domain/events');
-const IS_FROM_SCRATCH = (process.env.IS_FROM_SCRATCH === 'true');
+const IS_FROM_SCRATCH = process.env.IS_FROM_SCRATCH === 'true';
 const AUDIT_TABLE = 'autojury-script-audit';
 
 const _triggerAutoJury = async (event) => {
@@ -23,13 +23,15 @@ const _triggerAutoJury = async (event) => {
 };
 
 async function _retrieveFinalizedUnpublishedUnassignedSessionsData() {
-  return await knex('sessions').select(
-    'sessions.id',
-    'sessions.certificationCenter',
-    'sessions.finalizedAt',
-    'sessions.date',
-    'sessions.time',
-    'sessions.examinerGlobalComment')
+  return await knex('sessions')
+    .select(
+      'sessions.id',
+      'sessions.certificationCenter',
+      'sessions.finalizedAt',
+      'sessions.date',
+      'sessions.time',
+      'sessions.examinerGlobalComment'
+    )
     .join('finalized-sessions', 'finalized-sessions.sessionId', 'sessions.id')
     .where('isPublishable', '=', 'false')
     .whereNotNull('sessions.finalizedAt')
@@ -39,20 +41,24 @@ async function _retrieveFinalizedUnpublishedUnassignedSessionsData() {
 
 async function _triggerAutoJuryFromEvents(events) {
   console.error(`\nWork in progress (${events.length})...`);
-  return await bluebird.map(events, async (event) => {
-    try {
-      await _doing(event.sessionId);
-      const resultingEvents = await _triggerAutoJury(event);
-      for (const resultingEvent of resultingEvents) {
-        await eventDispatcher.dispatch(resultingEvent);
+  return await bluebird.map(
+    events,
+    async (event) => {
+      try {
+        await _doing(event.sessionId);
+        const resultingEvents = await _triggerAutoJury(event);
+        for (const resultingEvent of resultingEvents) {
+          await eventDispatcher.dispatch(resultingEvent);
+        }
+        await _done(event.sessionId);
+        process.stderr.write('😻');
+      } catch (err) {
+        await _toRetry(event.sessionId, err);
+        process.stderr.write('👹');
       }
-      await _done(event.sessionId);
-      process.stderr.write('😻');
-    } catch (err) {
-      await _toRetry(event.sessionId, err);
-      process.stderr.write('👹');
-    }
-  }, { concurrency: ~~process.env.CONCURRENCY || 10 });
+    },
+    { concurrency: ~~process.env.CONCURRENCY || 10 }
+  );
 }
 
 function _sessionDataToEvent(sessionData) {
@@ -84,14 +90,14 @@ async function _retrieveEventsFromAuditTable() {
       'finalizedAt',
       'sessionDate',
       'sessionTime',
-      'hasExaminerGlobalComment')
+      'hasExaminerGlobalComment'
+    )
     .where('status', '!=', 'DONE');
   return dtos.map((dto) => new SessionFinalized(dto));
 }
 
 async function _printAudit() {
-  const dtos = await knex(AUDIT_TABLE)
-    .select('sessionId', 'status', 'error');
+  const dtos = await knex(AUDIT_TABLE).select('sessionId', 'status', 'error');
 
   const todos = dtos.filter((dto) => dto.status === 'TO DO');
   const doings = dtos.filter((dto) => dto.status === 'DOING');
@@ -116,7 +122,6 @@ async function _printAudit() {
 
 async function main() {
   try {
-
     let finalizedSessionEvents;
 
     if (IS_FROM_SCRATCH) {
@@ -133,7 +138,6 @@ async function main() {
     console.log('\n\nDone.');
     console.log('\n***** Results *****');
     await _printAudit();
-
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -145,20 +149,16 @@ async function _emptyAuditTable() {
 }
 
 async function _doing(sessionId) {
-  await knex(AUDIT_TABLE)
-    .update({ error: '', status: 'DOING' })
-    .where({ sessionId });
+  await knex(AUDIT_TABLE).update({ error: '', status: 'DOING' }).where({ sessionId });
 }
 
 async function _done(sessionId) {
-  await knex(AUDIT_TABLE)
-    .update({ status: 'DONE' })
-    .where({ sessionId });
+  await knex(AUDIT_TABLE).update({ status: 'DONE' }).where({ sessionId });
 }
 
 async function _toRetry(sessionId, error) {
   await knex(AUDIT_TABLE)
-    .update({ status: 'TO RETRY', error: (error.stack).toString().substring(0, 700) })
+    .update({ status: 'TO RETRY', error: error.stack.toString().substring(0, 700) })
     .where({ sessionId });
 }
 
@@ -168,6 +168,6 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }

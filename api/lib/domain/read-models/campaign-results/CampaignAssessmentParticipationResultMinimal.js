@@ -1,14 +1,7 @@
 const _ = require('lodash');
 
 class CampaignAssessmentParticipationResultMinimal {
-  constructor({
-    campaignParticipationId,
-    firstName,
-    lastName,
-    participantExternalId,
-    masteryRate,
-    badges = [],
-  } = {}) {
+  constructor({ campaignParticipationId, firstName, lastName, participantExternalId, masteryRate, badges = [] } = {}) {
     this.campaignParticipationId = campaignParticipationId;
     this.firstName = firstName;
     this.lastName = lastName;

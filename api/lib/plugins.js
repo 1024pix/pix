@@ -15,7 +15,7 @@ function logObjectSerializer(obj) {
       metrics: get(context, 'metrics'),
     };
   } else {
-    return { ... obj };
+    return { ...obj };
   }
 }
 
@@ -45,26 +45,26 @@ const plugins = [
       logQueryParams: true,
     },
   },
-  ...(settings.sentry.enabled ? [
-    {
-      plugin: require('hapi-sentry'),
-      options: {
-        client: {
-          dsn: settings.sentry.dsn,
-          environment: settings.sentry.environment,
-          release: `v${Pack.version}`,
-          maxBreadcrumbs: settings.sentry.maxBreadcrumbs,
-          debug: settings.sentry.debug,
-          maxValueLength: settings.sentry.maxValueLength,
+  ...(settings.sentry.enabled
+    ? [
+        {
+          plugin: require('hapi-sentry'),
+          options: {
+            client: {
+              dsn: settings.sentry.dsn,
+              environment: settings.sentry.environment,
+              release: `v${Pack.version}`,
+              maxBreadcrumbs: settings.sentry.maxBreadcrumbs,
+              debug: settings.sentry.debug,
+              maxValueLength: settings.sentry.maxValueLength,
+            },
+            scope: {
+              tags: [{ name: 'source', value: 'api' }],
+            },
+          },
         },
-        scope: {
-          tags: [
-            { name: 'source', value: 'api' },
-          ],
-        },
-      },
-    },
-  ] : []),
+      ]
+    : []),
 ];
 
 module.exports = plugins;

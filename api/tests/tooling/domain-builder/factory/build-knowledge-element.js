@@ -1,6 +1,6 @@
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 
-const buildKnowledgeElement = function({
+const buildKnowledgeElement = function ({
   id = 123,
   source = KnowledgeElement.SourceType.DIRECT,
   status = KnowledgeElement.StatusType.VALIDATED,
@@ -27,7 +27,7 @@ const buildKnowledgeElement = function({
   });
 };
 
-buildKnowledgeElement.directlyValidated = function({
+buildKnowledgeElement.directlyValidated = function ({
   id = 123,
   earnedPix = 4,
   createdAt,
@@ -51,7 +51,7 @@ buildKnowledgeElement.directlyValidated = function({
   });
 };
 
-buildKnowledgeElement.directlyInvalidated = function({
+buildKnowledgeElement.directlyInvalidated = function ({
   id = 123,
   createdAt,
   answerId = 456,
@@ -74,7 +74,7 @@ buildKnowledgeElement.directlyInvalidated = function({
   });
 };
 
-buildKnowledgeElement.inferredValidated = function({
+buildKnowledgeElement.inferredValidated = function ({
   id = 123,
   earnedPix = 4,
   createdAt,

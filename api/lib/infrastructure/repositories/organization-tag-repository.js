@@ -8,7 +8,6 @@ const DomainTransaction = require('../DomainTransaction');
 const OrganizationTagBookshelf = require('../orm-models/OrganizationTag');
 
 module.exports = {
-
   async create(organizationTag) {
     try {
       const organizationTagToCreate = omit(organizationTag, 'id');
@@ -16,7 +15,9 @@ module.exports = {
       return bookshelfToDomainConverter.buildDomainObject(BookshelfOrganizationTag, bookshelfOrganizationTag);
     } catch (err) {
       if (bookshelfUtils.isUniqConstraintViolated(err)) {
-        throw new AlreadyExistingEntityError(`The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`);
+        throw new AlreadyExistingEntityError(
+          `The tag ${organizationTag.tagId} already exists for the organization ${organizationTag.organizationId}.`
+        );
       }
       throw err;
     }
@@ -24,21 +25,17 @@ module.exports = {
 
   async delete({ organizationTagId }) {
     try {
-      await BookshelfOrganizationTag
-        .where({ id: organizationTagId })
-        .destroy({ require: true });
+      await BookshelfOrganizationTag.where({ id: organizationTagId }).destroy({ require: true });
     } catch (err) {
       throw new OrganizationTagNotFound('An error occurred while deleting the organization tag');
     }
   },
 
   async findOneByOrganizationIdAndTagId({ organizationId, tagId }) {
-    const bookshelfOrganizationTags = await BookshelfOrganizationTag
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.where('tagId', tagId);
-      })
-      .fetchAll();
+    const bookshelfOrganizationTags = await BookshelfOrganizationTag.query((qb) => {
+      qb.where('organizationId', organizationId);
+      qb.where('tagId', tagId);
+    }).fetchAll();
 
     return bookshelfOrganizationTags.length > 0
       ? bookshelfToDomainConverter.buildDomainObjects(OrganizationTagBookshelf, bookshelfOrganizationTags)[0]
@@ -46,13 +43,13 @@ module.exports = {
   },
 
   async batchCreate(organizationsTags, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return Bookshelf.knex.batchInsert('organization-tags', organizationsTags).transacting(domainTransaction.knexTransaction);
+    return Bookshelf.knex
+      .batchInsert('organization-tags', organizationsTags)
+      .transacting(domainTransaction.knexTransaction);
   },
 
   async isExistingByOrganizationIdAndTagId({ organizationId, tagId }) {
-    const organizationTag = await BookshelfOrganizationTag
-      .where({ organizationId, tagId })
-      .fetch({ require: false });
+    const organizationTag = await BookshelfOrganizationTag.where({ organizationId, tagId }).fetch({ require: false });
 
     return !!organizationTag;
   },

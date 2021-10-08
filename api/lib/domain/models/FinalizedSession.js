@@ -37,11 +37,12 @@ module.exports = class FinalizedSession {
       certificationCenterName,
       sessionDate,
       sessionTime,
-      isPublishable: !hasExaminerGlobalComment
-        && _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries)
-        && _isNotFlaggedAsAborted(juryCertificationSummaries)
-        && _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries)
-        && _hasExaminerSeenAllEndScreens(juryCertificationSummaries),
+      isPublishable:
+        !hasExaminerGlobalComment &&
+        _hasNoIssueReportsWithRequiredAction(juryCertificationSummaries) &&
+        _isNotFlaggedAsAborted(juryCertificationSummaries) &&
+        _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) &&
+        _hasExaminerSeenAllEndScreens(juryCertificationSummaries),
       publishedAt: null,
     });
   }
@@ -69,13 +70,9 @@ function _isNotFlaggedAsAborted(juryCertificationSummaries) {
 }
 
 function _hasNoScoringErrorOrUncompletedAssessmentResults(juryCertificationSummaries) {
-  return !some(
-    juryCertificationSummaries,
-    (summary) => {
-      return summary.hasScoringError()
-        || !summary.hasCompletedAssessment();
-    },
-  );
+  return !some(juryCertificationSummaries, (summary) => {
+    return summary.hasScoringError() || !summary.hasCompletedAssessment();
+  });
 }
 
 function _hasExaminerSeenAllEndScreens(juryCertificationSummaries) {

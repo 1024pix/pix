@@ -18,7 +18,6 @@ monitoringTools.installHapiHook();
 let config;
 
 const setupServer = async () => {
-
   loadConfiguration();
 
   const server = await createServer();
@@ -36,8 +35,7 @@ const setupServer = async () => {
   return server;
 };
 
-const createServer = async function() {
-
+const createServer = async function () {
   const serverConfiguration = {
     compression: false,
     debug: { request: false, log: false },
@@ -63,8 +61,7 @@ const createServer = async function() {
   return new Hapi.server(serverConfiguration);
 };
 
-const enableOpsMetrics = async function(server) {
-
+const enableOpsMetrics = async function (server) {
   const oppsy = new Oppsy(server);
 
   oppsy.on('ops', (data) => {
@@ -72,18 +69,17 @@ const enableOpsMetrics = async function(server) {
   });
 
   oppsy.start(config.logging.emitOpsEventEachSeconds * 1000);
-
 };
 
-const loadConfiguration = function() {
+const loadConfiguration = function () {
   config = require('./lib/config');
 };
 
-const setupErrorHandling = function(server) {
+const setupErrorHandling = function (server) {
   server.ext('onPreResponse', preResponseUtils.handleDomainAndHttpErrors);
 };
 
-const setupAuthentication = function(server) {
+const setupAuthentication = function (server) {
   server.auth.scheme(authentication.schemeName, authentication.scheme);
   authentication.strategies.map((strategy) => {
     server.auth.strategy(strategy.name, authentication.schemeName, strategy.configuration);
@@ -91,12 +87,12 @@ const setupAuthentication = function(server) {
   server.auth.default(authentication.defaultStrategy);
 };
 
-const setupRoutesAndPlugins = async function(server) {
+const setupRoutesAndPlugins = async function (server) {
   const configuration = [].concat(plugins, routes);
   await server.register(configuration);
 };
 
-const setupOpenApiSpecification = async function(server) {
+const setupOpenApiSpecification = async function (server) {
   for (const swaggerRegisterArgs of swaggers) {
     await server.register(...swaggerRegisterArgs);
   }

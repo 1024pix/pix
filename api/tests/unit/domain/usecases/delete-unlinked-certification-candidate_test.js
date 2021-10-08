@@ -1,18 +1,13 @@
-const {
-  sinon,
-  expect,
-  catchErr,
-} = require('../../../test-helper');
+const { sinon, expect, catchErr } = require('../../../test-helper');
 
 const deleteUnlinkedCertificationCandidate = require('../../../../lib/domain/usecases/delete-unlinked-certification-candidate');
 const { CertificationCandidateForbiddenDeletionError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | delete-unlinked-sertification-candidate', function() {
-
+describe('Unit | UseCase | delete-unlinked-sertification-candidate', function () {
   let certificationCandidateId;
   let certificationCandidateRepository;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     certificationCandidateId = 'dummy certification candidate id';
     certificationCandidateRepository = {
       isNotLinked: sinon.stub(),
@@ -20,14 +15,13 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function() 
     };
   });
 
-  context('When the certification candidate is not linked to a user', function() {
-
-    beforeEach(function() {
+  context('When the certification candidate is not linked to a user', function () {
+    beforeEach(function () {
       certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(true);
       certificationCandidateRepository.delete.withArgs(certificationCandidateId).resolves(true);
     });
 
-    it('should delete the certification candidate', async function() {
+    it('should delete the certification candidate', async function () {
       // when
       const res = await deleteUnlinkedCertificationCandidate({
         certificationCandidateId,
@@ -37,16 +31,14 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function() 
       // then
       expect(res).to.deep.equal(true);
     });
-
   });
 
-  context('When the certification candidate is linked to a user ', function() {
-
-    beforeEach(function() {
+  context('When the certification candidate is linked to a user ', function () {
+    beforeEach(function () {
       certificationCandidateRepository.isNotLinked.withArgs(certificationCandidateId).resolves(false);
     });
 
-    it('should throw a forbidden deletion error', async function() {
+    it('should throw a forbidden deletion error', async function () {
       // when
       const err = await catchErr(deleteUnlinkedCertificationCandidate)({
         certificationCandidateId,
@@ -56,7 +48,5 @@ describe('Unit | UseCase | delete-unlinked-sertification-candidate', function() 
       // then
       expect(err).to.be.instanceOf(CertificationCandidateForbiddenDeletionError);
     });
-
   });
-
 });

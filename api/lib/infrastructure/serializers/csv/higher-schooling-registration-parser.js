@@ -10,7 +10,6 @@ const ERRORS = {
 };
 
 class HigherSchoolingRegistrationParser extends CsvRegistrationParser {
-
   constructor(input, organizationId, i18n) {
     const registrationSet = new HigherSchoolingRegistrationSet(i18n);
 

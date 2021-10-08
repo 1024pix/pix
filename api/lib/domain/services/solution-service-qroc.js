@@ -1,10 +1,12 @@
 const utils = require('./solution-service-utils');
 const deactivationsService = require('../../../lib/domain/services/deactivations-service');
-const { isNumeric, splitIntoWordsAndRemoveBackspaces, cleanStringAndParseFloat } = require('../../../lib/infrastructure/utils/string-utils');
-const { every, includes, isEmpty, isString, map } = require('lodash');
 const {
-  applyTreatments, applyPreTreatments,
-} = require('./validation-treatments');
+  isNumeric,
+  splitIntoWordsAndRemoveBackspaces,
+  cleanStringAndParseFloat,
+} = require('../../../lib/infrastructure/utils/string-utils');
+const { every, includes, isEmpty, isString, map } = require('lodash');
+const { applyTreatments, applyPreTreatments } = require('./validation-treatments');
 
 const AnswerStatus = require('../models/AnswerStatus');
 
@@ -12,7 +14,6 @@ const LEVENSHTEIN_DISTANCE_MAX_RATE = 0.25;
 const CHALLENGE_NUMBER_FORMAT = 'nombre';
 
 module.exports = {
-
   match({ answer, challengeFormat, solution }) {
     const solutionValue = solution.value;
     const deactivations = solution.deactivations;
@@ -59,7 +60,6 @@ function _getAnswerStatusFromStringMatching(answer, solutions, deactivations, sh
 
 function _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatments) {
   return map(solutions, (solution) => {
-
     if (shouldApplyTreatments === false) {
       return solution;
     }
@@ -71,43 +71,35 @@ function _applyTreatmentsToSolutions(solutions, deactivations, shouldApplyTreatm
 }
 
 function _getAnswerStatusAccordingToLevenshteinDistance(validations, deactivations) {
-
   if (deactivationsService.isDefault(deactivations)) {
     if (validations.t1t2t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasOnlyT1(deactivations)) {
+  } else if (deactivationsService.hasOnlyT1(deactivations)) {
     if (validations.t2t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasOnlyT2(deactivations)) {
+  } else if (deactivationsService.hasOnlyT2(deactivations)) {
     if (validations.t1t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasOnlyT3(deactivations)) {
+  } else if (deactivationsService.hasOnlyT3(deactivations)) {
     if (includes(validations.adminAnswers, validations.t1t2)) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+  } else if (deactivationsService.hasOnlyT1T2(deactivations)) {
     if (validations.t3Ratio <= LEVENSHTEIN_DISTANCE_MAX_RATE) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+  } else if (deactivationsService.hasOnlyT1T3(deactivations)) {
     if (includes(validations.adminAnswers, validations.t2)) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasOnlyT2T3(deactivations)) {
+  } else if (deactivationsService.hasOnlyT2T3(deactivations)) {
     if (includes(validations.adminAnswers, validations.t1)) {
       return AnswerStatus.OK;
     }
-  }
-  else if (deactivationsService.hasT1T2T3(deactivations)) {
+  } else if (deactivationsService.hasT1T2T3(deactivations)) {
     if (includes(validations.adminAnswers, validations.userAnswer)) {
       return AnswerStatus.OK;
     }

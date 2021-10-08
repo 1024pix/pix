@@ -17,7 +17,6 @@ module.exports = function buildKnowledgeElement({
   userId,
   competenceId = 'recCHA789',
 } = {}) {
-
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment({ userId }).id : assessmentId;
   answerId = _.isUndefined(answerId) ? buildAnswer({ assessmentId }).id : answerId;
@@ -40,4 +39,3 @@ module.exports = function buildKnowledgeElement({
     values,
   });
 };
-

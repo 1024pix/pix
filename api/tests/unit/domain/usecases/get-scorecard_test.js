@@ -3,8 +3,7 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 const Scorecard = require('../../../../lib/domain/models/Scorecard');
 const getScorecard = require('../../../../lib/domain/usecases/get-scorecard');
 
-describe('Unit | UseCase | get-scorecard', function() {
-
+describe('Unit | UseCase | get-scorecard', function () {
   let scorecardService;
   let competenceRepository;
   let competenceEvaluationRepository;
@@ -15,7 +14,7 @@ describe('Unit | UseCase | get-scorecard', function() {
   let parseIdStub;
   const locale = 'fr';
 
-  beforeEach(function() {
+  beforeEach(function () {
     scorecardId = '1_1';
     competenceId = 1;
     authenticatedUserId = 1;
@@ -26,27 +25,27 @@ describe('Unit | UseCase | get-scorecard', function() {
     knowledgeElementRepository = {};
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sinon.restore();
   });
 
-  context('When user is authenticated', function() {
-
-    beforeEach(function() {
+  context('When user is authenticated', function () {
+    beforeEach(function () {
       parseIdStub.withArgs(scorecardId).returns({ competenceId, userId: authenticatedUserId });
     });
 
-    context('And user asks for his own scorecard', function() {
-
-      it('should resolve', function() {
+    context('And user asks for his own scorecard', function () {
+      it('should resolve', function () {
         // given
-        scorecardService.computeScorecard.withArgs({
-          userId: authenticatedUserId,
-          competenceRepository,
-          competenceEvaluationRepository,
-          knowledgeElementRepository,
-          locale,
-        }).resolves({});
+        scorecardService.computeScorecard
+          .withArgs({
+            userId: authenticatedUserId,
+            competenceRepository,
+            competenceEvaluationRepository,
+            knowledgeElementRepository,
+            locale,
+          })
+          .resolves({});
 
         // when
         const promise = getScorecard({
@@ -63,7 +62,7 @@ describe('Unit | UseCase | get-scorecard', function() {
         return expect(promise).to.be.fulfilled;
       });
 
-      it('should return the user scorecard', async function() {
+      it('should return the user scorecard', async function () {
         // given
         const scorecard = Symbol('Scorecard');
 
@@ -81,8 +80,8 @@ describe('Unit | UseCase | get-scorecard', function() {
       });
     });
 
-    context('And user asks for a scorecard that do not belongs to him', function() {
-      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', function() {
+    context('And user asks for a scorecard that do not belongs to him', function () {
+      it('should reject a "UserNotAuthorizedToAccessEntityError" domain error', function () {
         // given
         const unauthorizedUserId = 42;
         scorecardService.computeScorecard.resolves({});

@@ -5,9 +5,9 @@ function _formatAttribute({ attribute, message }) {
   return {
     status: '422',
     source: {
-      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+      pointer: `/data/attributes/${_.kebabCase(attribute)}`,
     },
-    title: `Invalid data attribute "${ attribute }"`,
+    title: `Invalid data attribute "${attribute}"`,
     detail: message,
   };
 }
@@ -17,9 +17,9 @@ function _formatRelationship({ attribute, message }) {
   return {
     status: '422',
     source: {
-      pointer: `/data/relationships/${ _.kebabCase(relationship) }`,
+      pointer: `/data/relationships/${_.kebabCase(relationship)}`,
     },
-    title: `Invalid relationship "${ relationship }"`,
+    title: `Invalid relationship "${relationship}"`,
     detail: message,
   };
 }

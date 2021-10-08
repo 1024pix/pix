@@ -3,14 +3,17 @@ const { knex } = require('../../../db/knex-database-connection');
 const ShareableCertificate = require('../../domain/models/ShareableCertificate');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
 const ResultCompetenceTree = require('../../domain/models/ResultCompetenceTree');
 
 module.exports = {
-
   async getByVerificationCode(verificationCode) {
     const shareableCertificateDTO = await _selectShareableCertificates()
       .groupBy('certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
@@ -50,8 +53,7 @@ function _selectShareableCertificates() {
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
-        )`,
-      ),
+        )`),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -66,11 +68,12 @@ function _selectShareableCertificates() {
 function _filterMostRecentValidatedAssessmentResult(qb) {
   return qb
     .whereNotExists(
-      knex.select(1)
+      knex
+        .select(1)
         .from({ 'last-assessment-results': 'assessment-results' })
         .where('last-assessment-results.status', AssessmentResult.status.VALIDATED)
         .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
     )
     .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
@@ -80,7 +83,7 @@ async function _getCleaCertificationResult(certificationCourseId) {
     .select('acquired')
     .from('partner-certifications')
     .where({ certificationCourseId })
-    .whereIn('partnerKey', [ CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2 ])
+    .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
     .first();
 
   if (!result) {
@@ -98,11 +101,15 @@ async function _getCertifiedBadgeImages(certificationCourseId) {
     .whereIn('partnerKey', handledBadgeKeys)
     .orderBy('partnerKey');
 
-  return _.compact(_.map(results, (result) => {
-    if (result.partnerKey === pixPlusDroitMaitreBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
-    if (result.partnerKey === pixPlusDroitExpertBadgeKey) return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
-    return null;
-  }));
+  return _.compact(
+    _.map(results, (result) => {
+      if (result.partnerKey === pixPlusDroitMaitreBadgeKey)
+        return 'https://images.pix.fr/badges-certifies/pix-droit/maitre.svg';
+      if (result.partnerKey === pixPlusDroitExpertBadgeKey)
+        return 'https://images.pix.fr/badges-certifies/pix-droit/expert.svg';
+      return null;
+    })
+  );
 }
 
 function _toDomain(shareableCertificateDTO, competenceTree, cleaCertificationResult, certifiedBadgeImages) {

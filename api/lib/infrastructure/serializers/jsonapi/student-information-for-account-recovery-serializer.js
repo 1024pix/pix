@@ -1,25 +1,15 @@
 const { Serializer, Deserializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(studentInformationForAccountRecovery) {
     return new Serializer('student-information-for-account-recoveries', {
-      attributes: [
-        'firstName',
-        'lastName',
-        'username',
-        'email',
-        'latestOrganizationName',
-      ],
+      attributes: ['firstName', 'lastName', 'username', 'email', 'latestOrganizationName'],
     }).serialize(studentInformationForAccountRecovery);
   },
 
   serializeAccountRecovery(accountRecoveryDemand) {
     return new Serializer('account-recovery-demand', {
-      attributes: [
-        'firstName',
-        'email',
-      ],
+      attributes: ['firstName', 'email'],
     }).serialize(accountRecoveryDemand);
   },
 
@@ -30,7 +20,7 @@ module.exports = {
         firstName: record['first-name'],
         lastName: record['last-name'],
         birthdate: record.birthdate,
-        ...record.email && { email: record.email },
+        ...(record.email && { email: record.email }),
       };
     }
     return new Deserializer({ transform })

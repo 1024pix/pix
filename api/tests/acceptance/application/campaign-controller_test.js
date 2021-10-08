@@ -13,20 +13,18 @@ const settings = require('../../../lib/config');
 const Membership = require('../../../lib/domain/models/Membership');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Campaign Controller', function() {
-
+describe('Acceptance | API | Campaign Controller', function () {
   let campaign;
   let organization;
   let targetProfile;
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/campaigns', function() {
-
-    it('should return the campaign requested by code', async function() {
+  describe('GET /api/campaigns', function () {
+    it('should return the campaign requested by code', async function () {
       // given
       campaign = databaseBuilder.factory.buildCampaign();
       await databaseBuilder.commit();
@@ -48,14 +46,13 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/collective-result', function() {
-
+  describe('GET /api/campaigns/{id}/collective-result', function () {
     const assessmentStartDate = '2018-01-02';
     const participationStartDate = '2018-01-01';
 
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile({
@@ -114,33 +111,42 @@ describe('Acceptance | API | Campaign Controller', function() {
 
       await databaseBuilder.commit();
 
-      const learningContent = [{
-        id: 'recArea1',
-        titleFrFr: 'area1_Title',
-        color: 'specialColor',
-        competences: [{
-          id: 'recCompetence1',
-          name: 'Fabriquer un meuble',
-          index: '1.1',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              id: 'recSkillId1',
-              nom: '@web2',
-              challenges: [],
-            }, {
-              id: 'recSkillId2',
-              nom: '@web3',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkillId1',
+                      nom: '@web2',
+                      challenges: [],
+                    },
+                    {
+                      id: 'recSkillId2',
+                      nom: '@web3',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return campaign collective result with status code 200', async function() {
+    it('should return campaign collective result with status code 200', async function () {
       // given
       const url = `/api/campaigns/${campaign.id}/collective-results`;
       const request = {
@@ -155,25 +161,29 @@ describe('Acceptance | API | Campaign Controller', function() {
           attributes: {},
           relationships: {
             'campaign-competence-collective-results': {
-              data: [{
-                id: `${campaign.id}_recCompetence1`,
-                type: 'campaignCompetenceCollectiveResults',
-              }],
+              data: [
+                {
+                  id: `${campaign.id}_recCompetence1`,
+                  type: 'campaignCompetenceCollectiveResults',
+                },
+              ],
             },
           },
         },
-        included: [{
-          id: `${campaign.id}_recCompetence1`,
-          type: 'campaignCompetenceCollectiveResults',
-          attributes: {
-            'area-code': '1',
-            'area-color': 'specialColor',
-            'average-validated-skills': 1,
-            'competence-id': 'recCompetence1',
-            'competence-name': 'Fabriquer un meuble',
-            'targeted-skills-count': 2,
+        included: [
+          {
+            id: `${campaign.id}_recCompetence1`,
+            type: 'campaignCompetenceCollectiveResults',
+            attributes: {
+              'area-code': '1',
+              'area-color': 'specialColor',
+              'average-validated-skills': 1,
+              'competence-id': 'recCompetence1',
+              'competence-name': 'Fabriquer un meuble',
+              'targeted-skills-count': 2,
+            },
           },
-        }],
+        ],
       };
 
       // when
@@ -185,17 +195,20 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-assessment-results', function() {
-
+  describe('GET /api/campaigns/{id}/csv-assessment-results', function () {
     let accessToken;
 
     function _createTokenWithAccessId(userId) {
-      return jwt.sign({
-        access_id: userId,
-      }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+      return jwt.sign(
+        {
+          access_id: userId,
+        },
+        settings.authentication.secret,
+        { expiresIn: settings.authentication.tokenLifespan }
+      );
     }
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const skillId = 'rec123';
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
@@ -215,30 +228,38 @@ describe('Acceptance | API | Campaign Controller', function() {
 
       await databaseBuilder.commit();
 
-      const learningContent = [{
-        id: 'recArea1',
-        titleFrFr: 'area1_Title',
-        color: 'specialColor',
-        competences: [{
-          id: 'recCompetence1',
-          name: 'Fabriquer un meuble',
-          index: '1.1',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              id: skillId,
-              nom: '@web2',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: skillId,
+                      nom: '@web2',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return csv file with statusCode 200', async function() {
+    it('should return csv file with statusCode 200', async function () {
       // given
       const url = `/api/campaigns/${campaign.id}/csv-assessment-results?accessToken=${accessToken}`;
       const request = {
@@ -254,17 +275,20 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function() {
-
+  describe('GET /api/campaigns/{id}/csv-profiles-collection-results', function () {
     let accessToken;
 
     function _createTokenWithAccessId(userId) {
-      return jwt.sign({
-        access_id: userId,
-      }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+      return jwt.sign(
+        {
+          access_id: userId,
+        },
+        settings.authentication.secret,
+        { expiresIn: settings.authentication.tokenLifespan }
+      );
     }
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization();
       targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -282,30 +306,38 @@ describe('Acceptance | API | Campaign Controller', function() {
 
       await databaseBuilder.commit();
 
-      const learningContent = [{
-        id: 'recArea1',
-        titleFrFr: 'area1_Title',
-        color: 'specialColor',
-        competences: [{
-          id: 'recCompetence1',
-          name: 'Fabriquer un meuble',
-          index: '1.1',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              id: 'recSkill1',
-              nom: '@web2',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          titleFrFr: 'area1_Title',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      nom: '@web2',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return csv file with statusCode 200', async function() {
+    it('should return csv file with statusCode 200', async function () {
       // given
       const url = `/api/campaigns/${campaign.id}/csv-profiles-collection-results?accessToken=${accessToken}`;
       const request = {
@@ -321,11 +353,10 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/analyses', function() {
-
+  describe('GET /api/campaigns/{id}/analyses', function () {
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
 
@@ -350,44 +381,55 @@ describe('Acceptance | API | Campaign Controller', function() {
 
       await databaseBuilder.commit();
 
-      const learningContent = [{
-        id: 'recArea1',
-        color: 'specialColor',
-        competences: [{
-          id: 'recCompetence1',
-          name: 'Fabriquer un meuble',
-          index: '1.1',
-          tubes: [{
-            id: 'recTube1',
-            practicalTitleFr: 'Monter une étagère FR',
-            practicalDescriptionFr: 'Comment monter une étagère',
-            skills: [{
-              id: 'recSkillId1',
-              nom: '@skill1',
-              challenges: [],
-              tutorials: [{
-                id: 'recTutorial1',
-                title: 'Apprendre à vivre confiné',
-                format: '2 mois',
-                source: 'covid-19',
-                link: 'www.liberez-moi.fr',
-                duration: '00:03:31',
-                locale: 'fr-fr',
-              }],
-            }, {
-              id: 'recSkillId2',
-              nom: '@skill2',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  practicalTitleFr: 'Monter une étagère FR',
+                  practicalDescriptionFr: 'Comment monter une étagère',
+                  skills: [
+                    {
+                      id: 'recSkillId1',
+                      nom: '@skill1',
+                      challenges: [],
+                      tutorials: [
+                        {
+                          id: 'recTutorial1',
+                          title: 'Apprendre à vivre confiné',
+                          format: '2 mois',
+                          source: 'covid-19',
+                          link: 'www.liberez-moi.fr',
+                          duration: '00:03:31',
+                          locale: 'fr-fr',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'recSkillId2',
+                      nom: '@skill2',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return campaign analysis with status code 200', async function() {
+    it('should return campaign analysis with status code 200', async function () {
       // given
       const url = `/api/campaigns/${campaign.id}/analyses`;
       const request = {
@@ -402,45 +444,52 @@ describe('Acceptance | API | Campaign Controller', function() {
           attributes: {},
           relationships: {
             'campaign-tube-recommendations': {
-              data: [{
-                id: `${campaign.id}_recTube1`,
-                type: 'campaignTubeRecommendations',
-              }],
+              data: [
+                {
+                  id: `${campaign.id}_recTube1`,
+                  type: 'campaignTubeRecommendations',
+                },
+              ],
             },
           },
         },
-        included: [{
-          'id': 'recTutorial1',
-          'type': 'tutorials',
-          attributes: {
-            'duration': '00:03:31',
-            'format': '2 mois',
-            'id': 'recTutorial1',
-            'link': 'www.liberez-moi.fr',
-            'source': 'covid-19',
-            'title': 'Apprendre à vivre confiné',
-          },
-        }, {
-          id: `${campaign.id}_recTube1`,
-          type: 'campaignTubeRecommendations',
-          attributes: {
-            'area-color': 'specialColor',
-            'tube-id': 'recTube1',
-            'competence-id': 'recCompetence1',
-            'competence-name': 'Fabriquer un meuble',
-            'tube-practical-title': 'Monter une étagère FR',
-            'average-score': 30,
-            'tube-description': 'Comment monter une étagère',
-          },
-          relationships: {
-            tutorials: {
-              data: [{
-                'id': 'recTutorial1',
-                'type': 'tutorials',
-              }],
+        included: [
+          {
+            id: 'recTutorial1',
+            type: 'tutorials',
+            attributes: {
+              duration: '00:03:31',
+              format: '2 mois',
+              id: 'recTutorial1',
+              link: 'www.liberez-moi.fr',
+              source: 'covid-19',
+              title: 'Apprendre à vivre confiné',
             },
           },
-        }],
+          {
+            id: `${campaign.id}_recTube1`,
+            type: 'campaignTubeRecommendations',
+            attributes: {
+              'area-color': 'specialColor',
+              'tube-id': 'recTube1',
+              'competence-id': 'recCompetence1',
+              'competence-name': 'Fabriquer un meuble',
+              'tube-practical-title': 'Monter une étagère FR',
+              'average-score': 30,
+              'tube-description': 'Comment monter une étagère',
+            },
+            relationships: {
+              tutorials: {
+                data: [
+                  {
+                    id: 'recTutorial1',
+                    type: 'tutorials',
+                  },
+                ],
+              },
+            },
+          },
+        ],
       };
 
       // when
@@ -452,11 +501,10 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('POST /api/campaigns', function() {
-
+  describe('POST /api/campaigns', function () {
     let options, payload;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       organization = databaseBuilder.factory.buildOrganization({ canCollectProfiles: true });
       databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId });
@@ -464,19 +512,27 @@ describe('Acceptance | API | Campaign Controller', function() {
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: 'recSkill1' });
       await databaseBuilder.commit();
 
-      const learningContent = [{
-        id: 'recArea1',
-        competences: [{
-          id: 'recCompetence1',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              id: 'recSkill1',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkill1',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
@@ -485,8 +541,8 @@ describe('Acceptance | API | Campaign Controller', function() {
         data: {
           type: 'campaign',
           attributes: {
-            'name': 'Campagne collège',
-            'type': 'ASSESSMENT',
+            name: 'Campagne collège',
+            type: 'ASSESSMENT',
           },
           relationships: {
             'target-profile': {
@@ -512,11 +568,11 @@ describe('Acceptance | API | Campaign Controller', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('campaigns').delete();
     });
 
-    it('should return 201 status code and the campaign created with type ASSESSMENT', async function() {
+    it('should return 201 status code and the campaign created with type ASSESSMENT', async function () {
       // when
       const response = await server.inject(options, payload);
 
@@ -526,14 +582,14 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(response.result.data.attributes.type).to.equal('ASSESSMENT');
     });
 
-    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION', async function() {
+    it('should return 201 status code and the campaign created with type PROFILES_COLLECTION', async function () {
       // given
       payload = {
         data: {
           type: 'campaign',
           attributes: {
-            'name': 'Campagne lycée',
-            'type': 'PROFILES_COLLECTION',
+            name: 'Campagne lycée',
+            type: 'PROFILES_COLLECTION',
           },
           relationships: {
             'target-profile': {
@@ -562,7 +618,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(response.result.data.attributes.type).to.equal('PROFILES_COLLECTION');
     });
 
-    it('should return 403 status code when the user does not have access', async function() {
+    it('should return 403 status code when the user does not have access', async function () {
       // given
       const anotherUserId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
@@ -582,30 +638,36 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/profiles-collection-participations', function() {
-
-    beforeEach(async function() {
-      const learningContent = [{
-        id: 'recArea1',
-        competences: [{
-          id: 'recCompetence1',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              id: 'skill1',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+  describe('GET /api/campaigns/{id}/profiles-collection-participations', function () {
+    beforeEach(async function () {
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'skill1',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    context('when there is one divisions', function() {
-
-      it('should returns profiles collection campaign participations', async function() {
+    context('when there is one divisions', function () {
+      it('should returns profiles collection campaign participations', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organization = databaseBuilder.factory.buildOrganization();
@@ -626,12 +688,32 @@ describe('Acceptance | API | Campaign Controller', function() {
         });
 
         const participantId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id, userId: participantId1 });
-        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Barry', lastName: 'Withe', organizationId: organization.id, userId: participantId1, division: 'Division Barry' });
+        databaseBuilder.factory.buildCampaignParticipation({
+          isShared: true,
+          campaignId: campaign.id,
+          userId: participantId1,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: 'Barry',
+          lastName: 'Withe',
+          organizationId: organization.id,
+          userId: participantId1,
+          division: 'Division Barry',
+        });
 
         const participantId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id, userId: participantId2 });
-        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Marvin', lastName: 'Gaye', organizationId: organization.id, userId: participantId2, division: 'Division Marvin' });
+        databaseBuilder.factory.buildCampaignParticipation({
+          isShared: true,
+          campaignId: campaign.id,
+          userId: participantId2,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: 'Marvin',
+          lastName: 'Gaye',
+          organizationId: organization.id,
+          userId: participantId2,
+          division: 'Division Marvin',
+        });
 
         await databaseBuilder.commit();
 
@@ -651,9 +733,8 @@ describe('Acceptance | API | Campaign Controller', function() {
       });
     });
 
-    context('when there are several divisions', function() {
-
-      it('should returns profiles collection campaign participations', async function() {
+    context('when there are several divisions', function () {
+      it('should returns profiles collection campaign participations', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const organization = databaseBuilder.factory.buildOrganization();
@@ -674,16 +755,46 @@ describe('Acceptance | API | Campaign Controller', function() {
         });
 
         const participantId1 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id, userId: participantId1 });
-        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Barry', lastName: 'Withe', organizationId: organization.id, userId: participantId1, division: 'Division Barry' });
+        databaseBuilder.factory.buildCampaignParticipation({
+          isShared: true,
+          campaignId: campaign.id,
+          userId: participantId1,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: 'Barry',
+          lastName: 'Withe',
+          organizationId: organization.id,
+          userId: participantId1,
+          division: 'Division Barry',
+        });
 
         const participantId2 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id, userId: participantId2 });
-        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Marvin', lastName: 'Gaye', organizationId: organization.id, userId: participantId2, division: 'Division Marvin' });
+        databaseBuilder.factory.buildCampaignParticipation({
+          isShared: true,
+          campaignId: campaign.id,
+          userId: participantId2,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: 'Marvin',
+          lastName: 'Gaye',
+          organizationId: organization.id,
+          userId: participantId2,
+          division: 'Division Marvin',
+        });
 
         const participantId3 = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCampaignParticipation({ isShared: true, campaignId: campaign.id, userId: participantId3 });
-        databaseBuilder.factory.buildSchoolingRegistration({ firstName: 'Aretha', lastName: 'Franklin', organizationId: organization.id, userId: participantId3, division: 'Division Aretha' });
+        databaseBuilder.factory.buildCampaignParticipation({
+          isShared: true,
+          campaignId: campaign.id,
+          userId: participantId3,
+        });
+        databaseBuilder.factory.buildSchoolingRegistration({
+          firstName: 'Aretha',
+          lastName: 'Franklin',
+          organizationId: organization.id,
+          userId: participantId3,
+          division: 'Division Aretha',
+        });
 
         await databaseBuilder.commit();
 
@@ -705,13 +816,15 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/divisions', function() {
-
-    it('should return the campaign participants division', async function() {
+  describe('GET /api/campaigns/{id}/divisions', function () {
+    it('should return the campaign participants division', async function () {
       const division = '3emeA';
       const campaign = databaseBuilder.factory.buildCampaign();
       const user = databaseBuilder.factory.buildUser.withMembership({ organizationId: campaign.organizationId });
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ organizationId: campaign.organizationId, division: division }, { campaignId: campaign.id });
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        { organizationId: campaign.organizationId, division: division },
+        { campaignId: campaign.id }
+      );
       await databaseBuilder.commit();
 
       const options = {
@@ -727,8 +840,7 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}', function() {
-
+  describe('GET /api/campaigns/{id}', function () {
     const options = {
       headers: { authorization: null },
       method: 'GET',
@@ -738,7 +850,7 @@ describe('Acceptance | API | Campaign Controller', function() {
     let campaign;
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       campaign = databaseBuilder.factory.buildCampaign();
       userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildMembership({
@@ -752,7 +864,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the campaign by id', async function() {
+    it('should return the campaign by id', async function () {
       // when
       const response = await server.inject(options);
 
@@ -762,7 +874,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(response.result.data.attributes.name).to.equal(campaign.name);
     });
 
-    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function() {
+    it('should return HTTP code 403 if the authenticated user is not authorize to access the campaign', async function () {
       // given
       userId = databaseBuilder.factory.buildUser().id;
       options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -776,14 +888,14 @@ describe('Acceptance | API | Campaign Controller', function() {
     });
   });
 
-  describe('GET /api/campaigns/{id}/participants-activity', function() {
+  describe('GET /api/campaigns/{id}/participants-activity', function () {
     const participant1 = { firstName: 'John', lastName: 'McClane', id: 12, email: 'john.mclane@die.hard' };
     const participant2 = { firstName: 'Holly', lastName: 'McClane', id: 13, email: 'holly.mclane@die.hard' };
 
     let campaign;
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       const organization = databaseBuilder.factory.buildOrganization();
 
@@ -797,14 +909,29 @@ describe('Acceptance | API | Campaign Controller', function() {
       };
 
       databaseBuilder.factory.buildAssessmentFromParticipation(campaignParticipation, participant1);
-      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, division: '5eme', firstName: 'John', lastName: 'McClane', userId: participant1.id });
-      databaseBuilder.factory.buildAssessmentFromParticipation({ campaignId: campaign.id, isShared: false }, participant2);
-      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, division: '4eme', firstName: 'Holly', lastName: 'McClane', userId: participant2.id });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '5eme',
+        firstName: 'John',
+        lastName: 'McClane',
+        userId: participant1.id,
+      });
+      databaseBuilder.factory.buildAssessmentFromParticipation(
+        { campaignId: campaign.id, isShared: false },
+        participant2
+      );
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        division: '4eme',
+        firstName: 'Holly',
+        lastName: 'McClane',
+        userId: participant2.id,
+      });
 
       return databaseBuilder.commit();
     });
 
-    it('should return a list of participation as JSONAPI', async function() {
+    it('should return a list of participation as JSONAPI', async function () {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/participants-activity`,
@@ -817,7 +944,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(response.result.data).to.have.lengthOf(2);
     });
 
-    it('should return two pages as JSONAPI', async function() {
+    it('should return two pages as JSONAPI', async function () {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/participants-activity?page[number]=1&page[size]=1`,
@@ -831,7 +958,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(meta.pageCount).to.equal(2);
     });
 
-    it('should return the campaign participant activity from division 5eme as JSONAPI', async function() {
+    it('should return the campaign participant activity from division 5eme as JSONAPI', async function () {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/participants-activity?filter[divisions][]=5eme`,
@@ -846,7 +973,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(participation['first-name']).to.equal(participant1.firstName);
     });
 
-    it('should return the campaign participant activity with status STARTED as JSONAPI', async function() {
+    it('should return the campaign participant activity with status STARTED as JSONAPI', async function () {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/participants-activity?filter[status]=STARTED`,
@@ -861,7 +988,7 @@ describe('Acceptance | API | Campaign Controller', function() {
       expect(participation['first-name']).to.equal(participant2.firstName);
     });
 
-    it('should return 400 when status is not valid', async function() {
+    it('should return 400 when status is not valid', async function () {
       const options = {
         method: 'GET',
         url: `/api/campaigns/${campaign.id}/participants-activity?filter[status]=bad`,

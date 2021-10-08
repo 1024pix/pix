@@ -25,13 +25,17 @@ function _extractPage(query) {
 }
 
 function _extractObjectParameter(query, regex) {
-  return _.reduce(query, (result, queryFilterValue, queryFilterKey) => {
-    const parameter = queryFilterKey.match(regex);
-    if (parameter && parameter[1]) {
-      result[parameter[1]] = queryFilterValue;
-    }
-    return result;
-  }, {});
+  return _.reduce(
+    query,
+    (result, queryFilterValue, queryFilterKey) => {
+      const parameter = queryFilterKey.match(regex);
+      if (parameter && parameter[1]) {
+        result[parameter[1]] = queryFilterValue;
+      }
+      return result;
+    },
+    {}
+  );
 }
 
 function _extractArrayParameter(query, parameterName) {

@@ -1,7 +1,7 @@
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventTypes = [ CertificationRescoringCompleted ];
+const eventTypes = [CertificationRescoringCompleted];
 
 async function handleCleaCertificationRescoring({
   event,

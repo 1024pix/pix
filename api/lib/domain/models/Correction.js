@@ -1,15 +1,7 @@
 const _ = require('lodash');
 
 class Correction {
-
-  constructor({
-    id,
-    solution,
-    solutionToDisplay,
-    hints = [],
-    tutorials = [],
-    learningMoreTutorials = [],
-  } = {}) {
+  constructor({ id, solution, solutionToDisplay, hints = [], tutorials = [], learningMoreTutorials = [] } = {}) {
     this.id = id;
     this.solution = solution;
     this.solutionToDisplay = solutionToDisplay;

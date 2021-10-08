@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 
-describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert an Assessment model object (of type CERTIFICATION) into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | assessment-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert an Assessment model object (of type CERTIFICATION) into JSON API data', function () {
       //given
       const certificationCourseId = 1;
       const assessment = domainBuilder.buildAssessment({ certificationCourseId });
@@ -47,15 +45,17 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
             },
           },
         },
-        included: [{
-          id: assessment.course.id.toString(),
-          type: 'courses',
-          attributes: {
-            description: assessment.course.description,
-            name: assessment.course.name,
-            'nb-challenges': assessment.course.nbChallenges,
+        included: [
+          {
+            id: assessment.course.id.toString(),
+            type: 'courses',
+            attributes: {
+              description: assessment.course.description,
+              name: assessment.course.name,
+              'nb-challenges': assessment.course.nbChallenges,
+            },
           },
-        }],
+        ],
       };
 
       // when
@@ -65,7 +65,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(json).to.deep.equal(expectedJson);
     });
 
-    it('should convert an Assessment model object with type COMPETENCE_EVALUATION into JSON API data', function() {
+    it('should convert an Assessment model object with type COMPETENCE_EVALUATION into JSON API data', function () {
       //given
       const assessment = domainBuilder.buildAssessment({
         type: Assessment.types.COMPETENCE_EVALUATION,
@@ -92,7 +92,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(json.data.attributes['title']).to.equal('Traiter des données');
     });
 
-    it('should convert an Assessment model object with type CAMPAIGN into JSON API data', function() {
+    it('should convert an Assessment model object with type CAMPAIGN into JSON API data', function () {
       //given
       const assessment = domainBuilder.buildAssessment({
         type: Assessment.types.CAMPAIGN,
@@ -117,7 +117,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(json.data.attributes['code-campaign']).to.equal('Konami');
     });
 
-    it('should convert an Assessment model object without course into JSON API data', function() {
+    it('should convert an Assessment model object without course into JSON API data', function () {
       //given
       const assessment = domainBuilder.buildAssessment({
         course: null,
@@ -136,11 +136,9 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(json.data.relationships['course']).to.deep.equal(expectedCourseJson);
       expect(json.included).to.be.undefined;
     });
-
   });
 
-  describe('#deserialize()', function() {
-
+  describe('#deserialize()', function () {
     const jsonAssessment = {
       data: {
         type: 'assessments',
@@ -161,7 +159,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       },
     };
 
-    it('should convert JSON API data into an Assessment object', function() {
+    it('should convert JSON API data into an Assessment object', function () {
       // when
       const assessment = serializer.deserialize(jsonAssessment);
 
@@ -173,7 +171,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.method).to.equal('CERTIFICATION_DETERMINED');
     });
 
-    it('should have a null courseId for type CAMPAIGN', function() {
+    it('should have a null courseId for type CAMPAIGN', function () {
       //given
       jsonAssessment.data.attributes.type = Assessment.types.CAMPAIGN;
 
@@ -184,7 +182,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       expect(assessment.courseId).to.be.null;
     });
 
-    it('should have a null courseId for type PREVIEW', function() {
+    it('should have a null courseId for type PREVIEW', function () {
       //given
       jsonAssessment.data.attributes.type = Assessment.types.PREVIEW;
 
@@ -194,7 +192,5 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
       // then
       expect(assessment.courseId).to.be.null;
     });
-
   });
-
 });

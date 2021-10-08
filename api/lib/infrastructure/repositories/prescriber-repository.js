@@ -16,15 +16,21 @@ function _toPrescriberDomain(bookshelfUser) {
     lastName,
     pixOrgaTermsOfServiceAccepted,
     lang,
-    memberships: bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, bookshelfUser.related('memberships')),
-    userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(BookshelfUserOrgaSettings, bookshelfUser.related('userOrgaSettings')),
+    memberships: bookshelfToDomainConverter.buildDomainObjects(
+      BookshelfMembership,
+      bookshelfUser.related('memberships')
+    ),
+    userOrgaSettings: bookshelfToDomainConverter.buildDomainObject(
+      BookshelfUserOrgaSettings,
+      bookshelfUser.related('userOrgaSettings')
+    ),
   });
 }
 
 async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber) {
-  const currentOrganizationId = prescriber.userOrgaSettings.id ?
-    prescriber.userOrgaSettings.currentOrganization.id :
-    prescriber.memberships[0].organization.id;
+  const currentOrganizationId = prescriber.userOrgaSettings.id
+    ? prescriber.userOrgaSettings.currentOrganization.id
+    : prescriber.memberships[0].organization.id;
   const atLeastOneSchoolingRegistration = await knex('organizations')
     .select('organizations.id')
     .join('schooling-registrations', 'schooling-registrations.organizationId', 'organizations.id')
@@ -40,20 +46,18 @@ async function _areNewYearSchoolingRegistrationsImportedForPrescriber(prescriber
 }
 
 module.exports = {
-
   async getPrescriber(userId) {
     try {
-      const prescriberFromDB = await BookshelfUser
-        .where({ id: userId })
-        .fetch({
-          columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
-          withRelated: [
-            { 'memberships': (qb) => qb.where({ disabledAt: null }).orderBy('id') },
-            'memberships.organization',
-            'userOrgaSettings',
-            'userOrgaSettings.currentOrganization',
-            'userOrgaSettings.currentOrganization.tags',
-          ] });
+      const prescriberFromDB = await BookshelfUser.where({ id: userId }).fetch({
+        columns: ['id', 'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'lang'],
+        withRelated: [
+          { memberships: (qb) => qb.where({ disabledAt: null }).orderBy('id') },
+          'memberships.organization',
+          'userOrgaSettings',
+          'userOrgaSettings.currentOrganization',
+          'userOrgaSettings.currentOrganization.tags',
+        ],
+      });
       const prescriber = _toPrescriberDomain(prescriberFromDB);
 
       if (_.isEmpty(prescriber.memberships)) {

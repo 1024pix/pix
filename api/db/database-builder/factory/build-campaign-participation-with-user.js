@@ -10,4 +10,3 @@ module.exports = (user, campaignParticipation, withAssessment) => {
   }
   return campaignParticipationCreated;
 };
-

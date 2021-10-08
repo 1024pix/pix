@@ -1,4 +1,3 @@
-
 module.exports = async function findDivisionsByCertificationCenter({
   certificationCenterId,
   organizationRepository,
@@ -7,4 +6,3 @@ module.exports = async function findDivisionsByCertificationCenter({
   const organizationId = await organizationRepository.getIdByCertificationCenterId(certificationCenterId);
   return divisionRepository.findByOrganizationIdForCurrentSchoolYear({ organizationId });
 };
-

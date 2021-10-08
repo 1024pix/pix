@@ -1,9 +1,5 @@
 module.exports = {
   ref: 'id',
   includes: true,
-  attributes: [
-    'id',
-    'userId',
-    'tutorialId',
-  ],
+  attributes: ['id', 'userId', 'tutorialId'],
 };

@@ -8,7 +8,6 @@ module.exports = function buildUserOrgaSettings({
   currentOrganizationId,
   userId,
 } = {}) {
-
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   currentOrganizationId = _.isUndefined(currentOrganizationId) ? buildOrganization().id : currentOrganizationId;
 

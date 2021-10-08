@@ -9,15 +9,7 @@ const types = {
 };
 
 class CertificationCenter {
-
-  constructor({
-    id,
-    name,
-    externalId,
-    type,
-    createdAt,
-    accreditations = [],
-  } = {}) {
+  constructor({ id, name, externalId, type, createdAt, accreditations = [] } = {}) {
     this.id = id;
     this.name = name;
     this.externalId = externalId;

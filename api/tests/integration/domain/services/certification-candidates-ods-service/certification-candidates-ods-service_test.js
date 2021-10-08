@@ -8,11 +8,11 @@ const { CertificationCandidatesImportError } = require('../../../../../lib/domai
 const { readFile } = require('fs').promises;
 const _ = require('lodash');
 
-describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function() {
+describe('Integration | Services | extractCertificationCandidatesFromCandidatesImportSheet', function () {
   let userId;
   let sessionId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({}).id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId });
@@ -21,25 +21,40 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
     await databaseBuilder.commit();
   });
 
-  context('When attendance sheet is of version 1.5', function() {
-
-    beforeEach(async function() {
-      databaseBuilder.factory.buildCertificationCpfCountry({ code: '99100', commonName: 'FRANCE', originalName: 'FRANCE', matcher: 'ACEFNR' });
-      databaseBuilder.factory.buildCertificationCpfCountry({ code: '99132', commonName: 'ANGLETERRE', originalName: 'ANGLETERRE', matcher: 'AEEEGLNRRT' });
+  context('When attendance sheet is of version 1.5', function () {
+    beforeEach(async function () {
+      databaseBuilder.factory.buildCertificationCpfCountry({
+        code: '99100',
+        commonName: 'FRANCE',
+        originalName: 'FRANCE',
+        matcher: 'ACEFNR',
+      });
+      databaseBuilder.factory.buildCertificationCpfCountry({
+        code: '99132',
+        commonName: 'ANGLETERRE',
+        originalName: 'ANGLETERRE',
+        matcher: 'AEEEGLNRRT',
+      });
 
       databaseBuilder.factory.buildCertificationCpfCity({ name: 'AJACCIO', INSEECode: '2A004', isActualName: true });
       databaseBuilder.factory.buildCertificationCpfCity({ name: 'PARIS 18', postalCode: '75018', isActualName: true });
-      databaseBuilder.factory.buildCertificationCpfCity({ name: 'SAINT-ANNE', postalCode: '97180', isActualName: true });
+      databaseBuilder.factory.buildCertificationCpfCity({
+        name: 'SAINT-ANNE',
+        postalCode: '97180',
+        isActualName: true,
+      });
       await databaseBuilder.commit();
     });
 
-    it('should throw a CertificationCandidatesImportError if there is an error in the file', async function() {
+    it('should throw a CertificationCandidatesImportError if there is an error in the file', async function () {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_mandatory_ko_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
 
       // when
-      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet)({
+      const error = await catchErr(
+        certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+      )({
         sessionId,
         odsBuffer,
         certificationCpfService,
@@ -53,13 +68,15 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       expect(error.code).to.be.null;
     });
 
-    it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async function() {
+    it('should throw a CertificationCandidatesImportError if there is an error in the birth information', async function () {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_birth_ko_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
 
       // when
-      const error = await catchErr(certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet)({
+      const error = await catchErr(
+        certificationCandidatesOdsService.extractCertificationCandidatesFromCandidatesImportSheet
+      )({
         sessionId,
         odsBuffer,
         certificationCpfService,
@@ -73,44 +90,75 @@ describe('Integration | Services | extractCertificationCandidatesFromCandidatesI
       expect(error.code).to.be.null;
     });
 
-    it('should return extracted and validated certification candidates', async function() {
+    it('should return extracted and validated certification candidates', async function () {
       // given
       const odsFilePath = `${__dirname}/attendance_sheet_1-5_extract_ok_test.ods`;
       const odsBuffer = await readFile(odsFilePath);
-      const expectedCertificationCandidates = _.map([
-        {
-          lastName: 'Gallagher', firstName: 'Jack',
-          birthdate: '1980-08-10', sex: 'M', birthCity: 'Londres',
-          birthCountry: 'ANGLETERRE', birthINSEECode: '99132',
-          birthPostalCode: null, resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jack@d.it', externalId: null,
-          extraTimePercentage: 0.15, sessionId,
-        },
-        {
-          lastName: 'Jackson', firstName: 'Janet',
-          birthdate: '2005-12-05', sex: 'F', birthCity: 'AJACCIO',
-          birthCountry: 'FRANCE', birthINSEECode: '2A004',
-          birthPostalCode: null, resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jaja@hotmail.fr', externalId: 'DEF456',
-          extraTimePercentage: null, sessionId,
-        },
-        {
-          lastName: 'Jackson', firstName: 'Michael',
-          birthdate: '2004-04-04', sex: 'M', birthCity: 'PARIS 18',
-          birthCountry: 'FRANCE', birthINSEECode: null,
-          birthPostalCode: '75018', resultRecipientEmail: 'destinataire@gmail.com',
-          email: 'jackson@gmail.com', externalId: 'ABC123',
-          extraTimePercentage: 0.6, sessionId,
-        },
-        {
-          lastName: 'Mercury', firstName: 'Freddy',
-          birthdate: '1925-06-28', sex: 'M', birthCity: 'SAINT-ANNE',
-          birthCountry: 'FRANCE', birthINSEECode: null,
-          birthPostalCode: '97180', resultRecipientEmail: null,
-          email: null, externalId: 'GHI789',
-          extraTimePercentage: 1.5, sessionId,
-        },
-      ], (candidate) => new CertificationCandidate(candidate));
+      const expectedCertificationCandidates = _.map(
+        [
+          {
+            lastName: 'Gallagher',
+            firstName: 'Jack',
+            birthdate: '1980-08-10',
+            sex: 'M',
+            birthCity: 'Londres',
+            birthCountry: 'ANGLETERRE',
+            birthINSEECode: '99132',
+            birthPostalCode: null,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jack@d.it',
+            externalId: null,
+            extraTimePercentage: 0.15,
+            sessionId,
+          },
+          {
+            lastName: 'Jackson',
+            firstName: 'Janet',
+            birthdate: '2005-12-05',
+            sex: 'F',
+            birthCity: 'AJACCIO',
+            birthCountry: 'FRANCE',
+            birthINSEECode: '2A004',
+            birthPostalCode: null,
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jaja@hotmail.fr',
+            externalId: 'DEF456',
+            extraTimePercentage: null,
+            sessionId,
+          },
+          {
+            lastName: 'Jackson',
+            firstName: 'Michael',
+            birthdate: '2004-04-04',
+            sex: 'M',
+            birthCity: 'PARIS 18',
+            birthCountry: 'FRANCE',
+            birthINSEECode: null,
+            birthPostalCode: '75018',
+            resultRecipientEmail: 'destinataire@gmail.com',
+            email: 'jackson@gmail.com',
+            externalId: 'ABC123',
+            extraTimePercentage: 0.6,
+            sessionId,
+          },
+          {
+            lastName: 'Mercury',
+            firstName: 'Freddy',
+            birthdate: '1925-06-28',
+            sex: 'M',
+            birthCity: 'SAINT-ANNE',
+            birthCountry: 'FRANCE',
+            birthINSEECode: null,
+            birthPostalCode: '97180',
+            resultRecipientEmail: null,
+            email: null,
+            externalId: 'GHI789',
+            extraTimePercentage: 1.5,
+            sessionId,
+          },
+        ],
+        (candidate) => new CertificationCandidate(candidate)
+      );
 
       // when
       const actualCertificationCandidates =

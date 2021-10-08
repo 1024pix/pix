@@ -1,9 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 
-describe('Unit | Serializer | JSONAPI | scorecard-serializer', function() {
-
-  describe('#serialize()', function() {
+describe('Unit | Serializer | JSONAPI | scorecard-serializer', function () {
+  describe('#serialize()', function () {
     const expectedTutorials = [
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
@@ -110,7 +109,7 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', function() {
       ],
     };
 
-    it('should convert a scorecard object into JSON API data', function() {
+    it('should convert a scorecard object into JSON API data', function () {
       // when
       const json = serializer.serialize(scorecardObject);
 
@@ -119,6 +118,5 @@ describe('Unit | Serializer | JSONAPI | scorecard-serializer', function() {
       expect(json.included[1].attributes).to.deep.equal(expectedTutorials[0]);
       expect(json.included[2].attributes).to.deep.equal(expectedTutorials[1]);
     });
-
   });
 });

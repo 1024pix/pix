@@ -28,9 +28,10 @@ module.exports = function buildCampaign({
   multipleSendings = false,
   assessmentMethod,
 } = {}) {
-
   if (type === Campaign.types.ASSESSMENT) {
-    targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile({ ownerOrganizationId: organizationId }).id : targetProfileId;
+    targetProfileId = _.isUndefined(targetProfileId)
+      ? buildTargetProfile({ ownerOrganizationId: organizationId }).id
+      : targetProfileId;
     assessmentMethod = Assessment.methods.SMART_RANDOM;
   }
 

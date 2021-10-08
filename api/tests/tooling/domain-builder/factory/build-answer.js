@@ -25,7 +25,7 @@ function buildAnswer({
   });
 }
 
-buildAnswer.uncorrected = function({
+buildAnswer.uncorrected = function ({
   timeout = 130,
   value = '1',
   assessmentId = 456,
@@ -43,7 +43,7 @@ buildAnswer.uncorrected = function({
   });
 };
 
-buildAnswer.ok = function({
+buildAnswer.ok = function ({
   id = 123,
   resultDetails = null,
   timeout = null,
@@ -53,7 +53,6 @@ buildAnswer.ok = function({
   timeSpent = 20,
   isFocusedOut = false,
 } = {}) {
-
   return buildAnswer({
     id,
     result: AnswerStatus.OK,
@@ -67,7 +66,7 @@ buildAnswer.ok = function({
   });
 };
 
-buildAnswer.ko = function({
+buildAnswer.ko = function ({
   id = 123,
   resultDetails = null,
   timeout = null,
@@ -77,7 +76,6 @@ buildAnswer.ko = function({
   timeSpent = 20,
   isFocusedOut = false,
 } = {}) {
-
   return buildAnswer({
     id,
     result: AnswerStatus.KO,
@@ -91,7 +89,7 @@ buildAnswer.ko = function({
   });
 };
 
-buildAnswer.skipped = function({
+buildAnswer.skipped = function ({
   id = 123,
   resultDetails = null,
   timeout = null,
@@ -101,7 +99,6 @@ buildAnswer.skipped = function({
   timeSpent = 20,
   isFocusedOut = false,
 } = {}) {
-
   return buildAnswer({
     id,
     result: AnswerStatus.SKIPPED,

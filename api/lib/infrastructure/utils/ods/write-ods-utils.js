@@ -20,10 +20,10 @@ function updateXmlSparseValues({ stringifiedXml, templateValues, dataToInject })
 function updateXmlRows({ stringifiedXml, rowMarkerPlaceholder, rowTemplateValues, dataToInject }) {
   const parsedXmlDom = _buildXmlDomFromXmlString(stringifiedXml);
 
-  const {
-    referenceRowElement,
-    rowsContainerElement,
-  } = _getRefRowAndContainerDomElements(parsedXmlDom, rowMarkerPlaceholder);
+  const { referenceRowElement, rowsContainerElement } = _getRefRowAndContainerDomElements(
+    parsedXmlDom,
+    rowMarkerPlaceholder
+  );
 
   const cloneRowElement = _deepCloneDomElement(referenceRowElement);
   rowsContainerElement.removeChild(referenceRowElement);
@@ -57,7 +57,6 @@ function _buildXmlDomFromXmlString(stringifiedXml) {
 function _updateXmlDomWithData(parsedXmlDom, dataToInject, templateValues) {
   const parsedXmlDomUpdated = _.cloneDeep(parsedXmlDom);
   for (const { placeholder, propertyName } of templateValues) {
-
     const targetXmlDomElement = _getXmlDomElementByText(parsedXmlDomUpdated, placeholder);
     if (targetXmlDomElement) {
       const newXmlValue = dataToInject[propertyName];

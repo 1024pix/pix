@@ -10,7 +10,6 @@ module.exports = function buildCleaCertificationScoring({
   maxReachablePixByCompetenceForClea = { competence1: 51 },
   cleaBadgeKey = 'some-clea_key',
 } = {}) {
-
   return new CleaCertificationScoring({
     certificationCourseId,
     hasAcquiredBadge,

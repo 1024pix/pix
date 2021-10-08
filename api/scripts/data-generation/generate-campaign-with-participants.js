@@ -24,7 +24,7 @@ let progression = 0;
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
-  process.stdout.write(`${Math.round(progression * 100 / totalCount, 2)} %`);
+  process.stdout.write(`${Math.round((progression * 100) / totalCount, 2)} %`);
 }
 
 function _resetProgression() {
@@ -64,39 +64,51 @@ function _getIdentifier(uniqId) {
 
 function _validateAndNormalizeOrganizationId(commandLineArgs) {
   const commandLineArgsLength = commandLineArgs.length;
-  const organizationIdIndicatorIndex = commandLineArgs.findIndex((commandLineArg) => commandLineArg === '--organizationId');
+  const organizationIdIndicatorIndex = commandLineArgs.findIndex(
+    (commandLineArg) => commandLineArg === '--organizationId'
+  );
   if (organizationIdIndicatorIndex === -1 || organizationIdIndicatorIndex + 1 >= commandLineArgsLength) {
-    throw new Error('ID de l\'organisation obligatoire.');
+    throw new Error("ID de l'organisation obligatoire.");
   }
   const organizationId = parseInt(commandLineArgs[organizationIdIndicatorIndex + 1]);
   if (isNaN(organizationId)) {
-    throw new Error(`ID de l'organisation fourni ${commandLineArgs[organizationIdIndicatorIndex + 1]} n'est pas un entier.`);
+    throw new Error(
+      `ID de l'organisation fourni ${commandLineArgs[organizationIdIndicatorIndex + 1]} n'est pas un entier.`
+    );
   }
   return organizationId;
 }
 
 function _validateAndNormalizeTargetProfileId(commandLineArgs) {
   const commandLineArgsLength = commandLineArgs.length;
-  const targetProfileIdIndicatorIndex = commandLineArgs.findIndex((commandLineArg) => commandLineArg === '--targetProfileId');
+  const targetProfileIdIndicatorIndex = commandLineArgs.findIndex(
+    (commandLineArg) => commandLineArg === '--targetProfileId'
+  );
   if (targetProfileIdIndicatorIndex === -1 || targetProfileIdIndicatorIndex + 1 >= commandLineArgsLength) {
     return null;
   }
   const targetProfileId = parseInt(commandLineArgs[targetProfileIdIndicatorIndex + 1]);
   if (isNaN(targetProfileId)) {
-    throw new Error(`ID du profil cible fourni ${commandLineArgs[targetProfileIdIndicatorIndex + 1]} n'est pas un entier.`);
+    throw new Error(
+      `ID du profil cible fourni ${commandLineArgs[targetProfileIdIndicatorIndex + 1]} n'est pas un entier.`
+    );
   }
   return targetProfileId;
 }
 
 function _validateAndNormalizeParticipantCount(commandLineArgs) {
   const commandLineArgsLength = commandLineArgs.length;
-  const participantCountIndicatorIndex = commandLineArgs.findIndex((commandLineArg) => commandLineArg === '--participantCount');
+  const participantCountIndicatorIndex = commandLineArgs.findIndex(
+    (commandLineArg) => commandLineArg === '--participantCount'
+  );
   if (participantCountIndicatorIndex === -1 || participantCountIndicatorIndex + 1 >= commandLineArgsLength) {
     throw new Error('Nombre de participants obligatoire.');
   }
   const participantCount = parseInt(commandLineArgs[participantCountIndicatorIndex + 1]);
   if (isNaN(participantCount)) {
-    throw new Error(`Nombre de participations fourni ${commandLineArgs[participantCountIndicatorIndex + 1]} n'est pas un entier.`);
+    throw new Error(
+      `Nombre de participations fourni ${commandLineArgs[participantCountIndicatorIndex + 1]} n'est pas un entier.`
+    );
   }
   return participantCount;
 }
@@ -109,7 +121,11 @@ function _validateAndNormalizeProfileType(commandLineArgs) {
   }
   const profileType = commandLineArgs[profileTypeIndicatorIndex + 1].toLowerCase();
   if (!['light', 'medium', 'all'].includes(profileType)) {
-    throw new Error(`Type de profil doit être une valeur parmi light, medium et all, ${commandLineArgs[profileTypeIndicatorIndex + 1]} fourni.`);
+    throw new Error(
+      `Type de profil doit être une valeur parmi light, medium et all, ${
+        commandLineArgs[profileTypeIndicatorIndex + 1]
+      } fourni.`
+    );
   }
   return profileType;
 }
@@ -122,13 +138,17 @@ function _validateAndNormalizeCampaignType(commandLineArgs) {
   }
   const campaignType = commandLineArgs[campaignTypeIndicatorIndex + 1].toUpperCase();
   if (!['ASSESSMENT', 'PROFILES_COLLECTION'].includes(campaignType)) {
-    throw new Error(`Type de campagne doit être une valeur parmi assessment et profiles_collection, ${commandLineArgs[campaignTypeIndicatorIndex + 1]} fourni.`);
+    throw new Error(
+      `Type de campagne doit être une valeur parmi assessment et profiles_collection, ${
+        commandLineArgs[campaignTypeIndicatorIndex + 1]
+      } fourni.`
+    );
   }
   return campaignType;
 }
 
 function _validateAndNormalizeArgs(commandLineArgs) {
-  if (commandLineArgs.find((commandLineArg) => (commandLineArg === '--help' || commandLineArg === '-h'))) {
+  if (commandLineArgs.find((commandLineArg) => commandLineArg === '--help' || commandLineArg === '-h')) {
     _printUsage();
     process.exit(0);
   }
@@ -144,7 +164,8 @@ function _validateAndNormalizeArgs(commandLineArgs) {
     organizationId: _validateAndNormalizeOrganizationId(commandLineArgs),
     targetProfileId: _validateAndNormalizeTargetProfileId(commandLineArgs),
     participantCount: _validateAndNormalizeParticipantCount(commandLineArgs),
-    profileType: campaignType === 'ASSESSMENT' && !targetProfileId ? _validateAndNormalizeProfileType(commandLineArgs) : 'all',
+    profileType:
+      campaignType === 'ASSESSMENT' && !targetProfileId ? _validateAndNormalizeProfileType(commandLineArgs) : 'all',
     campaignType,
   };
 }
@@ -152,17 +173,17 @@ function _validateAndNormalizeArgs(commandLineArgs) {
 async function _createTargetProfile({ profileType }) {
   console.log('Création du profil cible...');
   const competences = await competenceRepository.listPixCompetencesOnly();
-  const competencesInProfile = profileType === 'light' ? [_.sample(competences)]
-    : profileType === 'medium' ? _.sampleSize(competences, Math.round(competences.length / 2))
+  const competencesInProfile =
+    profileType === 'light'
+      ? [_.sample(competences)]
+      : profileType === 'medium'
+      ? _.sampleSize(competences, Math.round(competences.length / 2))
       : competences;
-  const [targetProfileId] = await knex('target-profiles')
-    .returning('id')
-    .insert({ name: 'SomeTargetProfile' });
+  const [targetProfileId] = await knex('target-profiles').returning('id').insert({ name: 'SomeTargetProfile' });
   for (const competence of competencesInProfile) {
     const skills = await skillRepository.findOperativeByCompetenceId(competence.id);
     for (const skill of skills) {
-      await knex('target-profiles_skills')
-        .insert({ targetProfileId, skillId: skill.id });
+      await knex('target-profiles_skills').insert({ targetProfileId, skillId: skill.id });
     }
   }
 
@@ -179,13 +200,12 @@ async function _getTargetProfile(targetProfileId) {
 }
 
 async function _createCampaign({ organizationId, campaignType, targetProfileId }) {
-  const doesOrganizationExist = await knex('organizations')
-    .where({ id: organizationId })
-    .first();
+  const doesOrganizationExist = await knex('organizations').where({ id: organizationId }).first();
   if (!doesOrganizationExist) {
     throw new Error(`Organisation ${organizationId} n'existe pas.`);
   }
-  const { userId: adminMemberId } = await knex.select('userId')
+  const { userId: adminMemberId } = await knex
+    .select('userId')
     .from('memberships')
     .where({ organizationId, organizationRole: 'ADMIN' })
     .first();
@@ -248,11 +268,7 @@ async function _createSchoolingRegistrations({ userIds, organizationId, uniqId, 
 }
 
 function _buildBaseSchoolingRegistration({ userId, organizationId, identifier }) {
-  const birthdates = [
-    '2001-01-05',
-    '2002-11-15',
-    '1995-06-25',
-  ];
+  const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
   return {
     organizationId,
     userId,
@@ -338,7 +354,9 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
     });
   }
   const chunkSize = _getChunkSize(answerData[0]);
-  const answerRecordedData = await trx.batchInsert('answers', answerData.flat(), chunkSize).returning(['id', 'assessmentId']);
+  const answerRecordedData = await trx
+    .batchInsert('answers', answerData.flat(), chunkSize)
+    .returning(['id', 'assessmentId']);
   console.log('\tOK');
 
   console.log('\tCréation des knowledge-elements...');
@@ -347,8 +365,7 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
   for (const skill of targetProfile.skills) {
     const knowledgeElementDataForOneSkill = [];
     for (const userAndAssessmentId of userAndAssessmentIds) {
-      const status = Math.random() < 0.7 ?
-        'validated' : 'invalidated';
+      const status = Math.random() < 0.7 ? 'validated' : 'invalidated';
       const referenceAnswer = answerRecordedData.find((answerRecordedItem) => {
         return answerRecordedItem.assessmentId === userAndAssessmentId.id;
       });
@@ -358,7 +375,9 @@ async function _createAnswersAndKnowledgeElements({ targetProfile, userAndAssess
         assessmentId: referenceAnswer.assessmentId,
         skillId: skill.id,
         earnedPix: status === 'validated' ? skill.pixValue : 0,
-        userId: userAndAssessmentIds.find((userAndAssessmentId) => userAndAssessmentId.id === referenceAnswer.assessmentId).userId,
+        userId: userAndAssessmentIds.find(
+          (userAndAssessmentId) => userAndAssessmentId.id === referenceAnswer.assessmentId
+        ).userId,
         competenceId: skill.competenceId,
         answerId: referenceAnswer.id,
       };
@@ -438,15 +457,15 @@ async function _createParticipants({ count, targetProfile, organizationId, campa
 }
 
 async function _do({ organizationId, targetProfileId, participantCount, profileType, campaignType }) {
-  const targetProfile = targetProfileId ?
-    await _getTargetProfile(targetProfileId) :
-    await _createTargetProfile({ profileType });
+  const targetProfile = targetProfileId
+    ? await _getTargetProfile(targetProfileId)
+    : await _createTargetProfile({ profileType });
   console.log('Création de la campagne...');
   const campaignId = await _createCampaign({ organizationId, campaignType, targetProfileId: targetProfile.id });
   console.log('OK');
   const trx = await knex.transaction();
   if (lowRAMMode) {
-    console.log('Mode lowRAM activé. Découpage de l\'opération en plusieurs paquets de 150 participants.');
+    console.log("Mode lowRAM activé. Découpage de l'opération en plusieurs paquets de 150 participants.");
     let participantLeftToProcess = participantCount;
     const PARTICIPANT_CHUNK_SIZE = 500;
     while (participantLeftToProcess > 0) {
@@ -463,20 +482,17 @@ async function _do({ organizationId, targetProfileId, participantCount, profileT
   await generateKnowledgeElementSnapshots(campaignParticipationData, 3);
   console.log('pré-calcul des résultats ...');
   await computeParticipationResults();
-  console.log(`Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`);
+  console.log(
+    `Campagne: ${campaignId}\nOrganisation: ${organizationId}\nNombre de participants: ${participantCount}\nProfil Cible: ${targetProfile.id}`
+  );
 }
 
 async function main() {
   try {
     const commandLineArgs = process.argv.slice(2);
     console.log('Validation des arguments...');
-    const {
-      organizationId,
-      targetProfileId,
-      participantCount,
-      profileType,
-      campaignType,
-    } = _validateAndNormalizeArgs(commandLineArgs);
+    const { organizationId, targetProfileId, participantCount, profileType, campaignType } =
+      _validateAndNormalizeArgs(commandLineArgs);
 
     console.log('OK');
     await _do({
@@ -500,6 +516,6 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }

@@ -51,7 +51,7 @@ function buildAssessment({
   });
 }
 
-buildAssessment.ofTypeCampaign = function({
+buildAssessment.ofTypeCampaign = function ({
   id = 123,
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
@@ -107,7 +107,7 @@ buildAssessment.ofTypeCampaign = function({
   });
 };
 
-buildAssessment.ofTypeCompetenceEvaluation = function({
+buildAssessment.ofTypeCompetenceEvaluation = function ({
   id = 123,
   courseId = 'courseId',
   createdAt = new Date('1992-06-12T01:02:03Z'),
@@ -127,7 +127,6 @@ buildAssessment.ofTypeCompetenceEvaluation = function({
   campaignParticipation = null,
   competenceId = 789,
 } = {}) {
-
   return new Assessment({
     // attributes
     id,

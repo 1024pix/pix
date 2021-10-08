@@ -8,7 +8,6 @@ module.exports = function buildStage({
   prescriberTitle = null,
   prescriberDescription = null,
 } = {}) {
-
   return new Stage({
     id,
     title,

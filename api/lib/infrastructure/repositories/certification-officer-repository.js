@@ -1,18 +1,14 @@
 const BookshelfUser = require('../orm-models/User');
 
-const {
-  UserNotFoundError,
-} = require('../../domain/errors');
+const { UserNotFoundError } = require('../../domain/errors');
 const CertificationOfficer = require('../../domain/models/CertificationOfficer');
 
 module.exports = {
-
   async get(certificationOfficerId) {
-
     try {
-      const certificationOfficer = await BookshelfUser
-        .where({ id: certificationOfficerId })
-        .fetch({ columns: ['id', 'firstName', 'lastName'] });
+      const certificationOfficer = await BookshelfUser.where({ id: certificationOfficerId }).fetch({
+        columns: ['id', 'firstName', 'lastName'],
+      });
 
       return _toDomain(certificationOfficer.attributes);
     } catch (error) {

@@ -1,22 +1,17 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const ChallengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const ChallengeSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/challenge-serializer');
 
 const moduleUnderTest = require('../../../../lib/application/challenges');
 
-describe('Unit | Controller | challenge-controller', function() {
-
+describe('Unit | Controller | challenge-controller', function () {
   let httpTestServer;
 
   let ChallengeRepoStub;
   let ChallengeSerializerStub;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     ChallengeRepoStub = sinon.stub(ChallengeRepository, 'get');
     ChallengeSerializerStub = sinon.stub(ChallengeSerializer, 'serialize');
 
@@ -24,13 +19,12 @@ describe('Unit | Controller | challenge-controller', function() {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('#get', function() {
-
+  describe('#get', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const challenge = Symbol('someChallenge');
 
-    it('should fetch and return the given challenge, serialized as JSONAPI', async function() {
+    it('should fetch and return the given challenge, serialized as JSONAPI', async function () {
       // given
       ChallengeRepoStub.resolves(challenge);
       ChallengeSerializerStub.resolves({ serialized: challenge });

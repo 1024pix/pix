@@ -2,17 +2,12 @@ const SessionJuryComment = require('../../../../lib/domain/models/SessionJuryCom
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 const _ = require('lodash');
 
-const SESSION_JURY_COMMENT_PROPS = [
-  'id',
-  'comment',
-  'authorId',
-  'updatedAt',
-];
+const SESSION_JURY_COMMENT_PROPS = ['id', 'comment', 'authorId', 'updatedAt'];
 
-describe('Unit | Domain | Models | SessionJuryComment', function() {
+describe('Unit | Domain | Models | SessionJuryComment', function () {
   let comment;
 
-  beforeEach(function() {
+  beforeEach(function () {
     comment = new SessionJuryComment({
       id: 1,
       comment: 'Un commentaire du pôle certif',
@@ -21,27 +16,26 @@ describe('Unit | Domain | Models | SessionJuryComment', function() {
     });
   });
 
-  it('should create an object of the Session type', function() {
+  it('should create an object of the Session type', function () {
     expect(comment).to.be.instanceOf(SessionJuryComment);
   });
 
-  it('should create a session with all the requires properties', function() {
+  it('should create a session with all the requires properties', function () {
     expect(_.keys(comment)).to.have.deep.members(SESSION_JURY_COMMENT_PROPS);
   });
 
-  context('#update', function() {
-
+  context('#update', function () {
     let clock;
 
-    beforeEach(function() {
+    beforeEach(function () {
       clock = sinon.useFakeTimers(new Date('2003-04-05T03:04:05Z'));
     });
 
-    afterEach(function() {
+    afterEach(function () {
       clock.restore();
     });
 
-    it('should update the comment', function() {
+    it('should update the comment', function () {
       // given
       const comment = domainBuilder.buildSessionJuryComment({
         id: 789,

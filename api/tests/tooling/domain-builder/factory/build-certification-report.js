@@ -12,7 +12,6 @@ module.exports = function buildCertificationReport({
   certificationCourseId = 456,
   abortReason = null,
 } = {}) {
-
   return new CertificationReport({
     id,
     certificationCourseId,

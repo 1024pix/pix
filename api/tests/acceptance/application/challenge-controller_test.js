@@ -1,47 +1,56 @@
 const { learningContentBuilder, expect, mockLearningContent } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | ChallengeController', function() {
-
+describe('Acceptance | API | ChallengeController', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/challenges/:challenge_id', function() {
-
-    const proposals = '- Ils sont bio.\n' +
-                      '- Ils pèsent plus de 63 grammes.\n' +
-                      '- Ce sont des oeufs frais.\n' +
-                      '- Ils sont destinés aux consommateurs.\n' +
-                      '- Ils ne sont pas lavés.\n';
+  describe('GET /api/challenges/:challenge_id', function () {
+    const proposals =
+      '- Ils sont bio.\n' +
+      '- Ils pèsent plus de 63 grammes.\n' +
+      '- Ce sont des oeufs frais.\n' +
+      '- Ils sont destinés aux consommateurs.\n' +
+      '- Ils ne sont pas lavés.\n';
     const instruction = 'Que peut-on dire des œufs de catégorie A ?\n';
     const challengeId = 'recLt9uwa2dR3IYpi';
     const challengeType = 'QCM';
 
-    beforeEach(function() {
-      const learningContent = [{
-        id: 'recArea0',
-        competences: [{
-          id: 'recCompetence',
-          titreFrFr: 'Mener une recherche et une veille d’information',
-          index: '1.1',
-          tubes: [{
-            id: 'recTube0_0',
-            skills: [{
-              id: 'skillWeb1',
-              nom: '@skillWeb1',
-              challenges: [{
-                id: challengeId,
-                type: challengeType,
-                instruction,
-                proposals,
-              }],
-            }],
-          }],
-        }],
-      }];
+    beforeEach(function () {
+      const learningContent = [
+        {
+          id: 'recArea0',
+          competences: [
+            {
+              id: 'recCompetence',
+              titreFrFr: 'Mener une recherche et une veille d’information',
+              index: '1.1',
+              tubes: [
+                {
+                  id: 'recTube0_0',
+                  skills: [
+                    {
+                      id: 'skillWeb1',
+                      nom: '@skillWeb1',
+                      challenges: [
+                        {
+                          id: challengeId,
+                          type: challengeType,
+                          instruction,
+                          proposals,
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
@@ -51,7 +60,7 @@ describe('Acceptance | API | ChallengeController', function() {
       url: `/api/challenges/${challengeId}`,
     };
 
-    it('should return 200 HTTP status code', function() {
+    it('should return 200 HTTP status code', function () {
       // when
       const promise = server.inject(options);
 
@@ -61,7 +70,7 @@ describe('Acceptance | API | ChallengeController', function() {
       });
     });
 
-    it('should return application/json', function() {
+    it('should return application/json', function () {
       // when
       const promise = server.inject(options);
 
@@ -72,7 +81,7 @@ describe('Acceptance | API | ChallengeController', function() {
       });
     });
 
-    it('should return the expected challenge', function() {
+    it('should return the expected challenge', function () {
       // when
       const promise = server.inject(options);
 

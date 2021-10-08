@@ -7,7 +7,6 @@ const ChallengeType = Object.freeze({
 });
 
 class ChallengeForPixAutoAnswer {
-
   /**
    * Constructeur d'épreuve pour le bouton magique (pix-auto-answer)
    *
@@ -16,13 +15,7 @@ class ChallengeForPixAutoAnswer {
    * @param type
    * @param autoReply
    */
-  constructor(
-    {
-      id,
-      solution,
-      type,
-      autoReply,
-    } = {}) {
+  constructor({ id, solution, type, autoReply } = {}) {
     this.id = id;
     this.solution = solution;
     this.type = type;

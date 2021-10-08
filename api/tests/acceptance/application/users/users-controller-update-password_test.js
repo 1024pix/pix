@@ -3,15 +3,14 @@ const { expect, hFake, knex, databaseBuilder } = require('../../../test-helper')
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-update-password', function() {
-
+describe('Acceptance | Controller | users-controller-update-password', function () {
   const temporaryKey = 'good-temporary-key';
 
   let server;
   let user;
   let options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser.withRawPassword({
@@ -22,14 +21,13 @@ describe('Acceptance | Controller | users-controller-update-password', function(
     await _insertPasswordResetDemand(temporaryKey, user.email);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await knex('authentication-methods').delete();
     await knex('reset-password-demands').delete();
   });
 
-  describe('Error case', function() {
-
-    it('should reply with an error, when temporary key is invalid', async function() {
+  describe('Error case', function () {
+    it('should reply with an error, when temporary key is invalid', async function () {
       // given
       options = {
         method: 'PATCH',
@@ -52,11 +50,10 @@ describe('Acceptance | Controller | users-controller-update-password', function(
     });
   });
 
-  describe('Success case', function() {
-
+  describe('Success case', function () {
     const newPassword = 'Password2021';
 
-    beforeEach(function() {
+    beforeEach(function () {
       options = {
         method: 'PATCH',
         url: `/api/users/${user.id}/password-update?temporary-key=${temporaryKey}`,
@@ -71,7 +68,7 @@ describe('Acceptance | Controller | users-controller-update-password', function(
       };
     });
 
-    it('should reply with 200 status code, when password is updated', async function() {
+    it('should reply with 200 status code, when password is updated', async function () {
       // when
       const response = await server.inject(options);
 
@@ -79,7 +76,7 @@ describe('Acceptance | Controller | users-controller-update-password', function(
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should authenticate user when password is updated', async function() {
+    it('should authenticate user when password is updated', async function () {
       // given
       await server.inject(options);
 

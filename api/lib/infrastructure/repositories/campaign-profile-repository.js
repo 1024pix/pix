@@ -5,20 +5,23 @@ const { knex } = require('../bookshelf');
 
 module.exports = {
   async findProfile({ campaignId, campaignParticipationId, locale }) {
-
     const profile = await _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
 
     const { sharedAt, userId } = profile;
-    const placementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate: sharedAt, allowExcessPixAndLevels: false, locale });
+    const placementProfile = await placementProfileService.getPlacementProfile({
+      userId,
+      limitDate: sharedAt,
+      allowExcessPixAndLevels: false,
+      locale,
+    });
 
     return new CampaignProfile({ ...profile, placementProfile });
   },
 };
 
 async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
-
-  const [profile] = await knex.with('campaignProfile',
-    (qb) => {
+  const [profile] = await knex
+    .with('campaignProfile', (qb) => {
       qb.select([
         'users.id AS userId',
         knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
@@ -34,9 +37,10 @@ async function _fetchCampaignProfileAttributesFromCampaignParticipation(campaign
         .from('campaign-participations')
         .leftJoin('users', 'campaign-participations.userId', 'users.id')
         .innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id')
-        .leftJoin('schooling-registrations', function() {
-          this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
-            .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+        .leftJoin('schooling-registrations', function () {
+          this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
+            'campaigns.organizationId': 'schooling-registrations.organizationId',
+          });
         })
         .where({
           campaignId,

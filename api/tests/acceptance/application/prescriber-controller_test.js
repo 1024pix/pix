@@ -3,8 +3,7 @@ const _ = require('lodash');
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | Prescriber-controller', function() {
-
+describe('Acceptance | Controller | Prescriber-controller', function () {
   let user;
   let organization;
   let membership;
@@ -12,7 +11,7 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
   let options;
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
@@ -25,14 +24,16 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
           'last-name': user.lastName,
           'pix-orga-terms-of-service-accepted': false,
           'are-new-year-schooling-registrations-imported': false,
-          'lang': user.lang,
+          lang: user.lang,
         },
         relationships: {
           memberships: {
-            data: [{
-              id: membership.id.toString(),
-              type: 'memberships',
-            }],
+            data: [
+              {
+                id: membership.id.toString(),
+                type: 'memberships',
+              },
+            ],
           },
           'user-orga-settings': {
             data: {
@@ -48,11 +49,11 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
           type: 'organizations',
           attributes: {
             'can-collect-profiles': organization.canCollectProfiles,
-            'credit': organization.credit,
+            credit: organization.credit,
             'external-id': organization.externalId,
             'is-managing-students': organization.isManagingStudents,
-            'name': organization.name,
-            'type': organization.type,
+            name: organization.name,
+            type: organization.type,
           },
           relationships: {
             memberships: {
@@ -111,13 +112,19 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
     };
   }
 
-  describe('GET /api/prescription/prescribers/:id', function() {
-
-    beforeEach(async function() {
+  describe('GET /api/prescription/prescribers/:id', function () {
+    beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
-      organization = databaseBuilder.factory.buildOrganization({ credit: 5, isManagingStudents: true, canCollectProfiles: true });
+      organization = databaseBuilder.factory.buildOrganization({
+        credit: 5,
+        isManagingStudents: true,
+        canCollectProfiles: true,
+      });
       membership = databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id });
-      userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({ currentOrganizationId: organization.id, userId: user.id }).id;
+      userOrgaSettingsId = databaseBuilder.factory.buildUserOrgaSettings({
+        currentOrganizationId: organization.id,
+        userId: user.id,
+      }).id;
 
       await databaseBuilder.commit();
 
@@ -128,9 +135,8 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
       };
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -141,7 +147,7 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -154,9 +160,8 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
       });
     });
 
-    describe('Success case', function() {
-
-      it('should 200 HTTP status code', async function() {
+    describe('Success case', function () {
+      it('should 200 HTTP status code', async function () {
         // given
         const expectedPrescriber = createExpectedPrescriber({ user, membership, userOrgaSettingsId, organization });
 
@@ -169,5 +174,4 @@ describe('Acceptance | Controller | Prescriber-controller', function() {
       });
     });
   });
-
 });

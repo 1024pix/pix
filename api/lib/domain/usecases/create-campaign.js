@@ -4,7 +4,13 @@ const campaignValidator = require('../validators/campaign-validator');
 const Campaign = require('../models/Campaign');
 const { UserNotAuthorizedToCreateCampaignError } = require('../errors');
 
-module.exports = async function createCampaign({ campaign, campaignRepository, userRepository, organizationRepository, organizationService }) {
+module.exports = async function createCampaign({
+  campaign,
+  campaignRepository,
+  userRepository,
+  organizationRepository,
+  organizationService,
+}) {
   campaignValidator.validate(campaign);
 
   await _checkIfUserCanCreateCampaign(campaign, userRepository, organizationRepository, organizationService);
@@ -14,15 +20,31 @@ module.exports = async function createCampaign({ campaign, campaignRepository, u
 };
 
 async function _checkIfUserCanCreateCampaign(campaign, userRepository, organizationRepository, organizationService) {
-  if (!await _hasCreatorAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository)) {
-    throw new UserNotAuthorizedToCreateCampaignError(`User does not have an access to the organization ${campaign.organizationId}`);
+  if (!(await _hasCreatorAccessToCampaignOrganization(campaign.creatorId, campaign.organizationId, userRepository))) {
+    throw new UserNotAuthorizedToCreateCampaignError(
+      `User does not have an access to the organization ${campaign.organizationId}`
+    );
   }
 
-  if (campaign.type === Campaign.types.PROFILES_COLLECTION && !await _canOrganizationCollectProfiles(campaign.organizationId, organizationRepository)) {
-    throw new UserNotAuthorizedToCreateCampaignError('Organization can not create campaign with type PROFILES_COLLECTION');
+  if (
+    campaign.type === Campaign.types.PROFILES_COLLECTION &&
+    !(await _canOrganizationCollectProfiles(campaign.organizationId, organizationRepository))
+  ) {
+    throw new UserNotAuthorizedToCreateCampaignError(
+      'Organization can not create campaign with type PROFILES_COLLECTION'
+    );
   }
-  if (campaign.type === Campaign.types.ASSESSMENT && !await _hasOrganizationAccessToTargetProfile(campaign.targetProfileId, campaign.organizationId, organizationService)) {
-    throw new UserNotAuthorizedToCreateCampaignError(`Organization does not have an access to the profile ${campaign.targetProfileId}`);
+  if (
+    campaign.type === Campaign.types.ASSESSMENT &&
+    !(await _hasOrganizationAccessToTargetProfile(
+      campaign.targetProfileId,
+      campaign.organizationId,
+      organizationService
+    ))
+  ) {
+    throw new UserNotAuthorizedToCreateCampaignError(
+      `Organization does not have an access to the profile ${campaign.targetProfileId}`
+    );
   }
 }
 

@@ -7,7 +7,6 @@ module.exports = function buildBadgeAcquisition({
   campaignParticipationId,
   createdAt,
 } = {}) {
-
   return databaseBuffer.pushInsertable({
     tableName: 'badge-acquisitions',
     values: {

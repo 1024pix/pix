@@ -3,9 +3,7 @@ const Stage = require('../../domain/models/Stage');
 const skillAdapter = require('./skill-adapter');
 
 module.exports = {
-
   fromDatasourceObjects({ bookshelfTargetProfile, associatedSkillDatasourceObjects }) {
-
     const skills = associatedSkillDatasourceObjects.map(skillAdapter.fromDatasourceObject);
     const targetProfileStages = bookshelfTargetProfile.related('stages');
     const hasStages = targetProfileStages && targetProfileStages.models;

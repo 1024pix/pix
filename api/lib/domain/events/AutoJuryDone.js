@@ -1,12 +1,5 @@
 module.exports = class AutoJuryDone {
-  constructor({
-    sessionId,
-    finalizedAt,
-    certificationCenterName,
-    sessionDate,
-    sessionTime,
-    hasExaminerGlobalComment,
-  }) {
+  constructor({ sessionId, finalizedAt, certificationCenterName, sessionDate, sessionTime, hasExaminerGlobalComment }) {
     this.sessionId = sessionId;
     this.finalizedAt = finalizedAt;
     this.certificationCenterName = certificationCenterName;

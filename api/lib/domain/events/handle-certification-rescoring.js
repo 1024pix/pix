@@ -2,9 +2,7 @@ const AssessmentResult = require('../models/AssessmentResult');
 const CompetenceMark = require('../models/CompetenceMark');
 const CertificationRescoringCompleted = require('./CertificationRescoringCompleted.js');
 const bluebird = require('bluebird');
-const {
-  CertificationComputeError,
-} = require('../errors');
+const { CertificationComputeError } = require('../errors');
 const ChallengeNeutralized = require('./ChallengeNeutralized');
 const ChallengeDeneutralized = require('./ChallengeDeneutralized');
 const CertificationJuryDone = require('./CertificationJuryDone');
@@ -24,7 +22,9 @@ async function handleCertificationRescoring({
 }) {
   checkEventTypes(event, eventTypes);
 
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId: event.certificationCourseId });
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
+    certificationCourseId: event.certificationCourseId,
+  });
 
   try {
     const certificationAssessmentScore = await scoringCertificationService.calculateCertificationAssessmentScore({
@@ -32,14 +32,20 @@ async function handleCertificationRescoring({
       continueOnError: false,
     });
 
-    const assessmentResultId = await _saveAssessmentResult(certificationAssessmentScore, certificationAssessment, event, assessmentResultRepository);
+    const assessmentResultId = await _saveAssessmentResult(
+      certificationAssessmentScore,
+      certificationAssessment,
+      event,
+      assessmentResultRepository
+    );
 
     await _saveCompetenceMarks(certificationAssessmentScore, assessmentResultId, competenceMarkRepository);
 
     if (featureToggles.isManageUncompletedCertifEnabled) {
       await _cancelCertificationCourseIfHasNotEnoughNonNeutralizedChallengesToBeTrusted({
         certificationCourseId: certificationAssessment.certificationCourseId,
-        hasEnoughNonNeutralizedChallengesToBeTrusted: certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
+        hasEnoughNonNeutralizedChallengesToBeTrusted:
+          certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted,
         certificationCourseRepository,
       });
     }
@@ -92,9 +98,17 @@ async function _saveResultAfterCertificationComputeError({
   await assessmentResultRepository.save(assessmentResult);
 }
 
-async function _saveAssessmentResult(certificationAssessmentScore, certificationAssessment, event, assessmentResultRepository) {
+async function _saveAssessmentResult(
+  certificationAssessmentScore,
+  certificationAssessment,
+  event,
+  assessmentResultRepository
+) {
   let assessmentResult;
-  if (!certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted && featureToggles.isManageUncompletedCertifEnabled) {
+  if (
+    !certificationAssessmentScore.hasEnoughNonNeutralizedChallengesToBeTrusted &&
+    featureToggles.isManageUncompletedCertifEnabled
+  ) {
     assessmentResult = AssessmentResult.buildNotTrustableAssessmentResult({
       pixScore: certificationAssessmentScore.nbPix,
       status: certificationAssessmentScore.status,

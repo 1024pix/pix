@@ -4,7 +4,6 @@ const CampaignParticipation = require('../models/CampaignParticipation');
 const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignParticipationOverview {
-
   constructor({
     id,
     createdAt,
@@ -35,7 +34,7 @@ class CampaignParticipationOverview {
   get validatedStagesCount() {
     if (_.isEmpty(this.targetProfile.stages) || !this.isShared) return null;
 
-    const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= (this.masteryRate * 100));
+    const validatedStages = this._getReachableStages().filter((stage) => stage.threshold <= this.masteryRate * 100);
     return validatedStages.length;
   }
 

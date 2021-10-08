@@ -1,2 +1,1 @@
-module.exports = class UserAlreadyLinkedToCertificationCandidate {
-};
+module.exports = class UserAlreadyLinkedToCertificationCandidate {};

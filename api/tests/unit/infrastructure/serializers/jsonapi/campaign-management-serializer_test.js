@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-management-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-management-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a Campaign-Management model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | campaign-management-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a Campaign-Management model object into JSON API data', function () {
       // given
       const campaignManagement = domainBuilder.buildCampaignManagement({
         id: 'campaign_management_id',

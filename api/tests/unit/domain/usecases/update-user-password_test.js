@@ -1,14 +1,16 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-const { PasswordResetDemandNotFoundError, UserNotAuthorizedToUpdatePasswordError } = require('../../../../lib/domain/errors');
+const {
+  PasswordResetDemandNotFoundError,
+  UserNotAuthorizedToUpdatePasswordError,
+} = require('../../../../lib/domain/errors');
 
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 const updateUserPassword = require('../../../../lib/domain/usecases/update-user-password');
 
-describe('Unit | UseCase | update-user-password', function() {
-
+describe('Unit | UseCase | update-user-password', function () {
   const userId = 1;
   const user = new User({
     id: userId,
@@ -22,7 +24,7 @@ describe('Unit | UseCase | update-user-password', function() {
   let authenticationMethodRepository;
   let userRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     encryptionService = {
       hashPassword: sinon.stub(),
     };
@@ -40,16 +42,14 @@ describe('Unit | UseCase | update-user-password', function() {
     sinon.stub(validationErrorSerializer, 'serialize');
 
     encryptionService.hashPassword.resolves();
-    resetPasswordService.hasUserAPasswordResetDemandInProgress
-      .withArgs(user.email, temporaryKey)
-      .resolves();
+    resetPasswordService.hasUserAPasswordResetDemandInProgress.withArgs(user.email, temporaryKey).resolves();
     resetPasswordService.invalidateOldResetPasswordDemand.resolves();
 
     authenticationMethodRepository.updateChangedPassword.resolves();
     userRepository.get.resolves(user);
   });
 
-  it('should get user by his id', async function() {
+  it('should get user by his id', async function () {
     // when
     await updateUserPassword({
       password,
@@ -65,7 +65,7 @@ describe('Unit | UseCase | update-user-password', function() {
     expect(userRepository.get).to.have.been.calledWith(userId);
   });
 
-  it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async function() {
+  it('should throw a UserNotAuthorizedToUpdatePasswordError when user does not have an email', async function () {
     // given
     userRepository.get.resolves({ email: undefined });
 
@@ -84,7 +84,7 @@ describe('Unit | UseCase | update-user-password', function() {
     expect(error).to.be.instanceOf(UserNotAuthorizedToUpdatePasswordError);
   });
 
-  it('should check if user has a current password reset demand', async function() {
+  it('should check if user has a current password reset demand', async function () {
     // when
     await updateUserPassword({
       password,
@@ -97,11 +97,10 @@ describe('Unit | UseCase | update-user-password', function() {
     });
 
     // then
-    expect(resetPasswordService.hasUserAPasswordResetDemandInProgress)
-      .to.have.been.calledWith(user.email);
+    expect(resetPasswordService.hasUserAPasswordResetDemandInProgress).to.have.been.calledWith(user.email);
   });
 
-  it('should update user password with a hashed password', async function() {
+  it('should update user password with a hashed password', async function () {
     const hashedPassword = 'ABCD1234';
     encryptionService.hashPassword.resolves(hashedPassword);
 
@@ -124,7 +123,7 @@ describe('Unit | UseCase | update-user-password', function() {
     });
   });
 
-  it('should invalidate current password reset demand (mark as being used)', async function() {
+  it('should invalidate current password reset demand (mark as being used)', async function () {
     // when
     await updateUserPassword({
       password,
@@ -137,13 +136,11 @@ describe('Unit | UseCase | update-user-password', function() {
     });
 
     // then
-    expect(resetPasswordService.invalidateOldResetPasswordDemand)
-      .to.have.been.calledWith(user.email);
+    expect(resetPasswordService.invalidateOldResetPasswordDemand).to.have.been.calledWith(user.email);
   });
 
-  describe('When user has not a current password reset demand', function() {
-
-    it('should return PasswordResetDemandNotFoundError', async function() {
+  describe('When user has not a current password reset demand', function () {
+    it('should return PasswordResetDemandNotFoundError', async function () {
       // given
       resetPasswordService.hasUserAPasswordResetDemandInProgress
         .withArgs(user.email, temporaryKey)
@@ -164,5 +161,4 @@ describe('Unit | UseCase | update-user-password', function() {
       expect(error).to.be.an.instanceOf(PasswordResetDemandNotFoundError);
     });
   });
-
 });

@@ -1,10 +1,8 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | CertificationAttestation', function() {
-
-  context('#setResultCompetenceTree', function() {
-
-    it('should set the resultCompetenceTree on CertificationAttestation model', function() {
+describe('Unit | Domain | Models | CertificationAttestation', function () {
+  context('#setResultCompetenceTree', function () {
+    it('should set the resultCompetenceTree on CertificationAttestation model', function () {
       // given
       const resultCompetenceTree = domainBuilder.buildResultCompetenceTree({ id: 'someId' });
       const certificationAttestation = domainBuilder.buildCertificationAttestation();
@@ -17,9 +15,8 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
     });
   });
 
-  context('#hasAcquiredCleaCertification', function() {
-
-    it('should return true if clea image path has been set', function() {
+  context('#hasAcquiredCleaCertification', function () {
+    it('should return true if clea image path has been set', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         cleaCertificationImagePath: '/some/path',
@@ -32,7 +29,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
       expect(hasAcquiredCleaCertification).to.be.true;
     });
 
-    it('should return true if clea no image path has been set', function() {
+    it('should return true if clea no image path has been set', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         cleaCertificationImagePath: null,
@@ -46,9 +43,8 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
     });
   });
 
-  context('#hasAcquiredPixPlusDroitCertification', function() {
-
-    it('should return true if pix plus droit image path has been set', function() {
+  context('#hasAcquiredPixPlusDroitCertification', function () {
+    it('should return true if pix plus droit image path has been set', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         pixPlusDroitCertificationImagePath: '/some/path',
@@ -61,7 +57,7 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
       expect(hasAcquiredPixPlusDroitCertification).to.be.true;
     });
 
-    it('should return true if not pix plus droit image path has been set', function() {
+    it('should return true if not pix plus droit image path has been set', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         pixPlusDroitCertificationImagePath: null,
@@ -75,9 +71,8 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
     });
   });
 
-  context('#hasAcquiredAnyComplementaryCertifications', function() {
-
-    it('should return true if pix plus droit certification only has been acquired', function() {
+  context('#hasAcquiredAnyComplementaryCertifications', function () {
+    it('should return true if pix plus droit certification only has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         cleaCertificationImagePath: null,
@@ -85,13 +80,14 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
+      const hasAcquiredAnyComplementaryCertifications =
+        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
     });
 
-    it('should return true if clea certification only has been acquired', function() {
+    it('should return true if clea certification only has been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         cleaCertificationImagePath: '/some/path',
@@ -99,13 +95,14 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
+      const hasAcquiredAnyComplementaryCertifications =
+        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
     });
 
-    it('should return true if both pix plus droit and clea certifications have been acquired', function() {
+    it('should return true if both pix plus droit and clea certifications have been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         cleaCertificationImagePath: '/some/path',
@@ -113,13 +110,14 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
+      const hasAcquiredAnyComplementaryCertifications =
+        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.true;
     });
 
-    it('should return false if none of clea or pix plus certifications have been acquired', function() {
+    it('should return false if none of clea or pix plus certifications have been acquired', function () {
       // given
       const certificationAttestation = domainBuilder.buildCertificationAttestation({
         cleaCertificationImagePath: null,
@@ -127,7 +125,8 @@ describe('Unit | Domain | Models | CertificationAttestation', function() {
       });
 
       // when
-      const hasAcquiredAnyComplementaryCertifications = certificationAttestation.hasAcquiredAnyComplementaryCertifications();
+      const hasAcquiredAnyComplementaryCertifications =
+        certificationAttestation.hasAcquiredAnyComplementaryCertifications();
 
       // expect
       expect(hasAcquiredAnyComplementaryCertifications).to.be.false;

@@ -15,10 +15,7 @@ function cleanStringAndParseFloat(string) {
 }
 
 function splitIntoWordsAndRemoveBackspaces(string) {
-  return _.chain(string)
-    .split('\n')
-    .reject(_.isEmpty)
-    .value();
+  return _.chain(string).split('\n').reject(_.isEmpty).value();
 }
 
 /**

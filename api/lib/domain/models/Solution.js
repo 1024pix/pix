@@ -4,7 +4,6 @@
  *             interne de l'algorithme.
  */
 class Solution {
-
   /**
    *
    * @param id: id de la ligne Épreuve du référentiel dont est extraite l'information de la Solution

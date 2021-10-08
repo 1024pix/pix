@@ -2,9 +2,9 @@ const _ = require('lodash');
 const AssessmentCompleted = require('../events/AssessmentCompleted');
 const { checkEventTypes } = require('./check-event-types');
 
-const eventTypes = [ AssessmentCompleted ];
+const eventTypes = [AssessmentCompleted];
 
-const handleBadgeAcquisition = async function({
+const handleBadgeAcquisition = async function ({
   event,
   badgeCriteriaService,
   badgeAcquisitionRepository,
@@ -15,7 +15,6 @@ const handleBadgeAcquisition = async function({
   checkEventTypes(event, eventTypes);
 
   if (event.isCampaignType) {
-
     const associatedBadges = await _fetchPossibleCampaignAssociatedBadges(event, badgeRepository);
     if (_.isEmpty(associatedBadges)) {
       return;
@@ -24,7 +23,8 @@ const handleBadgeAcquisition = async function({
     const knowledgeElements = await knowledgeElementRepository.findUniqByUserId({ userId: event.userId });
 
     const validatedBadgesByUser = associatedBadges.filter((badge) =>
-      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge }));
+      badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge })
+    );
 
     const badgesAcquisitionToCreate = validatedBadgesByUser.map((badge) => {
       return {

@@ -2,11 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-with-schooling-registration-serializer');
 const UserWithSchoolingRegistration = require('../../../../../lib/domain/models/UserWithSchoolingRegistration');
 
-describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a UserWithSchoolingRegistration model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a UserWithSchoolingRegistration model object into JSON API data', function () {
       // given
       const userWithSchoolingRegistration = new UserWithSchoolingRegistration({
         id: 5,
@@ -29,14 +27,14 @@ describe('Unit | Serializer | JSONAPI | UserWithSchoolingRegistration-serializer
           attributes: {
             'first-name': userWithSchoolingRegistration.firstName,
             'last-name': userWithSchoolingRegistration.lastName,
-            'birthdate': userWithSchoolingRegistration.birthdate,
-            'username': userWithSchoolingRegistration.username,
+            birthdate: userWithSchoolingRegistration.birthdate,
+            username: userWithSchoolingRegistration.username,
             'user-id': userWithSchoolingRegistration.userId,
-            'email': userWithSchoolingRegistration.email,
+            email: userWithSchoolingRegistration.email,
             'is-authenticated-from-gar': false,
             'student-number': userWithSchoolingRegistration.studentNumber,
-            'division': userWithSchoolingRegistration.division,
-            'group': userWithSchoolingRegistration.group,
+            division: userWithSchoolingRegistration.division,
+            group: userWithSchoolingRegistration.group,
           },
         },
       };

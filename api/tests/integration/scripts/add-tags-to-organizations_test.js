@@ -1,13 +1,12 @@
 const { expect, databaseBuilder, knex, catchErr } = require('../../test-helper');
 const { retrieveTagsByName, addTagsToOrganizations } = require('../../../scripts/add-tags-to-organizations');
 
-describe('Integration | Scripts | add-tags-to-organizations.js', function() {
-
+describe('Integration | Scripts | add-tags-to-organizations.js', function () {
   let firstTag;
   let secondTag;
   let thirdTag;
 
-  beforeEach(function() {
+  beforeEach(function () {
     firstTag = databaseBuilder.factory.buildTag({ name: 'tag1' });
     secondTag = databaseBuilder.factory.buildTag({ name: 'tag2' });
     thirdTag = databaseBuilder.factory.buildTag({ name: 'tag3' });
@@ -15,9 +14,8 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function() {
     return databaseBuilder.commit();
   });
 
-  describe('#retrieveTagsByName', function() {
-
-    it('should retrieve tags by tag name', async function() {
+  describe('#retrieveTagsByName', function () {
+    it('should retrieve tags by tag name', async function () {
       // given
       const checkedData = [
         { organizationId: 1, tagName: firstTag.name },
@@ -37,12 +35,10 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function() {
       expect(tagsByName.get(thirdTag.name)).to.deep.equal(thirdTag);
     });
 
-    it('should throw an error if tag does not exist', async function() {
+    it('should throw an error if tag does not exist', async function () {
       // given
       const tagName = 'unknown_tag_name';
-      const checkedData = [
-        { organizationId: 1, tagName },
-      ];
+      const checkedData = [{ organizationId: 1, tagName }];
 
       // when
       const error = await catchErr(retrieveTagsByName)({ checkedData });
@@ -50,16 +46,14 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function() {
       // then
       expect(error.message).to.equal(`The tag with name ${tagName} does not exist.`);
     });
-
   });
 
-  describe('#addTagsToOrganizations', function() {
-
+  describe('#addTagsToOrganizations', function () {
     let firstOrganizationId;
     let secondOrganizationId;
     let thirdOrganizationId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       firstOrganizationId = databaseBuilder.factory.buildOrganization().id;
       secondOrganizationId = databaseBuilder.factory.buildOrganization().id;
       thirdOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -67,11 +61,11 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function() {
       return databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('organization-tags').delete();
     });
 
-    it('should add tags to organizations', async function() {
+    it('should add tags to organizations', async function () {
       // given
       const tagsByName = new Map([
         [firstTag.name, firstTag],
@@ -91,27 +85,25 @@ describe('Integration | Scripts | add-tags-to-organizations.js', function() {
       // then
       const organizationTagsInDB = await knex('organization-tags');
       expect(organizationTagsInDB.length).to.equal(3);
-      expect(await knex('organization-tags').where({ organizationId: firstOrganizationId, tagId: firstTag.id })).to.exist;
-      expect(await knex('organization-tags').where({ organizationId: secondOrganizationId, tagId: secondTag.id })).to.exist;
-      expect(await knex('organization-tags').where({ organizationId: thirdOrganizationId, tagId: thirdTag.id })).to.exist;
+      expect(await knex('organization-tags').where({ organizationId: firstOrganizationId, tagId: firstTag.id })).to
+        .exist;
+      expect(await knex('organization-tags').where({ organizationId: secondOrganizationId, tagId: secondTag.id })).to
+        .exist;
+      expect(await knex('organization-tags').where({ organizationId: thirdOrganizationId, tagId: thirdTag.id })).to
+        .exist;
     });
 
-    context('When tag already exists for an organization', function() {
-
-      beforeEach(function() {
+    context('When tag already exists for an organization', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildOrganizationTag({ organizationId: firstOrganizationId, tagId: firstTag.id });
         return databaseBuilder.commit();
       });
 
-      it('should not throw an error', async function() {
+      it('should not throw an error', async function () {
         // given
-        const tagsByName = new Map([
-          [firstTag.name, firstTag],
-        ]);
+        const tagsByName = new Map([[firstTag.name, firstTag]]);
 
-        const checkedData = [
-          { organizationId: firstOrganizationId, tagName: firstTag.name },
-        ];
+        const checkedData = [{ organizationId: firstOrganizationId, tagName: firstTag.name }];
 
         // when
         await addTagsToOrganizations({ tagsByName, checkedData });

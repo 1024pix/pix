@@ -1,14 +1,5 @@
 class Stage {
-
-  constructor({
-    id,
-    title,
-    message,
-    threshold,
-    prescriberTitle,
-    prescriberDescription,
-    targetProfileId,
-  } = {}) {
+  constructor({ id, title, message, threshold, prescriberTitle, prescriberDescription, targetProfileId } = {}) {
     this.id = id;
     this.title = title;
     this.message = message;

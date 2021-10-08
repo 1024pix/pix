@@ -1,11 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 
-describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert password-reset-object to JSON-API', function() {
+describe('Unit | Serializer | JSONAPI | password-reset-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert password-reset-object to JSON-API', function () {
       // given
       const passwordResetDemand = {
         id: '1',
@@ -28,5 +26,4 @@ describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
       expect(result).to.deep.equal(expectedSerializedPasswordReset);
     });
   });
-
 });

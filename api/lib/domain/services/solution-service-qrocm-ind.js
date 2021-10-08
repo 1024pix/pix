@@ -44,7 +44,9 @@ function _compareAnswersAndSolutions(answers, solutions, enabledTreatments, qroc
   _.map(answers, (answer, answerKey) => {
     const solutionVariants = solutions[answerKey];
     if (!solutionVariants) {
-      logger.warn(`[ERREUR CLE ANSWER] La clé ${answerKey} n'existe pas. Première clé de l'épreuve : ${Object.keys(solutions)[0]}`);
+      logger.warn(
+        `[ERREUR CLE ANSWER] La clé ${answerKey} n'existe pas. Première clé de l'épreuve : ${Object.keys(solutions)[0]}`
+      );
       throw new YamlParsingError();
     }
     if (enabledTreatments.includes('t3') && qrocBlocksTypes[answerKey] != 'select') {
@@ -67,7 +69,6 @@ function _formatResult(resultDetails) {
 }
 
 module.exports = {
-
   _applyTreatmentsToSolutions,
   _applyTreatmentsToAnswers,
   _compareAnswersAndSolutions,
@@ -79,9 +80,7 @@ module.exports = {
     const qrocBlocksTypes = solution.qrocBlocksTypes || {};
 
     // Input checking
-    if (!_.isString(answerValue)
-      || _.isEmpty(yamlSolution)
-      || !_.includes(yamlSolution, '\n')) {
+    if (!_.isString(answerValue) || _.isEmpty(yamlSolution) || !_.includes(yamlSolution, '\n')) {
       return { result: AnswerStatus.KO };
     }
 
@@ -104,7 +103,12 @@ module.exports = {
     const treatedAnswers = _applyTreatmentsToAnswers(answers, enabledTreatments, qrocBlocksTypes);
 
     // Comparison
-    const resultDetails = _compareAnswersAndSolutions(treatedAnswers, treatedSolutions, enabledTreatments, qrocBlocksTypes);
+    const resultDetails = _compareAnswersAndSolutions(
+      treatedAnswers,
+      treatedSolutions,
+      enabledTreatments,
+      qrocBlocksTypes
+    );
 
     // Restitution
     return {
@@ -112,5 +116,4 @@ module.exports = {
       resultDetails: resultDetails,
     };
   },
-
 };

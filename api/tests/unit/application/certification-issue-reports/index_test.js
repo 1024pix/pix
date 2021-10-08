@@ -3,9 +3,8 @@ const certificationIssueReportController = require('../../../../lib/application/
 
 const moduleUnderTest = require('../../../../lib/application/certification-issue-reports');
 
-describe('Unit | Application | Certifications Issue Report | Route', function() {
-
-  it('DELETE /api/certification-issue-reports/{id} should exist', async function() {
+describe('Unit | Application | Certifications Issue Report | Route', function () {
+  it('DELETE /api/certification-issue-reports/{id} should exist', async function () {
     // given
     sinon.stub(certificationIssueReportController, 'deleteCertificationIssueReport').returns('ok');
 

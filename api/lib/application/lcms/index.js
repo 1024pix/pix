@@ -1,16 +1,18 @@
 const securityPreHandlers = require('../security-pre-handlers');
 const LcmsController = require('./lcms-controller');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
       path: '/api/lcms/releases',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: LcmsController.createRelease,
         tags: ['api', 'lcms'],
         notes: [

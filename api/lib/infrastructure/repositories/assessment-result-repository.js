@@ -8,9 +8,7 @@ const AssessmentResult = require('../../domain/models/AssessmentResult');
 const CompetenceMark = require('../../domain/models/CompetenceMark');
 
 function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
-  const competenceMarks = competencesMarksDTO.map(
-    (competenceMark) => new CompetenceMark(competenceMark),
-  );
+  const competenceMarks = competencesMarksDTO.map((competenceMark) => new CompetenceMark(competenceMark));
 
   return new AssessmentResult({
     id: assessmentResultDTO.id,
@@ -28,17 +26,20 @@ function _toDomain({ assessmentResultDTO, competencesMarksDTO }) {
 }
 
 module.exports = {
-  async save({
-    pixScore,
-    status,
-    emitter,
-    commentForJury,
-    commentForCandidate,
-    commentForOrganization,
-    id,
-    juryId,
-    assessmentId,
-  }, domainTransaction = DomainTransaction.emptyTransaction()) {
+  async save(
+    {
+      pixScore,
+      status,
+      emitter,
+      commentForJury,
+      commentForCandidate,
+      commentForOrganization,
+      id,
+      juryId,
+      assessmentId,
+    },
+    domainTransaction = DomainTransaction.emptyTransaction()
+  ) {
     if (_.isNil(assessmentId)) {
       throw new MissingAssessmentId();
     }
@@ -53,8 +54,7 @@ module.exports = {
         id,
         juryId,
         assessmentId,
-      })
-        .save(null, { require: true, transacting: domainTransaction.knexTransaction });
+      }).save(null, { require: true, transacting: domainTransaction.knexTransaction });
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessmentResult, savedAssessmentResultBookshelf);
     } catch (error) {
@@ -96,8 +96,9 @@ module.exports = {
         .first();
 
       if (latestAssessmentResult) {
-        const competencesMarksDTO = await knex('competence-marks')
-          .where({ assessmentResultId: latestAssessmentResult.id });
+        const competencesMarksDTO = await knex('competence-marks').where({
+          assessmentResultId: latestAssessmentResult.id,
+        });
 
         return _toDomain({
           assessmentResultDTO: latestAssessmentResult,

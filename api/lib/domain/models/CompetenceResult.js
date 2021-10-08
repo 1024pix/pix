@@ -21,7 +21,7 @@ class CompetenceResult {
 
   get masteryPercentage() {
     if (this.totalSkillsCount !== 0) {
-      return Math.round(this.validatedSkillsCount * 100 / this.totalSkillsCount);
+      return Math.round((this.validatedSkillsCount * 100) / this.totalSkillsCount);
     } else {
       return 0;
     }

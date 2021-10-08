@@ -2,15 +2,14 @@ const { expect, sinon } = require('../../../test-helper');
 
 const getUserDetailsForAdmin = require('../../../../lib/domain/usecases/get-user-details-for-admin');
 
-describe('Unit | UseCase | get-user-details-for-admin', function() {
-
+describe('Unit | UseCase | get-user-details-for-admin', function () {
   let userRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     userRepository = { getUserDetailsForAdmin: sinon.stub() };
   });
 
-  it('should get the user details in administration context', async function() {
+  it('should get the user details in administration context', async function () {
     // given
     const userId = 1;
     const expectedUserDetailsForAdmin = { id: userId };

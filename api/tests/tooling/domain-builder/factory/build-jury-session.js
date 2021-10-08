@@ -2,7 +2,7 @@ const JurySession = require('../../../../lib/domain/models/JurySession');
 const domainBuilder = require('../domain-builder');
 const _ = require('lodash');
 
-const buildJurySession = function({
+const buildJurySession = function ({
   id = 123,
   certificationCenterName = null,
   certificationCenterType = null,

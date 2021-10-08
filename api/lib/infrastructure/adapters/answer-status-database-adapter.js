@@ -9,12 +9,10 @@ const OK = 'ok';
 const KO = 'ko';
 
 module.exports = {
-
   /**
    * @deprecated use toSQLString instead
    */
   adapt(answerStatus) {
-
     return this.toSQLString(answerStatus);
   },
 
@@ -34,7 +32,6 @@ module.exports = {
     } else {
       return UNIMPLEMENTED;
     }
-
   },
 
   fromSQLString(answerStatusString) {
@@ -55,4 +52,3 @@ module.exports = {
     }
   },
 };
-

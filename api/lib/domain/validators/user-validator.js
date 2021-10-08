@@ -4,36 +4,25 @@ const { EntityValidationError } = require('../errors');
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const userValidationJoiSchema = Joi.object({
+  firstName: Joi.string().required().max(255).messages({
+    'string.empty': 'EMPTY_FIRST_NAME',
+    'string.max': 'MAX_SIZE_FIRST_NAME',
+  }),
 
-  firstName: Joi.string()
-    .required()
-    .max(255)
-    .messages({
-      'string.empty': 'EMPTY_FIRST_NAME',
-      'string.max': 'MAX_SIZE_FIRST_NAME',
-    }),
+  lastName: Joi.string().required().max(255).messages({
+    'string.empty': 'EMPTY_LAST_NAME',
+    'string.max': 'MAX_SIZE_LAST_NAME',
+  }),
 
-  lastName: Joi.string()
-    .required()
-    .max(255)
-    .messages({
-      'string.empty': 'EMPTY_LAST_NAME',
-      'string.max': 'MAX_SIZE_LAST_NAME',
-    }),
+  email: Joi.string().max(255).email({ ignoreLength: true }).messages({
+    'string.empty': 'EMPTY_EMAIL',
+    'string.max': 'MAX_SIZE_EMAIL',
+    'string.email': 'WRONG_EMAIL_FORMAT',
+  }),
 
-  email: Joi.string()
-    .max(255)
-    .email({ ignoreLength: true })
-    .messages({
-      'string.empty': 'EMPTY_EMAIL',
-      'string.max': 'MAX_SIZE_EMAIL',
-      'string.email': 'WRONG_EMAIL_FORMAT',
-    }),
-
-  username: Joi.string()
-    .messages({
-      'string.empty': 'EMPTY_USERNAME',
-    }),
+  username: Joi.string().messages({
+    'string.empty': 'EMPTY_USERNAME',
+  }),
 
   cgu: Joi.boolean()
     .when('$cguRequired', {
@@ -50,8 +39,8 @@ const userValidationJoiSchema = Joi.object({
   mustValidateTermsOfService: Joi.boolean(),
 
   hasSeenAssessmentInstructions: Joi.boolean(),
-
-}).xor('username', 'email')
+})
+  .xor('username', 'email')
   .required()
   .messages({
     'any.required': 'EMPTY_INPUT',

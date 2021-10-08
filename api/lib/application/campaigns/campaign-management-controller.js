@@ -19,7 +19,15 @@ module.exports = {
       'custom-result-page-button-url': customResultPageButtonUrl,
       'custom-result-page-text': customResultPageText,
     } = request.payload.data.attributes;
-    await usecases.updateCampaignDetailsManagement({ campaignId, name, title, customLandingPageText, customResultPageText, customResultPageButtonText, customResultPageButtonUrl });
+    await usecases.updateCampaignDetailsManagement({
+      campaignId,
+      name,
+      title,
+      customLandingPageText,
+      customResultPageText,
+      customResultPageButtonText,
+      customResultPageButtonUrl,
+    });
     return h.response({}).code(204);
   },
 };

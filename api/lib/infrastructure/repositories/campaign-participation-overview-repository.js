@@ -6,7 +6,6 @@ const targetProfileWithLearningContentRepository = require('../../../lib/infrast
 const bluebird = require('bluebird');
 
 module.exports = {
-
   async findByUserIdWithFilters({ userId, states, page }) {
     const queryBuilder = _findByUserId({ userId });
 
@@ -60,20 +59,26 @@ function _findByUserId({ userId }) {
 
 function _computeCampaignParticipationState() {
   // eslint-disable-next-line no-restricted-syntax
-  return knex.raw(`
+  return knex.raw(
+    `
   CASE
     WHEN campaigns."archivedAt" IS NOT NULL THEN 'ARCHIVED'
     WHEN assessments.state = ? THEN 'ONGOING'
     WHEN "campaign-participations"."status" = 'SHARED' THEN 'ENDED'
     ELSE 'TO_SHARE'
-  END`, Assessment.states.STARTED) ;
+  END`,
+    Assessment.states.STARTED
+  );
 }
 
 function _filterMostRecentAssessments(queryBuilder) {
   queryBuilder
-    .leftJoin({ 'newerAssessments': 'assessments' }, function() {
-      this.on('newerAssessments.campaignParticipationId', 'campaign-participations.id')
-        .andOn('assessments.createdAt', '<', knex.ref('newerAssessments.createdAt'));
+    .leftJoin({ newerAssessments: 'assessments' }, function () {
+      this.on('newerAssessments.campaignParticipationId', 'campaign-participations.id').andOn(
+        'assessments.createdAt',
+        '<',
+        knex.ref('newerAssessments.createdAt')
+      );
     })
     .whereNull('newerAssessments.id');
 }
@@ -101,13 +106,12 @@ function _filterByStates(queryBuilder, states) {
 }
 
 function _toReadModel(campaignParticipationOverviews) {
-  return bluebird.mapSeries(campaignParticipationOverviews,
-    async(data) => {
-      const targetProfile = await targetProfileWithLearningContentRepository.get({ id: data.targetProfileId });
+  return bluebird.mapSeries(campaignParticipationOverviews, async (data) => {
+    const targetProfile = await targetProfileWithLearningContentRepository.get({ id: data.targetProfileId });
 
-      return new CampaignParticipationOverview({
-        ...data,
-        targetProfile,
-      });
+    return new CampaignParticipationOverview({
+      ...data,
+      targetProfile,
     });
+  });
 }

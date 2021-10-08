@@ -19,8 +19,7 @@ module.exports = async function getNextChallengeForCampaignAssessment({
 
   if (assessment.isFlash()) {
     algoResult = flash.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
-  }
-  else {
+  } else {
     algoResult = smartRandom.getPossibleSkillsForNextChallenge({ ...inputValues, locale });
   }
 
@@ -34,4 +33,3 @@ module.exports = async function getNextChallengeForCampaignAssessment({
     locale,
   });
 };
-

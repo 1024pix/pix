@@ -10,7 +10,6 @@ module.exports = function buildFinalizedSession({
   publishedAt = null,
   assignedCertificationOfficerName = null,
 } = {}) {
-
   const values = {
     sessionId,
     certificationCenterName,

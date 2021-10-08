@@ -9,7 +9,6 @@ module.exports = function buildKnowledgeElementSnapshot({
   snappedAt = new Date('2020-01-01'),
   snapshot,
 } = {}) {
-
   const dateMinusOneDay = new Date(snappedAt.getTime() - 1000 * 60 * 60 * 24 * 7);
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   if (!snapshot) {

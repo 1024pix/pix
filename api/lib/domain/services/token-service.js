@@ -1,56 +1,89 @@
 const jsonwebtoken = require('jsonwebtoken');
-const { InvalidTemporaryKeyError, InvalidExternalUserTokenError, InvalidResultRecipientTokenError, InvalidSessionResultError } = require('../../domain/errors');
+const {
+  InvalidTemporaryKeyError,
+  InvalidExternalUserTokenError,
+  InvalidResultRecipientTokenError,
+  InvalidSessionResultError,
+} = require('../../domain/errors');
 const settings = require('../../config');
 
 function createAccessTokenFromUser(userId, source) {
-  return jsonwebtoken.sign(
-    { user_id: userId, source },
-    settings.authentication.secret,
-    { expiresIn: settings.authentication.tokenLifespan },
-  );
+  return jsonwebtoken.sign({ user_id: userId, source }, settings.authentication.secret, {
+    expiresIn: settings.authentication.tokenLifespan,
+  });
 }
 
 function createAccessTokenFromExternalUser(userId) {
   return createAccessTokenFromUser(userId, 'external');
 }
 
-function createAccessTokenFromApplication(clientId, source, scope, secret = settings.authentication.secret, expiresIn = settings.authentication.tokenLifespan) {
-  return jsonwebtoken.sign({
-    client_id: clientId,
-    source,
-    scope,
-  }, secret, { expiresIn });
+function createAccessTokenFromApplication(
+  clientId,
+  source,
+  scope,
+  secret = settings.authentication.secret,
+  expiresIn = settings.authentication.tokenLifespan
+) {
+  return jsonwebtoken.sign(
+    {
+      client_id: clientId,
+      source,
+      scope,
+    },
+    secret,
+    { expiresIn }
+  );
 }
 
 function createTokenForCampaignResults(userId) {
-  return jsonwebtoken.sign({
-    access_id: userId,
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForCampaignResultLifespan });
+  return jsonwebtoken.sign(
+    {
+      access_id: userId,
+    },
+    settings.authentication.secret,
+    { expiresIn: settings.authentication.tokenForCampaignResultLifespan }
+  );
 }
 
 function createIdTokenForUserReconciliation(externalUser) {
-  return jsonwebtoken.sign({
-    first_name: externalUser.firstName,
-    last_name: externalUser.lastName,
-    saml_id: externalUser.samlId,
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan });
+  return jsonwebtoken.sign(
+    {
+      first_name: externalUser.firstName,
+      last_name: externalUser.lastName,
+      saml_id: externalUser.samlId,
+    },
+    settings.authentication.secret,
+    { expiresIn: settings.authentication.tokenForStudentReconciliationLifespan }
+  );
 }
 
-function createCertificationResultsByRecipientEmailLinkToken({ sessionId, resultRecipientEmail, daysBeforeExpiration }) {
-  return jsonwebtoken.sign({
-    session_id: sessionId,
-    result_recipient_email: resultRecipientEmail,
-  }, settings.authentication.secret, {
-    expiresIn: `${daysBeforeExpiration}d`,
-  });
+function createCertificationResultsByRecipientEmailLinkToken({
+  sessionId,
+  resultRecipientEmail,
+  daysBeforeExpiration,
+}) {
+  return jsonwebtoken.sign(
+    {
+      session_id: sessionId,
+      result_recipient_email: resultRecipientEmail,
+    },
+    settings.authentication.secret,
+    {
+      expiresIn: `${daysBeforeExpiration}d`,
+    }
+  );
 }
 
 function createCertificationResultsLinkToken({ sessionId, daysBeforeExpiration }) {
-  return jsonwebtoken.sign({
-    session_id: sessionId,
-  }, settings.authentication.secret, {
-    expiresIn: `${daysBeforeExpiration}d`,
-  });
+  return jsonwebtoken.sign(
+    {
+      session_id: sessionId,
+    },
+    settings.authentication.secret,
+    {
+      expiresIn: `${daysBeforeExpiration}d`,
+    }
+  );
 }
 
 function extractTokenFromAuthChain(authChain) {
@@ -67,15 +100,14 @@ function extractTokenFromAuthChain(authChain) {
 function decodeIfValid(token) {
   return new Promise((resolve, reject) => {
     const decoded = getDecodedToken(token);
-    return (!decoded) ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);
+    return !decoded ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);
   });
 }
 
 function getDecodedToken(token, secret = settings.authentication.secret) {
   try {
     return jsonwebtoken.verify(token, secret);
-  }
-  catch (err) {
+  } catch (err) {
     return false;
   }
 }
@@ -127,7 +159,9 @@ async function extractExternalUserFromIdToken(token) {
   const externalUser = await getDecodedToken(token);
 
   if (!externalUser) {
-    throw new InvalidExternalUserTokenError('Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.');
+    throw new InvalidExternalUserTokenError(
+      'Une erreur est survenue. Veuillez réessayer de vous connecter depuis le médiacentre.'
+    );
   }
 
   return {

@@ -1,13 +1,18 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, knex } = require('../../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+  knex,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-anonymize-user', function() {
-
+describe('Acceptance | Controller | users-controller-anonymize-user', function () {
   let server;
   let user;
   let options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser();
     const pixMaster = await insertUserWithRolePixMaster();
@@ -20,9 +25,8 @@ describe('Acceptance | Controller | users-controller-anonymize-user', function()
     return databaseBuilder.commit();
   });
 
-  describe('POST /admin/users/:id/anonymize', function() {
-
-    it('should return 204', async function() {
+  describe('POST /admin/users/:id/anonymize', function () {
+    it('should return 204', async function () {
       // when
       const response = await server.inject(options);
 
@@ -30,7 +34,7 @@ describe('Acceptance | Controller | users-controller-anonymize-user', function()
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should update user in Database', async function() {
+    it('should update user in Database', async function () {
       // when
       await server.inject(options);
 

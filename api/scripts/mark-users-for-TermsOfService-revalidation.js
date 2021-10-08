@@ -2,12 +2,9 @@ const Bookshelf = require('../lib/infrastructure/bookshelf');
 const ERROR_RETURN_CODE = 1;
 
 async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
-  const subquery = Bookshelf.knex
-    .select('users.id')
-    .from('users')
-    .where({
-      'cgu': true,
-    });
+  const subquery = Bookshelf.knex.select('users.id').from('users').where({
+    cgu: true,
+  });
 
   return Bookshelf.knex
     .table('users')
@@ -17,7 +14,9 @@ async function markUsersRequiringTermsOfServiceValidationForRevalidation() {
 }
 
 async function main() {
-  console.log('Start updating "mustValidateTermsOfService" column for some records of users table, from false to true.');
+  console.log(
+    'Start updating "mustValidateTermsOfService" column for some records of users table, from false to true.'
+  );
 
   try {
     const updatedUserIds = await markUsersRequiringTermsOfServiceValidationForRevalidation();
@@ -36,7 +35,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(ERROR_RETURN_CODE);
-    },
+    }
   );
 }
 

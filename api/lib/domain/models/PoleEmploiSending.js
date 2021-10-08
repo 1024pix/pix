@@ -5,13 +5,7 @@ const TYPES = {
 };
 
 class PoleEmploiSending {
-  constructor({
-    campaignParticipationId,
-    type,
-    payload,
-    isSuccessful,
-    responseCode,
-  }) {
+  constructor({ campaignParticipationId, type, payload, isSuccessful, responseCode }) {
     this.campaignParticipationId = campaignParticipationId;
     this.type = type;
     this.isSuccessful = isSuccessful;
@@ -19,12 +13,7 @@ class PoleEmploiSending {
     this.payload = payload;
   }
 
-  static buildForParticipationStarted({
-    campaignParticipationId,
-    payload,
-    isSuccessful,
-    responseCode,
-  }) {
+  static buildForParticipationStarted({ campaignParticipationId, payload, isSuccessful, responseCode }) {
     return new PoleEmploiSending({
       campaignParticipationId,
       type: TYPES.CAMPAIGN_PARTICIPATION_START,
@@ -34,12 +23,7 @@ class PoleEmploiSending {
     });
   }
 
-  static buildForParticipationFinished({
-    campaignParticipationId,
-    payload,
-    isSuccessful,
-    responseCode,
-  }) {
+  static buildForParticipationFinished({ campaignParticipationId, payload, isSuccessful, responseCode }) {
     return new PoleEmploiSending({
       campaignParticipationId,
       type: TYPES.CAMPAIGN_PARTICIPATION_COMPLETION,
@@ -49,12 +33,7 @@ class PoleEmploiSending {
     });
   }
 
-  static buildForParticipationShared({
-    campaignParticipationId,
-    payload,
-    isSuccessful,
-    responseCode,
-  }) {
+  static buildForParticipationShared({ campaignParticipationId, payload, isSuccessful, responseCode }) {
     return new PoleEmploiSending({
       campaignParticipationId,
       type: TYPES.CAMPAIGN_PARTICIPATION_SHARING,
@@ -67,4 +46,3 @@ class PoleEmploiSending {
 
 PoleEmploiSending.TYPES = TYPES;
 module.exports = PoleEmploiSending;
-

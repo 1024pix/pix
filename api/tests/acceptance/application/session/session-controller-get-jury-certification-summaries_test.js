@@ -2,32 +2,31 @@ const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = req
 const createServer = require('../../../../server');
 const Badge = require('../../../../lib/domain/models/Badge');
 
-describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function() {
-
+describe('Acceptance | Controller | session-controller-get-jury-certification-summaries', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function() {
+  describe('GET /api/admin/sessions/{id}/jury-certification-summaries', function () {
     let sessionId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    context('when user has not the role PixMaster', function() {
+    context('when user has not the role PixMaster', function () {
       let userId;
 
-      beforeEach(function() {
+      beforeEach(function () {
         userId = databaseBuilder.factory.buildUser().id;
         return databaseBuilder.commit();
       });
 
-      it('should return 403 HTTP status code', async function() {
+      it('should return 403 HTTP status code', async function () {
         // when
         const response = await server.inject({
           method: 'GET',
@@ -39,10 +38,9 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         // then
         expect(response.statusCode).to.equal(403);
       });
-
     });
 
-    context('when user has role PixMaster', function() {
+    context('when user has role PixMaster', function () {
       let pixMasterId;
       let certif1;
       let certif2;
@@ -51,7 +49,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
       let expectedJuryCertifSumm2;
       let request;
 
-      beforeEach(function() {
+      beforeEach(function () {
         const dbf = databaseBuilder.factory;
         pixMasterId = dbf.buildUser.withPixRolePixMaster().id;
         sessionId = dbf.buildSession().id;
@@ -68,7 +66,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         expectedJuryCertifSumm1 = {
           'first-name': certif1.firstName,
           'last-name': certif1.lastName,
-          'status': asr1.status,
+          status: asr1.status,
           'pix-score': asr1.pixScore,
           'is-published': certif1.isPublished,
           'created-at': certif1.createdAt,
@@ -85,7 +83,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         expectedJuryCertifSumm2 = {
           'first-name': certif2.firstName,
           'last-name': certif2.lastName,
-          'status': 'started',
+          status: 'started',
           'pix-score': null,
           'is-published': certif2.isPublished,
           'created-at': certif2.createdAt,
@@ -110,7 +108,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         return databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(request);
 
@@ -118,7 +116,7 @@ describe('Acceptance | Controller | session-controller-get-jury-certification-su
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return the expected data', async function() {
+      it('should return the expected data', async function () {
         // when
         const response = await server.inject(request);
 

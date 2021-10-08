@@ -8,22 +8,20 @@ const OrganizationInvitation = require('../../../../lib/domain/models/Organizati
 
 const { createOrganizationInvitation } = require('../../../../lib/domain/services/organization-invitation-service');
 
-describe('Integration | Service | Organization-Invitation Service', function() {
-
-  describe('#createOrganizationInvitation', function() {
-
+describe('Integration | Service | Organization-Invitation Service', function () {
+  describe('#createOrganizationInvitation', function () {
     let organizationId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('organization-invitations').delete();
     });
 
-    it('should create a new organization-invitation with organizationId, email and status', async function() {
+    it('should create a new organization-invitation with organizationId, email and status', async function () {
       // given
       const email = 'member@organization.org';
       const expectedOrganizationInvitation = {
@@ -34,17 +32,20 @@ describe('Integration | Service | Organization-Invitation Service', function() {
 
       // when
       const result = await createOrganizationInvitation({
-        organizationRepository, organizationInvitationRepository,
+        organizationRepository,
+        organizationInvitationRepository,
         organizationId,
         email,
       });
 
       // then
       expect(result).to.be.instanceOf(OrganizationInvitation);
-      expect(_.omit(result, ['id', 'code', 'organizationName', 'role', 'createdAt', 'updatedAt'])).to.deep.equal(expectedOrganizationInvitation);
+      expect(_.omit(result, ['id', 'code', 'organizationName', 'role', 'createdAt', 'updatedAt'])).to.deep.equal(
+        expectedOrganizationInvitation
+      );
     });
 
-    it('should re-send an email with same code when organization-invitation already exist with status pending', async function() {
+    it('should re-send an email with same code when organization-invitation already exist with status pending', async function () {
       // given
       const expectedOrganizationInvitation = databaseBuilder.factory.buildOrganizationInvitation({
         status: OrganizationInvitation.StatusType.PENDING,
@@ -55,12 +56,14 @@ describe('Integration | Service | Organization-Invitation Service', function() {
 
       // when
       const result = await createOrganizationInvitation({
-        organizationRepository, organizationInvitationRepository, organizationId, email,
+        organizationRepository,
+        organizationInvitationRepository,
+        organizationId,
+        email,
       });
 
       // then
       expect(_.omit(result, 'organizationName')).to.deep.equal(expectedOrganizationInvitation);
     });
   });
-
 });

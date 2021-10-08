@@ -6,16 +6,7 @@ const buildTargetProfile = require('./build-target-profile');
 const Assessment = require('../../../lib/domain/models/Assessment');
 
 module.exports = {
-  build({
-    userId,
-    createdAt,
-    sharedAt,
-    assessmentCreatedAt,
-    assessmentState,
-    campaignId,
-    id,
-  } = {}) {
-
+  build({ userId, createdAt, sharedAt, assessmentCreatedAt, assessmentState, campaignId, id } = {}) {
     const campaignParticipation = buildCampaignParticipation({
       userId,
       campaignId,
@@ -35,14 +26,11 @@ module.exports = {
     return campaignParticipation;
   },
 
-  buildOnGoing({
-    userId,
-    createdAt,
-    assessmentCreatedAt,
-    targetProfileSkills,
-  } = {}) {
+  buildOnGoing({ userId, createdAt, assessmentCreatedAt, targetProfileSkills } = {}) {
     const targetProfile = buildTargetProfile();
-    targetProfileSkills.forEach((skill) => buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill }));
+    targetProfileSkills.forEach((skill) =>
+      buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill })
+    );
     const campaign = buildCampaign({ targetProfileId: targetProfile.id });
 
     const campaignParticipation = buildCampaignParticipation({
@@ -63,14 +51,11 @@ module.exports = {
     return campaignParticipation;
   },
 
-  buildToShare({
-    userId,
-    createdAt,
-    assessmentCreatedAt,
-    targetProfileSkills,
-  } = {}) {
+  buildToShare({ userId, createdAt, assessmentCreatedAt, targetProfileSkills } = {}) {
     const targetProfile = buildTargetProfile();
-    targetProfileSkills.forEach((skill) => buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill }));
+    targetProfileSkills.forEach((skill) =>
+      buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill })
+    );
     const campaign = buildCampaign({ targetProfileId: targetProfile.id });
 
     const campaignParticipation = buildCampaignParticipation({
@@ -91,16 +76,11 @@ module.exports = {
     return campaignParticipation;
   },
 
-  buildEnded({
-    userId,
-    createdAt,
-    sharedAt,
-    assessmentCreatedAt,
-    targetProfileSkills,
-  } = {}) {
-
+  buildEnded({ userId, createdAt, sharedAt, assessmentCreatedAt, targetProfileSkills } = {}) {
     const targetProfile = buildTargetProfile();
-    targetProfileSkills.forEach((skill) => buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill }));
+    targetProfileSkills.forEach((skill) =>
+      buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill })
+    );
     const campaign = buildCampaign({ targetProfileId: targetProfile.id });
 
     const campaignParticipation = buildCampaignParticipation({
@@ -129,9 +109,10 @@ module.exports = {
     campaignArchivedAt = new Date('1998-07-01'),
     targetProfileSkills,
   } = {}) {
-
     const targetProfile = buildTargetProfile();
-    targetProfileSkills.forEach((skill) => buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill }));
+    targetProfileSkills.forEach((skill) =>
+      buildTargetProfileSkill({ targetProfileId: targetProfile.id, skillId: skill })
+    );
     const campaign = buildCampaign({ targetProfileId: targetProfile.id, archivedAt: campaignArchivedAt });
 
     const campaignParticipation = buildCampaignParticipation({
@@ -151,4 +132,3 @@ module.exports = {
     return campaignParticipation;
   },
 };
-

@@ -5,7 +5,6 @@ const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
-
   save({ competenceEvaluation, domainTransaction = DomainTransaction.emptyTransaction() }) {
     return new BookshelfCompetenceEvaluation(_.omit(competenceEvaluation, ['assessment', 'scorecard']))
       .save(null, { transacting: domainTransaction.knexTransaction })
@@ -13,29 +12,38 @@ module.exports = {
   },
 
   updateStatusByAssessmentId({ assessmentId, status }) {
-    return BookshelfCompetenceEvaluation
-      .where({ assessmentId })
+    return BookshelfCompetenceEvaluation.where({ assessmentId })
       .save({ status }, { require: true, patch: true })
-      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+      .then((updatedCompetenceEvaluation) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation)
+      );
   },
 
   updateStatusByUserIdAndCompetenceId({ userId, competenceId, status }) {
-    return BookshelfCompetenceEvaluation
-      .where({ userId, competenceId })
+    return BookshelfCompetenceEvaluation.where({ userId, competenceId })
       .save({ status }, { require: true, patch: true })
-      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+      .then((updatedCompetenceEvaluation) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation)
+      );
   },
 
-  updateAssessmentId({ currentAssessmentId, newAssessmentId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfCompetenceEvaluation
-      .where({ assessmentId: currentAssessmentId })
-      .save({ assessmentId: newAssessmentId }, { require: true, patch: true, transacting: domainTransaction.knexTransaction })
-      .then((updatedCompetenceEvaluation) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation));
+  updateAssessmentId({
+    currentAssessmentId,
+    newAssessmentId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    return BookshelfCompetenceEvaluation.where({ assessmentId: currentAssessmentId })
+      .save(
+        { assessmentId: newAssessmentId },
+        { require: true, patch: true, transacting: domainTransaction.knexTransaction }
+      )
+      .then((updatedCompetenceEvaluation) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, updatedCompetenceEvaluation)
+      );
   },
 
   getByAssessmentId(assessmentId) {
-    return BookshelfCompetenceEvaluation
-      .where({ assessmentId })
+    return BookshelfCompetenceEvaluation.where({ assessmentId })
       .fetch({ withRelated: ['assessment'] })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
@@ -47,8 +55,7 @@ module.exports = {
   },
 
   getByCompetenceIdAndUserId({ competenceId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return BookshelfCompetenceEvaluation
-      .where({ competenceId, userId })
+    return BookshelfCompetenceEvaluation.where({ competenceId, userId })
       .fetch({ withRelated: ['assessment'], transacting: domainTransaction.knexTransaction })
       .then((result) => bookshelfToDomainConverter.buildDomainObject(BookshelfCompetenceEvaluation, result))
       .catch((bookshelfError) => {
@@ -60,16 +67,14 @@ module.exports = {
   },
 
   findByUserId(userId) {
-    return BookshelfCompetenceEvaluation
-      .where({ userId })
+    return BookshelfCompetenceEvaluation.where({ userId })
       .orderBy('createdAt', 'desc')
       .fetchAll({ withRelated: ['assessment'] })
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));
   },
 
   findByAssessmentId(assessmentId) {
-    return BookshelfCompetenceEvaluation
-      .where({ assessmentId })
+    return BookshelfCompetenceEvaluation.where({ assessmentId })
       .orderBy('createdAt', 'desc')
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfCompetenceEvaluation, results));

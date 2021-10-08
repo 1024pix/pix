@@ -1,21 +1,28 @@
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-get-jury-session', function() {
-
+describe('Acceptance | Controller | session-controller-get-jury-session', function () {
   let server, options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('GET /api/admin/sessions/{id}', function() {
+  describe('GET /api/admin/sessions/{id}', function () {
     let expectedJurySession;
     let certificationCenter;
 
-    beforeEach(function() {
-      const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({ firstName: 'Pix', lastName: 'Doe' }).id;
+    beforeEach(function () {
+      const assignedCertificationOfficerId = databaseBuilder.factory.buildUser({
+        firstName: 'Pix',
+        lastName: 'Doe',
+      }).id;
       certificationCenter = databaseBuilder.factory.buildCertificationCenter({ type: 'SCO', externalId: 'EXT_ID' });
       expectedJurySession = databaseBuilder.factory.buildSession({
         assignedCertificationOfficerId,
@@ -31,12 +38,12 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
       return databaseBuilder.commit();
     });
 
-    context('when user is Pix Master', function() {
-      beforeEach(function() {
+    context('when user is Pix Master', function () {
+      beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return a 200 status code response with JSON API serialized', async function() {
+      it('should return a 200 status code response with JSON API serialized', async function () {
         // when
         const response = await server.inject(options);
 
@@ -44,9 +51,13 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
         expect(response.statusCode).to.equal(200);
         expect(response.result.data.type).to.equal('sessions');
         expect(parseInt(response.result.data.id)).to.equal(expectedJurySession.id);
-        expect(response.result.data.attributes['certification-center-name']).to.equal(expectedJurySession.certificationCenter);
+        expect(response.result.data.attributes['certification-center-name']).to.equal(
+          expectedJurySession.certificationCenter
+        );
         expect(response.result.data.attributes['certification-center-type']).to.equal('SCO');
-        expect(response.result.data.attributes['certification-center-external-id']).to.equal(certificationCenter.externalId);
+        expect(response.result.data.attributes['certification-center-external-id']).to.equal(
+          certificationCenter.externalId
+        );
         expect(response.result.data.attributes['address']).to.equal(expectedJurySession.address);
         expect(response.result.data.attributes['room']).to.equal(expectedJurySession.room);
         expect(response.result.data.attributes['examiner']).to.equal(expectedJurySession.examiner);
@@ -54,9 +65,13 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
         expect(response.result.data.attributes['time']).to.equal(expectedJurySession.time);
         expect(response.result.data.attributes['access-code']).to.equal(expectedJurySession.accessCode);
         expect(response.result.data.attributes['description']).to.equal(expectedJurySession.description);
-        expect(response.result.data.attributes['examiner-global-comment']).to.equal(expectedJurySession.examinerGlobalComment);
+        expect(response.result.data.attributes['examiner-global-comment']).to.equal(
+          expectedJurySession.examinerGlobalComment
+        );
         expect(response.result.data.attributes['finalized-at']).to.equal(expectedJurySession.finalizedAt);
-        expect(response.result.data.attributes['results-sent-to-prescriber-at']).to.equal(expectedJurySession.resultsSentToPrescriberAt);
+        expect(response.result.data.attributes['results-sent-to-prescriber-at']).to.equal(
+          expectedJurySession.resultsSentToPrescriberAt
+        );
         expect(response.result.data.attributes['published-at']).to.equal(expectedJurySession.publishedAt);
         expect(parseInt(response.result.included[0].id)).to.equal(expectedJurySession.assignedCertificationOfficerId);
         expect(response.result.included[0].attributes['first-name']).to.equal('Pix');
@@ -64,12 +79,12 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
       });
     });
 
-    context('when user is not PixMaster', function() {
-      beforeEach(function() {
+    context('when user is not PixMaster', function () {
+      beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', async function() {
+      it('should return 403 HTTP status code ', async function () {
         // when
         const response = await server.inject(options);
 
@@ -78,9 +93,8 @@ describe('Acceptance | Controller | session-controller-get-jury-session', functi
       });
     });
 
-    context('when user is not connected', function() {
-
-      it('should return 401 HTTP status code if user is not authenticated', async function() {
+    context('when user is not connected', function () {
+      it('should return 401 HTTP status code if user is not authenticated', async function () {
         // when
         const response = await server.inject(options);
 

@@ -9,16 +9,14 @@ const { CertificationCourseUpdateError } = require('../../domain/errors');
 const { toDomain } = require('./certification-course-repository');
 
 module.exports = {
-
   async findBySessionId(sessionId) {
-    const results = await CertificationCourseBookshelf
-      .where({ sessionId })
+    const results = await CertificationCourseBookshelf.where({ sessionId })
       .query((qb) => {
         qb.orderByRaw('LOWER("lastName") asc');
         qb.orderByRaw('LOWER("firstName") asc');
       })
       .fetchAll({
-        withRelated: [ 'certificationIssueReports', 'assessment' ],
+        withRelated: ['certificationIssueReports', 'assessment'],
       });
 
     const certificationCourses = results.map(toDomain);
@@ -35,7 +33,6 @@ module.exports = {
       throw new CertificationCourseUpdateError('An error occurred while finalizing the session');
     }
   },
-
 };
 
 async function _finalize({ certificationReport, transaction = undefined }) {
@@ -44,6 +41,8 @@ async function _finalize({ certificationReport, transaction = undefined }) {
     saveOptions.transacting = transaction;
   }
 
-  await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId })
-    .save({ hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen }, saveOptions);
+  await new CertificationCourseBookshelf({ id: certificationReport.certificationCourseId }).save(
+    { hasSeenEndTestScreen: certificationReport.hasSeenEndTestScreen },
+    saveOptions
+  );
 }

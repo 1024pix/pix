@@ -2,17 +2,14 @@ const { expect, sinon } = require('../../test-helper');
 const { buildCities } = require('../../../scripts/import-certification-cpf-cities');
 const { noop } = require('lodash/noop');
 
-describe('Unit | Scripts | import-certification-cpf-cities.js', function() {
-
-  beforeEach(function() {
+describe('Unit | Scripts | import-certification-cpf-cities.js', function () {
+  beforeEach(function () {
     sinon.stub(console, 'error').callsFake(noop);
   });
 
-  describe('#buildCities', function() {
-    describe('#when there are n alternate names', function() {
-
-      it('should return n+1 lines for the city', function() {
-
+  describe('#buildCities', function () {
+    describe('#when there are n alternate names', function () {
+      it('should return n+1 lines for the city', function () {
         const csvData = [
           {
             Code_commune_INSEE: '30288',
@@ -46,37 +43,36 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function() {
         // then
         expect(cities).to.deep.equal([
           {
-            'INSEECode': '30288',
-            'isActualName': true,
-            'name': 'ST NAZAIRE',
-            'postalCode': '30200',
+            INSEECode: '30288',
+            isActualName: true,
+            name: 'ST NAZAIRE',
+            postalCode: '30200',
           },
           {
-            'INSEECode': '44184',
-            'isActualName': true,
-            'name': 'ST NAZAIRE',
-            'postalCode': '44600',
+            INSEECode: '44184',
+            isActualName: true,
+            name: 'ST NAZAIRE',
+            postalCode: '44600',
           },
           {
-            'INSEECode': '44184',
-            'isActualName': false,
-            'name': 'ST MARC SUR MER',
-            'postalCode': '44600',
+            INSEECode: '44184',
+            isActualName: false,
+            name: 'ST MARC SUR MER',
+            postalCode: '44600',
           },
           {
-            'INSEECode': '66186',
-            'isActualName': true,
-            'name': 'ST NAZAIRE',
-            'postalCode': '66570',
+            INSEECode: '66186',
+            isActualName: true,
+            name: 'ST NAZAIRE',
+            postalCode: '66570',
           },
         ]);
       });
-
     });
 
-    describe('#when there are no alternate names', function() {
-      it('should return 1 line', function() {
-      // given
+    describe('#when there are no alternate names', function () {
+      it('should return 1 line', function () {
+        // given
         const csvData = [
           {
             Code_commune_INSEE: '00001',
@@ -91,10 +87,10 @@ describe('Unit | Scripts | import-certification-cpf-cities.js', function() {
         // then
         expect(cities).to.deep.equal([
           {
-            'INSEECode': '00001',
-            'name': 'GOTHAM CITY',
-            'postalCode': '09966',
-            'isActualName': true,
+            INSEECode: '00001',
+            name: 'GOTHAM CITY',
+            postalCode: '09966',
+            isActualName: true,
           },
         ]);
       });

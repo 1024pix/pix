@@ -1,40 +1,43 @@
 const { expect, sinon, catchErr } = require('../../../test-helper');
 const DatabaseBuilder = require('../../../../db/database-builder/database-builder');
 
-describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
-
-  describe('#clean', function() {
+describe('Unit | Tooling | DatabaseBuilder | database-builder', function () {
+  describe('#clean', function () {
     let databaseBuilder;
     let knex;
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const sandbox = sinon.createSandbox();
 
-    beforeEach(function() {
+    beforeEach(function () {
       knex = { raw: sinon.stub().resolves() };
       databaseBuilder = new DatabaseBuilder({ knex });
       sandbox.spy(databaseBuilder.databaseBuffer);
     });
 
-    afterEach(function() {
+    afterEach(function () {
       sandbox.restore();
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
-    it('should delete content of all tables in databaseBuffer set for deletion when there are some', async function() {
+    it('should delete content of all tables in databaseBuffer set for deletion when there are some', async function () {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table2',
-        isDirty: true,
-      }, {
-        table: 'table1',
-        isDirty: true,
-      }, {
-        table: 'table3',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table2',
+          isDirty: true,
+        },
+        {
+          table: 'table1',
+          isDirty: true,
+        },
+        {
+          table: 'table3',
+          isDirty: false,
+        },
+      ];
 
       // when
       await databaseBuilder.clean();
@@ -43,7 +46,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       expect(knex.raw).to.have.been.calledWithExactly('DELETE FROM ??;DELETE FROM ??;', ['table2', 'table1']);
     });
 
-    it('should avoid deleting anything if not table are set for deletion in database buffer', async function() {
+    it('should avoid deleting anything if not table are set for deletion in database buffer', async function () {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
@@ -55,38 +58,46 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       expect(knex.raw).to.not.have.been.called;
     });
 
-    it('should reset the dirtyness map', async function() {
+    it('should reset the dirtyness map', async function () {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table1',
-        isDirty: true,
-      }, {
-        table: 'table2',
-        isDirty: true,
-      }, {
-        table: 'table3',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table1',
+          isDirty: true,
+        },
+        {
+          table: 'table2',
+          isDirty: true,
+        },
+        {
+          table: 'table3',
+          isDirty: false,
+        },
+      ];
 
       // when
       await databaseBuilder.clean();
 
       // then
-      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([{
-        table: 'table1',
-        isDirty: false,
-      }, {
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table3',
-        isDirty: false,
-      }]);
+      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table3',
+          isDirty: false,
+        },
+      ]);
     });
 
-    it('should purge the databasebuffer', async function() {
+    it('should purge the databasebuffer', async function () {
       // given
       const knex = { raw: sinon.stub().resolves() };
       const databaseBuilder = new DatabaseBuilder({ knex });
@@ -99,19 +110,19 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
     });
   });
 
-  describe('#commit', function() {
+  describe('#commit', function () {
     let databaseBuilder;
 
-    beforeEach(function() {
+    beforeEach(function () {
       databaseBuilder = new DatabaseBuilder({ knex: null });
       sinon.stub(console, 'error');
     });
 
-    afterEach(function() {
+    afterEach(function () {
       databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [];
     });
 
-    it('should init the database by cleaning it except for specific tables when this is the first call ever to commit()', async function() {
+    it('should init the database by cleaning it except for specific tables when this is the first call ever to commit()', async function () {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -132,10 +143,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       });
       knex.raw.onCall(1).resolves();
       knex.raw.onCall(2).resolves({
-        rows: [
-          { table_name: 'table2' },
-          { table_name: 'table1' },
-        ],
+        rows: [{ table_name: 'table2' }, { table_name: 'table1' }],
       });
       databaseBuilder.knex = knex;
       databaseBuilder.isFirstCommit = true;
@@ -146,16 +154,19 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       // then
       const dirtinessMap = databaseBuilder.tablesOrderedByDependencyWithDirtinessMap;
       expect(knex.raw).to.have.been.calledWithExactly('TRUNCATE "table1","table2"');
-      expect(dirtinessMap).to.deep.equal([{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }]);
+      expect(dirtinessMap).to.deep.equal([
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+      ]);
     });
 
-    it('should insert values in database buffer into the database', async function() {
+    it('should insert values in database buffer into the database', async function () {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -166,13 +177,16 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       };
       databaseBuilder.knex = knex;
       databaseBuilder.isFirstCommit = false;
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+      ];
       databaseBuilder.databaseBuffer.objectsToInsert = [
         { tableName: 'table1', values: 'someValuesForTable1' },
         { tableName: 'table2', values: 'someValuesForTable2' },
@@ -188,7 +202,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       expect(insertStub.secondCall.args).to.deep.equal(['someValuesForTable2']);
     });
 
-    it('should empty objectsToInsert collection in databaseBuffer', async function() {
+    it('should empty objectsToInsert collection in databaseBuffer', async function () {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -199,13 +213,16 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       };
       databaseBuilder.knex = knex;
       databaseBuilder.isFirstCommit = false;
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+      ];
       databaseBuilder.databaseBuffer.objectsToInsert = [
         { tableName: 'table1', values: 'someValuesForTable1' },
         { tableName: 'table2', values: 'someValuesForTable2' },
@@ -218,7 +235,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       expect(databaseBuilder.databaseBuffer.objectsToInsert).to.be.empty;
     });
 
-    it('should update the dirtynessmap accordingly', async function() {
+    it('should update the dirtynessmap accordingly', async function () {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -229,16 +246,20 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       };
       databaseBuilder.knex = knex;
       databaseBuilder.isFirstCommit = false;
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }, {
-        table: 'table3',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+        {
+          table: 'table3',
+          isDirty: false,
+        },
+      ];
       databaseBuilder.databaseBuffer.objectsToInsert = [
         { tableName: 'table1', values: 'someValuesForTable1' },
         { tableName: 'table2', values: 'someValuesForTable2' },
@@ -248,19 +269,23 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       await databaseBuilder.commit();
 
       // then
-      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([{
-        table: 'table2',
-        isDirty: true,
-      }, {
-        table: 'table1',
-        isDirty: true,
-      }, {
-        table: 'table3',
-        isDirty: false,
-      }]);
+      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([
+        {
+          table: 'table2',
+          isDirty: true,
+        },
+        {
+          table: 'table1',
+          isDirty: true,
+        },
+        {
+          table: 'table3',
+          isDirty: false,
+        },
+      ]);
     });
 
-    it('should commit the transaction', async function() {
+    it('should commit the transaction', async function () {
       // given
       const insertStub = sinon.stub().resolves();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -271,13 +296,16 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       };
       databaseBuilder.knex = knex;
       databaseBuilder.isFirstCommit = false;
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+      ];
       databaseBuilder.databaseBuffer.objectsToInsert = [
         { tableName: 'table1', values: 'someValuesForTable1' },
         { tableName: 'table2', values: 'someValuesForTable2' },
@@ -290,22 +318,26 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       expect(trxStub.commit).to.have.been.calledOnce;
     });
 
-    it('should throw an error when the commit fails', async function() {
+    it('should throw an error when the commit fails', async function () {
       // given
       const insertError = new Error('expected error');
-      const trxFake = () => ({ insert: () => { throw insertError; } });
+      const trxFake = () => ({
+        insert: () => {
+          throw insertError;
+        },
+      });
       databaseBuilder.knex = {
         client: { database: () => undefined },
         transaction: sinon.stub().resolves(trxFake),
       };
       databaseBuilder.isFirstCommit = false;
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table1',
-        isDirty: false,
-      }];
-      databaseBuilder.databaseBuffer.objectsToInsert = [
-        { tableName: 'table1', values: 'someValuesForTable1' },
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table1',
+          isDirty: false,
+        },
       ];
+      databaseBuilder.databaseBuffer.objectsToInsert = [{ tableName: 'table1', values: 'someValuesForTable1' }];
 
       // when
       const error = await catchErr(databaseBuilder.commit, databaseBuilder)();
@@ -314,7 +346,7 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       expect(error).to.deep.equal(insertError);
     });
 
-    it('should clear the dirtiness map and empty objectsToInsert if something goes wrong when inserting', async function() {
+    it('should clear the dirtiness map and empty objectsToInsert if something goes wrong when inserting', async function () {
       // given
       const insertStub = sinon.stub().rejects();
       const trxStub = sinon.stub().returns({ insert: insertStub });
@@ -325,13 +357,16 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       };
       databaseBuilder.knex = knex;
       databaseBuilder.isFirstCommit = false;
-      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }];
+      databaseBuilder.tablesOrderedByDependencyWithDirtinessMap = [
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+      ];
       databaseBuilder.databaseBuffer.objectsToInsert = [
         { tableName: 'table1', values: 'someValuesForTable1' },
         { tableName: 'table2', values: 'someValuesForTable2' },
@@ -341,13 +376,16 @@ describe('Unit | Tooling | DatabaseBuilder | database-builder', function() {
       await catchErr(databaseBuilder.commit, databaseBuilder)();
 
       // then
-      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([{
-        table: 'table2',
-        isDirty: false,
-      }, {
-        table: 'table1',
-        isDirty: false,
-      }]);
+      expect(databaseBuilder.tablesOrderedByDependencyWithDirtinessMap).to.deep.equal([
+        {
+          table: 'table2',
+          isDirty: false,
+        },
+        {
+          table: 'table1',
+          isDirty: false,
+        },
+      ]);
       expect(databaseBuilder.databaseBuffer.objectsToInsert).to.be.empty;
     });
   });

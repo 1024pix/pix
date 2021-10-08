@@ -1,14 +1,10 @@
 const { catchErr, expect, sinon } = require('../../../test-helper');
 
-const {
-  AlreadyExistingEntityError,
-  UserNotFoundError,
-} = require('../../../../lib/domain/errors');
+const { AlreadyExistingEntityError, UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const createCertificationCenterMembershipByEmail = require('../../../../lib/domain/usecases/create-certification-center-membership-by-email');
 
-describe('Unit | UseCase | create-certification-center-membership-by-email', function() {
-
+describe('Unit | UseCase | create-certification-center-membership-by-email', function () {
   const certificationCenterId = 1;
   const email = 'user@exemple.net';
   const userId = 1;
@@ -16,7 +12,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
   let certificationCenterMembershipRepository;
   let userRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     certificationCenterMembershipRepository = {
       isMemberOfCertificationCenter: sinon.stub(),
       save: sinon.stub(),
@@ -30,7 +26,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
     userRepository.getByEmail.resolves({ id: userId });
   });
 
-  it('should call repositories', async function() {
+  it('should call repositories', async function () {
     // when
     await createCertificationCenterMembershipByEmail({
       certificationCenterId,
@@ -41,12 +37,14 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
 
     // then
     expect(userRepository.getByEmail).has.been.calledWith(email);
-    expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter)
-      .has.been.calledWith(userId, certificationCenterId);
+    expect(certificationCenterMembershipRepository.isMemberOfCertificationCenter).has.been.calledWith(
+      userId,
+      certificationCenterId
+    );
     expect(certificationCenterMembershipRepository.save).has.been.calledWith(userId, certificationCenterId);
   });
 
-  it('should throw UserNotFoundError if no user matches this email', async function() {
+  it('should throw UserNotFoundError if no user matches this email', async function () {
     // given
     userRepository.getByEmail.throws(new UserNotFoundError());
 
@@ -62,7 +60,7 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
     expect(error).to.be.an.instanceOf(UserNotFoundError);
   });
 
-  it('should throw AlreadyExistingEntityError if certification center membership exist', async function() {
+  it('should throw AlreadyExistingEntityError if certification center membership exist', async function () {
     // given
     certificationCenterMembershipRepository.isMemberOfCertificationCenter.resolves(true);
 
@@ -76,7 +74,8 @@ describe('Unit | UseCase | create-certification-center-membership-by-email', fun
 
     // then
     expect(error).to.be.instanceOf(AlreadyExistingEntityError);
-    expect(error.message).to.equal(`Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`);
+    expect(error.message).to.equal(
+      `Certification center membership already exists for the user ID ${userId} and certification center ID ${certificationCenterId}.`
+    );
   });
-
 });

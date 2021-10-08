@@ -26,7 +26,6 @@ module.exports = buildSkill;
  * @returns {generatedRandomTubeName}
  */
 function buildRandomTubeName() {
-
   const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
   const MAX_TUBE_NAME_LENGHT = 15;
   const MIN_TUBE_NAME_LENGHT = 3;

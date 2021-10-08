@@ -1,14 +1,7 @@
 const _ = require('lodash');
 
 class Skill {
-  constructor({
-    id,
-    name,
-    pixValue,
-    competenceId,
-    tutorialIds = [],
-    tubeId,
-  } = {}) {
+  constructor({ id, name, pixValue, competenceId, tutorialIds = [], tubeId } = {}) {
     this.id = id;
     this.name = name;
     this.pixValue = pixValue;
@@ -46,10 +39,7 @@ class Skill {
   }
 
   static sortByDecreasingDifficulty(skills) {
-    return _(skills)
-      .sortBy('difficulty')
-      .reverse()
-      .value();
+    return _(skills).sortBy('difficulty').reverse().value();
   }
 }
 

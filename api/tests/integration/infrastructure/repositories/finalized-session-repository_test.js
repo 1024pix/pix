@@ -3,17 +3,14 @@ const finalizedSessionRepository = require('../../../../lib/infrastructure/repos
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | Finalized-session', function() {
-
-  describe('#save', function() {
-
-    afterEach(function() {
+describe('Integration | Repository | Finalized-session', function () {
+  describe('#save', function () {
+    afterEach(function () {
       return knex('finalized-sessions').delete();
     });
 
-    context('When the session does not exist', function() {
-
-      it('saves a finalized session', async function() {
+    context('When the session does not exist', function () {
+      it('saves a finalized session', async function () {
         // given
         const finalizedSession = new FinalizedSession({
           sessionId: 1234,
@@ -43,9 +40,8 @@ describe('Integration | Repository | Finalized-session', function() {
       });
     });
 
-    context('When the session does exist', function() {
-
-      it('is idempotent', async function() {
+    context('When the session does exist', function () {
+      it('is idempotent', async function () {
         // given
         const finalizedSession = new FinalizedSession({
           sessionId: 1234,
@@ -63,7 +59,7 @@ describe('Integration | Repository | Finalized-session', function() {
         }).not.to.throw();
       });
 
-      it('updates a finalized session', async function() {
+      it('updates a finalized session', async function () {
         // given
         databaseBuilder.factory.buildFinalizedSession({
           sessionId: 1235,
@@ -97,15 +93,13 @@ describe('Integration | Repository | Finalized-session', function() {
     });
   });
 
-  describe('#get', function() {
-
-    afterEach(function() {
+  describe('#get', function () {
+    afterEach(function () {
       return knex('finalized-sessions').delete();
     });
 
-    context('When the session does exist', function() {
-
-      it('retrieves a finalized session', async function() {
+    context('When the session does exist', function () {
+      it('retrieves a finalized session', async function () {
         // given
         const finalizedSession = databaseBuilder.factory.buildFinalizedSession({ sessionId: 1234 });
         await databaseBuilder.commit();
@@ -127,27 +121,41 @@ describe('Integration | Repository | Finalized-session', function() {
       });
     });
 
-    context('When the session does not exist', function() {
-      it('throws a not found error', async function() {
+    context('When the session does not exist', function () {
+      it('throws a not found error', async function () {
         // when
         const error = await catchErr(finalizedSessionRepository.get)({ sessionId: 404 });
         expect(error).to.be.an.instanceOf(NotFoundError);
       });
     });
-
   });
 
-  describe('#findFinalizedSessionsToPublish', function() {
-
-    context('when there are publishable sessions', function() {
-
-      it('finds a list of publishable finalized session order by finalization date', async function() {
+  describe('#findFinalizedSessionsToPublish', function () {
+    context('when there are publishable sessions', function () {
+      it('finds a list of publishable finalized session order by finalization date', async function () {
         // given
-        const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2020-01-01') });
-        const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2019-01-01') });
-        const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2021-01-01') });
+        const publishableFinalizedSession1 = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: null,
+          finalizedAt: new Date('2020-01-01'),
+        });
+        const publishableFinalizedSession2 = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: null,
+          finalizedAt: new Date('2019-01-01'),
+        });
+        const publishableFinalizedSession3 = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: null,
+          finalizedAt: new Date('2021-01-01'),
+        });
 
-        databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null, finalizedAt: new Date('2020-01-01'), assignedCertificationOfficerName: 'Ruppert Giles' });
+        databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: true,
+          publishedAt: null,
+          finalizedAt: new Date('2020-01-01'),
+          assignedCertificationOfficerName: 'Ruppert Giles',
+        });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: '2021-01-01' });
 
@@ -193,9 +201,8 @@ describe('Integration | Repository | Finalized-session', function() {
       });
     });
 
-    context('when there are no publishable sessions', function() {
-
-      it('returns an empty array', async function() {
+    context('when there are no publishable sessions', function () {
+      it('returns an empty array', async function () {
         // given / when
         const result = await finalizedSessionRepository.findFinalizedSessionsToPublish();
 
@@ -205,15 +212,25 @@ describe('Integration | Repository | Finalized-session', function() {
     });
   });
 
-  describe('#findFinalizedSessionsWithRequiredAction', function() {
-
-    context('when there are finalized sessions with required action', function() {
-
-      it('finds a list of finalized session with required action ordered by finalization date', async function() {
+  describe('#findFinalizedSessionsWithRequiredAction', function () {
+    context('when there are finalized sessions with required action', function () {
+      it('finds a list of finalized session with required action ordered by finalization date', async function () {
         // given
-        const secondFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2020-01-01') });
-        const firstFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2019-01-01') });
-        const thirdFinalizedSession = databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: null, finalizedAt: new Date('2021-01-01') });
+        const secondFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: false,
+          publishedAt: null,
+          finalizedAt: new Date('2020-01-01'),
+        });
+        const firstFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: false,
+          publishedAt: null,
+          finalizedAt: new Date('2019-01-01'),
+        });
+        const thirdFinalizedSession = databaseBuilder.factory.buildFinalizedSession({
+          isPublishable: false,
+          publishedAt: null,
+          finalizedAt: new Date('2021-01-01'),
+        });
 
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: true, publishedAt: null });
         databaseBuilder.factory.buildFinalizedSession({ isPublishable: false, publishedAt: '2021-01-01' });
@@ -260,9 +277,8 @@ describe('Integration | Repository | Finalized-session', function() {
       });
     });
 
-    context('when there are no publishable sessions', function() {
-
-      it('returns an empty array', async function() {
+    context('when there are no publishable sessions', function () {
+      it('returns an empty array', async function () {
         // given / when
         const result = await finalizedSessionRepository.findFinalizedSessionsWithRequiredAction();
 

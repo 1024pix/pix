@@ -6,21 +6,20 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const _ = require('lodash');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | Competence Evaluation', function() {
-
+describe('Integration | Repository | Competence Evaluation', function () {
   const STARTED = 'started';
-  describe('#save', function() {
+  describe('#save', function () {
     let assessment;
-    beforeEach(async function() {
+    beforeEach(async function () {
       assessment = databaseBuilder.factory.buildAssessment({});
       await databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('competence-evaluations').delete();
     });
 
-    it('should return the given competence evaluation', async function() {
+    it('should return the given competence evaluation', async function () {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: assessment.id,
@@ -31,7 +30,7 @@ describe('Integration | Repository | Competence Evaluation', function() {
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
       );
 
       // then
@@ -44,7 +43,7 @@ describe('Integration | Repository | Competence Evaluation', function() {
       expect(savedCompetenceEvaluation.userId).to.equal(competenceEvaluationToSave.userId);
     });
 
-    it('should save the given competence evaluation', async function() {
+    it('should save the given competence evaluation', async function () {
       // given
       const competenceEvaluationToSave = new CompetenceEvaluation({
         assessmentId: assessment.id,
@@ -55,11 +54,12 @@ describe('Integration | Repository | Competence Evaluation', function() {
 
       // when
       const savedCompetenceEvaluation = await DomainTransaction.execute(async (domainTransaction) =>
-        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction }),
+        competenceEvaluationRepository.save({ competenceEvaluation: competenceEvaluationToSave, domainTransaction })
       );
 
       // then
-      return knex.select('id', 'assessmentId', 'competenceId', 'userId', 'status')
+      return knex
+        .select('id', 'assessmentId', 'competenceId', 'userId', 'status')
         .from('competence-evaluations')
         .where({ id: savedCompetenceEvaluation.id })
         .then(([competenceEvaluationInDb]) => {
@@ -70,14 +70,13 @@ describe('Integration | Repository | Competence Evaluation', function() {
           expect(competenceEvaluationInDb.status).to.equal('started');
         });
     });
-
   });
 
-  describe('#getByAssessmentId', function() {
+  describe('#getByAssessmentId', function () {
     let assessmentForExpectedCompetenceEvaluation, assessmentNotExpected;
     let competenceEvaluationExpected;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       assessmentForExpectedCompetenceEvaluation = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.COMPETENCE_EVALUATION,
@@ -94,18 +93,20 @@ describe('Integration | Repository | Competence Evaluation', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the assessment', function() {
+    it('should return the competence evaluation linked to the assessment', function () {
       // when
       const promise = competenceEvaluationRepository.getByAssessmentId(assessmentForExpectedCompetenceEvaluation.id);
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(
+          _.omit(competenceEvaluationExpected, ['assessment'])
+        );
         expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentForExpectedCompetenceEvaluation.id);
       });
     });
 
-    it('should return an error when there is no competence evaluation', function() {
+    it('should return an error when there is no competence evaluation', function () {
       // when
       const promise = catchErr(competenceEvaluationRepository.getByAssessmentId)(assessmentNotExpected.id);
 
@@ -114,14 +115,13 @@ describe('Integration | Repository | Competence Evaluation', function() {
         expect(error).to.be.instanceof(NotFoundError);
       });
     });
-
   });
 
-  describe('#getByCompetenceIdAndUserId', function() {
+  describe('#getByCompetenceIdAndUserId', function () {
     let user;
     let competenceEvaluationExpected, assessmentExpected;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser({});
 
@@ -145,35 +145,38 @@ describe('Integration | Repository | Competence Evaluation', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the competence id', function() {
+    it('should return the competence evaluation linked to the competence id', function () {
       // when
       const promise = competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId: 1, userId: user.id });
 
       // then
       return promise.then((competenceEvaluation) => {
-        expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(_.omit(competenceEvaluation, ['assessment', 'scorecard'])).to.deep.equal(
+          _.omit(competenceEvaluationExpected, ['assessment'])
+        );
         expect(competenceEvaluation.assessment.id).to.deep.equal(assessmentExpected.id);
-
       });
     });
 
-    it('should return an error when there is no competence evaluation', function() {
+    it('should return an error when there is no competence evaluation', function () {
       // when
-      const promise = catchErr(competenceEvaluationRepository.getByCompetenceIdAndUserId)({ competenceId: 'fakeId', userId: user.id });
+      const promise = catchErr(competenceEvaluationRepository.getByCompetenceIdAndUserId)({
+        competenceId: 'fakeId',
+        userId: user.id,
+      });
 
       // then
       return promise.then((error) => {
         expect(error).to.be.instanceof(NotFoundError);
       });
     });
-
   });
 
-  describe('#findByUserId', function() {
+  describe('#findByUserId', function () {
     let user;
     let competenceEvaluationExpected, assessmentExpected;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser({});
       const otherUser = databaseBuilder.factory.buildUser({});
@@ -206,24 +209,26 @@ describe('Integration | Repository | Competence Evaluation', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the competence id', function() {
+    it('should return the competence evaluation linked to the competence id', function () {
       // when
       const promise = competenceEvaluationRepository.findByUserId(user.id);
 
       // then
       return promise.then((competenceEvaluation) => {
         expect(competenceEvaluation).to.have.length(2);
-        expect(_.omit(competenceEvaluation[0], ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+        expect(_.omit(competenceEvaluation[0], ['assessment', 'scorecard'])).to.deep.equal(
+          _.omit(competenceEvaluationExpected, ['assessment'])
+        );
         expect(competenceEvaluation[0].assessment.id).to.deep.equal(assessmentExpected.id);
       });
     });
   });
 
-  describe('#findByAssessmentId', function() {
+  describe('#findByAssessmentId', function () {
     let assessmentId;
     let competenceEvaluationExpected;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       assessmentId = databaseBuilder.factory.buildAssessment({
         type: Assessment.types.COMPETENCE_EVALUATION,
@@ -244,29 +249,34 @@ describe('Integration | Repository | Competence Evaluation', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return the competence evaluation linked to the assessmentId', async function() {
+    it('should return the competence evaluation linked to the assessmentId', async function () {
       // when
       const competenceEvaluations = await competenceEvaluationRepository.findByAssessmentId(assessmentId);
 
       // then
       expect(competenceEvaluations).to.have.length(1);
-      expect(_.omit(competenceEvaluations[0], ['assessment', 'scorecard'])).to.deep.equal(_.omit(competenceEvaluationExpected, ['assessment']));
+      expect(_.omit(competenceEvaluations[0], ['assessment', 'scorecard'])).to.deep.equal(
+        _.omit(competenceEvaluationExpected, ['assessment'])
+      );
     });
   });
 
-  describe('#updateStatusByAssessmentId', function() {
+  describe('#updateStatusByAssessmentId', function () {
     let assessment;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       assessment = databaseBuilder.factory.buildAssessment({});
       databaseBuilder.factory.buildCompetenceEvaluation({ assessmentId: assessment.id, status: 'current_status' });
       await databaseBuilder.commit();
     });
 
-    it('should update the competence status', async function() {
+    it('should update the competence status', async function () {
       // when
-      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId({ assessmentId: assessment.id, status: 'new_status' });
+      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByAssessmentId({
+        assessmentId: assessment.id,
+        status: 'new_status',
+      });
 
       // then
       expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
@@ -274,10 +284,10 @@ describe('Integration | Repository | Competence Evaluation', function() {
     });
   });
 
-  describe('#updateAssessmentId', function() {
+  describe('#updateAssessmentId', function () {
     let currentAssessmentId, newAssessmentId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       currentAssessmentId = databaseBuilder.factory.buildAssessment({}).id;
       newAssessmentId = databaseBuilder.factory.buildAssessment({}).id;
@@ -285,9 +295,12 @@ describe('Integration | Repository | Competence Evaluation', function() {
       await databaseBuilder.commit();
     });
 
-    it('should update the assessment id', async function() {
+    it('should update the assessment id', async function () {
       // when
-      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateAssessmentId({ currentAssessmentId, newAssessmentId });
+      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateAssessmentId({
+        currentAssessmentId,
+        newAssessmentId,
+      });
 
       // then
       expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
@@ -295,23 +308,34 @@ describe('Integration | Repository | Competence Evaluation', function() {
     });
   });
 
-  describe('#updateStatusByUserIdAndCompetenceId', function() {
+  describe('#updateStatusByUserIdAndCompetenceId', function () {
     const competenceId = 'recABCD1234';
     let userId, otherUserId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       userId = databaseBuilder.factory.buildUser({}).id;
       otherUserId = databaseBuilder.factory.buildUser({}).id;
       databaseBuilder.factory.buildCompetenceEvaluation({ userId, competenceId, status: 'current_status' });
-      databaseBuilder.factory.buildCompetenceEvaluation({ userId: otherUserId, competenceId, status: 'current_status' });
+      databaseBuilder.factory.buildCompetenceEvaluation({
+        userId: otherUserId,
+        competenceId,
+        status: 'current_status',
+      });
       await databaseBuilder.commit();
     });
 
-    it('should update the competence status', async function() {
+    it('should update the competence status', async function () {
       // when
-      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({ userId, competenceId, status: 'new_status' });
-      const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({ competenceId, userId: otherUserId });
+      const updatedCompetenceEvaluation = await competenceEvaluationRepository.updateStatusByUserIdAndCompetenceId({
+        userId,
+        competenceId,
+        status: 'new_status',
+      });
+      const unchangedCompetenceEvaluation = await competenceEvaluationRepository.getByCompetenceIdAndUserId({
+        competenceId,
+        userId: otherUserId,
+      });
 
       // then
       expect(updatedCompetenceEvaluation).to.be.instanceOf(CompetenceEvaluation);
@@ -319,5 +343,4 @@ describe('Integration | Repository | Competence Evaluation', function() {
       expect(unchangedCompetenceEvaluation.status).to.equal('current_status');
     });
   });
-
 });

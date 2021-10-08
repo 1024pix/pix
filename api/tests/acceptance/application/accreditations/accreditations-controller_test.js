@@ -1,17 +1,20 @@
-const { expect, databaseBuilder, insertUserWithRolePixMaster, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  insertUserWithRolePixMaster,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | accreditations-controller', function() {
-
+describe('Acceptance | API | accreditations-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/accreditations/', function() {
-
-    it('should return 200 HTTP status code', async function() {
+  describe('GET /api/accreditations/', function () {
+    it('should return 200 HTTP status code', async function () {
       // given
       const pixMaster = await insertUserWithRolePixMaster();
       const options = {
@@ -37,19 +40,19 @@ describe('Acceptance | API | accreditations-controller', function() {
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result).to.deep.equal({
-        'data': [
+        data: [
           {
-            'type': 'accreditations',
-            'id': '1',
-            'attributes': {
-              'name': 'Pix+Edu',
+            type: 'accreditations',
+            id: '1',
+            attributes: {
+              name: 'Pix+Edu',
             },
           },
           {
-            'type': 'accreditations',
-            'id': '2',
-            'attributes': {
-              'name': 'Cléa Numérique',
+            type: 'accreditations',
+            id: '2',
+            attributes: {
+              name: 'Cléa Numérique',
             },
           },
         ],

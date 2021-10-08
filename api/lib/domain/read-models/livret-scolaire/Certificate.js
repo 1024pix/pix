@@ -1,7 +1,6 @@
 const { VALIDATED, PENDING } = require('./CertificateStatus');
 
 class Certificate {
-
   constructor({
     id,
     firstName,
@@ -53,11 +52,12 @@ class Certificate {
   } = {}) {
     const isValidated = _isValidated(status);
     const displayScore = _displayScore({ isPublished, isValidated });
-    const updatedStatus = (isPublished) ? status : PENDING;
+    const updatedStatus = isPublished ? status : PENDING;
     const updatedScore = displayScore ? pixScore : 0;
     const updatedCompetenceResults = displayScore ? competenceResults : [];
 
-    return new Certificate({ id,
+    return new Certificate({
+      id,
       firstName,
       middleName,
       thirdName,
@@ -85,4 +85,3 @@ function _isValidated(status) {
 function _displayScore({ isPublished, isValidated }) {
   return isPublished && isValidated;
 }
-

@@ -2,8 +2,7 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 
 const findDivisionsByCertificationCenter = require('../../../../lib/domain/usecases/find-divisions-by-certification-center');
 
-describe('Unit | UseCase | find-divisions-by-certification-center', function() {
-
+describe('Unit | UseCase | find-divisions-by-certification-center', function () {
   const certificationCenterId = 1;
   let organization;
 
@@ -18,18 +17,16 @@ describe('Unit | UseCase | find-divisions-by-certification-center', function() {
     findByOrganizationIdForCurrentSchoolYear: sinon.stub(),
   };
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const externalId = 'AAA111';
     const certificationCenter = domainBuilder.buildCertificationCenter({ id: certificationCenterId, externalId });
     organization = domainBuilder.buildOrganization({ externalId });
 
-    organizationRepository.getIdByCertificationCenterId
-      .withArgs(certificationCenter.id).resolves(organization.id);
+    organizationRepository.getIdByCertificationCenterId.withArgs(certificationCenter.id).resolves(organization.id);
   });
 
-  describe('when user has access to certification center', function() {
-
-    it('should return all divisions', async function() {
+  describe('when user has access to certification center', function () {
+    it('should return all divisions', async function () {
       // given
       divisionRepository.findByOrganizationIdForCurrentSchoolYear
         .withArgs({ organizationId: organization.id })

@@ -3,11 +3,9 @@ const { expect, nock } = require('../../test-helper');
 const { checkData, createOrUpdateOrganizations } = require('../../../scripts/create-or-update-sco-organizations');
 const logoUrl = require('../../../scripts/logo/default-sco-organization-logo-base64');
 
-describe('Acceptance | Scripts | create-or-update-sco-organizations.js', function() {
-
-  describe('#createOrUpdateOrganizations', function() {
-
-    it('should create or update organizations', async function() {
+describe('Acceptance | Scripts | create-or-update-sco-organizations.js', function () {
+  describe('#createOrUpdateOrganizations', function () {
+    it('should create or update organizations', async function () {
       // given
       const accessToken = 'token';
 
@@ -58,14 +56,11 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
       let postCallCount = 0;
       let patchCallCount = 0;
 
-      const networkStub1 = nock(
-        'http://localhost:3000',
-        {
-          reqheaders: {
-            authorization: 'Bearer token',
-          },
+      const networkStub1 = nock('http://localhost:3000', {
+        reqheaders: {
+          authorization: 'Bearer token',
         },
-      )
+      })
         .patch('/api/organizations/2', (body) => JSON.stringify(body) === JSON.stringify(expectedPatchBody))
         .reply(204, () => {
           patchCallCount++;
@@ -73,14 +68,11 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
           return {};
         });
 
-      const networkStub2 = nock(
-        'http://localhost:3000',
-        {
-          reqheaders: {
-            authorization: 'Bearer token',
-          },
+      const networkStub2 = nock('http://localhost:3000', {
+        reqheaders: {
+          authorization: 'Bearer token',
         },
-      )
+      })
         .post('/api/organizations', (body) => JSON.stringify(body) === JSON.stringify(expectedPostBody))
         .reply(201, () => {
           postCallCount++;
@@ -99,22 +91,24 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
     });
   });
 
-  describe('#checkData', function() {
-
-    it('should keep all data', async function() {
+  describe('#checkData', function () {
+    it('should keep all data', async function () {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
         ['b200', 'Collège Marie Curie'],
       ];
 
-      const expectedResult = [{
-        externalId: 'A100',
-        name: 'Lycée Charles De Gaulle',
-      }, {
-        externalId: 'B200',
-        name: 'Collège Marie Curie',
-      }];
+      const expectedResult = [
+        {
+          externalId: 'A100',
+          name: 'Lycée Charles De Gaulle',
+        },
+        {
+          externalId: 'B200',
+          name: 'Collège Marie Curie',
+        },
+      ];
 
       // when
       const result = await checkData({ csvData });
@@ -123,17 +117,19 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when a whole line is empty', async function() {
+    it('should keep only one data when a whole line is empty', async function () {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
         ['', ''],
       ];
 
-      const expectedResult = [{
-        externalId: 'A100',
-        name: 'Lycée Charles De Gaulle',
-      }];
+      const expectedResult = [
+        {
+          externalId: 'A100',
+          name: 'Lycée Charles De Gaulle',
+        },
+      ];
 
       // when
       const result = await checkData({ csvData });
@@ -142,17 +138,19 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when an externalId is missing', async function() {
+    it('should keep only one data when an externalId is missing', async function () {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
         ['', 'Collège Marie Curie'],
       ];
 
-      const expectedResult = [{
-        externalId: 'A100',
-        name: 'Lycée Charles De Gaulle',
-      }];
+      const expectedResult = [
+        {
+          externalId: 'A100',
+          name: 'Lycée Charles De Gaulle',
+        },
+      ];
 
       // when
       const result = await checkData({ csvData });
@@ -161,17 +159,19 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
       expect(result).to.deep.have.members(expectedResult);
     });
 
-    it('should keep only one data when name is missing', async function() {
+    it('should keep only one data when name is missing', async function () {
       // given
       const csvData = [
         ['a100', 'Lycée Charles De Gaulle'],
         ['b200', ''],
       ];
 
-      const expectedResult = [{
-        externalId: 'A100',
-        name: 'Lycée Charles De Gaulle',
-      }];
+      const expectedResult = [
+        {
+          externalId: 'A100',
+          name: 'Lycée Charles De Gaulle',
+        },
+      ];
 
       // when
       const result = await checkData({ csvData });
@@ -180,5 +180,4 @@ describe('Acceptance | Scripts | create-or-update-sco-organizations.js', functio
       expect(result).to.deep.have.members(expectedResult);
     });
   });
-
 });

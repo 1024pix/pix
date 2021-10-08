@@ -11,7 +11,6 @@ module.exports = function buildCertificationReport({
   sessionId,
   abortReason = null,
 } = {}) {
-
   certificationCourseId = _.isUndefined(certificationCourseId)
     ? buildCertificationCourse({ firstName, lastName, sessionId, hasSeenEndTestScreen }).id
     : certificationCourseId;

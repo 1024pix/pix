@@ -4,10 +4,8 @@ const { NotFoundError } = require('../../domain/errors');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
 
 module.exports = {
-
   isCodeAvailable(code) {
-    return BookshelfCampaign
-      .where({ code })
+    return BookshelfCampaign.where({ code })
       .fetch({ require: false })
       .then((campaign) => {
         if (campaign) {
@@ -18,15 +16,15 @@ module.exports = {
   },
 
   async getByCode(code) {
-    const bookshelfCampaign = await BookshelfCampaign
-      .where({ code })
-      .fetch({ require: false, withRelated: ['organization'] });
+    const bookshelfCampaign = await BookshelfCampaign.where({ code }).fetch({
+      require: false,
+      withRelated: ['organization'],
+    });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
   },
 
   async get(id) {
-    const bookshelfCampaign = await BookshelfCampaign
-      .where({ id })
+    const bookshelfCampaign = await BookshelfCampaign.where({ id })
       .fetch({
         withRelated: ['creator', 'organization', 'targetProfile'],
       })
@@ -51,17 +49,12 @@ module.exports = {
       'organizationId',
       'targetProfileId',
     ]);
-    const createdCampaign = await (new BookshelfCampaign(campaignAttributes).save());
+    const createdCampaign = await new BookshelfCampaign(campaignAttributes).save();
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, createdCampaign);
   },
 
   async update(campaign) {
-    const editedAttributes = _.pick(campaign, [
-      'name',
-      'title',
-      'customLandingPageText',
-      'archivedAt',
-    ]);
+    const editedAttributes = _.pick(campaign, ['name', 'title', 'customLandingPageText', 'archivedAt']);
     const bookshelfCampaign = await BookshelfCampaign.where({ id: campaign.id }).fetch();
     await bookshelfCampaign.save(editedAttributes, { method: 'update', patch: true });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
@@ -69,13 +62,11 @@ module.exports = {
 
   async checkIfUserOrganizationHasAccessToCampaign(campaignId, userId) {
     try {
-      await BookshelfCampaign
-        .query((qb) => {
-          qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null });
-          qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
-          qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
-        })
-        .fetch();
+      await BookshelfCampaign.query((qb) => {
+        qb.where({ 'campaigns.id': campaignId, 'memberships.userId': userId, 'memberships.disabledAt': null });
+        qb.innerJoin('memberships', 'memberships.organizationId', 'campaigns.organizationId');
+        qb.innerJoin('organizations', 'organizations.id', 'campaigns.organizationId');
+      }).fetch();
     } catch (e) {
       return false;
     }
@@ -83,9 +74,7 @@ module.exports = {
   },
 
   async checkIfCampaignIsArchived(campaignId) {
-    const bookshelfCampaign = await BookshelfCampaign
-      .where({ id: campaignId })
-      .fetch();
+    const bookshelfCampaign = await BookshelfCampaign.where({ id: campaignId }).fetch();
 
     const campaign = bookshelfToDomainConverter.buildDomainObject(BookshelfCampaign, bookshelfCampaign);
     return campaign.isArchived();

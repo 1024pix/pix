@@ -1,8 +1,4 @@
-module.exports = async function getSessionResults({
-  sessionId,
-  sessionRepository,
-  certificationResultRepository,
-}) {
+module.exports = async function getSessionResults({ sessionId, sessionRepository, certificationResultRepository }) {
   const session = await sessionRepository.get(sessionId);
   const certificationResults = await certificationResultRepository.findBySessionId({ sessionId });
 

@@ -4,8 +4,14 @@ const organizationInvitationService = require('../../domain/services/organizatio
 let errorMessage = null;
 let organizationsFound = null;
 
-module.exports = async function sendScoInvitation({ uai, firstName, lastName, locale, organizationRepository, organizationInvitationRepository }) {
-
+module.exports = async function sendScoInvitation({
+  uai,
+  firstName,
+  lastName,
+  locale,
+  organizationRepository,
+  organizationInvitationRepository,
+}) {
   organizationsFound = await organizationRepository.findScoOrganizationByUai(uai.trim());
 
   const nbOrganizations = _.get(organizationsFound, 'length', 0);
@@ -20,7 +26,13 @@ module.exports = async function sendScoInvitation({ uai, firstName, lastName, lo
   const organizationId = organizationsFound[0].id;
 
   const scoOrganizationInvitation = await organizationInvitationService.createScoOrganizationInvitation({
-    organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email, locale,
+    organizationRepository,
+    organizationInvitationRepository,
+    organizationId,
+    firstName,
+    lastName,
+    email,
+    locale,
   });
 
   return scoOrganizationInvitation;

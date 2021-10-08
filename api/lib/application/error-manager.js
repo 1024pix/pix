@@ -19,9 +19,9 @@ function _formatAttribute({ attribute, message, locale }) {
   return {
     status: '422',
     source: {
-      pointer: `/data/attributes/${ _.kebabCase(attribute) }`,
+      pointer: `/data/attributes/${_.kebabCase(attribute)}`,
     },
-    title: `Invalid data attribute "${ attribute }"`,
+    title: `Invalid data attribute "${attribute}"`,
     detail: translateMessage(locale, message),
   };
 }
@@ -31,9 +31,9 @@ function _formatRelationship({ attribute, message, locale }) {
   return {
     status: '422',
     source: {
-      pointer: `/data/relationships/${ _.kebabCase(relationship) }`,
+      pointer: `/data/relationships/${_.kebabCase(relationship)}`,
     },
-    title: `Invalid relationship "${ relationship }"`,
+    title: `Invalid relationship "${relationship}"`,
     detail: translateMessage(locale, message),
   };
 }
@@ -115,7 +115,9 @@ function _mapToHttpError(error) {
     return new HttpErrors.InternalServerError(error.message, error.title);
   }
   if (error instanceof DomainErrors.UserAccountNotFoundForPoleEmploiError) {
-    return new HttpErrors.UnauthorizedError(error.message, error.responseCode, { authenticationKey: error.authenticationKey });
+    return new HttpErrors.UnauthorizedError(error.message, error.responseCode, {
+      authenticationKey: error.authenticationKey,
+    });
   }
   if (error instanceof DomainErrors.UserAlreadyExistsWithAuthenticationMethodError) {
     return new HttpErrors.ConflictError(error.message);
@@ -142,19 +144,23 @@ function _mapToHttpError(error) {
     return new HttpErrors.ForbiddenError('Le candidat de certification est déjà lié à un utilisateur.');
   }
   if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoNotFoundError) {
-    return new HttpErrors.NotFoundError('Aucun candidat de certification ne correspond aux informations d\'identité fournies.');
+    return new HttpErrors.NotFoundError(
+      "Aucun candidat de certification ne correspond aux informations d'identité fournies."
+    );
   }
   if (error instanceof DomainErrors.CertificationCandidateByPersonalInfoTooManyMatchesError) {
-    return new HttpErrors.ConflictError('Plus d\'un candidat de certification correspondent aux informations d\'identité fournies.');
+    return new HttpErrors.ConflictError(
+      "Plus d'un candidat de certification correspondent aux informations d'identité fournies."
+    );
   }
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoFieldMissingError) {
-    return new HttpErrors.BadRequestError('Un ou plusieurs champs d\'informations d\'identité sont manquants.');
+    return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont manquants.");
   }
   if (error instanceof DomainErrors.NoCertificationAttestationForDivisionError) {
     return new HttpErrors.BadRequestError(error.message);
   }
   if (error instanceof DomainErrors.CertificationCandidatePersonalInfoWrongFormat) {
-    return new HttpErrors.BadRequestError('Un ou plusieurs champs d\'informations d\'identité sont au mauvais format.');
+    return new HttpErrors.BadRequestError("Un ou plusieurs champs d'informations d'identité sont au mauvais format.");
   }
   if (error instanceof DomainErrors.CertificationCandidatesImportError) {
     return new HttpErrors.UnprocessableEntityError(error.message, error.code);
@@ -166,7 +172,7 @@ function _mapToHttpError(error) {
     return new HttpErrors.ServiceUnavailableError(error.message);
   }
   if (error instanceof DomainErrors.CertificationCenterMembershipCreationError) {
-    return new HttpErrors.BadRequestError('Le membre ou le centre de certification n\'existe pas.');
+    return new HttpErrors.BadRequestError("Le membre ou le centre de certification n'existe pas.");
   }
   if (error instanceof DomainErrors.InvalidCertificationCandidate) {
     return new HttpErrors.UnprocessableEntityError(error.message);
@@ -232,13 +238,13 @@ function _mapToHttpError(error) {
     return new HttpErrors.ConflictError(error.message);
   }
   if (error instanceof DomainErrors.UserAlreadyLinkedToCandidateInSessionError) {
-    return new HttpErrors.ForbiddenError('L\'utilisateur est déjà lié à un candidat dans cette session.');
+    return new HttpErrors.ForbiddenError("L'utilisateur est déjà lié à un candidat dans cette session.");
   }
   if (error instanceof DomainErrors.UserNotAuthorizedToCertifyError) {
     return new HttpErrors.ForbiddenError('The user cannot be certified.');
   }
   if (error instanceof DomainErrors.MissingOrInvalidCredentialsError) {
-    return new HttpErrors.UnauthorizedError('L\'adresse e-mail et/ou le mot de passe saisis sont incorrects.');
+    return new HttpErrors.UnauthorizedError("L'adresse e-mail et/ou le mot de passe saisis sont incorrects.");
   }
   if (error instanceof DomainErrors.ApplicationWithInvalidClientIdError) {
     return new HttpErrors.UnauthorizedError('The client ID is invalid.');
@@ -380,7 +386,9 @@ function handle(request, h, error) {
   if (error instanceof DomainErrors.EntityValidationError) {
     const locale = extractLocaleFromRequest(request).split('-')[0];
 
-    const jsonApiError = new JSONAPIError(error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale)));
+    const jsonApiError = new JSONAPIError(
+      error.invalidAttributes?.map(_formatInvalidAttribute.bind(_formatInvalidAttribute, locale))
+    );
     return h.response(jsonApiError).code(422);
   }
 

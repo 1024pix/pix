@@ -18,7 +18,7 @@ exports.register = async (server) => {
         tags: ['api', 'certification-reports'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n',
-          '- Elle permet d\'enregistrer un signalement relevé par un surveillant sur la certification d\'un candidat',
+          "- Elle permet d'enregistrer un signalement relevé par un surveillant sur la certification d'un candidat",
         ],
       },
     },

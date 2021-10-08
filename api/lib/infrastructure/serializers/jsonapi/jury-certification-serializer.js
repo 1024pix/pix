@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(juryCertification) {
     return new Serializer('certifications', {
       transform(juryCertification) {

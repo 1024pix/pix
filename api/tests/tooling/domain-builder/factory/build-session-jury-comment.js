@@ -1,6 +1,6 @@
 const SessionJuryComment = require('../../../../lib/domain/models/SessionJuryComment');
 
-const buildSessionJuryComment = function({
+const buildSessionJuryComment = function ({
   id = 123,
   comment = 'Un commentaire du pôle certif',
   authorId = 456,

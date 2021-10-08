@@ -6,7 +6,6 @@ const RedisClient = require('../utils/RedisClient');
 const EXPIRATION_PARAMETER = 'ex';
 
 class RedisTemporaryStorage extends TemporaryStorage {
-
   constructor(redisUrl) {
     super();
     this._client = RedisTemporaryStorage.createClient(redisUrl);
