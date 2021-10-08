@@ -361,17 +361,6 @@ describe('Integration | Repository | Campaign Participation', function () {
       // then
       expect(count).to.equal(8);
     });
-
-    it('should count all shared campaignParticipations by campaign', async function () {
-      // when
-      const count = await campaignParticipationRepository.count({
-        campaignId,
-        isShared: true,
-      });
-
-      // then
-      expect(count).to.equal(5);
-    });
   });
 
   describe('#findProfilesCollectionResultDataByCampaignId', function () {
