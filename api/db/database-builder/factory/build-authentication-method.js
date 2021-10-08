@@ -87,7 +87,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndPassword = function 
   });
 };
 
-buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function ({
+buildAuthenticationMethod.withPoleEmploiAuthenticationComplement = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
   accessToken = 'ABC789',
