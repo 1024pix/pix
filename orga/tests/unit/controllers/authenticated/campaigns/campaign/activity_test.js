@@ -35,4 +35,73 @@ module('Unit | Controller | authenticated/campaigns/campaign/activity', function
       assert.true(controller.transitionToRoute.calledWith('authenticated.campaigns.participant-assessment', 123, 456));
     });
   });
+
+  module('#action triggerFiltering', function (hooks) {
+    hooks.beforeEach(function () {
+      controller.model = { campaign: { isTypeAssessment: false } };
+    });
+
+    test('it updates all filters', function (assert) {
+      // given
+      controller.pageNumber = 5;
+      controller.divisions = ['A2'];
+      controller.status = 'SHARED';
+
+      // when
+      controller.send('triggerFiltering', { divisions: ['A1'], status: 'STARTED' });
+
+      // then
+      assert.equal(controller.pageNumber, null);
+      assert.deepEqual(controller.divisions, ['A1']);
+      assert.equal(controller.status, 'STARTED');
+    });
+
+    module('when division filter does not change', function () {
+      test('it does not update divisions', function (assert) {
+        // given
+        controller.pageNumber = 5;
+        controller.divisions = ['A2'];
+        controller.status = 'SHARED';
+
+        // when
+        controller.send('triggerFiltering', { status: 'COMPLETED' });
+
+        // then
+        assert.equal(controller.pageNumber, null);
+        assert.deepEqual(controller.divisions, ['A2']);
+        assert.equal(controller.status, 'COMPLETED');
+      });
+    });
+
+    module('when status filter does not change', function () {
+      test('it does not update status', function (assert) {
+        // given
+        controller.pageNumber = 5;
+        controller.divisions = ['A2'];
+        controller.status = 'SHARED';
+
+        // when
+        controller.send('triggerFiltering', { divisions: ['A1'] });
+
+        // then
+        assert.equal(controller.pageNumber, null);
+        assert.deepEqual(controller.divisions, ['A1']);
+        assert.equal(controller.status, 'SHARED');
+      });
+    });
+
+    module('when status filter is reseted', function () {
+      test('it updates status', function (assert) {
+        // given
+        controller.pageNumber = 5;
+        controller.status = 'SHARED';
+
+        // when
+        controller.send('triggerFiltering', { status: '' });
+
+        // then
+        assert.equal(controller.status, '');
+      });
+    });
+  });
 });
