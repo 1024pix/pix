@@ -8,7 +8,8 @@
 <main class="page-body">
   <section class="page-section">
     <CertificationCenterForm
-      @certificationCenter={{@model}}
+      @certificationCenter={{@model.certificationCenter}}
+      @accreditations={{@model.accreditations}}
       @onSubmit={{this.addCertificationCenter}}
       @onCancel={{this.goBackToCertificationCentersList}}
     />

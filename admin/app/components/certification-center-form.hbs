@@ -63,6 +63,26 @@
         </div>
       {{/if}}
     </div>
+
+    <section>
+      <h1 class="accreditations-title">Habilitation certifications complémentaires</h1>
+      <div class="form-field accreditations-checkbox-list">
+        <ul>
+          {{#each @accreditations as |accreditation|}}
+            <li>
+              <label class="form-field__label">
+                <Input
+                  @type="checkbox"
+                  @checked={{contains accreditation @certificationCenter.accreditations}}
+                  {{on "input" (fn this.updateGrantedAccreditation accreditation)}}
+                />
+                {{accreditation.name}}
+              </label>
+            </li>
+          {{/each}}
+        </ul>
+      </div>
+    </section>
   </section>
 
   <section class="form-section form-actions justify-content-end">

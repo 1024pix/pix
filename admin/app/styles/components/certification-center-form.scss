@@ -10,4 +10,20 @@
   .ember-power-select-trigger {
     width: 100%;
   }
+
+  .accreditations-title {
+    color: $grey-70;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+
+  .accreditations-checkbox-list {
+    display: flex;
+
+    ul {
+      list-style-type: none;
+      margin: 8px;
+      padding: 0;
+    }
+  }
 }
