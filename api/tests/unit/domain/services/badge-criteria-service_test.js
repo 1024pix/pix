@@ -14,11 +14,9 @@ const COMPETENCE_RESULT_ID = {
   SECOND: 2,
 };
 
-describe('Unit | Domain | Services | badge-criteria', function() {
-
-  describe('#verifyCriteriaFulfilment', function() {
-
-    context('when there is multiple badge criteria to acquire one badge', function() {
+describe('Unit | Domain | Services | badge-criteria', function () {
+  describe('#verifyCriteriaFulfilment', function () {
+    context('when there is multiple badge criteria to acquire one badge', function () {
       const badgeCriteria = [
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
@@ -61,7 +59,7 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       // eslint-disable-next-line mocha/no-setup-in-describe
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when all the badge criteria are fulfilled', async function() {
+      it('should return true when all the badge criteria are fulfilled', async function () {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [
@@ -70,13 +68,17 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         ];
 
         // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+          masteryPercentage,
+          partnerCompetenceResults,
+          badge,
+        });
 
         // then
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when no badge criterion is fulfilled', async function() {
+      it('should return false when no badge criterion is fulfilled', async function () {
         // given
         const masteryPercentage = 20;
         const partnerCompetenceResults = [
@@ -85,13 +87,17 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         ];
 
         // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+          masteryPercentage,
+          partnerCompetenceResults,
+          badge,
+        });
 
         // then
         expect(result).to.be.equal(false);
       });
 
-      it('should return false when at least one badge criterion is not fulfilled', async function() {
+      it('should return false when at least one badge criterion is not fulfilled', async function () {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [
@@ -100,15 +106,18 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         ];
 
         // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+          masteryPercentage,
+          partnerCompetenceResults,
+          badge,
+        });
 
         // then
         expect(result).to.be.equal(false);
       });
-
     });
 
-    context('when the CAMPAIGN_PARTICIPATION is the only badge criterion', function() {
+    context('when the CAMPAIGN_PARTICIPATION is the only badge criterion', function () {
       const badgeCriteria = [
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
@@ -126,33 +135,41 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       // eslint-disable-next-line mocha/no-setup-in-describe
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return true when fulfilled', async function() {
+      it('should return true when fulfilled', async function () {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [];
 
         // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+          masteryPercentage,
+          partnerCompetenceResults,
+          badge,
+        });
 
         // then
         expect(result).to.be.equal(true);
       });
 
-      it('should return false when not fulfilled', async function() {
+      it('should return false when not fulfilled', async function () {
         // given
         const masteryPercentage = 20;
         const partnerCompetenceResults = [];
 
         // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+          masteryPercentage,
+          partnerCompetenceResults,
+          badge,
+        });
 
         // then
         expect(result).to.be.equal(false);
       });
     });
 
-    context('when the SKILL_SET is the only badge criterion', function() {
-      context('when the list of partnerCompetencesIds contains one partnerCompetence', function() {
+    context('when the SKILL_SET is the only badge criterion', function () {
+      context('when the list of partnerCompetencesIds contains one partnerCompetence', function () {
         const badgeCriteria = [
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
@@ -173,7 +190,7 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         // eslint-disable-next-line mocha/no-setup-in-describe
         const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-        it('should return true when fulfilled', async function() {
+        it('should return true when fulfilled', async function () {
           // given
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
@@ -182,14 +199,17 @@ describe('Unit | Domain | Services | badge-criteria', function() {
           ];
 
           // when
-          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+            masteryPercentage,
+            partnerCompetenceResults,
+            badge,
+          });
 
           // then
           expect(result).to.be.equal(true);
         });
 
-        it('should return false when not fulfilled', async function() {
-
+        it('should return false when not fulfilled', async function () {
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
             { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 70 },
@@ -197,14 +217,18 @@ describe('Unit | Domain | Services | badge-criteria', function() {
           ];
 
           // when
-          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+            masteryPercentage,
+            partnerCompetenceResults,
+            badge,
+          });
 
           // then
           expect(result).to.be.equal(false);
         });
       });
 
-      context('when the list of partnerCompetencesIds contains more than one', function() {
+      context('when the list of partnerCompetencesIds contains more than one', function () {
         const badgeCriteria = [
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
@@ -225,7 +249,7 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         // eslint-disable-next-line mocha/no-setup-in-describe
         const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-        it('should return true when fulfilled for all partnerCompetence', async function() {
+        it('should return true when fulfilled for all partnerCompetence', async function () {
           // given
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
@@ -234,14 +258,17 @@ describe('Unit | Domain | Services | badge-criteria', function() {
           ];
 
           // when
-          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+            masteryPercentage,
+            partnerCompetenceResults,
+            badge,
+          });
 
           // then
           expect(result).to.be.equal(true);
         });
 
-        it('should return false when one is not fulfilled', async function() {
-
+        it('should return false when one is not fulfilled', async function () {
           const masteryPercentage = 10;
           const partnerCompetenceResults = [
             { id: COMPETENCE_RESULT_ID.FIRST, masteryPercentage: 10 },
@@ -249,7 +276,11 @@ describe('Unit | Domain | Services | badge-criteria', function() {
           ];
 
           // when
-          const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+          const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+            masteryPercentage,
+            partnerCompetenceResults,
+            badge,
+          });
 
           // then
           expect(result).to.be.equal(false);
@@ -257,19 +288,23 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       });
     });
 
-    context('when the badge does not have criterion', function() {
+    context('when the badge does not have criterion', function () {
       const badgeCriteria = [];
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       const badge = domainBuilder.buildBadge({ badgeCriteria });
 
-      it('should return false', async function() {
+      it('should return false', async function () {
         // given
         const masteryPercentage = 90;
         const partnerCompetenceResults = [];
 
         // when
-        const result = await badgeCriteriaService.verifyCriteriaFulfilment({ masteryPercentage, partnerCompetenceResults, badge });
+        const result = await badgeCriteriaService.verifyCriteriaFulfilment({
+          masteryPercentage,
+          partnerCompetenceResults,
+          badge,
+        });
 
         // then
         expect(result).to.be.equal(false);
@@ -277,9 +312,8 @@ describe('Unit | Domain | Services | badge-criteria', function() {
     });
   });
 
-  describe('#areBadgeCriteriaFulfilled', function() {
-
-    it('should return false if badge is not acquired', function() {
+  describe('#areBadgeCriteriaFulfilled', function () {
+    it('should return false if badge is not acquired', function () {
       // given
       const knowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -318,13 +352,17 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       });
 
       // when
-      const badgeAcquired = badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge: yellowBadge });
+      const badgeAcquired = badgeCriteriaService.areBadgeCriteriaFulfilled({
+        knowledgeElements,
+        targetProfile,
+        badge: yellowBadge,
+      });
 
       // then
       expect(badgeAcquired).to.equal(false);
     });
 
-    it('should return true if badge is acquired', function() {
+    it('should return true if badge is acquired', function () {
       // given
       const knowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -374,16 +412,19 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       });
 
       // when
-      const badgeAcquired = badgeCriteriaService.areBadgeCriteriaFulfilled({ knowledgeElements, targetProfile, badge: yellowBadge });
+      const badgeAcquired = badgeCriteriaService.areBadgeCriteriaFulfilled({
+        knowledgeElements,
+        targetProfile,
+        badge: yellowBadge,
+      });
 
       // then
       expect(badgeAcquired).to.equal(true);
     });
   });
 
-  describe('#getMasteryPercentageForAllPartnerCompetences', function() {
-
-    it('should return an empty array when there is not badgePartnerCompetences', function() {
+  describe('#getMasteryPercentageForAllPartnerCompetences', function () {
+    it('should return an empty array when there is not badgePartnerCompetences', function () {
       // given
       const targetedKnowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -404,13 +445,17 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       const expectedMasteryPercentages = [];
 
       // when
-      const masteryPercentages = badgeCriteriaService.getMasteryPercentageForAllPartnerCompetences({ targetedKnowledgeElements, targetProfileSkillsIds, badge: yellowBadge });
+      const masteryPercentages = badgeCriteriaService.getMasteryPercentageForAllPartnerCompetences({
+        targetedKnowledgeElements,
+        targetProfileSkillsIds,
+        badge: yellowBadge,
+      });
 
       // then
       expect(masteryPercentages).to.deep.equal(expectedMasteryPercentages);
     });
 
-    it('should return correct mastery percentages for all badgePartnerCompetences', function() {
+    it('should return correct mastery percentages for all badgePartnerCompetences', function () {
       // given
       const targetedKnowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -420,13 +465,7 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         new KnowledgeElement({ skillId: 7, status: 'validated' }),
         new KnowledgeElement({ skillId: 8, status: 'validated' }),
       ];
-      const skillsIds = [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
-        { id: 5 },
-      ];
+      const skillsIds = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
       const targetProfileSkillsIds = [1, 2, 3, 4, 5];
       const targetProfile = domainBuilder.buildTargetProfile({
         id: 1,
@@ -462,16 +501,19 @@ describe('Unit | Domain | Services | badge-criteria', function() {
         { id: 4, masteryPercentage: 50 },
       ];
       // when
-      const masteryPercentages = badgeCriteriaService.getMasteryPercentageForAllPartnerCompetences({ targetedKnowledgeElements, targetProfileSkillsIds, badge: yellowBadge });
+      const masteryPercentages = badgeCriteriaService.getMasteryPercentageForAllPartnerCompetences({
+        targetedKnowledgeElements,
+        targetProfileSkillsIds,
+        badge: yellowBadge,
+      });
 
       // then
       expect(masteryPercentages).to.deep.equal(expectedMasteryPercentages);
     });
   });
 
-  describe('#getMasteryPercentageForTargetProfile', function() {
-
-    it('should return global mastery percentage', function() {
+  describe('#getMasteryPercentageForTargetProfile', function () {
+    it('should return global mastery percentage', function () {
       // given
       const targetedKnowledgeElements = [
         new KnowledgeElement({ skillId: 1, status: 'validated' }),
@@ -482,11 +524,13 @@ describe('Unit | Domain | Services | badge-criteria', function() {
       const expectedMasteryPercentage = 25;
 
       // when
-      const masteryPercentages = badgeCriteriaService.getMasteryPercentageForTargetProfile({ targetedKnowledgeElements, targetProfileSkillsIds });
+      const masteryPercentages = badgeCriteriaService.getMasteryPercentageForTargetProfile({
+        targetedKnowledgeElements,
+        targetProfileSkillsIds,
+      });
 
       // then
       expect(masteryPercentages).to.deep.equal(expectedMasteryPercentage);
     });
   });
-
 });

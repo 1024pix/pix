@@ -1,9 +1,4 @@
-const {
-  expect,
-  sinon,
-  catchErr,
-  domainBuilder,
-} = require('../../../test-helper');
+const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper');
 const {
   AlreadyRegisteredEmailError,
   InvalidPasswordForUpdateEmailError,
@@ -15,15 +10,14 @@ const { getI18n } = require('../../../tooling/i18n/i18n');
 
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | send-verification-code', function() {
-
+describe('Unit | UseCase | send-verification-code', function () {
   let authenticationMethodRepository;
   let userEmailRepository;
   let userRepository;
   let encryptionService;
   let mailService;
 
-  beforeEach(function() {
+  beforeEach(function () {
     userEmailRepository = {
       saveEmailModificationDemand: sinon.stub(),
     };
@@ -44,7 +38,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     sinon.stub(codeUtils, 'generateNumericalString');
   });
 
-  it('should store the generated code in temporary storage', async function() {
+  it('should store the generated code in temporary storage', async function () {
     // given
     const userId = 1;
     const newEmail = 'user@example.net';
@@ -83,7 +77,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     expect(userEmailRepository.saveEmailModificationDemand).to.have.been.calledWithExactly({ userId, code, newEmail });
   });
 
-  it('should send verification code email', async function() {
+  it('should send verification code email', async function () {
     // given
     const userId = 1;
     const newEmail = 'new_email@example.net';
@@ -128,7 +122,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     });
   });
 
-  it('should throw AlreadyRegisteredEmailError if email already exists', async function() {
+  it('should throw AlreadyRegisteredEmailError if email already exists', async function () {
     // given
     const userId = 1;
     const newEmail = 'new_email@example.net';
@@ -155,7 +149,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     expect(error).to.be.an.instanceOf(AlreadyRegisteredEmailError);
   });
 
-  it('should throw InvalidPasswordForUpdateEmailError if the password is invalid', async function() {
+  it('should throw InvalidPasswordForUpdateEmailError if the password is invalid', async function () {
     // given
     const userId = 1;
     const newEmail = 'new_email@example.net';
@@ -190,7 +184,7 @@ describe('Unit | UseCase | send-verification-code', function() {
     expect(error).to.be.an.instanceOf(InvalidPasswordForUpdateEmailError);
   });
 
-  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function() {
+  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function () {
     // given
     userRepository.get.resolves({});
     const userId = 1;

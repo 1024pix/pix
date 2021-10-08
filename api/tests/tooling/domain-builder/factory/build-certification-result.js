@@ -2,7 +2,7 @@ const CertificationResult = require('../../../../lib/domain/models/Certification
 const buildCleaCertificationResult = require('./build-clea-certification-result');
 const buildPixPlusDroitCertificationResult = require('./build-pix-plus-droit-certification-result');
 
-const buildCertificationResult = function({
+const buildCertificationResult = function ({
   id = 123,
   firstName = 'Malik',
   lastName = 'Wayne',
@@ -38,7 +38,7 @@ const buildCertificationResult = function({
   });
 };
 
-buildCertificationResult.validated = function({
+buildCertificationResult.validated = function ({
   id,
   firstName,
   lastName,
@@ -73,7 +73,7 @@ buildCertificationResult.validated = function({
   });
 };
 
-buildCertificationResult.rejected = function({
+buildCertificationResult.rejected = function ({
   id,
   firstName,
   lastName,
@@ -108,7 +108,7 @@ buildCertificationResult.rejected = function({
   });
 };
 
-buildCertificationResult.cancelled = function({
+buildCertificationResult.cancelled = function ({
   id,
   firstName,
   lastName,
@@ -143,7 +143,7 @@ buildCertificationResult.cancelled = function({
   });
 };
 
-buildCertificationResult.error = function({
+buildCertificationResult.error = function ({
   id,
   firstName,
   lastName,

@@ -9,8 +9,8 @@ exports.register = async (server) => {
         handler: scorecardController.getScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération d\'un niveau par compétences de l\'utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            "- Récupération d'un niveau par compétences de l'utilisateur\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api'],
       },
@@ -22,8 +22,8 @@ exports.register = async (server) => {
         handler: scorecardController.findTutorials,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des tutoriels par compétences de l\'utilisateur dans une scorecard \n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            "- Récupération des tutoriels par compétences de l'utilisateur dans une scorecard \n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api'],
       },

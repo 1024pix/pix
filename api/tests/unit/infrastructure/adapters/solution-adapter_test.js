@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const solutionAdapter = require('../../../../lib/infrastructure/adapters/solution-adapter');
 const Solution = require('../../../../lib/domain/models/Solution');
 
-describe('Unit | Adapter | Solution', function() {
-
-  describe('#fromDatasourceObject', function() {
-
-    it('should create a Solution model', function() {
+describe('Unit | Adapter | Solution', function () {
+  describe('#fromDatasourceObject', function () {
+    it('should create a Solution model', function () {
       // given
       const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',
@@ -28,7 +26,7 @@ describe('Unit | Adapter | Solution', function() {
       expect(solution).to.deep.equal(expectedSolution);
     });
 
-    it('should precise the type of each key in Solution model', function() {
+    it('should precise the type of each key in Solution model', function () {
       // given
       const expectedSolution = new Solution({
         id: 'recwWzTquPlvIl4So',
@@ -38,19 +36,18 @@ describe('Unit | Adapter | Solution', function() {
         scoring: 'rep1: aaaa\nrep2: bbbb\nrep3: cccc\nrep4: dddd',
         type: 'QROCM-dep',
         value: '1, 5, 9, 7',
-        qrocBlocksTypes: { 'rep1': 'input', 'rep2': 'select', 'rep3': 'select', 'rep4': 'input' },
+        qrocBlocksTypes: { rep1: 'input', rep2: 'select', rep3: 'select', rep4: 'input' },
       });
-      const challengeLearningContentDataObject = domainBuilder.buildChallengeLearningContentDataObject(
-        {
-          id: 'recwWzTquPlvIl4So',
-          t1Status: true,
-          t2Status: false,
-          t3: true,
-          scoring: 'rep1: aaaa\nrep2: bbbb\nrep3: cccc\nrep4: dddd',
-          proposals: 'Je fait ${rep1#test§test} et ${rep2 options=["a","b"]}, ${rep3§test options=["a","b"]}, ${rep4}',
-          type: 'QROCM-dep',
-          solution: '1, 5, 9, 7',
-        });
+      const challengeLearningContentDataObject = domainBuilder.buildChallengeLearningContentDataObject({
+        id: 'recwWzTquPlvIl4So',
+        t1Status: true,
+        t2Status: false,
+        t3: true,
+        scoring: 'rep1: aaaa\nrep2: bbbb\nrep3: cccc\nrep4: dddd',
+        proposals: 'Je fait ${rep1#test§test} et ${rep2 options=["a","b"]}, ${rep3§test options=["a","b"]}, ${rep4}',
+        type: 'QROCM-dep',
+        solution: '1, 5, 9, 7',
+      });
 
       // when
       const solution = solutionAdapter.fromDatasourceObject(challengeLearningContentDataObject);
@@ -59,6 +56,5 @@ describe('Unit | Adapter | Solution', function() {
       expect(solution).to.be.an.instanceof(Solution);
       expect(solution).to.deep.equal(expectedSolution);
     });
-
   });
 });

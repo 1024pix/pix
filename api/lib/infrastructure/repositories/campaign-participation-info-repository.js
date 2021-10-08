@@ -4,8 +4,8 @@ const CampaignParticipationInfo = require('../../domain/read-models/CampaignPart
 
 module.exports = {
   async findByCampaignId(campaignId) {
-    const results = await knex.with('campaignParticipationWithUserAndRankedAssessment',
-      (qb) => {
+    const results = await knex
+      .with('campaignParticipationWithUserAndRankedAssessment', (qb) => {
         qb.select([
           'campaign-participations.*',
           'assessments.state',
@@ -20,9 +20,11 @@ module.exports = {
           .join('users', 'campaign-participations.userId', 'users.id')
           .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
           .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-          .leftJoin('schooling-registrations', function() {
-            this.on('schooling-registrations.userId', 'campaign-participations.userId')
-              .andOn('schooling-registrations.organizationId', 'campaigns.organizationId');
+          .leftJoin('schooling-registrations', function () {
+            this.on('schooling-registrations.userId', 'campaign-participations.userId').andOn(
+              'schooling-registrations.organizationId',
+              'campaigns.organizationId'
+            );
           })
           .where({ campaignId: campaignId, isImproved: false });
       })
@@ -34,7 +36,10 @@ module.exports = {
 };
 
 function _assessmentRankByCreationDate() {
-  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
+  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', [
+    'assessments.campaignParticipationId',
+    'assessments.createdAt',
+  ]);
 }
 
 function _rowToCampaignParticipationInfo(row) {

@@ -6,14 +6,14 @@ const targetProfileRepository = require('../../../../lib/infrastructure/reposito
 const skillDatasource = require('../../../../lib/infrastructure/datasources/learning-content/skill-datasource');
 const { NotFoundError, ObjectValidationError, TargetProfileCannotBeCreated } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | Target-profile', function() {
-  describe('#create', function() {
-    afterEach(async function() {
+describe('Integration | Repository | Target-profile', function () {
+  describe('#create', function () {
+    afterEach(async function () {
       await knex('target-profiles_skills').delete();
       await knex('target-profiles').delete();
     });
 
-    it('should return the created target profile', async function() {
+    it('should return the created target profile', async function () {
       const targetProfileData = {
         name: 'myFirstTargetProfile',
         imageUrl: 'someUrl',
@@ -24,7 +24,9 @@ describe('Integration | Repository | Target-profile', function() {
       // when
       const targetProfileId = await targetProfileRepository.create(targetProfileData);
 
-      const [targetProfile] = await knex('target-profiles').select(['name', 'imageUrl', 'outdated', 'isPublic', 'ownerOrganizationId']).where({ 'id': targetProfileId });
+      const [targetProfile] = await knex('target-profiles')
+        .select(['name', 'imageUrl', 'outdated', 'isPublic', 'ownerOrganizationId'])
+        .where({ id: targetProfileId });
 
       // then
       expect(targetProfile.name).to.equal(targetProfileData.name);
@@ -34,7 +36,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(targetProfile.ownerOrganizationId).to.equal(targetProfileData.ownerOrganizationId);
     });
 
-    it('should attached each skillId once to target profile', async function() {
+    it('should attached each skillId once to target profile', async function () {
       const targetProfileData = {
         name: 'myFirstTargetProfile',
         skillsId: ['skills1', 'skills2', 'skills2'],
@@ -42,14 +44,16 @@ describe('Integration | Repository | Target-profile', function() {
       // when
       const targetProfileId = await targetProfileRepository.create(targetProfileData);
 
-      const skillsList = await knex('target-profiles_skills').select(['skillId']).where({ 'targetProfileId': targetProfileId });
+      const skillsList = await knex('target-profiles_skills')
+        .select(['skillId'])
+        .where({ targetProfileId: targetProfileId });
 
       const skillsId = skillsList.map((skill) => skill.skillId);
       // then
       expect(skillsId).to.exactlyContain(['skills1', 'skills2']);
     });
 
-    it('should throw exception given wrong insert', async function() {
+    it('should throw exception given wrong insert', async function () {
       const targetProfileData = {
         name: 'myFirstTargetProfile',
         imageUrl: 'someUrl',
@@ -70,14 +74,13 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#get', function() {
-
+  describe('#get', function () {
     let targetProfile;
     let targetProfileFirstSkill;
     let skillAssociatedToTargetProfile;
     let organizationId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       targetProfile = databaseBuilder.factory.buildTargetProfile({});
       targetProfileFirstSkill = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: targetProfile.id });
@@ -88,7 +91,7 @@ describe('Integration | Repository | Target-profile', function() {
       sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([skillAssociatedToTargetProfile]);
     });
 
-    it('should return the target profile with its associated skills and the list of organizations which could access it', function() {
+    it('should return the target profile with its associated skills and the list of organizations which could access it', function () {
       // when
       const promise = targetProfileRepository.get(targetProfile.id);
 
@@ -106,18 +109,17 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when the targetProfile does not exist', function() {
-      it('throws an error', async function() {
+    context('when the targetProfile does not exist', function () {
+      it('throws an error', async function () {
         const error = await catchErr(targetProfileRepository.get)(1);
 
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.have.string('Le profil cible avec l\'id 1 n\'existe pas');
+        expect(error.message).to.have.string("Le profil cible avec l'id 1 n'existe pas");
       });
     });
   });
 
-  describe('#findAllTargetProfilesOrganizationCanUse', function() {
-
+  describe('#findAllTargetProfilesOrganizationCanUse', function () {
     let ownerOrganizationId;
     let ownerOtherOrganizationId;
     let targetProfileSkill;
@@ -126,35 +128,44 @@ describe('Integration | Repository | Target-profile', function() {
     let organizationTargetProfilePublic;
     let publicTargetProfile;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       ownerOrganizationId = databaseBuilder.factory.buildOrganization().id;
       ownerOtherOrganizationId = databaseBuilder.factory.buildOrganization().id;
 
       organizationTargetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: false });
-      organizationTargetProfilePublic = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: true });
+      organizationTargetProfilePublic = databaseBuilder.factory.buildTargetProfile({
+        ownerOrganizationId,
+        isPublic: true,
+      });
       publicTargetProfile = databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: null, isPublic: true });
       databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: ownerOtherOrganizationId, isPublic: false });
       databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId: null, isPublic: true, outdated: true });
       databaseBuilder.factory.buildTargetProfile({ ownerOrganizationId, isPublic: false, outdated: true });
 
-      const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId: organizationTargetProfile.id });
+      const targetProfileSkillAssociation = databaseBuilder.factory.buildTargetProfileSkill({
+        targetProfileId: organizationTargetProfile.id,
+      });
       await databaseBuilder.commit();
 
       targetProfileSkill = { id: targetProfileSkillAssociation.skillId, name: '@Acquis2' };
       sinon.stub(skillDatasource, 'findOperativeByRecordIds').resolves([targetProfileSkill]);
     });
 
-    it('should return an Array', async function() {
+    it('should return an Array', async function () {
       // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(
+        ownerOrganizationId
+      );
 
       // then
       expect(foundTargetProfiles).to.be.an('array');
     });
 
-    it('should return all the target profile the organization can access but not outdated', async function() {
+    it('should return all the target profile the organization can access but not outdated', async function () {
       // when
-      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
+      const foundTargetProfiles = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(
+        ownerOrganizationId
+      );
 
       // then
       expect(foundTargetProfiles[0]).to.be.an.instanceOf(TargetProfile);
@@ -164,7 +175,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(foundTargetProfiles[2].name).to.equal(publicTargetProfile.name);
     });
 
-    it('should contain skills linked to every target profiles', function() {
+    it('should contain skills linked to every target profiles', function () {
       // when
       const promise = targetProfileRepository.findAllTargetProfilesOrganizationCanUse(ownerOrganizationId);
 
@@ -180,13 +191,12 @@ describe('Integration | Repository | Target-profile', function() {
         expect(skill.name).to.equal(targetProfileSkill.name);
       });
     });
-
   });
 
-  describe('#getByCampaignId', function() {
+  describe('#getByCampaignId', function () {
     let campaignId, targetProfileId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
       const { skillId } = databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId });
@@ -200,7 +210,7 @@ describe('Integration | Repository | Target-profile', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the target profile matching the campaign id', async function() {
+    it('should return the target profile matching the campaign id', async function () {
       // when
       const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
 
@@ -208,7 +218,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(targetProfile.id).to.equal(targetProfileId);
     });
 
-    it('should return the target profile with the stages ordered by threshold ASC', async function() {
+    it('should return the target profile with the stages ordered by threshold ASC', async function () {
       // when
       const targetProfile = await targetProfileRepository.getByCampaignId(campaignId);
 
@@ -220,10 +230,10 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#getByCampaignParticipationId', function() {
+  describe('#getByCampaignParticipationId', function () {
     let campaignParticipationId, targetProfileId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const anotherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const anotherCampaignId = databaseBuilder.factory.buildCampaign({ targetProfileId: anotherTargetProfileId }).id;
       databaseBuilder.factory.buildCampaignParticipation({ campaignId: anotherCampaignId });
@@ -243,7 +253,7 @@ describe('Integration | Repository | Target-profile', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the target profile matching the campaign participation id', async function() {
+    it('should return the target profile matching the campaign participation id', async function () {
       // when
       const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipationId);
 
@@ -251,7 +261,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(targetProfile.id).to.equal(targetProfileId);
     });
 
-    it('should return the target profile with the stages ordered by threshold ASC', async function() {
+    it('should return the target profile with the stages ordered by threshold ASC', async function () {
       // when
       const targetProfile = await targetProfileRepository.getByCampaignParticipationId(campaignParticipationId);
 
@@ -263,33 +273,35 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#findByIds', function() {
+  describe('#findByIds', function () {
     let targetProfile1;
     let targetProfileIds;
     const targetProfileIdNotExisting = 999;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       targetProfile1 = databaseBuilder.factory.buildTargetProfile();
       await databaseBuilder.commit();
     });
 
-    it('should return the target profile', async function() {
+    it('should return the target profile', async function () {
       // given
       targetProfileIds = [targetProfile1.id];
 
       const expectedTargetProfilesAttributes = _.map([targetProfile1], (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated'])
+      );
 
       // when
       const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
 
       // then
       const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated'])
+      );
       expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
     });
 
-    it('should return found target profiles', async function() {
+    it('should return found target profiles', async function () {
       // given
       const targetProfile2 = databaseBuilder.factory.buildTargetProfile();
       const targetProfile3 = databaseBuilder.factory.buildTargetProfile();
@@ -298,18 +310,20 @@ describe('Integration | Repository | Target-profile', function() {
       targetProfileIds = [targetProfile1.id, targetProfileIdNotExisting, targetProfile2.id, targetProfile3.id];
 
       const expectedTargetProfilesAttributes = _.map([targetProfile1, targetProfile2, targetProfile3], (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated'])
+      );
 
       // when
       const foundTargetProfiles = await targetProfileRepository.findByIds(targetProfileIds);
 
       // then
       const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated'])
+      );
       expect(foundTargetProfilesAttributes).to.deep.equal(expectedTargetProfilesAttributes);
     });
 
-    it('should return an empty array', async function() {
+    it('should return an empty array', async function () {
       // given
       targetProfileIds = [targetProfileIdNotExisting];
 
@@ -318,28 +332,30 @@ describe('Integration | Repository | Target-profile', function() {
 
       // then
       const foundTargetProfilesAttributes = _.map(foundTargetProfiles, (item) =>
-        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated']));
+        _.pick(item, ['id', 'isPublic', 'name', 'organizationId', 'outdated'])
+      );
       expect(foundTargetProfilesAttributes).to.deep.equal([]);
     });
   });
 
-  describe('#findPaginatedFiltered', function() {
-
-    context('when there are target profiles in the database', function() {
-
-      beforeEach(function() {
+  describe('#findPaginatedFiltered', function () {
+    context('when there are target profiles in the database', function () {
+      beforeEach(function () {
         _.times(3, databaseBuilder.factory.buildTargetProfile);
         return databaseBuilder.commit();
       });
 
-      it('should return an Array of TargetProfiles', async function() {
+      it('should return an Array of TargetProfiles', async function () {
         // given
         const filter = {};
         const page = { number: 1, size: 10 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 1, rowCount: 3 };
 
         // when
-        const { models: matchingTargetProfiles, pagination } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingTargetProfiles, pagination } = await targetProfileRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
 
         // then
         expect(matchingTargetProfiles).to.exist;
@@ -349,21 +365,23 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when there are lots of Target Profiles (> 10) in the database', function() {
-
-      beforeEach(function() {
+    context('when there are lots of Target Profiles (> 10) in the database', function () {
+      beforeEach(function () {
         _.times(12, databaseBuilder.factory.buildTargetProfile);
         return databaseBuilder.commit();
       });
 
-      it('should return paginated matching Target Profiles', async function() {
+      it('should return paginated matching Target Profiles', async function () {
         // given
         const filter = {};
         const page = { number: 1, size: 3 };
         const expectedPagination = { page: page.number, pageSize: page.size, pageCount: 4, rowCount: 12 };
 
         // when
-        const { models: matchingTargetProfiles, pagination } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingTargetProfiles, pagination } = await targetProfileRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
 
         // then
         expect(matchingTargetProfiles).to.have.lengthOf(3);
@@ -371,22 +389,24 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when there are multiple Target Profiles matching the same "name" search pattern', function() {
-
-      beforeEach(function() {
+    context('when there are multiple Target Profiles matching the same "name" search pattern', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildTargetProfile({ name: 'Dragon & co' });
         databaseBuilder.factory.buildTargetProfile({ name: 'Dragonades & co' });
         databaseBuilder.factory.buildTargetProfile({ name: 'Broca & co' });
         return databaseBuilder.commit();
       });
 
-      it('should return only Target Profiles matching "name" if given in filters', async function() {
+      it('should return only Target Profiles matching "name" if given in filters', async function () {
         // given
         const filter = { name: 'dra' };
         const page = { number: 1, size: 10 };
 
         // when
-        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
 
         // then
         expect(matchingTargetProfiles).to.have.lengthOf(2);
@@ -394,22 +414,24 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when there are multiple Target Profiles matching the same "id" search pattern', function() {
-
-      beforeEach(function() {
+    context('when there are multiple Target Profiles matching the same "id" search pattern', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildTargetProfile({ id: 12345 });
         databaseBuilder.factory.buildTargetProfile({ id: 2345 });
         databaseBuilder.factory.buildTargetProfile({ id: 6789 });
         return databaseBuilder.commit();
       });
 
-      it('should return only Target Profiles exactly matching "id" if given in filters', async function() {
+      it('should return only Target Profiles exactly matching "id" if given in filters', async function () {
         // given
         const filter = { id: '2345' };
         const page = { number: 1, size: 10 };
 
         // when
-        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
 
         // then
         expect(matchingTargetProfiles).to.have.lengthOf(1);
@@ -417,9 +439,8 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when there are multiple Target Profiles matching the fields "name", and "id" search pattern', function() {
-
-      beforeEach(function() {
+    context('when there are multiple Target Profiles matching the fields "name", and "id" search pattern', function () {
+      beforeEach(function () {
         databaseBuilder.factory.buildTargetProfile({ name: 'name_ok', id: 1234 });
         databaseBuilder.factory.buildTargetProfile({ name: 'name_ko', id: 1235 });
         databaseBuilder.factory.buildTargetProfile({ name: 'name_ok', id: 4567 });
@@ -427,13 +448,16 @@ describe('Integration | Repository | Target-profile', function() {
         return databaseBuilder.commit();
       });
 
-      it('should return only Target Profiles matching "id" AND "name" if given in filters', async function() {
+      it('should return only Target Profiles matching "id" AND "name" if given in filters', async function () {
         // given
         const filter = { name: 'name_ok', id: 1234 };
         const page = { number: 1, size: 10 };
 
         // when
-        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
 
         // then
         expect(matchingTargetProfiles).to.have.lengthOf(1);
@@ -442,24 +466,27 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when there are filters that should be ignored', function() {
+    context('when there are filters that should be ignored', function () {
       let targetProfileId1;
       let targetProfileId2;
 
-      beforeEach(function() {
+      beforeEach(function () {
         targetProfileId1 = databaseBuilder.factory.buildTargetProfile().id;
         targetProfileId2 = databaseBuilder.factory.buildTargetProfile().id;
 
         return databaseBuilder.commit();
       });
 
-      it('should ignore the filters and retrieve all target profiles', async function() {
+      it('should ignore the filters and retrieve all target profiles', async function () {
         // given
         const filter = { type: 1 };
         const page = { number: 1, size: 10 };
 
         // when
-        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({ filter, page });
+        const { models: matchingTargetProfiles } = await targetProfileRepository.findPaginatedFiltered({
+          filter,
+          page,
+        });
 
         // then
         expect(_.map(matchingTargetProfiles, 'id')).to.have.members([targetProfileId1, targetProfileId2]);
@@ -467,13 +494,12 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#attachOrganizations', function() {
-
-    afterEach(function() {
+  describe('#attachOrganizations', function () {
+    afterEach(function () {
       return knex('target-profile-shares').delete();
     });
 
-    it('should return attachedIds', async function() {
+    it('should return attachedIds', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();
@@ -489,7 +515,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(results).to.deep.equal({ duplicatedIds: [], attachedIds: [organization1.id, organization2.id] });
     });
 
-    it('add organization to the target profile', async function() {
+    it('add organization to the target profile', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organization1 = databaseBuilder.factory.buildOrganization();
       const organization2 = databaseBuilder.factory.buildOrganization();
@@ -510,8 +536,8 @@ describe('Integration | Repository | Target-profile', function() {
       expect(organizationIds).to.exactlyContain([organization1.id, organization2.id]);
     });
 
-    context('when the organization does not exist', function() {
-      it('throws an error', async function() {
+    context('when the organization does not exist', function () {
+      it('throws an error', async function () {
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const unknownOrganizationId = 99999;
@@ -529,13 +555,16 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when the organization is already attached', function() {
-      it('should return inserted organizationId', async function() {
+    context('when the organization is already attached', function () {
+      it('should return inserted organizationId', async function () {
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const firstOrganization = databaseBuilder.factory.buildOrganization();
         const secondOrganization = databaseBuilder.factory.buildOrganization();
 
-        databaseBuilder.factory.buildTargetProfileShare({ targetProfileId: targetProfileId, organizationId: firstOrganization.id });
+        databaseBuilder.factory.buildTargetProfileShare({
+          targetProfileId: targetProfileId,
+          organizationId: firstOrganization.id,
+        });
 
         await databaseBuilder.commit();
 
@@ -550,13 +579,12 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#attachOrganizationIds', function() {
-
-    afterEach(function() {
+  describe('#attachOrganizationIds', function () {
+    afterEach(function () {
       return knex('target-profile-shares').delete();
     });
 
-    it('add organizations to the target profile', async function() {
+    it('add organizations to the target profile', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       const organizationId1 = databaseBuilder.factory.buildOrganization().id;
       const organizationId2 = databaseBuilder.factory.buildOrganization().id;
@@ -566,30 +594,31 @@ describe('Integration | Repository | Target-profile', function() {
 
       await targetProfileRepository.attachOrganizationIds({ targetProfileId, organizationIds });
 
-      const rows = await knex('target-profile-shares')
-        .select('organizationId')
-        .where({ targetProfileId });
+      const rows = await knex('target-profile-shares').select('organizationId').where({ targetProfileId });
       const result = rows.map(({ organizationId }) => organizationId);
 
       expect(result).to.exactlyContain(organizationIds);
     });
 
-    context('when the organization does not exist', function() {
-      it('throws an error', async function() {
+    context('when the organization does not exist', function () {
+      it('throws an error', async function () {
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         await databaseBuilder.commit();
 
         const organizationIds = [10];
 
-        const error = await catchErr(targetProfileRepository.attachOrganizationIds)({ targetProfileId, organizationIds });
+        const error = await catchErr(targetProfileRepository.attachOrganizationIds)({
+          targetProfileId,
+          organizationIds,
+        });
 
         expect(error).to.be.an.instanceOf(NotFoundError);
-        expect(error.message).to.have.string('L\'organization  avec l\'id 10 n\'existe pas');
+        expect(error.message).to.have.string("L'organization  avec l'id 10 n'existe pas");
       });
     });
 
-    context('when the organization is already attached', function() {
-      it('should return inserted organization', async function() {
+    context('when the organization is already attached', function () {
+      it('should return inserted organization', async function () {
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const firstOrganization = databaseBuilder.factory.buildOrganization();
         const secondOrganization = databaseBuilder.factory.buildOrganization();
@@ -598,11 +627,12 @@ describe('Integration | Repository | Target-profile', function() {
 
         await databaseBuilder.commit();
 
-        await targetProfileRepository.attachOrganizationIds({ targetProfileId, organizationIds: [firstOrganization.id, secondOrganization.id] });
+        await targetProfileRepository.attachOrganizationIds({
+          targetProfileId,
+          organizationIds: [firstOrganization.id, secondOrganization.id],
+        });
 
-        const rows = await knex('target-profile-shares')
-          .select('organizationId')
-          .where({ targetProfileId });
+        const rows = await knex('target-profile-shares').select('organizationId').where({ targetProfileId });
         const result = rows.map(({ organizationId }) => organizationId);
 
         expect(result).to.deep.equal([firstOrganization.id, secondOrganization.id]);
@@ -610,10 +640,9 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#isAttachedToOrganizations', function() {
-
-    context('when none of given organizations is attached to the targetProfile', function() {
-      it('return true', async function() {
+  describe('#isAttachedToOrganizations', function () {
+    context('when none of given organizations is attached to the targetProfile', function () {
+      it('return true', async function () {
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const organization1 = databaseBuilder.factory.buildOrganization();
         const organization2 = databaseBuilder.factory.buildOrganization();
@@ -630,8 +659,8 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when one of given organizations is attached to the targetProfile', function() {
-      it('return true', async function() {
+    context('when one of given organizations is attached to the targetProfile', function () {
+      it('return true', async function () {
         const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         const organization1 = databaseBuilder.factory.buildOrganization();
         const organization2 = databaseBuilder.factory.buildOrganization();
@@ -651,9 +680,8 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#update', function() {
-
-    it('should update the target profile name', async function() {
+  describe('#update', function () {
+    it('should update the target profile name', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
       await databaseBuilder.commit();
@@ -667,7 +695,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(name).to.equal(targetProfile.name);
     });
 
-    it('should outdate the target profile', async function() {
+    it('should outdate the target profile', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ outdated: true });
       await databaseBuilder.commit();
@@ -681,7 +709,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(outdated).to.equal(targetProfile.outdated);
     });
 
-    it('should not update the target profile and throw an error while id not existing', async function() {
+    it('should not update the target profile and throw an error while id not existing', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
       await databaseBuilder.commit();
@@ -695,7 +723,7 @@ describe('Integration | Repository | Target-profile', function() {
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('should not update the target profile name for an database error', async function() {
+    it('should not update the target profile name for an database error', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile({ name: 'Arthur' });
       await databaseBuilder.commit();
@@ -709,11 +737,11 @@ describe('Integration | Repository | Target-profile', function() {
     });
   });
 
-  describe('#findOrganizationIds', function() {
+  describe('#findOrganizationIds', function () {
     let targetProfileId;
     const expectedOrganizationIds = [];
 
-    beforeEach(function() {
+    beforeEach(function () {
       targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       _.times(2, () => {
         const organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -723,16 +751,15 @@ describe('Integration | Repository | Target-profile', function() {
       return databaseBuilder.commit();
     });
 
-    context('when there are organizations linked to the target profile', function() {
-
-      it('should return an Array of Organization ids', async function() {
+    context('when there are organizations linked to the target profile', function () {
+      it('should return an Array of Organization ids', async function () {
         const organizationIds = await targetProfileRepository.findOrganizationIds(targetProfileId);
 
         expect(organizationIds).to.be.an('array');
         expect(organizationIds).to.deep.equal(expectedOrganizationIds);
       });
 
-      it('should not include an organization that is not attach to target profile', async function() {
+      it('should not include an organization that is not attach to target profile', async function () {
         databaseBuilder.factory.buildOrganization();
         await databaseBuilder.commit();
 
@@ -742,9 +769,8 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when no organization is linked to the target profile', function() {
-
-      it('should return an empty array', async function() {
+    context('when no organization is linked to the target profile', function () {
+      it('should return an empty array', async function () {
         const otherTargetProfileId = databaseBuilder.factory.buildTargetProfile().id;
         await databaseBuilder.commit();
 
@@ -754,9 +780,8 @@ describe('Integration | Repository | Target-profile', function() {
       });
     });
 
-    context('when target profile does not exist', function() {
-
-      it('should throw', async function() {
+    context('when target profile does not exist', function () {
+      it('should throw', async function () {
         const error = await catchErr(targetProfileRepository.findOrganizationIds)(999);
 
         expect(error).to.be.instanceOf(NotFoundError);

@@ -1,9 +1,6 @@
 const _ = require('lodash');
 const iconv = require('iconv-lite');
-const {
-  expect, knex, databaseBuilder,
-  generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+const { expect, knex, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
 require('events').EventEmitter.defaultMaxListeners = 60;
@@ -13,25 +10,29 @@ const SchoolingRegistrationColumns = require('../../../../lib/infrastructure/ser
 const { getI18n } = require('../../../tooling/i18n/i18n');
 const i18n = getI18n();
 
-const schoolingRegistrationCsvColumns = new SchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
+const schoolingRegistrationCsvColumns = new SchoolingRegistrationColumns(i18n).columns
+  .map((column) => column.label)
+  .join(';');
 
-describe('Acceptance | Application | organization-controller-import-schooling-registrations', function() {
-
+describe('Acceptance | Application | organization-controller-import-schooling-registrations', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', function() {
-
+  describe('POST /api/organizations/{id}/schooling-registrations/import-siecle', function () {
     const externalId = 'UAI123ABC';
     let organizationId;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const connectedUser = databaseBuilder.factory.buildUser();
-      organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true, externalId }).id;
+      organizationId = databaseBuilder.factory.buildOrganization({
+        type: 'SCO',
+        isManagingStudents: true,
+        externalId,
+      }).id;
       databaseBuilder.factory.buildMembership({
         organizationId,
         userId: connectedUser.id,
@@ -48,153 +49,23 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       };
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('schooling-registrations').delete();
     });
 
-    context('When a XML SIECLE file is loaded', function() {
-
-      context('when no schoolingRegistration has been imported yet, and the file is well formatted', function() {
-        beforeEach(function() {
+    context('When a XML SIECLE file is loaded', function () {
+      context('when no schoolingRegistration has been imported yet, and the file is well formatted', function () {
+        beforeEach(function () {
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  '<ELEVE ELEVE_ID="0001">' +
-                    '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
-                    '<NOM_USAGE></NOM_USAGE>' +
-                    '<PRENOM>Luciole</PRENOM>' +
-                    '<PRENOM2>Léa</PRENOM2>' +
-                    '<PRENOM3>Lucy</PRENOM3>' +
-                    '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
-                    '<CODE_PAYS>100</CODE_PAYS>' +
-                    '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-                    '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-                    '<CODE_MEF>123456789</CODE_MEF>' +
-                    '<CODE_STATUT>AP</CODE_STATUT>' +
-                  '</ELEVE>' +
-                  '<ELEVE ELEVE_ID="0002">' +
-                    '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-                    '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-                    '<PRENOM>Harry</PRENOM>' +
-                    '<PRENOM2>Coco</PRENOM2>' +
-                    '<PRENOM3></PRENOM3>' +
-                    '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-                    '<CODE_PAYS>132</CODE_PAYS>' +
-                    '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
-                    '<CODE_MEF>12341234</CODE_MEF>' +
-                    '<CODE_STATUT>ST</CODE_STATUT>' +
-                  '</ELEVE>' +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
-              '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
-          options.payload = buffer;
-        });
-
-        it('should respond with a 204 - no content', async function() {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-
-        it('should create all schoolingRegistrations', async function() {
-          // when
-          await server.inject(options);
-
-          // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Luciole', 'Harry']);
-        });
-      });
-
-      context('when schoolingRegistrations have been already imported, and the file is well formatted', function() {
-        beforeEach(async function() {
-          databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '0000000001Y', organizationId });
-          await databaseBuilder.commit();
-
-          const buffer = iconv.encode(
-            '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
-            '<PARAMETRES>' +
-            '<UAJ>UAI123ABC</UAJ>' +
-            '</PARAMETRES>' +
-            '<DONNEES>' +
-            '<ELEVES>' +
-            '<ELEVE ELEVE_ID="0001">' +
-            '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
-            '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
-            '<NOM_USAGE></NOM_USAGE>' +
-            '<PRENOM>Luciole</PRENOM>' +
-            '<PRENOM2>Léa</PRENOM2>' +
-            '<PRENOM3>Lucy</PRENOM3>' +
-            '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
-            '<CODE_PAYS>100</CODE_PAYS>' +
-            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-            '<CODE_MEF>123456789</CODE_MEF>' +
-            '<CODE_STATUT>AP</CODE_STATUT>' +
-            '</ELEVE>' +
-            '</ELEVES>' +
-            '<STRUCTURES>' +
-            '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-            '<STRUCTURE>' +
-            '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-            '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-            '</STRUCTURE>' +
-            '</STRUCTURES_ELEVE>' +
-            '</STRUCTURES>' +
-            '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
-          options.payload = buffer;
-        });
-
-        it('should respond with a 204 - no content', async function() {
-          // when
-          const response = await server.inject(options);
-
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
-
-        it('should disable old schooling registrations', async function() {
-          // when
-          await server.inject(options);
-
-          // then
-          const schoolingRegistration = await knex('schooling-registrations').where({ nationalStudentId: '0000000001Y' }).first();
-          expect(schoolingRegistration.isDisabled).to.be.true;
-        });
-      });
-
-      context('when some schoolingRegistrations data are not well formatted', function() {
-        beforeEach(function() {
-          // given
-          const wellFormattedStudent =
-            '<ELEVE ELEVE_ID="0001">' +
-              '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
+              '<ELEVES>' +
+              '<ELEVE ELEVE_ID="0001">' +
+              '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
               '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
               '<NOM_USAGE></NOM_USAGE>' +
               '<PRENOM>Luciole</PRENOM>' +
@@ -206,98 +77,235 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
               '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
               '<CODE_MEF>123456789</CODE_MEF>' +
               '<CODE_STATUT>AP</CODE_STATUT>' +
+              '</ELEVE>' +
+              '<ELEVE ELEVE_ID="0002">' +
+              '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+              '<PRENOM>Harry</PRENOM>' +
+              '<PRENOM2>Coco</PRENOM2>' +
+              '<PRENOM3></PRENOM3>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>132</CODE_PAYS>' +
+              '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+              '</ELEVE>' +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
+              '</DONNEES>' +
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
+          options.payload = buffer;
+        });
+
+        it('should respond with a 204 - no content', async function () {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+
+        it('should create all schoolingRegistrations', async function () {
+          // when
+          await server.inject(options);
+
+          // then
+          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+          expect(schoolingRegistrations).to.have.lengthOf(2);
+          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Luciole', 'Harry']);
+        });
+      });
+
+      context('when schoolingRegistrations have been already imported, and the file is well formatted', function () {
+        beforeEach(async function () {
+          databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '0000000001Y', organizationId });
+          await databaseBuilder.commit();
+
+          const buffer = iconv.encode(
+            '<?xml version="1.0" encoding="ISO-8859-15"?>' +
+              '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
+              '<DONNEES>' +
+              '<ELEVES>' +
+              '<ELEVE ELEVE_ID="0001">' +
+              '<ID_NATIONAL>0000000001X</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE></NOM_USAGE>' +
+              '<PRENOM>Luciole</PRENOM>' +
+              '<PRENOM2>Léa</PRENOM2>' +
+              '<PRENOM3>Lucy</PRENOM3>' +
+              '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>123456789</CODE_MEF>' +
+              '<CODE_STATUT>AP</CODE_STATUT>' +
+              '</ELEVE>' +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
+              '</DONNEES>' +
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
+          options.payload = buffer;
+        });
+
+        it('should respond with a 204 - no content', async function () {
+          // when
+          const response = await server.inject(options);
+
+          // then
+          expect(response.statusCode).to.equal(204);
+        });
+
+        it('should disable old schooling registrations', async function () {
+          // when
+          await server.inject(options);
+
+          // then
+          const schoolingRegistration = await knex('schooling-registrations')
+            .where({ nationalStudentId: '0000000001Y' })
+            .first();
+          expect(schoolingRegistration.isDisabled).to.be.true;
+        });
+      });
+
+      context('when some schoolingRegistrations data are not well formatted', function () {
+        beforeEach(function () {
+          // given
+          const wellFormattedStudent =
+            '<ELEVE ELEVE_ID="0001">' +
+            '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>HANDMADE</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE></NOM_USAGE>' +
+            '<PRENOM>Luciole</PRENOM>' +
+            '<PRENOM2>Léa</PRENOM2>' +
+            '<PRENOM3>Lucy</PRENOM3>' +
+            '<DATE_NAISS>31/12/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>123456789</CODE_MEF>' +
+            '<CODE_STATUT>AP</CODE_STATUT>' +
             '</ELEVE>';
 
           const malformedStudentsBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
-            '<PARAMETRES>' +
-            '<UAJ>UAI123ABC</UAJ>' +
-            '</PARAMETRES>' +
+              '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  wellFormattedStudent +
-                  '<ELEVE ELEVE_ID="0002">' +
-                    '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-                    '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-                    '<PRENOM>Harry</PRENOM>' +
-                    '<PRENOM2>Coco</PRENOM2>' +
-                    '<PRENOM3></PRENOM3>' +
-                    '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-                    '<CODE_PAYS>100</CODE_PAYS>' +
-                    '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-                    '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-                    '<CODE_MEF>12341234</CODE_MEF>' +
-                    '<CODE_STATUT>ST</CODE_STATUT>' +
-                  '</ELEVE>' +
-                  '<ELEVE ELEVE_ID="0003">' +
-                    '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>DAUMUR</NOM_DE_FAMILLE>' +
-                    '<PRENOM>Bran</PRENOM>' +
-                    '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-                    '<CODE_PAYS>100</CODE_PAYS>' +
-                    '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-                    '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-                    '<CODE_MEF>12341234</CODE_MEF>' +
-                    '<CODE_STATUT>ST</CODE_STATUT>' +
-                  '</ELEVE>' +
-                  '<ELEVE ELEVE_ID="0004">' +
-                    '<ID_NATIONAL>00000000125</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>FRAS</NOM_DE_FAMILLE>' +
-                    '<PRENOM>Valentin</PRENOM>' +
-                    '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-                    '<CODE_PAYS>100</CODE_PAYS>' +
-                    '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-                    '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-                    '<CODE_MEF>12341234</CODE_MEF>' +
-                    '<CODE_STATUT>ST</CODE_STATUT>' +
-                  '</ELEVE>' +
-                  '<ELEVE ELEVE_ID="0005">' +
-                    '<ID_NATIONAL>00000000126</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>VANDOU</NOM_DE_FAMILLE>' +
-                    '<PRENOM>Hubert</PRENOM>' +
-                    '<DATE_NAISS>31/08/2009</DATE_NAISS>' +
-                    '<DATE_SORTIE>01/09/2019</DATE_SORTIE>' +
-                    '<CODE_PAYS>100</CODE_PAYS>' +
-                    '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-                    '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-                    '<CODE_MEF>12341234</CODE_MEF>' +
-                    '<CODE_STATUT>ST</CODE_STATUT>' +
-                  '</ELEVE>' +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0004">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>Inactifs</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0005">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>5B</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
+              '<ELEVES>' +
+              wellFormattedStudent +
+              '<ELEVE ELEVE_ID="0002">' +
+              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+              '<PRENOM>Harry</PRENOM>' +
+              '<PRENOM2>Coco</PRENOM2>' +
+              '<PRENOM3></PRENOM3>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+              '</ELEVE>' +
+              '<ELEVE ELEVE_ID="0003">' +
+              '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>DAUMUR</NOM_DE_FAMILLE>' +
+              '<PRENOM>Bran</PRENOM>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+              '</ELEVE>' +
+              '<ELEVE ELEVE_ID="0004">' +
+              '<ID_NATIONAL>00000000125</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>FRAS</NOM_DE_FAMILLE>' +
+              '<PRENOM>Valentin</PRENOM>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+              '</ELEVE>' +
+              '<ELEVE ELEVE_ID="0005">' +
+              '<ID_NATIONAL>00000000126</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>VANDOU</NOM_DE_FAMILLE>' +
+              '<PRENOM>Hubert</PRENOM>' +
+              '<DATE_NAISS>31/08/2009</DATE_NAISS>' +
+              '<DATE_SORTIE>01/09/2019</DATE_SORTIE>' +
+              '<CODE_PAYS>100</CODE_PAYS>' +
+              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+              '</ELEVE>' +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0004">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>Inactifs</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0005">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>5B</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
               '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
 
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should save well formatted schoolingRegistrations only', async function() {
+        it('should save well formatted schoolingRegistrations only', async function () {
           // when
           await server.inject(options);
 
@@ -308,61 +316,68 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when the schoolingRegistration has already been imported, but in another organization', function() {
-        beforeEach(async function() {
+      context('when the schoolingRegistration has already been imported, but in another organization', function () {
+        beforeEach(async function () {
           // given
           const otherOrganizationId = databaseBuilder.factory.buildOrganization().id;
-          databaseBuilder.factory.buildSchoolingRegistration({ nationalStudentId: '00000000124', organizationId: otherOrganizationId });
+          databaseBuilder.factory.buildSchoolingRegistration({
+            nationalStudentId: '00000000124',
+            organizationId: otherOrganizationId,
+          });
           await databaseBuilder.commit();
 
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  '<ELEVE ELEVE_ID="0001">' +
-                    '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-                    '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-                    '<PRENOM>Harry</PRENOM>' +
-                    '<PRENOM2>Coco</PRENOM2>' +
-                    '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-                    '<CODE_PAYS>132</CODE_PAYS>' +
-                    '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
-                    '<CODE_MEF>12341234</CODE_MEF>' +
-                    '<CODE_STATUT>ST</CODE_STATUT>' +
-                  '</ELEVE>' +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
+              '<ELEVES>' +
+              '<ELEVE ELEVE_ID="0001">' +
+              '<ID_NATIONAL>00000000124</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+              '<PRENOM>Harry</PRENOM>' +
+              '<PRENOM2>Coco</PRENOM2>' +
+              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+              '<CODE_PAYS>132</CODE_PAYS>' +
+              '<VILLE_NAISS>LONDRES</VILLE_NAISS>' +
+              '<CODE_MEF>12341234</CODE_MEF>' +
+              '<CODE_STATUT>ST</CODE_STATUT>' +
+              '</ELEVE>' +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
               '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
 
           options.payload = buffer;
         });
 
-        it('should save the schoolingRegistration in the current organization', async function() {
+        it('should save the schoolingRegistration in the current organization', async function () {
           // when
           const response = await server.inject(options);
 
           // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ nationalStudentId: '00000000124' });
+          const schoolingRegistrations = await knex('schooling-registrations').where({
+            nationalStudentId: '00000000124',
+          });
           expect(schoolingRegistrations).to.have.lengthOf(2);
           expect(response.statusCode).to.equal(204);
         });
       });
 
-      context('when a schoolingRegistration is present twice in the file', function() {
-        beforeEach(async function() {
+      context('when a schoolingRegistration is present twice in the file', function () {
+        beforeEach(async function () {
           // given
           const schoolingRegistration1 =
             '<ELEVE ELEVE_ID="0001">' +
@@ -392,36 +407,38 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
 
           const bufferWithMalformedStudent = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
-            '<PARAMETRES>' +
-            '<UAJ>UAI123ABC</UAJ>' +
-            '</PARAMETRES>' +
-            '<DONNEES>' +
-            '<ELEVES>' +
-            schoolingRegistration1 +
-            schoolingRegistration2 +
-            '</ELEVES>' +
-            '<STRUCTURES>' +
-            '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-            '<STRUCTURE>' +
-            '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-            '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-            '</STRUCTURE>' +
-            '</STRUCTURES_ELEVE>' +
-            '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-            '<STRUCTURE>' +
-            '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-            '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-            '</STRUCTURE>' +
-            '</STRUCTURES_ELEVE>' +
-            '</STRUCTURES>' +
-            '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '<BEE_ELEVES VERSION="2.1">' +
+              '<PARAMETRES>' +
+              '<UAJ>UAI123ABC</UAJ>' +
+              '</PARAMETRES>' +
+              '<DONNEES>' +
+              '<ELEVES>' +
+              schoolingRegistration1 +
+              schoolingRegistration2 +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
+              '</DONNEES>' +
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
 
           options.payload = bufferWithMalformedStudent;
         });
 
-        it('should not import any schoolingRegistration and return a 412', async function() {
+        it('should not import any schoolingRegistration and return a 412', async function () {
           // when
           const response = await server.inject(options);
 
@@ -432,74 +449,76 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be updated', function() {
-        beforeEach(async function() {
+      context('when a schoolingRegistration cant be updated', function () {
+        beforeEach(async function () {
           // given
           const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
-              '<ID_NATIONAL>00000000456</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-              '<PRENOM>Harry</PRENOM>' +
-              '<PRENOM2>Coco</PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS></DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>00000000456</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+            '<PRENOM>Harry</PRENOM>' +
+            '<PRENOM2>Coco</PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS></DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const schoolingRegistrationThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0002">' +
-              '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE></NOM_USAGE>' +
-              '<PRENOM>ATTEND</PRENOM>' +
-              '<PRENOM2></PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>00000000123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE></NOM_USAGE>' +
+            '<PRENOM>ATTEND</PRENOM>' +
+            '<PRENOM2></PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const bufferWithMalformedStudent = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
-                  schoolingRegistrationThatCouldBeUpdated +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0003">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
+              '<ELEVES>' +
+              schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
+              schoolingRegistrationThatCouldBeUpdated +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0003">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
               '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
 
           options.payload = bufferWithMalformedStudent;
 
@@ -519,7 +538,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
         });
 
-        it('should not update any schoolingRegistration and return a 400 - Bad Request', async function() {
+        it('should not update any schoolingRegistration and return a 400 - Bad Request', async function () {
           // when
           const response = await server.inject(options);
 
@@ -530,85 +549,87 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be updated but another could be created', function() {
-        beforeEach(async function() {
+      context('when a schoolingRegistration cant be updated but another could be created', function () {
+        beforeEach(async function () {
           // given
           const schoolingRegistrationThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0001">' +
-              '<ID_NATIONAL>123</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE>PEPSIGRECO</NOM_USAGE>' +
-              '<PRENOM>ARNAUD</PRENOM>' +
-              '<PRENOM2></PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE>PEPSIGRECO</NOM_USAGE>' +
+            '<PRENOM>ARNAUD</PRENOM>' +
+            '<PRENOM2></PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0002">' +
-              '<ID_NATIONAL>456</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-              '<PRENOM>Harry</PRENOM>' +
-              '<PRENOM2>Coco</PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS></DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>456</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+            '<PRENOM>Harry</PRENOM>' +
+            '<PRENOM2>Coco</PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS></DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const schoolingRegistrationThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0003">' +
-              '<ID_NATIONAL>789</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE></NOM_USAGE>' +
-              '<PRENOM>ATTEND</PRENOM>' +
-              '<PRENOM2></PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>789</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE></NOM_USAGE>' +
+            '<PRENOM>ATTEND</PRENOM>' +
+            '<PRENOM2></PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  schoolingRegistrationThatCouldBeCreated +
-                  schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
-                  schoolingRegistrationThatCouldBeUpdated +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
+              '<ELEVES>' +
+              schoolingRegistrationThatCouldBeCreated +
+              schoolingRegistrationThatCantBeUpdatedBecauseBirthdateIsMissing +
+              schoolingRegistrationThatCouldBeUpdated +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
               '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
 
           options.payload = buffer;
 
@@ -628,7 +649,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 400 - Bad Request', async function() {
+        it('should not update and create anyone, and return a 400 - Bad Request', async function () {
           // when
           const response = await server.inject(options);
 
@@ -640,91 +661,93 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be created but another could be updated', function() {
-        beforeEach(async function() {
+      context('when a schoolingRegistration cant be created but another could be updated', function () {
+        beforeEach(async function () {
           // given
           const schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing =
             '<ELEVE ELEVE_ID="0001">' +
-              '<ID_NATIONAL>123</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE>PEPSIGRECO</NOM_USAGE>' +
-              '<PRENOM>ARNAUD</PRENOM>' +
-              '<PRENOM2></PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS></DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>123</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COLAGRECO</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE>PEPSIGRECO</NOM_USAGE>' +
+            '<PRENOM>ARNAUD</PRENOM>' +
+            '<PRENOM2></PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS></DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const schoolingRegistrationThatCouldBeCreated =
             '<ELEVE ELEVE_ID="0002">' +
-              '<ID_NATIONAL>456</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
-              '<PRENOM>Harry</PRENOM>' +
-              '<PRENOM2>Coco</PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>456</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>COVERT</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE>COJAUNE</NOM_USAGE>' +
+            '<PRENOM>Harry</PRENOM>' +
+            '<PRENOM2>Coco</PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const schoolingRegistrationThatCouldBeUpdated =
             '<ELEVE ELEVE_ID="0003">' +
-              '<ID_NATIONAL>789</ID_NATIONAL>' +
-              '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
-              '<NOM_USAGE></NOM_USAGE>' +
-              '<PRENOM>ATTEND</PRENOM>' +
-              '<PRENOM2></PRENOM2>' +
-              '<PRENOM3></PRENOM3>' +
-              '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
-              '<CODE_PAYS>100</CODE_PAYS>' +
-              '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
-              '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
-              '<CODE_MEF>12341234</CODE_MEF>' +
-              '<CODE_STATUT>ST</CODE_STATUT>' +
+            '<ID_NATIONAL>789</ID_NATIONAL>' +
+            '<NOM_DE_FAMILLE>JAUNE</NOM_DE_FAMILLE>' +
+            '<NOM_USAGE></NOM_USAGE>' +
+            '<PRENOM>ATTEND</PRENOM>' +
+            '<PRENOM2></PRENOM2>' +
+            '<PRENOM3></PRENOM3>' +
+            '<DATE_NAISS>01/07/1994</DATE_NAISS>' +
+            '<CODE_PAYS>100</CODE_PAYS>' +
+            '<CODE_DEPARTEMENT_NAISS>033</CODE_DEPARTEMENT_NAISS>' +
+            '<CODE_COMMUNE_INSEE_NAISS>33318</CODE_COMMUNE_INSEE_NAISS>' +
+            '<CODE_MEF>12341234</CODE_MEF>' +
+            '<CODE_STATUT>ST</CODE_STATUT>' +
             '</ELEVE>';
 
           const buffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing +
-                  schoolingRegistrationThatCouldBeCreated +
-                  schoolingRegistrationThatCouldBeUpdated +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0003">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
+              '<ELEVES>' +
+              schoolingRegistrationThatCantBeCreatedBecauseBirthdateIsMissing +
+              schoolingRegistrationThatCouldBeCreated +
+              schoolingRegistrationThatCouldBeUpdated +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0002">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0003">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
               '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
 
           options.payload = buffer;
 
@@ -738,7 +761,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           await databaseBuilder.commit();
         });
 
-        it('should not update and create anyone, and return a 400 - Bad Request', async function() {
+        it('should not update and create anyone, and return a 400 - Bad Request', async function () {
           // when
           const response = await server.inject(options);
 
@@ -750,37 +773,39 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schoolingRegistration cant be imported', function() {
-        beforeEach(function() {
+      context('when a schoolingRegistration cant be imported', function () {
+        beforeEach(function () {
           // given
           const malformedStudentsBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
               '<DONNEES>' +
-                '<ELEVES>' +
-                  '<ELEVE ELEVE_ID="0001">' +
-                    '<ID_NATIONAL>123</ID_NATIONAL>' +
-                    '<NOM_DE_FAMILLE>WRONG</NOM_DE_FAMILLE>' +
-                    '<PRENOM>Person</PRENOM>' +
-                  '</ELEVE>' +
-                '</ELEVES>' +
-                '<STRUCTURES>' +
-                  '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
-                    '<STRUCTURE>' +
-                      '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
-                      '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
-                    '</STRUCTURE>' +
-                  '</STRUCTURES_ELEVE>' +
-                '</STRUCTURES>' +
+              '<ELEVES>' +
+              '<ELEVE ELEVE_ID="0001">' +
+              '<ID_NATIONAL>123</ID_NATIONAL>' +
+              '<NOM_DE_FAMILLE>WRONG</NOM_DE_FAMILLE>' +
+              '<PRENOM>Person</PRENOM>' +
+              '</ELEVE>' +
+              '</ELEVES>' +
+              '<STRUCTURES>' +
+              '<STRUCTURES_ELEVE ELEVE_ID="0001">' +
+              '<STRUCTURE>' +
+              '<CODE_STRUCTURE>4A</CODE_STRUCTURE>' +
+              '<TYPE_STRUCTURE>D</TYPE_STRUCTURE>' +
+              '</STRUCTURE>' +
+              '</STRUCTURES_ELEVE>' +
+              '</STRUCTURES>' +
               '</DONNEES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
           options.payload = malformedStudentsBuffer;
         });
 
-        it('should not import the schoolingRegistrations and return a 400 - Bad Request', async function() {
+        it('should not import the schoolingRegistrations and return a 400 - Bad Request', async function () {
           // when
           const response = await server.inject(options);
 
@@ -791,20 +816,22 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when file in not properly formatted', function() {
-        beforeEach(function() {
+      context('when file in not properly formatted', function () {
+        beforeEach(function () {
           // given
           const malformedBuffer = iconv.encode(
             '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-            '<BEE_ELEVES VERSION="2.1">' +
+              '<BEE_ELEVES VERSION="2.1">' +
               '<PARAMETRES>' +
               '<UAJ>UAI123ABC</UAJ>' +
               '</PARAMETRES>' +
-            '</BEE_ELEVES>', 'ISO-8859-15');
+              '</BEE_ELEVES>',
+            'ISO-8859-15'
+          );
           options.payload = malformedBuffer;
         });
 
-        it('should return a 412 - Precondition Failed', async function() {
+        it('should return a 412 - Precondition Failed', async function () {
           // when
           const response = await server.inject(options);
 
@@ -815,13 +842,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when file is too large', function() {
-        beforeEach(function() {
+      context('when file is too large', function () {
+        beforeEach(function () {
           // given
           options.payload = Buffer.alloc(1048576 * 21, 'B'); // > 20 Mo buffer
         });
 
-        it('should return a 413 - Payload too large', async function() {
+        it('should return a 413 - Payload too large', async function () {
           // when
           const response = await server.inject(options);
 
@@ -833,52 +860,54 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
       });
     });
 
-    context('When a CSV SIECLE file is loaded', function() {
-      context('SCO : when no schooling registration has been imported yet, and the file is well formatted', function() {
-        beforeEach(function() {
-          const input = `${schoolingRegistrationCsvColumns}
+    context('When a CSV SIECLE file is loaded', function () {
+      context(
+        'SCO : when no schooling registration has been imported yet, and the file is well formatted',
+        function () {
+          beforeEach(function () {
+            const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           456F;O-Ren;;;Ishii;Cottonmouth;;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
-          const buffer = iconv.encode(input, 'UTF-8');
+            const buffer = iconv.encode(input, 'UTF-8');
 
-          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
-          options.payload = buffer;
-        });
+            (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+              (options.payload = buffer);
+          });
 
-        it('should respond with a 204 - no content', async function() {
-          // when
-          const response = await server.inject(options);
+          it('should respond with a 204 - no content', async function () {
+            // when
+            const response = await server.inject(options);
 
-          // then
-          expect(response.statusCode).to.equal(204);
-        });
+            // then
+            expect(response.statusCode).to.equal(204);
+          });
 
-        it('should create all schoolingRegistrations', async function() {
-          // when
-          await server.inject(options);
+          it('should create all schoolingRegistrations', async function () {
+            // when
+            await server.inject(options);
 
-          // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
-          expect(schoolingRegistrations).to.have.lengthOf(2);
-          expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
-        });
-      });
+            // then
+            const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+            expect(schoolingRegistrations).to.have.lengthOf(2);
+            expect(_.map(schoolingRegistrations, 'firstName')).to.have.members(['Beatrix', 'O-Ren']);
+          });
+        }
+      );
 
-      context('SCO : when no schooling registration has been imported yet', function() {
-
-        beforeEach(function() {
+      context('SCO : when no schooling registration has been imported yet', function () {
+        beforeEach(function () {
           const input = `${schoolingRegistrationCsvColumns}
             123F;Beatrix;The;Bride;Kiddo;Black Mamba;f;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
             456F;O-Ren;;;Ishii;Cottonmouth;M;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
             `;
           const buffer = iconv.encode(input, 'UTF-8');
 
-          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
-          options.payload = buffer;
+          (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+            (options.payload = buffer);
         });
 
-        it('should respond with a 204 - no content', async function() {
+        it('should respond with a 204 - no content', async function () {
           // when
           const response = await server.inject(options);
 
@@ -886,7 +915,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.statusCode).to.equal(204);
         });
 
-        it('should create all schoolingRegistrations', async function() {
+        it('should create all schoolingRegistrations', async function () {
           // when
           await server.inject(options);
 
@@ -898,8 +927,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when some schooling registrations data are not well formatted', function() {
-        it('should not save any schooling registration with missing family name', async function() {
+      context('when some schooling registrations data are not well formatted', function () {
+        it('should not save any schooling registration with missing family name', async function () {
           // given
           const input = `${schoolingRegistrationCsvColumns}
            123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
@@ -907,8 +936,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
            `;
           const buffer = iconv.encode(input, 'UTF-8');
 
-          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
-          options.payload = buffer;
+          (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+            (options.payload = buffer);
 
           // when
           const response = await server.inject(options);
@@ -921,7 +950,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.result.errors[0].meta.field).to.equal('Nom de famille*');
         });
 
-        it('should not save any schooling registration with wrong birthCountryCode', async function() {
+        it('should not save any schooling registration with wrong birthCountryCode', async function () {
           const wrongData = 'FRANC';
           // given
           const input = `${schoolingRegistrationCsvColumns}
@@ -929,8 +958,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
            `;
           const buffer = iconv.encode(input, 'UTF-8');
 
-          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
-          options.payload = buffer;
+          (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+            (options.payload = buffer);
 
           // when
           const response = await server.inject(options);
@@ -944,7 +973,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           expect(response.result.errors[0].meta.field).to.equal('Code pays naissance*');
         });
 
-        it('should not save any schooling registration with wrong birthCityCode', async function() {
+        it('should not save any schooling registration with wrong birthCityCode', async function () {
           const wrongData = 'A1234';
           // given
           const input = `${schoolingRegistrationCsvColumns}
@@ -952,8 +981,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
            `;
           const buffer = iconv.encode(input, 'UTF-8');
 
-          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
-          options.payload = buffer;
+          (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+            (options.payload = buffer);
 
           // when
           const response = await server.inject(options);
@@ -968,51 +997,56 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when a schooling registration has the same national student id than an other one in the file', function() {
-        beforeEach(function() {
-          const input = `${schoolingRegistrationCsvColumns}
+      context(
+        'when a schooling registration has the same national student id than an other one in the file',
+        function () {
+          beforeEach(function () {
+            const input = `${schoolingRegistrationCsvColumns}
           123F;Beatrix;The;Bride;Kiddo;Black Mamba;;01/01/1970;97422;;200;99100;ST;MEF1;Division 1;
           123F;O-Ren;;;Ishii;Cottonmouth;;01/01/1980;;Shangai;99;99132;ST;MEF1;Division 2;
           `;
-          const buffer = iconv.encode(input, 'UTF-8');
+            const buffer = iconv.encode(input, 'UTF-8');
 
-          options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`,
-          options.payload = buffer;
-        });
+            (options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle?format=csv`),
+              (options.payload = buffer);
+          });
 
-        it('should not import any schoolingRegistration and return a 412', async function() {
-          // when
-          const response = await server.inject(options);
+          it('should not import any schoolingRegistration and return a 412', async function () {
+            // when
+            const response = await server.inject(options);
 
-          // then
-          const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
+            // then
+            const schoolingRegistrations = await knex('schooling-registrations').where({ organizationId });
 
-          expect(schoolingRegistrations).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(412);
-          expect(response.result.errors[0].code).to.equal('IDENTIFIER_UNIQUE');
-        });
-      });
+            expect(schoolingRegistrations).to.have.lengthOf(0);
+            expect(response.statusCode).to.equal(412);
+            expect(response.result.errors[0].code).to.equal('IDENTIFIER_UNIQUE');
+          });
+        }
+      );
     });
 
-    context('Resource access management', function() {
-      beforeEach(function() {
+    context('Resource access management', function () {
+      beforeEach(function () {
         const buffer = iconv.encode(
           '<?xml version="1.0" encoding="ISO-8859-15"?>' +
-          '<BEE_ELEVES VERSION="2.1">' +
+            '<BEE_ELEVES VERSION="2.1">' +
             '<PARAMETRES>' +
             '<UAJ>UAI123ABC</UAJ>' +
             '</PARAMETRES>' +
-          '</BEE_ELEVES>', 'ISO-8859-15');
+            '</BEE_ELEVES>',
+          'ISO-8859-15'
+        );
         options.payload = buffer;
       });
 
-      context('when user is not authenticated', function() {
-        beforeEach(function() {
+      context('when user is not authenticated', function () {
+        beforeEach(function () {
           // given
           options.headers.authorization = 'invalid.access.token';
         });
 
-        it('should respond with a 401 - unauthorized access', async function() {
+        it('should respond with a 401 - unauthorized access', async function () {
           // when
           const response = await server.inject(options);
 
@@ -1021,8 +1055,8 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when user user does not belong to Organization', function() {
-        beforeEach(async function() {
+      context('when user user does not belong to Organization', function () {
+        beforeEach(async function () {
           // given
           const userId = databaseBuilder.factory.buildUser.withMembership().id;
           await databaseBuilder.commit();
@@ -1030,7 +1064,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
         });
 
-        it('should respond with a 403 - Forbidden access', async function() {
+        it('should respond with a 403 - Forbidden access', async function () {
           // when
           const response = await server.inject(options);
 
@@ -1039,10 +1073,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when Organization does not manage schoolingRegistrations', function() {
-        beforeEach(async function() {
+      context('when Organization does not manage schoolingRegistrations', function () {
+        beforeEach(async function () {
           // given
-          const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
+          const organizationId = databaseBuilder.factory.buildOrganization({
+            type: 'SCO',
+            isManagingStudents: false,
+          }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
             organizationId,
             organizationRole: Membership.roles.ADMIN,
@@ -1053,7 +1090,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
-        it('should respond with a 403 - Forbidden access', async function() {
+        it('should respond with a 403 - Forbidden access', async function () {
           // when
           const response = await server.inject(options);
 
@@ -1062,10 +1099,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when Organization is not a SCO organization', function() {
-        beforeEach(async function() {
+      context('when Organization is not a SCO organization', function () {
+        beforeEach(async function () {
           // given
-          const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
+          const organizationId = databaseBuilder.factory.buildOrganization({
+            type: 'SUP',
+            isManagingStudents: true,
+          }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
             organizationId,
             organizationRole: Membership.roles.ADMIN,
@@ -1076,7 +1116,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
-        it('should respond with a 403 - Forbidden access', async function() {
+        it('should respond with a 403 - Forbidden access', async function () {
           // when
           const response = await server.inject(options);
 
@@ -1085,10 +1125,13 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
         });
       });
 
-      context('when user is not ADMIN', function() {
-        beforeEach(async function() {
+      context('when user is not ADMIN', function () {
+        beforeEach(async function () {
           // given
-          const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
+          const organizationId = databaseBuilder.factory.buildOrganization({
+            type: 'SCO',
+            isManagingStudents: true,
+          }).id;
           const userId = databaseBuilder.factory.buildUser.withMembership({
             organizationId,
             organizationRole: Membership.roles.MEMBER,
@@ -1099,7 +1142,7 @@ describe('Acceptance | Application | organization-controller-import-schooling-re
           options.url = `/api/organizations/${organizationId}/schooling-registrations/import-siecle`;
         });
 
-        it('should respond with a 403 - Forbidden access', async function() {
+        it('should respond with a 403 - Forbidden access', async function () {
           // when
           const response = await server.inject(options);
 

@@ -21,23 +21,15 @@
 
 /* eslint-disable no-console */
 module.exports = function getNextCommitSubject(messageTitle, branchName) {
-
   const startsWithBraces = (str) => str.match(/^\[[^\]]/);
   const startsWithMergeBranch = (str) => str.indexOf('Merge branch') === 0;
   const startsWithMergePR = (str) => str.indexOf('Merge pull request') === 0;
   const startsWithHash = (str) => str.indexOf('#') === 0;
 
   const isCommitMessageToBePrepended = (str) =>
-    !startsWithBraces(str) &&
-    !startsWithMergeBranch(str) &&
-    !startsWithMergePR(str) &&
-    !startsWithHash(str);
+    !startsWithBraces(str) && !startsWithMergeBranch(str) && !startsWithMergePR(str) && !startsWithHash(str);
 
-  const branchesNotToModify = [
-    'dev',
-    'master',
-    'gh-pages',
-  ];
+  const branchesNotToModify = ['dev', 'master', 'gh-pages'];
 
   const isBranchModifiable = (branchName) => !branchesNotToModify.includes(branchName);
 
@@ -52,7 +44,6 @@ module.exports = function getNextCommitSubject(messageTitle, branchName) {
   const issueTag = getIssueTagFromBranchName(branchName);
 
   if (issueTag && isCommitMessageToBePrepended(messageTitle) && isBranchModifiable(branchName)) {
-
     // Apply the issue tag to message title
     const newTitle = `[${issueTag}] ${messageTitle}`;
 
@@ -60,7 +51,6 @@ module.exports = function getNextCommitSubject(messageTitle, branchName) {
       console.log(`[prepend-commit-message] New message title: ${newTitle}`);
     }
     return newTitle;
-
   } else {
     if (process.env.NODE_ENV !== 'test') {
       console.log('[prepend-commit-message] Commit message not to be modified');

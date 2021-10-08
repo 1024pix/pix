@@ -11,7 +11,6 @@ module.exports = function buildCertificationChallengeWithType({
   hasBeenSkippedAutomatically = false,
   certifiableBadgeKey = null,
 } = {}) {
-
   return new CertificationChallengeWithType({
     id,
     challengeId,

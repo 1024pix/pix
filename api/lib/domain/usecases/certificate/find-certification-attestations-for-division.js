@@ -5,7 +5,11 @@ module.exports = async function findCertificationAttestationsForDivision({
   division,
   certificationAttestationRepository,
 }) {
-  const certificationAttestations = await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division });
+  const certificationAttestations =
+    await certificationAttestationRepository.findByDivisionForScoIsManagingStudentsOrganization({
+      organizationId,
+      division,
+    });
 
   if (certificationAttestations.length === 0) {
     throw new NoCertificationAttestationForDivisionError(division);

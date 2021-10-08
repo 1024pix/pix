@@ -23,20 +23,24 @@ module.exports = async function enrollStudentsToSession({
 
   const students = await schoolingRegistrationRepository.findByIds({ ids: studentIds });
 
-  const doAllStudentsBelongToSameCertificationCenterAsSession = await _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository });
+  const doAllStudentsBelongToSameCertificationCenterAsSession =
+    await _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository });
   if (!doAllStudentsBelongToSameCertificationCenterAsSession) {
-    throw new ForbiddenAccess('Impossible d\'inscrire un élève ne faisant pas partie de votre établissement');
+    throw new ForbiddenAccess("Impossible d'inscrire un élève ne faisant pas partie de votre établissement");
   }
 
   const countries = await countryRepository.findAll();
 
   const scoCertificationCandidates = students.map((student) => {
-
     const studentInseeCountryCode = INSEE_PREFIX_CODE + student.birthCountryCode;
 
     const studentCountry = countries.find((country) => country.code === studentInseeCountryCode);
 
-    if (!studentCountry) throw new UnknownCountryForStudentEnrollmentError({ firstName: student.firstName.trim(), lastName: student.lastName.trim() });
+    if (!studentCountry)
+      throw new UnknownCountryForStudentEnrollmentError({
+        firstName: student.firstName.trim(),
+        lastName: student.lastName.trim(),
+      });
 
     return new SCOCertificationCandidate({
       firstName: student.firstName.trim(),
@@ -51,11 +55,16 @@ module.exports = async function enrollStudentsToSession({
     });
   });
 
-  await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({ sessionId, scoCertificationCandidates });
+  await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
+    sessionId,
+    scoCertificationCandidates,
+  });
 };
 
 function _doesSessionBelongToSameCertificationCenterAsReferent(referentCertificationCenterMemberships, session) {
-  return referentCertificationCenterMemberships.some((membership) => membership.certificationCenter.id === session.certificationCenterId);
+  return referentCertificationCenterMemberships.some(
+    (membership) => membership.certificationCenter.id === session.certificationCenterId
+  );
 }
 
 async function _doAllStudentsBelongToSameCertificationCenterAsSession({ students, session, organizationRepository }) {

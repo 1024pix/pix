@@ -29,7 +29,10 @@ function _toUserWithSchoolingRegistrationDTO(BookshelfSchoolingRegistration) {
   });
 }
 
-function _setSchoolingRegistrationFilters(qb, { lastName, firstName, studentNumber, division, group, connexionType } = {}) {
+function _setSchoolingRegistrationFilters(
+  qb,
+  { lastName, firstName, studentNumber, division, group, connexionType } = {}
+) {
   if (lastName) {
     qb.whereRaw('LOWER("schooling-registrations"."lastName") LIKE ?', `%${lastName.toLowerCase()}%`);
   }
@@ -61,15 +64,15 @@ function _setSchoolingRegistrationFilters(qb, { lastName, firstName, studentNumb
 }
 
 function _canReconcile(existingRegistrationForUserId, student) {
-  return existingRegistrationForUserId == null || existingRegistrationForUserId.nationalStudentId === student.nationalStudentId;
+  return (
+    existingRegistrationForUserId == null ||
+    existingRegistrationForUserId.nationalStudentId === student.nationalStudentId
+  );
 }
 
 module.exports = {
-
   findByIds({ ids }) {
-    const schoolingRegistrations = BookshelfSchoolingRegistration
-      .where('id', 'in', ids)
-      .fetchAll();
+    const schoolingRegistrations = BookshelfSchoolingRegistration.where('id', 'in', ids).fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
@@ -79,17 +82,18 @@ module.exports = {
     return knexConn('schooling-registrations')
       .where({ organizationId })
       .orderByRaw('LOWER("lastName") ASC, LOWER("firstName") ASC')
-      .then((schoolingRegistrations) => schoolingRegistrations.map((schoolingRegistration) => new SchoolingRegistration(schoolingRegistration)));
+      .then((schoolingRegistrations) =>
+        schoolingRegistrations.map((schoolingRegistration) => new SchoolingRegistration(schoolingRegistration))
+      );
   },
 
   async findByOrganizationIdAndUpdatedAtOrderByDivision({ organizationId, page, filter }) {
     const BEGINNING_OF_THE_2020_SCHOOL_YEAR = '2020-08-15';
-    const query = BookshelfSchoolingRegistration
-      .where((qb) => {
-        qb.where({ organizationId });
-        qb.where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR);
-        qb.where('isDisabled', false);
-      })
+    const query = BookshelfSchoolingRegistration.where((qb) => {
+      qb.where({ organizationId });
+      qb.where('updatedAt', '>', BEGINNING_OF_THE_2020_SCHOOL_YEAR);
+      qb.where('isDisabled', false);
+    })
       .query((qb) => {
         qb.orderByRaw('LOWER("division") ASC, LOWER("lastName") ASC, LOWER("firstName") ASC');
         if (filter.divisions) {
@@ -110,10 +114,7 @@ module.exports = {
   },
 
   async findByUserId({ userId }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
-      .where({ userId })
-      .orderBy('id')
-      .fetchAll();
+    const schoolingRegistrations = await BookshelfSchoolingRegistration.where({ userId }).orderBy('id').fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
@@ -129,8 +130,9 @@ module.exports = {
   },
 
   async findByUserIdAndSCOOrganization({ userId }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
-      .query((qb) => qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id'))
+    const schoolingRegistrations = await BookshelfSchoolingRegistration.query((qb) =>
+      qb.join('organizations', 'schooling-registrations.organizationId', 'organizations.id')
+    )
       .where({ userId, type: 'SCO' })
       .fetchAll();
 
@@ -146,13 +148,20 @@ module.exports = {
 
   async addOrUpdateOrganizationSchoolingRegistrations(schoolingRegistrationDatas, organizationId, domainTransaction) {
     const knexConn = domainTransaction.knexTransaction;
-    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map((schoolingRegistrationData) => new SchoolingRegistration({
-      ...schoolingRegistrationData,
-      organizationId,
-    }));
+    const schoolingRegistrationsFromFile = schoolingRegistrationDatas.map(
+      (schoolingRegistrationData) =>
+        new SchoolingRegistration({
+          ...schoolingRegistrationData,
+          organizationId,
+        })
+    );
     const existingSchoolingRegistrations = await this.findByOrganizationId({ organizationId }, domainTransaction);
 
-    const reconciledSchoolingRegistrationsToImport = await this._reconcileSchoolingRegistrations(schoolingRegistrationsFromFile, existingSchoolingRegistrations, domainTransaction);
+    const reconciledSchoolingRegistrationsToImport = await this._reconcileSchoolingRegistrations(
+      schoolingRegistrationsFromFile,
+      existingSchoolingRegistrations,
+      domainTransaction
+    );
 
     try {
       const schoolingRegistrationsToSave = reconciledSchoolingRegistrationsToImport.map((schoolingRegistration) => ({
@@ -170,12 +179,23 @@ module.exports = {
     }
   },
 
-  async _reconcileSchoolingRegistrations(schoolingRegistrationsToImport, existingSchoolingRegistrations, domainTransaction) {
-    const nationalStudentIdsFromFile = schoolingRegistrationsToImport.map((schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId);
-    const students = await studentRepository.findReconciledStudentsByNationalStudentId(_.compact(nationalStudentIdsFromFile), domainTransaction);
+  async _reconcileSchoolingRegistrations(
+    schoolingRegistrationsToImport,
+    existingSchoolingRegistrations,
+    domainTransaction
+  ) {
+    const nationalStudentIdsFromFile = schoolingRegistrationsToImport.map(
+      (schoolingRegistrationData) => schoolingRegistrationData.nationalStudentId
+    );
+    const students = await studentRepository.findReconciledStudentsByNationalStudentId(
+      _.compact(nationalStudentIdsFromFile),
+      domainTransaction
+    );
 
     _.each(students, (student) => {
-      const schoolingRegistration = _.find(schoolingRegistrationsToImport, { nationalStudentId: student.nationalStudentId });
+      const schoolingRegistration = _.find(schoolingRegistrationsToImport, {
+        nationalStudentId: student.nationalStudentId,
+      });
       const existingRegistrationForUserId = existingSchoolingRegistrations.find((currentSchoolingRegistration) => {
         return currentSchoolingRegistration.userId === student.account.userId;
       });
@@ -187,25 +207,25 @@ module.exports = {
   },
 
   async findByOrganizationIdAndBirthdate({ organizationId, birthdate }) {
-    const schoolingRegistrations = await BookshelfSchoolingRegistration
-      .query((qb) => {
-        qb.where('organizationId', organizationId);
-        qb.where('birthdate', birthdate);
-        qb.where('isDisabled', false);
-      })
-      .fetchAll();
+    const schoolingRegistrations = await BookshelfSchoolingRegistration.query((qb) => {
+      qb.where('organizationId', organizationId);
+      qb.where('birthdate', birthdate);
+      qb.where('isDisabled', false);
+    }).fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfSchoolingRegistration, schoolingRegistrations);
   },
 
   async reconcileUserToSchoolingRegistration({ userId, schoolingRegistrationId }) {
     try {
-      const schoolingRegistration = await BookshelfSchoolingRegistration
-        .where({ id: schoolingRegistrationId })
+      const schoolingRegistration = await BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId })
         .where('isDisabled', false)
-        .save({ userId }, {
-          patch: true,
-        });
+        .save(
+          { userId },
+          {
+            patch: true,
+          }
+        );
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
@@ -214,9 +234,11 @@ module.exports = {
 
   async reconcileUserByNationalStudentIdAndOrganizationId({ nationalStudentId, userId, organizationId }) {
     try {
-      const schoolingRegistration = await BookshelfSchoolingRegistration
-        .where({ organizationId, nationalStudentId, isDisabled: false })
-        .save({ userId }, { patch: true });
+      const schoolingRegistration = await BookshelfSchoolingRegistration.where({
+        organizationId,
+        nationalStudentId,
+        isDisabled: false,
+      }).save({ userId }, { patch: true });
       return bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration);
     } catch (error) {
       throw new UserCouldNotBeReconciledError();
@@ -224,39 +246,44 @@ module.exports = {
   },
 
   async dissociateUserFromSchoolingRegistration(schoolingRegistrationId) {
-    await BookshelfSchoolingRegistration
-      .where({ id: schoolingRegistrationId })
-      .save({ userId: null }, {
+    await BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId }).save(
+      { userId: null },
+      {
         patch: true,
-      });
+      }
+    );
   },
 
   async dissociateUserFromSchoolingRegistrationIds(schoolingRegistrationIds) {
-    await BookshelfSchoolingRegistration
-      .where('id', 'in', schoolingRegistrationIds)
-      .save({ userId: null }, { patch: true });
+    await BookshelfSchoolingRegistration.where('id', 'in', schoolingRegistrationIds).save(
+      { userId: null },
+      { patch: true }
+    );
   },
 
   findOneByUserIdAndOrganizationId({ userId, organizationId }) {
-    return BookshelfSchoolingRegistration
-      .where({ userId, organizationId })
+    return BookshelfSchoolingRegistration.where({ userId, organizationId })
       .fetch({ require: false })
-      .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration));
+      .then((schoolingRegistration) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
+      );
   },
 
   async updateStudentNumber(studentId, studentNumber) {
-    await BookshelfSchoolingRegistration
-      .where('id', studentId)
-      .save({ studentNumber }, {
+    await BookshelfSchoolingRegistration.where('id', studentId).save(
+      { studentNumber },
+      {
         patch: true,
-      });
+      }
+    );
   },
 
   get(schoolingRegistrationId) {
-    return BookshelfSchoolingRegistration
-      .where({ id: schoolingRegistrationId })
+    return BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId })
       .fetch()
-      .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration))
+      .then((schoolingRegistration) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
+      )
       .catch((err) => {
         if (err instanceof BookshelfSchoolingRegistration.NotFoundError) {
           throw new NotFoundError(`Student not found for ID ${schoolingRegistrationId}`);
@@ -282,8 +309,7 @@ module.exports = {
   },
 
   async findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page = {} }) {
-    const { models, pagination } = await BookshelfSchoolingRegistration
-      .where({ organizationId })
+    const { models, pagination } = await BookshelfSchoolingRegistration.where({ organizationId })
       .query((qb) => {
         qb.select(
           'schooling-registrations.id',
@@ -297,12 +323,17 @@ module.exports = {
           'schooling-registrations.organizationId',
           'users.username',
           'users.email',
-          'authentication-methods.externalIdentifier as samlId',
+          'authentication-methods.externalIdentifier as samlId'
         );
-        qb.orderByRaw('LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC');
+        qb.orderByRaw(
+          'LOWER("schooling-registrations"."lastName") ASC, LOWER("schooling-registrations"."firstName") ASC'
+        );
         qb.leftJoin('users', 'schooling-registrations.userId', 'users.id');
-        qb.leftJoin('authentication-methods', function() {
-          this.on('users.id', 'authentication-methods.userId').andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR);
+        qb.leftJoin('authentication-methods', function () {
+          this.on('users.id', 'authentication-methods.userId').andOnVal(
+            'authentication-methods.identityProvider',
+            AuthenticationMethod.identityProviders.GAR
+          );
         });
         qb.where('schooling-registrations.isDisabled', false);
         qb.modify(_setSchoolingRegistrationFilters, filter);
@@ -319,25 +350,24 @@ module.exports = {
     };
   },
 
-  updateUserIdWhereNull({
-    schoolingRegistrationId,
-    userId,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
-    return BookshelfSchoolingRegistration
-      .where({ id: schoolingRegistrationId, userId: null })
+  updateUserIdWhereNull({ schoolingRegistrationId, userId, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    return BookshelfSchoolingRegistration.where({ id: schoolingRegistrationId, userId: null })
       .save(
         { userId },
         {
           transacting: domainTransaction.knexTransaction,
           patch: true,
           method: 'update',
-        },
+        }
       )
-      .then((schoolingRegistration) => bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration))
+      .then((schoolingRegistration) =>
+        bookshelfToDomainConverter.buildDomainObject(BookshelfSchoolingRegistration, schoolingRegistration)
+      )
       .catch((err) => {
         if (err instanceof BookshelfSchoolingRegistration.NoRowsUpdatedError) {
-          throw new SchoolingRegistrationNotFound(`SchoolingRegistration not found for ID ${schoolingRegistrationId} and user ID null.`);
+          throw new SchoolingRegistrationNotFound(
+            `SchoolingRegistration not found for ID ${schoolingRegistrationId} and user ID null.`
+          );
         }
         throw err;
       });

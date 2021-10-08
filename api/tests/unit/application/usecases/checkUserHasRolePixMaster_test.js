@@ -3,16 +3,15 @@ const useCase = require('../../../../lib/application/usecases/checkUserHasRolePi
 const tokenService = require('../../../../lib/domain/services/token-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', function() {
-
+describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', function () {
   const accessToken = 'jwt.access.token';
 
-  beforeEach(function() {
+  beforeEach(function () {
     sinon.stub(tokenService, 'extractUserId').resolves();
     sinon.stub(userRepository, 'isPixMaster');
   });
 
-  it('should resolve true when the user (designed by the access_token via its userId) has role PIX_MASTER', function() {
+  it('should resolve true when the user (designed by the access_token via its userId) has role PIX_MASTER', function () {
     // given
     userRepository.isPixMaster.resolves(true);
 
@@ -25,7 +24,7 @@ describe('Unit | Application | Use Case | CheckUserHasRolePixMaster', function()
     });
   });
 
-  it('should resolve false when the user (designed by the access_token via its userId) has not role PIX_MASTER', function() {
+  it('should resolve false when the user (designed by the access_token via its userId) has not role PIX_MASTER', function () {
     // given
     userRepository.isPixMaster.resolves(false);
 

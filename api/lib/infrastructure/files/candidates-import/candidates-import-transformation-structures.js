@@ -77,7 +77,7 @@ const _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5 = [
 
 // ALL
 const TRANSFORMATION_STRUCTS_FOR_PIX_CERTIF_CANDIDATES_IMPORT_BY_VERSION = {
-  '1.5': {
+  1.5: {
     version: '1.5',
     transformStruct: _TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5,
     headers: _getHeadersFromTransformationStruct(_TRANSFORMATION_STRUCT_FOR_PIX_CERTIF_CANDIDATES_IMPORT_V1_5),
@@ -92,7 +92,7 @@ function _toNotEmptyTrimmedStringOrNull(val) {
 
 function _toNonZeroValueOrNull(val) {
   const value = _.toNumber(val);
-  return _.isNaN(value) ? null : (value === 0 ? null : value);
+  return _.isNaN(value) ? null : value === 0 ? null : value;
 }
 
 function _getHeadersFromTransformationStruct(transformationStruct) {

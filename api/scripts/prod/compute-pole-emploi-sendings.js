@@ -13,13 +13,20 @@ let total;
 
 async function computePoleEmploiSendings(campaignCode, concurrency) {
   const campaignParticipationsStarted = await knex('campaign-participations')
-    .select('campaign-participations.id', 'campaign-participations.createdAt', 'campaign-participations.userId', 'campaign-participations.campaignId')
+    .select(
+      'campaign-participations.id',
+      'campaign-participations.createdAt',
+      'campaign-participations.userId',
+      'campaign-participations.campaignId'
+    )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('organization-tags', 'organization-tags.organizationId', 'campaigns.organizationId')
     .join('tags', 'tags.id', 'organization-tags.tagId')
-    .leftJoin('pole-emploi-sendings', function() {
-      this.on({ 'pole-emploi-sendings.campaignParticipationId': 'campaign-participations.id' })
-        .andOnVal('pole-emploi-sendings.type', PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_START);
+    .leftJoin('pole-emploi-sendings', function () {
+      this.on({ 'pole-emploi-sendings.campaignParticipationId': 'campaign-participations.id' }).andOnVal(
+        'pole-emploi-sendings.type',
+        PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_START
+      );
     })
     .where({ 'pole-emploi-sendings.id': null, 'tags.name': 'POLE EMPLOI', 'campaigns.code': campaignCode });
   count = 0;
@@ -29,16 +36,29 @@ async function computePoleEmploiSendings(campaignCode, concurrency) {
   await bluebird.map(campaignParticipationsStarted, _computeStartedPoleEmploiSendings, { concurrency });
 
   const campaignParticipationsCompleted = await knex('campaign-participations')
-    .select('campaign-participations.id', 'campaign-participations.createdAt', 'campaign-participations.userId', 'campaign-participations.campaignId', 'assessments.updatedAt as assessmentUpdatedAt')
+    .select(
+      'campaign-participations.id',
+      'campaign-participations.createdAt',
+      'campaign-participations.userId',
+      'campaign-participations.campaignId',
+      'assessments.updatedAt as assessmentUpdatedAt'
+    )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('organization-tags', 'organization-tags.organizationId', 'campaigns.organizationId')
     .join('tags', 'tags.id', 'organization-tags.tagId')
     .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
-    .leftJoin('pole-emploi-sendings', function() {
-      this.on({ 'pole-emploi-sendings.campaignParticipationId': 'campaign-participations.id' })
-        .andOnVal('pole-emploi-sendings.type', PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION);
+    .leftJoin('pole-emploi-sendings', function () {
+      this.on({ 'pole-emploi-sendings.campaignParticipationId': 'campaign-participations.id' }).andOnVal(
+        'pole-emploi-sendings.type',
+        PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_COMPLETION
+      );
     })
-    .where({ 'pole-emploi-sendings.id': null, 'tags.name': 'POLE EMPLOI', 'campaigns.code': campaignCode, 'assessments.state': 'completed' });
+    .where({
+      'pole-emploi-sendings.id': null,
+      'tags.name': 'POLE EMPLOI',
+      'campaigns.code': campaignCode,
+      'assessments.state': 'completed',
+    });
   count = 0;
   total = campaignParticipationsCompleted.length;
   console.log(`Participations terminées à traiter : ${total}`);
@@ -46,13 +66,21 @@ async function computePoleEmploiSendings(campaignCode, concurrency) {
   await bluebird.map(campaignParticipationsCompleted, _computeCompletedPoleEmploiSendings, { concurrency });
 
   const campaignParticipationsShared = await knex('campaign-participations')
-    .select('campaign-participations.id', 'campaign-participations.createdAt', 'campaign-participations.userId', 'campaign-participations.campaignId', 'campaign-participations.sharedAt')
+    .select(
+      'campaign-participations.id',
+      'campaign-participations.createdAt',
+      'campaign-participations.userId',
+      'campaign-participations.campaignId',
+      'campaign-participations.sharedAt'
+    )
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
     .join('organization-tags', 'organization-tags.organizationId', 'campaigns.organizationId')
     .join('tags', 'tags.id', 'organization-tags.tagId')
-    .leftJoin('pole-emploi-sendings', function() {
-      this.on({ 'pole-emploi-sendings.campaignParticipationId': 'campaign-participations.id' })
-        .andOnVal('pole-emploi-sendings.type', PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING);
+    .leftJoin('pole-emploi-sendings', function () {
+      this.on({ 'pole-emploi-sendings.campaignParticipationId': 'campaign-participations.id' }).andOnVal(
+        'pole-emploi-sendings.type',
+        PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING
+      );
     })
     .where({ 'pole-emploi-sendings.id': null, 'tags.name': 'POLE EMPLOI', 'campaigns.code': campaignCode })
     .whereNotNull('campaign-participations.sharedAt');
@@ -149,10 +177,7 @@ const campaignCode = process.argv[2];
 const concurrency = parseInt(process.argv[3]);
 
 if (require.main === module) {
-  computePoleEmploiSendings(campaignCode, concurrency)
-    .then(handleSuccess)
-    .catch(handleError)
-    .finally(exit);
+  computePoleEmploiSendings(campaignCode, concurrency).then(handleSuccess).catch(handleError).finally(exit);
 }
 
 function handleSuccess() {

@@ -2,17 +2,15 @@ const { expect, catchErr } = require('../../../test-helper');
 const { NotFoundError, FileValidationError } = require('../../../../lib/domain/errors');
 const { checkCsvExtensionFile, parseCsv, parseCsvWithHeader } = require('../../../../scripts/helpers/csvHelpers');
 
-describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
-
+describe('Unit | Scripts | Helpers | csvHelpers.js', function () {
   const notExistFilePath = 'notExist.file';
   const badExtensionFilePath = `${__dirname}/files/bad_extension.html`;
   const validFilePath = `${__dirname}/files/valid-organizations-test.csv`;
   const utf8FilePath = `${__dirname}/files/utf8_excel-test.csv`;
   const withHeaderFilePath = `${__dirname}/files/withHeader-test.csv`;
 
-  describe('#checkCsvExtensionFile', function() {
-
-    it('should throw a NotFoundError when file does not exist', async function() {
+  describe('#checkCsvExtensionFile', function () {
+    it('should throw a NotFoundError when file does not exist', async function () {
       // when
       const error = await catchErr(checkCsvExtensionFile)(notExistFilePath);
 
@@ -21,7 +19,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
       expect(error.message).to.equal(`File ${notExistFilePath} not found!`);
     });
 
-    it('should throw a FileValidationError when file extension is not ".csv"', async function() {
+    it('should throw a FileValidationError when file extension is not ".csv"', async function () {
       // when
       const error = await catchErr(checkCsvExtensionFile)(badExtensionFilePath);
 
@@ -31,15 +29,14 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
       expect(error.meta).to.deep.equal({ fileExtension: '.html' });
     });
 
-    it('should not throw if file is valid', async function() {
+    it('should not throw if file is valid', async function () {
       // then
       expect(await checkCsvExtensionFile(validFilePath)).to.not.throw;
     });
   });
 
-  describe('#parseCsv', function() {
-
-    it('should throw a NotFoundError when file does not exist', async function() {
+  describe('#parseCsv', function () {
+    it('should throw a NotFoundError when file does not exist', async function () {
       // when
       const error = await catchErr(parseCsv)(notExistFilePath);
 
@@ -48,7 +45,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
       expect(error.message).to.equal(`File ${notExistFilePath} not found!`);
     });
 
-    it('should parse csv file with 3 lines', async function() {
+    it('should parse csv file with 3 lines', async function () {
       // given
       const options = { skipEmptyLines: true };
 
@@ -60,7 +57,7 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
       expect(data[0][2]).to.equal('david.herault@pix.fr');
     });
 
-    it('should cast the unexpected utf8 char add by Excel', async function() {
+    it('should cast the unexpected utf8 char add by Excel', async function () {
       // when
       const data = await parseCsv(utf8FilePath);
 
@@ -69,9 +66,8 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
     });
   });
 
-  describe('#parseCsvWithHeader', function() {
-
-    it('should parse csv file with header', async function() {
+  describe('#parseCsvWithHeader', function () {
+    it('should parse csv file with header', async function () {
       // given
       const expectedItems = [
         { uai: '0080017A', name: 'Collège Les Pixous' },
@@ -87,5 +83,4 @@ describe('Unit | Scripts | Helpers | csvHelpers.js', function() {
       expect(items).to.have.deep.members(expectedItems);
     });
   });
-
 });

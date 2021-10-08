@@ -7,7 +7,7 @@ module.exports = {
       .select('acquired')
       .from('partner-certifications')
       .where({ certificationCourseId })
-      .whereIn('partnerKey', [ CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2 ])
+      .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
       .first();
 
     if (!result) {

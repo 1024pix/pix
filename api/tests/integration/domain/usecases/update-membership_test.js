@@ -8,20 +8,20 @@ const Membership = require('../../../../lib/domain/models/Membership');
 
 const updateMembership = require('../../../../lib/domain/usecases/update-membership');
 
-describe('Integration | UseCases | update-membership', function() {
-
-  afterEach(function() {
+describe('Integration | UseCases | update-membership', function () {
+  afterEach(function () {
     return knex('certification-center-memberships').delete();
   });
 
-  it('should update membership', async function() {
+  it('should update membership', async function () {
     // given
     const organizationId = databaseBuilder.factory.buildOrganization().id;
     const userId = databaseBuilder.factory.buildUser().id;
     const updatedByUserId = databaseBuilder.factory.buildUser().id;
 
     const membershipId = databaseBuilder.factory.buildMembership({
-      organizationId, userId,
+      organizationId,
+      userId,
       organizationRole: Membership.roles.MEMBER,
     }).id;
 
@@ -44,11 +44,9 @@ describe('Integration | UseCases | update-membership', function() {
     expect(result.updatedByUserId).equal(updatedByUserId);
   });
 
-  describe('when the organizationRole to change is set to ADMIN', function() {
-
-    describe('when the SCO organization has a certification center', function() {
-
-      it('it should create a certification center membership ', async function() {
+  describe('when the organizationRole to change is set to ADMIN', function () {
+    describe('when the SCO organization has a certification center', function () {
+      it('it should create a certification center membership ', async function () {
         // given
         const externalId = 'foo';
         const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
@@ -77,10 +75,12 @@ describe('Integration | UseCases | update-membership', function() {
         });
 
         // then
-        const certificationCenterMembership = await knex('certification-center-memberships').where({
-          userId: userWhoseOrganizationRoleIsToUpdate.id,
-          certificationCenterId,
-        }).first();
+        const certificationCenterMembership = await knex('certification-center-memberships')
+          .where({
+            userId: userWhoseOrganizationRoleIsToUpdate.id,
+            certificationCenterId,
+          })
+          .first();
 
         expect(certificationCenterMembership).not.to.be.undefined;
         expect(certificationCenterMembership.userId).to.equal(userWhoseOrganizationRoleIsToUpdate.id);
@@ -89,9 +89,8 @@ describe('Integration | UseCases | update-membership', function() {
     });
   });
 
-  describe('when the organizationRole to change is set to MEMBER', function() {
-
-    it('should only update membership and keep certificationMembership untouch', async function() {
+  describe('when the organizationRole to change is set to MEMBER', function () {
+    it('should only update membership and keep certificationMembership untouch', async function () {
       // given
       const externalId = 'foo';
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', externalId }).id;
@@ -120,10 +119,12 @@ describe('Integration | UseCases | update-membership', function() {
       });
 
       // then
-      const certificationCenterMembership = await knex('certification-center-memberships').where({
-        userId: userWhoseOrganizationRoleIsToUpdate.id,
-        certificationCenterId,
-      }).first();
+      const certificationCenterMembership = await knex('certification-center-memberships')
+        .where({
+          userId: userWhoseOrganizationRoleIsToUpdate.id,
+          certificationCenterId,
+        })
+        .first();
 
       expect(certificationCenterMembership).to.be.undefined;
       expect(result).to.be.an.instanceOf(Membership);
@@ -131,5 +132,4 @@ describe('Integration | UseCases | update-membership', function() {
       expect(result.updatedByUserId).equal(adminWhoWantsToMakeTheOrganizationRoleChange.id);
     });
   });
-
 });

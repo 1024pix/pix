@@ -21,8 +21,8 @@ const ParticipantResultRepository = {
 };
 
 async function _getParticipationResults(userId, campaignId) {
-
-  const { isCompleted, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate } = await _getParticipationAttributes(userId, campaignId);
+  const { isCompleted, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate } =
+    await _getParticipationAttributes(userId, campaignId);
 
   const knowledgeElements = await _findTargetedKnowledgeElements(campaignId, userId, sharedAt);
 
@@ -42,7 +42,14 @@ async function _getParticipationResults(userId, campaignId) {
 
 async function _getParticipationAttributes(userId, campaignId) {
   const participationAttributes = await knex('campaign-participations')
-    .select(['state', 'campaignParticipationId', 'sharedAt', 'assessments.createdAt AS assessmentCreatedAt', 'participantExternalId', knex.raw('CAST("masteryRate" AS FLOAT)')])
+    .select([
+      'state',
+      'campaignParticipationId',
+      'sharedAt',
+      'assessments.createdAt AS assessmentCreatedAt',
+      'participantExternalId',
+      knex.raw('CAST("masteryRate" AS FLOAT)'),
+    ])
     .join('assessments', 'campaign-participations.id', 'assessments.campaignParticipationId')
     .where({ 'campaign-participations.campaignId': campaignId })
     .andWhere({ 'campaign-participations.userId': userId })
@@ -53,8 +60,16 @@ async function _getParticipationAttributes(userId, campaignId) {
     throw new NotFoundError(`Participation not found for user ${userId} and campaign ${campaignId}`);
   }
 
-  const { state, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate } = participationAttributes;
-  return { isCompleted: state === Assessment.states.COMPLETED, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate };
+  const { state, campaignParticipationId, sharedAt, assessmentCreatedAt, participantExternalId, masteryRate } =
+    participationAttributes;
+  return {
+    isCompleted: state === Assessment.states.COMPLETED,
+    campaignParticipationId,
+    sharedAt,
+    assessmentCreatedAt,
+    participantExternalId,
+    masteryRate,
+  };
 }
 
 async function _findTargetedKnowledgeElements(campaignId, userId, sharedAt) {
@@ -79,10 +94,7 @@ async function _getTargetProfile(campaignId, locale) {
 }
 
 async function _getTargetProfileId(campaignId) {
-  return knex('campaigns')
-    .select('targetProfileId')
-    .where({ 'campaigns.id': campaignId })
-    .first();
+  return knex('campaigns').select('targetProfileId').where({ 'campaigns.id': campaignId }).first();
 }
 
 function _getStages(targetProfileId) {
@@ -103,7 +115,10 @@ async function _getBadges(targetProfileId) {
 }
 
 function _findBadgePartnerCompetence(badges) {
-  return knex('badge-partner-competences').whereIn('badgeId', badges.map(({ id }) => id));
+  return knex('badge-partner-competences').whereIn(
+    'badgeId',
+    badges.map(({ id }) => id)
+  );
 }
 
 async function _findTargetedCompetences(targetProfileId, locale) {
@@ -130,16 +145,16 @@ async function _findTargetedCompetences(targetProfileId, locale) {
 }
 
 async function _findTargetedSkillIds(targetProfileId) {
-  const targetProfileSkillIds = await knex('target-profiles_skills').select('skillId').where({ targetProfileId }).then((skills) => skills.map(({ skillId }) => skillId));
+  const targetProfileSkillIds = await knex('target-profiles_skills')
+    .select('skillId')
+    .where({ targetProfileId })
+    .then((skills) => skills.map(({ skillId }) => skillId));
   const targetedSkills = await skillDatasource.findOperativeByRecordIds(targetProfileSkillIds);
   return targetedSkills.map(({ id }) => id);
 }
 
 async function _isCampaignMultipleSendings(campaignId) {
-  const campaign = await knex('campaigns')
-    .select('multipleSendings')
-    .where({ 'campaigns.id': campaignId })
-    .first();
+  const campaign = await knex('campaigns').select('multipleSendings').where({ 'campaigns.id': campaignId }).first();
   return campaign.multipleSendings;
 }
 

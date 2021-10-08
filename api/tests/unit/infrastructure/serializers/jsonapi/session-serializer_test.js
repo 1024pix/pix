@@ -4,13 +4,12 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Session = require('../../../../../lib/domain/models/Session');
 const { statuses } = require('../../../../../lib/domain/models/Session');
 
-describe('Unit | Serializer | JSONAPI | session-serializer', function() {
-
-  describe('#serialize()', function() {
+describe('Unit | Serializer | JSONAPI | session-serializer', function () {
+  describe('#serialize()', function () {
     let modelSession;
     let expectedJsonApi;
 
-    beforeEach(function() {
+    beforeEach(function () {
       expectedJsonApi = {
         data: {
           type: 'sessions',
@@ -37,8 +36,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
               },
             },
             'certification-reports': {
-              'links': {
-                'related': '/api/sessions/12/certification-reports',
+              links: {
+                related: '/api/sessions/12/certification-reports',
               },
             },
           },
@@ -61,9 +60,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       });
     });
 
-    context('when session does not have a link to an existing certification center', function() {
-
-      it('should convert a Session model object into JSON API data', function() {
+    context('when session does not have a link to an existing certification center', function () {
+      it('should convert a Session model object into JSON API data', function () {
         // when
         const json = serializer.serialize(modelSession);
 
@@ -71,10 +69,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expect(json).to.deep.equal(expectedJsonApi);
       });
     });
-
   });
 
-  describe('#deserialize()', function() {
+  describe('#deserialize()', function () {
     const jsonApiSession = {
       data: {
         type: 'sessions',
@@ -107,19 +104,19 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
             },
           },
           'certification-reports': {
-            'links': {
-              'related': '/api/sessions/12/certification-reports',
+            links: {
+              related: '/api/sessions/12/certification-reports',
             },
           },
         },
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       jsonApiSession.data.attributes.date = '2017-01-20';
     });
 
-    it('should convert JSON API data to a Session', function() {
+    it('should convert JSON API data to a Session', function () {
       // when
       const session = serializer.deserialize(jsonApiSession);
 
@@ -138,7 +135,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     EMPTY_BLANK_AND_NULL.forEach((examinerGlobalComment) => {
-      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function() {
+      it(`should return no examiner comment if comment is "${examinerGlobalComment}"`, function () {
         // given
         jsonApiSession.data.attributes['examiner-global-comment'] = examinerGlobalComment;
 
@@ -151,8 +148,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     });
   });
 
-  describe('#serializeForFinalization()', function() {
-
+  describe('#serializeForFinalization()', function () {
     let modelSession;
     const expectedJsonApi = {
       data: {
@@ -167,7 +163,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       modelSession = new Session({
         id: 12,
         address: 'Nice',
@@ -180,17 +176,14 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         status: statuses.CREATED,
         examinerGlobalComment: 'It was a fine session my dear',
       });
-
     });
 
-    it('should convert a Session model object into JSON API data', function() {
+    it('should convert a Session model object into JSON API data', function () {
       // when
       const json = serializer.serializeForFinalization(modelSession);
 
       // then
       expect(json).to.deep.equal(expectedJsonApi);
     });
-
   });
-
 });

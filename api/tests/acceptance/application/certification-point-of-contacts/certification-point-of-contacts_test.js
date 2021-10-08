@@ -1,17 +1,15 @@
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | CertificationPointOfContact', function() {
-
+describe('Acceptance | Route | CertificationPointOfContact', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/certification-point-of-contacts/me', function() {
-
-    it('should 200 HTTP status code', async function() {
+  describe('GET /api/certification-point-of-contacts/me', function () {
+    it('should 200 HTTP status code', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -34,5 +32,4 @@ describe('Acceptance | Route | CertificationPointOfContact', function() {
       expect(response.result.data.id).to.equal(userId.toString());
     });
   });
-
 });

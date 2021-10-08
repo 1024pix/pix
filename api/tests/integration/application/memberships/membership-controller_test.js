@@ -5,11 +5,10 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const moduleUnderTest = require('../../../../lib/application/memberships');
 const { InvalidMembershipOrganizationRoleError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Memberships | membership-controller', function() {
-
+describe('Integration | Application | Memberships | membership-controller', function () {
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sinon.stub(usecases, 'createMembership');
     sinon.stub(usecases, 'updateMembership');
     sinon.stub(usecases, 'disableMembership');
@@ -19,21 +18,19 @@ describe('Integration | Application | Memberships | membership-controller', func
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('#create', function() {
-
+  describe('#create', function () {
     const payload = {
       data: {
         type: 'memberships',
         relationships: {
-          'user': { data: { type: 'users', id: 1 } },
-          'organization': { data: { type: 'organizations', id: 1 } },
+          user: { data: { type: 'users', id: 1 } },
+          organization: { data: { type: 'organizations', id: 1 } },
         },
       },
     };
 
-    context('Success cases', function() {
-
-      it('should resolve a 201 HTTP response', async function() {
+    context('Success cases', function () {
+      it('should resolve a 201 HTTP response', async function () {
         // given
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
@@ -47,7 +44,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return a JSON API membership', async function() {
+      it('should return a JSON API membership', async function () {
         // given
         const membership = domainBuilder.buildMembership();
         usecases.createMembership.resolves(membership);
@@ -62,11 +59,9 @@ describe('Integration | Application | Memberships | membership-controller', func
       });
     });
 
-    context('Error cases', function() {
-
-      context('when user is not allowed to access resource', function() {
-
-        it('should resolve a 403 HTTP response', async function() {
+    context('Error cases', function () {
+      context('when user is not allowed to access resource', function () {
+        it('should resolve a 403 HTTP response', async function () {
           // given
           securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response().code(403).takeover());
 
@@ -80,11 +75,9 @@ describe('Integration | Application | Memberships | membership-controller', func
     });
   });
 
-  describe('#update', function() {
-
-    context('Success cases', function() {
-
-      it('should return a 200 HTTP response', async function() {
+  describe('#update', function () {
+    context('Success cases', function () {
+      it('should return a 200 HTTP response', async function () {
         // given
         const membership = new Membership({
           id: 123,
@@ -94,9 +87,7 @@ describe('Integration | Application | Memberships | membership-controller', func
         const updatedMembership = domainBuilder.buildMembership({
           organizationRole: Membership.roles.MEMBER,
         });
-        usecases.updateMembership
-          .withArgs({ membership })
-          .resolves(updatedMembership);
+        usecases.updateMembership.withArgs({ membership }).resolves(updatedMembership);
         securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
 
         // when
@@ -124,11 +115,9 @@ describe('Integration | Application | Memberships | membership-controller', func
       });
     });
 
-    context('Error cases', function() {
-
-      context('when request is not valid', function() {
-
-        it('should resolve a 400 HTTP response', async function() {
+    context('Error cases', function () {
+      context('when request is not valid', function () {
+        it('should resolve a 400 HTTP response', async function () {
           // given
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           const idGivenInRequestParams = 1;
@@ -142,9 +131,7 @@ describe('Integration | Application | Memberships | membership-controller', func
           const updatedMembership = domainBuilder.buildMembership({
             organizationRole: Membership.roles.ADMIN,
           });
-          usecases.updateMembership
-            .withArgs({ membership })
-            .resolves(updatedMembership);
+          usecases.updateMembership.withArgs({ membership }).resolves(updatedMembership);
 
           // when
           const payload = {
@@ -171,9 +158,8 @@ describe('Integration | Application | Memberships | membership-controller', func
         });
       });
 
-      context('when organization role is not valid', function() {
-
-        it('should resolve a 400 HTTP response', async function() {
+      context('when organization role is not valid', function () {
+        it('should resolve a 400 HTTP response', async function () {
           // given
           securityPreHandlers.checkUserIsAdminInOrganization.callsFake((request, h) => h.response(true));
           usecases.updateMembership.throws(new InvalidMembershipOrganizationRoleError());
@@ -204,9 +190,8 @@ describe('Integration | Application | Memberships | membership-controller', func
     });
   });
 
-  describe('#disable', function() {
-
-    it('should return a 204 HTTP response', async function() {
+  describe('#disable', function () {
+    it('should return a 204 HTTP response', async function () {
       // given
       const membershipId = domainBuilder.buildMembership().id;
       usecases.disableMembership.resolves();
@@ -219,5 +204,4 @@ describe('Integration | Application | Memberships | membership-controller', func
       expect(response.statusCode).to.equal(204);
     });
   });
-
 });

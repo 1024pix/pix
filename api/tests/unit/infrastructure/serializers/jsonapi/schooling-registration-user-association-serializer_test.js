@@ -2,11 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/schooling-registration-user-association-serializer');
 const SchoolingRegistration = require('../../../../../lib/domain/models/SchoolingRegistration');
 
-describe('Unit | Serializer | JSONAPI | schooling-registration-user-association-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a SchoolingRegistration model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | schooling-registration-user-association-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a SchoolingRegistration model object into JSON API data', function () {
       // given
       const schoolingRegistration = new SchoolingRegistration({
         id: 5,
@@ -24,7 +22,7 @@ describe('Unit | Serializer | JSONAPI | schooling-registration-user-association-
           attributes: {
             'first-name': schoolingRegistration.firstName,
             'last-name': schoolingRegistration.lastName,
-            'birthdate': schoolingRegistration.birthdate,
+            birthdate: schoolingRegistration.birthdate,
           },
         },
       };

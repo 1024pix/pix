@@ -6,7 +6,6 @@ const userSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
   async createResetDemand(request, h) {
     const { email } = request.payload.data.attributes;
     const locale = extractLocaleFromRequest(request);

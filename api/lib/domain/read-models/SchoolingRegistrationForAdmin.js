@@ -1,5 +1,4 @@
-const Joi = require('joi')
-  .extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 
 const validationSchema = Joi.object({
@@ -17,7 +16,6 @@ const validationSchema = Joi.object({
 });
 
 class SchoolingRegistrationForAdmin {
-
   constructor({
     id,
     firstName,

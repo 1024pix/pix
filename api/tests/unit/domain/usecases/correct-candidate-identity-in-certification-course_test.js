@@ -5,14 +5,13 @@ const correctCandidateIdentityInCertificationCourse = require('../../../../lib/d
 const { CpfBirthInformationValidation } = require('../../../../lib/domain/services/certification-cpf-service');
 const { CpfBirthInformationValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | correct-candidate-identity-in-certification-course', function() {
-
+describe('Unit | UseCase | correct-candidate-identity-in-certification-course', function () {
   let certificationCourseRepository;
   let certificationCpfService;
   let certificationCpfCountryRepository;
   let certificationCpfCityRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     certificationCourseRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
@@ -26,7 +25,7 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     certificationCpfCityRepository = Symbol('certificationCpfCityRepository');
   });
 
-  it('it modifies the candidate', async function() {
+  it('it modifies the candidate', async function () {
     // given
     const sex = 'F';
     const birthCountry = 'FRANCE';
@@ -46,14 +45,16 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     });
 
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
-    certificationCpfService.getBirthInformation.withArgs({
-      birthCountry,
-      birthCity,
-      birthPostalCode,
-      birthINSEECode,
-      certificationCpfCountryRepository,
-      certificationCpfCityRepository,
-    }).resolves(CpfBirthInformationValidation.success({ birthCountry, birthINSEECode, birthPostalCode, birthCity }));
+    certificationCpfService.getBirthInformation
+      .withArgs({
+        birthCountry,
+        birthCity,
+        birthPostalCode,
+        birthINSEECode,
+        certificationCpfCountryRepository,
+        certificationCpfCityRepository,
+      })
+      .resolves(CpfBirthInformationValidation.success({ birthCountry, birthINSEECode, birthPostalCode, birthCity }));
 
     const command = {
       certificationCourseId: 4,
@@ -88,11 +89,11 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
         birthCountry: 'FRANCE',
         birthINSEECode: null,
         birthPostalCode: '75015',
-      }),
+      })
     );
   });
 
-  it('should throws a CpfBirthInformationValidationError if birth information validation fails', async function() {
+  it('should throws a CpfBirthInformationValidationError if birth information validation fails', async function () {
     // given
     const sex = 'F';
     const birthCountry = 'FRANCE';
@@ -112,14 +113,16 @@ describe('Unit | UseCase | correct-candidate-identity-in-certification-course', 
     });
 
     certificationCourseRepository.get.withArgs(4).resolves(certificationCourseToBeModified);
-    certificationCpfService.getBirthInformation.withArgs({
-      birthCountry,
-      birthCity,
-      birthPostalCode,
-      birthINSEECode,
-      certificationCpfCountryRepository,
-      certificationCpfCityRepository,
-    }).resolves(CpfBirthInformationValidation.failure('Failure message'));
+    certificationCpfService.getBirthInformation
+      .withArgs({
+        birthCountry,
+        birthCity,
+        birthPostalCode,
+        birthINSEECode,
+        certificationCpfCountryRepository,
+        certificationCpfCityRepository,
+      })
+      .resolves(CpfBirthInformationValidation.failure('Failure message'));
 
     const command = {
       certificationCourseId: 4,

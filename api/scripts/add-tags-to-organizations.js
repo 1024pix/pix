@@ -11,22 +11,24 @@ const { parseCsv } = require('./helpers/csvHelpers');
 const uniq = require('lodash/uniq');
 
 function checkData({ csvData }) {
-  return csvData.map(([organizationId, tagName]) => {
-
-    if (!organizationId && !tagName) {
-      if (require.main === module) process.stdout.write('Found empty line in input file.');
-      return null;
-    }
-    if (!organizationId) {
-      if (require.main === module) process.stdout.write(`A line is missing an organizationId for tag ${tagName}`);
-      return null;
-    }
-    if (!tagName) {
-      if (require.main === module) process.stdout.write(`A line is missing a tag name for organization id ${organizationId}`);
-      return null;
-    }
-    return { organizationId, tagName };
-  }).filter((data) => !!data);
+  return csvData
+    .map(([organizationId, tagName]) => {
+      if (!organizationId && !tagName) {
+        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        return null;
+      }
+      if (!organizationId) {
+        if (require.main === module) process.stdout.write(`A line is missing an organizationId for tag ${tagName}`);
+        return null;
+      }
+      if (!tagName) {
+        if (require.main === module)
+          process.stdout.write(`A line is missing a tag name for organization id ${organizationId}`);
+        return null;
+      }
+      return { organizationId, tagName };
+    })
+    .filter((data) => !!data);
 }
 
 async function retrieveTagsByName({ checkedData }) {
@@ -62,7 +64,8 @@ async function addTagsToOrganizations({ tagsByName, checkedData }) {
 
       if (require.main === module) process.stdout.write('===> ✔');
     } else {
-      if (require.main === module) process.stdout.write(`Tag: ${tagName} already exists for organization: ${organizationId} `);
+      if (require.main === module)
+        process.stdout.write(`Tag: ${tagName} already exists for organization: ${organizationId} `);
     }
   }
 }
@@ -88,7 +91,6 @@ async function main() {
     console.log('Adding tags to organizations…');
     await addTagsToOrganizations({ tagsByName, checkedData });
     console.log('\nDone.');
-
   } catch (error) {
     console.error(error);
 
@@ -102,7 +104,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

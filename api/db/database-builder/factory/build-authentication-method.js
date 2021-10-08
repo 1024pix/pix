@@ -4,7 +4,7 @@ const buildUser = require('./build-user');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 const encrypt = require('../../../lib/domain/services/encryption-service');
 
-const buildAuthenticationMethod = function({
+const buildAuthenticationMethod = function ({
   id = databaseBuffer.getNextId(),
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = 'externalId',
@@ -12,7 +12,6 @@ const buildAuthenticationMethod = function({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
 } = {}) {
-
   userId = isUndefined(userId) ? buildUser().id : userId;
 
   const values = {
@@ -30,7 +29,7 @@ const buildAuthenticationMethod = function({
   });
 };
 
-buildAuthenticationMethod.buildWithHashedPassword = function({
+buildAuthenticationMethod.buildWithHashedPassword = function ({
   id = databaseBuffer.getNextId(),
   hashedPassword = 'ABCDEF123',
   shouldChangePassword = false,
@@ -38,7 +37,6 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
 } = {}) {
-
   userId = isUndefined(userId) ? buildUser().id : userId;
 
   const values = {
@@ -59,7 +57,7 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
   });
 };
 
-buildAuthenticationMethod.buildWithPassword = function({
+buildAuthenticationMethod.buildWithPassword = function ({
   id = databaseBuffer.getNextId(),
   password = 'Password123',
   shouldChangePassword = false,
@@ -67,7 +65,6 @@ buildAuthenticationMethod.buildWithPassword = function({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
 } = {}) {
-
   // eslint-disable-next-line no-sync
   const hashedPassword = encrypt.hashPasswordSync(password);
   userId = isUndefined(userId) ? buildUser().id : userId;
@@ -90,7 +87,7 @@ buildAuthenticationMethod.buildWithPassword = function({
   });
 };
 
-buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
+buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function ({
   id = databaseBuffer.getNextId(),
   externalIdentifier,
   accessToken = 'ABC789',
@@ -100,7 +97,6 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-01-02'),
 } = {}) {
-
   userId = isUndefined(userId) ? buildUser().id : userId;
 
   let generatedIdentifier = externalIdentifier;

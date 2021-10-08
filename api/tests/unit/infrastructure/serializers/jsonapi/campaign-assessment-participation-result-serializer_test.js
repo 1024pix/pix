@@ -5,18 +5,22 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 const { SHARED } = CampaignParticipation.statuses;
 
-describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result-serializer', function() {
-
-  describe('#serialize()', function() {
-
+describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result-serializer', function () {
+  describe('#serialize()', function () {
     let modelCampaignAssessmentParticipationResult;
     let expectedJsonApi;
 
-    beforeEach(function() {
-
-      const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'], areaId: 'area1' });
+    beforeEach(function () {
+      const targetedCompetence = domainBuilder.buildTargetedCompetence({
+        id: 'competence1',
+        skills: ['oneSkill'],
+        areaId: 'area1',
+      });
       const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });
-      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence], areas: [targetedArea] });
+      const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+        competences: [targetedCompetence],
+        areas: [targetedArea],
+      });
       expectedJsonApi = {
         data: {
           type: 'campaign-assessment-participation-results',
@@ -26,23 +30,27 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
           },
           relationships: {
             'competence-results': {
-              data: [{
-                id: `1-${targetedCompetence.id}`,
-                type: 'campaign-assessment-participation-competence-results',
-              }],
+              data: [
+                {
+                  id: `1-${targetedCompetence.id}`,
+                  type: 'campaign-assessment-participation-competence-results',
+                },
+              ],
             },
           },
         },
-        included: [{
-          type: 'campaign-assessment-participation-competence-results',
-          id: `1-${targetedCompetence.id}`,
-          attributes: {
-            name: targetedCompetence.name,
-            'index': targetedCompetence.index,
-            'competence-mastery-rate': 1,
-            'area-color': targetedArea.color,
+        included: [
+          {
+            type: 'campaign-assessment-participation-competence-results',
+            id: `1-${targetedCompetence.id}`,
+            attributes: {
+              name: targetedCompetence.name,
+              index: targetedCompetence.index,
+              'competence-mastery-rate': 1,
+              'area-color': targetedArea.color,
+            },
           },
-        }],
+        ],
       };
 
       modelCampaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
@@ -55,7 +63,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-result
       });
     });
 
-    it('should convert a CampaignAssessmentParticipationResult model object into JSON API data', function() {
+    it('should convert a CampaignAssessmentParticipationResult model object into JSON API data', function () {
       // when
       const json = serializer.serialize(modelCampaignAssessmentParticipationResult);
 

@@ -49,13 +49,19 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
   ];
 
   try {
-    matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
-      organizationId: campaign.organizationId,
-      reconciliationInfo,
-      schoolingRegistrationRepository,
-    });
+    matchedSchoolingRegistration =
+      await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+        organizationId: campaign.organizationId,
+        reconciliationInfo,
+        schoolingRegistrationRepository,
+      });
 
-    await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(matchedSchoolingRegistration, userRepository, obfuscationService, studentRepository);
+    await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(
+      matchedSchoolingRegistration,
+      userRepository,
+      obfuscationService,
+      studentRepository
+    );
 
     userWithSamlId = await userRepository.getBySamlId(externalUser.samlId);
     if (!userWithSamlId) {
@@ -68,9 +74,7 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
         userRepository,
       });
     }
-
   } catch (error) {
-
     if (reconciliationErrors.includes(error.code)) {
       await authenticationMethodRepository.updateExternalIdentifierByUserIdAndIdentityProvider({
         externalIdentifier: externalUser.samlId,
@@ -82,7 +86,6 @@ module.exports = async function createUserAndReconcileToSchoolingRegistrationFro
         schoolingRegistrationId: matchedSchoolingRegistration.id,
       });
       userId = schoolingRegistration.userId;
-
     } else {
       throw error;
     }

@@ -1,36 +1,48 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const {
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  mockLearningContent,
+  learningContentBuilder,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', function() {
-
+describe('Acceptance | Controller | users-controller-get-campaign-participation-overviews', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /users/1/campaign-participation-overviews', function() {
-
+  describe('GET /users/1/campaign-participation-overviews', function () {
     let userId;
     let options;
     let targetProfile;
 
-    beforeEach(function() {
+    beforeEach(function () {
       const user = databaseBuilder.factory.buildUser();
       userId = user.id;
 
-      const learningContent = [{
-        id: 'recArea1',
-        competences: [{
-          id: 'recCompetence1',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              id: 'recSkillId1',
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          competences: [
+            {
+              id: 'recCompetence1',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      id: 'recSkillId1',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
 
@@ -40,7 +52,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
       return databaseBuilder.commit();
     });
 
-    it('should return participation which match with filters', async function() {
+    it('should return participation which match with filters', async function () {
       // given
       const startedCampaignParticipation = databaseBuilder.factory.campaignParticipationOverviewFactory.buildOnGoing({
         userId,
@@ -68,8 +80,7 @@ describe('Acceptance | Controller | users-controller-get-campaign-participation-
       // then
       expect(response.statusCode).to.equal(200);
       const participationIds = response.result.data.map(({ id }) => Number(id));
-      expect(participationIds).to.deep.equals([ sharableCampaignParticipation.id, startedCampaignParticipation.id]);
+      expect(participationIds).to.deep.equals([sharableCampaignParticipation.id, startedCampaignParticipation.id]);
     });
   });
-
 });

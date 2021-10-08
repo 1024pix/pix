@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-result-minimal-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-serializer', function() {
-
-  describe('#serialize campaign-assessment-result-minimal list', function() {
-
-    it('serialize ', function() {
+describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-serializer', function () {
+  describe('#serialize campaign-assessment-result-minimal list', function () {
+    it('serialize ', function () {
       // given
       const participations = [
         {
@@ -66,15 +64,17 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
             },
           },
         ],
-        included: [{
-          attributes: {
-            'image-url': 'http://toto.svg',
-            'title': 'b1',
-            'alt-message': 'alt',
+        included: [
+          {
+            attributes: {
+              'image-url': 'http://toto.svg',
+              title: 'b1',
+              'alt-message': 'alt',
+            },
+            id: '1',
+            type: 'badges',
           },
-          id: '1',
-          type: 'badges',
-        }],
+        ],
         meta: {
           page: {
             number: 1,
@@ -84,5 +84,4 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-result-minimal-seria
       });
     });
   });
-
 });

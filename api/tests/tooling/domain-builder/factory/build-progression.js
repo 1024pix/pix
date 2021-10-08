@@ -7,7 +7,6 @@ module.exports = function buildProgression({
   targetedSkills = buildSkillCollection(),
   knowledgeElements = [buildKnowledgeElement()],
   isProfileCompleted = true,
-
 } = {}) {
   return new Progression({ id, targetedSkills, knowledgeElements, isProfileCompleted });
 };

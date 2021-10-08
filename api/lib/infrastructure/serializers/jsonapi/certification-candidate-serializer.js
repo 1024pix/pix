@@ -7,7 +7,7 @@ const _ = require('lodash');
 module.exports = {
   serialize(certificationCandidates) {
     return new Serializer('certification-candidate', {
-      transform: function(certificationCandidate) {
+      transform: function (certificationCandidate) {
         return {
           ...certificationCandidate,
           isLinked: !_.isNil(certificationCandidate.userId),
@@ -35,7 +35,9 @@ module.exports = {
 
   async deserialize(json) {
     if (json.data.attributes.birthdate && !isValidDate(json.data.attributes.birthdate, 'YYYY-MM-DD')) {
-      throw new WrongDateFormatError('La date de naissance du candidate à la certification n\'a pas un format valide du type JJ/MM/AAAA');
+      throw new WrongDateFormatError(
+        "La date de naissance du candidate à la certification n'a pas un format valide du type JJ/MM/AAAA"
+      );
     }
 
     delete json.data.attributes['is-linked'];

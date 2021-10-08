@@ -8,7 +8,6 @@ module.exports = async function findPaginatedCampaignParticipantsActivities({
   campaignRepository,
   campaignParticipantActivityRepository,
 }) {
-
   await _checkUserAccessToCampaign(campaignId, userId, campaignRepository);
 
   return campaignParticipantActivityRepository.findPaginatedByCampaignId({ page, campaignId, filters });

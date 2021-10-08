@@ -19,14 +19,50 @@ function duplicateChallengeOfSameDifficulty(challenge) {
   return _.assign(_.cloneDeep(challenge), { id: 'rec' + challengeId });
 }
 
-describe('Integration | Domain | Algorithm-methods | Flash', function() {
-  let challenges, targetSkills, knowledgeElements, lastAnswer, allAnswers, locale, web1, web2, web3, web4, web5,
-    web6, web7, url2, url3, url4, url5, url6, rechInfo5, rechInfo7, info2, cnil1, cnil2, challengeWeb_1,
-    challengeWeb_2, challengeWeb_2_3, challengeWeb_3, challengeWeb_4, challengeWeb_5, challengeWeb_6, challengeWeb_7,
-    challengeUrl_2, challengeUrl_3, challengeUrl_4, challengeUrl_5, challengeUrl_6, challengeRechInfo_5,
-    challengeRechInfo_7, challengeInfo_2_frAndEn, challengeCnil_1, challengeCnil_2;
+describe('Integration | Domain | Algorithm-methods | Flash', function () {
+  let challenges,
+    targetSkills,
+    knowledgeElements,
+    lastAnswer,
+    allAnswers,
+    locale,
+    web1,
+    web2,
+    web3,
+    web4,
+    web5,
+    web6,
+    web7,
+    url2,
+    url3,
+    url4,
+    url5,
+    url6,
+    rechInfo5,
+    rechInfo7,
+    info2,
+    cnil1,
+    cnil2,
+    challengeWeb_1,
+    challengeWeb_2,
+    challengeWeb_2_3,
+    challengeWeb_3,
+    challengeWeb_4,
+    challengeWeb_5,
+    challengeWeb_6,
+    challengeWeb_7,
+    challengeUrl_2,
+    challengeUrl_3,
+    challengeUrl_4,
+    challengeUrl_5,
+    challengeUrl_6,
+    challengeRechInfo_5,
+    challengeRechInfo_7,
+    challengeInfo_2_frAndEn,
+    challengeCnil_1,
+    challengeCnil_2;
 
-  beforeEach(function() {
+  beforeEach(function () {
     targetSkills = null;
     knowledgeElements = null;
     lastAnswer = null;
@@ -73,10 +109,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
     challengeInfo_2_frAndEn = domainBuilder.buildChallenge({ id: 'recinfo2', skills: [info2], locales: ['fr', 'en'] });
   });
 
-  describe('#getPossibleSkillsForNextChallenge', function() {
-    context('when it is the first question only', function() {
-
-      it('should ideally start with an untimed, default starting level skill', function() {
+  describe('#getPossibleSkillsForNextChallenge', function () {
+    context('when it is the first question only', function () {
+      it('should ideally start with an untimed, default starting level skill', function () {
         // given
         targetSkills = [web1, url3, cnil1, cnil2];
         challenges = [challengeWeb_1, challengeWeb_3, challengeCnil_1, challengeCnil_2];
@@ -99,7 +134,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
-      it('should prioritize and find an untimed skill if the last challenge is timed, to avoid starting with a timed one', function() {
+      it('should prioritize and find an untimed skill if the last challenge is timed, to avoid starting with a timed one', function () {
         // given
         lastAnswer = domainBuilder.buildAnswer({ timeout: 50 });
         targetSkills = [url2, web1];
@@ -125,7 +160,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
-      it('should start with an untimed skill 1 challenge when no default level challenge exists', function() {
+      it('should start with an untimed skill 1 challenge when no default level challenge exists', function () {
         // given
         targetSkills = [web1, url3];
         challenges = [challengeWeb_1, challengeUrl_3];
@@ -148,7 +183,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
-      it('should start with a not timed level 4 challenge when level 1, 2 and 3 dont exist', function() {
+      it('should start with a not timed level 4 challenge when level 1, 2 and 3 dont exist', function () {
         // given
         targetSkills = [web4, url5];
         challenges = [challengeWeb_4, challengeUrl_5];
@@ -171,7 +206,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(false);
       });
 
-      it('should start with a timed challenge anyway when no untimed challenges were found', function() {
+      it('should start with a timed challenge anyway when no untimed challenges were found', function () {
         // given
         targetSkills = [web3];
         const challenge_AnyLevel_Timed = turnIntoTimedChallenge(challengeWeb_3);
@@ -194,12 +229,10 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
         expect(possibleSkillsForNextChallenge[0].timed).to.be.equal(true);
       });
-
     });
 
-    context('when the difficulty must be adapted based on the answer to the previous question', function() {
-
-      it('should end the test when the remaining challenges have been inferred to be too hard', function() {
+    context('when the difficulty must be adapted based on the answer to the previous question', function () {
+      it('should end the test when the remaining challenges have been inferred to be too hard', function () {
         // given
         targetSkills = [url2, url3, rechInfo5, web7];
         challenges = [challengeUrl_2, challengeUrl_3, challengeRechInfo_5, challengeWeb_7];
@@ -238,7 +271,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge.length).to.be.equal(0);
       });
 
-      it('should consider skipping a challenge equivalent to not knowing and decrease difficulty when it happens', function() {
+      it('should consider skipping a challenge equivalent to not knowing and decrease difficulty when it happens', function () {
         // given
         targetSkills = [web1, web2, web3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_2, challengeWeb_3];
@@ -271,11 +304,19 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].difficulty).to.be.equal(1);
       });
 
-      it('should decrease the difficulty when the last given answer was not correct', function() {
+      it('should decrease the difficulty when the last given answer was not correct', function () {
         // given
         targetSkills = [web1, web2, url3, url4, rechInfo5, rechInfo7, url6];
 
-        challenges = [challengeWeb_1, challengeWeb_2, challengeUrl_3, challengeUrl_4, challengeUrl_6, challengeRechInfo_5, challengeRechInfo_7];
+        challenges = [
+          challengeWeb_1,
+          challengeWeb_2,
+          challengeUrl_3,
+          challengeUrl_4,
+          challengeUrl_6,
+          challengeRechInfo_5,
+          challengeRechInfo_7,
+        ];
 
         knowledgeElements = [
           domainBuilder.buildKnowledgeElement({
@@ -329,7 +370,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeRechInfo_5.id);
       });
 
-      it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function() {
+      it('should ask a challenge of maximum difficulty when maximum difficulty (minus 1) was correctly answered (edge case test)', function () {
         // given
         targetSkills = [web1, web2, web4, web5, web6];
 
@@ -381,7 +422,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_6.id);
       });
 
-      it('should end the test if the only available challenges are too hard (above maximum gap allowed)', function() {
+      it('should end the test if the only available challenges are too hard (above maximum gap allowed)', function () {
         // given
         targetSkills = [web1, web2, web4, web6];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_4, challengeWeb_5];
@@ -414,7 +455,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].difficulty).not.to.be.deep.equal(6);
       });
 
-      it('should prioritize a challenge from an easy tube if given the possibility', function() {
+      it('should prioritize a challenge from an easy tube if given the possibility', function () {
         // given
         targetSkills = [url4, url5, web3, info2];
         challenges = [challengeUrl_4, challengeUrl_5, challengeInfo_2_frAndEn, challengeWeb_3];
@@ -445,7 +486,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_3.id);
       });
 
-      it('should nevertheless target a challenge from any tubes when there is no easy tube', function() {
+      it('should nevertheless target a challenge from any tubes when there is no easy tube', function () {
         // given
         targetSkills = [url4, url6, info2];
         challenges = [challengeUrl_4, challengeUrl_6, challengeInfo_2_frAndEn];
@@ -474,14 +515,11 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].challenges.length).to.be.equal(1);
         expect(possibleSkillsForNextChallenge[0].id).to.be.equal(url4.id);
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeUrl_4.id);
-
       });
-
     });
 
-    context('when the next question added knowledge value is taken into account', function() {
-
-      it('should end the test if the next challenges wont provide any additional knowledge on the user', function() {
+    context('when the next question added knowledge value is taken into account', function () {
+      it('should end the test if the next challenges wont provide any additional knowledge on the user', function () {
         // given
         targetSkills = [web1, web2];
         challenges = [challengeWeb_1, challengeWeb_2, duplicateChallengeOfSameDifficulty(challengeWeb_2)];
@@ -512,10 +550,9 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
 
         // then
         expect(possibleSkillsForNextChallenge.length).to.be.equal(0);
-
       });
 
-      it('should do a deterministic selection of a challenge among challenges of equal reward', function() {
+      it('should do a deterministic selection of a challenge among challenges of equal reward', function () {
         // given
         targetSkills = [web1, web2, web3, url3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
@@ -552,8 +589,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
       });
     });
 
-    context('when knowledge elements contains skills no present in the target profile', function() {
-      it('should return correctly a next challenge', function() {
+    context('when knowledge elements contains skills no present in the target profile', function () {
+      it('should return correctly a next challenge', function () {
         // given
         targetSkills = [web1, web2, web3, url3];
         challenges = [challengeWeb_1, challengeWeb_2, challengeWeb_3];
@@ -602,8 +639,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
       });
     });
 
-    context('when skills is linked to another skills in challenge should have a better rewarding', function() {
-      it('should return correctly a next challenge', function() {
+    context('when skills is linked to another skills in challenge should have a better rewarding', function () {
+      it('should return correctly a next challenge', function () {
         // given
         targetSkills = [url2, web2, web3];
         challenges = [challengeWeb_2_3, challengeUrl_2];
@@ -638,8 +675,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
       });
     });
 
-    context('when one challenge has already been answered but its learning content has been updated', function() {
-      it('should not be asked again and ask another challenge from same skill', function() {
+    context('when one challenge has already been answered but its learning content has been updated', function () {
+      it('should not be asked again and ask another challenge from same skill', function () {
         // given
         targetSkills = [web2];
         challenges = [challengeWeb_2_3, challengeWeb_2];
@@ -664,7 +701,7 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         expect(possibleSkillsForNextChallenge[0].challenges[0].id).to.be.equal(challengeWeb_2.id);
       });
 
-      it('should not be asked again and ask another challenge from another skill', function() {
+      it('should not be asked again and ask another challenge from another skill', function () {
         // given
         targetSkills = [web1, web2]; //web1, web2: une question possible mais déjà répondu => web1
         challenges = [challengeWeb_1, challengeWeb_2];
@@ -690,9 +727,8 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
       });
     });
 
-    context('when one skill does not have challenge in the asked locale', function() {
-
-      it('should propose only skill with asked locale', function() {
+    context('when one skill does not have challenge in the asked locale', function () {
+      it('should propose only skill with asked locale', function () {
         // given
         targetSkills = [info2, cnil2];
         challenges = [challengeInfo_2_frAndEn, challengeCnil_2];
@@ -701,22 +737,24 @@ describe('Integration | Domain | Algorithm-methods | Flash', function() {
         knowledgeElements = [];
 
         // when
-        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInEnglish } = Flash.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements,
-          lastAnswer,
-          allAnswers,
-          locale: 'en',
-        });
-        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInFrench } = Flash.getPossibleSkillsForNextChallenge({
-          targetSkills,
-          challenges,
-          knowledgeElements,
-          lastAnswer,
-          allAnswers,
-          locale: 'fr',
-        });
+        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInEnglish } =
+          Flash.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements,
+            lastAnswer,
+            allAnswers,
+            locale: 'en',
+          });
+        const { possibleSkillsForNextChallenge: possibleSkillsForNextChallengeInFrench } =
+          Flash.getPossibleSkillsForNextChallenge({
+            targetSkills,
+            challenges,
+            knowledgeElements,
+            lastAnswer,
+            allAnswers,
+            locale: 'fr',
+          });
 
         // then
         expect(possibleSkillsForNextChallengeInFrench.length).to.be.equal(2);

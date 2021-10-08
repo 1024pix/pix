@@ -4,7 +4,6 @@ const LearningContentResourceNotFound = require('./LearningContentResourceNotFou
 const cache = require('../../caches/learning-content-cache');
 
 const _DatasourcePrototype = {
-
   async get(id) {
     const modelObjects = await this.list();
     const foundObject = _.find(modelObjects, { id });
@@ -36,11 +35,9 @@ const _DatasourcePrototype = {
     await cache.set(newLearningContent);
     return newEntry;
   },
-
 };
 
 module.exports = {
-
   extend(props) {
     const result = Object.assign({}, _DatasourcePrototype, props);
     _.bindAll(result, _.functions(result));
@@ -52,5 +49,4 @@ module.exports = {
     await cache.set(learningContent);
     return learningContent;
   },
-
 };

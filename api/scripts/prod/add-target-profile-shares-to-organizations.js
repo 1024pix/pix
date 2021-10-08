@@ -5,29 +5,35 @@
 'use strict';
 require('dotenv').config();
 const targetProfileShareRepository = require('../../lib/infrastructure/repositories/target-profile-share-repository');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('../helpers/organizations-by-external-id-helper');
+const {
+  findOrganizationsByExternalIds,
+  organizeOrganizationsByExternalId,
+} = require('../helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('../helpers/csvHelpers');
 
 function checkData({ csvData }) {
-  return csvData.map(([externalIdLowerCase, targetProfileList]) => {
+  return csvData
+    .map(([externalIdLowerCase, targetProfileList]) => {
+      if (!externalIdLowerCase && !targetProfileList) {
+        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        return null;
+      }
+      if (!externalIdLowerCase) {
+        if (require.main === module)
+          process.stdout.write(`A line is missing an externalId for target profile ${targetProfileList}`);
+        return null;
+      }
+      if (!targetProfileList) {
+        if (require.main === module)
+          process.stdout.write(`A line is missing a targetProfileIdList for external id ${externalIdLowerCase}`);
+        return null;
+      }
+      const externalId = externalIdLowerCase.toUpperCase();
+      const targetProfileIdList = targetProfileList.split('-').filter((targetProfile) => !!targetProfile.trim());
 
-    if (!externalIdLowerCase && !targetProfileList) {
-      if (require.main === module) process.stdout.write('Found empty line in input file.');
-      return null;
-    }
-    if (!externalIdLowerCase) {
-      if (require.main === module) process.stdout.write(`A line is missing an externalId for target profile ${targetProfileList}`);
-      return null;
-    }
-    if (!targetProfileList) {
-      if (require.main === module) process.stdout.write(`A line is missing a targetProfileIdList for external id ${externalIdLowerCase}`);
-      return null;
-    }
-    const externalId = externalIdLowerCase.toUpperCase();
-    const targetProfileIdList = targetProfileList.split('-').filter((targetProfile) => !!targetProfile.trim());
-
-    return { externalId, targetProfileIdList };
-  }).filter((data) => !!data);
+      return { externalId, targetProfileIdList };
+    })
+    .filter((data) => !!data);
 }
 
 async function addTargetProfileSharesToOrganizations({ organizationsByExternalId, checkedData }) {
@@ -38,7 +44,8 @@ async function addTargetProfileSharesToOrganizations({ organizationsByExternalId
     const organization = organizationsByExternalId[externalId];
 
     if (organization && organization.id) {
-      if (require.main === module) process.stdout.write(`Adding targetProfiles: ${targetProfileIdList} to organizationId: ${organization.id} `);
+      if (require.main === module)
+        process.stdout.write(`Adding targetProfiles: ${targetProfileIdList} to organizationId: ${organization.id} `);
       await targetProfileShareRepository.addTargetProfilesToOrganization({
         organizationId: organization.id,
         targetProfileIdList,
@@ -71,7 +78,6 @@ async function main() {
     console.log('Adding target profiles shares to organizations…');
     await addTargetProfileSharesToOrganizations({ organizationsByExternalId, checkedData });
     console.log('\nDone.');
-
   } catch (error) {
     console.error(error);
 
@@ -85,7 +91,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

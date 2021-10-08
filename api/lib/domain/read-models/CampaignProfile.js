@@ -4,7 +4,6 @@ const CampaignParticipation = require('../models/CampaignParticipation');
 const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignProfile {
-
   constructor({
     firstName,
     lastName,
@@ -16,7 +15,6 @@ class CampaignProfile {
     status,
     createdAt,
     pixScore,
-
   }) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -62,4 +60,3 @@ class CampaignProfile {
 }
 
 module.exports = CampaignProfile;
-

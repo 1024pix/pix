@@ -3,12 +3,9 @@ const { Serializer } = require('jsonapi-serializer');
 const CertificationCenter = require('../../../domain/models/CertificationCenter');
 
 module.exports = {
-
   serialize(certificationCenters, meta) {
     return new Serializer('certification-center', {
-      attributes: [
-        'name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'accreditations',
-      ],
+      attributes: ['name', 'type', 'externalId', 'createdAt', 'certificationCenterMemberships', 'accreditations'],
       certificationCenterMemberships: {
         ref: 'id',
         ignoreRelationshipData: true,

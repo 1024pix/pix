@@ -4,14 +4,15 @@ const { expect, databaseBuilder, knex } = require('../../test-helper');
 
 const BookshelfOrganizationInvitation = require('../../../lib/infrastructure/orm-models/OrganizationInvitation');
 const {
-  getOrganizationByExternalId, buildInvitation, prepareDataForSending, sendJoinOrganizationInvitations,
+  getOrganizationByExternalId,
+  buildInvitation,
+  prepareDataForSending,
+  sendJoinOrganizationInvitations,
 } = require('../../../scripts/send-invitations-to-sco-organizations');
 
-describe('Integration | Scripts | send-invitations-to-sco-organizations.js', function() {
-
-  describe('#getOrganizationByExternalId', function() {
-
-    it('should get organization by externalId', async function() {
+describe('Integration | Scripts | send-invitations-to-sco-organizations.js', function () {
+  describe('#getOrganizationByExternalId', function () {
+    it('should get organization by externalId', async function () {
       // given
       const externalId = '1234567A';
       const organization = databaseBuilder.factory.buildOrganization({ externalId });
@@ -23,14 +24,22 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
       const result = await getOrganizationByExternalId(externalId);
 
       // then
-      expect(_.omit(result, ['email', 'memberships', 'organizationInvitations', 'students', 'targetProfileShares', 'tags', 'createdBy']))
-        .to.deep.equal(expectedOrganization);
+      expect(
+        _.omit(result, [
+          'email',
+          'memberships',
+          'organizationInvitations',
+          'students',
+          'targetProfileShares',
+          'tags',
+          'createdBy',
+        ])
+      ).to.deep.equal(expectedOrganization);
     });
   });
 
-  describe('#buildInvitation', function() {
-
-    it('should build invitation by externalId and email', async function() {
+  describe('#buildInvitation', function () {
+    it('should build invitation by externalId and email', async function () {
       // given
       const email = 'user@example.net';
       const externalId = '1234567A';
@@ -47,9 +56,8 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
     });
   });
 
-  describe('#prepareDataForSending', function() {
-
-    it('should build a list of invitations with organizationId and email', async function() {
+  describe('#prepareDataForSending', function () {
+    it('should build a list of invitations with organizationId and email', async function () {
       // given
       const email1 = 'user1@example.net';
       const email2 = 'user2@example.net';
@@ -78,24 +86,23 @@ describe('Integration | Scripts | send-invitations-to-sco-organizations.js', fun
     });
   });
 
-  describe('#sendJoinOrganizationInvitations', function() {
-
+  describe('#sendJoinOrganizationInvitations', function () {
     const getNumberOfOrganizationInvitations = () => {
-      return BookshelfOrganizationInvitation.count()
-        .then((number) => parseInt(number, 10));
+      return BookshelfOrganizationInvitation.count().then((number) => parseInt(number, 10));
     };
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('organization-invitations').delete();
     });
 
-    it('should add organization invitations into database', async function() {
+    it('should add organization invitations into database', async function () {
       // given
-      const objectsForInvitations = ['user1@example', 'user2@example', 'user3@example', 'user4@example' ]
-        .map((email) => {
+      const objectsForInvitations = ['user1@example', 'user2@example', 'user3@example', 'user4@example'].map(
+        (email) => {
           const organizationId = databaseBuilder.factory.buildOrganization().id;
           return { organizationId, email };
-        });
+        }
+      );
 
       const numberBefore = await getNumberOfOrganizationInvitations();
       const tags = ['TEST'];

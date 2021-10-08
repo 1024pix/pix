@@ -9,15 +9,12 @@ function _assertErrorMatchesWithExpectedOne(entityValidationErrors, expectedErro
   expect(entityValidationErrors.invalidAttributes[0]).to.deep.equal(expectedError);
 }
 
-describe('Unit | Domain | Validators | password-validator', function() {
-
+describe('Unit | Domain | Validators | password-validator', function () {
   let password;
 
-  describe('#validate', function() {
-
-    context('when validation is successful', function() {
-
-      it('should not throw any error', function() {
+  describe('#validate', function () {
+    context('when validation is successful', function () {
+      it('should not throw any error', function () {
         // when
         password = 'Pix12345';
 
@@ -26,9 +23,8 @@ describe('Unit | Domain | Validators | password-validator', function() {
       });
     });
 
-    context('when validation fails', function() {
-
-      it('should reject with error on field "password" when password is missing', async function() {
+    context('when validation fails', function () {
+      it('should reject with error on field "password" when password is missing', async function () {
         // given
         password = '';
 
@@ -44,13 +40,14 @@ describe('Unit | Domain | Validators | password-validator', function() {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with error on field "password" when password is invalid', async function() {
+      it('should reject with error on field "password" when password is invalid', async function () {
         // given
         password = 'invalid';
 
         const expectedError = {
           attribute: 'password',
-          message: 'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
+          message:
+            'Votre mot de passe doit contenir 8 caractères au minimum et comporter au moins une majuscule, une minuscule et un chiffre.',
         };
 
         // when
@@ -60,7 +57,7 @@ describe('Unit | Domain | Validators | password-validator', function() {
         _assertErrorMatchesWithExpectedOne(errors, expectedError);
       });
 
-      it('should reject with errors on password when password have a maximum length of 255', async function() {
+      it('should reject with errors on password when password have a maximum length of 255', async function () {
         // given
         password = 'Password1234'.repeat(22);
 

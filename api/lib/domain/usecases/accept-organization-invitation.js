@@ -21,9 +21,10 @@ module.exports = async function acceptOrganizationInvitation({
   });
 
   if (foundOrganizationInvitation.isAccepted) {
-    throw new AlreadyExistingOrganizationInvitationError(`Invitation already accepted with the id ${organizationInvitationId}`);
+    throw new AlreadyExistingOrganizationInvitationError(
+      `Invitation already accepted with the id ${organizationInvitationId}`
+    );
   } else {
-
     const userFound = await userRepository.getByEmail(email);
 
     const { organizationId, role: invitationRole } = foundOrganizationInvitation;
@@ -35,7 +36,10 @@ module.exports = async function acceptOrganizationInvitation({
     }
 
     if (existingMembership) {
-      await membershipRepository.updateById({ id: existingMembership.id, membership: { organizationRole: invitationRole } });
+      await membershipRepository.updateById({
+        id: existingMembership.id,
+        membership: { organizationRole: invitationRole },
+      });
     } else {
       const organizationRole = invitationRole || _pickDefaultRole(memberships);
       await membershipRepository.create(userFound.id, organizationId, organizationRole);
@@ -45,5 +49,4 @@ module.exports = async function acceptOrganizationInvitation({
 
     return organizationInvitationRepository.markAsAccepted(organizationInvitationId);
   }
-
 };

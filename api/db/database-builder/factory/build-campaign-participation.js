@@ -20,7 +20,6 @@ module.exports = function buildCampaignParticipation({
   status = STARTED,
   isImproved = false,
 } = {}) {
-
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
   sharedAt = isShared ? sharedAt : null;

@@ -1,7 +1,6 @@
 const { performance } = require('perf_hooks');
 
 class PerfTimer {
-
   constructor() {
     this._start = {};
     this._time = {};
@@ -29,4 +28,3 @@ class PerfTimer {
 }
 
 module.exports = PerfTimer;
-

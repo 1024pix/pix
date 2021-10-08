@@ -5,7 +5,6 @@ const _ = require('lodash');
 const { SHARED } = CampaignParticipation.statuses;
 
 class CampaignAssessmentParticipation {
-
   constructor({
     userId,
     firstName,
@@ -47,4 +46,3 @@ class CampaignAssessmentParticipation {
 }
 
 module.exports = CampaignAssessmentParticipation;
-

@@ -9,23 +9,27 @@ module.exports = function buildCertificationDetails({
   status = states.COMPLETED,
   totalScore = 555,
   percentageCorrectAnswers = 75,
-  competencesWithMark = [{
-    areaCode: '1',
-    id: 'recComp1',
-    index: '1.1',
-    name: 'manger des fruits',
-    obtainedLevel: 1,
-    obtainedScore: 9,
-    positionedLevel: 2,
-    positionedScore: 17,
-  }],
-  listChallengesAndAnswers = [{
-    challengeId: 'recChal1',
-    competence: '1.1',
-    result: 'ok',
-    skill: 'manger une mangue',
-    value: 'miam',
-  }],
+  competencesWithMark = [
+    {
+      areaCode: '1',
+      id: 'recComp1',
+      index: '1.1',
+      name: 'manger des fruits',
+      obtainedLevel: 1,
+      obtainedScore: 9,
+      positionedLevel: 2,
+      positionedScore: 17,
+    },
+  ],
+  listChallengesAndAnswers = [
+    {
+      challengeId: 'recChal1',
+      competence: '1.1',
+      result: 'ok',
+      skill: 'manger une mangue',
+      value: 'miam',
+    },
+  ],
 } = {}) {
   return new CertificationDetails({
     id,

@@ -8,9 +8,17 @@ const _generateCode = () => {
 };
 
 const createOrganizationInvitation = async ({
-  organizationRepository, organizationInvitationRepository, organizationId, email, locale, tags,
+  organizationRepository,
+  organizationInvitationRepository,
+  organizationId,
+  email,
+  locale,
+  tags,
 }) => {
-  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
+    organizationId,
+    email,
+  });
 
   if (!organizationInvitation) {
     const code = _generateCode();
@@ -34,9 +42,17 @@ const createOrganizationInvitation = async ({
 };
 
 const createProOrganizationInvitation = async ({
-  organizationInvitationRepository, organizationId, email, locale, tags, name,
+  organizationInvitationRepository,
+  organizationId,
+  email,
+  locale,
+  tags,
+  name,
 }) => {
-  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
+    organizationId,
+    email,
+  });
 
   if (!organizationInvitation) {
     const code = _generateCode();
@@ -58,9 +74,19 @@ const createProOrganizationInvitation = async ({
 };
 
 const createScoOrganizationInvitation = async ({
-  organizationRepository, organizationInvitationRepository, organizationId, firstName, lastName, email, locale, tags,
+  organizationRepository,
+  organizationInvitationRepository,
+  organizationId,
+  firstName,
+  lastName,
+  email,
+  locale,
+  tags,
 }) => {
-  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({ organizationId, email });
+  let organizationInvitation = await organizationInvitationRepository.findOnePendingByOrganizationIdAndEmail({
+    organizationId,
+    email,
+  });
 
   if (!organizationInvitation) {
     const code = _generateCode();

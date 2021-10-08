@@ -1,17 +1,12 @@
 const { expect, catchErr } = require('../../../test-helper');
 const { FileValidationError, NotFoundError } = require('../../../../lib/domain/errors');
-const {
-  checkCsvHeader,
-  parseCsvWithHeaderAndRequiredFields,
-} = require('../../../../scripts/helpers/csvHelpers');
+const { checkCsvHeader, parseCsvWithHeaderAndRequiredFields } = require('../../../../scripts/helpers/csvHelpers');
 
-describe('Integration | Scripts | Helpers | csvHelpers.js', function() {
-
+describe('Integration | Scripts | Helpers | csvHelpers.js', function () {
   const withValidHeaderFilePath = `${__dirname}/files/withValidHeader-test.csv`;
 
-  describe('#checkCsvHeader', function() {
-
-    it('should throw NotFoundError if file does not exist', async function() {
+  describe('#checkCsvHeader', function () {
+    it('should throw NotFoundError if file does not exist', async function () {
       // given
       const nonExistentFile = 'nonExistentFile.csv';
       const requiredFieldNames = ['createdBy'];
@@ -26,7 +21,7 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function() {
       expect(error).to.be.instanceOf(NotFoundError);
     });
 
-    it('should throw FileValidationError if required field names are empty', async function() {
+    it('should throw FileValidationError if required field names are empty', async function () {
       // given
       const requiredFieldNames = [];
 
@@ -41,7 +36,7 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function() {
       expect(error.code).to.equal('MISSING_REQUIRED_FIELD_NAMES');
     });
 
-    it('should throw FileValidationError if required header field names are not present', async function() {
+    it('should throw FileValidationError if required header field names are not present', async function () {
       // given
       const requiredFieldNames = ['foo'];
 
@@ -57,21 +52,22 @@ describe('Integration | Scripts | Helpers | csvHelpers.js', function() {
       expect(error.meta).to.equal('Header are required: foo');
     });
 
-    it('should not throw if required header field names are present', async function() {
+    it('should not throw if required header field names are present', async function () {
       // given
       const requiredFieldNames = ['name', 'createdBy'];
 
       // then
-      expect(await checkCsvHeader({
-        filePath: withValidHeaderFilePath,
-        requiredFieldNames,
-      })).to.not.throw;
+      expect(
+        await checkCsvHeader({
+          filePath: withValidHeaderFilePath,
+          requiredFieldNames,
+        })
+      ).to.not.throw;
     });
   });
 
-  describe('parseCsvWithHeaderAndRequiredFields', function() {
-
-    it('should throw FileValidationError if required field value is empty', async function() {
+  describe('parseCsvWithHeaderAndRequiredFields', function () {
+    it('should throw FileValidationError if required field value is empty', async function () {
       // given
       const requiredFieldNames = ['createdBy'];
 

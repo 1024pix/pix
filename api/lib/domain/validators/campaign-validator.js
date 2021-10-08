@@ -6,13 +6,10 @@ const Campaign = require('../models/Campaign');
 const validationConfiguration = { abortEarly: false, allowUnknown: true };
 
 const campaignValidationJoiSchema = Joi.object({
-
-  name: Joi.string()
-    .required()
-    .messages({
-      'string.base': 'CAMPAIGN_NAME_IS_REQUIRED',
-      'string.empty': 'CAMPAIGN_NAME_IS_REQUIRED',
-    }),
+  name: Joi.string().required().messages({
+    'string.base': 'CAMPAIGN_NAME_IS_REQUIRED',
+    'string.empty': 'CAMPAIGN_NAME_IS_REQUIRED',
+  }),
 
   type: Joi.string()
     .valid(Campaign.types.ASSESSMENT, Campaign.types.PROFILES_COLLECTION)
@@ -24,31 +21,28 @@ const campaignValidationJoiSchema = Joi.object({
       'any.only': 'CAMPAIGN_PURPOSE_IS_REQUIRED',
     }),
 
-  creatorId: Joi.number()
-    .integer()
-    .required()
-    .messages({
-      'any.required': 'MISSING_CREATOR',
-      'number.base': 'MISSING_CREATOR',
-    }),
+  creatorId: Joi.number().integer().required().messages({
+    'any.required': 'MISSING_CREATOR',
+    'number.base': 'MISSING_CREATOR',
+  }),
 
-  organizationId: Joi.number()
-    .integer()
-    .required()
-    .messages({
-      'any.required': 'MISSING_ORGANIZATION',
-      'number.base': 'MISSING_ORGANIZATION',
-    }),
+  organizationId: Joi.number().integer().required().messages({
+    'any.required': 'MISSING_ORGANIZATION',
+    'number.base': 'MISSING_ORGANIZATION',
+  }),
 
   targetProfileId: Joi.number()
     .when('type', {
-      switch: [{
-        is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
-        then: Joi.valid(null).optional(),
-      }, {
-        is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
-        then: Joi.required(),
-      }],
+      switch: [
+        {
+          is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+          then: Joi.valid(null).optional(),
+        },
+        {
+          is: Joi.string().required().valid(Campaign.types.ASSESSMENT),
+          then: Joi.required(),
+        },
+      ],
       otherwise: Joi.number().allow(null).optional(),
     })
     .integer()
@@ -58,13 +52,10 @@ const campaignValidationJoiSchema = Joi.object({
       'any.only': 'TARGET_PROFILE_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
     }),
 
-  idPixLabel: Joi.string()
-    .allow(null)
-    .min(3)
-    .messages({
-      'string.empty': 'EXTERNAL_USER_ID_IS_REQUIRED',
-      'string.min': 'EXTERNAL_USER_ID_IS_REQUIRED',
-    }),
+  idPixLabel: Joi.string().allow(null).min(3).messages({
+    'string.empty': 'EXTERNAL_USER_ID_IS_REQUIRED',
+    'string.min': 'EXTERNAL_USER_ID_IS_REQUIRED',
+  }),
 
   title: Joi.string()
     .allow(null)
@@ -88,42 +79,37 @@ const campaignValidationJoiSchema = Joi.object({
       'any.only': 'CUSTOM_RESULT_PAGE_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
     }),
 
-  customResultPageButtonText: Joi
-    .when('type', {
-      is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
-      then: Joi.valid(null),
-      otherwise: Joi.when('customResultPageButtonUrl', {
-        then: Joi.string().required(),
-        otherwise: Joi.string().empty().allow(null),
-      }),
-    })
-    .messages({
-      'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
-      'string.base': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
-      'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
-      'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+  customResultPageButtonText: Joi.when('type', {
+    is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+    then: Joi.valid(null),
+    otherwise: Joi.when('customResultPageButtonUrl', {
+      then: Joi.string().required(),
+      otherwise: Joi.string().empty().allow(null),
     }),
+  }).messages({
+    'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+    'string.base': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+    'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+    'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_URL_IS_FILLED',
+  }),
 
-  customResultPageButtonUrl: Joi
-    .when('type', {
-      is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
-      then: Joi.valid(null),
-      otherwise: Joi.when('customResultPageButtonText', {
-        then: Joi.string().uri().required(),
-        otherwise: Joi.string().empty().allow(null),
-      }),
-    })
-    .messages({
-      'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
-      'string.uri': 'CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL',
-      'string.base': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
-      'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
-      'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+  customResultPageButtonUrl: Joi.when('type', {
+    is: Joi.string().required().valid(Campaign.types.PROFILES_COLLECTION),
+    then: Joi.valid(null),
+    otherwise: Joi.when('customResultPageButtonText', {
+      then: Joi.string().uri().required(),
+      otherwise: Joi.string().empty().allow(null),
     }),
+  }).messages({
+    'any.only': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_NOT_ALLOWED_FOR_PROFILES_COLLECTION_CAMPAIGN',
+    'string.uri': 'CUSTOM_RESULT_PAGE_BUTTON_URL_MUST_BE_A_URL',
+    'string.base': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+    'string.empty': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+    'any.required': 'CUSTOM_RESULT_PAGE_BUTTON_URL_IS_REQUIRED_WHEN_CUSTOM_RESULT_PAGE_BUTTON_TEXT_IS_FILLED',
+  }),
 });
 
 module.exports = {
-
   validate(campaign) {
     const { error } = campaignValidationJoiSchema.validate(campaign, validationConfiguration);
     if (error) {

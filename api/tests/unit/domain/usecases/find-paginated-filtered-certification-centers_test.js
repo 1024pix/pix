@@ -2,9 +2,8 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const CertificationCenter = require('../../../../lib/domain/models/CertificationCenter');
 
-describe('Unit | UseCase | find-paginated-filtered-certification-centers', function() {
-
-  it('should result certification-centers with filtering and pagination', async function() {
+describe('Unit | UseCase | find-paginated-filtered-certification-centers', function () {
+  it('should result certification-centers with filtering and pagination', async function () {
     // given
     const filter = { name: 'Dragon' };
     const page = { number: 1, size: 2 };
@@ -18,10 +17,16 @@ describe('Unit | UseCase | find-paginated-filtered-certification-centers', funct
     const certificationCenterRepository = {
       findPaginatedFiltered: sinon.stub(),
     };
-    certificationCenterRepository.findPaginatedFiltered.withArgs({ filter, page }).resolves({ models: matchingCertificationCenters, pagination: resolvedPagination });
+    certificationCenterRepository.findPaginatedFiltered
+      .withArgs({ filter, page })
+      .resolves({ models: matchingCertificationCenters, pagination: resolvedPagination });
 
     // when
-    const response = await usecases.findPaginatedFilteredCertificationCenters({ filter, page, certificationCenterRepository });
+    const response = await usecases.findPaginatedFilteredCertificationCenters({
+      filter,
+      page,
+      certificationCenterRepository,
+    });
 
     // then
     expect(response.models).to.equal(matchingCertificationCenters);

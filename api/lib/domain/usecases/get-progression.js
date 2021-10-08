@@ -1,18 +1,16 @@
 const Progression = require('../../../lib/domain/models/Progression');
 
-module.exports = async function getProgression(
-  {
-    progressionId,
-    userId,
-    assessmentRepository,
-    competenceEvaluationRepository,
-    campaignParticipationRepository,
-    knowledgeElementRepository,
-    skillRepository,
-    targetProfileRepository,
-    improvementService,
-  }) {
-
+module.exports = async function getProgression({
+  progressionId,
+  userId,
+  assessmentRepository,
+  competenceEvaluationRepository,
+  campaignParticipationRepository,
+  knowledgeElementRepository,
+  skillRepository,
+  targetProfileRepository,
+  improvementService,
+}) {
   const assessmentId = Progression.getAssessmentIdFromId(progressionId);
 
   const assessment = await assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId);
@@ -21,8 +19,13 @@ module.exports = async function getProgression(
   if (assessment.isForCampaign()) {
     const campaignParticipation = await campaignParticipationRepository.get(assessment.campaignParticipationId);
     const targetProfile = await targetProfileRepository.getByCampaignId(campaignParticipation.campaignId);
-    const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({ userId, limitDate: campaignParticipation.sharedAt });
-    const isRetrying = await campaignParticipationRepository.isRetrying({ campaignParticipationId: assessment.campaignParticipationId });
+    const knowledgeElementsBeforeSharedDate = await knowledgeElementRepository.findUniqByUserId({
+      userId,
+      limitDate: campaignParticipation.sharedAt,
+    });
+    const isRetrying = await campaignParticipationRepository.isRetrying({
+      campaignParticipationId: assessment.campaignParticipationId,
+    });
 
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
       knowledgeElements: knowledgeElementsBeforeSharedDate,
@@ -42,8 +45,8 @@ module.exports = async function getProgression(
     const competenceEvaluation = await competenceEvaluationRepository.getByAssessmentId(assessmentId);
     const [targetedSkills, knowledgeElements] = await Promise.all([
       skillRepository.findActiveByCompetenceId(competenceEvaluation.competenceId),
-      knowledgeElementRepository.findUniqByUserId({ userId })],
-    );
+      knowledgeElementRepository.findUniqByUserId({ userId }),
+    ]);
     const knowledgeElementsForProgression = await improvementService.filterKnowledgeElementsIfImproving({
       knowledgeElements,
       assessment,

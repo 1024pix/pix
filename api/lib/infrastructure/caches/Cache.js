@@ -1,5 +1,4 @@
 class Cache {
-
   async get(/* key, generator */) {
     throw new Error('Method #get(key, generator) must be overridden');
   }

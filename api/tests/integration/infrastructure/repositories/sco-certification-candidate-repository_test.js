@@ -2,23 +2,22 @@ const { databaseBuilder, expect, knex, domainBuilder } = require('../../../test-
 const scoCertificationCandidateRepository = require('../../../../lib/infrastructure/repositories/sco-certification-candidate-repository');
 const _ = require('lodash');
 
-describe('Integration | Repository | SCOCertificationCandidate', function() {
-
-  describe('#addNonEnrolledCandidatesToSession', function() {
+describe('Integration | Repository | SCOCertificationCandidate', function () {
+  describe('#addNonEnrolledCandidatesToSession', function () {
     let sessionId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       sessionId = databaseBuilder.factory.buildSession().id;
 
       return databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('certification-candidates').delete();
     });
 
-    it('adds only the unenrolled candidates', async function() {
+    it('adds only the unenrolled candidates', async function () {
       // given
       const schoolingRegistrationId1 = databaseBuilder.factory.buildSchoolingRegistration().id;
       const schoolingRegistrationId2 = databaseBuilder.factory.buildSchoolingRegistration().id;
@@ -66,7 +65,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       const expectedCandidates = candidatesToBeCompared(scoCandidates);
       expect(actualCandidates).to.deep.equal(expectedCandidates);
     });
-    it('does nothing when no candidate is given', async function() {
+    it('does nothing when no candidate is given', async function () {
       // when
       await scoCertificationCandidateRepository.addNonEnrolledCandidatesToSession({
         sessionId,
@@ -79,8 +78,8 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
     });
   });
 
-  describe('#findIdsByOrganizationIdAndDivision', function() {
-    it('retrieves no candidates when no one belongs to organisation', async function() {
+  describe('#findIdsByOrganizationIdAndDivision', function () {
+    it('retrieves no candidates when no one belongs to organisation', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -105,7 +104,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       expect(candidatesIds).to.be.empty;
     });
 
-    it('retrieves the candidates that belong to the organisation and division', async function() {
+    it('retrieves the candidates that belong to the organisation and division', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -129,7 +128,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       expect(candidatesIds).to.deep.equal([candidateId]);
     });
 
-    it('retrieves only the candidates that belongs to the given division', async function() {
+    it('retrieves only the candidates that belongs to the given division', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -161,7 +160,7 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
       expect(candidatesIds).to.deep.equal([candidateId]);
     });
 
-    it('retrieves candidates ordered by lastname and firstname', async function() {
+    it('retrieves candidates ordered by lastname and firstname', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const anOrganizationId = databaseBuilder.factory.buildOrganization().id;
@@ -215,7 +214,15 @@ describe('Integration | Repository | SCOCertificationCandidate', function() {
 });
 
 function fieldsToBeCompared(candidate) {
-  return _.pick(candidate, ['firstName', 'lastName', 'birthdate', 'sex', 'birthINSEECode', 'schoolingRegistrationId', 'sessionId']);
+  return _.pick(candidate, [
+    'firstName',
+    'lastName',
+    'birthdate',
+    'sex',
+    'birthINSEECode',
+    'schoolingRegistrationId',
+    'sessionId',
+  ]);
 }
 
 function candidatesToBeCompared(candidates) {

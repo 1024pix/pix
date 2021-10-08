@@ -23,7 +23,6 @@ module.exports = function buildCertificationCandidate({
   userId,
   schoolingRegistrationId,
 } = {}) {
-
   sessionId = _.isUndefined(sessionId) ? buildSession().id : sessionId;
   userId = _.isUndefined(userId) ? buildUser().id : userId;
 

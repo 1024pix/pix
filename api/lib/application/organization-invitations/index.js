@@ -27,7 +27,7 @@ exports.register = async (server) => {
           }),
         },
         notes: [
-          '- Cette route permet d\'accepter l\'invitation à rejoindre une organisation, via un **code** et un **email**',
+          "- Cette route permet d'accepter l'invitation à rejoindre une organisation, via un **code** et un **email**",
         ],
         tags: ['api', 'invitations'],
       },
@@ -39,20 +39,19 @@ exports.register = async (server) => {
         auth: false,
         handler: organizationInvitationController.sendScoInvitation,
         validate: {
-          payload:
-            Joi.object({
-              data: {
-                attributes: {
-                  'uai': Joi.string().required(),
-                  'first-name': Joi.string().required(),
-                  'last-name': Joi.string().required(),
-                },
-                type: 'sco-organization-invitations',
+          payload: Joi.object({
+            data: {
+              attributes: {
+                uai: Joi.string().required(),
+                'first-name': Joi.string().required(),
+                'last-name': Joi.string().required(),
               },
-            }),
+              type: 'sco-organization-invitations',
+            },
+          }),
         },
         notes: [
-          '- Cette route permet d\'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**',
+          "- Cette route permet d'envoyer une invitation pour rejoindre une organisation de type SCO en tant que ADMIN, en renseignant un **UAI**, un **NOM** et un **PRÉNOM**",
         ],
         tags: ['api', 'invitations', 'SCO'],
       },
@@ -72,12 +71,11 @@ exports.register = async (server) => {
           }),
         },
         notes: [
-          '- Cette route permet de récupérer les détails d\'une invitation selon un **id d\'invitation** et un **code**\n',
+          "- Cette route permet de récupérer les détails d'une invitation selon un **id d'invitation** et un **code**\n",
         ],
         tags: ['api', 'invitations'],
       },
     },
-
   ]);
 };
 

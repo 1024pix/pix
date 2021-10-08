@@ -1,18 +1,22 @@
 const createServer = require('../../../../server');
 const Membership = require('../../../../lib/domain/models/Membership');
-const { expect, databaseBuilder, mockLearningContent, learningContentBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  mockLearningContent,
+  learningContentBuilder,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 
-describe('Acceptance | API | Campaign Participations | Analyses', function() {
-
+describe('Acceptance | API | Campaign Participations | Analyses', function () {
   let server, options, userId, organization, targetProfile, campaign, campaignParticipation;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/campaign-participations/{id}/analyses', function() {
-
-    beforeEach(async function() {
+  describe('GET /api/campaign-participations/{id}/analyses', function () {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ firstName: 'Jean', lastName: 'Bono' }).id;
       organization = databaseBuilder.factory.buildOrganization();
 
@@ -40,42 +44,53 @@ describe('Acceptance | API | Campaign Participations | Analyses', function() {
 
       await databaseBuilder.commit();
 
-      const learningContent = [{
-        id: 'recArea1',
-        color: 'specialColor',
-        competences: [{
-          id: 'recCompetence1',
-          name: 'Fabriquer un meuble',
-          tubes: [{
-            id: 'recTube1',
-            practicalTitleFr: 'Monter une étagère',
-            practicalDescriptionFr: 'Comment monter une étagère',
-            skills: [{
-              id: 'recSkillId1',
-              nom: '@skill1',
-              challenges: [],
-              tutorials: [{
-                id: 'recTutorial1',
-                title: 'Apprendre à vivre confiné',
-                format: '2 mois',
-                source: 'covid-19',
-                link: 'www.liberez-moi.fr',
-                locale: 'fr-fr',
-                duration: '00:03:31',
-              }],
-            }, {
-              id: 'recSkillId2',
-              nom: '@skill2',
-              challenges: [],
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea1',
+          color: 'specialColor',
+          competences: [
+            {
+              id: 'recCompetence1',
+              name: 'Fabriquer un meuble',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  practicalTitleFr: 'Monter une étagère',
+                  practicalDescriptionFr: 'Comment monter une étagère',
+                  skills: [
+                    {
+                      id: 'recSkillId1',
+                      nom: '@skill1',
+                      challenges: [],
+                      tutorials: [
+                        {
+                          id: 'recTutorial1',
+                          title: 'Apprendre à vivre confiné',
+                          format: '2 mois',
+                          source: 'covid-19',
+                          link: 'www.liberez-moi.fr',
+                          locale: 'fr-fr',
+                          duration: '00:03:31',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'recSkillId2',
+                      nom: '@skill2',
+                      challenges: [],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    it('should return the campaign participation analyses', async function() {
+    it('should return the campaign participation analyses', async function () {
       // given
       options = {
         method: 'GET',
@@ -89,45 +104,52 @@ describe('Acceptance | API | Campaign Participations | Analyses', function() {
           attributes: {},
           relationships: {
             'campaign-tube-recommendations': {
-              data: [{
-                id: `${campaign.id}_recTube1`,
-                type: 'campaignTubeRecommendations',
-              }],
+              data: [
+                {
+                  id: `${campaign.id}_recTube1`,
+                  type: 'campaignTubeRecommendations',
+                },
+              ],
             },
           },
         },
-        included: [{
-          id: 'recTutorial1',
-          type: 'tutorials',
-          attributes: {
-            duration: '00:03:31',
-            format: '2 mois',
+        included: [
+          {
             id: 'recTutorial1',
-            link: 'www.liberez-moi.fr',
-            source: 'covid-19',
-            title: 'Apprendre à vivre confiné',
-          },
-        }, {
-          id: `${campaign.id}_recTube1`,
-          type: 'campaignTubeRecommendations',
-          attributes: {
-            'area-color': 'specialColor',
-            'tube-id': 'recTube1',
-            'competence-id': 'recCompetence1',
-            'competence-name': 'Fabriquer un meuble',
-            'tube-practical-title': 'Monter une étagère',
-            'tube-description': 'Comment monter une étagère',
-            'average-score': 30,
-          },
-          relationships: {
-            tutorials: {
-              data: [{
-                id: 'recTutorial1',
-                type: 'tutorials',
-              }],
+            type: 'tutorials',
+            attributes: {
+              duration: '00:03:31',
+              format: '2 mois',
+              id: 'recTutorial1',
+              link: 'www.liberez-moi.fr',
+              source: 'covid-19',
+              title: 'Apprendre à vivre confiné',
             },
           },
-        }],
+          {
+            id: `${campaign.id}_recTube1`,
+            type: 'campaignTubeRecommendations',
+            attributes: {
+              'area-color': 'specialColor',
+              'tube-id': 'recTube1',
+              'competence-id': 'recCompetence1',
+              'competence-name': 'Fabriquer un meuble',
+              'tube-practical-title': 'Monter une étagère',
+              'tube-description': 'Comment monter une étagère',
+              'average-score': 30,
+            },
+            relationships: {
+              tutorials: {
+                data: [
+                  {
+                    id: 'recTutorial1',
+                    type: 'tutorials',
+                  },
+                ],
+              },
+            },
+          },
+        ],
       };
 
       // when

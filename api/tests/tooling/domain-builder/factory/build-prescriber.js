@@ -55,12 +55,14 @@ module.exports = function buildPrescriber({
   memberships = _buildMemberships(),
   userOrgaSettings = _buildUserOrgaSettings(),
 } = {}) {
-
   return new Prescriber({
-    id, firstName, lastName,
+    id,
+    firstName,
+    lastName,
     pixOrgaTermsOfServiceAccepted,
     lang,
     areNewYearSchoolingRegistrationsImported,
-    memberships, userOrgaSettings,
+    memberships,
+    userOrgaSettings,
   });
 };

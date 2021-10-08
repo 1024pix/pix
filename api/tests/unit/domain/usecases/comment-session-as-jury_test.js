@@ -1,16 +1,15 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const commentSessionAsJury = require('../../../../lib/domain/usecases/comment-session-as-jury');
 
-describe('Unit | UseCase | comment-session-as-jury', function() {
-
+describe('Unit | UseCase | comment-session-as-jury', function () {
   const sessionJuryCommentRepository = { get: null, save: null };
 
-  beforeEach(function() {
+  beforeEach(function () {
     sessionJuryCommentRepository.get = sinon.stub();
     sessionJuryCommentRepository.save = sinon.stub();
   });
 
-  it('should update the session jury comment', async function() {
+  it('should update the session jury comment', async function () {
     // given
     const sessionJuryComment = domainBuilder.buildSessionJuryComment({ juryCommentAuthorId: 789 });
     sessionJuryCommentRepository.get.withArgs(123).resolves(sessionJuryComment);

@@ -3,13 +3,11 @@ const targetProfileController = require('../../../../lib/application/target-prof
 const usecases = require('../../../../lib/domain/usecases');
 const targetProfileAttachOrganizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/target-profile-attach-organization-serializer');
 
-describe('Unit | Controller | target-profile-controller', function() {
-
-  describe('#updateTargetProfileName', function() {
-
+describe('Unit | Controller | target-profile-controller', function () {
+  describe('#updateTargetProfileName', function () {
     let request;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'updateTargetProfileName');
 
       request = {
@@ -26,9 +24,8 @@ describe('Unit | Controller | target-profile-controller', function() {
       };
     });
 
-    context('successful case', function() {
-
-      it('should succeed', async function() {
+    context('successful case', function () {
+      it('should succeed', async function () {
         // when
         const response = await targetProfileController.updateTargetProfileName(request, hFake);
 
@@ -36,7 +33,7 @@ describe('Unit | Controller | target-profile-controller', function() {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should update target profile name', async function() {
+      it('should update target profile name', async function () {
         // when
         await targetProfileController.updateTargetProfileName(request, hFake);
 
@@ -47,10 +44,10 @@ describe('Unit | Controller | target-profile-controller', function() {
     });
   });
 
-  describe('#attachOrganizations', function() {
+  describe('#attachOrganizations', function () {
     let request;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'attachOrganizationsToTargetProfile');
       sinon.stub(targetProfileAttachOrganizationSerializer, 'serialize');
 
@@ -64,9 +61,8 @@ describe('Unit | Controller | target-profile-controller', function() {
       };
     });
 
-    context('successful case', function() {
-
-      it('should succeed', async function() {
+    context('successful case', function () {
+      it('should succeed', async function () {
         // when
         const serializer = Symbol('targetProfileAttachOrganizationsSerializer');
         usecases.attachOrganizationsToTargetProfile.resolves();
@@ -79,21 +75,24 @@ describe('Unit | Controller | target-profile-controller', function() {
         expect(response.source).to.equal(serializer);
       });
 
-      it('should call usecase', async function() {
+      it('should call usecase', async function () {
         // when
         await targetProfileController.attachOrganizations(request, hFake);
 
         // then
         expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledOnce;
-        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledWithMatch({ targetProfileId: 123, organizationIds: 1 });
+        expect(usecases.attachOrganizationsToTargetProfile).to.have.been.calledWithMatch({
+          targetProfileId: 123,
+          organizationIds: 1,
+        });
       });
     });
   });
 
-  describe('#attachOrganizationsFromExistingTargetProfile', function() {
+  describe('#attachOrganizationsFromExistingTargetProfile', function () {
     let request;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'attachOrganizationsFromExistingTargetProfile');
 
       request = {
@@ -106,9 +105,8 @@ describe('Unit | Controller | target-profile-controller', function() {
       };
     });
 
-    context('successful case', function() {
-
-      it('should succeed', async function() {
+    context('successful case', function () {
+      it('should succeed', async function () {
         // when
         const response = await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
 
@@ -116,23 +114,24 @@ describe('Unit | Controller | target-profile-controller', function() {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should call usecase', async function() {
+      it('should call usecase', async function () {
         // when
         await targetProfileController.attachOrganizationsFromExistingTargetProfile(request, hFake);
 
         // then
         expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledOnce;
-        expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledWithMatch({ targetProfileId: 123, existingTargetProfileId: 1 });
+        expect(usecases.attachOrganizationsFromExistingTargetProfile).to.have.been.calledWithMatch({
+          targetProfileId: 123,
+          existingTargetProfileId: 1,
+        });
       });
     });
   });
 
-  describe('#outdateTargetProfile', function() {
-
+  describe('#outdateTargetProfile', function () {
     let request;
 
-    beforeEach(function() {
-
+    beforeEach(function () {
       sinon.stub(usecases, 'outdateTargetProfile');
 
       request = {
@@ -142,9 +141,8 @@ describe('Unit | Controller | target-profile-controller', function() {
       };
     });
 
-    context('successful case', function() {
-
-      it('should succeed', async function() {
+    context('successful case', function () {
+      it('should succeed', async function () {
         // when
         const response = await targetProfileController.outdateTargetProfile(request, hFake);
 
@@ -152,7 +150,7 @@ describe('Unit | Controller | target-profile-controller', function() {
         expect(response.statusCode).to.equal(204);
       });
 
-      it('should outdate target profile', async function() {
+      it('should outdate target profile', async function () {
         // when
         await targetProfileController.outdateTargetProfile(request, hFake);
 

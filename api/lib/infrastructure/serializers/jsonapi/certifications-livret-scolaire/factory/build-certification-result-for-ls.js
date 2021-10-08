@@ -6,7 +6,6 @@ const buildCompetenceForLS = require('./build-competences-for-ls');
 const buildAreaForLS = require('./build-area-for-ls');
 
 function buildReferentialOfCompetences() {
-
   const area1 = buildAreaForLS({
     id: '1',
     name: '1. Information et données',
@@ -76,7 +75,6 @@ function buildCertificateForLS({
   certificationCenter = 'ToonsVille',
   competenceResults = _buildCompetenceResults(),
 } = {}) {
-
   const certificate = new Certificate({
     id,
     firstName,

@@ -1,10 +1,8 @@
 const HigherSchoolingRegistration = require('../../../../lib/domain/models/HigherSchoolingRegistration');
 const { expect, catchErr } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
-
-  describe('#validate', function() {
-
+describe('Unit | Domain | Models | HigherSchoolingRegistration', function () {
+  describe('#validate', function () {
     const buildRegistration = (attributes) => new HigherSchoolingRegistration(attributes);
 
     const validAttributes = {
@@ -15,8 +13,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       organizationId: 123,
     };
 
-    context('when all required fields are presents', function() {
-      it('is valid', async function() {
+    context('when all required fields are presents', function () {
+      it('is valid', async function () {
         try {
           new HigherSchoolingRegistration(validAttributes);
         } catch (e) {
@@ -27,7 +25,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     ['firstName', 'lastName', 'birthdate', 'studentNumber'].forEach((field) => {
-      it(`throw an error when ${field} is required`, async function() {
+      it(`throw an error when ${field} is required`, async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: undefined });
 
         expect(error.key).to.equal(field);
@@ -50,7 +48,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       'group',
       'studyScheme',
     ].forEach((field) => {
-      it(`throw an error when string ${field} exceeds 255 characters`, async function() {
+      it(`throw an error when string ${field} exceeds 255 characters`, async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: '1'.repeat(256) });
 
         expect(error.key).to.equal(field);
@@ -74,7 +72,7 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       'group',
       'studyScheme',
     ].forEach((field) => {
-      it(`throw an error when ${field} is not a string`, async function() {
+      it(`throw an error when ${field} is not a string`, async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, [field]: null });
 
         expect(error.key).to.equal(field);
@@ -82,15 +80,15 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
-    it('throw an error when organizationId is not an integer', async function() {
+    it('throw an error when organizationId is not an integer', async function () {
       const error = await catchErr(buildRegistration)({ ...validAttributes, organizationId: 12.5 });
 
       expect(error.key).to.equal('organizationId');
       expect(error.why).to.equal('not_an_integer');
     });
 
-    context('when birthdate is not a date', function() {
-      it('throws an error', async function() {
+    context('when birthdate is not a date', function () {
+      it('throws an error', async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
@@ -98,8 +96,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
-    context('when birthdate has not a valid format', function() {
-      it('throws an error', async function() {
+    context('when birthdate has not a valid format', function () {
+      it('throws an error', async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: '2020/02/01' });
 
         expect(error.key).to.equal('birthdate');
@@ -107,8 +105,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
-    context('when birthdate is null', function() {
-      it('throws an error', async function() {
+    context('when birthdate is null', function () {
+      it('throws an error', async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, birthdate: null });
 
         expect(error.key).to.equal('birthdate');
@@ -116,8 +114,8 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
-    context('when email is not correctly formed', function() {
-      it('throws an error', async function() {
+    context('when email is not correctly formed', function () {
+      it('throws an error', async function () {
         const error = await catchErr(buildRegistration)({ ...validAttributes, email: 'sdfsfsdf' });
 
         expect(error.key).to.equal('email');
@@ -125,17 +123,11 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
       });
     });
 
-    context('student number', function() {
-      context('when student number is not correctly formed', function() {
+    context('student number', function () {
+      context('when student number is not correctly formed', function () {
         // eslint-disable-next-line mocha/no-setup-in-describe
-        [
-          '#123457',
-          '1 23457',
-          '1.23457',
-          '1,23457E+11',
-          'gégé',
-        ].forEach((value) => {
-          it(`throw an error when student number is ${value}`, async function() {
+        ['#123457', '1 23457', '1.23457', '1,23457E+11', 'gégé'].forEach((value) => {
+          it(`throw an error when student number is ${value}`, async function () {
             const error = await catchErr(buildRegistration)({ ...validAttributes, studentNumber: value });
 
             expect(error.why).to.equal('student_number_format');
@@ -144,15 +136,10 @@ describe('Unit | Domain | Models | HigherSchoolingRegistration', function() {
         });
       });
 
-      context('when student number is correctly formed', function() {
+      context('when student number is correctly formed', function () {
         // eslint-disable-next-line mocha/no-setup-in-describe
-        [
-          '123456',
-          '1234aA',
-          '1-a-B',
-          '1_a_B',
-        ].forEach((value) => {
-          it(`throw an error when student number is ${value}`, async function() {
+        ['123456', '1234aA', '1-a-B', '1_a_B'].forEach((value) => {
+          it(`throw an error when student number is ${value}`, async function () {
             try {
               await buildRegistration({ ...validAttributes, studentNumber: value });
             } catch (e) {

@@ -28,7 +28,6 @@ class Scorecard {
     remainingDaysBeforeImproving,
     tutorials,
   } = {}) {
-
     this.id = id;
     this.name = name;
     this.description = description;
@@ -50,15 +49,22 @@ class Scorecard {
     return { userId: _.parseInt(userId), competenceId };
   }
 
-  static buildFrom({ userId, knowledgeElements, competence, competenceEvaluation, allowExcessPix = false, allowExcessLevel = false }) {
-    const {
-      realTotalPixScoreForCompetence,
-      pixScoreForCompetence,
-      currentLevel,
-      pixAheadForNextLevel,
-    } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
-    const remainingDaysBeforeReset = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
-    const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements) ? null : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
+  static buildFrom({
+    userId,
+    knowledgeElements,
+    competence,
+    competenceEvaluation,
+    allowExcessPix = false,
+    allowExcessLevel = false,
+  }) {
+    const { realTotalPixScoreForCompetence, pixScoreForCompetence, currentLevel, pixAheadForNextLevel } =
+      scoringService.calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix, allowExcessLevel });
+    const remainingDaysBeforeReset = _.isEmpty(knowledgeElements)
+      ? null
+      : Scorecard.computeRemainingDaysBeforeReset(knowledgeElements);
+    const remainingDaysBeforeImproving = _.isEmpty(knowledgeElements)
+      ? null
+      : Scorecard.computeRemainingDaysBeforeImproving(knowledgeElements);
 
     return new Scorecard({
       id: `${userId}_${competence.id}`,
@@ -86,7 +92,9 @@ class Scorecard {
 
   static computeRemainingDaysBeforeImproving(knowledgeElements) {
     const daysSinceLastKnowledgeElement = KnowledgeElement.computeDaysSinceLastKnowledgeElement(knowledgeElements);
-    const remainingDaysToWait = Math.ceil(constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement);
+    const remainingDaysToWait = Math.ceil(
+      constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING - daysSinceLastKnowledgeElement
+    );
 
     return remainingDaysToWait > 0 ? remainingDaysToWait : 0;
   }

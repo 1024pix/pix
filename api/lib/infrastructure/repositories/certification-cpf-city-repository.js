@@ -1,18 +1,10 @@
 const { knex } = require('../bookshelf');
 const CertificationCpfCity = require('../../domain/models/CertificationCpfCity');
 
-const COLUMNS = [
-  'id',
-  'name',
-  'postalCode',
-  'INSEECode',
-  'isActualName',
-];
+const COLUMNS = ['id', 'name', 'postalCode', 'INSEECode', 'isActualName'];
 
 module.exports = {
-
   async findByINSEECode({ INSEECode }) {
-
     const result = await knex
       .select(COLUMNS)
       .from('certification-cpf-cities')

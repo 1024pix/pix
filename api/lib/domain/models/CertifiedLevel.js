@@ -1,6 +1,4 @@
-const {
-  UNCERTIFIED_LEVEL,
-} = require('../constants');
+const { UNCERTIFIED_LEVEL } = require('../constants');
 const { DomainError } = require('../errors');
 
 class CertifiedLevel {
@@ -80,14 +78,12 @@ class Rule {
     this.actionWhenReproducibilityBelow70 = actionWhenReproducibilityBelow70;
   }
 
-  isApplicable({
-    numberOfChallenges,
-    numberOfCorrectAnswers,
-    numberOfNeutralizedAnswers,
-  }) {
-    return (numberOfChallenges === this.numberOfChallenges
-      && numberOfCorrectAnswers === this.numberOfCorrectAnswers
-      && numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers);
+  isApplicable({ numberOfChallenges, numberOfCorrectAnswers, numberOfNeutralizedAnswers }) {
+    return (
+      numberOfChallenges === this.numberOfChallenges &&
+      numberOfCorrectAnswers === this.numberOfCorrectAnswers &&
+      numberOfNeutralizedAnswers === this.numberOfNeutralizedAnswers
+    );
   }
 
   apply({ reproducibilityRate, estimatedLevel }) {
@@ -370,26 +366,21 @@ const _rules = {
     new Rule18(),
     new Rule19(),
   ],
-  findRuleFor({
-    numberOfChallenges,
-    numberOfCorrectAnswers,
-    numberOfNeutralizedAnswers,
-  }) {
-    return this.rules.find((rule) => rule.isApplicable({
-      numberOfChallenges,
-      numberOfCorrectAnswers,
-      numberOfNeutralizedAnswers,
-    }));
+  findRuleFor({ numberOfChallenges, numberOfCorrectAnswers, numberOfNeutralizedAnswers }) {
+    return this.rules.find((rule) =>
+      rule.isApplicable({
+        numberOfChallenges,
+        numberOfCorrectAnswers,
+        numberOfNeutralizedAnswers,
+      })
+    );
   },
 };
 
 class MissingCertifiedLevelRuleError extends DomainError {
-  constructor({
-    numberOfChallenges,
-    numberOfCorrectAnswers,
-    numberOfNeutralizedAnswers,
-  }) {
-    const message = 'Règle de calcul de niveau certifié manquante pour ' +
+  constructor({ numberOfChallenges, numberOfCorrectAnswers, numberOfNeutralizedAnswers }) {
+    const message =
+      'Règle de calcul de niveau certifié manquante pour ' +
       `${numberOfChallenges} épreuves proposées ` +
       `${numberOfCorrectAnswers} réponses correctes et ` +
       `${numberOfNeutralizedAnswers} épreuves neutralisées`;

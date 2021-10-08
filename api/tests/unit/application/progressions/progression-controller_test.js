@@ -3,11 +3,10 @@ const { expect, sinon, domainBuilder, hFake } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const progressionController = require('../../../../lib/application/progressions/progression-controller');
 
-describe('Unit | Controller | progression-controller', function() {
+describe('Unit | Controller | progression-controller', function () {
   const userId = 60;
 
-  describe('#get', function() {
-
+  describe('#get', function () {
     const progressionId = 'progression-1234';
 
     const request = {
@@ -17,21 +16,19 @@ describe('Unit | Controller | progression-controller', function() {
       auth: { credentials: { userId } },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'getProgression');
     });
 
-    context('if assessment exists', function() {
-
+    context('if assessment exists', function () {
       let progression;
 
-      beforeEach(function() {
+      beforeEach(function () {
         progression = domainBuilder.buildProgression({ knowledgeElements: [], isProfileCompleted: true });
       });
 
-      context('and belongs to current user', function() {
-
-        it('should return the serialized progression', async function() {
+      context('and belongs to current user', function () {
+        it('should return the serialized progression', async function () {
           // given
           const serializedProgression = {
             data: {

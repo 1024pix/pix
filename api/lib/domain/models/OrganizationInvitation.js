@@ -4,7 +4,6 @@ const statuses = {
 };
 
 class OrganizationInvitation {
-
   constructor({
     id,
     email,

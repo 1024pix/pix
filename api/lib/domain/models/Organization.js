@@ -12,7 +12,6 @@ const defaultValues = {
 };
 
 class Organization {
-
   constructor({
     id,
     name,

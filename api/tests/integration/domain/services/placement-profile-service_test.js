@@ -3,78 +3,85 @@ const placementProfileService = require('../../../../lib/domain/services/placeme
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Integration | Service | Placement Profile Service', function() {
-
+describe('Integration | Service | Placement Profile Service', function () {
   let userId, assessmentId;
 
-  beforeEach(function() {
-    const learningContent = [{
-      id: 'areaOne',
-      code: '1',
-      color: 'jaffa',
-      name: 'Domaine 1',
-      titleFr: '1. Domaine 1',
-      titleEn: '1. Area 1',
-      competences: [{
-        id: 'competenceRecordIdOne',
-        nameFr: 'Construire un flipper',
-        nameEn: 'Build a pinball',
-        index: '1.1',
-        tubes: [{
-          id: 'recCitation',
-          skills: [{
-            id: 'recCitation4',
-            nom: '@citation4',
-            pixValue: 1,
-            challenges: [
-              'challengeRecordIdOne',
-              'challengeRecordIdTwo',
-              'challengeRecordIdTen',
+  beforeEach(function () {
+    const learningContent = [
+      {
+        id: 'areaOne',
+        code: '1',
+        color: 'jaffa',
+        name: 'Domaine 1',
+        titleFr: '1. Domaine 1',
+        titleEn: '1. Area 1',
+        competences: [
+          {
+            id: 'competenceRecordIdOne',
+            nameFr: 'Construire un flipper',
+            nameEn: 'Build a pinball',
+            index: '1.1',
+            tubes: [
+              {
+                id: 'recCitation',
+                skills: [
+                  {
+                    id: 'recCitation4',
+                    nom: '@citation4',
+                    pixValue: 1,
+                    challenges: ['challengeRecordIdOne', 'challengeRecordIdTwo', 'challengeRecordIdTen'],
+                  },
+                ],
+              },
             ],
-          }],
-        }],
-      }, {
-        id: 'competenceRecordIdTwo',
-        nameFr: 'Adopter un dauphin',
-        nameEn: 'Adopt a dolphin',
-        index: '1.2',
-        tubes: [{
-          id: 'Remplir',
-          skills: [{
-            id: 'recRemplir2',
-            nom: '@remplir2',
-            pixValue: 1,
-            challenges: [
-              'challengeRecordIdOne',
-              'challengeRecordIdFive',
+          },
+          {
+            id: 'competenceRecordIdTwo',
+            nameFr: 'Adopter un dauphin',
+            nameEn: 'Adopt a dolphin',
+            index: '1.2',
+            tubes: [
+              {
+                id: 'Remplir',
+                skills: [
+                  {
+                    id: 'recRemplir2',
+                    nom: '@remplir2',
+                    pixValue: 1,
+                    challenges: ['challengeRecordIdOne', 'challengeRecordIdFive'],
+                  },
+                  {
+                    id: 'recRemplir4',
+                    nom: '@remplir4',
+                    pixValue: 1,
+                    challenges: ['challengeRecordIdSix'],
+                  },
+                ],
+              },
             ],
-          }, {
-            id: 'recRemplir4',
-            nom: '@remplir4',
-            pixValue: 1,
-            challenges: [
-              'challengeRecordIdSix',
+          },
+          {
+            id: 'competenceRecordIdThree',
+            nameFr: 'Se faire manger par un requin',
+            nameEn: 'Getting eaten by a shark',
+            index: '1.3',
+            tubes: [
+              {
+                id: 'Requin',
+                skills: [
+                  {
+                    id: 'recRequin5',
+                    nom: '@requin5',
+                    pixValue: 1,
+                    challenges: ['challengeRecordIdNine'],
+                  },
+                ],
+              },
             ],
-          }],
-        }],
-      }, {
-        id: 'competenceRecordIdThree',
-        nameFr: 'Se faire manger par un requin',
-        nameEn: 'Getting eaten by a shark',
-        index: '1.3',
-        tubes: [{
-          id: 'Requin',
-          skills: [{
-            id: 'recRequin5',
-            nom: '@requin5',
-            pixValue: 1,
-            challenges: [
-              'challengeRecordIdNine',
-            ],
-          }],
-        }],
-      }],
-    }];
+          },
+        ],
+      },
+    ];
 
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
@@ -84,13 +91,12 @@ describe('Integration | Service | Placement Profile Service', function() {
     return databaseBuilder.commit();
   });
 
-  context('V1 Profile', function() {
-    describe('#getPlacementProfile', function() {
-
+  context('V1 Profile', function () {
+    describe('#getPlacementProfile', function () {
       let assessment1;
       let assessment2;
       let assessment3;
-      beforeEach(async function() {
+      beforeEach(async function () {
         assessment1 = databaseBuilder.factory.buildAssessment({
           id: 13,
           status: 'completed',
@@ -113,19 +119,30 @@ describe('Integration | Service | Placement Profile Service', function() {
         await databaseBuilder.commit();
       });
 
-      it('should load achieved assessments', async function() {
+      it('should load achieved assessments', async function () {
         // given
         const limitDate = '2020-10-27 08:44:25';
 
         // when
-        const actualPlacementProfile = await placementProfileService.getPlacementProfile({ userId, limitDate, isV2Certification: false });
+        const actualPlacementProfile = await placementProfileService.getPlacementProfile({
+          userId,
+          limitDate,
+          isV2Certification: false,
+        });
 
         // then
         expect(actualPlacementProfile.userCompetences).to.deep.equal([
           {
             id: 'competenceRecordIdOne',
             index: '1.1',
-            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            area: {
+              id: 'areaOne',
+              code: '1',
+              color: 'jaffa',
+              title: '1. Domaine 1',
+              name: 'Domaine 1',
+              competences: [],
+            },
             name: 'Construire un flipper',
             skills: [],
             pixScore: 0,
@@ -134,7 +151,14 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdTwo',
             index: '1.2',
-            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            area: {
+              id: 'areaOne',
+              code: '1',
+              color: 'jaffa',
+              title: '1. Domaine 1',
+              name: 'Domaine 1',
+              competences: [],
+            },
             name: 'Adopter un dauphin',
             skills: [],
             pixScore: 0,
@@ -143,21 +167,28 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdThree',
             index: '1.3',
-            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            area: {
+              id: 'areaOne',
+              code: '1',
+              color: 'jaffa',
+              title: '1. Domaine 1',
+              name: 'Domaine 1',
+              competences: [],
+            },
             name: 'Se faire manger par un requin',
             skills: [],
             pixScore: 0,
             estimatedLevel: 0,
-          }]);
+          },
+        ]);
       });
     });
   });
 
-  context('V2 Profile', function() {
+  context('V2 Profile', function () {
     const isV2Certification = true;
-    describe('#getPlacementProfile', function() {
-
-      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function() {
+    describe('#getPlacementProfile', function () {
+      it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function () {
         // when
         const actualPlacementProfile = await placementProfileService.getPlacementProfile({
           userId,
@@ -170,7 +201,14 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdOne',
             index: '1.1',
-            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            area: {
+              id: 'areaOne',
+              code: '1',
+              color: 'jaffa',
+              title: '1. Domaine 1',
+              name: 'Domaine 1',
+              competences: [],
+            },
             name: 'Construire un flipper',
             skills: [],
             pixScore: 0,
@@ -179,7 +217,14 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdTwo',
             index: '1.2',
-            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            area: {
+              id: 'areaOne',
+              code: '1',
+              color: 'jaffa',
+              title: '1. Domaine 1',
+              name: 'Domaine 1',
+              competences: [],
+            },
             name: 'Adopter un dauphin',
             skills: [],
             pixScore: 0,
@@ -188,15 +233,23 @@ describe('Integration | Service | Placement Profile Service', function() {
           {
             id: 'competenceRecordIdThree',
             index: '1.3',
-            area: { id: 'areaOne', code: '1', color: 'jaffa', title: '1. Domaine 1', name: 'Domaine 1', competences: [] },
+            area: {
+              id: 'areaOne',
+              code: '1',
+              color: 'jaffa',
+              title: '1. Domaine 1',
+              name: 'Domaine 1',
+              competences: [],
+            },
             name: 'Se faire manger par un requin',
             skills: [],
             pixScore: 0,
             estimatedLevel: 0,
-          }]);
+          },
+        ]);
       });
 
-      it('should return area and competence name according to given locale', async function() {
+      it('should return area and competence name according to given locale', async function () {
         // when
         const actualPlacementProfile = await placementProfileService.getPlacementProfile({
           userId,
@@ -212,7 +265,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         expect(areaTitle).to.have.members(['1. Area 1', '1. Area 1', '1. Area 1']);
       });
 
-      it('should return area and competence name according to default locale', async function() {
+      it('should return area and competence name according to default locale', async function () {
         // when
         const actualPlacementProfile = await placementProfileService.getPlacementProfile({
           userId,
@@ -223,12 +276,16 @@ describe('Integration | Service | Placement Profile Service', function() {
         // then
         const competenceName = actualPlacementProfile.userCompetences.map((competence) => competence.name);
         const areaTitle = actualPlacementProfile.userCompetences.map((competence) => competence.area.title);
-        expect(competenceName).to.have.members(['Construire un flipper', 'Adopter un dauphin', 'Se faire manger par un requin']);
+        expect(competenceName).to.have.members([
+          'Construire un flipper',
+          'Adopter un dauphin',
+          'Se faire manger par un requin',
+        ]);
         expect(areaTitle).to.have.members(['1. Domaine 1', '1. Domaine 1', '1. Domaine 1']);
       });
 
-      describe('PixScore by competences', function() {
-        it('should assign pixScore and level to user competence based on knowledge elements', async function() {
+      describe('PixScore by competences', function () {
+        it('should assign pixScore and level to user competence based on knowledge elements', async function () {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
@@ -257,14 +314,16 @@ describe('Integration | Service | Placement Profile Service', function() {
             id: 'competenceRecordIdTwo',
             pixScore: 23,
             estimatedLevel: 2,
-            skills: [{
-              competenceId: 'competenceRecordIdTwo',
-              id: 'recRemplir2',
-              name: '@remplir2',
-              pixValue: 1,
-              tubeId: 'Remplir',
-              tutorialIds: [],
-            }],
+            skills: [
+              {
+                competenceId: 'competenceRecordIdTwo',
+                id: 'recRemplir2',
+                name: '@remplir2',
+                pixValue: 1,
+                tubeId: 'Remplir',
+                tutorialIds: [],
+              },
+            ],
           });
           expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
             id: 'competenceRecordIdThree',
@@ -274,7 +333,7 @@ describe('Integration | Service | Placement Profile Service', function() {
           });
         });
 
-        it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function() {
+        it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
@@ -306,8 +365,8 @@ describe('Integration | Service | Placement Profile Service', function() {
           expect(actualPlacementProfile.userCompetences[1].pixScore).to.equal(17);
         });
 
-        context('when we dont want to limit pix score', function() {
-          it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function() {
+        context('when we dont want to limit pix score', function () {
+          it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function () {
             databaseBuilder.factory.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
               earnedPix: 64,
@@ -331,11 +390,10 @@ describe('Integration | Service | Placement Profile Service', function() {
               estimatedLevel: 8,
             });
           });
-
         });
 
-        context('when we want to limit pix score', function() {
-          it('should limit pixScore to 40 and level to 5', async function() {
+        context('when we want to limit pix score', function () {
+          it('should limit pixScore to 40 and level to 5', async function () {
             databaseBuilder.factory.buildKnowledgeElement({
               competenceId: 'competenceRecordIdOne',
               earnedPix: 64,
@@ -362,8 +420,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         });
       });
 
-      describe('Skills not found in learningContent', function() {
-        it('should skip not found skills', async function() {
+      describe('Skills not found in learningContent', function () {
+        it('should skip not found skills', async function () {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdTwo',
@@ -400,14 +458,16 @@ describe('Integration | Service | Placement Profile Service', function() {
             id: 'competenceRecordIdTwo',
             pixScore: 22,
             estimatedLevel: 2,
-            skills: [{
-              competenceId: 'competenceRecordIdTwo',
-              id: 'recRemplir2',
-              name: '@remplir2',
-              pixValue: 1,
-              tubeId: 'Remplir',
-              tutorialIds: [],
-            }],
+            skills: [
+              {
+                competenceId: 'competenceRecordIdTwo',
+                id: 'recRemplir2',
+                name: '@remplir2',
+                pixValue: 1,
+                tubeId: 'Remplir',
+                tutorialIds: [],
+              },
+            ],
           });
           expect(actualPlacementProfile.userCompetences[2]).to.deep.include({
             id: 'competenceRecordIdThree',
@@ -420,28 +480,32 @@ describe('Integration | Service | Placement Profile Service', function() {
     });
   });
 
-  describe('#getPlacementProfilesWithSnapshotting', function() {
-    const competences = [{
-      id: 'competenceRecordIdOne',
-      area: { id: 'areaOne', code: '1' },
-      name: 'Construire un flipper',
-      index: '1.1',
-      skillIds: ['recCitation4', 'recMoteur3', 'recRecherche4'],
-    }, {
-      id: 'competenceRecordIdTwo',
-      area: { id: 'areaOne', code: '1' },
-      name: 'Adopter un dauphin',
-      index: '1.2',
-      skillIds: ['recRemplir2', 'recRemplir4', 'recUrl3', 'recWeb1'],
-    }, {
-      id: 'competenceRecordIdThree',
-      area: { id: 'areaOne', code: '1' },
-      name: 'Se faire manger par un requin',
-      index: '1.3',
-      skillIds: ['recRequin5', 'recRequin8'],
-    }];
+  describe('#getPlacementProfilesWithSnapshotting', function () {
+    const competences = [
+      {
+        id: 'competenceRecordIdOne',
+        area: { id: 'areaOne', code: '1' },
+        name: 'Construire un flipper',
+        index: '1.1',
+        skillIds: ['recCitation4', 'recMoteur3', 'recRecherche4'],
+      },
+      {
+        id: 'competenceRecordIdTwo',
+        area: { id: 'areaOne', code: '1' },
+        name: 'Adopter un dauphin',
+        index: '1.2',
+        skillIds: ['recRemplir2', 'recRemplir4', 'recUrl3', 'recWeb1'],
+      },
+      {
+        id: 'competenceRecordIdThree',
+        area: { id: 'areaOne', code: '1' },
+        name: 'Se faire manger par un requin',
+        index: '1.3',
+        skillIds: ['recRequin5', 'recRequin8'],
+      },
+    ];
 
-    it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function() {
+    it('should assign 0 pixScore and level of 0 to user competence when not assessed', async function () {
       // when
       const actualPlacementProfiles = await placementProfileService.getPlacementProfilesWithSnapshotting({
         userIdsAndDates: { [userId]: new Date() },
@@ -476,12 +540,12 @@ describe('Integration | Service | Placement Profile Service', function() {
           skills: [],
           pixScore: 0,
           estimatedLevel: 0,
-        }]);
+        },
+      ]);
     });
 
-    describe('PixScore by competences', function() {
-
-      it('should assign pixScore and level to user competence based on knowledge elements', async function() {
+    describe('PixScore by competences', function () {
+      it('should assign pixScore and level to user competence based on knowledge elements', async function () {
         // given
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
@@ -511,7 +575,7 @@ describe('Integration | Service | Placement Profile Service', function() {
         });
       });
 
-      it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function() {
+      it('should include both inferred and direct KnowlegdeElements to compute PixScore', async function () {
         // given
         databaseBuilder.factory.buildKnowledgeElement({
           competenceId: 'competenceRecordIdTwo',
@@ -542,8 +606,8 @@ describe('Integration | Service | Placement Profile Service', function() {
         expect(actualPlacementProfiles[0].userCompetences[1].pixScore).to.equal(17);
       });
 
-      context('when we dont want to limit pix score', function() {
-        it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function() {
+      context('when we dont want to limit pix score', function () {
+        it('should not limit pixScore and level to the max reachable for user competence based on knowledge elements', async function () {
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,
@@ -566,11 +630,10 @@ describe('Integration | Service | Placement Profile Service', function() {
             estimatedLevel: 8,
           });
         });
-
       });
 
-      context('when we want to limit pix score', function() {
-        it('should limit pixScore to 40 and level to 5', async function() {
+      context('when we want to limit pix score', function () {
+        it('should limit pixScore to 40 and level to 5', async function () {
           databaseBuilder.factory.buildKnowledgeElement({
             competenceId: 'competenceRecordIdOne',
             earnedPix: 64,

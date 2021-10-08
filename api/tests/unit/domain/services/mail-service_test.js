@@ -11,24 +11,18 @@ const mainTranslationsMapping = {
   en: require('../../../../translations/en'),
 };
 
-const {
-  ENGLISH_SPOKEN,
-  FRENCH_FRANCE,
-  FRENCH_SPOKEN,
-} = require('../../../../lib/domain/constants').LOCALE;
+const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Service | MailService', function() {
-
+describe('Unit | Service | MailService', function () {
   const senderEmailAddress = 'ne-pas-repondre@pix.fr';
   const userEmailAddress = 'user@example.net';
 
-  beforeEach(function() {
+  beforeEach(function () {
     sinon.stub(mailer, 'sendEmail').resolves();
   });
 
-  describe('#sendAccountCreationEmail', function() {
-
-    it('should call sendEmail with from, to, subject, template', async function() {
+  describe('#sendAccountCreationEmail', function () {
+    it('should call sendEmail with from, to, subject, template', async function () {
       // given
       const locale = undefined;
 
@@ -48,11 +42,9 @@ describe('Unit | Service | MailService', function() {
       expect(options).to.include(expectedOptions);
     });
 
-    context('according to redirectionUrl', function() {
-
-      context('if redirectionUrl is provided', function() {
-
-        it('should call sendEmail with provided value', async function() {
+    context('according to redirectionUrl', function () {
+      context('if redirectionUrl is provided', function () {
+        it('should call sendEmail with provided value', async function () {
           // given
           const redirectionUrl = 'https://pix.fr';
           const locale = FRENCH_FRANCE;
@@ -67,8 +59,7 @@ describe('Unit | Service | MailService', function() {
       });
     });
 
-    context('according to locale', function() {
-
+    context('according to locale', function () {
       const translationsMapping = {
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
@@ -78,7 +69,7 @@ describe('Unit | Service | MailService', function() {
         en: mainTranslationsMapping.en['pix-account-creation-email'],
       };
 
-      context('should call sendEmail with localized variable options', function() {
+      context('should call sendEmail with localized variable options', function () {
         const testCases = [
           {
             locale: undefined,
@@ -160,7 +151,7 @@ describe('Unit | Service | MailService', function() {
 
         // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async function() {
+          it(`when locale is ${testCase.locale}`, async function () {
             // when
             await mailService.sendAccountCreationEmail(userEmailAddress, testCase.locale);
 
@@ -174,9 +165,8 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
-  describe('#sendCertificationResultEmail', function() {
-
-    it('should use mailer to send an email with given options', async function() {
+  describe('#sendCertificationResultEmail', function () {
+    it('should use mailer to send an email with given options', async function () {
       // given
       sinon.stub(settings.domain, 'pixApp').value('https://pix.app');
       const sessionDate = '2020-10-03';
@@ -215,8 +205,7 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
-  describe('#sendResetPasswordDemandEmail', function() {
-
+  describe('#sendResetPasswordDemandEmail', function () {
     const from = senderEmailAddress;
     const to = userEmailAddress;
     const template = 'test-password-reset-template-id';
@@ -231,8 +220,7 @@ describe('Unit | Service | MailService', function() {
       en: mainTranslationsMapping.en['reset-password-demand-email'],
     };
 
-    context('according to locale', function() {
-
+    context('according to locale', function () {
       const testCases = [
         {
           locale: undefined,
@@ -330,7 +318,7 @@ describe('Unit | Service | MailService', function() {
 
       // eslint-disable-next-line mocha/no-setup-in-describe
       testCases.forEach((testCase) => {
-        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async function() {
+        it(`should call mailer with ${testCase.expectedTranslationLanguage} translated texts if locale is ${testCase.locale}`, async function () {
           // when
           await mailService.sendResetPasswordDemandEmail({
             email: userEmailAddress,
@@ -345,19 +333,22 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
-  describe('#sendOrganizationInvitationEmail', function() {
-
+  describe('#sendOrganizationInvitationEmail', function () {
     const organizationName = 'Organization Name';
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
-    it('should call sendEmail with from, to, organizationName', async function() {
+    it('should call sendEmail with from, to, organizationName', async function () {
       // given
       const locale = undefined;
 
       // when
       await mailService.sendOrganizationInvitationEmail({
-        email: userEmailAddress, organizationName, organizationInvitationId, code, locale,
+        email: userEmailAddress,
+        organizationName,
+        organizationInvitationId,
+        code,
+        locale,
       });
 
       // then
@@ -375,17 +366,19 @@ describe('Unit | Service | MailService', function() {
       expect(options.variables.organizationName).to.equal(expectedOptions.variables.organizationName);
     });
 
-    context('according to tags', function() {
-
-      context('When tags property is not provided', function() {
-
-        it('should call mail provider with null tags', async function() {
+    context('according to tags', function () {
+      context('When tags property is not provided', function () {
+        it('should call mail provider with null tags', async function () {
           // given
           const tags = null;
 
           // when
           await mailService.sendOrganizationInvitationEmail({
-            email: userEmailAddress, organizationName, organizationInvitationId, code, tags,
+            email: userEmailAddress,
+            organizationName,
+            organizationInvitationId,
+            code,
+            tags,
           });
 
           // then
@@ -394,15 +387,18 @@ describe('Unit | Service | MailService', function() {
         });
       });
 
-      context('When tags property is provided', function() {
-
-        it('should call mail provider with correct tags', async function() {
+      context('When tags property is provided', function () {
+        it('should call mail provider with correct tags', async function () {
           // given
           const tags = ['JOIN_ORGA'];
 
           // when
           await mailService.sendOrganizationInvitationEmail({
-            email: userEmailAddress, organizationName, organizationInvitationId, code, tags,
+            email: userEmailAddress,
+            organizationName,
+            organizationInvitationId,
+            code,
+            tags,
           });
 
           // then
@@ -412,19 +408,17 @@ describe('Unit | Service | MailService', function() {
       });
     });
 
-    context('according to locale', function() {
-
+    context('according to locale', function () {
       const translationsMapping = {
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
-        'fr': mainTranslationsMapping.fr['organization-invitation-email'],
+        fr: mainTranslationsMapping.fr['organization-invitation-email'],
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
-        'en': mainTranslationsMapping.en['organization-invitation-email'],
+        en: mainTranslationsMapping.en['organization-invitation-email'],
       };
 
-      context('should call sendEmail with localized variable options', function() {
-
+      context('should call sendEmail with localized variable options', function () {
         const testCases = [
           {
             locale: undefined,
@@ -506,10 +500,14 @@ describe('Unit | Service | MailService', function() {
 
         // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async function() {
+          it(`when locale is ${testCase.locale}`, async function () {
             // when
             await mailService.sendOrganizationInvitationEmail({
-              email: userEmailAddress, organizationName, organizationInvitationId, code, locale: testCase.locale,
+              email: userEmailAddress,
+              organizationName,
+              organizationInvitationId,
+              code,
+              locale: testCase.locale,
             });
 
             // then
@@ -523,8 +521,7 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
-  describe('#sendScoOrganizationInvitationEmail', function() {
-
+  describe('#sendScoOrganizationInvitationEmail', function () {
     const fromName = 'Pix Orga - Ne pas répondre';
 
     const subject = 'Accès à votre espace Pix Orga';
@@ -539,16 +536,18 @@ describe('Unit | Service | MailService', function() {
     const organizationInvitationId = 1;
     const code = 'ABCDEFGH01';
 
-    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async function() {
+    it('should call mail provider with pix-orga url, organization-invitation id, code and null tags', async function () {
       // given
       const expectedOptions = {
         from: senderEmailAddress,
         fromName,
         to: userEmailAddress,
-        subject, template,
+        subject,
+        template,
         variables: {
           organizationName,
-          firstName, lastName,
+          firstName,
+          lastName,
           pixHomeName,
           pixHomeUrl,
           pixOrgaHomeUrl: pixOrgaUrl,
@@ -562,8 +561,10 @@ describe('Unit | Service | MailService', function() {
       await mailService.sendScoOrganizationInvitationEmail({
         email: userEmailAddress,
         organizationName,
-        firstName, lastName,
-        organizationInvitationId, code,
+        firstName,
+        lastName,
+        organizationInvitationId,
+        code,
       });
 
       // then
@@ -571,10 +572,8 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
-  describe('#notifyEmailChange', function() {
-
-    it('should call sendEmail with from, to, template, tags', async function() {
-
+  describe('#notifyEmailChange', function () {
+    it('should call sendEmail with from, to, template, tags', async function () {
       // given
       const locale = FRENCH_FRANCE;
       const expectedOptions = {
@@ -593,19 +592,17 @@ describe('Unit | Service | MailService', function() {
       expect(options).to.deep.include(expectedOptions);
     });
 
-    context('according to locale', function() {
-
+    context('according to locale', function () {
       const translationsMapping = {
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
-        'fr': mainTranslationsMapping.fr['email-change-email'],
+        fr: mainTranslationsMapping.fr['email-change-email'],
         // TODO: Fix this the next time the file is edited.
         // eslint-disable-next-line mocha/no-setup-in-describe
-        'en': mainTranslationsMapping.en['email-change-email'],
+        en: mainTranslationsMapping.en['email-change-email'],
       };
 
-      context('should call sendEmail with localized variable options', function() {
-
+      context('should call sendEmail with localized variable options', function () {
         const testCases = [
           {
             locale: FRENCH_SPOKEN,
@@ -619,7 +616,8 @@ describe('Unit | Service | MailService', function() {
                 displayNationalLogo: false,
                 // TODO: Fix this the next time the file is edited.
                 // eslint-disable-next-line mocha/no-setup-in-describe
-                ...translationsMapping.fr.body },
+                ...translationsMapping.fr.body,
+              },
             },
           },
           {
@@ -634,7 +632,8 @@ describe('Unit | Service | MailService', function() {
                 displayNationalLogo: true,
                 // TODO: Fix this the next time the file is edited.
                 // eslint-disable-next-line mocha/no-setup-in-describe
-                ...translationsMapping.fr.body },
+                ...translationsMapping.fr.body,
+              },
             },
           },
           {
@@ -649,15 +648,15 @@ describe('Unit | Service | MailService', function() {
                 displayNationalLogo: false,
                 // TODO: Fix this the next time the file is edited.
                 // eslint-disable-next-line mocha/no-setup-in-describe
-                ...translationsMapping.en.body },
+                ...translationsMapping.en.body,
+              },
             },
           },
         ];
 
         // eslint-disable-next-line mocha/no-setup-in-describe
         testCases.forEach((testCase) => {
-          it(`when locale is ${testCase.locale}`, async function() {
-
+          it(`when locale is ${testCase.locale}`, async function () {
             // when
             await mailService.notifyEmailChange({ email: userEmailAddress, locale: testCase.locale });
 
@@ -667,16 +666,12 @@ describe('Unit | Service | MailService', function() {
             expect(options.variables).to.include(testCase.expected.variables);
           });
         });
-
       });
-
     });
-
   });
 
-  describe('#sendAccountRecoveryEmail', function() {
-
-    it('should call sendEmail with from, to, template, tags', async function() {
+  describe('#sendAccountRecoveryEmail', function () {
+    it('should call sendEmail with from, to, template, tags', async function () {
       // given
       const translationsMapping = mainTranslationsMapping.fr['account-recovery-email'];
 
@@ -711,15 +706,14 @@ describe('Unit | Service | MailService', function() {
     });
   });
 
-  describe('#sendVerificationCodeEmail', function() {
-
+  describe('#sendVerificationCodeEmail', function () {
     let translationsMapping;
     let testCases;
     let code;
     let userEmail;
     let translate;
 
-    before(function() {
+    before(function () {
       translate = getI18n().__;
       userEmail = 'user@example.net';
       code = '999999';
@@ -784,7 +778,7 @@ describe('Unit | Service | MailService', function() {
       ];
     });
 
-    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function() {
+    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_SPOKEN}`, async function () {
       // given
       const testCase = testCases[0];
 
@@ -802,7 +796,7 @@ describe('Unit | Service | MailService', function() {
       expect(options.variables).to.include(testCase.expected.variables);
     });
 
-    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function() {
+    it(`should call sendEmail with from, to, template, tags and locale ${FRENCH_FRANCE}`, async function () {
       // given
       const testCase = testCases[1];
 
@@ -820,7 +814,7 @@ describe('Unit | Service | MailService', function() {
       expect(options.variables).to.include(testCase.expected.variables);
     });
 
-    it(`should call sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function() {
+    it(`should call sendEmail with from, to, template, tags and locale ${ENGLISH_SPOKEN}`, async function () {
       // given
       const testCase = testCases[2];
 
@@ -838,5 +832,4 @@ describe('Unit | Service | MailService', function() {
       expect(options.variables).to.include(testCase.expected.variables);
     });
   });
-
 });

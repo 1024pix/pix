@@ -21,13 +21,14 @@ module.exports = function buildAssessment({
   updatedAt = new Date('2020-01-02'),
   method,
 } = {}) {
-
   if (type !== Assessment.types.DEMO) {
     userId = _.isUndefined(userId) ? buildUser().id : userId;
   }
 
   if (type === Assessment.types.CERTIFICATION) {
-    certificationCourseId = _.isUndefined(certificationCourseId) ? buildCertificationCourse({ userId }).id : certificationCourseId;
+    certificationCourseId = _.isUndefined(certificationCourseId)
+      ? buildCertificationCourse({ userId }).id
+      : certificationCourseId;
   }
 
   const values = {

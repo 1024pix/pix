@@ -3,9 +3,8 @@ const pickChallengeService = require('../../../../lib/domain/services/pick-chall
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 const _ = require('lodash');
 
-describe('Unit | Service | PickChallengeService', function() {
-
-  describe('#pickChallenge', function() {
+describe('Unit | Service | PickChallengeService', function () {
+  describe('#pickChallenge', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const englishSpokenChallenge = domainBuilder.buildChallenge({ locales: [ENGLISH_SPOKEN] });
@@ -27,9 +26,8 @@ describe('Unit | Service | PickChallengeService', function() {
 
     const randomSeed = 'some-random-seed';
 
-    context('when challenge in selected locale exists', function() {
-
-      it('should return challenge in selected locale', function() {
+    context('when challenge in selected locale exists', function () {
+      it('should return challenge in selected locale', function () {
         // given
         const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, englishSpokenChallenge] }];
 
@@ -44,28 +42,28 @@ describe('Unit | Service | PickChallengeService', function() {
         expect(challenge).to.equal(englishSpokenChallenge);
       });
 
-      it('should always return the same challenge in selected locale', function() {
+      it('should always return the same challenge in selected locale', function () {
         // given
         const skills = [{ challenges: [frenchChallenge, frenchSpokenChallenge, otherFrenchSpokenChallenge] }];
 
         // when
-        const challenges = _.times(5, () => pickChallengeService.pickChallenge({
-          skills,
-          randomSeed,
-          locale: FRENCH_SPOKEN,
-        }));
+        const challenges = _.times(5, () =>
+          pickChallengeService.pickChallenge({
+            skills,
+            randomSeed,
+            locale: FRENCH_SPOKEN,
+          })
+        );
 
         // then
         expect(challenges).to.contains(frenchSpokenChallenge);
         expect(challenges).to.not.contains(otherFrenchSpokenChallenge);
         expect(challenges).to.not.contains(frenchChallenge);
       });
-
     });
 
-    context('when there is no skills', function() {
-
-      it('should return null', function() {
+    context('when there is no skills', function () {
+      it('should return null', function () {
         // given
         const skills = [];
 
@@ -79,11 +77,10 @@ describe('Unit | Service | PickChallengeService', function() {
         // then
         expect(challenge).to.be.null;
       });
-
     });
 
-    context('when skills have validated and archived challenges', function() {
-      it('should return validated challenge', function() {
+    context('when skills have validated and archived challenges', function () {
+      it('should return validated challenge', function () {
         // given
         const skills = [{ challenges: [archivedChallenge, validatedChallenge] }];
 
@@ -99,8 +96,8 @@ describe('Unit | Service | PickChallengeService', function() {
       });
     });
 
-    context('when skills only have archived challenges', function() {
-      it('should return archived challenge', function() {
+    context('when skills only have archived challenges', function () {
+      it('should return archived challenge', function () {
         // given
         const skills = [{ challenges: [archivedChallenge] }];
 
@@ -116,8 +113,8 @@ describe('Unit | Service | PickChallengeService', function() {
       });
     });
 
-    context('when picking a lot of challenges', function() {
-      it('should return all challenges propose', function() {
+    context('when picking a lot of challenges', function () {
+      it('should return all challenges propose', function () {
         // given
         const challengeOneForSkillOne = domainBuilder.buildChallenge();
         const challengeTwoForSkillOne = domainBuilder.buildChallenge();
@@ -127,11 +124,13 @@ describe('Unit | Service | PickChallengeService', function() {
         const skillTwo = { challenges: [challengeOneForSkillTwo, challengeTwoForSkillTwo] };
         const skills = [skillOne, skillTwo];
 
-        const challenges = _.times(50, (time) => pickChallengeService.pickChallenge({
-          skills,
-          randomSeed: time,
-          locale: FRENCH_SPOKEN,
-        }));
+        const challenges = _.times(50, (time) =>
+          pickChallengeService.pickChallenge({
+            skills,
+            randomSeed: time,
+            locale: FRENCH_SPOKEN,
+          })
+        );
 
         // then
         expect(challenges).to.contains(challengeOneForSkillOne);
@@ -141,5 +140,4 @@ describe('Unit | Service | PickChallengeService', function() {
       });
     });
   });
-})
-;
+});

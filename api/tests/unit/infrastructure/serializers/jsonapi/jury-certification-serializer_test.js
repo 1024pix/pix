@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-serializer');
 
-describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should serialize a JuryCertification', function() {
+describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function () {
+  describe('#serialize', function () {
+    it('should serialize a JuryCertification', function () {
       // given
       const certificationCourseId = 123;
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport.impactful({
@@ -13,11 +11,13 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
         resolvedAt: new Date(),
         resolution: 'le challenge est neutralisé',
       });
-      const certificationIssueReports = [ certificationIssueReport ];
-      const competenceMarks = [ domainBuilder.buildCompetenceMark() ];
+      const certificationIssueReports = [certificationIssueReport];
+      const competenceMarks = [domainBuilder.buildCompetenceMark()];
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
       const juryCertification = domainBuilder.buildJuryCertification({
         certificationCourseId,
         sessionId: 11,
@@ -81,26 +81,30 @@ describe('Unit | Serializer | JSONAPI | jury-certification-serializer', function
           },
           relationships: {
             'certification-issue-reports': {
-              data: [{
-                type: 'certificationIssueReports',
-                id: certificationIssueReport.id.toString(),
-              }],
+              data: [
+                {
+                  type: 'certificationIssueReports',
+                  id: certificationIssueReport.id.toString(),
+                },
+              ],
             },
           },
         },
-        included: [{
-          type: 'certificationIssueReports',
-          id: certificationIssueReport.id.toString(),
-          attributes: {
-            category: certificationIssueReport.category,
-            description: certificationIssueReport.description,
-            'is-impactful': true,
-            'resolved-at': certificationIssueReport.resolvedAt,
-            'resolution': certificationIssueReport.resolution,
-            'question-number': certificationIssueReport.questionNumber,
-            subcategory: certificationIssueReport.subcategory,
+        included: [
+          {
+            type: 'certificationIssueReports',
+            id: certificationIssueReport.id.toString(),
+            attributes: {
+              category: certificationIssueReport.category,
+              description: certificationIssueReport.description,
+              'is-impactful': true,
+              'resolved-at': certificationIssueReport.resolvedAt,
+              resolution: certificationIssueReport.resolution,
+              'question-number': certificationIssueReport.questionNumber,
+              subcategory: certificationIssueReport.subcategory,
+            },
           },
-        }],
+        ],
       };
       expect(serializedJuryCertification).to.deep.equal(expectedSerializedCertification);
     });

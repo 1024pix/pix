@@ -1,11 +1,16 @@
-const { databaseBuilder, expect, knex, generateValidRequestAuthorizationHeader, mockLearningContent } = require('../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  knex,
+  generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+} = require('../../test-helper');
 const KnowledgeElement = require('../../../lib/domain/models/KnowledgeElement');
 const { FRENCH_SPOKEN } = require('../../../lib/domain/constants').LOCALE;
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | scorecard-controller', function() {
-
+describe('Acceptance | Controller | scorecard-controller', function () {
   let options;
   let server;
   const userId = 42;
@@ -34,56 +39,63 @@ describe('Acceptance | Controller | scorecard-controller', function() {
   const learningContent = {
     areas: [area],
     competences: [competence],
-    tubes: [{
-      id: 'recArea1_Competence1_Tube1',
-      name: '@web',
-      practicalDescriptionFrFr: 'Ceci est une description pratique',
-      practicalTitleFrFr: 'Ceci est un titre pratique',
-      competenceId: competenceId,
-    }],
-    skills: [{
-      id: skillWeb1Id,
-      name: skillWeb1Name,
-      status: 'actif',
-      competenceId: competenceId,
-      tutorialIds: ['recTutorial0', tutorialWebId, 'recTutorial2'],
-    }],
-    tutorials: [{
-      id: 'recTutorial0',
-      locale: 'en-us',
-      duration: '00:00:54',
-      format: 'video',
-      link: 'https://tuto.com',
-      source: 'tuto.com',
-      title: 'tuto1',
-    }, {
-      id: tutorialWebId,
-      locale: 'fr-fr',
-      duration: '00:03:31',
-      format: 'vidéo',
-      link: 'http://www.example.com/this-is-an-example.html',
-      source: 'Source Example, Example',
-      title: 'Communiquer',
-    }, {
-      id: 'recTutorial2',
-      locale: 'fr-fr',
-      duration: '00:03:31',
-      format: 'vidéo',
-      link: 'http://www.example.com/this-is-an-example.html',
-      source: 'Source Example, Example',
-      title: 'Communiquer',
-    }],
+    tubes: [
+      {
+        id: 'recArea1_Competence1_Tube1',
+        name: '@web',
+        practicalDescriptionFrFr: 'Ceci est une description pratique',
+        practicalTitleFrFr: 'Ceci est un titre pratique',
+        competenceId: competenceId,
+      },
+    ],
+    skills: [
+      {
+        id: skillWeb1Id,
+        name: skillWeb1Name,
+        status: 'actif',
+        competenceId: competenceId,
+        tutorialIds: ['recTutorial0', tutorialWebId, 'recTutorial2'],
+      },
+    ],
+    tutorials: [
+      {
+        id: 'recTutorial0',
+        locale: 'en-us',
+        duration: '00:00:54',
+        format: 'video',
+        link: 'https://tuto.com',
+        source: 'tuto.com',
+        title: 'tuto1',
+      },
+      {
+        id: tutorialWebId,
+        locale: 'fr-fr',
+        duration: '00:03:31',
+        format: 'vidéo',
+        link: 'http://www.example.com/this-is-an-example.html',
+        source: 'Source Example, Example',
+        title: 'Communiquer',
+      },
+      {
+        id: 'recTutorial2',
+        locale: 'fr-fr',
+        duration: '00:03:31',
+        format: 'vidéo',
+        link: 'http://www.example.com/this-is-an-example.html',
+        source: 'Source Example, Example',
+        title: 'Communiquer',
+      },
+    ],
   };
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     databaseBuilder.factory.buildUser({ id: userId });
     await databaseBuilder.commit();
     mockLearningContent(learningContent);
-
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await knex('knowledge-elements').delete();
     await knex('answers').delete();
     await knex('competence-evaluations').delete();
@@ -93,9 +105,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
 
   let knowledgeElement;
 
-  describe('GET /scorecards/{id}', function() {
-
-    beforeEach(async function() {
+  describe('GET /scorecards/{id}', function () {
+    beforeEach(async function () {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}`,
@@ -104,9 +115,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
       };
     });
 
-    context('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', function() {
+    context('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -120,9 +130,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
       });
     });
 
-    context('Success case', function() {
-
-      beforeEach(async function() {
+    context('Success case', function () {
+      beforeEach(async function () {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         knowledgeElement = databaseBuilder.factory.buildKnowledgeElement({
@@ -140,7 +149,7 @@ describe('Acceptance | Controller | scorecard-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return 200', function() {
+      it('should return 200', function () {
         // when
         const promise = server.inject(options);
 
@@ -148,10 +157,9 @@ describe('Acceptance | Controller | scorecard-controller', function() {
         return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
         });
-
       });
 
-      it('should return user\'s serialized scorecards', function() {
+      it("should return user's serialized scorecards", function () {
         // when
         const promise = server.inject(options);
 
@@ -207,9 +215,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
     });
   });
 
-  describe('GET /scorecards/{id}/tutorials', function() {
-
-    beforeEach(async function() {
+  describe('GET /scorecards/{id}/tutorials', function () {
+    beforeEach(async function () {
       options = {
         method: 'GET',
         url: `/api/scorecards/${userId}_${competenceId}/tutorials`,
@@ -218,9 +225,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
       };
     });
 
-    context('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    context('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -232,9 +238,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
       });
     });
 
-    context('Success case', function() {
-
-      beforeEach(async function() {
+    context('Success case', function () {
+      beforeEach(async function () {
         databaseBuilder.factory.buildUserTutorial({ id: 10500, userId, tutorialId: tutorialWebId });
         await databaseBuilder.commit();
 
@@ -261,7 +266,7 @@ describe('Acceptance | Controller | scorecard-controller', function() {
         await databaseBuilder.commit();
       });
 
-      it('should return 200', async function() {
+      it('should return 200', async function () {
         // given
 
         // when
@@ -271,41 +276,41 @@ describe('Acceptance | Controller | scorecard-controller', function() {
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return user\'s serialized tutorials', async function() {
+      it("should return user's serialized tutorials", async function () {
         // given
         const expectedTutorialsJSONApi = {
-          'data': [
+          data: [
             {
-              'type': 'tutorials',
-              'id': 'recTutorial1',
-              'attributes': {
-                'duration': '00:03:31',
-                'format': 'vidéo',
-                'link': 'http://www.example.com/this-is-an-example.html',
-                'source': 'Source Example, Example',
-                'title': 'Communiquer',
+              type: 'tutorials',
+              id: 'recTutorial1',
+              attributes: {
+                duration: '00:03:31',
+                format: 'vidéo',
+                link: 'http://www.example.com/this-is-an-example.html',
+                source: 'Source Example, Example',
+                title: 'Communiquer',
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
               },
               relationships: {
                 'user-tutorial': {
-                  'data': {
-                    'id': '10500',
-                    'type': 'user-tutorial',
+                  data: {
+                    id: '10500',
+                    type: 'user-tutorial',
                   },
                 },
               },
             },
             {
-              'type': 'tutorials',
-              'id': 'recTutorial2',
-              'attributes': {
-                'duration': '00:03:31',
-                'format': 'vidéo',
-                'link': 'http://www.example.com/this-is-an-example.html',
-                'source': 'Source Example, Example',
-                'title': 'Communiquer',
+              type: 'tutorials',
+              id: 'recTutorial2',
+              attributes: {
+                duration: '00:03:31',
+                format: 'vidéo',
+                link: 'http://www.example.com/this-is-an-example.html',
+                source: 'Source Example, Example',
+                title: 'Communiquer',
                 'tube-name': '@web',
                 'tube-practical-description': 'Ceci est une description pratique',
                 'tube-practical-title': 'Ceci est un titre pratique',
@@ -314,13 +319,13 @@ describe('Acceptance | Controller | scorecard-controller', function() {
           ],
           included: [
             {
-              'attributes': {
-                'id': 10500,
+              attributes: {
+                id: 10500,
                 'tutorial-id': 'recTutorial1',
                 'user-id': 42,
               },
-              'id': '10500',
-              'type': 'user-tutorial',
+              id: '10500',
+              type: 'user-tutorial',
             },
           ],
         };
@@ -333,8 +338,8 @@ describe('Acceptance | Controller | scorecard-controller', function() {
         expect(response.result.included).to.deep.equal(expectedTutorialsJSONApi.included);
       });
 
-      context('when user resets competence', function() {
-        beforeEach(async function() {
+      context('when user resets competence', function () {
+        beforeEach(async function () {
           const options = {
             method: 'POST',
             url: `/api/users/${userId}/competences/${competenceId}/reset`,
@@ -347,10 +352,10 @@ describe('Acceptance | Controller | scorecard-controller', function() {
           await server.inject(options);
         });
 
-        it('should return an empty tutorial list', async function() {
+        it('should return an empty tutorial list', async function () {
           // given
           const expectedTutorialsJSONApi = {
-            'data': [],
+            data: [],
           };
 
           // when

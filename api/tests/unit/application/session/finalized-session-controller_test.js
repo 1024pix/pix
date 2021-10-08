@@ -4,18 +4,17 @@ const usecases = require('../../../../lib/domain/usecases');
 const toBePublishedSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
 const withRequiredActionSessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/with-required-action-session-serializer');
 
-describe('Unit | Controller | finalized-session', function() {
+describe('Unit | Controller | finalized-session', function () {
   let request;
   const userId = 274939274;
 
-  describe('#findFinalizedSessionsToPublish', function() {
-
-    beforeEach(function() {
+  describe('#findFinalizedSessionsToPublish', function () {
+    beforeEach(function () {
       sinon.stub(usecases, 'findFinalizedSessionsToPublish').resolves();
       sinon.stub(toBePublishedSessionSerializer, 'serialize');
 
       request = {
-        payload: { },
+        payload: {},
         auth: {
           credentials: {
             userId,
@@ -24,9 +23,8 @@ describe('Unit | Controller | finalized-session', function() {
       };
     });
 
-    context('When there are finalized publishable sessions', function() {
-
-      it('should find finalized publishable sessions', async function() {
+    context('When there are finalized publishable sessions', function () {
+      it('should find finalized publishable sessions', async function () {
         // given
         const foundFinalizedSessions = Symbol('foundSession');
         const serializedFinalizedSessions = Symbol('serializedSession');
@@ -40,17 +38,14 @@ describe('Unit | Controller | finalized-session', function() {
         expect(response).to.deep.equal(serializedFinalizedSessions);
       });
     });
-
   });
 
-  describe('#findFinalizedSessionsWithRequiredAction', function() {
-
-    context('When there are finalized sessions with required action', function() {
-
-      it('should find finalized sessions with required action', async function() {
+  describe('#findFinalizedSessionsWithRequiredAction', function () {
+    context('When there are finalized sessions with required action', function () {
+      it('should find finalized sessions with required action', async function () {
         // given
         request = {
-          payload: { },
+          payload: {},
           auth: {
             credentials: {
               userId,
@@ -64,7 +59,9 @@ describe('Unit | Controller | finalized-session', function() {
 
         sinon.stub(withRequiredActionSessionSerializer, 'serialize');
         const serializedFinalizedSessions = Symbol('serializedSession');
-        withRequiredActionSessionSerializer.serialize.withArgs(foundFinalizedSessions).resolves(serializedFinalizedSessions);
+        withRequiredActionSessionSerializer.serialize
+          .withArgs(foundFinalizedSessions)
+          .resolves(serializedFinalizedSessions);
 
         // when
         const response = await finalizedSessionController.findFinalizedSessionsWithRequiredAction(request, hFake);
@@ -73,6 +70,5 @@ describe('Unit | Controller | finalized-session', function() {
         expect(response).to.deep.equal(serializedFinalizedSessions);
       });
     });
-
   });
 });

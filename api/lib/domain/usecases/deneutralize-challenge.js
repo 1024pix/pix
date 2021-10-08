@@ -6,7 +6,9 @@ module.exports = async function deneutralizeChallenge({
   challengeRecId,
   juryId,
 }) {
-  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({ certificationCourseId });
+  const certificationAssessment = await certificationAssessmentRepository.getByCertificationCourseId({
+    certificationCourseId,
+  });
   certificationAssessment.deneutralizeChallengeByRecId(challengeRecId);
   await certificationAssessmentRepository.save(certificationAssessment);
   return new ChallengeDeneutralized({ certificationCourseId, juryId });

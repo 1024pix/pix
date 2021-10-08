@@ -4,8 +4,8 @@ const CampaignProfilesCollectionResultLine = require('../../../../../lib/infrast
 const PlacementProfile = require('../../../../../lib/domain/models/PlacementProfile');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 
-describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', function() {
-  describe('#toCsvLine', function() {
+describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', function () {
+  describe('#toCsvLine', function () {
     let organization, campaign, competences;
 
     // TODO: Fix this the next time the file is edited.
@@ -14,18 +14,21 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
 
     const placementProfile = new PlacementProfile({
       userId: 123,
-      userCompetences: [{
-        id: 'recCompetence1',
-        pixScore: 9,
-        estimatedLevel: 1,
-      }, {
-        id: 'recCompetence2',
-        pixScore: 4,
-        estimatedLevel: 0,
-      }],
+      userCompetences: [
+        {
+          id: 'recCompetence1',
+          pixScore: 9,
+          estimatedLevel: 1,
+        },
+        {
+          id: 'recCompetence2',
+          pixScore: 4,
+          estimatedLevel: 0,
+        },
+      ],
     });
 
-    beforeEach(function() {
+    beforeEach(function () {
       const listSkills1 = domainBuilder.buildSkillCollection({ name: '@web', minLevel: 1, maxLevel: 5 });
       const listSkills2 = domainBuilder.buildSkillCollection({ name: '@url', minLevel: 1, maxLevel: 2 });
 
@@ -46,8 +49,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
       ];
     });
 
-    context('when user share his result', function() {
-      it('should return the complete line with 0 certifiable competence and non certifiable', async function() {
+    context('when user share his result', function () {
+      it('should return the complete line with 0 certifiable competence and non certifiable', async function () {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -68,7 +71,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           pixScore: 13,
         };
 
-        const csvExcpectedLine = `"${organization.name}";` +
+        const csvExcpectedLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
@@ -85,13 +89,20 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+        const line = new CampaignProfilesCollectionResultLine(
+          campaign,
+          organization,
+          campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate
+        );
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
 
-      it('should return the complete line with 5 certifiable competence', async function() {
+      it('should return the complete line with 5 certifiable competence', async function () {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -112,7 +123,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           pixScore: 13,
         };
 
-        const csvExcpectedLine = `"${organization.name}";` +
+        const csvExcpectedLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
@@ -129,15 +141,22 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+        const line = new CampaignProfilesCollectionResultLine(
+          campaign,
+          organization,
+          campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate
+        );
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
     });
 
-    context('when user has not share his result yet', function() {
-      it('should return the complete line with 5 certifiable competences', async function() {
+    context('when user has not share his result yet', function () {
+      it('should return the complete line with 5 certifiable competences', async function () {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -158,7 +177,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           participantLastName: 'Carlitos',
         };
 
-        const csvExcpectedLine = `"${organization.name}";` +
+        const csvExcpectedLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
@@ -175,19 +195,26 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+        const line = new CampaignProfilesCollectionResultLine(
+          campaign,
+          organization,
+          campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate
+        );
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
     });
 
-    context('When campaign has an idPixLabel', function() {
-      beforeEach(function() {
+    context('When campaign has an idPixLabel', function () {
+      beforeEach(function () {
         campaign.idPixLabel = 'Mail Pro';
       });
 
-      it('should return the line with a participant external id', function() {
+      it('should return the line with a participant external id', function () {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -208,7 +235,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           participantLastName: 'Carlitos',
         };
 
-        const csvExcpectedLine = `"${organization.name}";` +
+        const csvExcpectedLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
@@ -226,20 +254,27 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+        const line = new CampaignProfilesCollectionResultLine(
+          campaign,
+          organization,
+          campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate
+        );
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
     });
 
-    context('When organization is PRO', function() {
-      beforeEach(function() {
+    context('When organization is PRO', function () {
+      beforeEach(function () {
         organization.isPro = true;
         organization.isManagingStudents = false;
       });
 
-      it('should return the csv without student number or division information', function() {
+      it('should return the csv without student number or division information', function () {
         //given
         sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
         sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -262,7 +297,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           pixScore: 13,
         };
 
-        const csvExcpectedLine = `"${organization.name}";` +
+        const csvExcpectedLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"${campaign.name}";` +
           `"${campaignParticipationResultData.participantLastName}";` +
@@ -279,21 +315,28 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
           '\n';
 
         //when
-        const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+        const line = new CampaignProfilesCollectionResultLine(
+          campaign,
+          organization,
+          campaignParticipationResultData,
+          competences,
+          placementProfile,
+          translate
+        );
 
         //then
         expect(line.toCsvLine()).to.equal(csvExcpectedLine);
       });
     });
 
-    context('When organization is SCO and managing students', function() {
-      beforeEach(function() {
+    context('When organization is SCO and managing students', function () {
+      beforeEach(function () {
         organization.isSco = true;
         organization.isManagingStudents = true;
       });
 
-      context('when the participant does not have a division', function() {
-        it('should return the csv with empty division', function() {
+      context('when the participant does not have a division', function () {
+        it('should return the csv with empty division', function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -315,7 +358,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             pixScore: 13,
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -333,15 +377,22 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
 
-      context('when the participant has a division', function() {
-        it('should return the csv with division information', function() {
+      context('when the participant has a division', function () {
+        it('should return the csv with division information', function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -363,7 +414,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             pixScore: 13,
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -381,7 +433,14 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -389,15 +448,14 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
       });
     });
 
-    context('When organization is SCO and not managing students', function() {
-      beforeEach(function() {
+    context('When organization is SCO and not managing students', function () {
+      beforeEach(function () {
         organization.isSco = true;
         organization.isManagingStudents = false;
       });
 
-      context('when the participant has a division', function() {
-
-        it('should return the line without division information', async function() {
+      context('when the participant has a division', function () {
+        it('should return the line without division information', async function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -419,7 +477,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             division: '3eme',
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -436,23 +495,29 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
-
     });
 
-    context('When organization is SUP and managing students', function() {
-      beforeEach(function() {
+    context('When organization is SUP and managing students', function () {
+      beforeEach(function () {
         organization.isSup = true;
         organization.isManagingStudents = true;
       });
 
-      context('when the participant does not have a student number', function() {
-        it('should return the csv with empty student number and group', function() {
+      context('when the participant does not have a student number', function () {
+        it('should return the csv with empty student number and group', function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -475,7 +540,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             group: '',
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -494,15 +560,22 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
 
-      context('when the participant has a student number', function() {
-        it('should return the csv with student number information', function() {
+      context('when the participant has a student number', function () {
+        it('should return the csv with student number information', function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -525,7 +598,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             group: 'NA',
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -544,15 +618,22 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
 
-      context('when the participant has a group', function() {
-        it('should return the csv with group information', function() {
+      context('when the participant has a group', function () {
+        it('should return the csv with group information', function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(false);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(0);
@@ -575,7 +656,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             group: 'groupix',
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -594,23 +676,29 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
         });
       });
-
     });
 
-    context('When organization is SUP and not managing students', function() {
-      beforeEach(function() {
+    context('When organization is SUP and not managing students', function () {
+      beforeEach(function () {
         organization.isSup = true;
         organization.isManagingStudents = false;
       });
 
-      context('when the participant has a student number', function() {
-        it('should return the line without student number information', async function() {
+      context('when the participant has a student number', function () {
+        it('should return the line without student number information', async function () {
           //given
           sinon.stub(PlacementProfile.prototype, 'isCertifiable').returns(true);
           sinon.stub(PlacementProfile.prototype, 'getCertifiableCompetencesCount').returns(5);
@@ -632,7 +720,8 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             studentNumber: 'goodBoï',
           };
 
-          const csvExcpectedLine = `"${organization.name}";` +
+          const csvExcpectedLine =
+            `"${organization.name}";` +
             `${campaign.id};` +
             `"${campaign.name}";` +
             `"${campaignParticipationResultData.participantLastName}";` +
@@ -649,7 +738,14 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
             '\n';
 
           //when
-          const line = new CampaignProfilesCollectionResultLine(campaign, organization, campaignParticipationResultData, competences, placementProfile, translate);
+          const line = new CampaignProfilesCollectionResultLine(
+            campaign,
+            organization,
+            campaignParticipationResultData,
+            competences,
+            placementProfile,
+            translate
+          );
 
           //then
           expect(line.toCsvLine()).to.equal(csvExcpectedLine);
@@ -657,5 +753,4 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-result-line', f
       });
     });
   });
-
 });

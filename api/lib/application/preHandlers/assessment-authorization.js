@@ -9,12 +9,10 @@ module.exports = {
     const userId = extractUserIdFromRequest(request);
     const assessmentId = parseInt(request.params.id);
 
-    return assessmentRepository
-      .getByAssessmentIdAndUserId(assessmentId, userId)
-      .catch(() => {
-        const buildError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');
-        return h.response(validationErrorSerializer.serialize(buildError)).code(401).takeover();
-      });
+    return assessmentRepository.getByAssessmentIdAndUserId(assessmentId, userId).catch(() => {
+      const buildError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à cette évaluation');
+      return h.response(validationErrorSerializer.serialize(buildError)).code(401).takeover();
+    });
   },
 };
 

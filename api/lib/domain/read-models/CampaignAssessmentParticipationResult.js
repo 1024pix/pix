@@ -19,17 +19,17 @@ class CampaignAssessmentParticipationResult {
     if (status !== SHARED) {
       this.competenceResults = [];
     } else {
-      this.competenceResults = targetedCompetences
-        .map((targetedCompetence) => {
-          const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
-          return new CampaignAssessmentParticipationCompetenceResult({
-            campaignParticipationId,
-            targetedArea,
-            targetedCompetence,
-            targetedSkillsCount: targetedCompetence.skillCount,
-            validatedTargetedKnowledgeElementsCount: validatedTargetedKnowledgeElementsCountByCompetenceId[targetedCompetence.id],
-          });
+      this.competenceResults = targetedCompetences.map((targetedCompetence) => {
+        const targetedArea = targetProfile.getAreaOfCompetence(targetedCompetence.id);
+        return new CampaignAssessmentParticipationCompetenceResult({
+          campaignParticipationId,
+          targetedArea,
+          targetedCompetence,
+          targetedSkillsCount: targetedCompetence.skillCount,
+          validatedTargetedKnowledgeElementsCount:
+            validatedTargetedKnowledgeElementsCountByCompetenceId[targetedCompetence.id],
         });
+      });
     }
   }
 }

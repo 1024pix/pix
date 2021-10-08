@@ -4,9 +4,9 @@ const CampaignParticipation = require('../../../../lib/domain/models/CampaignPar
 
 const { SHARED, TO_SHARE } = CampaignParticipation.statuses;
 
-describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function() {
-  describe('constructor', function() {
-    it('should correctly initialize the information about campaign participation', function() {
+describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', function () {
+  describe('constructor', function () {
+    it('should correctly initialize the information about campaign participation', function () {
       const targetProfile = domainBuilder.buildTargetProfileWithLearningContent();
       const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
         campaignParticipationId: 1,
@@ -19,10 +19,12 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
       expect(campaignAssessmentParticipationResult.campaignId).equal(2);
     });
 
-    context('when the campaignParticipation is not shared', function() {
-      it('does not compute CampaignAssessmentParticipationCompetenceResult', function() {
+    context('when the campaignParticipation is not shared', function () {
+      it('does not compute CampaignAssessmentParticipationCompetenceResult', function () {
         const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'] });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence] });
+        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          competences: [targetedCompetence],
+        });
         const campaignAssessmentParticipationResult = new CampaignAssessmentParticipationResult({
           campaignParticipationId: 1,
           campaignId: 2,
@@ -36,11 +38,18 @@ describe('Unit | Domain | Models | CampaignAssessmentParticipationResult', funct
       });
     });
 
-    context('when the campaignParticipation is shared', function() {
-      it('should compute results with targeted competences', function() {
-        const targetedCompetence = domainBuilder.buildTargetedCompetence({ id: 'competence1', skills: ['oneSkill'], areaId: 'area1' });
+    context('when the campaignParticipation is shared', function () {
+      it('should compute results with targeted competences', function () {
+        const targetedCompetence = domainBuilder.buildTargetedCompetence({
+          id: 'competence1',
+          skills: ['oneSkill'],
+          areaId: 'area1',
+        });
         const targetedArea = domainBuilder.buildTargetedArea({ id: 'area1', competences: [targetedCompetence] });
-        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({ competences: [targetedCompetence], areas: [targetedArea] });
+        const targetProfile = domainBuilder.buildTargetProfileWithLearningContent({
+          competences: [targetedCompetence],
+          areas: [targetedArea],
+        });
         const validatedTargetedKnowledgeElementsByCompetenceId = {
           competence1: [domainBuilder.buildKnowledgeElement({ skillId: 'someId', competenceId: 'competence1' })],
         };

@@ -13,9 +13,17 @@ const { getTranslatedText } = require('../../domain/services/get-translated-text
 
 function _toDomain({ competenceData, areaDatas, locale }) {
   const areaData = competenceData.areaId && _.find(areaDatas, { id: competenceData.areaId });
-  const translatedCompetenceName = getTranslatedText(locale, { frenchText: competenceData.nameFrFr, englishText: competenceData.nameEnUs });
-  const translatedCompetenceDescription = getTranslatedText(locale, { frenchText: competenceData.descriptionFrFr, englishText: competenceData.descriptionEnUs });
-  const translatedAreaTitle = areaData ? getTranslatedText(locale, { frenchText: areaData.titleFrFr, englishText: areaData.titleEnUs }) : '';
+  const translatedCompetenceName = getTranslatedText(locale, {
+    frenchText: competenceData.nameFrFr,
+    englishText: competenceData.nameEnUs,
+  });
+  const translatedCompetenceDescription = getTranslatedText(locale, {
+    frenchText: competenceData.descriptionFrFr,
+    englishText: competenceData.descriptionEnUs,
+  });
+  const translatedAreaTitle = areaData
+    ? getTranslatedText(locale, { frenchText: areaData.titleFrFr, englishText: areaData.titleEnUs })
+    : '';
 
   return new Competence({
     id: competenceData.id,
@@ -24,25 +32,26 @@ function _toDomain({ competenceData, areaDatas, locale }) {
     description: translatedCompetenceDescription,
     origin: competenceData.origin,
     skillIds: competenceData.skillIds,
-    area: areaData && new Area({
-      id: areaData.id,
-      code: areaData.code,
-      title: translatedAreaTitle,
-      name: areaData.name,
-      color: areaData.color,
-    }),
+    area:
+      areaData &&
+      new Area({
+        id: areaData.id,
+        code: areaData.code,
+        title: translatedAreaTitle,
+        name: areaData.name,
+        color: areaData.color,
+      }),
   });
 }
 
 module.exports = {
-
   list({ locale } = { locale: FRENCH_FRANCE }) {
     return _list({ locale: locale || FRENCH_FRANCE });
   },
 
   listPixCompetencesOnly({ locale } = { locale: FRENCH_FRANCE }) {
     return _list({ locale }).then((competences) =>
-      competences.filter((competence) => competence.origin === PIX_ORIGIN),
+      competences.filter((competence) => competence.origin === PIX_ORIGIN)
     );
   },
 
@@ -71,27 +80,24 @@ module.exports = {
   },
 
   async getPixScoreByCompetence({ userId, limitDate }) {
-    const knowledgeElementsGroupedByCompetenceId = await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
-      userId,
-      limitDate,
-    });
+    const knowledgeElementsGroupedByCompetenceId =
+      await knowledgeElementRepository.findUniqByUserIdGroupedByCompetenceId({
+        userId,
+        limitDate,
+      });
 
     return _.mapValues(knowledgeElementsGroupedByCompetenceId, (knowledgeElements) => {
-      const {
-        pixScoreForCompetence,
-      } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
+      const { pixScoreForCompetence } = scoringService.calculateScoringInformationForCompetence({ knowledgeElements });
       return pixScoreForCompetence;
     });
   },
-
 };
 
 function _list({ locale }) {
-  return Promise.all([competenceDatasource.list(), areaDatasource.list()])
-    .then(([competenceDatas, areaDatas]) => {
-      return _.sortBy(
-        competenceDatas.map((competenceData) => _toDomain({ competenceData, areaDatas, locale })),
-        'index',
-      );
-    });
+  return Promise.all([competenceDatasource.list(), areaDatasource.list()]).then(([competenceDatas, areaDatas]) => {
+    return _.sortBy(
+      competenceDatas.map((competenceData) => _toDomain({ competenceData, areaDatas, locale })),
+      'index'
+    );
+  });
 }

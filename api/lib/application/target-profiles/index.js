@@ -11,10 +11,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/target-profiles',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           options: {
             allowUnknown: true,
@@ -33,8 +35,8 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer & chercher une liste de profils cible\n' +
-          '- Cette liste est paginée et filtrée selon un **id** et/ou un **name** donnés',
+            '- Elle permet de récupérer & chercher une liste de profils cible\n' +
+            '- Cette liste est paginée et filtrée selon un **id** et/ou un **name** donnés',
         ],
       },
     },
@@ -42,10 +44,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -55,7 +59,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer toutes les informations d’un profil cible',
+            '- Elle permet de récupérer toutes les informations d’un profil cible',
         ],
       },
     },
@@ -63,10 +67,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/admin/target-profiles/{id}/attach-organizations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           payload: Joi.object({
             'organization-ids': Joi.array().items(Joi.number().integer()).required(),
@@ -79,7 +85,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de rattacher des organisations à un profil cible',
+            '- Elle permet de rattacher des organisations à un profil cible',
         ],
       },
     },
@@ -87,10 +93,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/admin/target-profiles/{id}/copy-organizations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           payload: Joi.object({
             'target-profile-id': Joi.number().integer().required(),
@@ -103,7 +111,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de rattacher à un profil cible donné les organisations d’un profil cible existant (id de ce dernier en payload)',
+            '- Elle permet de rattacher à un profil cible donné les organisations d’un profil cible existant (id de ce dernier en payload)',
         ],
       },
     },
@@ -111,16 +119,22 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/admin/target-profiles',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+          },
+        ],
         validate: {
           payload: Joi.object({
             data: {
               attributes: {
-                'name': Joi.string().required(),
+                name: Joi.string().required(),
                 'is-public': Joi.boolean().required(),
-                'owner-organization-id': Joi.string().pattern(/^[0-9]+$/, 'numbers').empty('').allow(null).optional(),
+                'owner-organization-id': Joi.string()
+                  .pattern(/^[0-9]+$/, 'numbers')
+                  .empty('')
+                  .allow(null)
+                  .optional(),
                 'image-url': Joi.string().uri().empty('').allow(null).optional(),
                 'skills-id': Joi.array().required(),
               },
@@ -134,7 +148,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles', 'create'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de créer un profil cible avec ses acquis',
+            '- Elle permet de créer un profil cible avec ses acquis',
         ],
       },
     },
@@ -142,10 +156,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/organizations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -163,7 +179,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles', 'organizations'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer les organizations auxquelles est rattaché le profil cible',
+            '- Elle permet de récupérer les organizations auxquelles est rattaché le profil cible',
         ],
       },
     },
@@ -171,10 +187,12 @@ exports.register = async (server) => {
       method: 'PUT',
       path: '/api/admin/target-profiles/{id}/outdate',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -184,7 +202,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de marquer un profil cible comme obsolète',
+            '- Elle permet de marquer un profil cible comme obsolète',
         ],
       },
     },
@@ -192,10 +210,12 @@ exports.register = async (server) => {
       method: 'PATCH',
       path: '/api/admin/target-profiles/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -203,7 +223,7 @@ exports.register = async (server) => {
           payload: Joi.object({
             data: {
               attributes: {
-                'name': Joi.string().required().min(1),
+                name: Joi.string().required().min(1),
               },
             },
           }).options({ allowUnknown: true }),
@@ -212,7 +232,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de mettre à jour le nom d\'un profil cible',
+            "- Elle permet de mettre à jour le nom d'un profil cible",
         ],
       },
     },
@@ -220,10 +240,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/admin/target-profiles/{id}/badges',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -246,7 +268,7 @@ exports.register = async (server) => {
         tags: ['api', 'badges'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de créer un résultat thématique rattaché au profil cible.',
+            '- Elle permet de créer un résultat thématique rattaché au profil cible.',
         ],
       },
     },
@@ -254,10 +276,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/badges',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -267,7 +291,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles', 'badges'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer les badges attachés au profil cible',
+            '- Elle permet de récupérer les badges attachés au profil cible',
         ],
       },
     },
@@ -275,10 +299,12 @@ exports.register = async (server) => {
       method: 'GET',
       path: '/api/admin/target-profiles/{id}/stages',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.targetProfileId,
@@ -288,7 +314,7 @@ exports.register = async (server) => {
         tags: ['api', 'target-profiles', 'stages'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer les paliers attachés au profil cible',
+            '- Elle permet de récupérer les paliers attachés au profil cible',
         ],
       },
     },

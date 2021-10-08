@@ -25,7 +25,6 @@ const routesConfig = {
  * });
  */
 class HttpTestServer {
-
   constructor({ mustThrowOn5XXError = true } = {}) {
     this.hapiServer = Hapi.server(routesConfig);
     this._mustThrow5XXOnError = mustThrowOn5XXError;
@@ -61,7 +60,6 @@ class HttpTestServer {
     });
     this.hapiServer.auth.default(authentication.defaultStrategy);
   }
-
 }
 
 module.exports = HttpTestServer;

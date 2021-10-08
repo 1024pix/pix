@@ -10,7 +10,9 @@ module.exports = async function createOrUpdateUserOrgaSettings({
   const memberships = await membershipRepository.findByUserIdAndOrganizationId({ userId, organizationId });
 
   if (_.isEmpty(memberships)) {
-    throw new UserNotMemberOfOrganizationError(`L'utilisateur ${userId} n'est pas membre de l'organisation ${organizationId}.`);
+    throw new UserNotMemberOfOrganizationError(
+      `L'utilisateur ${userId} n'est pas membre de l'organisation ${organizationId}.`
+    );
   }
 
   return userOrgaSettingsRepository.createOrUpdate({ userId, organizationId });

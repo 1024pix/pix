@@ -3,9 +3,9 @@ const userTutorialsController = require('../../../../lib/application/user-tutori
 const usecases = require('../../../../lib/domain/usecases');
 const userTutorialRepository = require('../../../../lib/infrastructure/repositories/user-tutorial-repository');
 
-describe('Unit | Controller | User-tutorials', function() {
-  describe('#add', function() {
-    it('should call the expected usecase', async function() {
+describe('Unit | Controller | User-tutorials', function () {
+  describe('#add', function () {
+    it('should call the expected usecase', async function () {
       // given
       const tutorialId = 'tutorialId';
       const userId = 'userId';
@@ -26,8 +26,8 @@ describe('Unit | Controller | User-tutorials', function() {
     });
   });
 
-  describe('#find', function() {
-    it('should call the expected usecase', async function() {
+  describe('#find', function () {
+    it('should call the expected usecase', async function () {
       // given
       const userId = 'userId';
       sinon.stub(usecases, 'findUserTutorials').returns([]);
@@ -45,8 +45,8 @@ describe('Unit | Controller | User-tutorials', function() {
     });
   });
 
-  describe('#removeFromUser', function() {
-    it('should call the repository', async function() {
+  describe('#removeFromUser', function () {
+    it('should call the repository', async function () {
       // given
       const userId = 'userId';
       const tutorialId = 'tutorialId';
@@ -66,5 +66,4 @@ describe('Unit | Controller | User-tutorials', function() {
       expect(removeFromUserArgs).to.have.property('tutorialId', tutorialId);
     });
   });
-
 });

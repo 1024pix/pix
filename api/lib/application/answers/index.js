@@ -30,8 +30,8 @@ exports.register = async (server) => {
         handler: answerController.save,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
-          '- Enregistre une réponse à un challenge',
+          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
+            '- Enregistre une réponse à un challenge',
         ],
       },
     },
@@ -48,8 +48,8 @@ exports.register = async (server) => {
         handler: answerController.get,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
-          '- Récupère la réponse',
+          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
+            '- Récupère la réponse',
         ],
       },
     },
@@ -66,8 +66,8 @@ exports.register = async (server) => {
         handler: answerController.update,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
-          '- Cette route ne fait rien actuellement',
+          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
+            '- Cette route ne fait rien actuellement',
         ],
       },
     },
@@ -79,8 +79,8 @@ exports.register = async (server) => {
         handler: answerController.find,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
-          '- Récupère la réponse correspondant à un challenge pour un assessment, ou null sinon',
+          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
+            '- Récupère la réponse correspondant à un challenge pour un assessment, ou null sinon',
         ],
       },
     },
@@ -100,8 +100,8 @@ exports.register = async (server) => {
         handler: answerController.getCorrection,
         tags: ['api', 'answers'],
         notes: [
-          '- **Cette route est accessible aux utilisateurs pour qui l\'answer appartient à leur assessment**\n' +
-          '- Récupère la correction à une réponse',
+          "- **Cette route est accessible aux utilisateurs pour qui l'answer appartient à leur assessment**\n" +
+            '- Récupère la correction à une réponse',
         ],
       },
     },

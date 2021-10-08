@@ -10,7 +10,6 @@ module.exports = function buildCompetence({
   skillIds = [],
   origin = 'Pix',
 } = {}) {
-
   return new Competence({
     id,
     name,

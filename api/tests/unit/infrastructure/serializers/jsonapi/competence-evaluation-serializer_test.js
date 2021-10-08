@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/competence-evaluation-serializer');
 
-describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a CompetenceEvaluation model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a CompetenceEvaluation model object into JSON API data', function () {
       // given
       const competenceEvaluation = domainBuilder.buildCompetenceEvaluation();
 
@@ -18,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', funct
             'created-at': new Date(competenceEvaluation.createdAt),
             'user-id': competenceEvaluation.userId,
             'competence-id': competenceEvaluation.competenceId,
-            'status': competenceEvaluation.status,
+            status: competenceEvaluation.status,
           },
           relationships: {
             assessment: {
@@ -42,7 +40,5 @@ describe('Unit | Serializer | JSONAPI | competence-evaluation-serializer', funct
       // then
       expect(json).to.deep.equal(expectedSerializedCompetenceEvaluation);
     });
-
   });
-
 });

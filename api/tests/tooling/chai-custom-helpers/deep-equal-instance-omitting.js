@@ -1,7 +1,7 @@
 const _ = require('lodash');
 
-module.exports = function(chai, _utils) {
-  chai.Assertion.addMethod('deepEqualInstanceOmitting', function(referenceInstance, omittedAttributes) {
+module.exports = function (chai, _utils) {
+  chai.Assertion.addMethod('deepEqualInstanceOmitting', function (referenceInstance, omittedAttributes) {
     const assertedInstance = this._obj;
 
     _assertAreSameType(chai, assertedInstance, referenceInstance);

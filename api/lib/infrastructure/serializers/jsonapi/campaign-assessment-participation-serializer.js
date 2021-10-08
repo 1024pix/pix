@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(campaignAssessmentParticipation) {
     return new Serializer('campaign-assessment-participations', {
       id: 'campaignParticipationId',

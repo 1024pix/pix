@@ -4,7 +4,7 @@ const XRegExp = require('xregexp');
 const { passwordValidationPattern } = require('../../config').account;
 const passwordController = require('./password-controller');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -23,9 +23,7 @@ exports.register = async function(server) {
             },
           }),
         },
-        notes: ['Route publique',
-          'Faire une demande de réinitialisation de mot de passe',
-        ],
+        notes: ['Route publique', 'Faire une demande de réinitialisation de mot de passe'],
         tags: ['api', 'passwords'],
       },
     },
@@ -57,9 +55,7 @@ exports.register = async function(server) {
             },
           }),
         },
-        notes: ['Route publique',
-          'Cette route permet de mettre à jour un mot de passe expiré',
-        ],
+        notes: ['Route publique', 'Cette route permet de mettre à jour un mot de passe expiré'],
         tags: ['api', 'passwords'],
       },
     },

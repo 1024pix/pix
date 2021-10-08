@@ -33,9 +33,8 @@ async function extractTableDataFromOdsFile({ odsBuffer, tableHeaderTargetPropert
 
 async function getOdsVersionByHeaders({ odsBuffer, transformationStructsByVersion }) {
   const sheetDataRows = await getSheetDataRowsFromOdsBuffer({ odsBuffer });
-  const transformationStruct = _.find(
-    transformationStructsByVersion,
-    (transformationStruct) => _findHeaderRow(sheetDataRows, transformationStruct.headers),
+  const transformationStruct = _.find(transformationStructsByVersion, (transformationStruct) =>
+    _findHeaderRow(sheetDataRows, transformationStruct.headers)
   );
 
   if (transformationStruct == undefined || transformationStruct.version == undefined) {
@@ -87,16 +86,14 @@ function _removeNewlineCharacters(header) {
 }
 
 function _mapSheetHeadersWithProperties(sheetHeaderRow, tableHeaderTargetPropertyMap) {
-  return _(sheetHeaderRow)
-    .map(_addTargetDatas(tableHeaderTargetPropertyMap))
-    .compact()
-    .value();
+  return _(sheetHeaderRow).map(_addTargetDatas(tableHeaderTargetPropertyMap)).compact().value();
 }
 
 function _findTargetPropertiesByHeader(tableHeaderTargetPropertyMap, header) {
-  const mapWithSanitizedHeaders = _.map(
-    tableHeaderTargetPropertyMap,
-    (obj) => ({ ...obj, header: _removeNewlineCharacters(obj.header) }));
+  const mapWithSanitizedHeaders = _.map(tableHeaderTargetPropertyMap, (obj) => ({
+    ...obj,
+    header: _removeNewlineCharacters(obj.header),
+  }));
 
   return _.find(mapWithSanitizedHeaders, { header: _removeNewlineCharacters(header) });
 }
@@ -120,11 +117,15 @@ function _transformSheetDataRows(sheetDataRows, sheetHeaderPropertyMap) {
 }
 
 function _transformSheetDataRow(sheetDataRow, sheetHeaderPropertyMap) {
-  return _.reduce(sheetHeaderPropertyMap, (target, { columnName, targetProperty, transformFn }) => {
-    const cellValue = sheetDataRow[columnName];
-    target[targetProperty] = transformFn(cellValue);
-    return target;
-  }, {});
+  return _.reduce(
+    sheetHeaderPropertyMap,
+    (target, { columnName, targetProperty, transformFn }) => {
+      const cellValue = sheetDataRow[columnName];
+      target[targetProperty] = transformFn(cellValue);
+      return target;
+    },
+    {}
+  );
 }
 
 module.exports = {

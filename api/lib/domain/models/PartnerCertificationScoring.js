@@ -1,14 +1,9 @@
-const Joi = require('joi')
-  .extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 const { NotImplementedError } = require('../errors');
 
 class PartnerCertificationScoring {
-  constructor(
-    {
-      certificationCourseId,
-      partnerKey,
-    } = {}) {
+  constructor({ certificationCourseId, partnerKey } = {}) {
     this.certificationCourseId = certificationCourseId;
     this.partnerKey = partnerKey;
     const schema = Joi.object({

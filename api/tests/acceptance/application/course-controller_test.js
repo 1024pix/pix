@@ -1,53 +1,64 @@
-const { expect, nock, generateValidRequestAuthorizationHeader, mockLearningContent, learningContentBuilder } = require('../../test-helper');
+const {
+  expect,
+  nock,
+  generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+  learningContentBuilder,
+} = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Courses', function() {
-
+describe('Acceptance | API | Courses', function () {
   let server;
   const userId = 42;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/courses/:course_id', function() {
-
-    beforeEach(function() {
-
-      const learningContent = [{
-        id: '1. Information et données',
-        competences: [{
-          id: 'competence_id',
-          tubes: [{
-            id: 'recTube1',
-            skills: [{
-              challenges: [
-                { id: 'k_challenge_id' },
+  describe('GET /api/courses/:course_id', function () {
+    beforeEach(function () {
+      const learningContent = [
+        {
+          id: '1. Information et données',
+          competences: [
+            {
+              id: 'competence_id',
+              tubes: [
+                {
+                  id: 'recTube1',
+                  skills: [
+                    {
+                      challenges: [{ id: 'k_challenge_id' }],
+                    },
+                  ],
+                },
               ],
-            }],
-          }],
-        }],
-        courses: [{
-          id: 'rec_course_id',
-          name: 'A la recherche de l\'information #01',
-          description: 'Mener une recherche et une veille d\'information',
-          competenceId: 'competence_id',
-          challengeIds: ['k_challenge_id'],
-        }],
-      }];
+            },
+          ],
+          courses: [
+            {
+              id: 'rec_course_id',
+              name: "A la recherche de l'information #01",
+              description: "Mener une recherche et une veille d'information",
+              competenceId: 'competence_id',
+              challengeIds: ['k_challenge_id'],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
     });
 
-    after(function() {
+    after(function () {
       nock.cleanAll();
     });
 
-    context('when the course exists', function() {
+    context('when the course exists', function () {
       let options;
 
-      beforeEach(function() {
+      beforeEach(function () {
         options = {
           method: 'GET',
           url: '/api/courses/rec_course_id',
@@ -57,7 +68,7 @@ describe('Acceptance | API | Courses', function() {
         };
       });
 
-      it('should return 200 HTTP status code', function() {
+      it('should return 200 HTTP status code', function () {
         // when
         const promise = server.inject(options);
 
@@ -67,7 +78,7 @@ describe('Acceptance | API | Courses', function() {
         });
       });
 
-      it('should return application/json', function() {
+      it('should return application/json', function () {
         // when
         const promise = server.inject(options);
 
@@ -78,7 +89,7 @@ describe('Acceptance | API | Courses', function() {
         });
       });
 
-      it('should return the expected course', function() {
+      it('should return the expected course', function () {
         // when
         const promise = server.inject(options);
 
@@ -86,24 +97,23 @@ describe('Acceptance | API | Courses', function() {
         return promise.then((response) => {
           const course = response.result.data;
           expect(course.id).to.equal('rec_course_id');
-          expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
-          expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
+          expect(course.attributes.name).to.equal("A la recherche de l'information #01");
+          expect(course.attributes.description).to.equal("Mener une recherche et une veille d'information");
         });
       });
-
     });
 
-    context('when the course does not exist', function() {
+    context('when the course does not exist', function () {
       let options;
 
-      beforeEach(function() {
+      beforeEach(function () {
         options = {
           method: 'GET',
           url: '/api/courses/rec_i_dont_exist',
         };
       });
 
-      it('should return 404 HTTP status code', function() {
+      it('should return 404 HTTP status code', function () {
         // when
         const promise = server.inject(options);
 

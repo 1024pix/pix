@@ -36,9 +36,7 @@ class EventDispatcherLogger {
   }
 
   _duration(context) {
-    return context?.startedAt ?
-      this._performance.now() - context.startedAt
-      : undefined;
+    return context?.startedAt ? this._performance.now() - context.startedAt : undefined;
   }
 }
 
@@ -48,9 +46,7 @@ function buildLogBody({ event, eventHandlerName, error, duration }) {
       event_name: event.constructor.name,
       event_content: event,
       event_handler_name: eventHandlerName,
-      event_error: error?.message ?
-        error.message + ' (see dedicated log for more information)'
-        : undefined,
+      event_error: error?.message ? error.message + ' (see dedicated log for more information)' : undefined,
       event_handling_duration: duration,
     },
   };

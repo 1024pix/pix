@@ -1,7 +1,7 @@
 const PrivateCertificate = require('../../../../lib/domain/models/PrivateCertificate');
 const buildCleaCertificationResult = require('./build-clea-certification-result');
 
-const buildPrivateCertificate = function({
+const buildPrivateCertificate = function ({
   id = 1,
   firstName = 'Jean',
   lastName = 'Bon',
@@ -43,7 +43,7 @@ const buildPrivateCertificate = function({
   });
 };
 
-buildPrivateCertificate.cancelled = function({
+buildPrivateCertificate.cancelled = function ({
   id,
   firstName,
   lastName,
@@ -84,7 +84,7 @@ buildPrivateCertificate.cancelled = function({
   });
 };
 
-buildPrivateCertificate.validated = function({
+buildPrivateCertificate.validated = function ({
   id,
   firstName,
   lastName,
@@ -125,7 +125,7 @@ buildPrivateCertificate.validated = function({
   });
 };
 
-buildPrivateCertificate.rejected = function({
+buildPrivateCertificate.rejected = function ({
   id,
   firstName,
   lastName,
@@ -166,7 +166,7 @@ buildPrivateCertificate.rejected = function({
   });
 };
 
-buildPrivateCertificate.error = function({
+buildPrivateCertificate.error = function ({
   id,
   firstName,
   lastName,
@@ -207,7 +207,7 @@ buildPrivateCertificate.error = function({
   });
 };
 
-buildPrivateCertificate.started = function({
+buildPrivateCertificate.started = function ({
   id,
   firstName,
   lastName,

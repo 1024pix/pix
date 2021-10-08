@@ -17,15 +17,25 @@ module.exports = async function reconcileSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
-    organizationId: campaign.organizationId,
-    reconciliationInfo,
-    schoolingRegistrationRepository,
-  });
+  const matchedSchoolingRegistration =
+    await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+      organizationId: campaign.organizationId,
+      reconciliationInfo,
+      schoolingRegistrationRepository,
+    });
 
-  await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(matchedSchoolingRegistration, userRepository, obfuscationService, studentRepository);
+  await userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount(
+    matchedSchoolingRegistration,
+    userRepository,
+    obfuscationService,
+    studentRepository
+  );
 
-  await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(reconciliationInfo.id, campaign.organizationId, schoolingRegistrationRepository);
+  await _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
+    reconciliationInfo.id,
+    campaign.organizationId,
+    schoolingRegistrationRepository
+  );
 
   if (withReconciliation) {
     return schoolingRegistrationRepository.reconcileUserToSchoolingRegistration({
@@ -35,8 +45,11 @@ module.exports = async function reconcileSchoolingRegistration({
   }
 };
 
-async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(userId, organizationId, schoolingRegistrationRepository) {
-
+async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationAndUser(
+  userId,
+  organizationId,
+  schoolingRegistrationRepository
+) {
   const schoolingRegistrationFound = await schoolingRegistrationRepository.findOneByUserIdAndOrganizationId({
     userId,
     organizationId,
@@ -50,6 +63,4 @@ async function _checkIfAnotherStudentIsAlreadyReconciledWithTheSameOrganizationA
     };
     throw new SchoolingRegistrationAlreadyLinkedToUserError(detail, error.code, meta);
   }
-
 }
-

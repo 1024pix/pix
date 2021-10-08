@@ -9,20 +9,14 @@ module.exports = async function checkScoAccountRecovery({
   scoAccountRecoveryService,
   userReconciliationService,
 }) {
-
-  const {
-    firstName,
-    lastName,
-    username,
-    organizationId,
-    email,
-  } = await scoAccountRecoveryService.retrieveSchoolingRegistration({
-    studentInformation,
-    accountRecoveryDemandRepository,
-    schoolingRegistrationRepository,
-    userRepository,
-    userReconciliationService,
-  });
+  const { firstName, lastName, username, organizationId, email } =
+    await scoAccountRecoveryService.retrieveSchoolingRegistration({
+      studentInformation,
+      accountRecoveryDemandRepository,
+      schoolingRegistrationRepository,
+      userRepository,
+      userReconciliationService,
+    });
 
   const { name: latestOrganizationName } = await organizationRepository.get(organizationId);
 

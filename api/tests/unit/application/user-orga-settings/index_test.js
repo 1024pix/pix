@@ -1,18 +1,13 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const userOrgaSettingsController = require('../../../../lib/application/user-orga-settings/user-orga-settings-controller');
 const moduleUnderTest = require('../../../../lib/application/user-orga-settings');
 
-describe('Unit | Router | user-orga-settings-router', function() {
-
-  describe('PUT /api/user-orga-settings/{id}', function() {
+describe('Unit | Router | user-orga-settings-router', function () {
+  describe('PUT /api/user-orga-settings/{id}', function () {
     const userId = 2;
     const auth = { credentials: { userId: userId }, strategy: {} };
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(userOrgaSettingsController, 'createOrUpdate').returns('ok');
       const httpTestServer = new HttpTestServer();
@@ -40,9 +35,8 @@ describe('Unit | Router | user-orga-settings-router', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    describe('Payload schema validation', function() {
-
-      it('should be mandatory', async function() {
+    describe('Payload schema validation', function () {
+      it('should be mandatory', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -58,7 +52,7 @@ describe('Unit | Router | user-orga-settings-router', function() {
         expect(result.statusCode).to.equal(400);
       });
 
-      it('should contain relationships.organization.data.id', async function() {
+      it('should contain relationships.organization.data.id', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -85,7 +79,7 @@ describe('Unit | Router | user-orga-settings-router', function() {
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should contain relationships.organization.data.id as number', async function() {
+      it('should contain relationships.organization.data.id as number', async function () {
         // given
         const httpTestServer = new HttpTestServer();
         await httpTestServer.register(moduleUnderTest);
@@ -111,8 +105,6 @@ describe('Unit | Router | user-orga-settings-router', function() {
         // then
         expect(response.statusCode).to.equal(400);
       });
-
     });
-
   });
 });

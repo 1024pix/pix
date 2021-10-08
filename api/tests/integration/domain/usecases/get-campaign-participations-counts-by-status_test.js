@@ -3,20 +3,20 @@ const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Integration | UseCase | get-campaign-participations-counts-by-status', function() {
+describe('Integration | UseCase | get-campaign-participations-counts-by-status', function () {
   let organizationId;
   let campaignId;
   let userId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', function() {
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
+  context('when requesting user is not allowed to access campaign informations', function () {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function () {
       const user2 = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 
@@ -32,13 +32,19 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
     });
   });
 
-  it('should return participations counts by status', async function() {
+  it('should return participations counts by status', async function () {
     databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
     const participation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
     const participation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
 
-    databaseBuilder.factory.buildAssessment({ campaignParticipationId: participation1, state: Assessment.states.COMPLETED });
-    databaseBuilder.factory.buildAssessment({ campaignParticipationId: participation2, state: Assessment.states.STARTED });
+    databaseBuilder.factory.buildAssessment({
+      campaignParticipationId: participation1,
+      state: Assessment.states.COMPLETED,
+    });
+    databaseBuilder.factory.buildAssessment({
+      campaignParticipationId: participation2,
+      state: Assessment.states.STARTED,
+    });
 
     await databaseBuilder.commit();
 
@@ -49,4 +55,3 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
     expect(result).to.deep.equal({ started: 1, completed: 1, shared: 1 });
   });
 });
-

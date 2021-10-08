@@ -2,10 +2,13 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 const { generateUsername } = require('../../../../lib/domain/usecases');
 
 const Student = require('../../../../lib/domain/models/Student');
-const { CampaignCodeError, SchoolingRegistrationNotFound, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
+const {
+  CampaignCodeError,
+  SchoolingRegistrationNotFound,
+  SchoolingRegistrationAlreadyLinkedToUserError,
+} = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | generate-username', function() {
-
+describe('Unit | UseCase | generate-username', function () {
   const organizationId = 1;
   const schoolingRegistrationId = 1;
 
@@ -21,7 +24,7 @@ describe('Unit | UseCase | generate-username', function() {
   let studentInformation;
   let schoolingRegistration;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignCode = 'RESTRICTD';
 
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, id: schoolingRegistrationId });
@@ -55,12 +58,10 @@ describe('Unit | UseCase | generate-username', function() {
     campaignRepository.getByCode
       .withArgs(campaignCode)
       .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-
   });
 
-  context('When there is no campaign with the given code', function() {
-
-    it('should throw a campaign code error', async function() {
+  context('When there is no campaign with the given code', function () {
+    it('should throw a campaign code error', async function () {
       // given
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
@@ -81,9 +82,8 @@ describe('Unit | UseCase | generate-username', function() {
     });
   });
 
-  context('When no schoolingRegistration found matching organization and birthdate', function() {
-
-    it('should throw a SchoolingRegistrationNotFound error', async function() {
+  context('When no schoolingRegistration found matching organization and birthdate', function () {
+    it('should throw a SchoolingRegistrationNotFound error', async function () {
       // given
       schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([]);
 
@@ -105,12 +105,13 @@ describe('Unit | UseCase | generate-username', function() {
     });
   });
 
-  context('When no schoolingRegistration found matching with firstname and lastname', function() {
-
-    it('should throw a SchoolingRegistrationNotFound error', async function() {
+  context('When no schoolingRegistration found matching with firstname and lastname', function () {
+    it('should throw a SchoolingRegistrationNotFound error', async function () {
       // given
       schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
-      userReconciliationService.findMatchingCandidateIdForGivenUser.withArgs([schoolingRegistration], studentInformation).resolves();
+      userReconciliationService.findMatchingCandidateIdForGivenUser
+        .withArgs([schoolingRegistration], studentInformation)
+        .resolves();
 
       // when
       const result = await catchErr(generateUsername)({
@@ -130,9 +131,8 @@ describe('Unit | UseCase | generate-username', function() {
     });
   });
 
-  context('When student is already reconciled in the same organization', function() {
-
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function() {
+  context('When student is already reconciled in the same organization', function () {
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
       // given
       schoolingRegistration.userId = studentInformation.id;
       schoolingRegistration.firstName = studentInformation.firstName;
@@ -142,7 +142,10 @@ describe('Unit | UseCase | generate-username', function() {
       schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
       userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
       userRepository.getForObfuscation.resolves();
-      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
+      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+        authenticatedBy: 'email',
+        value: 'e***@example.net',
+      });
 
       // when
       const result = await catchErr(generateUsername)({
@@ -162,9 +165,8 @@ describe('Unit | UseCase | generate-username', function() {
     });
   });
 
-  context('When student is already reconciled in others organizations', function() {
-
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function() {
+  context('When student is already reconciled in others organizations', function () {
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
       // given
       schoolingRegistration.firstName = studentInformation.firstName;
       schoolingRegistration.lastName = studentInformation.lastName;
@@ -174,7 +176,10 @@ describe('Unit | UseCase | generate-username', function() {
       const student = new Student({ account: { userId: studentInformation.id } });
       studentRepository.getReconciledStudentByNationalStudentId.resolves(student);
       userRepository.getForObfuscation.resolves();
-      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({ authenticatedBy: 'email', value: 'e***@example.net' });
+      obfuscationService.getUserAuthenticationMethodWithObfuscation.resolves({
+        authenticatedBy: 'email',
+        value: 'e***@example.net',
+      });
 
       // when
       const result = await catchErr(generateUsername)({
@@ -194,9 +199,8 @@ describe('Unit | UseCase | generate-username', function() {
     });
   });
 
-  context('When schoolingRegistration matched and student is not already reconciled', function() {
-
-    it('should call createUsernameByUser with student information from database', async function() {
+  context('When schoolingRegistration matched and student is not already reconciled', function () {
+    it('should call createUsernameByUser with student information from database', async function () {
       // given
       schoolingRegistrationRepository.findByOrganizationIdAndBirthdate.resolves([schoolingRegistration]);
       userReconciliationService.findMatchingCandidateIdForGivenUser.resolves(schoolingRegistration.id);
@@ -221,7 +225,6 @@ describe('Unit | UseCase | generate-username', function() {
 
       // then
       expect(userReconciliationService.createUsernameByUser).calledWith({ user: studentInformation, userRepository });
-
     });
   });
 });

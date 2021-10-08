@@ -1,13 +1,11 @@
 const { expect } = require('../../../test-helper');
 const Cache = require('../../../../lib/infrastructure/caches/Cache');
 
-describe('Unit | Infrastructure | Caches | Cache', function() {
-
+describe('Unit | Infrastructure | Caches | Cache', function () {
   const cacheInstance = new Cache();
 
-  describe('#get', function() {
-
-    it('should reject an error (because this class actually mocks an interface)', function() {
+  describe('#get', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
       // when
       const result = cacheInstance.get('some-key', () => {});
 
@@ -16,9 +14,8 @@ describe('Unit | Infrastructure | Caches | Cache', function() {
     });
   });
 
-  describe('#set', function() {
-
-    it('should reject an error (because this class actually mocks an interface)', function() {
+  describe('#set', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
       // when
       const result = cacheInstance.set('some-key', {});
 
@@ -27,9 +24,8 @@ describe('Unit | Infrastructure | Caches | Cache', function() {
     });
   });
 
-  describe('#flushAll', function() {
-
-    it('should reject an error (because this class actually mocks an interface)', function() {
+  describe('#flushAll', function () {
+    it('should reject an error (because this class actually mocks an interface)', function () {
       // when
       const result = cacheInstance.flushAll();
 

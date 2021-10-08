@@ -11,7 +11,6 @@ module.exports = function buildMembership({
   userId,
   disabledAt,
 } = {}) {
-
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
 

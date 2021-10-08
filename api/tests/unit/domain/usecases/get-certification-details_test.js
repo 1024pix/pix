@@ -3,11 +3,9 @@ const getCertificationDetails = require('../../../../lib/domain/usecases/get-cer
 const CertificationDetails = require('../../../../lib/domain/read-models/CertificationDetails');
 const CertificationAssessmentStates = require('../../../../lib/domain/models/CertificationAssessment').states;
 
-describe('Unit | UseCase | get-certification-details', function() {
-
-  context('the certification assessment has not been completed', function() {
-
-    it('should compute the certification details on the fly', async function() {
+describe('Unit | UseCase | get-certification-details', function () {
+  context('the certification assessment has not been completed', function () {
+    it('should compute the certification details on the fly', async function () {
       // given
       const certificationAssessmentRepository = {
         getByCertificationCourseId: sinon.stub(),
@@ -58,9 +56,7 @@ describe('Unit | UseCase | get-certification-details', function() {
         percentageCorrectAnswers: 100,
       });
       const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
-        competencesData: [
-          { id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 },
-        ],
+        competencesData: [{ id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 }],
       });
 
       competenceMarkRepository.findByCertificationCourseId.resolves([]);
@@ -122,8 +118,8 @@ describe('Unit | UseCase | get-certification-details', function() {
     });
   });
 
-  context('the certification assessment has been completed', function() {
-    it('should return the certification details', async function() {
+  context('the certification assessment has been completed', function () {
+    it('should return the certification details', async function () {
       // given
       const certificationAssessmentRepository = {
         getByCertificationCourseId: sinon.stub(),
@@ -142,7 +138,12 @@ describe('Unit | UseCase | get-certification-details', function() {
       };
 
       const certificationCourseId = 1234;
-      const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
+      const certificationChallenge = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec123',
+        competenceId: 'recComp1',
+        associatedSkillName: 'manger une mangue',
+        isNeutralized: false,
+      });
       const answer = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
 
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
@@ -152,12 +153,16 @@ describe('Unit | UseCase | get-certification-details', function() {
         state: CertificationAssessmentStates.COMPLETED,
       });
 
-      const competenceMark = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
+      const competenceMark = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp1',
+        score: 5,
+        level: 1,
+        competence_code: '1.1',
+        area_code: '1',
+      });
       const competenceMarks = [competenceMark];
       const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
-        competencesData: [
-          { id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 },
-        ],
+        competencesData: [{ id: 'recComp1', index: '1.1', name: 'Manger des fruits', level: 3, score: 45 }],
       });
 
       certificationAssessmentRepository.getByCertificationCourseId
@@ -172,9 +177,7 @@ describe('Unit | UseCase | get-certification-details', function() {
         })
         .resolves(placementProfile);
 
-      competenceMarkRepository.findByCertificationCourseId
-        .withArgs(certificationCourseId)
-        .resolves(competenceMarks);
+      competenceMarkRepository.findByCertificationCourseId.withArgs(certificationCourseId).resolves(competenceMarks);
 
       // when
       const result = await getCertificationDetails({

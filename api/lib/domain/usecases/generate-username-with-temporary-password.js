@@ -12,7 +12,6 @@ module.exports = async function generateUsernameWithTemporaryPassword({
   userRepository,
   schoolingRegistrationRepository,
 }) {
-
   const schoolingRegistration = await schoolingRegistrationRepository.get(schoolingRegistrationId);
   _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizationId);
 
@@ -50,12 +49,16 @@ module.exports = async function generateUsernameWithTemporaryPassword({
 
 function _checkIfStudentHasAccessToOrganization(schoolingRegistration, organizationId) {
   if (schoolingRegistration.organizationId !== organizationId) {
-    throw new UserNotAuthorizedToGenerateUsernamePasswordError(`L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`);
+    throw new UserNotAuthorizedToGenerateUsernamePasswordError(
+      `L'élève avec l'INE ${schoolingRegistration.nationalStudentId} n'appartient pas à l'organisation.`
+    );
   }
 }
 
 function _checkIfStudentAccountAlreadyHasUsername(studentAccount) {
   if (!isEmpty(studentAccount.username)) {
-    throw new UserNotAuthorizedToGenerateUsernamePasswordError(`Ce compte utilisateur dispose déjà d'un identifiant: ${studentAccount.username}.`);
+    throw new UserNotAuthorizedToGenerateUsernamePasswordError(
+      `Ce compte utilisateur dispose déjà d'un identifiant: ${studentAccount.username}.`
+    );
   }
 }

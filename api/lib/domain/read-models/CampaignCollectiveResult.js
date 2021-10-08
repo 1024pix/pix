@@ -1,11 +1,7 @@
 const _ = require('lodash');
 
 class CampaignCollectiveResult {
-
-  constructor({
-    id,
-    targetProfile,
-  } = {}) {
+  constructor({ id, targetProfile } = {}) {
     this.id = id;
     const targetedCompetences = _.sortBy(targetProfile.competences, 'index');
 
@@ -36,11 +32,7 @@ class CampaignCollectiveResult {
 }
 
 class CampaignCompetenceCollectiveResult {
-  constructor({
-    campaignId,
-    targetedArea,
-    targetedCompetence,
-  } = {}) {
+  constructor({ campaignId, targetedArea, targetedCompetence } = {}) {
     this.areaCode = targetedCompetence.index.split('.')[0];
     this.competenceId = targetedCompetence.id;
     this.id = `${campaignId}_${this.competenceId}`;

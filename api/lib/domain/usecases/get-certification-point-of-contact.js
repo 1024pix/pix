@@ -5,7 +5,8 @@ module.exports = async function getCertificationPointOfContact({
   certificationCenterMembershipRepository,
   certificationPointOfContactRepository,
 }) {
-  const isCertificationCenterMember = await certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter(userId);
+  const isCertificationCenterMember =
+    await certificationCenterMembershipRepository.doesUserHaveMembershipToAnyCertificationCenter(userId);
   if (!isCertificationCenterMember) {
     throw new NotFoundError(`Le référent de certification d'id ${userId} n’existe pas.`);
   }

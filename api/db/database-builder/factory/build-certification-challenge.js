@@ -15,7 +15,6 @@ module.exports = function buildCertificationChallenge({
   hasBeenSkippedAutomatically = false,
   certifiableBadgeKey = null,
 } = {}) {
-
   courseId = _.isUndefined(courseId) ? buildCertificationCourse().id : courseId;
 
   const values = {

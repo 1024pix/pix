@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const certificationCenterMembershipSerializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-center-membership-serializer');
 
-describe('Unit | Serializer | JSONAPI | certification-center-membership-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Certification Center Membership model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-center-membership-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Certification Center Membership model object into JSON API data', function () {
       // given
       const certificationCenter = domainBuilder.buildCertificationCenter();
       const user = domainBuilder.buildUser();
@@ -67,11 +65,12 @@ describe('Unit | Serializer | JSONAPI | certification-center-membership-serializ
       };
 
       // when
-      const serializedCertificationCenter = certificationCenterMembershipSerializer.serialize([certificationCenterMembership]);
+      const serializedCertificationCenter = certificationCenterMembershipSerializer.serialize([
+        certificationCenterMembership,
+      ]);
 
       // then
       expect(serializedCertificationCenter).to.deep.equal(expectedSerializedCertificationCenter);
     });
   });
-
 });

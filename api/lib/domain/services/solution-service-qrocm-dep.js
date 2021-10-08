@@ -24,15 +24,12 @@ function _applyTreatmentsToAnswers(answers) {
 }
 
 function _compareAnswersAndSolutions(answers, solutions) {
-
   const validations = {};
 
   _.each(answers, (answer, index) => {
-
     const indexation = answer + '_' + index;
     const solutionKeys = Object.keys(solutions);
     _.each(solutionKeys, (solutionKey) => {
-
       const solutionVariants = solutions[solutionKey];
 
       if (_.isUndefined(validations[indexation])) {
@@ -40,7 +37,6 @@ function _compareAnswersAndSolutions(answers, solutions) {
       }
 
       validations[indexation].push(utils.treatmentT1T2T3(answer, solutionVariants));
-
     });
   });
   return validations;
@@ -54,7 +50,9 @@ function _numberOfGoodAnswers(fullValidations, deactivations) {
 
 function _goodAnswers(fullValidations, deactivations) {
   return _.chain(fullValidations)
-    .map((fullValidation) => {return _goodAnswer(fullValidation, deactivations);})
+    .map((fullValidation) => {
+      return _goodAnswer(fullValidation, deactivations);
+    })
     .filter((e) => e !== null)
     .value();
 }
@@ -64,23 +62,17 @@ function _goodAnswer(allValidations, deactivations) {
   const bestAnswerSoFar = _.minBy(allValidations, (oneValidation) => oneValidation.t1t2t3Ratio);
   if (deactivationsService.isDefault(deactivations)) {
     return bestAnswerSoFar.t1t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  }
-  else if (deactivationsService.hasOnlyT1(deactivations)) {
+  } else if (deactivationsService.hasOnlyT1(deactivations)) {
     return bestAnswerSoFar.t2t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  }
-  else if (deactivationsService.hasOnlyT2(deactivations)) {
+  } else if (deactivationsService.hasOnlyT2(deactivations)) {
     return bestAnswerSoFar.t1t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  }
-  else if (deactivationsService.hasOnlyT3(deactivations)) {
+  } else if (deactivationsService.hasOnlyT3(deactivations)) {
     return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t1t2) ? bestAnswerSoFar : null;
-  }
-  else if (deactivationsService.hasOnlyT1T2(deactivations)) {
+  } else if (deactivationsService.hasOnlyT1T2(deactivations)) {
     return bestAnswerSoFar.t3Ratio <= 0.25 ? bestAnswerSoFar : null;
-  }
-  else if (deactivationsService.hasOnlyT1T3(deactivations)) {
+  } else if (deactivationsService.hasOnlyT1T3(deactivations)) {
     return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.t2) ? bestAnswerSoFar : null;
-  }
-  else if (deactivationsService.hasT1T2T3(deactivations)) {
+  } else if (deactivationsService.hasT1T2T3(deactivations)) {
     return _.includes(bestAnswerSoFar.adminAnswers, bestAnswerSoFar.userAnswer) ? bestAnswerSoFar : null;
   }
 }
@@ -95,7 +87,6 @@ function _formatResult(scoring, validations, deactivations) {
   } else if (_.isEmpty(scoring) && numberOfGoodAnswers === _.size(validations)) {
     result = AnswerStatus.OK;
   } else {
-
     const minGrade = _.min(Object.keys(scoring));
     const maxGrade = _.max(Object.keys(scoring));
 
@@ -111,16 +102,13 @@ function _formatResult(scoring, validations, deactivations) {
 }
 
 module.exports = {
-
   match({ answerValue, solution }) {
     const yamlSolution = solution.value;
     const yamlScoring = solution.scoring;
     const deactivations = solution.deactivations;
 
     // Input checking
-    if (!_.isString(answerValue)
-        || _.isEmpty(answerValue)
-        || !_.includes(yamlSolution, '\n')) {
+    if (!_.isString(answerValue) || _.isEmpty(answerValue) || !_.includes(yamlSolution, '\n')) {
       return AnswerStatus.KO;
     }
 
@@ -146,5 +134,4 @@ module.exports = {
 
     return _formatResult(scoring, fullValidations, deactivations);
   },
-
 };

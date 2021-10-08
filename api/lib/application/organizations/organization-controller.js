@@ -13,18 +13,19 @@ const userWithSchoolingRegistrationSerializer = require('../../infrastructure/se
 const higherSchoolingRegistrationWarningSerializer = require('../../infrastructure/serializers/jsonapi/higher-schooling-registration-warnings-serializer');
 const HigherSchoolingRegistrationParser = require('../../infrastructure/serializers/csv/higher-schooling-registration-parser');
 const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
-const { extractLocaleFromRequest, extractUserIdFromRequest } = require('../../infrastructure/utils/request-response-utils');
+const {
+  extractLocaleFromRequest,
+  extractUserIdFromRequest,
+} = require('../../infrastructure/utils/request-response-utils');
 const moment = require('moment');
 const certificationResultUtils = require('../../infrastructure/utils/csv/certification-results');
 const certificationAttestationPdf = require('../../infrastructure/utils/pdf/certification-attestation-pdf');
 
 module.exports = {
-
   getOrganizationDetails: (request) => {
     const organizationId = request.params.id;
 
-    return usecases.getOrganizationDetails({ organizationId })
-      .then(organizationSerializer.serialize);
+    return usecases.getOrganizationDetails({ organizationId }).then(organizationSerializer.serialize);
   },
 
   create: (request) => {
@@ -39,7 +40,8 @@ module.exports = {
 
     const pixMasterUserId = extractUserIdFromRequest(request);
 
-    return usecases.createOrganization({ createdBy: pixMasterUserId, name, type, externalId, provinceCode, logoUrl, email })
+    return usecases
+      .createOrganization({ createdBy: pixMasterUserId, name, type, externalId, provinceCode, logoUrl, email })
       .then(organizationSerializer.serialize);
   },
 
@@ -55,7 +57,10 @@ module.exports = {
   async findPaginatedFilteredOrganizations(request) {
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({ filter: options.filter, page: options.page });
+    const { models: organizations, pagination } = await usecases.findPaginatedFilteredOrganizations({
+      filter: options.filter,
+      page: options.page,
+    });
     return organizationSerializer.serialize(organizations, pagination);
   },
 
@@ -67,7 +72,11 @@ module.exports = {
       options.filter.ongoing = false;
       delete options.filter.status;
     }
-    const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({ organizationId, filter: options.filter, page: options.page });
+    const { models: campaigns, meta } = await usecases.findPaginatedFilteredOrganizationCampaigns({
+      organizationId,
+      filter: options.filter,
+      page: options.page,
+    });
     return campaignReportSerializer.serialize(campaigns, meta);
   },
 
@@ -75,7 +84,11 @@ module.exports = {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
 
-    const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({ organizationId, filter, page });
+    const { models: campaigns, meta } = await usecases.findPaginatedCampaignManagements({
+      organizationId,
+      filter,
+      page,
+    });
     return campaignManagementSerializer.serialize(campaigns, meta);
   },
 
@@ -83,7 +96,11 @@ module.exports = {
     const organizationId = request.params.id;
     const options = queryParamsUtils.extractParameters(request.query);
 
-    const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({ organizationId, filter: options.filter, page: options.page });
+    const { models: memberships, pagination } = await usecases.findPaginatedFilteredOrganizationMemberships({
+      organizationId,
+      filter: options.filter,
+      page: options.page,
+    });
     return membershipSerializer.serialize(memberships, pagination);
   },
 
@@ -96,12 +113,15 @@ module.exports = {
       division,
     });
 
-    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: attestations });
+    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+      certificates: attestations,
+    });
 
     const now = moment();
     const fileName = `${now.format('YYYYMMDD')}_attestations_${division}.pdf`;
 
-    return h.response(buffer)
+    return h
+      .response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)
       .header('Content-Type', 'application/pdf');
   },
@@ -117,7 +137,8 @@ module.exports = {
     const now = moment();
     const fileName = `${now.format('YYYYMMDD')}_resultats_${division}.csv`;
 
-    return h.response(csvResult)
+    return h
+      .response(csvResult)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${fileName}`);
   },
@@ -125,7 +146,9 @@ module.exports = {
   async findTargetProfiles(request) {
     const requestedOrganizationId = request.params.id;
 
-    const targetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(requestedOrganizationId);
+    const targetProfiles = await organizationService.findAllTargetProfilesAvailableForOrganization(
+      requestedOrganizationId
+    );
     return targetProfileSerializer.serialize(targetProfiles);
   },
 
@@ -134,7 +157,10 @@ module.exports = {
     const targetProfileIdsToAttach = request.payload.data.attributes['target-profiles-to-attach']
       // eslint-disable-next-line no-restricted-syntax
       .map((targetProfileToAttach) => parseInt(targetProfileToAttach));
-    await usecases.attachTargetProfilesToOrganization({ organizationId: requestedOrganizationId, targetProfileIdsToAttach });
+    await usecases.attachTargetProfilesToOrganization({
+      organizationId: requestedOrganizationId,
+      targetProfileIdsToAttach,
+    });
     return h.response().code(204);
   },
 
@@ -148,7 +174,11 @@ module.exports = {
     const organizationId = request.params.id;
     const { filter, page } = queryParamsUtils.extractParameters(request.query);
 
-    const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({ organizationId, filter, page });
+    const { data, pagination } = await usecases.findPaginatedFilteredSchoolingRegistrations({
+      organizationId,
+      filter,
+      page,
+    });
     return userWithSchoolingRegistrationSerializer.serialize(data, pagination);
   },
 
@@ -156,14 +186,23 @@ module.exports = {
     const organizationId = request.params.id;
     const { format } = request.query;
 
-    await usecases.importSchoolingRegistrationsFromSIECLEFormat({ organizationId, payload: request.payload, format, i18n: request.i18n });
+    await usecases.importSchoolingRegistrationsFromSIECLEFormat({
+      organizationId,
+      payload: request.payload,
+      format,
+      i18n: request.i18n,
+    });
     return h.response(null).code(204);
   },
 
   async importHigherSchoolingRegistrations(request, h) {
     const organizationId = request.params.id;
     const buffer = request.payload;
-    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId, request.i18n);
+    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(
+      buffer,
+      organizationId,
+      request.i18n
+    );
     const warnings = await usecases.importHigherSchoolingRegistrations({ higherSchoolingRegistrationParser });
     const response = higherSchoolingRegistrationWarningSerializer.serialize({ id: organizationId, warnings });
     return h.response(response).code(200);
@@ -172,8 +211,15 @@ module.exports = {
   async replaceHigherSchoolingRegistrations(request, h) {
     const organizationId = request.params.id;
     const buffer = request.payload;
-    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(buffer, organizationId, request.i18n);
-    const warnings = await usecases.replaceHigherSchoolingRegistrations({ organizationId, higherSchoolingRegistrationParser });
+    const higherSchoolingRegistrationParser = new HigherSchoolingRegistrationParser(
+      buffer,
+      organizationId,
+      request.i18n
+    );
+    const warnings = await usecases.replaceHigherSchoolingRegistrations({
+      organizationId,
+      higherSchoolingRegistrationParser,
+    });
     const response = higherSchoolingRegistrationWarningSerializer.serialize({ id: organizationId, warnings });
     return h.response(response).code(200);
   },
@@ -191,14 +237,19 @@ module.exports = {
     const organizationId = request.params.id;
     const { email, lang } = request.payload.data.attributes;
 
-    const organizationInvitation = await usecases.createOrganizationInvitations({ organizationId, emails: [email], locale: lang });
+    const organizationInvitation = await usecases.createOrganizationInvitations({
+      organizationId,
+      emails: [email],
+      locale: lang,
+    });
     return h.response(organizationInvitationSerializer.serialize(organizationInvitation)).created();
   },
 
   async findPendingInvitations(request) {
     const organizationId = request.params.id;
 
-    return usecases.findPendingOrganizationInvitations({ organizationId })
+    return usecases
+      .findPendingOrganizationInvitations({ organizationId })
       .then((invitations) => organizationInvitationSerializer.serialize(invitations));
   },
 
@@ -206,9 +257,14 @@ module.exports = {
     const organizationId = request.params.id;
     const token = request.query.accessToken;
     const userId = tokenService.extractUserId(token);
-    const template = await usecases.getSchoolingRegistrationsCsvTemplate({ userId, organizationId, i18n: request.i18n });
+    const template = await usecases.getSchoolingRegistrationsCsvTemplate({
+      userId,
+      organizationId,
+      i18n: request.i18n,
+    });
 
-    return h.response(template)
+    return h
+      .response(template)
       .header('Content-Type', 'text/csv;charset=utf-8')
       .header('Content-Disposition', `attachment; filename=${request.i18n.__('csv-template.template-name')}.csv`);
   },

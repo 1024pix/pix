@@ -42,16 +42,20 @@ exports.register = async (server) => {
           },
         },
         validate: {
-          payload: Joi.object().required().keys({
-            grant_type: Joi.string().valid('client_credentials').required().description('Grant type should be \'client_credentials\''),
-            client_id: Joi.string().required().description('Client identification'),
-            client_secret: Joi.string().required().description('Client secret for the corresponding identification'),
-            scope: Joi.string().required().description('Scope to access data'),
-          }).label('AuthorizationPayload'),
+          payload: Joi.object()
+            .required()
+            .keys({
+              grant_type: Joi.string()
+                .valid('client_credentials')
+                .required()
+                .description("Grant type should be 'client_credentials'"),
+              client_id: Joi.string().required().description('Client identification'),
+              client_secret: Joi.string().required().description('Client secret for the corresponding identification'),
+              scope: Joi.string().required().description('Scope to access data'),
+            })
+            .label('AuthorizationPayload'),
         },
-        notes: [
-          '- **API pour récupérer le token à partir d\'un client ID et client secret**\n',
-        ],
+        notes: ["- **API pour récupérer le token à partir d'un client ID et client secret**\n"],
         response: {
           failAction: 'log',
           status: {
@@ -81,8 +85,8 @@ exports.register = async (server) => {
         },
         handler: AuthenticationController.authenticateAnonymousUser,
         notes: [
-          '- Cette route permet de créer un utilisateur à partir d\'un code parcours Accès Simplifié\n' +
-          '- Elle retournera un access token Pix correspondant à l\'utilisateur.',
+          "- Cette route permet de créer un utilisateur à partir d'un code parcours Accès Simplifié\n" +
+            "- Elle retournera un access token Pix correspondant à l'utilisateur.",
         ],
         tags: ['api'],
       },
@@ -106,7 +110,10 @@ exports.register = async (server) => {
             token_type_hint: 'access_token',
           }),
           failAction: (request, h) => {
-            return sendJsonApiError(new BadRequestError('The server could not understand the request due to invalid token.'), h);
+            return sendJsonApiError(
+              new BadRequestError('The server could not understand the request due to invalid token.'),
+              h
+            );
           },
         },
         handler: (request, h) => h.response(),
@@ -154,8 +161,8 @@ exports.register = async (server) => {
         },
         handler: AuthenticationController.authenticatePoleEmploiUser,
         notes: [
-          '- Cette route permet de récupérer l\'ID Token d\'un candidat Pole emploi.\n' +
-          '- Elle retournera également un access token Pix correspondant à l\'utilisateur.',
+          "- Cette route permet de récupérer l'ID Token d'un candidat Pole emploi.\n" +
+            "- Elle retournera également un access token Pix correspondant à l'utilisateur.",
         ],
         tags: ['api', 'Pôle emploi'],
       },

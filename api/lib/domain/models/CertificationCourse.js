@@ -5,33 +5,32 @@ const { EntityValidationError } = require('../errors');
 const ABORT_REASONS = ['candidate', 'technical'];
 
 class CertificationCourse {
-  constructor(
-    {
-      id,
-      firstName,
-      lastName,
-      birthdate,
-      birthplace,
-      birthPostalCode,
-      birthINSEECode,
-      birthCountry,
-      sex,
-      externalId,
-      hasSeenEndTestScreen,
-      createdAt,
-      completedAt,
-      isPublished = false,
-      isV2Certification = false,
-      verificationCode,
-      assessment,
-      challenges,
-      certificationIssueReports,
-      userId,
-      sessionId,
-      maxReachableLevelOnCertificationDate,
-      isCancelled = false,
-      abortReason,
-    } = {}) {
+  constructor({
+    id,
+    firstName,
+    lastName,
+    birthdate,
+    birthplace,
+    birthPostalCode,
+    birthINSEECode,
+    birthCountry,
+    sex,
+    externalId,
+    hasSeenEndTestScreen,
+    createdAt,
+    completedAt,
+    isPublished = false,
+    isV2Certification = false,
+    verificationCode,
+    assessment,
+    challenges,
+    certificationIssueReports,
+    userId,
+    sessionId,
+    maxReachableLevelOnCertificationDate,
+    isCancelled = false,
+    abortReason,
+  } = {}) {
     this._id = id;
     this._firstName = firstName;
     this._lastName = lastName;
@@ -102,10 +101,13 @@ class CertificationCourse {
   }
 
   abort(reason) {
-    const { error } = Joi.string().valid(...ABORT_REASONS).validate(reason);
-    if (error) throw new EntityValidationError({
-      invalidAttributes: [{ attribute: 'abortReason', message: error.message }],
-    });
+    const { error } = Joi.string()
+      .valid(...ABORT_REASONS)
+      .validate(reason);
+    if (error)
+      throw new EntityValidationError({
+        invalidAttributes: [{ attribute: 'abortReason', message: error.message }],
+      });
     this._abortReason = reason;
   }
 
@@ -117,7 +119,7 @@ class CertificationCourse {
     const sanitizedString = _sanitizedString(modifiedFirstName);
     if (_.isEmpty(sanitizedString)) {
       throw new EntityValidationError({
-        invalidAttributes: [{ attribute: 'firstName', message: 'Candidate\'s first name must not be blank or empty' }],
+        invalidAttributes: [{ attribute: 'firstName', message: "Candidate's first name must not be blank or empty" }],
       });
     }
     this._firstName = sanitizedString;
@@ -127,7 +129,7 @@ class CertificationCourse {
     const sanitizedString = _sanitizedString(modifiedLastName);
     if (_.isEmpty(sanitizedString)) {
       throw new EntityValidationError({
-        invalidAttributes: [{ attribute: 'lastName', message: 'Candidate\'s last name must not be blank or empty' }],
+        invalidAttributes: [{ attribute: 'lastName', message: "Candidate's last name must not be blank or empty" }],
       });
     }
     this._lastName = sanitizedString;
@@ -144,7 +146,7 @@ class CertificationCourse {
     const sanitizedString = _sanitizedString(modifiedSex);
     if (!_.isEmpty(sanitizedString) && !['M', 'F'].includes(sanitizedString)) {
       throw new EntityValidationError({
-        invalidAttributes: [{ attribute: 'sex', message: 'Candidate\'s sex must be M or F' }],
+        invalidAttributes: [{ attribute: 'sex', message: "Candidate's sex must be M or F" }],
       });
     }
     this._sex = sanitizedString;
@@ -166,7 +168,7 @@ class CertificationCourse {
       .validate(modifiedBirthdate);
     if (error) {
       throw new EntityValidationError({
-        invalidAttributes: [{ attribute: 'birthdate', message: 'Candidate\'s birthdate must be a valid date' }],
+        invalidAttributes: [{ attribute: 'birthdate', message: "Candidate's birthdate must be a valid date" }],
       });
     }
     this._birthdate = modifiedBirthdate;

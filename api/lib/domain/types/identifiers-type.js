@@ -5,7 +5,11 @@ const postgreSQLSequenceDefaultStart = 1;
 const postgreSQLSequenceEnd = 2 ** 31 - 1;
 
 const implementationType = {
-  positiveInteger32bits: Joi.number().integer().min(postgreSQLSequenceDefaultStart).max(postgreSQLSequenceEnd).required(),
+  positiveInteger32bits: Joi.number()
+    .integer()
+    .min(postgreSQLSequenceDefaultStart)
+    .max(postgreSQLSequenceEnd)
+    .required(),
   alphanumeric255: Joi.string().max(255).required(),
   alphanumeric: Joi.string().required(),
 };
@@ -13,7 +17,7 @@ const implementationType = {
 const valuesToExport = {};
 
 function _assignValueToExport(array, implementationType) {
-  _.each(array, function(value) {
+  _.each(array, function (value) {
     valuesToExport[value] = implementationType;
   });
 }
@@ -40,14 +44,8 @@ const typesPositiveInteger32bits = [
   'userOrgaSettingsId',
 ];
 
-const typesAlphanumeric = [
-  'courseId',
-  'tutorialId',
-];
-const typesAlphanumeric255 = [
-  'challengeId',
-  'competenceId',
-];
+const typesAlphanumeric = ['courseId', 'tutorialId'];
+const typesAlphanumeric255 = ['challengeId', 'competenceId'];
 
 _assignValueToExport(typesPositiveInteger32bits, implementationType.positiveInteger32bits);
 _assignValueToExport(typesAlphanumeric, implementationType.alphanumeric);

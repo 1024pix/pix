@@ -20,7 +20,6 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
   placementProfileService,
   certificationBadgesService,
   verifyCertificateCodeService,
-
 }) {
   const session = await sessionRepository.get(sessionId);
   if (session.accessCode !== accessCode) {
@@ -30,11 +29,12 @@ module.exports = async function retrieveLastOrCreateCertificationCourse({
     throw new SessionNotAccessible();
   }
 
-  const existingCertificationCourse = await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
-    userId,
-    sessionId,
-    domainTransaction,
-  });
+  const existingCertificationCourse =
+    await certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
+      userId,
+      sessionId,
+      domainTransaction,
+    });
   if (existingCertificationCourse) {
     return {
       created: false,
@@ -71,11 +71,21 @@ async function _startNewCertification({
   certificationBadgesService,
   verifyCertificateCodeService,
 }) {
-  const challengesForPixCertification = await _createPixCertification(placementProfileService, certificationChallengesService, userId, locale);
+  const challengesForPixCertification = await _createPixCertification(
+    placementProfileService,
+    certificationChallengesService,
+    userId,
+    locale
+  );
 
   // Above operations are potentially slow so that two simultaneous calls of this function might overlap 😿
   // In case the simultaneous call finished earlier than the current one, we want to return its result
-  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction);
+  const certificationCourseCreatedMeanwhile = await _getCertificationCourseIfCreatedMeanwhile(
+    certificationCourseRepository,
+    userId,
+    sessionId,
+    domainTransaction
+  );
   if (certificationCourseCreatedMeanwhile) {
     return {
       created: false,
@@ -115,12 +125,19 @@ async function _findChallengesFromPixPlus({
     userId,
     domainTransaction,
   });
-  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(highestCertifiableBadgeAcquisitions,
-    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale));
+  const challengesPixPlusByCertifiableBadges = await bluebird.mapSeries(
+    highestCertifiableBadgeAcquisitions,
+    ({ badge }) => certificationChallengesService.pickCertificationChallengesForPixPlus(badge, userId, locale)
+  );
   return _.flatMap(challengesPixPlusByCertifiableBadges);
 }
 
-async function _getCertificationCourseIfCreatedMeanwhile(certificationCourseRepository, userId, sessionId, domainTransaction) {
+async function _getCertificationCourseIfCreatedMeanwhile(
+  certificationCourseRepository,
+  userId,
+  sessionId,
+  domainTransaction
+) {
   return certificationCourseRepository.findOneCertificationCourseByUserIdAndSessionId({
     userId,
     sessionId,

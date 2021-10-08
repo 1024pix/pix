@@ -2,9 +2,8 @@ const { expect, sinon } = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const Organization = require('../../../../lib/domain/models/Organization');
 
-describe('Unit | UseCase | find-paginated-filtered-organizations', function() {
-
-  it('should result organizations with filtering and pagination', async function() {
+describe('Unit | UseCase | find-paginated-filtered-organizations', function () {
+  it('should result organizations with filtering and pagination', async function () {
     // given
     const filter = { name: 'Dragon' };
     const page = { number: 1, size: 2 };
@@ -18,7 +17,9 @@ describe('Unit | UseCase | find-paginated-filtered-organizations', function() {
     const organizationRepository = {
       findPaginatedFiltered: sinon.stub(),
     };
-    organizationRepository.findPaginatedFiltered.withArgs({ filter, page }).resolves({ models: matchingOrganizations, pagination: resolvedPagination });
+    organizationRepository.findPaginatedFiltered
+      .withArgs({ filter, page })
+      .resolves({ models: matchingOrganizations, pagination: resolvedPagination });
 
     // when
     const response = await usecases.findPaginatedFilteredOrganizations({ filter, page, organizationRepository });

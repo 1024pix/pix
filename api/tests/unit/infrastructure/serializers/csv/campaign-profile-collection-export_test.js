@@ -4,8 +4,8 @@ const { domainBuilder, expect, sinon, streamToPromise } = require('../../../../t
 const CampaignProfilesCollectionExport = require('../../../../../lib/infrastructure/serializers/csv/campaign-profiles-collection-export');
 const { getI18n } = require('../../../../tooling/i18n/i18n');
 
-describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function() {
-  describe('#export', function() {
+describe('Unit | Serializer | CSV | campaign-profiles-collection-export', function () {
+  describe('#export', function () {
     let writableStream, csvPromise, organization, campaign, competences;
 
     const placementProfileServiceStub = {
@@ -18,7 +18,7 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
     // eslint-disable-next-line mocha/no-setup-in-describe
     const translate = getI18n().__;
 
-    beforeEach(function() {
+    beforeEach(function () {
       writableStream = new PassThrough();
       csvPromise = streamToPromise(writableStream);
 
@@ -44,24 +44,31 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       ];
     });
 
-    it('should display common header parts of csv', async function() {
+    it('should display common header parts of csv', async function () {
       //given
-      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(
+        writableStream,
+        organization,
+        campaign,
+        competences,
+        translate
+      );
 
-      const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"\n';
+      const expectedHeader =
+        '\uFEFF"Nom de l\'organisation";' +
+        '"ID Campagne";' +
+        '"Nom de la campagne";' +
+        '"Nom du Participant";' +
+        '"Prénom du Participant";' +
+        '"Envoi (O/N)";' +
+        '"Date de l\'envoi";' +
+        '"Nombre de pix total";' +
+        '"Certifiable (O/N)";' +
+        '"Nombre de compétences certifiables";' +
+        '"Niveau pour la compétence Competence1";' +
+        '"Nombre de pix pour la compétence Competence1";' +
+        '"Niveau pour la compétence Competence2";' +
+        '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
 
@@ -73,28 +80,35 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('should display division header when organization is SCO and managing students', async function() {
+    it('should display division header when organization is SCO and managing students', async function () {
       //given
       organization.isSco = true;
       organization.isManagingStudents = true;
 
-      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(
+        writableStream,
+        organization,
+        campaign,
+        competences,
+        translate
+      );
 
-      const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"Classe";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"\n';
+      const expectedHeader =
+        '\uFEFF"Nom de l\'organisation";' +
+        '"ID Campagne";' +
+        '"Nom de la campagne";' +
+        '"Nom du Participant";' +
+        '"Prénom du Participant";' +
+        '"Classe";' +
+        '"Envoi (O/N)";' +
+        '"Date de l\'envoi";' +
+        '"Nombre de pix total";' +
+        '"Certifiable (O/N)";' +
+        '"Nombre de compétences certifiables";' +
+        '"Niveau pour la compétence Competence1";' +
+        '"Nombre de pix pour la compétence Competence1";' +
+        '"Niveau pour la compétence Competence2";' +
+        '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
 
@@ -106,29 +120,36 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('It displays all headers for SUP organization that manages students', async function() {
+    it('It displays all headers for SUP organization that manages students', async function () {
       //given
       organization.isSup = true;
       organization.isManagingStudents = true;
 
-      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(
+        writableStream,
+        organization,
+        campaign,
+        competences,
+        translate
+      );
 
-      const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"Groupe";' +
-          '"Numéro Étudiant";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"\n';
+      const expectedHeader =
+        '\uFEFF"Nom de l\'organisation";' +
+        '"ID Campagne";' +
+        '"Nom de la campagne";' +
+        '"Nom du Participant";' +
+        '"Prénom du Participant";' +
+        '"Groupe";' +
+        '"Numéro Étudiant";' +
+        '"Envoi (O/N)";' +
+        '"Date de l\'envoi";' +
+        '"Nombre de pix total";' +
+        '"Certifiable (O/N)";' +
+        '"Nombre de compétences certifiables";' +
+        '"Niveau pour la compétence Competence1";' +
+        '"Nombre de pix pour la compétence Competence1";' +
+        '"Niveau pour la compétence Competence2";' +
+        '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
 
@@ -140,26 +161,33 @@ describe('Unit | Serializer | CSV | campaign-profiles-collection-export', functi
       expect(csv).to.equal(expectedHeader);
     });
 
-    it('should display idPixLabel header when campaign has one', async function() {
+    it('should display idPixLabel header when campaign has one', async function () {
       //given
       campaign.idPixLabel = 'email';
-      const campaignProfile = new CampaignProfilesCollectionExport(writableStream, organization, campaign, competences, translate);
+      const campaignProfile = new CampaignProfilesCollectionExport(
+        writableStream,
+        organization,
+        campaign,
+        competences,
+        translate
+      );
 
-      const expectedHeader = '\uFEFF"Nom de l\'organisation";' +
-          '"ID Campagne";' +
-          '"Nom de la campagne";' +
-          '"Nom du Participant";' +
-          '"Prénom du Participant";' +
-          '"email";' +
-          '"Envoi (O/N)";' +
-          '"Date de l\'envoi";' +
-          '"Nombre de pix total";' +
-          '"Certifiable (O/N)";' +
-          '"Nombre de compétences certifiables";' +
-          '"Niveau pour la compétence Competence1";' +
-          '"Nombre de pix pour la compétence Competence1";' +
-          '"Niveau pour la compétence Competence2";' +
-          '"Nombre de pix pour la compétence Competence2"\n';
+      const expectedHeader =
+        '\uFEFF"Nom de l\'organisation";' +
+        '"ID Campagne";' +
+        '"Nom de la campagne";' +
+        '"Nom du Participant";' +
+        '"Prénom du Participant";' +
+        '"email";' +
+        '"Envoi (O/N)";' +
+        '"Date de l\'envoi";' +
+        '"Nombre de pix total";' +
+        '"Certifiable (O/N)";' +
+        '"Nombre de compétences certifiables";' +
+        '"Niveau pour la compétence Competence1";' +
+        '"Nombre de pix pour la compétence Competence1";' +
+        '"Niveau pour la compétence Competence2";' +
+        '"Nombre de pix pour la compétence Competence2"\n';
       //when
       await campaignProfile.export([], placementProfileServiceStub);
 

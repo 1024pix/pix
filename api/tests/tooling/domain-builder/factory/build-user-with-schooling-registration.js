@@ -8,7 +8,6 @@ module.exports = function buildUserWithSchoolingRegistration({
   email = this.lastName + this.firstName + '@example.net',
   isAuthenticatedFromGAR = false,
 } = {}) {
-
   return new UserWithSchoolingRegistration({
     lastName,
     firstName,

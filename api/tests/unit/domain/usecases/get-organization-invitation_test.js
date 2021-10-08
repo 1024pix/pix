@@ -3,12 +3,11 @@ const getOrganizationInvitation = require('../../../../lib/domain/usecases/get-o
 const OrganizationInvitation = require('../../../../lib/domain/models/OrganizationInvitation');
 const { NotFoundError, AlreadyExistingOrganizationInvitationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-organization-invitation', function() {
-
+describe('Unit | UseCase | get-organization-invitation', function () {
   let organizationInvitationRepository;
   let organizationRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     organizationInvitationRepository = {
       getByIdAndCode: sinon.stub(),
     };
@@ -17,9 +16,8 @@ describe('Unit | UseCase | get-organization-invitation', function() {
     };
   });
 
-  context('when invitation with id and code does not exist', function() {
-
-    it('should throw a NotFoundError', async function() {
+  context('when invitation with id and code does not exist', function () {
+    it('should throw a NotFoundError', async function () {
       // given
       organizationInvitationRepository.getByIdAndCode.rejects(new NotFoundError());
 
@@ -36,9 +34,8 @@ describe('Unit | UseCase | get-organization-invitation', function() {
     });
   });
 
-  context('when organization with id does not exist', function() {
-
-    it('should throw a NotFoundError', async function() {
+  context('when organization with id does not exist', function () {
+    it('should throw a NotFoundError', async function () {
       // given
       const organizationInvitation = domainBuilder.buildOrganizationInvitation();
       organizationInvitationRepository.getByIdAndCode.resolves(organizationInvitation);
@@ -57,9 +54,8 @@ describe('Unit | UseCase | get-organization-invitation', function() {
     });
   });
 
-  context('when invitation is already accepted', function() {
-
-    it('should throw an AlreadyExistingOrganizationInvitationError', async function() {
+  context('when invitation is already accepted', function () {
+    it('should throw an AlreadyExistingOrganizationInvitationError', async function () {
       // given
       const status = OrganizationInvitation.StatusType.ACCEPTED;
       const organizationInvitation = domainBuilder.buildOrganizationInvitation({ status });
@@ -77,9 +73,8 @@ describe('Unit | UseCase | get-organization-invitation', function() {
     });
   });
 
-  context('when invitation is not accepted yet', function() {
-
-    it('should return found organization invitation', async function() {
+  context('when invitation is not accepted yet', function () {
+    it('should return found organization invitation', async function () {
       // given
       const organization = domainBuilder.buildOrganization();
       const organizationInvitationPending = domainBuilder.buildOrganizationInvitation({
@@ -95,7 +90,8 @@ describe('Unit | UseCase | get-organization-invitation', function() {
 
       // when
       const result = await getOrganizationInvitation({
-        organizationInvitationId, organizationInvitationCode,
+        organizationInvitationId,
+        organizationInvitationCode,
         organizationRepository,
         organizationInvitationRepository,
       });
@@ -104,5 +100,4 @@ describe('Unit | UseCase | get-organization-invitation', function() {
       expect(result).to.deep.equal(expectedOrganizationInvitation);
     });
   });
-
 });

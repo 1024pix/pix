@@ -1,17 +1,15 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | countries-controller', function() {
-
+describe('Acceptance | API | countries-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/countries/', function() {
-
-    it('should return 200 HTTP status code', async function() {
+  describe('GET /api/countries/', function () {
+    it('should return 200 HTTP status code', async function () {
       // given
       const options = {
         method: 'GET',

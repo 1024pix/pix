@@ -1,10 +1,5 @@
 class GrantedAccreditation {
-
-  constructor({
-    id,
-    accreditationId,
-    certificationCenterId,
-  }) {
+  constructor({ id, accreditationId, certificationCenterId }) {
     this.id = id;
     this.accreditationId = accreditationId;
     this.certificationCenterId = certificationCenterId;

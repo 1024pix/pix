@@ -3,25 +3,25 @@ const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 const securityPreHandlers = require('../../../lib/application/security-pre-handlers');
 
-describe('Acceptance | Application | SecurityPreHandlers', function() {
-
+describe('Acceptance | Application | SecurityPreHandlers', function () {
   const jsonApiError403 = {
-    errors: [{
-      code: 403,
-      title: 'Forbidden access',
-      detail: 'Missing or insufficient permissions.',
-    }],
+    errors: [
+      {
+        code: 403,
+        title: 'Forbidden access',
+        detail: 'Missing or insufficient permissions.',
+      },
+    ],
   };
 
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('#checkUserHasRolePixMaster', function() {
-
-    it('should return a well formed JSON API error when user is not authorized', async function() {
+  describe('#checkUserHasRolePixMaster', function () {
+    it('should return a well formed JSON API error when user is not authorized', async function () {
       // given
       const options = {
         method: 'PATCH',
@@ -36,12 +36,10 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
     });
-
   });
 
-  describe('#checkRequestedUserIsAuthenticatedUser', function() {
-
-    it('should return a well formed JSON API error when user in query params is not the same as authenticated', async function() {
+  describe('#checkRequestedUserIsAuthenticatedUser', function () {
+    it('should return a well formed JSON API error when user in query params is not the same as authenticated', async function () {
       // given
       const options = {
         method: 'GET',
@@ -56,16 +54,14 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
     });
-
   });
 
-  describe('#checkUserBelongsToScoOrganizationAndManagesStudents', function() {
-
+  describe('#checkUserBelongsToScoOrganizationAndManagesStudents', function () {
     let userId;
     let organizationId;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'GET',
@@ -75,7 +71,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a well formed JSON API error when user is in a not sco organization', async function() {
+    it('should return a well formed JSON API error when user is in a not sco organization', async function () {
       // given
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP' }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
@@ -92,7 +88,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when user is in a sco orga that does not manage students', async function() {
+    it('should return a well formed JSON API error when user is in a sco orga that does not manage students', async function () {
       // given
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: false }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId });
@@ -109,7 +105,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when membership is disabled', async function() {
+    it('should return a well formed JSON API error when membership is disabled', async function () {
       // given
       organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
@@ -125,16 +121,14 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.statusCode).to.equal(403);
       expect(response.result).to.deep.equal(jsonApiError403);
     });
-
   });
 
-  describe('#checkUserIsAdminInOrganization', function() {
-
+  describe('#checkUserIsAdminInOrganization', function () {
     let userId;
     let organizationId;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       options = {
@@ -146,10 +140,12 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a well formed JSON API error when user is not admin in the organization', async function() {
+    it('should return a well formed JSON API error when user is not admin in the organization', async function () {
       // given
       databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.MEMBER,
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.MEMBER,
       });
 
       await databaseBuilder.commit();
@@ -162,10 +158,12 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when user is admin in the organization, but membership is disabled', async function() {
+    it('should return a well formed JSON API error when user is admin in the organization, but membership is disabled', async function () {
       // given
       databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.ADMIN,
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
         disabledAt: new Date(),
       });
 
@@ -180,13 +178,12 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
     });
   });
 
-  describe('#checkUserIsAdminInOrganizationOrHasRolePixMaster', function() {
-
+  describe('#checkUserIsAdminInOrganizationOrHasRolePixMaster', function () {
     let userId;
     let organizationId;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
       options = {
@@ -206,10 +203,12 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a well formed JSON API error when user is neither admin nor pix_master', async function() {
+    it('should return a well formed JSON API error when user is neither admin nor pix_master', async function () {
       // given
       databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.MEMBER,
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.MEMBER,
       });
 
       await databaseBuilder.commit();
@@ -222,10 +221,12 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when user is admin, but membership is disabled', async function() {
+    it('should return a well formed JSON API error when user is admin, but membership is disabled', async function () {
       // given
       databaseBuilder.factory.buildMembership({
-        userId, organizationId, organizationRole: Membership.roles.ADMIN,
+        userId,
+        organizationId,
+        organizationRole: Membership.roles.ADMIN,
         disabledAt: new Date(),
       });
 
@@ -240,22 +241,23 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
     });
   });
 
-  describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', function() {
-
-    beforeEach(async function() {
+  describe('#checkUserIsAdminInSCOOrganizationAndManagesStudents', function () {
+    beforeEach(async function () {
       server.route({
         method: 'GET',
         path: '/test_route/{id}',
         handler: (r, h) => h.response({}).code(200),
         config: {
-          pre: [{
-            method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
-          }],
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsAdminInSCOOrganizationManagingStudents,
+            },
+          ],
         },
       });
     });
 
-    it('respond 403 when the user is not member of the SCO organization managing students', async function() {
+    it('respond 403 when the user is not member of the SCO organization managing students', async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
 
@@ -273,7 +275,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('respond 200 when the user is admin in the orga and it is SCO orga managing students', async function() {
+    it('respond 200 when the user is admin in the orga and it is SCO orga managing students', async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({
@@ -296,22 +298,23 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
     });
   });
 
-  describe('#checkUserIsAdminInSUPOrganizationAndManagesStudents', function() {
-
-    beforeEach(async function() {
+  describe('#checkUserIsAdminInSUPOrganizationAndManagesStudents', function () {
+    beforeEach(async function () {
       server.route({
         method: 'GET',
         path: '/test_route/{id}',
         handler: (r, h) => h.response({}).code(200),
         config: {
-          pre: [{
-            method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
-          }],
+          pre: [
+            {
+              method: securityPreHandlers.checkUserIsAdminInSUPOrganizationManagingStudents,
+            },
+          ],
         },
       });
     });
 
-    it('respond 403 when the user is not member of the SUP organization managing students', async function() {
+    it('respond 403 when the user is not member of the SUP organization managing students', async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
 
@@ -329,7 +332,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('respond 200 when the user is admin in the organization and which id not a SUP organization managing students', async function() {
+    it('respond 200 when the user is admin in the organization and which id not a SUP organization managing students', async function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const organizationId = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true }).id;
       databaseBuilder.factory.buildMembership({
@@ -352,13 +355,12 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
     });
   });
 
-  describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', function() {
-
+  describe('#checkUserBelongsToOrganizationOrHasRolePixMaster', function () {
     let userId;
     let organizationId;
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       organizationId = databaseBuilder.factory.buildOrganization().id;
 
@@ -371,7 +373,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a well formed JSON API error when user is neither in the organization nor PIXMASTER', async function() {
+    it('should return a well formed JSON API error when user is neither in the organization nor PIXMASTER', async function () {
       // when
       const response = await server.inject(options);
 
@@ -380,7 +382,7 @@ describe('Acceptance | Application | SecurityPreHandlers', function() {
       expect(response.result).to.deep.equal(jsonApiError403);
     });
 
-    it('should return a well formed JSON API error when user is in the orga, but membership is disabled', async function() {
+    it('should return a well formed JSON API error when user is in the orga, but membership is disabled', async function () {
       // given
       databaseBuilder.factory.buildMembership({ userId, organizationId, disabledAt: new Date() });
       await databaseBuilder.commit();

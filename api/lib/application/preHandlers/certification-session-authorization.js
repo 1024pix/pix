@@ -9,10 +9,13 @@ module.exports = {
 
     const certificationCourse = await certificationCourseRepository.get(certificationCourseId);
 
-    const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({ userId, sessionId: certificationCourse.getSessionId() });
+    const isAuthorized = await sessionAuthorizationService.isAuthorizedToAccessSession({
+      userId,
+      sessionId: certificationCourse.getSessionId(),
+    });
 
     if (!isAuthorized) {
-      throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
 
     return isAuthorized;

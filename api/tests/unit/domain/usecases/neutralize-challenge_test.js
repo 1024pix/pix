@@ -1,14 +1,10 @@
-const {
-  sinon,
-  expect,
-  domainBuilder,
-} = require('../../../test-helper');
+const { sinon, expect, domainBuilder } = require('../../../test-helper');
 const CertificationAssessment = require('../../../../lib/domain/models/CertificationAssessment');
 const neutralizeChallenge = require('../../../../lib/domain/usecases/neutralize-challenge');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 
-describe('Unit | UseCase | neutralize-challenge', function() {
-  it('neutralizes a challenge by its recId', async function() {
+describe('Unit | UseCase | neutralize-challenge', function () {
+  it('neutralizes a challenge by its recId', async function () {
     // given
     const certificationCourseId = 1;
     const certificationAssessmentRepository = {
@@ -49,11 +45,13 @@ describe('Unit | UseCase | neutralize-challenge', function() {
     });
 
     // then
-    expect(certificationAssessment.neutralizeChallengeByRecId).to.have.been.calledWith(challengeToBeNeutralized.challengeId);
+    expect(certificationAssessment.neutralizeChallengeByRecId).to.have.been.calledWith(
+      challengeToBeNeutralized.challengeId
+    );
     expect(certificationAssessmentRepository.save).to.have.been.calledWith(certificationAssessment);
   });
 
-  it('return a ChallengeNeutralized event', async function() {
+  it('return a ChallengeNeutralized event', async function () {
     // given
     const certificationCourseId = 1;
     const certificationAssessmentRepository = {

@@ -1,33 +1,26 @@
 const pick = require('lodash/pick');
 
-const {
-  domainBuilder,
-  expect,
-  knex,
-  nock,
-} = require('../../../test-helper');
+const { domainBuilder, expect, knex, nock } = require('../../../test-helper');
 
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller', function() {
-
+describe('Acceptance | Controller | users-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await knex('authentication-methods').delete();
     await knex('users_pix_roles').delete();
     await knex('sessions').delete();
     await knex('users').delete();
   });
 
-  describe('save', function() {
-
+  describe('save', function () {
     const options = {
       method: 'POST',
       url: '/api/users',
@@ -35,8 +28,8 @@ describe('Acceptance | Controller | users-controller', function() {
         data: {
           type: 'users',
           attributes: {
-            'password': 'Password123',
-            'cgu': true,
+            password: 'Password123',
+            cgu: true,
           },
           relationships: {},
         },
@@ -45,16 +38,11 @@ describe('Acceptance | Controller | users-controller', function() {
 
     let user;
 
-    context('user is valid', function() {
-
-      beforeEach(function() {
-
-        nock('https://www.google.com')
-          .post('/recaptcha/api/siteverify')
-          .query(true)
-          .reply(200, {
-            'success': true,
-          });
+    context('user is valid', function () {
+      beforeEach(function () {
+        nock('https://www.google.com').post('/recaptcha/api/siteverify').query(true).reply(200, {
+          success: true,
+        });
 
         user = domainBuilder.buildUser({ username: null });
 
@@ -66,11 +54,11 @@ describe('Acceptance | Controller | users-controller', function() {
         };
       });
 
-      afterEach(async function() {
+      afterEach(async function () {
         nock.cleanAll();
       });
 
-      it('should return status 201 with user', async function() {
+      it('should return status 201 with user', async function () {
         // given
         const pickedUserAttributes = ['first-name', 'last-name', 'email', 'username', 'cgu'];
         const expectedAttributes = {
@@ -93,7 +81,7 @@ describe('Acceptance | Controller | users-controller', function() {
         expect(userAttributes).to.deep.equal(expectedAttributes);
       });
 
-      it('should create user in Database', async function() {
+      it('should create user in Database', async function () {
         // given
         const pickedUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
         const expectedUser = {
@@ -112,21 +100,18 @@ describe('Acceptance | Controller | users-controller', function() {
         expect(pick(userFound, pickedUserAttributes)).to.deep.equal(expectedUser);
         expect(userFound.authenticationMethods[0].authenticationComplement.password).to.exist;
       });
-
     });
 
-    context('user is invalid', function() {
-
+    context('user is invalid', function () {
       const validUserAttributes = {
         'first-name': 'John',
         'last-name': 'DoDoe',
-        'email': 'john.doe@example.net',
-        'password': 'Ab124B2C3#!',
-        'cgu': true,
+        email: 'john.doe@example.net',
+        password: 'Ab124B2C3#!',
+        cgu: true,
       };
 
-      it('should return Unprocessable Entity (HTTP_422) with offending properties', async function() {
-
+      it('should return Unprocessable Entity (HTTP_422) with offending properties', async function () {
         const invalidUserAttributes = { ...validUserAttributes, 'must-validate-terms-of-service': 'not_a_boolean' };
 
         const options = {

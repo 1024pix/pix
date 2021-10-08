@@ -17,7 +17,7 @@ module.exports = {
 };
 
 function _pickLocaleChallengeAtIndex(challenges, locale, index) {
-  const localeChallenges = _.filter(challenges, ((challenge) => _.includes(challenge.locales, locale)));
+  const localeChallenges = _.filter(challenges, (challenge) => _.includes(challenge.locales, locale));
   const possibleChallenges = _findPreferablyValidatedChallenges(localeChallenges, locale);
   return _.isEmpty(possibleChallenges) ? null : _pickChallengeAtIndex(possibleChallenges, index);
 }
@@ -27,6 +27,8 @@ function _pickChallengeAtIndex(challenges, index) {
 }
 
 function _findPreferablyValidatedChallenges(localeChallenges) {
-  const validatedChallenges = _.filter(localeChallenges, ((challenge) => _.includes(VALIDATED_STATUSES, challenge.status)));
+  const validatedChallenges = _.filter(localeChallenges, (challenge) =>
+    _.includes(VALIDATED_STATUSES, challenge.status)
+  );
   return validatedChallenges.length > 0 ? validatedChallenges : localeChallenges;
 }

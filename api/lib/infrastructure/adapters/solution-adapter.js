@@ -34,7 +34,6 @@ function _extractTypeOfQroc(datasourceObject) {
 }
 
 module.exports = {
-
   fromDatasourceObject(datasourceObject) {
     const scoring = _.ensureString(datasourceObject.scoring).replace(/@/g, ''); // XXX YAML ne supporte pas @
     const qrocBlocksTypes = _extractTypeOfQroc(datasourceObject);

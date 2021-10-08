@@ -5,14 +5,7 @@ const roles = {
 };
 
 class Membership {
-
-  constructor({
-    id,
-    organizationRole = roles.MEMBER,
-    updatedByUserId,
-    organization,
-    user,
-  } = {}) {
+  constructor({ id, organizationRole = roles.MEMBER, updatedByUserId, organization, user } = {}) {
     this.id = id;
     this.organizationRole = organizationRole;
     this.updatedByUserId = updatedByUserId;

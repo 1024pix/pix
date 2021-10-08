@@ -6,7 +6,9 @@ module.exports = async function dissociateSchoolingRegistrations({
   const scoSchoolingRegistrations = await schoolingRegistrationRepository.findByUserIdAndSCOOrganization({ userId });
 
   if (scoSchoolingRegistrations.length > 0) {
-    const scoSchoolingRegistrationIds = scoSchoolingRegistrations.map((scoSchoolingRegistration) => scoSchoolingRegistration.id);
+    const scoSchoolingRegistrationIds = scoSchoolingRegistrations.map(
+      (scoSchoolingRegistration) => scoSchoolingRegistration.id
+    );
     await schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds(scoSchoolingRegistrationIds);
   }
 

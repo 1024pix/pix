@@ -1,11 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
 
-describe('Unit | Serializer | JSONAPI | update-email-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert user new email into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | update-email-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert user new email into JSON API data', function () {
       //given
       const updatedUserAttributes = {
         email: 'new-email@example.net',
@@ -19,7 +17,7 @@ describe('Unit | Serializer | JSONAPI | update-email-serializer', function() {
         data: {
           type: 'email-verification-codes',
           attributes: {
-            'email': updatedUserAttributes.email,
+            email: updatedUserAttributes.email,
           },
         },
       };

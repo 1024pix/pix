@@ -1,13 +1,13 @@
 class DomainError extends Error {
   constructor(message, code, meta) {
     super(message);
-    this.code = code ;
-    this.meta = meta ;
+    this.code = code;
+    this.meta = meta;
   }
 }
 
 class AccountRecoveryDemandNotCreatedError extends DomainError {
-  constructor(message = 'La demande de récupération de compte n\'a pas pu être générée.') {
+  constructor(message = "La demande de récupération de compte n'a pas pu être générée.") {
     super(message);
   }
 }
@@ -62,7 +62,7 @@ class NoCertificationAttestationForDivisionError extends DomainError {
 }
 
 class OrganizationAlreadyExistError extends DomainError {
-  constructor(message = 'L\'organisation existe déjà.') {
+  constructor(message = "L'organisation existe déjà.") {
     super(message);
   }
 }
@@ -86,7 +86,7 @@ class ManyOrganizationsFoundError extends DomainError {
 }
 
 class AlreadyExistingOrganizationInvitationError extends DomainError {
-  constructor(message = 'L\'invitation de l\'organisation existe déjà.') {
+  constructor(message = "L'invitation de l'organisation existe déjà.") {
     super(message);
   }
 }
@@ -98,7 +98,7 @@ class AlreadyRatedAssessmentError extends DomainError {
 }
 
 class AssessmentResultNotCreatedError extends DomainError {
-  constructor(message = 'L\'assessment result n\'a pas pu être généré.') {
+  constructor(message = "L'assessment result n'a pas pu être généré.") {
     super(message);
   }
 }
@@ -140,7 +140,7 @@ class CantImproveCampaignParticipationError extends DomainError {
 }
 
 class NoCampaignParticipationForUserAndCampaign extends DomainError {
-  constructor(message = 'L\'utilisateur n\'a pas encore participé à la campagne') {
+  constructor(message = "L'utilisateur n'a pas encore participé à la campagne") {
     super(message);
   }
 }
@@ -181,37 +181,37 @@ class MultipleSchoolingRegistrationsWithDifferentNationalStudentIdError extends 
 }
 
 class UserNotAuthorizedToUpdateCampaignError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à modifier cette campagne.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à modifier cette campagne.") {
     super(message);
   }
 }
 
 class UserNotAuthorizedToCreateCampaignError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à créer une campagne.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à créer une campagne.") {
     super(message);
   }
 }
 
 class UserNotAuthorizedToUpdateResourceError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à mettre à jour la ressource.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à mettre à jour la ressource.") {
     super(message);
   }
 }
 
 class UserNotAuthorizedToGetCampaignResultsError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à récupérer les résultats de la campagne.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à récupérer les résultats de la campagne.") {
     super(message);
   }
 }
 
 class UserNotAuthorizedToGetCertificationCoursesError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à récupérer ces certification courses.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à récupérer ces certification courses.") {
     super(message);
   }
 }
 
 class UserNotAuthorizedToGenerateUsernamePasswordError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à générer un identifiant et un mot de passe.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à générer un identifiant et un mot de passe.") {
     super(message);
   }
 }
@@ -223,7 +223,7 @@ class CertificationCourseUpdateError extends DomainError {
 }
 
 class CertificationCourseNotPublishableError extends DomainError {
-  constructor(message = 'Une Certification avec le statut \'started\' ou \'error\' ne peut-être publiée.') {
+  constructor(message = "Une Certification avec le statut 'started' ou 'error' ne peut-être publiée.") {
     super(message);
   }
 }
@@ -303,14 +303,14 @@ class AssessmentEndedError extends DomainError {
   getErrorMessage() {
     return {
       data: {
-        error: ['L\'évaluation est terminée. Nous n\'avons plus de questions à vous poser.'],
+        error: ["L'évaluation est terminée. Nous n'avons plus de questions à vous poser."],
       },
     };
   }
 }
 
 class CampaignCodeError extends DomainError {
-  constructor(message = 'Le code campagne n\'existe pas.') {
+  constructor(message = "Le code campagne n'existe pas.") {
     super(message);
   }
 }
@@ -328,20 +328,20 @@ class CertificationCandidateAlreadyLinkedToUserError extends DomainError {
 }
 
 class CertificationCandidateByPersonalInfoNotFoundError extends DomainError {
-  constructor(message = 'Aucun candidat de certification n\'a été trouvé avec ces informations.') {
+  constructor(message = "Aucun candidat de certification n'a été trouvé avec ces informations.") {
     super(message);
   }
 }
 
 class MatchingReconciledStudentNotFoundError extends DomainError {
-  constructor(message = 'Le candidat de certification ne correspond pas à l\'étudiant trouvé avec ces informations.') {
+  constructor(message = "Le candidat de certification ne correspond pas à l'étudiant trouvé avec ces informations.") {
     super(message);
     this.code = 'MATCHING_RECONCILED_STUDENT_NOT_FOUND';
   }
 }
 
 class CertificationCandidateByPersonalInfoTooManyMatchesError extends DomainError {
-  constructor(message = 'Plus d\'un candidat de certification a été trouvé avec ces informations.') {
+  constructor(message = "Plus d'un candidat de certification a été trouvé avec ces informations.") {
     super(message);
   }
 }
@@ -359,7 +359,9 @@ class CertificationCandidateDeletionError extends DomainError {
 }
 
 class CertificationCandidateMultipleUserLinksWithinSessionError extends DomainError {
-  constructor(message = 'Il est interdit de lier un utilisateur à plusieurs candidats de certification au sein d\'une même session.') {
+  constructor(
+    message = "Il est interdit de lier un utilisateur à plusieurs candidats de certification au sein d'une même session."
+  ) {
     super(message);
   }
 }
@@ -383,14 +385,14 @@ class CertificationCandidateForbiddenDeletionError extends DomainError {
 }
 
 class CertificationCandidatesImportError extends DomainError {
-  constructor({ message = 'Quelque chose s\'est mal passé. Veuillez réessayer', code = null } = {}) {
+  constructor({ message = "Quelque chose s'est mal passé. Veuillez réessayer", code = null } = {}) {
     super(message, code);
   }
 
   static fromInvalidCertificationCandidateError(error, keyLabelMap, lineNumber) {
     const label = error.key in keyLabelMap ? keyLabelMap[error.key].replace(/\* /, '') : 'none';
     const linePortion = `Ligne ${lineNumber} :`;
-    let contentPortion = 'Quelque chose s\'est mal passé. Veuillez réessayer';
+    let contentPortion = "Quelque chose s'est mal passé. Veuillez réessayer";
 
     if (error.why === 'not_a_date' || error.why === 'date_format') {
       contentPortion = `Le champ “${label}” doit être au format jj/mm/aaaa.`;
@@ -441,25 +443,25 @@ class ChallengeNotAskedError extends DomainError {
 
 class ChallengeToBeNeutralizedNotFoundError extends DomainError {
   constructor() {
-    super('La question à neutraliser n\'a pas été posée lors du test de certification');
+    super("La question à neutraliser n'a pas été posée lors du test de certification");
   }
 }
 
 class ChallengeToBeDeneutralizedNotFoundError extends DomainError {
   constructor() {
-    super('La question à dé-neutraliser n\'a pas été posée lors du test de certification');
+    super("La question à dé-neutraliser n'a pas été posée lors du test de certification");
   }
 }
 
 class CsvParsingError extends DomainError {
-  constructor(message = 'Les données n\'ont pas pu être parsées.') {
+  constructor(message = "Les données n'ont pas pu être parsées.") {
     super(message);
   }
 }
 
 class EntityValidationError extends DomainError {
   constructor({ invalidAttributes }) {
-    super('Échec de validation de l\'entité.');
+    super("Échec de validation de l'entité.");
     this.invalidAttributes = invalidAttributes;
   }
 
@@ -471,12 +473,10 @@ class EntityValidationError extends DomainError {
   }
 
   static fromMultipleEntityValidationErrors(entityValidationErrors) {
-    const invalidAttributes = entityValidationErrors.reduce(
-      (invalidAttributes, entityValidationError) => {
-        invalidAttributes.push(...entityValidationError.invalidAttributes);
-        return invalidAttributes;
-      },
-      []);
+    const invalidAttributes = entityValidationErrors.reduce((invalidAttributes, entityValidationError) => {
+      invalidAttributes.push(...entityValidationError.invalidAttributes);
+      return invalidAttributes;
+    }, []);
     return new EntityValidationError({ invalidAttributes });
   }
 }
@@ -532,7 +532,7 @@ class InvalidTemporaryKeyError extends DomainError {
 }
 
 class UnexpectedUserAccountError extends DomainError {
-  constructor({ message = 'Ce compte utilisateur n\'est pas celui qui est attendu.', code, meta }) {
+  constructor({ message = "Ce compte utilisateur n'est pas celui qui est attendu.", code, meta }) {
     super(message);
     this.code = code;
     this.meta = meta;
@@ -564,7 +564,7 @@ class MissingAssessmentId extends DomainError {
 }
 
 class AssessmentNotCompletedError extends DomainError {
-  constructor(message = 'Cette évaluation n\'est pas terminée.') {
+  constructor(message = "Cette évaluation n'est pas terminée.") {
     super(message);
   }
 }
@@ -594,7 +594,7 @@ class ObjectValidationError extends DomainError {
 }
 
 class UserCouldNotBeReconciledError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'a pas pu être rattaché à une organisation.') {
+  constructor(message = "Cet utilisateur n'a pas pu être rattaché à une organisation.") {
     super(message);
   }
 }
@@ -606,7 +606,7 @@ class UserShouldChangePasswordError extends DomainError {
 }
 
 class SchoolingRegistrationAlreadyLinkedToUserError extends DomainError {
-  constructor(message = 'L\'élève est déjà rattaché à un compte utilisateur.', code, meta) {
+  constructor(message = "L'élève est déjà rattaché à un compte utilisateur.", code, meta) {
     super(message);
     this.code = code;
     this.meta = meta;
@@ -626,7 +626,7 @@ class UserAlreadyExistsWithAuthenticationMethodError extends DomainError {
 }
 
 class UserNotAuthorizedToCreateResourceError extends DomainError {
-  constructor(message = 'Cet utilisateur n\'est pas autorisé à créer la ressource.') {
+  constructor(message = "Cet utilisateur n'est pas autorisé à créer la ressource.") {
     super(message);
   }
 }
@@ -638,7 +638,7 @@ class UserOrgaSettingsCreationError extends DomainError {
 }
 
 class UserNotMemberOfOrganizationError extends DomainError {
-  constructor(message = 'L\'utilisateur n\'est pas membre de l\'organisation.') {
+  constructor(message = "L'utilisateur n'est pas membre de l'organisation.") {
     super(message);
   }
 }
@@ -658,7 +658,7 @@ class PasswordNotMatching extends DomainError {
 }
 
 class PasswordResetDemandNotFoundError extends DomainError {
-  constructor(message = 'La demande de réinitialisation de mot de passe n\'existe pas.') {
+  constructor(message = "La demande de réinitialisation de mot de passe n'existe pas.") {
     super(message);
   }
 
@@ -684,7 +684,7 @@ class SessionAlreadyPublishedError extends DomainError {
 }
 
 class SessionNotAccessible extends DomainError {
-  constructor(message = 'La session de certification n\'est plus accessible.') {
+  constructor(message = "La session de certification n'est plus accessible.") {
     super(message);
   }
 }
@@ -746,19 +746,19 @@ class UserNotAuthorizedToCertifyError extends DomainError {
 }
 
 class UserNotAuthorizedToUpdatePasswordError extends DomainError {
-  constructor(message = 'L\'utilisateur n\'est pas autorisé à mettre à jour ce mot de passe.') {
+  constructor(message = "L'utilisateur n'est pas autorisé à mettre à jour ce mot de passe.") {
     super(message);
   }
 }
 
 class UserNotAuthorizedToRemoveAuthenticationMethod extends DomainError {
-  constructor(message = 'L\'utilisateur n\'est pas autorisé à supprimer cette méthode de connexion.') {
+  constructor(message = "L'utilisateur n'est pas autorisé à supprimer cette méthode de connexion.") {
     super(message);
   }
 }
 
 class SchoolingRegistrationDisabledError extends DomainError {
-  constructor(message = 'L\'inscription de l\'élève est désactivée dans l\'organisation.') {
+  constructor(message = "L'inscription de l'élève est désactivée dans l'organisation.") {
     super(message);
   }
 }
@@ -770,7 +770,7 @@ class SchoolingRegistrationNotFound extends NotFoundError {
 }
 
 class UserCantBeCreatedError extends DomainError {
-  constructor(message = 'L\'utilisateur ne peut pas être créé') {
+  constructor(message = "L'utilisateur ne peut pas être créé") {
     super(message);
   }
 }
@@ -790,7 +790,7 @@ class UserNotFoundError extends NotFoundError {
 }
 
 class UserAccountNotFoundForPoleEmploiError extends DomainError {
-  constructor({ message = 'L\'utilisateur n\'a pas de compte Pix', responseCode, authenticationKey }) {
+  constructor({ message = "L'utilisateur n'a pas de compte Pix", responseCode, authenticationKey }) {
     super(message);
     this.responseCode = responseCode;
     this.authenticationKey = authenticationKey;
@@ -798,7 +798,10 @@ class UserAccountNotFoundForPoleEmploiError extends DomainError {
 }
 
 class UnknownCountryForStudentEnrollmentError extends DomainError {
-  constructor({ firstName, lastName }, message = `L'élève ${firstName} ${lastName} a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix`) {
+  constructor(
+    { firstName, lastName },
+    message = `L'élève ${firstName} ${lastName} a été inscrit avec un code pays de naissance invalide. Veuillez corriger ses informations sur l'espace PixOrga de l'établissement ou contacter le support Pix`
+  ) {
     super(message);
   }
 }
@@ -866,13 +869,13 @@ class UnexpectedPoleEmploiStateError extends DomainError {
 }
 
 class YamlParsingError extends DomainError {
-  constructor(message = 'Une erreur s\'est produite lors de l\'interprétation des réponses.') {
+  constructor(message = "Une erreur s'est produite lors de l'interprétation des réponses.") {
     super(message);
   }
 }
 
 class InvalidExternalAPIResponseError extends DomainError {
-  constructor(message = 'L\'API externe a renvoyé une réponse incorrecte.') {
+  constructor(message = "L'API externe a renvoyé une réponse incorrecte.") {
     super(message);
   }
 }
@@ -890,13 +893,19 @@ class NoOrganizationToAttach extends DomainError {
 }
 
 class InvalidVerificationCodeError extends DomainError {
-  constructor(message = 'Le code de vérification renseigné ne correspond pas à celui enregistré.', code = 'INVALID_VERIFICATION_CODE') {
+  constructor(
+    message = 'Le code de vérification renseigné ne correspond pas à celui enregistré.',
+    code = 'INVALID_VERIFICATION_CODE'
+  ) {
     super(message, code);
   }
 }
 
 class EmailModificationDemandNotFoundOrExpiredError extends DomainError {
-  constructor(message = 'La demande de modification d\'adresse e-mail n\'existe pas ou est expirée.', code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND') {
+  constructor(
+    message = "La demande de modification d'adresse e-mail n'existe pas ou est expirée.",
+    code = 'EXPIRED_OR_NULL_EMAIL_MODIFICATION_DEMAND'
+  ) {
     super(message, code);
   }
 }

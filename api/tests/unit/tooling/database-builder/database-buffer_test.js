@@ -1,13 +1,13 @@
 const { expect } = require('../../../test-helper');
 const databaseBuffer = require('../../../../db/database-builder/database-buffer');
 
-describe('Unit | Tooling | DatabaseBuilder | database-buffer', function() {
-  afterEach(function() {
+describe('Unit | Tooling | DatabaseBuilder | database-buffer', function () {
+  afterEach(function () {
     databaseBuffer.objectsToInsert = [];
   });
 
-  describe('#getNextId', function() {
-    it('should return next incremental id', function() {
+  describe('#getNextId', function () {
+    it('should return next incremental id', function () {
       // when
       const idA = databaseBuffer.getNextId();
       const idB = databaseBuffer.getNextId();
@@ -19,9 +19,8 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', function() {
     });
   });
 
-  describe('#pushInsertable', function() {
-
-    it('should add an object to insert', function() {
+  describe('#pushInsertable', function () {
+    it('should add an object to insert', function () {
       // given
       const tableName = 'someTableName';
       const values = { id: 123, a: 'aVal', b: 'bVal' };
@@ -30,12 +29,10 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', function() {
       databaseBuffer.pushInsertable({ tableName, values });
 
       // then
-      expect(databaseBuffer.objectsToInsert).to.deep.equal([
-        { tableName, values },
-      ]);
+      expect(databaseBuffer.objectsToInsert).to.deep.equal([{ tableName, values }]);
     });
 
-    it('should return inserted values', function() {
+    it('should return inserted values', function () {
       // given
       const tableName = 'someTableName';
       const values = { id: 123, a: 'aVal', b: 'bVal' };
@@ -48,9 +45,8 @@ describe('Unit | Tooling | DatabaseBuilder | database-buffer', function() {
     });
   });
 
-  describe('#purge', function() {
-
-    it('should empty objectsToInsert array', function() {
+  describe('#purge', function () {
+    it('should empty objectsToInsert array', function () {
       // given
       databaseBuffer.objectsToInsert = ['someValue'];
 

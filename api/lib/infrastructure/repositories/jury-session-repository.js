@@ -8,8 +8,10 @@ const { PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR } = require('../../../db/pgsql-e
 
 const COLUMNS = Object.freeze([
   'sessions.*',
-  'certification-centers.type', 'certification-centers.externalId',
-  'users.firstName', 'users.lastName',
+  'certification-centers.type',
+  'certification-centers.externalId',
+  'users.firstName',
+  'users.lastName',
 ]);
 const ALIASED_COLUMNS = Object.freeze({
   juryCommentAuthorFirstName: 'jury-comment-authors.firstName',
@@ -17,7 +19,6 @@ const ALIASED_COLUMNS = Object.freeze({
 });
 
 module.exports = {
-
   async get(id) {
     const jurySessionDTO = await knex
       .select(COLUMNS)
@@ -29,7 +30,7 @@ module.exports = {
       .where('sessions.id', '=', id)
       .first();
     if (!jurySessionDTO) {
-      throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
     return _toDomain(jurySessionDTO);
   },
@@ -58,10 +59,7 @@ module.exports = {
 
   async assignCertificationOfficer({ id, assignedCertificationOfficerId }) {
     try {
-      await knex('sessions')
-        .where({ id })
-        .update({ assignedCertificationOfficerId })
-        .returning('*');
+      await knex('sessions').where({ id }).update({ assignedCertificationOfficerId }).returning('*');
       return this.get(id);
     } catch (error) {
       if (error.code === PGSQL_UNIQUE_CONSTRAINT_VIOLATION_ERROR) {
@@ -73,7 +71,6 @@ module.exports = {
 };
 
 function _toDomain(jurySessionFromDB) {
-
   let assignedCertificationOfficer = null;
   if (jurySessionFromDB.assignedCertificationOfficerId) {
     assignedCertificationOfficer = new CertificationOfficer({
@@ -105,16 +102,21 @@ function _toDomain(jurySessionFromDB) {
 }
 
 function _setupFilters(query, filters) {
-  const { id, certificationCenterName, status, resultsSentToPrescriberAt, certificationCenterExternalId, certificationCenterType } = filters;
+  const {
+    id,
+    certificationCenterName,
+    status,
+    resultsSentToPrescriberAt,
+    certificationCenterExternalId,
+    certificationCenterType,
+  } = filters;
 
   if (id) {
     query.where('sessions.id', id);
   }
 
   if (certificationCenterName) {
-    query.whereRaw(
-      'LOWER(??) LIKE ?', ['certificationCenter', '%' + certificationCenterName.toLowerCase() + '%'],
-    );
+    query.whereRaw('LOWER(??) LIKE ?', ['certificationCenter', '%' + certificationCenterName.toLowerCase() + '%']);
   }
 
   if (certificationCenterType) {
@@ -122,9 +124,10 @@ function _setupFilters(query, filters) {
   }
 
   if (certificationCenterExternalId) {
-    query.whereRaw(
-      'LOWER(??) LIKE ?', ['certification-centers.externalId', '%' + certificationCenterExternalId.toLowerCase() + '%'],
-    );
+    query.whereRaw('LOWER(??) LIKE ?', [
+      'certification-centers.externalId',
+      '%' + certificationCenterExternalId.toLowerCase() + '%',
+    ]);
   }
 
   if (resultsSentToPrescriberAt === true) {

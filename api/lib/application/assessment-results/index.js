@@ -7,10 +7,12 @@ exports.register = async (server) => {
       method: 'POST',
       path: '/api/admin/assessment-results',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: AssessmentResultController.save,
         tags: ['api'],
       },

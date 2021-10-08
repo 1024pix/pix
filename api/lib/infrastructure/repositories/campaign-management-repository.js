@@ -66,8 +66,6 @@ module.exports = {
       'customResultPageButtonText',
       'customResultPageButtonUrl',
     ]);
-    return knex('campaigns')
-      .where({ id: campaignId })
-      .update(editableAttributes);
+    return knex('campaigns').where({ id: campaignId }).update(editableAttributes);
   },
 };

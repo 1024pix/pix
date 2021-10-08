@@ -1,5 +1,3 @@
-module.exports = function findAllTags({
-  tagRepository,
-}) {
+module.exports = function findAllTags({ tagRepository }) {
   return tagRepository.findAll();
 };

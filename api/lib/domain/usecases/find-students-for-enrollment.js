@@ -34,7 +34,7 @@ module.exports = async function findStudentsForEnrollment({
 
 function _buildStudentsForEnrollment({ students, certificationCandidates }) {
   return students.map((student) =>
-    StudentForEnrollment.fromStudentsAndCertificationCandidates({ student, certificationCandidates }),
+    StudentForEnrollment.fromStudentsAndCertificationCandidates({ student, certificationCandidates })
   );
 }
 

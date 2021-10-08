@@ -8,7 +8,6 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 const { SHARED } = CampaignParticipation.statuses;
 
 async function findPaginatedByCampaignId({ page = {}, campaignId, filters = {} }) {
-
   const targetProfile = await targetProfileRepository.getByCampaignId({ campaignId });
   const { results, pagination } = await _getResultListPaginated(campaignId, targetProfile, filters, page);
 
@@ -24,7 +23,8 @@ async function _getResultListPaginated(campaignId, targetProfile, filters, page)
 }
 
 function _getParticipantsResultList(campaignId, targetProfile, filters) {
-  return knex.with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, targetProfile, filters))
+  return knex
+    .with('campaign_participation_summaries', (qb) => _getParticipations(qb, campaignId, targetProfile, filters))
     .select('*')
     .from('campaign_participation_summaries')
     .modify(_filterByBadgeAcquisitionsOut, filters)
@@ -38,14 +38,15 @@ function _getParticipations(qb, campaignId, targetProfile, filters) {
     'campaign-participations.participantExternalId',
     'campaign-participations.masteryRate',
     'campaign-participations.id AS campaignParticipationId',
-    'users.id AS userId',
+    'users.id AS userId'
   )
     .from('campaign-participations')
     .join('users', 'users.id', 'campaign-participations.userId')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('schooling-registrations', function() {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
-        .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+    .leftJoin('schooling-registrations', function () {
+      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
+        'campaigns.organizationId': 'schooling-registrations.organizationId',
+      });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.status', '=', SHARED)
@@ -64,9 +65,7 @@ function _filterByDivisions(qb, filters) {
 
 function _addAcquiredBadgeids(qb, filters) {
   if (filters.badges) {
-    qb.select(
-      knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'),
-    )
+    qb.select(knex.raw('ARRAY_AGG("badgeId") OVER (PARTITION BY "campaign-participations"."id") as badges_acquired'))
       .join('badge-acquisitions', 'badge-acquisitions.campaignParticipationId', 'campaign-participations.id')
       .distinct('campaign-participations.id');
   }
@@ -95,7 +94,6 @@ function _filterByStage(qb, targetProfile, filters) {
 }
 
 async function _buildCampaignAssessmentParticipationResultList(results) {
-
   return await bluebird.mapSeries(results, async (result) => {
     const badges = await getAcquiredBadges(result.campaignParticipationId);
 

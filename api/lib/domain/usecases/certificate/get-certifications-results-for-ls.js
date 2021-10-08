@@ -7,7 +7,6 @@ module.exports = async function getCertificationsResultsForLS({
   certificationLsRepository,
   competenceTreeRepository,
 }) {
-
   const [referential, certifications] = await Promise.all([
     competenceTreeRepository.get(),
     certificationLsRepository.getCertificatesByOrganizationUAI(uai),
@@ -18,7 +17,7 @@ module.exports = async function getCertificationsResultsForLS({
     competences.map((competence) => {
       const area = { id: code, name: title };
       return new Competence({ area, id: competence.index, name: competence.name });
-    }),
+    })
   );
   const sortedCompetences = sortBy(competences, 'id');
 

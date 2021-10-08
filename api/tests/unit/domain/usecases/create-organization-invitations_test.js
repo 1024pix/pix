@@ -4,45 +4,56 @@ const organizationInvitationService = require('../../../../lib/domain/services/o
 
 const createOrganizationInvitations = require('../../../../lib/domain/usecases/create-organization-invitations');
 
-describe('Unit | UseCase | create-organization-invitations', function() {
-
+describe('Unit | UseCase | create-organization-invitations', function () {
   let organizationInvitationRepository;
   let organizationRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     sinon.stub(organizationInvitationService, 'createOrganizationInvitation').resolves();
   });
 
-  describe('#createOrganizationInvitations', function() {
-
-    it('should create one organization-invitation with organizationId and email', async function() {
+  describe('#createOrganizationInvitations', function () {
+    it('should create one organization-invitation with organizationId and email', async function () {
       // given
       const organizationId = 1;
       const emails = ['member@organization.org'];
       const locale = 'fr-fr';
 
       // when
-      await createOrganizationInvitations({ organizationRepository, organizationInvitationRepository, organizationId, emails, locale });
+      await createOrganizationInvitations({
+        organizationRepository,
+        organizationInvitationRepository,
+        organizationId,
+        emails,
+        locale,
+      });
 
       // then
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledOnce;
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledWith({
-        organizationRepository, organizationInvitationRepository,
-        organizationId, email: emails[0], locale,
+        organizationRepository,
+        organizationInvitationRepository,
+        organizationId,
+        email: emails[0],
+        locale,
       });
     });
 
-    it('should delete spaces and duplicated emails, and create two organization-invitations', async function() {
+    it('should delete spaces and duplicated emails, and create two organization-invitations', async function () {
       // given
       const organizationId = 2;
       const emails = ['member01@organization.org', '   member01@organization.org', 'member02@organization.org'];
 
       // when
-      await createOrganizationInvitations({ organizationRepository, organizationInvitationRepository, organizationId, emails });
+      await createOrganizationInvitations({
+        organizationRepository,
+        organizationInvitationRepository,
+        organizationId,
+        emails,
+      });
 
       // then
       expect(organizationInvitationService.createOrganizationInvitation).to.has.been.calledTwice;
     });
   });
-
 });

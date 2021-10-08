@@ -1,32 +1,30 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 
 const moduleUnderTest = require('../../../../lib/application/organization-invitations/index');
 
 const organisationInvitationController = require('../../../../lib/application/organization-invitations/organization-invitation-controller');
 
-describe('Integration | Application | Organization-invitations | Routes', function() {
-
+describe('Integration | Application | Organization-invitations | Routes', function () {
   let httpTestServer;
 
-  beforeEach(async function() {
-    sinon.stub(organisationInvitationController, 'acceptOrganizationInvitation').callsFake((request, h) => h.response().code(204));
+  beforeEach(async function () {
+    sinon
+      .stub(organisationInvitationController, 'acceptOrganizationInvitation')
+      .callsFake((request, h) => h.response().code(204));
     sinon.stub(organisationInvitationController, 'sendScoInvitation').callsFake((request, h) => h.response().code(201));
-    sinon.stub(organisationInvitationController, 'getOrganizationInvitation').callsFake((request, h) => h.response().code(200));
+    sinon
+      .stub(organisationInvitationController, 'getOrganizationInvitation')
+      .callsFake((request, h) => h.response().code(200));
 
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/organization-invitations/:id/response', function() {
-
+  describe('POST /api/organization-invitations/:id/response', function () {
     const method = 'POST';
     const url = '/api/organization-invitations/1/response';
 
-    it('should return 200 when payload is valid', async function() {
+    it('should return 200 when payload is valid', async function () {
       // given
       const payload = {
         data: {
@@ -46,7 +44,7 @@ describe('Integration | Application | Organization-invitations | Routes', functi
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 400 when payload is missing', async function() {
+    it('should return 400 when payload is missing', async function () {
       // when
       const response = await httpTestServer.request(method, url);
 
@@ -55,12 +53,11 @@ describe('Integration | Application | Organization-invitations | Routes', functi
     });
   });
 
-  describe('POST /api/organization-invitations/sco', function() {
-
+  describe('POST /api/organization-invitations/sco', function () {
     const method = 'POST';
     const url = '/api/organization-invitations/sco';
 
-    it('should send invitation when payload is valid', async function() {
+    it('should send invitation when payload is valid', async function () {
       // given
       const payload = {
         data: {
@@ -80,7 +77,7 @@ describe('Integration | Application | Organization-invitations | Routes', functi
       expect(response.statusCode).to.equal(201);
     });
 
-    it('should return bad request when payload is not valid', async function() {
+    it('should return bad request when payload is not valid', async function () {
       // given
       const payload = {
         data: {
@@ -100,9 +97,8 @@ describe('Integration | Application | Organization-invitations | Routes', functi
     });
   });
 
-  describe('GET /api/organization-invitations/:id', function() {
-
-    it('should return 200 when query is valid', async function() {
+  describe('GET /api/organization-invitations/:id', function () {
+    it('should return 200 when query is valid', async function () {
       // when
       const response = await httpTestServer.request('GET', '/api/organization-invitations/1?code=DZWMP7L5UM');
 
@@ -110,7 +106,7 @@ describe('Integration | Application | Organization-invitations | Routes', functi
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return 400 when query is invalid', async function() {
+    it('should return 400 when query is invalid', async function () {
       // when
       const response = await httpTestServer.request('GET', '/api/organization-invitations/1');
 

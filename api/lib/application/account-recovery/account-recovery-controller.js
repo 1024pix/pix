@@ -3,7 +3,6 @@ const studentInformationForAccountRecoverySerializer = require('../../infrastruc
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
-
   async sendEmailForAccountRecovery(request, h) {
     const studentInformation = await studentInformationForAccountRecoverySerializer.deserialize(request.payload);
 
@@ -27,11 +26,9 @@ module.exports = {
         password,
         temporaryKey,
         domainTransaction,
-      },
-      );
+      });
     });
 
     return h.response().code(204);
   },
-
 };

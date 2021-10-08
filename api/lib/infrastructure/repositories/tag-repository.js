@@ -1,14 +1,10 @@
 const BookshelfTag = require('../orm-models/Tag');
 const bookshelfUtils = require('../utils/knex-utils');
 const bookshelfToDomainConverter = require('../utils/bookshelf-to-domain-converter');
-const {
-  AlreadyExistingEntityError,
-  NotFoundError,
-} = require('../../domain/errors');
+const { AlreadyExistingEntityError, NotFoundError } = require('../../domain/errors');
 const omit = require('lodash/omit');
 
 module.exports = {
-
   async create(tag) {
     try {
       const tagToCreate = omit(tag, 'id');
@@ -23,9 +19,7 @@ module.exports = {
   },
 
   async findByName({ name }) {
-    const tag = await BookshelfTag
-      .where({ name })
-      .fetch({ require: false });
+    const tag = await BookshelfTag.where({ name }).fetch({ require: false });
 
     return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
   },
@@ -33,21 +27,17 @@ module.exports = {
   async findAll() {
     const allTags = await BookshelfTag.fetchAll();
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfTag, allTags);
-
   },
 
   async get(id) {
     try {
-      const tag = await BookshelfTag
-        .where({ id })
-        .fetch();
+      const tag = await BookshelfTag.where({ id }).fetch();
       return bookshelfToDomainConverter.buildDomainObject(BookshelfTag, tag);
     } catch (err) {
       if (err instanceof BookshelfTag.NotFoundError) {
-        throw new NotFoundError('Le tag n\'existe pas');
+        throw new NotFoundError("Le tag n'existe pas");
       }
       throw err;
     }
   },
-
 };

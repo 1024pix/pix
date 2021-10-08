@@ -64,7 +64,8 @@ class AttestationViewModel {
 
     const maxLevel = `(niveaux sur ${certificate.maxReachableLevelOnCertificationDate})`;
     const maxReachableLevelIndication = `* À la date d’obtention de cette certification, le nombre maximum de pix atteignable était de ${certificate.maxReachableScore}, correspondant au niveau ${certificate.maxReachableLevelOnCertificationDate}.`;
-    const absoluteMaxLevelIndication = 'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.';
+    const absoluteMaxLevelIndication =
+      'Lorsque les 8 niveaux du référentiel Pix seront disponibles, ce nombre maximum sera de 1024 pix.';
 
     const verificationCode = certificate.verificationCode;
 
@@ -112,10 +113,7 @@ class AttestationViewModel {
 }
 
 class CompetenceDetailViewModel {
-  constructor({
-    level,
-    levelValue,
-  }) {
+  constructor({ level, levelValue }) {
     this.level = level;
     this._levelValue = levelValue;
   }

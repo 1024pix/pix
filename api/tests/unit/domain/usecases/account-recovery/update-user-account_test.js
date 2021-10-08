@@ -1,22 +1,22 @@
 const sinon = require('sinon');
-const {
-  expect,
-  domainBuilder,
-} = require('../../../../test-helper');
+const { expect, domainBuilder } = require('../../../../test-helper');
 const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
 const AuthenticationMethod = require('../../../../../lib/domain/models/AuthenticationMethod');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 
 const User = require('../../../../../lib/domain/models/User');
 
-describe('Unit | Usecases | update-user-account', function() {
-
-  let userRepository, authenticationMethodRepository, encryptionService, accountRecoveryDemandRepository, scoAccountRecoveryService;
+describe('Unit | Usecases | update-user-account', function () {
+  let userRepository,
+    authenticationMethodRepository,
+    encryptionService,
+    accountRecoveryDemandRepository,
+    scoAccountRecoveryService;
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const domainTransaction = Symbol();
 
-  beforeEach(function() {
+  beforeEach(function () {
     userRepository = {
       updateEmail: sinon.stub(),
       updateWithEmailConfirmed: sinon.stub(),
@@ -37,12 +37,13 @@ describe('Unit | Usecases | update-user-account', function() {
       findByTemporaryKey: sinon.stub(),
       findByUserId: sinon.stub(),
     };
-    DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
-
+    DomainTransaction.execute = (lambda) => {
+      return lambda(domainTransaction);
+    };
   });
 
-  context('when user has only GAR authentication method', function() {
-    it('should add PIX authentication method', async function() {
+  context('when user has only GAR authentication method', function () {
+    it('should add PIX authentication method', async function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -77,15 +78,17 @@ describe('Unit | Usecases | update-user-account', function() {
         }),
         userId: user.id,
       });
-      expect(authenticationMethodRepository.create).to.have.been.calledWith({
-        authenticationMethod: expectedAuthenticationMethodFromPIX },
-      domainTransaction,
+      expect(authenticationMethodRepository.create).to.have.been.calledWith(
+        {
+          authenticationMethod: expectedAuthenticationMethodFromPIX,
+        },
+        domainTransaction
       );
     });
   });
 
-  context('when user has either Pix authentication method or both GAR and Pix Authentication method', function() {
-    it('should change password', async function() {
+  context('when user has either Pix authentication method or both GAR and Pix Authentication method', function () {
+    it('should change password', async function () {
       // given
       const password = 'pix123';
       const hashedPassword = 'hashedpassword';
@@ -116,15 +119,17 @@ describe('Unit | Usecases | update-user-account', function() {
       });
 
       // then
-      expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWith({
-        userId: user.id,
-        hashedPassword,
-      },
-      domainTransaction);
+      expect(authenticationMethodRepository.updateChangedPassword).to.have.been.calledWith(
+        {
+          userId: user.id,
+          hashedPassword,
+        },
+        domainTransaction
+      );
     });
   });
 
-  it('should accept terms of service, update email and set date for confirmed email', async function() {
+  it('should accept terms of service, update email and set date for confirmed email', async function () {
     // given
     const temporaryKey = 'temporarykey';
     const password = 'pix123';
@@ -142,11 +147,13 @@ describe('Unit | Usecases | update-user-account', function() {
       identityProvider: AuthenticationMethod.identityProviders.PIX,
     });
 
-    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.withArgs({
-      temporaryKey,
-      accountRecoveryDemandRepository,
-      userRepository,
-    }).resolves({ userId: user.id, newEmail });
+    scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand
+      .withArgs({
+        temporaryKey,
+        accountRecoveryDemandRepository,
+        userRepository,
+      })
+      .resolves({ userId: user.id, newEmail });
     encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
     authenticationMethodRepository.findByUserId.withArgs({ userId: user.id }).resolves([authenticationMethodFromGAR]);
     const userUpdate = new User({
@@ -157,7 +164,9 @@ describe('Unit | Usecases | update-user-account', function() {
     });
     const userAttributes = { cgu: true, email: newEmail, emailConfirmedAt };
 
-    userRepository.updateWithEmailConfirmed.withArgs({ id: user.id, userAttributes, domainTransaction }).resolves(userUpdate);
+    userRepository.updateWithEmailConfirmed
+      .withArgs({ id: user.id, userAttributes, domainTransaction })
+      .resolves(userUpdate);
 
     // when
     await updateUserAccount({
@@ -174,6 +183,4 @@ describe('Unit | Usecases | update-user-account', function() {
     // then
     expect(accountRecoveryDemandRepository.markAsBeingUsed).to.have.been.calledWith(temporaryKey);
   });
-
 });
-

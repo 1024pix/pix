@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const Organization = require('../../../../lib/domain/models/Organization');
 const Tag = require('../../../../lib/domain/models/Tag');
 
-describe('Unit | Domain | Models | Organization', function() {
-
-  describe('constructor', function() {
-
-    it('should build an Organization from raw JSON', function() {
+describe('Unit | Domain | Models | Organization', function () {
+  describe('constructor', function () {
+    it('should build an Organization from raw JSON', function () {
       // given
       const rawData = {
         id: 1,
@@ -24,7 +22,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.name).to.equal('Lycée Jean Rostand');
     });
 
-    it('should build an Organization with targetProfile related', function() {
+    it('should build an Organization with targetProfile related', function () {
       // given
       const rawData = {
         id: 1,
@@ -45,7 +43,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.targetProfileShares.length).to.equal(1);
     });
 
-    it('should build an Organization with default values for credit, canCollectProfiles when not specified', function() {
+    it('should build an Organization with default values for credit, canCollectProfiles when not specified', function () {
       // given
       const rawData = {
         id: 1,
@@ -58,12 +56,10 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.credit).to.equal(0);
       expect(organization.canCollectProfiles).to.equal(false);
     });
-
   });
 
-  describe('get#isSco', function() {
-
-    it('should return true when organization is of type SCO', function() {
+  describe('get#isSco', function () {
+    it('should return true when organization is of type SCO', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SCO' });
 
@@ -71,7 +67,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isSco).is.true;
     });
 
-    it('should return false when organization is not of type SCO', function() {
+    it('should return false when organization is not of type SCO', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SUP' });
 
@@ -80,9 +76,8 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isSup', function() {
-
-    it('should return true when organization is of type SUP', function() {
+  describe('get#isSup', function () {
+    it('should return true when organization is of type SUP', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SUP' });
 
@@ -90,7 +85,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isSup).is.true;
     });
 
-    it('should return false when organization is not of type SUP', function() {
+    it('should return false when organization is not of type SUP', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'PRO' });
 
@@ -99,9 +94,8 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isPro', function() {
-
-    it('should return true when organization is of type PRO', function() {
+  describe('get#isPro', function () {
+    it('should return true when organization is of type PRO', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'PRO' });
 
@@ -109,7 +103,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isPro).is.true;
     });
 
-    it('should return false when organization is not of type PRO', function() {
+    it('should return false when organization is not of type PRO', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SCO' });
 
@@ -118,10 +112,9 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isAgriculture', function() {
-
-    context('when organization is not SCO', function() {
-      it('should return false when the organization has the "AGRICULTURE" tag', function() {
+  describe('get#isAgriculture', function () {
+    context('when organization is not SCO', function () {
+      it('should return false when the organization has the "AGRICULTURE" tag', function () {
         // given
         const tag = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
         const organization = domainBuilder.buildOrganization({ type: 'SUP', tags: [tag] });
@@ -131,8 +124,8 @@ describe('Unit | Domain | Models | Organization', function() {
       });
     });
 
-    context('when organization is SCO', function() {
-      it('should return true when organization is of type SCO and has the "AGRICULTURE" tag', function() {
+    context('when organization is SCO', function () {
+      it('should return true when organization is of type SCO and has the "AGRICULTURE" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -142,7 +135,7 @@ describe('Unit | Domain | Models | Organization', function() {
         expect(organization.isAgriculture).is.true;
       });
 
-      it('should return false when when organization is of type SCO and has not the "AGRICULTURE" tag', function() {
+      it('should return false when when organization is of type SCO and has not the "AGRICULTURE" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -154,8 +147,8 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isPoleEmploi', function() {
-    it('should return false when the organization has not the "POLE_EMPLOI" tag', function() {
+  describe('get#isPoleEmploi', function () {
+    it('should return false when the organization has not the "POLE_EMPLOI" tag', function () {
       // given
       const tag = domainBuilder.buildTag({ name: Tag.AGRICULTURE });
       const organization = domainBuilder.buildOrganization({ tags: [tag] });
@@ -164,7 +157,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isPoleEmploi).is.false;
     });
 
-    it('should return true when organization has the "POLE_EMPLOI" tag', function() {
+    it('should return true when organization has the "POLE_EMPLOI" tag', function () {
       // given
       const tag1 = domainBuilder.buildTag({ name: Tag.POLE_EMPLOI });
       const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -175,9 +168,9 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isAEFE', function() {
-    context('when organization is not SCO', function() {
-      it('should return false when the organization has the "AEFE" tag', function() {
+  describe('get#isAEFE', function () {
+    context('when organization is not SCO', function () {
+      it('should return false when the organization has the "AEFE" tag', function () {
         // given
         const tag = domainBuilder.buildTag({ name: Tag.AEFE });
         const organization = domainBuilder.buildOrganization({ type: 'SUP', tags: [tag] });
@@ -187,8 +180,8 @@ describe('Unit | Domain | Models | Organization', function() {
       });
     });
 
-    context('when organization is SCO', function() {
-      it('should return true when organization is of type SCO and has the "AEFE" tag', function() {
+    context('when organization is SCO', function () {
+      it('should return true when organization is of type SCO and has the "AEFE" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: Tag.AEFE });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -198,7 +191,7 @@ describe('Unit | Domain | Models | Organization', function() {
         expect(organization.isAEFE).is.true;
       });
 
-      it('should return false when when organization is of type SCO and has not the "AEFE" tag', function() {
+      it('should return false when when organization is of type SCO and has not the "AEFE" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -210,9 +203,9 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isMLF', function() {
-    context('when organization is not SCO', function() {
-      it('should return false when the organization has the "MLF" tag', function() {
+  describe('get#isMLF', function () {
+    context('when organization is not SCO', function () {
+      it('should return false when the organization has the "MLF" tag', function () {
         // given
         const tag = domainBuilder.buildTag({ name: Tag.MLF });
         const organization = domainBuilder.buildOrganization({ type: 'SUP', tags: [tag] });
@@ -222,8 +215,8 @@ describe('Unit | Domain | Models | Organization', function() {
       });
     });
 
-    context('when organization is SCO', function() {
-      it('should return true when organization is of type SCO and has the "MLF" tag', function() {
+    context('when organization is SCO', function () {
+      it('should return true when organization is of type SCO and has the "MLF" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: Tag.MLF });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -233,7 +226,7 @@ describe('Unit | Domain | Models | Organization', function() {
         expect(organization.isMLF).is.true;
       });
 
-      it('should return false when when organization is of type SCO and has not the "MLF" tag', function() {
+      it('should return false when when organization is of type SCO and has not the "MLF" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -245,9 +238,9 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isMediationNumerique', function() {
-    context('when organization is not PRO', function() {
-      it('should return false when the organization has the "MEDIATION_NUMERIQUE" tag', function() {
+  describe('get#isMediationNumerique', function () {
+    context('when organization is not PRO', function () {
+      it('should return false when the organization has the "MEDIATION_NUMERIQUE" tag', function () {
         // given
         const tag = domainBuilder.buildTag({ name: Tag.MEDIATION_NUMERIQUE });
         const organization = domainBuilder.buildOrganization({ type: 'SCO', tags: [tag] });
@@ -257,8 +250,8 @@ describe('Unit | Domain | Models | Organization', function() {
       });
     });
 
-    context('when organization is PRO', function() {
-      it('should return true when organization is of type SCO and has the "MEDIATION_NUMERIQUE" tag', function() {
+    context('when organization is PRO', function () {
+      it('should return true when organization is of type SCO and has the "MEDIATION_NUMERIQUE" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: Tag.MEDIATION_NUMERIQUE });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -268,7 +261,7 @@ describe('Unit | Domain | Models | Organization', function() {
         expect(organization.isMediationNumerique).is.true;
       });
 
-      it('should return false when when organization is of type PRO and has not the "MEDIATION_NUMERIQUE" tag', function() {
+      it('should return false when when organization is of type PRO and has not the "MEDIATION_NUMERIQUE" tag', function () {
         // given
         const tag1 = domainBuilder.buildTag({ name: 'To infinity…and beyond!' });
         const tag2 = domainBuilder.buildTag({ name: 'OTHER' });
@@ -280,9 +273,8 @@ describe('Unit | Domain | Models | Organization', function() {
     });
   });
 
-  describe('get#isScoAngManagingStudents', function() {
-
-    it('should return true when organization is of type SCO and is managing student', function() {
+  describe('get#isScoAngManagingStudents', function () {
+    it('should return true when organization is of type SCO and is managing student', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: true });
 
@@ -290,7 +282,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isScoAndManagingStudents).is.true;
     });
 
-    it('should return false when organization is not of type SCO', function() {
+    it('should return false when organization is not of type SCO', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SUP' });
 
@@ -298,7 +290,7 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isScoAndManagingStudents).is.false;
     });
 
-    it('should return false when organization is not managingStudent', function() {
+    it('should return false when organization is not managingStudent', function () {
       // given
       const organization = domainBuilder.buildOrganization({ type: 'SCO', isManagingStudents: false });
 
@@ -306,5 +298,4 @@ describe('Unit | Domain | Models | Organization', function() {
       expect(organization.isScoAndManagingStudents).is.false;
     });
   });
-
 });

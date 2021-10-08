@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(finalizedSessions) {
     return new Serializer('with-required-action-session', {
       transform(finalizedSession) {

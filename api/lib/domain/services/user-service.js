@@ -2,10 +2,7 @@ const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 const AuthenticationMethod = require('../../domain/models/AuthenticationMethod');
 
-function _buildPasswordAuthenticationMethod({
-  userId,
-  hashedPassword,
-}) {
+function _buildPasswordAuthenticationMethod({ userId, hashedPassword }) {
   return new AuthenticationMethod({
     userId,
     identityProvider: AuthenticationMethod.identityProviders.PIX,
@@ -16,10 +13,7 @@ function _buildPasswordAuthenticationMethod({
   });
 }
 
-function _buildGARAuthenticationMethod({
-  externalIdentifier,
-  userId,
-}) {
+function _buildGARAuthenticationMethod({ externalIdentifier, userId }) {
   return new AuthenticationMethod({
     externalIdentifier,
     identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -28,12 +22,7 @@ function _buildGARAuthenticationMethod({
   });
 }
 
-async function createUserWithPassword({
-  user,
-  hashedPassword,
-  userRepository,
-  authenticationMethodRepository,
-}) {
+async function createUserWithPassword({ user, hashedPassword, userRepository, authenticationMethodRepository }) {
   let savedUser;
 
   await DomainTransaction.execute(async (domainTransaction) => {

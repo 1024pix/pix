@@ -9,7 +9,6 @@ module.exports = function buildTargetProfileShare({
   organizationId,
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
   targetProfileId = _.isUndefined(targetProfileId) ? buildTargetProfile().id : targetProfileId;
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
 

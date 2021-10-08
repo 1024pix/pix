@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-center-serializer');
 
-describe('Unit | Serializer | JSONAPI | certification-center-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Certification Center model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-center-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Certification Center model object into JSON API data', function () {
       // given
       const accreditation = domainBuilder.buildAccreditation({
         id: 1,
@@ -17,7 +15,7 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
         type: 'SCO',
         createdAt: new Date('2018-01-01T05:43:10Z'),
         externalId: '12345',
-        accreditations: [ accreditation ],
+        accreditations: [accreditation],
       });
 
       const expectedSerializedCertificationCenter = {
@@ -65,9 +63,8 @@ describe('Unit | Serializer | JSONAPI | certification-center-serializer', functi
     });
   });
 
-  describe('#deserialize', function() {
-
-    it('should convert JSON API certification center data into a Certification Center model object', function() {
+  describe('#deserialize', function () {
+    it('should convert JSON API certification center data into a Certification Center model object', function () {
       // given
       const jsonApi = {
         data: {

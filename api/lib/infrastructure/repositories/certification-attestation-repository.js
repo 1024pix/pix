@@ -2,8 +2,12 @@ const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const CertificationAttestation = require('../../domain/models/CertificationAttestation');
 const CleaCertificationResult = require('../../../lib/domain/models/CleaCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const AssessmentResult = require('../../domain/models/AssessmentResult');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const competenceTreeRepository = require('./competence-tree-repository');
@@ -34,29 +38,46 @@ module.exports = {
     const cleaCertificationImagePath = await _getCleaCertificationImagePath(certificationCourseDTO.id);
     const pixPlusDroitCertificationImagePath = await _getPixPlusDroitCertificationImagePath(certificationCourseDTO.id);
 
-    return _toDomain(certificationCourseDTO, competenceTree, cleaCertificationImagePath, pixPlusDroitCertificationImagePath);
+    return _toDomain(
+      certificationCourseDTO,
+      competenceTree,
+      cleaCertificationImagePath,
+      pixPlusDroitCertificationImagePath
+    );
   },
 
   async findByDivisionForScoIsManagingStudentsOrganization({ organizationId, division }) {
     const certificationCourseDTOs = await _selectCertificationAttestations()
       .select({ schoolingRegistrationId: 'schooling-registrations.id' })
-      .innerJoin('certification-candidates', function() {
-        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' })
-          .andOn({ 'certification-candidates.userId': 'certification-courses.userId' });
+      .innerJoin('certification-candidates', function () {
+        this.on({ 'certification-candidates.sessionId': 'certification-courses.sessionId' }).andOn({
+          'certification-candidates.userId': 'certification-courses.userId',
+        });
       })
-      .innerJoin('schooling-registrations', 'schooling-registrations.id', 'certification-candidates.schoolingRegistrationId')
+      .innerJoin(
+        'schooling-registrations',
+        'schooling-registrations.id',
+        'certification-candidates.schoolingRegistrationId'
+      )
       .innerJoin('organizations', 'organizations.id', 'schooling-registrations.organizationId')
       .where('schooling-registrations.organizationId', '=', organizationId)
       .whereRaw('LOWER("schooling-registrations"."division") = ?', division.toLowerCase())
       .whereRaw('"certification-candidates"."userId" = "certification-courses"."userId"')
       .whereRaw('"certification-candidates"."sessionId" = "certification-courses"."sessionId"')
       .modify(_checkOrganizationIsScoIsManagingStudents)
-      .groupBy('schooling-registrations.id', 'certification-courses.id', 'sessions.id', 'assessments.id', 'assessment-results.id')
+      .groupBy(
+        'schooling-registrations.id',
+        'certification-courses.id',
+        'sessions.id',
+        'assessments.id',
+        'assessment-results.id'
+      )
       .orderBy('certification-courses.createdAt', 'DESC');
 
     const competenceTree = await competenceTreeRepository.get();
 
-    const mostRecentCertificationsPerSchoolingRegistration = _filterMostRecentCertificationCoursePerSchoolingRegistration(certificationCourseDTOs);
+    const mostRecentCertificationsPerSchoolingRegistration =
+      _filterMostRecentCertificationCoursePerSchoolingRegistration(certificationCourseDTOs);
     return _(mostRecentCertificationsPerSchoolingRegistration)
       .orderBy(['lastName', 'firstName'], ['asc', 'asc'])
       .map((certificationCourseDTO) => {
@@ -87,8 +108,7 @@ function _selectCertificationAttestations() {
         json_agg(
           json_build_object('score', "competence-marks".score, 'level', "competence-marks".level, 'competence_code', "competence-marks"."competence_code")
           ORDER BY "competence-marks"."competence_code" asc
-        )`,
-      ),
+        )`),
     })
     .from('certification-courses')
     .join('assessments', 'assessments.certificationCourseId', 'certification-courses.id')
@@ -103,19 +123,18 @@ function _selectCertificationAttestations() {
 function _filterMostRecentValidatedAssessmentResult(qb) {
   return qb
     .whereNotExists(
-      knex.select(1)
+      knex
+        .select(1)
         .from({ 'last-assessment-results': 'assessment-results' })
         .where('last-assessment-results.status', AssessmentResult.status.VALIDATED)
         .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
+        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
     )
     .where('assessment-results.status', AssessmentResult.status.VALIDATED);
 }
 
 function _checkOrganizationIsScoIsManagingStudents(qb) {
-  return qb
-    .where('organizations.type', 'SCO')
-    .where('organizations.isManagingStudents', true);
+  return qb.where('organizations.type', 'SCO').where('organizations.isManagingStudents', true);
 }
 
 function _filterMostRecentCertificationCoursePerSchoolingRegistration(DTOs) {
@@ -133,7 +152,7 @@ async function _getCleaCertificationImagePath(certificationCourseId) {
     .select('partnerKey')
     .from('partner-certifications')
     .where({ certificationCourseId, acquired: true })
-    .whereIn('partnerKey', [ CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2 ])
+    .whereIn('partnerKey', [CleaCertificationResult.badgeKeyV1, CleaCertificationResult.badgeKeyV2])
     .first();
 
   if (!result) return null;
@@ -154,10 +173,15 @@ async function _getPixPlusDroitCertificationImagePath(certificationCourseId) {
   if (result.partnerKey === pixPlusDroitExpertBadgeKey) return macaronPixPlusDroitExpertPath;
 }
 
-function _toDomain(certificationCourseDTO, competenceTree, cleaCertificationImagePath, pixPlusDroitCertificationImagePath) {
-
-  const competenceMarks = _.compact(certificationCourseDTO.competenceMarks)
-    .map((competenceMark) => new CompetenceMark({ ...competenceMark }));
+function _toDomain(
+  certificationCourseDTO,
+  competenceTree,
+  cleaCertificationImagePath,
+  pixPlusDroitCertificationImagePath
+) {
+  const competenceMarks = _.compact(certificationCourseDTO.competenceMarks).map(
+    (competenceMark) => new CompetenceMark({ ...competenceMark })
+  );
 
   const resultCompetenceTree = ResultCompetenceTree.generateTreeFromCompetenceMarks({
     competenceTree,

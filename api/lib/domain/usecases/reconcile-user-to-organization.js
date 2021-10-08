@@ -18,7 +18,8 @@ module.exports = async function reconcileUserToOrganization({
     throw new UserCouldNotBeReconciledError();
   }
 
-  const nationalStudentIdForReconcile = _.orderBy(studentSchoolingRegistrations, 'updatedAt', 'desc')[0].nationalStudentId;
+  const nationalStudentIdForReconcile = _.orderBy(studentSchoolingRegistrations, 'updatedAt', 'desc')[0]
+    .nationalStudentId;
 
   return schoolingRegistrationRepository.reconcileUserByNationalStudentIdAndOrganizationId({
     userId,

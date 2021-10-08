@@ -5,11 +5,7 @@ const { SchoolingRegistrationsCouldNotBeSavedError } = require('../../lib/domain
 const { knex } = require('../../lib/infrastructure/bookshelf');
 
 function _buildSchoolingRegistration(division, organizationId, iteration) {
-  const birthdates = [
-    '2001-01-05',
-    '2002-11-15',
-    '1995-06-25',
-  ];
+  const birthdates = ['2001-01-05', '2002-11-15', '1995-06-25'];
   return new SchoolingRegistration({
     firstName: `someFirstName${iteration}`,
     lastName: `someLastName${iteration}`,
@@ -22,7 +18,12 @@ function _buildSchoolingRegistration(division, organizationId, iteration) {
 async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivisions, organizationId) {
   const divisions = [];
   for (let i = 0; i < numberOfDivisions; ++i) {
-    const letters = randomString.generate({ length: 2, charset: 'alphabetic', capitalization: 'uppercase', readable: true });
+    const letters = randomString.generate({
+      length: 2,
+      charset: 'alphabetic',
+      capitalization: 'uppercase',
+      readable: true,
+    });
     const numbers = randomString.generate({ length: 1, charset: 'numeric', readable: true });
 
     const generatedDivision = letters.concat(numbers);
@@ -35,12 +36,13 @@ async function addManyDivisionsAndStudentsToScoCertificationCenter(numberOfDivis
   const numberOfStudentsPerDivision = 30;
 
   const manyStudents = _.flatMap(divisions, (division) => {
-    return _.times(numberOfStudentsPerDivision, (iteration) => _buildSchoolingRegistration(division, organizationId, iteration));
+    return _.times(numberOfStudentsPerDivision, (iteration) =>
+      _buildSchoolingRegistration(division, organizationId, iteration)
+    );
   });
 
   try {
-    await knex
-      .batchInsert('schooling-registrations', manyStudents);
+    await knex.batchInsert('schooling-registrations', manyStudents);
   } catch (err) {
     throw new SchoolingRegistrationsCouldNotBeSavedError();
   }
@@ -63,7 +65,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

@@ -2,8 +2,7 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 const findPaginatedCertificationCenterSessionSummaries = require('../../../../lib/domain/usecases/find-paginated-certification-center-session-summaries');
 
-describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', function() {
-
+describe('Unit | Domain | Use Cases | find-paginated-certification-center-session-summaries', function () {
   const sessionSummaryRepository = {
     findPaginatedByCertificationCenterId: () => undefined,
   };
@@ -12,18 +11,20 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
     getWithCertificationCenterMemberships: () => undefined,
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     sessionSummaryRepository.findPaginatedByCertificationCenterId = sinon.stub();
     userRepository.getWithCertificationCenterMemberships = sinon.stub();
   });
 
-  context('when user is not a member of the certification center', function() {
-
-    it('should throw a Forbidden Access error', async function() {
+  context('when user is not a member of the certification center', function () {
+    it('should throw a Forbidden Access error', async function () {
       // given
       const user = domainBuilder.buildUser();
       const certificationCenter = domainBuilder.buildCertificationCenter({ id: 789 });
-      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({ user, certificationCenter });
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+        user,
+        certificationCenter,
+      });
       user.certificationCenterMemberships = [certificationCenterMembership];
       userRepository.getWithCertificationCenterMemberships.withArgs(123).resolves(user);
       sessionSummaryRepository.findPaginatedByCertificationCenterId.rejects(new Error('should not be called'));
@@ -43,13 +44,15 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
     });
   });
 
-  context('when user is a member of the certification center', function() {
-
-    it('should return session summaries', async function() {
+  context('when user is a member of the certification center', function () {
+    it('should return session summaries', async function () {
       // given
       const user = domainBuilder.buildUser();
       const certificationCenter = domainBuilder.buildCertificationCenter({ id: 456 });
-      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({ user, certificationCenter });
+      const certificationCenterMembership = domainBuilder.buildCertificationCenterMembership({
+        user,
+        certificationCenter,
+      });
       user.certificationCenterMemberships = [certificationCenterMembership];
       userRepository.getWithCertificationCenterMemberships.withArgs(123).resolves(user);
       const sessionSummaries = Symbol('session-summaries');
@@ -58,7 +61,8 @@ describe('Unit | Domain | Use Cases | find-paginated-certification-center-sessio
         .withArgs({
           certificationCenterId: 456,
           page: 'pagination-info',
-        }).resolves({
+        })
+        .resolves({
           models: sessionSummaries,
           meta,
         });

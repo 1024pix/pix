@@ -16,7 +16,6 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 const usecases = require('../../domain/usecases');
 
 module.exports = {
-
   save(request, h) {
     const campaignCode = request.payload.meta ? request.payload.meta['campaign-code'] : null;
     const user = userSerializer.deserialize(request.payload);
@@ -24,12 +23,13 @@ module.exports = {
 
     const password = request.payload.data.attributes.password;
 
-    return usecases.createUser({
-      user,
-      password,
-      campaignCode,
-      locale,
-    })
+    return usecases
+      .createUser({
+        user,
+        password,
+        campaignCode,
+        locale,
+      })
       .then((savedUser) => {
         return h.response(userSerializer.serialize(savedUser)).created();
       });
@@ -38,8 +38,7 @@ module.exports = {
   getCurrentUser(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getCurrentUser({ authenticatedUserId })
-      .then(userSerializer.serialize);
+    return usecases.getCurrentUser({ authenticatedUserId }).then(userSerializer.serialize);
   },
 
   async getUserDetailsForAdmin(request) {
@@ -149,14 +148,18 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const challengeType = request.params.challengeType;
 
-    const updatedUser = await usecases.rememberUserHasSeenChallengeTooltip({ userId: authenticatedUserId, challengeType });
+    const updatedUser = await usecases.rememberUserHasSeenChallengeTooltip({
+      userId: authenticatedUserId,
+      challengeType,
+    });
     return userSerializer.serialize(updatedUser);
   },
 
   getMemberships(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.getUserWithMemberships({ userId: authenticatedUserId })
+    return usecases
+      .getUserWithMemberships({ userId: authenticatedUserId })
       .then((user) => membershipSerializer.serialize(user.memberships));
   },
 
@@ -173,7 +176,8 @@ module.exports = {
   getCampaignParticipations(request) {
     const authenticatedUserId = request.auth.credentials.userId;
 
-    return usecases.findLatestOngoingUserCampaignParticipations({ userId: authenticatedUserId })
+    return usecases
+      .findLatestOngoingUserCampaignParticipations({ userId: authenticatedUserId })
       .then(campaignParticipationSerializer.serialize);
   },
 
@@ -201,23 +205,22 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const locale = extractLocaleFromRequest(request);
 
-    return usecases.getUserProfile({ userId: authenticatedUserId, locale })
-      .then(profileSerializer.serialize);
+    return usecases.getUserProfile({ userId: authenticatedUserId, locale }).then(profileSerializer.serialize);
   },
 
   resetScorecard(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const competenceId = request.params.competenceId;
 
-    return usecases.resetScorecard({ userId: authenticatedUserId, competenceId })
-      .then(scorecardSerializer.serialize);
+    return usecases.resetScorecard({ userId: authenticatedUserId, competenceId }).then(scorecardSerializer.serialize);
   },
 
   getUserCampaignParticipationToCampaign(request) {
     const authenticatedUserId = request.auth.credentials.userId;
     const campaignId = request.params.campaignId;
 
-    return usecases.getUserCampaignParticipationToCampaign({ userId: authenticatedUserId, campaignId })
+    return usecases
+      .getUserCampaignParticipationToCampaign({ userId: authenticatedUserId, campaignId })
       .then((campaignParticipation) => campaignParticipationSerializer.serialize(campaignParticipation));
   },
 

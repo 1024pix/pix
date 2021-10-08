@@ -1,10 +1,5 @@
 class TargetedSkill {
-  constructor({
-    id,
-    name,
-    tubeId,
-    tutorialIds,
-  } = {}) {
+  constructor({ id, name, tubeId, tutorialIds } = {}) {
     this.id = id;
     this.name = name;
     this.tubeId = tubeId;

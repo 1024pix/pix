@@ -24,15 +24,23 @@ module.exports = function buildUser({
   certificationCenterMemberships = [buildCertificationCenterMembership()],
   authenticationMethods = [buildAuthenticationMethod()],
 } = {}) {
-
   return new User({
-    id, firstName, lastName, email, username,
+    id,
+    firstName,
+    lastName,
+    email,
+    username,
     cgu,
     lang,
-    lastTermsOfServiceValidatedAt, mustValidateTermsOfService,
-    pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
-    hasSeenAssessmentInstructions, isAnonymous,
-    pixRoles, memberships, certificationCenterMemberships,
+    lastTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    isAnonymous,
+    pixRoles,
+    memberships,
+    certificationCenterMemberships,
     authenticationMethods,
   });
 };

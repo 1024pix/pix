@@ -2,11 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/to-be-published-session-serializer');
 const FinalizedSession = require('../../../../../lib/domain/models/FinalizedSession');
 
-describe('Unit | Serializer | JSONAPI | to-be-published-session-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a FinalizedSession model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | to-be-published-session-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a FinalizedSession model object into JSON API data', function () {
       // given
       const expectedJsonApi = {
         data: {
@@ -38,7 +36,5 @@ describe('Unit | Serializer | JSONAPI | to-be-published-session-serializer', fun
       // then
       expect(json).to.deep.equal(expectedJsonApi);
     });
-
   });
-
 });

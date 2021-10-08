@@ -7,7 +7,6 @@ module.exports = function buildCertificationCenter({
   externalId = 'EX123',
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
   const values = {
     id,
     name,

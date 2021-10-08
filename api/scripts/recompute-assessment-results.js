@@ -3,21 +3,21 @@ const request = require('request-promise-native');
 const { batch } = require('../db/batch-processing');
 
 function compute(listOfAssessmentsToRecompute, request) {
-
   return batch(null, listOfAssessmentsToRecompute, (assessmentId) => {
     return request({
       method: 'POST',
       uri: 'https://api.pix.fr/api/assessment-results?recompute=true',
       body: {
-        'data': {
-          'relationships': {
-            'assessment': {
-              'data': {
-                'type': 'assessments',
-                'id': assessmentId,
+        data: {
+          relationships: {
+            assessment: {
+              data: {
+                type: 'assessments',
+                id: assessmentId,
               },
             },
-          }, 'type': 'assessment-results',
+          },
+          type: 'assessment-results',
         },
       },
       json: true,
@@ -39,14 +39,13 @@ function main() {
   });
 
   const listOfAssessmentIdsToRecompute = [];
-  lineReader.on('line', function(line) {
+  lineReader.on('line', function (line) {
     listOfAssessmentIdsToRecompute.push(line);
   });
 
   lineReader.on('close', () => {
     compute(listOfAssessmentIdsToRecompute, request);
   });
-
 }
 
 if (require.main === module) {

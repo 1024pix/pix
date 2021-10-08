@@ -3,7 +3,7 @@ const CampaignParticipationStarted = require('./CampaignParticipationStarted');
 const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/PoleEmploiPayload');
 const PoleEmploiSending = require('../models/PoleEmploiSending');
 
-const eventTypes = [ CampaignParticipationStarted ];
+const eventTypes = [CampaignParticipationStarted];
 
 async function handlePoleEmploiParticipationStarted({
   event,
@@ -24,7 +24,6 @@ async function handlePoleEmploiParticipationStarted({
   const organization = await organizationRepository.get(campaign.organizationId);
 
   if (campaign.isAssessment() && organization.isPoleEmploi) {
-
     const user = await userRepository.get(participation.userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
 

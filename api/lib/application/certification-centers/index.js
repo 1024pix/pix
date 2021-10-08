@@ -3,22 +3,23 @@ const securityPreHandlers = require('../security-pre-handlers');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
-
     {
       method: 'POST',
       path: '/api/certification-centers',
       config: {
         handler: certificationCenterController.save,
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
-          '- Création d‘un nouveau centre de certification\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+            '- Création d‘un nouveau centre de certification\n' +
+            '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -28,14 +29,16 @@ exports.register = async function(server) {
       path: '/api/certification-centers/{id}',
       config: {
         handler: certificationCenterController.save,
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
-          '- Création d‘un nouveau centre de certification\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+            '- Création d‘un nouveau centre de certification\n' +
+            '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -45,14 +48,16 @@ exports.register = async function(server) {
       path: '/api/certification-centers',
       config: {
         handler: certificationCenterController.findPaginatedFilteredCertificationCenters,
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
-          '- Liste des centres de certification\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+            '- Liste des centres de certification\n' +
+            '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -61,10 +66,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.certificationCenterId,
@@ -73,8 +80,8 @@ exports.register = async function(server) {
         handler: certificationCenterController.getById,
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
-          '- Récupération d\'un centre de certification\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+            "- Récupération d'un centre de certification\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
         tags: ['api', 'certification-center'],
       },
@@ -97,7 +104,7 @@ exports.register = async function(server) {
         handler: certificationCenterController.getStudents,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération d\'une liste d\'élèves SCO à partir d\'un identifiant de centre de certification',
+            "- Récupération d'une liste d'élèves SCO à partir d'un identifiant de centre de certification",
         ],
         tags: ['api', 'certification-center', 'students', 'session'],
       },
@@ -114,7 +121,7 @@ exports.register = async function(server) {
         handler: certificationCenterController.getDivisions,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération d\'une liste de classes à partir d\'un identifiant de centre de certification',
+            "- Récupération d'une liste de classes à partir d'un identifiant de centre de certification",
         ],
         tags: ['api', 'certification-center', 'students', 'session'],
       },
@@ -140,10 +147,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/certification-centers/{certificationCenterId}/certification-center-memberships',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             certificationCenterId: identifiersType.certificationCenterId,
@@ -152,8 +161,8 @@ exports.register = async function(server) {
         handler: certificationCenterController.findCertificationCenterMembershipsByCertificationCenter,
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
-          '- Récupération de tous les membres d\'un centre de certification.\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
+            "- Récupération de tous les membres d'un centre de certification.\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès en tant que Pix Master',
         ],
         tags: ['api', 'certification-center-membership'],
       },
@@ -162,10 +171,12 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/certification-centers/{certificationCenterId}/certification-center-memberships',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             certificationCenterId: identifiersType.certificationCenterId,
@@ -177,8 +188,8 @@ exports.register = async function(server) {
         handler: certificationCenterController.createCertificationCenterMembershipByEmail,
         notes: [
           '- **Cette route est restreinte aux utilisateurs Pix Master authentifiés**\n' +
-          '- Création d‘un nouveau membre d\'un centre de certification,\n' +
-          'à partir de l\'adresse e-mail d\'un utilisateur.',
+            "- Création d‘un nouveau membre d'un centre de certification,\n" +
+            "à partir de l'adresse e-mail d'un utilisateur.",
         ],
         tags: ['api', 'certification-center-membership'],
       },

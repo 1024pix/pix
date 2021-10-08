@@ -41,7 +41,9 @@ function getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPosta
   }
 
   if (birthPostalCode) {
-    return CpfBirthInformationValidation.failure('Le champ code postal ne doit pas être renseigné pour un pays étranger.');
+    return CpfBirthInformationValidation.failure(
+      'Le champ code postal ne doit pas être renseigné pour un pays étranger.'
+    );
   }
 
   if (!birthINSEECode || birthINSEECode !== '99') {
@@ -58,7 +60,9 @@ function getForeignCountryBirthInformation(birthCity, birthINSEECode, birthPosta
 
 async function getBirthInformationByINSEECode(birthCity, birthINSEECode, country, certificationCpfCityRepository) {
   if (birthCity) {
-    return CpfBirthInformationValidation.failure('Le champ commune de naissance ne doit pas être renseigné lorsqu\'un code INSEE est renseigné.');
+    return CpfBirthInformationValidation.failure(
+      "Le champ commune de naissance ne doit pas être renseigné lorsqu'un code INSEE est renseigné."
+    );
   }
 
   const cities = await certificationCpfCityRepository.findByINSEECode({ INSEECode: birthINSEECode });
@@ -90,7 +94,9 @@ async function getBirthInformationByPostalCode(birthCity, birthPostalCode, count
   const matchedCity = cities.find((city) => normalizeAndSortChars(city.name) === normalizedAndSortedCity);
 
   if (!matchedCity) {
-    return CpfBirthInformationValidation.failure(`Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`);
+    return CpfBirthInformationValidation.failure(
+      `Le code postal "${birthPostalCode}" ne correspond pas à la ville "${birthCity}"`
+    );
   }
 
   return CpfBirthInformationValidation.success({
@@ -127,7 +133,9 @@ async function getBirthInformation({
     }
 
     if (birthINSEECode && birthPostalCode) {
-      return CpfBirthInformationValidation.failure('Seul l\'un des champs "Code postal" ou "Code Insee" doit être renseigné.');
+      return CpfBirthInformationValidation.failure(
+        'Seul l\'un des champs "Code postal" ou "Code Insee" doit être renseigné.'
+      );
     }
 
     if (birthINSEECode) {

@@ -1,11 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/feedback-serializer');
 
-describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a Feedback model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | feedback-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a Feedback model object into JSON API data', function () {
       // given
       const feedback = {
         id: 'feedback_id',
@@ -37,7 +35,6 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
               },
             },
           },
-
         },
       };
 
@@ -48,7 +45,7 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
       expect(response).to.deep.equal(serializedFeedback);
     });
 
-    it('should serialize array of feedbacks', function() {
+    it('should serialize array of feedbacks', function () {
       // given
       const simpleFeedback = {
         id: 'simple_feedback',
@@ -78,51 +75,52 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
 
       // then
       const expectedResponse = {
-        data: [{
-          type: 'feedbacks',
-          id: simpleFeedback.id,
-          attributes: {
-            content: simpleFeedback.content,
-            'created-at': simpleFeedback.createdAt,
+        data: [
+          {
+            type: 'feedbacks',
+            id: simpleFeedback.id,
+            attributes: {
+              content: simpleFeedback.content,
+              'created-at': simpleFeedback.createdAt,
+            },
+            relationships: {
+              assessment: { data: { id: '1', type: 'assessments' } },
+              challenge: { data: { id: '11', type: 'challenges' } },
+            },
           },
-          relationships: {
-            assessment: { data: { id: '1', type: 'assessments' } },
-            challenge: { data: { id: '11', type: 'challenges' } },
+          {
+            type: 'feedbacks',
+            id: otherFeedback.id,
+            attributes: {
+              content: otherFeedback.content,
+              'created-at': otherFeedback.createdAt,
+            },
+            relationships: {
+              assessment: { data: { id: '1', type: 'assessments' } },
+              challenge: { data: { id: '12', type: 'challenges' } },
+            },
           },
-        }, {
-          type: 'feedbacks',
-          id: otherFeedback.id,
-          attributes: {
-            content: otherFeedback.content,
-            'created-at': otherFeedback.createdAt,
+          {
+            type: 'feedbacks',
+            id: matchingDatesFeedback.id,
+            attributes: {
+              content: matchingDatesFeedback.content,
+              'created-at': matchingDatesFeedback.createdAt,
+            },
+            relationships: {
+              assessment: { data: { id: '2', type: 'assessments' } },
+              challenge: { data: { id: '21', type: 'challenges' } },
+            },
           },
-          relationships: {
-            assessment: { data: { id: '1', type: 'assessments' } },
-            challenge: { data: { id: '12', type: 'challenges' } },
-          },
-        }, {
-          type: 'feedbacks',
-          id: matchingDatesFeedback.id,
-          attributes: {
-            content: matchingDatesFeedback.content,
-            'created-at': matchingDatesFeedback.createdAt,
-          },
-          relationships: {
-            assessment: { data: { id: '2', type: 'assessments' } },
-            challenge: { data: { id: '21', type: 'challenges' } },
-          },
-        }],
+        ],
       };
 
       expect(result).to.deep.equal(expectedResponse);
-
     });
-
   });
 
-  describe('#deserialize()', function() {
-
-    it('should convert JSON API data into a Feedback model object', function() {
+  describe('#deserialize()', function () {
+    it('should convert JSON API data into a Feedback model object', function () {
       // given
       const serializedFeedback = {
         data: {
@@ -159,7 +157,5 @@ describe('Unit | Serializer | JSONAPI | feedback-serializer', function() {
         expect(feedback.get('challengeId')).to.equal(serializedFeedback.data.relationships.challenge.data.id);
       });
     });
-
   });
-
 });

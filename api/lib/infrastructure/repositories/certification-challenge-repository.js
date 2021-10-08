@@ -12,7 +12,6 @@ const logContext = {
 };
 
 module.exports = {
-
   async save({ certificationChallenge, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationChallengeToSave = new CertificationChallengeBookshelf({
       challengeId: certificationChallenge.challengeId,
@@ -22,17 +21,16 @@ module.exports = {
       courseId: certificationChallenge.courseId,
       certifiableBadgeKey: certificationChallenge.certifiableBadgeKey,
     });
-    const savedCertificationChallenge = await certificationChallengeToSave.save(null, { transacting: domainTransaction.knexTransaction });
+    const savedCertificationChallenge = await certificationChallengeToSave.save(null, {
+      transacting: domainTransaction.knexTransaction,
+    });
     return bookshelfToDomainConverter.buildDomainObject(CertificationChallengeBookshelf, savedCertificationChallenge);
   },
 
   async getNextNonAnsweredChallengeByCourseId(assessmentId, courseId) {
-    const answeredChallengeIds = Bookshelf.knex('answers')
-      .select('challengeId')
-      .where({ assessmentId });
+    const answeredChallengeIds = Bookshelf.knex('answers').select('challengeId').where({ assessmentId });
 
-    const certificationChallenge = await CertificationChallengeBookshelf
-      .where({ courseId })
+    const certificationChallenge = await CertificationChallengeBookshelf.where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .orderBy('id', 'asc')
       .fetch({ require: false });

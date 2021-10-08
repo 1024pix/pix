@@ -1,20 +1,16 @@
-const {
-  databaseBuilder,
-  expect,
-} = require('../../../test-helper');
+const { databaseBuilder, expect } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | Account-recovery', function() {
-
-  describe('POST /api/account-recovery', function() {
+describe('Acceptance | Route | Account-recovery', function () {
+  describe('POST /api/account-recovery', function () {
     let server;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       //given
       server = await createServer();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await databaseBuilder.knex('account-recovery-demands').delete();
     });
 
@@ -58,7 +54,7 @@ describe('Acceptance | Route | Account-recovery', function() {
       await databaseBuilder.commit();
     };
 
-    it('should return 204 HTTP status code', async function() {
+    it('should return 204 HTTP status code', async function () {
       // given
       await createUserWithSeveralSchoolingRegistrations();
       const newEmail = 'new_email@example.net';
@@ -72,7 +68,7 @@ describe('Acceptance | Route | Account-recovery', function() {
               'ine-ina': studentInformation.ineIna,
               'first-name': studentInformation.firstName,
               'last-name': studentInformation.lastName,
-              'birthdate': studentInformation.birthdate,
+              birthdate: studentInformation.birthdate,
               email: newEmail,
             },
           },
@@ -86,7 +82,7 @@ describe('Acceptance | Route | Account-recovery', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 400 if email already exists', async function() {
+    it('should return 400 if email already exists', async function () {
       // given
       const newEmail = 'new_email@example.net';
       await createUserWithSeveralSchoolingRegistrations({ email: newEmail });
@@ -100,7 +96,7 @@ describe('Acceptance | Route | Account-recovery', function() {
               'ine-ina': studentInformation.ineIna,
               'first-name': studentInformation.firstName,
               'last-name': studentInformation.lastName,
-              'birthdate': studentInformation.birthdate,
+              birthdate: studentInformation.birthdate,
               email: newEmail,
             },
           },
@@ -114,7 +110,5 @@ describe('Acceptance | Route | Account-recovery', function() {
       expect(response.statusCode).to.equal(400);
       expect(response.result.errors[0].detail).to.equal('Cette adresse e-mail est déjà utilisée.');
     });
-
   });
-
 });

@@ -32,7 +32,6 @@ module.exports = function buildCompetenceTree({
     }),
   ],
 } = {}) {
-
   return new CompetenceTree({
     id,
     areas,

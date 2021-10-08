@@ -1,25 +1,16 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(campaignAssessmentParticipationResult) {
     return new Serializer('campaign-assessment-participation-results', {
       id: 'campaignParticipationId',
-      attributes: [
-        'campaignId',
-        'competenceResults',
-      ],
+      attributes: ['campaignId', 'competenceResults'],
       typeForAttribute: (attribute) => {
         if (attribute === 'competenceResults') return 'campaign-assessment-participation-competence-results';
       },
       competenceResults: {
         ref: 'id',
-        attributes: [
-          'name',
-          'index',
-          'areaColor',
-          'competenceMasteryRate',
-        ],
+        attributes: ['name', 'index', 'areaColor', 'competenceMasteryRate'],
       },
     }).serialize(campaignAssessmentParticipationResult);
   },

@@ -6,9 +6,8 @@ const skillDatasource = require('../../../lib/infrastructure/datasources/learnin
 const challengeDatasource = require('../../../lib/infrastructure/datasources/learning-content/challenge-datasource');
 const courseDatasource = require('../../../lib/infrastructure/datasources/learning-content/course-datasource');
 
-describe('Integration | buildLearningContent', function() {
-
-  it('builds areas', async function() {
+describe('Integration | buildLearningContent', function () {
+  it('builds areas', async function () {
     // given
     const learningContent = [
       {
@@ -31,7 +30,7 @@ describe('Integration | buildLearningContent', function() {
     expect(areas[1].id).to.equal('recArea2');
   });
 
-  it('builds competences', async function() {
+  it('builds competences', async function () {
     // given
     const learningContent = [
       {
@@ -87,7 +86,7 @@ describe('Integration | buildLearningContent', function() {
     expect(competences[3].origin).to.deep.equal('Pix+');
   });
 
-  it('builds tubes', async function() {
+  it('builds tubes', async function () {
     // given
     const learningContent = [
       {
@@ -124,7 +123,7 @@ describe('Integration | buildLearningContent', function() {
     expect(tubes[1].competenceId).to.deep.equal('recArea1_Competence1');
   });
 
-  it('builds skills', async function() {
+  it('builds skills', async function () {
     // given
     const learningContent = [
       {
@@ -163,7 +162,10 @@ describe('Integration | buildLearningContent', function() {
     // then
     const competences = await competenceDatasource.list();
     const skills = await skillDatasource.list();
-    expect(competences[0].skillIds).to.deep.equal(['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2']);
+    expect(competences[0].skillIds).to.deep.equal([
+      'recArea1_Competence1_Tube1_Skill1',
+      'recArea1_Competence1_Tube1_Skill2',
+    ]);
     expect(skills[0].id).to.deep.equal('recArea1_Competence1_Tube1_Skill1');
     expect(skills[0].competenceId).to.deep.equal('recArea1_Competence1');
     expect(skills[0].tubeId).to.deep.equal('recArea1_Competence1_Tube1');
@@ -177,7 +179,7 @@ describe('Integration | buildLearningContent', function() {
     expect(skills[1].name).to.deep.equal('@accesDonnées2');
   });
 
-  it('builds challenges', async function() {
+  it('builds challenges', async function () {
     // given
     const learningContent = [
       {
@@ -227,7 +229,7 @@ describe('Integration | buildLearningContent', function() {
     expect(challenges[1].locales).to.deep.equal(['fr', 'fr-fr']);
   });
 
-  it('builds challenges | a single challenge is linked several skills', async function() {
+  it('builds challenges | a single challenge is linked several skills', async function () {
     // given
     const learningContent = [
       {
@@ -273,24 +275,32 @@ describe('Integration | buildLearningContent', function() {
     // then
     const challenges = await challengeDatasource.list();
     expect(challenges[0].id).to.equal('recArea1_Competence1_Tube1_Skill1_Challenge1');
-    expect(challenges[0].skillIds).to.deep.equal(['recArea1_Competence1_Tube1_Skill1', 'recArea1_Competence1_Tube1_Skill2']);
+    expect(challenges[0].skillIds).to.deep.equal([
+      'recArea1_Competence1_Tube1_Skill1',
+      'recArea1_Competence1_Tube1_Skill2',
+    ]);
     expect(challenges[0].status).to.deep.equal('validé');
   });
 
-  it('builds courses', async function() {
+  it('builds courses', async function () {
     // given
-    const learningContent = [{
-      competences: [],
-      courses: [{
-        id: 'recCourse0',
-        name: 'Test de démo 0',
-        challengeIds: ['second_challenge', 'first_challenge'],
-      }, {
-        id: 'recCourse1',
-        name: 'Test de démo 1',
-        challengeIds: ['first_challenge'],
-      }],
-    }];
+    const learningContent = [
+      {
+        competences: [],
+        courses: [
+          {
+            id: 'recCourse0',
+            name: 'Test de démo 0',
+            challengeIds: ['second_challenge', 'first_challenge'],
+          },
+          {
+            id: 'recCourse1',
+            name: 'Test de démo 1',
+            challengeIds: ['first_challenge'],
+          },
+        ],
+      },
+    ];
 
     // when
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);

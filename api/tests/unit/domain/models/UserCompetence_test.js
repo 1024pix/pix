@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const UserCompetence = require('../../../../lib/domain/models/UserCompetence');
 
-describe('Unit | Domain | Models | UserCompetence', function() {
-
-  describe('#constructor', function() {
-
-    it('should construct a model UserCompetence from attributes', function() {
+describe('Unit | Domain | Models | UserCompetence', function () {
+  describe('#constructor', function () {
+    it('should construct a model UserCompetence from attributes', function () {
       // given
       const userCompetenceRawData = {
         id: 1,
@@ -26,9 +24,8 @@ describe('Unit | Domain | Models | UserCompetence', function() {
     });
   });
 
-  describe('#isCertifiable', function() {
-
-    it('should return false when the user competence is not certifiable', function() {
+  describe('#isCertifiable', function () {
+    it('should return false when the user competence is not certifiable', function () {
       // given
       const userCompetence = new UserCompetence({ estimatedLevel: 0 });
 
@@ -39,7 +36,7 @@ describe('Unit | Domain | Models | UserCompetence', function() {
       expect(result).to.be.false;
     });
 
-    it('should return false when the user competence is certifiable', function() {
+    it('should return false when the user competence is certifiable', function () {
       // given
       const userCompetence = new UserCompetence({ estimatedLevel: 1 });
 
@@ -49,11 +46,10 @@ describe('Unit | Domain | Models | UserCompetence', function() {
       // then
       expect(result).to.be.true;
     });
-
   });
 
-  describe('#sortSkillsByDecreasingDifficulty', function() {
-    it('sorts skills, most difficult first', function() {
+  describe('#sortSkillsByDecreasingDifficulty', function () {
+    it('sorts skills, most difficult first', function () {
       const skill1 = domainBuilder.buildSkill({ difficulty: 2 });
       const skill2 = domainBuilder.buildSkill({ difficulty: 8 });
       const skill3 = domainBuilder.buildSkill({ difficulty: 4 });
@@ -64,5 +60,4 @@ describe('Unit | Domain | Models | UserCompetence', function() {
       expect(uc.skills).to.deep.equal([skill2, skill3, skill1]);
     });
   });
-
 });

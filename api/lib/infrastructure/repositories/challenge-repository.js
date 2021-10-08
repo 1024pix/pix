@@ -10,7 +10,6 @@ const LearningContentResourceNotFound = require('../datasources/learning-content
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
-
   async get(id) {
     try {
       const challenge = await challengeDatasource.get(id);

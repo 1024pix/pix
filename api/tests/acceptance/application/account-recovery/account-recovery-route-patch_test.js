@@ -1,14 +1,9 @@
-const {
-  databaseBuilder,
-  expect,
-} = require('../../../test-helper');
+const { databaseBuilder, expect } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Route | Account-recovery', function() {
-
-  describe('PATCH /api/users/{id}/account-recovery', function() {
-
-    it('should return 204 HTTP status codes', async function() {
+describe('Acceptance | Route | Account-recovery', function () {
+  describe('PATCH /api/users/{id}/account-recovery', function () {
+    it('should return 204 HTTP status codes', async function () {
       // given
       const server = await createServer();
 
@@ -44,7 +39,5 @@ describe('Acceptance | Route | Account-recovery', function() {
       // then
       expect(response.statusCode).to.equal(204);
     });
-
   });
-
 });

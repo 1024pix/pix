@@ -45,7 +45,7 @@ function buildCampaign({
   });
 }
 
-buildCampaign.ofTypeAssessment = function({
+buildCampaign.ofTypeAssessment = function ({
   id = 1,
   name = 'name',
   code = 'AZERTY123',
@@ -87,7 +87,7 @@ buildCampaign.ofTypeAssessment = function({
   });
 };
 
-buildCampaign.ofTypeProfilesCollection = function({
+buildCampaign.ofTypeProfilesCollection = function ({
   id = 1,
   name = 'name',
   code = 'AZERTY123',

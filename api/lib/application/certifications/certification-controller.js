@@ -39,10 +39,13 @@ module.exports = {
       certificationId,
     });
 
-    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({ certificates: [attestation] });
+    const { buffer } = await certificationAttestationPdf.getCertificationAttestationsPdfBuffer({
+      certificates: [attestation],
+    });
 
     const fileName = `attestation-pix-${moment(attestation.deliveredAt).format('YYYYMMDD')}.pdf`;
-    return h.response(buffer)
+    return h
+      .response(buffer)
       .header('Content-Disposition', `attachment; filename=${fileName}`)
       .header('Content-Type', 'application/pdf');
   },

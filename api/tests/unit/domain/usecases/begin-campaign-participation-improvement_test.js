@@ -2,14 +2,17 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const { beginCampaignParticipationImprovement } = require('../../../../lib/domain/usecases');
-const { AlreadySharedCampaignParticipationError, UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain/errors');
+const {
+  AlreadySharedCampaignParticipationError,
+  UserNotAuthorizedToAccessEntityError,
+} = require('../../../../lib/domain/errors');
 
-describe('Unit | Usecase | begin-campaign-participation-improvement', function() {
+describe('Unit | Usecase | begin-campaign-participation-improvement', function () {
   let dependencies;
   let campaignParticipationRepository;
   let assessmentRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignParticipationRepository = {
       get: sinon.stub(),
       update: sinon.stub(),
@@ -21,46 +24,59 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function()
     dependencies = { campaignParticipationRepository, assessmentRepository };
   });
 
-  it('should throw an error if the campaign participation is not linked to user', async function() {
+  it('should throw an error if the campaign participation is not linked to user', async function () {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId: userId + 1, id: campaignParticipationId });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
-      .resolves(campaignParticipation);
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+      userId: userId + 1,
+      id: campaignParticipationId,
+    });
+    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
 
     // when
-    const error = await catchErr(beginCampaignParticipationImprovement)({ campaignParticipationId, userId, ...dependencies });
+    const error = await catchErr(beginCampaignParticipationImprovement)({
+      campaignParticipationId,
+      userId,
+      ...dependencies,
+    });
 
     // then
     expect(error).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
   });
 
-  it('should throw an error if the campaign participation is shared', async function() {
+  it('should throw an error if the campaign participation is shared', async function () {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: true });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
-      .resolves(campaignParticipation);
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+      userId,
+      id: campaignParticipationId,
+      isShared: true,
+    });
+    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
 
     // when
-    const error = await catchErr(beginCampaignParticipationImprovement)({ campaignParticipationId, userId, ...dependencies });
+    const error = await catchErr(beginCampaignParticipationImprovement)({
+      campaignParticipationId,
+      userId,
+      ...dependencies,
+    });
 
     // then
     expect(error).to.be.instanceOf(AlreadySharedCampaignParticipationError);
   });
 
-  it('should not start another assessment when the current assessment of the campaign is of improving type and still ongoing', async function() {
+  it('should not start another assessment when the current assessment of the campaign is of improving type and still ongoing', async function () {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: false });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
-      .resolves(campaignParticipation);
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+      userId,
+      id: campaignParticipationId,
+      isShared: false,
+    });
+    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
     const ongoingAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     assessmentRepository.getLatestByCampaignParticipationId
       .withArgs(campaignParticipationId)
@@ -73,14 +89,16 @@ describe('Unit | Usecase | begin-campaign-participation-improvement', function()
     expect(assessmentRepository.save).to.not.have.been.called;
   });
 
-  it('should create a campaign assessment with the campaignParticipationId and isImproving at true', async function() {
+  it('should create a campaign assessment with the campaignParticipationId and isImproving at true', async function () {
     // given
     const userId = 1;
     const campaignParticipationId = 2;
-    const campaignParticipation = domainBuilder.buildCampaignParticipation({ userId, id: campaignParticipationId, isShared: false });
-    campaignParticipationRepository.get
-      .withArgs(campaignParticipationId, {})
-      .resolves(campaignParticipation);
+    const campaignParticipation = domainBuilder.buildCampaignParticipation({
+      userId,
+      id: campaignParticipationId,
+      isShared: false,
+    });
+    campaignParticipationRepository.get.withArgs(campaignParticipationId, {}).resolves(campaignParticipation);
     const latestAssessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId });
     latestAssessment.state = Assessment.states.COMPLETED;
     assessmentRepository.getLatestByCampaignParticipationId

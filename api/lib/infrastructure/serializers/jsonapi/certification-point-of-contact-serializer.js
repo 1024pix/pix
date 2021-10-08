@@ -2,7 +2,6 @@ const _ = require('lodash');
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(certificationPointOfContact) {
     return new Serializer('certification-point-of-contact', {
       attributes: [
@@ -27,7 +26,7 @@ module.exports = {
           'relatedOrganizationTags',
         ],
       },
-      typeForAttribute: function(attribute) {
+      typeForAttribute: function (attribute) {
         if (attribute === 'allowedCertificationCenterAccesses') {
           return 'allowed-certification-center-access';
         }
@@ -35,15 +34,18 @@ module.exports = {
       },
       transform(certificationPointOfContact) {
         const transformedCertificationPointOfContact = _.clone(certificationPointOfContact);
-        transformedCertificationPointOfContact.allowedCertificationCenterAccesses = _.map(certificationPointOfContact.allowedCertificationCenterAccesses, (access) => {
-          return {
-            ...access,
-            isAccessBlockedCollege: access.isAccessBlockedCollege(),
-            isAccessBlockedLycee: access.isAccessBlockedLycee(),
-            isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
-            isAccessBlockedAgri: access.isAccessBlockedAgri(),
-          };
-        });
+        transformedCertificationPointOfContact.allowedCertificationCenterAccesses = _.map(
+          certificationPointOfContact.allowedCertificationCenterAccesses,
+          (access) => {
+            return {
+              ...access,
+              isAccessBlockedCollege: access.isAccessBlockedCollege(),
+              isAccessBlockedLycee: access.isAccessBlockedLycee(),
+              isAccessBlockedAEFE: access.isAccessBlockedAEFE(),
+              isAccessBlockedAgri: access.isAccessBlockedAgri(),
+            };
+          }
+        );
 
         return transformedCertificationPointOfContact;
       },

@@ -5,7 +5,6 @@ const CertificationPointOfContact = require('../../domain/read-models/Certificat
 const AllowedCertificationCenterAccess = require('../../domain/read-models/AllowedCertificationCenterAccess');
 
 module.exports = {
-
   async get(userId) {
     const certificationPointOfContactDTO = await knex
       .select({
@@ -14,7 +13,7 @@ module.exports = {
         lastName: 'users.lastName',
         email: 'users.email',
         pixCertifTermsOfServiceAccepted: 'users.pixCertifTermsOfServiceAccepted',
-        certificationCenterIds: (knex.raw('array_agg(??)', 'certification-center-memberships.certificationCenterId')),
+        certificationCenterIds: knex.raw('array_agg(??)', 'certification-center-memberships.certificationCenterId'),
       })
       .from('users')
       .join('certification-center-memberships', 'certification-center-memberships.userId', 'users.id')
@@ -44,7 +43,7 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
       externalId: 'certification-centers.externalId',
       type: 'certification-centers.type',
       isRelatedToManagingStudentsOrganization: 'organizations.isManagingStudents',
-      tags: (knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name'])),
+      tags: knex.raw('array_agg(?? order by ??)', ['tags.name', 'tags.name']),
     })
     .from('certification-centers')
     .leftJoin('organizations', 'organizations.externalId', 'certification-centers.externalId')
@@ -58,9 +57,10 @@ async function _findAllowedCertificationCenterAccesses(certificationCenterIds) {
     const tags = _.compact(allowedCertificationCenterAccessDTO.tags);
     return new AllowedCertificationCenterAccess({
       ...allowedCertificationCenterAccessDTO,
-      isRelatedToManagingStudentsOrganization: Boolean(allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization),
+      isRelatedToManagingStudentsOrganization: Boolean(
+        allowedCertificationCenterAccessDTO.isRelatedToManagingStudentsOrganization
+      ),
       relatedOrganizationTags: tags,
     });
   });
 }
-

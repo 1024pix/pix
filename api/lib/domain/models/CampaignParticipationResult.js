@@ -31,13 +31,29 @@ class CampaignParticipationResult {
     this.stageCount = stageCount;
   }
 
-  static buildFrom({ campaignParticipationId, assessment, competences, targetProfile, knowledgeElements, campaignBadges = [], acquiredBadgeIds = [] }) {
+  static buildFrom({
+    campaignParticipationId,
+    assessment,
+    competences,
+    targetProfile,
+    knowledgeElements,
+    campaignBadges = [],
+    acquiredBadgeIds = [],
+  }) {
     const targetProfileSkillsIds = targetProfile.getSkillIds();
     const targetedKnowledgeElements = _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds);
 
-    const targetedCompetenceResults = _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements);
+    const targetedCompetenceResults = _computeCompetenceResults(
+      competences,
+      targetProfileSkillsIds,
+      targetedKnowledgeElements
+    );
     const campaignParticipationBadges = _.flatMap(campaignBadges, (badge) => {
-      const partnerCompetenceResults = _computePartnerCompetenceResults(badge, targetProfileSkillsIds, targetedKnowledgeElements);
+      const partnerCompetenceResults = _computePartnerCompetenceResults(
+        badge,
+        targetProfileSkillsIds,
+        targetedKnowledgeElements
+      );
       const isBadgeAcquired = _.includes(acquiredBadgeIds, badge.id);
       return CampaignParticipationBadge.buildFrom({ badge, partnerCompetenceResults, isAcquired: isBadgeAcquired });
     });
@@ -81,18 +97,17 @@ function _computeReachedStage({ stages, totalSkillsCount, validatedSkillsCount }
   const masteryPercentage = _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount });
   const reachedStages = stages.filter((stage) => masteryPercentage >= stage.threshold);
   return {
-    ... _.last(reachedStages),
+    ..._.last(reachedStages),
     starCount: reachedStages.length,
   };
 }
 
 function _computeMasteryPercentage({ totalSkillsCount, validatedSkillsCount }) {
   if (totalSkillsCount !== 0) {
-    return Math.round(validatedSkillsCount * 100 / totalSkillsCount);
+    return Math.round((validatedSkillsCount * 100) / totalSkillsCount);
   } else {
     return 0;
   }
-
 }
 
 function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkillsIds) {
@@ -102,7 +117,9 @@ function _removeUntargetedKnowledgeElements(knowledgeElements, targetProfileSkil
 function _computeCompetenceResults(competences, targetProfileSkillsIds, targetedKnowledgeElements) {
   let targetedCompetences = _removeUntargetedSkillIdsFromCompetences(competences, targetProfileSkillsIds);
   targetedCompetences = _removeCompetencesWithoutAnyTargetedSkillsLeft(targetedCompetences);
-  const targetedCompetenceResults = _.map(targetedCompetences, (competence) => _getTestedCompetenceResults(competence, targetedKnowledgeElements));
+  const targetedCompetenceResults = _.map(targetedCompetences, (competence) =>
+    _getTestedCompetenceResults(competence, targetedKnowledgeElements)
+  );
   return targetedCompetenceResults;
 }
 
@@ -126,7 +143,9 @@ function _removeCompetencesWithoutAnyTargetedSkillsLeft(competences) {
 }
 
 function _getTestedCompetenceResults(competence, targetedKnowledgeElements) {
-  const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) => _.includes(competence.skillIds, ke.skillId));
+  const targetedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElements, (ke) =>
+    _.includes(competence.skillIds, ke.skillId)
+  );
   const validatedKnowledgeElementsForCompetence = _.filter(targetedKnowledgeElementsForCompetence, 'isValidated');
 
   const testedSkillsCount = targetedKnowledgeElementsForCompetence.length;

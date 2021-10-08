@@ -19,7 +19,6 @@ class EventDispatcher {
   }
 
   async dispatch(dispatchedEvent, domainTransaction) {
-
     const eventQueue = new EventQueue();
     eventQueue.push(dispatchedEvent);
 

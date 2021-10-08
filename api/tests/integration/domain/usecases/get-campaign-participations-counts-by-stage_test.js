@@ -1,33 +1,45 @@
-const { expect, catchErr, databaseBuilder, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  expect,
+  catchErr,
+  databaseBuilder,
+  learningContentBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 const usecases = require('../../../../lib/domain/usecases');
 const { UserNotAuthorizedToAccessEntityError, NoStagesForCampaign } = require('../../../../lib/domain/errors');
 
-describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function() {
+describe('Integration | UseCase | get-campaign-participations-counts-by-stage', function () {
   let organizationId;
   let campaignId;
   let userId;
   let stage1, stage2, stage3;
 
-  beforeEach(async function() {
-    const learningContentObjects = learningContentBuilder.buildLearningContent([{
-      id: 'recArea1',
-      titleFrFr: 'area1_Title',
-      color: 'specialColor',
-      competences: [{
-        id: 'recCompetence1',
-        name: 'Fabriquer un meuble',
-        index: '1.1',
-        tubes: [{
-          id: 'recTube1',
-          skills: [
-            { id: 'recSkillId1', nom: '@web1', challenges: [] },
-            { id: 'recSkillId2', nom: '@web2', challenges: [] },
-            { id: 'recSkillId3', nom: '@web3', challenges: [] },
-            { id: 'recSkillId4', nom: '@web4', challenges: [] },
-          ],
-        }],
-      }],
-    }]);
+  beforeEach(async function () {
+    const learningContentObjects = learningContentBuilder.buildLearningContent([
+      {
+        id: 'recArea1',
+        titleFrFr: 'area1_Title',
+        color: 'specialColor',
+        competences: [
+          {
+            id: 'recCompetence1',
+            name: 'Fabriquer un meuble',
+            index: '1.1',
+            tubes: [
+              {
+                id: 'recTube1',
+                skills: [
+                  { id: 'recSkillId1', nom: '@web1', challenges: [] },
+                  { id: 'recSkillId2', nom: '@web2', challenges: [] },
+                  { id: 'recSkillId3', nom: '@web3', challenges: [] },
+                  { id: 'recSkillId4', nom: '@web4', challenges: [] },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ]);
     mockLearningContent(learningContentObjects);
 
     const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
@@ -38,14 +50,19 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     organizationId = databaseBuilder.factory.buildOrganization().id;
     userId = databaseBuilder.factory.buildUser().id;
     databaseBuilder.factory.buildMembership({ organizationId, userId });
-    stage1 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 0, prescriberTitle: 'title', prescriberDescription: 'desc' });
+    stage1 = databaseBuilder.factory.buildStage({
+      targetProfileId,
+      threshold: 0,
+      prescriberTitle: 'title',
+      prescriberDescription: 'desc',
+    });
     stage2 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 30 });
     stage3 = databaseBuilder.factory.buildStage({ targetProfileId, threshold: 70 });
     campaignId = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId }).id;
   });
 
-  context('when requesting user is not allowed to access campaign informations', function() {
-    it('should throw a UserNotAuthorizedToAccessEntityError error', async function() {
+  context('when requesting user is not allowed to access campaign informations', function () {
+    it('should throw a UserNotAuthorizedToAccessEntityError error', async function () {
       const user2 = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
 
@@ -61,8 +78,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 
-  context('when the campaign doesnt manage stages', function() {
-    it('should throw a NoStagesForCampaign error', async function() {
+  context('when the campaign doesnt manage stages', function () {
+    it('should throw a NoStagesForCampaign error', async function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildTargetProfileSkill({ targetProfileId, skillId: 'recSkillId1' });
       const campaign2 = databaseBuilder.factory.buildCampaign({ organizationId, targetProfileId });
@@ -80,8 +97,8 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 
-  context('when the campaign manage stages', function() {
-    it('should return participations counts by stages', async function() {
+  context('when the campaign manage stages', function () {
+    it('should return participations counts by stages', async function () {
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0 });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.31 });
       databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.72 });
@@ -98,7 +115,7 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
       ]);
     });
 
-    it('should set to 0 all participation counts when no participations', async function() {
+    it('should set to 0 all participation counts when no participations', async function () {
       await databaseBuilder.commit();
 
       // when
@@ -113,4 +130,3 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-stage', 
     });
   });
 });
-

@@ -14,9 +14,7 @@ async function computeParticipantStatuses(log = true) {
 }
 
 function _updateSharedCampaignParticipations() {
-  return knex('campaign-participations')
-    .where({ isShared: true })
-    .update({ status: 'SHARED' });
+  return knex('campaign-participations').where({ isShared: true }).update({ status: 'SHARED' });
 }
 
 function _updateToShareAssessmentParticipations() {
@@ -67,10 +65,7 @@ const SUCCESS = 0;
 const FAILURE = 1;
 
 if (require.main === module) {
-  computeParticipantStatuses()
-    .then(handleSuccess)
-    .catch(handleError)
-    .finally(exit);
+  computeParticipantStatuses().then(handleSuccess).catch(handleError).finally(exit);
 }
 
 function handleSuccess() {

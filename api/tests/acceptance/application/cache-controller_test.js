@@ -1,19 +1,17 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | cache-controller', function() {
-
+describe('Acceptance | Controller | cache-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('PATCH /api/cache/{model}/{id}', function() {
-
+  describe('PATCH /api/cache/{model}/{id}', function () {
     let options;
 
-    beforeEach(function() {
+    beforeEach(function () {
       options = {
         method: 'PATCH',
         url: '/api/cache/challenges/recChallengeId',
@@ -25,8 +23,8 @@ describe('Acceptance | Controller | cache-controller', function() {
       };
     });
 
-    describe('Resource access management', function() {
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -37,7 +35,7 @@ describe('Acceptance | Controller | cache-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
         // given
         const nonPixMasterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMasterUserId);
@@ -51,11 +49,10 @@ describe('Acceptance | Controller | cache-controller', function() {
     });
   });
 
-  describe('PATCH /api/cache', function() {
-
+  describe('PATCH /api/cache', function () {
     let options;
 
-    beforeEach(function() {
+    beforeEach(function () {
       options = {
         method: 'PATCH',
         url: '/api/cache',
@@ -63,9 +60,8 @@ describe('Acceptance | Controller | cache-controller', function() {
       };
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -76,7 +72,7 @@ describe('Acceptance | Controller | cache-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function() {
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', async function () {
         // given
         const nonPixMAsterUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(nonPixMAsterUserId);

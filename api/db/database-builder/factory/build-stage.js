@@ -9,7 +9,6 @@ module.exports = function buildStage({
   prescriberTitle = null,
   prescriberDescription = null,
 } = {}) {
-
   const values = {
     id,
     message,

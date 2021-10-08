@@ -27,5 +27,8 @@ module.exports = async function attachTargetProfilesToOrganization({
     throw new ConflictError('Profil(s) cible(s) déjà rattaché.');
   }
 
-  return targetProfileShareRepository.addTargetProfilesToOrganization({ organizationId, targetProfileIdList: targetProfileShareToAttach });
+  return targetProfileShareRepository.addTargetProfilesToOrganization({
+    organizationId,
+    targetProfileIdList: targetProfileShareToAttach,
+  });
 };

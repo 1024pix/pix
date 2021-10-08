@@ -5,15 +5,19 @@ const scoOrganizationInvitationSerializer = require('../../../../lib/infrastruct
 const moduleUnderTest = require('../../../../lib/application/organization-invitations');
 
 const {
-  AlreadyExistingOrganizationInvitationError, NotFoundError, UserNotFoundError, OrganizationWithoutEmailError, OrganizationNotFoundError, ManyOrganizationsFoundError,
+  AlreadyExistingOrganizationInvitationError,
+  NotFoundError,
+  UserNotFoundError,
+  OrganizationWithoutEmailError,
+  OrganizationNotFoundError,
+  ManyOrganizationsFoundError,
 } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Organization-invitations | organization-invitation-controller', function() {
-
+describe('Integration | Application | Organization-invitations | organization-invitation-controller', function () {
   let sandbox;
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'acceptOrganizationInvitation');
     sandbox.stub(usecases, 'sendScoInvitation');
@@ -23,12 +27,11 @@ describe('Integration | Application | Organization-invitations | organization-in
     await httpTestServer.register(moduleUnderTest);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sandbox.restore();
   });
 
-  describe('#acceptOrganizationInvitation', function() {
-
+  describe('#acceptOrganizationInvitation', function () {
     const payload = {
       data: {
         id: '100047_DZWMP7L5UM',
@@ -40,9 +43,8 @@ describe('Integration | Application | Organization-invitations | organization-in
       },
     };
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 204', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 204', async function () {
         // given
         usecases.acceptOrganizationInvitation.resolves();
 
@@ -54,9 +56,8 @@ describe('Integration | Application | Organization-invitations | organization-in
       });
     });
 
-    context('Error cases', function() {
-
-      it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async function() {
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 412 when AlreadyExistingOrganizationInvitationError', async function () {
         // given
         usecases.acceptOrganizationInvitation.rejects(new AlreadyExistingOrganizationInvitationError());
 
@@ -67,7 +68,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(412);
       });
 
-      it('should respond an HTTP response with status code 404 when NotFoundError', async function() {
+      it('should respond an HTTP response with status code 404 when NotFoundError', async function () {
         // given
         usecases.acceptOrganizationInvitation.rejects(new NotFoundError());
 
@@ -78,7 +79,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function() {
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
         // given
         usecases.acceptOrganizationInvitation.rejects(new UserNotFoundError());
 
@@ -91,8 +92,7 @@ describe('Integration | Application | Organization-invitations | organization-in
     });
   });
 
-  describe('#sendScoInvitation', function() {
-
+  describe('#sendScoInvitation', function () {
     const uai = '1234567A';
     const payload = {
       data: {
@@ -105,9 +105,8 @@ describe('Integration | Application | Organization-invitations | organization-in
       },
     };
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 201', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 201', async function () {
         // given
         usecases.sendScoInvitation.resolves();
 
@@ -119,9 +118,8 @@ describe('Integration | Application | Organization-invitations | organization-in
       });
     });
 
-    context('Error cases', function() {
-
-      it('should respond an HTTP response with status code 404 when OrganizationNotFoundError', async function() {
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 404 when OrganizationNotFoundError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationNotFoundError());
 
@@ -132,7 +130,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 409 when OrganizationWithoutEmailError', async function() {
+      it('should respond an HTTP response with status code 409 when OrganizationWithoutEmailError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new OrganizationWithoutEmailError());
 
@@ -143,7 +141,7 @@ describe('Integration | Application | Organization-invitations | organization-in
         expect(response.statusCode).to.equal(412);
       });
 
-      it('should respond an HTTP response with status code 409 when ManyOrganizationsFoundError', async function() {
+      it('should respond an HTTP response with status code 409 when ManyOrganizationsFoundError', async function () {
         // given
         usecases.sendScoInvitation.rejects(new ManyOrganizationsFoundError());
 
@@ -155,5 +153,4 @@ describe('Integration | Application | Organization-invitations | organization-in
       });
     });
   });
-
 });

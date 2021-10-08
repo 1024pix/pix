@@ -1,13 +1,9 @@
-const {
-  sinon,
-  expect,
-} = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
 
 const publishSession = require('../../../../lib/domain/usecases/publish-session');
 
-describe('Unit | UseCase | publish-session', function() {
-
-  it('delegates the action to the session-publication-service and return the session', async function() {
+describe('Unit | UseCase | publish-session', function () {
+  it('delegates the action to the session-publication-service and return the session', async function () {
     // given
     const sessionId = Symbol('a session id');
     const session = Symbol('a session');

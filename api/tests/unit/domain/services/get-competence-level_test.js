@@ -3,9 +3,8 @@ const getCompetenceLevel = require('../../../../lib/domain/services/get-competen
 const knowledgeElementRepository = require('../../../../lib/infrastructure/repositories/knowledge-element-repository');
 const scoringService = require('../../../../lib/domain/services/scoring/scoring-service');
 
-describe('Unit | Domain | Service | Get Competence Level', function() {
-
-  describe('#getCompetenceLevel', function() {
+describe('Unit | Domain | Service | Get Competence Level', function () {
+  describe('#getCompetenceLevel', function () {
     const userId = 'userId';
     const competenceId = 'competenceId';
     // TODO: Fix this the next time the file is edited.
@@ -17,29 +16,38 @@ describe('Unit | Domain | Service | Get Competence Level', function() {
     const level = 3;
     let competenceLevel;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       sinon.stub(knowledgeElementRepository, 'findUniqByUserIdAndCompetenceId').resolves(knowledgeElements);
       sinon.stub(scoringService, 'calculateScoringInformationForCompetence').returns({ currentLevel: level });
 
       // when
-      competenceLevel = await getCompetenceLevel({ knowledgeElementRepository, scoringService, userId, competenceId, domainTransaction });
+      competenceLevel = await getCompetenceLevel({
+        knowledgeElementRepository,
+        scoringService,
+        userId,
+        competenceId,
+        domainTransaction,
+      });
     });
 
-    it('should retrieve knowledgeElements for competence and user', function() {
+    it('should retrieve knowledgeElements for competence and user', function () {
       // then
-      expect(knowledgeElementRepository.findUniqByUserIdAndCompetenceId).to.be.calledWith({ userId, competenceId, domainTransaction });
+      expect(knowledgeElementRepository.findUniqByUserIdAndCompetenceId).to.be.calledWith({
+        userId,
+        competenceId,
+        domainTransaction,
+      });
     });
 
-    it('should use scoringService to compute competence level', function() {
+    it('should use scoringService to compute competence level', function () {
       // then
       expect(scoringService.calculateScoringInformationForCompetence).to.be.calledWith({ knowledgeElements });
     });
 
-    it('should return competence level', function() {
+    it('should return competence level', function () {
       // then
       expect(competenceLevel).to.equal(level);
     });
   });
 });
-

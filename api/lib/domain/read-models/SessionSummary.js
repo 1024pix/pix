@@ -1,7 +1,6 @@
 const { statuses } = require('../models/Session');
 
 class SessionSummary {
-
   constructor({
     id,
     address,
@@ -55,10 +54,7 @@ class SessionSummary {
   }
 }
 
-function _computeStatus({
-  finalizedAt,
-  publishedAt,
-}) {
+function _computeStatus({ finalizedAt, publishedAt }) {
   if (publishedAt) {
     return statuses.PROCESSED;
   }

@@ -5,8 +5,7 @@ const { parseCsvWithHeader } = require('../scripts/helpers/csvHelpers');
 const BookshelfOrganization = require('../lib/infrastructure/orm-models/Organization');
 
 async function updateOrganizationEmailByExternalId(externalId, email) {
-  return BookshelfOrganization
-    .where({ externalId })
+  return BookshelfOrganization.where({ externalId })
     .save({ email }, { patch: true })
     .catch((err) => {
       if (err instanceof BookshelfOrganization.NoRowsUpdatedError) {
@@ -24,7 +23,7 @@ async function populateOrganizations(objectsFromFile) {
 }
 
 async function main() {
-  console.log('Start populating organization\'s email');
+  console.log("Start populating organization's email");
 
   try {
     const filePath = process.argv[2];
@@ -41,7 +40,6 @@ async function main() {
     console.log('Populating organizations (existing emails will be updated)... ');
     await populateOrganizations(csvData);
     console.log('\nOrganization successfully populated.');
-
   } catch (error) {
     console.error('\n', error);
     process.exit(1);
@@ -54,7 +52,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

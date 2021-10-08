@@ -3,7 +3,7 @@ const PoleEmploiPayload = require('../../infrastructure/externals/pole-emploi/Po
 const AssessmentCompleted = require('./AssessmentCompleted');
 const PoleEmploiSending = require('../models/PoleEmploiSending');
 
-const eventTypes = [ AssessmentCompleted ];
+const eventTypes = [AssessmentCompleted];
 
 async function handlePoleEmploiParticipationFinished({
   event,
@@ -27,7 +27,6 @@ async function handlePoleEmploiParticipationFinished({
   const organization = await organizationRepository.get(campaign.organizationId);
 
   if (campaign.isAssessment() && organization.isPoleEmploi) {
-
     const user = await userRepository.get(participation.userId);
     const targetProfile = await targetProfileRepository.get(campaign.targetProfileId);
     const assessment = await assessmentRepository.get(participation.assessmentId);

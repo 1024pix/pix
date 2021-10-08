@@ -1,27 +1,29 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-report-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a Campaign-Report model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | campaign-report-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a Campaign-Report model object into JSON API data', function () {
       // given
       const report = domainBuilder.buildCampaignReport({
         id: 'campaign_report_id',
         participationsCount: 4,
         sharedParticipationsCount: 2,
         averageResult: 0.4,
-        stages: [{
-          id: 1,
-          prescriberTitle: 'stage1',
-          prescriberDescription: 'description',
-          threshold: 30,
-        }],
-        badges: [{
-          id: 123,
-          title: 'badge123',
-        }],
+        stages: [
+          {
+            id: 1,
+            prescriberTitle: 'stage1',
+            prescriberDescription: 'description',
+            threshold: 30,
+          },
+        ],
+        badges: [
+          {
+            id: 123,
+            title: 'badge123',
+          },
+        ],
       });
 
       // when

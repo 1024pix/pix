@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/tutorial-serializer');
 
-describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should return a serialized JSON data object', function() {
+describe('Unit | Serializer | JSONAPI | tutorial-serializer', function () {
+  describe('#serialize', function () {
+    it('should return a serialized JSON data object', function () {
       // given
       const tutorialId = 123;
 
@@ -18,11 +16,11 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
           id: tutorialId.toString(),
           type: 'tutorials',
           attributes: {
-            'duration': '00:01:30',
-            'format': 'video',
-            'link': 'https://youtube.fr',
-            'source': 'Youtube',
-            'title': 'Savoir regarder des vidéos youtube.',
+            duration: '00:01:30',
+            format: 'video',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Savoir regarder des vidéos youtube.',
           },
         },
       };
@@ -33,7 +31,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
       // then
       expect(result).to.deep.equal(expectedSerializedResult);
     });
-    it('should return a serialized JSON data object, enhanced by tube information', function() {
+    it('should return a serialized JSON data object, enhanced by tube information', function () {
       // given
       const tutorialId = 123;
 
@@ -51,11 +49,11 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
           id: tutorialId.toString(),
           type: 'tutorials',
           attributes: {
-            'duration': '00:01:30',
-            'format': 'video',
-            'link': 'https://youtube.fr',
-            'source': 'Youtube',
-            'title': 'Savoir regarder des vidéos youtube.',
+            duration: '00:01:30',
+            format: 'video',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Savoir regarder des vidéos youtube.',
             'tube-name': '@web',
             'tube-practical-description': 'Tube Practical Description',
             'tube-practical-title': 'Tube Practical Title',
@@ -70,7 +68,7 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
       expect(result).to.deep.equal(expectedSerializedResult);
     });
 
-    it('should return a serialized JSON data object, with userTutorial related to', function() {
+    it('should return a serialized JSON data object, with userTutorial related to', function () {
       // given
       const userId = 456;
       const tutorialId = 123;
@@ -88,11 +86,11 @@ describe('Unit | Serializer | JSONAPI | tutorial-serializer', function() {
           id: tutorialId.toString(),
           type: 'tutorials',
           attributes: {
-            'duration': '00:01:30',
-            'format': 'video',
-            'link': 'https://youtube.fr',
-            'source': 'Youtube',
-            'title': 'Savoir regarder des vidéos youtube.',
+            duration: '00:01:30',
+            format: 'video',
+            link: 'https://youtube.fr',
+            source: 'Youtube',
+            title: 'Savoir regarder des vidéos youtube.',
           },
           relationships: {
             'tutorial-evaluation': {

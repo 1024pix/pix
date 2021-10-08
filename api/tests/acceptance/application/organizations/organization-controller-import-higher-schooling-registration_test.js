@@ -6,31 +6,36 @@ const { getI18n } = require('../../../../tests/tooling/i18n/i18n');
 const createServer = require('../../../../server');
 
 const i18n = getI18n();
-const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns.map((column) => column.label).join(';');
+const higherSchoolingRegistrationColumns = new HigherSchoolingRegistrationColumns(i18n).columns
+  .map((column) => column.label)
+  .join(';');
 
 let server;
 
-describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', function() {
-
-  beforeEach(async function() {
+describe('Acceptance | Application | organization-controller-import-higher-schooling-registrations', function () {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  afterEach(function() {
+  afterEach(function () {
     return knex('schooling-registrations').delete();
   });
 
-  describe('POST organizations/:id/schooling-registrations/import-csv', function() {
+  describe('POST organizations/:id/schooling-registrations/import-csv', function () {
     let connectedUser;
-    beforeEach(async function() {
+    beforeEach(async function () {
       connectedUser = databaseBuilder.factory.buildUser();
       await databaseBuilder.commit();
     });
 
-    context('when the user is an admin for an organization which managing student', function() {
-      it('create schooling-registrations for the given organization', async function() {
+    context('when the user is an admin for an organization which managing student', function () {
+      it('create schooling-registrations for the given organization', async function () {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
+        databaseBuilder.factory.buildMembership({
+          organizationId: organization.id,
+          userId: connectedUser.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
         await databaseBuilder.commit();
         const buffer =
           `${higherSchoolingRegistrationColumns}\n` +
@@ -55,7 +60,12 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
             type: 'higher-schooling-registration-warnings',
             attributes: {
               warnings: [
-                { code: 'unknown', field: 'study-scheme', studentNumber: '12346', value: 'hello darkness my old friend' },
+                {
+                  code: 'unknown',
+                  field: 'study-scheme',
+                  studentNumber: '12346',
+                  value: 'hello darkness my old friend',
+                },
                 { code: 'unknown', field: 'diploma', studentNumber: '12346', value: 'Master' },
                 { code: 'unknown', field: 'diploma', studentNumber: '789', value: 'DUT' },
               ],
@@ -65,7 +75,7 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
         expect(registrations).to.have.lengthOf(2);
       });
 
-      it('fails when the file payload is too large', async function() {
+      it('fails when the file payload is too large', async function () {
         const buffer = Buffer.alloc(1048576 * 11, 'B'); // > 10 Mo buffer
 
         const options = {
@@ -84,10 +94,14 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
       });
     });
 
-    context('when the user is not an admin for the organization which managing student', function() {
-      it('create schooling-registrations for the given organization', async function() {
+    context('when the user is not an admin for the organization which managing student', function () {
+      it('create schooling-registrations for the given organization', async function () {
         const organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.MEMBER });
+        databaseBuilder.factory.buildMembership({
+          organizationId: organization.id,
+          userId: connectedUser.id,
+          organizationRole: Membership.roles.MEMBER,
+        });
         await databaseBuilder.commit();
         const buffer = higherSchoolingRegistrationColumns;
 
@@ -106,26 +120,33 @@ describe('Acceptance | Application | organization-controller-import-higher-schoo
       });
     });
 
-    context('when the user is an admin for the organization which managing student but the organization is not SUP', function() {
-      it('create schooling-registrations for the given organization', async function() {
-        const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: connectedUser.id, organizationRole: Membership.roles.ADMIN });
-        await databaseBuilder.commit();
-        const buffer = higherSchoolingRegistrationColumns;
+    context(
+      'when the user is an admin for the organization which managing student but the organization is not SUP',
+      function () {
+        it('create schooling-registrations for the given organization', async function () {
+          const organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
+          databaseBuilder.factory.buildMembership({
+            organizationId: organization.id,
+            userId: connectedUser.id,
+            organizationRole: Membership.roles.ADMIN,
+          });
+          await databaseBuilder.commit();
+          const buffer = higherSchoolingRegistrationColumns;
 
-        const options = {
-          method: 'POST',
-          url: `/api/organizations/${organization.id}/schooling-registrations/import-csv`,
-          headers: {
-            authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
-          },
-          payload: buffer,
-        };
+          const options = {
+            method: 'POST',
+            url: `/api/organizations/${organization.id}/schooling-registrations/import-csv`,
+            headers: {
+              authorization: generateValidRequestAuthorizationHeader(connectedUser.id),
+            },
+            payload: buffer,
+          };
 
-        const response = await server.inject(options);
+          const response = await server.inject(options);
 
-        expect(response.statusCode).to.equal(403);
-      });
-    });
+          expect(response.statusCode).to.equal(403);
+        });
+      }
+    );
   });
 });

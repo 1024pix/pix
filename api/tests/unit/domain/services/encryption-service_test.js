@@ -4,14 +4,10 @@ const bcrypt = require('bcrypt');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const PasswordNotMatching = require('../../../../lib/domain/errors').PasswordNotMatching;
 
-describe('Unit | Service | Encryption', function() {
-
-  describe('#checkPassword', function() {
-
-    describe('when password and hash are matching', function() {
-
-      it('should resolve to undefined', async function() {
-
+describe('Unit | Service | Encryption', function () {
+  describe('#checkPassword', function () {
+    describe('when password and hash are matching', function () {
+      it('should resolve to undefined', async function () {
         // given
         const password = 'my-real-password';
         /* eslint-disable no-sync */
@@ -25,14 +21,11 @@ describe('Unit | Service | Encryption', function() {
 
         // then
         expect(result).to.be.undefined;
-
       });
     });
 
-    describe('when password and hash are not matching', function() {
-
-      it('should reject a PasswordNotMatching error ', async function() {
-
+    describe('when password and hash are not matching', function () {
+      it('should reject a PasswordNotMatching error ', async function () {
         // given
         const password = 'my-expected-password';
         const passwordHash = 'ABCDEF1234';
@@ -45,15 +38,11 @@ describe('Unit | Service | Encryption', function() {
 
         // then
         expect(error).to.be.an.instanceof(PasswordNotMatching);
-
       });
-
     });
 
-    describe('when password is not supplied', function() {
-
-      it('should reject, but not a PasswordNotMatching error ', async function() {
-
+    describe('when password is not supplied', function () {
+      it('should reject, but not a PasswordNotMatching error ', async function () {
         // given
         const password = undefined;
         /* eslint-disable no-sync */
@@ -67,11 +56,7 @@ describe('Unit | Service | Encryption', function() {
         } catch (error) {
           expect(error).not.to.be.an.instanceof(PasswordNotMatching);
         }
-
       });
-
     });
-
   });
-
 });

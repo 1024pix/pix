@@ -22,10 +22,10 @@ const SESSION_PROPS = [
   'assignedCertificationOfficerId',
 ];
 
-describe('Unit | Domain | Models | Session', function() {
+describe('Unit | Domain | Models | Session', function () {
   let session;
 
-  beforeEach(function() {
+  beforeEach(function () {
     session = new Session({
       id: 'id',
       accessCode: '',
@@ -48,18 +48,17 @@ describe('Unit | Domain | Models | Session', function() {
     });
   });
 
-  it('should create an object of the Session type', function() {
+  it('should create an object of the Session type', function () {
     expect(session).to.be.instanceOf(Session);
   });
 
-  it('should create a session with all the requires properties', function() {
+  it('should create a session with all the requires properties', function () {
     expect(_.keys(session)).to.have.deep.members(SESSION_PROPS);
   });
 
-  context('#areResultsFlaggedAsSent', function() {
-    context('when session resultsSentToPrescriberAt timestamp is defined', function() {
-
-      it('should return true', function() {
+  context('#areResultsFlaggedAsSent', function () {
+    context('when session resultsSentToPrescriberAt timestamp is defined', function () {
+      it('should return true', function () {
         // given
         session.resultsSentToPrescriberAt = new Date();
 
@@ -70,9 +69,8 @@ describe('Unit | Domain | Models | Session', function() {
         expect(areResultsFlaggedAsSent).to.be.true;
       });
     });
-    context('when session resultsSentToPrescriberAt timestamp is falsy', function() {
-
-      it('should return false', function() {
+    context('when session resultsSentToPrescriberAt timestamp is falsy', function () {
+      it('should return false', function () {
         // given
         session.resultsSentToPrescriberAt = null;
 
@@ -85,11 +83,9 @@ describe('Unit | Domain | Models | Session', function() {
     });
   });
 
-  context('#get status', function() {
-
-    context('when session publishedAt timestamp is defined', function() {
-
-      it('should return PROCESSED', function() {
+  context('#get status', function () {
+    context('when session publishedAt timestamp is defined', function () {
+      it('should return PROCESSED', function () {
         // given
         session.publishedAt = new Date();
 
@@ -101,11 +97,9 @@ describe('Unit | Domain | Models | Session', function() {
       });
     });
 
-    context('when session publishedAt timestamp is not defined', function() {
-
-      context('when session assignedCertificationOfficerId is defined', function() {
-
-        it('should return IN_PROCESS', function() {
+    context('when session publishedAt timestamp is not defined', function () {
+      context('when session assignedCertificationOfficerId is defined', function () {
+        it('should return IN_PROCESS', function () {
           // given
           session.assignedCertificationOfficerId = 123;
 
@@ -117,11 +111,9 @@ describe('Unit | Domain | Models | Session', function() {
         });
       });
 
-      context('when session assignedCertificationOfficerId is not defined', function() {
-
-        context('when session finalizedAt timestamp is defined', function() {
-
-          it('should return FINALIZED', function() {
+      context('when session assignedCertificationOfficerId is not defined', function () {
+        context('when session finalizedAt timestamp is defined', function () {
+          it('should return FINALIZED', function () {
             // given
             session.finalizedAt = new Date();
 
@@ -133,9 +125,8 @@ describe('Unit | Domain | Models | Session', function() {
           });
         });
 
-        context('when session finalizedAt timestamp is not defined', function() {
-
-          it('should return CREATED', function() {
+        context('when session finalizedAt timestamp is not defined', function () {
+          it('should return CREATED', function () {
             // when
             const status = session.status;
 
@@ -147,8 +138,8 @@ describe('Unit | Domain | Models | Session', function() {
     });
   });
 
-  context('#isPublished', function() {
-    it('returns true when the session is published', function() {
+  context('#isPublished', function () {
+    it('returns true when the session is published', function () {
       // given
       const session = domainBuilder.buildSession({ publishedAt: new Date() });
       // when
@@ -158,7 +149,7 @@ describe('Unit | Domain | Models | Session', function() {
       expect(isPublished).to.be.true;
     });
 
-    it('returns false when the session is not published', function() {
+    it('returns false when the session is not published', function () {
       // given
       const session = domainBuilder.buildSession({ publishedAt: null });
       // when
@@ -169,9 +160,8 @@ describe('Unit | Domain | Models | Session', function() {
     });
   });
 
-  context('#isAccessible', function() {
-
-    it('returns true when the session is created', function() {
+  context('#isAccessible', function () {
+    it('returns true when the session is created', function () {
       // given
       const session = domainBuilder.buildSession.created();
 
@@ -182,7 +172,7 @@ describe('Unit | Domain | Models | Session', function() {
       expect(isAccessible).to.be.true;
     });
 
-    it('returns false when the session is finalized', function() {
+    it('returns false when the session is finalized', function () {
       // given
       const session = domainBuilder.buildSession.finalized();
 
@@ -193,7 +183,7 @@ describe('Unit | Domain | Models | Session', function() {
       expect(isAccessible).to.be.false;
     });
 
-    it('returns false when the session is in process', function() {
+    it('returns false when the session is in process', function () {
       // given
       const session = domainBuilder.buildSession.inProcess();
 
@@ -204,7 +194,7 @@ describe('Unit | Domain | Models | Session', function() {
       expect(isAccessible).to.be.false;
     });
 
-    it('returns false when the session is processed', function() {
+    it('returns false when the session is processed', function () {
       // given
       const session = domainBuilder.buildSession.processed();
 

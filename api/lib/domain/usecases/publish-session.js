@@ -6,7 +6,6 @@ module.exports = async function publishSession({
   sessionPublicationService,
   publishedAt = new Date(),
 }) {
-
   await sessionPublicationService.publishSession({
     sessionId,
     certificationRepository,

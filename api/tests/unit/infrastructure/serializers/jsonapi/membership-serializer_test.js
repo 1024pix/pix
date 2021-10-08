@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/membership-serializer');
 const Membership = require('../../../../../lib/domain/models/Membership');
 
-describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Membership model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | membership-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Membership model object into JSON API data', function () {
       // given
       const membership = new Membership({
         id: 5,
@@ -35,65 +33,67 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
           },
           relationships: {
             organization: {
-              data:
-                {
-                  type: 'organizations', id: '10293',
-                },
+              data: {
+                type: 'organizations',
+                id: '10293',
+              },
             },
             user: {
-              'data': {
+              data: {
                 id: '123',
                 type: 'users',
               },
             },
           },
         },
-        included: [{
-          type: 'organizations',
-          id: '10293',
-          attributes: {
-            name: 'The name of the organization',
-            type: 'SUP',
-            code: 'WASABI666',
-            'external-id': 'EXTID',
+        included: [
+          {
+            type: 'organizations',
+            id: '10293',
+            attributes: {
+              name: 'The name of the organization',
+              type: 'SUP',
+              code: 'WASABI666',
+              'external-id': 'EXTID',
+            },
+            relationships: {
+              campaigns: {
+                links: {
+                  related: '/api/organizations/10293/campaigns',
+                },
+              },
+              'target-profiles': {
+                links: {
+                  related: '/api/organizations/10293/target-profiles',
+                },
+              },
+              memberships: {
+                links: {
+                  related: '/api/organizations/10293/memberships',
+                },
+              },
+              students: {
+                links: {
+                  related: '/api/organizations/10293/students',
+                },
+              },
+              'organization-invitations': {
+                links: {
+                  related: '/api/organizations/10293/invitations',
+                },
+              },
+            },
           },
-          relationships: {
-            campaigns: {
-              links: {
-                related: '/api/organizations/10293/campaigns',
-              },
-            },
-            'target-profiles': {
-              links: {
-                related: '/api/organizations/10293/target-profiles',
-              },
-            },
-            memberships: {
-              links: {
-                related: '/api/organizations/10293/memberships',
-              },
-            },
-            students: {
-              links: {
-                related: '/api/organizations/10293/students',
-              },
-            },
-            'organization-invitations': {
-              links: {
-                related: '/api/organizations/10293/invitations',
-              },
+          {
+            type: 'users',
+            id: '123',
+            attributes: {
+              'first-name': 'firstName',
+              'last-name': 'lastName',
+              email: 'email',
             },
           },
-        },
-        {
-          type: 'users',
-          id: '123',
-          attributes: {
-            'first-name': 'firstName',
-            'last-name': 'lastName',
-            email: 'email',
-          },
-        }],
+        ],
       };
 
       // when
@@ -103,7 +103,7 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
       expect(json).to.deep.equal(expectedSerializedMembership);
     });
 
-    it('should include "organization"', function() {
+    it('should include "organization"', function () {
       // given
       const membership = domainBuilder.buildMembership();
 
@@ -115,15 +115,15 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
       expect(json.data.relationships.organization.data.id).to.equal(`${membership.organization.id}`);
       expect(json.included[0].type).to.equal('organizations');
       expect(json.included[0].attributes).to.deep.equal({
-        'name': 'ACME',
-        'type': 'PRO',
+        name: 'ACME',
+        type: 'PRO',
         'external-id': 'EXTID',
         'is-managing-students': false,
         'can-collect-profiles': false,
       });
     });
 
-    it('should include "user"', function() {
+    it('should include "user"', function () {
       // given
       const membership = domainBuilder.buildMembership();
 
@@ -137,11 +137,11 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
       expect(json.included[1].attributes).to.deep.equal({
         'first-name': 'Jean',
         'last-name': 'Dupont',
-        'email': 'jean.dupont@example.net',
+        email: 'jean.dupont@example.net',
       });
     });
 
-    it('should not force the add of campaigns and target profiles relation links if the membership does not contain organization data', function() {
+    it('should not force the add of campaigns and target profiles relation links if the membership does not contain organization data', function () {
       // given
       const membership = domainBuilder.buildMembership();
       membership.organization = null;
@@ -153,10 +153,9 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
       expect(json.data.relationships.organization).to.be.undefined;
       expect(json.included.length).to.equal(1);
       expect(json.included[0].type).to.not.equal('organization');
-
     });
 
-    it('should not force the add of user relation link if the user is undefined', function() {
+    it('should not force the add of user relation link if the user is undefined', function () {
       // given
       const membership = domainBuilder.buildMembership();
       membership.user = undefined;
@@ -171,11 +170,10 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
     });
   });
 
-  describe('#deserialize()', function() {
-
+  describe('#deserialize()', function () {
     let jsonMembership = null;
 
-    beforeEach(function() {
+    beforeEach(function () {
       jsonMembership = {
         data: {
           type: 'memberships',
@@ -187,14 +185,13 @@ describe('Unit | Serializer | JSONAPI | membership-serializer', function() {
       };
     });
 
-    it('should convert JSON API data into a map object that contain attribute to patch', function() {
+    it('should convert JSON API data into a map object that contain attribute to patch', function () {
       // when
       const membership = serializer.deserialize(jsonMembership);
 
       // then
       expect(membership.organizationRole).to.equal('ADMIN');
       expect(membership.id).to.equal('12345');
-
     });
   });
 });

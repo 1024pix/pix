@@ -36,11 +36,21 @@ function _createDomainUser(userAttributes) {
 }
 
 function _manageEmailAvailabilityError(error) {
-  return _manageError(error, AlreadyRegisteredEmailError, 'email', 'Cette adresse e-mail est déjà enregistrée, connectez-vous.');
+  return _manageError(
+    error,
+    AlreadyRegisteredEmailError,
+    'email',
+    'Cette adresse e-mail est déjà enregistrée, connectez-vous.'
+  );
 }
 
 function _manageUsernameAvailabilityError(error) {
-  return _manageError(error, AlreadyRegisteredUsernameError, 'username', 'Cet identifiant n’est plus disponible, merci de recharger la page.');
+  return _manageError(
+    error,
+    AlreadyRegisteredUsernameError,
+    'username',
+    'Cet identifiant n’est plus disponible, merci de recharger la page.'
+  );
 }
 
 function _manageError(error, errorType, attribute, message) {
@@ -53,9 +63,7 @@ function _manageError(error, errorType, attribute, message) {
 }
 
 function _emptyOtherMode(isUsernameMode, userAttributes) {
-  return isUsernameMode
-    ? { ...userAttributes, email: undefined }
-    : { ...userAttributes, username: undefined };
+  return isUsernameMode ? { ...userAttributes, email: undefined } : { ...userAttributes, username: undefined };
 }
 
 function _validatePassword(password) {
@@ -68,12 +76,7 @@ function _validatePassword(password) {
   return result;
 }
 
-async function _validateData({
-  isUsernameMode,
-  password,
-  userAttributes,
-  userRepository,
-}) {
+async function _validateData({ isUsernameMode, password, userAttributes, userRepository }) {
   const validationErrors = [];
 
   try {
@@ -124,16 +127,19 @@ module.exports = async function createAndReconcileUserToSchoolingRegistration({
     throw new CampaignCodeError();
   }
 
-  const matchedSchoolingRegistration = await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
-    organizationId: campaign.organizationId,
-    reconciliationInfo: userAttributes,
-    schoolingRegistrationRepository,
-    userRepository,
-    obfuscationService,
-  });
+  const matchedSchoolingRegistration =
+    await userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser({
+      organizationId: campaign.organizationId,
+      reconciliationInfo: userAttributes,
+      schoolingRegistrationRepository,
+      userRepository,
+      obfuscationService,
+    });
 
   if (!isNil(matchedSchoolingRegistration.userId)) {
-    throw new SchoolingRegistrationAlreadyLinkedToUserError('Un compte existe déjà pour l‘élève dans le même établissement.');
+    throw new SchoolingRegistrationAlreadyLinkedToUserError(
+      'Un compte existe déjà pour l‘élève dans le même établissement.'
+    );
   }
 
   const isUsernameMode = userAttributes.withUsername;

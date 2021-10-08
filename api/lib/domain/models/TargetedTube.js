@@ -1,11 +1,5 @@
 class TargetedTube {
-  constructor({
-    id,
-    practicalTitle,
-    description,
-    competenceId,
-    skills = [],
-  } = {}) {
+  constructor({ id, practicalTitle, description, competenceId, skills = [] } = {}) {
     this.id = id;
     this.practicalTitle = practicalTitle;
     this.description = description;

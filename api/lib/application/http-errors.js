@@ -122,8 +122,7 @@ class SessionPublicationBatchError extends BaseHttpError {
   constructor(batchId) {
     super(`${batchId}`);
     this.title = 'One or more error occurred while publishing session in batch';
-    this.code = 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED',
-    this.status = 207;
+    (this.code = 'SESSION_PUBLICATION_BATCH_PARTIALLY_FAILED'), (this.status = 207);
   }
 }
 

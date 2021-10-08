@@ -4,15 +4,13 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const schoolingRegistrationUserAssociationController = require('../../../../lib/application/schooling-registration-user-associations/schooling-registration-user-association-controller');
 
-describe('Unit | Application | Controller | schooling-registration-user-associations', function() {
-
-  describe('#dissociate', function() {
-
-    beforeEach(function() {
+describe('Unit | Application | Controller | schooling-registration-user-associations', function () {
+  describe('#dissociate', function () {
+    beforeEach(function () {
       sinon.stub(usecases, 'dissociateUserFromSchoolingRegistration');
     });
 
-    it('should call the usecase', async function() {
+    it('should call the usecase', async function () {
       // given
       const userId = 1;
       const schoolingRegistrationId = 1;
@@ -26,9 +24,10 @@ describe('Unit | Application | Controller | schooling-registration-user-associat
       await schoolingRegistrationUserAssociationController.dissociate(request, hFake);
 
       // then
-      expect(usecases.dissociateUserFromSchoolingRegistration)
-        .to.have.been.calledWith({ schoolingRegistrationId, userId });
+      expect(usecases.dissociateUserFromSchoolingRegistration).to.have.been.calledWith({
+        schoolingRegistrationId,
+        userId,
+      });
     });
   });
-
 });

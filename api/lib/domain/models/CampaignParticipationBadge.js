@@ -1,7 +1,6 @@
 const Badge = require('./Badge.js');
 
 class CampaignParticipationBadge extends Badge {
-
   constructor({
     id,
     key,

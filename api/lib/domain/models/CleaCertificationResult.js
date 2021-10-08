@@ -9,10 +9,7 @@ const badgeKeyV1 = keys.PIX_EMPLOI_CLEA;
 const badgeKeyV2 = keys.PIX_EMPLOI_CLEA_V2;
 
 class CleaCertificationResult {
-
-  constructor({
-    status,
-  } = {}) {
+  constructor({ status } = {}) {
     this.status = status;
   }
 

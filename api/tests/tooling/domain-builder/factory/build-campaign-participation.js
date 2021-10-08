@@ -15,7 +15,6 @@ module.exports = function buildCampaignParticipation({
   status = STARTED,
   validatedSkillsCount,
 } = {}) {
-
   return new CampaignParticipation({
     id,
     campaign,

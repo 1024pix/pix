@@ -2,17 +2,13 @@ const { expect, sinon } = require('../../../../test-helper');
 const areaDatasource = require('../../../../../lib/infrastructure/datasources/learning-content/area-datasource');
 const lcms = require('../../../../../lib/infrastructure/lcms');
 
-describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', function() {
-
-  describe('#findByRecordIds', function() {
-
-    it('should return an array of matching learning content area data objects', async function() {
+describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource', function () {
+  describe('#findByRecordIds', function () {
+    it('should return an array of matching learning content area data objects', async function () {
       // given
-      const records = [ { id: 'recArea0' }, { id: 'recArea1' }, { id: 'recArea2' }];
+      const records = [{ id: 'recArea0' }, { id: 'recArea1' }, { id: 'recArea2' }];
       sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
-      const expectedAreaIds = [
-        'recArea0', 'recArea1',
-      ];
+      const expectedAreaIds = ['recArea0', 'recArea1'];
 
       // when
       const foundAreas = await areaDatasource.findByRecordIds(expectedAreaIds);
@@ -20,7 +16,7 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
       expect(foundAreas.map(({ id }) => id)).to.deep.equal(expectedAreaIds);
     });
 
-    it('should return an empty array when there are no objects matching the ids', async function() {
+    it('should return an empty array when there are no objects matching the ids', async function () {
       // given
       const records = [{ id: 'recArea0' }];
       sinon.stub(lcms, 'getLatestRelease').resolves({ areas: records });
@@ -32,5 +28,4 @@ describe('Unit | Infrastructure | Datasource | Learning Content | AreaDatasource
       expect(foundAreas).to.be.empty;
     });
   });
-
 });

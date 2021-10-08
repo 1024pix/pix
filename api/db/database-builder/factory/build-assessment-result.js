@@ -17,7 +17,6 @@ module.exports = function buildAssessmentResult({
   assessmentId,
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
   assessmentId = _.isUndefined(assessmentId) ? buildAssessment().id : assessmentId;
   juryId = _.isUndefined(juryId) ? buildUser().id : juryId;
 

@@ -6,19 +6,17 @@ function buildRequestObject(baseUrl, authToken, assessmentId) {
     method: 'POST',
     headers: {
       authorization: 'Bearer ' + authToken,
-      'Connection': 'keep-alive',
+      Connection: 'keep-alive',
     },
     baseUrl: baseUrl,
     body: {
-      'data': {
-        'attributes': {
-        },
-        'relationships': {
-          'assessment': {
-            'data': {
-              'id': assessmentId,
+      data: {
+        attributes: {},
+        relationships: {
+          assessment: {
+            data: {
+              id: assessmentId,
             },
-
           },
         },
       },
@@ -30,7 +28,6 @@ function buildRequestObject(baseUrl, authToken, assessmentId) {
 }
 
 function main() {
-
   const baseUrl = process.argv[2];
   const authToken = process.argv[3];
   const min = parseInt(process.argv[4], 10);
@@ -41,12 +38,10 @@ function main() {
     listCertif.push(i);
   }
   const requests = Promise.all(
-    listCertif.map((id) => buildRequestObject(baseUrl, authToken, id))
-      .map((requestObject) => request(requestObject)));
+    listCertif.map((id) => buildRequestObject(baseUrl, authToken, id)).map((requestObject) => request(requestObject))
+  );
 
-  requests
-    .then((result) => console.log(result))
-    .catch((err) => console.error(err));
+  requests.then((result) => console.log(result)).catch((err) => console.error(err));
   process.exit();
 }
 

@@ -12,8 +12,8 @@ module.exports = {
 };
 
 function getPredictedLevel(knowledgeElements, skills) {
-  return _.maxBy(_enumerateCatLevels(),
-    (level) => _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills),
+  return _.maxBy(_enumerateCatLevels(), (level) =>
+    _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills)
   );
 }
 
@@ -29,7 +29,7 @@ function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) 
   const extraAnswers = directKnowledgeElements.map((ke) => {
     const skill = skills.find((skill) => skill.id === ke.skillId);
     const maxDifficulty = skill.difficulty || 2;
-    const binaryOutcome = (ke.status === KnowledgeElement.StatusType.VALIDATED) ? 1 : 0;
+    const binaryOutcome = ke.status === KnowledgeElement.StatusType.VALIDATED ? 1 : 0;
     return { binaryOutcome, maxDifficulty };
   });
 
@@ -37,32 +37,32 @@ function _probabilityThatUserHasSpecificLevel(level, knowledgeElements, skills) 
   const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
   extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
 
-  const diffBetweenResultAndProbaToResolve = extraAnswers.map((answer) =>
-    answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty));
+  const diffBetweenResultAndProbaToResolve = extraAnswers.map(
+    (answer) => answer.binaryOutcome - _probaOfCorrectAnswer(level, answer.maxDifficulty)
+  );
 
   return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
 }
 
 function findMaxRewardingSkills(...args) {
-  return pipe(
-    _getMaxRewardingSkills,
-    _clearSkillsIfNotRewarding,
-  )(...args);
+  return pipe(_getMaxRewardingSkills, _clearSkillsIfNotRewarding)(...args);
 }
 
 function _getMaxRewardingSkills({ availableSkills, predictedLevel, tubes, knowledgeElements }) {
-  return _.reduce(availableSkills, (acc, skill) => {
-    const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements });
-    if (skillReward > acc.maxReward) {
-      acc.maxReward = skillReward;
-      acc.maxRewardingSkills = [skill];
-    }
-    else if (skillReward === acc.maxReward) {
-      acc.maxRewardingSkills.push(skill);
-    }
-    return acc;
-  }, { maxRewardingSkills: [], maxReward: -Infinity })
-    .maxRewardingSkills;
+  return _.reduce(
+    availableSkills,
+    (acc, skill) => {
+      const skillReward = _computeReward({ skill, predictedLevel, tubes, knowledgeElements });
+      if (skillReward > acc.maxReward) {
+        acc.maxReward = skillReward;
+        acc.maxRewardingSkills = [skill];
+      } else if (skillReward === acc.maxReward) {
+        acc.maxRewardingSkills.push(skill);
+      }
+      return acc;
+    },
+    { maxRewardingSkills: [], maxReward: -Infinity }
+  ).maxRewardingSkills;
 }
 
 // Skills that won't bring anymore information on the user is a termination condition of the CAT algorithm

@@ -3,7 +3,6 @@ const { NotFoundError } = require('../../domain/errors');
 const SessionJuryComment = require('../../domain/models/SessionJuryComment');
 
 module.exports = {
-
   async get(sessionId) {
     const result = await knex
       .select({
@@ -43,10 +42,7 @@ module.exports = {
 };
 
 async function _persist(sessionId, columnsToSave) {
-  const updatedSessionIds = await knex('sessions')
-    .update(columnsToSave)
-    .where({ id: sessionId })
-    .returning('id');
+  const updatedSessionIds = await knex('sessions').update(columnsToSave).where({ id: sessionId }).returning('id');
 
   if (updatedSessionIds.length === 0) {
     throw new NotFoundError(`La session ${sessionId} n'existe pas ou son accès est restreint.`);

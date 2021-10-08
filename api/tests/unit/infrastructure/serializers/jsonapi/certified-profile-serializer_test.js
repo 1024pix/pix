@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certified-profile-serializer');
 
-describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should serialize a certified profile to JSONAPI', function() {
+describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function () {
+  describe('#serialize', function () {
+    it('should serialize a certified profile to JSONAPI', function () {
       // given
       const skill1 = domainBuilder.buildCertifiedSkill({
         id: 'recSkill1',
@@ -97,7 +95,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function(
               name: 'skill_1',
               'has-been-asked-in-certif': false,
               'tube-id': 'recTube1',
-              'difficulty': 1,
+              difficulty: 1,
             },
           },
           {
@@ -107,14 +105,14 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function(
               name: 'skill_2',
               'has-been-asked-in-certif': true,
               'tube-id': 'recTube1',
-              'difficulty': 2,
+              difficulty: 2,
             },
           },
           {
             id: 'recTube1',
             type: 'certified-tubes',
             attributes: {
-              'name': 'tube_1',
+              name: 'tube_1',
               'competence-id': 'recCompetence1',
             },
           },
@@ -122,7 +120,7 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function(
             id: 'recCompetence1',
             type: 'certified-competences',
             attributes: {
-              'name': 'competence_1',
+              name: 'competence_1',
               'area-id': 'recArea1',
             },
           },
@@ -130,8 +128,8 @@ describe('Unit | Serializer | JSONAPI | certified-profile-serializer', function(
             id: 'recArea1',
             type: 'certified-areas',
             attributes: {
-              'name': 'area_1',
-              'color': 'someColor',
+              name: 'area_1',
+              color: 'someColor',
             },
           },
         ],

@@ -2,7 +2,9 @@ const BookshelfTutorialEvaluation = require('../orm-models/TutorialEvaluation');
 
 module.exports = {
   async addEvaluation({ userId, tutorialId }) {
-    const foundTutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId, tutorialId }).fetch({ require: false });
+    const foundTutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId, tutorialId }).fetch({
+      require: false,
+    });
     if (foundTutorialEvaluation) {
       return _toDomain(foundTutorialEvaluation);
     }
@@ -16,7 +18,6 @@ module.exports = {
     const tutorialEvaluation = await BookshelfTutorialEvaluation.where({ userId }).fetchAll();
     return tutorialEvaluation.map(_toDomain);
   },
-
 };
 
 function _toDomain(bookshelfTutorialEvaluation) {

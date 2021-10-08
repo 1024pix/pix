@@ -3,23 +3,23 @@ const createStage = require('../../../../lib/domain/usecases/create-stage');
 const stageValidator = require('../../../../lib/domain/validators/stage-validator');
 const { EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-stage', function() {
-  beforeEach(function() {
+describe('Unit | UseCase | create-stage', function () {
+  beforeEach(function () {
     sinon.stub(stageValidator, 'validate');
   });
 
-  it('should throw an EntityValidationError if stage is not valid', async function() {
+  it('should throw an EntityValidationError if stage is not valid', async function () {
     // given
     stageValidator.validate.throws(new EntityValidationError({ invalidAttributes: [] }));
 
     // when
-    const error = await catchErr(createStage)({ });
+    const error = await catchErr(createStage)({});
 
     // then
     expect(error).to.be.instanceOf(EntityValidationError);
   });
 
-  it('should call the stage repository', async function() {
+  it('should call the stage repository', async function () {
     // given
     const stageCreated = {};
     const stageRepository = { create: sinon.stub().returns(stageCreated) };

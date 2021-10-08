@@ -1,37 +1,51 @@
 const createServer = require('../../../../server');
-const { expect, databaseBuilder, generateValidRequestAuthorizationHeader, insertUserWithRolePixMaster, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+  learningContentBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 
-describe('Acceptance | API | Badges', function() {
-
+describe('Acceptance | API | Badges', function () {
   let server, options, userId, badge, badgeCriterion, badgePartnerCompetence;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/admin/badges/{id}', function() {
-
-    beforeEach(async function() {
+  describe('GET /api/admin/badges/{id}', function () {
+    beforeEach(async function () {
       userId = (await insertUserWithRolePixMaster()).id;
 
-      const learningContent = [{
-        id: 'recArea',
-        competences: [{
-          id: 'recCompetence',
-          tubes: [{
-            id: 'recTube',
-            name: '@recSkill',
-            practicalTitle: 'Titre pratique',
-            skills: [{
-              id: 'recABC123',
-              nom: '@recSkill3',
-            }, {
-              id: 'recDEF456',
-              nom: '@recSkill2',
-            }],
-          }],
-        }],
-      }];
+      const learningContent = [
+        {
+          id: 'recArea',
+          competences: [
+            {
+              id: 'recCompetence',
+              tubes: [
+                {
+                  id: 'recTube',
+                  name: '@recSkill',
+                  practicalTitle: 'Titre pratique',
+                  skills: [
+                    {
+                      id: 'recABC123',
+                      nom: '@recSkill3',
+                    },
+                    {
+                      id: 'recDEF456',
+                      nom: '@recSkill2',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ];
 
       const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
       mockLearningContent(learningContentObjects);
@@ -51,7 +65,7 @@ describe('Acceptance | API | Badges', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return the badge', async function() {
+    it('should return the badge', async function () {
       // given
       options = {
         method: 'GET',
@@ -72,89 +86,99 @@ describe('Acceptance | API | Badges', function() {
           },
           relationships: {
             'badge-criteria': {
-              data: [{
-                id: badgeCriterion.id.toString(),
-                type: 'badge-criteria',
-              }],
-            },
-            'badge-partner-competences': {
-              data: [{
-                id: badgePartnerCompetence.id.toString(),
-                type: 'badge-partner-competences',
-              }],
-            },
-          },
-        },
-        included: [{
-          type: 'badge-criteria',
-          id: badgeCriterion.id.toString(),
-          attributes: {
-            scope: 'CampaignParticipation',
-            threshold: 50,
-          },
-          relationships: {
-            'partner-competences': {
-              data: [],
-            },
-          },
-        }, {
-          attributes: {
-            'practical-title': 'Titre pratique',
-          },
-          id: 'recTube',
-          type: 'tubes',
-          relationships: {},
-        }, {
-          attributes: {
-            name: '@recSkill3',
-            difficulty: 3,
-          },
-          id: 'recABC123',
-          type: 'skills',
-          relationships: {
-            tube: {
-              data: {
-                id: 'recTube',
-                type: 'tubes',
-              },
-            },
-          },
-        }, {
-          attributes: {
-            name: '@recSkill2',
-            difficulty: 2,
-          },
-          id: 'recDEF456',
-          type: 'skills',
-          relationships: {
-            tube: {
-              data: {
-                id: 'recTube',
-                type: 'tubes',
-              },
-            },
-          },
-        }, {
-          type: 'badge-partner-competences',
-          id: badgePartnerCompetence.id.toString(),
-          attributes: {
-            name: 'name',
-          },
-          relationships: {
-            skills: {
               data: [
                 {
-                  id: 'recABC123',
-                  type: 'skills',
+                  id: badgeCriterion.id.toString(),
+                  type: 'badge-criteria',
                 },
+              ],
+            },
+            'badge-partner-competences': {
+              data: [
                 {
-                  id: 'recDEF456',
-                  type: 'skills',
+                  id: badgePartnerCompetence.id.toString(),
+                  type: 'badge-partner-competences',
                 },
               ],
             },
           },
-        }],
+        },
+        included: [
+          {
+            type: 'badge-criteria',
+            id: badgeCriterion.id.toString(),
+            attributes: {
+              scope: 'CampaignParticipation',
+              threshold: 50,
+            },
+            relationships: {
+              'partner-competences': {
+                data: [],
+              },
+            },
+          },
+          {
+            attributes: {
+              'practical-title': 'Titre pratique',
+            },
+            id: 'recTube',
+            type: 'tubes',
+            relationships: {},
+          },
+          {
+            attributes: {
+              name: '@recSkill3',
+              difficulty: 3,
+            },
+            id: 'recABC123',
+            type: 'skills',
+            relationships: {
+              tube: {
+                data: {
+                  id: 'recTube',
+                  type: 'tubes',
+                },
+              },
+            },
+          },
+          {
+            attributes: {
+              name: '@recSkill2',
+              difficulty: 2,
+            },
+            id: 'recDEF456',
+            type: 'skills',
+            relationships: {
+              tube: {
+                data: {
+                  id: 'recTube',
+                  type: 'tubes',
+                },
+              },
+            },
+          },
+          {
+            type: 'badge-partner-competences',
+            id: badgePartnerCompetence.id.toString(),
+            attributes: {
+              name: 'name',
+            },
+            relationships: {
+              skills: {
+                data: [
+                  {
+                    id: 'recABC123',
+                    type: 'skills',
+                  },
+                  {
+                    id: 'recDEF456',
+                    type: 'skills',
+                  },
+                ],
+              },
+            },
+          },
+        ],
       };
 
       // when

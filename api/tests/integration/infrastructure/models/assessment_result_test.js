@@ -1,21 +1,23 @@
 const { sinon, knex } = require('../../../test-helper');
 const BookshelfAssessmentResults = require('../../../../lib/infrastructure/orm-models/AssessmentResult');
 
-describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', function() {
-  describe('validation', function() {
+describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', function () {
+  describe('validation', function () {
     let rawData;
 
-    beforeEach(function() {
+    beforeEach(function () {
       rawData = {
         emitter: '',
         status: null,
       };
     });
 
-    afterEach(function() { return knex('assessment-results').delete(); });
+    afterEach(function () {
+      return knex('assessment-results').delete();
+    });
 
-    describe('the status field validated', function() {
-      it('should be saved', function() {
+    describe('the status field validated', function () {
+      it('should be saved', function () {
         // given
         rawData.status = 'validated';
         const assessmentResult = new BookshelfAssessmentResults(rawData);
@@ -30,8 +32,8 @@ describe('Integration | Infrastructure | Models | BookshelfAssessmentResult', fu
       });
     });
 
-    describe('the status field rejected', function() {
-      it('should be saved', function() {
+    describe('the status field rejected', function () {
+      it('should be saved', function () {
         // given
         rawData.status = 'rejected';
         const assessmentResult = new BookshelfAssessmentResults(rawData);

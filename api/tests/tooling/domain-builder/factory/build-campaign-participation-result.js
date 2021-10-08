@@ -11,7 +11,6 @@ module.exports = function buildCampaignParticipationResult({
   reachedStage = {},
   stageCount = 5,
 } = {}) {
-
   return new CampaignParticipationResult({
     id,
     isCompleted,

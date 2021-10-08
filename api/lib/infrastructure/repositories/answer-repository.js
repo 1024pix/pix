@@ -7,15 +7,23 @@ const answerStatusDatabaseAdapter = require('../adapters/answer-status-database-
 
 function _adaptAnswerToDb(answer) {
   return {
-    ...(_.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent', 'isFocusedOut'])),
+    ..._.pick(answer, ['value', 'timeout', 'challengeId', 'assessmentId', 'timeSpent', 'isFocusedOut']),
     result: answerStatusDatabaseAdapter.toSQLString(answer.result),
     resultDetails: jsYaml.dump(answer.resultDetails),
   };
 }
 
 function _adaptKnowledgeElementToDb(knowledgeElement) {
-  return _.pick(knowledgeElement, ['source', 'status', 'earnedPix',
-    'answerId', 'assessmentId', 'skillId', 'userId', 'competenceId']);
+  return _.pick(knowledgeElement, [
+    'source',
+    'status',
+    'earnedPix',
+    'answerId',
+    'assessmentId',
+    'skillId',
+    'userId',
+    'competenceId',
+  ]);
 }
 
 function _toDomain(answerDTO) {
@@ -29,16 +37,20 @@ function _toDomainArray(answerDTOs) {
   return _.map(answerDTOs, _toDomain);
 }
 
-const COLUMNS = Object.freeze(['id', 'result', 'resultDetails', 'timeout', 'value', 'assessmentId', 'challengeId', 'timeSpent']);
+const COLUMNS = Object.freeze([
+  'id',
+  'result',
+  'resultDetails',
+  'timeout',
+  'value',
+  'assessmentId',
+  'challengeId',
+  'timeSpent',
+]);
 
 module.exports = {
-
   async get(id) {
-    const answerDTO = await knex
-      .select(COLUMNS)
-      .from('answers')
-      .where({ id })
-      .first();
+    const answerDTO = await knex.select(COLUMNS).from('answers').where({ id }).first();
 
     if (!answerDTO) {
       throw new NotFoundError(`Not found answer for ID ${id}`);
@@ -48,11 +60,7 @@ module.exports = {
   },
 
   async findByIds(ids) {
-    const answerDTOs = await knex
-      .select(COLUMNS)
-      .from('answers')
-      .whereInArray('id', ids)
-      .orderBy('id');
+    const answerDTOs = await knex.select(COLUMNS).from('answers').whereInArray('id', ids).orderBy('id');
 
     return _toDomainArray(answerDTOs);
   },
@@ -73,11 +81,7 @@ module.exports = {
   },
 
   async findByAssessment(assessmentId) {
-    const answerDTOs = await knex
-      .select(COLUMNS)
-      .from('answers')
-      .where({ assessmentId })
-      .orderBy('createdAt');
+    const answerDTOs = await knex.select(COLUMNS).from('answers').where({ assessmentId }).orderBy('createdAt');
     const answerDTOsWithoutDuplicate = _.uniqBy(answerDTOs, 'challengeId');
 
     return _toDomainArray(answerDTOsWithoutDuplicate);
@@ -99,17 +103,15 @@ module.exports = {
   },
 
   async findChallengeIdsFromAnswerIds(ids) {
-    return knex
-      .distinct()
-      .pluck('challengeId')
-      .from('answers')
-      .whereInArray('id', ids);
+    return knex.distinct().pluck('challengeId').from('answers').whereInArray('id', ids);
   },
 
   async saveWithKnowledgeElements(answer, knowledgeElements) {
     const answerForDB = _adaptAnswerToDb(answer);
     return knex.transaction(async (trx) => {
-      const alreadySavedAnswer = await trx('answers').select('id').where({ challengeId: answer.challengeId, assessmentId: answer.assessmentId });
+      const alreadySavedAnswer = await trx('answers')
+        .select('id')
+        .where({ challengeId: answer.challengeId, assessmentId: answer.assessmentId });
       if (alreadySavedAnswer.length !== 0) {
         throw new ChallengeAlreadyAnsweredError();
       }

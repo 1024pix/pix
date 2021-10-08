@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 
 class TemporaryStorage {
-
   static generateKey() {
     return uuidv4();
   }

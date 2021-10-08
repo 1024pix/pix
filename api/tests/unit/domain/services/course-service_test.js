@@ -4,19 +4,17 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const logger = require('../../../../lib/infrastructure/logger');
 const { expect, sinon } = require('../../../test-helper');
 
-describe('Unit | Service | Course Service', function() {
-
-  describe('#getCourse', function() {
-
+describe('Unit | Service | Course Service', function () {
+  describe('#getCourse', function () {
     const userId = 1;
     const learningContentCourse = { id: 'recLearningContentId' };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(courseRepository, 'get');
       sinon.stub(logger, 'error');
     });
 
-    it('should call the course repository', function() {
+    it('should call the course repository', function () {
       // given
       const givenCourseId = 'recLearningContentId';
       courseRepository.get.resolves(learningContentCourse);
@@ -31,9 +29,8 @@ describe('Unit | Service | Course Service', function() {
       });
     });
 
-    context('when the course exists', function() {
-
-      it('should return a Course from the repository', async function() {
+    context('when the course exists', function () {
+      it('should return a Course from the repository', async function () {
         // given
         const courseId = 'recLearningContentId';
         const aCourse = Symbol('A course');
@@ -45,7 +42,6 @@ describe('Unit | Service | Course Service', function() {
         // then
         expect(result).to.equal(aCourse);
       });
-
     });
   });
 });

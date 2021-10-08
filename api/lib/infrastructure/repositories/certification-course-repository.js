@@ -11,33 +11,50 @@ const certificationChallengeRepository = require('./certification-challenge-repo
 const CertificationIssueReport = require('../../domain/models/CertificationIssueReport');
 
 module.exports = {
-
   async save({ certificationCourse, domainTransaction = DomainTransaction.emptyTransaction() }) {
     const certificationCourseToSaveDTO = _adaptModelToDb(certificationCourse);
     const options = { transacting: domainTransaction.knexTransaction };
-    const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(null, options);
+    const savedCertificationCourseDTO = await new CertificationCourseBookshelf(certificationCourseToSaveDTO).save(
+      null,
+      options
+    );
 
-    const savedChallenges = await bluebird.mapSeries(certificationCourse.toDTO().challenges, (certificationChallenge) => {
-      const certificationChallengeWithCourseId = { ...certificationChallenge, courseId: savedCertificationCourseDTO.id };
-      return certificationChallengeRepository.save({ certificationChallenge: certificationChallengeWithCourseId, domainTransaction });
-    });
+    const savedChallenges = await bluebird.mapSeries(
+      certificationCourse.toDTO().challenges,
+      (certificationChallenge) => {
+        const certificationChallengeWithCourseId = {
+          ...certificationChallenge,
+          courseId: savedCertificationCourseDTO.id,
+        };
+        return certificationChallengeRepository.save({
+          certificationChallenge: certificationChallengeWithCourseId,
+          domainTransaction,
+        });
+      }
+    );
 
     const savedCertificationCourse = toDomain(savedCertificationCourseDTO);
     savedCertificationCourse._challenges = savedChallenges;
     return savedCertificationCourse;
   },
 
-  async changeCompletionDate(certificationCourseId, completedAt = null, domainTransaction = DomainTransaction.emptyTransaction()) {
+  async changeCompletionDate(
+    certificationCourseId,
+    completedAt = null,
+    domainTransaction = DomainTransaction.emptyTransaction()
+  ) {
     const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, completedAt });
-    const savedCertificationCourse = await certificationCourseBookshelf.save(null, { transacting: domainTransaction.knexTransaction });
+    const savedCertificationCourse = await certificationCourseBookshelf.save(null, {
+      transacting: domainTransaction.knexTransaction,
+    });
     return toDomain(savedCertificationCourse);
   },
 
   async get(id) {
     try {
-      const certificationCourseBookshelf = await CertificationCourseBookshelf
-        .where({ id })
-        .fetch({ withRelated: ['assessment', 'challenges', 'certificationIssueReports'] });
+      const certificationCourseBookshelf = await CertificationCourseBookshelf.where({ id }).fetch({
+        withRelated: ['assessment', 'challenges', 'certificationIssueReports'],
+      });
       return toDomain(certificationCourseBookshelf);
     } catch (bookshelfError) {
       if (bookshelfError instanceof CertificationCourseBookshelf.NotFoundError) {
@@ -48,10 +65,7 @@ module.exports = {
   },
 
   async getCreationDate(id) {
-    const row = await knex('certification-courses')
-      .select('createdAt')
-      .where({ id })
-      .first();
+    const row = await knex('certification-courses').select('createdAt').where({ id }).first();
     if (!row) {
       throw new NotFoundError(`Certification course of id ${id} does not exist.`);
     }
@@ -59,11 +73,18 @@ module.exports = {
     return row.createdAt;
   },
 
-  async findOneCertificationCourseByUserIdAndSessionId({ userId, sessionId, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    const certificationCourse = await CertificationCourseBookshelf
-      .where({ userId, sessionId })
+  async findOneCertificationCourseByUserIdAndSessionId({
+    userId,
+    sessionId,
+    domainTransaction = DomainTransaction.emptyTransaction(),
+  }) {
+    const certificationCourse = await CertificationCourseBookshelf.where({ userId, sessionId })
       .orderBy('createdAt', 'desc')
-      .fetch({ require: false, withRelated: ['assessment', 'challenges'], transacting: domainTransaction.knexTransaction });
+      .fetch({
+        require: false,
+        withRelated: ['assessment', 'challenges'],
+        transacting: domainTransaction.knexTransaction,
+      });
     return toDomain(certificationCourse);
   },
 
@@ -91,9 +112,7 @@ module.exports = {
   },
 
   async findCertificationCoursesBySessionId({ sessionId }) {
-    const bookshelfCertificationCourses = await CertificationCourseBookshelf
-      .where({ sessionId })
-      .fetchAll();
+    const bookshelfCertificationCourses = await CertificationCourseBookshelf.where({ sessionId }).fetchAll();
     return bookshelfCertificationCourses.map(toDomain);
   },
 
@@ -105,12 +124,18 @@ function toDomain(bookshelfCertificationCourse) {
     return null;
   }
 
-  const assessment = bookshelfToDomainConverter.buildDomainObject(AssessmentBookshelf, bookshelfCertificationCourse.related('assessment'));
+  const assessment = bookshelfToDomainConverter.buildDomainObject(
+    AssessmentBookshelf,
+    bookshelfCertificationCourse.related('assessment')
+  );
   const dbCertificationCourse = bookshelfCertificationCourse.toJSON();
   return new CertificationCourse({
     assessment,
     challenges: bookshelfCertificationCourse.related('challenges').toJSON(),
-    certificationIssueReports: bookshelfCertificationCourse.related('certificationIssueReports').toJSON().map((json) => new CertificationIssueReport(json)),
+    certificationIssueReports: bookshelfCertificationCourse
+      .related('certificationIssueReports')
+      .toJSON()
+      .map((json) => new CertificationIssueReport(json)),
     ..._.pick(dbCertificationCourse, [
       'id',
       'userId',
@@ -138,17 +163,10 @@ function toDomain(bookshelfCertificationCourse) {
 }
 
 function _adaptModelToDb(certificationCourse) {
-
-  return _.omit(certificationCourse.toDTO(), [
-    'certificationIssueReports',
-    'assessment',
-    'challenges',
-    'createdAt',
-  ]);
+  return _.omit(certificationCourse.toDTO(), ['certificationIssueReports', 'assessment', 'challenges', 'createdAt']);
 }
 
 function _pickUpdatableProperties(certificationCourse) {
-
   return _.pick(certificationCourse.toDTO(), [
     'id',
     'isCancelled',

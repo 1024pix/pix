@@ -11,23 +11,21 @@ const createServer = require('../../../server');
 const Membership = require('../../../lib/domain/models/Membership');
 const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
-describe('Acceptance | Controller | Schooling-registration-user-associations', function() {
-
+describe('Acceptance | Controller | Schooling-registration-user-associations', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/schooling-registration-user-associations/', function() {
-
+  describe('POST /api/schooling-registration-user-associations/', function () {
     let organization;
     let campaign;
     let options;
     let schoolingRegistration;
     let user;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       options = {
         method: 'POST',
@@ -51,9 +49,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       await databaseBuilder.commit();
     });
 
-    context('associate user with firstName, lastName and birthdate', function() {
-
-      it('should return an 200 status after having successfully associated user to schoolingRegistration', async function() {
+    context('associate user with firstName, lastName and birthdate', function () {
+      it('should return an 200 status after having successfully associated user to schoolingRegistration', async function () {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
         options.payload.data = {
@@ -61,7 +58,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             'campaign-code': campaign.code,
             'first-name': schoolingRegistration.firstName,
             'last-name': schoolingRegistration.lastName,
-            'birthdate': schoolingRegistration.birthdate,
+            birthdate: schoolingRegistration.birthdate,
           },
         };
         options.url += '?withReconciliation=true';
@@ -73,15 +70,17 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         expect(response.statusCode).to.equal(200);
       });
 
-      context('When student is already reconciled in the same organization', function() {
-
-        it('should return a schooling registration already linked error (short code R31 when account with email)', async function() {
+      context('When student is already reconciled in the same organization', function () {
+        it('should return a schooling registration already linked error (short code R31 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: 'john.harry@example.net',
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: null,
+          });
           schoolingRegistration.userId = userWithEmailOnly.id;
           await databaseBuilder.commit();
 
@@ -99,7 +98,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -111,13 +110,16 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R32 when connected with username)', async function() {
+        it('should return a schooling registration already linked error (short code R32 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
             email: null,
           });
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: null,
+          });
           schoolingRegistration.userId = userWithUsernameOnly.id;
           await databaseBuilder.commit();
 
@@ -135,7 +137,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -147,15 +149,22 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R33 when account with samlId)', async function() {
+        it('should return a schooling registration already linked error (short code R33 when account with samlId)', async function () {
           // given
           const userWithSamlOnly = databaseBuilder.factory.buildUser({
             username: null,
             email: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlOnly.id });
+          databaseBuilder.factory.buildAuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            externalIdentifier: '12345678',
+            userId: userWithSamlOnly.id,
+          });
 
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: null,
+          });
           schoolingRegistration.userId = userWithSamlOnly.id;
           await databaseBuilder.commit();
 
@@ -173,7 +182,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -186,15 +195,18 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('When student is already reconciled in another organization', function() {
-
-        it('should return a schooling registration already linked error (short code R13 when account with samlId)', async function() {
+      context('When student is already reconciled in another organization', function () {
+        it('should return a schooling registration already linked error (short code R13 when account with samlId)', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
             username: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlIdOnly.id });
+          databaseBuilder.factory.buildAuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            externalIdentifier: '12345678',
+            userId: userWithSamlIdOnly.id,
+          });
 
           const otherSchoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration();
           otherSchoolingRegistration.nationalStudentId = schoolingRegistration.nationalStudentId;
@@ -218,7 +230,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -230,7 +242,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R11 when account with email)', async function() {
+        it('should return a schooling registration already linked error (short code R11 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -259,7 +271,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -271,7 +283,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code R12 when connected with username)', async function() {
+        it('should return a schooling registration already linked error (short code R12 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             email: null,
@@ -300,7 +312,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -311,12 +323,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.statusCode).to.equal(409);
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
-
       });
 
-      context('when no schoolingRegistration can be associated because birthdate does not match', function() {
-
-        it('should return an 404 NotFoundError error', async function() {
+      context('when no schoolingRegistration can be associated because birthdate does not match', function () {
+        it('should return an 404 NotFoundError error', async function () {
           // given
           const options = {
             method: 'POST',
@@ -328,7 +338,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
                   'campaign-code': campaign.code,
                   'first-name': schoolingRegistration.firstName,
                   'last-name': schoolingRegistration.lastName,
-                  'birthdate': '1990-03-01',
+                  birthdate: '1990-03-01',
                 },
               },
             },
@@ -343,9 +353,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when no schoolingRegistration found to associate because names does not match', function() {
-
-        it('should return an 404 NotFoundError error', async function() {
+      context('when no schoolingRegistration found to associate because names does not match', function () {
+        it('should return an 404 NotFoundError error', async function () {
           // given
           const options = {
             method: 'POST',
@@ -357,7 +366,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
                   'campaign-code': campaign.code,
                   'first-name': 'wrong firstName',
                   'last-name': 'wrong lastName',
-                  'birthdate': schoolingRegistration.birthdate,
+                  birthdate: schoolingRegistration.birthdate,
                 },
               },
             },
@@ -372,9 +381,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when user is not authenticated', function() {
-
-        it('should respond with a 401 - unauthorized access', async function() {
+      context('when user is not authenticated', function () {
+        it('should respond with a 401 - unauthorized access', async function () {
           // given
           options.headers.authorization = 'invalid.access.token';
 
@@ -386,9 +394,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when a field is not valid', function() {
-
-        it('should respond with a 422 - Unprocessable Entity', async function() {
+      context('when a field is not valid', function () {
+        it('should respond with a 422 - Unprocessable Entity', async function () {
           // given
           const options = {
             method: 'POST',
@@ -400,7 +407,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
                   'campaign-code': campaign.code,
                   'first-name': ' ',
                   'last-name': schoolingRegistration.lastName,
-                  'birthdate': schoolingRegistration.birthdate,
+                  birthdate: schoolingRegistration.birthdate,
                 },
               },
             },
@@ -414,9 +421,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('When withReconciliation query param is set to false', function() {
-
-        it('should not reconcile user and return a 204 No Content', async function() {
+      context('When withReconciliation query param is set to false', function () {
+        it('should not reconcile user and return a 204 No Content', async function () {
           // given
           options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
           options.payload.data = {
@@ -424,7 +430,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaign.code,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
           options.url += '?withReconciliation=false';
@@ -434,24 +440,26 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(204);
-          const schoolingRegistrationInDB = await knex('schooling-registrations').where({
-            firstName: schoolingRegistration.firstName,
-            lastName: schoolingRegistration.lastName,
-            birthdate: schoolingRegistration.birthdate,
-          }).select();
+          const schoolingRegistrationInDB = await knex('schooling-registrations')
+            .where({
+              firstName: schoolingRegistration.firstName,
+              lastName: schoolingRegistration.lastName,
+              birthdate: schoolingRegistration.birthdate,
+            })
+            .select();
           expect(schoolingRegistrationInDB.userId).to.be.undefined;
         });
       });
     });
   });
 
-  describe('POST /api/schooling-registration-dependent-users/external-user-token/', function() {
+  describe('POST /api/schooling-registration-dependent-users/external-user-token/', function () {
     let organization;
     let campaign;
     let options;
     let schoolingRegistration;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       options = {
         method: 'POST',
@@ -473,13 +481,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       await databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('authentication-methods').delete();
     });
 
-    context('when an external user try to reconcile for the first time', function() {
-
-      it('should return an 200 status after having successfully created the user and associated it to schoolingRegistration', async function() {
+    context('when an external user try to reconcile for the first time', function () {
+      it('should return an 200 status after having successfully created the user and associated it to schoolingRegistration', async function () {
         // given
         const externalUser = {
           lastName: schoolingRegistration.lastName,
@@ -492,7 +499,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           attributes: {
             'campaign-code': campaign.code,
             'external-user-token': idTokenForExternalUser,
-            'birthdate': schoolingRegistration.birthdate,
+            birthdate: schoolingRegistration.birthdate,
             'access-token': null,
           },
         };
@@ -504,16 +511,19 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         expect(response.statusCode).to.equal(200);
       });
 
-      context('When external user is already reconciled', function() {
-
-        it('should replace the existing user samlId already reconciled in the other organization with the authenticated user samlId', async function() {
+      context('When external user is already reconciled', function () {
+        it('should replace the existing user samlId already reconciled in the other organization with the authenticated user samlId', async function () {
           // given
           const user = databaseBuilder.factory.buildUser({
             firstName: schoolingRegistration.firstName,
             lastName: schoolingRegistration.lastName,
             birthdate: schoolingRegistration.birthdate,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: user.id });
+          databaseBuilder.factory.buildAuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            externalIdentifier: '12345678',
+            userId: user.id,
+          });
 
           const otherOrganization = databaseBuilder.factory.buildOrganization({ type: 'SCO' });
           databaseBuilder.factory.buildSchoolingRegistration({
@@ -537,7 +547,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             attributes: {
               'campaign-code': campaign.code,
               'external-user-token': idTokenForExternalUser,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
               'access-token': null,
             },
           };
@@ -548,24 +558,30 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.payload).to.contains('access-token');
-          const result = await knex('authentication-methods').where({ userId: user.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
+          const result = await knex('authentication-methods').where({
+            userId: user.id,
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          });
           const garAuthenticationMethod = result[0];
           expect(garAuthenticationMethod.externalIdentifier).to.equal(externalUser.samlId);
         });
 
-        it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async function() {
+        it('should replace the existing user samlId already reconciled in the same organization found with the authenticated user samlId', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser();
-          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlIdOnly.id });
+          databaseBuilder.factory.buildAuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            externalIdentifier: '12345678',
+            userId: userWithSamlIdOnly.id,
+          });
 
-          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration(
-            {
-              organizationId: organization.id,
-              userId: userWithSamlIdOnly.id,
-              firstName: userWithSamlIdOnly.firstName,
-              lastName: userWithSamlIdOnly.lastName,
-              birthdate: userWithSamlIdOnly.birthdate,
-            });
+          const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+            organizationId: organization.id,
+            userId: userWithSamlIdOnly.id,
+            firstName: userWithSamlIdOnly.firstName,
+            lastName: userWithSamlIdOnly.lastName,
+            birthdate: userWithSamlIdOnly.birthdate,
+          });
           await databaseBuilder.commit();
 
           const externalUser = {
@@ -579,7 +595,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             attributes: {
               'campaign-code': campaign.code,
               'external-user-token': idTokenForExternalUser,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
               'access-token': null,
             },
           };
@@ -590,15 +606,17 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           // then
           expect(response.statusCode).to.equal(200);
           expect(response.payload).to.contains('access-token');
-          const result = await knex('authentication-methods').where({ userId: userWithSamlIdOnly.id, identityProvider: AuthenticationMethod.identityProviders.GAR });
+          const result = await knex('authentication-methods').where({
+            userId: userWithSamlIdOnly.id,
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+          });
           const garAuthenticationMethod = result[0];
           expect(garAuthenticationMethod.externalIdentifier).to.equal(externalUser.samlId);
         });
       });
 
-      context('when external user id token is not valid', function() {
-
-        it('should respond with a 401 - unauthorized access', async function() {
+      context('when external user id token is not valid', function () {
+        it('should respond with a 401 - unauthorized access', async function () {
           // given
           const invalidIdToken = 'invalid.id.token';
 
@@ -606,7 +624,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             attributes: {
               'campaign-code': campaign.code,
               'external-user-token': invalidIdToken,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
               'access-token': null,
             },
           };
@@ -618,18 +636,17 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.statusCode).to.equal(401);
         });
       });
-
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/auto', function() {
+  describe('POST /api/schooling-registration-user-associations/auto', function () {
     const nationalStudentId = '12345678AZ';
     let organization;
     let campaign;
     let options;
     let user;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       options = {
         method: 'POST',
@@ -641,12 +658,16 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       campaign = databaseBuilder.factory.buildCampaign({ organizationId: organization.id });
-      databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id, userId: null, nationalStudentId });
+      databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+        userId: null,
+        nationalStudentId,
+      });
 
       await databaseBuilder.commit();
     });
 
-    it('should return an 200 status after having successfully associated user to schoolingRegistration', async function() {
+    it('should return an 200 status after having successfully associated user to schoolingRegistration', async function () {
       // given
       databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id, nationalStudentId });
       await databaseBuilder.commit();
@@ -666,9 +687,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       expect(response.statusCode).to.equal(200);
     });
 
-    context('when user is not authenticated', function() {
-
-      it('should respond with a 401 - unauthorized access', async function() {
+    context('when user is not authenticated', function () {
+      it('should respond with a 401 - unauthorized access', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -680,9 +700,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    context('when user could not be reconciled', function() {
-
-      it('should respond with a 422 - unprocessable entity', async function() {
+    context('when user could not be reconciled', function () {
+      it('should respond with a 422 - unprocessable entity', async function () {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
         options.payload.data = {
@@ -700,13 +719,13 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
   });
 
-  describe('POST /api/schooling-registration-user-associations/student', function() {
+  describe('POST /api/schooling-registration-user-associations/student', function () {
     let organization;
     let campaign;
     let options;
     let user;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       options = {
         method: 'POST',
@@ -730,7 +749,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       await databaseBuilder.commit();
     });
 
-    it('should return an 204 status after updating higher schooling registration', async function() {
+    it('should return an 204 status after updating higher schooling registration', async function () {
       // given
       options.headers.authorization = generateValidRequestAuthorizationHeader(user.id);
       options.payload.data = {
@@ -738,7 +757,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           'student-number': '12345',
           'first-name': 'Jean',
           'last-name': 'Michel',
-          'birthdate': '2010-01-01',
+          birthdate: '2010-01-01',
           'campaign-code': campaign.code,
         },
         type: 'schooling-registration-user-associations',
@@ -751,15 +770,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
   });
 
-  describe('GET /api/schooling-registration-user-associations/', function() {
-
+  describe('GET /api/schooling-registration-user-associations/', function () {
     let options;
     let user;
     let organization;
     let schoolingRegistration;
     let campaignCode;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organization = databaseBuilder.factory.buildOrganization({ isManagingStudents: true });
       campaignCode = databaseBuilder.factory.buildCampaign({ organizationId: organization.id, code: 'YUTR789' }).code;
       user = databaseBuilder.factory.buildUser();
@@ -779,9 +797,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       };
     });
 
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -792,7 +809,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -805,9 +822,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    describe('Success case', function() {
-
-      it('should return the schoolingRegistration linked to the user and a 200 status code response', async function() {
+    describe('Success case', function () {
+      it('should return the schoolingRegistration linked to the user and a 200 status code response', async function () {
         // when
         const response = await server.inject(options);
 
@@ -819,9 +835,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    describe('There is no schoolingRegistration linked to the user', function() {
-
-      it('should return a data null', async function() {
+    describe('There is no schoolingRegistration linked to the user', function () {
+      it('should return a data null', async function () {
         // given
         const userWithoutStudent = databaseBuilder.factory.buildUser({
           firstName: 'jack',
@@ -843,9 +858,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    describe('There is no schoolingRegistration linked to the organization owning the campaign', function() {
-
-      it('should return a data null', async function() {
+    describe('There is no schoolingRegistration linked to the organization owning the campaign', function () {
+      it('should return a data null', async function () {
         // given
         const otherCampaignCode = databaseBuilder.factory.buildCampaign({ code: 'ABCDE123' }).code;
         await databaseBuilder.commit();
@@ -864,15 +878,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
   });
 
-  describe('PUT /api/schooling-registration-user-associations/possibilities', function() {
-
+  describe('PUT /api/schooling-registration-user-associations/possibilities', function () {
     let options;
     let user;
     let organization;
     let schoolingRegistration;
     let campaignCode;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organization = databaseBuilder.factory.buildOrganization({
         isManagingStudents: true,
         type: 'SCO',
@@ -907,9 +920,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       };
     });
 
-    describe('Success case', function() {
-
-      it('should return the schoolingRegistration linked to the user and a 200 status code response', async function() {
+    describe('Success case', function () {
+      it('should return the schoolingRegistration linked to the user and a 200 status code response', async function () {
         // when
         const response = await server.inject(options);
 
@@ -918,11 +930,9 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
       });
     });
 
-    describe('Error cases', function() {
-
-      context('when no schoolingRegistration can be associated because birthdate does not match', function() {
-
-        it('should respond with a 404 - Not Found', async function() {
+    describe('Error cases', function () {
+      context('when no schoolingRegistration can be associated because birthdate does not match', function () {
+        it('should respond with a 404 - Not Found', async function () {
           // given
           options.payload.data.attributes.birthdate = '1990-03-01';
 
@@ -931,13 +941,14 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(404);
-          expect(response.result.errors[0].detail).to.equal('There were no schoolingRegistrations matching with organization and birthdate');
+          expect(response.result.errors[0].detail).to.equal(
+            'There were no schoolingRegistrations matching with organization and birthdate'
+          );
         });
       });
 
-      context('when no schoolingRegistration found to associate because names does not match', function() {
-
-        it('should respond with a 404 - Not Found', async function() {
+      context('when no schoolingRegistration found to associate because names does not match', function () {
+        it('should respond with a 404 - Not Found', async function () {
           // given
           options.payload.data.attributes['first-name'] = 'wrong firstName';
 
@@ -950,9 +961,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when schoolingRegistration is already associated in the same organization', function() {
-
-        it('should return a schooling registration already linked error (short code S51 when account with email)', async function() {
+      context('when schoolingRegistration is already associated in the same organization', function () {
+        it('should return a schooling registration already linked error (short code S51 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -978,7 +988,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -990,7 +1000,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S52 when connected with username)', async function() {
+        it('should return a schooling registration already linked error (short code S52 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -1016,7 +1026,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -1028,7 +1038,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S53 when account with samlId)', async function() {
+        it('should return a schooling registration already linked error (short code S53 when account with samlId)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1065,7 +1075,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -1078,9 +1088,8 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
         });
       });
 
-      context('when schoolingRegistration is already associated in others organizations', function() {
-
-        it('should respond with a 409 - Conflict', async function() {
+      context('when schoolingRegistration is already associated in others organizations', function () {
+        it('should respond with a 409 - Conflict', async function () {
           // given
           const schoolingRegistrationAlreadyMatched = databaseBuilder.factory.buildSchoolingRegistration({
             birthdate: '2005-05-15',
@@ -1101,10 +1110,12 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
           // then
           expect(response.statusCode).to.equal(409);
-          expect(response.result.errors[0].detail).to.equal('Un compte existe déjà pour l‘élève dans le même établissement.');
+          expect(response.result.errors[0].detail).to.equal(
+            'Un compte existe déjà pour l‘élève dans le même établissement.'
+          );
         });
 
-        it('should return a schooling registration already linked error (short code S61 when account with email)', async function() {
+        it('should return a schooling registration already linked error (short code S61 when account with email)', async function () {
           // given
           const userWithEmailOnly = databaseBuilder.factory.buildUser({
             username: null,
@@ -1133,7 +1144,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -1145,7 +1156,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S62 when connected with username)', async function() {
+        it('should return a schooling registration already linked error (short code S62 when connected with username)', async function () {
           // given
           const userWithUsernameOnly = databaseBuilder.factory.buildUser({
             username: 'john.harry0702',
@@ -1174,7 +1185,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -1186,13 +1197,17 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
 
-        it('should return a schooling registration already linked error (short code S63 when account with samlId)', async function() {
+        it('should return a schooling registration already linked error (short code S63 when account with samlId)', async function () {
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser({
             email: null,
             username: null,
           });
-          databaseBuilder.factory.buildAuthenticationMethod({ identityProvider: AuthenticationMethod.identityProviders.GAR, externalIdentifier: '12345678', userId: userWithSamlIdOnly.id });
+          databaseBuilder.factory.buildAuthenticationMethod({
+            identityProvider: AuthenticationMethod.identityProviders.GAR,
+            externalIdentifier: '12345678',
+            userId: userWithSamlIdOnly.id,
+          });
 
           databaseBuilder.factory.buildSchoolingRegistration({
             nationalStudentId: schoolingRegistration.nationalStudentId,
@@ -1217,7 +1232,7 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
               'campaign-code': campaignCode,
               'first-name': schoolingRegistration.firstName,
               'last-name': schoolingRegistration.lastName,
-              'birthdate': schoolingRegistration.birthdate,
+              birthdate: schoolingRegistration.birthdate,
             },
           };
 
@@ -1228,12 +1243,10 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           expect(response.statusCode).to.equal(409);
           expect(response.result.errors[0]).to.deep.equal(expectedResponse);
         });
-
       });
 
-      context('when a field is not valid', function() {
-
-        it('should respond with a 422 - Unprocessable Entity', async function() {
+      context('when a field is not valid', function () {
+        it('should respond with a 422 - Unprocessable Entity', async function () {
           // given
           options.payload.data.attributes['last-name'] = ' ';
 
@@ -1247,15 +1260,19 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
   });
 
-  describe('DELETE /api/schooling-registration-user-associations', function() {
-
-    context('When user is admin of the organization', function() {
-
-      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function() {
+  describe('DELETE /api/schooling-registration-user-associations', function () {
+    context('When user is admin of the organization', function () {
+      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
         const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+        databaseBuilder.factory.buildMembership({
+          organizationId: organization.id,
+          userId: user.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: organization.id,
+        });
 
         const authorizationToken = generateValidRequestAuthorizationHeader(user.id);
 
@@ -1273,17 +1290,21 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
         expect(response.statusCode).to.equal(204);
       });
-
     });
 
-    context('When user has the role pixMaster', function() {
-
-      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function() {
+    context('When user has the role pixMaster', function () {
+      it('should return an 204 status after having successfully dissociated user from schoolingRegistration', async function () {
         const organization = databaseBuilder.factory.buildOrganization();
         const pixMaster = await insertUserWithRolePixMaster();
         const user = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.ADMIN });
-        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+        databaseBuilder.factory.buildMembership({
+          organizationId: organization.id,
+          userId: user.id,
+          organizationRole: Membership.roles.ADMIN,
+        });
+        const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          organizationId: organization.id,
+        });
 
         await databaseBuilder.commit();
 
@@ -1299,14 +1320,19 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
 
         expect(response.statusCode).to.equal(204);
       });
-
     });
 
-    it('should return an 403 status when user is neither admin of the organization nor has role pix master', async function() {
+    it('should return an 403 status when user is neither admin of the organization nor has role pix master', async function () {
       const organization = databaseBuilder.factory.buildOrganization();
       const user = databaseBuilder.factory.buildUser();
-      databaseBuilder.factory.buildMembership({ organizationId: organization.id, userId: user.id, organizationRole: Membership.roles.MEMBER });
-      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ organizationId: organization.id });
+      databaseBuilder.factory.buildMembership({
+        organizationId: organization.id,
+        userId: user.id,
+        organizationRole: Membership.roles.MEMBER,
+      });
+      const schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+        organizationId: organization.id,
+      });
 
       const authorizationToken = generateValidRequestAuthorizationHeader(user.id);
 
@@ -1326,26 +1352,28 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
     });
   });
 
-  describe('PATCH /api/organizations/organizationId/schooling-registration-user-associations/schoolingRegistrationId', function() {
-
+  describe('PATCH /api/organizations/organizationId/schooling-registration-user-associations/schoolingRegistrationId', function () {
     let organizationId;
     const studentNumber = '54321';
     let schoolingRegistrationId;
     let authorizationToken;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({ isManagingStudents: true, type: 'SUP' }).id;
 
       const user = databaseBuilder.factory.buildUser();
       authorizationToken = generateValidRequestAuthorizationHeader(user.id);
       schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ organizationId }).id;
-      databaseBuilder.factory.buildMembership({ organizationId, userId: user.id, organizationRole: Membership.roles.ADMIN });
+      databaseBuilder.factory.buildMembership({
+        organizationId,
+        userId: user.id,
+        organizationRole: Membership.roles.ADMIN,
+      });
       await databaseBuilder.commit();
     });
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 204', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 204', async function () {
         const options = {
           method: 'PATCH',
           url: `/api/organizations/${organizationId}/schooling-registration-user-associations/${schoolingRegistrationId}`,

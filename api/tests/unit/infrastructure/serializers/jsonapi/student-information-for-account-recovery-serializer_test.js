@@ -2,11 +2,9 @@ const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer.js');
 const StudentInformationForAccountRecovery = require('../../../../../lib/domain/read-models/StudentInformationForAccountRecovery');
 
-describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a StudentInformationForAccountRecovery model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a StudentInformationForAccountRecovery model object into JSON API data', function () {
       //given
       const modelStudentInformationForAccountRecovery = new StudentInformationForAccountRecovery({
         firstName: 'Jude',
@@ -26,8 +24,8 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
           attributes: {
             'first-name': modelStudentInformationForAccountRecovery.firstName,
             'last-name': modelStudentInformationForAccountRecovery.lastName,
-            'username': modelStudentInformationForAccountRecovery.username,
-            'email': modelStudentInformationForAccountRecovery.email,
+            username: modelStudentInformationForAccountRecovery.username,
+            email: modelStudentInformationForAccountRecovery.email,
             'latest-organization-name': modelStudentInformationForAccountRecovery.latestOrganizationName,
           },
         },
@@ -36,9 +34,8 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
     });
   });
 
-  describe('#serializeAccountRecovery()', function() {
-
-    it('should convert an account recovery demand into JSON API data', function() {
+  describe('#serializeAccountRecovery()', function () {
+    it('should convert an account recovery demand into JSON API data', function () {
       //given
       const accountRecoveryDetails = {
         id: 1,
@@ -56,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
           id: accountRecoveryDetails.id.toString(),
           attributes: {
             'first-name': accountRecoveryDetails.firstName,
-            'email': accountRecoveryDetails.email,
+            email: accountRecoveryDetails.email,
           },
         },
       };
@@ -64,9 +61,8 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
     });
   });
 
-  describe('#deserialize()', function() {
-
-    it('should convert the payload json to student information', async function() {
+  describe('#deserialize()', function () {
+    it('should convert the payload json to student information', async function () {
       //given
       const payload = {
         data: {
@@ -95,7 +91,7 @@ describe('Unit | Serializer | JSONAPI | student-information-for-account-recovery
       expect(json).to.deep.equal(expectedJsonApi);
     });
 
-    it('should not return undefined email when none exist in payload', async function() {
+    it('should not return undefined email when none exist in payload', async function () {
       //given
       const payload = {
         data: {

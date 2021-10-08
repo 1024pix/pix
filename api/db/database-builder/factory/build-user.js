@@ -67,16 +67,27 @@ const buildUser = function buildUser({
   createdAt = new Date(),
   updatedAt = new Date(),
 } = {}) {
-
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email, username,
-    cgu, lang,
-    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
-    hasSeenNewDashboardInfo, hasSeenFocusedChallengeTooltip, hasSeenOtherChallengesTooltip, isAnonymous,
-    createdAt, updatedAt,
+    id,
+    firstName,
+    lastName,
+    email,
+    username,
+    cgu,
+    lang,
+    lastTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
+    hasSeenNewDashboardInfo,
+    hasSeenFocusedChallengeTooltip,
+    hasSeenOtherChallengesTooltip,
+    isAnonymous,
+    createdAt,
+    updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
@@ -103,7 +114,6 @@ buildUser.withRawPassword = function buildUserWithRawPassword({
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
-
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
@@ -157,15 +167,20 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
-
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email,
+    id,
+    firstName,
+    lastName,
+    email,
     cgu,
     lang,
-    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    lastTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -177,7 +192,8 @@ buildUser.withPixRolePixMaster = function buildUserWithPixRolePixMaster({
     userId: user.id,
     rawPassword,
     shouldChangePassword,
-    createdAt, updatedAt,
+    createdAt,
+    updatedAt,
   });
 
   buildUserPixRole({ userId: user.id, pixRoleId: PIX_MASTER_ROLE_ID });
@@ -204,15 +220,20 @@ buildUser.withMembership = function buildUserWithMemberships({
   rawPassword = 'Password123',
   shouldChangePassword = false,
 } = {}) {
-
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const values = {
-    id, firstName, lastName, email,
+    id,
+    firstName,
+    lastName,
+    email,
     cgu,
     lang,
-    lastTermsOfServiceValidatedAt, mustValidateTermsOfService, pixOrgaTermsOfServiceAccepted,
-    pixCertifTermsOfServiceAccepted, hasSeenAssessmentInstructions,
+    lastTermsOfServiceValidatedAt,
+    mustValidateTermsOfService,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    hasSeenAssessmentInstructions,
   };
 
   const user = databaseBuffer.pushInsertable({
@@ -224,7 +245,8 @@ buildUser.withMembership = function buildUserWithMemberships({
     userId: user.id,
     rawPassword,
     shouldChangePassword,
-    createdAt, updatedAt,
+    createdAt,
+    updatedAt,
   });
 
   organizationId = isNil(organizationId) ? buildOrganization().id : organizationId;
@@ -255,7 +277,6 @@ buildUser.withCertificationCenterMembership = function buildUserWithCertificatio
   updatedAt = new Date(),
   certificationCenterId = null,
 } = {}) {
-
   email = isUndefined(email) ? `${firstName}.${lastName}${id}@example.net`.toLowerCase() : email || null;
 
   const user = buildUser({

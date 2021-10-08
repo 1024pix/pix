@@ -4,20 +4,24 @@ const knowledgeElementSnapshotRepository = require('../../../../lib/infrastructu
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Repository | KnowledgeElementSnapshotRepository', function() {
-
-  describe('#save', function() {
-
-    afterEach(function() {
+describe('Integration | Repository | KnowledgeElementSnapshotRepository', function () {
+  describe('#save', function () {
+    afterEach(function () {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should save knowledge elements snapshot for a userId and a date', async function() {
+    it('should save knowledge elements snapshot for a userId and a date', async function () {
       // given
       const snappedAt = new Date('2019-04-01');
       const userId = databaseBuilder.factory.buildUser().id;
-      const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
-      const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
+      const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2019-03-01'),
+      });
+      const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({
+        userId,
+        createdAt: new Date('2019-03-01'),
+      });
       const knowledgeElements = [knowledgeElement1, knowledgeElement2];
       await databaseBuilder.commit();
 
@@ -30,15 +34,17 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
       const actualKnowledgeElements = [];
       for (const knowledgeElementData of actualUserSnapshot.snapshot) {
-        actualKnowledgeElements.push(new KnowledgeElement({
-          ...knowledgeElementData,
-          createdAt: new Date(knowledgeElementData.createdAt),
-        }));
+        actualKnowledgeElements.push(
+          new KnowledgeElement({
+            ...knowledgeElementData,
+            createdAt: new Date(knowledgeElementData.createdAt),
+          })
+        );
       }
       expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);
     });
 
-    it('should throw an error if knowledge elements snapshot already exist for userId and a date', async function() {
+    it('should throw an error if knowledge elements snapshot already exist for userId and a date', async function () {
       // given
       const snappedAt = new Date('2019-04-01');
       const userId = databaseBuilder.factory.buildUser().id;
@@ -46,17 +52,24 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       await databaseBuilder.commit();
 
       // when
-      const error = await catchErr(knowledgeElementSnapshotRepository.save)({ userId, snappedAt, knowledgeElements: [] });
+      const error = await catchErr(knowledgeElementSnapshotRepository.save)({
+        userId,
+        snappedAt,
+        knowledgeElements: [],
+      });
 
       // then
       expect(error).to.be.instanceOf(AlreadyExistingEntityError);
     });
 
-    context('when a transaction is given transaction', function() {
-      it('saves knowledge elements snapshot using a transaction', async function() {
+    context('when a transaction is given transaction', function () {
+      it('saves knowledge elements snapshot using a transaction', async function () {
         const snappedAt = new Date('2019-04-01');
         const userId = databaseBuilder.factory.buildUser().id;
-        const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
+        const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          createdAt: new Date('2019-03-01'),
+        });
         const knowledgeElements = [knowledgeElement1];
         await databaseBuilder.commit();
 
@@ -69,18 +82,23 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
         expect(actualUserSnapshot.snappedAt).to.deep.equal(snappedAt);
         const actualKnowledgeElements = [];
         for (const knowledgeElementData of actualUserSnapshot.snapshot) {
-          actualKnowledgeElements.push(new KnowledgeElement({
-            ...knowledgeElementData,
-            createdAt: new Date(knowledgeElementData.createdAt),
-          }));
+          actualKnowledgeElements.push(
+            new KnowledgeElement({
+              ...knowledgeElementData,
+              createdAt: new Date(knowledgeElementData.createdAt),
+            })
+          );
         }
         expect(actualKnowledgeElements).to.deep.equal(knowledgeElements);
       });
 
-      it('does not save knowledge elements snapshot using a transaction', async function() {
+      it('does not save knowledge elements snapshot using a transaction', async function () {
         const snappedAt = new Date('2019-04-01');
         const userId = databaseBuilder.factory.buildUser().id;
-        const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId, createdAt: new Date('2019-03-01') });
+        const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({
+          userId,
+          createdAt: new Date('2019-03-01'),
+        });
         const knowledgeElements = [knowledgeElement1];
         await databaseBuilder.commit();
 
@@ -89,7 +107,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
             await knowledgeElementSnapshotRepository.save({ userId, snappedAt, knowledgeElements, domainTransaction });
             throw new Error();
           });
-        // eslint-disable-next-line no-empty
+          // eslint-disable-next-line no-empty
         } catch (error) {}
 
         const snapshots = await knex.select('*').from('knowledge-element-snapshots');
@@ -98,24 +116,32 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
     });
   });
 
-  describe('#findByUserIdsAndSnappedAtDates', function() {
+  describe('#findByUserIdsAndSnappedAtDates', function () {
     let userId1;
     let userId2;
 
-    beforeEach(function() {
+    beforeEach(function () {
       userId1 = databaseBuilder.factory.buildUser().id;
       userId2 = databaseBuilder.factory.buildUser().id;
       return databaseBuilder.commit();
     });
 
-    it('should find knowledge elements snapshoted grouped by userId for userIds and their respective dates', async function() {
+    it('should find knowledge elements snapshoted grouped by userId for userIds and their respective dates', async function () {
       // given
       const snappedAt1 = new Date('2020-01-02');
       const knowledgeElement1 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId1 });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId1, snappedAt: snappedAt1, snapshot: JSON.stringify([knowledgeElement1]) });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: userId1,
+        snappedAt: snappedAt1,
+        snapshot: JSON.stringify([knowledgeElement1]),
+      });
       const snappedAt2 = new Date('2020-02-02');
       const knowledgeElement2 = databaseBuilder.factory.buildKnowledgeElement({ userId: userId2 });
-      databaseBuilder.factory.buildKnowledgeElementSnapshot({ userId: userId2, snappedAt: snappedAt2, snapshot: JSON.stringify([knowledgeElement2]) });
+      databaseBuilder.factory.buildKnowledgeElementSnapshot({
+        userId: userId2,
+        snappedAt: snappedAt2,
+        snapshot: JSON.stringify([knowledgeElement2]),
+      });
       await databaseBuilder.commit();
 
       // when
@@ -129,7 +155,7 @@ describe('Integration | Repository | KnowledgeElementSnapshotRepository', functi
       expect(knowledgeElementsByUserId[userId2]).to.deep.equal([knowledgeElement2]);
     });
 
-    it('should return null associated to userId when user does not have a snapshot', async function() {
+    it('should return null associated to userId when user does not have a snapshot', async function () {
       // when
       const knowledgeElementsByUserId = await knowledgeElementSnapshotRepository.findByUserIdsAndSnappedAtDates({
         [userId1]: new Date('2020-04-01T00:00:00Z'),

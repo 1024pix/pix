@@ -2,10 +2,10 @@ const { expect, catchErr } = require('../../../../test-helper');
 const SiecleFileStreamer = require('../../../../../lib/infrastructure/utils/xml/siecle-file-streamer');
 const { FileValidationError, SiecleXmlImportError } = require('../../../../../lib/domain/errors');
 
-describe('SiecleFileStreamer', function() {
-  describe('perform', function() {
-    context('when the file is not zipped', function() {
-      it('parse the file', async function() {
+describe('SiecleFileStreamer', function () {
+  describe('perform', function () {
+    context('when the file is not zipped', function () {
+      it('parse the file', async function () {
         const path = `${__dirname}/files/xml/valid.xml`;
 
         const streamer = await SiecleFileStreamer.create(path);
@@ -15,25 +15,27 @@ describe('SiecleFileStreamer', function() {
         expect(text).to.equal('<hello></hello>\n');
       });
 
-      context('when the xml is not correctly formed', function() {
-        it('throws an error', async function() {
+      context('when the xml is not correctly formed', function () {
+        it('throws an error', async function () {
           const path = `${__dirname}/files/xml/bad.xml`;
 
           const streamer = await SiecleFileStreamer.create(path);
 
-          const error = await catchErr(streamer.perform, streamer)(
-            (saxStream, resolve) => {
-              saxStream.on('data', () => {});
-              saxStream.on('end', resolve);
-            });
+          const error = await catchErr(
+            streamer.perform,
+            streamer
+          )((saxStream, resolve) => {
+            saxStream.on('data', () => {});
+            saxStream.on('end', resolve);
+          });
 
           expect(error).to.be.an.instanceof(FileValidationError);
           expect(error.code).to.equal('INVALID_FILE');
         });
       });
 
-      context('when the file contain the BOM character', function() {
-        it('streams the file', async function() {
+      context('when the file contain the BOM character', function () {
+        it('streams the file', async function () {
           const path = `${__dirname}/files/xml/bom.xml`;
 
           const streamer = await SiecleFileStreamer.create(path);
@@ -44,17 +46,18 @@ describe('SiecleFileStreamer', function() {
         });
       });
 
-      context('when the encoding is not supported', function() {
-        it('it throws an error', async function() {
-
+      context('when the encoding is not supported', function () {
+        it('it throws an error', async function () {
           const path = `${__dirname}/files/xml/unknown-encoding.xml`;
           const streamer = await SiecleFileStreamer.create(path);
 
-          const error = await catchErr(streamer.perform, streamer)(
-            (saxStream, resolve) => {
-              saxStream.on('data', () => {});
-              saxStream.on('end', resolve);
-            });
+          const error = await catchErr(
+            streamer.perform,
+            streamer
+          )((saxStream, resolve) => {
+            saxStream.on('data', () => {});
+            saxStream.on('end', resolve);
+          });
 
           expect(error).to.be.an.instanceof(SiecleXmlImportError);
           expect(error.code).to.equal('ENCODING_NOT_SUPPORTED');
@@ -62,8 +65,8 @@ describe('SiecleFileStreamer', function() {
       });
     });
 
-    context('when the file is zipped', function() {
-      it('unzip the file', async function() {
+    context('when the file is zipped', function () {
+      it('unzip the file', async function () {
         // given
         const path = `${__dirname}/files/zip/valid.zip`;
 
@@ -75,8 +78,8 @@ describe('SiecleFileStreamer', function() {
         expect(text).to.equal('<hello></hello>\n');
       });
 
-      context('when there are files with a corrupted entry within zip', function() {
-        it('throws an error', async function() {
+      context('when there are files with a corrupted entry within zip', function () {
+        it('throws an error', async function () {
           // given
           const path = `${__dirname}/files/zip/corrupted-entry.zip`;
 
@@ -87,8 +90,8 @@ describe('SiecleFileStreamer', function() {
         });
       });
 
-      context('when there are several files in the zip', function() {
-        it('throws an error', async function() {
+      context('when there are several files in the zip', function () {
+        it('throws an error', async function () {
           const path = `${__dirname}/files/zip/several-files.zip`;
 
           const error = await catchErr(SiecleFileStreamer.create)(path);
@@ -98,8 +101,8 @@ describe('SiecleFileStreamer', function() {
         });
       });
 
-      context('when there is a file name starting with a dot', function() {
-        it('ignores the folder', async function() {
+      context('when there is a file name starting with a dot', function () {
+        it('ignores the folder', async function () {
           const path = `${__dirname}/files/zip/hidden-file.zip`;
 
           const streamer = await SiecleFileStreamer.create(path);
@@ -110,8 +113,8 @@ describe('SiecleFileStreamer', function() {
         });
       });
 
-      context('when there is en empty folder', function() {
-        it('ignores the folder', async function() {
+      context('when there is en empty folder', function () {
+        it('ignores the folder', async function () {
           const path = `${__dirname}/files/zip/empty-folder.zip`;
 
           const streamer = await SiecleFileStreamer.create(path);
@@ -122,8 +125,8 @@ describe('SiecleFileStreamer', function() {
         });
       });
 
-      context('when the stream is closed perform method is called', function() {
-        it('throws an error', async function() {
+      context('when the stream is closed perform method is called', function () {
+        it('throws an error', async function () {
           const path = `${__dirname}/files/zip/valid.zip`;
 
           const streamer = await SiecleFileStreamer.create(path);
@@ -131,11 +134,13 @@ describe('SiecleFileStreamer', function() {
           await read(streamer);
           await streamer.close();
 
-          const error = await catchErr(streamer.perform, streamer)(
-            (saxStream, resolve) => {
-              saxStream.on('data', () => {});
-              saxStream.on('end', resolve);
-            });
+          const error = await catchErr(
+            streamer.perform,
+            streamer
+          )((saxStream, resolve) => {
+            saxStream.on('data', () => {});
+            saxStream.on('end', resolve);
+          });
 
           expect(error).to.be.an.instanceof(FileValidationError);
           expect(error.code).to.equal('INVALID_FILE');

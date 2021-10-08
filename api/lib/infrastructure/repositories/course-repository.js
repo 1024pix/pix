@@ -18,8 +18,7 @@ async function _get(id) {
   try {
     const courseDataObject = await courseDatasource.get(id);
     return _toDomain(courseDataObject);
-  }
-  catch (error) {
+  } catch (error) {
     if (error instanceof LearningContentResourceNotFound) {
       throw new NotFoundError();
     }
@@ -28,7 +27,6 @@ async function _get(id) {
 }
 
 module.exports = {
-
   async get(id) {
     return _get(id);
   },
@@ -38,7 +36,7 @@ module.exports = {
       const course = await _get(id);
       return course.name;
     } catch (err) {
-      throw new NotFoundError('Le test demandé n\'existe pas');
+      throw new NotFoundError("Le test demandé n'existe pas");
     }
   },
 };

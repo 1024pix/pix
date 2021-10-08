@@ -2,15 +2,15 @@ const { CertificationComputeError } = require('../../../lib/domain/errors');
 const _ = require('lodash');
 
 class CertificationContract {
-
   /* PUBLIC INTERFACE */
   static assertThatWeHaveEnoughAnswers(listAnswers, listChallenges) {
-    const someUnansweredChallenges = _.some(listChallenges,
-      (challenge) => {
-        return !challenge.hasBeenSkippedAutomatically
-        && !challenge.isNeutralized
-        && !listAnswers.find((answer) => answer.challengeId === challenge.challengeId);
-      });
+    const someUnansweredChallenges = _.some(listChallenges, (challenge) => {
+      return (
+        !challenge.hasBeenSkippedAutomatically &&
+        !challenge.isNeutralized &&
+        !listAnswers.find((answer) => answer.challengeId === challenge.challengeId)
+      );
+    });
 
     if (someUnansweredChallenges) {
       throw new CertificationComputeError('L’utilisateur n’a pas répondu à toutes les questions');

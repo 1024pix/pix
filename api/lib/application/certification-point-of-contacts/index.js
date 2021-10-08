@@ -1,6 +1,6 @@
 const certificationPointOfContactController = require('./certification-point-of-contact-controller');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -9,12 +9,11 @@ exports.register = async function(server) {
         handler: certificationPointOfContactController.get,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés*' * '\n' +
-          '- Récupération d’un référent de certification.',
+            '- Récupération d’un référent de certification.',
         ],
         tags: ['api', 'user', 'certification', 'certification-point-of-contact'],
       },
     },
-
   ]);
 };
 
