@@ -167,7 +167,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
 
       beforeEach(async function () {
         userInDb = databaseBuilder.factory.buildUser();
-        databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
           externalIdentifier: externalIdentityId,
           userId: userInDb.id,
         });

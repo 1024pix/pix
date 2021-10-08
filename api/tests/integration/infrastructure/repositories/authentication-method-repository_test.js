@@ -702,7 +702,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       beforeEach(function () {
         const userId = databaseBuilder.factory.buildUser().id;
         poleEmploiAuthenticationMethod =
-          databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
             id: 123,
             externalIdentifier: 'identifier',
             accessToken: 'to_be_updated',

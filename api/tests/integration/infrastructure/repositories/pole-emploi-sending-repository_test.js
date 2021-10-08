@@ -87,7 +87,7 @@ describe('Integration | Repository | PoleEmploiSending', function () {
       it('should render only one sending', async function () {
         const { id: userId } = databaseBuilder.factory.buildUser();
         databaseBuilder.factory.buildAuthenticationMethod({ userId, identityProvider: 'PIX' });
-        databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+        databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
           userId,
           externalIdentifier: 'idPoleEmploi',
         });

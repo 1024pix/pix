@@ -64,7 +64,7 @@ function usersBuilder({ databaseBuilder }) {
     cgu: false,
   });
 
-  databaseBuilder.factory.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+  databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
     userId: userFromPoleEmploi.id,
   });
 
