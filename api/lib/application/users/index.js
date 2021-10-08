@@ -755,6 +755,24 @@ exports.register = async function (server) {
         tags: ['api', 'user', 'verification-code'],
       },
     },
+    {
+      method: 'GET',
+      path: '/api/users/{id}/authentication-methods',
+      config: {
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
+        handler: userController.getUserAuthenticationMethods,
+        notes: [
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
+            "- Elle permet la récupération des noms des méthodes de connexion de l'utilisateur.",
+        ],
+        tags: ['api', 'user', 'authentication-methods'],
+      },
+    },
   ]);
 };
 
