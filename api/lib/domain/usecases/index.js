@@ -278,6 +278,7 @@ module.exports = injectDependencies(
     getTargetProfileDetails: require('./get-target-profile-details'),
     getAccountRecoveryDetails: require('./account-recovery/get-account-recovery-details'),
     getParticipationsCountByMasteryRate: require('./get-participations-count-by-mastery-rate'),
+    findUserAuthenticationMethods: require('./find-user-authentication-methods'),
     getUserByResetPasswordDemand: require('./get-user-by-reset-password-demand'),
     getUserCampaignAssessmentResult: require('./get-user-campaign-assessment-result'),
     getUserCampaignParticipationToCampaign: require('./get-user-campaign-participation-to-campaign'),
