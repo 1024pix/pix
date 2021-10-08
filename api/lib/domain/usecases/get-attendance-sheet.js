@@ -11,19 +11,34 @@ const {
   ATTENDANCE_SHEET_SESSION_TEMPLATE_VALUES,
 } = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 
-module.exports = async function getAttendanceSheet({ userId, sessionId, sessionRepository, sessionForAttendanceSheetRepository }) {
-
+module.exports = async function getAttendanceSheet({
+  userId,
+  sessionId,
+  sessionRepository,
+  sessionForAttendanceSheetRepository,
+}) {
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
   const session = await sessionForAttendanceSheetRepository.getWithCertificationCandidates(sessionId);
-  const stringifiedXml = await readOdsUtils.getContentXml({ odsFilePath: _getAttendanceSheetTemplatePath(session.certificationCenterType, session.isOrganizationManagingStudents) });
+  const stringifiedXml = await readOdsUtils.getContentXml({
+    odsFilePath: _getAttendanceSheetTemplatePath(
+      session.certificationCenterType,
+      session.isOrganizationManagingStudents
+    ),
+  });
 
   const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceSheetTemplatePath(session.certificationCenterType, session.isOrganizationManagingStudents) });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({
+    stringifiedXml: updatedStringifiedXml,
+    odsFilePath: _getAttendanceSheetTemplatePath(
+      session.certificationCenterType,
+      session.isOrganizationManagingStudents
+    ),
+  });
 };
 
 function _updateXmlWithSession(stringifiedXml, session) {

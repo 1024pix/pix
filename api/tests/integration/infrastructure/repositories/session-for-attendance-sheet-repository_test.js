@@ -4,13 +4,10 @@ const sessionForAttendanceSheetRepository = require('../../../../lib/infrastruct
 const SessionForAttendanceSheet = require('../../../../lib/domain/read-models/SessionForAttendanceSheet');
 const CertificationCandidateForAttendanceSheet = require('../../../../lib/domain/read-models/CertificationCandidateForAttendanceSheet');
 
-describe('Integration | Repository | Session-for-attendance-sheet', function() {
-
-  describe('#getWithCertificationCandidates', function() {
-
-    context('when there are no schooling registrations', function() {
-
-      it('should return session information with ordered candidates and no division', async function() {
+describe('Integration | Repository | Session-for-attendance-sheet', function () {
+  describe('#getWithCertificationCandidates', function () {
+    context('when there are no schooling registrations', function () {
+      it('should return session information with ordered candidates and no division', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: false });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
@@ -30,9 +27,21 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
           time: '12:00:00',
         });
 
-        const candidate1 = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Michael', sessionId: session.id });
-        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Stardust', firstName: 'Ziggy', sessionId: session.id });
-        const candidate3 = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Janet', sessionId: session.id });
+        const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Jackson',
+          firstName: 'Michael',
+          sessionId: session.id,
+        });
+        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Stardust',
+          firstName: 'Ziggy',
+          sessionId: session.id,
+        });
+        const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          sessionId: session.id,
+        });
 
         await databaseBuilder.commit();
 
@@ -61,9 +70,8 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
       });
     });
 
-    context('when there are schooling registrations', function() {
-
-      it('should return session information with with ordered candidates and division', async function() {
+    context('when there are schooling registrations', function () {
+      it('should return session information with with ordered candidates and division', async function () {
         // given
         databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234', isManagingStudents: true });
         const certificationCenter = databaseBuilder.factory.buildCertificationCenter({
@@ -86,9 +94,24 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
         const schoolingRegistration1 = databaseBuilder.factory.buildSchoolingRegistration({ division: '3b' });
         const schoolingRegistration2 = databaseBuilder.factory.buildSchoolingRegistration({ division: '3a' });
         const schoolingRegistration3 = databaseBuilder.factory.buildSchoolingRegistration({ division: '2c' });
-        const candidate1 = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Michael', sessionId: session.id, schoolingRegistrationId: schoolingRegistration1.id });
-        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Stardust', firstName: 'Ziggy', sessionId: session.id, schoolingRegistrationId: schoolingRegistration2.id });
-        const candidate3 = databaseBuilder.factory.buildCertificationCandidate({ lastName: 'Jackson', firstName: 'Janet', sessionId: session.id, schoolingRegistrationId: schoolingRegistration3.id });
+        const candidate1 = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Jackson',
+          firstName: 'Michael',
+          sessionId: session.id,
+          schoolingRegistrationId: schoolingRegistration1.id,
+        });
+        const candidate2 = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Stardust',
+          firstName: 'Ziggy',
+          sessionId: session.id,
+          schoolingRegistrationId: schoolingRegistration2.id,
+        });
+        const candidate3 = databaseBuilder.factory.buildCertificationCandidate({
+          lastName: 'Jackson',
+          firstName: 'Janet',
+          sessionId: session.id,
+          schoolingRegistrationId: schoolingRegistration3.id,
+        });
         await databaseBuilder.commit();
 
         const expectedSessionValues = new SessionForAttendanceSheet({
@@ -116,7 +139,7 @@ describe('Integration | Repository | Session-for-attendance-sheet', function() {
       });
     });
 
-    it('should return a Not found error when no session was found', async function() {
+    it('should return a Not found error when no session was found', async function () {
       // when
       const error = await catchErr(sessionForAttendanceSheetRepository.getWithCertificationCandidates)(12434354);
 

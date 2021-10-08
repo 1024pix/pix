@@ -1,5 +1,4 @@
 class SessionForAttendanceSheet {
-
   constructor({
     id,
     date,

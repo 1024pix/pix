@@ -42,19 +42,20 @@ module.exports = {
   },
 
   async getWithCertificationCandidates(idSession) {
-
-    const results = await knex.select('sessions.*').select({
-      certificationCandidates: knex.raw(`
+    const results = await knex
+      .select('sessions.*')
+      .select({
+        certificationCandidates: knex.raw(`
         json_agg("certification-candidates".* order by lower("lastName"), lower("firstName"))
-        `,
-      ),
-    }).from('sessions')
+        `),
+      })
+      .from('sessions')
       .leftJoin('certification-candidates', 'certification-candidates.sessionId', 'sessions.id')
       .groupBy('sessions.id')
       .where({ 'sessions.id': idSession })
       .first();
     if (!results) {
-      throw new NotFoundError('La session n\'existe pas ou son accès est restreint');
+      throw new NotFoundError("La session n'existe pas ou son accès est restreint");
     }
     return _toDomain(results);
   },
