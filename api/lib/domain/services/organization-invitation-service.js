@@ -45,6 +45,7 @@ const createProOrganizationInvitation = async ({
   organizationInvitationRepository,
   organizationId,
   email,
+  role,
   locale,
   tags,
   name,
@@ -56,7 +57,7 @@ const createProOrganizationInvitation = async ({
 
   if (!organizationInvitation) {
     const code = _generateCode();
-    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, code });
+    organizationInvitation = await organizationInvitationRepository.create({ organizationId, email, role, code });
   }
 
   await mailService.sendOrganizationInvitationEmail({
