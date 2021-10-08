@@ -1,5 +1,18 @@
 # Pix Changelog
 
+## v3.111.0 (08/10/2021)
+
+- [#3558](https://github.com/1024pix/pix/pull/3558) [FEATURE] Toujours afficher la page de présentation au début de la campagne (Pix-3180).
+- [#3551](https://github.com/1024pix/pix/pull/3551) [FEATURE] Pouvoir identifier les certif démarrées scorées/annulées automatiquement (PIX-2988)
+- [#3554](https://github.com/1024pix/pix/pull/3554) [FEATURE] Permettre le ré-envoie de code de vérification lors d'un changement d'email (PIX-3497)
+- [#3559](https://github.com/1024pix/pix/pull/3559) [FEATURE] Exporter les résultats d'une campagne d'évaluation SUP avec le groupe (PIX-3541).
+- [#3573](https://github.com/1024pix/pix/pull/3573) [BUGFIX] Changer la redirection de fin de parcours statique vers la page d'inscription de prod (PIX-3595).
+- [#3567](https://github.com/1024pix/pix/pull/3567) [BUGFIX] Bloquer la publication d'une session de certification "aborted" (PIX-3573).
+- [#3538](https://github.com/1024pix/pix/pull/3538) [TECH] Formater le code de API avec Prettier.
+- [#3566](https://github.com/1024pix/pix/pull/3566) [TECH] Monter de version ember-source sur Pix Admin
+- [#3565](https://github.com/1024pix/pix/pull/3565) [TECH] Monter de version d'ember-source sur Pix Orga
+- [#3532](https://github.com/1024pix/pix/pull/3532) [TECH] Remplacer masteryPercentage par masteryRate (PIX-3496)
+
 ## v3.110.0 (06/10/2021)
 
 - [#3509](https://github.com/1024pix/pix/pull/3509) [FEATURE] Mettre à jour les informations d'un centre de certifications depuis Pix Admin (PIX-3478) 
