@@ -1346,7 +1346,12 @@
         "edit-button": "Edit",
         "email": "Email address",
         "menu-link-title": "Log in methods",
-        "username": "Username"
+        "username": "Username",
+        "authentication-methods": {
+          "label": "External login",
+          "gar": "ENT/Mediacentre",
+          "pole-emploi": "Pôle Emploi"
+        }
       },
       "email-verification": {
         "title": "Verify your email address",
