@@ -1,16 +1,21 @@
-const { expect, knex, databaseBuilder, mockLearningContent, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
+const {
+  expect,
+  knex,
+  databaseBuilder,
+  mockLearningContent,
+  generateValidRequestAuthorizationHeader,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { FRENCH_FRANCE, ENGLISH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Acceptance | Controller | answer-controller-save', function() {
-
+describe('Acceptance | Controller | answer-controller-save', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/answers', function() {
+  describe('POST /api/answers', function () {
     let userId;
     let insertedAssessmentId;
     let postAnswersOptions;
@@ -19,7 +24,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
     const challengeId = 'a_challenge_id';
     const competenceId = 'recCompetence';
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const assessment = databaseBuilder.factory.buildAssessment({
         type: 'COMPETENCE_EVALUATION',
         competenceId: competenceId,
@@ -30,43 +35,48 @@ describe('Acceptance | Controller | answer-controller-save', function() {
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('knowledge-elements').delete();
       await knex('answers').delete();
     });
 
-    context('when the user is linked to the assessment', function() {
-
-      beforeEach(async function() {
+    context('when the user is linked to the assessment', function () {
+      beforeEach(async function () {
         // given
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
-          competences: [{
-            id: competenceId,
-            areaId: 'recArea1',
-            skillIds: ['recSkill1'],
-            origin: 'Pix',
-            nameFrFr: 'Nom de la competence FR',
-            nameEnUs: 'Nom de la competence EN',
-            statue: 'active',
-          }],
-          skills: [{
-            id: 'recSkill1',
-            name: '@recArea1_Competence1_Tube1_Skill1',
-            status: 'actif',
-            competenceId: competenceId,
-            pixValue: '5',
-          }],
-          challenges: [{
-            id: challengeId,
-            competenceId: competenceId,
-            skillIds: ['recSkill1'],
-            status: 'validé',
-            solution: correctAnswer,
-            proposals: '${a}',
-            locales: ['fr-fr'],
-            type: 'QROC',
-          }],
+          competences: [
+            {
+              id: competenceId,
+              areaId: 'recArea1',
+              skillIds: ['recSkill1'],
+              origin: 'Pix',
+              nameFrFr: 'Nom de la competence FR',
+              nameEnUs: 'Nom de la competence EN',
+              statue: 'active',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              name: '@recArea1_Competence1_Tube1_Skill1',
+              status: 'actif',
+              competenceId: competenceId,
+              pixValue: '5',
+            },
+          ],
+          challenges: [
+            {
+              id: challengeId,
+              competenceId: competenceId,
+              skillIds: ['recSkill1'],
+              status: 'validé',
+              solution: correctAnswer,
+              proposals: '${a}',
+              locales: ['fr-fr'],
+              type: 'QROC',
+            },
+          ],
         };
         mockLearningContent(learningContent);
 
@@ -97,10 +107,9 @@ describe('Acceptance | Controller | answer-controller-save', function() {
             },
           },
         };
-
       });
 
-      it('should return 201 HTTP status code', async function() {
+      it('should return 201 HTTP status code', async function () {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -108,7 +117,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return application/json', async function() {
+      it('should return application/json', async function () {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -117,7 +126,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         expect(contentType).to.contain('application/json');
       });
 
-      it('should add a new answer into the database', async function() {
+      it('should add a new answer into the database', async function () {
         // when
         await server.inject(postAnswersOptions);
 
@@ -126,7 +135,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         expect(count).to.equal(1);
       });
 
-      it('should add a new answer with timeSpent into the database', async function() {
+      it('should add a new answer with timeSpent into the database', async function () {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -136,7 +145,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         expect(timeSpent).not.to.be.null;
       });
 
-      it('should return persisted answer', async function() {
+      it('should return persisted answer', async function () {
         // when
         const response = await server.inject(postAnswersOptions);
 
@@ -164,7 +173,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         { locale: FRENCH_FRANCE, expectedCompetenceName: 'Nom de la competence FR' },
         { locale: ENGLISH_SPOKEN, expectedCompetenceName: 'Nom de la competence EN' },
       ].forEach((testCase) => {
-        it(`should return competence name in locale=${testCase.locale} when user levelup`, async function() {
+        it(`should return competence name in locale=${testCase.locale} when user levelup`, async function () {
           // given
           databaseBuilder.factory.buildKnowledgeElement({
             earnedPix: 7,
@@ -186,8 +195,8 @@ describe('Acceptance | Controller | answer-controller-save', function() {
       });
     });
 
-    context('when user is not the user of the assessment', function() {
-      beforeEach(function() {
+    context('when user is not the user of the assessment', function () {
+      beforeEach(function () {
         // given
         postAnswersOptions = {
           method: 'POST',
@@ -221,18 +230,17 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         promise = server.inject(postAnswersOptions);
       });
 
-      it('should return 403 HTTP status code', async function() {
+      it('should return 403 HTTP status code', async function () {
         // when
         const response = await promise;
 
         // then
         expect(response.statusCode).to.equal(403);
       });
-
     });
 
-    context('when the payload is empty', function() {
-      beforeEach(function() {
+    context('when the payload is empty', function () {
+      beforeEach(function () {
         postAnswersOptions = {
           method: 'POST',
           url: '/api/answers',
@@ -242,44 +250,48 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         promise = server.inject(postAnswersOptions);
       });
 
-      it('should return 400 HTTP status code', async function() {
+      it('should return 400 HTTP status code', async function () {
         // when
         const response = await promise;
 
         // then
         expect(response.statusCode).to.equal(400);
       });
-
     });
 
-    context('when the answer is empty and timeout', function() {
-
-      beforeEach(function() {
+    context('when the answer is empty and timeout', function () {
+      beforeEach(function () {
         // given
         const learningContent = {
           areas: [{ id: 'recArea1', competenceIds: ['recCompetence'] }],
-          competences: [{
-            id: 'recCompetence',
-            areaId: 'recArea1',
-            skillIds: ['recSkill1'],
-            origin: 'Pix',
-          }],
-          skills: [{
-            id: 'recSkill1',
-            name: '@recArea1_Competence1_Tube1_Skill1',
-            status: 'actif',
-            competenceId: 'recCompetence',
-          }],
-          challenges: [{
-            id: challengeId,
-            competenceId: 'recCompetence',
-            skillIds: ['recSkill1'],
-            status: 'validé',
-            solution: correctAnswer,
-            locales: ['fr-fr'],
-            proposals: '${a}',
-            type: 'QROC',
-          }],
+          competences: [
+            {
+              id: 'recCompetence',
+              areaId: 'recArea1',
+              skillIds: ['recSkill1'],
+              origin: 'Pix',
+            },
+          ],
+          skills: [
+            {
+              id: 'recSkill1',
+              name: '@recArea1_Competence1_Tube1_Skill1',
+              status: 'actif',
+              competenceId: 'recCompetence',
+            },
+          ],
+          challenges: [
+            {
+              id: challengeId,
+              competenceId: 'recCompetence',
+              skillIds: ['recSkill1'],
+              status: 'validé',
+              solution: correctAnswer,
+              locales: ['fr-fr'],
+              proposals: '${a}',
+              type: 'QROC',
+            },
+          ],
         };
         mockLearningContent(learningContent);
 
@@ -316,7 +328,7 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         promise = server.inject(postAnswersOptions);
       });
 
-      it('should return 201 HTTP status code', async function() {
+      it('should return 201 HTTP status code', async function () {
         // when
         const response = await promise;
 
@@ -324,6 +336,5 @@ describe('Acceptance | Controller | answer-controller-save', function() {
         expect(response.statusCode).to.equal(201);
       });
     });
-
   });
 });

@@ -10,11 +10,16 @@ module.exports = async function updateMembership({
   const existingMembership = await membershipRepository.get(membership.id);
 
   if (membership.isAdmin && existingMembership.organization.isSco) {
-
-    const existingCertificationCenter = await certificationCenterRepository.findByExternalId({ externalId: existingMembership.organization.externalId });
+    const existingCertificationCenter = await certificationCenterRepository.findByExternalId({
+      externalId: existingMembership.organization.externalId,
+    });
 
     if (existingCertificationCenter) {
-      const isAlreadyMemberOfCertificationCenter = await certificationCenterMembershipRepository.isMemberOfCertificationCenter(existingMembership.user.id, existingCertificationCenter.id);
+      const isAlreadyMemberOfCertificationCenter =
+        await certificationCenterMembershipRepository.isMemberOfCertificationCenter(
+          existingMembership.user.id,
+          existingCertificationCenter.id
+        );
 
       if (!isAlreadyMemberOfCertificationCenter) {
         return createCertificationCenterMembershipAndUpdateMembership({
@@ -39,8 +44,7 @@ function createCertificationCenterMembershipAndUpdateMembership({
   membershipRepository,
 }) {
   return DomainTransaction.execute(async (domainTransaction) => {
-    await certificationCenterMembershipRepository
-      .save(userId, certificationCenterId, domainTransaction);
+    await certificationCenterMembershipRepository.save(userId, certificationCenterId, domainTransaction);
     return membershipRepository.updateById({ id: membership.id, membership }, domainTransaction);
   });
 }

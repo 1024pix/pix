@@ -39,7 +39,7 @@ const dependencies = {
 
 const partnerCertificationScoringRepository = injectDependencies(
   require('../../infrastructure/repositories/partner-certification-scoring-repository'),
-  dependencies,
+  dependencies
 );
 dependencies.partnerCertificationScoringRepository = partnerCertificationScoringRepository;
 
@@ -87,7 +87,7 @@ module.exports = {
   eventDispatcher: buildEventDispatcher({}),
   _forTestOnly: {
     handlers: handlersToBeInjected,
-    buildEventDispatcher: function(stubbedHandlers) {
+    buildEventDispatcher: function (stubbedHandlers) {
       return buildEventDispatcher(stubbedHandlers);
     },
   },

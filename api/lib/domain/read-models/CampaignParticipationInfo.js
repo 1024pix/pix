@@ -1,5 +1,4 @@
-const Joi = require('joi')
-  .extend(require('@joi/date'));
+const Joi = require('joi').extend(require('@joi/date'));
 const { validateEntity } = require('../validators/entity-validator');
 const _ = require('lodash');
 
@@ -19,7 +18,6 @@ const validationSchema = Joi.object({
 });
 
 class CampaignParticipationInfo {
-
   constructor({
     participantFirstName,
     participantLastName,

@@ -4,18 +4,7 @@ const statuses = {
 };
 
 class CompetenceEvaluation {
-
-  constructor({
-    id,
-    createdAt,
-    updatedAt,
-    status,
-    assessment,
-    scorecard,
-    assessmentId,
-    competenceId,
-    userId,
-  } = {}) {
+  constructor({ id, createdAt, updatedAt, status, assessment, scorecard, assessmentId, competenceId, userId } = {}) {
     this.id = id;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;

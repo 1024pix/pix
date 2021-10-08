@@ -50,7 +50,6 @@ const attributes = [
 ];
 
 module.exports = {
-
   serialize(certificate) {
     return new Serializer('certifications', {
       typeForAttribute,

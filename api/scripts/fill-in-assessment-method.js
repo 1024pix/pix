@@ -4,13 +4,12 @@ const { knex } = require('../db/knex-database-connection');
 const logger = require('../lib/infrastructure/logger');
 
 async function fillInAssessmentMethod() {
-
   const chunkSize = 50000;
   const maxId = (await knex('assessments').max('id').first()).max;
 
   for (let startId = 0; startId < maxId; startId += chunkSize) {
     const rowsUpdatedCount = await knex('assessments')
-      .whereBetween('id', [ startId, startId + chunkSize - 1 ])
+      .whereBetween('id', [startId, startId + chunkSize - 1])
       .whereNull('method')
       .update({
         method: knex.raw(`
@@ -33,4 +32,3 @@ async function fillInAssessmentMethod() {
 (async () => {
   await fillInAssessmentMethod();
 })();
-

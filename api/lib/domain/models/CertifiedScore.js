@@ -1,6 +1,4 @@
-const {
-  PIX_COUNT_BY_LEVEL,
-} = require('../constants');
+const { PIX_COUNT_BY_LEVEL } = require('../constants');
 
 class CertifiedScore {
   constructor(value) {

@@ -7,11 +7,9 @@ const events = require('../../../../lib/domain/events');
 const ChallengeNeutralized = require('../../../../lib/domain/events/ChallengeNeutralized');
 const ChallengeDeneutralized = require('../../../../lib/domain/events/ChallengeDeneutralized');
 
-describe('Unit | Controller | certifications-controller', function() {
-
-  describe('#findUserCertifications', function() {
-
-    it('should return the serialized private certificates of the user', async function() {
+describe('Unit | Controller | certifications-controller', function () {
+  describe('#findUserCertifications', function () {
+    it('should return the serialized private certificates of the user', async function () {
       // given
       const userId = 1;
       const request = { auth: { credentials: { userId } } };
@@ -42,28 +40,28 @@ describe('Unit | Controller | certifications-controller', function() {
       expect(response).to.deep.equal({
         data: [
           {
-            'id': '123',
-            'type': 'certifications',
-            'attributes': {
+            id: '123',
+            type: 'certifications',
+            attributes: {
               'first-name': 'Dorothé',
               'last-name': '2Pac',
-              'birthdate': '2000-01-01',
-              'birthplace': 'Sin City',
+              birthdate: '2000-01-01',
+              birthplace: 'Sin City',
               'certification-center': 'Centre des choux de Bruxelles',
-              'date': new Date('2020-01-01T00:00:00Z'),
+              date: new Date('2020-01-01T00:00:00Z'),
               'delivered-at': new Date('2021-01-01T00:00:00Z'),
               'is-published': true,
               'pix-score': 456,
-              'status': 'validated',
+              status: 'validated',
               'comment-for-candidate': 'Cette personne est impolie !',
               'clea-certification-status': 'acquired',
               'certified-badge-images': [],
               'verification-code': 'P-SUPERCODE',
               'max-reachable-level-on-certification-date': 6,
             },
-            'relationships': {
+            relationships: {
               'result-competence-tree': {
-                'data': null,
+                data: null,
               },
             },
           },
@@ -72,9 +70,8 @@ describe('Unit | Controller | certifications-controller', function() {
     });
   });
 
-  describe('#getCertification', function() {
-
-    it('should return a serialized private certificate given by id', async function() {
+  describe('#getCertification', function () {
+    it('should return a serialized private certificate given by id', async function () {
       // given
       const userId = 1;
       const certificationId = 2;
@@ -108,28 +105,28 @@ describe('Unit | Controller | certifications-controller', function() {
       // then
       expect(response).to.deep.equal({
         data: {
-          'id': '2',
-          'type': 'certifications',
-          'attributes': {
+          id: '2',
+          type: 'certifications',
+          attributes: {
             'first-name': 'Dorothé',
             'last-name': '2Pac',
-            'birthdate': '2000-01-01',
-            'birthplace': 'Sin City',
+            birthdate: '2000-01-01',
+            birthplace: 'Sin City',
             'certification-center': 'Centre des choux de Bruxelles',
-            'date': new Date('2020-01-01T00:00:00Z'),
+            date: new Date('2020-01-01T00:00:00Z'),
             'delivered-at': new Date('2021-01-01T00:00:00Z'),
             'is-published': true,
             'pix-score': 456,
-            'status': 'validated',
+            status: 'validated',
             'comment-for-candidate': 'Cette personne est impolie !',
             'clea-certification-status': 'acquired',
             'certified-badge-images': [],
             'verification-code': 'P-SUPERCODE',
             'max-reachable-level-on-certification-date': 6,
           },
-          'relationships': {
+          relationships: {
             'result-competence-tree': {
-              'data': null,
+              data: null,
             },
           },
         },
@@ -137,9 +134,8 @@ describe('Unit | Controller | certifications-controller', function() {
     });
   });
 
-  describe('#getCertificationByVerificationCode', function() {
-
-    it('should return a serialized shareable certificate given by verification code', async function() {
+  describe('#getCertificationByVerificationCode', function () {
+    it('should return a serialized shareable certificate given by verification code', async function () {
       // given
       const request = { payload: { verificationCode: 'P-123456BB' } };
       const shareableCertificate = domainBuilder.buildShareableCertificate({
@@ -166,27 +162,25 @@ describe('Unit | Controller | certifications-controller', function() {
       // then
       expect(response).to.deep.equal({
         data: {
-          'id': '123',
-          'type': 'certifications',
-          'attributes': {
+          id: '123',
+          type: 'certifications',
+          attributes: {
             'first-name': 'Dorothé',
             'last-name': '2Pac',
-            'birthdate': '2000-01-01',
-            'birthplace': 'Sin City',
+            birthdate: '2000-01-01',
+            birthplace: 'Sin City',
             'certification-center': 'Centre des choux de Bruxelles',
-            'date': new Date('2020-01-01T00:00:00Z'),
+            date: new Date('2020-01-01T00:00:00Z'),
             'delivered-at': new Date('2021-01-01T00:00:00Z'),
             'is-published': true,
             'pix-score': 456,
             'clea-certification-status': 'acquired',
-            'certified-badge-images': [
-              '/img/1',
-            ],
+            'certified-badge-images': ['/img/1'],
             'max-reachable-level-on-certification-date': 6,
           },
-          'relationships': {
+          relationships: {
             'result-competence-tree': {
-              'data': null,
+              data: null,
             },
           },
         },
@@ -194,8 +188,7 @@ describe('Unit | Controller | certifications-controller', function() {
     });
   });
 
-  describe('#getCertificationAttestation', function() {
-
+  describe('#getCertificationAttestation', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const certification = domainBuilder.buildPrivateCertificateWithCompetenceTree();
@@ -210,13 +203,15 @@ describe('Unit | Controller | certifications-controller', function() {
       params: { id: certification.id },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'getCertificationAttestation');
     });
 
-    it('should return binary attestation', async function() {
+    it('should return binary attestation', async function () {
       // given
-      sinon.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer').resolves({ buffer: attestationPDF, fileName });
+      sinon
+        .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
+        .resolves({ buffer: attestationPDF, fileName });
       usecases.getCertificationAttestation.resolves(certification);
 
       // when
@@ -232,8 +227,8 @@ describe('Unit | Controller | certifications-controller', function() {
     });
   });
 
-  describe('#neutralizeChallenge', function() {
-    it('neutralizes the challenge and dispatches the event', async function() {
+  describe('#neutralizeChallenge', function () {
+    it('neutralizes the challenge and dispatches the event', async function () {
       // given
       const request = {
         payload: {
@@ -262,7 +257,7 @@ describe('Unit | Controller | certifications-controller', function() {
       });
     });
 
-    it('returns 204', async function() {
+    it('returns 204', async function () {
       // given
       const request = {
         payload: {
@@ -287,7 +282,7 @@ describe('Unit | Controller | certifications-controller', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('dispatches an event', async function() {
+    it('dispatches an event', async function () {
       // given
       const request = {
         payload: {
@@ -314,8 +309,8 @@ describe('Unit | Controller | certifications-controller', function() {
     });
   });
 
-  describe('#deneutralizeChallenge', function() {
-    it('deneutralizes the challenge', async function() {
+  describe('#deneutralizeChallenge', function () {
+    it('deneutralizes the challenge', async function () {
       // given
       const request = {
         payload: {
@@ -342,7 +337,7 @@ describe('Unit | Controller | certifications-controller', function() {
       });
     });
 
-    it('returns 204', async function() {
+    it('returns 204', async function () {
       // given
       const request = {
         payload: {
@@ -365,7 +360,7 @@ describe('Unit | Controller | certifications-controller', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('dispatches the event', async function() {
+    it('dispatches the event', async function () {
       // given
       const request = {
         payload: {
@@ -391,6 +386,5 @@ describe('Unit | Controller | certifications-controller', function() {
       // then
       expect(events.eventDispatcher.dispatch).to.have.been.calledWith(eventToBeDispatched);
     });
-
   });
 });

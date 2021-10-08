@@ -1,5 +1,4 @@
 class Area {
-
   constructor({
     id,
     code,

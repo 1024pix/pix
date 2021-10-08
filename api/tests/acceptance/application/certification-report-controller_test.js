@@ -1,16 +1,10 @@
-const {
-  expect,
-  databaseBuilder,
-  knex,
-  generateValidRequestAuthorizationHeader,
-} = require('../../test-helper');
+const { expect, databaseBuilder, knex, generateValidRequestAuthorizationHeader } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | Controller | certification-report-controller', function() {
-
+describe('Acceptance | Controller | certification-report-controller', function () {
   let server, certificationCourseId, userId, sessionId, certificationCenterId;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     userId = databaseBuilder.factory.buildUser().id;
     ({ id: sessionId, certificationCenterId } = databaseBuilder.factory.buildSession());
@@ -24,13 +18,12 @@ describe('Acceptance | Controller | certification-report-controller', function()
     return databaseBuilder.commit();
   });
 
-  describe('POST /api/certification-reports/{id}/certification-issue-reports', function() {
-
-    afterEach(function() {
+  describe('POST /api/certification-reports/{id}/certification-issue-reports', function () {
+    afterEach(function () {
       return knex('certification-issue-reports').delete();
     });
 
-    it('should return 201 HTTP status code', async function() {
+    it('should return 201 HTTP status code', async function () {
       // given
       const request = {
         method: 'POST',
@@ -69,9 +62,8 @@ describe('Acceptance | Controller | certification-report-controller', function()
     });
   });
 
-  describe('POST /api/certification-reports/${id}/abort', function() {
-
-    it('should return 200 HTTP status code if certification course is updated', async function() {
+  describe('POST /api/certification-reports/${id}/abort', function () {
+    it('should return 200 HTTP status code if certification course is updated', async function () {
       // given
       const options = {
         method: 'POST',
@@ -88,4 +80,3 @@ describe('Acceptance | Controller | certification-report-controller', function()
     });
   });
 });
-

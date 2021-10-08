@@ -15,7 +15,6 @@ const buildOrganization = function buildOrganization({
   email = 'contact@example.net',
   createdBy,
 } = {}) {
-
   const values = {
     id,
     type,

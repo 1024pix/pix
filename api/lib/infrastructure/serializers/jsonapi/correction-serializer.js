@@ -2,7 +2,6 @@ const { Serializer } = require('jsonapi-serializer');
 const tutorialAttributes = require('./tutorial-attributes');
 
 module.exports = {
-
   serialize(correction) {
     return new Serializer('corrections', {
       attributes: ['solution', 'solutionToDisplay', 'hint', 'tutorials', 'learningMoreTutorials'],
@@ -20,7 +19,7 @@ module.exports = {
       },
       transform: (record) => {
         const correction = Object.assign({}, record);
-        correction.hint = typeof (record.relevantHint) !== 'undefined' ? record.relevantHint.value : null;
+        correction.hint = typeof record.relevantHint !== 'undefined' ? record.relevantHint.value : null;
         return correction;
       },
     }).serialize(correction);

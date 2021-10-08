@@ -1,16 +1,15 @@
 const {
-  expect, generateValidRequestAuthorizationHeader, databaseBuilder, insertUserWithRolePixMaster,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  insertUserWithRolePixMaster,
 } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', function() {
-
-  describe('GET /api/admin/sessions/with-required-action', function() {
-
-    context('When user is authorized', function() {
-
-      it('should return a 200 status code response with JSON API serialized', async function() {
-
+describe('Acceptance | Controller | finalized-session-controller-find-finalized-sessions-with-required-action', function () {
+  describe('GET /api/admin/sessions/with-required-action', function () {
+    context('When user is authorized', function () {
+      it('should return a 200 status code response with JSON API serialized', async function () {
         await insertUserWithRolePixMaster();
 
         databaseBuilder.factory.buildSession({ id: 121 });
@@ -21,7 +20,11 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
         databaseBuilder.factory.buildFinalizedSession({ sessionId: 121, isPublishable: false, publishedAt: null });
         databaseBuilder.factory.buildFinalizedSession({ sessionId: 333, isPublishable: false, publishedAt: null });
         databaseBuilder.factory.buildFinalizedSession({ sessionId: 323, isPublishable: true, publishedAt: null });
-        databaseBuilder.factory.buildFinalizedSession({ sessionId: 423, isPublishable: false, publishedAt: '2021-01-02' });
+        databaseBuilder.factory.buildFinalizedSession({
+          sessionId: 423,
+          isPublishable: false,
+          publishedAt: '2021-01-02',
+        });
 
         await databaseBuilder.commit();
 
@@ -29,7 +32,7 @@ describe('Acceptance | Controller | finalized-session-controller-find-finalized-
         const options = {
           method: 'GET',
           url: '/api/admin/sessions/with-required-action',
-          payload: { },
+          payload: {},
           headers: { authorization: generateValidRequestAuthorizationHeader() },
         };
 

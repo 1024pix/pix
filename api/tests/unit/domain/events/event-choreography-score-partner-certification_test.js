@@ -3,8 +3,8 @@ const buildEventDispatcherAndHandlersForTest = require('../../../tooling/events/
 const AssessmentCompleted = require('../../../../lib/domain/events/AssessmentCompleted');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 
-describe('Event Choreography | Score Partner Certification', function() {
-  it('chains Certification Scoring and Partner Certification Scoring on Assessment Completed', async function() {
+describe('Event Choreography | Score Partner Certification', function () {
+  it('chains Certification Scoring and Partner Certification Scoring on Assessment Completed', async function () {
     // given
     const { handlerStubs, eventDispatcher } = buildEventDispatcherAndHandlersForTest();
 
@@ -13,14 +13,17 @@ describe('Event Choreography | Score Partner Certification', function() {
     const assessmentCompleted = new AssessmentCompleted();
     const certificationScoringCompleted = new CertificationScoringCompleted({});
 
-    handlerStubs.handleCertificationScoring.withArgs({ domainTransaction, event: assessmentCompleted }).resolves(
-      certificationScoringCompleted,
-    );
+    handlerStubs.handleCertificationScoring
+      .withArgs({ domainTransaction, event: assessmentCompleted })
+      .resolves(certificationScoringCompleted);
 
     // when
     await eventDispatcher.dispatch(assessmentCompleted, domainTransaction);
 
     // then
-    expect(handlerStubs.handleCleaCertificationScoring).to.have.been.calledWith({ domainTransaction, event: certificationScoringCompleted });
+    expect(handlerStubs.handleCleaCertificationScoring).to.have.been.calledWith({
+      domainTransaction,
+      event: certificationScoringCompleted,
+    });
   });
 });

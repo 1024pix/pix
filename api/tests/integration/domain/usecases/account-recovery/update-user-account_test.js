@@ -1,9 +1,4 @@
-const {
-  catchErr,
-  databaseBuilder,
-  expect,
-  knex,
-} = require('../../../../test-helper');
+const { catchErr, databaseBuilder, expect, knex } = require('../../../../test-helper');
 const DomainTransaction = require('../../../../../lib/infrastructure/DomainTransaction');
 
 const authenticationMethodRepository = require('../../../../../lib/infrastructure/repositories/authentication-method-repository');
@@ -13,9 +8,8 @@ const encryptionService = require('../../../../../lib/domain/services/encryption
 
 const updateUserAccount = require('../../../../../lib/domain/usecases/account-recovery/update-user-account');
 
-describe('Integration | UseCases | Account-recovery | updateUserAccount', function() {
-
-  it('should rollback update user account when domain transaction throw an error', async function() {
+describe('Integration | UseCases | Account-recovery | updateUserAccount', function () {
+  it('should rollback update user account when domain transaction throw an error', async function () {
     // given
     const password = 'pix123';
     const user = databaseBuilder.factory.buildUser();
@@ -57,7 +51,5 @@ describe('Integration | UseCases | Account-recovery | updateUserAccount', functi
     expect(userUpdated[0].cgu).to.be.equal(user.cgu);
     expect(accountRecoveryDemand[0].used).to.be.false;
     expect(authenticationMethod[0].password).to.equal(authenticatedMethod.password);
-
   });
-
 });

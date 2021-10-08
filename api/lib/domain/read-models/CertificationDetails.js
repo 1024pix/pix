@@ -25,11 +25,7 @@ class CertificationDetails {
     this.listChallengesAndAnswers = listChallengesAndAnswers;
   }
 
-  static from({
-    certificationAssessment,
-    competenceMarks,
-    placementProfile,
-  }) {
+  static from({ certificationAssessment, competenceMarks, placementProfile }) {
     const answerCollection = AnswerCollectionForScoring.from({
       answers: certificationAssessment.certificationAnswersByDate,
       challenges: certificationAssessment.certificationChallenges,
@@ -54,11 +50,7 @@ class CertificationDetails {
     });
   }
 
-  static fromCertificationAssessmentScore({
-    certificationAssessmentScore,
-    certificationAssessment,
-    placementProfile,
-  }) {
+  static fromCertificationAssessmentScore({ certificationAssessmentScore, certificationAssessment, placementProfile }) {
     const competenceMarks = certificationAssessmentScore.getCompetenceMarks();
     const competencesWithMark = _buildCompetencesWithMark({ competenceMarks, placementProfile });
     const listChallengesAndAnswers = _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark });
@@ -91,11 +83,8 @@ class CertificationDetails {
   }
 }
 
-function _buildCompetencesWithMark({
-  competenceMarks,
-  placementProfile,
-}) {
-  return _.map(competenceMarks, (competenceMark)=> {
+function _buildCompetencesWithMark({ competenceMarks, placementProfile }) {
+  return _.map(competenceMarks, (competenceMark) => {
     const userCompetence = placementProfile.getUserCompetence(competenceMark.competenceId);
 
     return {
@@ -109,31 +98,32 @@ function _buildCompetencesWithMark({
       positionedScore: userCompetence.pixScore,
     };
   });
-
 }
 
-function _buildListChallengesAndAnswers({
-  certificationAssessment,
-  competencesWithMark,
-}) {
-  const answeredChallengesAndAnswers = _.map(certificationAssessment.certificationAnswersByDate, (certificationAnswer) => {
-    const challengeForAnswer = certificationAssessment.getCertificationChallenge(certificationAnswer.challengeId);
-    const competenceIndex = _getCompetenceIndexForChallenge(challengeForAnswer, competencesWithMark);
+function _buildListChallengesAndAnswers({ certificationAssessment, competencesWithMark }) {
+  const answeredChallengesAndAnswers = _.map(
+    certificationAssessment.certificationAnswersByDate,
+    (certificationAnswer) => {
+      const challengeForAnswer = certificationAssessment.getCertificationChallenge(certificationAnswer.challengeId);
+      const competenceIndex = _getCompetenceIndexForChallenge(challengeForAnswer, competencesWithMark);
 
-    return {
-      challengeId: challengeForAnswer.challengeId,
-      competence: competenceIndex,
-      isNeutralized: challengeForAnswer.isNeutralized,
-      hasBeenSkippedAutomatically: false,
-      result: certificationAnswer.result.status,
-      skill: challengeForAnswer.associatedSkillName,
-      value: certificationAnswer.value,
-    };
-  });
+      return {
+        challengeId: challengeForAnswer.challengeId,
+        competence: competenceIndex,
+        isNeutralized: challengeForAnswer.isNeutralized,
+        hasBeenSkippedAutomatically: false,
+        result: certificationAnswer.result.status,
+        skill: challengeForAnswer.associatedSkillName,
+        value: certificationAnswer.value,
+      };
+    }
+  );
 
   const unansweredChallengesAndAnswers = _(certificationAssessment.certificationChallenges)
     .map((challenge) => {
-      const answer = certificationAssessment.certificationAnswersByDate.find((answer) => answer.challengeId === challenge.challengeId);
+      const answer = certificationAssessment.certificationAnswersByDate.find(
+        (answer) => answer.challengeId === challenge.challengeId
+      );
       if (answer) {
         return null;
       }

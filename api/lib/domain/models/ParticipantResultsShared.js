@@ -4,7 +4,6 @@ const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../constants');
 const MAX_PIX_SCORE = MAX_REACHABLE_PIX_BY_COMPETENCE * 16;
 
 class ParticipantResultsShared {
-
   constructor({ campaignParticipationId, knowledgeElements, targetedSkillIds }) {
     const validatedKnowledgeElements = _getValidatedKnowledgeElements(knowledgeElements, targetedSkillIds);
 
@@ -12,9 +11,8 @@ class ParticipantResultsShared {
     this.validatedSkillsCount = validatedKnowledgeElements.length;
     this.pixScore = calculatePixScore(validatedKnowledgeElements);
     if (targetedSkillIds.length > 0) {
-      this.masteryRate = (this.validatedSkillsCount / targetedSkillIds.length);
-    }
-    else {
+      this.masteryRate = this.validatedSkillsCount / targetedSkillIds.length;
+    } else {
       this.masteryRate = this.pixScore / MAX_PIX_SCORE;
     }
   }

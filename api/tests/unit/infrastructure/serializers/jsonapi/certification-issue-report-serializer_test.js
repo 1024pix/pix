@@ -1,13 +1,14 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/certification-issue-report-serializer');
 
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+  CertificationIssueReportSubcategories,
+} = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a CertificationIssueReport model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a CertificationIssueReport model object into JSON API data', function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport();
       const jsonApiData = {
@@ -31,9 +32,8 @@ describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', 
     });
   });
 
-  describe('#deserialize()', function() {
-
-    it('should convert JSON API data to a CertificationIssueReport', function() {
+  describe('#deserialize()', function () {
+    it('should convert JSON API data to a CertificationIssueReport', function () {
       // given
       const certificationCourseId = 1;
       const description = '65%';
@@ -76,5 +76,4 @@ describe('Unit | Serializer | JSONAPI | certification-issue-report-serializer', 
       expect(certificationIssueReport).to.deep.equal(expectedCertificationIssueReport);
     });
   });
-
 });

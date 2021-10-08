@@ -10,7 +10,6 @@ module.exports = async function updateUserAccount({
   encryptionService,
   domainTransaction,
 }) {
-
   const { userId, newEmail } = await scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand({
     temporaryKey,
     accountRecoveryDemandRepository,
@@ -18,10 +17,9 @@ module.exports = async function updateUserAccount({
   });
 
   const authenticationMethods = await authenticationMethodRepository.findByUserId({ userId });
-  const isAuthenticatedFromGarOnly = (
+  const isAuthenticatedFromGarOnly =
     authenticationMethods.length === 1 &&
-    authenticationMethods[0].identityProvider === AuthenticationMethod.identityProviders.GAR
-  );
+    authenticationMethods[0].identityProvider === AuthenticationMethod.identityProviders.GAR;
 
   const hashedPassword = await encryptionService.hashPassword(password);
 
@@ -34,16 +32,20 @@ module.exports = async function updateUserAccount({
         shouldChangePassword: false,
       }),
     });
-    authenticationMethodRepository.create({
-      authenticationMethod: authenticationMethodFromPix,
-    },
-    domainTransaction);
+    authenticationMethodRepository.create(
+      {
+        authenticationMethod: authenticationMethodFromPix,
+      },
+      domainTransaction
+    );
   } else {
-    authenticationMethodRepository.updateChangedPassword({
-      userId,
-      hashedPassword,
-    },
-    domainTransaction);
+    authenticationMethodRepository.updateChangedPassword(
+      {
+        userId,
+        hashedPassword,
+      },
+      domainTransaction
+    );
   }
 
   const userValuesToUpdate = { cgu: true, email: newEmail, emailConfirmedAt: new Date() };

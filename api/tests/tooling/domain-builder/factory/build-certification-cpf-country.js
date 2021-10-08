@@ -16,7 +16,7 @@ function buildCertificationCpfCountry({
   });
 }
 
-buildCertificationCpfCountry.FRANCE = function({
+buildCertificationCpfCountry.FRANCE = function ({
   id = 123,
   code = '99100',
   commonName = 'FRANCE',

@@ -12,7 +12,6 @@ module.exports = function buildCompetenceMark({
   assessmentResultId,
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
   assessmentResultId = _.isUndefined(assessmentResultId) ? buildAssessmentResult().id : assessmentResultId;
 
   const values = {

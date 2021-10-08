@@ -2,11 +2,10 @@ const { expect, sinon, HttpTestServer } = require('../../../test-helper');
 const moduleUnderTest = require('../../../../lib/application/healthcheck');
 const healthCheckController = require('../../../../lib/application/healthcheck/healthcheck-controller');
 
-describe('Integration | Application | Route | healthcheckRouter', function() {
-
+describe('Integration | Application | Route | healthcheckRouter', function () {
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sinon.stub(healthCheckController, 'get').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkDbStatus').callsFake((request, h) => h.response(true));
     sinon.stub(healthCheckController, 'checkRedisStatus').callsFake((request, h) => h.response(true));
@@ -15,9 +14,8 @@ describe('Integration | Application | Route | healthcheckRouter', function() {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('GET /api', function() {
-
-    it('should exist', async function() {
+  describe('GET /api', function () {
+    it('should exist', async function () {
       // given
       const method = 'GET';
       const url = '/api';
@@ -31,9 +29,8 @@ describe('Integration | Application | Route | healthcheckRouter', function() {
     });
   });
 
-  describe('GET /api/healthcheck/db', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/healthcheck/db', function () {
+    it('should exist', async function () {
       // given
       const method = 'GET';
       const url = '/api/healthcheck/db';
@@ -47,9 +44,8 @@ describe('Integration | Application | Route | healthcheckRouter', function() {
     });
   });
 
-  describe('GET /api/healthcheck/redis', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/healthcheck/redis', function () {
+    it('should exist', async function () {
       // given
       const method = 'GET';
       const url = '/api/healthcheck/redis';
@@ -63,9 +59,8 @@ describe('Integration | Application | Route | healthcheckRouter', function() {
     });
   });
 
-  describe('GET /api/healthcheck/crash', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/healthcheck/crash', function () {
+    it('should exist', async function () {
       // given
       const method = 'GET';
       const url = '/api/healthcheck/crash';
@@ -78,5 +73,4 @@ describe('Integration | Application | Route | healthcheckRouter', function() {
       expect(healthCheckController.crashTest).to.have.been.calledOnce;
     });
   });
-
 });

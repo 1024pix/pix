@@ -15,8 +15,7 @@ const organizationInvitationRepository = require('../lib/infrastructure/reposito
 const TAGS = ['JOIN_ORGA'];
 
 async function getOrganizationByExternalId(externalId) {
-  return BookshelfOrganization
-    .where({ externalId })
+  return BookshelfOrganization.where({ externalId })
     .fetch()
     .then((organization) => bookshelfToDomainConverter.buildDomainObject(BookshelfOrganization, organization))
     .catch((err) => {
@@ -45,7 +44,11 @@ async function sendJoinOrganizationInvitations(invitations, tags) {
     }
 
     return organizationInvitationService.createOrganizationInvitation({
-      organizationRepository, organizationInvitationRepository, organizationId, email, tags,
+      organizationRepository,
+      organizationInvitationRepository,
+      organizationId,
+      email,
+      tags,
     });
   });
 }
@@ -69,7 +72,6 @@ async function main() {
     console.log('Sending invitations...');
     await sendJoinOrganizationInvitations(invitations, tags);
     console.log('\nDone.');
-
   } catch (error) {
     console.error('\n', error);
     process.exit(1);
@@ -82,7 +84,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

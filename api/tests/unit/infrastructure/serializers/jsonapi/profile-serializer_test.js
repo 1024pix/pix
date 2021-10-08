@@ -1,8 +1,8 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/profile-serializer');
 
-describe('Unit | Serializer | JSONAPI | profile', function() {
-  describe('#serialize()', function() {
+describe('Unit | Serializer | JSONAPI | profile', function () {
+  describe('#serialize()', function () {
     const area1 = {
       id: '1',
       code: '1',
@@ -75,13 +75,13 @@ describe('Unit | Serializer | JSONAPI | profile', function() {
           attributes: {
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'name': expectedScorecards[0].name,
+            name: expectedScorecards[0].name,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'description': expectedScorecards[0].description,
+            description: expectedScorecards[0].description,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'index': expectedScorecards[0].index,
+            index: expectedScorecards[0].index,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
             'competence-id': expectedScorecards[0].competenceId,
@@ -90,13 +90,13 @@ describe('Unit | Serializer | JSONAPI | profile', function() {
             'earned-pix': expectedScorecards[0].earnedPix,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'level': expectedScorecards[0].level,
+            level: expectedScorecards[0].level,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
             'pix-score-ahead-of-next-level': expectedScorecards[0].pixScoreAheadOfNextLevel,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'status': expectedScorecards[0].status,
+            status: expectedScorecards[0].status,
           },
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
@@ -134,13 +134,13 @@ describe('Unit | Serializer | JSONAPI | profile', function() {
           attributes: {
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'name': expectedScorecards[1].name,
+            name: expectedScorecards[1].name,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'description': expectedScorecards[1].description,
+            description: expectedScorecards[1].description,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'index': expectedScorecards[1].index,
+            index: expectedScorecards[1].index,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
             'competence-id': expectedScorecards[1].competenceId,
@@ -149,13 +149,13 @@ describe('Unit | Serializer | JSONAPI | profile', function() {
             'earned-pix': expectedScorecards[1].earnedPix,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'level': expectedScorecards[1].level,
+            level: expectedScorecards[1].level,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
             'pix-score-ahead-of-next-level': expectedScorecards[1].pixScoreAheadOfNextLevel,
             // TODO: Fix this the next time the file is edited.
             // eslint-disable-next-line mocha/no-setup-in-describe
-            'status': expectedScorecards[1].status,
+            status: expectedScorecards[1].status,
           },
           // TODO: Fix this the next time the file is edited.
           // eslint-disable-next-line mocha/no-setup-in-describe
@@ -175,13 +175,12 @@ describe('Unit | Serializer | JSONAPI | profile', function() {
       ],
     };
 
-    it('should convert a scorecard object into JSON API data', function() {
+    it('should convert a scorecard object into JSON API data', function () {
       // when
       const json = serializer.serialize(profile);
 
       // then
       expect(json).to.deep.equal(expectedSerializedProfile);
     });
-
   });
 });

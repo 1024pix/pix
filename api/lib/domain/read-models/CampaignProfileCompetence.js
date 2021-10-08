@@ -1,12 +1,5 @@
 class CampaignProfileCompetence {
-  constructor({
-    id,
-    index,
-    name,
-    pixScore,
-    estimatedLevel,
-    area,
-  } = {}) {
+  constructor({ id, index, name, pixScore, estimatedLevel, area } = {}) {
     this.id = id;
     this.index = index;
     this.name = name;

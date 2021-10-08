@@ -8,7 +8,6 @@ module.exports = async function finalizeSession({
   sessionRepository,
   certificationReportRepository,
 }) {
-
   const isSessionAlreadyFinalized = await sessionRepository.isFinalized(sessionId);
 
   if (isSessionAlreadyFinalized) {

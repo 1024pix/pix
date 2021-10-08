@@ -11,37 +11,70 @@ module.exports = async function startCampaignParticipation({
   campaignToJoinRepository,
   domainTransaction,
 }) {
-
   const campaignToJoin = await campaignToJoinRepository.get(campaignParticipation.campaignId, domainTransaction);
 
   await campaignToJoinRepository.checkCampaignIsJoinableByUser(campaignToJoin, userId, domainTransaction);
 
-  const hasAlreadyParticipated = await campaignParticipationRepository.hasAlreadyParticipated(campaignToJoin.id, userId, domainTransaction);
+  const hasAlreadyParticipated = await campaignParticipationRepository.hasAlreadyParticipated(
+    campaignToJoin.id,
+    userId,
+    domainTransaction
+  );
   if (campaignToJoin.idPixLabel && !campaignParticipation.participantExternalId) {
     if (campaignToJoin.multipleSendings && hasAlreadyParticipated) {
-      campaignParticipation.participantExternalId = await campaignParticipationRepository.findParticipantExternalId(campaignToJoin.id, userId, domainTransaction);
+      campaignParticipation.participantExternalId = await campaignParticipationRepository.findParticipantExternalId(
+        campaignToJoin.id,
+        userId,
+        domainTransaction
+      );
     } else {
       throw new EntityValidationError({
-        invalidAttributes: [{
-          attribute: 'participantExternalId',
-          message: 'Un identifiant externe est requis pour accèder à la campagne.',
-        }],
+        invalidAttributes: [
+          {
+            attribute: 'participantExternalId',
+            message: 'Un identifiant externe est requis pour accèder à la campagne.',
+          },
+        ],
       });
     }
   }
 
   let createdCampaignParticipation;
   if (hasAlreadyParticipated) {
-    await campaignParticipationRepository.markPreviousParticipationsAsImproved(campaignToJoin.id, userId, domainTransaction);
-    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignToJoin, campaignParticipationRepository, domainTransaction);
+    await campaignParticipationRepository.markPreviousParticipationsAsImproved(
+      campaignToJoin.id,
+      userId,
+      domainTransaction
+    );
+    createdCampaignParticipation = await _saveCampaignParticipation(
+      campaignParticipation,
+      userId,
+      campaignToJoin,
+      campaignParticipationRepository,
+      domainTransaction
+    );
     if (campaignToJoin.isAssessment) {
-      const assessment = Assessment.createImprovingForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id, method: campaignToJoin.assessmentMethod });
+      const assessment = Assessment.createImprovingForCampaign({
+        userId,
+        campaignParticipationId: createdCampaignParticipation.id,
+        method: campaignToJoin.assessmentMethod,
+      });
       await assessmentRepository.save({ assessment, domainTransaction });
     }
   } else {
-    createdCampaignParticipation = await _saveCampaignParticipation(campaignParticipation, userId, campaignToJoin, campaignParticipationRepository, domainTransaction);
+    createdCampaignParticipation = await _saveCampaignParticipation(
+      campaignParticipation,
+      userId,
+      campaignToJoin,
+      campaignParticipationRepository,
+      domainTransaction
+    );
     if (campaignToJoin.isAssessment) {
-      const assessment = Assessment.createForCampaign({ userId, campaignParticipationId: createdCampaignParticipation.id, method: campaignToJoin.assessmentMethod });
+      const assessment = Assessment.createForCampaign({
+        userId,
+        campaignParticipationId: createdCampaignParticipation.id,
+        method: campaignToJoin.assessmentMethod,
+      });
       await assessmentRepository.save({ assessment, domainTransaction });
     }
   }
@@ -52,8 +85,13 @@ module.exports = async function startCampaignParticipation({
   };
 };
 
-async function _saveCampaignParticipation(campaignParticipation, userId, campaign, campaignParticipationRepository, domainTransaction) {
-
+async function _saveCampaignParticipation(
+  campaignParticipation,
+  userId,
+  campaign,
+  campaignParticipationRepository,
+  domainTransaction
+) {
   const userParticipation = CampaignParticipation.start({ ...campaignParticipation, campaign, userId });
 
   return campaignParticipationRepository.save(userParticipation, domainTransaction);

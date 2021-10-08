@@ -19,24 +19,21 @@ const attributes = [
 module.exports = {
   serialize(certificate) {
     return new Serializer('certificationsResults', {
-      attributes: ['certifications', 'competences' ],
+      attributes: ['certifications', 'competences'],
       certificate: {
         attributes: [...attributes],
         competenceResults: {
           attributes: ['competence-id', 'level'],
         },
-
       },
       competences: {
         ref: 'id',
         attributes: ['name', 'area'],
         area: {
           ref: 'id',
-          attributes: [ 'name'],
+          attributes: ['name'],
         },
       },
     }).serialize(certificate);
   },
-
 };
-

@@ -13,7 +13,7 @@ let progression = 0;
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
-  process.stdout.write(`${Math.round(progression * 100 / totalCount, 2)} %`);
+  process.stdout.write(`${Math.round((progression * 100) / totalCount, 2)} %`);
 }
 
 function _resetProgression() {
@@ -27,8 +27,7 @@ async function main() {
         description: 'fichier csv contenant les données de certification à annuler.',
         type: 'string',
       })
-      .help()
-      .argv;
+      .help().argv;
     const { file } = _validateArgs(commandLineArgs);
     await _do({ file });
   } catch (error) {
@@ -38,9 +37,7 @@ async function main() {
   }
 }
 
-function _validateArgs({
-  file,
-}) {
+function _validateArgs({ file }) {
   if (!_.isString(file)) {
     throw new Error(`Argument "file" ${file} doit être une chaîne vers un fichier existant.`);
   }
@@ -65,7 +62,9 @@ async function _do({ file }) {
     throw err;
   }
 
-  const sessionIdsToPublish = _.map(Object.keys(certificationsToCancelBySession), (sessionIdStr) => parseInt(sessionIdStr));
+  const sessionIdsToPublish = _.map(Object.keys(certificationsToCancelBySession), (sessionIdStr) =>
+    parseInt(sessionIdStr)
+  );
   await _publishSessions(sessionIdsToPublish);
 }
 
@@ -121,10 +120,7 @@ async function _parseCertifications(line, sessionId, trx) {
 }
 
 async function _findAllCertificationIdsOfSession(sessionId, trx) {
-  const results = await trx
-    .select('certification-courses.id')
-    .from('certification-courses')
-    .where({ sessionId });
+  const results = await trx.select('certification-courses.id').from('certification-courses').where({ sessionId });
 
   return _.map(results, 'id');
 }
@@ -138,7 +134,9 @@ async function _cancelCertifications(certificationIdsToCancel, trx) {
 
   const notUpdatedCertificationIds = _.difference(certificationIdsToCancel, cancelledCertificationIds);
   if (notUpdatedCertificationIds.length > 0) {
-    throw new Error(`Some certifications do not exist or were already cancelled : ${notUpdatedCertificationIds.join(', ')}`);
+    throw new Error(
+      `Some certifications do not exist or were already cancelled : ${notUpdatedCertificationIds.join(', ')}`
+    );
   }
   console.log('\tDone !');
 }
@@ -193,6 +191,6 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }

@@ -37,7 +37,6 @@ async function main() {
     console.log('Creating Certification Centers...');
     await createScoCertificationCenters(certificationCenters);
     console.log('\nDone.');
-
   } catch (error) {
     console.error('\n', error);
     process.exit(1);
@@ -50,7 +49,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

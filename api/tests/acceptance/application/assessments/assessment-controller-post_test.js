@@ -2,17 +2,15 @@ const { expect, knex, generateValidRequestAuthorizationHeader, databaseBuilder }
 const createServer = require('../../../../server');
 const BookshelfAssessment = require('../../../../lib/infrastructure/orm-models/Assessment');
 
-describe('Acceptance | API | Assessments POST', function() {
-
+describe('Acceptance | API | Assessments POST', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('POST /api/assessments', function() {
-
-    afterEach(async function() {
+  describe('POST /api/assessments', function () {
+    afterEach(async function () {
       await knex('assessments').delete();
       return knex('users').delete();
     });
@@ -20,7 +18,7 @@ describe('Acceptance | API | Assessments POST', function() {
     let options;
     let userId;
 
-    beforeEach(function() {
+    beforeEach(function () {
       userId = databaseBuilder.factory.buildUser().id;
       options = {
         method: 'POST',
@@ -52,7 +50,7 @@ describe('Acceptance | API | Assessments POST', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return 201 HTTP status code', function() {
+    it('should return 201 HTTP status code', function () {
       // when
       const promise = server.inject(options);
 
@@ -62,7 +60,7 @@ describe('Acceptance | API | Assessments POST', function() {
       });
     });
 
-    it('should return 201 HTTP status code when missing authorization header', function() {
+    it('should return 201 HTTP status code when missing authorization header', function () {
       // given
       options.headers = {};
 
@@ -75,7 +73,7 @@ describe('Acceptance | API | Assessments POST', function() {
       });
     });
 
-    it('should return application/json', function() {
+    it('should return application/json', function () {
       // when
       const promise = server.inject(options);
 
@@ -86,9 +84,8 @@ describe('Acceptance | API | Assessments POST', function() {
       });
     });
 
-    describe('when the user is authenticated', function() {
-
-      it('should save user_id in the database', function() {
+    describe('when the user is authenticated', function () {
+      it('should save user_id in the database', function () {
         // given
         options.payload.data.relationships.user.id = userId;
 
@@ -96,28 +93,28 @@ describe('Acceptance | API | Assessments POST', function() {
         const promise = server.inject(options);
 
         // then
-        return promise.then((response) => {
-          return new BookshelfAssessment({ id: response.result.data.id }).fetch();
-        })
+        return promise
+          .then((response) => {
+            return new BookshelfAssessment({ id: response.result.data.id }).fetch();
+          })
           .then((model) => {
             expect(parseInt(model.get('userId'))).to.deep.equal(userId);
           });
       });
 
-      it('should add a new assessment into the database', function() {
+      it('should add a new assessment into the database', function () {
         // when
         const promise = server.inject(options);
 
         // then
         return promise.then(() => {
-          return BookshelfAssessment.count()
-            .then((afterAssessmentsNumber) => {
-              expect(parseInt(afterAssessmentsNumber, 10)).to.equal(1);
-            });
+          return BookshelfAssessment.count().then((afterAssessmentsNumber) => {
+            expect(parseInt(afterAssessmentsNumber, 10)).to.equal(1);
+          });
         });
       });
 
-      it('should return persisted Assessment', function() {
+      it('should return persisted Assessment', function () {
         // when
         const promise = server.inject(options);
 
@@ -130,16 +127,16 @@ describe('Acceptance | API | Assessments POST', function() {
         });
       });
 
-      describe('when the user is not authenticated', function() {
-
-        it('should persist the given course ID', function() {
+      describe('when the user is not authenticated', function () {
+        it('should persist the given course ID', function () {
           // when
           const promise = server.inject(options);
 
           // then
-          return promise.then((response) => {
-            return new BookshelfAssessment({ id: response.result.data.id }).fetch();
-          })
+          return promise
+            .then((response) => {
+              return new BookshelfAssessment({ id: response.result.data.id }).fetch();
+            })
             .then((model) => {
               expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
             });

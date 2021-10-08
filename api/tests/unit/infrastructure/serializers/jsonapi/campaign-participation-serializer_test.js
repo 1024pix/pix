@@ -3,10 +3,8 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const CampaignParticipation = require('../../../../../lib/domain/models/CampaignParticipation');
 const { SHARED } = CampaignParticipation.statuses;
 
-describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', function() {
-
-  describe('#serialize', function() {
-
+describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', function () {
+  describe('#serialize', function () {
     const campaign = { id: 1, code: 'LJA123', title: 'Désobéir' };
     const competenceResults = [
       {
@@ -74,7 +72,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
 
     let expectedSerializedCampaignParticipation;
 
-    beforeEach(function() {
+    beforeEach(function () {
       expectedSerializedCampaignParticipation = {
         data: {
           type: 'campaign-participations',
@@ -112,7 +110,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       };
     });
 
-    it('should convert a CampaignParticipation model object into JSON API data', function() {
+    it('should convert a CampaignParticipation model object into JSON API data', function () {
       // when
       const json = serializer.serialize(campaignParticipation);
 
@@ -121,9 +119,8 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
     });
   });
 
-  describe('#deserialize', function() {
-
-    it('should convert JSON API campaign participation data into a CampaignParticipation model', function() {
+  describe('#deserialize', function () {
+    it('should convert JSON API campaign participation data into a CampaignParticipation model', function () {
       // given
       const campaignId = '28346762';
       const jsonAnswer = {
@@ -133,7 +130,7 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
             participantExternalId: 'azerty@qwerty.net',
           },
           relationships: {
-            'campaign': {
+            campaign: {
               data: {
                 id: campaignId.toString(),
               },
@@ -146,14 +143,11 @@ describe('Unit | Serializer | JSONAPI | campaign-participation-serializer', func
       const promise = serializer.deserialize(jsonAnswer);
 
       // then
-      return expect(promise).to.be.fulfilled
-        .then((campaignParticipation) => {
-          expect(campaignParticipation).to.be.instanceOf(CampaignParticipation);
-          expect(campaignParticipation.participantExternalId).to.equal(jsonAnswer.data.attributes.participantExternalId);
-          expect(campaignParticipation.campaignId).to.equal(campaignId);
-        });
+      return expect(promise).to.be.fulfilled.then((campaignParticipation) => {
+        expect(campaignParticipation).to.be.instanceOf(CampaignParticipation);
+        expect(campaignParticipation.participantExternalId).to.equal(jsonAnswer.data.attributes.participantExternalId);
+        expect(campaignParticipation.campaignId).to.equal(campaignId);
+      });
     });
-
   });
-
 });

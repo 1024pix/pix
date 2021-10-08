@@ -9,7 +9,7 @@ const { passwordValidationPattern } = require('../../config').account;
 const { EntityValidationError } = require('../../domain/errors');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -37,15 +37,17 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: userController.findPaginatedFilteredUsers,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
-          '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName** et/ou un **email** donnés',
+            '- Elle permet de récupérer & chercher une liste d’utilisateurs\n' +
+            '- Cette liste est paginée et filtrée selon un **firstName**, un **lastName** et/ou un **email** donnés',
         ],
         tags: ['api', 'user'],
       },
@@ -57,7 +59,7 @@ exports.register = async function(server) {
         handler: userController.getCurrentUser,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l’utilisateur courant\n',
+            '- Récupération de l’utilisateur courant\n',
         ],
         tags: ['api', 'user'],
       },
@@ -71,17 +73,19 @@ exports.register = async function(server) {
             id: identifiersType.userId,
           }),
           failAction: (request, h) => {
-            return sendJsonApiError(new BadRequestError('L\'identifiant de l\'utilisateur n\'est pas au bon format.'), h);
+            return sendJsonApiError(new BadRequestError("L'identifiant de l'utilisateur n'est pas au bon format."), h);
           },
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: userController.getUserDetailsForAdmin,
         notes: [
           '- **Cette route est restreinte aux utilisateurs administrateurs**\n' +
-          '- Elle permet de récupérer le détail d\'un utilisateur dans un contexte d\'administration\n',
+            "- Elle permet de récupérer le détail d'un utilisateur dans un contexte d'administration\n",
         ],
         tags: ['api', 'administration', 'user'],
       },
@@ -90,10 +94,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/admin/users/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         plugins: {
           'hapi-swagger': {
             payloadType: 'form',
@@ -119,7 +125,7 @@ exports.register = async function(server) {
         },
         handler: userController.updateUserDetailsForAdministration,
         notes: [
-          '- Permet à un administrateur de mettre à jour certains attributs d\'un utilisateur identifié par son identifiant',
+          "- Permet à un administrateur de mettre à jour certains attributs d'un utilisateur identifié par son identifiant",
         ],
         tags: ['api', 'administration', 'user'],
       },
@@ -128,10 +134,12 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/admin/users/{id}/remove-authentication',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -148,9 +156,7 @@ exports.register = async function(server) {
           },
         },
         handler: userController.removeAuthenticationMethod,
-        notes: [
-          '- Permet à un administrateur de supprimer une méthode de connexion',
-        ],
+        notes: ['- Permet à un administrateur de supprimer une méthode de connexion'],
         tags: ['api', 'administration', 'user'],
       },
     },
@@ -158,10 +164,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/memberships',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -170,8 +178,8 @@ exports.register = async function(server) {
         handler: userController.getMemberships,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des accès utilisateurs à partir de l’id\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            '- Récupération des accès utilisateurs à partir de l’id\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'membership'],
       },
@@ -180,10 +188,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/campaign-participations',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -192,10 +202,10 @@ exports.register = async function(server) {
         handler: userController.getCampaignParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des participations à des campagnes à partir de l’id\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
-          '- Les participations aux campagnes sont triées par ordre inverse de création' +
-          '  (les plus récentes en premier)',
+            '- Récupération des participations à des campagnes à partir de l’id\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
+            '- Les participations aux campagnes sont triées par ordre inverse de création' +
+            '  (les plus récentes en premier)',
         ],
         tags: ['api'],
       },
@@ -204,10 +214,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/campaign-participation-overviews',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -216,10 +228,10 @@ exports.register = async function(server) {
         handler: userController.getCampaignParticipationOverviews,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des aperçus des participations aux campagnes en fonction de l‘id de l‘utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
-          '- Les aperçus des participations aux campagnes sont triés par ordre inverse de création' +
-          '  (les plus récentes en premier)',
+            '- Récupération des aperçus des participations aux campagnes en fonction de l‘id de l‘utilisateur\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié' +
+            '- Les aperçus des participations aux campagnes sont triés par ordre inverse de création' +
+            '  (les plus récentes en premier)',
           '- Cette liste est paginée et filtrée selon des **states** qui peuvent avoir comme valeurs: ONGOING, TO_SHARE, ENDED et ARCHIVED',
         ],
         tags: ['api'],
@@ -256,9 +268,7 @@ exports.register = async function(server) {
             return EntityValidationError.fromJoiErrors(error.details);
           },
         },
-        notes: [
-          '- Met à jour l\'email d\'un utilisateur identifié par son id',
-        ],
+        notes: ["- Met à jour l'email d'un utilisateur identifié par son id"],
         tags: ['api', 'user'],
       },
     },
@@ -288,7 +298,9 @@ exports.register = async function(server) {
             data: {
               type: Joi.string().valid('email-verification-codes').required(),
               attributes: {
-                code: Joi.string().regex(/^[1-9]{6}$/).required(),
+                code: Joi.string()
+                  .regex(/^[1-9]{6}$/)
+                  .required(),
               },
             },
           }),
@@ -296,7 +308,9 @@ exports.register = async function(server) {
             return EntityValidationError.fromJoiErrors(error.details);
           },
         },
-        notes: ['- Suite à une demande de changement d\'adresse e-mail, met à jour cette dernière pour l\'utilisateur identifié par son id.'],
+        notes: [
+          "- Suite à une demande de changement d'adresse e-mail, met à jour cette dernière pour l'utilisateur identifié par son id.",
+        ],
         tags: ['api', 'user', 'update-email'],
       },
     },
@@ -305,10 +319,12 @@ exports.register = async function(server) {
       path: '/api/users/{id}/password-update',
       config: {
         auth: false,
-        pre: [{
-          method: userVerification.verifyById,
-          assign: 'user',
-        }],
+        pre: [
+          {
+            method: userVerification.verifyById,
+            assign: 'user',
+          },
+        ],
         handler: userController.updatePassword,
         validate: {
           options: {
@@ -326,8 +342,8 @@ exports.register = async function(server) {
           }),
         },
         notes: [
-          '- Met à jour le mot de passe d\'un utilisateur identifié par son id\n' +
-          '- Une clé d\'identification temporaire permet de vérifier l\'identité du demandeur',
+          "- Met à jour le mot de passe d'un utilisateur identifié par son id\n" +
+            "- Une clé d'identification temporaire permet de vérifier l'identité du demandeur",
         ],
         tags: ['api', 'user'],
       },
@@ -336,10 +352,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/pix-terms-of-service-acceptance',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -348,9 +366,9 @@ exports.register = async function(server) {
         handler: userController.acceptPixLastTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur a accepté les dernières Conditions Générales d\'Utilisation de Pix App\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Sauvegarde le fait que l'utilisateur a accepté les dernières Conditions Générales d'Utilisation de Pix App\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+            "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
       },
@@ -359,10 +377,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/pix-orga-terms-of-service-acceptance',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -371,9 +391,9 @@ exports.register = async function(server) {
         handler: userController.acceptPixOrgaTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Orga\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Orga\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+            "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
       },
@@ -388,16 +408,18 @@ exports.register = async function(server) {
             lang: Joi.string().valid('fr', 'en'),
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         handler: userController.changeLang,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Modifie la langue de l\'utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          '- La lang contient les deux lettres de la langue choisie.',
+            "- Modifie la langue de l'utilisateur\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+            '- La lang contient les deux lettres de la langue choisie.',
         ],
         tags: ['api', 'user'],
       },
@@ -406,10 +428,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/pix-certif-terms-of-service-acceptance',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -418,9 +442,9 @@ exports.register = async function(server) {
         handler: userController.acceptPixCertifTermsOfService,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur a accepté les Conditions Générales d\'Utilisation de Pix Certif\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Sauvegarde le fait que l'utilisateur a accepté les Conditions Générales d'Utilisation de Pix Certif\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié\n' +
+            "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
       },
@@ -429,10 +453,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/remember-user-has-seen-assessment-instructions',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -441,9 +467,9 @@ exports.register = async function(server) {
         handler: userController.rememberUserHasSeenAssessmentInstructions,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur ait vu le didacticiel' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Sauvegarde le fait que l'utilisateur ait vu le didacticiel" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
       },
@@ -452,10 +478,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/has-seen-new-dashboard-info',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -464,9 +492,9 @@ exports.register = async function(server) {
         handler: userController.rememberUserHasSeenNewDashboardInfo,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur ait vu le message sur le nouveau dashboard' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Sauvegarde le fait que l'utilisateur ait vu le message sur le nouveau dashboard" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
       },
@@ -475,10 +503,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/users/{id}/has-seen-challenge-tooltip/{challengeType}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -488,9 +518,9 @@ exports.register = async function(server) {
         handler: userController.rememberUserHasSeenChallengeTooltip,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Sauvegarde le fait que l\'utilisateur ait vu la tooltip de type d\'épreuve' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
-          '- Le contenu de la requête n\'est pas pris en compte.',
+            "- Sauvegarde le fait que l'utilisateur ait vu la tooltip de type d'épreuve" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+          "- Le contenu de la requête n'est pas pris en compte.",
         ],
         tags: ['api', 'user'],
       },
@@ -499,10 +529,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/is-certifiable',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -511,8 +543,8 @@ exports.register = async function(server) {
         handler: userController.isCertifiable,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du nombre total de Pix de l\'utilisateur\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            "- Récupération du nombre total de Pix de l'utilisateur\n" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user'],
       },
@@ -521,10 +553,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/users/{id}/profile',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.userId,
@@ -533,8 +567,8 @@ exports.register = async function(server) {
         handler: userController.getProfile,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du nombre total de Pix de l\'utilisateur\n et de ses scorecards' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            "- Récupération du nombre total de Pix de l'utilisateur\n et de ses scorecards" +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'profile'],
       },
@@ -543,10 +577,12 @@ exports.register = async function(server) {
       method: 'POST',
       path: '/api/users/{userId}/competences/{competenceId}/reset',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         validate: {
           params: Joi.object({
             userId: identifiersType.userId,
@@ -556,7 +592,7 @@ exports.register = async function(server) {
         handler: userController.resetScorecard,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Cette route réinitialise le niveau d\'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)',
+            "- Cette route réinitialise le niveau d'un utilisateur donné (**userId**) pour une compétence donnée (**competenceId**)",
           '- Cette route retourne les nouvelles informations de niveau de la compétence',
           '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
@@ -573,15 +609,17 @@ exports.register = async function(server) {
             campaignId: identifiersType.campaignId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         handler: userController.getUserProfileSharedForCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération du profil d’un utilisateur partagé (**userId**) pour la campagne donnée (**campaignId**)\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            '- Récupération du profil d’un utilisateur partagé (**userId**) pour la campagne donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'campaign'],
       },
@@ -596,15 +634,17 @@ exports.register = async function(server) {
             campaignId: identifiersType.campaignId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         handler: userController.getUserCampaignAssessmentResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des résultats d’un parcours pour un utilisateur (**userId**) et pour la campagne d’évaluation donnée (**campaignId**)\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            '- Récupération des résultats d’un parcours pour un utilisateur (**userId**) et pour la campagne d’évaluation donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'campaign'],
       },
@@ -619,15 +659,17 @@ exports.register = async function(server) {
             campaignId: identifiersType.campaignId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         handler: userController.getUserCampaignParticipationToCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des participations d’un utilisateur (**userId**) à la campagne donnée (**campaignId**)\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            '- Récupération des participations d’un utilisateur (**userId**) à la campagne donnée (**campaignId**)\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'campaign', 'campaign-participations'],
       },
@@ -641,14 +683,14 @@ exports.register = async function(server) {
             id: identifiersType.userId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
-        handler: userController.anonymizeUser,
-        notes: [
-          '- Permet à un administrateur d\'anonymiser un utilisateur',
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
         ],
+        handler: userController.anonymizeUser,
+        notes: ["- Permet à un administrateur d'anonymiser un utilisateur"],
         tags: ['api', 'administration', 'user'],
       },
     },
@@ -661,14 +703,16 @@ exports.register = async function(server) {
             id: identifiersType.userId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: userController.dissociateSchoolingRegistrations,
         notes: [
           '- Permet à un administrateur de dissocier un utilisateur\n' +
-          'des inscriptions scolaires qui lui sont rattachées.',
+            'des inscriptions scolaires qui lui sont rattachées.',
         ],
         tags: ['api', 'administration', 'user'],
       },

@@ -3,11 +3,10 @@ const ParticipantResultsShared = require('../../../../lib/domain/models/Particip
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const { MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../../../lib/domain/constants');
 
-describe('Unit | Domain | Models | ParticipantResultsShared', function() {
-
-  context('#masteryRate', function() {
-    context('when there are targetSkills', function() {
-      it('computes the masteryRate using the number of skill validated', function() {
+describe('Unit | Domain | Models | ParticipantResultsShared', function () {
+  context('#masteryRate', function () {
+    context('when there are targetSkills', function () {
+      it('computes the masteryRate using the number of skill validated', function () {
         // given
         const knowledgeElements = [
           domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
@@ -27,12 +26,20 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function() {
       });
     });
 
-    context('when there are no targetSkills', function() {
-      it('computes the masteryPercentage using the pixScore and the maximal pix score', function() {
+    context('when there are no targetSkills', function () {
+      it('computes the masteryPercentage using the pixScore and the maximal pix score', function () {
         // given
         const knowledgeElements = [
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill1', earnedPix: 10, status: KnowledgeElement.StatusType.VALIDATED }),
-          domainBuilder.buildKnowledgeElement({ skillId: 'skill2', earnedPix: 0, status: KnowledgeElement.StatusType.INVALIDATED }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: 'skill1',
+            earnedPix: 10,
+            status: KnowledgeElement.StatusType.VALIDATED,
+          }),
+          domainBuilder.buildKnowledgeElement({
+            skillId: 'skill2',
+            earnedPix: 0,
+            status: KnowledgeElement.StatusType.INVALIDATED,
+          }),
         ];
 
         const targetedSkillIds = [];
@@ -49,7 +56,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function() {
     });
   });
 
-  it('returns the validated skills count', function() {
+  it('returns the validated skills count', function () {
     // given
     const knowledgeElements = [
       domainBuilder.buildKnowledgeElement({ skillId: 'skill1', status: KnowledgeElement.StatusType.VALIDATED }),
@@ -68,7 +75,7 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function() {
     expect(participantResultsShared.validatedSkillsCount).to.be.equal(1);
   });
 
-  it('returns the Pix score', function() {
+  it('returns the Pix score', function () {
     // given
     const knowledgeElements = [
       domainBuilder.buildKnowledgeElement({ skillId: 'skill1.1', earnedPix: 8 }),
@@ -87,5 +94,4 @@ describe('Unit | Domain | Models | ParticipantResultsShared', function() {
     // then
     expect(participantResultsShared.pixScore).to.be.equal(9);
   });
-
 });

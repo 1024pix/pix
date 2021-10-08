@@ -2,10 +2,13 @@ const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper
 const usecases = require('../../../../lib/domain/usecases');
 const SchoolingRegistration = require('../../../../lib/domain/models/SchoolingRegistration');
 
-const { CampaignCodeError, NotFoundError, SchoolingRegistrationAlreadyLinkedToUserError } = require('../../../../lib/domain/errors');
+const {
+  CampaignCodeError,
+  NotFoundError,
+  SchoolingRegistrationAlreadyLinkedToUserError,
+} = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | reconcile-schooling-registration', function() {
-
+describe('Unit | UseCase | reconcile-schooling-registration', function () {
   let campaignCode;
 
   let campaignRepository;
@@ -17,7 +20,7 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
   const organizationId = 1;
   const schoolingRegistrationId = 1;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignCode = 'ABCD12';
     schoolingRegistration = domainBuilder.buildSchoolingRegistration({ organizationId, id: schoolingRegistrationId });
     user = {
@@ -40,9 +43,8 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
     };
   });
 
-  context('When there is no campaign with the given code', function() {
-
-    it('should throw a campaign code error', async function() {
+  context('When there is no campaign with the given code', function () {
+    it('should throw a campaign code error', async function () {
       // given
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
@@ -58,12 +60,15 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
     });
   });
 
-  context('When no schoolingRegistration found', function() {
-
-    it('should throw a Not Found error', async function() {
+  context('When no schoolingRegistration found', function () {
+    it('should throw a Not Found error', async function () {
       // given
-      campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.throws(new NotFoundError('Error message'));
+      campaignRepository.getByCode
+        .withArgs(campaignCode)
+        .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.throws(
+        new NotFoundError('Error message')
+      );
 
       // when
       const result = await catchErr(usecases.reconcileSchoolingRegistration)({
@@ -79,13 +84,18 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
     });
   });
 
-  context('When student has already a reconciled account', function() {
-
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function() {
+  context('When student has already a reconciled account', function () {
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
       // given
-      campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.throws(new SchoolingRegistrationAlreadyLinkedToUserError());
+      campaignRepository.getByCode
+        .withArgs(campaignCode)
+        .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        schoolingRegistration
+      );
+      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.throws(
+        new SchoolingRegistrationAlreadyLinkedToUserError()
+      );
 
       // when
       const result = await catchErr(usecases.reconcileSchoolingRegistration)({
@@ -100,24 +110,33 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
     });
   });
 
-  context('When another student is already reconciled in the same organization and with the same user', function() {
-
-    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function() {
+  context('When another student is already reconciled in the same organization and with the same user', function () {
+    it('should return a SchoolingRegistrationAlreadyLinkedToUser error', async function () {
       // given
       schoolingRegistration.userId = user.id;
       schoolingRegistration.firstName = user.firstName;
       schoolingRegistration.lastName = user.lastName;
 
-      const alreadyReconciledSchoolingRegistrationWithAnotherStudent = domainBuilder.buildSchoolingRegistration({ organizationId, userId: user.id });
-
-      const exceptedErrorMessage = 'Un autre étudiant est déjà réconcilié dans la même organisation et avec le même compte utilisateur';
-      campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
-      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-      schoolingRegistrationRepository.findOneByUserIdAndOrganizationId.withArgs({
-        userId: user.id,
+      const alreadyReconciledSchoolingRegistrationWithAnotherStudent = domainBuilder.buildSchoolingRegistration({
         organizationId,
-      }).resolves(alreadyReconciledSchoolingRegistrationWithAnotherStudent);
+        userId: user.id,
+      });
+
+      const exceptedErrorMessage =
+        'Un autre étudiant est déjà réconcilié dans la même organisation et avec le même compte utilisateur';
+      campaignRepository.getByCode
+        .withArgs(campaignCode)
+        .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        schoolingRegistration
+      );
+      userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
+      schoolingRegistrationRepository.findOneByUserIdAndOrganizationId
+        .withArgs({
+          userId: user.id,
+          organizationId,
+        })
+        .resolves(alreadyReconciledSchoolingRegistrationWithAnotherStudent);
 
       // when
       const result = await catchErr(usecases.reconcileSchoolingRegistration)({
@@ -132,24 +151,28 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
       expect(result).to.be.instanceof(SchoolingRegistrationAlreadyLinkedToUserError);
       expect(result.message).to.equal(exceptedErrorMessage);
     });
-
   });
 
-  context('When one schoolingRegistration matched on names', function() {
-
-    it('should associate user with schoolingRegistration', async function() {
+  context('When one schoolingRegistration matched on names', function () {
+    it('should associate user with schoolingRegistration', async function () {
       // given
       const withReconciliation = true;
       schoolingRegistration.userId = user.id;
       schoolingRegistration.firstName = user.firstName;
       schoolingRegistration.lastName = user.lastName;
-      campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
+      campaignRepository.getByCode
+        .withArgs(campaignCode)
+        .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        schoolingRegistration
+      );
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
-      schoolingRegistrationRepository.reconcileUserToSchoolingRegistration.withArgs({
-        userId: user.id,
-        schoolingRegistrationId,
-      }).resolves(schoolingRegistration);
+      schoolingRegistrationRepository.reconcileUserToSchoolingRegistration
+        .withArgs({
+          userId: user.id,
+          schoolingRegistrationId,
+        })
+        .resolves(schoolingRegistration);
 
       // when
       const result = await usecases.reconcileSchoolingRegistration({
@@ -167,16 +190,19 @@ describe('Unit | UseCase | reconcile-schooling-registration', function() {
     });
   });
 
-  context('When withReconciliation is false', function() {
-
-    it('should not associate user with schoolingRegistration', async function() {
+  context('When withReconciliation is false', function () {
+    it('should not associate user with schoolingRegistration', async function () {
       // given
       const withReconciliation = false;
       schoolingRegistration.userId = user.id;
       schoolingRegistration.firstName = user.firstName;
       schoolingRegistration.lastName = user.lastName;
-      campaignRepository.getByCode.withArgs(campaignCode).resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(schoolingRegistration);
+      campaignRepository.getByCode
+        .withArgs(campaignCode)
+        .resolves(domainBuilder.buildCampaign({ organization: { id: organizationId } }));
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        schoolingRegistration
+      );
       userReconciliationService.checkIfStudentHasAnAlreadyReconciledAccount.resolves();
 
       // when

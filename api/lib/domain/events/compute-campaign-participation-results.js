@@ -10,4 +10,4 @@ module.exports = async function computeCampaignParticipationResults({
   await campaignParticipationRepository.update(participantResultsShared);
 };
 
-module.exports.eventTypes = [ CampaignParticipationResultShared ];
+module.exports.eventTypes = [CampaignParticipationResultShared];

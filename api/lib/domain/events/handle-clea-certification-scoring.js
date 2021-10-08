@@ -1,7 +1,7 @@
 const { checkEventTypes } = require('./check-event-types');
 const CertificationScoringCompleted = require('./CertificationScoringCompleted');
 
-const eventTypes = [ CertificationScoringCompleted ];
+const eventTypes = [CertificationScoringCompleted];
 
 async function handleCleaCertificationScoring({
   event,
@@ -20,7 +20,15 @@ async function handleCleaCertificationScoring({
   });
 
   if (cleaCertificationScoring.hasAcquiredBadge) {
-    await _verifyBadgeValidity(certificationCourseRepository, event, badgeRepository, cleaCertificationScoring, targetProfileRepository, knowledgeElementRepository, badgeCriteriaService);
+    await _verifyBadgeValidity(
+      certificationCourseRepository,
+      event,
+      badgeRepository,
+      cleaCertificationScoring,
+      targetProfileRepository,
+      knowledgeElementRepository,
+      badgeCriteriaService
+    );
   }
 
   if (cleaCertificationScoring.isEligible()) {
@@ -28,7 +36,15 @@ async function handleCleaCertificationScoring({
   }
 }
 
-async function _verifyBadgeValidity(certificationCourseRepository, event, badgeRepository, cleaCertificationScoring, targetProfileRepository, knowledgeElementRepository, badgeCriteriaService) {
+async function _verifyBadgeValidity(
+  certificationCourseRepository,
+  event,
+  badgeRepository,
+  cleaCertificationScoring,
+  targetProfileRepository,
+  knowledgeElementRepository,
+  badgeCriteriaService
+) {
   const beginningCertificationDate = await certificationCourseRepository.getCreationDate(event.certificationCourseId);
 
   const badge = await badgeRepository.getByKey(cleaCertificationScoring.partnerKey);
@@ -39,11 +55,13 @@ async function _verifyBadgeValidity(certificationCourseRepository, event, badgeR
     limitDate: beginningCertificationDate,
   });
 
-  cleaCertificationScoring.setBadgeAcquisitionStillValid(badgeCriteriaService.areBadgeCriteriaFulfilled({
-    knowledgeElements,
-    targetProfile,
-    badge,
-  }));
+  cleaCertificationScoring.setBadgeAcquisitionStillValid(
+    badgeCriteriaService.areBadgeCriteriaFulfilled({
+      knowledgeElements,
+      targetProfile,
+      badge,
+    })
+  );
 }
 
 handleCleaCertificationScoring.eventTypes = eventTypes;

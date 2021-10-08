@@ -12,8 +12,9 @@ module.exports = async function updateUserDetailsForAdministration({
 }) {
   const { email, username } = userDetailsForAdministration;
 
-  const foundUsersWithEmailAlreadyUsed = email && await userRepository.findAnotherUserByEmail(userId, email);
-  const foundUsersWithUsernameAlreadyUsed = username && await userRepository.findAnotherUserByUsername(userId, username);
+  const foundUsersWithEmailAlreadyUsed = email && (await userRepository.findAnotherUserByEmail(userId, email));
+  const foundUsersWithUsernameAlreadyUsed =
+    username && (await userRepository.findAnotherUserByUsername(userId, username));
 
   await _checkEmailAndUsernameAreAvailable({
     usersWithEmail: foundUsersWithEmailAlreadyUsed,

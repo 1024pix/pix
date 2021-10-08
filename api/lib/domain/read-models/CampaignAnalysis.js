@@ -2,12 +2,7 @@ const _ = require('lodash');
 const recommendationService = require('../services/recommendation-service');
 
 class CampaignAnalysis {
-  constructor({
-    campaignId,
-    targetProfileWithLearningContent,
-    tutorials,
-    participantCount = 0,
-  } = {}) {
+  constructor({ campaignId, targetProfileWithLearningContent, tutorials, participantCount = 0 } = {}) {
     this.id = campaignId;
     this.participantCount = participantCount;
     const maxSkillLevelInTargetProfile = targetProfileWithLearningContent.maxSkillDifficulty;
@@ -99,13 +94,13 @@ class CampaignTubeRecommendation {
   }
 
   _computeCumulativeScore(knowledgeElementsByParticipant) {
-    this.cumulativeScore += _(knowledgeElementsByParticipant)
-      .sumBy((knowledgeElements) =>
-        recommendationService.computeRecommendationScore(
-          this.tube.skills,
-          this.maxSkillLevelInTargetProfile,
-          knowledgeElements,
-        ));
+    this.cumulativeScore += _(knowledgeElementsByParticipant).sumBy((knowledgeElements) =>
+      recommendationService.computeRecommendationScore(
+        this.tube.skills,
+        this.maxSkillLevelInTargetProfile,
+        knowledgeElements
+      )
+    );
   }
 }
 

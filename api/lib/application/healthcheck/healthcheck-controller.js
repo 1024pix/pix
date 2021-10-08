@@ -5,13 +5,12 @@ const redisMonitor = require('../../infrastructure/utils/redis-monitor');
 const { knex } = require('../../../db/knex-database-connection');
 
 module.exports = {
-
   get(request) {
     return {
-      'name': packageJSON.name,
-      'version': packageJSON.version,
-      'description': packageJSON.description,
-      'environment': settings.environment,
+      name: packageJSON.name,
+      version: packageJSON.version,
+      description: packageJSON.description,
+      environment: settings.environment,
       'container-version': process.env.CONTAINER_VERSION,
       'container-app-name': process.env.APP,
       'current-lang': request.i18n.__('current-lang'),

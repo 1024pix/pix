@@ -4,11 +4,9 @@ const enrollStudentsToSession = require('../../../../lib/domain/usecases/enroll-
 const SCOCertificationCandidate = require('../../../../lib/domain/models/SCOCertificationCandidate');
 const { ForbiddenAccess, UnknownCountryForStudentEnrollmentError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | enroll-students-to-session', function() {
-
-  context('when referent is allowed to Pix Certif', function() {
-
-    it('enrolls n students to a session', async function() {
+describe('Unit | UseCase | enroll-students-to-session', function () {
+  context('when referent is allowed to Pix Certif', function () {
+    it('enrolls n students to a session', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -47,11 +45,13 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      certificationCenterMembershipRepository.findByUserId
+        .withArgs(referentId)
+        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
-        organizationForReferent.id,
-      );
+      organizationRepository.getIdByCertificationCenterId
+        .withArgs(session.certificationCenterId)
+        .resolves(organizationForReferent.id);
 
       // when
       await enrollStudentsToSession({
@@ -67,11 +67,13 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       });
 
       // then
-      expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal(expectedCertificationCandidates);
+      expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal(
+        expectedCertificationCandidates
+      );
       expect(scoCertificationCandidateRepository.findBySessionId(anotherSessionId)).to.deep.equal(undefined);
     });
 
-    it('enrolls a student by trimming his first name and last name', async function() {
+    it('enrolls a student by trimming his first name and last name', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -114,11 +116,13 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      certificationCenterMembershipRepository.findByUserId
+        .withArgs(referentId)
+        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
-        organizationForReferent.id,
-      );
+      organizationRepository.getIdByCertificationCenterId
+        .withArgs(session.certificationCenterId)
+        .resolves(organizationForReferent.id);
 
       // when
       await enrollStudentsToSession({
@@ -134,10 +138,12 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       });
 
       // then
-      expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal([expectedCertificationCandidate]);
+      expect(scoCertificationCandidateRepository.findBySessionId(sessionId)).to.deep.equal([
+        expectedCertificationCandidate,
+      ]);
     });
 
-    it('rejects enrollment if students do not belong to same organization as referent', async function() {
+    it('rejects enrollment if students do not belong to same organization as referent', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
 
@@ -152,11 +158,13 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(session.id).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      certificationCenterMembershipRepository.findByUserId
+        .withArgs(referentId)
+        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
-        organizationForReferent.id,
-      );
+      organizationRepository.getIdByCertificationCenterId
+        .withArgs(session.certificationCenterId)
+        .resolves(organizationForReferent.id);
 
       // when
       const error = await catchErr(enrollStudentsToSession)({
@@ -173,14 +181,16 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       expect(error).to.be.instanceof(ForbiddenAccess);
     });
 
-    it('rejects enrollment if session does not belong to same certification center as referent', async function() {
+    it('rejects enrollment if session does not belong to same certification center as referent', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildNonMatchingSessionAndCertificationCenterMembership();
       const referentId = Symbol('a referent id');
       const studentIds = [1, 2, 3];
 
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      certificationCenterMembershipRepository.findByUserId
+        .withArgs(referentId)
+        .resolves(certificationCenterMemberships);
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(session.id).resolves(session);
 
@@ -199,7 +209,7 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       expect(error).to.be.an.instanceOf(ForbiddenAccess);
     });
 
-    it('rejects enrollment if a student birth country is not found', async function() {
+    it('rejects enrollment if a student birth country is not found', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -222,11 +232,13 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      certificationCenterMembershipRepository.findByUserId
+        .withArgs(referentId)
+        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
-        organizationForReferent.id,
-      );
+      organizationRepository.getIdByCertificationCenterId
+        .withArgs(session.certificationCenterId)
+        .resolves(organizationForReferent.id);
 
       // when
       const error = await catchErr(enrollStudentsToSession)({
@@ -246,7 +258,7 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       expect(error.message).to.contains(`${schoolingRegistrations[0].firstName} ${schoolingRegistrations[0].lastName}`);
     });
 
-    it('does nothing if no student ids is given as input', async function() {
+    it('does nothing if no student ids is given as input', async function () {
       // given
       const { session, certificationCenterMemberships } = _buildMatchingSessionAndCertificationCenterMembership();
       const sessionId = session.id;
@@ -267,11 +279,13 @@ describe('Unit | UseCase | enroll-students-to-session', function() {
       const sessionRepository = { get: sinon.stub() };
       sessionRepository.get.withArgs(sessionId).resolves(session);
       const certificationCenterMembershipRepository = { findByUserId: sinon.stub() };
-      certificationCenterMembershipRepository.findByUserId.withArgs(referentId).resolves(certificationCenterMemberships);
+      certificationCenterMembershipRepository.findByUserId
+        .withArgs(referentId)
+        .resolves(certificationCenterMemberships);
       const organizationRepository = { getIdByCertificationCenterId: sinon.stub() };
-      organizationRepository.getIdByCertificationCenterId.withArgs(session.certificationCenterId).resolves(
-        organizationForReferent.id,
-      );
+      organizationRepository.getIdByCertificationCenterId
+        .withArgs(session.certificationCenterId)
+        .resolves(organizationForReferent.id);
 
       // when
       await enrollStudentsToSession({

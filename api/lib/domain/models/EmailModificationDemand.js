@@ -1,9 +1,5 @@
 class EmailModificationDemand {
-
-  constructor({
-    code,
-    newEmail,
-  } = {}) {
+  constructor({ code, newEmail } = {}) {
     this.code = code;
     this.newEmail = newEmail;
   }

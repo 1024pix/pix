@@ -2,12 +2,11 @@ const { expect, sinon } = require('../../../test-helper');
 
 const dissociateSchoolingRegistrations = require('../../../../lib/domain/usecases/dissociate-schooling-registrations');
 
-describe('Unit | UseCase | dissociate-schooling-registrations', function() {
-
+describe('Unit | UseCase | dissociate-schooling-registrations', function () {
   let schoolingRegistrationRepository;
   let userRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     schoolingRegistrationRepository = {
       findByUserIdAndSCOOrganization: sinon.stub(),
       dissociateUserFromSchoolingRegistrationIds: sinon.stub().resolves(),
@@ -17,9 +16,8 @@ describe('Unit | UseCase | dissociate-schooling-registrations', function() {
     };
   });
 
-  context('When user is not associated to SCO organizations', function() {
-
-    it('should not dissociate user', async function() {
+  context('When user is not associated to SCO organizations', function () {
+    it('should not dissociate user', async function () {
       // given
       const userId = 1;
       schoolingRegistrationRepository.findByUserIdAndSCOOrganization.resolves([]);
@@ -37,7 +35,7 @@ describe('Unit | UseCase | dissociate-schooling-registrations', function() {
     });
   });
 
-  it('should dissociate user from schooling registrations and return updated user', async function() {
+  it('should dissociate user from schooling registrations and return updated user', async function () {
     // given
     const userId = 1;
     const expectedSchoolingRegistration = { id: 1 };
@@ -57,7 +55,9 @@ describe('Unit | UseCase | dissociate-schooling-registrations', function() {
     });
 
     // then
-    expect(schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds).to.have.been.calledWith([expectedSchoolingRegistration.id]);
+    expect(schoolingRegistrationRepository.dissociateUserFromSchoolingRegistrationIds).to.have.been.calledWith([
+      expectedSchoolingRegistration.id,
+    ]);
     expect(updatedUserDetailsForAdmin).to.deep.equal(expectedUserDetailsForAdmin);
   });
 });

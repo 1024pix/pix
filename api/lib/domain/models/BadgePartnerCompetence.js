@@ -1,10 +1,5 @@
 class BadgePartnerCompetence {
-
-  constructor({
-    id,
-    name,
-    skillIds,
-  } = {}) {
+  constructor({ id, name, skillIds } = {}) {
     this.id = id;
     this.name = name;
     this.skillIds = skillIds;

@@ -4,15 +4,13 @@ const skillDatasource = require('../../../../../lib/infrastructure/datasources/l
 const lcms = require('../../../../../lib/infrastructure/lcms');
 const cache = require('../../../../../lib/infrastructure/caches/learning-content-cache');
 
-describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource', function() {
-
-  beforeEach(function() {
+describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource', function () {
+  beforeEach(function () {
     sinon.stub(cache, 'get').callsFake((generator) => generator());
   });
 
-  describe('#findOperativeByRecordIds', function() {
-
-    it('should return an array of skill data objects', async function() {
+  describe('#findOperativeByRecordIds', function () {
+    it('should return an array of skill data objects', async function () {
       // given
       const rawSkill1 = { id: 'recSkill1', status: 'actif' };
       const rawSkill2 = { id: 'recSkill2', status: 'archivé' };
@@ -31,9 +29,8 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
-  describe('#findByRecordIds', function() {
-
-    it('should return an array of skill data objects', async function() {
+  describe('#findByRecordIds', function () {
+    it('should return an array of skill data objects', async function () {
       // given
       const rawSkill1 = { id: 'recSkill1', status: 'actif' };
       const rawSkill2 = { id: 'recSkill2', status: 'archivé' };
@@ -52,9 +49,8 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
-  describe('#findActive', function() {
-
-    it('should query LCMS skills', async function() {
+  describe('#findActive', function () {
+    it('should query LCMS skills', async function () {
       // given
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [] });
 
@@ -65,10 +61,9 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       expect(lcms.getLatestRelease).to.have.been.called;
     });
 
-    it('should resolve an array of Skills from LCMS', async function() {
+    it('should resolve an array of Skills from LCMS', async function () {
       // given
-      const
-        rawSkill1 = { id: 'recSkill1', status: 'actif' },
+      const rawSkill1 = { id: 'recSkill1', status: 'actif' },
         rawSkill2 = { id: 'recSkill2', status: 'actif' };
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2] });
 
@@ -79,10 +74,9 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
     });
 
-    it('should resolve an array of Skills with only activated Skillfrom learning content', async function() {
+    it('should resolve an array of Skills with only activated Skillfrom learning content', async function () {
       // given
-      const
-        rawSkill1 = { id: 'recSkill1', status: 'actif' },
+      const rawSkill1 = { id: 'recSkill1', status: 'actif' },
         rawSkill2 = { id: 'recSkill2', status: 'actif' },
         rawSkill3 = { id: 'recSkill3', status: 'périmé' };
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2, rawSkill3] });
@@ -95,9 +89,8 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
-  describe('#findOperative', function() {
-
-    it('should query LCMS skills', async function() {
+  describe('#findOperative', function () {
+    it('should query LCMS skills', async function () {
       // given
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [] });
 
@@ -106,13 +99,11 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
 
       // then
       expect(lcms.getLatestRelease).to.have.been.called;
-
     });
 
-    it('should resolve an array of Skills from learning content', async function() {
+    it('should resolve an array of Skills from learning content', async function () {
       // given
-      const
-        rawSkill1 = { id: 'recSkill1', status: 'actif' },
+      const rawSkill1 = { id: 'recSkill1', status: 'actif' },
         rawSkill2 = { id: 'recSkill2', status: 'actif' };
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2] });
 
@@ -123,10 +114,9 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
     });
 
-    it('should resolve an array of Skills with only activated Skillfrom learning content', async function() {
+    it('should resolve an array of Skills with only activated Skillfrom learning content', async function () {
       // given
-      const
-        rawSkill1 = { id: 'recSkill1', status: 'actif' },
+      const rawSkill1 = { id: 'recSkill1', status: 'actif' },
         rawSkill2 = { id: 'recSkill2', status: 'archivé' },
         rawSkill3 = { id: 'recSkill3', status: 'périmé' };
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [rawSkill1, rawSkill2, rawSkill3] });
@@ -136,13 +126,11 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
 
       // then
       expect(_.map(foundSkills, 'id')).to.deep.equal([rawSkill1.id, rawSkill2.id]);
-
     });
   });
 
-  describe('#findActiveByCompetenceId', function() {
-
-    beforeEach(function() {
+  describe('#findActiveByCompetenceId', function () {
+    beforeEach(function () {
       const acquix1 = { id: 'recSkill1', status: 'actif', competenceId: 'recCompetence' };
       const acquix2 = { id: 'recSkill2', status: 'actif', competenceId: 'recCompetence' };
       const acquix3 = { id: 'recSkill3', status: 'périmé', competenceId: 'recCompetence' };
@@ -150,7 +138,7 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [acquix1, acquix2, acquix3, acquix4] });
     });
 
-    it('should retrieve all skills from learning content for one competence', async function() {
+    it('should retrieve all skills from learning content for one competence', async function () {
       // when
       const skills = await skillDatasource.findActiveByCompetenceId('recCompetence');
 
@@ -159,9 +147,8 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
     });
   });
 
-  describe('#findOperativeByCompetenceId', function() {
-
-    beforeEach(function() {
+  describe('#findOperativeByCompetenceId', function () {
+    beforeEach(function () {
       const acquix1 = { id: 'recSkill1', status: 'actif', competenceId: 'recCompetence' };
       const acquix2 = { id: 'recSkill2', status: 'archivé', competenceId: 'recCompetence' };
       const acquix3 = { id: 'recSkill3', status: 'périmé', competenceId: 'recCompetence' };
@@ -169,7 +156,7 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       sinon.stub(lcms, 'getLatestRelease').resolves({ skills: [acquix1, acquix2, acquix3, acquix4] });
     });
 
-    it('should retrieve all skills from learning content for one competence', async function() {
+    it('should retrieve all skills from learning content for one competence', async function () {
       // when
       const skills = await skillDatasource.findOperativeByCompetenceId('recCompetence');
 
@@ -177,5 +164,4 @@ describe('Unit | Infrastructure | Datasource | LearningContent | SkillDatasource
       expect(_.map(skills, 'id')).to.have.members(['recSkill1', 'recSkill2']);
     });
   });
-
 });

@@ -13,10 +13,17 @@ module.exports = function buildUserDetailsForAdmin({
   schoolingRegistrations = [],
   authenticationMethods = [],
 } = {}) {
-
   return new UserDetailsForAdmin({
-    id, firstName, lastName, email, username,
-    cgu, pixOrgaTermsOfServiceAccepted, pixCertifTermsOfServiceAccepted,
-    isAuthenticatedFromGAR, schoolingRegistrations, authenticationMethods,
+    id,
+    firstName,
+    lastName,
+    email,
+    username,
+    cgu,
+    pixOrgaTermsOfServiceAccepted,
+    pixCertifTermsOfServiceAccepted,
+    isAuthenticatedFromGAR,
+    schoolingRegistrations,
+    authenticationMethods,
   });
 };

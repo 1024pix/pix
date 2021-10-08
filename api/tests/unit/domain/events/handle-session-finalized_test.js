@@ -2,12 +2,14 @@ const { catchErr, expect, domainBuilder, sinon } = require('../../../test-helper
 const handleFinalizedSession = require('../../../../lib/domain/events/handle-session-finalized');
 const JuryCertificationSummary = require('../../../../lib/domain/read-models/JuryCertificationSummary');
 const { status: assessmentResultStatuses } = require('../../../../lib/domain/models/AssessmentResult');
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+  CertificationIssueReportSubcategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const AutoJuryDone = require('../../../../lib/domain/events/AutoJuryDone');
 const FinalizedSession = require('../../../../lib/domain/models/FinalizedSession');
 
-describe('Unit | Domain | Events | handle-session-finalized', function() {
-
+describe('Unit | Domain | Events | handle-session-finalized', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const juryCertificationSummaryRepository = { findBySessionId: sinon.stub() };
@@ -20,20 +22,18 @@ describe('Unit | Domain | Events | handle-session-finalized', function() {
     finalizedSessionRepository,
   };
 
-  it('fails when event is not of correct type', async function() {
+  it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
 
     // when
-    const error = await catchErr(handleFinalizedSession)(
-      { event, ...dependencies },
-    );
+    const error = await catchErr(handleFinalizedSession)({ event, ...dependencies });
 
     // then
     expect(error).not.to.be.null;
   });
 
-  it('saves a finalized session', async function() {
+  it('saves a finalized session', async function () {
     // given
     const event = new AutoJuryDone({
       sessionId: 1234,
@@ -43,28 +43,26 @@ describe('Unit | Domain | Events | handle-session-finalized', function() {
       sessionDate: '2021-01-29',
       sessionTime: '14:00',
     });
-    juryCertificationSummaryRepository.findBySessionId.withArgs(1234).resolves(
-      [
-        new JuryCertificationSummary({
-          id: 1,
-          firstName: 'firstName',
-          lastName: 'lastName',
-          status: assessmentResultStatuses.VALIDATED,
-          pixScore: 120,
-          createdAt: new Date(),
-          completedAt: new Date(),
-          isPublished: false,
-          hasSeenEndTestScreen: true,
-          cleaCertificationStatus: 'not_passed',
-          certificationIssueReports: [
-            domainBuilder.buildCertificationIssueReport({
-              category: CertificationIssueReportCategories.LATE_OR_LEAVING,
-              subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
-            }),
-          ],
-        }),
-      ],
-    );
+    juryCertificationSummaryRepository.findBySessionId.withArgs(1234).resolves([
+      new JuryCertificationSummary({
+        id: 1,
+        firstName: 'firstName',
+        lastName: 'lastName',
+        status: assessmentResultStatuses.VALIDATED,
+        pixScore: 120,
+        createdAt: new Date(),
+        completedAt: new Date(),
+        isPublished: false,
+        hasSeenEndTestScreen: true,
+        cleaCertificationStatus: 'not_passed',
+        certificationIssueReports: [
+          domainBuilder.buildCertificationIssueReport({
+            category: CertificationIssueReportCategories.LATE_OR_LEAVING,
+            subcategory: CertificationIssueReportSubcategories.SIGNATURE_ISSUE,
+          }),
+        ],
+      }),
+    ]);
     finalizedSessionRepository.save.resolves();
 
     // when
@@ -80,7 +78,7 @@ describe('Unit | Domain | Events | handle-session-finalized', function() {
         sessionTime: event.sessionTime,
         isPublishable: true,
         publishedAt: null,
-      }),
+      })
     );
   });
 });

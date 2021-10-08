@@ -2,11 +2,9 @@ const NodeCache = require('node-cache');
 const { expect, sinon } = require('../../../test-helper');
 const InMemoryTemporaryStorage = require('../../../../lib/infrastructure/temporary-storage/InMemoryTemporaryStorage');
 
-describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage', function() {
-
-  describe('#constructor', function() {
-
-    it('should create an InMemoryTemporaryStorage instance', function() {
+describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage', function () {
+  describe('#constructor', function () {
+    it('should create an InMemoryTemporaryStorage instance', function () {
       // when
       const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
 
@@ -15,19 +13,18 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
     });
   });
 
-  describe('#save', function() {
-
+  describe('#save', function () {
     let clock;
 
-    beforeEach(function() {
+    beforeEach(function () {
       clock = sinon.useFakeTimers();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       clock.restore();
     });
 
-    it('should resolve with the generated key', function() {
+    it('should resolve with the generated key', function () {
       // given
       const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
 
@@ -38,7 +35,7 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(key).to.exist;
     });
 
-    it('should return a key from passed key parameter if valid', function() {
+    it('should return a key from passed key parameter if valid', function () {
       // given
       const keyParameter = 'KEY-PARAMETER';
       const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
@@ -54,7 +51,7 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(returnedKey).to.be.equal(keyParameter);
     });
 
-    it('should return a generated key if key parameter is not valid', function() {
+    it('should return a generated key if key parameter is not valid', function () {
       // given
       const keyParameter = '  ';
       const inMemoryTemporaryStorage = new InMemoryTemporaryStorage();
@@ -70,7 +67,7 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
       expect(returnedKey).not.be.equal(keyParameter);
     });
 
-    it('should save key value with a defined ttl in seconds', async function() {
+    it('should save key value with a defined ttl in seconds', async function () {
       // given
       const TWO_MINUTES_IN_SECONDS = 2 * 60;
       const TWO_MINUTES_IN_MILLISECONDS = 2 * 60 * 1000;
@@ -89,9 +86,8 @@ describe('Unit | Infrastructure | temporary-storage | InMemoryTemporaryStorage',
     });
   });
 
-  describe('#get', function() {
-
-    it('should retrieve the value if it exists', async function() {
+  describe('#get', function () {
+    it('should retrieve the value if it exists', async function () {
       // given
       const value = { name: 'name' };
       const expirationDelaySeconds = 1000;

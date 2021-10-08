@@ -1,7 +1,7 @@
 const PixPlusDroitMaitreCertificationResult = require('./../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
 const PixPlusDroitExpertCertificationResult = require('./../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
-const buildPixPlusDroitCertificationResult = function({
+const buildPixPlusDroitCertificationResult = function ({
   status = PixPlusDroitMaitreCertificationResult.statuses.ACQUIRED,
 } = {}) {
   return new PixPlusDroitMaitreCertificationResult({
@@ -9,7 +9,7 @@ const buildPixPlusDroitCertificationResult = function({
   });
 };
 
-buildPixPlusDroitCertificationResult.maitre = function({
+buildPixPlusDroitCertificationResult.maitre = function ({
   status = PixPlusDroitMaitreCertificationResult.statuses.ACQUIRED,
 }) {
   return new PixPlusDroitMaitreCertificationResult({
@@ -17,7 +17,7 @@ buildPixPlusDroitCertificationResult.maitre = function({
   });
 };
 
-buildPixPlusDroitCertificationResult.expert = function({
+buildPixPlusDroitCertificationResult.expert = function ({
   status = PixPlusDroitExpertCertificationResult.statuses.ACQUIRED,
 }) {
   return new PixPlusDroitExpertCertificationResult({
@@ -25,37 +25,37 @@ buildPixPlusDroitCertificationResult.expert = function({
   });
 };
 
-buildPixPlusDroitCertificationResult.maitre.acquired = function() {
+buildPixPlusDroitCertificationResult.maitre.acquired = function () {
   return new PixPlusDroitMaitreCertificationResult({
     status: PixPlusDroitMaitreCertificationResult.statuses.ACQUIRED,
   });
 };
 
-buildPixPlusDroitCertificationResult.maitre.rejected = function() {
+buildPixPlusDroitCertificationResult.maitre.rejected = function () {
   return new PixPlusDroitMaitreCertificationResult({
     status: PixPlusDroitMaitreCertificationResult.statuses.REJECTED,
   });
 };
 
-buildPixPlusDroitCertificationResult.maitre.notTaken = function() {
+buildPixPlusDroitCertificationResult.maitre.notTaken = function () {
   return new PixPlusDroitMaitreCertificationResult({
     status: PixPlusDroitMaitreCertificationResult.statuses.NOT_TAKEN,
   });
 };
 
-buildPixPlusDroitCertificationResult.expert.acquired = function() {
+buildPixPlusDroitCertificationResult.expert.acquired = function () {
   return new PixPlusDroitExpertCertificationResult({
     status: PixPlusDroitExpertCertificationResult.statuses.ACQUIRED,
   });
 };
 
-buildPixPlusDroitCertificationResult.expert.rejected = function() {
+buildPixPlusDroitCertificationResult.expert.rejected = function () {
   return new PixPlusDroitExpertCertificationResult({
     status: PixPlusDroitExpertCertificationResult.statuses.REJECTED,
   });
 };
 
-buildPixPlusDroitCertificationResult.expert.notTaken = function() {
+buildPixPlusDroitCertificationResult.expert.notTaken = function () {
   return new PixPlusDroitExpertCertificationResult({
     status: PixPlusDroitExpertCertificationResult.statuses.NOT_TAKEN,
   });

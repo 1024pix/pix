@@ -2,10 +2,8 @@ const { domainBuilder, expect } = require('../../../../test-helper');
 const PartnerCompetenceResults = require('../../../../../lib/domain/read-models/participant-results/PartnerCompetenceResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Domain | Read-Models | ParticipantResults | PartnerCompetenceResult', function() {
-
-  it('computes the result for the given competence', function() {
-
+describe('Unit | Domain | Read-Models | ParticipantResults | PartnerCompetenceResult', function () {
+  it('computes the result for the given competence', function () {
     const badgeCompetence = {
       id: 'rec1',
       name: 'C1',

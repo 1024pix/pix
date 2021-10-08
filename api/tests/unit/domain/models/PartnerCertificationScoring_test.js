@@ -2,29 +2,33 @@ const PartnerCertificationScoring = require('../../../../lib/domain/models/Partn
 const { expect } = require('../../../test-helper');
 const { ObjectValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Domain | Models | PartnerCertificationScoring', function() {
-  describe('constructor', function() {
+describe('Unit | Domain | Models | PartnerCertificationScoring', function () {
+  describe('constructor', function () {
     let validArguments;
-    beforeEach(function() {
+    beforeEach(function () {
       validArguments = {
         certificationCourseId: 123,
         partnerKey: 'partnerKey',
       };
     });
 
-    it('should successfully instantiate object when passing all valid arguments', function() {
+    it('should successfully instantiate object when passing all valid arguments', function () {
       // when
       expect(() => new PartnerCertificationScoring(validArguments)).not.to.throw(ObjectValidationError);
     });
 
-    it('should throw an ObjectValidationError when certificationCourseId is not valid', function() {
+    it('should throw an ObjectValidationError when certificationCourseId is not valid', function () {
       // when
-      expect(() => new PartnerCertificationScoring({ ...validArguments, certificationCourseId: 'coucou' })).to.throw(ObjectValidationError);
+      expect(() => new PartnerCertificationScoring({ ...validArguments, certificationCourseId: 'coucou' })).to.throw(
+        ObjectValidationError
+      );
     });
 
-    it('should throw an ObjectValidationError when partnerKey is not valid', function() {
+    it('should throw an ObjectValidationError when partnerKey is not valid', function () {
       // when
-      expect(() => new PartnerCertificationScoring({ ...validArguments, partnerKey: null })).to.throw(ObjectValidationError);
+      expect(() => new PartnerCertificationScoring({ ...validArguments, partnerKey: null })).to.throw(
+        ObjectValidationError
+      );
     });
   });
 });

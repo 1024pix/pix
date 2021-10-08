@@ -7,12 +7,13 @@ module.exports = {
   },
 
   markAsBeingUsed(email) {
-    return ResetPasswordDemand
-      .query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
-      .save({ used: true }, {
+    return ResetPasswordDemand.query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase())).save(
+      { used: true },
+      {
         patch: true,
         require: false,
-      });
+      }
+    );
   },
 
   findByTemporaryKey(temporaryKey) {
@@ -29,7 +30,7 @@ module.exports = {
   findByUserEmail(email, temporaryKey) {
     return ResetPasswordDemand.query((qb) => {
       qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
-      qb.where({ 'used': false });
+      qb.where({ used: false });
       qb.where({ temporaryKey });
     })
       .fetch()

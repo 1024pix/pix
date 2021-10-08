@@ -1,12 +1,15 @@
 const bcrypt = require('bcrypt');
 
 const updateUserEmail = require('../../../../lib/domain/usecases/update-user-email');
-const { AlreadyRegisteredEmailError, UserNotAuthorizedToUpdateEmailError, InvalidPasswordForUpdateEmailError } = require('../../../../lib/domain/errors');
+const {
+  AlreadyRegisteredEmailError,
+  UserNotAuthorizedToUpdateEmailError,
+  InvalidPasswordForUpdateEmailError,
+} = require('../../../../lib/domain/errors');
 
 const { sinon, expect, catchErr } = require('../../../test-helper');
 
-describe('Unit | UseCase | update-user-email', function() {
-
+describe('Unit | UseCase | update-user-email', function () {
   let userRepository;
   let authenticationMethodRepository;
   let encryptionService;
@@ -17,7 +20,7 @@ describe('Unit | UseCase | update-user-email', function() {
   // eslint-disable-next-line no-sync, mocha/no-setup-in-describe
   const passwordHash = bcrypt.hashSync(password, 1);
 
-  beforeEach(function() {
+  beforeEach(function () {
     userRepository = {
       updateEmail: sinon.stub(),
       checkIfEmailIsAvailable: sinon.stub(),
@@ -25,7 +28,9 @@ describe('Unit | UseCase | update-user-email', function() {
     };
 
     authenticationMethodRepository = {
-      findOneByUserIdAndIdentityProvider: sinon.stub().resolves({ authenticationComplement: { password: passwordHash } }),
+      findOneByUserIdAndIdentityProvider: sinon
+        .stub()
+        .resolves({ authenticationComplement: { password: passwordHash } }),
     };
 
     encryptionService = {
@@ -37,7 +42,7 @@ describe('Unit | UseCase | update-user-email', function() {
     };
   });
 
-  it('should call updateEmail', async function() {
+  it('should call updateEmail', async function () {
     // given
     const userId = 1;
     const authenticatedUserId = 1;
@@ -63,7 +68,7 @@ describe('Unit | UseCase | update-user-email', function() {
     });
   });
 
-  it('should call notifyEmailChange', async function() {
+  it('should call notifyEmailChange', async function () {
     // given
     const userId = 1;
     const authenticatedUserId = 1;
@@ -89,7 +94,7 @@ describe('Unit | UseCase | update-user-email', function() {
     });
   });
 
-  it('should save email in lower case', async function() {
+  it('should save email in lower case', async function () {
     // given
     const userId = 1;
     const authenticatedUserId = 1;
@@ -116,7 +121,7 @@ describe('Unit | UseCase | update-user-email', function() {
     });
   });
 
-  it('should throw AlreadyRegisteredEmailError if email already exists', async function() {
+  it('should throw AlreadyRegisteredEmailError if email already exists', async function () {
     // given
     userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
     const userId = 1;
@@ -140,7 +145,7 @@ describe('Unit | UseCase | update-user-email', function() {
     expect(error).to.be.an.instanceOf(AlreadyRegisteredEmailError);
   });
 
-  it('should throw UserNotAuthorizedToUpdateEmailError if the authenticated user try to change the email of an other user', async function() {
+  it('should throw UserNotAuthorizedToUpdateEmailError if the authenticated user try to change the email of an other user', async function () {
     // given
     const userId = 1;
     const authenticatedUserId = 2;
@@ -162,7 +167,7 @@ describe('Unit | UseCase | update-user-email', function() {
     expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
   });
 
-  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function() {
+  it('should throw UserNotAuthorizedToUpdateEmailError if user does not have an email', async function () {
     // given
     userRepository.get.resolves({});
     const userId = 1;
@@ -185,7 +190,7 @@ describe('Unit | UseCase | update-user-email', function() {
     expect(error).to.be.an.instanceOf(UserNotAuthorizedToUpdateEmailError);
   });
 
-  it('should throw InvalidPasswordForUpdateEmailError if the password is invalid', async function() {
+  it('should throw InvalidPasswordForUpdateEmailError if the password is invalid', async function () {
     // given
     encryptionService.checkPassword.rejects();
     const userId = 1;

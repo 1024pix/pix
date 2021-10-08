@@ -15,7 +15,7 @@ let progression = 0;
 function _logProgression(totalCount) {
   ++progression;
   process.stdout.cursorTo(0);
-  process.stdout.write(`${Math.round(progression * 100 / totalCount, 2)} %`);
+  process.stdout.write(`${Math.round((progression * 100) / totalCount, 2)} %`);
 }
 
 async function main() {
@@ -33,12 +33,8 @@ async function main() {
         type: 'number',
         default: DEFAULT_CONCURRENCY,
       })
-      .help()
-      .argv;
-    const {
-      count,
-      concurrency,
-    } = _validateAndNormalizeArgs(commandLineArgs);
+      .help().argv;
+    const { count, concurrency } = _validateAndNormalizeArgs(commandLineArgs);
     console.log(`OK : Nombre de certificats - ${count} / Concurrence - ${concurrency}`);
 
     console.log('Génération des codes...');
@@ -52,10 +48,7 @@ async function main() {
   }
 }
 
-function _validateAndNormalizeArgs({
-  count,
-  concurrency,
-}) {
+function _validateAndNormalizeArgs({ count, concurrency }) {
   const finalCount = _validateAndNormalizeCount(count);
   const finalConcurrency = _validateAndNormalizeConcurrency(concurrency);
 
@@ -94,27 +87,27 @@ async function _do({ count, concurrency }) {
 
   console.log('\tGénération des codes de vérification des certifications...');
   let failedGenerations = 0;
-  await bluebird.map(eligibleCertificationIds, async (certificationId) => {
-    try {
-      await _generateVerificationCode(certificationId);
-    } catch (err) {
-      if (err?.code === uniqueConstraintViolationCode) {
-        ++failedGenerations;
-      } else {
-        throw err;
+  await bluebird.map(
+    eligibleCertificationIds,
+    async (certificationId) => {
+      try {
+        await _generateVerificationCode(certificationId);
+      } catch (err) {
+        if (err?.code === uniqueConstraintViolationCode) {
+          ++failedGenerations;
+        } else {
+          throw err;
+        }
       }
-    }
-    _logProgression(count);
-  }, { concurrency });
+      _logProgression(count);
+    },
+    { concurrency }
+  );
   console.log(`\n\tOK, ${failedGenerations} générations de codes échouées pour cause de code en doublon`);
 }
 
 function _findEligibleCertifications(count) {
-  return knex
-    .pluck('id')
-    .from('certification-courses')
-    .whereNull('verificationCode')
-    .limit(count);
+  return knex.pluck('id').from('certification-courses').whereNull('verificationCode').limit(count);
 }
 
 async function _generateVerificationCode(certificationId) {
@@ -128,6 +121,6 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }

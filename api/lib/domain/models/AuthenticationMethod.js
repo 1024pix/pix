@@ -8,41 +8,42 @@ const identityProviders = {
 };
 
 class PixAuthenticationComplement {
-  constructor({
-    password,
-    shouldChangePassword,
-  } = {}) {
+  constructor({ password, shouldChangePassword } = {}) {
     this.password = password;
     this.shouldChangePassword = shouldChangePassword;
 
-    validateEntity(Joi.object({
-      password: Joi.string().required(),
-      shouldChangePassword: Joi.boolean().required(),
-    }), this);
+    validateEntity(
+      Joi.object({
+        password: Joi.string().required(),
+        shouldChangePassword: Joi.boolean().required(),
+      }),
+      this
+    );
   }
 }
 
 class PoleEmploiAuthenticationComplement {
-  constructor({
-    accessToken,
-    refreshToken,
-    expiredDate,
-  } = {}) {
+  constructor({ accessToken, refreshToken, expiredDate } = {}) {
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
     this.expiredDate = expiredDate;
 
-    validateEntity(Joi.object({
-      accessToken: Joi.string().required(),
-      refreshToken: Joi.string().optional(),
-      expiredDate: Joi.date().required(),
-    }), this);
+    validateEntity(
+      Joi.object({
+        accessToken: Joi.string().required(),
+        refreshToken: Joi.string().optional(),
+        expiredDate: Joi.date().required(),
+      }),
+      this
+    );
   }
 }
 
 const validationSchema = Joi.object({
   id: Joi.number().optional(),
-  identityProvider: Joi.string().valid(...Object.values(identityProviders)).required(),
+  identityProvider: Joi.string()
+    .valid(...Object.values(identityProviders))
+    .required(),
   authenticationComplement: Joi.when('identityProvider', [
     { is: identityProviders.PIX, then: Joi.object().instance(PixAuthenticationComplement).required() },
     { is: identityProviders.POLE_EMPLOI, then: Joi.object().instance(PoleEmploiAuthenticationComplement).required() },
@@ -79,14 +80,7 @@ class AuthenticationMethod {
     validateEntity(validationSchema, this);
   }
 
-  static buildPixAuthenticationMethod({
-    id,
-    password,
-    shouldChangePassword = false,
-    createdAt,
-    updatedAt,
-    userId,
-  }) {
+  static buildPixAuthenticationMethod({ id, password, shouldChangePassword = false, createdAt, updatedAt, userId }) {
     const authenticationComplement = new PixAuthenticationComplement({ password, shouldChangePassword });
     return new AuthenticationMethod({
       id,

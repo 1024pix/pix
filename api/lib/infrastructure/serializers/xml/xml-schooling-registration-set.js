@@ -9,7 +9,6 @@ const ERRORS = {
 const DIVISION = 'D';
 
 class XMLSchoolingRegistrationsSet {
-
   constructor() {
     this.schoolingRegistrationsByStudentId = new Map();
     this.studentIds = [];
@@ -80,7 +79,7 @@ function _convertSexCode(obj) {
 
 function _getValueFromParsedElement(obj) {
   if (isNil(obj)) return null;
-  return (Array.isArray(obj) && !isEmpty(obj)) ? obj[0] : obj;
+  return Array.isArray(obj) && !isEmpty(obj) ? obj[0] : obj;
 }
 
 module.exports = XMLSchoolingRegistrationsSet;

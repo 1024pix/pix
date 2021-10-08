@@ -2,15 +2,13 @@ const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const useCase = require('../../../../lib/application/usecases/checkUserBelongsToOrganization');
 const membershipRepository = require('../../../../lib/infrastructure/repositories/membership-repository');
 
-describe('Unit | Application | Use Case | checkUserBelongsToOrganization', function() {
-
-  beforeEach(function() {
+describe('Unit | Application | Use Case | checkUserBelongsToOrganization', function () {
+  beforeEach(function () {
     membershipRepository.findByUserIdAndOrganizationId = sinon.stub();
   });
 
-  context('When user is in the organization', function() {
-
-    it('should return true', async function() {
+  context('When user is in the organization', function () {
+    it('should return true', async function () {
       // given
       const userId = 1234;
       const organization = domainBuilder.buildOrganization();
@@ -24,7 +22,7 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganization', funct
       expect(response).to.equal(true);
     });
 
-    it('should return true when there are several memberships', async function() {
+    it('should return true when there are several memberships', async function () {
       // given
       const userId = 1234;
       const organization = domainBuilder.buildOrganization();
@@ -40,9 +38,8 @@ describe('Unit | Application | Use Case | checkUserBelongsToOrganization', funct
     });
   });
 
-  context('When user is not in the organization', function() {
-
-    it('should return false', async function() {
+  context('When user is not in the organization', function () {
+    it('should return false', async function () {
       // given
       const userId = 1234;
       const organization = domainBuilder.buildOrganization();

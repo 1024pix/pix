@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(scorecard = {}) {
     return new Serializer('scorecard', {
       attributes: [
@@ -45,5 +44,4 @@ module.exports = {
       },
     }).serialize(scorecard);
   },
-
 };

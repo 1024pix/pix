@@ -85,13 +85,12 @@ function saveOrganizations(options) {
 
   const promises = options.organizations.map((organization) => {
     const requestConfig = _buildRequestObject(options.accessToken, organization);
-    return request(requestConfig)
-      .catch((err) => {
-        errorObjects.push({
-          errorMessage: err.message,
-          organization,
-        });
+    return request(requestConfig).catch((err) => {
+      errorObjects.push({
+        errorMessage: err.message,
+        organization,
       });
+    });
   });
   return Promise.all(promises).then(() => {
     return errorObjects;
@@ -110,7 +109,7 @@ function _logErrorObjects(errorObjects) {
  * Usage: BASE_URL='url' (...) node update-sco-organizations-with-province-code-and-external-id.js my_file.csv
  */
 async function main() {
-  console.log('Début du script de mise à jour des Organisations avec l\'ID externe et le département');
+  console.log("Début du script de mise à jour des Organisations avec l'ID externe et le département");
   try {
     const filePath = process.argv[2];
 
@@ -121,7 +120,7 @@ async function main() {
     assertFileValidity(filePath);
     console.log('Test de validité du fichier : OK');
 
-    fs.readFile(filePath, 'utf8', async function(err, data) {
+    fs.readFile(filePath, 'utf8', async function (err, data) {
       console.log('\nMise à jour des organizations...');
 
       // We delete the BOM UTF8 at the beginning of the CSV,
@@ -138,7 +137,6 @@ async function main() {
 
       console.log('\nFin du script');
     });
-
   } catch (err) {
     console.error(err.message);
     process.exit(1);

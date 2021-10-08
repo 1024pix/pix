@@ -12,16 +12,14 @@ const { UserNotAuthorizedToAccessEntityError } = require('../../../../lib/domain
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
 const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Application | Controller | Campaign', function() {
-
-  describe('#save', function() {
-
-    beforeEach(function() {
+describe('Unit | Application | Controller | Campaign', function () {
+  describe('#save', function () {
+    beforeEach(function () {
       sinon.stub(usecases, 'createCampaign');
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should return a serialized campaign when the campaign has been successfully created', async function() {
+    it('should return a serialized campaign when the campaign has been successfully created', async function () {
       // given
       const connectedUserId = 1;
       const request = {
@@ -37,7 +35,7 @@ describe('Unit | Application | Controller | Campaign', function() {
             },
             relationships: {
               'target-profile': { data: { id: '123' } },
-              'organization': { data: { id: '456' } },
+              organization: { data: { id: '456' } },
             },
           },
         },
@@ -70,7 +68,7 @@ describe('Unit | Application | Controller | Campaign', function() {
     });
   });
 
-  describe('#getCsvAssessmentResults', function() {
+  describe('#getCsvAssessmentResults', function () {
     const userId = 1;
     const campaignId = 2;
     const request = {
@@ -87,12 +85,12 @@ describe('Unit | Application | Controller | Campaign', function() {
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'startWritingCampaignAssessmentResultsToStream');
       sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
-    it('should call the use case to get result campaign in csv', async function() {
+    it('should call the use case to get result campaign in csv', async function () {
       // given
       usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'any file name' });
 
@@ -106,7 +104,7 @@ describe('Unit | Application | Controller | Campaign', function() {
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
-    it('should return a response with correct headers', async function() {
+    it('should return a response with correct headers', async function () {
       // given
       usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'expected file name' });
 
@@ -119,19 +117,23 @@ describe('Unit | Application | Controller | Campaign', function() {
       expect(response.headers['content-encoding']).to.equal('identity');
     });
 
-    it('should fix invalid header chars in filename', async function() {
+    it('should fix invalid header chars in filename', async function () {
       // given
-      usecases.startWritingCampaignAssessmentResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
+      usecases.startWritingCampaignAssessmentResultsToStream.resolves({
+        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+      });
 
       // when
       const response = await campaignController.getCsvAssessmentResults(request);
 
       // then
-      expect(response.headers['content-disposition']).to.equal('attachment; filename="file-name with invalid_chars _____________.csv"');
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename="file-name with invalid_chars _____________.csv"'
+      );
     });
   });
 
-  describe('#getCsvProfilesCollectionResult', function() {
+  describe('#getCsvProfilesCollectionResult', function () {
     const userId = 1;
     const campaignId = 2;
     const request = {
@@ -148,12 +150,12 @@ describe('Unit | Application | Controller | Campaign', function() {
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'startWritingCampaignProfilesCollectionResultsToStream');
       sinon.stub(tokenService, 'extractUserIdForCampaignResults').resolves(userId);
     });
 
-    it('should call the use case to get result campaign in csv', async function() {
+    it('should call the use case to get result campaign in csv', async function () {
       // given
       usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'any file name' });
 
@@ -167,7 +169,7 @@ describe('Unit | Application | Controller | Campaign', function() {
       expect(getResultsCampaignArgs).to.have.property('campaignId');
     });
 
-    it('should return a response with correct headers', async function() {
+    it('should return a response with correct headers', async function () {
       // given
       usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'expected file name' });
 
@@ -180,21 +182,24 @@ describe('Unit | Application | Controller | Campaign', function() {
       expect(response.headers['content-encoding']).to.equal('identity');
     });
 
-    it('should fix invalid header chars in filename', async function() {
+    it('should fix invalid header chars in filename', async function () {
       // given
-      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({ fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv' });
+      usecases.startWritingCampaignProfilesCollectionResultsToStream.resolves({
+        fileName: 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv',
+      });
 
       // when
       const response = await campaignController.getCsvProfilesCollectionResults(request);
 
       // then
-      expect(response.headers['content-disposition']).to.equal('attachment; filename="file-name with invalid_chars _____________.csv"');
+      expect(response.headers['content-disposition']).to.equal(
+        'attachment; filename="file-name with invalid_chars _____________.csv"'
+      );
     });
   });
 
-  describe('#getByCode', function() {
-
-    it('should return the serialized campaign', async function() {
+  describe('#getByCode', function () {
+    it('should return the serialized campaign', async function () {
       // given
       const code = 'AZERTY123';
       const campaignToJoin = domainBuilder.buildCampaignToJoin({ code });
@@ -211,9 +216,9 @@ describe('Unit | Application | Controller | Campaign', function() {
         type: 'campaigns',
         id: campaignToJoin.id.toString(),
         attributes: {
-          'code': campaignToJoin.code,
-          'title': campaignToJoin.title,
-          'type': campaignToJoin.type,
+          code: campaignToJoin.code,
+          title: campaignToJoin.title,
+          type: campaignToJoin.type,
           'id-pix-label': campaignToJoin.idPixLabel,
           'custom-landing-page-text': campaignToJoin.customLandingPageText,
           'external-id-help-image-url': campaignToJoin.externalIdHelpImageUrl,
@@ -235,17 +240,15 @@ describe('Unit | Application | Controller | Campaign', function() {
         },
       });
     });
-
   });
 
-  describe('#getById', function() {
-
+  describe('#getById', function () {
     const campaignId = 1;
     const userId = 1;
 
     let request, campaign;
 
-    beforeEach(function() {
+    beforeEach(function () {
       campaign = {
         id: 1,
         name: 'My campaign',
@@ -272,7 +275,7 @@ describe('Unit | Application | Controller | Campaign', function() {
       usecases.getCampaign.resolves(campaign);
     });
 
-    it('should return the campaign', async function() {
+    it('should return the campaign', async function () {
       // given
       const expectedResult = Symbol('ok');
       const tokenForCampaignResults = 'token';
@@ -287,10 +290,10 @@ describe('Unit | Application | Controller | Campaign', function() {
     });
   });
 
-  describe('#update', function() {
+  describe('#update', function () {
     let request, updatedCampaign, updateCampaignArgs;
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId: 1 } },
         params: { id: 1 },
@@ -324,7 +327,7 @@ describe('Unit | Application | Controller | Campaign', function() {
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should return the updated campaign', async function() {
+    it('should return the updated campaign', async function () {
       // given
       usecases.updateCampaign.withArgs(updateCampaignArgs).resolves(updatedCampaign);
       campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(updatedCampaign);
@@ -337,22 +340,23 @@ describe('Unit | Application | Controller | Campaign', function() {
     });
   });
 
-  describe('#getCollectiveResult', function() {
-
+  describe('#getCollectiveResult', function () {
     const campaignId = 1;
     const userId = 1;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'computeCampaignCollectiveResult');
       sinon.stub(campaignCollectiveResultSerializer, 'serialize');
     });
 
-    it('should return expected results', async function() {
+    it('should return expected results', async function () {
       // given
       const campaignCollectiveResult = Symbol('campaignCollectiveResults');
       const expectedResults = Symbol('results');
-      usecases.computeCampaignCollectiveResult.withArgs({ userId, campaignId, locale }).resolves(campaignCollectiveResult);
+      usecases.computeCampaignCollectiveResult
+        .withArgs({ userId, campaignId, locale })
+        .resolves(campaignCollectiveResult);
       campaignCollectiveResultSerializer.serialize.withArgs(campaignCollectiveResult).returns(expectedResults);
 
       const request = {
@@ -368,9 +372,11 @@ describe('Unit | Application | Controller | Campaign', function() {
       expect(response).to.equal(expectedResults);
     });
 
-    it('should return an unauthorized error', async function() {
+    it('should return an unauthorized error', async function () {
       // given
-      const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign participation');
+      const error = new UserNotAuthorizedToAccessEntityError(
+        'User does not have access to this campaign participation'
+      );
       const request = {
         params: { id: campaignId },
         auth: {
@@ -385,20 +391,19 @@ describe('Unit | Application | Controller | Campaign', function() {
       // then
       expect(errorCatched).to.be.instanceof(UserNotAuthorizedToAccessEntityError);
     });
-
   });
 
-  describe('#getAnalysis', function() {
+  describe('#getAnalysis', function () {
     const campaignId = 1;
     const userId = 1;
     const locale = FRENCH_SPOKEN;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'computeCampaignAnalysis');
       sinon.stub(campaignAnalysisSerializer, 'serialize');
     });
 
-    it('should return expected results', async function() {
+    it('should return expected results', async function () {
       // given
       const campaignAnalysis = Symbol('campaignAnalysis');
       const expectedResults = Symbol('results');
@@ -418,7 +423,7 @@ describe('Unit | Application | Controller | Campaign', function() {
       expect(response).to.equal(expectedResults);
     });
 
-    it('should return an unauthorized error', async function() {
+    it('should return an unauthorized error', async function () {
       // given
       const error = new UserNotAuthorizedToAccessEntityError('User does not have access to this campaign');
       const request = {
@@ -437,21 +442,21 @@ describe('Unit | Application | Controller | Campaign', function() {
     });
   });
 
-  describe('#archiveCampaign', function() {
+  describe('#archiveCampaign', function () {
     let updatedCampaign;
     let serializedCampaign;
 
     const campaignId = 1;
     const userId = 1;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'archiveCampaign');
       sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
 
-    it('should return the updated campaign properly serialized', async function() {
+    it('should return the updated campaign properly serialized', async function () {
       // given
       usecases.archiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
       campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
@@ -467,24 +472,23 @@ describe('Unit | Application | Controller | Campaign', function() {
       // then
       expect(response).to.be.equal(serializedCampaign);
     });
-
   });
 
-  describe('#unarchiveCampaign', function() {
+  describe('#unarchiveCampaign', function () {
     let updatedCampaign;
     let serializedCampaign;
 
     const campaignId = 1;
     const userId = 1;
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'unarchiveCampaign');
       sinon.stub(campaignReportSerializer, 'serialize').withArgs(updatedCampaign).resolves(serializedCampaign);
       updatedCampaign = Symbol('updated campaign');
       serializedCampaign = Symbol('serialized campaign');
     });
 
-    it('should return the updated campaign properly serialized', async function() {
+    it('should return the updated campaign properly serialized', async function () {
       // given
       usecases.unarchiveCampaign.withArgs({ userId, campaignId }).resolves(updatedCampaign);
       campaignReportSerializer.serialize.withArgs(updatedCampaign).returns(serializedCampaign);
@@ -500,6 +504,5 @@ describe('Unit | Application | Controller | Campaign', function() {
       // then
       expect(response).to.be.equal(serializedCampaign);
     });
-
   });
 });

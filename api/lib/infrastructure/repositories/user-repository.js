@@ -27,12 +27,10 @@ const AuthenticationMethod = require('../../domain/models/AuthenticationMethod')
 const PIX_MASTER_ROLE_ID = 1;
 
 module.exports = {
-
   getByEmail(email) {
-    return BookshelfUser
-      .query((qb) => {
-        qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
-      })
+    return BookshelfUser.query((qb) => {
+      qb.whereRaw('LOWER("email") = ?', email.toLowerCase());
+    })
       .fetch()
       .then((bookshelfUser) => {
         return _toDomain(bookshelfUser);
@@ -46,16 +44,15 @@ module.exports = {
   },
 
   getByUsernameOrEmailWithRolesAndPassword(username) {
-    return BookshelfUser
-      .query((qb) => qb.where({ email: username.toLowerCase() }).orWhere({ 'username': username }))
+    return BookshelfUser.query((qb) => qb.where({ email: username.toLowerCase() }).orWhere({ username: username }))
       .fetch({
         require: false,
         withRelated: [
-          { 'memberships': (qb) => qb.where({ disabledAt: null }) },
+          { memberships: (qb) => qb.where({ disabledAt: null }) },
           'memberships.organization',
           'pixRoles',
           'certificationCenterMemberships.certificationCenter',
-          { 'authenticationMethods': (qb) => qb.where({ identityProvider: 'PIX' }) },
+          { authenticationMethods: (qb) => qb.where({ identityProvider: 'PIX' }) },
         ],
       })
       .then((foundUser) => {
@@ -67,8 +64,7 @@ module.exports = {
   },
 
   get(userId) {
-    return BookshelfUser
-      .where({ id: userId })
+    return BookshelfUser.where({ id: userId })
       .fetch()
       .then((user) => bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user))
       .catch((err) => {
@@ -80,8 +76,7 @@ module.exports = {
   },
 
   getForObfuscation(userId) {
-    return BookshelfUser
-      .where({ id: userId })
+    return BookshelfUser.where({ id: userId })
       .fetch({ columns: ['id', 'email', 'username'] })
       .then((userAuthenticationMethods) => _toUserAuthenticationMethods(userAuthenticationMethods))
       .catch((err) => {
@@ -93,17 +88,29 @@ module.exports = {
   },
 
   getUserDetailsForAdmin(userId) {
-    return BookshelfUser
-      .where({ id: userId })
+    return BookshelfUser.where({ id: userId })
       .fetch({
-        columns: ['id', 'firstName', 'lastName', 'email', 'username', 'cgu', 'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted'],
-        withRelated: [{
-          schoolingRegistrations: (query) => { query
-            .leftJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
-            .where({ type: 'SCO' })
-            .orderBy('id'); } },
-        'schoolingRegistrations.organization',
-        'authenticationMethods',
+        columns: [
+          'id',
+          'firstName',
+          'lastName',
+          'email',
+          'username',
+          'cgu',
+          'pixOrgaTermsOfServiceAccepted',
+          'pixCertifTermsOfServiceAccepted',
+        ],
+        withRelated: [
+          {
+            schoolingRegistrations: (query) => {
+              query
+                .leftJoin('organizations', 'schooling-registrations.organizationId', 'organizations.id')
+                .where({ type: 'SCO' })
+                .orderBy('id');
+            },
+          },
+          'schoolingRegistrations.organization',
+          'authenticationMethods',
         ],
       })
       .then((userDetailsForAdmin) => _toUserDetailsForAdminDomain(userDetailsForAdmin))
@@ -116,8 +123,7 @@ module.exports = {
   },
 
   findPaginatedFiltered({ filter, page }) {
-    return BookshelfUser
-      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+    return BookshelfUser.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: page.number,
         pageSize: page.size,
@@ -129,14 +135,10 @@ module.exports = {
   },
 
   getWithMemberships(userId) {
-    return BookshelfUser
-      .where({ id: userId })
+    return BookshelfUser.where({ id: userId })
       .fetch({
         require: false,
-        withRelated: [
-          { 'memberships': (qb) => qb.where({ disabledAt: null }) },
-          'memberships.organization',
-        ],
+        withRelated: [{ memberships: (qb) => qb.where({ disabledAt: null }) }, 'memberships.organization'],
       })
       .then((foundUser) => {
         if (foundUser === null) {
@@ -147,12 +149,9 @@ module.exports = {
   },
 
   getWithCertificationCenterMemberships(userId) {
-    return BookshelfUser
-      .where({ id: userId })
+    return BookshelfUser.where({ id: userId })
       .fetch({
-        withRelated: [
-          'certificationCenterMemberships.certificationCenter',
-        ],
+        withRelated: ['certificationCenterMemberships.certificationCenter'],
       })
       .then(_toDomain)
       .catch((err) => {
@@ -164,15 +163,13 @@ module.exports = {
   },
 
   async getBySamlId(samlId) {
-    const bookshelfUser = await BookshelfUser
-      .query((qb) => {
-        qb.innerJoin('authentication-methods', function() {
-          this.on('users.id', 'authentication-methods.userId')
-            .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR)
-            .andOnVal('authentication-methods.externalIdentifier', samlId);
-        });
-      })
-      .fetch({ require: false, withRelated: 'authenticationMethods' });
+    const bookshelfUser = await BookshelfUser.query((qb) => {
+      qb.innerJoin('authentication-methods', function () {
+        this.on('users.id', 'authentication-methods.userId')
+          .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.GAR)
+          .andOnVal('authentication-methods.externalIdentifier', samlId);
+      });
+    }).fetch({ require: false, withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
@@ -184,15 +181,11 @@ module.exports = {
   },
 
   updateWithEmailConfirmed({ id, userAttributes, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return knex('users')
-      .transacting(domainTransaction)
-      .where({ id })
-      .update(userAttributes);
+    return knex('users').transacting(domainTransaction).where({ id }).update(userAttributes);
   },
 
   checkIfEmailIsAvailable(email) {
-    return BookshelfUser
-      .query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
+    return BookshelfUser.query((qb) => qb.whereRaw('LOWER("email") = ?', email.toLowerCase()))
       .fetch({ require: false })
       .then((user) => {
         if (user) {
@@ -204,8 +197,7 @@ module.exports = {
   },
 
   isUserExistingByEmail(email) {
-    return BookshelfUser
-      .where({ email: email.toLowerCase() })
+    return BookshelfUser.where({ email: email.toLowerCase() })
       .fetch()
       .then(() => true)
       .catch(() => {
@@ -214,8 +206,7 @@ module.exports = {
   },
 
   updatePassword(id, hashedPassword) {
-    return BookshelfUser
-      .where({ id })
+    return BookshelfUser.where({ id })
       .save({ password: hashedPassword }, { patch: true, method: 'update' })
       .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
@@ -227,8 +218,7 @@ module.exports = {
   },
 
   updateEmail({ id, email }) {
-    return BookshelfUser
-      .where({ id })
+    return BookshelfUser.where({ id })
       .save({ email }, { patch: true, method: 'update' })
       .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
@@ -241,9 +231,7 @@ module.exports = {
 
   async updateUserDetailsForAdministration(id, userAttributes) {
     try {
-      const updatedUser = await BookshelfUser
-        .where({ id })
-        .save(userAttributes, { patch: true, method: 'update' });
+      const updatedUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
       await updatedUser.related('authenticationMethods').fetch({ require: false });
       return _toUserDetailsForAdminDomain(updatedUser);
     } catch (err) {
@@ -258,8 +246,7 @@ module.exports = {
   },
 
   async isPixMaster(id) {
-    const user = await BookshelfUser
-      .where({ 'users.id': id, 'users_pix_roles.user_id': id })
+    const user = await BookshelfUser.where({ 'users.id': id, 'users_pix_roles.user_id': id })
       .query((qb) => {
         qb.innerJoin('users_pix_roles', 'users_pix_roles.user_id', 'users.id');
         qb.where({ 'users_pix_roles.pix_role_id': PIX_MASTER_ROLE_ID });
@@ -270,72 +257,68 @@ module.exports = {
 
   async updateHasSeenAssessmentInstructionsToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
-    await user.save({ 'hasSeenAssessmentInstructions': true }, { patch: true, method: 'update' });
+    await user.save({ hasSeenAssessmentInstructions: true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updateHasSeenNewDashboardInfoToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
-    await user.save({ 'hasSeenNewDashboardInfo': true }, { patch: true, method: 'update' });
+    await user.save({ hasSeenNewDashboardInfo: true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updateHasSeenChallengeTooltip({ userId, challengeType }) {
     const user = await BookshelfUser.where({ id: userId }).fetch({ require: false });
     if (challengeType === 'focused') {
-      await user.save({ 'hasSeenFocusedChallengeTooltip': true }, { patch: true, method: 'update' });
+      await user.save({ hasSeenFocusedChallengeTooltip: true }, { patch: true, method: 'update' });
     }
     if (challengeType === 'other') {
-      await user.save({ 'hasSeenOtherChallengesTooltip': true }, { patch: true, method: 'update' });
+      await user.save({ hasSeenOtherChallengesTooltip: true }, { patch: true, method: 'update' });
     }
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async acceptPixLastTermsOfService(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
-    await user.save({
-      'lastTermsOfServiceValidatedAt': moment().toDate(),
-      'mustValidateTermsOfService': false,
-    }, { patch: true, method: 'update' });
+    await user.save(
+      {
+        lastTermsOfServiceValidatedAt: moment().toDate(),
+        mustValidateTermsOfService: false,
+      },
+      { patch: true, method: 'update' }
+    );
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updatePixOrgaTermsOfServiceAcceptedToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
-    await user.save({ 'pixOrgaTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    await user.save({ pixOrgaTermsOfServiceAccepted: true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async updatePixCertifTermsOfServiceAcceptedToTrue(id) {
     const user = await BookshelfUser.where({ id }).fetch({ require: false });
-    await user.save({ 'pixCertifTermsOfServiceAccepted': true }, { patch: true, method: 'update' });
+    await user.save({ pixCertifTermsOfServiceAccepted: true }, { patch: true, method: 'update' });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfUser, user);
   },
 
   async isUsernameAvailable(username) {
-    const foundUser = await BookshelfUser
-      .where({ username })
-      .fetch({ require: false });
+    const foundUser = await BookshelfUser.where({ username }).fetch({ require: false });
     if (foundUser) {
       throw new AlreadyRegisteredUsernameError();
     }
     return username;
   },
 
-  updateUsername({
-    id,
-    username,
-    domainTransaction = DomainTransaction.emptyTransaction(),
-  }) {
-    return BookshelfUser
-      .where({ id })
+  updateUsername({ id, username, domainTransaction = DomainTransaction.emptyTransaction() }) {
+    return BookshelfUser.where({ id })
       .save(
         { username },
         {
           transacting: domainTransaction.knexTransaction,
           patch: true,
           method: 'update',
-        },
+        }
       )
       .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
@@ -347,8 +330,7 @@ module.exports = {
   },
 
   addUsername(id, username) {
-    return BookshelfUser
-      .where({ id })
+    return BookshelfUser.where({ id })
       .save({ username }, { patch: true, method: 'update' })
       .then((bookshelfUser) => _toDomain(bookshelfUser))
       .catch((err) => {
@@ -361,11 +343,8 @@ module.exports = {
 
   async updateUserAttributes(id, userAttributes) {
     try {
-      const bookshelfUser = await BookshelfUser
-        .where({ id })
-        .save(userAttributes, { patch: true, method: 'update' });
+      const bookshelfUser = await BookshelfUser.where({ id }).save(userAttributes, { patch: true, method: 'update' });
       return _toDomain(bookshelfUser);
-
     } catch (err) {
       if (err instanceof BookshelfUser.NoRowsUpdatedError) {
         throw new UserNotFoundError(`User not found for ID ${id}`);
@@ -375,29 +354,25 @@ module.exports = {
   },
 
   async findByPoleEmploiExternalIdentifier(externalIdentityId) {
-    const bookshelfUser = await BookshelfUser
-      .query((qb) => {
-        qb.innerJoin('authentication-methods', function() {
-          this.on('users.id', 'authentication-methods.userId')
-            .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.POLE_EMPLOI)
-            .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
-        });
-      })
-      .fetch({ require: false, withRelated: 'authenticationMethods' });
+    const bookshelfUser = await BookshelfUser.query((qb) => {
+      qb.innerJoin('authentication-methods', function () {
+        this.on('users.id', 'authentication-methods.userId')
+          .andOnVal('authentication-methods.identityProvider', AuthenticationMethod.identityProviders.POLE_EMPLOI)
+          .andOnVal('authentication-methods.externalIdentifier', externalIdentityId);
+      });
+    }).fetch({ require: false, withRelated: 'authenticationMethods' });
     return bookshelfUser ? _toDomain(bookshelfUser) : null;
   },
 
   async findAnotherUserByEmail(userId, email) {
-    return BookshelfUser
-      .where('id', '!=', userId)
+    return BookshelfUser.where('id', '!=', userId)
       .where({ email: email.toLowerCase() })
       .fetchAll()
       .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
   },
 
   async findAnotherUserByUsername(userId, username) {
-    return BookshelfUser
-      .where('id', '!=', userId)
+    return BookshelfUser.where('id', '!=', userId)
       .where({ username })
       .fetchAll()
       .then((users) => bookshelfToDomainConverter.buildDomainObjects(BookshelfUser, users));
@@ -406,9 +381,7 @@ module.exports = {
   async updateLastLoggedAt({ userId }) {
     const now = new Date();
 
-    await knex('users')
-      .where({ id: userId })
-      .update({ lastLoggedAt: now });
+    await knex('users').where({ id: userId }).update({ lastLoggedAt: now });
   },
 };
 
@@ -524,10 +497,8 @@ function _getAuthenticationComplementAndExternalIdentifier(authenticationMethodB
 
 function _toAuthenticationMethodsDomain(authenticationMethodsBookshelf) {
   return authenticationMethodsBookshelf.map((authenticationMethodBookshelf) => {
-    const {
-      authenticationComplement,
-      externalIdentifier,
-    } = _getAuthenticationComplementAndExternalIdentifier(authenticationMethodBookshelf);
+    const { authenticationComplement, externalIdentifier } =
+      _getAuthenticationComplementAndExternalIdentifier(authenticationMethodBookshelf);
 
     return new AuthenticationMethod({
       id: authenticationMethodBookshelf.get('id'),
@@ -558,7 +529,9 @@ function _toDomain(userBookshelf) {
     pixOrgaTermsOfServiceAccepted: Boolean(userBookshelf.get('pixOrgaTermsOfServiceAccepted')),
     pixCertifTermsOfServiceAccepted: Boolean(userBookshelf.get('pixCertifTermsOfServiceAccepted')),
     memberships: _toMembershipsDomain(userBookshelf.related('memberships')),
-    certificationCenterMemberships: _toCertificationCenterMembershipsDomain(userBookshelf.related('certificationCenterMemberships')),
+    certificationCenterMemberships: _toCertificationCenterMembershipsDomain(
+      userBookshelf.related('certificationCenterMemberships')
+    ),
     pixRoles: _toPixRolesDomain(userBookshelf.related('pixRoles')),
     hasSeenAssessmentInstructions: Boolean(userBookshelf.get('hasSeenAssessmentInstructions')),
     authenticationMethods: _toAuthenticationMethodsDomain(userBookshelf.related('authenticationMethods')),
@@ -581,9 +554,15 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 
 function _adaptModelToDb(user) {
   const userToBeSaved = omit(user, [
-    'id', 'campaignParticipations', 'pixRoles', 'memberships',
-    'certificationCenterMemberships', 'pixScore', 'knowledgeElements',
-    'scorecards', 'userOrgaSettings',
+    'id',
+    'campaignParticipations',
+    'pixRoles',
+    'memberships',
+    'certificationCenterMemberships',
+    'pixScore',
+    'knowledgeElements',
+    'scorecards',
+    'userOrgaSettings',
     'authenticationMethods',
   ]);
 

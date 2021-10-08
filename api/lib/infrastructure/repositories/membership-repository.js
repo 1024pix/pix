@@ -41,7 +41,6 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 }
 
 module.exports = {
-
   create(userId, organizationId, organizationRole) {
     return new BookshelfMembership({ userId, organizationId, organizationRole })
       .save()
@@ -58,7 +57,9 @@ module.exports = {
   async get(membershipId) {
     let bookshelfMembership;
     try {
-      bookshelfMembership = await BookshelfMembership.where('id', membershipId).fetch({ withRelated: ['user', 'organization'] });
+      bookshelfMembership = await BookshelfMembership.where('id', membershipId).fetch({
+        withRelated: ['user', 'organization'],
+      });
     } catch (error) {
       if (error instanceof BookshelfMembership.NotFoundError) {
         throw new NotFoundError(`Membership ${membershipId} not found`);
@@ -70,8 +71,7 @@ module.exports = {
   },
 
   async findByOrganizationId({ organizationId }) {
-    const memberships = await BookshelfMembership
-      .where({ organizationId, disabledAt: null })
+    const memberships = await BookshelfMembership.where({ organizationId, disabledAt: null })
       .orderBy('id', 'ASC')
       .fetchAll({ withRelated: ['user'] });
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships);
@@ -80,32 +80,28 @@ module.exports = {
   async findPaginatedFiltered({ organizationId, filter, page }) {
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const { models, pagination } = await BookshelfMembership
-      .query((qb) => {
-        qb.where({ 'memberships.organizationId': organizationId, 'memberships.disabledAt': null });
-        _setSearchFiltersForQueryBuilder(filter, qb);
-        qb.innerJoin('users', 'memberships.userId', 'users.id');
-        qb.orderByRaw('"organizationRole" ASC, LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
-      })
-      .fetchPage({
-        withRelated: ['user'],
-        page: pageNumber,
-        pageSize,
-      });
+    const { models, pagination } = await BookshelfMembership.query((qb) => {
+      qb.where({ 'memberships.organizationId': organizationId, 'memberships.disabledAt': null });
+      _setSearchFiltersForQueryBuilder(filter, qb);
+      qb.innerJoin('users', 'memberships.userId', 'users.id');
+      qb.orderByRaw('"organizationRole" ASC, LOWER(users."lastName") ASC, LOWER(users."firstName") ASC');
+    }).fetchPage({
+      withRelated: ['user'],
+      page: pageNumber,
+      pageSize,
+    });
     const memberships = bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, models);
     return { models: memberships, pagination };
   },
 
   findByUserIdAndOrganizationId({ userId, organizationId, includeOrganization = false }) {
-    return BookshelfMembership
-      .where({ userId, organizationId, disabledAt: null })
+    return BookshelfMembership.where({ userId, organizationId, disabledAt: null })
       .fetchAll({ withRelated: includeOrganization ? ['organization', 'organization.tags'] : [] })
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
 
   findByUserId({ userId }) {
-    return BookshelfMembership
-      .where({ userId, disabledAt: null })
+    return BookshelfMembership.where({ userId, disabledAt: null })
       .fetchAll({ withRelated: ['organization'] })
       .then((memberships) => bookshelfToDomainConverter.buildDomainObjects(BookshelfMembership, memberships));
   },
@@ -114,19 +110,24 @@ module.exports = {
     let updatedMembership;
 
     if (!membership) {
-      throw new MembershipUpdateError('Le membership n\'est pas renseigné');
+      throw new MembershipUpdateError("Le membership n'est pas renseigné");
     }
 
     try {
-      updatedMembership = await new BookshelfMembership({ id })
-        .save(membership, { patch: true, method: 'update', require: true, transacting: domainTransaction.knexTransaction });
+      updatedMembership = await new BookshelfMembership({ id }).save(membership, {
+        patch: true,
+        method: 'update',
+        require: true,
+        transacting: domainTransaction.knexTransaction,
+      });
     } catch (err) {
       throw new MembershipUpdateError(err.message);
     }
 
-    const updatedMembershipWithUserAndOrganization = await updatedMembership.refresh({ withRelated: ['user', 'organization'], transacting: domainTransaction.knexTransaction });
+    const updatedMembershipWithUserAndOrganization = await updatedMembership.refresh({
+      withRelated: ['user', 'organization'],
+      transacting: domainTransaction.knexTransaction,
+    });
     return bookshelfToDomainConverter.buildDomainObject(BookshelfMembership, updatedMembershipWithUserAndOrganization);
   },
-
 };
-

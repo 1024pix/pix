@@ -8,10 +8,8 @@ const competenceMarkRepository = require('../../../../lib/infrastructure/reposit
 const AssessmentResult = require('../../../../lib/domain/models/AssessmentResult');
 const CompetenceMark = require('../../../../lib/domain/models/CompetenceMark');
 
-describe('Unit | Domain | Services | assessment-results', function() {
-
-  describe('#save', function() {
-
+describe('Unit | Domain | Services | assessment-results', function () {
+  describe('#save', function () {
     const assessmentResult = new AssessmentResult({
       assessmentId: 1,
       level: 3,
@@ -37,42 +35,44 @@ describe('Unit | Domain | Services | assessment-results', function() {
       }),
     ];
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(assessmentResultRepository, 'save').resolves({ id: 1 });
       sinon.stub(competenceMarkRepository, 'save').resolves();
     });
 
-    it('should save the assessment results', async function() {
+    it('should save the assessment results', async function () {
       // when
       await service.save(assessmentResult, competenceMarks);
 
       // then
       expect(assessmentResultRepository.save).to.have.been.calledOnce;
       expect(assessmentResultRepository.save).to.have.been.calledWithMatch(assessmentResult);
-
     });
 
-    it('should save all competenceMarks', async function() {
+    it('should save all competenceMarks', async function () {
       // when
       await service.save(assessmentResult, competenceMarks);
 
       // then
       expect(competenceMarkRepository.save).to.have.been.calledTwice;
-      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(new CompetenceMark({
-        assessmentResultId: 1,
-        level: 2,
-        score: 18,
-        area_code: 2,
-        competence_code: 2.1,
-      }));
-      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(new CompetenceMark({
-        assessmentResultId: 1,
-        level: 3,
-        score: 27,
-        area_code: 3,
-        competence_code: 3.2,
-      }));
-
+      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(
+        new CompetenceMark({
+          assessmentResultId: 1,
+          level: 2,
+          score: 18,
+          area_code: 2,
+          competence_code: 2.1,
+        })
+      );
+      expect(competenceMarkRepository.save).to.have.been.calledWithMatch(
+        new CompetenceMark({
+          assessmentResultId: 1,
+          level: 3,
+          score: 27,
+          area_code: 3,
+          competence_code: 3.2,
+        })
+      );
     });
   });
 });

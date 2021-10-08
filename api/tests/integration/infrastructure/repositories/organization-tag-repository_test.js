@@ -5,15 +5,13 @@ const organizationTagRepository = require('../../../../lib/infrastructure/reposi
 const omit = require('lodash/omit');
 const BookshelfOrganizationTag = require('../../../../lib/infrastructure/orm-models/OrganizationTag');
 
-describe('Integration | Repository | OrganizationTagRepository', function() {
-
-  describe('#create', function() {
-
-    afterEach(async function() {
+describe('Integration | Repository | OrganizationTagRepository', function () {
+  describe('#create', function () {
+    afterEach(async function () {
       await knex('organization-tags').delete();
     });
 
-    it('should create an OrganizationTag', async function() {
+    it('should create an OrganizationTag', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const tagId = databaseBuilder.factory.buildTag().id;
@@ -28,9 +26,8 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
       expect(omit(createdOrganizationTag, 'id')).to.deep.equal(omit(organizationTag, 'id'));
     });
 
-    context('when an organization tag already exist', function() {
-
-      it('should throw an AlreadyExistingEntityError', async function() {
+    context('when an organization tag already exist', function () {
+      it('should throw an AlreadyExistingEntityError', async function () {
         // given
         const existingOrganizationTag = databaseBuilder.factory.buildOrganizationTag();
         await databaseBuilder.commit();
@@ -47,9 +44,8 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
     });
   });
 
-  describe('#delete', function() {
-
-    it('should delete an organization tag', async function() {
+  describe('#delete', function () {
+    it('should delete an organization tag', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
@@ -72,9 +68,8 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
       expect(nbOrganizationTagAfterDeletion).to.equal(1);
     });
 
-    context('when organization tag does not exist', function() {
-
-      it('should throw an OrganizationTagNotFound', async function() {
+    context('when organization tag does not exist', function () {
+      it('should throw an OrganizationTagNotFound', async function () {
         // given
         const organizationId = databaseBuilder.factory.buildOrganization().id;
         const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
@@ -86,7 +81,9 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
 
         // when
         const inexistingOranizationTagId = organizationTagId + 1;
-        const error = await catchErr(organizationTagRepository.delete)({ organizationTagId: inexistingOranizationTagId });
+        const error = await catchErr(organizationTagRepository.delete)({
+          organizationTagId: inexistingOranizationTagId,
+        });
 
         // then
         expect(error).to.be.an.instanceof(OrganizationTagNotFound);
@@ -95,9 +92,8 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
     });
   });
 
-  describe('#findOneByOrganizationIdAndTagId', function() {
-
-    it('should find the first matching organization tag', async function() {
+  describe('#findOneByOrganizationIdAndTagId', function () {
+    it('should find the first matching organization tag', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
@@ -108,29 +104,34 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
       await databaseBuilder.commit();
 
       // when
-      const organizationTagFound = await organizationTagRepository.findOneByOrganizationIdAndTagId({ organizationId, tagId });
+      const organizationTagFound = await organizationTagRepository.findOneByOrganizationIdAndTagId({
+        organizationId,
+        tagId,
+      });
 
       // then
       expect(organizationTagFound).to.deep.equal(organizationTagInDatabase);
     });
 
-    it('should not throw an error and return empty array if there is no matching organization tag', async function() {
+    it('should not throw an error and return empty array if there is no matching organization tag', async function () {
       // given
       const organizationId = databaseBuilder.factory.buildOrganization().id;
       const tagId = databaseBuilder.factory.buildTag({ name: 'SCO' }).id;
       await databaseBuilder.commit();
 
       // when
-      const result = await organizationTagRepository.findOneByOrganizationIdAndTagId({ organizationId, tagId: tagId + 1 });
+      const result = await organizationTagRepository.findOneByOrganizationIdAndTagId({
+        organizationId,
+        tagId: tagId + 1,
+      });
 
       // then
       expect(result).to.deep.equal([]);
     });
   });
 
-  describe('#isExistingByOrganizationIdAndTagId', function() {
-
-    it('should return true if organization tag exists', async function() {
+  describe('#isExistingByOrganizationIdAndTagId', function () {
+    it('should return true if organization tag exists', async function () {
       // given
       const existingOrganizationTag = databaseBuilder.factory.buildOrganizationTag();
       await databaseBuilder.commit();
@@ -145,7 +146,7 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
       expect(isExisting).to.be.true;
     });
 
-    it('should return false if organization tag does not exist', async function() {
+    it('should return false if organization tag does not exist', async function () {
       // given
       const notExistingId = 1234;
 
@@ -160,13 +161,12 @@ describe('Integration | Repository | OrganizationTagRepository', function() {
     });
   });
 
-  describe('#batchCreate', function() {
-
-    afterEach(async function() {
+  describe('#batchCreate', function () {
+    afterEach(async function () {
       await knex('organization-tags').delete();
     });
 
-    it('should add rows in the table "organizations-tags"', async function() {
+    it('should add rows in the table "organizations-tags"', async function () {
       // given
       const organizationId1 = databaseBuilder.factory.buildOrganization().id;
       const organizationId2 = databaseBuilder.factory.buildOrganization().id;

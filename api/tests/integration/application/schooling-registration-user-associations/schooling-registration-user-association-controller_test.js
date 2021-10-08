@@ -5,23 +5,22 @@ const moduleUnderTest = require('../../../../lib/application/schooling-registrat
 const usecases = require('../../../../lib/domain/usecases');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Schooling-registration-user-association | schooling-registration-user-association-controller', function() {
-
+describe('Integration | Application | Schooling-registration-user-association | schooling-registration-user-association-controller', function () {
   let sandbox;
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'generateUsername').rejects(new Error('not expected error'));
     httpTestServer = new HttpTestServer();
     await httpTestServer.register(moduleUnderTest);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sandbox.restore();
   });
 
-  describe('#generateUsername', function() {
+  describe('#generateUsername', function () {
     const campaignCode = 'RESTRICTD';
     const payload = {
       data: {
@@ -34,35 +33,39 @@ describe('Integration | Application | Schooling-registration-user-association | 
       },
     };
 
-    context('Success cases', function() {
-
+    context('Success cases', function () {
       // TODO: Fix this the next time the file is edited.
       // eslint-disable-next-line mocha/no-setup-in-describe
       const student = domainBuilder.buildSchoolingRegistration();
 
-      it('should return an HTTP response with status code 200', async function() {
+      it('should return an HTTP response with status code 200', async function () {
         // given
         usecases.generateUsername.resolves([student]);
 
         // when
-        const response = await httpTestServer.request('PUT', '/api/schooling-registration-user-associations/possibilities', payload);
+        const response = await httpTestServer.request(
+          'PUT',
+          '/api/schooling-registration-user-associations/possibilities',
+          payload
+        );
 
         // then
         expect(response.statusCode).to.equal(200);
       });
-
     });
 
-    context('Error cases', function() {
-
-      context('when a NotFoundError is thrown', function() {
-
-        it('should resolve a 404 HTTP response', async function() {
+    context('Error cases', function () {
+      context('when a NotFoundError is thrown', function () {
+        it('should resolve a 404 HTTP response', async function () {
           // given
           usecases.generateUsername.rejects(new NotFoundError());
 
           // when
-          const response = await httpTestServer.request('PUT', '/api/schooling-registration-user-associations/possibilities', payload);
+          const response = await httpTestServer.request(
+            'PUT',
+            '/api/schooling-registration-user-associations/possibilities',
+            payload
+          );
 
           // then
           expect(response.statusCode).to.equal(404);

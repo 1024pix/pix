@@ -1,13 +1,5 @@
 class CertificationPointOfContact {
-
-  constructor({
-    id,
-    firstName,
-    lastName,
-    email,
-    pixCertifTermsOfServiceAccepted,
-    allowedCertificationCenterAccesses,
-  }) {
+  constructor({ id, firstName, lastName, email, pixCertifTermsOfServiceAccepted, allowedCertificationCenterAccesses }) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;

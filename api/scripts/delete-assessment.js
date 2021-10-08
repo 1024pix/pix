@@ -28,8 +28,7 @@ async function main() {
     .then(() => console.log('FINISHED'))
     .catch((err) => {
       console.log(`ERROR: ${err}\nRollback...`);
-      return client.query_and_log('ROLLBACK')
-        .then(() => console.log('Rollback finished'));
+      return client.query_and_log('ROLLBACK').then(() => console.log('Rollback finished'));
     })
     // finally
     .then(() => terminate(client))
@@ -42,7 +41,6 @@ class AssessmentEraser {
   }
 
   delete_dependent_data_from_assessment_id() {
-
     if (!this.assessment_id) {
       return Promise.reject(new Error('Missing argument : an assessment id should be provided'));
     }
@@ -53,11 +51,7 @@ class AssessmentEraser {
         this.queryBuilder.delete_answers_from_assessment_ids(this.assessment_id),
         this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessment_id),
       ])
-      .then((queries) => Promise.all(
-        queries.map((query) =>
-          this.client.query_and_log(query),
-        ),
-      ))
+      .then((queries) => Promise.all(queries.map((query) => this.client.query_and_log(query))))
       .then(() => this.queryBuilder.delete_assessment_results_from_assessment_ids(this.assessment_id))
       .then((query) => this.client.query_and_log(query));
   }
@@ -70,7 +64,6 @@ class AssessmentEraser {
 }
 
 class ScriptQueryBuilder {
-
   delete_answers_from_assessment_ids(assessment_id) {
     return `DELETE FROM answers WHERE "assessmentId" = ${assessment_id}`;
   }

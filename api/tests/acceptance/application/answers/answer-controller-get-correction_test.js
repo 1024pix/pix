@@ -1,22 +1,25 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { FRENCH_FRANCE } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Acceptance | Controller | answer-controller-get-correction', function() {
-
+describe('Acceptance | Controller | answer-controller-get-correction', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/answers/{id}/correction', function() {
-
+  describe('GET /api/answers/{id}/correction', function () {
     let assessment = null;
     let answer = null;
     let userId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser().id;
       assessment = databaseBuilder.factory.buildAssessment({
         courseId: 'adaptive_course_id',
@@ -34,47 +37,54 @@ describe('Acceptance | Controller | answer-controller-get-correction', function(
       await databaseBuilder.commit();
 
       const learningContent = {
-        challenges: [{
-          id: 'q_first_challenge',
-          status: 'validé',
-          competenceId: 'competence_id',
-          solution: 'fromage',
-          solutionToDisplay: 'camembert',
-          skillIds: ['q_first_acquis'],
-        }],
-        tutorials: [{
-          id: 'english-tutorial-id',
-          locale: 'en-us',
-          duration: '00:00:54',
-          format: 'video',
-          link: 'https://tuto.com',
-          source: 'tuto.com',
-          title: 'tuto1',
-        }, {
-          id: 'french-tutorial-id',
-          locale: 'fr-fr',
-          duration: '00:03:31',
-          format: 'vidéo',
-          link: 'http://www.example.com/this-is-an-example.html',
-          source: 'Source Example, Example',
-          title: 'Communiquer',
-        }],
-        skills: [{
-          id: 'q_first_acquis',
-          name: '@web3',
-          hintFrFr: 'Geolocaliser ?',
-          hintEnUs: 'Geolocate ?',
-          hintStatus: 'Validé',
-          competenceId: 'recABCD',
-          tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
-          learningMoreTutorialIds: [],
-        }],
+        challenges: [
+          {
+            id: 'q_first_challenge',
+            status: 'validé',
+            competenceId: 'competence_id',
+            solution: 'fromage',
+            solutionToDisplay: 'camembert',
+            skillIds: ['q_first_acquis'],
+          },
+        ],
+        tutorials: [
+          {
+            id: 'english-tutorial-id',
+            locale: 'en-us',
+            duration: '00:00:54',
+            format: 'video',
+            link: 'https://tuto.com',
+            source: 'tuto.com',
+            title: 'tuto1',
+          },
+          {
+            id: 'french-tutorial-id',
+            locale: 'fr-fr',
+            duration: '00:03:31',
+            format: 'vidéo',
+            link: 'http://www.example.com/this-is-an-example.html',
+            source: 'Source Example, Example',
+            title: 'Communiquer',
+          },
+        ],
+        skills: [
+          {
+            id: 'q_first_acquis',
+            name: '@web3',
+            hintFrFr: 'Geolocaliser ?',
+            hintEnUs: 'Geolocate ?',
+            hintStatus: 'Validé',
+            competenceId: 'recABCD',
+            tutorialIds: ['english-tutorial-id', 'french-tutorial-id'],
+            learningMoreTutorialIds: [],
+          },
+        ],
       };
       mockLearningContent(learningContent);
     });
 
-    context('when Accept-Language header is specified', function() {
-      it('should return the answer correction with tutorials restricted to given language', async function() {
+    context('when Accept-Language header is specified', function () {
+      it('should return the answer correction with tutorials restricted to given language', async function () {
         // given
         const options = {
           method: 'GET',
@@ -96,28 +106,32 @@ describe('Acceptance | Controller | answer-controller-get-correction', function(
             },
             relationships: {
               tutorials: {
-                data: [{
-                  id: 'french-tutorial-id',
-                  type: 'tutorials',
-                }],
+                data: [
+                  {
+                    id: 'french-tutorial-id',
+                    type: 'tutorials',
+                  },
+                ],
               },
               'learning-more-tutorials': {
                 data: [],
               },
             },
           },
-          included: [{
-            attributes: {
-              duration: '00:03:31',
-              format: 'vidéo',
+          included: [
+            {
+              attributes: {
+                duration: '00:03:31',
+                format: 'vidéo',
+                id: 'french-tutorial-id',
+                link: 'http://www.example.com/this-is-an-example.html',
+                source: 'Source Example, Example',
+                title: 'Communiquer',
+              },
               id: 'french-tutorial-id',
-              link: 'http://www.example.com/this-is-an-example.html',
-              source: 'Source Example, Example',
-              title: 'Communiquer',
+              type: 'tutorials',
             },
-            id: 'french-tutorial-id',
-            type: 'tutorials',
-          }],
+          ],
         };
 
         // when
@@ -129,7 +143,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function(
       });
     });
 
-    it('should return 404 when user does not have access to this answer', async function() {
+    it('should return 404 when user does not have access to this answer', async function () {
       // given
       const options = {
         method: 'GET',
@@ -144,7 +158,7 @@ describe('Acceptance | Controller | answer-controller-get-correction', function(
       expect(response.statusCode).to.equal(404);
     });
 
-    it('should return 404 when the answer id provided is not an integer', async function() {
+    it('should return 404 when the answer id provided is not an integer', async function () {
       // given
       const options = {
         method: 'GET',
@@ -160,4 +174,3 @@ describe('Acceptance | Controller | answer-controller-get-correction', function(
     });
   });
 });
-

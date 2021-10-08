@@ -3,25 +3,20 @@ const { EntityValidationError } = require('../../../../lib/domain/errors');
 
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-const {
-  prepareCampaigns,
-  checkData,
-} = require('../../../../scripts/prod/create-profiles-collection-campaigns');
+const { prepareCampaigns, checkData } = require('../../../../scripts/prod/create-profiles-collection-campaigns');
 
-describe('Integration | Scripts | create-profile-collection-campaigns', function() {
-
-  describe('#prepareCampaigns', function() {
-
+describe('Integration | Scripts | create-profile-collection-campaigns', function () {
+  describe('#prepareCampaigns', function () {
     let organizationId1;
     let organizationId2;
-    beforeEach(function() {
+    beforeEach(function () {
       organizationId1 = databaseBuilder.factory.buildOrganization().id;
       organizationId2 = databaseBuilder.factory.buildOrganization().id;
 
       return databaseBuilder.commit();
     });
 
-    it('should generate a code for the campaign model', async function() {
+    it('should generate a code for the campaign model', async function () {
       // given
       const campaignData = {
         customLandingPageText: 'customLandingPageText',
@@ -38,7 +33,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       expect(campaigns[0].code.length).to.equal(9);
     });
 
-    it('should be a profile collection type for the campaign model', async function() {
+    it('should be a profile collection type for the campaign model', async function () {
       // given
       const campaignData = {
         customLandingPageText: 'customLandingPageText',
@@ -54,7 +49,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       expect(campaigns[0].type).to.equal(Campaign.types.PROFILES_COLLECTION);
     });
 
-    it('should create campaigns for each organizationId', async function() {
+    it('should create campaigns for each organizationId', async function () {
       // given
       const creatorId = '789';
 
@@ -87,7 +82,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       expect(campaigns[1].creatorId).to.equal(creatorId);
     });
 
-    it('should throw a validate error when campaign is not valid', async function() {
+    it('should throw a validate error when campaign is not valid', async function () {
       // given
       const creatorId = '789';
       const campaignData = {
@@ -103,8 +98,8 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
     });
   });
 
-  describe('#checkData', function() {
-    it('should create proper campaign attributes', function() {
+  describe('#checkData', function () {
+    it('should create proper campaign attributes', function () {
       // given
       const name = 'SomeName';
       const organizationId = 3;
@@ -124,7 +119,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       });
     });
 
-    it('should create proper campaign attributes even customLandingPageText is missing', async function() {
+    it('should create proper campaign attributes even customLandingPageText is missing', async function () {
       // given
       const name = 'SomeName';
       const customLandingPageText = undefined;
@@ -144,7 +139,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       });
     });
 
-    it('should throw an error if campaign organizationId is missing', async function() {
+    it('should throw an error if campaign organizationId is missing', async function () {
       // given
       const name = 'SomeName';
       const organizationId = '';
@@ -156,10 +151,12 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
 
       // then
       expect(error).to.be.instanceOf(Error);
-      expect(error.message).to.equal('Ligne 1: L\'organizationId est obligatoire pour la campagne de collecte de profils.');
+      expect(error.message).to.equal(
+        "Ligne 1: L'organizationId est obligatoire pour la campagne de collecte de profils."
+      );
     });
 
-    it('should throw an error if campaign creatorId is missing', async function() {
+    it('should throw an error if campaign creatorId is missing', async function () {
       // given
       const name = 'SomeName';
       const organizationId = '123';
@@ -174,7 +171,7 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
       expect(error.message).to.equal('Ligne 1: Le creatorId est obligatoire pour la campagne de collecte de profils.');
     });
 
-    it('should throw an error if campaign name is missing', async function() {
+    it('should throw an error if campaign name is missing', async function () {
       // given
       const name = undefined;
       const organizationId = '123';
@@ -186,7 +183,9 @@ describe('Integration | Scripts | create-profile-collection-campaigns', function
 
       // then
       expect(error).to.be.instanceOf(Error);
-      expect(error.message).to.equal('Ligne 1: Le nom de campagne est obligatoire pour la campagne de collecte de profils.');
+      expect(error.message).to.equal(
+        'Ligne 1: Le nom de campagne est obligatoire pour la campagne de collecte de profils.'
+      );
     });
   });
 });

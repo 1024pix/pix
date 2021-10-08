@@ -5,9 +5,8 @@ const sessionCodeService = require('../../../../lib/domain/services/session-code
 const sessionValidator = require('../../../../lib/domain/validators/session-validator');
 const { ForbiddenAccess } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-session', function() {
-
-  describe('#save', function() {
+describe('Unit | UseCase | create-session', function () {
+  describe('#save', function () {
     const userId = 'userId';
     const certificationCenterId = 'certificationCenterId';
     const certificationCenterName = 'certificationCenterName';
@@ -29,14 +28,19 @@ describe('Unit | UseCase | create-session', function() {
     // eslint-disable-next-line mocha/no-setup-in-describe
     const accessCode = Symbol('accessCode');
 
-    context('when session is not valid', function() {
-
-      beforeEach(function() {
+    context('when session is not valid', function () {
+      beforeEach(function () {
         sinon.stub(sessionValidator, 'validate').throws();
       });
 
-      it('should throw an error', function() {
-        const promise = createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+      it('should throw an error', function () {
+        const promise = createSession({
+          userId,
+          session: sessionToSave,
+          certificationCenterRepository,
+          sessionRepository,
+          userRepository,
+        });
 
         // then
         expect(promise).to.be.rejected;
@@ -44,31 +48,34 @@ describe('Unit | UseCase | create-session', function() {
       });
     });
 
-    context('when session is valid', function() {
-
-      beforeEach(function() {
+    context('when session is valid', function () {
+      beforeEach(function () {
         sinon.stub(sessionValidator, 'validate').returns();
       });
 
-      context('when user has no certification center membership', function() {
-
-        beforeEach(function() {
+      context('when user has no certification center membership', function () {
+        beforeEach(function () {
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(false);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
         });
 
-        it('should throw a Forbidden error', async function() {
+        it('should throw a Forbidden error', async function () {
           // when
-          const error = await catchErr(createSession)({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+          const error = await catchErr(createSession)({
+            userId,
+            session: sessionToSave,
+            certificationCenterRepository,
+            sessionRepository,
+            userRepository,
+          });
 
           // then
           expect(error).to.be.instanceOf(ForbiddenAccess);
         });
       });
 
-      context('when user has certification center membership', function() {
-
-        beforeEach(function() {
+      context('when user has certification center membership', function () {
+        beforeEach(function () {
           userWithMemberships.hasAccessToCertificationCenter.withArgs(certificationCenterId).returns(true);
           userRepository.getWithCertificationCenterMemberships.withArgs(userId).returns(userWithMemberships);
           sinon.stub(sessionCodeService, 'getNewSessionCode').resolves(accessCode);
@@ -76,15 +83,26 @@ describe('Unit | UseCase | create-session', function() {
           sessionRepository.save.resolves();
         });
 
-        it('should save the session with appropriate arguments', async function() {
+        it('should save the session with appropriate arguments', async function () {
           // when
-          await createSession({ userId, session: sessionToSave, certificationCenterRepository, sessionRepository, userRepository });
+          await createSession({
+            userId,
+            session: sessionToSave,
+            certificationCenterRepository,
+            sessionRepository,
+            userRepository,
+          });
 
           // then
-          expect(sessionRepository.save.calledWithExactly({ certificationCenterId, certificationCenter: certificationCenterName, accessCode })).to.be.true;
+          expect(
+            sessionRepository.save.calledWithExactly({
+              certificationCenterId,
+              certificationCenter: certificationCenterName,
+              accessCode,
+            })
+          ).to.be.true;
         });
       });
     });
   });
-
 });

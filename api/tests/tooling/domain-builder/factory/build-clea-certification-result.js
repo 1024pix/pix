@@ -1,26 +1,24 @@
 const CleaCertificationResult = require('./../../../../lib/domain/models/CleaCertificationResult');
 
-const buildCleaCertificationResult = function({
-  status = CleaCertificationResult.cleaStatuses.ACQUIRED,
-} = {}) {
+const buildCleaCertificationResult = function ({ status = CleaCertificationResult.cleaStatuses.ACQUIRED } = {}) {
   return new CleaCertificationResult({
     status,
   });
 };
 
-buildCleaCertificationResult.acquired = function() {
+buildCleaCertificationResult.acquired = function () {
   return new CleaCertificationResult({
     status: CleaCertificationResult.cleaStatuses.ACQUIRED,
   });
 };
 
-buildCleaCertificationResult.rejected = function() {
+buildCleaCertificationResult.rejected = function () {
   return new CleaCertificationResult({
     status: CleaCertificationResult.cleaStatuses.REJECTED,
   });
 };
 
-buildCleaCertificationResult.notTaken = function() {
+buildCleaCertificationResult.notTaken = function () {
   return new CleaCertificationResult({
     status: CleaCertificationResult.cleaStatuses.NOT_TAKEN,
   });

@@ -2,14 +2,13 @@ const { expect, sinon } = require('../../../test-helper');
 const getAnswer = require('../../../../lib/domain/usecases/get-answer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | get-answer', function() {
-
+describe('Unit | UseCase | get-answer', function () {
   const answerId = 1;
   const userId = 'userId';
   let answerRepository;
   let assessmentRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const answer = {
       id: 1,
       assessmentId: 3,
@@ -31,9 +30,8 @@ describe('Unit | UseCase | get-answer', function() {
     assessmentRepository.ownedByUser.withArgs({ id: answer.assessmentId, userId }).resolves(assessment);
   });
 
-  context('when user asked for answer is the user of the assessment', function() {
-    it('should get the answer', function() {
-
+  context('when user asked for answer is the user of the assessment', function () {
+    it('should get the answer', function () {
       // when
       const result = getAnswer({ answerId, userId, answerRepository, assessmentRepository });
 
@@ -44,9 +42,8 @@ describe('Unit | UseCase | get-answer', function() {
     });
   });
 
-  context('when user asked for answer is not the user of the assessment', function() {
-    it('should throw a Not Found error', function() {
-
+  context('when user asked for answer is not the user of the assessment', function () {
+    it('should throw a Not Found error', function () {
       // when
       const result = getAnswer({ answerId, userId: userId + 1, answerRepository, assessmentRepository });
 
@@ -55,9 +52,8 @@ describe('Unit | UseCase | get-answer', function() {
     });
   });
 
-  context('when the answer id provided is not an integer', function() {
-    it('should throw a Not Found error', function() {
-
+  context('when the answer id provided is not an integer', function () {
+    it('should throw a Not Found error', function () {
       // when
       const result = getAnswer({ answerId: 'salut', userId: userId + 1, answerRepository, assessmentRepository });
 
@@ -65,5 +61,4 @@ describe('Unit | UseCase | get-answer', function() {
       return expect(result).to.be.rejectedWith(NotFoundError);
     });
   });
-
 });

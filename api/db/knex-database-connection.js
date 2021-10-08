@@ -30,11 +30,11 @@ const { environment } = require('../lib/config');
 const Knex = require('knex');
 
 try {
-  Knex.QueryBuilder.extend('whereInArray', function(column, values) {
-    return this.where(column, knex.raw('any(?)', [ values ]));
+  Knex.QueryBuilder.extend('whereInArray', function (column, values) {
+    return this.where(column, knex.raw('any(?)', [values]));
   });
 } catch (e) {
-  if (e.message !== 'Can\'t extend QueryBuilder with existing method (\'whereInArray\').') {
+  if (e.message !== "Can't extend QueryBuilder with existing method ('whereInArray').") {
     console.error(e);
   }
 }
@@ -43,13 +43,13 @@ try {
 const knexConfig = knexConfigs[environment];
 const knex = require('knex')(knexConfig);
 
-knex.on('query', function(data) {
+knex.on('query', function (data) {
   if (logging.enableLogKnexQueries) {
     monitoringTools.setInContext(`knexQueryStartTimes.${data.__knexQueryUid}`, performance.now());
   }
 });
 
-knex.on('query-response', function(response, obj) {
+knex.on('query-response', function (response, obj) {
   if (logging.enableLogKnexQueries) {
     const queryStartedTime = monitoringTools.getInContext(`knexQueryStartTimes.${obj.__knexQueryUid}`);
     if (queryStartedTime) {
@@ -59,7 +59,7 @@ knex.on('query-response', function(response, obj) {
       monitoringTools.pushInContext('metrics.knexQueries', {
         id: obj.__knexQueryUid,
         sql: obj.sql,
-        params: [(obj.bindings) ? obj.bindings.join(',') : ''],
+        params: [obj.bindings ? obj.bindings.join(',') : ''],
         duration,
       });
     }
@@ -73,7 +73,8 @@ async function disconnect() {
 const _databaseName = knex.client.database();
 
 const _dbSpecificQueries = {
-  listTablesQuery: 'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
+  listTablesQuery:
+    'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
   emptyTableQuery: 'TRUNCATE ',
 };
 
@@ -82,7 +83,8 @@ async function listAllTableNames() {
 
   const resultSet = await knex.raw(
     'SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema() AND table_catalog = ?',
-    bindings);
+    bindings
+  );
 
   const rows = resultSet.rows;
   return _.map(rows, 'table_name');
@@ -90,11 +92,7 @@ async function listAllTableNames() {
 
 async function emptyAllTables() {
   const tableNames = await listAllTableNames();
-  const tablesToDelete = _.without(tableNames,
-    'knex_migrations',
-    'knex_migrations_lock',
-    'pix_roles',
-  );
+  const tablesToDelete = _.without(tableNames, 'knex_migrations', 'knex_migrations_lock', 'pix_roles');
 
   const tables = _.map(tablesToDelete, (tableToDelete) => `"${tableToDelete}"`).join();
 

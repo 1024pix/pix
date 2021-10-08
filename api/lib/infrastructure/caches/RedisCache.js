@@ -8,7 +8,6 @@ const settings = require('../../config');
 const REDIS_LOCK_PREFIX = 'locks:';
 
 class RedisCache extends Cache {
-
   constructor(redis_url) {
     super();
     this._client = RedisCache.createClient(redis_url);

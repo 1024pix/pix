@@ -1,16 +1,10 @@
-const {
-  databaseBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { featureToggles } = require('../../../../lib/config');
 
-describe('Acceptance | Route | Users', function() {
-
-  describe('PUT /api/users/{id}/email/verification-code', function() {
-
-    it('should return 204 HTTP status code', async function() {
+describe('Acceptance | Route | Users', function () {
+  describe('PUT /api/users/{id}/email/verification-code', function () {
+    it('should return 204 HTTP status code', async function () {
       // given
       const server = await createServer();
       featureToggles.isEmailValidationEnabled = true;
@@ -52,7 +46,7 @@ describe('Acceptance | Route | Users', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return 404 if FT_VALIDATE_EMAIL is not enabled', async function() {
+    it('should return 404 if FT_VALIDATE_EMAIL is not enabled', async function () {
       // given
       const server = await createServer();
       featureToggles.isEmailValidationEnabled = false;
@@ -95,7 +89,7 @@ describe('Acceptance | Route | Users', function() {
       expect(response.result.errors[0].detail).to.equal('Cette route est désactivée');
     });
 
-    it('should return 400 if email already exists', async function() {
+    it('should return 400 if email already exists', async function () {
       // given
       featureToggles.isEmailValidationEnabled = true;
       const server = await createServer();
@@ -137,7 +131,7 @@ describe('Acceptance | Route | Users', function() {
       expect(response.result.errors[0].detail).to.equal('Cette adresse e-mail est déjà utilisée.');
     });
 
-    it('should return 403 if requested user is not the same as authenticated user', async function() {
+    it('should return 403 if requested user is not the same as authenticated user', async function () {
       // given
       featureToggles.isEmailValidationEnabled = true;
       const server = await createServer();
@@ -180,7 +174,7 @@ describe('Acceptance | Route | Users', function() {
       expect(response.result.errors[0].detail).to.equal('Missing or insufficient permissions.');
     });
 
-    it('should return 400 if password is not valid', async function() {
+    it('should return 400 if password is not valid', async function () {
       // given
       const server = await createServer();
 

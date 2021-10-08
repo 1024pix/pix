@@ -2,10 +2,9 @@ const { expect, nock, catchErr } = require('../../test-helper');
 
 const lcms = require('../../../lib/infrastructure/lcms');
 
-describe('Unit | Infrastructure | LCMS', function() {
-  describe('#getLatestRelease', function() {
-
-    it('calls LCMS API to get learning content latest release', async function() {
+describe('Unit | Infrastructure | LCMS', function () {
+  describe('#getLatestRelease', function () {
+    it('calls LCMS API to get learning content latest release', async function () {
       // given
       const lcmsCall = nock('https://lcms-test.pix.fr/api')
         .get('/releases/latest')
@@ -19,7 +18,7 @@ describe('Unit | Infrastructure | LCMS', function() {
       expect(lcmsCall.isDone()).to.equal(true);
     });
 
-    it('returns learning content release', async function() {
+    it('returns learning content release', async function () {
       // given
       const learningContent = { models: [{ id: 'recId' }] };
       nock('https://lcms-test.pix.fr/api')
@@ -34,7 +33,7 @@ describe('Unit | Infrastructure | LCMS', function() {
       expect(response).to.deep.equal(learningContent);
     });
 
-    it('rejects when learning content release failed to get', async function() {
+    it('rejects when learning content release failed to get', async function () {
       // given
       nock('https://lcms-test.pix.fr/api')
         .get('/releases/latest')
@@ -47,11 +46,10 @@ describe('Unit | Infrastructure | LCMS', function() {
       // then
       expect(error).to.be.not.null;
     });
-
   });
 
-  describe('#createRelease', function() {
-    it('calls LCMS API endpoint', async function() {
+  describe('#createRelease', function () {
+    it('calls LCMS API endpoint', async function () {
       // given
       const lcmsCall = nock('https://lcms-test.pix.fr/api')
         .post('/releases')
@@ -65,7 +63,7 @@ describe('Unit | Infrastructure | LCMS', function() {
       expect(lcmsCall.isDone()).to.equal(true);
     });
 
-    it('returns created release', async function() {
+    it('returns created release', async function () {
       // given
       const learningContent = { models: [{ id: 'recId' }] };
       nock('https://lcms-test.pix.fr/api')
@@ -80,5 +78,4 @@ describe('Unit | Infrastructure | LCMS', function() {
       expect(response).to.deep.equal(learningContent);
     });
   });
-
 });

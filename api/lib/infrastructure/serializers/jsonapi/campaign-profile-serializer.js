@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(campaignProfile) {
     return new Serializer('campaign-profiles', {
       id: 'campaignParticipationId',
@@ -24,13 +23,7 @@ module.exports = {
       },
       competences: {
         ref: 'id',
-        attributes: [
-          'name',
-          'index',
-          'pixScore',
-          'estimatedLevel',
-          'areaColor',
-        ],
+        attributes: ['name', 'index', 'pixScore', 'estimatedLevel', 'areaColor'],
       },
     }).serialize(campaignProfile);
   },

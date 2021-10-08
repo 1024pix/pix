@@ -4,7 +4,7 @@ const certificationController = require('./certification-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 const securityPreHandlers = require('../security-pre-handlers');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -13,7 +13,7 @@ exports.register = async function(server) {
         handler: certificationController.findUserCertifications,
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- Récupération de toutes les certifications complétées de l’utilisateur courant',
+            '- Récupération de toutes les certifications complétées de l’utilisateur courant',
         ],
         tags: ['api', 'certifications'],
       },
@@ -30,8 +30,8 @@ exports.register = async function(server) {
         handler: certificationController.getCertification,
         notes: [
           '- **Route nécessitant une authentification**\n' +
-          '- Seules les certifications de l’utilisateur authentifié sont accessibles\n' +
-          '- Récupération des informations d’une certification de l’utilisateur courant',
+            '- Seules les certifications de l’utilisateur authentifié sont accessibles\n' +
+            '- Récupération des informations d’une certification de l’utilisateur courant',
         ],
         tags: ['api', 'certifications'],
       },
@@ -43,9 +43,9 @@ exports.register = async function(server) {
         auth: false,
         handler: certificationController.getCertificationByVerificationCode,
         notes: [
-          '- **Route accessible par n\'importe qui**\n' +
-          '- Récupération des informations d’une certification d’un utilisateur' +
-          ' via un PixScore et un code de vérification',
+          "- **Route accessible par n'importe qui**\n" +
+            '- Récupération des informations d’une certification d’un utilisateur' +
+            ' via un PixScore et un code de vérification',
         ],
         tags: ['api', 'certifications', 'shared-certifications'],
       },
@@ -62,8 +62,8 @@ exports.register = async function(server) {
         handler: certificationController.getPDFAttestation,
         notes: [
           '- **Route accessible par un user authentifié**\n' +
-          '- Récupération des informations d’une attestation de certification au format PDF' +
-          ' via un id de certification et un user id',
+            '- Récupération des informations d’une attestation de certification au format PDF' +
+            ' via un id de certification et un user id',
         ],
         tags: ['api', 'certifications', 'PDF'],
       },
@@ -82,10 +82,12 @@ exports.register = async function(server) {
             },
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: certificationController.neutralizeChallenge,
         tags: ['api'],
       },
@@ -104,10 +106,12 @@ exports.register = async function(server) {
             },
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: certificationController.deneutralizeChallenge,
         tags: ['api'],
       },

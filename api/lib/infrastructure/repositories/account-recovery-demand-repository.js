@@ -1,9 +1,7 @@
 const _ = require('lodash');
 const { knex } = require('../../../db/knex-database-connection');
 const AccountRecoveryDemand = require('../../domain/models/AccountRecoveryDemand');
-const {
-  NotFoundError,
-} = require('../../domain/errors');
+const { NotFoundError } = require('../../domain/errors');
 const DomainTransaction = require('../DomainTransaction');
 
 const _toDomain = (accountRecoveryDemandDTO) => {
@@ -17,9 +15,7 @@ const _toDomainArray = (accountRecoveryDemandsDTOs) => {
 };
 
 module.exports = {
-
   async findByTemporaryKey(temporaryKey) {
-
     const accountRecoveryDemandDTO = await knex
       .where({ temporaryKey })
       .select('id', 'schoolingRegistrationId', 'userId', 'oldEmail', 'newEmail', 'temporaryKey', 'used', 'createdAt')
@@ -43,9 +39,7 @@ module.exports = {
   },
 
   async save(accountRecoveryDemand) {
-    const result = await knex('account-recovery-demands')
-      .insert(accountRecoveryDemand)
-      .returning('*');
+    const result = await knex('account-recovery-demands').insert(accountRecoveryDemand).returning('*');
 
     return _toDomain(result[0]);
   },
@@ -56,5 +50,4 @@ module.exports = {
       .where({ temporaryKey })
       .update({ used: true });
   },
-
 };

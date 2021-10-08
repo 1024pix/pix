@@ -3,11 +3,9 @@ const certifiableProfileForLearningContentRepository = require('../../../../lib/
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const CertifiableProfileForLearningContent = require('../../../../lib/domain/models/CertifiableProfileForLearningContent');
 
-describe('Integration | Repository | certifiable-profile-for-learning-content', function() {
-
-  describe('#get', function() {
-
-    it('should return user profile', async function() {
+describe('Integration | Repository | certifiable-profile-for-learning-content', function () {
+  describe('#get', function () {
+    it('should return user profile', async function () {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({
         id: 'skill1_id',
@@ -71,19 +69,26 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
         profileDate,
         targetProfileWithLearningContent,
         knowledgeElements: [knowledgeElement1, knowledgeElement2],
-        answerAndChallengeIdsByAnswerId: { [answer1.id]: { id: answer1.id, challengeId: 'challenge1' }, [answer2.id]: { id: answer2.id, challengeId: 'challenge2' } },
+        answerAndChallengeIdsByAnswerId: {
+          [answer1.id]: { id: answer1.id, challengeId: 'challenge1' },
+          [answer2.id]: { id: answer2.id, challengeId: 'challenge2' },
+        },
       });
       await databaseBuilder.commit();
 
       // when
-      const userProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate, targetProfileWithLearningContent });
+      const userProfile = await certifiableProfileForLearningContentRepository.get({
+        id: userId,
+        profileDate,
+        targetProfileWithLearningContent,
+      });
 
       // then
       expect(userProfile).to.be.instanceOf(CertifiableProfileForLearningContent);
       expect(userProfile).to.deep.equal(expectedCertifiableProfileForLearningContent);
     });
 
-    it('should include user skill that are in the target profile only', async function() {
+    it('should include user skill that are in the target profile only', async function () {
       // given
       const skill = domainBuilder.buildTargetedSkill({
         id: 'skill1_id',
@@ -147,14 +152,18 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       await databaseBuilder.commit();
 
       // when
-      const userProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate, targetProfileWithLearningContent });
+      const userProfile = await certifiableProfileForLearningContentRepository.get({
+        id: userId,
+        profileDate,
+        targetProfileWithLearningContent,
+      });
 
       // then
       expect(userProfile).to.be.instanceOf(CertifiableProfileForLearningContent);
       expect(userProfile).to.deep.equal(expectedCertifiableProfileForLearningContent);
     });
 
-    it('should include user skill that are within the profile date only', async function() {
+    it('should include user skill that are within the profile date only', async function () {
       // given
       const skill1 = domainBuilder.buildTargetedSkill({
         id: 'skill1_id',
@@ -223,7 +232,11 @@ describe('Integration | Repository | certifiable-profile-for-learning-content', 
       await databaseBuilder.commit();
 
       // when
-      const userProfile = await certifiableProfileForLearningContentRepository.get({ id: userId, profileDate, targetProfileWithLearningContent });
+      const userProfile = await certifiableProfileForLearningContentRepository.get({
+        id: userId,
+        profileDate,
+        targetProfileWithLearningContent,
+      });
 
       // then
       expect(userProfile).to.be.instanceOf(CertifiableProfileForLearningContent);

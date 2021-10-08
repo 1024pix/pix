@@ -13,13 +13,16 @@ function _extractProfilesSharedWithOrganization(organization) {
 }
 
 module.exports = {
-
   async findAllTargetProfilesAvailableForOrganization(organizationId) {
     const organization = await organizationRepository.get(organizationId);
-    const targetProfilesOrganizationCanUse = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(organizationId);
+    const targetProfilesOrganizationCanUse = await targetProfileRepository.findAllTargetProfilesOrganizationCanUse(
+      organizationId
+    );
     const targetProfilesSharedWithOrganization = _extractProfilesSharedWithOrganization(organization);
-    const allAvailableTargetProfiles = orderBy(concat(targetProfilesOrganizationCanUse, targetProfilesSharedWithOrganization), ['isPublic', 'name']);
+    const allAvailableTargetProfiles = orderBy(
+      concat(targetProfilesOrganizationCanUse, targetProfilesSharedWithOrganization),
+      ['isPublic', 'name']
+    );
     return uniqBy(allAvailableTargetProfiles, 'id');
   },
-
 };

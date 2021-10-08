@@ -1,13 +1,12 @@
 const { expect, sinon } = require('../../../test-helper');
 const DistributedCache = require('../../../../lib/infrastructure/caches/DistributedCache');
 
-describe('Unit | Infrastructure | Caches | DistributedCache', function() {
-
+describe('Unit | Infrastructure | Caches | DistributedCache', function () {
   let distributedCacheInstance;
   let underlyingCache;
   const channel = 'channel';
 
-  beforeEach(function() {
+  beforeEach(function () {
     underlyingCache = {
       get: sinon.stub(),
       set: sinon.stub(),
@@ -17,9 +16,8 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function() {
     distributedCacheInstance = new DistributedCache(underlyingCache, redisUrl, channel);
   });
 
-  describe('#get', function() {
-
-    it('should resolve the underlying cache result for get() method', async function() {
+  describe('#get', function () {
+    it('should resolve the underlying cache result for get() method', async function () {
       // given
       const cacheKey = 'cache-key';
       const cachedObject = { foo: 'bar' };
@@ -34,9 +32,8 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function() {
     });
   });
 
-  describe('#set', function() {
-
-    it('should resovle the underlying cache result for set() method', async function() {
+  describe('#set', function () {
+    it('should resovle the underlying cache result for set() method', async function () {
       // given
       const cacheKey = 'cache-key';
       const objectToCache = { foo: 'bar' };
@@ -50,9 +47,8 @@ describe('Unit | Infrastructure | Caches | DistributedCache', function() {
     });
   });
 
-  describe('#flushAll', function() {
-
-    it('shoud use Redis pub/sub notification mechanism to trigger the caches synchronization', async function() {
+  describe('#flushAll', function () {
+    it('shoud use Redis pub/sub notification mechanism to trigger the caches synchronization', async function () {
       // given
       distributedCacheInstance._redisClientPublisher = {
         publish: sinon.stub(),

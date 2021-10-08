@@ -1,7 +1,4 @@
-const {
-  AlreadyRegisteredEmailError,
-  EntityValidationError,
-} = require('../errors');
+const { AlreadyRegisteredEmailError, EntityValidationError } = require('../errors');
 
 const userValidator = require('../validators/user-validator');
 const passwordValidator = require('../validators/password-validator');
@@ -31,11 +28,7 @@ function _validatePassword(password) {
   return result;
 }
 
-async function _validateData({
-  password,
-  user,
-  userRepository,
-}) {
+async function _validateData({ password, user, userRepository }) {
   let userValidatorError;
   try {
     userValidator.validate({ user });
@@ -47,7 +40,9 @@ async function _validateData({
 
   const validationErrors = [];
   if (user.email) {
-    validationErrors.push(await userRepository.checkIfEmailIsAvailable(user.email).catch(_manageEmailAvailabilityError));
+    validationErrors.push(
+      await userRepository.checkIfEmailIsAvailable(user.email).catch(_manageEmailAvailabilityError)
+    );
   }
   validationErrors.push(userValidatorError);
   validationErrors.push(passwordValidatorError);

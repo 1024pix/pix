@@ -6,7 +6,10 @@
 require('dotenv').config();
 
 const logoUrl = require('./logo/default-sco-agri-organization-logo-base64');
-const { findOrganizationsByExternalIds, organizeOrganizationsByExternalId } = require('./helpers/organizations-by-external-id-helper');
+const {
+  findOrganizationsByExternalIds,
+  organizeOrganizationsByExternalId,
+} = require('./helpers/organizations-by-external-id-helper');
 const { parseCsv } = require('./helpers/csvHelpers');
 const Organization = require('../lib/domain/models/Organization');
 const Tag = require('../lib/domain/models/Tag');
@@ -18,33 +21,36 @@ const organizationTagRepository = require('../lib/infrastructure/repositories/or
 const TAG_NAME = 'AGRICULTURE';
 
 function checkData({ csvData }) {
-  return csvData.map((data) => {
-    const [externalIdLowerCase, name, email] = data;
+  return csvData
+    .map((data) => {
+      const [externalIdLowerCase, name, email] = data;
 
-    if (!externalIdLowerCase && !name) {
-      if (require.main === module) process.stdout.write('Found empty line in input file.');
-      return null;
-    }
-    if (!externalIdLowerCase) {
-      if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
-      return null;
-    }
-    if (!name) {
-      if (require.main === module) process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
-      return null;
-    }
+      if (!externalIdLowerCase && !name) {
+        if (require.main === module) process.stdout.write('Found empty line in input file.');
+        return null;
+      }
+      if (!externalIdLowerCase) {
+        if (require.main === module) process.stdout.write(`A line is missing an externalId for name ${name}`);
+        return null;
+      }
+      if (!name) {
+        if (require.main === module)
+          process.stdout.write(`A line is missing a name for external id ${externalIdLowerCase}`);
+        return null;
+      }
 
-    const checkedData = {
-      externalId: externalIdLowerCase.toUpperCase(),
-      name: name.trim(),
-    };
+      const checkedData = {
+        externalId: externalIdLowerCase.toUpperCase(),
+        name: name.trim(),
+      };
 
-    if (email) {
-      checkedData.email = email.trim();
-    }
+      if (email) {
+        checkedData.email = email.trim();
+      }
 
-    return checkedData;
-  }).filter((data) => !!data);
+      return checkedData;
+    })
+    .filter((data) => !!data);
 }
 
 async function createOrUpdateOrganizations({ organizationsByExternalId, checkedData }) {
@@ -88,7 +94,10 @@ async function addTag(organizations) {
 
   for (let i = 0; i < organizations.length; i++) {
     const organizationId = organizations[i].id;
-    const isExisting = await organizationTagRepository.isExistingByOrganizationIdAndTagId({ organizationId, tagId: tag.id });
+    const isExisting = await organizationTagRepository.isExistingByOrganizationIdAndTagId({
+      organizationId,
+      tagId: tag.id,
+    });
 
     if (!isExisting) {
       await organizationTagRepository.create(new OrganizationTag({ organizationId, tagId: tag.id }));
@@ -123,7 +132,6 @@ async function main() {
     console.log('Adding AGRICULTURE tag...');
     await addTag(createOrUpdatedOrganizations);
     console.log('\nDone.');
-
   } catch (error) {
     console.error(error);
 
@@ -137,7 +145,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

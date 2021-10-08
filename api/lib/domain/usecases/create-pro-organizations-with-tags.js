@@ -2,7 +2,12 @@ const { isEmpty, map, uniqBy } = require('lodash');
 const bluebird = require('bluebird');
 const Organization = require('../models/Organization');
 const OrganizationTag = require('../models/OrganizationTag');
-const { ManyOrganizationsFoundError, OrganizationAlreadyExistError, OrganizationTagNotFound, ObjectValidationError } = require('../errors');
+const {
+  ManyOrganizationsFoundError,
+  OrganizationAlreadyExistError,
+  OrganizationTagNotFound,
+  ObjectValidationError,
+} = require('../errors');
 const ORGANIZATION_TAG_SEPARATOR = '_';
 const organizationInvitationService = require('../../domain/services/organization-invitation-service');
 
@@ -14,7 +19,6 @@ module.exports = async function createProOrganizationsWithTags({
   organizationTagRepository,
   organizationInvitationRepository,
 }) {
-
   _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations);
 
   await _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository);
@@ -26,22 +30,22 @@ module.exports = async function createProOrganizationsWithTags({
   let createdOrganizations = null;
 
   await domainTransaction.execute(async (domainTransaction) => {
-
     const organizationsToCreate = Array.from(organizationsData.values()).map((data) => data.organization);
 
-    createdOrganizations = await organizationRepository.batchCreateProOrganizations(organizationsToCreate, domainTransaction);
-    const organizationsTags = createdOrganizations
-      .flatMap(({ id, externalId }) => {
-        return organizationsData.get(externalId).tags
-          .map((tagName) => {
-            const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
-            if (foundTag) {
-              return new OrganizationTag({ organizationId: id, tagId: foundTag.id });
-            } else {
-              throw new OrganizationTagNotFound();
-            }
-          });
+    createdOrganizations = await organizationRepository.batchCreateProOrganizations(
+      organizationsToCreate,
+      domainTransaction
+    );
+    const organizationsTags = createdOrganizations.flatMap(({ id, externalId }) => {
+      return organizationsData.get(externalId).tags.map((tagName) => {
+        const foundTag = allTags.find((tagInDB) => tagInDB.name === tagName.toUpperCase());
+        if (foundTag) {
+          return new OrganizationTag({ organizationId: id, tagId: foundTag.id });
+        } else {
+          throw new OrganizationTagNotFound();
+        }
       });
+    });
     await organizationTagRepository.batchCreate(organizationsTags, domainTransaction);
   });
 
@@ -73,7 +77,9 @@ function _checkIfOrganizationsDataAreNotEmptyAndUnique(organizations) {
 }
 
 async function _checkIfOrganizationsAlreadyExistInDatabase(organizations, organizationRepository) {
-  const organizationIds = await organizationRepository.findByExternalIdsFetchingIdsOnly(map(organizations, 'externalId'));
+  const organizationIds = await organizationRepository.findByExternalIdsFetchingIdsOnly(
+    map(organizations, 'externalId')
+  );
   if (!isEmpty(organizationIds)) {
     throw new OrganizationAlreadyExistError();
   }

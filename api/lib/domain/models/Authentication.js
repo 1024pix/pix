@@ -1,9 +1,5 @@
 class Authentication {
-
-  constructor({
-    token,
-    userId,
-  } = {}) {
+  constructor({ token, userId } = {}) {
     this.token = token;
     this.userId = userId;
   }
@@ -14,7 +10,6 @@ class Authentication {
       token: this.token,
     };
   }
-
 }
 
 module.exports = Authentication;

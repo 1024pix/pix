@@ -2,15 +2,13 @@ const { expect, databaseBuilder } = require('../../../test-helper');
 const grantedAccreditationRepository = require('../../../../lib/infrastructure/repositories/granted-accreditation-repository');
 const { knex } = require('../../../../lib/infrastructure/bookshelf');
 
-describe('Integration | Infrastructure | Repository | granted-accreditation-repository', function() {
-
-  context('#save', function() {
-
-    afterEach(function() {
+describe('Integration | Infrastructure | Repository | granted-accreditation-repository', function () {
+  context('#save', function () {
+    afterEach(function () {
       return knex('granted-accreditations').delete();
     });
 
-    it('should create the granted accreditation', async function() {
+    it('should create the granted accreditation', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const accreditationId = databaseBuilder.factory.buildAccreditation().id;
@@ -32,8 +30,8 @@ describe('Integration | Infrastructure | Repository | granted-accreditation-repo
     });
   });
 
-  context('#deleteByCertificationCenterId', function() {
-    it('should delete all granted accreditations for a given certification center id', async function() {
+  context('#deleteByCertificationCenterId', function () {
+    it('should delete all granted accreditations for a given certification center id', async function () {
       // given
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
       const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -70,5 +68,4 @@ describe('Integration | Infrastructure | Repository | granted-accreditation-repo
       expect(grantedAccreditationThatShouldHaveBeenDeleted.length).to.equal(1);
     });
   });
-
 });

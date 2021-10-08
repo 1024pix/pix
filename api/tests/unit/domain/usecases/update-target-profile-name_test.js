@@ -1,9 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
 const { updateTargetProfileName } = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | update-target-profile-name', function() {
-
-  it('should call repository method to update a target profile name', async function() {
+describe('Unit | UseCase | update-target-profile-name', function () {
+  it('should call repository method to update a target profile name', async function () {
     //given
     const targetProfileRepository = {
       update: sinon.stub(),
@@ -14,7 +13,5 @@ describe('Unit | UseCase | update-target-profile-name', function() {
 
     //then
     expect(targetProfileRepository.update).to.have.been.calledOnceWithExactly({ id: 123, name: 'Tom' });
-
   });
-
 });

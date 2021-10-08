@@ -4,36 +4,35 @@ const { NotFoundError } = require('../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function() {
-
-  afterEach(function() {
+describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function () {
+  afterEach(function () {
     return knex('account-recovery-demands').delete();
   });
 
-  describe('#findByTemporaryKey', function() {
-
-    context('when demand does not exist', function() {
-
-      it('should throw a not found error', async function() {
+  describe('#findByTemporaryKey', function () {
+    context('when demand does not exist', function () {
+      it('should throw a not found error', async function () {
         // when
         const error = await catchErr(accountRecoveryDemandRepository.findByTemporaryKey)('temporary key not found');
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
         expect(error.message).to.be.equal('No account recovery demand found');
-
       });
     });
 
-    context('when demand exists', function() {
-
-      context('when demand has been used already', function() {
-
-        it('should return the account recovery demand', async function() {
+    context('when demand exists', function () {
+      context('when demand has been used already', function () {
+        it('should return the account recovery demand', async function () {
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
-          const { id: demandId, userId, schoolingRegistrationId, createdAt } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: true });
+          const {
+            id: demandId,
+            userId,
+            schoolingRegistrationId,
+            createdAt,
+          } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: true });
           await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
           const expectedAccountRecoveryDemand = {
@@ -52,16 +51,19 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // then
           expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
         });
-
       });
 
-      context('when demand is not used yet', function() {
-
-        it('should return the account recovery demand when demand is still valid', async function() {
+      context('when demand is not used yet', function () {
+        it('should return the account recovery demand when demand is still valid', async function () {
           // given
           const email = 'someMail@example.net';
           const temporaryKey = 'someTemporaryKey';
-          const { id: demandId, userId, schoolingRegistrationId, createdAt } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
+          const {
+            id: demandId,
+            userId,
+            schoolingRegistrationId,
+            createdAt,
+          } = await databaseBuilder.factory.buildAccountRecoveryDemand({ email, temporaryKey, used: false });
           await databaseBuilder.factory.buildAccountRecoveryDemand({ email, used: false });
           await databaseBuilder.commit();
           const expectedAccountRecoveryDemand = {
@@ -80,18 +82,13 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
           // then
           expect(demand).to.deep.equal(expectedAccountRecoveryDemand);
         });
-
       });
-
     });
-
   });
 
-  describe('#findByUserId', function() {
-
-    context('when there is no demand', function() {
-
-      it('should return an empty array', async function() {
+  describe('#findByUserId', function () {
+    context('when there is no demand', function () {
+      it('should return an empty array', async function () {
         //given
         const userId = 1;
 
@@ -100,13 +97,11 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
         // then
         expect(result).to.be.an('array').that.is.empty;
-
       });
     });
 
-    context('when there are several demands for several users', function() {
-
-      it('should return only the user ones', async function() {
+    context('when there are several demands for several users', function () {
+      it('should return only the user ones', async function () {
         // given
         await databaseBuilder.factory.buildAccountRecoveryDemand();
         const expectedUser = await databaseBuilder.factory.buildUser();
@@ -129,16 +124,12 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
 
         // then
         expect(result).to.be.deep.equal([firstAccounRecoveryDemand, secondAccounRecoveryDemand]);
-
       });
-
     });
-
   });
 
-  describe('#markAsBeingUsed', function() {
-
-    it('should mark demand as used', async function() {
+  describe('#markAsBeingUsed', function () {
+    it('should mark demand as used', async function () {
       // given
       const temporaryKey = 'temporaryKey';
       databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
@@ -148,14 +139,11 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
 
       // then
-      const demand = await knex('account-recovery-demands')
-        .select('used')
-        .where({ temporaryKey })
-        .first();
+      const demand = await knex('account-recovery-demands').select('used').where({ temporaryKey }).first();
       expect(demand.used).to.be.true;
     });
 
-    it('should rollback update if error occurs in transaction', async function() {
+    it('should rollback update if error occurs in transaction', async function () {
       // given
       const temporaryKey = 'temporaryKey';
       databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false });
@@ -170,19 +158,13 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       });
 
       // then
-      const demand = await knex('account-recovery-demands')
-        .select('used')
-        .where({ temporaryKey })
-        .first();
+      const demand = await knex('account-recovery-demands').select('used').where({ temporaryKey }).first();
       expect(demand.used).to.be.false;
-
     });
-
   });
 
-  describe('#save', function() {
-
-    it('should persist the account recovery demand', async function() {
+  describe('#save', function () {
+    it('should persist the account recovery demand', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       const schoolingRegistrationId = databaseBuilder.factory.buildSchoolingRegistration({ userId: user.id }).id;
@@ -216,7 +198,7 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       expect(result.temporaryKey).to.equal(temporaryKey);
     });
 
-    it('should throw an error if no row is saved', async function() {
+    it('should throw an error if no row is saved', async function () {
       // given
       const notValidAccountRecoveryDemand = 123;
 
@@ -227,5 +209,4 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       expect(error).to.be.instanceOf(Error);
     });
   });
-
 });

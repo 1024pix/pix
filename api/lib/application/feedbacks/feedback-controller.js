@@ -3,7 +3,6 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 const serializer = require('../../infrastructure/serializers/jsonapi/feedback-serializer');
 
 module.exports = {
-
   async save(request, h) {
     const newFeedback = await serializer.deserialize(request.payload);
 
@@ -15,5 +14,4 @@ module.exports = {
 
     return h.response(serializer.serialize(persistedFeedback.toJSON())).created();
   },
-
 };

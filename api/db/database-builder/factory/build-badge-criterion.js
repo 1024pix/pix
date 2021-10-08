@@ -8,7 +8,6 @@ module.exports = function buildBadgeCriterion({
   badgeId,
   partnerCompetenceIds = [],
 } = {}) {
-
   const values = {
     id,
     scope,

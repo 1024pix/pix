@@ -3,13 +3,11 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const AssessmentResult = require('../../../../../lib/domain/read-models/participant-results/AssessmentResult');
 const KnowledgeElement = require('../../../../../lib/domain/models/KnowledgeElement');
 
-describe('Unit | Serializer | JSON API | participant-result-serializer', function() {
-
-  describe('#serialize', function() {
-
+describe('Unit | Serializer | JSON API | participant-result-serializer', function () {
+  describe('#serialize', function () {
     let assessmentResult;
 
-    beforeEach(function() {
+    beforeEach(function () {
       const isCampaignMultipleSendings = true;
       const isRegistrationActive = true;
       const knowledgeElements = [
@@ -51,23 +49,29 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
         { id: 3, title: 'Stage2', message: 'Message2', threshold: 50 },
         { id: 4, title: 'Stage1', message: 'Message1', threshold: 100 },
       ];
-      const badges = [{
-        id: 3,
-        altMessage: 'Badge2 AltMessage',
-        message: 'Badge2 Message',
-        title: 'Badge2 Title',
-        imageUrl: 'Badge2 ImgUrl',
-        key: 'Badge2 Key',
-        badgeCompetences: [{ id: 31, name: 'BadgeC1', color: 'BadgeColor', skillIds: ['skill1'] }],
-        isAlwaysVisible: true,
-      }];
+      const badges = [
+        {
+          id: 3,
+          altMessage: 'Badge2 AltMessage',
+          message: 'Badge2 Message',
+          title: 'Badge2 Title',
+          imageUrl: 'Badge2 ImgUrl',
+          key: 'Badge2 Key',
+          badgeCompetences: [{ id: 31, name: 'BadgeC1', color: 'BadgeColor', skillIds: ['skill1'] }],
+          isAlwaysVisible: true,
+        },
+      ];
 
       const targetProfile = { competences, stages, badges };
-      assessmentResult = new AssessmentResult(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive);
+      assessmentResult = new AssessmentResult(
+        participationResults,
+        targetProfile,
+        isCampaignMultipleSendings,
+        isRegistrationActive
+      );
     });
 
-    it('should convert a CampaignParticipationResult model object into JSON API data', function() {
-
+    it('should convert a CampaignParticipationResult model object into JSON API data', function () {
       const expectedSerializedCampaignParticipationResult = {
         data: {
           attributes: {
@@ -85,10 +89,12 @@ describe('Unit | Serializer | JSON API | participant-result-serializer', functio
           id: '1',
           relationships: {
             'campaign-participation-badges': {
-              data: [{
-                id: '3',
-                type: 'campaignParticipationBadges',
-              }],
+              data: [
+                {
+                  id: '3',
+                  type: 'campaignParticipationBadges',
+                },
+              ],
             },
             'competence-results': {
               data: [

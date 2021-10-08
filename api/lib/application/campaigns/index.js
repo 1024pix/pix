@@ -8,7 +8,7 @@ const CampaignParticipation = require('../../domain/models/CampaignParticipation
 
 const campaignParticipationStatuses = Object.values(CampaignParticipation.statuses);
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
@@ -17,8 +17,8 @@ exports.register = async function(server) {
         handler: campaignController.save,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Création d‘une nouvelle campagne\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+            '- Création d‘une nouvelle campagne\n' +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
         ],
         tags: ['api', 'campaign'],
       },
@@ -29,9 +29,7 @@ exports.register = async function(server) {
       config: {
         auth: false,
         handler: campaignController.getByCode,
-        notes: [
-          '- Récupération de la campagne dont le code est spécifié dans les filtres de la requête',
-        ],
+        notes: ['- Récupération de la campagne dont le code est spécifié dans les filtres de la requête'],
         tags: ['api', 'campaign'],
       },
     },
@@ -45,9 +43,7 @@ exports.register = async function(server) {
           }),
         },
         handler: campaignController.getById,
-        notes: [
-          '- Récupération d\'une campagne par son id',
-        ],
+        notes: ["- Récupération d'une campagne par son id"],
         tags: ['api', 'campaign'],
       },
     },
@@ -65,7 +61,7 @@ exports.register = async function(server) {
         tags: ['api', 'campaign', 'admin'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer le détail d\'une campagne.',
+            "- Elle permet de récupérer le détail d'une campagne.",
         ],
       },
     },
@@ -99,7 +95,7 @@ exports.register = async function(server) {
         tags: ['api', 'campaign', 'admin'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de modifier certaines informations d\'une campagne.',
+            "- Elle permet de modifier certaines informations d'une campagne.",
         ],
       },
     },
@@ -115,9 +111,9 @@ exports.register = async function(server) {
         },
         handler: campaignController.getCsvAssessmentResults,
         notes: [
-          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
-          '- Récupération d\'un CSV avec les résultats de la campagne d‘évaluation\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
+            "- Récupération d'un CSV avec les résultats de la campagne d‘évaluation\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
         ],
         tags: ['api', 'campaign'],
       },
@@ -134,9 +130,9 @@ exports.register = async function(server) {
         },
         handler: campaignController.getCsvProfilesCollectionResults,
         notes: [
-          '- **Cette route est restreinte via un token dédié passé en paramètre avec l\'id de l\'utilisateur.**\n' +
-          '- Récupération d\'un CSV avec les résultats de la campagne de collecte de profils\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
+          "- **Cette route est restreinte via un token dédié passé en paramètre avec l'id de l'utilisateur.**\n" +
+            "- Récupération d'un CSV avec les résultats de la campagne de collecte de profils\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à créer',
         ],
         tags: ['api', 'campaign'],
       },
@@ -153,8 +149,8 @@ exports.register = async function(server) {
         handler: campaignController.update,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Modification d\'une campagne\n' +
-          '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à modifier',
+            "- Modification d'une campagne\n" +
+            '- L‘utilisateur doit avoir les droits d‘accès à l‘organisation liée à la campagne à modifier',
         ],
         tags: ['api', 'campaign'],
       },
@@ -171,7 +167,7 @@ exports.register = async function(server) {
         handler: campaignController.getCollectiveResult,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des résultats collectifs de la campagne par son id',
+            '- Récupération des résultats collectifs de la campagne par son id',
         ],
         tags: ['api', 'campaign'],
       },
@@ -188,7 +184,7 @@ exports.register = async function(server) {
         handler: campaignController.getAnalysis,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de l\'analyse de la campagne par son id',
+            "- Récupération de l'analyse de la campagne par son id",
         ],
         tags: ['api', 'campaign'],
       },
@@ -204,8 +200,7 @@ exports.register = async function(server) {
         },
         handler: campaignController.archiveCampaign,
         notes: [
-          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Archivage d\'une campagne par son id',
+          '- **Cette route est restreinte aux utilisateurs authentifiés**\n' + "- Archivage d'une campagne par son id",
         ],
       },
     },
@@ -221,7 +216,7 @@ exports.register = async function(server) {
         handler: campaignController.unarchiveCampaign,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Désarchivage d\'une campagne par son id',
+            "- Désarchivage d'une campagne par son id",
         ],
       },
     },
@@ -242,7 +237,7 @@ exports.register = async function(server) {
         handler: campaignController.findProfilesCollectionParticipations,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des profils collectés d\'une campagne par son id',
+            "- Récupération des profils collectés d'une campagne par son id",
         ],
         tags: ['api', 'campaign'],
       },
@@ -259,13 +254,15 @@ exports.register = async function(server) {
             'page[number]': Joi.number().integer().empty(''),
             'page[size]': Joi.number().integer().empty(''),
             'filter[divisions][]': [Joi.string(), Joi.array().items(Joi.string())],
-            'filter[status]': Joi.string().valid(...campaignParticipationStatuses).empty(''),
+            'filter[status]': Joi.string()
+              .valid(...campaignParticipationStatuses)
+              .empty(''),
           }),
         },
         handler: campaignController.findParticipantsActivity,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des participations d\'une campagne par son id',
+            "- Récupération des participations d'une campagne par son id",
         ],
         tags: ['api', 'campaign'],
       },
@@ -282,7 +279,7 @@ exports.register = async function(server) {
         handler: campaignController.division,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des classes des participants à la campagne',
+            '- Récupération des classes des participants à la campagne',
         ],
         tags: ['api', 'division'],
       },
@@ -297,7 +294,7 @@ exports.register = async function(server) {
         handler: campaignStatsController.getParticipationsByStage,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des statistiques de participations par paliers',
+            '- Récupération des statistiques de participations par paliers',
         ],
         tags: ['api', 'campaign', 'stats'],
       },
@@ -312,7 +309,7 @@ exports.register = async function(server) {
         handler: campaignStatsController.getParticipationsByStatus,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des répartitions des participations par statut',
+            '- Récupération des répartitions des participations par statut',
         ],
         tags: ['api', 'campaign', 'stats'],
       },
@@ -327,7 +324,7 @@ exports.register = async function(server) {
         handler: campaignStatsController.getParticipationsByDay,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération des répartitions des participations par jour',
+            '- Récupération des répartitions des participations par jour',
         ],
         tags: ['api', 'campaign', 'stats'],
       },
@@ -342,7 +339,7 @@ exports.register = async function(server) {
         handler: campaignStatsController.getParticipationsCountByMasteryRate,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération de la répartition du pourcentage de réussite',
+            '- Récupération de la répartition du pourcentage de réussite',
         ],
         tags: ['api', 'campaign', 'stats'],
       },

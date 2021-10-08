@@ -9,16 +9,18 @@ const Assessment = require('../../../lib/domain/models/Assessment');
 
 module.exports = {
   async getByCampaignIdAndCampaignParticipationId({ campaignId, campaignParticipationId }) {
-    const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId);
+    const result = await _fetchCampaignAssessmentAttributesFromCampaignParticipation(
+      campaignId,
+      campaignParticipationId
+    );
 
     return _buildCampaignAssessmentParticipation(result);
   },
 };
 
 async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campaignId, campaignParticipationId) {
-
-  const [campaignAssessmentParticipation] = await knex.with('campaignAssessmentParticipation',
-    (qb) => {
+  const [campaignAssessmentParticipation] = await knex
+    .with('campaignAssessmentParticipation', (qb) => {
       qb.select([
         'users.id AS userId',
         knex.raw('COALESCE ("schooling-registrations"."firstName", "users"."firstName") AS "firstName"'),
@@ -37,9 +39,11 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
         .join('assessments', 'assessments.campaignParticipationId', 'campaign-participations.id')
         .join('users', 'users.id', 'campaign-participations.userId')
         .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-        .leftJoin('schooling-registrations', function() {
-          this.on('campaign-participations.userId', 'schooling-registrations.userId')
-            .andOn('campaigns.organizationId', 'schooling-registrations.organizationId');
+        .leftJoin('schooling-registrations', function () {
+          this.on('campaign-participations.userId', 'schooling-registrations.userId').andOn(
+            'campaigns.organizationId',
+            'schooling-registrations.organizationId'
+          );
         })
         .where({
           'campaign-participations.id': campaignParticipationId,
@@ -56,7 +60,10 @@ async function _fetchCampaignAssessmentAttributesFromCampaignParticipation(campa
 }
 
 function _assessmentRankByCreationDate() {
-  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', ['assessments.campaignParticipationId', 'assessments.createdAt']);
+  return knex.raw('ROW_NUMBER() OVER (PARTITION BY ?? ORDER BY ?? DESC) AS rank', [
+    'assessments.campaignParticipationId',
+    'assessments.createdAt',
+  ]);
 }
 
 async function _buildCampaignAssessmentParticipation(result) {
@@ -77,7 +84,9 @@ async function _setSkillsCount(result) {
     const targetProfile = await targetProfileRepository.getByCampaignId(result.campaignId);
     const targetedSkillIds = targetProfile.skills.map(({ id }) => id);
 
-    const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({ [result.userId]: result.sharedAt });
+    const knowledgeElementsByUser = await knowledgeElementRepository.findSnapshotForUsers({
+      [result.userId]: result.sharedAt,
+    });
     const knowledgeElements = knowledgeElementsByUser[result.userId];
 
     targetedSkillsCount = targetedSkillIds.length;
@@ -88,7 +97,10 @@ async function _setSkillsCount(result) {
 }
 
 function _getTestedSkillsCountInTargetProfile(result, targetedSkillIds, knowledgeElements) {
-  const testedKnowledgeElements = _.filter(knowledgeElements, (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated);
+  const testedKnowledgeElements = _.filter(
+    knowledgeElements,
+    (knowledgeElement) => knowledgeElement.isValidated || knowledgeElement.isInvalidated
+  );
   const testedSkillIds = _.map(testedKnowledgeElements, 'skillId');
   const testedTargetedSkillIdsByUser = _.intersection(testedSkillIds, targetedSkillIds);
 

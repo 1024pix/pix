@@ -1,6 +1,6 @@
 const SessionSummary = require('../../../../lib/domain/read-models/SessionSummary');
 
-const buildSessionSummary = function({
+const buildSessionSummary = function ({
   id = 123,
   address = '4 avenue du général perlimpimpim',
   room = '28D',
@@ -24,7 +24,7 @@ const buildSessionSummary = function({
   });
 };
 
-buildSessionSummary.created = function({
+buildSessionSummary.created = function ({
   id,
   address,
   room,
@@ -47,7 +47,7 @@ buildSessionSummary.created = function({
   });
 };
 
-buildSessionSummary.finalized = function({
+buildSessionSummary.finalized = function ({
   id,
   address,
   room,
@@ -70,7 +70,7 @@ buildSessionSummary.finalized = function({
   });
 };
 
-buildSessionSummary.processed = function({
+buildSessionSummary.processed = function ({
   id,
   address,
   room,

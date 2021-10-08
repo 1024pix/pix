@@ -4,14 +4,17 @@ const moduleUnderTest = require('../../../../lib/application/schooling-registrat
 
 const usecases = require('../../../../lib/domain/usecases');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
-const { NotFoundError, UserNotAuthorizedToUpdatePasswordError, UserNotAuthorizedToGenerateUsernamePasswordError } = require('../../../../lib/domain/errors');
+const {
+  NotFoundError,
+  UserNotAuthorizedToUpdatePasswordError,
+  UserNotAuthorizedToGenerateUsernamePasswordError,
+} = require('../../../../lib/domain/errors');
 
-describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', function() {
-
+describe('Integration | Application | Schooling-registration-dependent-users | schooling-registration-dependent-user-controller', function () {
   let sandbox;
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(usecases, 'createAndReconcileUserToSchoolingRegistration').rejects(new Error('not expected error'));
     sandbox.stub(usecases, 'updateSchoolingRegistrationDependentUserPassword').rejects(new Error('not expected error'));
@@ -21,31 +24,28 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     await httpTestServer.register(moduleUnderTest);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sandbox.restore();
   });
 
-  describe('#createAndReconcileUserToSchoolingRegistration', function() {
-
+  describe('#createAndReconcileUserToSchoolingRegistration', function () {
     const payload = { data: { attributes: {} } };
 
-    beforeEach(function() {
+    beforeEach(function () {
       payload.data.attributes = {
         'first-name': 'Robert',
         'last-name': 'Smith',
-        'birthdate': '2012-12-12',
+        birthdate: '2012-12-12',
         'campaign-code': 'RESTRICTD',
-        'password': 'P@ssw0rd',
-        'username': 'robert.smith1212',
+        password: 'P@ssw0rd',
+        username: 'robert.smith1212',
         'with-username': true,
       };
     });
 
-    context('Success cases', function() {
-
-      context('When email is used', function() {
-
-        it('should return an HTTP response with status code 204', async function() {
+    context('Success cases', function () {
+      context('When email is used', function () {
+        it('should return an HTTP response with status code 204', async function () {
           // given
           const createdUser = domainBuilder.buildUser();
           payload.data.attributes.email = 'toto@example.net';
@@ -61,9 +61,8 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
         });
       });
 
-      context('When username is used', function() {
-
-        it('should return an HTTP response with status code 204', async function() {
+      context('When username is used', function () {
+        it('should return an HTTP response with status code 204', async function () {
           // given
           const createdUser = domainBuilder.buildUser();
           delete payload.data.attributes.email;
@@ -78,14 +77,11 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
           expect(response.statusCode).to.equal(204);
         });
       });
-
     });
 
-    context('Error cases', function() {
-
-      context('when a NotFoundError is thrown', function() {
-
-        it('should resolve a 404 HTTP response', async function() {
+    context('Error cases', function () {
+      context('when a NotFoundError is thrown', function () {
+        it('should resolve a 404 HTTP response', async function () {
           // given
           delete payload.data.attributes.username;
           usecases.createAndReconcileUserToSchoolingRegistration.rejects(new NotFoundError());
@@ -100,15 +96,16 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     });
   });
 
-  describe('#generateUsernameWithTemporaryPassword', function() {
-
+  describe('#generateUsernameWithTemporaryPassword', function () {
     const payload = { data: { attributes: {} } };
     const auth = { credentials: {}, strategy: {} };
     const generatedPassword = 'Passw0rd';
     const username = 'john.harry0207';
 
-    beforeEach(function() {
-      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
+    beforeEach(function () {
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
+        h.response(true)
+      );
       payload.data.attributes = {
         'schooling-registration-id': 1,
         'organization-id': 3,
@@ -116,14 +113,18 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       auth.credentials.userId = domainBuilder.buildUser().id;
     });
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 200', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
         // given
         usecases.generateUsernameWithTemporaryPassword.resolves({ username, generatedPassword });
 
         // when
-        const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/generate-username-password', payload, auth);
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/schooling-registration-dependent-users/generate-username-password',
+          payload,
+          auth
+        );
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -132,16 +133,21 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       });
     });
 
-    context('Error cases', function() {
-
-      context('when the student has not access to the organization an error is thrown', function() {
-
-        it('should resolve a 403 HTTP response', async function() {
+    context('Error cases', function () {
+      context('when the student has not access to the organization an error is thrown', function () {
+        it('should resolve a 403 HTTP response', async function () {
           // given
-          usecases.generateUsernameWithTemporaryPassword.rejects(new UserNotAuthorizedToGenerateUsernamePasswordError());
+          usecases.generateUsernameWithTemporaryPassword.rejects(
+            new UserNotAuthorizedToGenerateUsernamePasswordError()
+          );
 
           // when
-          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/generate-username-password', payload, auth);
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/schooling-registration-dependent-users/generate-username-password',
+            payload,
+            auth
+          );
 
           // then
           expect(response.statusCode).to.equal(403);
@@ -150,14 +156,15 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
     });
   });
 
-  describe('#updatePassword', function() {
-
+  describe('#updatePassword', function () {
     const payload = { data: { attributes: {} } };
     const auth = { credentials: {}, strategy: {} };
     const generatedPassword = 'Passw0rd';
 
-    beforeEach(function() {
-      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) => h.response(true));
+    beforeEach(function () {
+      securityPreHandlers.checkUserBelongsToScoOrganizationAndManagesStudents.callsFake((request, h) =>
+        h.response(true)
+      );
 
       payload.data.attributes = {
         'schooling-registration-id': 1,
@@ -167,14 +174,18 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       auth.credentials.userId = domainBuilder.buildUser().id;
     });
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 200', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
         // given
         usecases.updateSchoolingRegistrationDependentUserPassword.resolves(generatedPassword);
 
         // when
-        const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
+        const response = await httpTestServer.request(
+          'POST',
+          '/api/schooling-registration-dependent-users/password-update',
+          payload,
+          auth
+        );
 
         // then
         expect(response.statusCode).to.equal(200);
@@ -182,30 +193,39 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       });
     });
 
-    context('Error cases', function() {
-
-      context('when a NotFoundError is thrown', function() {
-
-        it('should resolve a 404 HTTP response', async function() {
+    context('Error cases', function () {
+      context('when a NotFoundError is thrown', function () {
+        it('should resolve a 404 HTTP response', async function () {
           // given
           usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new NotFoundError());
 
           // when
-          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/schooling-registration-dependent-users/password-update',
+            payload,
+            auth
+          );
 
           // then
           expect(response.statusCode).to.equal(404);
         });
       });
 
-      context('when a UserNotAuthorizedToUpdatePasswordError is thrown', function() {
-
-        it('should resolve a 403 HTTP response', async function() {
+      context('when a UserNotAuthorizedToUpdatePasswordError is thrown', function () {
+        it('should resolve a 403 HTTP response', async function () {
           // given
-          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(new UserNotAuthorizedToUpdatePasswordError());
+          usecases.updateSchoolingRegistrationDependentUserPassword.rejects(
+            new UserNotAuthorizedToUpdatePasswordError()
+          );
 
           // when
-          const response = await httpTestServer.request('POST', '/api/schooling-registration-dependent-users/password-update', payload, auth);
+          const response = await httpTestServer.request(
+            'POST',
+            '/api/schooling-registration-dependent-users/password-update',
+            payload,
+            auth
+          );
 
           // then
           expect(response.statusCode).to.equal(403);
@@ -213,5 +233,4 @@ describe('Integration | Application | Schooling-registration-dependent-users | s
       });
     });
   });
-
 });

@@ -23,5 +23,4 @@ module.exports = async function getExternalAuthenticationRedirectionUrl({
 
     return `/campagnes?externalUser=${encodeURIComponent(externalUserToken)}`;
   }
-
 };

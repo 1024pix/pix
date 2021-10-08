@@ -1,8 +1,5 @@
 class CertificationsResults {
-  constructor({
-    certifications,
-    competences,
-  } = {}) {
+  constructor({ certifications, competences } = {}) {
     this.certifications = certifications;
     this.competences = competences;
   }

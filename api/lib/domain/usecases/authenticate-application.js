@@ -25,17 +25,17 @@ function _checkAppScope(application, scope) {
   }
 }
 
-module.exports = async function authenticateApplication({
-  clientId,
-  clientSecret,
-  scope,
-  tokenService,
-}) {
+module.exports = async function authenticateApplication({ clientId, clientSecret, scope, tokenService }) {
   const application = find(graviteeRegisterApplicationsCredentials, { clientId });
   _checkClientId(application, clientId);
   _checkClientSecret(application, clientSecret);
   _checkAppScope(application, scope);
 
-  return tokenService.createAccessTokenFromApplication(clientId, application.source, scope, jwtConfig[application.source].secret, jwtConfig[application.source].tokenLifespan);
-
+  return tokenService.createAccessTokenFromApplication(
+    clientId,
+    application.source,
+    scope,
+    jwtConfig[application.source].secret,
+    jwtConfig[application.source].tokenLifespan
+  );
 };

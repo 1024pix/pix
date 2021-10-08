@@ -3,7 +3,7 @@ const { TargetProfileInvalidError } = require('../../../../lib/domain/errors');
 const { expect, catchErr, sinon } = require('../../../test-helper');
 const createTargetProfile = require('../../../../lib/domain/usecases/create-target-profile');
 
-describe('Unit | UseCase | create-target-profile', function() {
+describe('Unit | UseCase | create-target-profile', function () {
   let targetProfileRepositoryStub;
   let targetProfileWithLearningContentRepositoryStub;
 
@@ -13,7 +13,7 @@ describe('Unit | UseCase | create-target-profile', function() {
   const isPublic = false;
   const imageUrl = 'myurlsample';
 
-  beforeEach(function() {
+  beforeEach(function () {
     targetProfileRepositoryStub = {
       create: sinon.stub(),
     };
@@ -21,12 +21,10 @@ describe('Unit | UseCase | create-target-profile', function() {
     targetProfileWithLearningContentRepositoryStub = {
       get: sinon.stub(),
     };
-
   });
 
-  describe('when targetProfile is valid', function() {
-
-    it('should create target profile with skills given data', async function() {
+  describe('when targetProfile is valid', function () {
+    it('should create target profile with skills given data', async function () {
       //given
       const skillsId = ['skill1-tube1', 'skill3-tube1'];
       const targetProfile = Symbol('ok');
@@ -42,13 +40,17 @@ describe('Unit | UseCase | create-target-profile', function() {
       targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
 
       //when
-      const result = await createTargetProfile({ targetProfileData, targetProfileRepository: targetProfileRepositoryStub, targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub });
+      const result = await createTargetProfile({
+        targetProfileData,
+        targetProfileRepository: targetProfileRepositoryStub,
+        targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
+      });
 
       //then
       expect(result).to.equal(targetProfile);
     });
 
-    it('should create target profile with default imageUrl if none is specified', async function() {
+    it('should create target profile with default imageUrl if none is specified', async function () {
       //given
       const skillsId = ['skill1-tube1', 'skill3-tube1'];
       const targetProfile = Symbol('ok');
@@ -63,7 +65,11 @@ describe('Unit | UseCase | create-target-profile', function() {
       targetProfileWithLearningContentRepositoryStub.get.withArgs({ id: targetProfileId }).resolves(targetProfile);
 
       //when
-      await createTargetProfile({ targetProfileData, targetProfileRepository: targetProfileRepositoryStub, targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub });
+      await createTargetProfile({
+        targetProfileData,
+        targetProfileRepository: targetProfileRepositoryStub,
+        targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
+      });
 
       //then
       expect(targetProfileRepositoryStub.create).to.have.been.calledWith({
@@ -76,7 +82,7 @@ describe('Unit | UseCase | create-target-profile', function() {
     });
   });
 
-  it('should return TargetProfileInvalidError given empty skills', async function() {
+  it('should return TargetProfileInvalidError given empty skills', async function () {
     const skillsId = [];
     //given
     const targetProfileData = {
@@ -87,7 +93,11 @@ describe('Unit | UseCase | create-target-profile', function() {
       skillsId,
     };
 
-    const result = await catchErr(createTargetProfile)({ targetProfileData, targetProfileRepository: targetProfileRepositoryStub, targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub });
+    const result = await catchErr(createTargetProfile)({
+      targetProfileData,
+      targetProfileRepository: targetProfileRepositoryStub,
+      targetProfileWithLearningContentRepository: targetProfileWithLearningContentRepositoryStub,
+    });
 
     expect(result).to.be.instanceOf(TargetProfileInvalidError);
   });

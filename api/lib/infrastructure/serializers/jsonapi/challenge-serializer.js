@@ -2,7 +2,6 @@ const { Serializer } = require('jsonapi-serializer');
 const _ = require('lodash');
 
 module.exports = {
-
   serialize(challenges) {
     return new Serializer('challenge', {
       attributes: [

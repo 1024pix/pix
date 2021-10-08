@@ -5,7 +5,6 @@ const constants = require('../../constants');
 const moment = require('moment');
 
 class AssessmentResult {
-
   constructor(participationResults, targetProfile, isCampaignMultipleSendings, isRegistrationActive) {
     const { knowledgeElements, sharedAt, assessmentCreatedAt } = participationResults;
     const { competences } = targetProfile;
@@ -43,19 +42,23 @@ class AssessmentResult {
   }
 
   _computeCanImprove(knowledgeElements, assessmentCreatedAt) {
-    const isImprovementPossible = knowledgeElements.filter((knowledgeElement) => {
-      const isOldEnoughToBeImproved = moment(assessmentCreatedAt)
-        .diff(knowledgeElement.createdAt, 'days', true) >= constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
-      return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
-    }).length > 0;
+    const isImprovementPossible =
+      knowledgeElements.filter((knowledgeElement) => {
+        const isOldEnoughToBeImproved =
+          moment(assessmentCreatedAt).diff(knowledgeElement.createdAt, 'days', true) >=
+          constants.MINIMUM_DELAY_IN_DAYS_BEFORE_IMPROVING;
+        return knowledgeElement.isInvalidated && isOldEnoughToBeImproved;
+      }).length > 0;
     return isImprovementPossible && !this.isShared;
   }
 
   _computeCanRetry(isCampaignMultipleSendings, sharedAt, isRegistrationActive) {
-    return isCampaignMultipleSendings
-      && this._timeBeforeRetryingPassed(sharedAt)
-      && this.masteryRate < constants.MAX_MASTERY_RATE
-      && isRegistrationActive;
+    return (
+      isCampaignMultipleSendings &&
+      this._timeBeforeRetryingPassed(sharedAt) &&
+      this.masteryRate < constants.MAX_MASTERY_RATE &&
+      isRegistrationActive
+    );
   }
 
   _timeBeforeRetryingPassed(sharedAt) {

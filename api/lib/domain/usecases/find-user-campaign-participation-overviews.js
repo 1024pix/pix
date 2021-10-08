@@ -14,4 +14,3 @@ module.exports = async function findUserCampaignParticipationOverviews({
 
   return campaignParticipationOverviews;
 };
-

@@ -2,8 +2,7 @@ const { domainBuilder, expect, sinon } = require('../../../test-helper');
 
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | find-certification-center-memberships-by-certification-center', function() {
-
+describe('Unit | UseCase | find-certification-center-memberships-by-certification-center', function () {
   const certificationCenterId = 1;
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
@@ -11,14 +10,14 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
 
   let certificationCenterMembershipRepository;
 
-  beforeEach(function() {
+  beforeEach(function () {
     certificationCenterMembershipRepository = {
       findByCertificationCenterId: sinon.stub(),
     };
     certificationCenterMembershipRepository.findByCertificationCenterId.resolves(certificationCenterMemberships);
   });
 
-  it('should result certification-center-memberships by certification center id', async function() {
+  it('should result certification-center-memberships by certification center id', async function () {
     // given
 
     // when
@@ -28,9 +27,9 @@ describe('Unit | UseCase | find-certification-center-memberships-by-certificatio
     });
 
     // then
-    expect(certificationCenterMembershipRepository.findByCertificationCenterId)
-      .to.have.been.calledWith(certificationCenterId);
+    expect(certificationCenterMembershipRepository.findByCertificationCenterId).to.have.been.calledWith(
+      certificationCenterId
+    );
     expect(foundCertificationCenterMemberships).to.deep.equal(certificationCenterMemberships);
   });
-
 });

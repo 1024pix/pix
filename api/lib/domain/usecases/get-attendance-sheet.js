@@ -11,20 +11,22 @@ const {
 } = require('./../../infrastructure/files/attendance-sheet/attendance-sheet-placeholders');
 
 module.exports = async function getAttendanceSheet({ userId, sessionId, sessionRepository }) {
-
   const hasMembership = await sessionRepository.doesUserHaveCertificationCenterMembershipForSession(userId, sessionId);
   if (!hasMembership) {
     throw new UserNotAuthorizedToAccessEntityError('User is not allowed to access session.');
   }
 
-  const [ stringifiedXml, session ] = await Promise.all([
+  const [stringifiedXml, session] = await Promise.all([
     readOdsUtils.getContentXml({ odsFilePath: _getAttendanceTemplatePath() }),
     sessionRepository.getWithCertificationCandidates(sessionId),
   ]);
 
   const updatedStringifiedXml = _updateXmlWithSession(stringifiedXml, session);
 
-  return writeOdsUtils.makeUpdatedOdsByContentXml({ stringifiedXml: updatedStringifiedXml, odsFilePath: _getAttendanceTemplatePath() });
+  return writeOdsUtils.makeUpdatedOdsByContentXml({
+    stringifiedXml: updatedStringifiedXml,
+    odsFilePath: _getAttendanceTemplatePath(),
+  });
 };
 
 function _updateXmlWithSession(stringifiedXml, session) {

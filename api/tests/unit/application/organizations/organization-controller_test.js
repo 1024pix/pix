@@ -27,21 +27,19 @@ const certificationAttestationPdf = require('../../../../lib/infrastructure/util
 
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Unit | Application | Organizations | organization-controller', function() {
-
+describe('Unit | Application | Organizations | organization-controller', function () {
   let request;
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const i18n = getI18n();
 
-  describe('#getOrganizationDetails', function() {
-
-    beforeEach(function() {
+  describe('#getOrganizationDetails', function () {
+    beforeEach(function () {
       sinon.stub(usecases, 'getOrganizationDetails');
       sinon.stub(organizationSerializer, 'serialize');
     });
 
-    it('should call the usecase and serialize the response', async function() {
+    it('should call the usecase and serialize the response', async function () {
       // given
       const organizationId = 1234;
       request = { params: { id: organizationId } };
@@ -59,16 +57,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#create', function() {
-
-    beforeEach(function() {
+  describe('#create', function () {
+    beforeEach(function () {
       sinon.stub(usecases, 'createOrganization');
       sinon.stub(organizationSerializer, 'serialize');
     });
 
-    context('successful case', function() {
-
-      it('should create an organization', async function() {
+    context('successful case', function () {
+      it('should create an organization', async function () {
         // given
         usecases.createOrganization.resolves();
 
@@ -108,7 +104,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         });
       });
 
-      it('should serialized organization into JSON:API', async function() {
+      it('should serialized organization into JSON:API', async function () {
         // given
         const organizationToCreate = domainBuilder.buildOrganization();
 
@@ -136,7 +132,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
         expect(organizationSerializer.serialize).to.have.been.calledWith(organizationToCreate);
       });
 
-      it('should return the serialized organization', async function() {
+      it('should return the serialized organization', async function () {
         // given
         const organizationToCreate = domainBuilder.buildOrganization();
 
@@ -168,9 +164,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#getDivisions', function() {
-
-    it('Should return a serialized list of divisions', async function() {
+  describe('#getDivisions', function () {
+    it('Should return a serialized list of divisions', async function () {
       // given
       const request = {
         auth: {
@@ -190,37 +185,36 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const response = await organizationController.getDivisions(request, hFake);
 
       // then
-      expect(response).to.deep.equal(
-        {
-          data: [{
-            'type': 'divisions',
-            'id': '3A',
-            'attributes': {
-              'name': '3A',
+      expect(response).to.deep.equal({
+        data: [
+          {
+            type: 'divisions',
+            id: '3A',
+            attributes: {
+              name: '3A',
             },
           },
           {
-            'type': 'divisions',
-            'id': '3B',
-            'attributes': {
-              'name': '3B',
+            type: 'divisions',
+            id: '3B',
+            attributes: {
+              name: '3B',
             },
           },
           {
-            'type': 'divisions',
-            'id': '4C',
-            'attributes': {
-              'name': '4C',
+            type: 'divisions',
+            id: '4C',
+            attributes: {
+              name: '4C',
             },
-          }],
-        },
-      );
+          },
+        ],
+      });
     });
   });
 
-  describe('#updateOrganizationInformation', function() {
-
-    it('should return the serialized organization', async function() {
+  describe('#updateOrganizationInformation', function () {
+    it('should return the serialized organization', async function () {
       // given
       const organizationAttributes = {
         id: 7,
@@ -249,7 +243,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
           },
           relationships: {
             tags: {
-              data: [ tagAttributes ],
+              data: [tagAttributes],
             },
           },
         },
@@ -258,11 +252,11 @@ describe('Unit | Application | Organizations | organization-controller', functio
       const tag = domainBuilder.buildTag({ id: tagAttributes.id, name: 'SCO' });
       const organizationDeserialized = domainBuilder.buildOrganization({
         ...organizationAttributes,
-        tags: [ tagWithoutName ],
+        tags: [tagWithoutName],
       });
       const updatedOrganization = domainBuilder.buildOrganization({
         ...organizationAttributes,
-        tags: [ tag ],
+        tags: [tag],
       });
       const serializedOrganization = Symbol('the updated and serialized organization');
 
@@ -271,7 +265,9 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(organizationSerializer, 'deserialize');
 
       organizationSerializer.deserialize.withArgs(request.payload).returns(organizationDeserialized);
-      usecases.updateOrganizationInformation.withArgs({ organization: organizationDeserialized }).resolves(updatedOrganization);
+      usecases.updateOrganizationInformation
+        .withArgs({ organization: organizationDeserialized })
+        .resolves(updatedOrganization);
       organizationSerializer.serialize.withArgs(updatedOrganization).returns(serializedOrganization);
 
       // when
@@ -282,15 +278,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findPaginatedFilteredOrganizations', function() {
-
-    beforeEach(function() {
+  describe('#findPaginatedFilteredOrganizations', function () {
+    beforeEach(function () {
       sinon.stub(queryParamsUtils, 'extractParameters');
       sinon.stub(usecases, 'findPaginatedFilteredOrganizations');
       sinon.stub(organizationSerializer, 'serialize');
     });
 
-    it('should return a list of JSON API organizations fetched from the data repository', async function() {
+    it('should return a list of JSON API organizations fetched from the data repository', async function () {
       // given
       const request = { query: {} };
       queryParamsUtils.extractParameters.withArgs({}).returns({});
@@ -305,7 +300,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(organizationSerializer.serialize).to.have.been.calledOnce;
     });
 
-    it('should return a JSON API response with pagination information in the data field "meta"', async function() {
+    it('should return a JSON API response with pagination information in the data field "meta"', async function () {
       // given
       const request = { query: {} };
       const expectedResults = [new Organization({ id: 1 }), new Organization({ id: 2 }), new Organization({ id: 3 })];
@@ -320,7 +315,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(organizationSerializer.serialize).to.have.been.calledWithExactly(expectedResults, expectedPagination);
     });
 
-    it('should allow to filter organization by name', async function() {
+    it('should allow to filter organization by name', async function () {
       // given
       const query = { filter: { name: 'organization_name' }, page: {} };
       const request = { query };
@@ -334,7 +329,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to filter organization by code', async function() {
+    it('should allow to filter organization by code', async function () {
       // given
       const query = { filter: { code: 'organization_code' }, page: {} };
       const request = { query };
@@ -348,7 +343,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to filter users by type', async function() {
+    it('should allow to filter users by type', async function () {
       // given
       const query = { filter: { type: 'organization_type' }, page: {} };
       const request = { query };
@@ -362,7 +357,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(usecases.findPaginatedFilteredOrganizations).to.have.been.calledWithMatch(query);
     });
 
-    it('should allow to paginate on a given page and page size', async function() {
+    it('should allow to paginate on a given page and page size', async function () {
       // given
       const query = { filter: { name: 'organization_name' }, page: { number: 2, size: 25 } };
       const request = { query };
@@ -377,14 +372,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findPaginatedFilteredCampaigns', function() {
-
+  describe('#findPaginatedFilteredCampaigns', function () {
     let organizationId;
     let request;
     let campaign;
     let serializedCampaigns;
 
-    beforeEach(function() {
+    beforeEach(function () {
       organizationId = 1;
       request = {
         params: { id: organizationId },
@@ -402,27 +396,36 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(campaignReportSerializer, 'serialize');
     });
 
-    it('should call the usecase to get the campaigns and associated campaignReports', async function() {
+    it('should call the usecase to get the campaigns and associated campaignReports', async function () {
       // given
       request.query = {
         campaignReport: true,
       };
       const expectedPage = 2;
       const expectedFilter = { name: 'Math' };
-      queryParamsUtils.extractParameters.withArgs(request.query).returns({ page: expectedPage, filter: expectedFilter });
+      queryParamsUtils.extractParameters
+        .withArgs(request.query)
+        .returns({ page: expectedPage, filter: expectedFilter });
       const expectedResults = [campaign];
       const expectedPagination = { page: expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
-      usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: expectedResults, pagination: expectedPagination });
+      usecases.findPaginatedFilteredOrganizationCampaigns.resolves({
+        models: expectedResults,
+        pagination: expectedPagination,
+      });
       campaignReportSerializer.serialize.returns({ data: serializedCampaigns, meta: {} });
 
       // when
       await organizationController.findPaginatedFilteredCampaigns(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredOrganizationCampaigns).to.have.been.calledWith({ organizationId, filter: expectedFilter, page: expectedPage });
+      expect(usecases.findPaginatedFilteredOrganizationCampaigns).to.have.been.calledWith({
+        organizationId,
+        filter: expectedFilter,
+        page: expectedPage,
+      });
     });
 
-    it('should return the serialized campaigns belonging to the organization', async function() {
+    it('should return the serialized campaigns belonging to the organization', async function () {
       // given
       request.query = {};
       const expectedResponse = { data: serializedCampaigns, meta: {} };
@@ -437,13 +440,16 @@ describe('Unit | Application | Organizations | organization-controller', functio
       expect(response).to.deep.equal(expectedResponse);
     });
 
-    it('should return a JSON API response with meta information', async function() {
+    it('should return a JSON API response with meta information', async function () {
       // given
       request.query = {};
       const expectedResults = [campaign];
       const expectedPagination = { page: 2, pageSize: 25, itemsCount: 100, pagesCount: 4, hasCampaigns: true };
       queryParamsUtils.extractParameters.withArgs({}).returns({ filter: {} });
-      usecases.findPaginatedFilteredOrganizationCampaigns.resolves({ models: expectedResults, meta: expectedPagination });
+      usecases.findPaginatedFilteredOrganizationCampaigns.resolves({
+        models: expectedResults,
+        meta: expectedPagination,
+      });
 
       // when
       await organizationController.findPaginatedFilteredCampaigns(request, hFake);
@@ -453,14 +459,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findPaginatedCampaignManagements', function() {
-
+  describe('#findPaginatedCampaignManagements', function () {
     let organizationId;
     let request;
     let campaign;
     let serializedCampaigns;
 
-    beforeEach(function() {
+    beforeEach(function () {
       organizationId = 1;
       request = {
         params: { id: organizationId },
@@ -478,14 +483,16 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(campaignManagementSerializer, 'serialize');
     });
 
-    it('should call the usecase to get the campaigns and associated campaignManagements', async function() {
+    it('should call the usecase to get the campaigns and associated campaignManagements', async function () {
       // given
       request.query = {
         campaignManagement: true,
       };
       const expectedPage = 2;
       const expectedFilter = { name: 'Math' };
-      queryParamsUtils.extractParameters.withArgs(request.query).returns({ page: expectedPage, filter: expectedFilter });
+      queryParamsUtils.extractParameters
+        .withArgs(request.query)
+        .returns({ page: expectedPage, filter: expectedFilter });
       const expectedResults = [campaign];
       const expectedPagination = { page: expectedPage, pageSize: 25, itemsCount: 100, pagesCount: 4 };
       usecases.findPaginatedCampaignManagements.resolves({ models: expectedResults, pagination: expectedPagination });
@@ -495,10 +502,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedCampaignManagements(request, hFake);
 
       // then
-      expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWith({ organizationId, filter: expectedFilter, page: expectedPage });
+      expect(usecases.findPaginatedCampaignManagements).to.have.been.calledWith({
+        organizationId,
+        filter: expectedFilter,
+        page: expectedPage,
+      });
     });
 
-    it('should return the serialized campaigns belonging to the organization', async function() {
+    it('should return the serialized campaigns belonging to the organization', async function () {
       // given
       request.query = {};
       const expectedResponse = { data: serializedCampaigns, meta: {} };
@@ -517,12 +528,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findTargetProfiles', function() {
+  describe('#findTargetProfiles', function () {
     const connectedUserId = 1;
     const organizationId = 145;
     let foundTargetProfiles;
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
@@ -534,8 +545,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(targetProfileSerializer, 'serialize');
     });
 
-    context('success cases', function() {
-      it('should reply 200 with serialized target profiles', async function() {
+    context('success cases', function () {
+      it('should reply 200 with serialized target profiles', async function () {
         // given
         organizationService.findAllTargetProfilesAvailableForOrganization.withArgs(145).resolves(foundTargetProfiles);
         targetProfileSerializer.serialize.withArgs(foundTargetProfiles).returns({});
@@ -549,7 +560,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#attachTargetProfiles', function() {
+  describe('#attachTargetProfiles', function () {
     const userId = 1;
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -563,7 +574,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     const targetProfileId = targetProfile.id.toString();
     const targetProfilesToAttachAsArray = [targetProfileId];
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
@@ -580,9 +591,11 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(usecases, 'attachTargetProfilesToOrganization');
     });
 
-    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function() {
+    it('should call the usecase to attach targetProfiles to organization with organizationId and targetProfilesToAttach', async function () {
       // given
-      usecases.attachTargetProfilesToOrganization.withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray }).resolves();
+      usecases.attachTargetProfilesToOrganization
+        .withArgs({ organizationId, targetProfilesToAttach: targetProfilesToAttachAsArray })
+        .resolves();
 
       // when
       const result = await organizationController.attachTargetProfiles(request, hFake);
@@ -592,15 +605,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#findPaginatedFilteredSchoolingRegistrations', function() {
-
+  describe('#findPaginatedFilteredSchoolingRegistrations', function () {
     const connectedUserId = 1;
     const organizationId = 145;
 
     let studentWithUserInfo;
     let serializedStudentsWithUsersInfos;
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
@@ -611,14 +623,16 @@ describe('Unit | Application | Organizations | organization-controller', functio
 
       studentWithUserInfo = domainBuilder.buildUserWithSchoolingRegistration();
       serializedStudentsWithUsersInfos = {
-        data: [{
-          ...studentWithUserInfo,
-          isAuthenticatedFromGAR: false,
-        }],
+        data: [
+          {
+            ...studentWithUserInfo,
+            isAuthenticatedFromGAR: false,
+          },
+        ],
       };
     });
 
-    it('should call the usecase to find students with users infos related to the organization id', async function() {
+    it('should call the usecase to find students with users infos related to the organization id', async function () {
       // given
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
 
@@ -626,12 +640,24 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {}, page: {} });
+      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: {},
+      });
     });
 
-    it('should call the usecase to find students with users infos related to filters', async function() {
+    it('should call the usecase to find students with users infos related to filters', async function () {
       // given
-      request = { ...request, query: { 'filter[lastName]': 'Bob', 'filter[firstName]': 'Tom', 'filter[connexionType]': 'email', 'filter[group]': 'L1' } };
+      request = {
+        ...request,
+        query: {
+          'filter[lastName]': 'Bob',
+          'filter[firstName]': 'Tom',
+          'filter[connexionType]': 'email',
+          'filter[group]': 'L1',
+        },
+      };
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
 
       // when
@@ -645,7 +671,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       });
     });
 
-    it('should call the usecase to find students with users infos related to pagination', async function() {
+    it('should call the usecase to find students with users infos related to pagination', async function () {
       // given
       request = { ...request, query: { 'page[size]': 10, 'page[number]': 1 } };
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({});
@@ -654,10 +680,14 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.findPaginatedFilteredSchoolingRegistrations(request, hFake);
 
       // then
-      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({ organizationId, filter: {}, page: { size: 10, number: 1 } });
+      expect(usecases.findPaginatedFilteredSchoolingRegistrations).to.have.been.calledWith({
+        organizationId,
+        filter: {},
+        page: { size: 10, number: 1 },
+      });
     });
 
-    it('should return the serialized students belonging to the organization', async function() {
+    it('should return the serialized students belonging to the organization', async function () {
       // given
       usecases.findPaginatedFilteredSchoolingRegistrations.resolves({ data: [studentWithUserInfo] });
       userWithSchoolingRegistrationSerializer.serialize.returns(serializedStudentsWithUsersInfos);
@@ -670,14 +700,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#importSchoolingRegistrationsFromSIECLE', function() {
-
+  describe('#importSchoolingRegistrationsFromSIECLE', function () {
     const connectedUserId = 1;
     const organizationId = 145;
     const payload = { path: 'path-to-file' };
     const format = 'xml';
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId: connectedUserId } },
         params: { id: organizationId },
@@ -689,7 +718,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(usecases, 'importSchoolingRegistrationsFromSIECLEFormat');
     });
 
-    it('should call the usecase to import schoolingRegistrations', async function() {
+    it('should call the usecase to import schoolingRegistrations', async function () {
       // given
       usecases.importSchoolingRegistrationsFromSIECLEFormat.resolves();
 
@@ -697,12 +726,16 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.importSchoolingRegistrationsFromSIECLE(request, hFake);
 
       // then
-      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({ organizationId, payload, format, i18n });
+      expect(usecases.importSchoolingRegistrationsFromSIECLEFormat).to.have.been.calledWith({
+        organizationId,
+        payload,
+        format,
+        i18n,
+      });
     });
   });
 
-  describe('#sendInvitations', function() {
-
+  describe('#sendInvitations', function () {
     const userId = 1;
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -716,7 +749,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     const emails = [invitation.email];
     const locale = 'fr-fr';
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId } },
         params: { id: organizationId },
@@ -733,7 +766,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(usecases, 'createOrganizationInvitations').resolves([{ id: 1 }]);
     });
 
-    it('should call the usecase to create invitation with organizationId, email and locale', async function() {
+    it('should call the usecase to create invitation with organizationId, email and locale', async function () {
       // when
       await organizationController.sendInvitations(request, hFake);
 
@@ -742,9 +775,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#sendInvitationsByLang', function() {
-
-    it('should call the usecase to create invitation with organizationId, email and lang', async function() {
+  describe('#sendInvitationsByLang', function () {
+    it('should call the usecase to create invitation with organizationId, email and lang', async function () {
       //given
       const userId = 1;
       const invitation = domainBuilder.buildOrganizationInvitation();
@@ -773,12 +805,15 @@ describe('Unit | Application | Organizations | organization-controller', functio
       await organizationController.sendInvitationsByLang(request, hFake);
 
       // then
-      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({ organizationId, emails: [email], locale: lang });
+      expect(usecases.createOrganizationInvitations).to.have.been.calledWith({
+        organizationId,
+        emails: [email],
+        locale: lang,
+      });
     });
   });
 
-  describe('#findPendingInvitations', function() {
-
+  describe('#findPendingInvitations', function () {
     const userId = 1;
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -787,7 +822,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     const resolvedOrganizationInvitations = 'organization invitations';
     const serializedOrganizationInvitations = 'serialized organization invitations';
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         auth: { credentials: { userId } },
         params: { id: organization.id },
@@ -800,7 +835,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
       organizationInvitationSerializer.serialize.resolves(serializedOrganizationInvitations);
     });
 
-    it('should call the usecase to find pending invitations with organizationId', async function() {
+    it('should call the usecase to find pending invitations with organizationId', async function () {
       // when
       const response = await organizationController.findPendingInvitations(request, hFake);
 
@@ -811,7 +846,7 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#getSchoolingRegistrationsCsvTemplate', function() {
+  describe('#getSchoolingRegistrationsCsvTemplate', function () {
     const userId = 1;
     const organizationId = 2;
     const request = {
@@ -823,12 +858,12 @@ describe('Unit | Application | Organizations | organization-controller', functio
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'getSchoolingRegistrationsCsvTemplate').resolves('template');
       sinon.stub(tokenService, 'extractUserId').returns(userId);
     });
 
-    it('should return a response with correct headers', async function() {
+    it('should return a response with correct headers', async function () {
       // when
       request.i18n = i18n;
       const response = await organizationController.getSchoolingRegistrationsCsvTemplate(request, hFake);
@@ -839,9 +874,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#downloadCertificationResults', function() {
-
-    it('should return a response with CSV results', async function() {
+  describe('#downloadCertificationResults', function () {
+    it('should return a response with CSV results', async function () {
       // given
 
       const request = {
@@ -862,11 +896,13 @@ describe('Unit | Application | Organizations | organization-controller', functio
       sinon.stub(momentProto, 'format');
       momentProto.format.withArgs('YYYYMMDD').returns('20210101');
 
-      sinon.stub(usecases, 'getScoCertificationResultsByDivision')
+      sinon
+        .stub(usecases, 'getScoCertificationResultsByDivision')
         .withArgs({ organizationId: 1, division: '3èmeA' })
         .resolves(certificationResults);
 
-      sinon.stub(certificationResultUtils, 'getDivisionCertificationResultsCsv')
+      sinon
+        .stub(certificationResultUtils, 'getDivisionCertificationResultsCsv')
         .withArgs({ certificationResults })
         .resolves('csv-string');
 
@@ -880,9 +916,8 @@ describe('Unit | Application | Organizations | organization-controller', functio
     });
   });
 
-  describe('#downloadCertificationAttestationsForDivision', function() {
-
-    it('should return binary attestations', async function() {
+  describe('#downloadCertificationAttestationsForDivision', function () {
+    it('should return binary attestations', async function () {
       // given
       const certifications = [
         domainBuilder.buildPrivateCertificateWithCompetenceTree(),
@@ -905,7 +940,9 @@ describe('Unit | Application | Organizations | organization-controller', functio
       };
 
       sinon.stub(usecases, 'findCertificationAttestationsForDivision');
-      sinon.stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer').resolves({ buffer: attestationsPDF, fileName });
+      sinon
+        .stub(certificationAttestationPdf, 'getCertificationAttestationsPdfBuffer')
+        .resolves({ buffer: attestationsPDF, fileName });
       usecases.findCertificationAttestationsForDivision.resolves(certifications);
 
       // when

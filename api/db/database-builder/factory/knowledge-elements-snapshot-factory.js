@@ -1,12 +1,7 @@
 const buildKnowledgeElement = require('./build-knowledge-element');
 const databaseBuffer = require('../database-buffer');
 
-function buildSnapshot({
-  id,
-  userId,
-  snappedAt,
-  knowledgeElementsAttributes,
-}) {
+function buildSnapshot({ id, userId, snappedAt, knowledgeElementsAttributes }) {
   const knowledgeElements = knowledgeElementsAttributes.map((attributes) => buildKnowledgeElement(attributes));
 
   const values = {

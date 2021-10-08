@@ -7,10 +7,7 @@ const statuses = {
 const badgeKey = 'PIX_DROIT_EXPERT_CERTIF';
 
 class PixPlusDroitExpertCertificationResult {
-
-  constructor({
-    status,
-  } = {}) {
+  constructor({ status } = {}) {
     this.status = status;
   }
 

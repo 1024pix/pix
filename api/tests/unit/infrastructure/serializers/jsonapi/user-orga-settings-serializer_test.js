@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/user-orga-settings-serializer');
 const UserOrgaSettings = require('../../../../../lib/domain/models/UserOrgaSettings');
 
-describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a UserOrgaSettings model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a UserOrgaSettings model object into JSON API data', function () {
       // given
       const userOrgaSettings = new UserOrgaSettings({
         id: 5,
@@ -32,10 +30,10 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
           attributes: {},
           relationships: {
             organization: {
-              data:
-                {
-                  type: 'organizations', id: '10293',
-                },
+              data: {
+                type: 'organizations',
+                id: '10293',
+              },
             },
             user: {
               data: {
@@ -45,52 +43,54 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
             },
           },
         },
-        included: [{
-          type: 'organizations',
-          id: '10293',
-          attributes: {
-            name: 'The name of the organization',
-            type: 'SUP',
-            code: 'WASABI666',
-            'external-id': 'EXTID',
+        included: [
+          {
+            type: 'organizations',
+            id: '10293',
+            attributes: {
+              name: 'The name of the organization',
+              type: 'SUP',
+              code: 'WASABI666',
+              'external-id': 'EXTID',
+            },
+            relationships: {
+              campaigns: {
+                links: {
+                  related: '/api/organizations/10293/campaigns',
+                },
+              },
+              'target-profiles': {
+                links: {
+                  related: '/api/organizations/10293/target-profiles',
+                },
+              },
+              memberships: {
+                links: {
+                  related: '/api/organizations/10293/memberships',
+                },
+              },
+              students: {
+                links: {
+                  related: '/api/organizations/10293/students',
+                },
+              },
+              'organization-invitations': {
+                links: {
+                  related: '/api/organizations/10293/invitations',
+                },
+              },
+            },
           },
-          relationships: {
-            campaigns: {
-              links: {
-                related: '/api/organizations/10293/campaigns',
-              },
-            },
-            'target-profiles': {
-              links: {
-                related: '/api/organizations/10293/target-profiles',
-              },
-            },
-            memberships: {
-              links: {
-                related: '/api/organizations/10293/memberships',
-              },
-            },
-            students: {
-              links: {
-                related: '/api/organizations/10293/students',
-              },
-            },
-            'organization-invitations': {
-              links: {
-                related: '/api/organizations/10293/invitations',
-              },
+          {
+            id: '123',
+            type: 'users',
+            attributes: {
+              'first-name': 'firstName',
+              'last-name': 'lastName',
+              email: 'email',
             },
           },
-        },
-        {
-          id: '123',
-          type: 'users',
-          attributes: {
-            'first-name': 'firstName',
-            'last-name': 'lastName',
-            email: 'email',
-          },
-        }],
+        ],
       };
 
       // when
@@ -100,7 +100,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       expect(json).to.deep.equal(expectedSerializedUserOrgaSettings);
     });
 
-    it('should include "organization"', function() {
+    it('should include "organization"', function () {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
 
@@ -112,15 +112,15 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       expect(json.data.relationships.organization.data.id).to.equal(`${userOrgaSettings.organization.id}`);
       expect(json.included[0].type).to.equal('organizations');
       expect(json.included[0].attributes).to.deep.equal({
-        'name': 'ACME',
-        'type': 'PRO',
+        name: 'ACME',
+        type: 'PRO',
         'external-id': 'EXTID',
         'is-managing-students': false,
         'can-collect-profiles': false,
       });
     });
 
-    it('should include "user"', function() {
+    it('should include "user"', function () {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
 
@@ -134,11 +134,11 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       expect(json.included[1].attributes).to.deep.equal({
         'first-name': 'Jean',
         'last-name': 'Dupont',
-        'email': 'jean.dupont@example.net',
+        email: 'jean.dupont@example.net',
       });
     });
 
-    it('should not force the add of campaigns and target profiles relation links if the UserOrgaSettings does not contain organization data', function() {
+    it('should not force the add of campaigns and target profiles relation links if the UserOrgaSettings does not contain organization data', function () {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
       userOrgaSettings.currentOrganization = null;
@@ -150,7 +150,7 @@ describe('Unit | Serializer | JSONAPI | user-orga-settings-serializer', function
       expect(json.data.relationships.organization.data).to.be.null;
     });
 
-    it('should not force the add of user relation link if user is undefined', function() {
+    it('should not force the add of user relation link if user is undefined', function () {
       // given
       const userOrgaSettings = domainBuilder.buildUserOrgaSettings();
       userOrgaSettings.user = undefined;

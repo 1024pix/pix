@@ -1,14 +1,13 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | change-lang', function() {
-
+describe('Acceptance | Controller | change-lang', function () {
   let server;
   let user;
   let options;
   const newLang = 'en';
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser({ lang: 'fr' });
@@ -22,9 +21,8 @@ describe('Acceptance | Controller | change-lang', function() {
     return databaseBuilder.commit();
   });
 
-  describe('Resource access management', function() {
-
-    it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+  describe('Resource access management', function () {
+    it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
       // given
       options.headers.authorization = 'invalid.access.token';
 
@@ -35,7 +33,7 @@ describe('Acceptance | Controller | change-lang', function() {
       expect(response.statusCode).to.equal(401);
     });
 
-    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+    it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
       // given
       const otherUserId = 9999;
       options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -47,7 +45,7 @@ describe('Acceptance | Controller | change-lang', function() {
       expect(response.statusCode).to.equal(403);
     });
 
-    it('should respond with a 400 where the langage is not correct', async function() {
+    it('should respond with a 400 where the langage is not correct', async function () {
       // given
       options.url = `/api/users/${user.id}/lang/jp`;
 
@@ -59,16 +57,14 @@ describe('Acceptance | Controller | change-lang', function() {
     });
   });
 
-  describe('Success case', function() {
-
-    it('should return the user with new lang', async function() {
+  describe('Success case', function () {
+    it('should return the user with new lang', async function () {
       // when
       const response = await server.inject(options);
 
       // then
       expect(response.statusCode).to.equal(200);
       expect(response.result.data.attributes['lang']).to.equal(newLang);
-
     });
   });
 });

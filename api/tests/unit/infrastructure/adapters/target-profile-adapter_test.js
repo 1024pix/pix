@@ -4,13 +4,12 @@ const BookshelfTargetProfileShare = require('../../../../lib/infrastructure/orm-
 const TargetProfile = require('../../../../lib/domain/models/TargetProfile');
 const targetProfileAdapter = require('../../../../lib/infrastructure/adapters/target-profile-adapter');
 
-describe('Unit | Infrastructure | Adapter | targetSkillAdapter', function() {
-
-  it('should adapt TargetProfile object to domain', function() {
+describe('Unit | Infrastructure | Adapter | targetSkillAdapter', function () {
+  it('should adapt TargetProfile object to domain', function () {
     // given
     const bookshelfTargetProfile = new BookshelfTargetProfile(databaseBuilder.factory.buildTargetProfile());
     const organizationWhichShared = new BookshelfTargetProfileShare(databaseBuilder.factory.buildTargetProfileShare());
-    bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([ organizationWhichShared ]);
+    bookshelfTargetProfile.related = sinon.stub().onCall('sharedWithOrganizations').resolves([organizationWhichShared]);
     const skillLearningContentDataObject = domainBuilder.buildSkillLearningContentDataObject();
     const associatedSkillDatasourceObjects = [skillLearningContentDataObject];
     const skill = domainBuilder.buildSkill({
@@ -42,5 +41,4 @@ describe('Unit | Infrastructure | Adapter | targetSkillAdapter', function() {
     expect(targetProfile).to.be.an.instanceOf(TargetProfile);
     expect(targetProfile).to.be.deep.equal(expectedTargetProfile);
   });
-
 });

@@ -11,7 +11,6 @@ const { TargetProfileCannotBeCreated, NotFoundError, ObjectValidationError } = r
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
-
   async create(targetProfileData) {
     const targetProfileRawData = _.pick(targetProfileData, ['name', 'isPublic', 'imageUrl', 'ownerOrganizationId']);
 
@@ -39,9 +38,11 @@ module.exports = {
   },
 
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const targetProfileBookshelf = await BookshelfTargetProfile
-      .where({ id })
-      .fetch({ require: false, withRelated: ['skillIds'], transacting: domainTransaction.knexTransaction });
+    const targetProfileBookshelf = await BookshelfTargetProfile.where({ id }).fetch({
+      require: false,
+      withRelated: ['skillIds'],
+      transacting: domainTransaction.knexTransaction,
+    });
 
     if (!targetProfileBookshelf) {
       throw new NotFoundError(`Le profil cible avec l'id ${id} n'existe pas`);
@@ -51,68 +52,65 @@ module.exports = {
   },
 
   async getByCampaignId(campaignId) {
-    const targetProfileBookshelf = await BookshelfTargetProfile
-      .query((qb) => {
-        qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-        qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
-      })
+    const targetProfileBookshelf = await BookshelfTargetProfile.query((qb) => {
+      qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+      qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
+    })
       .where({ 'campaigns.id': campaignId })
       .fetch({
         withRelated: [
-          'skillIds', {
-            stages: function(query) {
+          'skillIds',
+          {
+            stages: function (query) {
               query.orderBy('threshold', 'ASC');
             },
-          }],
+          },
+        ],
       });
 
     return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
   async getByCampaignParticipationId(campaignParticipationId) {
-    const targetProfileBookshelf = await BookshelfTargetProfile
-      .query((qb) => {
-        qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
-        qb.innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id');
-        qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
-      })
+    const targetProfileBookshelf = await BookshelfTargetProfile.query((qb) => {
+      qb.innerJoin('campaigns', 'campaigns.targetProfileId', 'target-profiles.id');
+      qb.innerJoin('campaign-participations', 'campaign-participations.campaignId', 'campaigns.id');
+      qb.innerJoin('target-profiles_skills', 'target-profiles_skills.targetProfileId', 'target-profiles.id');
+    })
       .where({ 'campaign-participations.id': campaignParticipationId })
       .fetch({
         withRelated: [
-          'skillIds', {
-            stages: function(query) {
+          'skillIds',
+          {
+            stages: function (query) {
               query.orderBy('threshold', 'ASC');
             },
-          }],
+          },
+        ],
       });
 
     return _getWithLearningContentSkills(targetProfileBookshelf);
   },
 
   async findAllTargetProfilesOrganizationCanUse(ownerOrganizationId) {
-    const targetProfilesBookshelf = await BookshelfTargetProfile
-      .query((qb) => {
-        qb.where({ ownerOrganizationId, 'outdated': false });
-        qb.orWhere({ 'isPublic': true, 'outdated': false });
-      })
-      .fetchAll({ withRelated: ['skillIds'] });
+    const targetProfilesBookshelf = await BookshelfTargetProfile.query((qb) => {
+      qb.where({ ownerOrganizationId, outdated: false });
+      qb.orWhere({ isPublic: true, outdated: false });
+    }).fetchAll({ withRelated: ['skillIds'] });
 
     return bluebird.mapSeries(targetProfilesBookshelf, _getWithLearningContentSkills);
   },
 
   async findByIds(targetProfileIds) {
-    const targetProfilesBookshelf = await BookshelfTargetProfile
-      .query((qb) => {
-        qb.whereIn('id', targetProfileIds);
-      })
-      .fetchAll();
+    const targetProfilesBookshelf = await BookshelfTargetProfile.query((qb) => {
+      qb.whereIn('id', targetProfileIds);
+    }).fetchAll();
 
     return bookshelfToDomainConverter.buildDomainObjects(BookshelfTargetProfile, targetProfilesBookshelf);
   },
 
   findPaginatedFiltered({ filter, page }) {
-    return BookshelfTargetProfile
-      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+    return BookshelfTargetProfile.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: page.number,
         pageSize: page.size,
@@ -132,7 +130,9 @@ module.exports = {
     });
     const attachedOrganizationIds = await _createTargetProfileShares(rows, targetProfile.id);
 
-    const duplicatedOrganizationIds = targetProfile.organizations.filter((organizationId) => !attachedOrganizationIds.includes(organizationId));
+    const duplicatedOrganizationIds = targetProfile.organizations.filter(
+      (organizationId) => !attachedOrganizationIds.includes(organizationId)
+    );
 
     return { duplicatedIds: duplicatedOrganizationIds, attachedIds: attachedOrganizationIds };
   },
@@ -146,14 +146,13 @@ module.exports = {
   },
 
   async update(targetProfile) {
-    const editedAttributes = _.pick(targetProfile, [
-      'name',
-      'outdated',
-    ]);
+    const editedAttributes = _.pick(targetProfile, ['name', 'outdated']);
 
     try {
-      const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id: targetProfile.id })
-        .save(editedAttributes, { patch: true });
+      const bookshelfTargetProfile = await BookshelfTargetProfile.where({ id: targetProfile.id }).save(
+        editedAttributes,
+        { patch: true }
+      );
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfTargetProfile, bookshelfTargetProfile);
     } catch (error) {
@@ -161,15 +160,12 @@ module.exports = {
         throw new NotFoundError(`Le profil cible avec l'id ${targetProfile.id} n'existe pas`);
       }
 
-      throw new ObjectValidationError;
+      throw new ObjectValidationError();
     }
   },
 
   async findOrganizationIds(targetProfileId) {
-    const targetProfile = await knex('target-profiles')
-      .select('id')
-      .where({ id: targetProfileId })
-      .first();
+    const targetProfile = await knex('target-profiles').select('id').where({ id: targetProfileId }).first();
     if (!targetProfile) {
       throw new NotFoundError(`No target profile for ID ${targetProfileId}`);
     }
@@ -193,12 +189,15 @@ async function _getWithLearningContentSkills(targetProfile) {
   const associatedSkillDatasourceObjects = await _getLearningContentDataObjectsSkills(targetProfile);
 
   return targetProfileAdapter.fromDatasourceObjects({
-    bookshelfTargetProfile: targetProfile, associatedSkillDatasourceObjects,
+    bookshelfTargetProfile: targetProfile,
+    associatedSkillDatasourceObjects,
   });
 }
 
 function _getLearningContentDataObjectsSkills(bookshelfTargetProfile) {
-  const skillRecordIds = bookshelfTargetProfile.related('skillIds').map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
+  const skillRecordIds = bookshelfTargetProfile
+    .related('skillIds')
+    .map((BookshelfSkillId) => BookshelfSkillId.get('skillId'));
   return skillDatasource.findOperativeByRecordIds(skillRecordIds);
 }
 

@@ -5,17 +5,14 @@ const logger = require('../../../../lib/infrastructure/logger');
 const mailer = require('../../../../lib/infrastructure/mailers/mailer');
 const EmailingAttempt = require('../../../../lib/domain/models/EmailingAttempt');
 
-describe('Unit | Infrastructure | Mailers | mailer', function() {
-
-  beforeEach(function() {
+describe('Unit | Infrastructure | Mailers | mailer', function () {
+  beforeEach(function () {
     sinon.stub(mailing, 'provider').value('sendinblue');
   });
 
-  describe('#sendEmail', function() {
-
-    context('when mailing is disabled', function() {
-
-      it('should resolve immediately and return a skip status', async function() {
+  describe('#sendEmail', function () {
+    context('when mailing is disabled', function () {
+      it('should resolve immediately and return a skip status', async function () {
         //given
         _disableMailing();
         const mailingProvider = _mockMailingProvider();
@@ -37,13 +34,11 @@ describe('Unit | Infrastructure | Mailers | mailer', function() {
       });
     });
 
-    context('when mailing is enabled', function() {
-
+    context('when mailing is enabled', function () {
       const recipient = 'test@example.net';
 
-      context('when email check succeed', function() {
-
-        it('should send email and return a success status', async function() {
+      context('when email check succeed', function () {
+        it('should send email and return a success status', async function () {
           // given
           _enableMailing();
           _mailAddressIsValid(recipient);
@@ -68,9 +63,8 @@ describe('Unit | Infrastructure | Mailers | mailer', function() {
         });
       });
 
-      context('when email is invalid', function() {
-
-        it('should log a warning, and return an error status', async function() {
+      context('when email is invalid', function () {
+        it('should log a warning, and return an error status', async function () {
           // given
           _enableMailing();
           _mockMailingProvider();
@@ -84,14 +78,13 @@ describe('Unit | Infrastructure | Mailers | mailer', function() {
           const result = await mailer.sendEmail({ to: recipient });
 
           // then
-          expect(logger.warn).to.have.been.calledWith({ err: expectedError }, 'Email is not valid \'test@example.net\'');
+          expect(logger.warn).to.have.been.calledWith({ err: expectedError }, "Email is not valid 'test@example.net'");
           expect(result).to.deep.equal(EmailingAttempt.failure('test@example.net'));
         });
       });
 
-      context('when emailing fails', function() {
-
-        it('should log a warning and return an error status', async function() {
+      context('when emailing fails', function () {
+        it('should log a warning and return an error status', async function () {
           // given
           _enableMailing();
           _mailAddressIsValid(recipient);
@@ -105,13 +98,12 @@ describe('Unit | Infrastructure | Mailers | mailer', function() {
           const result = await mailer.sendEmail({ to: recipient });
 
           // then
-          expect(logger.warn).to.have.been.calledOnceWith({ err: error }, 'Could not send email to \'test@example.net\'');
+          expect(logger.warn).to.have.been.calledOnceWith({ err: error }, "Could not send email to 'test@example.net'");
           expect(result).to.deep.equal(EmailingAttempt.failure('test@example.net'));
         });
       });
     });
   });
-
 });
 
 function _disableMailing() {

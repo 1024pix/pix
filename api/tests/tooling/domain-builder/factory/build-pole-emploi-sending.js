@@ -2,7 +2,7 @@ const buildCampaignParticipation = require('./build-campaign-participation');
 const isUndefined = require('lodash/isUndefined');
 const PoleEmploiSending = require('../../../../lib/domain/models/PoleEmploiSending');
 
-const buildPoleEmploiSending = function({
+const buildPoleEmploiSending = function ({
   type = PoleEmploiSending.TYPES.CAMPAIGN_PARTICIPATION_SHARING,
   campaignParticipationId,
   isSuccessful = true,
@@ -10,8 +10,9 @@ const buildPoleEmploiSending = function({
   payload = null,
   createdAt = new Date('2020-01-01'),
 } = {}) {
-
-  campaignParticipationId = isUndefined(campaignParticipationId) ? buildCampaignParticipation().id : campaignParticipationId;
+  campaignParticipationId = isUndefined(campaignParticipationId)
+    ? buildCampaignParticipation().id
+    : campaignParticipationId;
 
   return new PoleEmploiSending({
     campaignParticipationId,

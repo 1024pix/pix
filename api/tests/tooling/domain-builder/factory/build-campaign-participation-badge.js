@@ -13,7 +13,6 @@ module.exports = function buildCampaignParticipationBadge({
   badgePartnerCompetences = [],
   partnerCompetenceResults = [],
 } = {}) {
-
   return new CampaignParticipationBadge({
     id,
     key,

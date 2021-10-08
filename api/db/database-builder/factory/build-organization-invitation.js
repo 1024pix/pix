@@ -12,7 +12,6 @@ module.exports = function buildOrganizationInvitation({
   role,
   updatedAt = new Date('2020-01-01'),
 } = {}) {
-
   organizationId = _.isUndefined(organizationId) ? buildOrganization().id : organizationId;
   email = email.toLowerCase();
   role = null;

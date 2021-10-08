@@ -18,7 +18,6 @@ const requestResponseUtils = require('../../infrastructure/utils/request-respons
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
   async save(request, h) {
     const { userId } = request.auth.credentials;
     const {
@@ -33,7 +32,16 @@ module.exports = {
     // eslint-disable-next-line no-restricted-syntax
     const organizationId = parseInt(_.get(request, 'payload.data.relationships.organization.data.id')) || null;
 
-    const campaign = { name, type, title, idPixLabel, customLandingPageText, creatorId: userId, organizationId, targetProfileId };
+    const campaign = {
+      name,
+      type,
+      title,
+      idPixLabel,
+      customLandingPageText,
+      creatorId: userId,
+      organizationId,
+      targetProfileId,
+    };
     const createdCampaign = await usecases.createCampaign({ campaign });
     return h.response(campaignReportSerializer.serialize(createdCampaign)).created();
   },
@@ -63,7 +71,12 @@ module.exports = {
 
     const writableStream = new PassThrough();
 
-    const { fileName } = await usecases.startWritingCampaignAssessmentResultsToStream({ userId, campaignId, writableStream, i18n: request.i18n });
+    const { fileName } = await usecases.startWritingCampaignAssessmentResultsToStream({
+      userId,
+      campaignId,
+      writableStream,
+      i18n: request.i18n,
+    });
     const escapedFileName = requestResponseUtils.escapeFileName(fileName);
 
     writableStream.headers = {
@@ -85,7 +98,12 @@ module.exports = {
 
     const writableStream = new PassThrough();
 
-    const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({ userId, campaignId, writableStream, i18n: request.i18n });
+    const { fileName } = await usecases.startWritingCampaignProfilesCollectionResultsToStream({
+      userId,
+      campaignId,
+      writableStream,
+      i18n: request.i18n,
+    });
     const escapedFileName = requestResponseUtils.escapeFileName(fileName);
 
     writableStream.headers = {
@@ -105,7 +123,8 @@ module.exports = {
     const campaignId = request.params.id;
     const { name, title, 'custom-landing-page-text': customLandingPageText } = request.payload.data.attributes;
 
-    return usecases.updateCampaign({ userId, campaignId, name, title, customLandingPageText })
+    return usecases
+      .updateCampaign({ userId, campaignId, name, title, customLandingPageText })
       .then(campaignReportSerializer.serialize);
   },
 
@@ -113,16 +132,14 @@ module.exports = {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    return usecases.archiveCampaign({ userId, campaignId })
-      .then(campaignReportSerializer.serialize);
+    return usecases.archiveCampaign({ userId, campaignId }).then(campaignReportSerializer.serialize);
   },
 
   unarchiveCampaign(request) {
     const { userId } = request.auth.credentials;
     const campaignId = request.params.id;
 
-    return usecases.unarchiveCampaign({ userId, campaignId })
-      .then(campaignReportSerializer.serialize);
+    return usecases.unarchiveCampaign({ userId, campaignId }).then(campaignReportSerializer.serialize);
   },
 
   async getCollectiveResult(request) {
@@ -150,7 +167,12 @@ module.exports = {
     if (filters.divisions && !Array.isArray(filters.divisions)) {
       filters.divisions = [filters.divisions];
     }
-    const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({ userId, campaignId, page, filters });
+    const results = await usecases.findCampaignProfilesCollectionParticipationSummaries({
+      userId,
+      campaignId,
+      page,
+      filters,
+    });
     return campaignProfilesCollectionParticipationSummarySerializer.serialize(results);
   },
 
@@ -163,7 +185,12 @@ module.exports = {
     }
 
     const userId = requestResponseUtils.extractUserIdFromRequest(request);
-    const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({ userId, campaignId, page, filters });
+    const paginatedParticipations = await usecases.findPaginatedCampaignParticipantsActivities({
+      userId,
+      campaignId,
+      page,
+      filters,
+    });
     return campaignParticipantsActivitySerializer.serialize(paginatedParticipations);
   },
 

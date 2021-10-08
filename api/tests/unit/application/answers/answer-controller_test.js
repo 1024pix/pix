@@ -7,10 +7,8 @@ const correctionSerializer = require('../../../../lib/infrastructure/serializers
 const usecases = require('../../../../lib/domain/usecases');
 const requestResponseUtils = require('../../../../lib/infrastructure/utils/request-response-utils');
 
-describe('Unit | Controller | answer-controller', function() {
-
-  beforeEach(function() {
-
+describe('Unit | Controller | answer-controller', function () {
+  beforeEach(function () {
     sinon.stub(answerSerializer, 'serialize');
     sinon.stub(answerRepository, 'findByChallengeAndAssessment');
     sinon.stub(usecases, 'correctAnswerThenUpdateAssessment');
@@ -18,8 +16,7 @@ describe('Unit | Controller | answer-controller', function() {
     sinon.stub(requestResponseUtils, 'extractLocaleFromRequest');
   });
 
-  describe('#save', function() {
-
+  describe('#save', function () {
     const answerId = 1212;
     const assessmentId = 12;
     const challengeId = 'recdTpx4c0kPPDTtf';
@@ -60,7 +57,7 @@ describe('Unit | Controller | answer-controller', function() {
       },
     };
 
-    beforeEach(function() {
+    beforeEach(function () {
       request = {
         headers: {
           'accept-language': locale,
@@ -104,13 +101,12 @@ describe('Unit | Controller | answer-controller', function() {
       deserializedAnswer.id = undefined;
     });
 
-    context('when answer does not exist', function() {
-
+    context('when answer does not exist', function () {
       let createdAnswer;
       let response;
       const userId = 3;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         // given
         deserializedAnswer.id = undefined;
         deserializedAnswer.timeSpent = undefined;
@@ -124,18 +120,20 @@ describe('Unit | Controller | answer-controller', function() {
         response = await answerController.save(request, hFake);
       });
 
-      it('should call the usecase to save the answer', function() {
+      it('should call the usecase to save the answer', function () {
         // then
-        expect(usecases.correctAnswerThenUpdateAssessment)
-          .to.have.been.calledWith({ answer: deserializedAnswer, userId, locale });
+        expect(usecases.correctAnswerThenUpdateAssessment).to.have.been.calledWith({
+          answer: deserializedAnswer,
+          userId,
+          locale,
+        });
       });
 
-      it('should serialize the answer', function() {
+      it('should serialize the answer', function () {
         // then
-        expect(answerSerializer.serialize)
-          .to.have.been.calledWith(createdAnswer);
+        expect(answerSerializer.serialize).to.have.been.calledWith(createdAnswer);
       });
-      it('should return the serialized answer', function() {
+      it('should return the serialized answer', function () {
         // then
         expect(response.source).to.deep.equal(serializedAnswer);
         expect(response.statusCode).to.equal(201);
@@ -143,18 +141,17 @@ describe('Unit | Controller | answer-controller', function() {
     });
   });
 
-  describe('#getCorrection', function() {
-
+  describe('#getCorrection', function () {
     const answerId = 1;
     const userId = 'userId';
     const locale = 'lang-country';
 
-    beforeEach(function() {
+    beforeEach(function () {
       sinon.stub(usecases, 'getCorrectionForAnswer');
       sinon.stub(correctionSerializer, 'serialize');
     });
 
-    it('should return ok', async function() {
+    it('should return ok', async function () {
       // given
       requestResponseUtils.extractUserIdFromRequest.returns(userId);
       requestResponseUtils.extractLocaleFromRequest.returns(locale);
@@ -167,7 +164,5 @@ describe('Unit | Controller | answer-controller', function() {
       // then
       expect(response).to.be.equal('ok');
     });
-
   });
-
 });

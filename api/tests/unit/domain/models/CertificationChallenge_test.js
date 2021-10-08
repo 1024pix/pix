@@ -1,11 +1,9 @@
 const { expect } = require('../../../test-helper');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-describe('Unit | Domain | Models | CertificationChallenge', function() {
-
-  describe('#static createForPixCertification', function() {
-
-    it('should build a certificationChallenge for pix certification', function() {
+describe('Unit | Domain | Models | CertificationChallenge', function () {
+  describe('#static createForPixCertification', function () {
+    it('should build a certificationChallenge for pix certification', function () {
       // given
       const associatedSkillName = '@faireDesOrigamis1';
       const associatedSkillId = 'recOrigami1';
@@ -35,9 +33,8 @@ describe('Unit | Domain | Models | CertificationChallenge', function() {
     });
   });
 
-  describe('#static createForPixPlusCertification', function() {
-
-    it('should build a certificationChallenge for pix certification', function() {
+  describe('#static createForPixPlusCertification', function () {
+    it('should build a certificationChallenge for pix certification', function () {
       // given
       const associatedSkillName = '@faireDesOrigamis1';
       const associatedSkillId = 'recOrigami1';

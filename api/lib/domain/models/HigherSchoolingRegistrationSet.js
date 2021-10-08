@@ -34,7 +34,6 @@ const DIPLOMAS = [
 const UNKNOWN = 'csv-import-values.higher-schooling-registrations.unknown';
 
 class HigherSchoolingRegistrationSet {
-
   constructor(i18n) {
     this.i18n = i18n;
     this.registrations = [];

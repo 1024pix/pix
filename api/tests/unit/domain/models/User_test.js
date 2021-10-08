@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
 
-describe('Unit | Domain | Models | User', function() {
-
-  describe('constructor', function() {
-
-    it('should build a user from raw JSON', function() {
+describe('Unit | Domain | Models | User', function () {
+  describe('constructor', function () {
+    it('should build a user from raw JSON', function () {
       // given
       const rawData = {
         id: 1,
@@ -34,11 +32,10 @@ describe('Unit | Domain | Models | User', function() {
     });
   });
 
-  describe('the attribute "hasRolePixMaster"', function() {
-
+  describe('the attribute "hasRolePixMaster"', function () {
     let userRawDetails;
 
-    beforeEach(function() {
+    beforeEach(function () {
       userRawDetails = {
         id: 1,
         firstName: 'Son',
@@ -50,11 +47,13 @@ describe('Unit | Domain | Models | User', function() {
       };
     });
 
-    it('should be true if user has role PixMaster ', function() {
+    it('should be true if user has role PixMaster ', function () {
       // given
-      userRawDetails.pixRoles = [{
-        name: 'PIX_MASTER',
-      }];
+      userRawDetails.pixRoles = [
+        {
+          name: 'PIX_MASTER',
+        },
+      ];
       const user = new User(userRawDetails);
 
       // when
@@ -64,7 +63,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(hasRole).to.be.true;
     });
 
-    it('should be false if user has not role PixMaster ', function() {
+    it('should be false if user has not role PixMaster ', function () {
       // given
       userRawDetails.pixRoles = [];
 
@@ -78,9 +77,8 @@ describe('Unit | Domain | Models | User', function() {
     });
   });
 
-  describe('isLinkedToOrganizations', function() {
-
-    it('should be true if user has a role in an organization', function() {
+  describe('isLinkedToOrganizations', function () {
+    it('should be true if user has a role in an organization', function () {
       // given
       const user = domainBuilder.buildUser({
         memberships: [domainBuilder.buildMembership()],
@@ -93,7 +91,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(isLinked).to.be.true;
     });
 
-    it('should be false is user has no role in no organization', function() {
+    it('should be false is user has no role in no organization', function () {
       // given
       const user = new User();
 
@@ -103,12 +101,10 @@ describe('Unit | Domain | Models | User', function() {
       //then
       expect(isLinked).to.be.false;
     });
-
   });
 
-  describe('isLinkedToCertificationCenters', function() {
-
-    it('should be true if user has a role in a certification center', function() {
+  describe('isLinkedToCertificationCenters', function () {
+    it('should be true if user has a role in a certification center', function () {
       // given
       const user = domainBuilder.buildUser({
         certificationCenterMemberships: [domainBuilder.buildCertificationCenterMembership()],
@@ -121,7 +117,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(isLinked).to.be.true;
     });
 
-    it('should be false if user has no role in certification center', function() {
+    it('should be false if user has no role in certification center', function () {
       // given
       const user = new User();
 
@@ -133,9 +129,8 @@ describe('Unit | Domain | Models | User', function() {
     });
   });
 
-  describe('hasAccessToOrganization', function() {
-
-    it('should be false is user has no access to no organizations', function() {
+  describe('hasAccessToOrganization', function () {
+    it('should be false is user has no access to no organizations', function () {
       // given
       const user = new User();
       const organizationId = 12345;
@@ -147,7 +142,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be false is the user has access to many organizations, but not the one asked', function() {
+    it('should be false is the user has access to many organizations, but not the one asked', function () {
       // given
       const organizationId = 12345;
       const user = domainBuilder.buildUser();
@@ -162,7 +157,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be true if the user has an access to the given organizationId', function() {
+    it('should be true if the user has an access to the given organizationId', function () {
       // given
       const organizationId = 12345;
       const user = domainBuilder.buildUser();
@@ -176,9 +171,8 @@ describe('Unit | Domain | Models | User', function() {
     });
   });
 
-  describe('hasAccessToCertificationCenter', function() {
-
-    it('should be false if user has no access to given certification center', function() {
+  describe('hasAccessToCertificationCenter', function () {
+    it('should be false if user has no access to given certification center', function () {
       // given
       const user = new User();
       const certificationCenterId = 12345;
@@ -190,7 +184,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be false if user has access to many CertificationCenters, but not the given one', function() {
+    it('should be false if user has access to many CertificationCenters, but not the given one', function () {
       // given
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
@@ -205,7 +199,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(hasAccess).to.be.false;
     });
 
-    it('should be true if the user has an access to the given CertificationCenterId', function() {
+    it('should be true if the user has an access to the given CertificationCenterId', function () {
       // given
       const certificationCenterId = 12345;
       const user = domainBuilder.buildUser();
@@ -219,9 +213,8 @@ describe('Unit | Domain | Models | User', function() {
     });
   });
 
-  describe('#email', function() {
-
-    it('should normalize email', function() {
+  describe('#email', function () {
+    it('should normalize email', function () {
       // given
       const userData = {
         email: 'TESTMAIL@gmail.com',
@@ -234,7 +227,7 @@ describe('Unit | Domain | Models | User', function() {
       expect(userObject.email).to.equal('testmail@gmail.com');
     });
 
-    it('should default email to undefined', function() {
+    it('should default email to undefined', function () {
       // given
       const userData = {
         firstName: 'Bob',
@@ -248,11 +241,9 @@ describe('Unit | Domain | Models | User', function() {
     });
   });
 
-  describe('#shouldChangePassword', function() {
-
-    context('when there is a Pix authentication method', function() {
-
-      it('should return true', function() {
+  describe('#shouldChangePassword', function () {
+    context('when there is a Pix authentication method', function () {
+      it('should return true', function () {
         // given
         const oneTimePassword = 'Azerty123*';
 
@@ -274,7 +265,7 @@ describe('Unit | Domain | Models | User', function() {
         expect(shouldChangePassword).to.be.true;
       });
 
-      it('should return false when should not change password', function() {
+      it('should return false when should not change password', function () {
         // given
         const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
           shouldChangePassword: false,
@@ -294,11 +285,11 @@ describe('Unit | Domain | Models | User', function() {
       });
     });
 
-    context('when there is no Pix authentication method', function() {
-
-      it('should return null', function() {
+    context('when there is no Pix authentication method', function () {
+      it('should return null', function () {
         // given
-        const poleEmploiAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod();
+        const poleEmploiAuthenticationMethod =
+          domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod();
 
         const user = new User({
           id: 1,
@@ -313,5 +304,4 @@ describe('Unit | Domain | Models | User', function() {
       });
     });
   });
-
 });

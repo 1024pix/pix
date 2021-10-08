@@ -7,7 +7,6 @@ const pixPlusDroitMaitreCertificationResultRepository = require('./pix-plus-droi
 const pixPlusDroitExpertCertificationResultRepository = require('./pix-plus-droit-expert-certification-result-repository');
 
 module.exports = {
-
   async get(certificationCourseId) {
     const juryCertificationDTO = await _selectJuryCertifications()
       .where('certification-courses.id', certificationCourseId)
@@ -60,18 +59,18 @@ function _selectJuryCertifications() {
 }
 
 function _filterMostRecentAssessmentResult(qb) {
-  return qb
-    .whereNotExists(
-      knex.select(1)
-        .from({ 'last-assessment-results': 'assessment-results' })
-        .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
-        .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"'),
-    );
+  return qb.whereNotExists(
+    knex
+      .select(1)
+      .from({ 'last-assessment-results': 'assessment-results' })
+      .whereRaw('"last-assessment-results"."assessmentId" = assessments.id')
+      .whereRaw('"assessment-results"."createdAt" < "last-assessment-results"."createdAt"')
+  );
 }
 
 async function _toDomainWithComplementaryCertifications({ juryCertificationDTO, certificationIssueReportDTOs }) {
-  const certificationIssueReports = certificationIssueReportDTOs
-    .map((certificationIssueReport) =>
+  const certificationIssueReports = certificationIssueReportDTOs.map(
+    (certificationIssueReport) =>
       new CertificationIssueReport({
         id: certificationIssueReport.id,
         certificationCourseId: certificationIssueReport.certificationCourseId,
@@ -81,12 +80,18 @@ async function _toDomainWithComplementaryCertifications({ juryCertificationDTO, 
         questionNumber: certificationIssueReport.questionNumber,
         resolvedAt: certificationIssueReport.resolvedAt,
         resolution: certificationIssueReport.resolution,
-      }),
-    );
+      })
+  );
 
-  const cleaCertificationResult = await cleaCertificationResultRepository.get({ certificationCourseId: juryCertificationDTO.certificationCourseId });
-  const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({ certificationCourseId: juryCertificationDTO.certificationCourseId });
-  const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({ certificationCourseId: juryCertificationDTO.certificationCourseId });
+  const cleaCertificationResult = await cleaCertificationResultRepository.get({
+    certificationCourseId: juryCertificationDTO.certificationCourseId,
+  });
+  const pixPlusDroitMaitreCertificationResult = await pixPlusDroitMaitreCertificationResultRepository.get({
+    certificationCourseId: juryCertificationDTO.certificationCourseId,
+  });
+  const pixPlusDroitExpertCertificationResult = await pixPlusDroitExpertCertificationResultRepository.get({
+    certificationCourseId: juryCertificationDTO.certificationCourseId,
+  });
 
   return JuryCertification.from({
     juryCertificationDTO,

@@ -2,13 +2,10 @@ const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../t
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const sessionJuryCommentRepository = require('../../../../lib/infrastructure/repositories/session-jury-comment-repository');
 
-describe('Integration | Infrastructure | Repository | session-jury-comment-repository', function() {
-
-  context('#get', function() {
-
-    context('when there is a SessionJuryComment for the given id', function() {
-
-      it('should return the SessionJuryComment', async function() {
+describe('Integration | Infrastructure | Repository | session-jury-comment-repository', function () {
+  context('#get', function () {
+    context('when there is a SessionJuryComment for the given id', function () {
+      it('should return the SessionJuryComment', async function () {
         // given
         const juryComment = 'pas interessant';
         const id = 9999;
@@ -35,7 +32,7 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
         expect(sessionJuryComment).to.deepEqualInstance(expectedSessionJuryComment);
       });
 
-      it('should return the SessionJuryComment even if there are no comment in the given session', async function() {
+      it('should return the SessionJuryComment even if there are no comment in the given session', async function () {
         // given
         const session = databaseBuilder.factory.buildSession({
           id: 123,
@@ -59,9 +56,8 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
       });
     });
 
-    context('when there are no SessionJuryComment for the given id', function() {
-
-      it('should throw a NotFoundError', async function() {
+    context('when there are no SessionJuryComment for the given id', function () {
+      it('should throw a NotFoundError', async function () {
         // given
         databaseBuilder.factory.buildSession({ id: 123 });
         await databaseBuilder.commit();
@@ -71,16 +67,14 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal('La session 456 n\'existe pas ou son accès est restreint.');
+        expect(error.message).to.equal("La session 456 n'existe pas ou son accès est restreint.");
       });
     });
   });
 
-  context('#save', function() {
-
-    context('when the session exists', function() {
-
-      it('should update the session comment', async function() {
+  context('#save', function () {
+    context('when the session exists', function () {
+      it('should update the session comment', async function () {
         // given
         databaseBuilder.factory.buildUser({ id: 456 });
         databaseBuilder.factory.buildUser({ id: 789 });
@@ -107,9 +101,8 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
       });
     });
 
-    context('when the session does not exist', function() {
-
-      it('should throw a NotFoundError', async function() {
+    context('when the session does not exist', function () {
+      it('should throw a NotFoundError', async function () {
         // given
         databaseBuilder.factory.buildUser({ id: 456 });
         databaseBuilder.factory.buildUser({ id: 789 });
@@ -132,16 +125,14 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal('La session 456 n\'existe pas ou son accès est restreint.');
+        expect(error.message).to.equal("La session 456 n'existe pas ou son accès est restreint.");
       });
     });
   });
 
-  context('#delete', function() {
-
-    context('when the session exists', function() {
-
-      it('should remove the session comment', async function() {
+  context('#delete', function () {
+    context('when the session exists', function () {
+      it('should remove the session comment', async function () {
         // given
         databaseBuilder.factory.buildUser({ id: 456 });
         databaseBuilder.factory.buildSession({
@@ -167,9 +158,8 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
       });
     });
 
-    context('when the session does not exist', function() {
-
-      it('should throw a NotFoundError', async function() {
+    context('when the session does not exist', function () {
+      it('should throw a NotFoundError', async function () {
         // given
         databaseBuilder.factory.buildUser({ id: 456 });
         databaseBuilder.factory.buildUser({ id: 789 });
@@ -192,7 +182,7 @@ describe('Integration | Infrastructure | Repository | session-jury-comment-repos
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.equal('La session 456 n\'existe pas ou son accès est restreint.');
+        expect(error.message).to.equal("La session 456 n'existe pas ou son accès est restreint.");
       });
     });
   });

@@ -5,27 +5,23 @@ const competenceDatasource = require('../../lib/infrastructure/datasources/learn
 
 const CERTIF_ERROR_RATE = 0.05;
 const CERTIF_REJECTED_RATE = 0.15;
-const COMPETENCE_MARK_PARTICIPATION_RATES = [0.05, 0.20, 0.50, 0.75];
+const COMPETENCE_MARK_PARTICIPATION_RATES = [0.05, 0.2, 0.5, 0.75];
 
 async function main() {
   try {
     console.log('DEBUT');
     const commandLineArguments = yargs
       .option('organizationId', {
-        description: 'Id de l\'organisation.',
+        description: "Id de l'organisation.",
         type: 'number',
       })
       .option('certificationCenterId', {
         description: 'Id du centre de certification.',
         type: 'number',
       })
-      .help()
-      .argv;
+      .help().argv;
     console.log('Validation des arguments...');
-    const {
-      organizationId,
-      certificationCenterId,
-    } = _validateAndNormalizeArgs(commandLineArguments);
+    const { organizationId, certificationCenterId } = _validateAndNormalizeArgs(commandLineArguments);
     console.log('OK');
     await _do({
       organizationId,
@@ -43,18 +39,17 @@ if (require.main === module) {
     () => process.exit(0),
     (err) => {
       console.error(err);
-      console.log('\n\n Pour que ce script fonctionne pré-requis :' +
-        '- Une organisation SCO isManagingStudents contenant des schooling registrations' +
-        '- Un centre de certif SCO');
+      console.log(
+        '\n\n Pour que ce script fonctionne pré-requis :' +
+          '- Une organisation SCO isManagingStudents contenant des schooling registrations' +
+          '- Un centre de certif SCO'
+      );
       process.exit(1);
-    },
+    }
   );
 }
 
-function _validateAndNormalizeArgs({
-  organizationId,
-  certificationCenterId,
-}) {
+function _validateAndNormalizeArgs({ organizationId, certificationCenterId }) {
   const finalOrganizationId = _validateAndNormalizeOrganizationId(organizationId);
   const finalCertificationCenterId = _validateAndNormalizeCertificationCenterId(certificationCenterId);
 
@@ -86,14 +81,24 @@ async function _do({ organizationId, certificationCenterId }) {
     console.log('Vérification existence organisation et centre de certification...');
     await _checkOrgaAndCertifCenterExist({ organizationId, certificationCenterId, transaction });
     console.log('OK');
-    console.log('Récupération des registrations réconciliées de l\'organisation...');
-    const schoolingRegistrationsGroupedByDivision = await _getRegistrationsGroupedByDivisions({ organizationId, transaction });
+    console.log("Récupération des registrations réconciliées de l'organisation...");
+    const schoolingRegistrationsGroupedByDivision = await _getRegistrationsGroupedByDivisions({
+      organizationId,
+      transaction,
+    });
     console.log('OK');
     console.log('Création des données de certification...');
     let allAssessmentIds = [];
     for (const [division, registrations] of Object.entries(schoolingRegistrationsGroupedByDivision)) {
-      console.log(`\tCréation des données de certification pour la classe ${division} contenant ${registrations.length} registrations...`);
-      const sessionId = await _createSessionsWithCandidates({ certificationCenterId, registrations, name: division, transaction });
+      console.log(
+        `\tCréation des données de certification pour la classe ${division} contenant ${registrations.length} registrations...`
+      );
+      const sessionId = await _createSessionsWithCandidates({
+        certificationCenterId,
+        registrations,
+        name: division,
+        transaction,
+      });
       const assessmentIds = await _createCertificationCoursesAndAssessments({ registrations, sessionId, transaction });
       allAssessmentIds = [...allAssessmentIds, ...assessmentIds];
       console.log('\tOK');
@@ -102,23 +107,38 @@ async function _do({ organizationId, certificationCenterId }) {
     console.log(`Création de ${allAssessmentIds.length} résultats de certification...`);
     const errorCount = parseInt(allAssessmentIds.length * CERTIF_ERROR_RATE);
     const errorAssessmentIds = _.sampleSize(allAssessmentIds, errorCount);
-    console.log(`\tCréation des résultats de certification pour les ${errorAssessmentIds.length} certifications en erreur...`);
+    console.log(
+      `\tCréation des résultats de certification pour les ${errorAssessmentIds.length} certifications en erreur...`
+    );
     allAssessmentIds = _.difference(allAssessmentIds, errorAssessmentIds);
     await _createCertificationResultsInError({ assessmentIds: errorAssessmentIds, transaction });
     console.log('\tOK');
 
     const competences = await competenceDatasource.list();
-    const pixCompetences = competences
-      .filter((competence) => competence.origin === 'Pix');
+    const pixCompetences = competences.filter((competence) => competence.origin === 'Pix');
     const rejectedCount = parseInt(allAssessmentIds.length * CERTIF_REJECTED_RATE);
     const rejectedAssessmentIds = _.sampleSize(allAssessmentIds, rejectedCount);
-    console.log(`\tCréation des résultats de certification pour les ${rejectedAssessmentIds.length} certifications rejetées...`);
+    console.log(
+      `\tCréation des résultats de certification pour les ${rejectedAssessmentIds.length} certifications rejetées...`
+    );
     allAssessmentIds = _.difference(allAssessmentIds, rejectedAssessmentIds);
-    await _createCertificationResultsWithMarks({ assessmentIds: rejectedAssessmentIds, status: 'rejected', pixCompetences, transaction });
+    await _createCertificationResultsWithMarks({
+      assessmentIds: rejectedAssessmentIds,
+      status: 'rejected',
+      pixCompetences,
+      transaction,
+    });
     console.log('\tOK');
 
-    console.log(`\tCréation des résultats de certification pour les ${allAssessmentIds.length} certifications validées...`);
-    await _createCertificationResultsWithMarks({ assessmentIds: allAssessmentIds, status: 'validated', pixCompetences, transaction });
+    console.log(
+      `\tCréation des résultats de certification pour les ${allAssessmentIds.length} certifications validées...`
+    );
+    await _createCertificationResultsWithMarks({
+      assessmentIds: allAssessmentIds,
+      status: 'validated',
+      pixCompetences,
+      transaction,
+    });
     console.log('\tOK');
     console.log('OK');
     await transaction.commit();
@@ -129,9 +149,7 @@ async function _do({ organizationId, certificationCenterId }) {
 }
 
 async function _checkOrgaAndCertifCenterExist({ organizationId, certificationCenterId, transaction }) {
-  const doesOrganizationExist = await transaction('organizations')
-    .where({ id: organizationId })
-    .first();
+  const doesOrganizationExist = await transaction('organizations').where({ id: organizationId }).first();
   if (!doesOrganizationExist) {
     throw new Error(`Organisation ${organizationId} n'existe pas.`);
   }
@@ -230,8 +248,7 @@ async function _createCertificationCoursesAndAssessments({ registrations, sessio
     });
   }
   const assessmentsChunkSize = _getChunkSize(certificationCoursesData[0]);
-  return transaction
-    .batchInsert('assessments', assessmentsData, assessmentsChunkSize).returning('id');
+  return transaction.batchInsert('assessments', assessmentsData, assessmentsChunkSize).returning('id');
 }
 
 async function _createCertificationResultsInError({ assessmentIds, transaction }) {
@@ -246,8 +263,7 @@ async function _createCertificationResultsInError({ assessmentIds, transaction }
     });
   }
   const assessmentResultsChunkSize = _getChunkSize(assessmentResultsData[0]);
-  return transaction
-    .batchInsert('assessment-results', assessmentResultsData, assessmentResultsChunkSize);
+  return transaction.batchInsert('assessment-results', assessmentResultsData, assessmentResultsChunkSize);
 }
 
 async function _createCertificationResultsWithMarks({ assessmentIds, status, pixCompetences, transaction }) {
@@ -270,7 +286,8 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
     await _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction });
   }
 
-  await transaction.raw(`
+  await transaction.raw(
+    `
   WITH sum_score AS (
     SELECT DISTINCT "assessmentResultId",
            SUM("score") OVER (PARTITION BY "assessmentResultId") AS final_score
@@ -281,7 +298,9 @@ async function _createCertificationResultsWithMarks({ assessmentIds, status, pix
   SET "pixScore" = "sum_score"."final_score"
   FROM sum_score
   WHERE "assessment-results".id = sum_score."assessmentResultId"
-  `, assessmentResultIds.join(','));
+  `,
+    assessmentResultIds.join(',')
+  );
 }
 
 async function _createCompetenceMarksForCompetence({ competence, assessmentResultIds, transaction }) {
@@ -311,8 +330,7 @@ async function _createCompetenceMarksForCompetence({ competence, assessmentResul
     });
   }
   const competenceMarksChunkSize = _getChunkSize(competenceMarksData[0]);
-  return transaction
-    .batchInsert('competence-marks', competenceMarksData, competenceMarksChunkSize);
+  return transaction.batchInsert('competence-marks', competenceMarksData, competenceMarksChunkSize);
 }
 
 function _getChunkSize(objectToBeInserted) {

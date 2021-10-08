@@ -9,7 +9,6 @@ module.exports = function buildCompetenceMark({
   competenceId = 'recSomeCompetence',
   assessmentResultId,
 } = {}) {
-
   return new CompetenceMark({
     id,
     level,

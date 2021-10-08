@@ -1,10 +1,8 @@
 const { sinon, expect, domainBuilder } = require('../../../../test-helper');
 const dataFetcher = require('../../../../../lib/domain/services/algorithm-methods/data-fetcher');
 
-describe('Unit | Domain | services | smart-random | dataFetcher', function() {
-
-  describe('#fetchForCampaigns', function() {
-
+describe('Unit | Domain | services | smart-random | dataFetcher', function () {
+  describe('#fetchForCampaigns', function () {
     let answerRepository;
     let targetProfileRepository;
     let challengeRepository;
@@ -12,7 +10,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
     let campaignParticipationRepository;
     let improvementService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
@@ -20,7 +18,8 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
         getByCampaignParticipationId: sinon.stub(),
       };
       challengeRepository = {
-        findOperativeBySkills: sinon.stub(), answerRepository,
+        findOperativeBySkills: sinon.stub(),
+        answerRepository,
       };
       knowledgeElementRepository = {
         findUniqByUserId: sinon.stub(),
@@ -33,9 +32,13 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       };
     });
 
-    it('fetches answers, lastAnswer, targetsSkills challenges and knowledgeElements', async function() {
+    it('fetches answers, lastAnswer, targetsSkills challenges and knowledgeElements', async function () {
       // given
-      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({ state: 'started', campaignParticipationId: 1, userId: 5678899 });
+      const assessment = domainBuilder.buildAssessment.ofTypeCampaign({
+        state: 'started',
+        campaignParticipationId: 1,
+        userId: 5678899,
+      });
       const answer = Symbol('answer');
       const challenges = Symbol('challenge');
       const knowledgeElements = Symbol('knowledgeElements');
@@ -44,11 +47,17 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       const filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
       answerRepository.findByAssessment.withArgs(assessment.id).resolves([answer]);
-      targetProfileRepository.getByCampaignParticipationId.withArgs(assessment.campaignParticipationId).resolves(targetProfile);
+      targetProfileRepository.getByCampaignParticipationId
+        .withArgs(assessment.campaignParticipationId)
+        .resolves(targetProfile);
       challengeRepository.findOperativeBySkills.withArgs(targetProfile.skills).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
-      campaignParticipationRepository.isRetrying.withArgs({ campaignParticipationId: assessment.campaignParticipationId }).resolves(isRetrying);
-      improvementService.filterKnowledgeElementsIfImproving.withArgs({ knowledgeElements, assessment, isRetrying }).resolves(filteredKnowledgeElements);
+      campaignParticipationRepository.isRetrying
+        .withArgs({ campaignParticipationId: assessment.campaignParticipationId })
+        .resolves(isRetrying);
+      improvementService.filterKnowledgeElementsIfImproving
+        .withArgs({ knowledgeElements, assessment, isRetrying })
+        .resolves(filteredKnowledgeElements);
 
       // when
       const data = await dataFetcher.fetchForCampaigns({
@@ -68,11 +77,9 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       expect(data.challenges).to.deep.equal(challenges);
       expect(data.knowledgeElements).to.deep.equal(filteredKnowledgeElements);
     });
-
   });
 
-  describe('#fetchForCompetenceEvaluations', function() {
-
+  describe('#fetchForCompetenceEvaluations', function () {
     let answerRepository;
     let challengeRepository;
     let knowledgeElementRepository;
@@ -85,7 +92,7 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
     let skills;
     let challenges;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       answerRepository = {
         findByAssessment: sinon.stub(),
       };
@@ -103,15 +110,9 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       };
 
       answer = domainBuilder.buildAnswer();
-      challenges = [
-        domainBuilder.buildChallenge(),
-      ];
-      knowledgeElements = [
-        domainBuilder.buildKnowledgeElement(),
-      ];
-      skills = [
-        domainBuilder.buildSkill(),
-      ];
+      challenges = [domainBuilder.buildChallenge()];
+      knowledgeElements = [domainBuilder.buildKnowledgeElement()];
+      skills = [domainBuilder.buildSkill()];
       const assessment = domainBuilder.buildAssessment.ofTypeCampaign();
       filteredKnowledgeElements = Symbol('filteredKnowledgeElements');
 
@@ -119,7 +120,9 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       skillRepository.findActiveByCompetenceId.withArgs(assessment.competenceId).resolves(skills);
       challengeRepository.findValidatedByCompetenceId.withArgs(assessment.competenceId).resolves(challenges);
       knowledgeElementRepository.findUniqByUserId.withArgs({ userId: assessment.userId }).resolves(knowledgeElements);
-      improvementService.filterKnowledgeElementsIfImproving.withArgs({ knowledgeElements, assessment, isRetrying: false }).resolves(filteredKnowledgeElements);
+      improvementService.filterKnowledgeElementsIfImproving
+        .withArgs({ knowledgeElements, assessment, isRetrying: false })
+        .resolves(filteredKnowledgeElements);
 
       // when
       data = await dataFetcher.fetchForCompetenceEvaluations({
@@ -132,12 +135,12 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       });
     });
 
-    it('filter knowledge elements if assessment is an improving one', async function() {
+    it('filter knowledge elements if assessment is an improving one', async function () {
       // then
       expect(improvementService.filterKnowledgeElementsIfImproving).to.be.called;
     });
 
-    it('fetches answers, targetsSkills challenges and knowledgeElements', async function() {
+    it('fetches answers, targetsSkills challenges and knowledgeElements', async function () {
       // then
       expect(data.lastAnswer).to.deep.equal(answer);
       expect(data.allAnswers).to.deep.equal([answer]);
@@ -146,5 +149,4 @@ describe('Unit | Domain | services | smart-random | dataFetcher', function() {
       expect(data.knowledgeElements).to.deep.equal(filteredKnowledgeElements);
     });
   });
-
 });

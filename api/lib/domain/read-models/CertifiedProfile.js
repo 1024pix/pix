@@ -1,10 +1,5 @@
 class CertifiedSkill {
-  constructor({
-    id,
-    name,
-    hasBeenAskedInCertif,
-    tubeId,
-  }) {
+  constructor({ id, name, hasBeenAskedInCertif, tubeId }) {
     this.id = id;
     this.name = name;
     this.hasBeenAskedInCertif = hasBeenAskedInCertif;
@@ -14,11 +9,7 @@ class CertifiedSkill {
 }
 
 class CertifiedTube {
-  constructor({
-    id,
-    name,
-    competenceId,
-  }) {
+  constructor({ id, name, competenceId }) {
     this.id = id;
     this.name = name;
     this.competenceId = competenceId;
@@ -26,11 +17,7 @@ class CertifiedTube {
 }
 
 class CertifiedCompetence {
-  constructor({
-    id,
-    name,
-    areaId,
-  }) {
+  constructor({ id, name, areaId }) {
     this.id = id;
     this.name = name;
     this.areaId = areaId;
@@ -38,11 +25,7 @@ class CertifiedCompetence {
 }
 
 class CertifiedArea {
-  constructor({
-    id,
-    name,
-    color,
-  }) {
+  constructor({ id, name, color }) {
     this.id = id;
     this.name = name;
     this.color = color;
@@ -50,14 +33,7 @@ class CertifiedArea {
 }
 
 class CertifiedProfile {
-  constructor({
-    id,
-    userId,
-    certifiedSkills,
-    certifiedTubes,
-    certifiedCompetences,
-    certifiedAreas,
-  }) {
+  constructor({ id, userId, certifiedSkills, certifiedTubes, certifiedCompetences, certifiedAreas }) {
     this.id = id;
     this.userId = userId;
     this.certifiedSkills = certifiedSkills;

@@ -2,15 +2,23 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationDetails = require('../../../../lib/domain/read-models/CertificationDetails');
 const { states } = require('../../../../lib/domain/models/CertificationAssessment');
 
-describe('Unit | Domain | Read-models | CertificationDetails', function() {
-
-  describe('static #from', function() {
-
-    it('should return a CertificationDetails', function() {
+describe('Unit | Domain | Read-models | CertificationDetails', function () {
+  describe('static #from', function () {
+    it('should return a CertificationDetails', function () {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec123',
+        competenceId: 'recComp1',
+        associatedSkillName: 'manger une mangue',
+        isNeutralized: false,
+      });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit', isNeutralized: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec456',
+        competenceId: 'recComp2',
+        associatedSkillName: 'faire son lit',
+        isNeutralized: false,
+      });
       const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456', value: 'bidule' });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
@@ -21,8 +29,20 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
         certificationChallenges: [certificationChallenge1, certificationChallenge2],
         certificationAnswersByDate: [answer1, answer2],
       });
-      const competenceMark1 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
-      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 17, level: 2, competence_code: '2.2', area_code: '2' });
+      const competenceMark1 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp1',
+        score: 5,
+        level: 1,
+        competence_code: '1.1',
+        area_code: '1',
+      });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp2',
+        score: 17,
+        level: 2,
+        competence_code: '2.2',
+        area_code: '2',
+      });
       const competenceMarks = [competenceMark1, competenceMark2];
       const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
         competencesData: [
@@ -32,7 +52,11 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
       });
 
       // when
-      const certificationDetails = CertificationDetails.from({ certificationAssessment, placementProfile, competenceMarks });
+      const certificationDetails = CertificationDetails.from({
+        certificationAssessment,
+        placementProfile,
+        competenceMarks,
+      });
 
       // then
       const expectedCertificationDetails = domainBuilder.buildCertificationDetails({
@@ -43,49 +67,58 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
         status: states.COMPLETED,
         totalScore: 22,
         percentageCorrectAnswers: 50,
-        competencesWithMark: [{
-          areaCode: '1',
-          id: 'recComp1',
-          index: '1.1',
-          name: 'Manger des fruits',
-          obtainedLevel: 1,
-          obtainedScore: 5,
-          positionedLevel: 3,
-          positionedScore: 45,
-        }, {
-          areaCode: '2',
-          id: 'recComp2',
-          index: '2.2',
-          name: 'Ranger sa chambre',
-          obtainedLevel: 2,
-          obtainedScore: 17,
-          positionedLevel: 2,
-          positionedScore: 18,
-        }],
-        listChallengesAndAnswers: [{
-          challengeId: 'rec123',
-          competence: '1.1',
-          isNeutralized: false,
-          hasBeenSkippedAutomatically: false,
-          result: 'ok',
-          skill: 'manger une mangue',
-          value: 'prout',
-        }, {
-          challengeId: 'rec456',
-          competence: '2.2',
-          isNeutralized: false,
-          hasBeenSkippedAutomatically: false,
-          result: 'ko',
-          skill: 'faire son lit',
-          value: 'bidule',
-        }],
+        competencesWithMark: [
+          {
+            areaCode: '1',
+            id: 'recComp1',
+            index: '1.1',
+            name: 'Manger des fruits',
+            obtainedLevel: 1,
+            obtainedScore: 5,
+            positionedLevel: 3,
+            positionedScore: 45,
+          },
+          {
+            areaCode: '2',
+            id: 'recComp2',
+            index: '2.2',
+            name: 'Ranger sa chambre',
+            obtainedLevel: 2,
+            obtainedScore: 17,
+            positionedLevel: 2,
+            positionedScore: 18,
+          },
+        ],
+        listChallengesAndAnswers: [
+          {
+            challengeId: 'rec123',
+            competence: '1.1',
+            isNeutralized: false,
+            hasBeenSkippedAutomatically: false,
+            result: 'ok',
+            skill: 'manger une mangue',
+            value: 'prout',
+          },
+          {
+            challengeId: 'rec456',
+            competence: '2.2',
+            isNeutralized: false,
+            hasBeenSkippedAutomatically: false,
+            result: 'ko',
+            skill: 'faire son lit',
+            value: 'bidule',
+          },
+        ],
       });
       expect(certificationDetails.toDTO()).to.deep.equal(expectedCertificationDetails.toDTO());
     });
 
-    it('should take into account neutralized challenges when computing the percentage of correct answers', function() {
+    it('should take into account neutralized challenges when computing the percentage of correct answers', function () {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', isNeutralized: true });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec123',
+        isNeutralized: true,
+      });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
       const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456' });
       const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456' });
@@ -97,26 +130,62 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
       const placementProfile = null;
 
       // when
-      const certificationDetails = CertificationDetails.from({ certificationAssessment, placementProfile, competenceMarks });
+      const certificationDetails = CertificationDetails.from({
+        certificationAssessment,
+        placementProfile,
+        competenceMarks,
+      });
 
       // then
       expect(certificationDetails.toDTO().percentageCorrectAnswers).to.equal(0);
     });
 
-    it('should have the "challenges and answers" list ordered by answer date with unanswered challenges at the end', function() {
+    it('should have the "challenges and answers" list ordered by answer date with unanswered challenges at the end', function () {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', isNeutralized: true });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec123',
+        competenceId: 'recComp1',
+        isNeutralized: true,
+      });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp1' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec456',
+        competenceId: 'recComp1',
+      });
       const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456' });
-      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', competenceId: 'recComp2', isNeutralized: true });
-      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recABC', competenceId: 'recComp1', hasBeenSkippedAutomatically: true });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec789',
+        competenceId: 'recComp2',
+        isNeutralized: true,
+      });
+      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'recABC',
+        competenceId: 'recComp1',
+        hasBeenSkippedAutomatically: true,
+      });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationChallenges: [certificationChallenge3, certificationChallenge1, certificationChallenge4, certificationChallenge2],
+        certificationChallenges: [
+          certificationChallenge3,
+          certificationChallenge1,
+          certificationChallenge4,
+          certificationChallenge2,
+        ],
         certificationAnswersByDate: [answer1, answer2],
       });
-      const competenceMark1 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
-      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 5, level: 1, competence_code: '1.2', area_code: '1' });
+      const competenceMark1 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp1',
+        score: 5,
+        level: 1,
+        competence_code: '1.1',
+        area_code: '1',
+      });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp2',
+        score: 5,
+        level: 1,
+        competence_code: '1.2',
+        area_code: '1',
+      });
       const competenceMarks = [competenceMark1, competenceMark2];
       const placementProfile = domainBuilder.buildPlacementProfile.buildForCompetences({
         competencesData: [
@@ -126,7 +195,11 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
       });
 
       // when
-      const certificationDetails = CertificationDetails.from({ certificationAssessment, placementProfile, competenceMarks });
+      const certificationDetails = CertificationDetails.from({
+        certificationAssessment,
+        placementProfile,
+        competenceMarks,
+      });
 
       // then
       expect(certificationDetails.toDTO().listChallengesAndAnswers).to.deep.equal([
@@ -170,13 +243,22 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
     });
   });
 
-  describe('static #fromCertificationAssessmentScore', function() {
-
-    it('should return a CertificationDetails', function() {
+  describe('static #fromCertificationAssessmentScore', function () {
+    it('should return a CertificationDetails', function () {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', associatedSkillName: 'manger une mangue', isNeutralized: false });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec123',
+        competenceId: 'recComp1',
+        associatedSkillName: 'manger une mangue',
+        isNeutralized: false,
+      });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123', value: 'prout' });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp2', associatedSkillName: 'faire son lit', isNeutralized: false });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec456',
+        competenceId: 'recComp2',
+        associatedSkillName: 'faire son lit',
+        isNeutralized: false,
+      });
       const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456', value: 'bidule' });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
         id: 123,
@@ -187,8 +269,20 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
         certificationChallenges: [certificationChallenge1, certificationChallenge2],
         certificationAnswersByDate: [answer1, answer2],
       });
-      const competenceMark1 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
-      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 17, level: 2, competence_code: '2.2', area_code: '2' });
+      const competenceMark1 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp1',
+        score: 5,
+        level: 1,
+        competence_code: '1.1',
+        area_code: '1',
+      });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp2',
+        score: 17,
+        level: 2,
+        competence_code: '2.2',
+        area_code: '2',
+      });
       const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
         competenceMarks: [competenceMark1, competenceMark2],
         percentageCorrectAnswers: 50,
@@ -216,60 +310,98 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
         status: states.COMPLETED,
         totalScore: 22,
         percentageCorrectAnswers: 50,
-        competencesWithMark: [{
-          areaCode: '1',
-          id: 'recComp1',
-          index: '1.1',
-          name: 'Manger des fruits',
-          obtainedLevel: 1,
-          obtainedScore: 5,
-          positionedLevel: 3,
-          positionedScore: 45,
-        }, {
-          areaCode: '2',
-          id: 'recComp2',
-          index: '2.2',
-          name: 'Ranger sa chambre',
-          obtainedLevel: 2,
-          obtainedScore: 17,
-          positionedLevel: 2,
-          positionedScore: 18,
-        }],
-        listChallengesAndAnswers: [{
-          challengeId: 'rec123',
-          competence: '1.1',
-          isNeutralized: false,
-          hasBeenSkippedAutomatically: false,
-          result: 'ok',
-          skill: 'manger une mangue',
-          value: 'prout',
-        }, {
-          challengeId: 'rec456',
-          competence: '2.2',
-          isNeutralized: false,
-          hasBeenSkippedAutomatically: false,
-          result: 'ko',
-          skill: 'faire son lit',
-          value: 'bidule',
-        }],
+        competencesWithMark: [
+          {
+            areaCode: '1',
+            id: 'recComp1',
+            index: '1.1',
+            name: 'Manger des fruits',
+            obtainedLevel: 1,
+            obtainedScore: 5,
+            positionedLevel: 3,
+            positionedScore: 45,
+          },
+          {
+            areaCode: '2',
+            id: 'recComp2',
+            index: '2.2',
+            name: 'Ranger sa chambre',
+            obtainedLevel: 2,
+            obtainedScore: 17,
+            positionedLevel: 2,
+            positionedScore: 18,
+          },
+        ],
+        listChallengesAndAnswers: [
+          {
+            challengeId: 'rec123',
+            competence: '1.1',
+            isNeutralized: false,
+            hasBeenSkippedAutomatically: false,
+            result: 'ok',
+            skill: 'manger une mangue',
+            value: 'prout',
+          },
+          {
+            challengeId: 'rec456',
+            competence: '2.2',
+            isNeutralized: false,
+            hasBeenSkippedAutomatically: false,
+            result: 'ko',
+            skill: 'faire son lit',
+            value: 'bidule',
+          },
+        ],
       });
       expect(certificationDetails.toDTO()).to.deep.equal(expectedCertificationDetails.toDTO());
     });
 
-    it('should have the "challenges and answers" list ordered by answer date with unanswered challenges at the end', function() {
+    it('should have the "challenges and answers" list ordered by answer date with unanswered challenges at the end', function () {
       // given
-      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec123', competenceId: 'recComp1', isNeutralized: true });
+      const certificationChallenge1 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec123',
+        competenceId: 'recComp1',
+        isNeutralized: true,
+      });
       const answer1 = domainBuilder.buildAnswer.ok({ challengeId: 'rec123' });
-      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec456', competenceId: 'recComp1' });
+      const certificationChallenge2 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec456',
+        competenceId: 'recComp1',
+      });
       const answer2 = domainBuilder.buildAnswer.ko({ challengeId: 'rec456' });
-      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'rec789', competenceId: 'recComp2', isNeutralized: true });
-      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({ challengeId: 'recABC', competenceId: 'recComp1', hasBeenSkippedAutomatically: true });
+      const certificationChallenge3 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'rec789',
+        competenceId: 'recComp2',
+        isNeutralized: true,
+      });
+      const certificationChallenge4 = domainBuilder.buildCertificationChallengeWithType({
+        challengeId: 'recABC',
+        competenceId: 'recComp1',
+        hasBeenSkippedAutomatically: true,
+      });
       const certificationAssessment = domainBuilder.buildCertificationAssessment({
-        certificationChallenges: [certificationChallenge3, certificationChallenge1, certificationChallenge4, certificationChallenge2],
+        certificationChallenges: [
+          certificationChallenge3,
+          certificationChallenge1,
+          certificationChallenge4,
+          certificationChallenge2,
+        ],
         certificationAnswersByDate: [answer1, answer2],
       });
-      const competenceMark1 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp1', score: 5, level: 1, competence_code: '1.1', area_code: '1' });
-      const competenceMark2 = domainBuilder.buildCompetenceMark({ competenceId: 'recComp2', score: 5, level: 1, competence_code: '1.2', area_code: '1' });
+      const competenceMark1 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp1',
+        score: 5,
+        level: 1,
+        competence_code: '1.1',
+        area_code: '1',
+      });
+      const competenceMark2 = domainBuilder.buildCompetenceMark({
+        competenceId: 'recComp2',
+        score: 5,
+        level: 1,
+        competence_code: '1.2',
+        area_code: '1',
+      });
       const competenceMarks = [competenceMark1, competenceMark2];
       const certificationAssessmentScore = domainBuilder.buildCertificationAssessmentScore({
         competenceMarks,
@@ -283,7 +415,11 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
       });
 
       // when
-      const certificationDetails = CertificationDetails.fromCertificationAssessmentScore({ certificationAssessment, placementProfile, certificationAssessmentScore });
+      const certificationDetails = CertificationDetails.fromCertificationAssessmentScore({
+        certificationAssessment,
+        placementProfile,
+        certificationAssessmentScore,
+      });
 
       // then
       expect(certificationDetails.toDTO().listChallengesAndAnswers).to.deep.equal([
@@ -327,44 +463,49 @@ describe('Unit | Domain | Read-models | CertificationDetails', function() {
     });
   });
 
-  describe('#toDTO', function() {
-
-    it('should return a DTO version of a CertificationDetails', function() {
+  describe('#toDTO', function () {
+    it('should return a DTO version of a CertificationDetails', function () {
       // given
-      const competencesWithMark = [{
-        areaCode: '1',
-        id: 'recComp1',
-        index: '1.1',
-        name: 'Manger des fruits',
-        obtainedLevel: 1,
-        obtainedScore: 5,
-        positionedLevel: 3,
-        positionedScore: 45,
-      }, {
-        areaCode: '2',
-        id: 'recComp2',
-        index: '2.2',
-        name: 'Ranger sa chambre',
-        obtainedLevel: 2,
-        obtainedScore: 17,
-        positionedLevel: 2,
-        positionedScore: 18,
-      }];
-      const listChallengesAndAnswers = [{
-        challengeId: 'rec123',
-        competence: '1.1',
-        isNeutralized: true,
-        result: 'ok',
-        skill: 'manger une mangue',
-        value: 'prout',
-      }, {
-        challengeId: 'rec456',
-        competence: '2.2',
-        isNeutralized: false,
-        result: 'ko',
-        skill: 'faire son lit',
-        value: 'bidule',
-      }];
+      const competencesWithMark = [
+        {
+          areaCode: '1',
+          id: 'recComp1',
+          index: '1.1',
+          name: 'Manger des fruits',
+          obtainedLevel: 1,
+          obtainedScore: 5,
+          positionedLevel: 3,
+          positionedScore: 45,
+        },
+        {
+          areaCode: '2',
+          id: 'recComp2',
+          index: '2.2',
+          name: 'Ranger sa chambre',
+          obtainedLevel: 2,
+          obtainedScore: 17,
+          positionedLevel: 2,
+          positionedScore: 18,
+        },
+      ];
+      const listChallengesAndAnswers = [
+        {
+          challengeId: 'rec123',
+          competence: '1.1',
+          isNeutralized: true,
+          result: 'ok',
+          skill: 'manger une mangue',
+          value: 'prout',
+        },
+        {
+          challengeId: 'rec456',
+          competence: '2.2',
+          isNeutralized: false,
+          result: 'ko',
+          skill: 'faire son lit',
+          value: 'bidule',
+        },
+      ];
       const certificationDetails = domainBuilder.buildCertificationDetails({
         id: 123,
         userId: 456,

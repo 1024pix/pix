@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-summary-serializer');
 
-describe('Unit | Serializer | JSONAPI | session-summary-serializer', function() {
-
-  describe('#serialize()', function() {
-
-    it('should convert a SessionSummary model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | session-summary-serializer', function () {
+  describe('#serialize()', function () {
+    it('should convert a SessionSummary model object into JSON API data', function () {
       // given
       const sessionSummary = domainBuilder.buildSessionSummary.created({
         id: 1,

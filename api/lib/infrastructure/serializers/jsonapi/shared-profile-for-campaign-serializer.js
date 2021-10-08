@@ -9,16 +9,9 @@ module.exports = {
       // But when we use plain object instead of a class then serialization works.
       transform: (profile) => ({
         ...profile,
-        scorecards: profile.scorecards.map(
-          (scorecard) => ({ ...scorecard, area: { ...scorecard.area } }),
-        ),
+        scorecards: profile.scorecards.map((scorecard) => ({ ...scorecard, area: { ...scorecard.area } })),
       }),
-      attributes: [
-        'pixScore',
-        'sharedAt',
-        'scorecards',
-        'canRetry',
-      ],
+      attributes: ['pixScore', 'sharedAt', 'scorecards', 'canRetry'],
       scorecards: {
         ref: 'id',
         attributes: [
@@ -39,5 +32,4 @@ module.exports = {
       },
     }).serialize(sharedProfileForCampaign);
   },
-
 };

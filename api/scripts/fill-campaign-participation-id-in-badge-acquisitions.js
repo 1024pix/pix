@@ -25,9 +25,11 @@ async function getCampaignParticipationFromBadgeAcquisition(badgeAcquisition) {
       'campaigns.targetProfileId': badge.targetProfileId,
       'assessments.state': 'completed',
     })
-    .where(function() {
-      this.whereBetween('campaign-participations.sharedAt', [dateBeforeBadgeAcquisition, dateAfterBadgeAcquisition])
-        .orWhereBetween('assessments.updatedAt', [dateBeforeBadgeAcquisition, dateAfterBadgeAcquisition]);
+    .where(function () {
+      this.whereBetween('campaign-participations.sharedAt', [
+        dateBeforeBadgeAcquisition,
+        dateAfterBadgeAcquisition,
+      ]).orWhereBetween('assessments.updatedAt', [dateBeforeBadgeAcquisition, dateAfterBadgeAcquisition]);
     });
   if (campaignsParticipations.length === 0) {
     campaignsParticipations = await knex('campaign-participations')
@@ -39,7 +41,6 @@ async function getCampaignParticipationFromBadgeAcquisition(badgeAcquisition) {
         'campaigns.targetProfileId': badge.targetProfileId,
         'assessments.state': 'completed',
       });
-
   }
   return campaignsParticipations;
 }
@@ -51,20 +52,24 @@ async function updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisitio
     await knex('badge-acquisitions').update({ campaignParticipationId }).where({ id: badgeAcquisition.id });
     return;
   }
-  console.log(`${badgeAcquisition.id} ;${badgeAcquisition.badgeId} ;${campaignParticipations.length};${campaignParticipations.map((c)=> c.id)}`);
+  console.log(
+    `${badgeAcquisition.id} ;${badgeAcquisition.badgeId} ;${campaignParticipations.length};${campaignParticipations.map(
+      (c) => c.id
+    )}`
+  );
 }
 
 async function main() {
   try {
-    const badgeAcquisitionsWithoutCampaignParticipationId = await getAllBadgeAcquistionsWithoutCampaignParticipationId();
+    const badgeAcquisitionsWithoutCampaignParticipationId =
+      await getAllBadgeAcquistionsWithoutCampaignParticipationId();
     console.log(`${badgeAcquisitionsWithoutCampaignParticipationId.length} badges without campaignParticipationId.`);
     console.log('badgeAcquisitionId;BadgeId;Possibility;ListOfCampaignParticipations');
 
-    await bluebird.mapSeries(badgeAcquisitionsWithoutCampaignParticipationId,
-      async (badgeAcquisition) => {
-        const campaignsParticipations = await getCampaignParticipationFromBadgeAcquisition(badgeAcquisition);
-        await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisition, campaignsParticipations);
-      });
+    await bluebird.mapSeries(badgeAcquisitionsWithoutCampaignParticipationId, async (badgeAcquisition) => {
+      const campaignsParticipations = await getCampaignParticipationFromBadgeAcquisition(badgeAcquisition);
+      await updateBadgeAcquisitionWithCampaignParticipationId(badgeAcquisition, campaignsParticipations);
+    });
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -77,7 +82,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

@@ -12,7 +12,8 @@ function _randomNumberCharacter() {
 }
 
 function _generateSessionCode() {
-  const code = '' +
+  const code =
+    '' +
     _randomLetter() +
     _randomLetter() +
     _randomLetter() +
@@ -23,7 +24,6 @@ function _generateSessionCode() {
 }
 
 module.exports = {
-
   async getNewSessionCode() {
     const newSessionCode = _generateSessionCode();
     const codeAvailable = await sessionRepository.isSessionCodeAvailable(newSessionCode);

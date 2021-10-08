@@ -5,9 +5,7 @@ const mailCheck = require('../mail-check');
 const EmailingAttempt = require('../../domain/models/EmailingAttempt');
 
 class Mailer {
-
   constructor() {
-
     this._providerName = mailing.provider;
 
     switch (this._providerName) {
@@ -26,16 +24,14 @@ class Mailer {
 
     try {
       await mailCheck.checkMail(options.to);
-    }
-    catch (err) {
+    } catch (err) {
       logger.warn({ err }, `Email is not valid '${options.to}'`);
       return EmailingAttempt.failure(options.to);
     }
 
     try {
       await this._provider.sendEmail(options);
-    }
-    catch (err) {
+    } catch (err) {
       logger.warn({ err }, `Could not send email to '${options.to}'`);
       return EmailingAttempt.failure(options.to);
     }
@@ -74,7 +70,6 @@ class Mailer {
   get emailVerificationCodeTemplateId() {
     return mailing[this._providerName].templates.emailVerificationCodeTemplateId;
   }
-
 }
 
 module.exports = new Mailer();

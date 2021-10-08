@@ -6,10 +6,7 @@ const Validator = require('./Validator');
  * Traduction: Vérificateur de réponse pour un QCU
  */
 class ValidatorQCU extends Validator {
-
-  constructor({
-    solution,
-  } = {}) {
+  constructor({ solution } = {}) {
     super({ solution });
   }
 

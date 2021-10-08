@@ -3,11 +3,9 @@ const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 const KnowledgeElement = require('../../../../lib/domain/models/KnowledgeElement');
 const moment = require('moment');
 
-describe('Unit | Domain | Models | KnowledgeElement', function() {
-
-  describe('#isValidated', function() {
-
-    it('should be true if status validated', function() {
+describe('Unit | Domain | Models | KnowledgeElement', function () {
+  describe('#isValidated', function () {
+    it('should be true if status validated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.VALIDATED,
@@ -20,7 +18,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       expect(isValidated).to.be.true;
     });
 
-    it('should be false if status not validated', function() {
+    it('should be false if status not validated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.INVALIDATED,
@@ -34,8 +32,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
     });
   });
 
-  describe('#isDirectlyValidated', function() {
-
+  describe('#isDirectlyValidated', function () {
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
       {
@@ -67,7 +64,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
         expected: false,
       },
     ].forEach(({ status, source, expected }) => {
-      it(`should be ${expected} with ${status} status and ${source} source`, function() {
+      it(`should be ${expected} with ${status} status and ${source} source`, function () {
         // given
         const knowledgeElement = domainBuilder.buildKnowledgeElement({ status, source });
 
@@ -78,12 +75,10 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
         expect(result).to.equal(expected);
       });
     });
-
   });
 
-  describe('#isInValidated', function() {
-
-    it('should be true if status invalidated', function() {
+  describe('#isInValidated', function () {
+    it('should be true if status invalidated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.INVALIDATED,
@@ -96,7 +91,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       expect(isInvalidated).to.be.true;
     });
 
-    it('should be false if status not invalidated', function() {
+    it('should be false if status not invalidated', function () {
       // given
       const knowledgeElement = domainBuilder.buildKnowledgeElement({
         status: KnowledgeElement.StatusType.VALIDATED,
@@ -110,12 +105,10 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
     });
   });
 
-  describe('#createKnowledgeElementsForAnswer', function() {
-
+  describe('#createKnowledgeElementsForAnswer', function () {
     const userId = 3;
 
-    context('when the challenge has one skill', function() {
-
+    context('when the challenge has one skill', function () {
       let challenge;
       let easierSkill;
       let harderSkill;
@@ -125,7 +118,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       let invalidAnswer;
       let validAnswer;
 
-      beforeEach(function() {
+      beforeEach(function () {
         // given
         [muchEasierSkill, easierSkill, skill, harderSkill, muchHarderSkill] = domainBuilder.buildSkillCollection({
           minLevel: 1,
@@ -136,12 +129,11 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
         invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
       });
 
-      context('and the skill is not in the target profile', function() {
-
+      context('and the skill is not in the target profile', function () {
         let otherSkill;
         let createdKnowledgeElements;
 
-        beforeEach(function() {
+        beforeEach(function () {
           // given
           otherSkill = domainBuilder.buildSkill();
 
@@ -156,18 +148,17 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
           });
         });
 
-        it('should not create any knowledge elements', function() {
+        it('should not create any knowledge elements', function () {
           // then
           expect(createdKnowledgeElements).to.deep.equal([]);
         });
       });
 
-      context('and the skill is in the target profil and is alone in it’s tube', function() {
-
+      context('and the skill is in the target profil and is alone in it’s tube', function () {
         let createdKnowledgeElements;
         let targetSkills;
 
-        beforeEach(function() {
+        beforeEach(function () {
           // given
           targetSkills = [skill];
 
@@ -182,7 +173,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
           });
         });
 
-        it('should create a knowledge element', function() {
+        it('should create a knowledge element', function () {
           // then
           const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
             source: KnowledgeElement.SourceType.DIRECT,
@@ -200,20 +191,18 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
         });
       });
 
-      context('and the skill is in the target profil and has other skills in it’s tube', function() {
-
+      context('and the skill is in the target profil and has other skills in it’s tube', function () {
         let targetSkills;
 
-        beforeEach(function() {
+        beforeEach(function () {
           // given
           targetSkills = [muchEasierSkill, easierSkill, skill, harderSkill, muchHarderSkill];
         });
 
-        context('and the answer is correct', function() {
-
+        context('and the answer is correct', function () {
           let createdKnowledgeElements;
 
-          beforeEach(function() {
+          beforeEach(function () {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
@@ -226,7 +215,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
             });
           });
 
-          it('should create one direct knowledge element and two inferred validated for easier skills', function() {
+          it('should create one direct knowledge element and two inferred validated for easier skills', function () {
             // then
             const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -274,11 +263,10 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
           });
         });
 
-        context('and the answer is incorrect', function() {
-
+        context('and the answer is incorrect', function () {
           let createdKnowledgeElements;
 
-          beforeEach(function() {
+          beforeEach(function () {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: invalidAnswer,
@@ -291,7 +279,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
             });
           });
 
-          it('should create one direct knowledge element and two inferred invalidated for harder skills', function() {
+          it('should create one direct knowledge element and two inferred invalidated for harder skills', function () {
             // then
             const directKnowledgeElement = domainBuilder.buildKnowledgeElement({
               source: KnowledgeElement.SourceType.DIRECT,
@@ -338,8 +326,7 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       });
     });
 
-    context('when the challenge has multiple skills', function() {
-
+    context('when the challenge has multiple skills', function () {
       let challenge;
       let easierSkillFromTube1;
       let easierSkillFromTube2;
@@ -359,9 +346,10 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       let invalidAnswer;
       let validAnswer;
 
-      beforeEach(function() {
+      beforeEach(function () {
         // given
-        [muchEasierSkillFromTube1,
+        [
+          muchEasierSkillFromTube1,
           easierSkillFromTube1,
           skillFromTube1,
           harderSkillFromTube1,
@@ -370,7 +358,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
           minLevel: 1,
           maxLevel: 5,
         });
-        [muchEasierSkillFromTube2,
+        [
+          muchEasierSkillFromTube2,
           easierSkillFromTube2,
           skillFromTube2,
           harderSkillFromTube2,
@@ -379,7 +368,8 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
           minLevel: 1,
           maxLevel: 5,
         });
-        [muchEasierSkillFromTube3,
+        [
+          muchEasierSkillFromTube3,
           easierSkillFromTube3,
           skillFromTube3,
           harderSkillFromTube3,
@@ -394,57 +384,58 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
         invalidAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.KO });
       });
 
-      context('and the skills are alone in their tube but one of those skill is not in the target profile', function() {
+      context(
+        'and the skills are alone in their tube but one of those skill is not in the target profile',
+        function () {
+          let createdKnowledgeElements;
 
-        let createdKnowledgeElements;
-
-        beforeEach(function() {
-          // when
-          createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
-            answer: validAnswer,
-            challenge: challenge,
-            previouslyValidatedSkills: [],
-            previouslyFailedSkills: [],
-            targetSkills: [skillFromTube1, skillFromTube3],
-            userId,
+          beforeEach(function () {
+            // when
+            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+              answer: validAnswer,
+              challenge: challenge,
+              previouslyValidatedSkills: [],
+              previouslyFailedSkills: [],
+              targetSkills: [skillFromTube1, skillFromTube3],
+              userId,
+            });
           });
-        });
 
-        it('should create knowledge elements for the other skills that are in the target profile', function() {
-          // then
-          const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.VALIDATED,
-            earnedPix: skillFromTube1.pixValue,
-            answerId: validAnswer.id,
-            assessmentId: validAnswer.assessmentId,
-            skillId: skillFromTube1.id,
-            userId,
-            competenceId: skillFromTube1.competenceId,
+          it('should create knowledge elements for the other skills that are in the target profile', function () {
+            // then
+            const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
+              earnedPix: skillFromTube1.pixValue,
+              answerId: validAnswer.id,
+              assessmentId: validAnswer.assessmentId,
+              skillId: skillFromTube1.id,
+              userId,
+              competenceId: skillFromTube1.competenceId,
+            });
+            directKnowledgeElementFromTube1.id = undefined;
+            const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+              source: KnowledgeElement.SourceType.DIRECT,
+              status: KnowledgeElement.StatusType.VALIDATED,
+              earnedPix: skillFromTube3.pixValue,
+              answerId: validAnswer.id,
+              assessmentId: validAnswer.assessmentId,
+              skillId: skillFromTube3.id,
+              userId,
+              competenceId: skillFromTube3.competenceId,
+            });
+            directKnowledgeElementFromTube3.id = undefined;
+            const expectedKnowledgeElements = [directKnowledgeElementFromTube1, directKnowledgeElementFromTube3];
+
+            expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
           });
-          directKnowledgeElementFromTube1.id = undefined;
-          const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
-            source: KnowledgeElement.SourceType.DIRECT,
-            status: KnowledgeElement.StatusType.VALIDATED,
-            earnedPix: skillFromTube3.pixValue,
-            answerId: validAnswer.id,
-            assessmentId: validAnswer.assessmentId,
-            skillId: skillFromTube3.id,
-            userId,
-            competenceId: skillFromTube3.competenceId,
-          });
-          directKnowledgeElementFromTube3.id = undefined;
-          const expectedKnowledgeElements = [directKnowledgeElementFromTube1, directKnowledgeElementFromTube3];
+        }
+      );
 
-          expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
-        });
-      });
-
-      context('and the skills has other skills in their tube', function() {
-
+      context('and the skills has other skills in their tube', function () {
         let targetSkills;
 
-        beforeEach(function() {
+        beforeEach(function () {
           targetSkills = [
             easierSkillFromTube1,
             easierSkillFromTube2,
@@ -464,11 +455,10 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
           ];
         });
 
-        context('and the answer is correct', function() {
-
+        context('and the answer is correct', function () {
           let createdKnowledgeElements;
 
-          beforeEach(function() {
+          beforeEach(function () {
             // when
             createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
               answer: validAnswer,
@@ -480,362 +470,9 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
             });
           });
 
-          it('should create the three direct knowledge elements' +
-            ' and the six inferred validated for easier skills', function() {
-            const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: skillFromTube1.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: skillFromTube1.id,
-              userId,
-              competenceId: skillFromTube1.competenceId,
-            });
-            directKnowledgeElementFromTube1.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: easierSkillFromTube1.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: easierSkillFromTube1.id,
-              userId,
-              competenceId: easierSkillFromTube1.competenceId,
-            });
-            inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: muchEasierSkillFromTube1.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkillFromTube1.id,
-              userId,
-              competenceId: muchEasierSkillFromTube1.competenceId,
-            });
-            inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
-
-            const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: skillFromTube2.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: skillFromTube2.id,
-              userId,
-              competenceId: skillFromTube2.competenceId,
-            });
-            directKnowledgeElementFromTube2.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: easierSkillFromTube2.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: easierSkillFromTube2.id,
-              userId,
-              competenceId: easierSkillFromTube2.competenceId,
-            });
-            inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: muchEasierSkillFromTube2.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkillFromTube2.id,
-              userId,
-              competenceId: muchEasierSkillFromTube2.competenceId,
-            });
-            inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
-
-            const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: skillFromTube3.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: skillFromTube3.id,
-              userId,
-              competenceId: skillFromTube3.competenceId,
-            });
-            directKnowledgeElementFromTube3.id = undefined;
-            const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: easierSkillFromTube3.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: easierSkillFromTube3.id,
-              userId,
-              competenceId: easierSkillFromTube3.competenceId,
-            });
-            inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
-            const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.VALIDATED,
-              earnedPix: muchEasierSkillFromTube3.pixValue,
-              answerId: validAnswer.id,
-              assessmentId: validAnswer.assessmentId,
-              skillId: muchEasierSkillFromTube3.id,
-              userId,
-              competenceId: muchEasierSkillFromTube3.competenceId,
-            });
-            inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
-
-            const expectedKnowledgeElements = [
-              directKnowledgeElementFromTube1,
-              directKnowledgeElementFromTube2,
-              directKnowledgeElementFromTube3,
-              inferredKnowledgeElementForEasierSkillFromTube1,
-              inferredKnowledgeElementForMuchEasierSkillFromTube1,
-              inferredKnowledgeElementForEasierSkillFromTube2,
-              inferredKnowledgeElementForMuchEasierSkillFromTube2,
-              inferredKnowledgeElementForEasierSkillFromTube3,
-              inferredKnowledgeElementForMuchEasierSkillFromTube3,
-            ];
-
-            expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
-          });
-        });
-
-        context('and the answer is incorrect', function() {
-
-          let createdKnowledgeElements;
-
-          beforeEach(function() {
-            // when
-            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
-              answer: invalidAnswer,
-              challenge: challenge,
-              previouslyValidatedSkills: [],
-              previouslyFailedSkills: [],
-              targetSkills,
-              userId,
-            });
-          });
-
-          it('should create the three direct knowledge elements' +
-            ' and the six inferred validated for harder skills', function() {
-            const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: skillFromTube1.id,
-              userId,
-              competenceId: skillFromTube1.competenceId,
-            });
-            directKnowledgeElementFromTube1.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkillFromTube1.id,
-              userId,
-              competenceId: harderSkillFromTube1.competenceId,
-            });
-            inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkillFromTube1.id,
-              userId,
-              competenceId: muchHarderSkillFromTube1.competenceId,
-            });
-            inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
-
-            const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: skillFromTube2.id,
-              userId,
-              competenceId: skillFromTube2.competenceId,
-            });
-            directKnowledgeElementFromTube2.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkillFromTube2.id,
-              userId,
-              competenceId: harderSkillFromTube2.competenceId,
-            });
-            inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkillFromTube2.id,
-              userId,
-              competenceId: muchHarderSkillFromTube2.competenceId,
-            });
-            inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
-
-            const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.DIRECT,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: skillFromTube3.id,
-              userId,
-              competenceId: skillFromTube3.competenceId,
-            });
-            directKnowledgeElementFromTube3.id = undefined;
-            const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: harderSkillFromTube3.id,
-              userId,
-              competenceId: harderSkillFromTube3.competenceId,
-            });
-            inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
-            const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
-              source: KnowledgeElement.SourceType.INFERRED,
-              status: KnowledgeElement.StatusType.INVALIDATED,
-              earnedPix: 0,
-              answerId: invalidAnswer.id,
-              assessmentId: invalidAnswer.assessmentId,
-              skillId: muchHarderSkillFromTube3.id,
-              userId,
-              competenceId: muchHarderSkillFromTube3.competenceId,
-            });
-            inferredKnowledgeElementForMuchHarderSkillFromTube3.id = undefined;
-
-            const expectedKnowledgeElements = [
-              directKnowledgeElementFromTube1,
-              directKnowledgeElementFromTube2,
-              directKnowledgeElementFromTube3,
-              inferredKnowledgeElementForHarderSkillFromTube1,
-              inferredKnowledgeElementForMuchHarderSkillFromTube1,
-              inferredKnowledgeElementForHarderSkillFromTube2,
-              inferredKnowledgeElementForMuchHarderSkillFromTube2,
-              inferredKnowledgeElementForHarderSkillFromTube3,
-              inferredKnowledgeElementForMuchHarderSkillFromTube3,
-            ];
-
-            expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
-          });
-        });
-      });
-    });
-
-    context('when some skills are already assessed', function() {
-
-      context('and the challenge has multiple skills', function() {
-
-        let challenge;
-        let easierSkillFromTube1;
-        let easierSkillFromTube2;
-        let easierSkillFromTube3;
-        let harderSkillFromTube1;
-        let harderSkillFromTube2;
-        let harderSkillFromTube3;
-        let muchEasierSkillFromTube1;
-        let muchEasierSkillFromTube2;
-        let muchEasierSkillFromTube3;
-        let muchHarderSkillFromTube1;
-        let muchHarderSkillFromTube2;
-        let muchHarderSkillFromTube3;
-        let skillFromTube1;
-        let skillFromTube2;
-        let skillFromTube3;
-        let validAnswer;
-
-        beforeEach(function() {
-          // given
-          [muchEasierSkillFromTube1,
-            easierSkillFromTube1,
-            skillFromTube1,
-            harderSkillFromTube1,
-            muchHarderSkillFromTube1,
-          ] = domainBuilder.buildSkillCollection({
-            minLevel: 1,
-            maxLevel: 5,
-          });
-          [muchEasierSkillFromTube2,
-            easierSkillFromTube2,
-            skillFromTube2,
-            harderSkillFromTube2,
-            muchHarderSkillFromTube2,
-          ] = domainBuilder.buildSkillCollection({
-            minLevel: 1,
-            maxLevel: 5,
-          });
-          [muchEasierSkillFromTube3,
-            easierSkillFromTube3,
-            skillFromTube3,
-            harderSkillFromTube3,
-            muchHarderSkillFromTube3,
-          ] = domainBuilder.buildSkillCollection({
-            minLevel: 1,
-            maxLevel: 5,
-          });
-
-          challenge = domainBuilder.buildChallenge({ skills: [skillFromTube1, skillFromTube2, skillFromTube3] });
-          validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
-        });
-
-        context('and the skills has other skills in their tube', function() {
-
-          let targetSkills;
-
-          beforeEach(function() {
-            targetSkills = [
-              easierSkillFromTube1,
-              easierSkillFromTube2,
-              easierSkillFromTube3,
-              harderSkillFromTube1,
-              harderSkillFromTube2,
-              harderSkillFromTube3,
-              muchEasierSkillFromTube1,
-              muchEasierSkillFromTube2,
-              muchEasierSkillFromTube3,
-              muchHarderSkillFromTube1,
-              muchHarderSkillFromTube2,
-              muchHarderSkillFromTube3,
-              skillFromTube1,
-              skillFromTube2,
-              skillFromTube3,
-            ];
-          });
-
-          context('and the answer is correct', function() {
-
-            let createdKnowledgeElements;
-
-            beforeEach(function() {
-              // when
-              createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
-                answer: validAnswer,
-                challenge: challenge,
-                previouslyValidatedSkills: [easierSkillFromTube1, muchEasierSkillFromTube1],
-                previouslyFailedSkills: [easierSkillFromTube2],
-                targetSkills,
-                userId,
-              });
-            });
-
-            it('should create the three direct knowledge elements' +
-              ' and the three inferred validated for easier skills than are not evaluated', function() {
+          it(
+            'should create the three direct knowledge elements' + ' and the six inferred validated for easier skills',
+            function () {
               const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.DIRECT,
                 status: KnowledgeElement.StatusType.VALIDATED,
@@ -847,6 +484,28 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
                 competenceId: skillFromTube1.competenceId,
               });
               directKnowledgeElementFromTube1.id = undefined;
+              const inferredKnowledgeElementForEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.VALIDATED,
+                earnedPix: easierSkillFromTube1.pixValue,
+                answerId: validAnswer.id,
+                assessmentId: validAnswer.assessmentId,
+                skillId: easierSkillFromTube1.id,
+                userId,
+                competenceId: easierSkillFromTube1.competenceId,
+              });
+              inferredKnowledgeElementForEasierSkillFromTube1.id = undefined;
+              const inferredKnowledgeElementForMuchEasierSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.VALIDATED,
+                earnedPix: muchEasierSkillFromTube1.pixValue,
+                answerId: validAnswer.id,
+                assessmentId: validAnswer.assessmentId,
+                skillId: muchEasierSkillFromTube1.id,
+                userId,
+                competenceId: muchEasierSkillFromTube1.competenceId,
+              });
+              inferredKnowledgeElementForMuchEasierSkillFromTube1.id = undefined;
 
               const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.DIRECT,
@@ -859,6 +518,17 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
                 competenceId: skillFromTube2.competenceId,
               });
               directKnowledgeElementFromTube2.id = undefined;
+              const inferredKnowledgeElementForEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.VALIDATED,
+                earnedPix: easierSkillFromTube2.pixValue,
+                answerId: validAnswer.id,
+                assessmentId: validAnswer.assessmentId,
+                skillId: easierSkillFromTube2.id,
+                userId,
+                competenceId: easierSkillFromTube2.competenceId,
+              });
+              inferredKnowledgeElementForEasierSkillFromTube2.id = undefined;
               const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
                 source: KnowledgeElement.SourceType.INFERRED,
                 status: KnowledgeElement.StatusType.VALIDATED,
@@ -902,7 +572,6 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
                 skillId: muchEasierSkillFromTube3.id,
                 userId,
                 competenceId: muchEasierSkillFromTube3.competenceId,
-
               });
               inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
 
@@ -910,26 +579,350 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
                 directKnowledgeElementFromTube1,
                 directKnowledgeElementFromTube2,
                 directKnowledgeElementFromTube3,
+                inferredKnowledgeElementForEasierSkillFromTube1,
+                inferredKnowledgeElementForMuchEasierSkillFromTube1,
+                inferredKnowledgeElementForEasierSkillFromTube2,
                 inferredKnowledgeElementForMuchEasierSkillFromTube2,
                 inferredKnowledgeElementForEasierSkillFromTube3,
                 inferredKnowledgeElementForMuchEasierSkillFromTube3,
               ];
 
               expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
+            }
+          );
+        });
+
+        context('and the answer is incorrect', function () {
+          let createdKnowledgeElements;
+
+          beforeEach(function () {
+            // when
+            createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+              answer: invalidAnswer,
+              challenge: challenge,
+              previouslyValidatedSkills: [],
+              previouslyFailedSkills: [],
+              targetSkills,
+              userId,
             });
+          });
+
+          it(
+            'should create the three direct knowledge elements' + ' and the six inferred validated for harder skills',
+            function () {
+              const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: skillFromTube1.id,
+                userId,
+                competenceId: skillFromTube1.competenceId,
+              });
+              directKnowledgeElementFromTube1.id = undefined;
+              const inferredKnowledgeElementForHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: harderSkillFromTube1.id,
+                userId,
+                competenceId: harderSkillFromTube1.competenceId,
+              });
+              inferredKnowledgeElementForHarderSkillFromTube1.id = undefined;
+              const inferredKnowledgeElementForMuchHarderSkillFromTube1 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: muchHarderSkillFromTube1.id,
+                userId,
+                competenceId: muchHarderSkillFromTube1.competenceId,
+              });
+              inferredKnowledgeElementForMuchHarderSkillFromTube1.id = undefined;
+
+              const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: skillFromTube2.id,
+                userId,
+                competenceId: skillFromTube2.competenceId,
+              });
+              directKnowledgeElementFromTube2.id = undefined;
+              const inferredKnowledgeElementForHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: harderSkillFromTube2.id,
+                userId,
+                competenceId: harderSkillFromTube2.competenceId,
+              });
+              inferredKnowledgeElementForHarderSkillFromTube2.id = undefined;
+              const inferredKnowledgeElementForMuchHarderSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: muchHarderSkillFromTube2.id,
+                userId,
+                competenceId: muchHarderSkillFromTube2.competenceId,
+              });
+              inferredKnowledgeElementForMuchHarderSkillFromTube2.id = undefined;
+
+              const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.DIRECT,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: skillFromTube3.id,
+                userId,
+                competenceId: skillFromTube3.competenceId,
+              });
+              directKnowledgeElementFromTube3.id = undefined;
+              const inferredKnowledgeElementForHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: harderSkillFromTube3.id,
+                userId,
+                competenceId: harderSkillFromTube3.competenceId,
+              });
+              inferredKnowledgeElementForHarderSkillFromTube3.id = undefined;
+              const inferredKnowledgeElementForMuchHarderSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+                source: KnowledgeElement.SourceType.INFERRED,
+                status: KnowledgeElement.StatusType.INVALIDATED,
+                earnedPix: 0,
+                answerId: invalidAnswer.id,
+                assessmentId: invalidAnswer.assessmentId,
+                skillId: muchHarderSkillFromTube3.id,
+                userId,
+                competenceId: muchHarderSkillFromTube3.competenceId,
+              });
+              inferredKnowledgeElementForMuchHarderSkillFromTube3.id = undefined;
+
+              const expectedKnowledgeElements = [
+                directKnowledgeElementFromTube1,
+                directKnowledgeElementFromTube2,
+                directKnowledgeElementFromTube3,
+                inferredKnowledgeElementForHarderSkillFromTube1,
+                inferredKnowledgeElementForMuchHarderSkillFromTube1,
+                inferredKnowledgeElementForHarderSkillFromTube2,
+                inferredKnowledgeElementForMuchHarderSkillFromTube2,
+                inferredKnowledgeElementForHarderSkillFromTube3,
+                inferredKnowledgeElementForMuchHarderSkillFromTube3,
+              ];
+
+              expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
+            }
+          );
+        });
+      });
+    });
+
+    context('when some skills are already assessed', function () {
+      context('and the challenge has multiple skills', function () {
+        let challenge;
+        let easierSkillFromTube1;
+        let easierSkillFromTube2;
+        let easierSkillFromTube3;
+        let harderSkillFromTube1;
+        let harderSkillFromTube2;
+        let harderSkillFromTube3;
+        let muchEasierSkillFromTube1;
+        let muchEasierSkillFromTube2;
+        let muchEasierSkillFromTube3;
+        let muchHarderSkillFromTube1;
+        let muchHarderSkillFromTube2;
+        let muchHarderSkillFromTube3;
+        let skillFromTube1;
+        let skillFromTube2;
+        let skillFromTube3;
+        let validAnswer;
+
+        beforeEach(function () {
+          // given
+          [
+            muchEasierSkillFromTube1,
+            easierSkillFromTube1,
+            skillFromTube1,
+            harderSkillFromTube1,
+            muchHarderSkillFromTube1,
+          ] = domainBuilder.buildSkillCollection({
+            minLevel: 1,
+            maxLevel: 5,
+          });
+          [
+            muchEasierSkillFromTube2,
+            easierSkillFromTube2,
+            skillFromTube2,
+            harderSkillFromTube2,
+            muchHarderSkillFromTube2,
+          ] = domainBuilder.buildSkillCollection({
+            minLevel: 1,
+            maxLevel: 5,
+          });
+          [
+            muchEasierSkillFromTube3,
+            easierSkillFromTube3,
+            skillFromTube3,
+            harderSkillFromTube3,
+            muchHarderSkillFromTube3,
+          ] = domainBuilder.buildSkillCollection({
+            minLevel: 1,
+            maxLevel: 5,
+          });
+
+          challenge = domainBuilder.buildChallenge({ skills: [skillFromTube1, skillFromTube2, skillFromTube3] });
+          validAnswer = domainBuilder.buildAnswer({ challengeId: challenge.id, result: AnswerStatus.OK });
+        });
+
+        context('and the skills has other skills in their tube', function () {
+          let targetSkills;
+
+          beforeEach(function () {
+            targetSkills = [
+              easierSkillFromTube1,
+              easierSkillFromTube2,
+              easierSkillFromTube3,
+              harderSkillFromTube1,
+              harderSkillFromTube2,
+              harderSkillFromTube3,
+              muchEasierSkillFromTube1,
+              muchEasierSkillFromTube2,
+              muchEasierSkillFromTube3,
+              muchHarderSkillFromTube1,
+              muchHarderSkillFromTube2,
+              muchHarderSkillFromTube3,
+              skillFromTube1,
+              skillFromTube2,
+              skillFromTube3,
+            ];
+          });
+
+          context('and the answer is correct', function () {
+            let createdKnowledgeElements;
+
+            beforeEach(function () {
+              // when
+              createdKnowledgeElements = KnowledgeElement.createKnowledgeElementsForAnswer({
+                answer: validAnswer,
+                challenge: challenge,
+                previouslyValidatedSkills: [easierSkillFromTube1, muchEasierSkillFromTube1],
+                previouslyFailedSkills: [easierSkillFromTube2],
+                targetSkills,
+                userId,
+              });
+            });
+
+            it(
+              'should create the three direct knowledge elements' +
+                ' and the three inferred validated for easier skills than are not evaluated',
+              function () {
+                const directKnowledgeElementFromTube1 = domainBuilder.buildKnowledgeElement({
+                  source: KnowledgeElement.SourceType.DIRECT,
+                  status: KnowledgeElement.StatusType.VALIDATED,
+                  earnedPix: skillFromTube1.pixValue,
+                  answerId: validAnswer.id,
+                  assessmentId: validAnswer.assessmentId,
+                  skillId: skillFromTube1.id,
+                  userId,
+                  competenceId: skillFromTube1.competenceId,
+                });
+                directKnowledgeElementFromTube1.id = undefined;
+
+                const directKnowledgeElementFromTube2 = domainBuilder.buildKnowledgeElement({
+                  source: KnowledgeElement.SourceType.DIRECT,
+                  status: KnowledgeElement.StatusType.VALIDATED,
+                  earnedPix: skillFromTube2.pixValue,
+                  answerId: validAnswer.id,
+                  assessmentId: validAnswer.assessmentId,
+                  skillId: skillFromTube2.id,
+                  userId,
+                  competenceId: skillFromTube2.competenceId,
+                });
+                directKnowledgeElementFromTube2.id = undefined;
+                const inferredKnowledgeElementForMuchEasierSkillFromTube2 = domainBuilder.buildKnowledgeElement({
+                  source: KnowledgeElement.SourceType.INFERRED,
+                  status: KnowledgeElement.StatusType.VALIDATED,
+                  earnedPix: muchEasierSkillFromTube2.pixValue,
+                  answerId: validAnswer.id,
+                  assessmentId: validAnswer.assessmentId,
+                  skillId: muchEasierSkillFromTube2.id,
+                  userId,
+                  competenceId: muchEasierSkillFromTube2.competenceId,
+                });
+                inferredKnowledgeElementForMuchEasierSkillFromTube2.id = undefined;
+
+                const directKnowledgeElementFromTube3 = domainBuilder.buildKnowledgeElement({
+                  source: KnowledgeElement.SourceType.DIRECT,
+                  status: KnowledgeElement.StatusType.VALIDATED,
+                  earnedPix: skillFromTube3.pixValue,
+                  answerId: validAnswer.id,
+                  assessmentId: validAnswer.assessmentId,
+                  skillId: skillFromTube3.id,
+                  userId,
+                  competenceId: skillFromTube3.competenceId,
+                });
+                directKnowledgeElementFromTube3.id = undefined;
+                const inferredKnowledgeElementForEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+                  source: KnowledgeElement.SourceType.INFERRED,
+                  status: KnowledgeElement.StatusType.VALIDATED,
+                  earnedPix: easierSkillFromTube3.pixValue,
+                  answerId: validAnswer.id,
+                  assessmentId: validAnswer.assessmentId,
+                  skillId: easierSkillFromTube3.id,
+                  userId,
+                  competenceId: easierSkillFromTube3.competenceId,
+                });
+                inferredKnowledgeElementForEasierSkillFromTube3.id = undefined;
+                const inferredKnowledgeElementForMuchEasierSkillFromTube3 = domainBuilder.buildKnowledgeElement({
+                  source: KnowledgeElement.SourceType.INFERRED,
+                  status: KnowledgeElement.StatusType.VALIDATED,
+                  earnedPix: muchEasierSkillFromTube3.pixValue,
+                  answerId: validAnswer.id,
+                  assessmentId: validAnswer.assessmentId,
+                  skillId: muchEasierSkillFromTube3.id,
+                  userId,
+                  competenceId: muchEasierSkillFromTube3.competenceId,
+                });
+                inferredKnowledgeElementForMuchEasierSkillFromTube3.id = undefined;
+
+                const expectedKnowledgeElements = [
+                  directKnowledgeElementFromTube1,
+                  directKnowledgeElementFromTube2,
+                  directKnowledgeElementFromTube3,
+                  inferredKnowledgeElementForMuchEasierSkillFromTube2,
+                  inferredKnowledgeElementForEasierSkillFromTube3,
+                  inferredKnowledgeElementForMuchEasierSkillFromTube3,
+                ];
+
+                expect(createdKnowledgeElements).to.deep.equal(expectedKnowledgeElements);
+              }
+            );
           });
         });
       });
     });
   });
 
-  describe('#computeDaysSinceLastKnowledgeElement', function() {
-
+  describe('#computeDaysSinceLastKnowledgeElement', function () {
     let testCurrentDate;
     let knowledgeElements;
     let daysSinceLastKnowledgeElement;
 
-    beforeEach(function() {
+    beforeEach(function () {
       testCurrentDate = new Date('2018-01-10T05:00:00Z');
       sinon.useFakeTimers(testCurrentDate.getTime());
     });
@@ -947,8 +940,11 @@ describe('Unit | Domain | Models | KnowledgeElement', function() {
       { daysBefore: 7, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 7 },
       { daysBefore: 10, hoursBefore: 0, expectedDaysSinceLastKnowledgeElement: 10 },
     ].forEach(({ daysBefore, hoursBefore, expectedDaysSinceLastKnowledgeElement }) => {
-      it(`should return ${expectedDaysSinceLastKnowledgeElement} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, function() {
-        const knowledgeElementCreationDate = moment(testCurrentDate).subtract(daysBefore, 'day').subtract(hoursBefore, 'hour').toDate();
+      it(`should return ${expectedDaysSinceLastKnowledgeElement} days when the last knowledge element is ${daysBefore} days and ${hoursBefore} hours old`, function () {
+        const knowledgeElementCreationDate = moment(testCurrentDate)
+          .subtract(daysBefore, 'day')
+          .subtract(hoursBefore, 'hour')
+          .toDate();
         const oldDate = moment(testCurrentDate).subtract(100, 'day').toDate();
 
         knowledgeElements = [{ createdAt: oldDate }, { createdAt: knowledgeElementCreationDate }];

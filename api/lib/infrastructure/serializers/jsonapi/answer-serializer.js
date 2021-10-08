@@ -3,7 +3,6 @@ const { Serializer } = require('jsonapi-serializer');
 const answerStatusJSONAPIAdapter = require('../../adapters/answer-status-json-api-adapter');
 
 module.exports = {
-
   serialize(answer) {
     return new Serializer('answer', {
       transform: (untouchedAnswer) => {
@@ -13,10 +12,7 @@ module.exports = {
         answer.result = answerStatusJSONAPIAdapter.adapt(untouchedAnswer.result);
         return answer;
       },
-      attributes: [
-        'value', 'timeout', 'result', 'resultDetails', 'assessment',
-        'challenge', 'correction', 'levelup',
-      ],
+      attributes: ['value', 'timeout', 'result', 'resultDetails', 'assessment', 'challenge', 'correction', 'levelup'],
       assessment: {
         ref: 'id',
         includes: false,
@@ -53,7 +49,6 @@ module.exports = {
       challengeId: payload.data.relationships.challenge.data.id,
     });
   },
-
 };
 
 function _cleanValue(value) {

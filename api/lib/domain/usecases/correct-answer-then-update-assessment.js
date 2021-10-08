@@ -1,27 +1,23 @@
-const {
-  ForbiddenAccess,
-  ChallengeNotAskedError,
-} = require('../errors');
+const { ForbiddenAccess, ChallengeNotAskedError } = require('../errors');
 const Examiner = require('../models/Examiner');
 const KnowledgeElement = require('../models/KnowledgeElement');
 const logger = require('../../infrastructure/logger');
 const dateUtils = require('../../infrastructure/utils/date-utils');
 
-module.exports = async function correctAnswerThenUpdateAssessment(
-  {
-    answer,
-    userId,
-    locale,
-    answerRepository,
-    assessmentRepository,
-    challengeRepository,
-    scorecardService,
-    competenceRepository,
-    competenceEvaluationRepository,
-    skillRepository,
-    targetProfileRepository,
-    knowledgeElementRepository,
-  } = {}) {
+module.exports = async function correctAnswerThenUpdateAssessment({
+  answer,
+  userId,
+  locale,
+  answerRepository,
+  assessmentRepository,
+  challengeRepository,
+  scorecardService,
+  competenceRepository,
+  competenceEvaluationRepository,
+  skillRepository,
+  targetProfileRepository,
+  knowledgeElementRepository,
+} = {}) {
   const assessment = await assessmentRepository.get(answer.assessmentId);
   if (assessment.userId !== userId) {
     throw new ForbiddenAccess('User is not allowed to add an answer for this assessment.');
@@ -87,28 +83,52 @@ module.exports = async function correctAnswerThenUpdateAssessment(
 
 function _evaluateAnswer({ challenge, answer, assessment }) {
   const examiner = new Examiner({ validator: challenge.validator });
-  return examiner.evaluate({ answer, challengeFormat: challenge.format, isCertificationEvaluation: assessment.isCertification() });
+  return examiner.evaluate({
+    answer,
+    challengeFormat: challenge.format,
+    isCertificationEvaluation: assessment.isCertification(),
+  });
 }
 
-async function _getKnowledgeElements({ assessment, answer, challenge, skillRepository, targetProfileRepository, knowledgeElementRepository }) {
+async function _getKnowledgeElements({
+  assessment,
+  answer,
+  challenge,
+  skillRepository,
+  targetProfileRepository,
+  knowledgeElementRepository,
+}) {
   if (!assessment.hasKnowledgeElements()) {
     return [];
   }
 
-  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({ userId: assessment.userId, assessmentId: assessment.id });
+  const knowledgeElements = await knowledgeElementRepository.findUniqByUserIdAndAssessmentId({
+    userId: assessment.userId,
+    assessmentId: assessment.id,
+  });
   let targetSkills;
   if (assessment.isCompetenceEvaluation()) {
     targetSkills = await skillRepository.findActiveByCompetenceId(assessment.competenceId);
   }
   if (assessment.isForCampaign()) {
-    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(assessment.campaignParticipationId);
+    const targetProfile = await targetProfileRepository.getByCampaignParticipationId(
+      assessment.campaignParticipationId
+    );
     targetSkills = targetProfile.skills;
   }
   return KnowledgeElement.createKnowledgeElementsForAnswer({
     answer,
     challenge,
-    previouslyFailedSkills: _getSkillsFilteredByStatus(knowledgeElements, targetSkills, KnowledgeElement.StatusType.INVALIDATED),
-    previouslyValidatedSkills: _getSkillsFilteredByStatus(knowledgeElements, targetSkills, KnowledgeElement.StatusType.VALIDATED),
+    previouslyFailedSkills: _getSkillsFilteredByStatus(
+      knowledgeElements,
+      targetSkills,
+      KnowledgeElement.StatusType.INVALIDATED
+    ),
+    previouslyValidatedSkills: _getSkillsFilteredByStatus(
+      knowledgeElements,
+      targetSkills,
+      KnowledgeElement.StatusType.VALIDATED
+    ),
     targetSkills,
     userId: assessment.userId,
   });
@@ -121,18 +141,17 @@ function _getSkillsFilteredByStatus(knowledgeElements, targetSkills, status) {
     .map((skillId) => targetSkills.find((skill) => skill.id === skillId));
 }
 
-async function _addLevelUpInformation(
-  {
-    answerSaved,
-    scorecardService,
-    userId,
-    competenceId,
-    competenceRepository,
-    competenceEvaluationRepository,
-    knowledgeElementRepository,
-    scorecardBeforeAnswer,
-    locale,
-  }) {
+async function _addLevelUpInformation({
+  answerSaved,
+  scorecardService,
+  userId,
+  competenceId,
+  competenceRepository,
+  competenceEvaluationRepository,
+  knowledgeElementRepository,
+  scorecardBeforeAnswer,
+  locale,
+}) {
   answerSaved.levelup = {};
 
   if (!scorecardBeforeAnswer) {

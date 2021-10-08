@@ -1,10 +1,9 @@
 const Skill = require('../../../../lib/domain/models/Skill');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | Skill', function() {
-
-  describe('#Difficulty', function() {
-    it('should return the difficulty of the skill', function() {
+describe('Unit | Domain | Models | Skill', function () {
+  describe('#Difficulty', function () {
+    it('should return the difficulty of the skill', function () {
       // given
       const url1 = new Skill({ name: '@url1' });
 
@@ -13,8 +12,8 @@ describe('Unit | Domain | Models | Skill', function() {
     });
   });
 
-  describe('#tubeNameWithoutPrefix', function() {
-    it('should return the name of the tube', function() {
+  describe('#tubeNameWithoutPrefix', function () {
+    it('should return the name of the tube', function () {
       // given
       const url1 = new Skill({ name: '@url1' });
 
@@ -23,8 +22,8 @@ describe('Unit | Domain | Models | Skill', function() {
     });
   });
 
-  describe('#tubeName', function() {
-    it('should have a property fromListOfSkill', function() {
+  describe('#tubeName', function () {
+    it('should have a property fromListOfSkill', function () {
       // when
       const skill = new Skill({ name: '@web3' });
 
@@ -33,8 +32,8 @@ describe('Unit | Domain | Models | Skill', function() {
     });
   });
 
-  describe('#areEqual()', function() {
-    it('should return false when two skills are not the same', function() {
+  describe('#areEqual()', function () {
+    it('should return false when two skills are not the same', function () {
       // given
       const [skill1, skill2] = domainBuilder.buildSkillCollection();
       // when
@@ -43,7 +42,7 @@ describe('Unit | Domain | Models | Skill', function() {
       expect(result).to.be.false;
     });
 
-    it('should return true if two skills have the same name', function() {
+    it('should return true if two skills have the same name', function () {
       // given
       const skill = domainBuilder.buildSkill({ name: '@skill1' });
       const otherSkill = domainBuilder.buildSkill({ name: '@skill1' });
@@ -53,7 +52,7 @@ describe('Unit | Domain | Models | Skill', function() {
       expect(result).to.be.true;
     });
 
-    it('should return false if either argument is undefined', function() {
+    it('should return false if either argument is undefined', function () {
       // given
       const skill = domainBuilder.buildSkill({ name: '@skill1' });
       const otherSkill = undefined;
@@ -66,8 +65,8 @@ describe('Unit | Domain | Models | Skill', function() {
     });
   });
 
-  describe('#areEqualById()', function() {
-    it('should return false when two skills are not the same', function() {
+  describe('#areEqualById()', function () {
+    it('should return false when two skills are not the same', function () {
       // given
       const [skill1, skill2] = domainBuilder.buildSkillCollection();
       // when
@@ -76,7 +75,7 @@ describe('Unit | Domain | Models | Skill', function() {
       expect(result).to.be.false;
     });
 
-    it('should return false if two skills have the same name but different ids', function() {
+    it('should return false if two skills have the same name but different ids', function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'recID1', name: '@skill1' });
       const otherSkill = domainBuilder.buildSkill({ id: 'recID2', name: '@skill1' });
@@ -86,7 +85,7 @@ describe('Unit | Domain | Models | Skill', function() {
       expect(result).to.be.false;
     });
 
-    it('should return false if either argument is undefined', function() {
+    it('should return false if either argument is undefined', function () {
       // given
       const skill = domainBuilder.buildSkill({ name: '@skill1' });
       const otherSkill = undefined;
@@ -98,7 +97,7 @@ describe('Unit | Domain | Models | Skill', function() {
       expect(result2).to.be.false;
     });
 
-    it('should return true if if two skills have the same ids', function() {
+    it('should return true if if two skills have the same ids', function () {
       // given
       const skill = domainBuilder.buildSkill({ id: 'rec1234567890' });
       const otherSkill = domainBuilder.buildSkill({ id: 'rec1234567890' });

@@ -8,7 +8,6 @@ function _buildSchoolingRegistration({
   birthdate = '2001-01-01',
   organization = null,
 } = {}) {
-
   return new SchoolingRegistration({ id, lastName, firstName, birthdate, organization });
 }
 
@@ -46,7 +45,7 @@ function buildOrganization({
   });
 }
 
-buildOrganization.withSchoolingRegistrations = function({
+buildOrganization.withSchoolingRegistrations = function ({
   id = 123,
   name = 'Lycée Luke Skywalker',
   type = 'SCO',

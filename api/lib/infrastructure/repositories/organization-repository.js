@@ -49,28 +49,55 @@ function _setSearchFiltersForQueryBuilder(filter, qb) {
 }
 
 module.exports = {
-
   create(organization) {
-    const organizationRawData = _.pick(organization,
-      ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles', 'createdBy'],
-    );
+    const organizationRawData = _.pick(organization, [
+      'name',
+      'type',
+      'logoUrl',
+      'externalId',
+      'provinceCode',
+      'email',
+      'isManagingStudents',
+      'canCollectProfiles',
+      'createdBy',
+    ]);
 
-    return new BookshelfOrganization()
-      .save(organizationRawData)
-      .then(_toDomain);
+    return new BookshelfOrganization().save(organizationRawData).then(_toDomain);
   },
 
   async batchCreateProOrganizations(organizations, domainTransaction = DomainTransaction.emptyTransaction()) {
-    const organizationsRawData = organizations.map((organization) => _.pick(
-      organization,
-      ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'email', 'isManagingStudents', 'canCollectProfiles', 'credit', 'createdBy'],
-    ));
-    return Bookshelf.knex.batchInsert('organizations', organizationsRawData).transacting(domainTransaction.knexTransaction).returning(['id', 'externalId', 'email', 'name']);
+    const organizationsRawData = organizations.map((organization) =>
+      _.pick(organization, [
+        'name',
+        'type',
+        'logoUrl',
+        'externalId',
+        'provinceCode',
+        'email',
+        'isManagingStudents',
+        'canCollectProfiles',
+        'credit',
+        'createdBy',
+      ])
+    );
+    return Bookshelf.knex
+      .batchInsert('organizations', organizationsRawData)
+      .transacting(domainTransaction.knexTransaction)
+      .returning(['id', 'externalId', 'email', 'name']);
   },
 
   update(organization) {
-
-    const organizationRawData = _.pick(organization, ['name', 'type', 'logoUrl', 'externalId', 'provinceCode', 'isManagingStudents', 'canCollectProfiles', 'email', 'credit']);
+    const organizationRawData = _.pick(organization, [
+      'name',
+      'type',
+      'logoUrl',
+      'externalId',
+      'provinceCode',
+      'isManagingStudents',
+      'canCollectProfiles',
+      'email',
+      'credit',
+    ]);
 
     return new BookshelfOrganization({ id: organization.id })
       .save(organizationRawData, { patch: true })
@@ -79,13 +106,9 @@ module.exports = {
   },
 
   get(id) {
-    return BookshelfOrganization
-      .where({ id })
+    return BookshelfOrganization.where({ id })
       .fetch({
-        withRelated: [
-          'targetProfileShares.targetProfile',
-          'tags',
-        ],
+        withRelated: ['targetProfileShares.targetProfile', 'tags'],
       })
       .then(_toDomain)
       .catch((err) => {
@@ -97,12 +120,10 @@ module.exports = {
   },
 
   async getIdByCertificationCenterId(certificationCenterId) {
-    const bookshelfOrganization = await BookshelfOrganization
-      .query((qb) => {
-        qb.join('certification-centers', 'certification-centers.externalId', 'organizations.externalId');
-        qb.where('certification-centers.id', '=', certificationCenterId);
-      })
-      .fetch({ require: false, columns: ['organizations.id'] });
+    const bookshelfOrganization = await BookshelfOrganization.query((qb) => {
+      qb.join('certification-centers', 'certification-centers.externalId', 'organizations.externalId');
+      qb.where('certification-centers.id', '=', certificationCenterId);
+    }).fetch({ require: false, columns: ['organizations.id'] });
 
     const id = _.get(bookshelfOrganization, 'attributes.id');
     if (id) return id;
@@ -110,10 +131,9 @@ module.exports = {
   },
 
   async getScoOrganizationByExternalId(externalId) {
-    const organizationBookshelf = await BookshelfOrganization
-      .query((qb) => qb.where({ type: Organization.types.SCO })
-        .whereRaw('LOWER("externalId") = ?', externalId.toLowerCase()))
-      .fetch({ require: false });
+    const organizationBookshelf = await BookshelfOrganization.query((qb) =>
+      qb.where({ type: Organization.types.SCO }).whereRaw('LOWER("externalId") = ?', externalId.toLowerCase())
+    ).fetch({ require: false });
 
     if (organizationBookshelf) {
       return _toDomain(organizationBookshelf);
@@ -122,16 +142,15 @@ module.exports = {
   },
 
   findByExternalIdsFetchingIdsOnly(externalIds) {
-    return BookshelfOrganization
-      .where('externalId', 'in', externalIds)
+    return BookshelfOrganization.where('externalId', 'in', externalIds)
       .fetchAll({ columns: ['id', 'externalId'] })
       .then((organizations) => organizations.models.map(_toDomain));
   },
 
   findScoOrganizationByUai(uai) {
-    return BookshelfOrganization
-      .query((qb) => qb.where({ type: Organization.types.SCO })
-        .whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`))
+    return BookshelfOrganization.query((qb) =>
+      qb.where({ type: Organization.types.SCO }).whereRaw('LOWER("externalId") = ? ', `${uai.toLowerCase()}`)
+    )
       .fetchAll({ columns: ['id', 'type', 'externalId', 'email'] })
       .then((organizations) => organizations.models.map(_toDomain));
   },
@@ -139,8 +158,7 @@ module.exports = {
   findPaginatedFiltered({ filter, page }) {
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    return BookshelfOrganization
-      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
+    return BookshelfOrganization.query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
       .fetchPage({
         page: pageNumber,
         pageSize: pageSize,
@@ -154,16 +172,14 @@ module.exports = {
   async findPaginatedFilteredByTargetProfile({ targetProfileId, filter, page }) {
     const pageSize = page.size ? page.size : DEFAULT_PAGE_SIZE;
     const pageNumber = page.number ? page.number : DEFAULT_PAGE_NUMBER;
-    const { models, pagination } = await BookshelfOrganization
-      .query((qb) => {
-        qb.where({ 'target-profile-shares.targetProfileId': targetProfileId });
-        _setSearchFiltersForQueryBuilder(filter, qb);
-        qb.innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId');
-      })
-      .fetchPage({
-        page: pageNumber,
-        pageSize,
-      });
+    const { models, pagination } = await BookshelfOrganization.query((qb) => {
+      qb.where({ 'target-profile-shares.targetProfileId': targetProfileId });
+      _setSearchFiltersForQueryBuilder(filter, qb);
+      qb.innerJoin('target-profile-shares', 'organizations.id', 'target-profile-shares.organizationId');
+    }).fetchPage({
+      page: pageNumber,
+      pageSize,
+    });
     const organizations = bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganization, models);
     return { models: organizations, pagination };
   },

@@ -1,18 +1,16 @@
-
 const { expect, databaseBuilder, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | session-controller-get-candidates-import-sheet', function() {
-
+describe('Acceptance | Controller | session-controller-get-candidates-import-sheet', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/sessions/{id}/candidates-import-sheet', function() {
+  describe('GET /api/sessions/{id}/candidates-import-sheet', function () {
     let user, sessionIdAllowed, sessionIdNotAllowed;
-    beforeEach(async function() {
+    beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser();
       const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
@@ -20,15 +18,20 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
 
       const otherUserId = databaseBuilder.factory.buildUser().id;
       const otherCertificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
-      databaseBuilder.factory.buildCertificationCenterMembership({ userId: otherUserId, certificationCenterId: otherCertificationCenterId });
+      databaseBuilder.factory.buildCertificationCenterMembership({
+        userId: otherUserId,
+        certificationCenterId: otherCertificationCenterId,
+      });
 
       sessionIdAllowed = databaseBuilder.factory.buildSession({ certificationCenterId }).id;
-      sessionIdNotAllowed = databaseBuilder.factory.buildSession({ certificationCenterId: otherCertificationCenterId }).id;
+      sessionIdNotAllowed = databaseBuilder.factory.buildSession({
+        certificationCenterId: otherCertificationCenterId,
+      }).id;
 
       await databaseBuilder.commit();
     });
 
-    it('should respond with a 200 when session can be found', async function() {
+    it('should respond with a 200 when session can be found', async function () {
       // when
       const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');
@@ -46,7 +49,7 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
       });
     });
 
-    it('should respond with a 403 when user cant access the session', async function() {
+    it('should respond with a 403 when user cant access the session', async function () {
       // when
       const authHeader = generateValidRequestAuthorizationHeader(user.id);
       const token = authHeader.replace('Bearer ', '');
@@ -64,5 +67,4 @@ describe('Acceptance | Controller | session-controller-get-candidates-import-she
       });
     });
   });
-
 });

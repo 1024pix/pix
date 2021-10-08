@@ -1,9 +1,4 @@
-const {
-  expect,
-  sinon,
-  domainBuilder,
-  catchErr,
-} = require('../../../test-helper');
+const { expect, sinon, domainBuilder, catchErr } = require('../../../test-helper');
 
 const authenticateUser = require('../../../../lib/domain/usecases/authenticate-user');
 const User = require('../../../../lib/domain/models/User');
@@ -18,15 +13,14 @@ const {
 const authenticationService = require('../../../../lib/domain/services/authentication-service');
 const appMessages = require('../../../../lib/domain/constants');
 
-describe('Unit | Application | UseCase | authenticate-user', function() {
-
+describe('Unit | Application | UseCase | authenticate-user', function () {
   let tokenService;
   let userRepository;
 
   const userEmail = 'user@example.net';
   const password = 'Password1234';
 
-  beforeEach(function() {
+  beforeEach(function () {
     tokenService = {
       createAccessTokenFromUser: sinon.stub(),
     };
@@ -37,7 +31,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     sinon.stub(authenticationService, 'getUserByUsernameAndPassword');
   });
 
-  it('should resolves a valid JWT access token when authentication succeeded', async function() {
+  it('should resolves a valid JWT access token when authentication succeeded', async function () {
     // given
     const accessToken = 'jwt.access.token';
     const source = 'pix';
@@ -61,11 +55,10 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
       password,
       userRepository,
     });
-    expect(tokenService.createAccessTokenFromUser)
-      .to.have.been.calledWithExactly(user.id, source);
+    expect(tokenService.createAccessTokenFromUser).to.have.been.calledWithExactly(user.id, source);
   });
 
-  it('should save the last date of login when authentication succeeded', async function() {
+  it('should save the last date of login when authentication succeeded', async function () {
     // given
     const accessToken = 'jwt.access.token';
     const source = 'pix';
@@ -87,7 +80,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     expect(userRepository.updateLastLoggedAt).to.have.been.calledWithExactly({ userId: user.id });
   });
 
-  it('should rejects an error when given username (email) does not match an existing one', async function() {
+  it('should rejects an error when given username (email) does not match an existing one', async function () {
     // given
     const unknownUserEmail = 'unknown_user_email@example.net';
     authenticationService.getUserByUsernameAndPassword.rejects(new UserNotFoundError());
@@ -104,7 +97,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
   });
 
-  it('should rejects an error when given password does not match the found user’s one', async function() {
+  it('should rejects an error when given password does not match the found user’s one', async function () {
     // given
     authenticationService.getUserByUsernameAndPassword.rejects(new MissingOrInvalidCredentialsError());
 
@@ -120,9 +113,8 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     expect(error).to.be.an.instanceOf(MissingOrInvalidCredentialsError);
   });
 
-  context('scope access', function() {
-
-    it('should rejects an error when scope is pix-orga and user is not linked to any organizations', async function() {
+  context('scope access', function () {
+    it('should rejects an error when scope is pix-orga and user is not linked to any organizations', async function () {
       // given
       const scope = appMessages.PIX_ORGA.SCOPE;
       const user = new User({ email: userEmail, memberships: [] });
@@ -144,7 +136,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
       expect(error.message).to.be.equal(expectedErrorMessage);
     });
 
-    it('should rejects an error when scope is pix-admin and user has not pix master role', async function() {
+    it('should rejects an error when scope is pix-admin and user has not pix master role', async function () {
       // given
       const scope = appMessages.PIX_ADMIN.SCOPE;
       const user = new User({ email: userEmail, pixRoles: [] });
@@ -166,7 +158,7 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
       expect(error.message).to.be.equal(expectedErrorMessage);
     });
 
-    it('should rejects an error when scope is pix-certif and user is not linked to any certification centers', async function() {
+    it('should rejects an error when scope is pix-certif and user is not linked to any certification centers', async function () {
       // given
       const scope = appMessages.PIX_CERTIF.SCOPE;
       const user = domainBuilder.buildUser({ email: userEmail, certificationCenterMemberships: [] });
@@ -189,9 +181,8 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
     });
   });
 
-  context('when user should change password', function() {
-
-    it('should throw UserShouldChangePasswordError', async function() {
+  context('when user should change password', function () {
+    it('should throw UserShouldChangePasswordError', async function () {
       // given
       const user = domainBuilder.buildUser({ email: userEmail });
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithRawPassword({
@@ -215,5 +206,4 @@ describe('Unit | Application | UseCase | authenticate-user', function() {
       expect(error).to.be.an.instanceOf(UserShouldChangePasswordError);
     });
   });
-
 });

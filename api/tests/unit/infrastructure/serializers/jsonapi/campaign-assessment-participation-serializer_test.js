@@ -4,15 +4,13 @@ const CampaignParticipation = require('../../../../../lib/domain/models/Campaign
 const CampaignAssessmentParticipation = require('../../../../../lib/domain/read-models/CampaignAssessmentParticipation');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/campaign-assessment-participation-serializer');
 
-describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serializer', function() {
-
-  describe('#serialize()', function() {
-
+describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serializer', function () {
+  describe('#serialize()', function () {
     let modelCampaignAssessmentParticipation;
     let expectedJsonApi;
 
-    describe('with badges', function() {
-      beforeEach(function() {
+    describe('with badges', function () {
+      beforeEach(function () {
         const createdAt = new Date('2020-01-01');
         const sharedAt = new Date('2020-01-02');
         expectedJsonApi = {
@@ -28,14 +26,16 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'is-shared': true,
               'shared-at': sharedAt,
               'mastery-rate': 0.35,
-              'progression': 1,
+              progression: 1,
             },
             relationships: {
-              'badges': {
-                data: [{
-                  id: '1',
-                  type: 'badges',
-                }],
+              badges: {
+                data: [
+                  {
+                    id: '1',
+                    type: 'badges',
+                  },
+                ],
               },
               'campaign-analysis': {
                 links: {
@@ -44,20 +44,22 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               },
               'campaign-assessment-participation-result': {
                 links: {
-                  'related': '/api/campaigns/2/assessment-participations/1/results',
+                  related: '/api/campaigns/2/assessment-participations/1/results',
                 },
               },
             },
           },
-          included: [{
-            id: '1',
-            type: 'badges',
-            attributes: {
-              'alt-message': 'someAltMessage',
-              'image-url': 'someImageUrl',
-              title: 'someTitle',
+          included: [
+            {
+              id: '1',
+              type: 'badges',
+              attributes: {
+                'alt-message': 'someAltMessage',
+                'image-url': 'someImageUrl',
+                title: 'someTitle',
+              },
             },
-          }],
+          ],
         };
 
         modelCampaignAssessmentParticipation = new CampaignAssessmentParticipation({
@@ -77,7 +79,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
         });
       });
 
-      it('should convert a CampaignAssessmentParticipation model object into JSON API data', function() {
+      it('should convert a CampaignAssessmentParticipation model object into JSON API data', function () {
         // when
         const json = serializer.serialize(modelCampaignAssessmentParticipation);
 
@@ -86,8 +88,8 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
       });
     });
 
-    describe('without badges', function() {
-      beforeEach(function() {
+    describe('without badges', function () {
+      beforeEach(function () {
         const createdAt = new Date('2020-01-01');
         const sharedAt = new Date('2020-01-02');
         expectedJsonApi = {
@@ -103,10 +105,10 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               'is-shared': true,
               'shared-at': sharedAt,
               'mastery-rate': 0.35,
-              'progression': 1,
+              progression: 1,
             },
             relationships: {
-              'badges': {
+              badges: {
                 data: [],
               },
               'campaign-analysis': {
@@ -116,7 +118,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
               },
               'campaign-assessment-participation-result': {
                 links: {
-                  'related': '/api/campaigns/2/assessment-participations/1/results',
+                  related: '/api/campaigns/2/assessment-participations/1/results',
                 },
               },
             },
@@ -139,7 +141,7 @@ describe('Unit | Serializer | JSONAPI | campaign-assessment-participation-serial
         });
       });
 
-      it('should convert a CampaignAssessmentParticipation model object into JSON API data', function() {
+      it('should convert a CampaignAssessmentParticipation model object into JSON API data', function () {
         // when
         const json = serializer.serialize(modelCampaignAssessmentParticipation);
 

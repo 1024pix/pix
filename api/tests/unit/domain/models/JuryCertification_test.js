@@ -1,12 +1,11 @@
 const { expect, domainBuilder } = require('../../../test-helper');
 const JuryCertification = require('../../../../lib/domain/models/JuryCertification');
 
-describe('Unit | Domain | Models | JuryCertification', function() {
-
-  describe('#from', function() {
+describe('Unit | Domain | Models | JuryCertification', function () {
+  describe('#from', function () {
     let juryCertificationBaseDTO;
 
-    beforeEach(function() {
+    beforeEach(function () {
       juryCertificationBaseDTO = {
         certificationCourseId: 123,
         sessionId: 456,
@@ -28,11 +27,21 @@ describe('Unit | Domain | Models | JuryCertification', function() {
         commentForCandidate: 'coucou',
         commentForOrganization: 'comment',
         commentForJury: 'ça va',
-        competenceMarks: [{ 'id': 123, 'score': 10, 'level': 4, 'area_code': '2', 'competence_code': '2.3', 'assessmentResultId': 753, 'competenceId': 'recComp23' }],
+        competenceMarks: [
+          {
+            id: 123,
+            score: 10,
+            level: 4,
+            area_code: '2',
+            competence_code: '2.3',
+            assessmentResultId: 753,
+            competenceId: 'recComp23',
+          },
+        ],
       };
     });
 
-    it('should return an instance of JuryCertification', function() {
+    it('should return an instance of JuryCertification', function () {
       // given
       const certificationIssueReport = domainBuilder.buildCertificationIssueReport({ id: 555 });
       const juryCertificationDTO = {
@@ -40,8 +49,10 @@ describe('Unit | Domain | Models | JuryCertification', function() {
         isCancelled: false,
       };
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       const certificationIssueReports = [certificationIssueReport];
 
       // when
@@ -93,9 +104,8 @@ describe('Unit | Domain | Models | JuryCertification', function() {
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
 
-    context('status', function() {
-
-      it('should return a cancelled juryCertification regardless of assessment result status if certif is cancelled', function() {
+    context('status', function () {
+      it('should return a cancelled juryCertification regardless of assessment result status if certif is cancelled', function () {
         // given
         const juryCertificationDTO = {
           ...juryCertificationBaseDTO,
@@ -103,8 +113,10 @@ describe('Unit | Domain | Models | JuryCertification', function() {
           assessmentResultStatus: 'WHATEVERIWANT',
         };
         const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+        const pixPlusDroitMaitreCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
+        const pixPlusDroitExpertCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
 
         // when
         const juryCertification = JuryCertification.from({
@@ -119,7 +131,7 @@ describe('Unit | Domain | Models | JuryCertification', function() {
         expect(juryCertification.status).to.equal('cancelled');
       });
 
-      it('should set the status of the juryCertification as the assessmentResultStatus otherwise', function() {
+      it('should set the status of the juryCertification as the assessmentResultStatus otherwise', function () {
         // given
         const juryCertificationDTO = {
           ...juryCertificationBaseDTO,
@@ -127,8 +139,10 @@ describe('Unit | Domain | Models | JuryCertification', function() {
           assessmentResultStatus: 'WHATEVERIWANT',
         };
         const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-        const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
-        const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+        const pixPlusDroitMaitreCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
+        const pixPlusDroitExpertCertificationResult =
+          domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
 
         // when
         const juryCertification = JuryCertification.from({

@@ -6,8 +6,7 @@ const BadgePartnerCompetence = require('../../../../lib/domain/models/BadgePartn
 const omit = require('lodash/omit');
 const { AlreadyExistingEntityError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | Badge', function() {
-
+describe('Integration | Repository | Badge', function () {
   let targetProfileWithPartnerCompetences;
   let targetProfileWithoutBadge;
   let targetProfileWithSeveralBadges;
@@ -21,7 +20,7 @@ describe('Integration | Repository | Badge', function() {
   let badgeCriterionForBadgeWithSameTargetProfile_1;
   let badgeCriterionForBadgeWithSameTargetProfile_2;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     targetProfileWithoutBadge = databaseBuilder.factory.buildTargetProfile();
     setupTargetProfileWithPartnerCompetences();
     setupTargetProfileWithSeveralBadges();
@@ -59,9 +58,18 @@ describe('Integration | Repository | Badge', function() {
       partnerCompetenceIds: [1, 2],
     };
 
-    databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithPartnerCompetences, badgeId: badgeWithBadgePartnerCompetences.id });
-    databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence_1, badgeId: badgeWithBadgePartnerCompetences.id });
-    databaseBuilder.factory.buildBadgePartnerCompetence({ ...badgePartnerCompetence_2, badgeId: badgeWithBadgePartnerCompetences.id });
+    databaseBuilder.factory.buildBadgeCriterion({
+      ...badgeCriterionForBadgeWithPartnerCompetences,
+      badgeId: badgeWithBadgePartnerCompetences.id,
+    });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      ...badgePartnerCompetence_1,
+      badgeId: badgeWithBadgePartnerCompetences.id,
+    });
+    databaseBuilder.factory.buildBadgePartnerCompetence({
+      ...badgePartnerCompetence_2,
+      badgeId: badgeWithBadgePartnerCompetences.id,
+    });
   }
 
   function setupTargetProfileWithSeveralBadges() {
@@ -80,7 +88,10 @@ describe('Integration | Repository | Badge', function() {
       threshold: 88,
       partnerCompetenceIds: [],
     };
-    databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_1, badgeId: badgeWithSameTargetProfile_1.id });
+    databaseBuilder.factory.buildBadgeCriterion({
+      ...badgeCriterionForBadgeWithSameTargetProfile_1,
+      badgeId: badgeWithSameTargetProfile_1.id,
+    });
 
     badgeWithSameTargetProfile_2 = databaseBuilder.factory.buildBadge({
       altMessage: 'You won the GREEN badge!',
@@ -89,24 +100,26 @@ describe('Integration | Repository | Badge', function() {
       key: 'GREEN',
       targetProfileId: targetProfileWithSeveralBadges.id,
     });
-    badgeCriterionForBadgeWithSameTargetProfile_2 = ({
+    badgeCriterionForBadgeWithSameTargetProfile_2 = {
       id: 789,
       scope: BadgeCriterion.SCOPES.CAMPAIGN_PARTICIPATION,
       threshold: 35,
       partnerCompetenceIds: [],
+    };
+    databaseBuilder.factory.buildBadgeCriterion({
+      ...badgeCriterionForBadgeWithSameTargetProfile_2,
+      badgeId: badgeWithSameTargetProfile_2.id,
     });
-    databaseBuilder.factory.buildBadgeCriterion({ ...badgeCriterionForBadgeWithSameTargetProfile_2, badgeId: badgeWithSameTargetProfile_2.id });
   }
 
-  afterEach(async function() {
+  afterEach(async function () {
     await knex('badge-partner-competences').delete();
     await knex('badge-criteria').delete();
     await knex('badges').delete();
   });
 
-  describe('#findByTargetProfileId', function() {
-
-    it('should return two badges for same target profile', async function() {
+  describe('#findByTargetProfileId', function () {
+    it('should return two badges for same target profile', async function () {
       // given
       const targetProfileId = targetProfileWithSeveralBadges.id;
 
@@ -116,23 +129,31 @@ describe('Integration | Repository | Badge', function() {
       expect(badges.length).to.equal(2);
 
       const firstBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_1.id);
-      expect(omit(firstBadge, 'id')).deep.equal(omit({
-        ...badgeWithSameTargetProfile_1,
-        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
-        badgePartnerCompetences: [],
-      }, 'id'));
+      expect(omit(firstBadge, 'id')).deep.equal(
+        omit(
+          {
+            ...badgeWithSameTargetProfile_1,
+            badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_1],
+            badgePartnerCompetences: [],
+          },
+          'id'
+        )
+      );
 
       const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-      expect(omit(secondBadge, 'id')).deep.equal(omit(
-        {
-          ...badgeWithSameTargetProfile_2,
-          badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
-          badgePartnerCompetences: [],
-        }, 'id'));
-
+      expect(omit(secondBadge, 'id')).deep.equal(
+        omit(
+          {
+            ...badgeWithSameTargetProfile_2,
+            badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
+            badgePartnerCompetences: [],
+          },
+          'id'
+        )
+      );
     });
 
-    it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async function() {
+    it('should return the badge linked to the given target profile with related badge criteria and badge partner competences', async function () {
       // given
       const targetProfileId = targetProfileWithPartnerCompetences.id;
 
@@ -146,12 +167,12 @@ describe('Integration | Repository | Badge', function() {
       expect(badges[0].badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
       expect(badges[0]).to.deep.equal({
         ...badgeWithBadgePartnerCompetences,
-        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
-        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
+        badgeCriteria: [badgeCriterionForBadgeWithPartnerCompetences],
+        badgePartnerCompetences: [badgePartnerCompetence_1, badgePartnerCompetence_2],
       });
     });
 
-    it('should return an empty array when the given target profile has no badges', async function() {
+    it('should return an empty array when the given target profile has no badges', async function () {
       // given
       const targetProfileId = targetProfileWithoutBadge.id;
 
@@ -163,9 +184,8 @@ describe('Integration | Repository | Badge', function() {
     });
   });
 
-  describe('#findByCampaignId', function() {
-
-    it('should return two badges for same target profile', async function() {
+  describe('#findByCampaignId', function () {
+    it('should return two badges for same target profile', async function () {
       // given
       const targetProfileId = targetProfileWithSeveralBadges.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -192,7 +212,7 @@ describe('Integration | Repository | Badge', function() {
       });
     });
 
-    it('should return the badge linked to the given campaign with related badge criteria and badge partner competences', async function() {
+    it('should return the badge linked to the given campaign with related badge criteria and badge partner competences', async function () {
       // given
       const targetProfileId = targetProfileWithPartnerCompetences.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -208,12 +228,12 @@ describe('Integration | Repository | Badge', function() {
       expect(badges[0].badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
       expect(badges[0]).to.deep.equal({
         ...badgeWithBadgePartnerCompetences,
-        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
-        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
+        badgeCriteria: [badgeCriterionForBadgeWithPartnerCompetences],
+        badgePartnerCompetences: [badgePartnerCompetence_1, badgePartnerCompetence_2],
       });
     });
 
-    it('should return an empty array when the given campaign has no badges', async function() {
+    it('should return an empty array when the given campaign has no badges', async function () {
       // given
       const targetProfileId = targetProfileWithoutBadge.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -226,7 +246,7 @@ describe('Integration | Repository | Badge', function() {
       expect(badges).to.have.lengthOf(0);
     });
 
-    it('should not return a badge from another campaign', async function() {
+    it('should not return a badge from another campaign', async function () {
       // given
       const targetProfileId = targetProfileWithSeveralBadges.id;
       databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -239,12 +259,10 @@ describe('Integration | Repository | Badge', function() {
       // then
       expect(badges).to.have.lengthOf(0);
     });
-
   });
 
-  describe('#findByCampaignParticipationId', function() {
-
-    beforeEach(function() {
+  describe('#findByCampaignParticipationId', function () {
+    beforeEach(function () {
       const targetProfileId = databaseBuilder.factory.buildTargetProfile().id;
       databaseBuilder.factory.buildBadge({ targetProfileId, key: 'mille_feuilles' });
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -252,7 +270,7 @@ describe('Integration | Repository | Badge', function() {
       return databaseBuilder.commit();
     });
 
-    it('should return the badges linked to the target profile of the given campaign participation', async function() {
+    it('should return the badges linked to the target profile of the given campaign participation', async function () {
       // given
       const targetProfileId = targetProfileWithSeveralBadges.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -272,16 +290,14 @@ describe('Integration | Repository | Badge', function() {
       });
 
       const secondBadge = badges.find(({ id }) => id === badgeWithSameTargetProfile_2.id);
-      expect(secondBadge).deep.equal(
-        {
-          ...badgeWithSameTargetProfile_2,
-          badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
-          badgePartnerCompetences: [],
-        });
-
+      expect(secondBadge).deep.equal({
+        ...badgeWithSameTargetProfile_2,
+        badgeCriteria: [badgeCriterionForBadgeWithSameTargetProfile_2],
+        badgePartnerCompetences: [],
+      });
     });
 
-    it('should return the badge linked to the target profile of the given campaign participation with related badge criteria and badge partner competences', async function() {
+    it('should return the badge linked to the target profile of the given campaign participation with related badge criteria and badge partner competences', async function () {
       // given
       const targetProfileId = targetProfileWithPartnerCompetences.id;
       const campaignId = databaseBuilder.factory.buildCampaign({ targetProfileId }).id;
@@ -298,12 +314,12 @@ describe('Integration | Repository | Badge', function() {
       expect(badges[0].badgePartnerCompetences[0]).to.be.an.instanceOf(BadgePartnerCompetence);
       expect(badges[0]).to.deep.equal({
         ...badgeWithBadgePartnerCompetences,
-        badgeCriteria: [ badgeCriterionForBadgeWithPartnerCompetences ],
-        badgePartnerCompetences: [ badgePartnerCompetence_1, badgePartnerCompetence_2 ],
+        badgeCriteria: [badgeCriterionForBadgeWithPartnerCompetences],
+        badgePartnerCompetences: [badgePartnerCompetence_1, badgePartnerCompetence_2],
       });
     });
 
-    it('should return an empty array when the given target profile has no badges', async function() {
+    it('should return an empty array when the given target profile has no badges', async function () {
       // given
       const targetProfileId = targetProfileWithoutBadge.id;
 
@@ -315,10 +331,10 @@ describe('Integration | Repository | Badge', function() {
     });
   });
 
-  describe('#get', function() {
+  describe('#get', function () {
     let badge;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       badge = databaseBuilder.factory.buildBadge({
         id: 1,
         altMessage: 'You won the Toto badge!',
@@ -331,13 +347,13 @@ describe('Integration | Repository | Badge', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a badge', async function() {
+    it('should return a badge', async function () {
       const myBadge = await badgeRepository.get(badge.id);
 
       expect(myBadge.id).to.equal(1);
     });
 
-    it('should return a badge with badgeCriteria and badgePartnerCompetences', async function() {
+    it('should return a badge with badgeCriteria and badgePartnerCompetences', async function () {
       const myBadge = await badgeRepository.get(badge.id);
 
       expect(myBadge.badgeCriteria.length).to.equal(1);
@@ -345,10 +361,10 @@ describe('Integration | Repository | Badge', function() {
     });
   });
 
-  describe('#getByKey', function() {
+  describe('#getByKey', function () {
     let badge;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       badge = databaseBuilder.factory.buildBadge({
         id: 1,
         altMessage: 'You won the Toto badge!',
@@ -361,13 +377,13 @@ describe('Integration | Repository | Badge', function() {
       await databaseBuilder.commit();
     });
 
-    it('should return a badge', async function() {
+    it('should return a badge', async function () {
       const myBadge = await badgeRepository.getByKey(badge.key);
 
       expect(myBadge.id).to.equal(1);
     });
 
-    it('should return a badge with badgeCriteria and badgePartnerCompetences', async function() {
+    it('should return a badge with badgeCriteria and badgePartnerCompetences', async function () {
       const myBadge = await badgeRepository.getByKey(badge.key);
 
       expect(myBadge.badgeCriteria.length).to.equal(1);
@@ -375,8 +391,8 @@ describe('Integration | Repository | Badge', function() {
     });
   });
 
-  describe('#save', function() {
-    it('should persist badge in database', async function() {
+  describe('#save', function () {
+    it('should persist badge in database', async function () {
       // given
       const badge = {
         altMessage: 'You won the Toto badge!',
@@ -399,8 +415,8 @@ describe('Integration | Repository | Badge', function() {
       expect(omit(result, 'id')).to.deep.equal(omit(badge, 'id'));
     });
 
-    describe('when the badge key already exists', function() {
-      it('should throw an AlreadyExistingEntityError', async function() {
+    describe('when the badge key already exists', function () {
+      it('should throw an AlreadyExistingEntityError', async function () {
         // given
         const alreadyExistingBadge = {
           altMessage: 'You won the Toto badge!',
@@ -426,8 +442,8 @@ describe('Integration | Repository | Badge', function() {
     });
   });
 
-  describe('#isKeyAvailable', function() {
-    it('should return true', async function() {
+  describe('#isKeyAvailable', function () {
+    it('should return true', async function () {
       // given
       const key = 'NOT_EXISTING_KEY';
 
@@ -438,8 +454,8 @@ describe('Integration | Repository | Badge', function() {
       expect(result).to.be.true;
     });
 
-    describe('when key is already exists', function() {
-      it('should return AlreadyExistEntityError', async function() {
+    describe('when key is already exists', function () {
+      it('should return AlreadyExistEntityError', async function () {
         // given
         const key = 'AN_EXISTING_KEY';
         databaseBuilder.factory.buildBadge({ key });

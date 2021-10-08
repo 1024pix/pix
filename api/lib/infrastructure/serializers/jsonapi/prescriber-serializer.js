@@ -1,10 +1,8 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(prescriber) {
     return new Serializer('prescriber', {
-
       transform: (record) => {
         const recordWithoutClass = { ...record };
         recordWithoutClass.memberships.forEach((membership) => {
@@ -26,8 +24,13 @@ module.exports = {
       },
 
       attributes: [
-        'firstName', 'lastName', 'pixOrgaTermsOfServiceAccepted', 'areNewYearSchoolingRegistrationsImported', 'lang',
-        'memberships', 'userOrgaSettings',
+        'firstName',
+        'lastName',
+        'pixOrgaTermsOfServiceAccepted',
+        'areNewYearSchoolingRegistrationsImported',
+        'lang',
+        'memberships',
+        'userOrgaSettings',
       ],
       memberships: {
         ref: 'id',
@@ -42,13 +45,27 @@ module.exports = {
         attributes: ['organization', 'user'],
         organization: {
           ref: 'id',
-          attributes: ['name', 'type', 'credit', 'isManagingStudents', 'canCollectProfiles', 'isAgriculture', 'isAEFE', 'isMLF', 'isMediationNumerique', 'targetProfiles', 'memberships', 'students', 'organizationInvitations'],
+          attributes: [
+            'name',
+            'type',
+            'credit',
+            'isManagingStudents',
+            'canCollectProfiles',
+            'isAgriculture',
+            'isAEFE',
+            'isMLF',
+            'isMediationNumerique',
+            'targetProfiles',
+            'memberships',
+            'students',
+            'organizationInvitations',
+          ],
           memberships: {
             ref: 'id',
             ignoreRelationshipData: true,
             nullIfMissing: true,
             relationshipLinks: {
-              related: function(record, current, parent) {
+              related: function (record, current, parent) {
                 return `/api/organizations/${parent.id}/memberships`;
               },
             },
@@ -58,7 +75,7 @@ module.exports = {
             ignoreRelationshipData: true,
             nullIfMissing: true,
             relationshipLinks: {
-              related: function(record, current, parent) {
+              related: function (record, current, parent) {
                 return `/api/organizations/${parent.id}/invitations`;
               },
             },
@@ -68,7 +85,7 @@ module.exports = {
             ignoreRelationshipData: true,
             nullIfMissing: true,
             relationshipLinks: {
-              related: function(record, current, parent) {
+              related: function (record, current, parent) {
                 return `/api/organizations/${parent.id}/students`;
               },
             },
@@ -78,7 +95,7 @@ module.exports = {
             ignoreRelationshipData: true,
             nullIfMissing: true,
             relationshipLinks: {
-              related: function(record, current, parent) {
+              related: function (record, current, parent) {
                 return `/api/organizations/${parent.id}/target-profiles`;
               },
             },

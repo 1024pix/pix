@@ -1,5 +1,4 @@
 class UserDetailsForAdmin {
-
   constructor({
     id,
     cgu,

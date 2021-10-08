@@ -11,11 +11,10 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const moduleUnderTest = require('../../../../lib/application/passwords');
 
-describe('Integration | Application | Passwords | password-controller', function() {
-
+describe('Integration | Application | Passwords | password-controller', function () {
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sinon.stub(usecases, 'createPasswordResetDemand');
     sinon.stub(usecases, 'getUserByResetPasswordDemand');
     sinon.stub(usecases, 'updateExpiredPassword');
@@ -24,8 +23,7 @@ describe('Integration | Application | Passwords | password-controller', function
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('#createResetDemand', function() {
-
+  describe('#createResetDemand', function () {
     const email = 'user@example.net';
     const temporaryKey = 'ABCDEF123';
 
@@ -41,9 +39,8 @@ describe('Integration | Application | Passwords | password-controller', function
       },
     };
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 201', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 201', async function () {
         // given
         const resetPasswordDemand = {
           attributes: {
@@ -70,9 +67,8 @@ describe('Integration | Application | Passwords | password-controller', function
       });
     });
 
-    context('Error cases', function() {
-
-      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function() {
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
         // given
         usecases.createPasswordResetDemand.throws(new UserNotFoundError());
 
@@ -85,8 +81,7 @@ describe('Integration | Application | Passwords | password-controller', function
     });
   });
 
-  describe('#checkResetDemand', function() {
-
+  describe('#checkResetDemand', function () {
     const method = 'GET';
     const url = '/api/password-reset-demands/ABCDEF123';
 
@@ -96,9 +91,8 @@ describe('Integration | Application | Passwords | password-controller', function
     // eslint-disable-next-line mocha/no-setup-in-describe
     const user = domainBuilder.buildUser({ email });
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 200', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 200', async function () {
         // given
         usecases.getUserByResetPasswordDemand.resolves(user);
 
@@ -113,9 +107,8 @@ describe('Integration | Application | Passwords | password-controller', function
       });
     });
 
-    context('Error cases', function() {
-
-      it('should respond an HTTP response with status code 401 when InvalidTemporaryKeyError', async function() {
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 401 when InvalidTemporaryKeyError', async function () {
         // given
         usecases.getUserByResetPasswordDemand.rejects(new InvalidTemporaryKeyError());
 
@@ -126,7 +119,7 @@ describe('Integration | Application | Passwords | password-controller', function
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond an HTTP response with status code 404 when PasswordResetDemandNotFoundError', async function() {
+      it('should respond an HTTP response with status code 404 when PasswordResetDemandNotFoundError', async function () {
         // given
         usecases.getUserByResetPasswordDemand.rejects(new PasswordResetDemandNotFoundError());
 
@@ -137,7 +130,7 @@ describe('Integration | Application | Passwords | password-controller', function
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function() {
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
         // given
         usecases.getUserByResetPasswordDemand.rejects(new UserNotFoundError());
 
@@ -150,8 +143,7 @@ describe('Integration | Application | Passwords | password-controller', function
     });
   });
 
-  describe('#updateExpiredPassword', function() {
-
+  describe('#updateExpiredPassword', function () {
     const method = 'POST';
     const url = '/api/expired-password-updates';
     const payload = {
@@ -165,9 +157,8 @@ describe('Integration | Application | Passwords | password-controller', function
       },
     };
 
-    context('Success cases', function() {
-
-      it('should return an HTTP response with status code 201', async function() {
+    context('Success cases', function () {
+      it('should return an HTTP response with status code 201', async function () {
         // given
         usecases.updateExpiredPassword.resolves();
 
@@ -179,9 +170,8 @@ describe('Integration | Application | Passwords | password-controller', function
       });
     });
 
-    context('Error cases', function() {
-
-      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function() {
+    context('Error cases', function () {
+      it('should respond an HTTP response with status code 404 when UserNotFoundError', async function () {
         // given
         usecases.updateExpiredPassword.rejects(new UserNotFoundError());
 
@@ -192,7 +182,7 @@ describe('Integration | Application | Passwords | password-controller', function
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond an HTTP response with status code 401 when PasswordNotMatching', async function() {
+      it('should respond an HTTP response with status code 401 when PasswordNotMatching', async function () {
         // given
         usecases.updateExpiredPassword.rejects(new PasswordNotMatching());
 
@@ -203,7 +193,7 @@ describe('Integration | Application | Passwords | password-controller', function
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond an HTTP response with status code 403 when ForbiddenAccess', async function() {
+      it('should respond an HTTP response with status code 403 when ForbiddenAccess', async function () {
         // given
         usecases.updateExpiredPassword.rejects(new ForbiddenAccess());
 
@@ -215,5 +205,4 @@ describe('Integration | Application | Passwords | password-controller', function
       });
     });
   });
-
 });

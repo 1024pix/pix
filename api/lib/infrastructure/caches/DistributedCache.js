@@ -2,7 +2,6 @@ const Cache = require('./Cache');
 const RedisClient = require('../utils/RedisClient');
 
 class DistributedCache extends Cache {
-
   constructor(underlyingCache, redisUrl, channel) {
     super();
 
@@ -31,7 +30,6 @@ class DistributedCache extends Cache {
   flushAll() {
     return this._redisClientPublisher.publish(this._channel, 'Flush all');
   }
-
 }
 
 module.exports = DistributedCache;

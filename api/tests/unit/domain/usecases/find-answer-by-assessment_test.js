@@ -2,22 +2,22 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const findAnswerByAssessment = require('../../../../lib/domain/usecases/find-answer-by-assessment');
 const { UserNotAuthorizedToAccessEntityError, EntityValidationError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function() {
-
+describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function () {
   const assessmentId = 123;
   const userId = 'userId';
   let answerRepository, assessmentRepository, answers;
 
-  beforeEach(function() {
-    answers =
-      [{
+  beforeEach(function () {
+    answers = [
+      {
         id: 1,
         assessmentId,
       },
       {
         id: 2,
         assessmentId,
-      }];
+      },
+    ];
     const assessment = {
       id: assessmentId,
       userId: userId,
@@ -35,10 +35,15 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function() 
     assessmentRepository.ownedByUser.withArgs({ id: assessmentId, userId }).resolves(assessment);
   });
 
-  context('when the assessmentid passed is not an integer', function() {
-    it('should throw an error', async function() {
+  context('when the assessmentid passed is not an integer', function () {
+    it('should throw an error', async function () {
       // when
-      const error = await catchErr(findAnswerByAssessment)({ assessmentId: 'salut', userId, answerRepository, assessmentRepository });
+      const error = await catchErr(findAnswerByAssessment)({
+        assessmentId: 'salut',
+        userId,
+        answerRepository,
+        assessmentRepository,
+      });
 
       // then
       expect(error).to.be.instanceOf(EntityValidationError);
@@ -47,25 +52,33 @@ describe('Unit | UseCase | find-answer-by-challenge-and-assessment', function() 
     });
   });
 
-  context('when user asked for answer is the user of the assessment', function() {
-    it('should get the answer', async function() {
-
+  context('when user asked for answer is the user of the assessment', function () {
+    it('should get the answer', async function () {
       // when
-      const resultAnswers = await findAnswerByAssessment({ assessmentId, userId, answerRepository, assessmentRepository });
+      const resultAnswers = await findAnswerByAssessment({
+        assessmentId,
+        userId,
+        answerRepository,
+        assessmentRepository,
+      });
 
       // then
       expect(resultAnswers).to.deep.equal(answers);
     });
   });
 
-  context('when user asked for answer is not the user of the assessment', function() {
-    it('should return empty array', async function() {
+  context('when user asked for answer is not the user of the assessment', function () {
+    it('should return empty array', async function () {
       // when
-      const result = await catchErr(findAnswerByAssessment)({ assessmentId, userId: userId + 1, answerRepository, assessmentRepository });
+      const result = await catchErr(findAnswerByAssessment)({
+        assessmentId,
+        userId: userId + 1,
+        answerRepository,
+        assessmentRepository,
+      });
 
       // then
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
-
 });

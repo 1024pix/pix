@@ -1,11 +1,9 @@
 const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/badge-with-learning-content-serializer');
 
-describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Badge model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Badge model object into JSON API data', function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -16,9 +14,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         title: 'Banana',
         targetProfileId: '1',
         isCertifiable: false,
-        badgeCriteria: [
-          domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null }),
-        ],
+        badgeCriteria: [domainBuilder.buildBadgeCriterion({ partnerCompetenceIds: null })],
         badgePartnerCompetences: [],
       });
       const badgeWithLearningContent = domainBuilder.buildBadgeWithLearningContent({ badge });
@@ -37,13 +33,15 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
           type: 'badges',
           relationships: {
             'badge-criteria': {
-              'data': [{
-                id: '1',
-                type: 'badge-criteria',
-              }],
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-criteria',
+                },
+              ],
             },
             'badge-partner-competences': {
-              'data': [],
+              data: [],
             },
           },
         },
@@ -66,7 +64,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
 
-    it('should convert a Badge model with badge partner competence object into JSON API data', function() {
+    it('should convert a Badge model with badge partner competence object into JSON API data', function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -84,9 +82,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         domainBuilder.buildSkill({ id: 'recDEF', name: '@sau7', tubeId: 'recTUB123' }),
       ];
 
-      const tubes = [
-        domainBuilder.buildTube({ id: 'recTUB123', name: '@sau', skills }),
-      ];
+      const tubes = [domainBuilder.buildTube({ id: 'recTUB123', name: '@sau', skills })];
 
       const badgeWithLearningContent = domainBuilder.buildBadgeWithLearningContent({ badge, skills, tubes });
 
@@ -104,22 +100,28 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
           type: 'badges',
           relationships: {
             'badge-criteria': {
-              'data': [{
-                id: '1',
-                type: 'badge-criteria',
-              }, {
-                id: '2',
-                type: 'badge-criteria',
-              }],
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-criteria',
+                },
+                {
+                  id: '2',
+                  type: 'badge-criteria',
+                },
+              ],
             },
             'badge-partner-competences': {
-              'data': [{
-                id: '1',
-                type: 'badge-partner-competences',
-              }, {
-                id: '2',
-                type: 'badge-partner-competences',
-              }],
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-partner-competences',
+                },
+                {
+                  id: '2',
+                  type: 'badge-partner-competences',
+                },
+              ],
             },
           },
         },
@@ -144,13 +146,16 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             },
             relationships: {
               'partner-competences': {
-                data: [{
-                  id: '1',
-                  type: 'badge-partner-competences',
-                }, {
-                  id: '2',
-                  type: 'badge-partner-competences',
-                }],
+                data: [
+                  {
+                    id: '1',
+                    type: 'badge-partner-competences',
+                  },
+                  {
+                    id: '2',
+                    type: 'badge-partner-competences',
+                  },
+                ],
               },
             },
             id: '2',
@@ -203,7 +208,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             id: '1',
             type: 'badge-partner-competences',
             relationships: {
-              'skills': {
+              skills: {
                 data: [
                   {
                     id: 'recABC',
@@ -224,7 +229,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             id: '2',
             type: 'badge-partner-competences',
             relationships: {
-              'skills': {
+              skills: {
                 data: [
                   {
                     id: 'recABC',
@@ -248,7 +253,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
 
-    it('should only consider badge\'s skills', function() {
+    it("should only consider badge's skills", function () {
       // given
       const badge = domainBuilder.buildBadge({
         id: '1',
@@ -261,13 +266,9 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
         isCertifiable: false,
       });
 
-      const skills = [
-        domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', tubeId: 'recTUB123' }),
-      ];
+      const skills = [domainBuilder.buildSkill({ id: 'recABC', name: '@sau6', tubeId: 'recTUB123' })];
 
-      const tubes = [
-        domainBuilder.buildTube({ id: 'recTUB123', name: '@sau', skills }),
-      ];
+      const tubes = [domainBuilder.buildTube({ id: 'recTUB123', name: '@sau', skills })];
 
       const badgeWithLearningContent = domainBuilder.buildBadgeWithLearningContent({ badge, skills, tubes });
 
@@ -285,22 +286,28 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
           type: 'badges',
           relationships: {
             'badge-criteria': {
-              'data': [{
-                id: '1',
-                type: 'badge-criteria',
-              }, {
-                id: '2',
-                type: 'badge-criteria',
-              }],
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-criteria',
+                },
+                {
+                  id: '2',
+                  type: 'badge-criteria',
+                },
+              ],
             },
             'badge-partner-competences': {
-              'data': [{
-                id: '1',
-                type: 'badge-partner-competences',
-              }, {
-                id: '2',
-                type: 'badge-partner-competences',
-              }],
+              data: [
+                {
+                  id: '1',
+                  type: 'badge-partner-competences',
+                },
+                {
+                  id: '2',
+                  type: 'badge-partner-competences',
+                },
+              ],
             },
           },
         },
@@ -325,13 +332,16 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             },
             relationships: {
               'partner-competences': {
-                data: [{
-                  id: '1',
-                  type: 'badge-partner-competences',
-                }, {
-                  id: '2',
-                  type: 'badge-partner-competences',
-                }],
+                data: [
+                  {
+                    id: '1',
+                    type: 'badge-partner-competences',
+                  },
+                  {
+                    id: '2',
+                    type: 'badge-partner-competences',
+                  },
+                ],
               },
             },
             id: '2',
@@ -368,7 +378,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             id: '1',
             type: 'badge-partner-competences',
             relationships: {
-              'skills': {
+              skills: {
                 data: [
                   {
                     id: 'recABC',
@@ -385,7 +395,7 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
             id: '2',
             type: 'badge-partner-competences',
             relationships: {
-              'skills': {
+              skills: {
                 data: [
                   {
                     id: 'recABC',
@@ -405,5 +415,4 @@ describe('Unit | Serializer | JSONAPI | badge-with-learning-content-serializer',
       expect(json).to.deep.equal(expectedSerializedBadge);
     });
   });
-
 });

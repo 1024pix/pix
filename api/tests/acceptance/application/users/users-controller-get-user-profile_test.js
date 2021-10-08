@@ -1,9 +1,13 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, mockLearningContent } = require('../../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+} = require('../../../test-helper');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-user-profile', function() {
-
+describe('Acceptance | Controller | users-controller-get-user-profile', function () {
   let options;
   let server;
   let userId;
@@ -33,15 +37,17 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
   const learningContent = {
     areas: [area],
     competences: [competence],
-    skills: [{
-      id: skillWeb1Id,
-      name: skillWeb1Name,
-      status: 'actif',
-      competenceId: competenceId,
-    }],
+    skills: [
+      {
+        id: skillWeb1Id,
+        name: skillWeb1Name,
+        status: 'actif',
+        competenceId: competenceId,
+      },
+    ],
   };
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     userId = databaseBuilder.factory.buildUser({}).id;
     await databaseBuilder.commit();
     options = {
@@ -55,11 +61,9 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
 
   let knowledgeElement;
 
-  describe('GET /users/:id/profile', function() {
-
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+  describe('GET /users/:id/profile', function () {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -70,7 +74,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -83,9 +87,8 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
       });
     });
 
-    describe('Success case', function() {
-
-      beforeEach(async function() {
+    describe('Success case', function () {
+      beforeEach(async function () {
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
 
         mockLearningContent(learningContent);
@@ -105,7 +108,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
         await databaseBuilder.commit();
       });
 
-      it('should return 200', async function() {
+      it('should return 200', async function () {
         // when
         const response = await server.inject(options);
 
@@ -113,7 +116,7 @@ describe('Acceptance | Controller | users-controller-get-user-profile', function
         expect(response.statusCode).to.equal(200);
       });
 
-      it('should return user\'s serialized scorecards', async function() {
+      it("should return user's serialized scorecards", async function () {
         // when
         const response = await server.inject(options);
 

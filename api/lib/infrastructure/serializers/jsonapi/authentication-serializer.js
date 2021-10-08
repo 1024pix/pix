@@ -1,9 +1,7 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(authentications) {
-
     return new Serializer('authentication', {
       attributes: ['token', 'user_id', 'password'],
       transform(model) {
@@ -15,5 +13,4 @@ module.exports = {
       },
     }).serialize(authentications);
   },
-
 };

@@ -14,7 +14,7 @@ function _buildUser() {
   });
 }
 
-const buildAuthenticationMethod = function({
+const buildAuthenticationMethod = function ({
   id = 123,
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = `externalId${id}`,
@@ -22,7 +22,6 @@ const buildAuthenticationMethod = function({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-02-01'),
 } = {}) {
-
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
@@ -36,7 +35,7 @@ const buildAuthenticationMethod = function({
   });
 };
 
-buildAuthenticationMethod.buildWithRawPassword = function({
+buildAuthenticationMethod.buildWithRawPassword = function ({
   id,
   rawPassword = 'pix123',
   shouldChangePassword = false,
@@ -44,7 +43,6 @@ buildAuthenticationMethod.buildWithRawPassword = function({
   createdAt,
   updatedAt,
 } = {}) {
-
   const password = encrypt.hashPasswordSync(rawPassword);
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
@@ -62,7 +60,7 @@ buildAuthenticationMethod.buildWithRawPassword = function({
   });
 };
 
-buildAuthenticationMethod.buildWithHashedPassword = function({
+buildAuthenticationMethod.buildWithHashedPassword = function ({
   id,
   hashedPassword = 'hashedPassword',
   shouldChangePassword = false,
@@ -87,7 +85,7 @@ buildAuthenticationMethod.buildWithHashedPassword = function({
   });
 };
 
-buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
+buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function ({
   id,
   externalIdentifier = `externalId${id}`,
   accessToken = 'ABC456789',
@@ -97,13 +95,16 @@ buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function({
   createdAt = new Date('2020-01-01'),
   updatedAt = new Date('2020-02-01'),
 } = {}) {
-
   userId = isUndefined(userId) ? _buildUser().id : userId;
 
   return new AuthenticationMethod({
     id,
     identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-    authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({ accessToken, refreshToken, expiredDate }),
+    authenticationComplement: new AuthenticationMethod.PoleEmploiAuthenticationComplement({
+      accessToken,
+      refreshToken,
+      expiredDate,
+    }),
     externalIdentifier,
     userId,
     createdAt,

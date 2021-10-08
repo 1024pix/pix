@@ -1,25 +1,41 @@
-const { expect, databaseBuilder, domainBuilder, catchErr, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  expect,
+  databaseBuilder,
+  domainBuilder,
+  catchErr,
+  learningContentBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const shareableCertificateRepository = require('../../../../lib/infrastructure/repositories/shareable-certificate-repository');
-const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKeyV1: cleaBadgeKeyV1,
+  badgeKeyV2: cleaBadgeKeyV2,
+} = require('../../../../lib/domain/models/CleaCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
-describe('Integration | Infrastructure | Repository | Shareable Certificate', function() {
+describe('Integration | Infrastructure | Repository | Shareable Certificate', function () {
+  const minimalLearningContent = [
+    {
+      id: 'recArea0',
+      code: '1',
+      competences: [
+        {
+          id: 'recNv8qhaY887jQb2',
+          index: '1.3',
+          name: 'Traiter des données',
+        },
+      ],
+    },
+  ];
 
-  const minimalLearningContent = [{
-    id: 'recArea0',
-    code: '1',
-    competences: [{
-      id: 'recNv8qhaY887jQb2',
-      index: '1.3',
-      name: 'Traiter des données',
-    }],
-  }];
-
-  describe('#getByVerificationCode', function() {
-
-    it('should throw a NotFoundError when shareable certificate does not exist', async function() {
+  describe('#getByVerificationCode', function () {
+    it('should throw a NotFoundError when shareable certificate does not exist', async function () {
       // when
       const error = await catchErr(shareableCertificateRepository.getByVerificationCode)('P-SOMECODE');
 
@@ -28,7 +44,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate has no assessment-result', async function() {
+    it('should throw a NotFoundError when certificate has no assessment-result', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -75,7 +91,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate is cancelled', async function() {
+    it('should throw a NotFoundError when certificate is cancelled', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -127,7 +143,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate is not published', async function() {
+    it('should throw a NotFoundError when certificate is not published', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -179,7 +195,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should throw a NotFoundError when certificate is rejected', async function() {
+    it('should throw a NotFoundError when certificate is rejected', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -231,7 +247,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(error.message).to.equal('There is no certification course with verification code "P-SOMECODE"');
     });
 
-    it('should return a ShareableCertificate', async function() {
+    it('should return a ShareableCertificate', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const shareableCertificateData = {
@@ -251,7 +267,10 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
         cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
       };
 
-      const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(shareableCertificateData, false);
+      const { certificateId, assessmentResultId } = await _buildValidShareableCertificate(
+        shareableCertificateData,
+        false
+      );
 
       const competenceMarks1 = domainBuilder.buildCompetenceMark({
         id: 1234,
@@ -314,7 +333,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(shareableCertificate).to.deepEqualInstance(expectedShareableCertificate);
     });
 
-    it('should get the clea certification result if taken with badge V1', async function() {
+    it('should get the clea certification result if taken with badge V1', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -350,7 +369,7 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
     });
 
-    it('should get the clea certification result if taken with badge V2', async function() {
+    it('should get the clea certification result if taken with badge V2', async function () {
       // given
       const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
       mockLearningContent(learningContentObjects);
@@ -386,9 +405,8 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
       expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
     });
 
-    context('acquired certifiable badges', function() {
-
-      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async function() {
+    context('acquired certifiable badges', function () {
+      it('should get the certified badge images of pixPlusDroitMaitre and/or pixPlusDroitExpert when those certifications were acquired', async function () {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -414,7 +432,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           ],
         };
 
-        const { certificateId } = await _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges(shareableCertificateData);
+        const { certificateId } = await _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges(
+          shareableCertificateData
+        );
 
         // when
         const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -424,10 +444,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           id: certificateId,
           ...shareableCertificateData,
         });
-        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
+        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, [
+          'resultCompetenceTree',
+        ]);
       });
 
-      it('should only take into account acquired ones', async function() {
+      it('should only take into account acquired ones', async function () {
         // given
         const learningContentObjects = learningContentBuilder.buildLearningContent(minimalLearningContent);
         mockLearningContent(learningContentObjects);
@@ -447,12 +469,12 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           certificationCenter: 'Centre des poules bien dodues',
           pixScore: 51,
           cleaCertificationResult: domainBuilder.buildCleaCertificationResult.notTaken(),
-          certifiedBadgeImages: [
-            'https://images.pix.fr/badges-certifies/pix-droit/expert.svg',
-          ],
+          certifiedBadgeImages: ['https://images.pix.fr/badges-certifies/pix-droit/expert.svg'],
         };
 
-        const { certificateId } = await _buildValidShareableCertificateWithOneAcquiredPixPlusDroitBadge(shareableCertificateData);
+        const { certificateId } = await _buildValidShareableCertificateWithOneAcquiredPixPlusDroitBadge(
+          shareableCertificateData
+        );
 
         // when
         const shareableCertificate = await shareableCertificateRepository.getByVerificationCode('P-SOMECODE');
@@ -462,7 +484,9 @@ describe('Integration | Infrastructure | Repository | Shareable Certificate', fu
           id: certificateId,
           ...shareableCertificateData,
         });
-        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, ['resultCompetenceTree']);
+        expect(shareableCertificate).to.deepEqualInstanceOmitting(expectedShareableCertificate, [
+          'resultCompetenceTree',
+        ]);
       });
     });
   });
@@ -490,7 +514,9 @@ async function _buildValidShareableCertificate(shareableCertificateData, buildCo
     sessionId,
     userId: shareableCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: shareableCertificateData.id }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: shareableCertificateData.id,
+  }).id;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: shareableCertificateData.pixScore,
@@ -531,7 +557,9 @@ async function _buildValidShareableCertificationWithClea(shareableCertificateDat
     sessionId,
     userId: shareableCertificateData.userId,
   }).id;
-  const assessmentId = databaseBuilder.factory.buildAssessment({ certificationCourseId: shareableCertificateData.id }).id;
+  const assessmentId = databaseBuilder.factory.buildAssessment({
+    certificationCourseId: shareableCertificateData.id,
+  }).id;
   const assessmentResultId = databaseBuilder.factory.buildAssessmentResult({
     assessmentId,
     pixScore: shareableCertificateData.pixScore,
@@ -540,7 +568,11 @@ async function _buildValidShareableCertificationWithClea(shareableCertificateDat
   }).id;
 
   databaseBuilder.factory.buildBadge({ key: badgeKey });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: badgeKey, acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: badgeKey,
+    acquired: true,
+  });
 
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
@@ -589,9 +621,21 @@ async function _buildValidShareableCertificateWithBothAcquiredPixPlusDroitBadges
   databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
   databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
   databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: true });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: pixPlusDroitExpertBadgeKey,
+    acquired: true,
+  });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: pixPlusDroitMaitreBadgeKey,
+    acquired: true,
+  });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: 'should_be_ignored',
+    acquired: true,
+  });
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   });
@@ -631,9 +675,21 @@ async function _buildValidShareableCertificateWithOneAcquiredPixPlusDroitBadge(s
   databaseBuilder.factory.buildBadge({ key: pixPlusDroitExpertBadgeKey });
   databaseBuilder.factory.buildBadge({ key: pixPlusDroitMaitreBadgeKey });
   databaseBuilder.factory.buildBadge({ key: 'should_be_ignored' });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitExpertBadgeKey, acquired: true });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: pixPlusDroitMaitreBadgeKey, acquired: false });
-  databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: certificateId, partnerKey: 'should_be_ignored', acquired: true });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: pixPlusDroitExpertBadgeKey,
+    acquired: true,
+  });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: pixPlusDroitMaitreBadgeKey,
+    acquired: false,
+  });
+  databaseBuilder.factory.buildPartnerCertification({
+    certificationCourseId: certificateId,
+    partnerKey: 'should_be_ignored',
+    acquired: true,
+  });
   databaseBuilder.factory.buildCompetenceMark({
     assessmentResultId,
   });

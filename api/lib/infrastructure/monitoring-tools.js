@@ -10,15 +10,21 @@ function logInfoWithCorrelationIds(data) {
   if (settings.hapi.enableRequestMonitoring) {
     const context = asyncLocalStorage.getStore();
     const request = get(context, 'request');
-    logger.info({
-      user_id: extractUserIdFromRequest(request),
-      request_id: `${get(request, 'info.id', '-')}`,
-      ...get(data, 'metrics', {}),
-    }, get(data, 'message', '-'));
+    logger.info(
+      {
+        user_id: extractUserIdFromRequest(request),
+        request_id: `${get(request, 'info.id', '-')}`,
+        ...get(data, 'metrics', {}),
+      },
+      get(data, 'message', '-')
+    );
   } else {
-    logger.info({
-      ...get(data, 'metrics', {}),
-    }, get(data, 'message', '-'));
+    logger.info(
+      {
+        ...get(data, 'metrics', {}),
+      },
+      get(data, 'message', '-')
+    );
   }
 }
 
@@ -26,10 +32,13 @@ function logErrorWithCorrelationIds(error) {
   if (settings.hapi.enableRequestMonitoring) {
     const context = asyncLocalStorage.getStore();
     const request = get(context, 'request');
-    logger.error({
-      user_id: extractUserIdFromRequest(request),
-      request_id: `${get(request, 'info.id', '-')}`,
-    }, error);
+    logger.error(
+      {
+        user_id: extractUserIdFromRequest(request),
+        request_id: `${get(request, 'info.id', '-')}`,
+      },
+      error
+    );
   } else {
     logger.error(error);
   }
@@ -90,7 +99,7 @@ function installHapiHook() {
     throw new Error('Hapi method Request.prototype._execute not found while patch');
   }
 
-  Request.prototype._execute = function(...args) {
+  Request.prototype._execute = function (...args) {
     const request = this;
     const context = { request };
     return asyncLocalStorage.run(context, () => originalMethod.call(request, args));

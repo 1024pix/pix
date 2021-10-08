@@ -2,26 +2,25 @@ const { expect, sinon, catchErr, domainBuilder } = require('../../../test-helper
 
 const saveCertificationIssueReport = require('../../../../lib/domain/usecases/save-certification-issue-report');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const { CertificationIssueReportCategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
 
-describe('Unit | UseCase | save-certification-issue-report', function() {
-
-  describe('#saveCertificationIssueReport', function() {
-
+describe('Unit | UseCase | save-certification-issue-report', function () {
+  describe('#saveCertificationIssueReport', function () {
     let certificationCourseRepository;
     let certificationIssueReportRepository;
     let sessionAuthorizationService;
 
-    beforeEach(function() {
+    beforeEach(function () {
       certificationCourseRepository = { get: sinon.stub() };
       certificationIssueReportRepository = { save: sinon.stub() };
       sessionAuthorizationService = { isAuthorizedToAccessSession: sinon.stub() };
     });
 
-    context('when the user is not authorized', function() {
-
-      it('should throw an error', async function() {
+    context('when the user is not authorized', function () {
+      it('should throw an error', async function () {
         // given
         const sessionId = 1;
         const userId = 'not authorized user id';
@@ -41,13 +40,14 @@ describe('Unit | UseCase | save-certification-issue-report', function() {
 
         // then
         expect(error).to.be.instanceOf(NotFoundError);
-        expect(error.message).to.be.equal('Erreur lors de la sauvegarde du signalement. Veuillez vous connecter et réessayer.');
+        expect(error.message).to.be.equal(
+          'Erreur lors de la sauvegarde du signalement. Veuillez vous connecter et réessayer.'
+        );
       });
     });
 
-    context('when user is authorized', function() {
-
-      it('should save the certification issue report', async function() {
+    context('when user is authorized', function () {
+      it('should save the certification issue report', async function () {
         // given
         const sessionId = 1;
         const userId = 1;
@@ -76,5 +76,4 @@ describe('Unit | UseCase | save-certification-issue-report', function() {
       });
     });
   });
-
 });

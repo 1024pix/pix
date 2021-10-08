@@ -7,7 +7,6 @@ module.exports = function buildCertificationCpfCity({
   INSEECode = '75119',
   isActualName = true,
 } = {}) {
-
   const values = {
     id,
     name,

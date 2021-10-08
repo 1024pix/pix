@@ -5,12 +5,11 @@ const usecases = require('../../../../lib/domain/usecases');
 
 const moduleUnderTest = require('../../../../lib/application/prescribers');
 
-describe('Integration | Application | Prescribers | prescriber-controller', function() {
-
+describe('Integration | Application | Prescribers | prescriber-controller', function () {
   let sandbox;
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sandbox = sinon.createSandbox();
     sandbox.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser');
     sandbox.stub(usecases, 'getPrescriber');
@@ -19,24 +18,22 @@ describe('Integration | Application | Prescribers | prescriber-controller', func
     await httpTestServer.register(moduleUnderTest);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     sandbox.restore();
   });
 
-  describe('#get', function() {
-
+  describe('#get', function () {
     const method = 'GET';
     const url = '/api/prescription/prescribers/1234';
     const auth = { credentials: {}, strategy: {} };
 
-    context('Success cases', function() {
-
-      beforeEach(function() {
+    context('Success cases', function () {
+      beforeEach(function () {
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.returns(true);
         auth.credentials.userId = '1234';
       });
 
-      it('should return an HTTP response with status code 200', async function() {
+      it('should return an HTTP response with status code 200', async function () {
         // given
         const prescriber = domainBuilder.buildPrescriber();
         usecases.getPrescriber.resolves(prescriber);
@@ -49,15 +46,14 @@ describe('Integration | Application | Prescribers | prescriber-controller', func
       });
     });
 
-    context('Error cases', function() {
-
-      beforeEach(function() {
+    context('Error cases', function () {
+      beforeEach(function () {
         securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => {
           return Promise.resolve(h.response().code(403).takeover());
         });
       });
 
-      it('should return a 403 HTTP response', async function() {
+      it('should return a 403 HTTP response', async function () {
         // when
         const response = await httpTestServer.request(method, url);
 
@@ -66,5 +62,4 @@ describe('Integration | Application | Prescribers | prescriber-controller', func
       });
     });
   });
-
 });

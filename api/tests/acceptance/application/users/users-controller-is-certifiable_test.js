@@ -1,37 +1,47 @@
-const { expect, generateValidRequestAuthorizationHeader, databaseBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  expect,
+  generateValidRequestAuthorizationHeader,
+  databaseBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | users-controller-is-certifiable', function() {
-
+describe('Acceptance | users-controller-is-certifiable', function () {
   let server;
   let options;
   let user;
 
   const competenceId = 'recCompetence1';
   const learningContent = {
-    areas: [{
-      id: 'recvoGdo7z2z7pXWa',
-      titleFrFr: 'Information et données',
-      color: 'jaffa',
-      code: '1',
-      competenceIds: [competenceId],
-    }],
-    competences: [{
-      id: competenceId,
-      nameFrFr: 'Mener une recherche et une veille d’information',
-      index: '1.1',
-      origin: 'Pix',
-      areaId: 'recvoGdo7z2z7pXWa',
-    }],
-    skills: [{
-      id: 'skillId',
-      name: '@web3',
-      status: 'actif',
-      competenceId: competenceId,
-    }],
+    areas: [
+      {
+        id: 'recvoGdo7z2z7pXWa',
+        titleFrFr: 'Information et données',
+        color: 'jaffa',
+        code: '1',
+        competenceIds: [competenceId],
+      },
+    ],
+    competences: [
+      {
+        id: competenceId,
+        nameFrFr: 'Mener une recherche et une veille d’information',
+        index: '1.1',
+        origin: 'Pix',
+        areaId: 'recvoGdo7z2z7pXWa',
+      },
+    ],
+    skills: [
+      {
+        id: 'skillId',
+        name: '@web3',
+        status: 'actif',
+        competenceId: competenceId,
+      },
+    ],
   };
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     // create server
     server = await createServer();
 
@@ -51,11 +61,9 @@ describe('Acceptance | users-controller-is-certifiable', function() {
     return databaseBuilder.commit();
   });
 
-  describe('GET /users/:id/is-certifiable', function() {
-
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function() {
+  describe('GET /users/:id/is-certifiable', function () {
+    describe('Resource access management', function () {
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -66,7 +74,7 @@ describe('Acceptance | users-controller-is-certifiable', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function() {
+      it('should respond with a 403 - forbidden access - if requested user is not the same as authenticated user', async function () {
         // given
         const otherUserId = 9999;
         options.headers.authorization = generateValidRequestAuthorizationHeader(otherUserId);
@@ -79,9 +87,8 @@ describe('Acceptance | users-controller-is-certifiable', function() {
       });
     });
 
-    describe('Success case', function() {
-
-      it('should return a 200 status code response with JSON API serialized isCertifiable', async function() {
+    describe('Success case', function () {
+      it('should return a 200 status code response with JSON API serialized isCertifiable', async function () {
         // given
         const expectedResponse = {
           data: {

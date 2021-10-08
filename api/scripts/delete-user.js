@@ -33,8 +33,7 @@ async function main() {
     .then(() => console.log('FINISHED'))
     .catch((err) => {
       console.log(`ERROR: ${err}\nRollback...`);
-      return client.query_and_log('ROLLBACK')
-        .then(() => console.log('Rollback finished'));
+      return client.query_and_log('ROLLBACK').then(() => console.log('Rollback finished'));
     })
     // finally
     .then(() => terminate(client))
@@ -50,19 +49,21 @@ class UserEraser {
     return Promise.resolve()
       .then(() => this.queryBuilder.get_user_id_from_email(userEmail))
       .then((query) => this.client.query_and_log(query))
-      .then((result) => this.userId = this.clientQueryAdapter.unpack_user_id(result));
+      .then((result) => (this.userId = this.clientQueryAdapter.unpack_user_id(result)));
   }
 
   find_assessment_ids_from_fetched_user_id() {
     return Promise.resolve()
       .then(() => this.queryBuilder.find_assessment_ids_from_user_id(this.userId))
       .then((query) => this.client.query_and_log(query))
-      .then((result) => this.assessmentIds = this.clientQueryAdapter.unpack_assessment_ids(result));
+      .then((result) => (this.assessmentIds = this.clientQueryAdapter.unpack_assessment_ids(result)));
   }
 
   delete_dependent_data_from_fetched_assessment_ids() {
     if (this.assessmentIds.length === 0) {
-      console.log('No assessment found: skipping deletion of feedbacks, answers, competence-marks and assessment-results');
+      console.log(
+        'No assessment found: skipping deletion of feedbacks, answers, competence-marks and assessment-results'
+      );
       return Promise.resolve();
     }
 
@@ -72,11 +73,13 @@ class UserEraser {
         this.queryBuilder.delete_answers_from_assessment_ids(this.assessmentIds),
         this.queryBuilder.delete_competence_marks_from_assessment_ids(this.assessmentIds),
       ])
-      .then((queries) => Promise.all(
-        queries.map((query) => {
-          this.client.query_and_log(query);
-        }),
-      ))
+      .then((queries) =>
+        Promise.all(
+          queries.map((query) => {
+            this.client.query_and_log(query);
+          })
+        )
+      )
       .then(() => this.queryBuilder.delete_assessment_results_from_assessment_ids(this.assessmentIds))
       .then((query) => this.client.query_and_log(query));
   }
@@ -105,7 +108,6 @@ class UserEraser {
 }
 
 class ClientQueryAdapter {
-
   unpack_user_id(result) {
     return result.rows[0].id;
   }
@@ -120,7 +122,6 @@ class ClientQueryAdapter {
 }
 
 class ScriptQueryBuilder {
-
   get_user_id_from_email(email) {
     return `SELECT id FROM users WHERE email = '${email}'`;
   }
@@ -145,7 +146,9 @@ class ScriptQueryBuilder {
 
   delete_competence_marks_from_assessment_ids(assessment_ids) {
     this._precondition_array_must_not_be_empty(assessment_ids);
-    return `DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (${assessment_ids.join(',')}) )`;
+    return `DELETE FROM "competence-marks" WHERE "assessmentResultId" IN ( SELECT id from "assessment-results" WHERE "assessmentId" IN (${assessment_ids.join(
+      ','
+    )}) )`;
   }
 
   delete_assessment_results_from_assessment_ids(assessment_ids) {

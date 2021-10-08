@@ -6,8 +6,7 @@ const { FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
 const { TO_SHARE } = CampaignParticipation.statuses;
 
-describe('Unit | UseCase | compute-campaign-participation-analysis', function() {
-
+describe('Unit | UseCase | compute-campaign-participation-analysis', function () {
   let campaignRepository;
   let campaignAnalysisRepository;
   let campaignParticipationRepository;
@@ -20,7 +19,7 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
   let campaignParticipation;
   const locale = FRENCH_SPOKEN;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignRepository = { checkIfUserOrganizationHasAccessToCampaign: sinon.stub() };
     campaignParticipationRepository = { get: sinon.stub() };
     campaignAnalysisRepository = { getCampaignParticipationAnalysis: sinon.stub() };
@@ -30,9 +29,9 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
     campaignParticipation = domainBuilder.buildCampaignParticipation({ campaignId, isShared: true });
   });
 
-  context('User has access to this result', function() {
-    context('Participant has shared its results', function() {
-      it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async function() {
+  context('User has access to this result', function () {
+    context('Participant has shared its results', function () {
+      it('should returns two CampaignTubeRecommendations but with two skills in the same tube', async function () {
         // given
         const targetProfile = Symbol('targetProfile');
         const tutorials = Symbol('tutorials');
@@ -40,10 +39,13 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
         campaignParticipation.userId = userId;
         campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
         campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(true);
-        targetProfileWithLearningContentRepository.getByCampaignId.withArgs({ campaignId, locale }).resolves(targetProfile);
+        targetProfileWithLearningContentRepository.getByCampaignId
+          .withArgs({ campaignId, locale })
+          .resolves(targetProfile);
         tutorialRepository.list.withArgs({ locale }).resolves(tutorials);
         campaignAnalysisRepository.getCampaignParticipationAnalysis
-          .withArgs(campaignId, campaignParticipation, targetProfile, tutorials).resolves(campaignParticipationAnalysis);
+          .withArgs(campaignId, campaignParticipation, targetProfile, tutorials)
+          .resolves(campaignParticipationAnalysis);
 
         // when
         const actualCampaignParticipationAnalysis = await computeCampaignParticipationAnalysis({
@@ -62,8 +64,8 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
       });
     });
 
-    context('Participant has not shared its results', function() {
-      it('should returns null', async function() {
+    context('Participant has not shared its results', function () {
+      it('should returns null', async function () {
         // given
         campaignParticipation.userId = userId;
         campaignParticipation.status = TO_SHARE;
@@ -88,13 +90,13 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
     });
   });
 
-  context('User does not have access to this result', function() {
-    beforeEach(function() {
+  context('User does not have access to this result', function () {
+    beforeEach(function () {
       campaignParticipationRepository.get.withArgs(campaignParticipationId).resolves(campaignParticipation);
       campaignRepository.checkIfUserOrganizationHasAccessToCampaign.withArgs(campaignId, userId).resolves(false);
     });
 
-    it('should throw an UserNotAuthorizedToAccessEntityError error', async function() {
+    it('should throw an UserNotAuthorizedToAccessEntityError error', async function () {
       // when
       const result = await catchErr(computeCampaignParticipationAnalysis)({
         userId,
@@ -111,5 +113,4 @@ describe('Unit | UseCase | compute-campaign-participation-analysis', function() 
       expect(result).to.be.instanceOf(UserNotAuthorizedToAccessEntityError);
     });
   });
-
 });

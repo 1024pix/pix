@@ -4,10 +4,9 @@ const stageRepository = require('../../../../lib/infrastructure/repositories/sta
 const _ = require('lodash');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | StageRepository', function() {
-
-  describe('#findByCampaignId', function() {
-    it('should retrieve stage given campaignId', async function() {
+describe('Integration | Repository | StageRepository', function () {
+  describe('#findByCampaignId', function () {
+    it('should retrieve stage given campaignId', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const campaign = databaseBuilder.factory.buildCampaign();
@@ -30,8 +29,8 @@ describe('Integration | Repository | StageRepository', function() {
     });
   });
 
-  describe('#findByTargetProfileId', function() {
-    it('should retrieve stage given targetProfileId', async function() {
+  describe('#findByTargetProfileId', function () {
+    it('should retrieve stage given targetProfileId', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
       const anotherTargetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -48,7 +47,7 @@ describe('Integration | Repository | StageRepository', function() {
       expect(stages.length).to.equal(1);
     });
 
-    it('should retrieve stages sorted by threshold', async function() {
+    it('should retrieve stages sorted by threshold', async function () {
       // given
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
 
@@ -66,10 +65,10 @@ describe('Integration | Repository | StageRepository', function() {
     });
   });
 
-  describe('#create', function() {
+  describe('#create', function () {
     let targetProfileId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
 
       await databaseBuilder.commit();
@@ -77,11 +76,11 @@ describe('Integration | Repository | StageRepository', function() {
       targetProfileId = targetProfile.id;
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('stages').delete();
     });
 
-    it('create a stage on a target profile', async function() {
+    it('create a stage on a target profile', async function () {
       // given
       const stageToSave = {
         title: 'My title',
@@ -100,9 +99,8 @@ describe('Integration | Repository | StageRepository', function() {
     });
   });
 
-  describe('#updateStagePrescriberAttributes', function() {
-
-    it('should update the stage with new data', async function() {
+  describe('#updateStagePrescriberAttributes', function () {
+    it('should update the stage with new data', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       const stage = databaseBuilder.factory.buildStage({ targetProfileId });
@@ -119,7 +117,7 @@ describe('Integration | Repository | StageRepository', function() {
       expect(stage.prescriberDescription).to.equal('tu es moyen');
     });
 
-    it('should update only one attribute', async function() {
+    it('should update only one attribute', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       const stage = databaseBuilder.factory.buildStage({ targetProfileId });
@@ -135,7 +133,7 @@ describe('Integration | Repository | StageRepository', function() {
       expect(stage.prescriberDescription).to.equal(null);
     });
 
-    it('should not update the stage when the id is unknown and throw an error', async function() {
+    it('should not update the stage when the id is unknown and throw an error', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       const stage = databaseBuilder.factory.buildStage({ targetProfileId });
@@ -151,9 +149,8 @@ describe('Integration | Repository | StageRepository', function() {
     });
   });
 
-  describe('#get', function() {
-
-    it('should get stage', async function() {
+  describe('#get', function () {
+    it('should get stage', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildStage({ targetProfileId });
@@ -172,7 +169,7 @@ describe('Integration | Repository | StageRepository', function() {
       expect(expectedStage.title).to.equal(stage.title);
     });
 
-    it('should not find the stage when the id is unknown and throw an error', async function() {
+    it('should not find the stage when the id is unknown and throw an error', async function () {
       // given
       const { id: targetProfileId } = databaseBuilder.factory.buildTargetProfile();
       databaseBuilder.factory.buildStage({ targetProfileId });

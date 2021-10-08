@@ -18,7 +18,7 @@ function buildAllowedCertificationCenterAccess({
   });
 }
 
-buildAllowedCertificationCenterAccess.notSco = function({
+buildAllowedCertificationCenterAccess.notSco = function ({
   type = 'NOT_SCO',
   isRelatedToManagingStudentsOrganization = true,
 }) {

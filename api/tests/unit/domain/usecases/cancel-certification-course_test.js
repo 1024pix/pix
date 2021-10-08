@@ -1,9 +1,8 @@
 const { expect, sinon, domainBuilder } = require('../../../test-helper');
 const cancelCertificationCourse = require('../../../../lib/domain/usecases/cancel-certification-course');
 
-describe('Unit | UseCase | cancel-certification-course', function() {
-
-  it('should cancel the certification course', async function() {
+describe('Unit | UseCase | cancel-certification-course', function () {
+  it('should cancel the certification course', async function () {
     // given
     const certificationCourse = domainBuilder.buildCertificationCourse({ id: 123 });
     sinon.spy(certificationCourse, 'cancel');

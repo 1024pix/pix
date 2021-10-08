@@ -1,7 +1,10 @@
 const CertificationIssueReport = require('../../../../lib/domain/models/CertificationIssueReport');
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+  CertificationIssueReportSubcategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 
-const buildCertificationIssueReport = function({
+const buildCertificationIssueReport = function ({
   id = 123,
   certificationCourseId,
   category = CertificationIssueReportCategories.CANDIDATE_INFORMATIONS_CHANGES,
@@ -23,7 +26,7 @@ const buildCertificationIssueReport = function({
   });
 };
 
-buildCertificationIssueReport.impactful = function({
+buildCertificationIssueReport.impactful = function ({
   id,
   certificationCourseId,
   description,
@@ -43,7 +46,7 @@ buildCertificationIssueReport.impactful = function({
   });
 };
 
-buildCertificationIssueReport.notImpactful = function({
+buildCertificationIssueReport.notImpactful = function ({
   id,
   certificationCourseId,
   description,

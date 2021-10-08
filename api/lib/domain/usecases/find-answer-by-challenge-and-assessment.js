@@ -1,11 +1,10 @@
-module.exports = async function findAnswerByChallengeAndAssessment(
-  {
-    challengeId,
-    assessmentId,
-    userId,
-    answerRepository,
-    assessmentRepository,
-  } = {}) {
+module.exports = async function findAnswerByChallengeAndAssessment({
+  challengeId,
+  assessmentId,
+  userId,
+  answerRepository,
+  assessmentRepository,
+} = {}) {
   const integerAssessmentId = parseInt(assessmentId);
   if (!Number.isFinite(integerAssessmentId)) {
     return null;

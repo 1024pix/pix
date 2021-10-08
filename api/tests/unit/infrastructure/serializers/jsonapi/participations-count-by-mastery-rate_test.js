@@ -1,10 +1,9 @@
 const { expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/participations-count-by-mastery-rate');
 
-describe('Unit | Serializer | JSONAPI | participations-count-by-mastery-rate', function() {
-
-  describe('#serialize', function() {
-    it('should convert a campaign result distribution object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | participations-count-by-mastery-rate', function () {
+  describe('#serialize', function () {
+    it('should convert a campaign result distribution object into JSON API data', function () {
       const json = serializer.serialize({
         campaignId: 1,
         resultDistribution: [

@@ -7,10 +7,7 @@ const validationSchema = Joi.array().unique('studentNumber');
 
 module.exports = {
   checkValidation(higherSchoolingRegistrationSet) {
-    const { error } = validationSchema.validate(
-      higherSchoolingRegistrationSet.registrations,
-      validationConfiguration,
-    );
+    const { error } = validationSchema.validate(higherSchoolingRegistrationSet.registrations, validationConfiguration);
 
     if (error) {
       const err = EntityValidationError.fromJoiErrors(error.details);

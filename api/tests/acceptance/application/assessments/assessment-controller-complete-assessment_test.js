@@ -1,12 +1,18 @@
 const moment = require('moment');
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, mockLearningContent, learningContentBuilder } = require('../../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  mockLearningContent,
+  learningContentBuilder,
+} = require('../../../test-helper');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 const Badge = require('../../../../lib/domain/models/Badge');
 const badgeAcquisitionRepository = require('../../../../lib/infrastructure/repositories/badge-acquisition-repository');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | assessment-controller-complete-assessment', function() {
-
+describe('Acceptance | Controller | assessment-controller-complete-assessment', function () {
   let options;
   let server;
   let user, assessment;
@@ -23,23 +29,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill0_0',
                   nom: '@recSkill0_0',
-                  challenges: [
-                    { id: 'recChallenge0_0_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge0_0_0' }],
                 },
                 {
                   id: 'recSkill0_1',
                   nom: '@recSkill0_1',
-                  challenges: [
-                    { id: 'recChallenge0_1_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge0_1_0' }],
                 },
                 {
                   id: 'recSkill0_2',
                   nom: '@recSkill0_2',
-                  challenges: [
-                    { id: 'recChallenge0_2_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge0_2_0' }],
                 },
               ],
             },
@@ -54,23 +54,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill1_0',
                   nom: '@recSkill1_0',
-                  challenges: [
-                    { id: 'recChallenge1_0_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge1_0_0' }],
                 },
                 {
                   id: 'recSkill1_1',
                   nom: '@recSkill1_1',
-                  challenges: [
-                    { id: 'recChallenge1_1_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge1_1_0' }],
                 },
                 {
                   id: 'recSkill1_2',
                   nom: '@recSkill1_2',
-                  challenges: [
-                    { id: 'recChallenge1_2_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge1_2_0' }],
                 },
               ],
             },
@@ -85,23 +79,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill2_0',
                   nom: '@recSkill2_0',
-                  challenges: [
-                    { id: 'recChallenge2_0_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge2_0_0' }],
                 },
                 {
                   id: 'recSkill2_1',
                   nom: '@recSkill2_1',
-                  challenges: [
-                    { id: 'recChallenge2_1_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge2_1_0' }],
                 },
                 {
                   id: 'recSkill2_2',
                   nom: '@recSkill2_2',
-                  challenges: [
-                    { id: 'recChallenge2_2_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge2_2_0' }],
                 },
               ],
             },
@@ -116,23 +104,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill3_0',
                   nom: '@recSkill3_0',
-                  challenges: [
-                    { id: 'recChallenge3_0_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge3_0_0' }],
                 },
                 {
                   id: 'recSkill3_1',
                   nom: '@recSkill3_1',
-                  challenges: [
-                    { id: 'recChallenge3_1_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge3_1_0' }],
                 },
                 {
                   id: 'recSkill3_2',
                   nom: '@recSkill3_2',
-                  challenges: [
-                    { id: 'recChallenge3_2_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge3_2_0' }],
                 },
               ],
             },
@@ -147,23 +129,17 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
                 {
                   id: 'recSkill4_0',
                   nom: '@recSkill4_0',
-                  challenges: [
-                    { id: 'recChallenge4_0_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge4_0_0' }],
                 },
                 {
                   id: 'recSkill4_1',
                   nom: '@recSkill4_1',
-                  challenges: [
-                    { id: 'recChallenge4_1_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge4_1_0' }],
                 },
                 {
                   id: 'recSkill4_2',
                   nom: '@recSkill4_2',
-                  challenges: [
-                    { id: 'recChallenge4_2_0' },
-                  ],
+                  challenges: [{ id: 'recChallenge4_2_0' }],
                 },
               ],
             },
@@ -173,7 +149,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     },
   ];
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     const learningContentObjects = learningContentBuilder.buildLearningContent(learningContent);
     mockLearningContent(learningContentObjects);
 
@@ -181,7 +157,8 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
     user = databaseBuilder.factory.buildUser({});
     assessment = databaseBuilder.factory.buildAssessment({
-      userId: user.id, state: Assessment.states.STARTED,
+      userId: user.id,
+      state: Assessment.states.STARTED,
     });
 
     await databaseBuilder.commit();
@@ -195,15 +172,13 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
     };
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     return knex('assessment-results').delete();
   });
 
-  describe('PATCH /assessments/{id}/complete-assessment', function() {
-
-    context('when user is not the owner of the assessment', function() {
-
-      it('should return a 401 HTTP status code', async function() {
+  describe('PATCH /assessments/{id}/complete-assessment', function () {
+    context('when user is not the owner of the assessment', function () {
+      it('should return a 401 HTTP status code', async function () {
         // given
         options.headers.authorization = generateValidRequestAuthorizationHeader(user.id + 1);
 
@@ -213,12 +188,10 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         // then
         expect(response.statusCode).to.equal(401);
       });
-
     });
 
-    context('when user is the owner of the assessment', function() {
-
-      it('should complete the assessment', async function() {
+    context('when user is the owner of the assessment', function () {
+      it('should complete the assessment', async function () {
         // when
         const response = await server.inject(options);
 
@@ -227,18 +200,18 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
       });
     });
 
-    context('when assessment belongs to a campaign', function() {
+    context('when assessment belongs to a campaign', function () {
       let user;
       let targetProfile;
       let badge;
 
-      beforeEach(function() {
+      beforeEach(function () {
         user = databaseBuilder.factory.buildUser({});
         targetProfile = databaseBuilder.factory.buildTargetProfile();
         badge = databaseBuilder.factory.buildBadge({ targetProfileId: targetProfile.id });
       });
 
-      afterEach(async function() {
+      afterEach(async function () {
         await knex('badge-acquisitions').delete();
         await knex('badge-criteria').delete();
         await knex('badges').delete();
@@ -252,7 +225,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         await knex('target-profiles').delete();
       });
 
-      it('should create a badge when it is acquired', async function() {
+      it('should create a badge when it is acquired', async function () {
         // given
         const campaign = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
@@ -275,7 +248,7 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         expect(badgeAcquiredIds).to.deep.equal([badge.id]);
       });
 
-      it('should create a second badge when it is acquired in another campaign participation', async function() {
+      it('should create a second badge when it is acquired in another campaign participation', async function () {
         // given
         const firstCampaign = databaseBuilder.factory.buildCampaign({
           targetProfileId: targetProfile.id,
@@ -309,23 +282,23 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
 
         expect(badgeAcquisitions).to.have.lengthOf(2);
       });
-
     });
 
-    context('when assessment is of type certification', function() {
+    context('when assessment is of type certification', function () {
       let certifiableUserId;
       let certificationAssessmentId;
 
-      beforeEach(function() {
+      beforeEach(function () {
         const limitDate = new Date('2020-01-01T00:00:00Z');
         certifiableUserId = databaseBuilder.factory.buildUser().id;
 
-        const competenceIdSkillIdPairs = databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
-          learningContent,
-          userId: certifiableUserId,
-          placementDate: limitDate,
-          earnedPix: 8,
-        });
+        const competenceIdSkillIdPairs =
+          databaseBuilder.factory.buildCorrectAnswersAndKnowledgeElementsForLearningContent({
+            learningContent,
+            userId: certifiableUserId,
+            placementDate: limitDate,
+            earnedPix: 8,
+          });
 
         certificationAssessmentId = databaseBuilder.factory.buildAnsweredNotCompletedCertificationAssessment({
           certifiableUserId,
@@ -341,13 +314,13 @@ describe('Acceptance | Controller | assessment-controller-complete-assessment', 
         return databaseBuilder.commit();
       });
 
-      afterEach(async function() {
+      afterEach(async function () {
         await knex('partner-certifications').delete();
         await knex('competence-marks').delete();
         await knex('assessment-results').delete();
       });
 
-      it('should complete the certification assessment', async function() {
+      it('should complete the certification assessment', async function () {
         // given
         options.url = `/api/assessments/${certificationAssessmentId}/complete-assessment`;
         options.headers.authorization = generateValidRequestAuthorizationHeader(certifiableUserId);

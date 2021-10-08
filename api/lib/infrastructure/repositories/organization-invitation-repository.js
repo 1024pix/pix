@@ -25,25 +25,20 @@ function _checkNotFoundErrorWithCode({ error, id, code }) {
 }
 
 module.exports = {
-
   create({ organizationId, email, code, role }) {
     const status = OrganizationInvitation.StatusType.PENDING;
-    return new BookshelfOrganizationInvitation({ organizationId, email, status, code, role })
-      .save()
-      .then(_toDomain);
+    return new BookshelfOrganizationInvitation({ organizationId, email, status, code, role }).save().then(_toDomain);
   },
 
   get(id) {
-    return BookshelfOrganizationInvitation
-      .where({ id })
+    return BookshelfOrganizationInvitation.where({ id })
       .fetch()
       .then(_toDomain)
       .catch((err) => _checkNotFoundError(err, id));
   },
 
   getByIdAndCode({ id, code }) {
-    return BookshelfOrganizationInvitation
-      .where({ id, code })
+    return BookshelfOrganizationInvitation.where({ id, code })
       .fetch()
       .then(_toDomain)
       .catch((error) => _checkNotFoundErrorWithCode({ error, id, code }));
@@ -60,17 +55,17 @@ module.exports = {
   },
 
   findPendingByOrganizationId({ organizationId }) {
-    return BookshelfOrganizationInvitation
-      .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
+    return BookshelfOrganizationInvitation.where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
       .fetchAll()
       .then((results) => bookshelfToDomainConverter.buildDomainObjects(BookshelfOrganizationInvitation, results));
   },
 
   findOnePendingByOrganizationIdAndEmail({ organizationId, email }) {
-    return BookshelfOrganizationInvitation
-      .query((qb) =>
-        qb.where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
-          .whereRaw('LOWER("email") = ?', `${email.toLowerCase()}`))
+    return BookshelfOrganizationInvitation.query((qb) =>
+      qb
+        .where({ organizationId, status: OrganizationInvitation.StatusType.PENDING })
+        .whereRaw('LOWER("email") = ?', `${email.toLowerCase()}`)
+    )
       .fetch({ require: false })
       .then(_toDomain);
   },
@@ -80,5 +75,4 @@ module.exports = {
       .save({}, { method: 'update', patch: true, require: true })
       .catch((err) => _checkNotFoundError(err, id));
   },
-
 };

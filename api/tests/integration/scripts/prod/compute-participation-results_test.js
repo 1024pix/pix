@@ -2,20 +2,16 @@ const { expect, mockLearningContent, databaseBuilder, knex } = require('../../..
 const computeParticipationResults = require('../../../../scripts/prod/compute-participation-results');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 
-describe('computeParticipationResults', function() {
-
-  context('when there is one campaign participation on profile collection campaign', function() {
-    it('computes results using all knowledge elements', async function() {
+describe('computeParticipationResults', function () {
+  context('when there is one campaign participation on profile collection campaign', function () {
+    it('computes results using all knowledge elements', async function () {
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-      _buildParticipationWithSnapshot(
-        { campaignId, isShared: true, sharedAt: new Date('2020-01-02') },
-        [
-          { skillId: 'skill_1', status: 'invalidated', earnedPix: 0 },
-          { skillId: 'skill_2', status: 'validated', earnedPix: 3 },
-          { skillId: 'skill_3', status: 'validated', earnedPix: 1 },
-        ],
-      );
+      _buildParticipationWithSnapshot({ campaignId, isShared: true, sharedAt: new Date('2020-01-02') }, [
+        { skillId: 'skill_1', status: 'invalidated', earnedPix: 0 },
+        { skillId: 'skill_2', status: 'validated', earnedPix: 3 },
+        { skillId: 'skill_3', status: 'validated', earnedPix: 1 },
+      ]);
 
       await databaseBuilder.commit();
 
@@ -31,18 +27,15 @@ describe('computeParticipationResults', function() {
     });
   });
 
-  context('when there is one campaign participation on assessment campaigns', function() {
-    it('computes results on target skills', async function() {
+  context('when there is one campaign participation on assessment campaigns', function () {
+    it('computes results on target skills', async function () {
       const { id: campaignId } = _buildCampaignForSkills(['skill_1']);
 
-      _buildParticipationWithSnapshot(
-        { campaignId, isShared: true, sharedAt: new Date('2020-01-02') },
-        [
-          { skillId: 'skill_1', status: 'validated', earnedPix: 5 },
-          { skillId: 'skill_2', status: 'validated', earnedPix: 3 },
-          { skillId: 'skill_3', status: 'validated', earnedPix: 1 },
-        ],
-      );
+      _buildParticipationWithSnapshot({ campaignId, isShared: true, sharedAt: new Date('2020-01-02') }, [
+        { skillId: 'skill_1', status: 'validated', earnedPix: 5 },
+        { skillId: 'skill_2', status: 'validated', earnedPix: 3 },
+        { skillId: 'skill_3', status: 'validated', earnedPix: 1 },
+      ]);
 
       await databaseBuilder.commit();
 
@@ -65,35 +58,37 @@ describe('computeParticipationResults', function() {
     });
   });
 
-  context('when there are campaign participation', function() {
-    context('when there are several campaign participation', function() {
-      it('computes results for each participation', async function() {
+  context('when there are campaign participation', function () {
+    context('when there are several campaign participation', function () {
+      it('computes results for each participation', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        _buildParticipationWithSnapshot(
-          { id: 1, campaignId, isShared: true, sharedAt: new Date('2020-01-02') },
-          [{ skillId: 'skill_1', status: 'validated', earnedPix: 40 }],
-        );
+        _buildParticipationWithSnapshot({ id: 1, campaignId, isShared: true, sharedAt: new Date('2020-01-02') }, [
+          { skillId: 'skill_1', status: 'validated', earnedPix: 40 },
+        ]);
 
-        _buildParticipationWithSnapshot(
-          { id: 2, campaignId, isShared: true, sharedAt: new Date('2020-01-03') },
-          [{ skillId: 'skill_1', status: 'invalidated', earnedPix: 0 }],
-        );
+        _buildParticipationWithSnapshot({ id: 2, campaignId, isShared: true, sharedAt: new Date('2020-01-03') }, [
+          { skillId: 'skill_1', status: 'invalidated', earnedPix: 0 },
+        ]);
 
         await databaseBuilder.commit();
 
         mockLearningContent({ skills: [] });
 
         await computeParticipationResults(1, false);
-        const campaignParticipations = await knex('campaign-participations').select(['validatedSkillsCount', 'pixScore', 'masteryRate']).orderBy('id');
+        const campaignParticipations = await knex('campaign-participations')
+          .select(['validatedSkillsCount', 'pixScore', 'masteryRate'])
+          .orderBy('id');
 
-        expect(campaignParticipations).to.deep.equals([{ validatedSkillsCount: 1, pixScore: 40, masteryRate: '0.06' }, { validatedSkillsCount: 0, pixScore: 0, masteryRate: '0.00' }]);
+        expect(campaignParticipations).to.deep.equals([
+          { validatedSkillsCount: 1, pixScore: 40, masteryRate: '0.06' },
+          { validatedSkillsCount: 0, pixScore: 0, masteryRate: '0.00' },
+        ]);
       });
     });
 
-    context('when there are campaign participation for the several campaigns', function() {
-      it('computes results for each participation', async function() {
-
+    context('when there are campaign participation for the several campaigns', function () {
+      it('computes results for each participation', async function () {
         const { id: campaignId1 } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
         const { id: campaignId2 } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
@@ -102,12 +97,12 @@ describe('computeParticipationResults', function() {
           [
             { skillId: 'skill_1', competenceId: 'C1', status: 'validated', earnedPix: 40 },
             { skillId: 'skill_2', competenceId: 'C2', status: 'validated', earnedPix: 40 },
-          ],
+          ]
         );
 
         _buildParticipationWithSnapshot(
           { id: 2, campaignId: campaignId2, isShared: true, sharedAt: new Date('2020-01-03') },
-          [{ skillId: 'skill_1', status: 'validated', earnedPix: 40 }],
+          [{ skillId: 'skill_1', status: 'validated', earnedPix: 40 }]
         );
 
         await databaseBuilder.commit();
@@ -115,17 +110,29 @@ describe('computeParticipationResults', function() {
         mockLearningContent({ skills: [] });
 
         await computeParticipationResults(1, false);
-        const campaignParticipations = await knex('campaign-participations').select(['validatedSkillsCount', 'pixScore', 'masteryRate']).orderBy('id');
+        const campaignParticipations = await knex('campaign-participations')
+          .select(['validatedSkillsCount', 'pixScore', 'masteryRate'])
+          .orderBy('id');
 
-        expect(campaignParticipations).to.deep.equals([{ validatedSkillsCount: 2, pixScore: 80, masteryRate: '0.13' }, { validatedSkillsCount: 1, pixScore: 40, masteryRate: '0.06' }]);
+        expect(campaignParticipations).to.deep.equals([
+          { validatedSkillsCount: 2, pixScore: 80, masteryRate: '0.13' },
+          { validatedSkillsCount: 1, pixScore: 40, masteryRate: '0.06' },
+        ]);
       });
     });
 
-    context('when there are campaign participation with already pix score computed', function() {
-      it('does not compute results', async function() {
+    context('when there are campaign participation with already pix score computed', function () {
+      it('does not compute results', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true, sharedAt: new Date('2020-01-02'), validatedSkillsCount: 10, masteryRate: 0.2, pixScore: 10 });
+        databaseBuilder.factory.buildCampaignParticipation({
+          campaignId,
+          isShared: true,
+          sharedAt: new Date('2020-01-02'),
+          validatedSkillsCount: 10,
+          masteryRate: 0.2,
+          pixScore: 10,
+        });
 
         await databaseBuilder.commit();
 
@@ -141,8 +148,8 @@ describe('computeParticipationResults', function() {
       });
     });
 
-    context('when there are campaign participation not shared', function() {
-      it('does not compute results', async function() {
+    context('when there are campaign participation not shared', function () {
+      it('does not compute results', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
         databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });
@@ -176,14 +183,11 @@ function _buildCampaignForSkills(skillIds) {
 function _buildParticipationWithSnapshot(participationAttributes, knowledgeElementsAttributes) {
   const participation = databaseBuilder.factory.buildCampaignParticipation(participationAttributes);
 
-  databaseBuilder
-    .factory
-    .knowledgeElementSnapshotFactory
-    .buildSnapshot({
-      userId: participation.userId,
-      snappedAt: participation.sharedAt,
-      knowledgeElementsAttributes,
-    });
+  databaseBuilder.factory.knowledgeElementSnapshotFactory.buildSnapshot({
+    userId: participation.userId,
+    snappedAt: participation.sharedAt,
+    knowledgeElementsAttributes,
+  });
 
   return participation;
 }

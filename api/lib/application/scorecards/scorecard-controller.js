@@ -4,14 +4,12 @@ const { extractLocaleFromRequest } = require('../../infrastructure/utils/request
 const usecases = require('../../domain/usecases');
 
 module.exports = {
-
   getScorecard(request) {
     const locale = extractLocaleFromRequest(request);
     const authenticatedUserId = request.auth.credentials.userId;
     const scorecardId = request.params.id;
 
-    return usecases.getScorecard({ authenticatedUserId, scorecardId, locale })
-      .then(scorecardSerializer.serialize);
+    return usecases.getScorecard({ authenticatedUserId, scorecardId, locale }).then(scorecardSerializer.serialize);
   },
 
   findTutorials(request) {
@@ -19,7 +17,6 @@ module.exports = {
     const authenticatedUserId = request.auth.credentials.userId;
     const scorecardId = request.params.id;
 
-    return usecases.findTutorials({ authenticatedUserId, scorecardId, locale })
-      .then(tutorialSerializer.serialize);
+    return usecases.findTutorials({ authenticatedUserId, scorecardId, locale }).then(tutorialSerializer.serialize);
   },
 };

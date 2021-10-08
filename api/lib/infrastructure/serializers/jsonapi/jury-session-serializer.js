@@ -1,7 +1,6 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serializeForPaginatedList(jurySessionsForPaginatedList) {
     const { jurySessions, pagination } = jurySessionsForPaginatedList;
     return this.serialize(jurySessions, pagination);
@@ -60,7 +59,7 @@ module.exports = {
         transformedJurySession.status = jurySession.status;
         return transformedJurySession;
       },
-      typeForAttribute: function(attribute) {
+      typeForAttribute: function (attribute) {
         if (attribute === 'assignedCertificationOfficer') {
           return 'user';
         }

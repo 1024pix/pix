@@ -4,18 +4,25 @@ const { knex } = require('../../../db/knex-database-connection');
 const DomainTransaction = require('../DomainTransaction');
 
 module.exports = {
-
   _toStudents(results) {
     const students = [];
     const resultsGroupedByNatId = _.groupBy(results, 'nationalStudentId');
     for (const [nationalStudentId, accounts] of Object.entries(resultsGroupedByNatId)) {
       const mostRelevantAccount = _.orderBy(accounts, ['certificationCount', 'updatedAt'], ['desc', 'desc'])[0];
-      students.push(new Student({ nationalStudentId, account: _.pick(mostRelevantAccount, ['userId', 'certificationCount', 'updatedAt']) }));
+      students.push(
+        new Student({
+          nationalStudentId,
+          account: _.pick(mostRelevantAccount, ['userId', 'certificationCount', 'updatedAt']),
+        })
+      );
     }
     return students;
   },
 
-  async findReconciledStudentsByNationalStudentId(nationalStudentIds, domainTransaction = DomainTransaction.emptyTransaction()) {
+  async findReconciledStudentsByNationalStudentId(
+    nationalStudentIds,
+    domainTransaction = DomainTransaction.emptyTransaction()
+  ) {
     const knexConn = domainTransaction.knexTransaction || knex;
     const results = await knexConn
       .select({
@@ -35,7 +42,6 @@ module.exports = {
   },
 
   async getReconciledStudentByNationalStudentId(nationalStudentId) {
-
     const result = await this.findReconciledStudentsByNationalStudentId([nationalStudentId]);
 
     return _.isEmpty(result) ? null : result[0];

@@ -7,12 +7,8 @@ module.exports = function buildBadgePartnerCompetence({
   skillIds = [],
   badgeId,
 } = {}) {
-
   if (_.isEmpty(skillIds)) {
-    skillIds = [
-      'recABC123',
-      'recDEF456',
-    ];
+    skillIds = ['recABC123', 'recDEF456'];
   }
 
   const values = {

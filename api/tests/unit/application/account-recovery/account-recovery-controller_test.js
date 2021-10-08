@@ -1,20 +1,13 @@
-const {
-  expect,
-  sinon,
-  hFake,
-  domainBuilder,
-} = require('../../../test-helper');
+const { expect, sinon, hFake, domainBuilder } = require('../../../test-helper');
 
 const accountRecoveryController = require('../../../../lib/application/account-recovery/account-recovery-controller');
 const usecases = require('../../../../lib/domain/usecases');
 const studentInformationForAccountRecoverySerializer = require('../../../../lib/infrastructure/serializers/jsonapi/student-information-for-account-recovery-serializer');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 
-describe('Unit | Controller | account-recovery-controller', function() {
-
-  describe('#sendEmailForAccountRecovery', function() {
-
-    it('should call sendEmailForAccountRecovery usecase and return 204', async function() {
+describe('Unit | Controller | account-recovery-controller', function () {
+  describe('#sendEmailForAccountRecovery', function () {
+    it('should call sendEmailForAccountRecovery usecase and return 204', async function () {
       // given
       const newEmail = 'new_email@example.net';
       const studentInformation = {
@@ -39,7 +32,8 @@ describe('Unit | Controller | account-recovery-controller', function() {
         },
       };
 
-      sinon.stub(studentInformationForAccountRecoverySerializer, 'deserialize')
+      sinon
+        .stub(studentInformationForAccountRecoverySerializer, 'deserialize')
         .withArgs(request.payload)
         .resolves(studentInformation);
       sinon.stub(usecases, 'sendEmailForAccountRecovery').resolves();
@@ -51,12 +45,10 @@ describe('Unit | Controller | account-recovery-controller', function() {
       expect(usecases.sendEmailForAccountRecovery).calledWith({ studentInformation });
       expect(response.statusCode).to.equal(204);
     });
-
   });
 
-  describe('#checkAccountRecoveryDemand', function() {
-
-    it('should return serialized account recovery details', async function() {
+  describe('#checkAccountRecoveryDemand', function () {
+    it('should return serialized account recovery details', async function () {
       // given
       const temporaryKey = 'ABCDEFZEFDD';
       const studentInformation = { id: 1234, email: 'philipe@example.net', firstName: 'philipe' };
@@ -72,13 +64,14 @@ describe('Unit | Controller | account-recovery-controller', function() {
 
       // then
       expect(usecases.getAccountRecoveryDetails).to.have.been.calledWith({ temporaryKey });
-      expect(studentInformationForAccountRecoverySerializer.serializeAccountRecovery).to.have.been.calledWith(studentInformation);
+      expect(studentInformationForAccountRecoverySerializer.serializeAccountRecovery).to.have.been.calledWith(
+        studentInformation
+      );
     });
   });
 
-  describe('#updateUserAccount', function() {
-
-    it('should call updateUserAccount usecase and return 204', async function() {
+  describe('#updateUserAccount', function () {
+    it('should call updateUserAccount usecase and return 204', async function () {
       // given
       const user = domainBuilder.buildUser({ id: 1 });
       const temporaryKey = 'validTemporaryKey';
@@ -99,7 +92,9 @@ describe('Unit | Controller | account-recovery-controller', function() {
       };
 
       sinon.stub(usecases, 'updateUserAccount').resolves();
-      DomainTransaction.execute = (lambda) => { return lambda(domainTransaction); };
+      DomainTransaction.execute = (lambda) => {
+        return lambda(domainTransaction);
+      };
 
       // when
       const response = await accountRecoveryController.updateUserAccountFromRecoveryDemand(request, hFake);
@@ -113,5 +108,4 @@ describe('Unit | Controller | account-recovery-controller', function() {
       expect(response.statusCode).to.equal(204);
     });
   });
-
 });

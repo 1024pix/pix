@@ -2,13 +2,12 @@ const { expect, sinon } = require('../../../test-helper');
 const rememberUserHasSeenAssessmentInstructions = require('../../../../lib/domain/usecases/remember-user-has-seen-assessment-instructions');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', function() {
-
-  beforeEach(function() {
+describe('Unit | UseCase | remember-user-has-seen-assessment-instructions', function () {
+  beforeEach(function () {
     sinon.stub(userRepository, 'updateHasSeenAssessmentInstructionsToTrue');
   });
 
-  it('should update has seen assessment instructions', async function() {
+  it('should update has seen assessment instructions', async function () {
     // given
     const userId = 'userId';
     const updatedUser = Symbol('updateduser');

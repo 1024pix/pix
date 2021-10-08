@@ -8,16 +8,15 @@ const ValidatorQROC = require('../../../../lib/domain/models/ValidatorQROC');
 const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMDep');
 const ValidatorQROCMInd = require('../../../../lib/domain/models/ValidatorQROCMInd');
 
-describe('Unit | Domain | Models | Challenge', function() {
-
-  describe('#constructor', function() {
-
-    it('should construct a model Challenge from attributes', function() {
+describe('Unit | Domain | Models | Challenge', function () {
+  describe('#constructor', function () {
+    it('should construct a model Challenge from attributes', function () {
       // given
       const challengeRawData = {
         id: 'recwWzTquPlvIl4So',
         type: 'QCM',
-        instruction: 'Les moteurs de recherche affichent certains liens en raison d\'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?',
+        instruction:
+          "Les moteurs de recherche affichent certains liens en raison d'un accord commercial.\n\nDans quels encadrés se trouvent ces liens ?",
         proposals: '- 1\n- 2\n- 3\n- 4\n- 5',
         timer: 1234,
         illustrationUrl: 'https://dl.airtable.com/2MGErxGTQl2g2KiqlYgV_venise4.png',
@@ -33,7 +32,7 @@ describe('Unit | Domain | Models | Challenge', function() {
         skills: [new Skill('recUDrCWD76fp5MsE')],
         validator: undefined,
         competenceId: 'recsvLz0W2ShyfD63',
-        illustrationAlt: 'Texte alternatif à l\'image',
+        illustrationAlt: "Texte alternatif à l'image",
         format: 'phrase',
         locales: ['fr'],
         autoReply: true,
@@ -50,9 +49,8 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('#hasSkill', function() {
-
-    it('should return false when the skill is not known', function() {
+  describe('#hasSkill', function () {
+    it('should return false when the skill is not known', function () {
       // given
       const challenge = new Challenge();
 
@@ -63,7 +61,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(result).to.be.false;
     });
 
-    it('should return true when the skill is known', function() {
+    it('should return true when the skill is known', function () {
       // given
       const challenge = new Challenge();
       challenge.skills.push(new Skill('@recherche1'));
@@ -76,9 +74,8 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('#addSkill', function() {
-
-    it('should add a skill', function() {
+  describe('#addSkill', function () {
+    it('should add a skill', function () {
       // given
       const skill = new Skill('@web3');
       const challenge = new Challenge();
@@ -90,11 +87,10 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(challenge.skills).to.have.lengthOf(1);
       expect(challenge.skills[0]).to.equal(skill);
     });
-
   });
 
-  describe('#hardestSkill', function() {
-    it('should exist', function() {
+  describe('#hardestSkill', function () {
+    it('should exist', function () {
       // given
       const url1 = new Skill({ name: '@url1' });
       const challenge = new Challenge();
@@ -104,7 +100,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(challenge.hardestSkill).to.exist;
     });
 
-    it('should be web5 if challenge requires url1 and web5', function() {
+    it('should be web5 if challenge requires url1 and web5', function () {
       // given
       const web5 = new Skill({ name: '@web5' });
       const url1 = new Skill({ name: '@url1' });
@@ -117,9 +113,8 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('#testsAtLeastOneNewSkill', function() {
-
-    it('returns true if the challenge is not already assessed', function() {
+  describe('#testsAtLeastOneNewSkill', function () {
+    it('returns true if the challenge is not already assessed', function () {
       // given
       const [s1] = domainBuilder.buildSkillCollection();
       const challenge = domainBuilder.buildChallenge({ skills: [s1] });
@@ -130,7 +125,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(response).to.be.true;
     });
 
-    it('should return false if the challenge\'s skill is already assessed', function() {
+    it("should return false if the challenge's skill is already assessed", function () {
       // given
       const [s1] = domainBuilder.buildSkillCollection();
       const challenge = domainBuilder.buildChallenge({ skills: [s1] });
@@ -141,7 +136,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(response).to.be.false;
     });
 
-    it('should return true if the challenge has a unique skill not assessed', function() {
+    it('should return true if the challenge has a unique skill not assessed', function () {
       // given
       const [s1, s2, s3] = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
       const challenge = domainBuilder.buildChallenge({ skills: [s3] });
@@ -152,7 +147,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(response).to.be.true;
     });
 
-    it('should return true if the challenge has at least a skill not assessed', function() {
+    it('should return true if the challenge has at least a skill not assessed', function () {
       // given
       const [s1, s2, s3] = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
       const challenge = domainBuilder.buildChallenge({ skills: [s2, s3] });
@@ -163,7 +158,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(response).to.be.true;
     });
 
-    it('should return false if the challenge has a skill assessed of the same name (but different object)', function() {
+    it('should return false if the challenge has a skill assessed of the same name (but different object)', function () {
       // given
       const skill = domainBuilder.buildSkill({ name: '@skill1' });
       const sameSkill = domainBuilder.buildSkill({ name: '@skill1' });
@@ -174,7 +169,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(response).to.be.false;
     });
 
-    it('should return false if the challenge has only one skill and is already assessed', function() {
+    it('should return false if the challenge has only one skill and is already assessed', function () {
       // given
       const [s1, s2] = domainBuilder.buildSkillCollection({ minLevel: 1, maxLevel: 3 });
       const challenge = domainBuilder.buildChallenge({ skills: [s2] });
@@ -186,23 +181,20 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('static#createValidatorForChallengeType', function() {
-
+  describe('static#createValidatorForChallengeType', function () {
     const challengeTypeAndValidators = {
-      'QCM': ValidatorQCM,
-      'QCU': ValidatorQCU,
-      'QROC': ValidatorQROC,
+      QCM: ValidatorQCM,
+      QCU: ValidatorQCU,
+      QROC: ValidatorQROC,
       'QROCM-dep': ValidatorQROCMDep,
       'QROCM-ind': ValidatorQROCMInd,
-      'other': Validator,
+      other: Validator,
     };
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     Object.entries(challengeTypeAndValidators).forEach(([challengeType, associatedValidatorClass]) => {
-
-      context(`when challenge of type: ${challengeType} exists`, function() {
-
-        it('should return the associated validator class', function() {
+      context(`when challenge of type: ${challengeType} exists`, function () {
+        it('should return the associated validator class', function () {
           // when
           const solution = 'some solution';
           const validator = Challenge.createValidatorForChallengeType({ challengeType, solution });
@@ -215,8 +207,8 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('#hasIllustration', function() {
-    it('returns true when has illustration', function() {
+  describe('#hasIllustration', function () {
+    it('returns true when has illustration', function () {
       // given
       const challenge = domainBuilder.buildChallenge({ illustrationUrl: 'A_LINK' });
 
@@ -224,7 +216,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(challenge.hasIllustration()).to.be.true;
     });
 
-    it('returns false when does not have illustration', function() {
+    it('returns false when does not have illustration', function () {
       // given
       const challenge = domainBuilder.buildChallenge({ illustrationUrl: null });
 
@@ -233,8 +225,8 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('#hasEmbed', function() {
-    it('returns true when has embed', function() {
+  describe('#hasEmbed', function () {
+    it('returns true when has embed', function () {
       // given
       const challenge = domainBuilder.buildChallenge({ embedUrl: 'A_LINK' });
 
@@ -242,7 +234,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(challenge.hasEmbed()).to.be.true;
     });
 
-    it('returns false when does not have embed', function() {
+    it('returns false when does not have embed', function () {
       // given
       const challenge = domainBuilder.buildChallenge({ embedUrl: null });
 
@@ -251,8 +243,8 @@ describe('Unit | Domain | Models | Challenge', function() {
     });
   });
 
-  describe('#hasAtLeastOneAttachment', function() {
-    it('returns true when attachments is not empty', function() {
+  describe('#hasAtLeastOneAttachment', function () {
+    it('returns true when attachments is not empty', function () {
       // given
       const challenge = domainBuilder.buildChallenge({
         attachments: ['some/attachment/url'],
@@ -262,7 +254,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(challenge.hasAtLeastOneAttachment()).to.be.true;
     });
 
-    it('returns false when attachment is empty', function() {
+    it('returns false when attachment is empty', function () {
       // given
       const challenge = domainBuilder.buildChallenge({
         attachments: [],
@@ -271,7 +263,7 @@ describe('Unit | Domain | Models | Challenge', function() {
       expect(challenge.hasAtLeastOneAttachment()).to.be.false;
     });
 
-    it('returns false when attachment is not an array (null, undefined, ...)', function() {
+    it('returns false when attachment is not an array (null, undefined, ...)', function () {
       // given
       const challenge = domainBuilder.buildChallenge({
         attachments: 'not an array',

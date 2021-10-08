@@ -17,7 +17,6 @@ function buildSchoolingRegistration({
   diploma = 'licence',
   studyScheme = 'sch23',
 } = {}) {
-
   return new HigherSchoolingRegistration({
     firstName,
     middleName,

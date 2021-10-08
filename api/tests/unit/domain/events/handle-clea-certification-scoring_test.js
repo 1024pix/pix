@@ -3,7 +3,7 @@ const { catchErr, expect, sinon } = require('../../../test-helper');
 const CertificationScoringCompleted = require('../../../../lib/domain/events/CertificationScoringCompleted');
 const { handleCleaCertificationScoring } = require('../../../../lib/domain/events')._forTestOnly.handlers;
 
-describe('Unit | Domain | Events | handle-clea-certification-scoring', function() {
+describe('Unit | Domain | Events | handle-clea-certification-scoring', function () {
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const reproducibilityRate = Symbol('reproducibilityRate');
@@ -54,20 +54,18 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function(
     badgeCriteriaService,
   };
 
-  it('fails when event is not of correct type', async function() {
+  it('fails when event is not of correct type', async function () {
     // given
     const event = 'not an event of the correct type';
 
     // when / then
-    const error = await catchErr(handleCleaCertificationScoring)(
-      { event, ...dependencies },
-    );
+    const error = await catchErr(handleCleaCertificationScoring)({ event, ...dependencies });
 
     // then
     expect(error).not.to.be.null;
   });
 
-  context('#handleCleaCertificationScoring', function() {
+  context('#handleCleaCertificationScoring', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const certificationCourseId = Symbol('certificationCourseId');
@@ -83,7 +81,7 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function(
     // eslint-disable-next-line mocha/no-setup-in-describe
     const knowledgeElements = Symbol('KnowledgeElements@& ');
 
-    beforeEach(function() {
+    beforeEach(function () {
       event = new CertificationScoringCompleted({
         certificationCourseId,
         userId,
@@ -94,8 +92,14 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function(
       certificationCourseRepository.getCreationDate = sinon.stub().withArgs(certificationCourseId).resolves(date);
       badgeRepository.getByKey = sinon.stub().resolves(badge);
       targetProfileRepository.get = sinon.stub().withArgs(targetProfile.id).resolves(targetProfile);
-      knowledgeElementRepository.findUniqByUserId = sinon.stub().withArgs({ userId: event.userId, limitDate: date }).resolves(knowledgeElements);
-      badgeCriteriaService.areBadgeCriteriaFulfilled = sinon.stub().withArgs({ knowledgeElements, targetProfile, badge }).returns(true);
+      knowledgeElementRepository.findUniqByUserId = sinon
+        .stub()
+        .withArgs({ userId: event.userId, limitDate: date })
+        .resolves(knowledgeElements);
+      badgeCriteriaService.areBadgeCriteriaFulfilled = sinon
+        .stub()
+        .withArgs({ knowledgeElements, targetProfile, badge })
+        .returns(true);
       cleaCertificationScoring.setBadgeAcquisitionStillValid = sinon.stub().returns(true);
 
       partnerCertificationScoringRepository.save = sinon.stub();
@@ -106,32 +110,38 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function(
           certificationCourseId,
           userId,
           reproducibilityRate,
-        }).resolves(cleaCertificationScoring);
+        })
+        .resolves(cleaCertificationScoring);
     });
 
-    context('when certification is eligible', function() {
-
-      it('should verify if the badge is still acquired', async function() {
+    context('when certification is eligible', function () {
+      it('should verify if the badge is still acquired', async function () {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
         // when
         await handleCleaCertificationScoring({
-          event, ...dependencies,
+          event,
+          ...dependencies,
         });
 
         // then
-        expect(badgeCriteriaService.areBadgeCriteriaFulfilled).to.have.been.calledWith({ knowledgeElements, targetProfile, badge });
+        expect(badgeCriteriaService.areBadgeCriteriaFulfilled).to.have.been.calledWith({
+          knowledgeElements,
+          targetProfile,
+          badge,
+        });
         expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.have.been.calledWith(true);
       });
 
-      it('should save a certif partner', async function() {
+      it('should save a certif partner', async function () {
         // given
         cleaCertificationScoring.isEligible = () => true;
 
         // when
         await handleCleaCertificationScoring({
-          event, ...dependencies,
+          event,
+          ...dependencies,
         });
 
         // then
@@ -141,16 +151,16 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function(
       });
     });
 
-    context('when certification is not eligible', function() {
-
-      it('should not verify if the badge is still acquired if the badge is not acquired', async function() {
+    context('when certification is not eligible', function () {
+      it('should not verify if the badge is still acquired if the badge is not acquired', async function () {
         // given
         cleaCertificationScoring.hasAcquiredBadge = false;
         cleaCertificationScoring.isEligible = () => true;
 
         // when
         await handleCleaCertificationScoring({
-          event, ...dependencies,
+          event,
+          ...dependencies,
         });
 
         // then
@@ -158,13 +168,14 @@ describe('Unit | Domain | Events | handle-clea-certification-scoring', function(
         expect(cleaCertificationScoring.setBadgeAcquisitionStillValid).to.not.to.have.been.called;
       });
 
-      it('should not save a certif partner', async function() {
+      it('should not save a certif partner', async function () {
         // given
         cleaCertificationScoring.isEligible = () => false;
 
         // when
         await handleCleaCertificationScoring({
-          event, ...dependencies,
+          event,
+          ...dependencies,
         });
 
         // then

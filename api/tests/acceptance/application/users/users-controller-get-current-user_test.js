@@ -1,18 +1,13 @@
-const {
-  databaseBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-get-current-user', function() {
-
+describe('Acceptance | Controller | users-controller-get-current-user', function () {
   let options;
   let server;
   let user;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
 
     user = databaseBuilder.factory.buildUser();
@@ -27,9 +22,8 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
     return databaseBuilder.commit();
   });
 
-  describe('GET /users/me', function() {
-
-    it('should return found user with 200 HTTP status code', async function() {
+  describe('GET /users/me', function () {
+    it('should return found user with 200 HTTP status code', async function () {
       // given
       const expectedUserJSONApi = {
         data: {
@@ -68,7 +62,7 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
                 related: `/api/users/${user.id}/pixscore`,
               },
             },
-            'profile': {
+            profile: {
               links: {
                 related: `/api/users/${user.id}/profile`,
               },
@@ -100,5 +94,4 @@ describe('Acceptance | Controller | users-controller-get-current-user', function
       expect(response.result).to.deep.equal(expectedUserJSONApi);
     });
   });
-
 });

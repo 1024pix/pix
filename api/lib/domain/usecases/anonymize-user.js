@@ -1,8 +1,4 @@
-module.exports = function anonymizeUser({
-  userId,
-  userRepository,
-}) {
-
+module.exports = function anonymizeUser({ userId, userRepository }) {
   const anonymizedUser = {
     firstName: `prenom_${userId}`,
     lastName: `nom_${userId}`,

@@ -2,9 +2,7 @@ const { knex } = require('../../../db/knex-database-connection');
 const CampaignParticipantActivity = require('../../domain/read-models/CampaignParticipantActivity');
 
 const campaignParticipantActivityRepository = {
-
   async findPaginatedByCampaignId({ page = { size: 25 }, campaignId, filters = {} }) {
-
     const pagination = await getPagination(campaignId, filters, page);
     const results = await _buildParticipationsPage(knex, campaignId, filters, pagination);
 
@@ -28,14 +26,15 @@ function _buildCampaignParticipationByParticipant(qb, campaignId, filters) {
     'campaign-participations.participantExternalId',
     'campaign-participations.sharedAt',
     'campaign-participations.status',
-    'campaigns.type AS campaignType',
+    'campaigns.type AS campaignType'
   )
     .from('campaign-participations')
     .join('users', 'users.id', 'campaign-participations.userId')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('schooling-registrations', function() {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
-        .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+    .leftJoin('schooling-registrations', function () {
+      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
+        'campaigns.organizationId': 'schooling-registrations.organizationId',
+      });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
@@ -48,9 +47,10 @@ function _buildPaginationQuery(queryBuilder, campaignId, filters) {
     .select('campaign-participations.id')
     .from('campaign-participations')
     .join('campaigns', 'campaigns.id', 'campaign-participations.campaignId')
-    .leftJoin('schooling-registrations', function() {
-      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' })
-        .andOn({ 'campaigns.organizationId': 'schooling-registrations.organizationId' });
+    .leftJoin('schooling-registrations', function () {
+      this.on({ 'campaign-participations.userId': 'schooling-registrations.userId' }).andOn({
+        'campaigns.organizationId': 'schooling-registrations.organizationId',
+      });
     })
     .where('campaign-participations.campaignId', '=', campaignId)
     .where('campaign-participations.isImproved', '=', false)
@@ -75,7 +75,9 @@ function _buildParticipationsPage(queryBuilder, campaignId, filters, { page, pag
   const offset = (page - 1) * pageSize;
 
   return queryBuilder
-    .with('campaign_participants_activities_ordered', (qb) => _buildCampaignParticipationByParticipant(qb, campaignId, filters))
+    .with('campaign_participants_activities_ordered', (qb) =>
+      _buildCampaignParticipationByParticipant(qb, campaignId, filters)
+    )
     .from('campaign_participants_activities_ordered')
     .orderByRaw('LOWER(??) ASC, LOWER(??) ASC', ['lastName', 'firstName'])
     .limit(pageSize)
@@ -86,10 +88,7 @@ async function getPagination(campaignId, filters, { number = 1, size = 10 } = {}
   const page = number < 1 ? 1 : number;
 
   const query = _buildPaginationQuery(knex, campaignId, filters);
-  const { rowCount } = await knex
-    .count('*', { as: 'rowCount' })
-    .from(query.as('query_all_results'))
-    .first();
+  const { rowCount } = await knex.count('*', { as: 'rowCount' }).from(query.as('query_all_results')).first();
 
   return {
     page,
@@ -100,4 +99,3 @@ async function getPagination(campaignId, filters, { number = 1, size = 10 } = {}
 }
 
 module.exports = campaignParticipantActivityRepository;
-

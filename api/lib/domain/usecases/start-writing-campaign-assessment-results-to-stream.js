@@ -6,28 +6,29 @@ const constants = require('../../infrastructure/constants');
 const { UserNotAuthorizedToGetCampaignResultsError } = require('../errors');
 const csvSerializer = require('../../infrastructure/serializers/csv/csv-serializer');
 
-module.exports = async function startWritingCampaignAssessmentResultsToStream(
-  {
-    userId,
-    campaignId,
-    writableStream,
-    i18n,
-    campaignRepository,
-    userRepository,
-    targetProfileWithLearningContentRepository,
-    campaignParticipationInfoRepository,
-    organizationRepository,
-    knowledgeElementRepository,
-    badgeAcquisitionRepository,
-    campaignCsvExportService,
-  }) {
-
+module.exports = async function startWritingCampaignAssessmentResultsToStream({
+  userId,
+  campaignId,
+  writableStream,
+  i18n,
+  campaignRepository,
+  userRepository,
+  targetProfileWithLearningContentRepository,
+  campaignParticipationInfoRepository,
+  organizationRepository,
+  knowledgeElementRepository,
+  badgeAcquisitionRepository,
+  campaignCsvExportService,
+}) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
 
   await _checkCreatorHasAccessToCampaignOrganization(userId, campaign.organizationId, userRepository);
 
-  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({ id: campaign.targetProfileId, locale: i18n.getLocale() });
+  const targetProfileWithLearningContent = await targetProfileWithLearningContentRepository.get({
+    id: campaign.targetProfileId,
+    locale: i18n.getLocale(),
+  });
   const organization = await organizationRepository.get(campaign.organizationId);
   const campaignParticipationInfos = await campaignParticipationInfoRepository.findByCampaignId(campaign.id);
 
@@ -45,49 +46,78 @@ module.exports = async function startWritingCampaignAssessmentResultsToStream(
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  const campaignParticipationInfoChunks = _.chunk(campaignParticipationInfos, constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING);
-  bluebird.map(campaignParticipationInfoChunks, async (campaignParticipationInfoChunk) => {
-    const userIdsAndDates = Object.fromEntries(campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
-      return [
-        campaignParticipationInfo.userId,
-        campaignParticipationInfo.sharedAt,
-      ];
-    }));
-    const knowledgeElementsByUserIdAndCompetenceId =
-      await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(userIdsAndDates, targetProfileWithLearningContent);
+  const campaignParticipationInfoChunks = _.chunk(
+    campaignParticipationInfos,
+    constants.CHUNK_SIZE_CAMPAIGN_RESULT_PROCESSING
+  );
+  bluebird
+    .map(
+      campaignParticipationInfoChunks,
+      async (campaignParticipationInfoChunk) => {
+        const userIdsAndDates = Object.fromEntries(
+          campaignParticipationInfoChunk.map((campaignParticipationInfo) => {
+            return [campaignParticipationInfo.userId, campaignParticipationInfo.sharedAt];
+          })
+        );
+        const knowledgeElementsByUserIdAndCompetenceId =
+          await knowledgeElementRepository.findTargetedGroupedByCompetencesForUsers(
+            userIdsAndDates,
+            targetProfileWithLearningContent
+          );
 
-    let acquiredBadgesByCampaignParticipations;
-    if (targetProfileWithLearningContent.hasBadges()) {
-      const campaignParticipationsIds = campaignParticipationInfoChunk.map((campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId);
-      acquiredBadgesByCampaignParticipations = await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
-    }
+        let acquiredBadgesByCampaignParticipations;
+        if (targetProfileWithLearningContent.hasBadges()) {
+          const campaignParticipationsIds = campaignParticipationInfoChunk.map(
+            (campaignParticipationInfo) => campaignParticipationInfo.campaignParticipationId
+          );
+          acquiredBadgesByCampaignParticipations =
+            await badgeAcquisitionRepository.getAcquiredBadgesByCampaignParticipations({ campaignParticipationsIds });
+        }
 
-    let csvLines = '';
-    for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(knowledgeElementsByUserIdAndCompetenceId)) {
-      const participantId = parseInt(strParticipantId);
-      const campaignParticipationInfo = campaignParticipationInfoChunk.find((campaignParticipationInfo) => campaignParticipationInfo.userId === participantId);
-      const acquiredBadges = acquiredBadgesByCampaignParticipations && acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId] ? acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId].map((badge) => badge.title) : [];
-      const csvLine = campaignCsvExportService.createOneCsvLine({
-        organization,
-        campaign,
-        campaignParticipationInfo,
-        targetProfileWithLearningContent,
-        participantKnowledgeElementsByCompetenceId,
-        acquiredBadges,
-        translate,
-      });
-      csvLines = csvLines.concat(csvLine);
-    }
+        let csvLines = '';
+        for (const [strParticipantId, participantKnowledgeElementsByCompetenceId] of Object.entries(
+          knowledgeElementsByUserIdAndCompetenceId
+        )) {
+          const participantId = parseInt(strParticipantId);
+          const campaignParticipationInfo = campaignParticipationInfoChunk.find(
+            (campaignParticipationInfo) => campaignParticipationInfo.userId === participantId
+          );
+          const acquiredBadges =
+            acquiredBadgesByCampaignParticipations &&
+            acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId]
+              ? acquiredBadgesByCampaignParticipations[campaignParticipationInfo.campaignParticipationId].map(
+                  (badge) => badge.title
+                )
+              : [];
+          const csvLine = campaignCsvExportService.createOneCsvLine({
+            organization,
+            campaign,
+            campaignParticipationInfo,
+            targetProfileWithLearningContent,
+            participantKnowledgeElementsByCompetenceId,
+            acquiredBadges,
+            translate,
+          });
+          csvLines = csvLines.concat(csvLine);
+        }
 
-    writableStream.write(csvLines);
-  }, { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }).then(() => {
-    writableStream.end();
-  }).catch((error) => {
-    writableStream.emit('error', error);
-    throw error;
+        writableStream.write(csvLines);
+      },
+      { concurrency: constants.CONCURRENCY_HEAVY_OPERATIONS }
+    )
+    .then(() => {
+      writableStream.end();
+    })
+    .catch((error) => {
+      writableStream.emit('error', error);
+      throw error;
+    });
+
+  const fileName = translate('campaign-export.common.file-name', {
+    name: campaign.name,
+    id: campaign.id,
+    date: moment.utc().format('YYYY-MM-DD-hhmm'),
   });
-
-  const fileName = translate('campaign-export.common.file-name', { name: campaign.name, id: campaign.id, date: moment.utc().format('YYYY-MM-DD-hhmm') });
   return { fileName };
 };
 
@@ -96,7 +126,7 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`,
+      `User does not have an access to the organization ${organizationId}`
     );
   }
 }
@@ -121,24 +151,26 @@ function _createHeaderOfCSV(targetProfile, idPixLabel, organization, translate) 
     translate('campaign-export.assessment.started-on'),
     translate('campaign-export.assessment.is-shared'),
     translate('campaign-export.assessment.shared-on'),
-    ...(targetProfile.hasReachableStages() ? [translate('campaign-export.assessment.success-rate', { value: targetProfile.reachableStages.length })] : []),
+    ...(targetProfile.hasReachableStages()
+      ? [translate('campaign-export.assessment.success-rate', { value: targetProfile.reachableStages.length })]
+      : []),
 
-    ...(_.flatMap(targetProfile.badges, (badge) => [
+    ..._.flatMap(targetProfile.badges, (badge) => [
       translate('campaign-export.assessment.thematic-result-name', { name: badge.title }),
-    ])),
+    ]),
     translate('campaign-export.assessment.mastery-percentage-target-profile'),
 
-    ...(_.flatMap(targetProfile.competences, (competence) => [
+    ..._.flatMap(targetProfile.competences, (competence) => [
       translate('campaign-export.assessment.skill.mastery-percentage', { name: competence.name }),
       translate('campaign-export.assessment.skill.total-items', { name: competence.name }),
       translate('campaign-export.assessment.skill.items-successfully-completed', { name: competence.name }),
-    ])),
+    ]),
 
-    ...(_.flatMap(targetProfile.areas, (area) => [
+    ..._.flatMap(targetProfile.areas, (area) => [
       translate('campaign-export.assessment.competence-area.mastery-percentage', { name: area.title }),
       translate('campaign-export.assessment.competence-area.total-items', { name: area.title }),
       translate('campaign-export.assessment.competence-area.items-successfully-completed', { name: area.title }),
-    ])),
+    ]),
 
     ...(organization.isSco ? [] : targetProfile.skillNames),
   ];

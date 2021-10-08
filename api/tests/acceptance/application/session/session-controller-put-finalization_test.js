@@ -1,16 +1,25 @@
-const { databaseBuilder, expect, generateValidRequestAuthorizationHeader, knex, learningContentBuilder, mockLearningContent } = require('../../../test-helper');
+const {
+  databaseBuilder,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  knex,
+  learningContentBuilder,
+  mockLearningContent,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
-const { CertificationIssueReportCategories, CertificationIssueReportSubcategories } = require('../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+  CertificationIssueReportSubcategories,
+} = require('../../../../lib/domain/models/CertificationIssueReportCategory');
 const AnswerStatus = require('../../../../lib/domain/models/AnswerStatus');
 
-describe('Acceptance | Controller | sessions-controller', function() {
-
+describe('Acceptance | Controller | sessions-controller', function () {
   let options;
   let server;
   let session;
   const examinerGlobalComment = 'It was a fine session my dear';
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     session = databaseBuilder.factory.buildSession();
     const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({}).id;
@@ -55,11 +64,9 @@ describe('Acceptance | Controller | sessions-controller', function() {
     return databaseBuilder.commit();
   });
 
-  describe('PUT /sessions/{id}/finalization', function() {
-
-    describe('Resource access management', function() {
-
-      it('should respond with a 401 Forbidden if the user is not authenticated', async function() {
+  describe('PUT /sessions/{id}/finalization', function () {
+    describe('Resource access management', function () {
+      it('should respond with a 401 Forbidden if the user is not authenticated', async function () {
         // given
         options.headers.authorization = 'invalid.access.token';
 
@@ -70,7 +77,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
         expect(response.statusCode).to.equal(401);
       });
 
-      it('should respond with a 404 NotFound the if user is not authorized (to keep opacity on whether forbidden or not found)', async function() {
+      it('should respond with a 404 NotFound the if user is not authorized (to keep opacity on whether forbidden or not found)', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         await databaseBuilder.commit();
@@ -84,19 +91,21 @@ describe('Acceptance | Controller | sessions-controller', function() {
       });
     });
 
-    describe('Success case', function() {
-
-      afterEach(async function() {
+    describe('Success case', function () {
+      afterEach(async function () {
         await knex('certification-issue-reports').delete();
         await knex('finalized-sessions').delete();
         await knex('competence-marks').delete();
         await knex('assessment-results').delete();
       });
 
-      it('should return the serialized updated session', async function() {
+      it('should return the serialized updated session', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: session.certificationCenterId,
+        });
 
         await databaseBuilder.commit();
         options.headers.authorization = generateValidRequestAuthorizationHeader(userId);
@@ -106,7 +115,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
             type: 'sessions',
             id: session.id.toString(),
             attributes: {
-              'status': 'finalized',
+              status: 'finalized',
               'examiner-global-comment': examinerGlobalComment,
             },
           },
@@ -120,7 +129,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
         expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
       });
 
-      it('should neutralize auto-neutralizable challenges', async function() {
+      it('should neutralize auto-neutralizable challenges', async function () {
         // given
         const learningContent = [
           {
@@ -137,9 +146,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
                       {
                         id: 'recSkill0_0',
                         nom: '@recSkill0_0',
-                        challenges: [
-                          { id: 'recChallenge0_0_0' },
-                        ],
+                        challenges: [{ id: 'recChallenge0_0_0' }],
                       },
                     ],
                   },
@@ -154,7 +161,10 @@ describe('Acceptance | Controller | sessions-controller', function() {
         const userId = databaseBuilder.factory.buildUser().id;
         const session = databaseBuilder.factory.buildSession();
         const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: session.certificationCenterId,
+        });
         const report = databaseBuilder.factory.buildCertificationReport({
           certificationCourseId,
           sessionId: session.id,
@@ -169,11 +179,25 @@ describe('Acceptance | Controller | sessions-controller', function() {
           questionNumber: 1,
         });
 
-        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false });
-        const certificationChallengeOk = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false });
+        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({
+          courseId: certificationCourseId,
+          isNeutralized: false,
+        });
+        const certificationChallengeOk = databaseBuilder.factory.buildCertificationChallenge({
+          courseId: certificationCourseId,
+          isNeutralized: false,
+        });
 
-        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeKo.challengeId, result: AnswerStatus.KO.status });
-        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeOk.challengeId, result: AnswerStatus.OK.status });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          challengeId: certificationChallengeKo.challengeId,
+          result: AnswerStatus.KO.status,
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          challengeId: certificationChallengeOk.challengeId,
+          result: AnswerStatus.OK.status,
+        });
 
         await databaseBuilder.commit();
 
@@ -209,7 +233,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
             type: 'sessions',
             id: session.id.toString(),
             attributes: {
-              'status': 'finalized',
+              status: 'finalized',
               'examiner-global-comment': examinerGlobalComment,
             },
           },
@@ -221,13 +245,17 @@ describe('Acceptance | Controller | sessions-controller', function() {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
-        const actualKoCertificationChallenge = await knex('certification-challenges').where({ id: certificationChallengeKo.id }).first();
-        const actualOkCertificationChallenge = await knex('certification-challenges').where({ id: certificationChallengeOk.id }).first();
+        const actualKoCertificationChallenge = await knex('certification-challenges')
+          .where({ id: certificationChallengeKo.id })
+          .first();
+        const actualOkCertificationChallenge = await knex('certification-challenges')
+          .where({ id: certificationChallengeOk.id })
+          .first();
         expect(actualKoCertificationChallenge.isNeutralized).to.be.true;
         expect(actualOkCertificationChallenge.isNeutralized).to.be.false;
       });
 
-      it('should set the finalized session as publishable when the issue reports have been resolved', async function() {
+      it('should set the finalized session as publishable when the issue reports have been resolved', async function () {
         // given
         const learningContent = [
           {
@@ -244,9 +272,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
                       {
                         id: 'recSkill0_0',
                         nom: '@recSkill0_0',
-                        challenges: [
-                          { id: 'recChallenge0_0_0' },
-                        ],
+                        challenges: [{ id: 'recChallenge0_0_0' }],
                       },
                     ],
                   },
@@ -260,8 +286,14 @@ describe('Acceptance | Controller | sessions-controller', function() {
 
         const userId = databaseBuilder.factory.buildUser().id;
         const session = databaseBuilder.factory.buildSession();
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, completedAt: new Date() }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+          completedAt: new Date(),
+        }).id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: session.certificationCenterId,
+        });
         const report = databaseBuilder.factory.buildCertificationReport({
           certificationCourseId,
           sessionId: session.id,
@@ -278,8 +310,15 @@ describe('Acceptance | Controller | sessions-controller', function() {
 
         databaseBuilder.factory.buildAssessmentResult({ assessmentId });
 
-        const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false });
-        databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallenge.challengeId, result: AnswerStatus.KO.status });
+        const certificationChallenge = databaseBuilder.factory.buildCertificationChallenge({
+          courseId: certificationCourseId,
+          isNeutralized: false,
+        });
+        databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          challengeId: certificationChallenge.challengeId,
+          result: AnswerStatus.KO.status,
+        });
 
         await databaseBuilder.commit();
 
@@ -315,7 +354,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
             type: 'sessions',
             id: session.id.toString(),
             attributes: {
-              'status': 'finalized',
+              status: 'finalized',
               'examiner-global-comment': '',
             },
           },
@@ -331,7 +370,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
         expect(finalizedSession.isPublishable).to.be.true;
       });
 
-      it('should re score assessment when there is auto-neutralizable challenge', async function() {
+      it('should re score assessment when there is auto-neutralizable challenge', async function () {
         // given
 
         const learningContent = [
@@ -349,9 +388,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
                       {
                         id: 'recSkill0_0',
                         nom: '@recSkill0_0',
-                        challenges: [
-                          { id: 'recChallenge0_0_0' },
-                        ],
+                        challenges: [{ id: 'recChallenge0_0_0' }],
                       },
                     ],
                   },
@@ -365,8 +402,15 @@ describe('Acceptance | Controller | sessions-controller', function() {
 
         const userId = databaseBuilder.factory.buildUser().id;
         const session = databaseBuilder.factory.buildSession();
-        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({ sessionId: session.id, userId, createdAt: new Date() }).id;
-        databaseBuilder.factory.buildCertificationCenterMembership({ userId, certificationCenterId: session.certificationCenterId });
+        const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
+          sessionId: session.id,
+          userId,
+          createdAt: new Date(),
+        }).id;
+        databaseBuilder.factory.buildCertificationCenterMembership({
+          userId,
+          certificationCenterId: session.certificationCenterId,
+        });
 
         const report = databaseBuilder.factory.buildCertificationReport({
           certificationCourseId,
@@ -387,13 +431,32 @@ describe('Acceptance | Controller | sessions-controller', function() {
           pixScore: 42,
         });
 
-        databaseBuilder.factory.buildCompetenceMark({ assessmentResultId: assessmentResultKo.id, competenceId: 'recCompetence0' });
+        databaseBuilder.factory.buildCompetenceMark({
+          assessmentResultId: assessmentResultKo.id,
+          competenceId: 'recCompetence0',
+        });
 
-        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({ courseId: certificationCourseId, isNeutralized: false, challengeId: 'recChallenge0_0_0', competenceId: 'recCompetence0' });
+        const certificationChallengeKo = databaseBuilder.factory.buildCertificationChallenge({
+          courseId: certificationCourseId,
+          isNeutralized: false,
+          challengeId: 'recChallenge0_0_0',
+          competenceId: 'recCompetence0',
+        });
 
-        const answerId = databaseBuilder.factory.buildAnswer({ assessmentId, challengeId: certificationChallengeKo.challengeId, result: AnswerStatus.KO.status }).id;
+        const answerId = databaseBuilder.factory.buildAnswer({
+          assessmentId,
+          challengeId: certificationChallengeKo.challengeId,
+          result: AnswerStatus.KO.status,
+        }).id;
 
-        databaseBuilder.factory.buildKnowledgeElement({ assessmentId, answerId, skillId: 'recSkill0_0', competenceId: 'recCompetence0', userId, earnedPix: 16 });
+        databaseBuilder.factory.buildKnowledgeElement({
+          assessmentId,
+          answerId,
+          skillId: 'recSkill0_0',
+          competenceId: 'recCompetence0',
+          userId,
+          earnedPix: 16,
+        });
 
         await databaseBuilder.commit();
 
@@ -429,7 +492,7 @@ describe('Acceptance | Controller | sessions-controller', function() {
             type: 'sessions',
             id: session.id.toString(),
             attributes: {
-              'status': 'finalized',
+              status: 'finalized',
               'examiner-global-comment': examinerGlobalComment,
             },
           },
@@ -441,7 +504,9 @@ describe('Acceptance | Controller | sessions-controller', function() {
         // then
         expect(response.statusCode).to.equal(200);
         expect(response.result.data).to.deep.equal(expectedSessionJSONAPI.data);
-        const actualKoAssessmentResult = await knex('assessment-results').where({ assessmentId, emitter: 'PIX-ALGO-NEUTRALIZATION' }).first();
+        const actualKoAssessmentResult = await knex('assessment-results')
+          .where({ assessmentId, emitter: 'PIX-ALGO-NEUTRALIZATION' })
+          .first();
         expect(actualKoAssessmentResult.pixScore).not.to.equal(assessmentResultKo.pixScore);
       });
     });

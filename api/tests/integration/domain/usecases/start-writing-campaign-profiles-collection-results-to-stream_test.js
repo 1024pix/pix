@@ -11,10 +11,8 @@ const userRepository = require('../../../../lib/infrastructure/repositories/user
 const placementProfileService = require('../../../../lib/domain/services/placement-profile-service');
 const { getI18n } = require('../../../tooling/i18n/i18n');
 
-describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function() {
-
-  describe('#startWritingCampaignProfilesCollectionResultsToStream', function() {
-
+describe('Integration | Domain | Use Cases | start-writing-profiles-collection-campaign-results-to-stream', function () {
+  describe('#startWritingCampaignProfilesCollectionResultsToStream', function () {
     let organization;
     let user;
     let participant;
@@ -30,7 +28,7 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
     // eslint-disable-next-line mocha/no-setup-in-describe
     const i18n = getI18n();
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
       organization = databaseBuilder.factory.buildOrganization();
       const skillWeb1 = { id: 'recSkillWeb1', name: '@web1', competenceIds: ['recCompetence1'] };
@@ -98,21 +96,21 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       await databaseBuilder.commit();
 
       const learningContent = {
-        areas: [
-          { id: 'recArea1' },
-          { id: 'recArea2' },
+        areas: [{ id: 'recArea1' }, { id: 'recArea2' }],
+        competences: [
+          {
+            id: 'recCompetence1',
+            areaId: 'recArea1',
+            skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
+            origin: 'Pix',
+          },
+          {
+            id: 'recCompetence2',
+            areaId: 'recArea2',
+            skillIds: [skillUrl1.id, skillUrl8.id],
+            origin: 'Pix',
+          },
         ],
-        competences: [{
-          id: 'recCompetence1',
-          areaId: 'recArea1',
-          skillIds: [skillWeb1.id, skillWeb2.id, skillWeb3.id],
-          origin: 'Pix',
-        }, {
-          id: 'recCompetence2',
-          areaId: 'recArea2',
-          skillIds: [skillUrl1.id, skillUrl8.id],
-          origin: 'Pix',
-        }],
         skills,
       };
       mockLearningContent(learningContent);
@@ -121,9 +119,8 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       csvPromise = streamToPromise(writableStream);
     });
 
-    context('When the organization is PRO', function() {
-
-      beforeEach(async function() {
+    context('When the organization is PRO', function () {
+      beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'PRO' });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
@@ -150,10 +147,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line', async function() {
+      it('should return the complete line', async function () {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
-        const expectedCsvSecondLine = `"${organization.name}";` +
+        const expectedCsvSecondLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
           `"${participant.lastName}";` +
@@ -193,13 +191,18 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
     });
 
-    context('When the organization is SCO and managing student', function() {
-
-      beforeEach(async function() {
+    context('When the organization is SCO and managing student', function () {
+      beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SCO', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, firstName: '@Jean', lastName: '=Bono', division: '3emeG', organizationId: organization.id });
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          userId: participant.id,
+          firstName: '@Jean',
+          lastName: '=Bono',
+          division: '3emeG',
+          organizationId: organization.id,
+        });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -224,10 +227,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line', async function() {
+      it('should return the complete line', async function () {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
-        const expectedCsvSecondLine = `"${organization.name}";` +
+        const expectedCsvSecondLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
           `"'${schoolingRegistration.lastName}";` +
@@ -268,13 +272,19 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
     });
 
-    context('When the organization is SUP and isManagingStudent', function() {
-
-      beforeEach(async function() {
+    context('When the organization is SUP and isManagingStudent', function () {
+      beforeEach(async function () {
         organization = databaseBuilder.factory.buildOrganization({ type: 'SUP', isManagingStudents: true });
         databaseBuilder.factory.buildMembership({ userId: user.id, organizationId: organization.id });
 
-        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({ userId: participant.id, studentNumber: '12345A', firstName: '@Jean', lastName: '=Bono', group: '=AB1', organizationId: organization.id });
+        schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
+          userId: participant.id,
+          studentNumber: '12345A',
+          firstName: '@Jean',
+          lastName: '=Bono',
+          group: '=AB1',
+          organizationId: organization.id,
+        });
 
         campaign = databaseBuilder.factory.buildCampaign({
           name: '@Campagne de Test N°2',
@@ -299,10 +309,11 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
         await databaseBuilder.commit();
       });
 
-      it('should return the complete line for a SUP organisation that manages students', async function() {
+      it('should return the complete line for a SUP organisation that manages students', async function () {
         // given
         const expectedCsvFirstCell = '\uFEFF"Nom de l\'organisation"';
-        const expectedCsvSecondLine = `"${organization.name}";` +
+        const expectedCsvSecondLine =
+          `"${organization.name}";` +
           `${campaign.id};` +
           `"'${campaign.name}";` +
           `"'${schoolingRegistration.lastName}";` +
@@ -344,5 +355,4 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
       });
     });
   });
-
 });

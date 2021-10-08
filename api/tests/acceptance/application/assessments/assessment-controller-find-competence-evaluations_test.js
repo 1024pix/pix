@@ -1,17 +1,15 @@
 const { expect, generateValidRequestAuthorizationHeader, databaseBuilder } = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | API | assessment-controller-find-competence-evaluations', function() {
-
+describe('Acceptance | API | assessment-controller-find-competence-evaluations', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET /api/assessments/:id/competence-evaluations', function() {
-
-    it('should return 200 HTTP status code', async function() {
+  describe('GET /api/assessments/:id/competence-evaluations', function () {
+    it('should return 200 HTTP status code', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
       const assessmentId = databaseBuilder.factory.buildAssessment({ userId }).id;

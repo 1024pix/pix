@@ -2,9 +2,8 @@ const { expect, sinon, catchErr } = require('../../../test-helper');
 const createBadge = require('../../../../lib/domain/usecases/create-badge');
 const { AlreadyExistingEntityError, NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | UseCase | create-badge', function() {
-
-  it('should call the badge repository to persist badge', async function() {
+describe('Unit | UseCase | create-badge', function () {
+  it('should call the badge repository to persist badge', async function () {
     // given
     const targetProfileId = 1;
     const badgeCreated = Symbol('created-badge');
@@ -20,8 +19,8 @@ describe('Unit | UseCase | create-badge', function() {
     expect(result).to.equal(badgeCreated);
   });
 
-  describe('when targetProfile not exist', function() {
-    it('should throw an error', async function() {
+  describe('when targetProfile not exist', function () {
+    it('should throw an error', async function () {
       // given
       const targetProfileId = 1;
       const badge = {};
@@ -36,8 +35,8 @@ describe('Unit | UseCase | create-badge', function() {
     });
   });
 
-  describe('when badge key is already used', function() {
-    it('should throw an AlreadyExistingEntityError', async function() {
+  describe('when badge key is already used', function () {
+    it('should throw an AlreadyExistingEntityError', async function () {
       // given
       const targetProfileId = 1;
       const badge = {};

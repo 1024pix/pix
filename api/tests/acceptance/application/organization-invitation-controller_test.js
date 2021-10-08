@@ -5,26 +5,23 @@ const OrganizationInvitation = require('../../../lib/domain/models/OrganizationI
 
 const createServer = require('../../../server');
 
-describe('Acceptance | Application | organization-invitation-controller', function() {
-
+describe('Acceptance | Application | organization-invitation-controller', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await knex('user-orga-settings').delete();
   });
 
-  describe('POST /api/organization-invitations/{id}/response', function() {
-
+  describe('POST /api/organization-invitations/{id}/response', function () {
     let organizationId;
     let options;
 
-    context('Success cases', function() {
-
-      beforeEach(async function() {
+    context('Success cases', function () {
+      beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization().id;
         const adminOrganizationUserId = databaseBuilder.factory.buildUser().id;
 
@@ -61,11 +58,11 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         await databaseBuilder.commit();
       });
 
-      afterEach(function() {
+      afterEach(function () {
         return knex('memberships').delete();
       });
 
-      it('should return 204 HTTP status code', async function() {
+      it('should return 204 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -74,12 +71,10 @@ describe('Acceptance | Application | organization-invitation-controller', functi
       });
     });
 
-    context('Error cases', function() {
-
+    context('Error cases', function () {
       let organizationInvitationId;
 
-      beforeEach(async function() {
-
+      beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization().id;
         organizationInvitationId = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
@@ -103,7 +98,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         await databaseBuilder.commit();
       });
 
-      it('should respond with a 404 if organization-invitation does not exist with id and code', async function() {
+      it('should respond with a 404 if organization-invitation does not exist with id and code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -111,7 +106,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 412 if organization-invitation is already accepted', async function() {
+      it('should respond with a 412 if organization-invitation is already accepted', async function () {
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
@@ -130,7 +125,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         expect(response.statusCode).to.equal(412);
       });
 
-      it('should respond with a 404 if given email is not linked to an existing user', async function() {
+      it('should respond with a 404 if given email is not linked to an existing user', async function () {
         // given
         const { id: organizationInvitationId, code } = databaseBuilder.factory.buildOrganizationInvitation({
           organizationId,
@@ -150,7 +145,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 412 if membership already exist with userId and OrganizationId', async function() {
+      it('should respond with a 412 if membership already exist with userId and OrganizationId', async function () {
         // given
         const { id: userId, email } = databaseBuilder.factory.buildUser();
 
@@ -176,14 +171,12 @@ describe('Acceptance | Application | organization-invitation-controller', functi
     });
   });
 
-  describe('GET /api/organization-invitations/{id}', function() {
-
+  describe('GET /api/organization-invitations/{id}', function () {
     let organizationId;
     let options;
 
-    context('Success cases', function() {
-
-      beforeEach(async function() {
+    context('Success cases', function () {
+      beforeEach(async function () {
         organizationId = databaseBuilder.factory.buildOrganization().id;
 
         const code = 'ABCDEFGH01';
@@ -202,7 +195,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         await databaseBuilder.commit();
       });
 
-      it('should return 200 HTTP status code', async function() {
+      it('should return 200 HTTP status code', async function () {
         // when
         const response = await server.inject(options);
 
@@ -211,11 +204,10 @@ describe('Acceptance | Application | organization-invitation-controller', functi
       });
     });
 
-    context('Error cases', function() {
-
+    context('Error cases', function () {
       let organizationInvitationId;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         const code = 'ABCDEFGH01';
 
         organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -232,7 +224,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         await databaseBuilder.commit();
       });
 
-      it('should respond with a 400 - missing parameters if organization-invitation is requested without code', async function() {
+      it('should respond with a 400 - missing parameters if organization-invitation is requested without code', async function () {
         // given
         options.url = `/api/organization-invitations/${organizationInvitationId}`;
 
@@ -243,7 +235,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         expect(response.statusCode).to.equal(400);
       });
 
-      it('should respond with a 404 if organization-invitation is not found with given id and code', async function() {
+      it('should respond with a 404 if organization-invitation is not found with given id and code', async function () {
         // given
         options.url = `/api/organization-invitations/${organizationInvitationId}?code=999`;
 
@@ -254,7 +246,7 @@ describe('Acceptance | Application | organization-invitation-controller', functi
         expect(response.statusCode).to.equal(404);
       });
 
-      it('should respond with a 412 if organization-invitation is already accepted', async function() {
+      it('should respond with a 412 if organization-invitation is already accepted', async function () {
         // given
         const code = 'ABCDEFGH01';
         organizationId = databaseBuilder.factory.buildOrganization().id;
@@ -275,5 +267,4 @@ describe('Acceptance | Application | organization-invitation-controller', functi
       });
     });
   });
-
 });

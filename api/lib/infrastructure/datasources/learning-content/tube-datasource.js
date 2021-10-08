@@ -2,7 +2,6 @@ const _ = require('lodash');
 const datasource = require('./datasource');
 
 module.exports = datasource.extend({
-
   modelName: 'tubes',
 
   async findByNames(tubeNames) {
@@ -14,5 +13,4 @@ module.exports = datasource.extend({
     const tubes = await this.list();
     return tubes.filter(({ id }) => tubeIds.includes(id));
   },
-
 });

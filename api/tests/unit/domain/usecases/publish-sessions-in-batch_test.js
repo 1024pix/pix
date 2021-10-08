@@ -2,8 +2,7 @@ const { sinon, expect } = require('../../../test-helper');
 
 const publishSessionsInBatch = require('../../../../lib/domain/usecases/publish-sessions-in-batch');
 
-describe('Unit | UseCase | publish-sessions-in-batch', function() {
-
+describe('Unit | UseCase | publish-sessions-in-batch', function () {
   const dependencies = {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
@@ -16,7 +15,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function() {
     sessionRepository: Symbol('sessionRepository'),
   };
 
-  it('delegates to the publish session service', async function() {
+  it('delegates to the publish session service', async function () {
     // given
     const sessionId1 = Symbol('first session id');
     const sessionId2 = Symbol('second session id');
@@ -48,8 +47,8 @@ describe('Unit | UseCase | publish-sessions-in-batch', function() {
     });
   });
 
-  context('when one or many session publication fail', function() {
-    it('should continue', async function() {
+  context('when one or many session publication fail', function () {
+    it('should continue', async function () {
       // given
       const sessionId1 = Symbol('first session id');
       const sessionId2 = Symbol('second session id');
@@ -58,11 +57,13 @@ describe('Unit | UseCase | publish-sessions-in-batch', function() {
       const sessionPublicationService = {
         publishSession: sinon.stub(),
       };
-      sessionPublicationService.publishSession.withArgs({
-        ...dependencies,
-        sessionId: sessionId1,
-        publishedAt,
-      }).rejects(new Error('an error'));
+      sessionPublicationService.publishSession
+        .withArgs({
+          ...dependencies,
+          sessionId: sessionId1,
+          publishedAt,
+        })
+        .rejects(new Error('an error'));
 
       // when
       await publishSessionsInBatch({
@@ -80,7 +81,7 @@ describe('Unit | UseCase | publish-sessions-in-batch', function() {
       });
     });
 
-    it('should return the errors with a batch id', async function() {
+    it('should return the errors with a batch id', async function () {
       // given
       const sessionId1 = Symbol('first session id');
       const sessionId2 = Symbol('second session id');
@@ -91,16 +92,20 @@ describe('Unit | UseCase | publish-sessions-in-batch', function() {
       };
       const error1 = new Error('an error');
       const error2 = new Error('another error');
-      sessionPublicationService.publishSession.withArgs({
-        ...dependencies,
-        sessionId: sessionId1,
-        publishedAt,
-      }).rejects(error1);
-      sessionPublicationService.publishSession.withArgs({
-        ...dependencies,
-        sessionId: sessionId2,
-        publishedAt,
-      }).rejects(error2);
+      sessionPublicationService.publishSession
+        .withArgs({
+          ...dependencies,
+          sessionId: sessionId1,
+          publishedAt,
+        })
+        .rejects(error1);
+      sessionPublicationService.publishSession
+        .withArgs({
+          ...dependencies,
+          sessionId: sessionId2,
+          publishedAt,
+        })
+        .rejects(error2);
 
       // when
       const result = await publishSessionsInBatch({

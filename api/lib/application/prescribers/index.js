@@ -4,7 +4,7 @@ const securityPreHandlers = require('../security-pre-handlers');
 const prescriberController = require('./prescriber-controller');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'GET',
@@ -15,15 +15,17 @@ exports.register = async function(server) {
             userId: identifiersType.userId,
           }),
         },
-        pre: [{
-          method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
-          assign: 'requestedUserIsAuthenticatedUser',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkRequestedUserIsAuthenticatedUser,
+            assign: 'requestedUserIsAuthenticatedUser',
+          },
+        ],
         handler: prescriberController.get,
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés**\n' +
-          '- Récupération d’un prescripteur.\n' +
-          '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
+            '- Récupération d’un prescripteur.\n' +
+            '- L’id demandé doit correspondre à celui de l’utilisateur authentifié',
         ],
         tags: ['api', 'user', 'prescription'],
       },

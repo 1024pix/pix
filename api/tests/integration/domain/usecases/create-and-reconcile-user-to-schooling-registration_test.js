@@ -22,8 +22,7 @@ const {
 
 const createAndReconcileUserToSchoolingRegistration = require('../../../../lib/domain/usecases/create-and-reconcile-user-to-schooling-registration');
 
-describe('Integration | UseCases | create-and-reconcile-user-to-schooling-registration', function() {
-
+describe('Integration | UseCases | create-and-reconcile-user-to-schooling-registration', function () {
   const pickUserAttributes = ['firstName', 'lastName', 'email', 'username', 'cgu'];
   const locale = 'fr';
 
@@ -33,9 +32,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
   let schoolingRegistration;
   let userAttributes;
 
-  context('When there is no campaign with the given code', function() {
-
-    it('should throw a campaign code error', async function() {
+  context('When there is no campaign with the given code', function () {
+    it('should throw a campaign code error', async function () {
       // when
       const error = await catchErr(createAndReconcileUserToSchoolingRegistration)({
         campaignCode: 'NOTEXIST',
@@ -58,14 +56,13 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
     });
   });
 
-  context('When no schoolingRegistration found', function() {
-
-    beforeEach(async function() {
+  context('When no schoolingRegistration found', function () {
+    beforeEach(async function () {
       campaignCode = databaseBuilder.factory.buildCampaign().code;
       await databaseBuilder.commit();
     });
 
-    it('should throw a Not Found error', async function() {
+    it('should throw a Not Found error', async function () {
       // given
       userAttributes = {
         firstName: 'firstname',
@@ -96,9 +93,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
     });
   });
 
-  context('When one schoolingRegistration matched on names', function() {
-
-    beforeEach(async function() {
+  context('When one schoolingRegistration matched on names', function () {
+    beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization().id;
       campaignCode = databaseBuilder.factory.buildCampaign({
         organizationId,
@@ -107,17 +103,17 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       await databaseBuilder.commit();
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('authentication-methods').delete();
     });
 
-    context('When association is already done', function() {
-
-      it('should nor create nor associate schoolingRegistration', async function() {
+    context('When association is already done', function () {
+      it('should nor create nor associate schoolingRegistration', async function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId, userId,
+          organizationId,
+          userId,
         });
         userAttributes = {
           firstName: schoolingRegistration.firstName,
@@ -149,13 +145,13 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       });
     });
 
-    context('When creation is with email', function() {
-
-      beforeEach(async function() {
+    context('When creation is with email', function () {
+      beforeEach(async function () {
         password = 'Password123';
 
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId, userId: null,
+          organizationId,
+          userId: null,
         });
         userAttributes = {
           firstName: schoolingRegistration.firstName,
@@ -167,9 +163,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         await databaseBuilder.commit();
       });
 
-      context('When a field is not valid', function() {
-
-        it('should throw EntityValidationError', async function() {
+      context('When a field is not valid', function () {
+        it('should throw EntityValidationError', async function () {
           // given
           const expectedValidationError = new EntityValidationError({
             invalidAttributes: [
@@ -207,9 +202,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         });
       });
 
-      context('When email is not available', function() {
-
-        it('should throw EntityValidationError', async function() {
+      context('When email is not available', function () {
+        it('should throw EntityValidationError', async function () {
           // given
           const email = 'user@organization.org';
           databaseBuilder.factory.buildUser({
@@ -218,10 +212,12 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           userAttributes.email = email;
 
           const expectedValidationError = new EntityValidationError({
-            invalidAttributes: [{
-              attribute: 'email',
-              message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
-            }],
+            invalidAttributes: [
+              {
+                attribute: 'email',
+                message: 'Cette adresse e-mail est déjà enregistrée, connectez-vous.',
+              },
+            ],
           });
 
           await databaseBuilder.commit();
@@ -249,9 +245,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         });
       });
 
-      context('When email is available', function() {
-
-        it('should create user and associate schoolingRegistration', async function() {
+      context('When email is available', function () {
+        it('should create user and associate schoolingRegistration', async function () {
           // given
           const email = 'user@organization.org';
           userAttributes.email = email;
@@ -287,13 +282,13 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       });
     });
 
-    context('When creation is with username', function() {
-
-      beforeEach(async function() {
+    context('When creation is with username', function () {
+      beforeEach(async function () {
         password = 'Password123';
 
         schoolingRegistration = databaseBuilder.factory.buildSchoolingRegistration({
-          organizationId, userId: null,
+          organizationId,
+          userId: null,
         });
         userAttributes = {
           firstName: schoolingRegistration.firstName,
@@ -305,9 +300,8 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         await databaseBuilder.commit();
       });
 
-      context('When username is not available', function() {
-
-        it('should throw EntityValidationError', async function() {
+      context('When username is not available', function () {
+        it('should throw EntityValidationError', async function () {
           // given
           const username = 'abc.def0112';
           databaseBuilder.factory.buildUser({
@@ -316,10 +310,12 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
           userAttributes.username = username;
 
           const expectedValidationError = new EntityValidationError({
-            invalidAttributes: [{
-              attribute: 'username',
-              message: 'Cet identifiant n’est plus disponible, merci de recharger la page.',
-            }],
+            invalidAttributes: [
+              {
+                attribute: 'username',
+                message: 'Cet identifiant n’est plus disponible, merci de recharger la page.',
+              },
+            ],
           });
 
           await databaseBuilder.commit();
@@ -347,11 +343,11 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
         });
       });
 
-      context('When username is available', function() {
-
-        it('should create user and associate schoolingRegistration', async function() {
+      context('When username is available', function () {
+        it('should create user and associate schoolingRegistration', async function () {
           // given
-          const username = schoolingRegistration.firstName.toLowerCase() + '.' + schoolingRegistration.lastName.toLowerCase() + '0112';
+          const username =
+            schoolingRegistration.firstName.toLowerCase() + '.' + schoolingRegistration.lastName.toLowerCase() + '0112';
           userAttributes.username = username;
 
           const expectedUser = {
@@ -385,5 +381,4 @@ describe('Integration | UseCases | create-and-reconcile-user-to-schooling-regist
       });
     });
   });
-
 });

@@ -1,11 +1,9 @@
 const { domainBuilder, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/accreditation-serializer');
 
-describe('Unit | Serializer | JSONAPI | accreditation-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert an accreditation model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | accreditation-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert an accreditation model object into JSON API data', function () {
       // given
       const accreditations = [
         domainBuilder.buildAccreditation({

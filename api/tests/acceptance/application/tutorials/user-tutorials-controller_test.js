@@ -1,23 +1,30 @@
-const { expect, generateValidRequestAuthorizationHeader, mockLearningContent, databaseBuilder, knex } = require('../../../test-helper');
+const {
+  expect,
+  generateValidRequestAuthorizationHeader,
+  mockLearningContent,
+  databaseBuilder,
+  knex,
+} = require('../../../test-helper');
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | user-tutorial-controller', function() {
-
+describe('Acceptance | Controller | user-tutorial-controller', function () {
   let server;
 
   const learningContent = {
-    tutorials: [{
-      id: 'tutorialId',
-      locale: 'en-us',
-      duration: '00:03:31',
-      format: 'vidéo',
-      link: 'http://www.example.com/this-is-an-example.html',
-      source: 'Source Example, Example',
-      title: 'Communiquer',
-    }],
+    tutorials: [
+      {
+        id: 'tutorialId',
+        locale: 'en-us',
+        duration: '00:03:31',
+        format: 'vidéo',
+        link: 'http://www.example.com/this-is-an-example.html',
+        source: 'Source Example, Example',
+        title: 'Communiquer',
+      },
+    ],
   };
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     await databaseBuilder.factory.buildUser({
       id: 4444,
@@ -31,11 +38,10 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
     mockLearningContent(learningContent);
   });
 
-  describe('PUT /api/users/tutorials/{tutorialId}', function() {
-
+  describe('PUT /api/users/tutorials/{tutorialId}', function () {
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       options = {
         method: 'PUT',
         url: '/api/users/tutorials/tutorialId',
@@ -45,12 +51,12 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       return knex('user_tutorials').delete();
     });
 
-    describe('nominal case', function() {
-      it('should respond with a 201 and return user-tutorial created', async function() {
+    describe('nominal case', function () {
+      it('should respond with a 201 and return user-tutorial created', async function () {
         // given
         const expectedUserTutorial = {
           data: {
@@ -70,13 +76,17 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.type).to.deep.equal(expectedUserTutorial.data.type);
         expect(response.result.data.id).to.exist;
-        expect(response.result.data.attributes['user-id']).to.deep.equal(expectedUserTutorial.data.attributes['user-id']);
-        expect(response.result.data.attributes['tutorial-id']).to.deep.equal(expectedUserTutorial.data.attributes['tutorial-id']);
+        expect(response.result.data.attributes['user-id']).to.deep.equal(
+          expectedUserTutorial.data.attributes['user-id']
+        );
+        expect(response.result.data.attributes['tutorial-id']).to.deep.equal(
+          expectedUserTutorial.data.attributes['tutorial-id']
+        );
       });
     });
 
-    describe('error cases', function() {
-      it('should respond with a 404 - not found when tutorialId does not exist', async function() {
+    describe('error cases', function () {
+      it('should respond with a 404 - not found when tutorialId does not exist', async function () {
         // given
         options.url = '/api/users/tutorials/badId';
 
@@ -87,14 +97,12 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
         expect(response.statusCode).to.equal(404);
       });
     });
-
   });
 
-  describe('GET /api/users/tutorials', function() {
-
+  describe('GET /api/users/tutorials', function () {
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       options = {
         method: 'GET',
         url: '/api/users/tutorials',
@@ -104,8 +112,8 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
       };
     });
 
-    describe('nominal case', function() {
-      it('should respond with a 200 and return tutorials saved by user', async function() {
+    describe('nominal case', function () {
+      it('should respond with a 200 and return tutorials saved by user', async function () {
         // given
         databaseBuilder.factory.buildUserTutorial({ id: 4242, userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
@@ -116,51 +124,57 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
         // then
         expect(response.statusCode).to.equal(200);
         const expectedUserTutorials = {
-          data: [{
-            type: 'user-tutorials',
-            id: '4242',
-            attributes: {
-              'user-id': 4444,
-              'tutorial-id': 'tutorialId',
-            },
-            relationships: {
-              tutorial: {
-                data: {
-                  id: 'tutorialId',
-                  type: 'tutorials',
+          data: [
+            {
+              type: 'user-tutorials',
+              id: '4242',
+              attributes: {
+                'user-id': 4444,
+                'tutorial-id': 'tutorialId',
+              },
+              relationships: {
+                tutorial: {
+                  data: {
+                    id: 'tutorialId',
+                    type: 'tutorials',
+                  },
                 },
               },
             },
-          }],
-          included: [{
-            id: 'tutorialId',
-            type: 'tutorials',
-            attributes: {
+          ],
+          included: [
+            {
               id: 'tutorialId',
-              duration: '00:03:31',
-              format: 'vidéo',
-              link: 'http://www.example.com/this-is-an-example.html',
-              source: 'Source Example, Example',
-              title: 'Communiquer',
+              type: 'tutorials',
+              attributes: {
+                id: 'tutorialId',
+                duration: '00:03:31',
+                format: 'vidéo',
+                link: 'http://www.example.com/this-is-an-example.html',
+                source: 'Source Example, Example',
+                title: 'Communiquer',
+              },
             },
-          }],
+          ],
         };
         expect(response.result.included).to.deep.equal(expectedUserTutorials.included);
         expect(response.result.data[0].type).to.deep.equal(expectedUserTutorials.data[0].type);
         expect(response.result.data[0].id).to.deep.equal(expectedUserTutorials.data[0].id);
-        expect(response.result.data[0].attributes['user-id']).to.deep.equal(expectedUserTutorials.data[0].attributes['user-id']);
-        expect(response.result.data[0].attributes['tutorial-id']).to.deep.equal(expectedUserTutorials.data[0].attributes['tutorial-id']);
+        expect(response.result.data[0].attributes['user-id']).to.deep.equal(
+          expectedUserTutorials.data[0].attributes['user-id']
+        );
+        expect(response.result.data[0].attributes['tutorial-id']).to.deep.equal(
+          expectedUserTutorials.data[0].attributes['tutorial-id']
+        );
         expect(response.result.data[0].relationships).to.deep.equal(expectedUserTutorials.data[0].relationships);
       });
     });
-
   });
 
-  describe('DELETE /api/users/tutorials/{tutorialId}', function() {
-
+  describe('DELETE /api/users/tutorials/{tutorialId}', function () {
     let options;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       options = {
         method: 'DELETE',
         url: '/api/users/tutorials/tutorialId',
@@ -170,8 +184,8 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
       };
     });
 
-    describe('nominal case', function() {
-      it('should respond with a 204', async function() {
+    describe('nominal case', function () {
+      it('should respond with a 204', async function () {
         // given
         databaseBuilder.factory.buildUserTutorial({ userId: 4444, tutorialId: 'tutorialId' });
         await databaseBuilder.commit();
@@ -183,6 +197,5 @@ describe('Acceptance | Controller | user-tutorial-controller', function() {
         expect(response.statusCode).to.equal(204);
       });
     });
-
   });
 });

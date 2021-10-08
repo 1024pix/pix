@@ -1,17 +1,11 @@
-const {
-  databaseBuilder,
-  expect,
-  generateValidRequestAuthorizationHeader,
-} = require('../../../test-helper');
+const { databaseBuilder, expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
 const createServer = require('../../../../server');
 const { featureToggles } = require('../../../../lib/config');
 const userEmailRepository = require('../../../../lib/infrastructure/repositories/user-email-repository');
 
-describe('Acceptance | Route | Users', function() {
-
-  describe('POST /api/users/{id}/update-email', function() {
-
-    it('should return 200 HTTP status code', async function() {
+describe('Acceptance | Route | Users', function () {
+  describe('POST /api/users/{id}/update-email', function () {
+    it('should return 200 HTTP status code', async function () {
       // given
       const server = await createServer();
       featureToggles.isEmailValidationEnabled = true;

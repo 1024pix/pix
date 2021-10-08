@@ -14,7 +14,9 @@ function checkData(campaignData) {
       throw new Error(`Ligne ${index + 1}: L'organizationId est obligatoire pour la campagne de collecte de profils.`);
     }
     if (!name) {
-      throw new Error(`Ligne ${index + 1}: Le nom de campagne est obligatoire pour la campagne de collecte de profils.`);
+      throw new Error(
+        `Ligne ${index + 1}: Le nom de campagne est obligatoire pour la campagne de collecte de profils.`
+      );
     }
     if (!creatorId) {
       throw new Error(`Ligne ${index + 1}: Le creatorId est obligatoire pour la campagne de collecte de profils.`);
@@ -26,23 +28,29 @@ function checkData(campaignData) {
 
 async function prepareCampaigns(campaignsData) {
   const generatedList = [];
-  const campaigns = await bluebird.map(campaignsData, async (campaignData) => {
+  const campaigns = await bluebird.map(
+    campaignsData,
+    async (campaignData) => {
+      const campaign = {
+        creatorId: campaignData.creatorId,
+        organizationId: campaignData.organizationId,
+        type: Campaign.types.PROFILES_COLLECTION,
+        name: campaignData.name,
+        customLandingPageText: campaignData.customLandingPageText,
+      };
 
-    const campaign = {
-      creatorId: campaignData.creatorId,
-      organizationId: campaignData.organizationId,
-      type: Campaign.types.PROFILES_COLLECTION,
-      name: campaignData.name,
-      customLandingPageText: campaignData.customLandingPageText,
-    };
+      campaignValidator.validate(campaign);
+      campaign.code = await campaignCodeGenerator.generate(campaignRepository, generatedList);
+      generatedList.push(campaign.code);
 
-    campaignValidator.validate(campaign);
-    campaign.code = await campaignCodeGenerator.generate(campaignRepository, generatedList);
-    generatedList.push(campaign.code);
-
-    if (require.main === module) process.stdout.write(`Campagne de collecte de profils ${ campaign.name } pour l'organisation ${ campaign.organizationId } ===> ✔\n`);
-    return campaign;
-  }, { concurrency: 10 });
+      if (require.main === module)
+        process.stdout.write(
+          `Campagne de collecte de profils ${campaign.name} pour l'organisation ${campaign.organizationId} ===> ✔\n`
+        );
+      return campaign;
+    },
+    { concurrency: 10 }
+  );
 
   return campaigns.flat();
 }
@@ -80,7 +88,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

@@ -1,21 +1,23 @@
 const {
-  expect, generateValidRequestAuthorizationHeader,
-  insertUserWithRolePixMaster, databaseBuilder, knex,
+  expect,
+  generateValidRequestAuthorizationHeader,
+  insertUserWithRolePixMaster,
+  databaseBuilder,
+  knex,
 } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | API | Certification Center Membership', function() {
-
+describe('Acceptance | API | Certification Center Membership', function () {
   let server, options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     await insertUserWithRolePixMaster();
   });
 
-  describe('POST /api/certification-center-memberships', function() {
+  describe('POST /api/certification-center-memberships', function () {
     let user, certificationCenter;
-    beforeEach(async function() {
+    beforeEach(async function () {
       user = databaseBuilder.factory.buildUser();
       certificationCenter = databaseBuilder.factory.buildCertificationCenter();
       await databaseBuilder.commit();
@@ -34,16 +36,16 @@ describe('Acceptance | API | Certification Center Membership', function() {
       };
     });
 
-    afterEach(async function() {
+    afterEach(async function () {
       await knex('certification-center-memberships').delete();
     });
 
-    context('when user is Pix Master', function() {
-      beforeEach(function() {
+    context('when user is Pix Master', function () {
+      beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader() };
       });
 
-      it('should return 201 HTTP status', function() {
+      it('should return 201 HTTP status', function () {
         // when
         const promise = server.inject(options);
 
@@ -54,12 +56,12 @@ describe('Acceptance | API | Certification Center Membership', function() {
       });
     });
 
-    context('when user is not PixMaster', function() {
-      beforeEach(function() {
+    context('when user is not PixMaster', function () {
+      beforeEach(function () {
         options.headers = { authorization: generateValidRequestAuthorizationHeader(1111) };
       });
 
-      it('should return 403 HTTP status code ', function() {
+      it('should return 403 HTTP status code ', function () {
         // when
         const promise = server.inject(options);
 
@@ -70,8 +72,8 @@ describe('Acceptance | API | Certification Center Membership', function() {
       });
     });
 
-    context('when user is not connected', function() {
-      it('should return 401 HTTP status code if user is not authenticated', function() {
+    context('when user is not connected', function () {
+      it('should return 401 HTTP status code if user is not authenticated', function () {
         // when
         const promise = server.inject(options);
 
@@ -81,7 +83,5 @@ describe('Acceptance | API | Certification Center Membership', function() {
         });
       });
     });
-
   });
-
 });

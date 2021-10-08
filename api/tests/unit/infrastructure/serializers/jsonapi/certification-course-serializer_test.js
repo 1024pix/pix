@@ -3,28 +3,28 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 const CertificationIssueReport = require('../../../../../lib/domain/models/CertificationIssueReport');
-const { CertificationIssueReportCategories } = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
+const {
+  CertificationIssueReportCategories,
+} = require('../../../../../lib/domain/models/CertificationIssueReportCategory');
 
-describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Certification Course model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | certification-course-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Certification Course model object into JSON API data', function () {
       // given
       const assessment = new Assessment({
-        'id': 'assessment_id',
+        id: 'assessment_id',
       });
       const certificationCourse = new CertificationCourse({
         id: 1,
         assessment: assessment,
         challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: [],
-        'hasSeenEndTestScreen': true,
+        hasSeenEndTestScreen: true,
       });
 
       const issueReport = new CertificationIssueReport({
         id: 1234,
-        description: 'Signalement de l\'examinateur',
+        description: "Signalement de l'examinateur",
         category: CertificationIssueReportCategories.OTHER,
         certificationCourseId: certificationCourse.getId(),
       });
@@ -37,7 +37,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
           id: '1',
           attributes: {
             'nb-challenges': 2,
-            'examiner-comment': 'Signalement de l\'examinateur',
+            'examiner-comment': "Signalement de l'examinateur",
             'has-seen-end-test-screen': true,
             'first-name': certificationCourse.toDTO().firstName,
             'last-name': certificationCourse.toDTO().lastName,
@@ -59,17 +59,17 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);
     });
 
-    it('should not serialize examinerComment if no issue report', function() {
+    it('should not serialize examinerComment if no issue report', function () {
       // given
       const assessment = new Assessment({
-        'id': 'assessment_id',
+        id: 'assessment_id',
       });
       const certificationCourse = new CertificationCourse({
         id: 1,
         assessment: assessment,
         challenges: ['challenge1', 'challenge2'],
         certificationIssueReports: undefined,
-        'hasSeenEndTestScreen': true,
+        hasSeenEndTestScreen: true,
       });
 
       const jsonCertificationCourseWithAssessment = {
@@ -100,17 +100,17 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);
     });
 
-    it('should count 0 challenges when no challenges', function() {
+    it('should count 0 challenges when no challenges', function () {
       // given
       const assessment = new Assessment({
-        'id': 'assessment_id',
+        id: 'assessment_id',
       });
       const certificationCourse = new CertificationCourse({
         id: 1,
         assessment: assessment,
         challenges: undefined,
         certificationIssueReports: undefined,
-        'hasSeenEndTestScreen': true,
+        hasSeenEndTestScreen: true,
       });
 
       const jsonCertificationCourseWithAssessment = {

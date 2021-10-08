@@ -2,16 +2,14 @@ const { expect, domainBuilder } = require('../../../test-helper');
 const CertificationChallengeWithType = require('../../../../lib/domain/models/CertificationChallengeWithType');
 const { Type } = require('../../../../lib/domain/models/Challenge');
 
-describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
-
-  describe('#constructor', function() {
-
+describe('Unit | Domain | Models | CertificationChallengeWithType', function () {
+  describe('#constructor', function () {
     // TODO: Fix this the next time the file is edited.
     // eslint-disable-next-line mocha/no-setup-in-describe
     const validTypes = Object.values(Type);
     // eslint-disable-next-line mocha/no-setup-in-describe
     validTypes.forEach((validType) => {
-      it(`should initialize CertificationChallengeWithType with type ${validType}`, function() {
+      it(`should initialize CertificationChallengeWithType with type ${validType}`, function () {
         // when
         const certificationChallengeWithType = new CertificationChallengeWithType({ type: validType });
 
@@ -20,7 +18,7 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
       });
     });
 
-    it('should initialize type to EmptyType when type is not valid', function() {
+    it('should initialize type to EmptyType when type is not valid', function () {
       // when
       const certificationChallengeWithType = new CertificationChallengeWithType({ type: 'COUCOUCOUCOCUCUO' });
 
@@ -29,11 +27,12 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
     });
   });
 
-  describe('#neutralize', function() {
-
-    it('should neutralize a non neutralized certification challenge', function() {
+  describe('#neutralize', function () {
+    it('should neutralize a non neutralized certification challenge', function () {
       // given
-      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
+      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({
+        isNeutralized: false,
+      });
 
       // when
       certificationChallengeWithType.neutralize();
@@ -42,7 +41,7 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
       expect(certificationChallengeWithType.isNeutralized).to.be.true;
     });
 
-    it('should leave a neutralized certification challenge if it was neutralized already', function() {
+    it('should leave a neutralized certification challenge if it was neutralized already', function () {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true });
 
@@ -54,9 +53,8 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
     });
   });
 
-  describe('#deneutralize', function() {
-
-    it('should deneutralize a neutralized certification challenge', function() {
+  describe('#deneutralize', function () {
+    it('should deneutralize a neutralized certification challenge', function () {
       // given
       const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: true });
 
@@ -67,9 +65,11 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
       expect(certificationChallengeWithType.isNeutralized).to.be.false;
     });
 
-    it('should leave a deneutralized certification challenge if it was deneutralized already', function() {
+    it('should leave a deneutralized certification challenge if it was deneutralized already', function () {
       // given
-      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ isNeutralized: false });
+      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({
+        isNeutralized: false,
+      });
 
       // when
       certificationChallengeWithType.deneutralize();
@@ -79,11 +79,12 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
     });
   });
 
-  describe('#isPixPlus', function() {
-
-    it('return true when challenge was picked for a pix plus certification', function() {
+  describe('#isPixPlus', function () {
+    it('return true when challenge was picked for a pix plus certification', function () {
       // given
-      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: 'someValue' });
+      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({
+        certifiableBadgeKey: 'someValue',
+      });
 
       // when
       const isPixPlus = certificationChallengeWithType.isPixPlus();
@@ -92,9 +93,11 @@ describe('Unit | Domain | Models | CertificationChallengeWithType', function() {
       expect(isPixPlus).to.be.true;
     });
 
-    it('return false when challenge was picked for a regular pix certification', function() {
+    it('return false when challenge was picked for a regular pix certification', function () {
       // given
-      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({ certifiableBadgeKey: null });
+      const certificationChallengeWithType = domainBuilder.buildCertificationChallengeWithType({
+        certifiableBadgeKey: null,
+      });
 
       // when
       const isPixPlus = certificationChallengeWithType.isPixPlus();

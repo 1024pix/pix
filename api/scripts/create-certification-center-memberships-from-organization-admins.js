@@ -12,10 +12,15 @@ const { knex } = require('../lib/infrastructure/bookshelf');
 async function getCertificationCenterIdWithMembershipsUserIdByExternalId(externalId) {
   const certificationCenterIdWithMemberships = await knex('certification-centers')
     .select('certification-centers.id', 'certification-center-memberships.userId')
-    .leftJoin('certification-center-memberships', 'certification-centers.id', 'certification-center-memberships.certificationCenterId')
+    .leftJoin(
+      'certification-center-memberships',
+      'certification-centers.id',
+      'certification-center-memberships.certificationCenterId'
+    )
     .where('certification-centers.externalId', '=', externalId);
 
-  return { id: certificationCenterIdWithMemberships[0].id,
+  return {
+    id: certificationCenterIdWithMemberships[0].id,
     certificationCenterMemberships: _(certificationCenterIdWithMemberships)
       .map((certificationCenterMembership) => certificationCenterMembership.userId)
       .compact()
@@ -57,7 +62,10 @@ async function fetchCertificationCenterMembershipsByExternalId(externalId) {
 
 async function prepareDataForInsert(rawExternalIds) {
   const externalIds = _.uniq(_.map(rawExternalIds, 'externalId'));
-  const certificationCenterMembershipsLists = await bluebird.mapSeries(externalIds, fetchCertificationCenterMembershipsByExternalId);
+  const certificationCenterMembershipsLists = await bluebird.mapSeries(
+    externalIds,
+    fetchCertificationCenterMembershipsByExternalId
+  );
   return certificationCenterMembershipsLists.flat();
 }
 
@@ -86,7 +94,6 @@ async function main() {
     console.log('Creating Certification Center Memberships into database...');
     await createCertificationCenterMemberships(certificationCenterMemberships);
     console.log('\nDone.');
-
   } catch (error) {
     console.error('\n', error);
     process.exit(1);
@@ -99,7 +106,7 @@ if (require.main === module) {
     (err) => {
       console.error(err);
       process.exit(1);
-    },
+    }
   );
 }
 

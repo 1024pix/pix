@@ -3,7 +3,6 @@ const tutorialEvaluationAttributes = require('./tutorial-evaluation-attributes')
 const userTutorialAttributes = require('./user-tutorial-attributes');
 
 module.exports = {
-
   serialize(tutorial = {}) {
     return new Serializer('tutorials', {
       attributes: [
@@ -25,5 +24,4 @@ module.exports = {
       },
     }).serialize(tutorial);
   },
-
 };

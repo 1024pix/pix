@@ -1,15 +1,20 @@
 const { expect, databaseBuilder, domainBuilder } = require('../../../test-helper');
 const certificationResultRepository = require('../../../../lib/infrastructure/repositories/certification-result-repository');
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
-const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKeyV1: cleaBadgeKeyV1,
+  badgeKeyV2: cleaBadgeKeyV2,
+} = require('../../../../lib/domain/models/CleaCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
-describe('Integration | Infrastructure | Repository | Certification Result', function() {
-
-  describe('#findBySessionId', function() {
-
-    it('should return all certification results in a session ordered by lastName, firstName', async function() {
+describe('Integration | Infrastructure | Repository | Certification Result', function () {
+  describe('#findBySessionId', function () {
+    it('should return all certification results in a session ordered by lastName, firstName', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const certificationCourseId1 = databaseBuilder.factory.buildCertificationCourse({
@@ -134,20 +139,26 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
-        competencesWithMark: [domainBuilder.buildCompetenceMark({
-          id: 123,
-          score: 10,
-          level: 4,
-          competence_code: '2.3',
-          area_code: '2',
-          competenceId: 'recComp23',
-          assessmentResultId: assessmentResultId1,
-        })],
+        competencesWithMark: [
+          domainBuilder.buildCompetenceMark({
+            id: 123,
+            score: 10,
+            level: 4,
+            competence_code: '2.3',
+            area_code: '2',
+            competenceId: 'recComp23',
+            assessmentResultId: assessmentResultId1,
+          }),
+        ],
       });
-      expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
+      expect(certificationResults).to.deepEqualArray([
+        expectedFirstCertificationResult,
+        expectedSecondCertificationResult,
+        expectedThirdCertificationResult,
+      ]);
     });
 
-    it('should ignore non published certifications', async function() {
+    it('should ignore non published certifications', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const certificationCourseId = databaseBuilder.factory.buildCertificationCourse({
@@ -192,15 +203,27 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     [
       { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
       { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
-      { complementaryCertificationName: 'PixPlus Droit Maître', badgeKey: pixPlusDroitMaitreBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitMaitre' },
-      { complementaryCertificationName: 'PixPlus Droit Expert', badgeKey: pixPlusDroitExpertBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitExpert' },
-    ].forEach(function(testCase) {
-      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function() {
+      {
+        complementaryCertificationName: 'PixPlus Droit Maître',
+        badgeKey: pixPlusDroitMaitreBadgeKey,
+        validationFunction: 'hasAcquiredPixPlusDroitMaitre',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Droit Expert',
+        badgeKey: pixPlusDroitExpertBadgeKey,
+        validationFunction: 'hasAcquiredPixPlusDroitExpert',
+      },
+    ].forEach(function (testCase) {
+      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
         const certificationCourseId = await _buildCertificationResultInSession(sessionId);
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: testCase.badgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: testCase.badgeKey,
+          acquired: true,
+        });
         await databaseBuilder.commit();
 
         // when
@@ -213,9 +236,8 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     });
   });
 
-  describe('#findByCertificationCandidateIds', function() {
-
-    it('should return all certification results linked to given certificationCandidateIds ordered by lastName, firstName', async function() {
+  describe('#findByCertificationCandidateIds', function () {
+    it('should return all certification results linked to given certificationCandidateIds ordered by lastName, firstName', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const userId1 = databaseBuilder.factory.buildUser().id;
@@ -287,16 +309,33 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         competenceId: 'recComp23',
         assessmentResultId: assessmentResultId1,
       });
-      const certificationCandidateId1 = databaseBuilder.factory.buildCertificationCandidate({ userId: userId1, sessionId }).id;
-      const certificationCandidateId2 = databaseBuilder.factory.buildCertificationCandidate({ userId: userId2, sessionId }).id;
-      const certificationCandidateId3 = databaseBuilder.factory.buildCertificationCandidate({ userId: userId3, sessionId }).id;
-      const certificationCandidateIdNotInSession = databaseBuilder.factory.buildCertificationCandidate({ userId: userId3 }).id;
+      const certificationCandidateId1 = databaseBuilder.factory.buildCertificationCandidate({
+        userId: userId1,
+        sessionId,
+      }).id;
+      const certificationCandidateId2 = databaseBuilder.factory.buildCertificationCandidate({
+        userId: userId2,
+        sessionId,
+      }).id;
+      const certificationCandidateId3 = databaseBuilder.factory.buildCertificationCandidate({
+        userId: userId3,
+        sessionId,
+      }).id;
+      const certificationCandidateIdNotInSession = databaseBuilder.factory.buildCertificationCandidate({
+        userId: userId3,
+      }).id;
       const certificationCandidateIdNoResult = databaseBuilder.factory.buildCertificationCandidate({ sessionId }).id;
       await databaseBuilder.commit();
 
       // when
       const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
-        certificationCandidateIds: [certificationCandidateId1, certificationCandidateId2, certificationCandidateId3, certificationCandidateIdNotInSession, certificationCandidateIdNoResult],
+        certificationCandidateIds: [
+          certificationCandidateId1,
+          certificationCandidateId2,
+          certificationCandidateId3,
+          certificationCandidateIdNotInSession,
+          certificationCandidateIdNoResult,
+        ],
       });
 
       // then
@@ -349,20 +388,26 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
         status: CertificationResult.status.VALIDATED,
         pixScore: 123,
         commentForOrganization: 'Un commentaire orga 1',
-        competencesWithMark: [domainBuilder.buildCompetenceMark({
-          id: 123,
-          score: 10,
-          level: 4,
-          competence_code: '2.3',
-          area_code: '2',
-          competenceId: 'recComp23',
-          assessmentResultId: assessmentResultId1,
-        })],
+        competencesWithMark: [
+          domainBuilder.buildCompetenceMark({
+            id: 123,
+            score: 10,
+            level: 4,
+            competence_code: '2.3',
+            area_code: '2',
+            competenceId: 'recComp23',
+            assessmentResultId: assessmentResultId1,
+          }),
+        ],
       });
-      expect(certificationResults).to.deepEqualArray([expectedFirstCertificationResult, expectedSecondCertificationResult, expectedThirdCertificationResult]);
+      expect(certificationResults).to.deepEqualArray([
+        expectedFirstCertificationResult,
+        expectedSecondCertificationResult,
+        expectedThirdCertificationResult,
+      ]);
     });
 
-    it('should ignore non published certifications', async function() {
+    it('should ignore non published certifications', async function () {
       // given
       const sessionId = databaseBuilder.factory.buildSession().id;
       const userId = databaseBuilder.factory.buildUser().id;
@@ -412,19 +457,35 @@ describe('Integration | Infrastructure | Repository | Certification Result', fun
     [
       { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, validationFunction: 'hasAcquiredClea' },
       { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, validationFunction: 'hasAcquiredClea' },
-      { complementaryCertificationName: 'PixPlus Droit Maître', badgeKey: pixPlusDroitMaitreBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitMaitre' },
-      { complementaryCertificationName: 'PixPlus Droit Expert', badgeKey: pixPlusDroitExpertBadgeKey, validationFunction: 'hasAcquiredPixPlusDroitExpert' },
-    ].forEach(function(testCase) {
-      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function() {
+      {
+        complementaryCertificationName: 'PixPlus Droit Maître',
+        badgeKey: pixPlusDroitMaitreBadgeKey,
+        validationFunction: 'hasAcquiredPixPlusDroitMaitre',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Droit Expert',
+        badgeKey: pixPlusDroitExpertBadgeKey,
+        validationFunction: 'hasAcquiredPixPlusDroitExpert',
+      },
+    ].forEach(function (testCase) {
+      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {
         // given
         const sessionId = databaseBuilder.factory.buildSession().id;
-        const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(sessionId);
+        const { certificationCandidateId, certificationCourseId } = await _buildCertificationResultWithCandidate(
+          sessionId
+        );
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId, partnerKey: testCase.badgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({
+          certificationCourseId,
+          partnerKey: testCase.badgeKey,
+          acquired: true,
+        });
         await databaseBuilder.commit();
 
         // when
-        const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({ certificationCandidateIds: [certificationCandidateId] });
+        const certificationResults = await certificationResultRepository.findByCertificationCandidateIds({
+          certificationCandidateIds: [certificationCandidateId],
+        });
 
         // then
         expect(certificationResults).to.have.length(1);

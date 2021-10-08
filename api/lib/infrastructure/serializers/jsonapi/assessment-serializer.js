@@ -3,7 +3,6 @@ const Progression = require('../../../domain/models/Progression');
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-
   serialize(assessments) {
     return new Serializer('assessment', {
       transform(currentAssessment) {
@@ -102,7 +101,7 @@ module.exports = {
 
 function _includeCourse(assessments) {
   if (Array.isArray(assessments)) {
-    return (assessments.length && assessments[0].course);
+    return assessments.length && assessments[0].course;
   }
 
   return assessments.course ? true : false;

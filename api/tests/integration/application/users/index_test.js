@@ -3,8 +3,7 @@ const securityPreHandlers = require('../../../../lib/application/security-pre-ha
 const userController = require('../../../../lib/application/users/user-controller');
 const moduleUnderTest = require('../../../../lib/application/users');
 
-describe('Integration | Application | Users | Routes', function() {
-
+describe('Integration | Application | Users | Routes', function () {
   const methodGET = 'GET';
   const methodPATCH = 'PATCH';
 
@@ -12,9 +11,11 @@ describe('Integration | Application | Users | Routes', function() {
 
   let httpTestServer;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster');
-    sinon.stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser').callsFake((request, h) => h.response(true));
+    sinon
+      .stub(securityPreHandlers, 'checkRequestedUserIsAuthenticatedUser')
+      .callsFake((request, h) => h.response(true));
 
     sinon.stub(userController, 'getUserDetailsForAdmin').returns('ok');
     sinon.stub(userController, 'updateUserDetailsForAdministration').returns('updated');
@@ -26,16 +27,14 @@ describe('Integration | Application | Users | Routes', function() {
     await httpTestServer.register(moduleUnderTest);
   });
 
-  describe('POST /api/users', function() {
-
-    afterEach(async function() {
+  describe('POST /api/users', function () {
+    afterEach(async function () {
       await knex('authentication-methods').delete();
       await knex('users').delete();
     });
 
-    context('when user create account before joining campaign', function() {
-
-      it('should return HTTP 201', async function() {
+    context('when user create account before joining campaign', function () {
+      it('should return HTTP 201', async function () {
         // given
         const payload = {
           data: {
@@ -68,7 +67,7 @@ describe('Integration | Application | Users | Routes', function() {
         expect(response.statusCode).to.equal(201);
       });
 
-      it('should return HTTP 400', async function() {
+      it('should return HTTP 400', async function () {
         // given
         const payload = {};
 
@@ -81,12 +80,10 @@ describe('Integration | Application | Users | Routes', function() {
         expect(response.statusCode).to.equal(400);
       });
     });
-
   });
 
-  describe('GET /api/admin/users/{id}', function() {
-
-    it('should exist', async function() {
+  describe('GET /api/admin/users/{id}', function () {
+    it('should exist', async function () {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -98,8 +95,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return BAD_REQUEST (400) when id in param is not a number"', async function() {
-
+    it('should return BAD_REQUEST (400) when id in param is not a number"', async function () {
       // given
       const url = '/api/admin/users/NOT_A_NUMBER';
 
@@ -110,8 +106,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return BAD_REQUEST (400) when id in param is out of range"', async function() {
-
+    it('should return BAD_REQUEST (400) when id in param is out of range"', async function () {
       // given
       const url = '/api/admin/users/0';
 
@@ -121,12 +116,10 @@ describe('Integration | Application | Users | Routes', function() {
       // then
       expect(response.statusCode).to.equal(400);
     });
-
   });
 
-  describe('POST /api/users/{userId}/competences/{competenceId}/reset', function() {
-
-    it('should return OK (200) when params are valid', async function() {
+  describe('POST /api/users/{userId}/competences/{competenceId}/reset', function () {
+    it('should return OK (200) when params are valid', async function () {
       // given
       securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => h.response(true));
       const url = '/api/users/123/competences/abcdefghijklmnop/reset';
@@ -138,8 +131,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return BAD_REQUEST (400) when competenceId parameter is invalid', async function() {
-
+    it('should return BAD_REQUEST (400) when competenceId parameter is invalid', async function () {
       // given
       const invalidCompetenceId = 'A'.repeat(256);
       securityPreHandlers.checkRequestedUserIsAuthenticatedUser.callsFake((request, h) => h.response(true));
@@ -151,12 +143,10 @@ describe('Integration | Application | Users | Routes', function() {
       // then
       expect(response.statusCode).to.equal(400);
     });
-
   });
 
-  describe('PATCH /api/admin/users/{id}', function() {
-
-    it('should update user when payload is valid', async function() {
+  describe('PATCH /api/admin/users/{id}', function () {
+    it('should update user when payload is valid', async function () {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -179,7 +169,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return bad request when firstName is missing', async function() {
+    it('should return bad request when firstName is missing', async function () {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -203,7 +193,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(firstError.detail).to.equal('"data.attributes.first-name" is required');
     });
 
-    it('should return bad request when lastName is missing', async function() {
+    it('should return bad request when lastName is missing', async function () {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
       const url = '/api/admin/users/123';
@@ -226,7 +216,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(firstError.detail).to.equal('"data.attributes.last-name" is required');
     });
 
-    it('should return a 400 when id in param is not a number"', async function() {
+    it('should return a 400 when id in param is not a number"', async function () {
       // given
       const url = '/api/admin/users/NOT_A_NUMBER';
 
@@ -238,11 +228,10 @@ describe('Integration | Application | Users | Routes', function() {
     });
   });
 
-  describe('PATCH /api/admin/users/{id}/dissociate', function() {
-
+  describe('PATCH /api/admin/users/{id}/dissociate', function () {
     const url = '/api/admin/users/1/dissociate';
 
-    it('should dissociate user', async function() {
+    it('should dissociate user', async function () {
       // given
       securityPreHandlers.checkUserHasRolePixMaster.callsFake((request, h) => h.response(true));
 
@@ -254,11 +243,10 @@ describe('Integration | Application | Users | Routes', function() {
     });
   });
 
-  describe('PATCH /api/users/{id}/email', function() {
-
+  describe('PATCH /api/users/{id}/email', function () {
     const url = '/api/users/1/email';
 
-    it('should return 422 if email is invalid', async function() {
+    it('should return 422 if email is invalid', async function () {
       // given
       const payload = {
         data: {
@@ -276,7 +264,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(422);
     });
 
-    it('should return 422 if type attribute is missing', async function() {
+    it('should return 422 if type attribute is missing', async function () {
       // given
       const payload = {
         data: {
@@ -292,12 +280,10 @@ describe('Integration | Application | Users | Routes', function() {
       // then
       expect(response.statusCode).to.equal(422);
     });
-
   });
 
-  describe('PATCH /api/users/{id}/has-seen-challenge-tooltip/{challengeType}', function() {
-
-    it('should return 400 - Bad request when challengeType is not valid', async function() {
+  describe('PATCH /api/users/{id}/has-seen-challenge-tooltip/{challengeType}', function () {
+    it('should return 400 - Bad request when challengeType is not valid', async function () {
       // given
       const url = '/api/users/1/has-seen-challenge-tooltip/invalid';
 
@@ -308,7 +294,7 @@ describe('Integration | Application | Users | Routes', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return 200 when challengeType is valid', async function() {
+    it('should return 200 when challengeType is valid', async function () {
       // given
       const url = '/api/users/1/has-seen-challenge-tooltip/other';
 

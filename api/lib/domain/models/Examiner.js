@@ -5,15 +5,11 @@ const AnswerStatus = require('./AnswerStatus');
  * Traduction: Correcteur
  */
 class Examiner {
-
-  constructor({
-    validator,
-  } = {}) {
+  constructor({ validator } = {}) {
     this.validator = validator;
   }
 
   evaluate({ answer, challengeFormat, isCertificationEvaluation }) {
-
     const correctedAnswer = new Answer(answer);
 
     if (answer.value === Answer.FAKE_VALUE_FOR_SKIPPED_QUESTIONS) {

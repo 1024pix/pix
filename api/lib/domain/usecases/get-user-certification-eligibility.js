@@ -14,14 +14,12 @@ module.exports = async function getUserCertificationEligibility({
     pixCertificationEligible,
     certificationBadgesService,
   });
-  const {
-    pixPlusDroitMaitreCertificationEligible,
-    pixPlusDroitExpertCertificationEligible,
-  } = await _computePixPlusDroitCertificationEligibility({
-    userId,
-    pixCertificationEligible,
-    certificationBadgesService,
-  });
+  const { pixPlusDroitMaitreCertificationEligible, pixPlusDroitExpertCertificationEligible } =
+    await _computePixPlusDroitCertificationEligibility({
+      userId,
+      pixCertificationEligible,
+      certificationBadgesService,
+    });
 
   return new CertificationEligibility({
     id: userId,
@@ -32,11 +30,7 @@ module.exports = async function getUserCertificationEligibility({
   });
 };
 
-async function _computeCleaCertificationEligibility({
-  userId,
-  pixCertificationEligible,
-  certificationBadgesService,
-}) {
+async function _computeCleaCertificationEligibility({ userId, pixCertificationEligible, certificationBadgesService }) {
   if (!pixCertificationEligible) return false;
   return certificationBadgesService.hasStillValidCleaBadgeAcquisition({ userId });
 }
@@ -52,9 +46,15 @@ async function _computePixPlusDroitCertificationEligibility({
       pixPlusDroitExpertCertificationEligible: false,
     };
   }
-  const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({ userId });
-  const pixPlusDroitMaitreBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, { badgeKey: CertificationEligibility.pixPlusDroitMaitreBadgeKey });
-  const pixPlusDroitExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, { badgeKey: CertificationEligibility.pixPlusDroitExpertBadgeKey });
+  const stillValidCertifiableBadgeAcquisitions = await certificationBadgesService.findStillValidBadgeAcquisitions({
+    userId,
+  });
+  const pixPlusDroitMaitreBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
+    badgeKey: CertificationEligibility.pixPlusDroitMaitreBadgeKey,
+  });
+  const pixPlusDroitExpertBadgeAcquisition = _.find(stillValidCertifiableBadgeAcquisitions, {
+    badgeKey: CertificationEligibility.pixPlusDroitExpertBadgeKey,
+  });
   const pixPlusDroitMaitreCertificationEligible = Boolean(pixPlusDroitMaitreBadgeAcquisition);
   const pixPlusDroitExpertCertificationEligible = Boolean(pixPlusDroitExpertBadgeAcquisition);
   return {

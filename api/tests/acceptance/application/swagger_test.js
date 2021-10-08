@@ -1,18 +1,16 @@
 const { expect } = require('../../test-helper');
 const createServer = require('../../../server');
 
-describe('Acceptance | lib | swagger', function() {
-
+describe('Acceptance | lib | swagger', function () {
   let server;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
   });
 
-  describe('GET swagger.json', function() {
-
-    describe('Resource access management', function() {
-      it('should respond with a 200', async function() {
+  describe('GET swagger.json', function () {
+    describe('Resource access management', function () {
+      it('should respond with a 200', async function () {
         // given
         const options = {
           method: 'GET',
@@ -28,10 +26,9 @@ describe('Acceptance | lib | swagger', function() {
     });
   });
 
-  describe('GET /livret-scolaire/swagger.json', function() {
-
-    describe('Resource access management', function() {
-      it('should respond with a 200', async function() {
+  describe('GET /livret-scolaire/swagger.json', function () {
+    describe('Resource access management', function () {
+      it('should respond with a 200', async function () {
         // given
         const options = {
           method: 'GET',
@@ -47,9 +44,9 @@ describe('Acceptance | lib | swagger', function() {
     });
   });
 
-  describe('GET /pole-emploi/swagger.json', function() {
-    describe('Resource access management', function() {
-      it('should respond with a 200', async function() {
+  describe('GET /pole-emploi/swagger.json', function () {
+    describe('Resource access management', function () {
+      it('should respond with a 200', async function () {
         // given
         const options = {
           method: 'GET',

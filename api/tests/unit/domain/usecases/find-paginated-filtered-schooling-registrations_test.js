@@ -1,8 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const findPaginatedFilteredSchoolingRegistrations = require('../../../../lib/domain/usecases/find-paginated-filtered-schooling-registrations');
 
-describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', function() {
-
+describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', function () {
   const organizationId = 1;
   const userId = 2;
   const username = 'username';
@@ -23,10 +22,12 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', functio
     ],
   };
   // TODO: Fix this the next time the file is edited.
-  // eslint-disable-next-line mocha/no-setup-in-describe
-  const schoolingRegistrationRepository = { findPaginatedFilteredSchoolingRegistrations: sinon.stub().returns(expectedSchoolingRegistrations) };
+  const schoolingRegistrationRepository = {
+    // eslint-disable-next-line mocha/no-setup-in-describe
+    findPaginatedFilteredSchoolingRegistrations: sinon.stub().returns(expectedSchoolingRegistrations),
+  };
 
-  it('should fetch students matching organization', async function() {
+  it('should fetch students matching organization', async function () {
     foundOrganizationSchoolingRegistrations = await findPaginatedFilteredSchoolingRegistrations({
       organizationId,
       filter: { lastName: 'A', group: 'L1' },
@@ -42,4 +43,3 @@ describe('Unit | UseCase | findPaginatedFilteredSchoolingRegistrations', functio
     expect(foundOrganizationSchoolingRegistrations).to.deep.equal(expectedSchoolingRegistrations);
   });
 });
-

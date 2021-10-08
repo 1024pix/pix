@@ -22,7 +22,6 @@ class SiecleParser {
   }
 
   async parse() {
-
     this.siecleFileStreamer = await SiecleFileStreamer.create(this.path);
 
     await this._parseUAI();
@@ -31,7 +30,9 @@ class SiecleParser {
 
     await this.siecleFileStreamer.close();
 
-    return this.schoolingRegistrationsSet.schoolingRegistrations.filter((schoolingRegistration) => !isUndefined(schoolingRegistration.division));
+    return this.schoolingRegistrationsSet.schoolingRegistrations.filter(
+      (schoolingRegistration) => !isUndefined(schoolingRegistration.division)
+    );
   }
 
   async _parseUAI() {
@@ -43,7 +44,7 @@ class SiecleParser {
 
     streamerToParseOrganizationUAI.once('match', (xmlNode) => {
       xml2js.parseString(xmlNode, (err, nodeData) => {
-        if (err) return reject(err);// Si j'enleve cette ligne les tests passent
+        if (err) return reject(err); // Si j'enleve cette ligne les tests passent
         const UAIFromUserOrganization = this.organization.externalId;
         if (nodeData.UAJ !== UAIFromUserOrganization) {
           reject(new SiecleXmlImportError(ERRORS.UAI_MISMATCHED));
@@ -59,7 +60,9 @@ class SiecleParser {
   }
 
   async _parseStudents() {
-    await this.siecleFileStreamer.perform((stream, resolve, reject) => this._extractStudentRegistrationsFromStream(stream, resolve, reject));
+    await this.siecleFileStreamer.perform((stream, resolve, reject) =>
+      this._extractStudentRegistrationsFromStream(stream, resolve, reject)
+    );
   }
 
   _extractStudentRegistrationsFromStream(saxParser, resolve, reject) {
@@ -68,7 +71,7 @@ class SiecleParser {
       if (_isSchoolingRegistrationNode(xmlNode)) {
         xml2js.parseString(xmlNode, (err, nodeData) => {
           try {
-            if (err) throw err;// Si j'enleve cette ligne les tests passent
+            if (err) throw err; // Si j'enleve cette ligne les tests passent
 
             if (_isNodeImportableStudent(nodeData)) {
               this.schoolingRegistrationsSet.add(nodeData.ELEVE.$.ELEVE_ID, nodeData.ELEVE);

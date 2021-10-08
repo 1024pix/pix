@@ -1,14 +1,7 @@
 const _ = require('lodash');
 
 class TargetedCompetence {
-  constructor({
-    id,
-    name,
-    index,
-    origin,
-    areaId,
-    tubes = [],
-  } = {}) {
+  constructor({ id, name, index, origin, areaId, tubes = [] } = {}) {
     this.id = id;
     this.name = name;
     this.index = index;

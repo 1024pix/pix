@@ -5,10 +5,7 @@ const Validation = require('./Validation');
  * Traduction: Vérificateur de réponse par défaut
  */
 class Validator {
-
-  constructor({
-    solution,
-  } = {}) {
+  constructor({ solution } = {}) {
     this.solution = solution;
   }
 

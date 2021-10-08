@@ -40,7 +40,6 @@ class CsvColumn {
 }
 
 class CsvRegistrationParser {
-
   constructor(input, organizationId, columns, registrationSet) {
     this._input = input;
     this._organizationId = organizationId;
@@ -78,7 +77,9 @@ class CsvRegistrationParser {
     const checkedColumns = this._getEncodingColumns();
     for (const encoding of supported_encodings) {
       const decodedInput = iconv.decode(this._input, encoding);
-      const { meta: { fields } } = papa.parse(decodedInput, { ...PARSING_OPTIONS, preview: 1 });
+      const {
+        meta: { fields },
+      } = papa.parse(decodedInput, { ...PARSING_OPTIONS, preview: 1 });
       if (fields.some((value) => checkedColumns.includes(value))) {
         return encoding;
       }
@@ -95,7 +96,11 @@ class CsvRegistrationParser {
 
   _parse(encoding = 'utf8') {
     const decodedInput = iconv.decode(this._input, encoding);
-    const { data: registrationLines, meta: { fields }, errors } = papa.parse(decodedInput, PARSING_OPTIONS);
+    const {
+      data: registrationLines,
+      meta: { fields },
+      errors,
+    } = papa.parse(decodedInput, PARSING_OPTIONS);
 
     if (errors.length) {
       const hasDelimiterError = errors.some((error) => error.type === 'Delimiter');
@@ -143,7 +148,12 @@ class CsvRegistrationParser {
   }
 
   _buildDateAttribute(dateString) {
-    const convertedDate = convertDateValue({ dateString, inputFormat: 'DD/MM/YYYY', alternativeInputFormat: 'DD/MM/YY', outputFormat: 'YYYY-MM-DD' });
+    const convertedDate = convertDateValue({
+      dateString,
+      inputFormat: 'DD/MM/YYYY',
+      alternativeInputFormat: 'DD/MM/YY',
+      outputFormat: 'YYYY-MM-DD',
+    });
     return convertedDate || dateString;
   }
 
@@ -188,4 +198,3 @@ module.exports = {
   CsvColumn,
   CsvRegistrationParser,
 };
-

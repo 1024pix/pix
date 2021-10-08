@@ -3,16 +3,18 @@ const stagesController = require('./stages-controller');
 const Joi = require('joi');
 const identifiersType = require('../../domain/types/identifiers-type');
 
-exports.register = async function(server) {
+exports.register = async function (server) {
   server.route([
     {
       method: 'POST',
       path: '/api/admin/stages',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         handler: stagesController.create,
         tags: ['api', 'stages'],
       },
@@ -21,10 +23,12 @@ exports.register = async function(server) {
       method: 'GET',
       path: '/api/admin/stages/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.stageId,
@@ -34,7 +38,7 @@ exports.register = async function(server) {
         tags: ['api', 'stages'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de récupérer un palier.',
+            '- Elle permet de récupérer un palier.',
         ],
       },
     },
@@ -42,10 +46,12 @@ exports.register = async function(server) {
       method: 'PATCH',
       path: '/api/admin/stages/{id}',
       config: {
-        pre: [{
-          method: securityPreHandlers.checkUserHasRolePixMaster,
-          assign: 'hasRolePixMaster',
-        }],
+        pre: [
+          {
+            method: securityPreHandlers.checkUserHasRolePixMaster,
+            assign: 'hasRolePixMaster',
+          },
+        ],
         validate: {
           params: Joi.object({
             id: identifiersType.stageId,
@@ -63,7 +69,7 @@ exports.register = async function(server) {
         tags: ['api', 'stages'],
         notes: [
           '- **Cette route est restreinte aux utilisateurs authentifiés avec le rôle Pix Master**\n' +
-          '- Elle permet de mettre à jour le prescriberTitle et le prescriberDescription d\'un palier.',
+            "- Elle permet de mettre à jour le prescriberTitle et le prescriberDescription d'un palier.",
         ],
       },
     },

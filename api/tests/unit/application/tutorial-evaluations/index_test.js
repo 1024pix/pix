@@ -1,16 +1,10 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const tutorialEvaluationsController = require('../../../../lib/application/tutorial-evaluations/tutorial-evaluations-controller');
 const moduleUnderTest = require('../../../../lib/application/tutorial-evaluations');
 
-describe('Unit | Router | tutorial-evaluations-router', function() {
-
-  describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function() {
-
-    it('should exist', async function() {
+describe('Unit | Router | tutorial-evaluations-router', function () {
+  describe('PUT /api/users/tutorials/{tutorialId}/evaluate', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(tutorialEvaluationsController, 'evaluate').callsFake((request, h) => h.response('ok').code(204));
       const httpTestServer = new HttpTestServer();
@@ -27,5 +21,4 @@ describe('Unit | Router | tutorial-evaluations-router', function() {
       expect(response.statusCode).to.equal(204);
     });
   });
-
 });

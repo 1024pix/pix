@@ -4,10 +4,9 @@ const _ = require('lodash');
 const Campaign = require('../../../../lib/domain/models/Campaign');
 const { knex } = require('../../../../lib/infrastructure/bookshelf');
 
-describe('Integration | Repository | Campaign-Management', function() {
-
-  describe('#get', function() {
-    it('should return campaign details with target profile', async function() {
+describe('Integration | Repository | Campaign-Management', function () {
+  describe('#get', function () {
+    it('should return campaign details with target profile', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       const targetProfile = databaseBuilder.factory.buildTargetProfile();
@@ -45,7 +44,7 @@ describe('Integration | Repository | Campaign-Management', function() {
       });
     });
 
-    it('should return campaign details without target profile', async function() {
+    it('should return campaign details without target profile', async function () {
       // given
       const user = databaseBuilder.factory.buildUser();
       const organization = databaseBuilder.factory.buildOrganization({});
@@ -83,8 +82,8 @@ describe('Integration | Repository | Campaign-Management', function() {
     });
   });
 
-  describe('#update', function() {
-    it('should update the campaign', async function() {
+  describe('#update', function () {
+    it('should update the campaign', async function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({
         name: 'Bad campaign',
@@ -113,7 +112,7 @@ describe('Integration | Repository | Campaign-Management', function() {
       expect(updatedCampaign).to.deep.equal(expectedCampaign);
     });
 
-    it('should only update editable attributes', async function() {
+    it('should only update editable attributes', async function () {
       // given
       const campaign = databaseBuilder.factory.buildCampaign({
         code: 'SOMECODE',
@@ -134,38 +133,38 @@ describe('Integration | Repository | Campaign-Management', function() {
       // then
       expect(updatedCampaign).to.deep.equal(expectedCampaign);
     });
-
   });
 
-  describe('#findPaginatedCampaignManagements', function() {
+  describe('#findPaginatedCampaignManagements', function () {
     let page;
     let organizationId;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       organizationId = databaseBuilder.factory.buildOrganization({}).id;
       await databaseBuilder.commit();
 
       page = { number: 1, size: 3 };
     });
 
-    context('when the given organization has no campaign', function() {
-
-      it('should return an empty array', async function() {
+    context('when the given organization has no campaign', function () {
+      it('should return an empty array', async function () {
         // given
         databaseBuilder.factory.buildCampaign();
         await databaseBuilder.commit();
 
         // when
-        const { models: campaignManagements } = await campaignManagementRepository.findPaginatedCampaignManagements({ organizationId, page });
+        const { models: campaignManagements } = await campaignManagementRepository.findPaginatedCampaignManagements({
+          organizationId,
+          page,
+        });
 
         // then
         expect(campaignManagements).to.be.empty;
       });
     });
 
-    context('when the given organization has campaigns', function() {
-
-      it('should return campaign with all attributes', async function() {
+    context('when the given organization has campaigns', function () {
+      it('should return campaign with all attributes', async function () {
         // given
         const creator = databaseBuilder.factory.buildUser({
           lastName: 'King',
@@ -183,7 +182,10 @@ describe('Integration | Repository | Campaign-Management', function() {
         await databaseBuilder.commit();
 
         // when
-        const { models: campaignManagements } = await campaignManagementRepository.findPaginatedCampaignManagements({ organizationId, page });
+        const { models: campaignManagements } = await campaignManagementRepository.findPaginatedCampaignManagements({
+          organizationId,
+          page,
+        });
 
         // then
         expect(campaignManagements[0]).to.deep.equal({
@@ -199,7 +201,7 @@ describe('Integration | Repository | Campaign-Management', function() {
         });
       });
 
-      it('should sort campaigns by descending creation date', async function() {
+      it('should sort campaigns by descending creation date', async function () {
         // given
         databaseBuilder.factory.buildCampaign({ organizationId, name: 'May', createdAt: new Date('2020-05-01') }).id;
         databaseBuilder.factory.buildCampaign({ organizationId, name: 'June', createdAt: new Date('2020-06-01') }).id;
@@ -207,23 +209,26 @@ describe('Integration | Repository | Campaign-Management', function() {
         await databaseBuilder.commit();
 
         // when
-        const { models: campaignManagements } = await campaignManagementRepository.findPaginatedCampaignManagements({ organizationId, page });
+        const { models: campaignManagements } = await campaignManagementRepository.findPaginatedCampaignManagements({
+          organizationId,
+          page,
+        });
 
         // then
-        expect(_.map(campaignManagements, 'name')).to.exactlyContainInOrder([ 'July', 'June', 'May']);
+        expect(_.map(campaignManagements, 'name')).to.exactlyContainInOrder(['July', 'June', 'May']);
       });
     });
 
-    context('when campaigns amount exceed page size', function() {
-
-      it('should return page size number of campaigns', async function() {
+    context('when campaigns amount exceed page size', function () {
+      it('should return page size number of campaigns', async function () {
         page = { number: 2, size: 2 };
 
         _.times(4, () => databaseBuilder.factory.buildCampaign({ organizationId }));
         const expectedPagination = { page: 2, pageSize: 2, pageCount: 2, rowCount: 4 };
         await databaseBuilder.commit();
         // when
-        const { models: campaignManagements, meta: pagination } = await campaignManagementRepository.findPaginatedCampaignManagements({ organizationId, page });
+        const { models: campaignManagements, meta: pagination } =
+          await campaignManagementRepository.findPaginatedCampaignManagements({ organizationId, page });
 
         // then
         expect(campaignManagements).to.have.lengthOf(2);

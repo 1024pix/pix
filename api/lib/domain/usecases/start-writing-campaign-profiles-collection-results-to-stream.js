@@ -7,25 +7,23 @@ async function _checkCreatorHasAccessToCampaignOrganization(userId, organization
 
   if (!user.hasAccessToOrganization(organizationId)) {
     throw new UserNotAuthorizedToGetCampaignResultsError(
-      `User does not have an access to the organization ${organizationId}`,
+      `User does not have an access to the organization ${organizationId}`
     );
   }
 }
 
-module.exports = async function startWritingCampaignProfilesCollectionResultsToStream(
-  {
-    userId,
-    campaignId,
-    writableStream,
-    i18n,
-    campaignRepository,
-    userRepository,
-    competenceRepository,
-    campaignParticipationRepository,
-    organizationRepository,
-    placementProfileService,
-  }) {
-
+module.exports = async function startWritingCampaignProfilesCollectionResultsToStream({
+  userId,
+  campaignId,
+  writableStream,
+  i18n,
+  campaignRepository,
+  userRepository,
+  competenceRepository,
+  campaignParticipationRepository,
+  organizationRepository,
+  placementProfileService,
+}) {
   const campaign = await campaignRepository.get(campaignId);
   const translate = i18n.__;
 
@@ -37,20 +35,33 @@ module.exports = async function startWritingCampaignProfilesCollectionResultsToS
     campaignParticipationRepository.findProfilesCollectionResultDataByCampaignId(campaign.id),
   ]);
 
-  const campaignProfilesCollectionExport = new CampaignProfilesCollectionExport(writableStream, organization, campaign, allPixCompetences, translate);
+  const campaignProfilesCollectionExport = new CampaignProfilesCollectionExport(
+    writableStream,
+    organization,
+    campaign,
+    allPixCompetences,
+    translate
+  );
 
   // No return/await here, we need the writing to continue in the background
   // after this function's returned promise resolves. If we await the map
   // function, node will keep all the data in memory until the end of the
   // complete operation.
-  campaignProfilesCollectionExport.export(campaignParticipationResultDatas, placementProfileService).then(() => {
-    writableStream.end();
-  }).catch((error) => {
-    writableStream.emit('error', error);
-    throw error;
-  });
+  campaignProfilesCollectionExport
+    .export(campaignParticipationResultDatas, placementProfileService)
+    .then(() => {
+      writableStream.end();
+    })
+    .catch((error) => {
+      writableStream.emit('error', error);
+      throw error;
+    });
 
-  const fileName = translate('campaign-export.common.file-name', { name: campaign.name, id: campaign.id, date: moment.utc().format('YYYY-MM-DD-hhmm') });
+  const fileName = translate('campaign-export.common.file-name', {
+    name: campaign.name,
+    id: campaign.id,
+    date: moment.utc().format('YYYY-MM-DD-hhmm'),
+  });
 
   return { fileName };
 };

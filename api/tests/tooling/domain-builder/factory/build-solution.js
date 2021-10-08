@@ -9,7 +9,6 @@ module.exports = function buildSolution({
   isT3Enabled = false,
   scoring = '',
 } = {}) {
-
   return new Solution({
     id,
     type,

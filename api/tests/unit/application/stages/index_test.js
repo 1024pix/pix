@@ -1,19 +1,13 @@
-const {
-  expect,
-  HttpTestServer,
-  sinon,
-} = require('../../../test-helper');
+const { expect, HttpTestServer, sinon } = require('../../../test-helper');
 const securityPreHandlers = require('../../../../lib/application/security-pre-handlers');
 const stagesController = require('../../../../lib/application/stages/stages-controller');
 const moduleUnderTest = require('../../../../lib/application/stages');
 
-describe('Unit | Router | stages-router', function() {
-
-  describe('POST /api/admin/stages', function() {
-
+describe('Unit | Router | stages-router', function () {
+  describe('POST /api/admin/stages', function () {
     const method = 'POST';
 
-    it('should exist', async function() {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'create').returns('ok');
@@ -30,8 +24,8 @@ describe('Unit | Router | stages-router', function() {
     });
   });
 
-  describe('GET /api/admin/stages/:id', function() {
-    it('should exist', async function() {
+  describe('GET /api/admin/stages/:id', function () {
+    it('should exist', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'getStageDetails').callsFake((request, h) => h.response('ok').code(200));
@@ -48,7 +42,7 @@ describe('Unit | Router | stages-router', function() {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should return a 400 error when the id is not a number', async function() {
+    it('should return a 400 error when the id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
@@ -65,8 +59,8 @@ describe('Unit | Router | stages-router', function() {
     });
   });
 
-  describe('PATCH /api/admin/stages/:id', function() {
-    it('should update the stage with attributes', async function() {
+  describe('PATCH /api/admin/stages/:id', function () {
+    it('should update the stage with attributes', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
@@ -74,12 +68,14 @@ describe('Unit | Router | stages-router', function() {
       await httpTestServer.register(moduleUnderTest);
 
       const method = 'PATCH';
-      const payload = { data: {
-        attributes: {
-          'prescriber-title': 'test',
-          'prescriber-description': 'bidule',
+      const payload = {
+        data: {
+          attributes: {
+            'prescriber-title': 'test',
+            'prescriber-description': 'bidule',
+          },
         },
-      } };
+      };
       const url = '/api/admin/stages/34';
 
       // when
@@ -89,7 +85,7 @@ describe('Unit | Router | stages-router', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should update the stage even if there is null', async function() {
+    it('should update the stage even if there is null', async function () {
       // given
       sinon.stub(securityPreHandlers, 'checkUserHasRolePixMaster').callsFake((request, h) => h.response(true));
       sinon.stub(stagesController, 'updateStage').callsFake((request, h) => h.response('ok').code(204));
@@ -97,12 +93,14 @@ describe('Unit | Router | stages-router', function() {
       await httpTestServer.register(moduleUnderTest);
 
       const method = 'PATCH';
-      const payload = { data: {
-        attributes: {
-          'prescriber-title': null,
-          'prescriber-description': 'bidule',
+      const payload = {
+        data: {
+          attributes: {
+            'prescriber-title': null,
+            'prescriber-description': 'bidule',
+          },
         },
-      } };
+      };
       const url = '/api/admin/stages/34';
 
       // when
@@ -112,19 +110,21 @@ describe('Unit | Router | stages-router', function() {
       expect(response.statusCode).to.equal(204);
     });
 
-    it('should return a 400 error when the id is not a number', async function() {
+    it('should return a 400 error when the id is not a number', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       const method = 'PATCH';
       const unknownId = 'abcd45';
-      const payload = { data: {
-        attributes: {
-          'prescriber-title': 'test',
-          'prescriber-description': 'bidule',
+      const payload = {
+        data: {
+          attributes: {
+            'prescriber-title': 'test',
+            'prescriber-description': 'bidule',
+          },
         },
-      } };
+      };
       const url = `/api/admin/stages/${unknownId}`;
 
       // when
@@ -134,18 +134,20 @@ describe('Unit | Router | stages-router', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 error when payload is undefined', async function() {
+    it('should return a 400 error when payload is undefined', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       const method = 'PATCH';
-      const payload = { data: {
-        attributes: {
-          'prescriber-title': undefined,
-          'prescriber-description': undefined,
+      const payload = {
+        data: {
+          attributes: {
+            'prescriber-title': undefined,
+            'prescriber-description': undefined,
+          },
         },
-      } };
+      };
       const url = '/api/admin/stages/34';
 
       // when
@@ -155,18 +157,20 @@ describe('Unit | Router | stages-router', function() {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('should return a 400 error when payload is empty strings', async function() {
+    it('should return a 400 error when payload is empty strings', async function () {
       // given
       const httpTestServer = new HttpTestServer();
       await httpTestServer.register(moduleUnderTest);
 
       const method = 'PATCH';
-      const payload = { data: {
-        attributes: {
-          'prescriber-title': '',
-          'prescriber-description': '',
+      const payload = {
+        data: {
+          attributes: {
+            'prescriber-title': '',
+            'prescriber-description': '',
+          },
         },
-      } };
+      };
       const url = '/api/admin/stages/34';
 
       // when

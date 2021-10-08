@@ -2,16 +2,14 @@ const { expect, databaseBuilder, mockLearningContent, knex } = require('../../..
 const CampaignProfilesCollectionParticipationSummary = require('../../../../lib/domain/read-models/CampaignProfilesCollectionParticipationSummary');
 const campaignProfilesCollectionParticipationSummaryRepository = require('../../../../lib/infrastructure/repositories/campaign-profiles-collection-participation-summary-repository');
 
-describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function() {
-
-  describe('#findPaginatedByCampaignId', function() {
-
+describe('Integration | Repository | Campaign Profiles Collection Participation Summary repository', function () {
+  describe('#findPaginatedByCampaignId', function () {
     let campaignId, organizationId;
     let competences;
     let skills;
     const sharedAt = new Date('2018-05-06');
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const learningContentData = buildLearningContentData();
       competences = learningContentData.competences;
       skills = learningContentData.skills;
@@ -21,73 +19,117 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       await databaseBuilder.commit();
     });
 
-    afterEach(function() {
+    afterEach(function () {
       return knex('knowledge-element-snapshots').delete();
     });
 
-    it('should return empty array if no participant', async function() {
+    it('should return empty array if no participant', async function () {
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+        campaignId
+      );
 
       // then
       expect(results.data.length).to.equal(0);
     });
 
-    it('should not return participant data summary for a not shared campaign participation', async function() {
+    it('should not return participant data summary for a not shared campaign participation', async function () {
       // given
       const campaignParticipation = { campaignId, isShared: false, sharedAt: null };
       databaseBuilder.factory.buildCampaignParticipationWithUser({}, campaignParticipation, false);
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+        campaignId
+      );
 
       // then
       expect(results.data).to.deep.equal([]);
     });
 
-    it('should return participants data summary only for the given campaign id', async function() {
+    it('should return participants data summary only for the given campaign id', async function () {
       // given
       const campaignParticipation1 = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Lise', lastName: 'Quesnel' }, campaignParticipation1, false);
+      databaseBuilder.factory.buildCampaignParticipationWithUser(
+        { firstName: 'Lise', lastName: 'Quesnel' },
+        campaignParticipation1,
+        false
+      );
       const campaignId2 = databaseBuilder.factory.buildCampaign().id;
       const campaignParticipation2 = { campaignId: campaignId2 };
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Benjamin', lastName: 'Petetot' }, campaignParticipation2, false);
+      databaseBuilder.factory.buildCampaignParticipationWithUser(
+        { firstName: 'Benjamin', lastName: 'Petetot' },
+        campaignParticipation2,
+        false
+      );
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+        campaignId
+      );
       const names = results.data.map((result) => result.firstName);
 
       // then
       expect(names).exactlyContainInOrder(['Lise']);
     });
 
-    it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async function() {
+    it('should return participants data summary ordered by last name then first name asc (including schooling registration data)', async function () {
       // given
       const campaignParticipation = { campaignId };
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Jaja', lastName: 'Le raplapla', organizationId }, campaignParticipation, false);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jiji', lastName: 'Le riquiqui', organizationId }, campaignParticipation, false);
-      databaseBuilder.factory.buildCampaignParticipationWithUser({ firstName: 'Jojo', lastName: 'Le rococo', organizationId }, campaignParticipation, false);
-      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration({ firstName: 'Juju', lastName: 'Le riquiqui', organizationId }, campaignParticipation, false);
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        { firstName: 'Jaja', lastName: 'Le raplapla', organizationId },
+        campaignParticipation,
+        false
+      );
+      databaseBuilder.factory.buildCampaignParticipationWithUser(
+        { firstName: 'Jiji', lastName: 'Le riquiqui', organizationId },
+        campaignParticipation,
+        false
+      );
+      databaseBuilder.factory.buildCampaignParticipationWithUser(
+        { firstName: 'Jojo', lastName: 'Le rococo', organizationId },
+        campaignParticipation,
+        false
+      );
+      databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+        { firstName: 'Juju', lastName: 'Le riquiqui', organizationId },
+        campaignParticipation,
+        false
+      );
       await databaseBuilder.commit();
 
       // when
-      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+      const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+        campaignId
+      );
       const names = results.data.map((result) => result.firstName);
 
       // then
       expect(names).exactlyContainInOrder(['Jaja', 'Jiji', 'Juju', 'Jojo']);
     });
 
-    describe('when a participant has shared the participation to the campaign', function() {
+    describe('when a participant has shared the participation to the campaign', function () {
       let campaignParticipation;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         const createdAt = new Date('2018-04-06T10:00:00Z');
         const userId = 999;
-        campaignParticipation = { id: 888, userId, campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
-        databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId, firstName: 'Jérémy', lastName: 'bugietta' }, campaignParticipation, false);
+        campaignParticipation = {
+          id: 888,
+          userId,
+          campaignId,
+          isShared: true,
+          sharedAt,
+          participantExternalId: 'JeBu',
+          pixScore: 46,
+        };
+        databaseBuilder.factory.buildCampaignParticipationWithUser(
+          { id: userId, firstName: 'Jérémy', lastName: 'bugietta' },
+          campaignParticipation,
+          false
+        );
 
         databaseBuilder.factory.buildKnowledgeElement({
           status: 'validated',
@@ -110,9 +152,11 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         await databaseBuilder.commit();
       });
 
-      it('should return the certification profile info and pix score', async function() {
+      it('should return the certification profile info and pix score', async function () {
         // when
-        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId
+        );
 
         // then
         expect(results.data).to.deep.equal([
@@ -130,22 +174,30 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
     });
 
-    describe('when a participant has participated twice', function() {
+    describe('when a participant has participated twice', function () {
       let recentCampaignParticipation;
 
-      beforeEach(async function() {
+      beforeEach(async function () {
         const userId = 999;
         const oldCampaignParticipation = { userId, campaignId, isShared: true, sharedAt, isImproved: true };
         databaseBuilder.factory.buildCampaignParticipationWithUser({ id: userId }, oldCampaignParticipation, false);
 
-        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({ userId, isImproved: false, sharedAt, campaignId, isShared: true });
+        recentCampaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
+          userId,
+          isImproved: false,
+          sharedAt,
+          campaignId,
+          isShared: true,
+        });
 
         await databaseBuilder.commit();
       });
 
-      it('should return only the participationCampaign which is not improved', async function() {
+      it('should return only the participationCampaign which is not improved', async function () {
         // when
-        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId);
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId
+        );
 
         // then
         expect(results.data).to.have.lengthOf(1);
@@ -153,11 +205,10 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
       });
     });
 
-    describe('when there is a filter on division', function() {
-
-      beforeEach(async function() {
+    describe('when there is a filter on division', function () {
+      beforeEach(async function () {
         const participation1 = {
-          participantExternalId: 'Can\'t get Enough Of Your Love, Baby',
+          participantExternalId: "Can't get Enough Of Your Love, Baby",
           campaignId,
         };
 
@@ -165,7 +216,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 1, division: 'Barry' });
 
         const participation2 = {
-          participantExternalId: 'You\'re The First, The last, My Everything',
+          participantExternalId: "You're The First, The last, My Everything",
           campaignId,
         };
 
@@ -173,7 +224,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId, userId: 2, division: 'White' });
 
         const participation3 = {
-          participantExternalId: 'Ain\'t No Mountain High Enough',
+          participantExternalId: "Ain't No Mountain High Enough",
           campaignId,
         };
 
@@ -183,14 +234,21 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
         await databaseBuilder.commit();
       });
 
-      it('returns participations which have the correct division', async function() {
+      it('returns participations which have the correct division', async function () {
         // when
         const divisions = ['Barry', 'White'];
-        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(campaignId, undefined, { divisions });
+        const results = await campaignProfilesCollectionParticipationSummaryRepository.findPaginatedByCampaignId(
+          campaignId,
+          undefined,
+          { divisions }
+        );
         const participantExternalIds = results.data.map((result) => result.participantExternalId);
 
         // then
-        expect(participantExternalIds).to.exactlyContain(['Can\'t get Enough Of Your Love, Baby', 'You\'re The First, The last, My Everything']);
+        expect(participantExternalIds).to.exactlyContain([
+          "Can't get Enough Of Your Love, Baby",
+          "You're The First, The last, My Everything",
+        ]);
       });
     });
   });

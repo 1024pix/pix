@@ -4,11 +4,7 @@ const { performance } = require('perf_hooks');
 const { logInfoWithCorrelationIds, logErrorWithCorrelationIds } = require('../monitoring-tools');
 
 class HttpResponse {
-  constructor({
-    code,
-    data,
-    isSuccessful,
-  }) {
+  constructor({ code, data, isSuccessful }) {
     this.code = code;
     this.data = data;
     this.isSuccessful = isSuccessful;
@@ -23,7 +19,10 @@ module.exports = {
         headers,
       });
       const duration = performance.now() - startTime;
-      logInfoWithCorrelationIds({ metrics: { duration }, message: `End POST request to ${url} success: ${httpResponse.status}` });
+      logInfoWithCorrelationIds({
+        metrics: { duration },
+        message: `End POST request to ${url} success: ${httpResponse.status}`,
+      });
 
       return new HttpResponse({
         code: httpResponse.status,
@@ -56,7 +55,10 @@ module.exports = {
       const config = { data: payload, headers };
       const httpResponse = await axios.get(url, config);
       const duration = performance.now() - startTime;
-      logInfoWithCorrelationIds({ metrics: { duration }, message: `End GET request to ${url} success: ${httpResponse.status}` });
+      logInfoWithCorrelationIds({
+        metrics: { duration },
+        message: `End GET request to ${url} success: ${httpResponse.status}`,
+      });
 
       return new HttpResponse({
         code: httpResponse.status,

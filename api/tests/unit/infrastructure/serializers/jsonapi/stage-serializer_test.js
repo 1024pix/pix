@@ -2,11 +2,9 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const Stage = require('../../../../../lib/domain/models/Stage');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/stage-serializer');
 
-describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
-
-  describe('#serialize', function() {
-
-    it('should convert a Stage model object into JSON API data', function() {
+describe('Unit | Serializer | JSONAPI | stage-serializer', function () {
+  describe('#serialize', function () {
+    it('should convert a Stage model object into JSON API data', function () {
       // given
       const stage = domainBuilder.buildStage({
         id: '1',
@@ -40,8 +38,8 @@ describe('Unit | Serializer | JSONAPI | stage-serializer', function() {
     });
   });
 
-  describe('#deserialize', function() {
-    it('should create JSON API date into a Stage model', function() {
+  describe('#deserialize', function () {
+    it('should create JSON API date into a Stage model', function () {
       // given
       const targetProfileId = 43;
       const jsonStage = {

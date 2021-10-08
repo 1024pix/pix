@@ -1,17 +1,7 @@
 const _ = require('lodash');
 
 class Tube {
-
-  constructor({
-    id,
-    name,
-    title,
-    description,
-    practicalTitle,
-    practicalDescription,
-    skills = [],
-    competenceId,
-  } = {}) {
+  constructor({ id, name, title, description, practicalTitle, practicalDescription, skills = [], competenceId } = {}) {
     this.id = id;
     this.title = title;
     this.description = description;
@@ -46,7 +36,6 @@ class Tube {
   getHardestSkill() {
     return _.maxBy(this.skills, 'difficulty');
   }
-
 }
 
 module.exports = Tube;

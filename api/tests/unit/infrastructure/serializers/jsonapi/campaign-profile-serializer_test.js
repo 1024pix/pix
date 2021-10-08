@@ -8,10 +8,8 @@ const Area = require('../../../../../lib/domain/models/Area');
 
 const { SHARED } = CampaignParticipation.statuses;
 
-describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function() {
-
-  describe('#serialize', function() {
-
+describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function () {
+  describe('#serialize', function () {
     const campaignProfile = new CampaignProfile({
       campaignParticipationId: 9,
       campaignId: 8,
@@ -59,27 +57,31 @@ describe('Unit | Serializer | JSONAPI | campaign-profile-serializer', function()
         },
         relationships: {
           competences: {
-            data: [{
-              id: '1',
-              type: 'campaign-profile-competences',
-            }],
+            data: [
+              {
+                id: '1',
+                type: 'campaign-profile-competences',
+              },
+            ],
           },
         },
       },
-      included: [{
-        type: 'campaign-profile-competences',
-        id: '1',
-        attributes: {
-          name: 'competence1',
-          'index': '1.1.1',
-          'pix-score': 12,
-          'estimated-level': 1,
-          'area-color': 'blue',
+      included: [
+        {
+          type: 'campaign-profile-competences',
+          id: '1',
+          attributes: {
+            name: 'competence1',
+            index: '1.1.1',
+            'pix-score': 12,
+            'estimated-level': 1,
+            'area-color': 'blue',
+          },
         },
-      }],
+      ],
     };
 
-    it('should convert a campaignProfile model object into JSON API data', function() {
+    it('should convert a campaignProfile model object into JSON API data', function () {
       const json = serializer.serialize(campaignProfile);
 
       expect(json).to.deep.equal(expectedJsonApi);

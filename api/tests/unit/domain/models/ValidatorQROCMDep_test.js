@@ -5,21 +5,18 @@ const ValidatorQROCMDep = require('../../../../lib/domain/models/ValidatorQROCMD
 
 const { expect, domainBuilder, sinon } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | ValidatorQROCMDep', function() {
-
-  beforeEach(function() {
-
+describe('Unit | Domain | Models | ValidatorQROCMDep', function () {
+  beforeEach(function () {
     sinon.stub(solutionServiceQrocmDep, 'match');
   });
 
-  describe('#assess', function() {
-
+  describe('#assess', function () {
     let uncorrectedAnswer;
     let validation;
     let validator;
     let solution;
 
-    beforeEach(function() {
+    beforeEach(function () {
       // given
       solutionServiceQrocmDep.match.returns(AnswerStatus.OK);
       solution = domainBuilder.buildSolution({
@@ -38,11 +35,11 @@ describe('Unit | Domain | Models | ValidatorQROCMDep', function() {
       validation = validator.assess({ answer: uncorrectedAnswer });
     });
 
-    it('should call solutionServiceQROCMDep', function() {
+    it('should call solutionServiceQROCMDep', function () {
       // then
       expect(solutionServiceQrocmDep.match).to.have.been.calledWith({ answerValue: uncorrectedAnswer.value, solution });
     });
-    it('should return a validation object with the returned status', function() {
+    it('should return a validation object with the returned status', function () {
       const expectedValidation = domainBuilder.buildValidation({
         result: AnswerStatus.OK,
         resultDetails: null,

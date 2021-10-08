@@ -4,12 +4,14 @@ const serializer = require('../../infrastructure/serializers/jsonapi/competence-
 const DomainTransaction = require('../../infrastructure/DomainTransaction');
 
 module.exports = {
-
   async startOrResume(request, h) {
     const userId = request.auth.credentials.userId;
     const competenceId = request.payload.competenceId;
 
-    const { competenceEvaluation, created } = await usecases.startOrResumeCompetenceEvaluation({ competenceId, userId });
+    const { competenceEvaluation, created } = await usecases.startOrResumeCompetenceEvaluation({
+      competenceId,
+      userId,
+    });
     const serializedCompetenceEvaluation = serializer.serialize(competenceEvaluation);
 
     return created ? h.response(serializedCompetenceEvaluation).created() : serializedCompetenceEvaluation;
@@ -20,7 +22,11 @@ module.exports = {
     const competenceId = request.payload.competenceId;
 
     const competenceEvaluation = await DomainTransaction.execute(async (domainTransaction) => {
-      const competenceEvaluation = await usecases.improveCompetenceEvaluation({ competenceId, userId, domainTransaction });
+      const competenceEvaluation = await usecases.improveCompetenceEvaluation({
+        competenceId,
+        userId,
+        domainTransaction,
+      });
       await events.eventDispatcher.dispatch(domainTransaction, competenceEvaluation);
       return competenceEvaluation;
     });

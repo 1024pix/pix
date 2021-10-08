@@ -1,15 +1,20 @@
 const { expect, databaseBuilder, domainBuilder, catchErr } = require('../../../test-helper');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const juryCertificationRepository = require('../../../../lib/infrastructure/repositories/jury-certification-repository');
-const { badgeKeyV1: cleaBadgeKeyV1, badgeKeyV2: cleaBadgeKeyV2 } = require('../../../../lib/domain/models/CleaCertificationResult');
-const { badgeKey: pixPlusDroitMaitreBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
-const { badgeKey: pixPlusDroitExpertBadgeKey } = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
+const {
+  badgeKeyV1: cleaBadgeKeyV1,
+  badgeKeyV2: cleaBadgeKeyV2,
+} = require('../../../../lib/domain/models/CleaCertificationResult');
+const {
+  badgeKey: pixPlusDroitMaitreBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitMaitreCertificationResult');
+const {
+  badgeKey: pixPlusDroitExpertBadgeKey,
+} = require('../../../../lib/domain/models/PixPlusDroitExpertCertificationResult');
 
-describe('Integration | Infrastructure | Repository | Jury Certification', function() {
-
-  describe('#get', function() {
-
-    it('should throw a NotFoundError when no JuryCertification exists for given certification course id', async function() {
+describe('Integration | Infrastructure | Repository | Jury Certification', function () {
+  describe('#get', function () {
+    it('should throw a NotFoundError when no JuryCertification exists for given certification course id', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 1 });
       databaseBuilder.factory.buildAssessment({ id: 159, certificationCourseId: 1 });
@@ -23,7 +28,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       expect(error.message).to.equal('Certification course of id 2 does not exist.');
     });
 
-    it('should return get the JuryCertification for given certificationCourseId', async function() {
+    it('should return get the JuryCertification for given certificationCourseId', async function () {
       // given
       databaseBuilder.factory.buildUser({ id: 789 });
       databaseBuilder.factory.buildSession({ id: 456 });
@@ -111,7 +116,7 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       expect(juryCertification).to.deepEqualInstance(expectedJuryCertification);
     });
 
-    it('should return along the certificationIssueReports if any ordered by ID', async function() {
+    it('should return along the certificationIssueReports if any ordered by ID', async function () {
       // given
       databaseBuilder.factory.buildCertificationCourse({ id: 1 });
       databaseBuilder.factory.buildCertificationCourse({ id: 2 });
@@ -145,21 +150,44 @@ describe('Integration | Infrastructure | Repository | Jury Certification', funct
       const juryCertification = await juryCertificationRepository.get(1);
 
       // then
-      expect(juryCertification.certificationIssueReports).to.deepEqualArray([expectedCertificationIssueReportB, expectedCertificationIssueReportA]);
+      expect(juryCertification.certificationIssueReports).to.deepEqualArray([
+        expectedCertificationIssueReportB,
+        expectedCertificationIssueReportA,
+      ]);
     });
 
     // eslint-disable-next-line mocha/no-setup-in-describe
     [
-      { complementaryCertificationName: 'CléA V1', badgeKey: cleaBadgeKeyV1, complementaryCertificationResult: 'cleaCertificationResult' },
-      { complementaryCertificationName: 'CléA V2', badgeKey: cleaBadgeKeyV2, complementaryCertificationResult: 'cleaCertificationResult' },
-      { complementaryCertificationName: 'PixPlus Droit Maître', badgeKey: pixPlusDroitMaitreBadgeKey, complementaryCertificationResult: 'pixPlusDroitMaitreCertificationResult' },
-      { complementaryCertificationName: 'PixPlus Droit Expert', badgeKey: pixPlusDroitExpertBadgeKey, complementaryCertificationResult: 'pixPlusDroitExpertCertificationResult' },
-    ].forEach(function(testCase) {
-      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function() {
+      {
+        complementaryCertificationName: 'CléA V1',
+        badgeKey: cleaBadgeKeyV1,
+        complementaryCertificationResult: 'cleaCertificationResult',
+      },
+      {
+        complementaryCertificationName: 'CléA V2',
+        badgeKey: cleaBadgeKeyV2,
+        complementaryCertificationResult: 'cleaCertificationResult',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Droit Maître',
+        badgeKey: pixPlusDroitMaitreBadgeKey,
+        complementaryCertificationResult: 'pixPlusDroitMaitreCertificationResult',
+      },
+      {
+        complementaryCertificationName: 'PixPlus Droit Expert',
+        badgeKey: pixPlusDroitExpertBadgeKey,
+        complementaryCertificationResult: 'pixPlusDroitExpertCertificationResult',
+      },
+    ].forEach(function (testCase) {
+      it(`should get the ${testCase.complementaryCertificationName} result if this complementary certification was taken`, async function () {
         // given
         await _buildJuryCertification(1);
         databaseBuilder.factory.buildBadge({ key: testCase.badgeKey });
-        databaseBuilder.factory.buildPartnerCertification({ certificationCourseId: 1, partnerKey: testCase.badgeKey, acquired: true });
+        databaseBuilder.factory.buildPartnerCertification({
+          certificationCourseId: 1,
+          partnerKey: testCase.badgeKey,
+          acquired: true,
+        });
         await databaseBuilder.commit();
 
         // when

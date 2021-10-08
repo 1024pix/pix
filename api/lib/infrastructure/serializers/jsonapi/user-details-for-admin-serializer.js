@@ -2,19 +2,34 @@ const { Serializer } = require('jsonapi-serializer');
 const UserDetailsForAdmin = require('../../../domain/models/UserDetailsForAdmin');
 
 module.exports = {
-
   serialize(usersDetailsForAdmin) {
     return new Serializer('user', {
       attributes: [
-        'firstName', 'lastName', 'email', 'username', 'cgu',
-        'pixOrgaTermsOfServiceAccepted', 'pixCertifTermsOfServiceAccepted',
-        'schoolingRegistrations', 'authenticationMethods',
+        'firstName',
+        'lastName',
+        'email',
+        'username',
+        'cgu',
+        'pixOrgaTermsOfServiceAccepted',
+        'pixCertifTermsOfServiceAccepted',
+        'schoolingRegistrations',
+        'authenticationMethods',
       ],
       schoolingRegistrations: {
         ref: 'id',
         includes: true,
-        attributes: ['firstName', 'lastName', 'birthdate', 'division', 'organizationId', 'organizationExternalId',
-          'organizationName', 'createdAt', 'updatedAt', 'isDisabled'],
+        attributes: [
+          'firstName',
+          'lastName',
+          'birthdate',
+          'division',
+          'organizationId',
+          'organizationExternalId',
+          'organizationName',
+          'createdAt',
+          'updatedAt',
+          'isDisabled',
+        ],
       },
       authenticationMethods: {
         ref: 'id',

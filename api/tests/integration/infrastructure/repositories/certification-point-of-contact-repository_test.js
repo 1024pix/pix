@@ -3,11 +3,9 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const certificationPointOfContactRepository = require('../../../../lib/infrastructure/repositories/certification-point-of-contact-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | CertificationPointOfContact', function() {
-
-  describe('#get', function() {
-
-    it('should throw NotFoundError when point of contact does not exist', async function() {
+describe('Integration | Repository | CertificationPointOfContact', function () {
+  describe('#get', function () {
+    it('should throw NotFoundError when point of contact does not exist', async function () {
       // given
       databaseBuilder.factory.buildUser({ userId: 123 });
       databaseBuilder.factory.buildCertificationCenter({ id: 456 });
@@ -21,10 +19,10 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
 
       // then
       expect(error).to.be.instanceOf(NotFoundError);
-      expect(error.message).to.equal('Le référent de certification 123 n\'existe pas.');
+      expect(error.message).to.equal("Le référent de certification 123 n'existe pas.");
     });
 
-    it('should return a CertificationPointOfContact', async function() {
+    it('should return a CertificationPointOfContact', async function () {
       // given
       databaseBuilder.factory.buildCertificationCenter({
         id: 123,
@@ -69,7 +67,7 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
       expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
 
-    it('should return CertificationPointOfContact with isRelatedOrganizationManagingStudents as true when the certification center is related to an organization that manages students', async function() {
+    it('should return CertificationPointOfContact with isRelatedOrganizationManagingStudents as true when the certification center is related to an organization that manages students', async function () {
       // given
       databaseBuilder.factory.buildCertificationCenter({
         id: 123,
@@ -118,7 +116,7 @@ describe('Integration | Repository | CertificationPointOfContact', function() {
       expect(expectedCertificationPointOfContact).to.deepEqualInstance(certificationPointOfContact);
     });
 
-    it('should return all the AllowedCertificationCenterAccesses of the CertificationPointOfContact if user is linked to many certification centers', async function() {
+    it('should return all the AllowedCertificationCenterAccesses of the CertificationPointOfContact if user is linked to many certification centers', async function () {
       // given
       databaseBuilder.factory.buildCertificationCenter({
         id: 1,

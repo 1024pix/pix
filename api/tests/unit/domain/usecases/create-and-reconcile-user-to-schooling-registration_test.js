@@ -14,8 +14,7 @@ const {
 
 const usecases = require('../../../../lib/domain/usecases');
 
-describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration', function() {
-
+describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration', function () {
   const organizationId = 1;
   const schoolingRegistrationId = 1;
   const password = 'P@ssw0rd';
@@ -35,7 +34,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
   let userReconciliationService;
   let userService;
 
-  beforeEach(function() {
+  beforeEach(function () {
     campaignCode = 'ABCD12';
     userAttributes = {
       firstName: 'Joe',
@@ -43,15 +42,11 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       birthdate: '1992-02-02',
     };
 
-    authenticationMethodRepository = {
-
-    };
+    authenticationMethodRepository = {};
     campaignRepository = {
       getByCode: sinon.stub(),
     };
-    schoolingRegistrationRepository = {
-
-    };
+    schoolingRegistrationRepository = {};
     userRepository = {
       create: sinon.stub(),
       checkIfEmailIsAvailable: sinon.stub(),
@@ -87,9 +82,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
     userValidator.validate.returns();
   });
 
-  context('When there is no campaign with the given code', function() {
-
-    it('should throw a campaign code error', async function() {
+  context('When there is no campaign with the given code', function () {
+    it('should throw a campaign code error', async function () {
       // given
       campaignRepository.getByCode.withArgs(campaignCode).resolves(null);
 
@@ -115,12 +109,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
     });
   });
 
-  context('When no schoolingRegistration found', function() {
-
-    it('should throw a Not Found error', async function() {
+  context('When no schoolingRegistration found', function () {
+    it('should throw a Not Found error', async function () {
       // given
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser
-        .throws(new NotFoundError('Error message'));
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.throws(
+        new NotFoundError('Error message')
+      );
 
       // when
       const result = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
@@ -145,31 +139,29 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
     });
   });
 
-  context('When one schoolingRegistration matched on names', function() {
-
+  context('When one schoolingRegistration matched on names', function () {
     const encryptedPassword = 'P@ssw0rd3ncryp73d';
     let createdUser;
 
-    beforeEach(function() {
+    beforeEach(function () {
       createdUser = domainBuilder.buildUser();
 
-      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser
-        .resolves(schoolingRegistrationId);
+      userReconciliationService.findMatchingSchoolingRegistrationIdForGivenOrganizationIdAndUser.resolves(
+        schoolingRegistrationId
+      );
       encryptionService.hashPassword.resolves(encryptedPassword);
 
       userService.createAndReconcileUserToSchoolingRegistration.resolves(createdUser.id);
       userRepository.get.withArgs(createdUser.id).resolves(createdUser);
     });
 
-    context('When creation is with email', function() {
-
-      beforeEach(function() {
+    context('When creation is with email', function () {
+      beforeEach(function () {
         userAttributes.email = createdUser.email;
         userAttributes.withUsername = false;
       });
 
-      context('When fields are not valid', function() {
-
+      context('When fields are not valid', function () {
         const userInvalidAttribute = {
           attribute: 'firstName',
           message: 'Votre prénom n’est pas renseigné.',
@@ -179,19 +171,20 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           message: 'Votre mot de passe n’est pas renseigné.',
         };
 
-        it('should throw EntityValidationError', async function() {
+        it('should throw EntityValidationError', async function () {
           // given
-          userValidator.validate.throws(new EntityValidationError({
-            invalidAttributes: [userInvalidAttribute],
-          }));
-          passwordValidator.validate.throws(new EntityValidationError({
-            invalidAttributes: [passwordInvalidAttribute],
-          }));
+          userValidator.validate.throws(
+            new EntityValidationError({
+              invalidAttributes: [userInvalidAttribute],
+            })
+          );
+          passwordValidator.validate.throws(
+            new EntityValidationError({
+              invalidAttributes: [passwordInvalidAttribute],
+            })
+          );
 
-          const expectedInvalidAttributes = [
-            userInvalidAttribute,
-            passwordInvalidAttribute,
-          ];
+          const expectedInvalidAttributes = [userInvalidAttribute, passwordInvalidAttribute];
 
           // when
           const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
@@ -216,9 +209,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
         });
       });
 
-      context('When email is not available', function() {
-
-        it('should throw EntityValidationError', async function() {
+      context('When email is not available', function () {
+        it('should throw EntityValidationError', async function () {
           // given
           userRepository.checkIfEmailIsAvailable.rejects(new AlreadyRegisteredEmailError());
 
@@ -244,13 +236,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
         });
       });
 
-      context('When email is available', function() {
-
-        beforeEach(function() {
+      context('When email is available', function () {
+        beforeEach(function () {
           userRepository.get.resolves(createdUser);
         });
 
-        it('should create user and associate schoolingRegistration', async function() {
+        it('should create user and associate schoolingRegistration', async function () {
           // when
           const result = await usecases.createAndReconcileUserToSchoolingRegistration({
             campaignCode,
@@ -272,7 +263,7 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           expect(result).to.deep.equal(createdUser);
         });
 
-        it('should call mailService', async function() {
+        it('should call mailService', async function () {
           // given
           const expectedRedirectionUrl = `https://app.pix.fr/campagnes/${campaignCode}`;
 
@@ -297,15 +288,16 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           expect(mailService.sendAccountCreationEmail).to.have.been.calledWith(
             userAttributes.email,
             locale,
-            expectedRedirectionUrl,
+            expectedRedirectionUrl
           );
         });
 
-        context('But association is already done', function() {
-
-          it('should nor create nor associate schoolingRegistration', async function() {
+        context('But association is already done', function () {
+          it('should nor create nor associate schoolingRegistration', async function () {
             // given
-            userService.createAndReconcileUserToSchoolingRegistration.throws(new SchoolingRegistrationAlreadyLinkedToUserError());
+            userService.createAndReconcileUserToSchoolingRegistration.throws(
+              new SchoolingRegistrationAlreadyLinkedToUserError()
+            );
 
             // when
             const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({
@@ -331,16 +323,14 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
       });
     });
 
-    context('When creation is with username', function() {
-
-      beforeEach(function() {
+    context('When creation is with username', function () {
+      beforeEach(function () {
         userAttributes.username = 'joepoe';
         userAttributes.withUsername = true;
       });
 
-      context('When username is not available', function() {
-
-        it('should throw EntityValidationError', async function() {
+      context('When username is not available', function () {
+        it('should throw EntityValidationError', async function () {
           // given
           userRepository.isUsernameAvailable.rejects(new AlreadyRegisteredUsernameError());
 
@@ -366,9 +356,8 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
         });
       });
 
-      context('When username is available', function() {
-
-        it('should create user and associate schoolingRegistration', async function() {
+      context('When username is available', function () {
+        it('should create user and associate schoolingRegistration', async function () {
           // when
           const result = await usecases.createAndReconcileUserToSchoolingRegistration({
             campaignCode,
@@ -390,11 +379,12 @@ describe('Unit | UseCase | create-and-reconcile-user-to-schooling-registration',
           expect(result).to.deep.equal(createdUser);
         });
 
-        context('But association is already done', function() {
-
-          it('should nor create nor associate schoolingRegistration', async function() {
+        context('But association is already done', function () {
+          it('should nor create nor associate schoolingRegistration', async function () {
             // given
-            userService.createAndReconcileUserToSchoolingRegistration.throws(new SchoolingRegistrationAlreadyLinkedToUserError());
+            userService.createAndReconcileUserToSchoolingRegistration.throws(
+              new SchoolingRegistrationAlreadyLinkedToUserError()
+            );
 
             // when
             const error = await catchErr(usecases.createAndReconcileUserToSchoolingRegistration)({

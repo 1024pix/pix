@@ -1,12 +1,11 @@
 const CertificationResult = require('../../../../lib/domain/models/CertificationResult');
 const { expect, domainBuilder } = require('../../../test-helper');
 
-describe('Unit | Domain | Models | CertificationResult', function() {
-
-  context('#static from', function() {
+describe('Unit | Domain | Models | CertificationResult', function () {
+  context('#static from', function () {
     let certificationResultData;
 
-    beforeEach(function() {
+    beforeEach(function () {
       certificationResultData = {
         id: 123,
         firstName: 'Buffy',
@@ -28,11 +27,21 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         commentForJury: 'Un commentaire jury 1',
         commentForOrganization: 'Un commentaire orga 1',
         juryId: 159,
-        competenceMarks: [{ 'id': 123, 'score': 10, 'level': 4, 'area_code': 2, 'competence_code': '2.3', 'assessmentResultId': 753, 'competenceId': 'recComp23' }],
+        competenceMarks: [
+          {
+            id: 123,
+            score: 10,
+            level: 4,
+            area_code: 2,
+            competence_code: '2.3',
+            assessmentResultId: 753,
+            competenceId: 'recComp23',
+          },
+        ],
       };
     });
 
-    it('should build a CertificationResult from various arguments', function() {
+    it('should build a CertificationResult from various arguments', function () {
       // given
       const certificationResultDTO = {
         ...certificationResultData,
@@ -41,8 +50,10 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       };
       const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
 
       // when
       const certificationResult = CertificationResult.from({
@@ -80,35 +91,56 @@ describe('Unit | Domain | Models | CertificationResult', function() {
         pixPlusDroitMaitreCertificationResult,
         pixPlusDroitExpertCertificationResult,
         certificationIssueReports,
-        competencesWithMark: [domainBuilder.buildCompetenceMark({
-          id: 123,
-          level: 4,
-          score: 10,
-          area_code: '2',
-          competence_code: '2.3',
-          competenceId: 'recComp23',
-          assessmentResultId: 753,
-        })],
+        competencesWithMark: [
+          domainBuilder.buildCompetenceMark({
+            id: 123,
+            level: 4,
+            score: 10,
+            area_code: '2',
+            competence_code: '2.3',
+            competenceId: 'recComp23',
+            assessmentResultId: 753,
+          }),
+        ],
       });
       expect(certificationResult).to.deepEqualInstance(expectedCertificationResult);
     });
 
-    context('status', function() {
-
+    context('status', function () {
       // eslint-disable-next-line mocha/no-setup-in-describe
       [
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        { statusName: 'cancelled', isCancelled: true, assessmentResultStatus: CertificationResult.status.VALIDATED, validationFunction: 'isCancelled' },
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        { statusName: 'validated', isCancelled: false, assessmentResultStatus: CertificationResult.status.VALIDATED, validationFunction: 'isValidated' },
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        { statusName: 'rejected', isCancelled: false, assessmentResultStatus: CertificationResult.status.REJECTED, validationFunction: 'isRejected' },
-        // eslint-disable-next-line mocha/no-setup-in-describe
-        { statusName: 'error', isCancelled: false, assessmentResultStatus: CertificationResult.status.ERROR, validationFunction: 'isInError' },
+        {
+          statusName: 'cancelled',
+          isCancelled: true,
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          assessmentResultStatus: CertificationResult.status.VALIDATED,
+          validationFunction: 'isCancelled',
+        },
+        {
+          statusName: 'validated',
+          isCancelled: false,
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          assessmentResultStatus: CertificationResult.status.VALIDATED,
+          validationFunction: 'isValidated',
+        },
+        {
+          statusName: 'rejected',
+          isCancelled: false,
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          assessmentResultStatus: CertificationResult.status.REJECTED,
+          validationFunction: 'isRejected',
+        },
+        {
+          statusName: 'error',
+          isCancelled: false,
+          // eslint-disable-next-line mocha/no-setup-in-describe
+          assessmentResultStatus: CertificationResult.status.ERROR,
+          validationFunction: 'isInError',
+        },
         // eslint-disable-next-line mocha/no-setup-in-describe
         { statusName: 'started', isCancelled: false, assessmentResultStatus: null, validationFunction: 'isStarted' },
-      ].forEach(function(testCase) {
-        it(`should build a ${testCase.statusName} CertificationResult`, async function() {
+      ].forEach(function (testCase) {
+        it(`should build a ${testCase.statusName} CertificationResult`, async function () {
           // given
           const certificationResultDTO = {
             ...certificationResultData,
@@ -117,8 +149,10 @@ describe('Unit | Domain | Models | CertificationResult', function() {
           };
           const certificationIssueReports = [domainBuilder.buildCertificationIssueReport()];
           const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
-          const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-          const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+          const pixPlusDroitMaitreCertificationResult =
+            domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+          const pixPlusDroitExpertCertificationResult =
+            domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
 
           // when
           const certificationResult = CertificationResult.from({
@@ -136,9 +170,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#isCancelled', function() {
-
-    it('returns true if status is "cancelled"', function() {
+  context('#isCancelled', function () {
+    it('returns true if status is "cancelled"', function () {
       // given
       const cancelledCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.CANCELLED,
@@ -158,8 +191,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       { statusName: 'error', status: CertificationResult.status.ERROR },
       // eslint-disable-next-line mocha/no-setup-in-describe
       { statusName: 'started', status: CertificationResult.status.STARTED },
-    ].forEach(function(testCase) {
-      it(`should return false when status is ${testCase.statusName}`, async function() {
+    ].forEach(function (testCase) {
+      it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
         const notCancelledCertificationResult = domainBuilder.buildCertificationResult({
           status: testCase.status,
@@ -174,9 +207,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#isValidated', function() {
-
-    it('returns true if status is "validated"', function() {
+  context('#isValidated', function () {
+    it('returns true if status is "validated"', function () {
       // given
       const validatedCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.VALIDATED,
@@ -199,8 +231,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       { statusName: 'error', status: CertificationResult.status.ERROR },
       // eslint-disable-next-line mocha/no-setup-in-describe
       { statusName: 'started', status: CertificationResult.status.STARTED },
-    ].forEach(function(testCase) {
-      it(`should return false when status is ${testCase.statusName}`, async function() {
+    ].forEach(function (testCase) {
+      it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
         const notValidatedCertificationResult = domainBuilder.buildCertificationResult({
           status: testCase.status,
@@ -215,9 +247,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#isRejected', function() {
-
-    it('returns true if status is "rejected"', function() {
+  context('#isRejected', function () {
+    it('returns true if status is "rejected"', function () {
       // given
       const rejectedCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.REJECTED,
@@ -240,8 +271,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       { statusName: 'error', status: CertificationResult.status.ERROR },
       // eslint-disable-next-line mocha/no-setup-in-describe
       { statusName: 'started', status: CertificationResult.status.STARTED },
-    ].forEach(function(testCase) {
-      it(`should return false when status is ${testCase.statusName}`, async function() {
+    ].forEach(function (testCase) {
+      it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
         const notRejectedCertificationResult = domainBuilder.buildCertificationResult({
           status: testCase.status,
@@ -256,9 +287,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#isInError', function() {
-
-    it('returns true if status is "error"', function() {
+  context('#isInError', function () {
+    it('returns true if status is "error"', function () {
       // given
       const errorCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.ERROR,
@@ -281,8 +311,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       { statusName: 'rejected', status: CertificationResult.status.REJECTED },
       // eslint-disable-next-line mocha/no-setup-in-describe
       { statusName: 'started', status: CertificationResult.status.STARTED },
-    ].forEach(function(testCase) {
-      it(`should return false when status is ${testCase.statusName}`, async function() {
+    ].forEach(function (testCase) {
+      it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
         const notInErrorCertificationResult = domainBuilder.buildCertificationResult({
           status: testCase.status,
@@ -297,9 +327,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#isStarted', function() {
-
-    it('returns true if status is "started"', function() {
+  context('#isStarted', function () {
+    it('returns true if status is "started"', function () {
       // given
       const startedCertificationResult = domainBuilder.buildCertificationResult({
         status: CertificationResult.status.STARTED,
@@ -322,8 +351,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       { statusName: 'rejected', status: CertificationResult.status.REJECTED },
       // eslint-disable-next-line mocha/no-setup-in-describe
       { statusName: 'error', status: CertificationResult.status.ERROR },
-    ].forEach(function(testCase) {
-      it(`should return false when status is ${testCase.statusName}`, async function() {
+    ].forEach(function (testCase) {
+      it(`should return false when status is ${testCase.statusName}`, async function () {
         // given
         const notStartedCertificationResult = domainBuilder.buildCertificationResult({
           status: testCase.status,
@@ -338,9 +367,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#hasTakenClea', function() {
-
-    it('returns true when Clea certification has been taken in the certification', async function() {
+  context('#hasTakenClea', function () {
+    it('returns true when Clea certification has been taken in the certification', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
@@ -352,7 +380,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       expect(hasTakenClea).to.be.true;
     });
 
-    it('returns false when Clea certification has not been taken in the certification', async function() {
+    it('returns false when Clea certification has not been taken in the certification', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.notTaken();
       const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
@@ -365,9 +393,8 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#hasAcquiredClea', function() {
-
-    it('returns true when Clea certification has been acquired', async function() {
+  context('#hasAcquiredClea', function () {
+    it('returns true when Clea certification has been acquired', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
       const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
@@ -379,7 +406,7 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       expect(hasAcquiredClea).to.be.true;
     });
 
-    it('returns false when Clea certification has not been acquired', async function() {
+    it('returns false when Clea certification has not been acquired', async function () {
       // given
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.rejected();
       const certificationResult = domainBuilder.buildCertificationResult({ cleaCertificationResult });
@@ -392,11 +419,11 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#hasTakenPixPlusDroitMaitre', function() {
-
-    it('returns true when Pix plus maitre certification has been taken in the certification', async function() {
+  context('#hasTakenPixPlusDroitMaitre', function () {
+    it('returns true when Pix plus maitre certification has been taken in the certification', async function () {
       // given
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
@@ -406,9 +433,10 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       expect(hasTakenPixPlusDroitMaitre).to.be.true;
     });
 
-    it('returns false when Pix plus maitre certification has not been taken in the certification', async function() {
+    it('returns false when Pix plus maitre certification has not been taken in the certification', async function () {
       // given
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.notTaken();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
@@ -419,11 +447,11 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#hasAcquiredPixPlusDroitMaitre', function() {
-
-    it('returns true when Pix plus maitre certification has been acquired', async function() {
+  context('#hasAcquiredPixPlusDroitMaitre', function () {
+    it('returns true when Pix plus maitre certification has been acquired', async function () {
       // given
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.acquired();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
@@ -433,9 +461,10 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       expect(hasAcquiredPixPlusDroitMaitre).to.be.true;
     });
 
-    it('returns false when Pix plus maitre certification has not been acquired', async function() {
+    it('returns false when Pix plus maitre certification has not been acquired', async function () {
       // given
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitMaitreCertificationResult });
 
       // when
@@ -446,11 +475,11 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#hasTakenPixPlusDroitExpert', function() {
-
-    it('returns true when Pix plus droit expert certification has been taken in the certification', async function() {
+  context('#hasTakenPixPlusDroitExpert', function () {
+    it('returns true when Pix plus droit expert certification has been taken in the certification', async function () {
       // given
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
@@ -460,9 +489,10 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       expect(hasTakenPixPlusDroitExpert).to.be.true;
     });
 
-    it('returns false when Pix plus droit expert certification has not been taken in the certification', async function() {
+    it('returns false when Pix plus droit expert certification has not been taken in the certification', async function () {
       // given
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
@@ -473,11 +503,11 @@ describe('Unit | Domain | Models | CertificationResult', function() {
     });
   });
 
-  context('#hasAcquiredPixPlusDroitExpert', function() {
-
-    it('returns true when Pix plus droit expert certification has been acquired', async function() {
+  context('#hasAcquiredPixPlusDroitExpert', function () {
+    it('returns true when Pix plus droit expert certification has been acquired', async function () {
       // given
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.acquired();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when
@@ -487,9 +517,10 @@ describe('Unit | Domain | Models | CertificationResult', function() {
       expect(hasAcquiredPixPlusDroitExpert).to.be.true;
     });
 
-    it('returns false when Pix plus droit expert certification has not been acquired', async function() {
+    it('returns false when Pix plus droit expert certification has not been acquired', async function () {
       // given
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.rejected();
       const certificationResult = domainBuilder.buildCertificationResult({ pixPlusDroitExpertCertificationResult });
 
       // when

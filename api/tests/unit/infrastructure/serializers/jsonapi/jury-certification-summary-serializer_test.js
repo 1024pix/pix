@@ -2,22 +2,22 @@ const { expect, domainBuilder } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/jury-certification-summary-serializer');
 const JuryCertificationSummary = require('../../../../../lib/domain/read-models/JuryCertificationSummary');
 
-describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function() {
-
-  describe('#serialize()', function() {
-
+describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', function () {
+  describe('#serialize()', function () {
     let modelJuryCertifSummary;
     let expectedJsonApi;
 
-    beforeEach(function() {
+    beforeEach(function () {
       const issueReport = domainBuilder.buildCertificationIssueReport.impactful({
         certificationCourseId: 1,
         description: 'someComment',
         resolvedAt: null,
       });
       const cleaCertificationResult = domainBuilder.buildCleaCertificationResult.acquired();
-      const pixPlusDroitMaitreCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
-      const pixPlusDroitExpertCertificationResult = domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
+      const pixPlusDroitMaitreCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.maitre.rejected();
+      const pixPlusDroitExpertCertificationResult =
+        domainBuilder.buildPixPlusDroitCertificationResult.expert.notTaken();
       modelJuryCertifSummary = new JuryCertificationSummary({
         id: 1,
         firstName: 'someFirstName',
@@ -42,7 +42,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
           attributes: {
             'first-name': modelJuryCertifSummary.firstName,
             'last-name': modelJuryCertifSummary.lastName,
-            'status': modelJuryCertifSummary.status,
+            status: modelJuryCertifSummary.status,
             'pix-score': modelJuryCertifSummary.pixScore,
             'created-at': modelJuryCertifSummary.createdAt,
             'completed-at': modelJuryCertifSummary.completedAt,
@@ -60,7 +60,7 @@ describe('Unit | Serializer | JSONAPI | jury-certification-summary-serializer', 
       };
     });
 
-    it('should convert a JuryCertificationSummary model object into JSON API data', function() {
+    it('should convert a JuryCertificationSummary model object into JSON API data', function () {
       // when
       const json = serializer.serialize(modelJuryCertifSummary);
 

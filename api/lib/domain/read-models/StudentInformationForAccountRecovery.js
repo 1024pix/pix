@@ -1,12 +1,5 @@
 class StudentInformationForAccountRecovery {
-  constructor(
-    {
-      firstName,
-      lastName,
-      username,
-      email,
-      latestOrganizationName,
-    } = {}) {
+  constructor({ firstName, lastName, username, email, latestOrganizationName } = {}) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.username = username;

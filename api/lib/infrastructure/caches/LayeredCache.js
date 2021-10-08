@@ -1,7 +1,6 @@
 const Cache = require('./Cache');
 
 class LayeredCache extends Cache {
-
   constructor(firstLevelCache, secondLevelCache) {
     super();
     this._firstLevelCache = firstLevelCache;
@@ -24,7 +23,6 @@ class LayeredCache extends Cache {
     await this._firstLevelCache.flushAll();
     return this._secondLevelCache.flushAll();
   }
-
 }
 
 module.exports = LayeredCache;

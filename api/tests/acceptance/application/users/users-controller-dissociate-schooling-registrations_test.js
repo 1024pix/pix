@@ -7,13 +7,12 @@ const {
 
 const createServer = require('../../../../server');
 
-describe('Acceptance | Controller | users-controller-dissociate-schooling-registrations-by-user', function() {
-
+describe('Acceptance | Controller | users-controller-dissociate-schooling-registrations-by-user', function () {
   let server;
   let user;
   let options;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser({ samlId: null });
     const pixMaster = await insertUserWithRolePixMaster();
@@ -26,9 +25,8 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
     await databaseBuilder.commit();
   });
 
-  describe('PATCH /admin/users/:id/dissociate', function() {
-
-    it('should return 200', async function() {
+  describe('PATCH /admin/users/:id/dissociate', function () {
+    it('should return 200', async function () {
       // when
       const response = await server.inject(options);
 
@@ -36,7 +34,7 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
       expect(response.statusCode).to.equal(200);
     });
 
-    it('should dissociate and return updated user', async function() {
+    it('should dissociate and return updated user', async function () {
       // given
       const expectedUpdatedUserDetailsForAdmin = {
         type: 'users',
@@ -44,18 +42,18 @@ describe('Acceptance | Controller | users-controller-dissociate-schooling-regist
         attributes: {
           'first-name': user.firstName,
           'last-name': user.lastName,
-          'email': user.email,
-          'username': user.username,
-          'cgu': user.cgu,
+          email: user.email,
+          username: user.username,
+          cgu: user.cgu,
           'pix-orga-terms-of-service-accepted': user.pixOrgaTermsOfServiceAccepted,
           'pix-certif-terms-of-service-accepted': user.pixCertifTermsOfServiceAccepted,
         },
-        'relationships': {
+        relationships: {
           'schooling-registrations': {
-            'data': [],
+            data: [],
           },
           'authentication-methods': {
-            'data': [],
+            data: [],
           },
         },
       };

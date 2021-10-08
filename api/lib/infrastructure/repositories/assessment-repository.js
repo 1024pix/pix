@@ -7,20 +7,19 @@ const { NotFoundError } = require('../../domain/errors');
 const { knex } = require('../bookshelf');
 
 module.exports = {
-
   async getWithAnswersAndCampaignParticipation(id) {
-    const bookshelfAssessment = await BookshelfAssessment
-      .where('id', id)
-      .fetch({
-        require: false,
-        withRelated: [
-          {
-            answers: function(query) {
-              query.orderBy('createdAt', 'ASC');
-            },
-          }, 'campaignParticipation', 'campaignParticipation.campaign',
-        ],
-      });
+    const bookshelfAssessment = await BookshelfAssessment.where('id', id).fetch({
+      require: false,
+      withRelated: [
+        {
+          answers: function (query) {
+            query.orderBy('createdAt', 'ASC');
+          },
+        },
+        'campaignParticipation',
+        'campaignParticipation.campaign',
+      ],
+    });
 
     const assessment = bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
     if (assessment) assessment.answers = _.uniqBy(assessment.answers, 'challengeId');
@@ -29,26 +28,25 @@ module.exports = {
 
   async get(id, domainTransaction = DomainTransaction.emptyTransaction()) {
     try {
-      const bookshelfAssessment = await BookshelfAssessment
-        .where({ id })
-        .fetch({ transacting: domainTransaction.knexTransaction });
+      const bookshelfAssessment = await BookshelfAssessment.where({ id }).fetch({
+        transacting: domainTransaction.knexTransaction,
+      });
 
       return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, bookshelfAssessment);
     } catch (err) {
       if (err instanceof BookshelfAssessment.NotFoundError) {
-        throw new NotFoundError('L\'assessment n\'existe pas ou son accès est restreint');
+        throw new NotFoundError("L'assessment n'existe pas ou son accès est restreint");
       }
       throw err;
     }
   },
 
   findLastCompletedAssessmentsForEachCompetenceByUser(userId, limitDate) {
-    return BookshelfAssessment
-      .collection()
+    return BookshelfAssessment.collection()
       .query((qb) => {
         qb.join('assessment-results', 'assessment-results.assessmentId', 'assessments.id');
         qb.where({ userId })
-          .where(function() {
+          .where(function () {
             this.where({ type: 'PLACEMENT' });
           })
           .where('assessments.createdAt', '<', limitDate)
@@ -63,8 +61,7 @@ module.exports = {
   },
 
   getByAssessmentIdAndUserId(assessmentId, userId) {
-    return BookshelfAssessment
-      .query({ where: { id: assessmentId }, andWhere: { userId } })
+    return BookshelfAssessment.query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch()
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment))
       .catch((error) => {
@@ -77,15 +74,21 @@ module.exports = {
   },
 
   save({ assessment, domainTransaction = DomainTransaction.emptyTransaction() }) {
-    return assessment.validate()
+    return assessment
+      .validate()
       .then(() => new BookshelfAssessment(_adaptModelToDb(assessment)))
       .then((bookshelfAssessment) => bookshelfAssessment.save(null, { transacting: domainTransaction.knexTransaction }))
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
-  getLatestByCampaignParticipationId(campaignParticipationId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return BookshelfAssessment
-      .where({ 'campaign-participations.id': campaignParticipationId, 'assessments.type': 'CAMPAIGN' })
+  getLatestByCampaignParticipationId(
+    campaignParticipationId,
+    domainTransaction = DomainTransaction.emptyTransaction()
+  ) {
+    return BookshelfAssessment.where({
+      'campaign-participations.id': campaignParticipationId,
+      'assessments.type': 'CAMPAIGN',
+    })
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
       })
@@ -95,23 +98,28 @@ module.exports = {
   },
 
   findNotAbortedCampaignAssessmentsByUserId(userId) {
-    return BookshelfAssessment
-      .where({ userId, type: 'CAMPAIGN' })
+    return BookshelfAssessment.where({ userId, type: 'CAMPAIGN' })
       .where('state', '!=', 'aborted')
       .fetchAll()
       .then((assessments) => bookshelfToDomainConverter.buildDomainObjects(BookshelfAssessment, assessments));
   },
 
   findLastCampaignAssessmentByUserIdAndCampaignCode({ userId, campaignCode, includeCampaign = false }) {
-    return BookshelfAssessment
-      .where({ 'assessments.userId': userId, 'assessments.type': 'CAMPAIGN', 'campaigns.code': campaignCode })
+    return BookshelfAssessment.where({
+      'assessments.userId': userId,
+      'assessments.type': 'CAMPAIGN',
+      'campaigns.code': campaignCode,
+    })
       .query((qb) => {
         qb.innerJoin('campaign-participations', 'campaign-participations.id', 'assessments.campaignParticipationId');
         qb.innerJoin('campaigns', 'campaign-participations.campaignId', 'campaigns.id');
         qb.where('campaign-participations.isImproved', false);
       })
       .orderBy('createdAt', 'desc')
-      .fetch({ require: false, withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [] })
+      .fetch({
+        require: false,
+        withRelated: includeCampaign ? ['campaignParticipation', 'campaignParticipation.campaign'] : [],
+      })
       .then((assessment) => bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment));
   },
 
@@ -120,14 +128,14 @@ module.exports = {
   },
 
   completeByAssessmentId(assessmentId, domainTransaction = DomainTransaction.emptyTransaction()) {
-    return this._updateStateById({ id: assessmentId, state: Assessment.states.COMPLETED }, domainTransaction.knexTransaction);
+    return this._updateStateById(
+      { id: assessmentId, state: Assessment.states.COMPLETED },
+      domainTransaction.knexTransaction
+    );
   },
 
   async ownedByUser({ id, userId = null }) {
-    const assessment = await knex('assessments')
-      .select('userId')
-      .where({ id })
-      .first();
+    const assessment = await knex('assessments').select('userId').where({ id }).first();
 
     if (!assessment) {
       return false;
@@ -137,17 +145,19 @@ module.exports = {
   },
 
   async _updateStateById({ id, state }, knexTransaction) {
-    const assessment = await BookshelfAssessment
-      .where({ id })
-      .save({ state }, { require: true, patch: true, transacting: knexTransaction });
+    const assessment = await BookshelfAssessment.where({ id }).save(
+      { state },
+      { require: true, patch: true, transacting: knexTransaction }
+    );
     return bookshelfToDomainConverter.buildDomainObject(BookshelfAssessment, assessment);
   },
 
   async updateLastQuestionDate({ id, lastQuestionDate }) {
     try {
-      await BookshelfAssessment
-        .where({ id })
-        .save({ lastQuestionDate }, { require: true, patch: true, method: 'update' });
+      await BookshelfAssessment.where({ id }).save(
+        { lastQuestionDate },
+        { require: true, patch: true, method: 'update' }
+      );
     } catch (err) {
       if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;
@@ -158,9 +168,10 @@ module.exports = {
 
   async updateWhenNewChallengeIsAsked({ id, lastChallengeId }) {
     try {
-      await BookshelfAssessment
-        .where({ id })
-        .save({ lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED }, { require: true, patch: true, method: 'update' });
+      await BookshelfAssessment.where({ id }).save(
+        { lastChallengeId, lastQuestionState: Assessment.statesOfLastQuestion.ASKED },
+        { require: true, patch: true, method: 'update' }
+      );
     } catch (err) {
       if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;
@@ -171,9 +182,10 @@ module.exports = {
 
   async updateLastQuestionState({ id, lastQuestionState }) {
     try {
-      await BookshelfAssessment
-        .where({ id })
-        .save({ lastQuestionState }, { require: true, patch: true, method: 'update' });
+      await BookshelfAssessment.where({ id }).save(
+        { lastQuestionState },
+        { require: true, patch: true, method: 'update' }
+      );
     } catch (err) {
       if (err instanceof BookshelfAssessment.NoRowsUpdatedError) {
         return null;
@@ -181,12 +193,12 @@ module.exports = {
       throw err;
     }
   },
-
 };
 
 function _selectLastAssessmentForEachCompetence(bookshelfAssessments) {
-  const assessmentsGroupedByCompetence = groupBy(bookshelfAssessments,
-    (bookshelfAssessment) => bookshelfAssessment.get('competenceId'));
+  const assessmentsGroupedByCompetence = groupBy(bookshelfAssessments, (bookshelfAssessment) =>
+    bookshelfAssessment.get('competenceId')
+  );
   return map(assessmentsGroupedByCompetence, head);
 }
 

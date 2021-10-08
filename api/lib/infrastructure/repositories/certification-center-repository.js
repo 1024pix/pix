@@ -10,13 +10,7 @@ function _toDomain(bookshelfCertificationCenter) {
     return new Accreditation({ id: dbAccreditation.id, name: dbAccreditation.name });
   });
   return new CertificationCenter({
-    ..._.pick(dbCertificationCenter, [
-      'id',
-      'name',
-      'type',
-      'externalId',
-      'createdAt',
-    ]),
+    ..._.pick(dbCertificationCenter, ['id', 'name', 'type', 'externalId', 'createdAt']),
     accreditations,
   });
 }
@@ -39,16 +33,17 @@ function _setSearchFiltersForQueryBuilder(filters, qb) {
 }
 
 module.exports = {
-
   async get(id) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter
-      .where({ id })
-      .fetch({
-        require: false,
-        withRelated: [
-          { accreditations: function(query) { query.orderBy('id'); } },
-        ],
-      });
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ id }).fetch({
+      require: false,
+      withRelated: [
+        {
+          accreditations: function (query) {
+            query.orderBy('id');
+          },
+        },
+      ],
+    });
 
     if (certificationCenterBookshelf) {
       return _toDomain(certificationCenterBookshelf);
@@ -57,15 +52,18 @@ module.exports = {
   },
 
   async getBySessionId(sessionId) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter
-      .where({ 'sessions.id': sessionId })
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ 'sessions.id': sessionId })
       .query((qb) => {
         qb.innerJoin('sessions', 'sessions.certificationCenterId', 'certification-centers.id');
       })
       .fetch({
         require: false,
         withRelated: [
-          { accreditations: function(query) { query.orderBy('id'); } },
+          {
+            accreditations: function (query) {
+              query.orderBy('id');
+            },
+          },
         ],
       });
 
@@ -77,35 +75,40 @@ module.exports = {
 
   async save(certificationCenter) {
     const cleanedCertificationCenter = _.omit(certificationCenter, ['createdAt', 'accreditations']);
-    const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter)
-      .save();
+    const certificationCenterBookshelf = await new BookshelfCertificationCenter(cleanedCertificationCenter).save();
     await certificationCenterBookshelf.related('accreditations').fetch();
     return _toDomain(certificationCenterBookshelf);
   },
 
   async findPaginatedFiltered({ filter, page }) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter
-      .query((qb) => _setSearchFiltersForQueryBuilder(filter, qb))
-      .fetchPage({
-        page: page.number,
-        pageSize: page.size,
-        withRelated: [
-          { accreditations: function(query) { query.orderBy('id'); } },
-        ],
-      });
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.query((qb) =>
+      _setSearchFiltersForQueryBuilder(filter, qb)
+    ).fetchPage({
+      page: page.number,
+      pageSize: page.size,
+      withRelated: [
+        {
+          accreditations: function (query) {
+            query.orderBy('id');
+          },
+        },
+      ],
+    });
     const { models, pagination } = certificationCenterBookshelf;
     return { models: models.map(_toDomain), pagination };
   },
 
   async findByExternalId({ externalId }) {
-    const certificationCenterBookshelf = await BookshelfCertificationCenter
-      .where({ externalId })
-      .fetch({
-        require: false,
-        withRelated: [
-          { accreditations: function(query) { query.orderBy('id'); } },
-        ],
-      });
+    const certificationCenterBookshelf = await BookshelfCertificationCenter.where({ externalId }).fetch({
+      require: false,
+      withRelated: [
+        {
+          accreditations: function (query) {
+            query.orderBy('id');
+          },
+        },
+      ],
+    });
 
     return certificationCenterBookshelf ? _toDomain(certificationCenterBookshelf) : null;
   },

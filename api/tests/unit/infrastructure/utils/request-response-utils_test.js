@@ -1,12 +1,14 @@
 const { expect, generateValidRequestAuthorizationHeader } = require('../../../test-helper');
-const { escapeFileName, extractUserIdFromRequest, extractLocaleFromRequest } = require('../../../../lib/infrastructure/utils/request-response-utils');
+const {
+  escapeFileName,
+  extractUserIdFromRequest,
+  extractLocaleFromRequest,
+} = require('../../../../lib/infrastructure/utils/request-response-utils');
 const { ENGLISH_SPOKEN, FRENCH_FRANCE, FRENCH_SPOKEN } = require('../../../../lib/domain/constants').LOCALE;
 
-describe('Unit | Utils | Request Utils', function() {
-
-  describe('#extractUserIdFromRequest', function() {
-
-    it('should extract the ID of user from request', function() {
+describe('Unit | Utils | Request Utils', function () {
+  describe('#extractUserIdFromRequest', function () {
+    it('should extract the ID of user from request', function () {
       // given
       const userId = 4;
       const request = {
@@ -19,7 +21,7 @@ describe('Unit | Utils | Request Utils', function() {
       expect(result).to.equal(userId);
     });
 
-    it('should return null when request does not have headers', function() {
+    it('should return null when request does not have headers', function () {
       // given
       const request = {};
       // when
@@ -28,12 +30,10 @@ describe('Unit | Utils | Request Utils', function() {
       // then
       expect(result).to.equal(null);
     });
-
   });
 
-  describe('#escapeFileName', function() {
-
-    it('should allow only a restricted set of characters', function() {
+  describe('#escapeFileName', function () {
+    it('should allow only a restricted set of characters', function () {
       // given
       const fileName = 'file-name with invalid_chars •’<>:"/\\|?*"\n.csv';
 
@@ -43,11 +43,10 @@ describe('Unit | Utils | Request Utils', function() {
       // then
       expect(escapedFileName).to.equal('file-name with invalid_chars _____________.csv');
     });
-
   });
 
-  describe('#extractLocaleFromRequest', function() {
-    it('should return fr-fr locale when there is no header (to ensure retro-compat)', function() {
+  describe('#extractLocaleFromRequest', function () {
+    it('should return fr-fr locale when there is no header (to ensure retro-compat)', function () {
       // given
       const request = {};
 
@@ -65,9 +64,8 @@ describe('Unit | Utils | Request Utils', function() {
       { header: 'en', expectedLocale: ENGLISH_SPOKEN },
       { header: 'de', expectedLocale: FRENCH_FRANCE },
       { header: 'fr-BE', expectedLocale: FRENCH_FRANCE },
-    ].forEach(function(data) {
-
-      it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function() {
+    ].forEach(function (data) {
+      it(`should return ${data.expectedLocale} locale when header is ${data.header}`, function () {
         // given
         const request = {
           headers: { 'accept-language': data.header },
@@ -80,6 +78,5 @@ describe('Unit | Utils | Request Utils', function() {
         expect(locale).to.equal(data.expectedLocale);
       });
     });
-
   });
 });

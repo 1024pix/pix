@@ -4,7 +4,6 @@ const skillsRepository = require('../lib/infrastructure/repositories/skill-repos
 const competencesRepository = require('../lib/infrastructure/repositories/competence-repository');
 
 async function findChallengesWithSkills() {
-
   const [challenges, skillsFromDb] = await _getReferentialData();
   const skills = _addLevelTubeAndLinkedSkillsToEachSkills(skillsFromDb);
 
@@ -16,22 +15,31 @@ async function findChallengesWithSkills() {
     const skillsInvalidatedIfChallengeIsFailed = _getInvalidatedSkills(skillsOfChallenges, skills);
 
     const knowledgeElementsValidatedDirect = _.map(skillsOfChallenges, (skill) => _createObjectValidatedDirect(skill));
-    const knowledgeElementsValidatedInferred = _.map(skillsValidatedIfChallengeIsSuccessful, (skill) => _createObjectValidatedInferred(skill));
+    const knowledgeElementsValidatedInferred = _.map(skillsValidatedIfChallengeIsSuccessful, (skill) =>
+      _createObjectValidatedInferred(skill)
+    );
 
-    const knowledgeElementsInvalidatedDirect = _.map(skillsOfChallenges, (skill) => _createObjectInvalidatedDirect(skill));
-    const knowledgeElementsInvalidatedInferred = _.map(skillsInvalidatedIfChallengeIsFailed, (skill) => _createObjectInvalidatedInferred(skill));
+    const knowledgeElementsInvalidatedDirect = _.map(skillsOfChallenges, (skill) =>
+      _createObjectInvalidatedDirect(skill)
+    );
+    const knowledgeElementsInvalidatedInferred = _.map(skillsInvalidatedIfChallengeIsFailed, (skill) =>
+      _createObjectInvalidatedInferred(skill)
+    );
 
-    knowledgeElementsToCreateForEachChallenges[challenge.id]['validated'] =
-      _.concat(knowledgeElementsValidatedDirect, knowledgeElementsValidatedInferred);
-    knowledgeElementsToCreateForEachChallenges[challenge.id]['invalidated'] =
-      _.concat(knowledgeElementsInvalidatedDirect, knowledgeElementsInvalidatedInferred);
+    knowledgeElementsToCreateForEachChallenges[challenge.id]['validated'] = _.concat(
+      knowledgeElementsValidatedDirect,
+      knowledgeElementsValidatedInferred
+    );
+    knowledgeElementsToCreateForEachChallenges[challenge.id]['invalidated'] = _.concat(
+      knowledgeElementsInvalidatedDirect,
+      knowledgeElementsInvalidatedInferred
+    );
   });
 
   return knowledgeElementsToCreateForEachChallenges;
 }
 
 async function _getReferentialData() {
-
   // Récupération des challenges qui ont des acquis
   let challenges = await challengeRepository.findValidated();
   challenges = _.filter(challenges, (c) => {
@@ -44,7 +52,7 @@ async function _getReferentialData() {
   let skills = await Promise.all(
     _.map(competences, (competence) => {
       return skillsRepository.findByCompetenceId(competence.id);
-    }),
+    })
   );
 
   skills = _.flatten(skills);
@@ -85,12 +93,7 @@ function _getValidatedSkills(skillsOfChallenges) {
 }
 
 function _getInvalidatedSkills(skillsOfChallenges) {
-  const skillsInvalidated =
-    _.intersectionBy(
-      _.flatMap(skillsOfChallenges, 'higherSkills'),
-      skillsOfChallenges,
-      'id',
-    );
+  const skillsInvalidated = _.intersectionBy(_.flatMap(skillsOfChallenges, 'higherSkills'), skillsOfChallenges, 'id');
   return skillsInvalidated;
 }
 

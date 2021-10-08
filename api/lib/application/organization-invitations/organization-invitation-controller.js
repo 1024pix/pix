@@ -7,7 +7,6 @@ const scoOrganizationInvitationSerializer = require('../../infrastructure/serial
 const { extractLocaleFromRequest } = require('../../infrastructure/utils/request-response-utils');
 
 module.exports = {
-
   async acceptOrganizationInvitation(request) {
     const organizationInvitationId = request.params.id;
     const { code, email } = request.payload.data.attributes;
@@ -17,12 +16,7 @@ module.exports = {
   },
 
   async sendScoInvitation(request, h) {
-
-    const {
-      'uai': uai,
-      'first-name': firstName,
-      'last-name': lastName,
-    } = request.payload.data.attributes;
+    const { uai: uai, 'first-name': firstName, 'last-name': lastName } = request.payload.data.attributes;
 
     const locale = extractLocaleFromRequest(request);
 
@@ -39,7 +33,10 @@ module.exports = {
       throw new MissingQueryParamError('code');
     }
 
-    const organizationInvitation = await usecases.getOrganizationInvitation({ organizationInvitationId, organizationInvitationCode });
+    const organizationInvitation = await usecases.getOrganizationInvitation({
+      organizationInvitationId,
+      organizationInvitationCode,
+    });
     return organizationInvitationSerializer.serialize(organizationInvitation);
   },
 };

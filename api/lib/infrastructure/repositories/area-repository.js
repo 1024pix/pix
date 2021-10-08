@@ -17,13 +17,14 @@ async function list() {
 }
 
 async function listWithPixCompetencesOnly() {
-  const areas = await Promise.all([list(), competenceRepository.listPixCompetencesOnly()])
-    .then(([areas, competences]) => {
+  const areas = await Promise.all([list(), competenceRepository.listPixCompetencesOnly()]).then(
+    ([areas, competences]) => {
       areas.forEach((area) => {
         area.competences = _.filter(competences, { area: { id: area.id } });
       });
       return areas;
-    });
+    }
+  );
   return _.filter(areas, ({ competences }) => !_.isEmpty(competences));
 }
 

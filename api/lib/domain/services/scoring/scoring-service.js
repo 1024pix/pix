@@ -1,13 +1,12 @@
-const {
-  PIX_COUNT_BY_LEVEL,
-  MAX_REACHABLE_LEVEL,
-  MAX_REACHABLE_PIX_BY_COMPETENCE,
-} = require('../../constants');
+const { PIX_COUNT_BY_LEVEL, MAX_REACHABLE_LEVEL, MAX_REACHABLE_PIX_BY_COMPETENCE } = require('../../constants');
 
 const _ = require('lodash');
 
-function calculateScoringInformationForCompetence({ knowledgeElements, allowExcessPix = false, allowExcessLevel = false }) {
-
+function calculateScoringInformationForCompetence({
+  knowledgeElements,
+  allowExcessPix = false,
+  allowExcessLevel = false,
+}) {
   const realTotalPixScoreForCompetence = _(knowledgeElements).sumBy('earnedPix');
   const pixScoreForCompetence = _getPixScoreForOneCompetence(realTotalPixScoreForCompetence, allowExcessPix);
   const currentLevel = _getCompetenceLevel(realTotalPixScoreForCompetence, allowExcessLevel);
@@ -50,7 +49,9 @@ function calculatePixScore(knowledgeElements) {
   return _(knowledgeElements)
     .groupBy('competenceId')
     .values()
-    .map((knowledgeElementsByCompetence) => calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence }))
+    .map((knowledgeElementsByCompetence) =>
+      calculateScoringInformationForCompetence({ knowledgeElements: knowledgeElementsByCompetence })
+    )
     .sumBy('pixScoreForCompetence');
 }
 
