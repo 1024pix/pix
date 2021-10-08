@@ -1,28 +1,22 @@
 <article
   class="rounded-panel rounded-panel--no-margin-bottom challenge-item
-    {{if this.hasFocusedOutOfChallenge "challenge-item--overlay"}}"
+    {{if this.hasFocusedOutOfChallenge "challenge-item--focused"}}"
   data-challenge-id="{{@challenge.id}}"
   {{on "mouseenter" this.hideOutOfFocusBorder}}
   {{on "mouseleave" this.showOutOfFocusBorder}}
 >
+  <ChallengeStatement @challenge={{@challenge}} @assessment={{@assessment}} />
 
-  <div class="challenge-item__container {{if this.hasFocusedOutOfChallenge "challenge-item__container--focused"}}">
-    <ChallengeStatement
-      @challenge={{@challenge}}
-      @assessment={{@assessment}}
-    />
-
-    {{component
-      (get-challenge-component-class @challenge)
-      challenge=@challenge
-      answer=@answer
-      assessment=@assessment
-      timeoutChallenge=@timeoutChallenge
-      resetChallengeInfo=@resetChallengeInfo
-      hasFocusedOutOfWindow=this.hasFocusedOutOfWindow
-      answerValidated=@answerValidated
-      resumeAssessment=@resumeAssessment
-      isFocusedChallenge=this.isFocusedChallenge
-    }}
-  </div>
+  {{component
+    (get-challenge-component-class @challenge)
+    challenge=@challenge
+    answer=@answer
+    assessment=@assessment
+    timeoutChallenge=@timeoutChallenge
+    resetChallengeInfo=@resetChallengeInfo
+    hasFocusedOutOfWindow=this.hasFocusedOutOfWindow
+    answerValidated=@answerValidated
+    resumeAssessment=@resumeAssessment
+    isFocusedChallenge=this.isFocusedChallenge
+  }}
 </article>
