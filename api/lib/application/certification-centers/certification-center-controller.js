@@ -12,7 +12,11 @@ const map = require('lodash/map');
 module.exports = {
   async create(request) {
     const certificationCenter = certificationCenterSerializer.deserialize(request.payload);
-    const createdCertificationCenter = await usecases.createCertificationCenter({ certificationCenter });
+    const accreditationIds = map(request.payload.data.relationships?.accreditations?.data, 'id');
+    const createdCertificationCenter = await usecases.createCertificationCenter({
+      certificationCenter,
+      accreditationIds,
+    });
     return certificationCenterSerializer.serialize(createdCertificationCenter);
   },
 
