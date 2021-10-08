@@ -18,6 +18,7 @@ const userSerializer = require('../../../../lib/infrastructure/serializers/jsona
 const userDetailsForAdminSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-details-for-admin-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const updateEmailSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/update-email-serializer');
+const authenticationMethodsSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/authentication-methods-serializer');
 
 const userController = require('../../../../lib/application/users/user-controller');
 
@@ -973,6 +974,40 @@ describe('Unit | Controller | user-controller', function () {
         code,
         userId,
       });
+      expect(response).to.deep.equal(responseSerialized);
+    });
+  });
+
+  describe('#getUserAuthenticationMethods', function () {
+    it('should call the usecase to find user authentication methods', async function () {
+      // given
+      const user = domainBuilder.buildUser();
+      const authenticationMethods = [
+        domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId: user.id }),
+      ];
+
+      const responseSerialized = Symbol('an response serialized');
+      sinon.stub(usecases, 'findUserAuthenticationMethods');
+      sinon.stub(authenticationMethodsSerializer, 'serialize');
+
+      usecases.findUserAuthenticationMethods.withArgs({ userId: user.id }).resolves(authenticationMethods);
+      authenticationMethodsSerializer.serialize.withArgs(authenticationMethods).returns(responseSerialized);
+
+      const request = {
+        auth: {
+          credentials: {
+            userId: user.id,
+          },
+        },
+        params: {
+          id: user.id,
+        },
+      };
+
+      // when
+      const response = await userController.getUserAuthenticationMethods(request);
+
+      // then
       expect(response).to.deep.equal(responseSerialized);
     });
   });
