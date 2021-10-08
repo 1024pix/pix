@@ -139,6 +139,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillCitation4 = _createChallenge(
     'challengeRecordIdOne',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceFlipper.id,
     [skillCitation4],
     '@citation4'
@@ -147,6 +148,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillCitation4AndMoteur3 = _createChallenge(
     'challengeRecordIdTwo',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceFlipper.id,
     [skillCitation4, skillMoteur3],
     '@citation4'
@@ -155,6 +157,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRecherche4 = _createChallenge(
     'challengeRecordIdFour',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceFlipper.id,
     [skillRecherche4],
     '@recherche4'
@@ -166,6 +169,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const anotherChallengeForSkillCitation4 = _createChallenge(
     'challengeRecordIdTen',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceFlipper.id,
     [skillCitation4],
     '@citation4'
@@ -174,16 +178,20 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillKoala1 = _createChallenge(
     'challengeRecordIdKoala1',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceKoala.id,
     [skillKoala1],
+    // eslint-disable-next-line mocha/no-setup-in-describe
     skillKoala1.name
   );
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillKoala2 = _createChallenge(
     'challengeRecordIdKoala2',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceKoala.id,
     [skillKoala2],
+    // eslint-disable-next-line mocha/no-setup-in-describe
     skillKoala2.name
   );
 
@@ -191,6 +199,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRemplir2 = _createChallenge(
     'challengeRecordIdFive',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceRemplir.id,
     [skillRemplir2],
     '@remplir2'
@@ -202,6 +211,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRemplir4 = _createChallenge(
     'challengeRecordIdSix',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceRemplir.id,
     [skillRemplir4],
     '@remplir4'
@@ -217,6 +227,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRequin5 = _createChallenge(
     'challengeRecordIdNine',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceRequin.id,
     [skillRequin5],
     '@requin5'
@@ -225,6 +236,7 @@ describe('Unit | Service | Certification Challenge Service', function () {
   // eslint-disable-next-line mocha/no-setup-in-describe
   const challengeForSkillRequin8 = _createChallenge(
     'challengeRecordIdTen',
+    // eslint-disable-next-line mocha/no-setup-in-describe
     competenceRequin.id,
     [skillRequin8],
     '@requin8'

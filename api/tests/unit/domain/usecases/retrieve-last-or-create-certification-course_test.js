@@ -40,7 +40,9 @@ describe('Unit | UseCase | retrieve-last-or-create-certification-course', functi
   // TODO: Fix this the next time the file is edited.
   // eslint-disable-next-line mocha/no-setup-in-describe
   const certificationChallengesService = {
+    // eslint-disable-next-line mocha/no-setup-in-describe
     pickCertificationChallengesForPixPlus: sinon.stub(),
+    // eslint-disable-next-line mocha/no-setup-in-describe
     pickCertificationChallenges: sinon.stub(),
   };
   const certificationCourseRepository = {
