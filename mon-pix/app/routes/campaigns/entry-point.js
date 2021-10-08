@@ -37,6 +37,6 @@ export default class EntryPoint extends Route {
       return this.replaceWith('campaigns.campaign-not-found', campaign);
     }
 
-    return this.replaceWith('campaigns.start-or-resume', campaign);
+    return this.replaceWith('campaigns.campaign-landing-page', campaign);
   }
 }

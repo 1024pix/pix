@@ -8,7 +8,6 @@ export default class CampaignLandingPageController extends Controller {
 
   @action
   startCampaignParticipation() {
-    this.campaignStorage.set(this.model.code, 'landingPageShown', true);
     return this.router.transitionTo('campaigns.start-or-resume', this.model.code);
   }
 }
