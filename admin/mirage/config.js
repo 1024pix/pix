@@ -272,4 +272,8 @@ export default function () {
 
     return new Response(200);
   });
+
+  this.get('/accreditations', (schema) => {
+    return schema.accreditations.all();
+  });
 }

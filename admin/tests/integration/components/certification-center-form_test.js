@@ -3,6 +3,8 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, fillIn } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import EmberObject from '@ember/object';
+import { A as EmberArray } from '@ember/array';
+import clickByLabel from '../../helpers/extended-ember-test-helpers/click-by-label';
 
 module('Integration | Component | certification-center-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -39,6 +41,50 @@ module('Integration | Component | certification-center-form', function (hooks) {
 
       // then
       assert.equal(this.certificationCenter.type, 'SCO');
+    });
+  });
+
+  module('#updateGrantedAccreditation', function () {
+    test('should add accreditation to certification center on checked checkbox', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const accreditation1 = store.createRecord('accreditation', { name: 'accreditation 1' });
+      const accreditation2 = store.createRecord('accreditation', { name: 'accreditation 2' });
+      this.certificationCenter = store.createRecord('certification-center');
+      this.accreditations = EmberArray([accreditation1, accreditation2]);
+      this.stub = () => {};
+
+      await render(
+        hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+      );
+
+      // when
+      await clickByLabel('accreditation 2');
+
+      // then
+      assert.ok(this.certificationCenter.accreditations.includes(accreditation2));
+    });
+
+    test('should remove accreditation to certification center on unchecked checkbox', async function (assert) {
+      // given
+      const store = this.owner.lookup('service:store');
+      const accreditation1 = store.createRecord('accreditation', { name: 'accreditation 1' });
+      const accreditation2 = store.createRecord('accreditation', { name: 'accreditation 2' });
+      this.certificationCenter = store.createRecord('certification-center', {
+        accreditations: [accreditation2],
+      });
+      this.accreditations = EmberArray([accreditation1, accreditation2]);
+      this.stub = () => {};
+
+      await render(
+        hbs`<CertificationCenterForm @certificationCenter={{this.certificationCenter}} @accreditations={{this.accreditations}} @onSubmit={{this.stub}} @onCancel={{this.stub}} />`
+      );
+
+      // when
+      await clickByLabel('accreditation 2');
+
+      // then
+      assert.notOk(this.certificationCenter.accreditations.includes(accreditation2));
     });
   });
 });
