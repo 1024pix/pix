@@ -13,6 +13,7 @@ module.exports = function buildAccountRecoveryDemand({
   temporaryKey = 'OWIxZGViNGQtM2I3ZC00YmFkLTliZGQtMmIwZDdiM2RjYjZk',
   used = false,
   createdAt = new Date(),
+  updatedAt = new Date(),
 } = {}) {
   let schoolingRegistrationAttributes;
   let user;
@@ -41,6 +42,7 @@ module.exports = function buildAccountRecoveryDemand({
     temporaryKey,
     used,
     createdAt,
+    updatedAt,
   };
 
   return databaseBuffer.pushInsertable({
