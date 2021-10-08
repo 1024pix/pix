@@ -18,7 +18,7 @@ export default class ChallengeController extends Controller {
   @tracked competenceLeveled = null;
   @tracked challengeTitle = defaultPageTitle;
   @tracked hasFocusedOutOfChallenge = false;
-  @tracked hasFocusedOutOfWindow = false;
+  @tracked hasFocusedOutOfWindow = false || this.model.assessment.hasFocusedOutChallenge;
   @tracked hasUserConfirmedWarning = false;
 
   get showLevelup() {

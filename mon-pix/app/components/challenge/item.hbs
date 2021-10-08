@@ -1,6 +1,6 @@
 <article
   class="rounded-panel rounded-panel--no-margin-bottom challenge-item
-    {{if this.hasFocusedOutOfChallenge "challenge-item--focused"}}"
+    {{if @hasFocusedOutOfChallenge "challenge-item--focused"}}"
   data-challenge-id="{{@challenge.id}}"
   {{on "mouseenter" this.hideOutOfFocusBorder}}
   {{on "mouseleave" this.showOutOfFocusBorder}}
@@ -14,7 +14,7 @@
     assessment=@assessment
     timeoutChallenge=@timeoutChallenge
     resetChallengeInfo=@resetChallengeInfo
-    hasFocusedOutOfWindow=this.hasFocusedOutOfWindow
+    hasFocusedOutOfWindow=@hasFocusedOutOfWindow
     answerValidated=@answerValidated
     resumeAssessment=@resumeAssessment
     isFocusedChallenge=this.isFocusedChallenge
