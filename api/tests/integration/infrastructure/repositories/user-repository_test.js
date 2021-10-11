@@ -21,7 +21,6 @@ const CertificationCenter = require('../../../../lib/domain/models/Certification
 const CertificationCenterMembership = require('../../../../lib/domain/models/CertificationCenterMembership');
 const Organization = require('../../../../lib/domain/models/Organization');
 const SchoolingRegistrationForAdmin = require('../../../../lib/domain/read-models/SchoolingRegistrationForAdmin');
-const AuthenticationMethod = require('../../../../lib/domain/models/AuthenticationMethod');
 
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
@@ -647,8 +646,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
       it('should return the user with his authentication methods', async function () {
         // given
         const userInDB = databaseBuilder.factory.buildUser(userToInsert);
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.PIX,
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
           userId: userInDB.id,
         });
         databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId: userInDB.id });

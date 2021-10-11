@@ -98,10 +98,7 @@ describe('Unit | Usecases | update-user-account', function () {
         username: 'manuella.philippe0702',
       });
       const authenticationMethodFromGAR =
-        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
-          userId: user.id,
-          identityProvider: AuthenticationMethod.identityProviders.PIX,
-        });
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId: user.id });
 
       scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand.resolves({ userId: user.id });
       encryptionService.hashPassword.withArgs(password).resolves(hashedPassword);
@@ -143,10 +140,7 @@ describe('Unit | Usecases | update-user-account', function () {
       username: 'manuella.philippe0702',
     });
     const authenticationMethodFromGAR =
-      domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
-        userId: user.id,
-        identityProvider: AuthenticationMethod.identityProviders.PIX,
-      });
+      domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId: user.id });
 
     scoAccountRecoveryService.retrieveAndValidateAccountRecoveryDemand
       .withArgs({
