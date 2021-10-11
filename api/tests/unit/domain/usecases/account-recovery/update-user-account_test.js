@@ -49,7 +49,7 @@ describe('Unit | Usecases | update-user-account', function () {
       const hashedPassword = 'hashedpassword';
 
       const user = domainBuilder.buildUser({ id: 1234, email: null });
-      const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod({
+      const authenticationMethodFromGAR = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
         userId: user.id,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       });
