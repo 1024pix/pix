@@ -765,7 +765,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
         // then
         const expectedAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({
+          domainBuilder.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({
             id: 123,
             externalIdentifier: 'identifier',
             accessToken: 'new_access_token',

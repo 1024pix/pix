@@ -291,7 +291,7 @@ describe('Unit | Domain | Models | User', function () {
       it('should return null', function () {
         // given
         const poleEmploiAuthenticationMethod =
-          domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod();
+          domainBuilder.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement();
 
         const user = new User({
           id: 1,
