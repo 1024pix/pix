@@ -10,14 +10,13 @@ describe('compute-participation-statuses script', function () {
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         participantExternalId: 'shared participation',
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
       databaseBuilder.factory.buildCampaignParticipation({
         campaignId,
         participantExternalId: 'to share participation',
-        isShared: false,
+        status: 'STARTED',
       });
 
       await databaseBuilder.commit();
@@ -148,7 +147,7 @@ function _buildParticipationWithAssessment({
     campaignId,
     userId,
     participantExternalId,
-    isShared,
+    status: isShared ? 'SHARED' : 'STARTED',
     sharedAt: isShared ? new Date('2020-01-02') : null,
   }).id;
 

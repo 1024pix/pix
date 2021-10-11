@@ -12,7 +12,7 @@ module.exports = {
       campaignId,
       createdAt: createdAt,
       sharedAt: sharedAt,
-      isShared: sharedAt ? true : false,
+      status: sharedAt ? 'SHARED' : 'STARTED',
     });
 
     buildAssessment({
@@ -37,7 +37,7 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: null,
-      isShared: false,
+      status: 'STARTED',
       campaignId: campaign.id,
     });
 
@@ -62,7 +62,7 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: null,
-      isShared: false,
+      status: 'STARTED',
       campaignId: campaign.id,
     });
 
@@ -87,7 +87,6 @@ module.exports = {
       userId,
       createdAt: createdAt,
       sharedAt: sharedAt || createdAt,
-      isShared: true,
       campaignId: campaign.id,
     });
 
@@ -120,7 +119,7 @@ module.exports = {
       campaignId: campaign.id,
       createdAt: createdAt,
       sharedAt: sharedAt || createdAt,
-      isShared: false,
+      status: 'STARTED',
     });
 
     buildAssessment({

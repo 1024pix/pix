@@ -33,7 +33,7 @@ describe('Integration | UseCase | get-campaign-participations-activity-by-day', 
 
   context('when requesting user is allowed to access campaign', function () {
     it('should return participations activity', async function () {
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-06-01', isShared: false });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, createdAt: '2021-06-01', status: 'STARTED' });
       await databaseBuilder.commit();
 
       // when

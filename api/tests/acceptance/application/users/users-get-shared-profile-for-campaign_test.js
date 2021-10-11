@@ -54,7 +54,6 @@ describe('Acceptance | Route | GET /users/{userId}/campaigns/{campaignId}/profil
       campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId: campaign.id,
-        isShared: true,
         sharedAt,
         pixScore,
       });

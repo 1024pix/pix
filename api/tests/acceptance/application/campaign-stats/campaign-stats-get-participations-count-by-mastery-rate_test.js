@@ -14,12 +14,7 @@ describe('Acceptance | API | Campaign Stats | GetParticipationCountByMasteryRate
       const { id: organizationId } = databaseBuilder.factory.buildOrganization();
       databaseBuilder.factory.buildMembership({ organizationId, userId });
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ organizationId });
-      databaseBuilder.factory.buildCampaignParticipation({
-        campaignId,
-        masteryRate: 0.5,
-        isShared: true,
-        sharedAt: '2020-01-01',
-      });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId, masteryRate: 0.5, sharedAt: '2020-01-01' });
 
       await databaseBuilder.commit();
 

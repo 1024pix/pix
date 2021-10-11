@@ -172,7 +172,7 @@ describe('Acceptance | Controller | users-controller-reset-scorecard', function 
             },
             {
               assessment: { userId, type: 'CAMPAIGN' },
-              campaignParticipation: { campaignId: campaign.id, isShared: false },
+              campaignParticipation: { campaignId: campaign.id, status: 'STARTED' },
               knowledgeElements: [
                 { skillId: 'url1', status: 'validated', source: 'direct', competenceId, earnedPix: 2, createdAt },
               ],
