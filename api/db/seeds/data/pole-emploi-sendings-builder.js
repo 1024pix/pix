@@ -14,7 +14,7 @@ module.exports = function poleEmploisSendingsBuilder({ databaseBuilder }) {
 
   _.times(300, async (index) => {
     const user = await databaseBuilder.factory.buildUser({ firstName: `FirstName-${index}`, lastName: `LastName-${index}` });
-    await databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId: user.id, identityProvider: 'POLE_EMPLOI', externalIdentifier: `externalUserId${user.id}` });
+    await databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({ userId: user.id, externalIdentifier: `externalUserId${user.id}` });
     const campaignParticipationId = await databaseBuilder.factory.buildCampaignParticipation({ userId: user.id, campaignId: POLE_EMPLOI_CAMPAIGN_ID }).id;
     await databaseBuilder.factory.poleEmploiSendingFactory.build({ ..._generateStatus(), campaignParticipationId, createdAt: _generateDate(index), payload: {
       campagne: {

@@ -133,7 +133,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
         userInDb = databaseBuilder.factory.buildUser(userToInsert);
         databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
           externalIdentifier: 'some-saml-id',
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           userId: userInDb.id,
         });
         await databaseBuilder.commit();
@@ -652,10 +651,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
           identityProvider: AuthenticationMethod.identityProviders.PIX,
           userId: userInDB.id,
         });
-        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
-          userId: userInDB.id,
-        });
+        databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId: userInDB.id });
         await databaseBuilder.commit();
 
         // when
@@ -864,7 +860,6 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     beforeEach(async function () {
       userInDb = databaseBuilder.factory.buildUser(userToInsert);
       databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
         externalIdentifier: 'samlId',
         userId: userInDb.id,
       });

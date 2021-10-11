@@ -260,7 +260,6 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               birthdate: schoolingRegistration.birthdate,
             });
             databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-              identityProvider: AuthenticationMethod.identityProviders.GAR,
               externalIdentifier: '12345678',
               userId: otherAccount.id,
             });
@@ -316,7 +315,6 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
               birthdate: birthdate,
             });
             databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-              identityProvider: AuthenticationMethod.identityProviders.GAR,
               externalIdentifier: '12345678',
               userId: otherAccount.id,
             });
@@ -373,7 +371,6 @@ describe('Integration | UseCases | create-user-and-reconcile-to-schooling-regist
         schoolingRegistration.userId = undefined;
         const alreadyCreatedUser = databaseBuilder.factory.buildUser({ firstName, lastName });
         databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: samlId,
           userId: alreadyCreatedUser.id,
         });

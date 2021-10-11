@@ -51,7 +51,6 @@ function usersBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
     externalIdentifier: 'samlId',
     userId: userWithSamlId.id,
   });
