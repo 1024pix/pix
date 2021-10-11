@@ -26,7 +26,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       }),
-      domainBuilder.buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod({ userId }),
+      domainBuilder.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({ userId }),
     ];
   }
 

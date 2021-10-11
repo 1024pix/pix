@@ -85,7 +85,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = fun
   });
 };
 
-buildAuthenticationMethod.buildPoleEmploiAuthenticationMethod = function ({
+buildAuthenticationMethod.withPoleEmploiAuthenticationComplement = function ({
   id,
   externalIdentifier = `externalId${id}`,
   accessToken = 'ABC456789',
