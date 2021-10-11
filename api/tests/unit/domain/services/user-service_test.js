@@ -116,7 +116,7 @@ describe('Unit | Service | user-service', function () {
 
     beforeEach(async function () {
       user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
         externalIdentifier: samlId,
         userId: user.id,
       });

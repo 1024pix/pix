@@ -22,7 +22,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
   function buildPIXAndGARAndPoleEmploiAuthenticationMethod(userId) {
     return [
       domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId }),
-      domainBuilder.buildAuthenticationMethod({
+      domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
       }),

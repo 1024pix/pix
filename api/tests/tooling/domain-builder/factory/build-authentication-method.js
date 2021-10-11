@@ -14,7 +14,9 @@ function _buildUser() {
   });
 }
 
-const buildAuthenticationMethod = function ({
+const buildAuthenticationMethod = {};
+
+buildAuthenticationMethod.withGarAuthenticationComplement = function ({
   id = 123,
   identityProvider = AuthenticationMethod.identityProviders.GAR,
   externalIdentifier = `externalId${id}`,
