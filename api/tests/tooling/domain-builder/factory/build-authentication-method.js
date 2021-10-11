@@ -60,7 +60,7 @@ buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword = functi
   });
 };
 
-buildAuthenticationMethod.buildWithHashedPassword = function ({
+buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = function ({
   id,
   hashedPassword = 'hashedPassword',
   shouldChangePassword = false,

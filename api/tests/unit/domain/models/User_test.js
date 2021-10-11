@@ -247,10 +247,11 @@ describe('Unit | Domain | Models | User', function () {
         // given
         const oneTimePassword = 'Azerty123*';
 
-        const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          hashedPassword: oneTimePassword,
-          shouldChangePassword: true,
-        });
+        const pixAuthenticationMethod =
+          domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+            hashedPassword: oneTimePassword,
+            shouldChangePassword: true,
+          });
 
         const user = new User({
           id: 1,
@@ -267,9 +268,10 @@ describe('Unit | Domain | Models | User', function () {
 
       it('should return false when should not change password', function () {
         // given
-        const pixAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-          shouldChangePassword: false,
-        });
+        const pixAuthenticationMethod =
+          domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+            shouldChangePassword: false,
+          });
 
         const user = new User({
           id: 1,

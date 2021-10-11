@@ -21,7 +21,7 @@ describe('Unit | UseCase | remove-authentication-method', function () {
 
   function buildPIXAndGARAndPoleEmploiAuthenticationMethod(userId) {
     return [
-      domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({ userId }),
+      domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId }),
       domainBuilder.buildAuthenticationMethod({
         userId,
         identityProvider: AuthenticationMethod.identityProviders.GAR,
@@ -183,7 +183,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({ userId: user.id });
+      const authenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId: user.id });
       authenticationMethodRepository.findByUserId.resolves([authenticationMethod]);
 
       // when
@@ -202,7 +203,8 @@ describe('Unit | UseCase | remove-authentication-method', function () {
       // given
       const user = domainBuilder.buildUser();
       userRepository.get.resolves(user);
-      const authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({ userId: user.id });
+      const authenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId: user.id });
       authenticationMethodRepository.findByUserId.resolves([authenticationMethod]);
 
       // when

@@ -55,7 +55,11 @@ describe('Unit | UseCase | send-verification-code', function () {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .resolves(domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({ hashedPassword: passwordHash }));
+      .resolves(
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          hashedPassword: passwordHash,
+        })
+      );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
     codeUtils.generateNumericalString.withArgs(6).returns(code);
 
@@ -95,7 +99,11 @@ describe('Unit | UseCase | send-verification-code', function () {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .resolves(domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({ hashedPassword: passwordHash }));
+      .resolves(
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          hashedPassword: passwordHash,
+        })
+      );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).resolves();
     codeUtils.generateNumericalString.withArgs(6).returns(code);
 
@@ -164,7 +172,11 @@ describe('Unit | UseCase | send-verification-code', function () {
         userId,
         identityProvider: AuthenticationMethod.identityProviders.PIX,
       })
-      .resolves(domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({ hashedPassword: passwordHash }));
+      .resolves(
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          hashedPassword: passwordHash,
+        })
+      );
     encryptionService.checkPassword.withArgs({ password, passwordHash }).rejects();
 
     // when

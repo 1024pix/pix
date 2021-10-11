@@ -189,11 +189,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should return the updated AuthenticationMethod', async function () {
       // given
-      const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword,
-      });
+      const originalAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword,
+        });
       databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword(
         originalAuthenticationMethod
       );
@@ -206,12 +207,13 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       });
 
       // then
-      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: newHashedPassword,
-        updatedAt: new Date(),
-      });
+      const expectedAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: newHashedPassword,
+          updatedAt: new Date(),
+        });
       expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
@@ -473,12 +475,13 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should return an updated AuthenticationMethod', async function () {
       // given
-      const originalAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword,
-        shouldChangePassword: false,
-      });
+      const originalAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword,
+          shouldChangePassword: false,
+        });
       databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement(originalAuthenticationMethod);
       await databaseBuilder.commit();
 
@@ -489,13 +492,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       });
 
       // then
-      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: newHashedPassword,
-        shouldChangePassword: true,
-        updatedAt: new Date(),
-      });
+      const expectedAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: newHashedPassword,
+          shouldChangePassword: true,
+          updatedAt: new Date(),
+        });
       expect(updatedAuthenticationMethod).to.deepEqualInstance(expectedAuthenticationMethod);
     });
 
@@ -665,13 +669,14 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should return the updated AuthenticationMethod', async function () {
       // given
-      const expectedAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: newHashedPassword,
-        shouldChangePassword: false,
-        updatedAt: new Date(),
-      });
+      const expectedAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: newHashedPassword,
+          shouldChangePassword: false,
+          updatedAt: new Date(),
+        });
 
       // when
       const updatedAuthenticationMethod = await authenticationMethodRepository.updateExpiredPassword({
@@ -862,11 +867,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       });
       secondAuthenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement(secondAuthenticationMethod);
-      const firstAuthenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
-        id: 123,
-        userId,
-        hashedPassword: 'Hello',
-      });
+      const firstAuthenticationMethod =
+        domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          id: 123,
+          userId,
+          hashedPassword: 'Hello',
+        });
       databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         ...firstAuthenticationMethod,
         hashedPassword: 'Hello',
