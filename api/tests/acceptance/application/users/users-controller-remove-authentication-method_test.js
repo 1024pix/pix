@@ -16,7 +16,9 @@ describe('Acceptance | Controller | users-controller-remove-authentication-metho
   beforeEach(async function () {
     server = await createServer();
     user = databaseBuilder.factory.buildUser({ username: 'jhn.doe0101', email: null });
-    databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId: user.id });
+    databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+      userId: user.id,
+    });
     databaseBuilder.factory.buildAuthenticationMethod({
       userId: user.id,
       identityProvider: AuthenticationMethod.identityProviders.GAR,

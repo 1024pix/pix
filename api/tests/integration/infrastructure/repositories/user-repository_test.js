@@ -48,11 +48,12 @@ describe('Integration | Infrastructure | Repository | UserRepository', function 
     });
 
     userInDB = databaseBuilder.factory.buildUser(userToInsert);
-    passwordAuthenticationMethodInDB = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-      userId: userInDB.id,
-      hashedPassword: 'ABCDEF1234',
-      shouldChangePassword: false,
-    });
+    passwordAuthenticationMethodInDB =
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+        userId: userInDB.id,
+        hashedPassword: 'ABCDEF1234',
+        shouldChangePassword: false,
+      });
 
     organizationRoleInDB = Membership.roles.ADMIN;
 
