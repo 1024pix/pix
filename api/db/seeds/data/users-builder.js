@@ -1,6 +1,5 @@
 const PIX_MASTER_ID = 199;
 const DEFAULT_PASSWORD = 'pix123';
-const AuthenticationMethod = require('../../../lib/domain/models/AuthenticationMethod');
 
 function usersBuilder({ databaseBuilder }) {
 

@@ -300,10 +300,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should return null if there is no AuthenticationMethod for the given user and identity provider', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-        identityProvider: AuthenticationMethod.identityProviders.POLE_EMPLOI,
-        userId,
-      });
+      databaseBuilder.factory.buildAuthenticationMethod.withPoleEmploiAuthenticationComplement({ userId });
       await databaseBuilder.commit();
 
       // when
