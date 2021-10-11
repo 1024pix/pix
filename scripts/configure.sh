@@ -104,7 +104,7 @@ function setup_and_run_infrastructure() {
 
   echo "Waiting for PostgreSQL server to be ready…"
 
-  timeout 20s bash -c "until docker exec pix_postgres_1 pg_isready ; do sleep 1 ; done"
+  timeout 20s bash -c "until docker-compose exec postgres pg_isready ; do sleep 1 ; done"
 
   echo "✅ PostgreSQL server is ready."
   echo ""
