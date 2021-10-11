@@ -118,9 +118,9 @@ describe('Integration | Infrastructure | Utils | Ods | fillCandidatesImportSheet
     const updatedOdsFileBuffer = await fillCandidatesImportSheet(session);
     await writeFile(actualOdsFilePath, updatedOdsFileBuffer);
     const actualResult = await readOdsUtils.getContentXml({ odsFilePath: actualOdsFilePath });
-    const expectResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
+    const expectedResult = await readOdsUtils.getContentXml({ odsFilePath: expectedOdsFilePath });
 
     // then
-    expect(actualResult).to.deep.equal(expectResult);
+    expect(actualResult).to.deep.equal(expectedResult);
   });
 });
