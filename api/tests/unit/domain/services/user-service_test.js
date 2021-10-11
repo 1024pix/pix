@@ -46,7 +46,7 @@ describe('Unit | Service | user-service', function () {
   describe('#createUserWithPassword', function () {
     beforeEach(function () {
       user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         userId: user.id,
         hashedPassword,
       });
@@ -77,7 +77,7 @@ describe('Unit | Service | user-service', function () {
   describe('#updateUsernameAndAddPassword', function () {
     beforeEach(function () {
       user = domainBuilder.buildUser();
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         userId: user.id,
         hashedPassword,
       });

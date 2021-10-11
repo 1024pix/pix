@@ -23,7 +23,7 @@ describe('Integration | Domain | Services | user-service', function () {
 
     beforeEach(function () {
       user = domainBuilder.buildUser({ username: null });
-      authenticationMethod = domainBuilder.buildAuthenticationMethod.buildWithHashedPassword({
+      authenticationMethod = domainBuilder.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         hashedPassword,
         userId: user.id,
       });
