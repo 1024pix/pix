@@ -118,11 +118,16 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
 
       beforeEach(async function () {
         const createdAt = new Date('2018-04-06T10:00:00Z');
-        const userId = 999;
-        campaignParticipation = { id: 888, userId, campaignId, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
-        databaseBuilder.factory.buildCampaignParticipationWithUser(
-          { id: userId, firstName: 'Jérémy', lastName: 'bugietta' },
-          campaignParticipation,
+        const participationData = { campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { firstName: 'Jérémy', lastName: 'bugietta', organizationId },
+          participationData,
+          false
+        );
+        const participationData = { campaignId, isShared: true, sharedAt, participantExternalId: 'JeBu', pixScore: 46 };
+        campaignParticipation = databaseBuilder.factory.buildCampaignParticipationWithSchoolingRegistration(
+          { firstName: 'Jérémy', lastName: 'bugietta', organizationId },
+          participationData,
           false
         );
 
@@ -131,7 +136,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           competenceId: competences[0].id,
           skillId: skills[0].id,
           earnedPix: 40,
-          userId,
+          userId: campaignParticipation.userId,
           createdAt,
         });
 
@@ -140,7 +145,7 @@ describe('Integration | Repository | Campaign Profiles Collection Participation 
           competenceId: competences[1].id,
           skillId: skills[2].id,
           earnedPix: 6,
-          userId,
+          userId: campaignParticipation.userId,
           createdAt,
         });
 
