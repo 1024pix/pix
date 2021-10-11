@@ -4,7 +4,6 @@ import Component from '@glimmer/component';
 import ENV from 'mon-pix/config/environment';
 
 export default class Item extends Component {
-
   @service currentUser;
 
   constructor() {
@@ -22,10 +21,20 @@ export default class Item extends Component {
   }
 
   @action
-  showOutOfFocusBorder() {
+  showOutOfFocusBorder(event) {
     if (this.isFocusedChallenge && !this.args.answer) {
+      // linked to a Firefox issue where the mouseleave is triggered
+      // when hovering the select options on mouse navigation
+      // see: https://stackoverflow.com/questions/46831247/select-triggers-mouseleave-event-on-parent-element-in-mozilla-firefox
+      if (this.shouldPreventFirefoxSelectMouseLeaveBehavior(event)) {
+        return;
+      }
       this.args.onFocusOutOfChallenge();
     }
+  }
+
+  shouldPreventFirefoxSelectMouseLeaveBehavior(event) {
+    return event.relatedTarget === null;
   }
 
   _setOnBlurEventToWindow() {
