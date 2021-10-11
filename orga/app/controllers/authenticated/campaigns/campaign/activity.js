@@ -21,8 +21,10 @@ export default class ActivityController extends Controller {
   @action
   triggerFiltering(filters) {
     this.pageNumber = null;
-    this.divisions = filters.divisions;
-    this.status = filters.status;
+    this.divisions = filters.divisions || this.divisions;
+    if (filters.status !== undefined) {
+      this.status = filters.status;
+    }
   }
 
   @action
