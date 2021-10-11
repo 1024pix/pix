@@ -8,6 +8,7 @@ function getI18n() {
     defaultLocale: 'fr',
     directory,
     objectNotation: true,
+    indent: '  ',
   });
   return i18n;
 }
