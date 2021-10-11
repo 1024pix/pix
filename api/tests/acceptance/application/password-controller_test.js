@@ -33,7 +33,7 @@ describe('Acceptance | Controller | password-controller', function () {
       config.mailing.enabled = false;
 
       const userId = databaseBuilder.factory.buildUser({ email }).id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({ userId });
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({ userId });
       await databaseBuilder.commit();
     });
 

@@ -14,9 +14,10 @@ describe('Integration | UseCases | Account-recovery | updateUserAccount', functi
     const password = 'pix123';
     const user = databaseBuilder.factory.buildUser();
     await databaseBuilder.commit();
-    const authenticatedMethod = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-      userId: user.id,
-    });
+    const authenticatedMethod =
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+        userId: user.id,
+      });
     await databaseBuilder.commit();
     const accountRecovery = databaseBuilder.factory.buildAccountRecoveryDemand({ userId: user.id });
     await databaseBuilder.commit();

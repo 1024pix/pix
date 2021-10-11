@@ -29,7 +29,7 @@ const buildAuthenticationMethod = function ({
   });
 };
 
-buildAuthenticationMethod.buildWithHashedPassword = function ({
+buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword = function ({
   id = databaseBuffer.getNextId(),
   hashedPassword = 'ABCDEF123',
   shouldChangePassword = false,

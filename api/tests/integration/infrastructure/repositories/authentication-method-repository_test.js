@@ -167,10 +167,11 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should update the password in database', async function () {
       // given
-      const authenticationMethodId = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-        userId,
-        hashedPassword,
-      }).id;
+      const authenticationMethodId =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          userId,
+          hashedPassword,
+        }).id;
       await databaseBuilder.commit();
 
       // when
@@ -193,7 +194,9 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         userId,
         hashedPassword,
       });
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword(originalAuthenticationMethod);
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword(
+        originalAuthenticationMethod
+      );
       await databaseBuilder.commit();
 
       // when
@@ -214,7 +217,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should disable changing password', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         userId,
         hashedPassword,
         shouldChangePassword: true,
@@ -247,10 +250,11 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should be DomainTransaction compliant', async function () {
       // given
-      const authenticationMethod = databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
-        userId,
-        hashedPassword,
-      });
+      const authenticationMethod =
+        databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
+          userId,
+          hashedPassword,
+        });
       await databaseBuilder.commit();
 
       // when
@@ -277,7 +281,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       // given
       const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         userId,
       });
       const garAuthenticationMethod = domainBuilder.buildAuthenticationMethod({ id: 123, identityProvider, userId });
@@ -442,7 +446,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should update password in database and set shouldChangePassword to true', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         id: 123,
         userId,
         hashedPassword,
@@ -508,7 +512,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should be DomainTransaction compliant', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         id: 123,
         userId,
         hashedPassword,
@@ -632,7 +636,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     beforeEach(async function () {
       userId = databaseBuilder.factory.buildUser({ shouldChangePassword: true }).id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         id: 123,
         userId,
         hashedPassword,
@@ -788,7 +792,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should return true if user have an authenticationMethod with an IdentityProvider PIX ', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         userId,
       });
       await databaseBuilder.commit();
@@ -860,7 +864,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         userId,
         hashedPassword: 'Hello',
       });
-      databaseBuilder.factory.buildAuthenticationMethod.buildWithHashedPassword({
+      databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         ...firstAuthenticationMethod,
         hashedPassword: 'Hello',
       });
