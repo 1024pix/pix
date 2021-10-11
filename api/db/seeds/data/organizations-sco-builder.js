@@ -210,7 +210,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
     externalIdentifier: '1234567',
     userId: userWithGAR.id,
   });
@@ -355,7 +354,6 @@ function organizationsScoBuilder({ databaseBuilder }) {
   });
 
   databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-    identityProvider: AuthenticationMethod.identityProviders.GAR,
     externalIdentifier: '1234555',
     userId: userWhoHasLeftSCO.id,
   });

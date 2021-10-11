@@ -29,7 +29,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         await databaseBuilder.commit();
 
         const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: 'externalIdentifier',
           userId,
         });
@@ -53,7 +52,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         await databaseBuilder.commit();
 
         const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: 'externalIdentifier',
           userId,
         });
@@ -78,7 +76,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           const userIdA = databaseBuilder.factory.buildUser().id;
           const userIdB = databaseBuilder.factory.buildUser().id;
           const authenticationMethodA = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: 'alreadyExistingExternalIdentifier',
             userId: userIdA,
           });
@@ -86,7 +83,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement(authenticationMethodA);
           await databaseBuilder.commit();
           const authenticationMethodB = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: 'alreadyExistingExternalIdentifier',
             userId: userIdB,
           });
@@ -108,7 +104,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const authenticationMethodA = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: 'someIdentifierA',
           userId,
         });
@@ -116,7 +111,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement(authenticationMethodA);
         await databaseBuilder.commit();
         const authenticationMethodB = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: 'someIdentifierB',
           userId,
         });
@@ -137,7 +131,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       await databaseBuilder.commit();
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
         externalIdentifier: 'externalIdentifier',
         userId,
       });
@@ -281,14 +274,12 @@ describe('Integration | Repository | AuthenticationMethod', function () {
   describe('#findOneByUserIdAndIdentityProvider', function () {
     it('should return the AuthenticationMethod associated to a user for a given identity provider', async function () {
       // given
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const userId = databaseBuilder.factory.buildUser().id;
       databaseBuilder.factory.buildAuthenticationMethod.withPixAuthenticationComplementAndHashedPassword({
         userId,
       });
       const garAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
         id: 123,
-        identityProvider,
         userId,
       });
       garAuthenticationMethod.authenticationComplement = undefined;
@@ -297,7 +288,10 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
       // when
       const authenticationMethodsByUserIdAndIdentityProvider =
-        await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({ userId, identityProvider });
+        await authenticationMethodRepository.findOneByUserIdAndIdentityProvider({
+          userId,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
+        });
 
       // then
       expect(authenticationMethodsByUserIdAndIdentityProvider).to.deepEqualInstance(garAuthenticationMethod);
@@ -327,20 +321,17 @@ describe('Integration | Repository | AuthenticationMethod', function () {
   describe('#findOneByExternalIdentifierAndIdentityProvider', function () {
     it('should return the AuthenticationMethod for a given external identifier and identity provider', async function () {
       // given
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
       const externalIdentifier = 'samlId';
       const userId = databaseBuilder.factory.buildUser().id;
       const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
         id: 123,
         externalIdentifier,
-        identityProvider,
         userId,
       });
       authenticationMethod.authenticationComplement = undefined;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement(authenticationMethod);
       databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
         externalIdentifier: 'another_sub',
-        identityProvider,
       });
       await databaseBuilder.commit();
 
@@ -348,7 +339,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       const authenticationMethodsByTypeAndValue =
         await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
           externalIdentifier,
-          identityProvider,
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
         });
 
       // then
@@ -356,15 +347,11 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     });
 
     it('should return null if there is no AuthenticationMethods for the given external identifier and identity provider', async function () {
-      // given
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
-      const externalIdentifier = 'samlId';
-
-      // when
+      // given & when
       const authenticationMethodsByTypeAndValue =
         await authenticationMethodRepository.findOneByExternalIdentifierAndIdentityProvider({
-          externalIdentifier,
-          identityProvider,
+          externalIdentifier: 'samlId',
+          identityProvider: AuthenticationMethod.identityProviders.GAR,
         });
 
       // then
@@ -378,7 +365,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: 'old_value',
           userId,
         });
@@ -404,7 +390,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
         // given
         const userId = databaseBuilder.factory.buildUser().id;
         const authenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
-          identityProvider: AuthenticationMethod.identityProviders.GAR,
           externalIdentifier: 'old_value',
           userId,
         });
@@ -581,10 +566,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
 
     it('should not replace an existing authenticationMethod with a different identity provider', async function () {
       // given
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
-      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId });
       await databaseBuilder.commit();
       await authenticationMethodRepository.createPasswordThatShouldBeChanged({
         userId,
@@ -821,10 +803,7 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should return false if user have no authenticationMethod with an IdentityProvider PIX ', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-        userId,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
-      });
+      databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({ userId });
       await databaseBuilder.commit();
 
       // when
@@ -841,17 +820,18 @@ describe('Integration | Repository | AuthenticationMethod', function () {
     it('should delete from database the authentication method by userId and identityProvider', async function () {
       // given
       const userId = databaseBuilder.factory.buildUser().id;
-      const identityProvider = AuthenticationMethod.identityProviders.GAR;
       databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
         id: 123,
-        identityProvider,
         externalIdentifier: 'externalIdentifier',
         userId,
       });
       await databaseBuilder.commit();
 
       // when
-      await authenticationMethodRepository.removeByUserIdAndIdentityProvider({ userId, identityProvider });
+      await authenticationMethodRepository.removeByUserIdAndIdentityProvider({
+        userId,
+        identityProvider: AuthenticationMethod.identityProviders.GAR,
+      });
 
       // then
       const result = await knex('authentication-methods').where({ id: 123 }).first();
@@ -865,7 +845,6 @@ describe('Integration | Repository | AuthenticationMethod', function () {
       const userId = databaseBuilder.factory.buildUser().id;
       const secondAuthenticationMethod = domainBuilder.buildAuthenticationMethod.withGarAuthenticationComplement({
         id: 456,
-        identityProvider: AuthenticationMethod.identityProviders.GAR,
         externalIdentifier: 'externalIdentifier',
         userId,
       });

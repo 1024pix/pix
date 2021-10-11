@@ -156,7 +156,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             email: null,
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: '12345678',
             userId: userWithSamlOnly.id,
           });
@@ -203,7 +202,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: '12345678',
             userId: userWithSamlIdOnly.id,
           });
@@ -520,7 +518,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             birthdate: schoolingRegistration.birthdate,
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: '12345678',
             userId: user.id,
           });
@@ -570,7 +567,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
           // given
           const userWithSamlIdOnly = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: '12345678',
             userId: userWithSamlIdOnly.id,
           });
@@ -1045,7 +1041,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             email: null,
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: '12345678',
             userId: userWithEmailOnly.id,
           });
@@ -1204,7 +1199,6 @@ describe('Acceptance | Controller | Schooling-registration-user-associations', f
             username: null,
           });
           databaseBuilder.factory.buildAuthenticationMethod.withGarAuthenticationComplement({
-            identityProvider: AuthenticationMethod.identityProviders.GAR,
             externalIdentifier: '12345678',
             userId: userWithSamlIdOnly.id,
           });
