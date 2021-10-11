@@ -429,7 +429,7 @@ describe('Acceptance | Application | organization-controller', function () {
           return { name: camp.name, code: camp.code, id: builtCampaign.id };
         }
       );
-      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[4].id, isShared: true });
+      databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaignsData[4].id });
       await databaseBuilder.commit();
 
       options = {

@@ -7,7 +7,7 @@ describe('computeParticipationResults', function () {
     it('computes results using all knowledge elements', async function () {
       const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-      _buildParticipationWithSnapshot({ campaignId, isShared: true, sharedAt: new Date('2020-01-02') }, [
+      _buildParticipationWithSnapshot({ campaignId, sharedAt: new Date('2020-01-02') }, [
         { skillId: 'skill_1', status: 'invalidated', earnedPix: 0 },
         { skillId: 'skill_2', status: 'validated', earnedPix: 3 },
         { skillId: 'skill_3', status: 'validated', earnedPix: 1 },
@@ -31,7 +31,7 @@ describe('computeParticipationResults', function () {
     it('computes results on target skills', async function () {
       const { id: campaignId } = _buildCampaignForSkills(['skill_1']);
 
-      _buildParticipationWithSnapshot({ campaignId, isShared: true, sharedAt: new Date('2020-01-02') }, [
+      _buildParticipationWithSnapshot({ campaignId, sharedAt: new Date('2020-01-02') }, [
         { skillId: 'skill_1', status: 'validated', earnedPix: 5 },
         { skillId: 'skill_2', status: 'validated', earnedPix: 3 },
         { skillId: 'skill_3', status: 'validated', earnedPix: 1 },
@@ -63,11 +63,11 @@ describe('computeParticipationResults', function () {
       it('computes results for each participation', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        _buildParticipationWithSnapshot({ id: 1, campaignId, isShared: true, sharedAt: new Date('2020-01-02') }, [
+        _buildParticipationWithSnapshot({ id: 1, campaignId, sharedAt: new Date('2020-01-02') }, [
           { skillId: 'skill_1', status: 'validated', earnedPix: 40 },
         ]);
 
-        _buildParticipationWithSnapshot({ id: 2, campaignId, isShared: true, sharedAt: new Date('2020-01-03') }, [
+        _buildParticipationWithSnapshot({ id: 2, campaignId, sharedAt: new Date('2020-01-03') }, [
           { skillId: 'skill_1', status: 'invalidated', earnedPix: 0 },
         ]);
 
@@ -92,18 +92,14 @@ describe('computeParticipationResults', function () {
         const { id: campaignId1 } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
         const { id: campaignId2 } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        _buildParticipationWithSnapshot(
-          { id: 1, campaignId: campaignId1, isShared: true, sharedAt: new Date('2020-01-02') },
-          [
-            { skillId: 'skill_1', competenceId: 'C1', status: 'validated', earnedPix: 40 },
-            { skillId: 'skill_2', competenceId: 'C2', status: 'validated', earnedPix: 40 },
-          ]
-        );
+        _buildParticipationWithSnapshot({ id: 1, campaignId: campaignId1, sharedAt: new Date('2020-01-02') }, [
+          { skillId: 'skill_1', competenceId: 'C1', status: 'validated', earnedPix: 40 },
+          { skillId: 'skill_2', competenceId: 'C2', status: 'validated', earnedPix: 40 },
+        ]);
 
-        _buildParticipationWithSnapshot(
-          { id: 2, campaignId: campaignId2, isShared: true, sharedAt: new Date('2020-01-03') },
-          [{ skillId: 'skill_1', status: 'validated', earnedPix: 40 }]
-        );
+        _buildParticipationWithSnapshot({ id: 2, campaignId: campaignId2, sharedAt: new Date('2020-01-03') }, [
+          { skillId: 'skill_1', status: 'validated', earnedPix: 40 },
+        ]);
 
         await databaseBuilder.commit();
 
@@ -127,7 +123,6 @@ describe('computeParticipationResults', function () {
 
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
           validatedSkillsCount: 10,
           masteryRate: 0.2,
@@ -152,7 +147,7 @@ describe('computeParticipationResults', function () {
       it('does not compute results', async function () {
         const { id: campaignId } = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
 
-        databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false });
+        databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: 'STARTED' });
 
         await databaseBuilder.commit();
 

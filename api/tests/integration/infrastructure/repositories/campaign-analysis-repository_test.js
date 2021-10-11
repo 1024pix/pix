@@ -8,7 +8,7 @@ function _createUserWithSharedCampaignParticipation(userName, campaignId, shared
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    isShared: Boolean(sharedAt),
+    status: 'SHARED',
     sharedAt,
     isImproved,
   });
@@ -21,7 +21,7 @@ function _createUserWithNonSharedCampaignParticipation(userName, campaignId) {
   const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
     campaignId,
     userId,
-    isShared: false,
+    status: 'STARTED',
     isImproved: false,
   });
 
@@ -148,7 +148,7 @@ describe('Integration | Repository | Campaign analysis repository', function () 
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId,
             userId: goliathId,
-            isShared: false,
+            status: 'STARTED',
             isImproved: false,
           });
 
@@ -206,7 +206,6 @@ describe('Integration | Repository | Campaign analysis repository', function () 
             campaignId: anotherCampaignId,
             userId: paulId,
             sharedAt: shareDate,
-            isShared: true,
           });
 
           _.each(

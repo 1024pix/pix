@@ -315,7 +315,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: campaignData.id,
-          isShared: true,
           sharedAt: new Date('2020-01-01'),
         });
         const campaignToJoin = domainBuilder.buildCampaignToJoin({
@@ -341,7 +340,7 @@ describe('Integration | Repository | CampaignToJoin', function () {
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: campaignData.id,
-          isShared: false,
+          status: 'STARTED',
           sharedAt: null,
         });
         const campaignToJoin = domainBuilder.buildCampaignToJoin({
@@ -368,14 +367,13 @@ describe('Integration | Repository | CampaignToJoin', function () {
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: campaignData.id,
-          isShared: true,
           sharedAt: new Date('2020-01-01'),
           isImproved: true,
         });
         databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId: campaignData.id,
-          isShared: false,
+          status: 'STARTED',
           sharedAt: null,
           isImproved: false,
           validatedSkillsCount: 2,
@@ -405,7 +403,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
           databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId: campaignData.id,
-            isShared: true,
             sharedAt: new Date('2020-01-01'),
             isImproved: true,
             validatedSkillsCount: 1,
@@ -413,7 +410,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
           databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId: campaignData.id,
-            isShared: true,
             sharedAt: new Date('2020-01-01'),
             isImproved: false,
             validatedSkillsCount: 2,
@@ -442,7 +438,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
           databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId: campaignData.id,
-            isShared: true,
             sharedAt: new Date('2020-01-01'),
             isImproved: false,
             validatedSkillsCount: 3,
@@ -475,7 +470,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
           databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId: campaignData.id,
-            isShared: true,
             sharedAt: new Date('2020-01-01'),
             isImproved: true,
             validatedSkillsCount: 1,
@@ -483,7 +477,6 @@ describe('Integration | Repository | CampaignToJoin', function () {
           databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId: campaignData.id,
-            isShared: true,
             sharedAt: new Date('2020-01-05'),
             isImproved: false,
             validatedSkillsCount: 2,

@@ -50,7 +50,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The bad',
           campaignId: campaign.id,
-          isShared: false,
+          status: 'STARTED',
           userId: user.id,
           isImproved: true,
         });
@@ -58,7 +58,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The good',
           campaignId: campaign.id,
-          isShared: false,
+          status: 'STARTED',
           userId: user.id,
           isImproved: false,
         });
@@ -82,7 +82,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
           const user = databaseBuilder.factory.buildUser();
           databaseBuilder.factory.buildCampaignParticipation({
             campaignId: campaign.id,
-            isShared: false,
+            status: 'STARTED',
             userId: user.id,
           });
 
@@ -104,7 +104,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       context('when the participation is shared', function () {
         it('should return status shared', async function () {
           campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, isShared: true });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id });
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } =
@@ -116,11 +116,7 @@ describe('Integration | Repository | Campaign Participant activity', function ()
       context('when the participation is not shared', function () {
         it('should return status to share', async function () {
           campaign = databaseBuilder.factory.buildCampaign({ type: Campaign.types.PROFILES_COLLECTION });
-          databaseBuilder.factory.buildCampaignParticipation({
-            campaignId: campaign.id,
-            isShared: false,
-            status: TO_SHARE,
-          });
+          databaseBuilder.factory.buildCampaignParticipation({ campaignId: campaign.id, status: TO_SHARE });
           await databaseBuilder.commit();
 
           const { campaignParticipantsActivities } =
@@ -225,13 +221,13 @@ describe('Integration | Repository | Campaign Participant activity', function ()
         campaign = databaseBuilder.factory.buildAssessmentCampaign({});
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The good', campaignId: campaign.id, isShared: false, status: 'STARTED' },
+          { participantExternalId: 'The good', campaignId: campaign.id, status: 'STARTED' },
           { id: 1 }
         );
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 1 });
 
         databaseBuilder.factory.buildAssessmentFromParticipation(
-          { participantExternalId: 'The bad', campaignId: campaign.id, isShared: false, status: 'TO_SHARE' },
+          { participantExternalId: 'The bad', campaignId: campaign.id, status: 'TO_SHARE' },
           { id: 2 }
         );
         databaseBuilder.factory.buildSchoolingRegistration({ organizationId: campaign.organizationId, userId: 2 });

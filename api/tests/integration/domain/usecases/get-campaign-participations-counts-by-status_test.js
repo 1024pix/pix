@@ -33,9 +33,9 @@ describe('Integration | UseCase | get-campaign-participations-counts-by-status',
   });
 
   it('should return participations counts by status', async function () {
-    databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: true });
-    const participation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
-    const participation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, isShared: false }).id;
+    databaseBuilder.factory.buildCampaignParticipation({ campaignId });
+    const participation1 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: 'STARTED' }).id;
+    const participation2 = databaseBuilder.factory.buildCampaignParticipation({ campaignId, status: 'STARTED' }).id;
 
     databaseBuilder.factory.buildAssessment({
       campaignParticipationId: participation1,

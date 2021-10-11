@@ -4,12 +4,11 @@ const databaseBuffer = require('../database-buffer');
 const CampaignParticipation = require('../../../lib/domain/models/CampaignParticipation');
 const _ = require('lodash');
 
-const { SHARED, STARTED } = CampaignParticipation.statuses;
+const { SHARED } = CampaignParticipation.statuses;
 
 module.exports = function buildCampaignParticipation({
   id = databaseBuffer.getNextId(),
   campaignId,
-  isShared = true,
   createdAt = new Date('2020-01-01'),
   sharedAt = new Date('2020-01-02'),
   userId,
@@ -17,13 +16,13 @@ module.exports = function buildCampaignParticipation({
   validatedSkillsCount,
   masteryRate,
   pixScore,
-  status = STARTED,
+  status = SHARED,
   isImproved = false,
 } = {}) {
   userId = _.isUndefined(userId) ? buildUser().id : userId;
   campaignId = _.isUndefined(campaignId) ? buildCampaign().id : campaignId;
+  const isShared = status === SHARED;
   sharedAt = isShared ? sharedAt : null;
-  status = isShared ? SHARED : status;
 
   const values = {
     id,

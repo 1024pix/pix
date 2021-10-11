@@ -17,7 +17,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           {
             participantExternalId: 'The good',
             campaignId: campaign.id,
-            isShared: true,
           },
           {
             firstName: 'John',
@@ -28,12 +27,11 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The bad',
           campaignId: campaign.id,
-          isShared: false,
+          status: 'STARTED',
         });
 
         databaseBuilder.factory.buildAssessmentFromParticipation({
           participantExternalId: 'The ugly',
-          isShared: true,
         });
 
         await databaseBuilder.commit();
@@ -80,7 +78,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'My first',
           campaignId: campaign.id,
-          isShared: true,
           isImproved: true,
           userId,
         });
@@ -88,7 +85,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildCampaignParticipation({
           participantExternalId: 'My last',
           campaignId: campaign.id,
-          isShared: true,
           isImproved: false,
           userId,
         });
@@ -131,7 +127,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
 
         const { userId } = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
-          isShared: true,
         });
 
         databaseBuilder.factory.buildSchoolingRegistration({
@@ -185,7 +180,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
-          isShared: true,
           userId,
         });
 
@@ -234,7 +228,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         });
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
-          isShared: true,
           userId,
         });
         badge1Id = databaseBuilder.factory.buildBadge({
@@ -298,7 +291,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
         databaseBuilder.factory.buildCampaignParticipation({
           campaignId: campaign.id,
           userId,
-          isShared: true,
           masteryRate: 0.33,
         });
 
@@ -682,7 +674,6 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
           userId: user1.id,
           participantExternalId: 'The good',
-          isShared: true,
         });
         databaseBuilder.factory.buildAssessment({
           userId: user1.id,
@@ -698,7 +689,7 @@ describe('Integration | Repository | Campaign Assessment Participation Result Li
           campaignId: campaign.id,
           userId: user2.id,
           participantExternalId: 'The bad',
-          isShared: false,
+          status: 'STARTED',
         });
         databaseBuilder.factory.buildAssessment({
           userId: user2.id,

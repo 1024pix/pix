@@ -7,8 +7,6 @@ describe('Integration | UseCase | begin-campaign-participation-improvement', fun
   it('should change campaignParticipation status to STARTED', async function () {
     const campaignParticipation = databaseBuilder.factory.buildCampaignParticipation({
       status: 'TO_SHARE',
-      isShared: false,
-      sharedAt: null,
     });
     databaseBuilder.factory.buildAssessment({
       userId: campaignParticipation.userId,

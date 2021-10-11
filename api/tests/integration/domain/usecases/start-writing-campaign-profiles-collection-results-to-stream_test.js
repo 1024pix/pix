@@ -139,7 +139,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
-          isShared: true,
           userId: participant.id,
           pixScore: 52,
         });
@@ -219,7 +218,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
-          isShared: true,
           userId: participant.id,
           pixScore: 52,
         });
@@ -301,7 +299,6 @@ describe('Integration | Domain | Use Cases | start-writing-profiles-collection-c
           sharedAt: new Date('2019-03-01T23:04:05Z'),
           participantExternalId: '+Mon mail pro',
           campaignId: campaign.id,
-          isShared: true,
           userId: participant.id,
           pixScore: 52,
         });

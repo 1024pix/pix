@@ -96,7 +96,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -158,7 +157,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
       const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
         userId,
         campaignId,
-        isShared: true,
         sharedAt: new Date('2020-01-02'),
       });
 
@@ -239,7 +237,7 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: false,
+          status: 'STARTED',
           sharedAt: null,
         });
 
@@ -299,7 +297,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -394,7 +391,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
         const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
           userId,
           campaignId,
-          isShared: true,
           sharedAt: new Date('2020-01-02'),
         });
 
@@ -465,7 +461,6 @@ describe('Integration | Repository | Campaign Participation Result', function ()
           const { id: campaignParticipationId } = databaseBuilder.factory.buildCampaignParticipation({
             userId,
             campaignId,
-            isShared: true,
             sharedAt: new Date('2020-01-02'),
           });
 
