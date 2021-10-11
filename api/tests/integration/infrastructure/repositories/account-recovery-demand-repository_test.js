@@ -3,6 +3,7 @@ const accountRecoveryDemandRepository = require('../../../../lib/infrastructure/
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const AccountRecoveryDemand = require('../../../../lib/domain/models/AccountRecoveryDemand');
 const DomainTransaction = require('../../../../lib/infrastructure/DomainTransaction');
+const omit = require('lodash/omit');
 
 describe('Integration | Infrastructure | Repository | account-recovery-demand-repository', function () {
   afterEach(function () {
@@ -103,14 +104,14 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
     context('when there are several demands for several users', function () {
       it('should return only the user ones', async function () {
         // given
-        await databaseBuilder.factory.buildAccountRecoveryDemand();
-        const expectedUser = await databaseBuilder.factory.buildUser();
-        const firstAccounRecoveryDemand = await databaseBuilder.factory.buildAccountRecoveryDemand({
+        databaseBuilder.factory.buildAccountRecoveryDemand();
+        const expectedUser = databaseBuilder.factory.buildUser();
+        const firstAccounRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
           userId: expectedUser.id,
           temporaryKey: 'temporaryKey1',
           oldEmail: null,
         });
-        const secondAccounRecoveryDemand = await databaseBuilder.factory.buildAccountRecoveryDemand({
+        const secondAccounRecoveryDemand = databaseBuilder.factory.buildAccountRecoveryDemand({
           userId: expectedUser.id,
           used: true,
           temporaryKey: 'temporaryKey2',
@@ -123,7 +124,10 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
         const result = await accountRecoveryDemandRepository.findByUserId(expectedUser.id);
 
         // then
-        expect(result).to.be.deep.equal([firstAccounRecoveryDemand, secondAccounRecoveryDemand]);
+        expect(result).to.be.deep.equal([
+          omit(firstAccounRecoveryDemand, 'updatedAt'),
+          omit(secondAccounRecoveryDemand, 'updatedAt'),
+        ]);
       });
     });
   });
@@ -141,6 +145,22 @@ describe('Integration | Infrastructure | Repository | account-recovery-demand-re
       // then
       const demand = await knex('account-recovery-demands').select('used').where({ temporaryKey }).first();
       expect(demand.used).to.be.true;
+    });
+
+    it('should change updatedAt', async function () {
+      // given
+      const temporaryKey = 'temporaryKey';
+      const oldUpdatedAt = new Date('2013-01-01T15:00:00Z');
+      databaseBuilder.factory.buildAccountRecoveryDemand({ temporaryKey, used: false, updatedAt: oldUpdatedAt });
+      await databaseBuilder.commit();
+
+      // when
+      await accountRecoveryDemandRepository.markAsBeingUsed(temporaryKey);
+
+      // then
+      const demand = await knex('account-recovery-demands').where({ temporaryKey }).first();
+      const newUpdatedAt = demand.updatedAt;
+      expect(newUpdatedAt).to.be.above(oldUpdatedAt);
     });
 
     it('should rollback update if error occurs in transaction', async function () {
