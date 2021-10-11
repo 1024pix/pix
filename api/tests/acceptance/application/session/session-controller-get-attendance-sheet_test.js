@@ -13,7 +13,8 @@ describe('Acceptance | Controller | session-controller-get-attendance-sheet', fu
     beforeEach(async function () {
       // given
       user = databaseBuilder.factory.buildUser();
-      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter().id;
+      databaseBuilder.factory.buildOrganization({ externalId: 'EXT1234' });
+      const certificationCenterId = databaseBuilder.factory.buildCertificationCenter({ externalId: 'EXT1234' }).id;
       databaseBuilder.factory.buildCertificationCenterMembership({ userId: user.id, certificationCenterId });
 
       const otherUserId = databaseBuilder.factory.buildUser().id;
