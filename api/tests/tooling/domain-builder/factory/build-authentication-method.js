@@ -35,7 +35,7 @@ const buildAuthenticationMethod = function ({
   });
 };
 
-buildAuthenticationMethod.buildWithRawPassword = function ({
+buildAuthenticationMethod.withPixAuthenticationComplementAndRawPassword = function ({
   id,
   rawPassword = 'pix123',
   shouldChangePassword = false,
